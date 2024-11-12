@@ -1,119 +1,295 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4435920B1F8
-	for <chrome-platform@lists.linux.dev>; Tue, 12 Nov 2024 07:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E93020C461
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Nov 2024 08:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731397327; cv=none; b=YnJjv3FVv6t8hu2I+C8z9tJAvIaTCh9df34FTKSeM36ypfAGIcYrs+3qHhzLMHZej4ri92n1xQtJfFx0n5ZRsS6LWF2i9szGpbDwevUcWzNUademYOP6Fivf6xvmklj1Vlaq+ujXOs4fqPVKxlaQH7zxt+HIW5d6bmiRvX8SeLM=
+	t=1731400559; cv=none; b=mUR2Twj+vD2qKPlJQ7kydT/hcBtTGnu8tJXAmLo+6ww6q9+tSKr9SEqfsgo3iuYUA99uHTqtKstA5kB9jRYBfizwXRo+/bKegF2PMTnaU2ZmVltl9S2a6jJGbc7McCETK7UuOm3hVuyb8xIEPkfkJvO01SyG/YsViq8hwo1vLZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731397327; c=relaxed/simple;
-	bh=4Zdw5kgKTgwPsGUNYQa35eedlMhMIviirI6Hy+Sd0hg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dwhKhn+rERDBzKoeXSVo0N/p9rZaoNqrIMHi+P3WDM4T2c+XKKFO46XtV6EorGrJI4XwrhViPg9GpxtMYYSCjIUyukoEVekwHASH/IvXNh2c1U2st5tztQanWaD8Si0fWqgQkN8TL9qUDm3qjBvo1hKZdBfEZnZ/DXfaj82tlDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cxIZ3ZtK; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1731400559; c=relaxed/simple;
+	bh=Mu/o9Qv5X4vFA1jVqoDuiGcIFYCOHs8UofluQ4+eEKY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UHgNn1g0yjk/Aogem6ZqWc81+Cq6LssJaQinbI0oZKyOuFd+02Zvb0NQmShStHD9QJwRHzIvTKv3/uTRJ/iTSUCJtb2hQGnpYu8wIVopXsNlxn0skxLRhH5DVsLorT3issCR7jrHqyuuMXVK8U4pyLmzOQx+J0pbUoSxeJtuMuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0A9obPtf; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cxIZ3ZtK"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7181a8af549so3320221a34.2
-        for <chrome-platform@lists.linux.dev>; Mon, 11 Nov 2024 23:42:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0A9obPtf"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4315eac969aso30420305e9.1
+        for <chrome-platform@lists.linux.dev>; Tue, 12 Nov 2024 00:35:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731397325; x=1732002125; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mWb+6hjmOAxlNgDc7JKg2yzzLTEdqJ06FfSb5owKkeM=;
-        b=cxIZ3ZtKRpzgcSLpPgVmH3ifjAYAKHExWpo5hb6Ov9mrr4tIATjDfe6UWshWjnQs3s
-         XPKKKsVbkTrnykCbRSJYnz97VdLRLruRzLpwysSxh9S/AicV2ZStrGJIeq9sm8pUVRk6
-         kv5vgS66cplY3bqcAvU4e269SRfSGkLuO3j0k=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731400555; x=1732005355; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C6QofcCdQmsLqvy2bS7OgsAFd+Nwlz5uz8nWM8QdfQg=;
+        b=0A9obPtfEpMvblm2xAkh6Kn2ieom1lUyREwMxw8H/5LDS3CEctsLzRMKWOY0+vLEHA
+         iJr2Jjg31ra3iHz8ldDaey0C3NgmVktsVjj0pzNESVrO2NelSFE89hOG98UcYBi5f0CQ
+         rwfMXD9CHcVtxqDBwejOS/Afj5vGXm86dzPlXvaIsiGloSG7cE0zInrydWrsl8l/99mp
+         skfAWekmkEbdlzohdRybwCrsv1bF1uflDp9g05y78EzwAef7a/+UhlpZHisV2JeiuU9K
+         XkIkNYtnRQvCJNZbJUfLA0mhgrlNFwXWVfeFdZKPOWMQTt+K8m2qb7SbVQMiZsiOusSm
+         pcSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731397325; x=1732002125;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mWb+6hjmOAxlNgDc7JKg2yzzLTEdqJ06FfSb5owKkeM=;
-        b=RO7Yc+XjrWmZQStuCm4dz0fj2VR7Ccb2qrsd978EBRQvu/5kJ98gGPzA7mc/unGIbf
-         u7G6Lb5ccfjdCN1wQwEDKOauOdok8LypYtXzxqciOy0+ruH7WjQfHT4SDYgngHQbcDJ5
-         vCKpXAc8VRpxEnk8Y4+UYwUcfT9Az7sQeKQrtSB4ZtT1LInvmsuJ5ejJfZNyPcfNeYgr
-         PlANG1DHFkYN9cXHxKm0d4/6BGzSxkQin5matSxsCoqKqY9E5hcqUe5qHkQ6T5NlDhEN
-         v85NY76iM9he9HQFvpTWXBs5cy+q0S7FmRKNyQWiLqqFf0e6fWNuBaq4KpgyJLWZFJgc
-         7bWw==
-X-Forwarded-Encrypted: i=1; AJvYcCU3Xq7G2jvKZAhPO0f5UOTv2IfkGhIMh19vPvUbIumQjIoMrvIebd9l+VWY2e+Rsu33Y5dYNmU5qu1q8iogXNs=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTfPBH9/ZZBtdjML++a2io4nCWDVUep08mX97Fh8Sx534PSc2R
-	M3MvJwPpNPPQYNPRPYYYfkEvB7QTxbqwmjkS56k3IDL1r3OyBhhbiZbicJbpJw==
-X-Google-Smtp-Source: AGHT+IHAivkem+e7/fcFL3MNsRfeSzjTTUbqrvF8zF3iiVeiJL0WKCuRtYmXL80k54VkCTs+Wi5+3g==
-X-Received: by 2002:a05:6830:1050:b0:71a:21c9:cd82 with SMTP id 46e09a7af769-71a21c9d013mr9830707a34.0.1731397325430;
-        Mon, 11 Nov 2024 23:42:05 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:7cd:9f36:34ae:c525])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f67f079sm9823430a12.85.2024.11.11.23.42.02
+        d=1e100.net; s=20230601; t=1731400555; x=1732005355;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C6QofcCdQmsLqvy2bS7OgsAFd+Nwlz5uz8nWM8QdfQg=;
+        b=AzwGYNqeXMtps6/nyP3QaScJoBRPmhHTb8mCX0iKdsC7eg9GBtOGUmBZ2MCBz7J4pR
+         vsa7rWGkqUJtaW0gEWtQvRmkKSIhEluUWtK1yA+FKmTSBHMiYBuNllYUVe+EateckWto
+         BhT4U6V/V3eoIGXCstCjlK8VO1D30vGlgriQGZZFt2QGLn00g/5RpVOixMckGCe7CqWg
+         2nQu9ifDAPIVjrDMvZPwguHv0WXYwqvkSv0Z2opG+yBQUzlewh1LYnxbGgs61yVKuvcM
+         5SP5StN/kRrfhaXOaH0/5I5jJYPHmLYxkSaOjxStcc8y65z0ne8HFK5508MD2fKxKZm0
+         HBqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVy4zKMI7HQwsBA0TPEzpBsYuMXZm9uEidrUTJz2SdTkz6wZErWeiC8Ng2W6tONltOnJ5RoA34REmN289WoOtc=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6S0SZDXN3pzGXJ1wFRRI8TVgC6v+3WCJB+nL76/0Hur1XvCdW
+	VXFVEn5tFFlAQfdoW3RoMjF3lOP++xlDh4O4S8wKqwkmGOhOWNAq6JfqLz/hSSc=
+X-Google-Smtp-Source: AGHT+IGW+y3BR7dFB04YA4ES3C1lW4o7kCU2hloqBgpq+LKWd/AQDkgHN2jgVjcYHfhMS3JEIGnWwQ==
+X-Received: by 2002:a05:600c:4690:b0:431:5226:1633 with SMTP id 5b1f17b1804b1-432b744ef66mr130754775e9.6.1731400555594;
+        Tue, 12 Nov 2024 00:35:55 -0800 (PST)
+Received: from localhost (p509159f1.dip0.t-ipconnect.de. [80.145.89.241])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432aa523a0esm233176195e9.0.2024.11.12.00.35.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 23:42:04 -0800 (PST)
-Date: Tue, 12 Nov 2024 15:42:01 +0800
-From: "Sung-Chi, Li" <lschyi@chromium.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
-	Jean Delvare <jdelvare@suse.com>, devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: (cros_ec) register thermal sensors to thermal
- framework
-Message-ID: <ZzMGyaBGX-yLZs8B@google.com>
-References: <20241111074904.1059268-1-lschyi@chromium.org>
- <20241111095045.1218986-1-lschyi@chromium.org>
- <4cb3b1c7-86fa-4344-a413-031723f31f1d@roeck-us.net>
+        Tue, 12 Nov 2024 00:35:55 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gabriel Somlo <somlo@cmu.edu>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jay Buddhabhatti <jay.buddhabhatti@amd.com>,
+	Ronak Jain <ronak.jain@amd.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	qemu-devel@nongnu.org,
+	linux-rpi-kernel@lists.infradead.org
+Subject: [PATCH] firmware: Switch back to struct platform_driver::remove()
+Date: Tue, 12 Nov 2024 09:35:20 +0100
+Message-ID:  <36974feb6035201d53384557259ec72fe311053b.1731397962.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4cb3b1c7-86fa-4344-a413-031723f31f1d@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7555; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=Mu/o9Qv5X4vFA1jVqoDuiGcIFYCOHs8UofluQ4+eEKY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnMxNYRTU/Z/YcH9oKPyjD1Bi3PtTwnTXisZzZA y+s+3m+Wv2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZzMTWAAKCRCPgPtYfRL+ TnzXB/wIb7KWzpl9KhF1WQm264Rj2ne8x5AR+YU2GkZbmy5FZrtPt6HXJuJgBDULzpxixsmxIJF VlvB5dKowmesjkiHP1AFIiR2D9fWHM+CZMEFlqVCJGrdEQrW9D+UmULcTNI3XB222G4b7YLFHM0 ed5WNuOnohzkIvJSnXdnFm/sx4bu902DDKuNLJAvDs03YbVOb2skn28UEl0B7lXZ76AcJCc3CkS wV70cKyYkGbRAjHgBNtbZcxR/2sZ1BL6KTlE4IXgb8MxxwahMWg2nbcdW/xI3OHYzt0LTeREnhL 2dc2WNr0WcclVbruKzpBOsuQEfd3vxFF7Hm2ApRGzKe6CE3/
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 11, 2024 at 09:01:33AM -0800, Guenter Roeck wrote:
-> On 11/11/24 01:50, Sung-Chi wrote:
-> > From: "Sung-Chi, Li" <lschyi@chromium.org>
-> > 
-> > cros_ec hwmon driver probes available thermal sensors when probing the
-> > driver.  Register these thermal sensors to the thermal framework, such
-> > that thermal framework can adopt these sensors as well.
-> > 
-> > To make cros_ec registrable to thermal framework, the cros_ec dts need
-> > the corresponding changes:
-> > 
-> > &cros_ec {
-> > 	#thermal-sensor-cells = <1>;
-> > };
-> > 
-> > Change-Id: I29b638427c715cb44391496881fc61ad53abccaf
-> 
-> Drop.
-> 
-> > Signed-off-by: Sung-Chi, Li <lschyi@chromium.org>
-> 
-> Detailed explanation will be needed: Why not use HWMON_C_REGISTER_TZ ?
-> Unless I am missing something, this code just duplicates code from the hwmon core.
-> 
-> Please do not send follow-up patch series as response to previous ones.
-> 
-> Guenter
-> 
+After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+return void") .remove() is (again) the right callback to implement for
+platform drivers.
 
-Hi, thank you for pointing out using HWMON_C_REGISTER_TZ. After checking how
-HWMON_C_REGSITER_TZ works, I think I only need to add one line into the
-cros_ec_hwmon_info, and almost all concerns Thomas pointed out in latest reply
-would be resolved automatically (because there would be only one line of change,
-and that change is just a hwmon configuration, so should be a valid way of
-combining with the thermal system).
+Convert all platform drivers below drivers/firmware to use .remove(),
+with the eventual goal to drop struct platform_driver::remove_new(). As
+.remove() and .remove_new() have the same prototypes, conversion is done
+by just changing the structure member name in the driver initializer.
 
-Thank all for reviewing and giving inputs, and I will soon send out the one
-line patch.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+Hello,
 
-Best,
-Sung-Chi, Li
+I did a single patch for all of drivers/firmware. While I usually prefer
+to do one logical change per patch, this seems to be overengineering
+here as the individual changes are really trivial and shouldn't be much
+in the way for stable backports.
+
+There is no dedicated maintainer for drivers/firmware, maybe Sudeep as
+biggest committer there can take it? Or would it be sensible to split
+this patch?
+
+This is based on yesterday's next, if conflicts arise when you apply it
+at some later time and don't want to resolve them, feel free to just
+drop the changes to the conflicting files. I'll notice and followup at a
+later time then. Or ask me for a fixed resend. (Having said that, I
+recommend b4 am -3 + git am -3 which should resolve most conflicts just
+fine.)
+
+Best regards
+Uwe
+
+ drivers/firmware/arm_scmi/driver.c            | 2 +-
+ drivers/firmware/arm_scpi.c                   | 2 +-
+ drivers/firmware/google/coreboot_table.c      | 2 +-
+ drivers/firmware/imx/imx-dsp.c                | 2 +-
+ drivers/firmware/microchip/mpfs-auto-update.c | 2 +-
+ drivers/firmware/mtk-adsp-ipc.c               | 2 +-
+ drivers/firmware/qemu_fw_cfg.c                | 2 +-
+ drivers/firmware/raspberrypi.c                | 2 +-
+ drivers/firmware/stratix10-rsu.c              | 2 +-
+ drivers/firmware/stratix10-svc.c              | 2 +-
+ drivers/firmware/xilinx/zynqmp.c              | 2 +-
+ 11 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 1f53ca1f87e3..1b5fb2c4ce86 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -3333,7 +3333,7 @@ static struct platform_driver scmi_driver = {
+ 		   .dev_groups = versions_groups,
+ 		   },
+ 	.probe = scmi_probe,
+-	.remove_new = scmi_remove,
++	.remove = scmi_remove,
+ };
+ 
+ static struct dentry *scmi_debugfs_init(void)
+diff --git a/drivers/firmware/arm_scpi.c b/drivers/firmware/arm_scpi.c
+index f4d47577f83e..87c323de17b9 100644
+--- a/drivers/firmware/arm_scpi.c
++++ b/drivers/firmware/arm_scpi.c
+@@ -1049,7 +1049,7 @@ static struct platform_driver scpi_driver = {
+ 		.dev_groups = versions_groups,
+ 	},
+ 	.probe = scpi_probe,
+-	.remove_new = scpi_remove,
++	.remove = scpi_remove,
+ };
+ module_platform_driver(scpi_driver);
+ 
+diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
+index 208652a8087c..882db32e51be 100644
+--- a/drivers/firmware/google/coreboot_table.c
++++ b/drivers/firmware/google/coreboot_table.c
+@@ -220,7 +220,7 @@ MODULE_DEVICE_TABLE(of, coreboot_of_match);
+ 
+ static struct platform_driver coreboot_table_driver = {
+ 	.probe = coreboot_table_probe,
+-	.remove_new = coreboot_table_remove,
++	.remove = coreboot_table_remove,
+ 	.driver = {
+ 		.name = "coreboot_table",
+ 		.acpi_match_table = ACPI_PTR(cros_coreboot_acpi_match),
+diff --git a/drivers/firmware/imx/imx-dsp.c b/drivers/firmware/imx/imx-dsp.c
+index 01c8ef14eaec..ed79e823157a 100644
+--- a/drivers/firmware/imx/imx-dsp.c
++++ b/drivers/firmware/imx/imx-dsp.c
+@@ -180,7 +180,7 @@ static struct platform_driver imx_dsp_driver = {
+ 		.name = "imx-dsp",
+ 	},
+ 	.probe = imx_dsp_probe,
+-	.remove_new = imx_dsp_remove,
++	.remove = imx_dsp_remove,
+ };
+ builtin_platform_driver(imx_dsp_driver);
+ 
+diff --git a/drivers/firmware/microchip/mpfs-auto-update.c b/drivers/firmware/microchip/mpfs-auto-update.c
+index 0f7ec8848202..38a03698cec9 100644
+--- a/drivers/firmware/microchip/mpfs-auto-update.c
++++ b/drivers/firmware/microchip/mpfs-auto-update.c
+@@ -458,7 +458,7 @@ static struct platform_driver mpfs_auto_update_driver = {
+ 		.name = "mpfs-auto-update",
+ 	},
+ 	.probe = mpfs_auto_update_probe,
+-	.remove_new = mpfs_auto_update_remove,
++	.remove = mpfs_auto_update_remove,
+ };
+ module_platform_driver(mpfs_auto_update_driver);
+ 
+diff --git a/drivers/firmware/mtk-adsp-ipc.c b/drivers/firmware/mtk-adsp-ipc.c
+index fdb083f42ebf..2b79371c61c9 100644
+--- a/drivers/firmware/mtk-adsp-ipc.c
++++ b/drivers/firmware/mtk-adsp-ipc.c
+@@ -132,7 +132,7 @@ static struct platform_driver mtk_adsp_ipc_driver = {
+ 		.name = "mtk-adsp-ipc",
+ 	},
+ 	.probe = mtk_adsp_ipc_probe,
+-	.remove_new = mtk_adsp_ipc_remove,
++	.remove = mtk_adsp_ipc_remove,
+ };
+ builtin_platform_driver(mtk_adsp_ipc_driver);
+ 
+diff --git a/drivers/firmware/qemu_fw_cfg.c b/drivers/firmware/qemu_fw_cfg.c
+index 85c525745b31..d58da3e4500a 100644
+--- a/drivers/firmware/qemu_fw_cfg.c
++++ b/drivers/firmware/qemu_fw_cfg.c
+@@ -757,7 +757,7 @@ MODULE_DEVICE_TABLE(acpi, fw_cfg_sysfs_acpi_match);
+ 
+ static struct platform_driver fw_cfg_sysfs_driver = {
+ 	.probe = fw_cfg_sysfs_probe,
+-	.remove_new = fw_cfg_sysfs_remove,
++	.remove = fw_cfg_sysfs_remove,
+ 	.driver = {
+ 		.name = "fw_cfg",
+ 		.of_match_table = fw_cfg_sysfs_mmio_match,
+diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberrypi.c
+index 18cc34987108..7ecde6921a0a 100644
+--- a/drivers/firmware/raspberrypi.c
++++ b/drivers/firmware/raspberrypi.c
+@@ -406,7 +406,7 @@ static struct platform_driver rpi_firmware_driver = {
+ 	},
+ 	.probe		= rpi_firmware_probe,
+ 	.shutdown	= rpi_firmware_shutdown,
+-	.remove_new	= rpi_firmware_remove,
++	.remove		= rpi_firmware_remove,
+ };
+ module_platform_driver(rpi_firmware_driver);
+ 
+diff --git a/drivers/firmware/stratix10-rsu.c b/drivers/firmware/stratix10-rsu.c
+index e20cee9c2d32..1ea39a0a76c7 100644
+--- a/drivers/firmware/stratix10-rsu.c
++++ b/drivers/firmware/stratix10-rsu.c
+@@ -802,7 +802,7 @@ static void stratix10_rsu_remove(struct platform_device *pdev)
+ 
+ static struct platform_driver stratix10_rsu_driver = {
+ 	.probe = stratix10_rsu_probe,
+-	.remove_new = stratix10_rsu_remove,
++	.remove = stratix10_rsu_remove,
+ 	.driver = {
+ 		.name = "stratix10-rsu",
+ 		.dev_groups = rsu_groups,
+diff --git a/drivers/firmware/stratix10-svc.c b/drivers/firmware/stratix10-svc.c
+index 528f37417aea..c5c78b869561 100644
+--- a/drivers/firmware/stratix10-svc.c
++++ b/drivers/firmware/stratix10-svc.c
+@@ -1271,7 +1271,7 @@ static void stratix10_svc_drv_remove(struct platform_device *pdev)
+ 
+ static struct platform_driver stratix10_svc_driver = {
+ 	.probe = stratix10_svc_drv_probe,
+-	.remove_new = stratix10_svc_drv_remove,
++	.remove = stratix10_svc_drv_remove,
+ 	.driver = {
+ 		.name = "stratix10-svc",
+ 		.of_match_table = stratix10_svc_drv_match,
+diff --git a/drivers/firmware/xilinx/zynqmp.c b/drivers/firmware/xilinx/zynqmp.c
+index cdb565c41119..720fa8b5d8e9 100644
+--- a/drivers/firmware/xilinx/zynqmp.c
++++ b/drivers/firmware/xilinx/zynqmp.c
+@@ -2118,6 +2118,6 @@ static struct platform_driver zynqmp_firmware_driver = {
+ 		.dev_groups = zynqmp_firmware_groups,
+ 	},
+ 	.probe = zynqmp_firmware_probe,
+-	.remove_new = zynqmp_firmware_remove,
++	.remove = zynqmp_firmware_remove,
+ };
+ module_platform_driver(zynqmp_firmware_driver);
+
+base-commit: 6d59cab07b8d74d0f0422b750038123334f6ecc2
+-- 
+2.45.2
+

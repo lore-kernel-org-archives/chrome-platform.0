@@ -1,348 +1,562 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F3B1C1F31
-	for <chrome-platform@lists.linux.dev>; Mon, 11 Nov 2024 21:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC733D3B3
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Nov 2024 00:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731361217; cv=none; b=tWDczyGwwuxHBzcyzk1/p8Pi4UHwnGfTZMXYpLMRkjTeVsOi6PbiK4+5D2Rs1i/Aax/JFOzDN4jwKCkiRiPJ6hasJIcEH1Q38RYRych/vMS+tZ6pviCYfsWWvTEyPyP7QxUxCPmb9pI4SBjdM6qh/F/lUH2v6YBwVJxvKL1E6Uk=
+	t=1731370605; cv=none; b=qBx0nhjBal8VAeSydXzWfQcB7dXkfe4gaunylJ8lDeLKYuVk93tnrZd6CKaMbzbI26mCSfoSgTJ8QdHHtzSsA2Cx9FE25sX9PnanMIv8afQJ8/LYUfxp3toHsDzUGHeuJelM1wQr79L6bVMnCrC4Lg4L+2VQ19wqWnogm80Nuc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731361217; c=relaxed/simple;
-	bh=z21J+OltFWwTkbmEn7wl0xG9/rhtTpo3QenCuL3bWPQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CcbxV2ixLbovAxBQK0cD0b/yKL12BFXaVPrvZU3AXs1aGzGN7JP1BgcyUCKCTfWgE7SQ1un8+x9s+UOHoRkxjQ1oy5zg4LwQ2Np3VXMWwUMDtLjuiYyB/7HN26lFhxAJQDGclSY8JDgtNUSJgrFHzJ8wiez0CEOygV6Nx8x2PcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ZSZaTDSf; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1731370605; c=relaxed/simple;
+	bh=2vLFfyUQ/dpoi4iaOhGymGFCB+H3Nw5IZsGfOK7p+uc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O8g2lt3GJ24J3eqT9ccFsOGqFfc37th1kgzS8TRC+k4uXIvWVBix+Hm9a2+OccqasAlGKAugZ4Zs3GRYvSQNusFb9mV/l/ONkffVhFqZGObarrjdnczRkBFuvq5r7TXs+IESJBKyMJfJBTTmH3Nr+HPCWeqp6Gd0Lmde9iVTb3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=u1r2IO0u; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ZSZaTDSf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1731361209;
-	bh=z21J+OltFWwTkbmEn7wl0xG9/rhtTpo3QenCuL3bWPQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ZSZaTDSfsJTUjeoQybIKjg7qG5FtrOgL6DZtM/whHkNdZRxCPxIEV7ZgRcKIy7GCu
-	 GxKM4aMXsUjP1ZcdozNmY8rqNSt0EsJg20dN/JwOLc6bzRvTQmrDsKMSyjgHjyf9MP
-	 /DbxFN1ZBPGgZ9iWjdwodikjJiamPAF3XsTVW+8U=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 11 Nov 2024 22:40:11 +0100
-Subject: [PATCH v4 9/9] power: supply: cros_charge-control: use
- power_supply extensions
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="u1r2IO0u"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71e5a62031aso3957677b3a.1
+        for <chrome-platform@lists.linux.dev>; Mon, 11 Nov 2024 16:16:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731370603; x=1731975403; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=S+2d0eRXAkmyV5CZ3mOiKq9e9pd057IakuTB3MH2vmA=;
+        b=u1r2IO0uZaU+D6XX4aQW/v5aPu/Hyt15tQU8lRex6SiD3nJU18KzrfS+q99DIV5n+G
+         TjFckaAoQEu+UqPARQFgfsMbJ0gBRn5Hookk+QkHP80oktNC+ScZT9eT8kfPwzFaWJmI
+         dqMF3Gg9HcKTJn6eMUNg7k1BRCW6KGJ1qfY8q2gNLWfoeKo3bSpd5gjgyMVUMyykM3Eb
+         TOiKmeplzPoPjgW9WZqDIoSGo8SRWvcxaMgPSihVR1VkyQ9+U91iKm7NGk93fKeYHjSQ
+         TJRI1RVJp917L3ECF4Mh7E+RntyN988fr1ncpqErxS/0gHYMBOxFtOJexYQlQTB8d5t5
+         io4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731370603; x=1731975403;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S+2d0eRXAkmyV5CZ3mOiKq9e9pd057IakuTB3MH2vmA=;
+        b=KeSmA1jhWjyG/yPFuA+BX+2fqdW9SJrawEBwVbKNJNqK3UlU71qMhPZGefhLyxtpWv
+         EGc24Q0V9o4LFsxIIi6uWKE9+zFtNrXa4SXi8XpJT7PdGKgHtRPsK9W0m9zbyEtHhyqW
+         0sexis6r2n9MFq3FJnzLbJeSUSiDlCCNRUgcJd2sKJ0J31mTqTgsul6QqdK/4uPHI9wD
+         eeiEnfNGl6RLKbkpXfcgPKNrpeRV5tz9aQnPALaM2GxwA9o2Ey2qfWZdZBKMqp/8ZVR/
+         fSmRj/ndET+0M14USQWwXSI1XkNWHQtH/1JyrYDAAoAJzAguzTpP0MG+4wcppZXIPgdv
+         gdVA==
+X-Forwarded-Encrypted: i=1; AJvYcCWq/pUQg7WoNrY2aIkhribaqqeYQs96pRDArzxOw2nfd/6/EY0aFrSJe+99jhtmVysbeivx2cH/lT1RRr4i/rU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXysAtYUIk9kakCZr5IKT9QcYqR3Nej2hZS5FWjDA6WSfsUwHW
+	t9GBpq/LP+tmDZNaFglfdxpyto99OgbH7w+8DCqqYKYECaBZgAnbYAsguz8sIA==
+X-Google-Smtp-Source: AGHT+IFFQ16YUGU0HvK+6FX4i6bZ/TSJ11PAHRPpiKERpyPzLBFyV3i8gjTUxLB+FIJoAL6eKQnapw==
+X-Received: by 2002:a05:6a00:230a:b0:71e:108e:9c16 with SMTP id d2e1a72fcca58-724132c73a8mr19604190b3a.12.1731370602151;
+        Mon, 11 Nov 2024 16:16:42 -0800 (PST)
+Received: from google.com (30.176.125.34.bc.googleusercontent.com. [34.125.176.30])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078bfccfsm9886763b3a.82.2024.11.11.16.16.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Nov 2024 16:16:41 -0800 (PST)
+Date: Tue, 12 Nov 2024 00:16:37 +0000
+From: Benson Leung <bleung@google.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
+	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev,
+	jthies@google.com, akuchynski@google.com, pmalani@chromium.org,
+	dmitry.baryshkov@linaro.org, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/7] platform/chrome: cros_ec_typec: Displayport
+ support
+Message-ID: <ZzKeZQfbxeZNDVzE@google.com>
+References: <20241107193021.2690050-1-abhishekpandit@chromium.org>
+ <20241107112955.v3.5.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20241111-power-supply-extensions-v4-9-7240144daa8e@weissschuh.net>
-References: <20241111-power-supply-extensions-v4-0-7240144daa8e@weissschuh.net>
-In-Reply-To: <20241111-power-supply-extensions-v4-0-7240144daa8e@weissschuh.net>
-To: Sebastian Reichel <sre@kernel.org>, Armin Wolf <W_Armin@gmx.de>, 
- Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731361208; l=10701;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=z21J+OltFWwTkbmEn7wl0xG9/rhtTpo3QenCuL3bWPQ=;
- b=Lguc2j8iuLKHKj0BxN9dqGPb67JZiqYrD9/hcKmWGI+wd/BW0f4Eamy2Y+Fo8WZoOGkfGRC7n
- dqKbCZ6FIjVDox/A5Fy8c67L0FNsNaIVri53wxeOGW4C8IbwGACKAUK
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="TbHvfp6kUy+f6lxN"
+Content-Disposition: inline
+In-Reply-To: <20241107112955.v3.5.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800@changeid>
 
-Power supply extensions provide an easier mechanism to implement
-additional properties for existing power supplies.
-Use that instead of reimplementing the sysfs attributes manually.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/power/supply/cros_charge-control.c | 205 +++++++++++------------------
- 1 file changed, 75 insertions(+), 130 deletions(-)
+--TbHvfp6kUy+f6lxN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/supply/cros_charge-control.c
-index 17c53591ce197d08d97c94d3d4359a282026dd7d..f0933ac3f042c19e7c1dfdc9aff1ad03443ceb16 100644
---- a/drivers/power/supply/cros_charge-control.c
-+++ b/drivers/power/supply/cros_charge-control.c
-@@ -18,13 +18,6 @@
- 					 BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE)   | \
- 					 BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE))
- 
--enum CROS_CHCTL_ATTR {
--	CROS_CHCTL_ATTR_START_THRESHOLD,
--	CROS_CHCTL_ATTR_END_THRESHOLD,
--	CROS_CHCTL_ATTR_CHARGE_BEHAVIOUR,
--	_CROS_CHCTL_ATTR_COUNT
--};
--
- /*
-  * Semantics of data *returned* from the EC API and Linux sysfs differ
-  * slightly, also the v1 API can not return any data.
-@@ -41,13 +34,7 @@ struct cros_chctl_priv {
- 	struct power_supply *hooked_battery;
- 	u8 cmd_version;
- 
--	/* The callbacks need to access this priv structure.
--	 * As neither the struct device nor power_supply are under the drivers
--	 * control, embed the attributes within priv to use with container_of().
--	 */
--	struct device_attribute device_attrs[_CROS_CHCTL_ATTR_COUNT];
--	struct attribute *attributes[_CROS_CHCTL_ATTR_COUNT];
--	struct attribute_group group;
-+	struct power_supply_ext psy_ext;
- 
- 	enum power_supply_charge_behaviour current_behaviour;
- 	u8 current_start_threshold, current_end_threshold;
-@@ -114,123 +101,85 @@ static int cros_chctl_configure_ec(struct cros_chctl_priv *priv)
- 	return cros_chctl_send_charge_control_cmd(priv->cros_ec, priv->cmd_version, &req);
- }
- 
--static struct cros_chctl_priv *cros_chctl_attr_to_priv(struct attribute *attr,
--						       enum CROS_CHCTL_ATTR idx)
--{
--	struct device_attribute *dev_attr = container_of(attr, struct device_attribute, attr);
--
--	return container_of(dev_attr, struct cros_chctl_priv, device_attrs[idx]);
--}
-+static const enum power_supply_property cros_chctl_psy_ext_props[] = {
-+	POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR, /* has to be first */
-+	POWER_SUPPLY_PROP_CHARGE_CONTROL_START_THRESHOLD,
-+	POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD,
-+};
- 
--static ssize_t cros_chctl_store_threshold(struct device *dev, struct cros_chctl_priv *priv,
--					  int is_end_threshold, const char *buf, size_t count)
-+static int cros_chctl_psy_ext_get_prop(struct power_supply *psy,
-+				       const struct power_supply_ext *ext,
-+				       void *data,
-+				       enum power_supply_property psp,
-+				       union power_supply_propval *val)
- {
--	int ret, val;
-+	struct cros_chctl_priv *priv = data;
- 
--	ret = kstrtoint(buf, 10, &val);
--	if (ret < 0)
--		return ret;
--	if (val < 0 || val > 100)
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_CONTROL_START_THRESHOLD:
-+		val->intval = priv->current_start_threshold;
-+		return 0;
-+	case POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD:
-+		val->intval = priv->current_end_threshold;
-+		return 0;
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		val->intval = priv->current_behaviour;
-+		return 0;
-+	default:
- 		return -EINVAL;
--
--	if (is_end_threshold) {
--		if (val <= priv->current_start_threshold)
--			return -EINVAL;
--		priv->current_end_threshold = val;
--	} else {
--		if (val >= priv->current_end_threshold)
--			return -EINVAL;
--		priv->current_start_threshold = val;
- 	}
--
--	if (priv->current_behaviour == POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO) {
--		ret = cros_chctl_configure_ec(priv);
--		if (ret < 0)
--			return ret;
--	}
--
--	return count;
- }
- 
--static ssize_t charge_control_start_threshold_show(struct device *dev,
--						   struct device_attribute *attr,
--						   char *buf)
--{
--	struct cros_chctl_priv *priv = cros_chctl_attr_to_priv(&attr->attr,
--							       CROS_CHCTL_ATTR_START_THRESHOLD);
- 
--	return sysfs_emit(buf, "%u\n", (unsigned int)priv->current_start_threshold);
--}
--
--static ssize_t charge_control_start_threshold_store(struct device *dev,
--						    struct device_attribute *attr,
--						    const char *buf, size_t count)
-+static int cros_chctl_psy_ext_set_prop(struct power_supply *psy,
-+				       const struct power_supply_ext *ext,
-+				       void *data,
-+				       enum power_supply_property psp,
-+				       const union power_supply_propval *val)
- {
--	struct cros_chctl_priv *priv = cros_chctl_attr_to_priv(&attr->attr,
--							       CROS_CHCTL_ATTR_START_THRESHOLD);
--
--	return cros_chctl_store_threshold(dev, priv, 0, buf, count);
--}
--
--static ssize_t charge_control_end_threshold_show(struct device *dev, struct device_attribute *attr,
--						 char *buf)
--{
--	struct cros_chctl_priv *priv = cros_chctl_attr_to_priv(&attr->attr,
--							       CROS_CHCTL_ATTR_END_THRESHOLD);
--
--	return sysfs_emit(buf, "%u\n", (unsigned int)priv->current_end_threshold);
--}
--
--static ssize_t charge_control_end_threshold_store(struct device *dev, struct device_attribute *attr,
--						  const char *buf, size_t count)
--{
--	struct cros_chctl_priv *priv = cros_chctl_attr_to_priv(&attr->attr,
--							       CROS_CHCTL_ATTR_END_THRESHOLD);
--
--	return cros_chctl_store_threshold(dev, priv, 1, buf, count);
--}
--
--static ssize_t charge_behaviour_show(struct device *dev, struct device_attribute *attr, char *buf)
--{
--	struct cros_chctl_priv *priv = cros_chctl_attr_to_priv(&attr->attr,
--							       CROS_CHCTL_ATTR_CHARGE_BEHAVIOUR);
--
--	return power_supply_charge_behaviour_show(dev, EC_CHARGE_CONTROL_BEHAVIOURS,
--						  priv->current_behaviour, buf);
--}
--
--static ssize_t charge_behaviour_store(struct device *dev, struct device_attribute *attr,
--				      const char *buf, size_t count)
--{
--	struct cros_chctl_priv *priv = cros_chctl_attr_to_priv(&attr->attr,
--							       CROS_CHCTL_ATTR_CHARGE_BEHAVIOUR);
-+	struct cros_chctl_priv *priv = data;
- 	int ret;
- 
--	ret = power_supply_charge_behaviour_parse(EC_CHARGE_CONTROL_BEHAVIOURS, buf);
--	if (ret < 0)
--		return ret;
--
--	priv->current_behaviour = ret;
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_CONTROL_START_THRESHOLD:
-+	case POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD:
-+		if (val->intval < 0 || val->intval > 100)
-+			return -EINVAL;
- 
--	ret = cros_chctl_configure_ec(priv);
--	if (ret < 0)
--		return ret;
-+		if (psp == POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD) {
-+			if (val->intval <= priv->current_start_threshold)
-+				return -EINVAL;
-+			priv->current_end_threshold = val->intval;
-+		} else {
-+			if (val->intval >= priv->current_end_threshold)
-+				return -EINVAL;
-+			priv->current_start_threshold = val->intval;
-+		}
-+
-+		if (priv->current_behaviour == POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO) {
-+			ret = cros_chctl_configure_ec(priv);
-+			if (ret < 0)
-+				return ret;
-+		}
- 
--	return count;
-+		return 0;
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		priv->current_behaviour = val->intval;
-+		ret = cros_chctl_configure_ec(priv);
-+		if (ret < 0)
-+			return ret;
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
- }
- 
--static umode_t cros_chtl_attr_is_visible(struct kobject *kobj, struct attribute *attr, int n)
-+static int cros_chctl_psy_prop_is_writeable(struct power_supply *psy,
-+					    const struct power_supply_ext *ext,
-+					    void *data,
-+					    enum power_supply_property psp)
- {
--	struct cros_chctl_priv *priv = cros_chctl_attr_to_priv(attr, n);
--
--	if (priv->cmd_version < 2) {
--		if (n == CROS_CHCTL_ATTR_START_THRESHOLD)
--			return 0;
--		if (n == CROS_CHCTL_ATTR_END_THRESHOLD)
--			return 0;
--	}
--
--	return attr->mode;
-+	return true;
- }
- 
- static int cros_chctl_add_battery(struct power_supply *battery, struct acpi_battery_hook *hook)
-@@ -241,7 +190,7 @@ static int cros_chctl_add_battery(struct power_supply *battery, struct acpi_batt
- 		return 0;
- 
- 	priv->hooked_battery = battery;
--	return device_add_group(&battery->dev, &priv->group);
-+	return power_supply_register_extension(battery, &priv->psy_ext, priv);
- }
- 
- static int cros_chctl_remove_battery(struct power_supply *battery, struct acpi_battery_hook *hook)
-@@ -249,7 +198,7 @@ static int cros_chctl_remove_battery(struct power_supply *battery, struct acpi_b
- 	struct cros_chctl_priv *priv = container_of(hook, struct cros_chctl_priv, battery_hook);
- 
- 	if (priv->hooked_battery == battery) {
--		device_remove_group(&battery->dev, &priv->group);
-+		power_supply_unregister_extension(battery, &priv->psy_ext);
- 		priv->hooked_battery = NULL;
- 	}
- 
-@@ -275,7 +224,6 @@ static int cros_chctl_probe(struct platform_device *pdev)
- 	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
- 	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
- 	struct cros_chctl_priv *priv;
--	size_t i;
- 	int ret;
- 
- 	ret = cros_chctl_fwk_charge_control_versions(cros_ec);
-@@ -305,23 +253,20 @@ static int cros_chctl_probe(struct platform_device *pdev)
- 	dev_dbg(dev, "Command version: %u\n", (unsigned int)priv->cmd_version);
- 
- 	priv->cros_ec = cros_ec;
--	priv->device_attrs[CROS_CHCTL_ATTR_START_THRESHOLD] =
--		(struct device_attribute)__ATTR_RW(charge_control_start_threshold);
--	priv->device_attrs[CROS_CHCTL_ATTR_END_THRESHOLD] =
--		(struct device_attribute)__ATTR_RW(charge_control_end_threshold);
--	priv->device_attrs[CROS_CHCTL_ATTR_CHARGE_BEHAVIOUR] =
--		(struct device_attribute)__ATTR_RW(charge_behaviour);
--	for (i = 0; i < _CROS_CHCTL_ATTR_COUNT; i++) {
--		sysfs_attr_init(&priv->device_attrs[i].attr);
--		priv->attributes[i] = &priv->device_attrs[i].attr;
--	}
--	priv->group.is_visible = cros_chtl_attr_is_visible;
--	priv->group.attrs = priv->attributes;
- 
- 	priv->battery_hook.name = dev_name(dev);
- 	priv->battery_hook.add_battery = cros_chctl_add_battery;
- 	priv->battery_hook.remove_battery = cros_chctl_remove_battery;
- 
-+	priv->psy_ext.properties = cros_chctl_psy_ext_props;
-+	priv->psy_ext.num_properties = ARRAY_SIZE(cros_chctl_psy_ext_props);
-+	if (priv->cmd_version == 1)
-+		priv->psy_ext.num_properties = 1;
-+	priv->psy_ext.charge_behaviours = EC_CHARGE_CONTROL_BEHAVIOURS;
-+	priv->psy_ext.get_property = cros_chctl_psy_ext_get_prop;
-+	priv->psy_ext.set_property = cros_chctl_psy_ext_set_prop;
-+	priv->psy_ext.property_is_writeable = cros_chctl_psy_prop_is_writeable;
-+
- 	priv->current_behaviour = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
- 	priv->current_start_threshold = 0;
- 	priv->current_end_threshold = 100;
+Hi Abhishek,
 
--- 
-2.47.0
+On Thu, Nov 07, 2024 at 11:29:58AM -0800, Abhishek Pandit-Subedi wrote:
+> Add support for entering and exiting displayport alt-mode on systems
+> using AP driven alt-mode.
+>=20
+> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> ---
+>=20
+> Changes in v3:
+> - Refactored typec_altmode_dp_data per review request
+> - Removed unused vdm operations during altmode registration
+>=20
+> Changes in v2:
+> - Refactored displayport into cros_typec_altmode.c to extract common
+>   implementation between altmodes
+>=20
+>  MAINTAINERS                                  |   3 +
+>  drivers/platform/chrome/Makefile             |   4 +
+>  drivers/platform/chrome/cros_ec_typec.c      |  12 +-
+>  drivers/platform/chrome/cros_ec_typec.h      |   1 +
+>  drivers/platform/chrome/cros_typec_altmode.c | 275 +++++++++++++++++++
+>  drivers/platform/chrome/cros_typec_altmode.h |  34 +++
+>  6 files changed, 326 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/platform/chrome/cros_typec_altmode.c
+>  create mode 100644 drivers/platform/chrome/cros_typec_altmode.h
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cd6aa609deba..5f9d8b8f1cb3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5369,9 +5369,12 @@ F:	include/linux/platform_data/cros_usbpd_notify.h
+> =20
+>  CHROMEOS EC USB TYPE-C DRIVER
+>  M:	Prashant Malani <pmalani@chromium.org>
+> +M:	Benson Leung <bleung@chromium.org>
+> +M:	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+>  L:	chrome-platform@lists.linux.dev
+>  S:	Maintained
+>  F:	drivers/platform/chrome/cros_ec_typec.*
+> +F:	drivers/platform/chrome/cros_typec_altmode.*
+>  F:	drivers/platform/chrome/cros_typec_switch.c
+>  F:	drivers/platform/chrome/cros_typec_vdm.*
+> =20
+> diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/M=
+akefile
+> index 2dcc6ccc2302..2f90d4db8099 100644
+> --- a/drivers/platform/chrome/Makefile
+> +++ b/drivers/platform/chrome/Makefile
+> @@ -18,7 +18,11 @@ obj-$(CONFIG_CROS_EC_SPI)		+=3D cros_ec_spi.o
+>  obj-$(CONFIG_CROS_EC_UART)		+=3D cros_ec_uart.o
+>  cros_ec_lpcs-objs			:=3D cros_ec_lpc.o cros_ec_lpc_mec.o
+>  cros-ec-typec-objs			:=3D cros_ec_typec.o cros_typec_vdm.o
+> +ifneq ($(CONFIG_TYPEC_DP_ALTMODE),)
+> +	cros-ec-typec-objs		+=3D cros_typec_altmode.o
+> +endif
+>  obj-$(CONFIG_CROS_EC_TYPEC)		+=3D cros-ec-typec.o
+> +
+>  obj-$(CONFIG_CROS_EC_LPC)		+=3D cros_ec_lpcs.o
+>  obj-$(CONFIG_CROS_EC_PROTO)		+=3D cros_ec_proto.o cros_ec_trace.o
+>  obj-$(CONFIG_CROS_KBD_LED_BACKLIGHT)	+=3D cros_kbd_led_backlight.o
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
+hrome/cros_ec_typec.c
+> index e3eabe5e42ac..3a6f5f2717b9 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -18,6 +18,7 @@
+> =20
+>  #include "cros_ec_typec.h"
+>  #include "cros_typec_vdm.h"
+> +#include "cros_typec_altmode.h"
+> =20
+>  #define DRV_NAME "cros-ec-typec"
+> =20
+> @@ -293,12 +294,11 @@ static int cros_typec_register_port_altmodes(struct=
+ cros_typec_data *typec,
 
+As we debugged late last week, this desc here needs to be initialized ahead
+of  the register, as it had some junk from the stack that was causing the
+"active" property to be sometimes set to no.
+
+memset(&desc, 0, sizeof(desc));
+
+This worked for me when testing your series.
+
+>  	desc.svid =3D USB_TYPEC_DP_SID;
+>  	desc.mode =3D USB_TYPEC_DP_MODE;
+>  	desc.vdo =3D DP_PORT_VDO;
+> -	amode =3D typec_port_register_altmode(port->port, &desc);
+> +	amode =3D cros_typec_register_displayport(port, &desc,
+> +						typec->ap_driven_altmode);
+>  	if (IS_ERR(amode))
+>  		return PTR_ERR(amode);
+>  	port->port_altmode[CROS_EC_ALTMODE_DP] =3D amode;
+> -	typec_altmode_set_drvdata(amode, port);
+> -	amode->ops =3D &port_amode_ops;
+> =20
+>  	/*
+>  	 * Register TBT compatibility alt mode. The EC will not enter the mode
+> @@ -575,6 +575,10 @@ static int cros_typec_enable_dp(struct cros_typec_da=
+ta *typec,
+>  	if (!ret)
+>  		ret =3D typec_mux_set(port->mux, &port->state);
+> =20
+> +	if (!ret)
+> +		cros_typec_displayport_status_update(port->state.alt,
+> +						     port->state.data);
+> +
+>  	return ret;
+>  }
+> =20
+> @@ -1254,6 +1258,8 @@ static int cros_typec_probe(struct platform_device =
+*pdev)
+> =20
+>  	typec->typec_cmd_supported =3D cros_ec_check_features(ec_dev, EC_FEATUR=
+E_TYPEC_CMD);
+>  	typec->needs_mux_ack =3D cros_ec_check_features(ec_dev, EC_FEATURE_TYPE=
+C_MUX_REQUIRE_AP_ACK);
+> +	typec->ap_driven_altmode =3D cros_ec_check_features(
+> +		ec_dev, EC_FEATURE_TYPEC_REQUIRE_AP_MODE_ENTRY);
+> =20
+>  	ret =3D cros_ec_cmd(typec->ec, 0, EC_CMD_USB_PD_PORTS, NULL, 0,
+>  			  &resp, sizeof(resp));
+> diff --git a/drivers/platform/chrome/cros_ec_typec.h b/drivers/platform/c=
+hrome/cros_ec_typec.h
+> index deda180a646f..9fd5342bb0ad 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.h
+> +++ b/drivers/platform/chrome/cros_ec_typec.h
+> @@ -39,6 +39,7 @@ struct cros_typec_data {
+>  	struct work_struct port_work;
+>  	bool typec_cmd_supported;
+>  	bool needs_mux_ack;
+> +	bool ap_driven_altmode;
+>  };
+> =20
+>  /* Per port data. */
+> diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platf=
+orm/chrome/cros_typec_altmode.c
+> new file mode 100644
+> index 000000000000..3598b8a6ceee
+> --- /dev/null
+> +++ b/drivers/platform/chrome/cros_typec_altmode.c
+> @@ -0,0 +1,275 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Alt-mode implementation on ChromeOS EC.
+> + *
+> + * Copyright 2024 Google LLC
+> + * Author: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> + */
+> +#include "cros_ec_typec.h"
+> +
+> +#include <linux/usb/typec_dp.h>
+> +#include <linux/usb/pd_vdo.h>
+> +
+> +#include "cros_typec_altmode.h"
+> +
+> +struct cros_typec_altmode_data {
+> +	struct work_struct work;
+> +	struct cros_typec_port *port;
+> +	struct typec_altmode *alt;
+> +	bool ap_mode_entry;
+> +
+> +	u32 header;
+> +	u32 *vdo_data;
+> +	u8 vdo_size;
+> +
+> +	u16 sid;
+> +	u8 mode;
+> +};
+> +
+> +struct cros_typec_dp_data {
+> +	struct cros_typec_altmode_data adata;
+> +	struct typec_displayport_data data;
+> +	bool configured;
+> +	bool pending_status_update;
+> +};
+> +
+> +static void cros_typec_altmode_work(struct work_struct *work)
+> +{
+> +	struct cros_typec_altmode_data *data =3D
+> +		container_of(work, struct cros_typec_altmode_data, work);
+> +
+> +	if (typec_altmode_vdm(data->alt, data->header, data->vdo_data,
+> +			      data->vdo_size))
+> +		dev_err(&data->alt->dev, "VDM 0x%x failed", data->header);
+> +
+> +	data->header =3D 0;
+> +	data->vdo_data =3D NULL;
+> +	data->vdo_size =3D 0;
+> +}
+> +
+> +static int cros_typec_altmode_enter(struct typec_altmode *alt, u32 *vdo)
+> +{
+> +	struct cros_typec_altmode_data *data =3D typec_altmode_get_drvdata(alt);
+> +	struct ec_params_typec_control req =3D {
+> +		.port =3D data->port->port_num,
+> +		.command =3D TYPEC_CONTROL_COMMAND_ENTER_MODE,
+> +	};
+> +	int svdm_version;
+> +	int ret;
+> +
+> +	if (!data->ap_mode_entry) {
+> +		const struct typec_altmode *partner =3D
+> +			typec_altmode_get_partner(alt);
+> +		dev_warn(&partner->dev,
+> +			 "EC does not support ap driven mode entry\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (data->sid =3D=3D USB_TYPEC_DP_SID)
+> +		req.mode_to_enter =3D CROS_EC_ALTMODE_DP;
+> +	else
+> +		return -EOPNOTSUPP;
+> +
+> +	ret =3D cros_ec_cmd(data->port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL,
+> +			  &req, sizeof(req), NULL, 0);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	svdm_version =3D typec_altmode_get_svdm_version(alt);
+> +	if (svdm_version < 0)
+> +		return svdm_version;
+> +
+> +	data->header =3D VDO(data->sid, 1, svdm_version, CMD_ENTER_MODE);
+> +	data->header |=3D VDO_OPOS(data->mode);
+> +	data->header |=3D VDO_CMDT(CMDT_RSP_ACK);
+> +
+> +	data->vdo_data =3D NULL;
+> +	data->vdo_size =3D 1;
+> +
+> +	schedule_work(&data->work);
+> +
+> +	return ret;
+> +}
+> +
+> +static int cros_typec_altmode_exit(struct typec_altmode *alt)
+> +{
+> +	struct cros_typec_altmode_data *data =3D typec_altmode_get_drvdata(alt);
+> +	struct ec_params_typec_control req =3D {
+> +		.port =3D data->port->port_num,
+> +		.command =3D TYPEC_CONTROL_COMMAND_EXIT_MODES,
+> +	};
+> +	int svdm_version;
+> +	int ret;
+> +
+> +	if (!data->ap_mode_entry) {
+> +		const struct typec_altmode *partner =3D
+> +			typec_altmode_get_partner(alt);
+> +		dev_warn(&partner->dev,
+> +			 "EC does not support ap driven mode entry\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	ret =3D cros_ec_cmd(data->port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL,
+> +			  &req, sizeof(req), NULL, 0);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	svdm_version =3D typec_altmode_get_svdm_version(alt);
+> +	if (svdm_version < 0)
+> +		return svdm_version;
+> +
+> +	data->header =3D VDO(data->sid, 1, svdm_version, CMD_EXIT_MODE);
+> +	data->header |=3D VDO_OPOS(data->mode);
+> +	data->header |=3D VDO_CMDT(CMDT_RSP_ACK);
+> +
+> +	data->vdo_data =3D NULL;
+> +	data->vdo_size =3D 1;
+> +
+> +	schedule_work(&data->work);
+> +
+> +	return ret;
+> +}
+> +
+> +static int cros_typec_displayport_vdm(struct typec_altmode *alt, u32 hea=
+der,
+> +				      const u32 *data, int count)
+> +{
+> +	struct cros_typec_dp_data *dp_data =3D typec_altmode_get_drvdata(alt);
+> +	struct cros_typec_altmode_data *adata =3D &dp_data->adata;
+> +
+> +
+> +	int cmd_type =3D PD_VDO_CMDT(header);
+> +	int cmd =3D PD_VDO_CMD(header);
+> +	int svdm_version;
+> +
+> +	if (!adata->ap_mode_entry) {
+> +		const struct typec_altmode *partner =3D
+> +			typec_altmode_get_partner(alt);
+> +		dev_warn(&partner->dev,
+> +			 "EC does not support ap driven mode entry\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	svdm_version =3D typec_altmode_get_svdm_version(alt);
+> +	if (svdm_version < 0)
+> +		return svdm_version;
+> +
+> +	switch (cmd_type) {
+> +	case CMDT_INIT:
+> +		if (PD_VDO_SVDM_VER(header) < svdm_version) {
+> +			typec_partner_set_svdm_version(adata->port->partner,
+> +						       PD_VDO_SVDM_VER(header));
+> +			svdm_version =3D PD_VDO_SVDM_VER(header);
+> +		}
+> +
+> +		adata->header =3D VDO(adata->sid, 1, svdm_version, cmd);
+> +		adata->header |=3D VDO_OPOS(adata->mode);
+> +
+> +		/*
+> +		 * DP_CMD_CONFIGURE: We can't actually do anything with the
+> +		 * provided VDO yet so just send back an ACK.
+> +		 *
+> +		 * DP_CMD_STATUS_UPDATE: We wait for Mux changes to send
+> +		 * DPStatus Acks.
+> +		 */
+> +		switch (cmd) {
+> +		case DP_CMD_CONFIGURE:
+> +			dp_data->data.conf =3D *data;
+> +			adata->header |=3D VDO_CMDT(CMDT_RSP_ACK);
+> +			dp_data->configured =3D true;
+> +			schedule_work(&adata->work);
+> +			break;
+> +		case DP_CMD_STATUS_UPDATE:
+> +			dp_data->pending_status_update =3D true;
+> +			break;
+> +		default:
+> +			adata->header |=3D VDO_CMDT(CMDT_RSP_ACK);
+> +			schedule_work(&adata->work);
+> +			break;
+> +		}
+> +
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int cros_typec_altmode_vdm(struct typec_altmode *alt, u32 header,
+> +				      const u32 *data, int count)
+> +{
+> +	struct cros_typec_altmode_data *adata =3D typec_altmode_get_drvdata(alt=
+);
+> +
+> +	if (adata->sid =3D=3D USB_TYPEC_DP_SID)
+> +		return cros_typec_displayport_vdm(alt, header, data, count);
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static const struct typec_altmode_ops cros_typec_altmode_ops =3D {
+> +	.enter =3D cros_typec_altmode_enter,
+> +	.exit =3D cros_typec_altmode_exit,
+> +	.vdm =3D cros_typec_altmode_vdm,
+> +};
+> +
+> +#if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
+> +int cros_typec_displayport_status_update(struct typec_altmode *altmode,
+> +					 struct typec_displayport_data *data)
+> +{
+> +	struct cros_typec_dp_data *dp_data =3D
+> +		typec_altmode_get_drvdata(altmode);
+> +	struct cros_typec_altmode_data *adata =3D &dp_data->adata;
+> +
+> +	if (!dp_data->pending_status_update) {
+> +		dev_dbg(&altmode->dev,
+> +			"Got DPStatus without a pending request");
+> +		return 0;
+> +	}
+> +
+> +	if (dp_data->configured && dp_data->data.conf !=3D data->conf)
+> +		dev_dbg(&altmode->dev,
+> +			"DP Conf doesn't match. Requested 0x%04x, Actual 0x%04x",
+> +			dp_data->data.conf, data->conf);
+> +
+> +	dp_data->data =3D *data;
+> +	dp_data->pending_status_update =3D false;
+> +	adata->header |=3D VDO_CMDT(CMDT_RSP_ACK);
+> +	adata->vdo_data =3D &dp_data->data.status;
+> +	adata->vdo_size =3D 2;
+> +
+> +	schedule_work(&adata->work);
+> +	return 0;
+> +}
+> +
+> +struct typec_altmode *
+> +cros_typec_register_displayport(struct cros_typec_port *port,
+> +				struct typec_altmode_desc *desc,
+> +				bool ap_mode_entry)
+> +{
+> +	struct typec_altmode *alt;
+> +	struct cros_typec_altmode_data *data;
+> +
+> +	alt =3D typec_port_register_altmode(port->port, desc);
+> +	if (IS_ERR(alt))
+> +		return alt;
+> +
+> +	data =3D devm_kzalloc(&alt->dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data) {
+> +		typec_unregister_altmode(alt);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	INIT_WORK(&data->work, cros_typec_altmode_work);
+> +	data->alt =3D alt;
+> +	data->port =3D port;
+> +	data->ap_mode_entry =3D ap_mode_entry;
+> +	data->sid =3D desc->svid;
+> +	data->mode =3D desc->mode;
+> +
+> +	typec_altmode_set_ops(alt, &cros_typec_altmode_ops);
+> +	typec_altmode_set_drvdata(alt, data);
+> +
+> +	return alt;
+> +}
+> +#endif
+> diff --git a/drivers/platform/chrome/cros_typec_altmode.h b/drivers/platf=
+orm/chrome/cros_typec_altmode.h
+> new file mode 100644
+> index 000000000000..c6f8fb02c99c
+> --- /dev/null
+> +++ b/drivers/platform/chrome/cros_typec_altmode.h
+> @@ -0,0 +1,34 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +
+> +#ifndef __CROS_TYPEC_ALTMODE_H__
+> +#define __CROS_TYPEC_ALTMODE_H__
+> +
+> +struct cros_typec_port;
+> +struct typec_altmode;
+> +struct typec_altmode_desc;
+> +struct typec_displayport_data;
+> +
+> +#if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
+> +struct typec_altmode *
+> +cros_typec_register_displayport(struct cros_typec_port *port,
+> +				struct typec_altmode_desc *desc,
+> +				bool ap_mode_entry);
+> +
+> +int cros_typec_displayport_status_update(struct typec_altmode *altmode,
+> +					 struct typec_displayport_data *data);
+> +#else
+> +static inline struct typec_altmode *
+> +cros_typec_register_displayport(struct cros_typec_port *port,
+> +				struct typec_altmode_desc *desc,
+> +				bool ap_mode_entry)
+> +{
+> +	return typec_port_register_altmode(port->port, desc);
+> +}
+> +
+> +static inline int cros_typec_displayport_status_update(struct typec_altm=
+ode *altmode,
+> +					 struct typec_displayport_data *data)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> +#endif /* __CROS_TYPEC_ALTMODE_H__ */
+> --=20
+> 2.47.0.277.g8800431eea-goog
+>=20
+>=20
+
+--TbHvfp6kUy+f6lxN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCZzKeZAAKCRBzbaomhzOw
+wgEIAQCdKzt65IStBSmMvdRMro0bcESyEJpmF0YrU0SonsTLUAEAg2ySnWBoNnja
+gvmOM+RRA3gC9yeEB22cd3vCEF1dugI=
+=9q05
+-----END PGP SIGNATURE-----
+
+--TbHvfp6kUy+f6lxN--

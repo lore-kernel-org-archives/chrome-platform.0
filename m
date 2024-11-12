@@ -1,204 +1,119 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7BE204930
-	for <chrome-platform@lists.linux.dev>; Tue, 12 Nov 2024 02:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4435920B1F8
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Nov 2024 07:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731377791; cv=none; b=AUIU1GaQ8no9NVfjyq2C7mvB6YSWzpAbEtv8Jzs7agc8kOtGx08+y1G9FnoSAgSZ4An5syL0R8kSBp2J2Tj+KmU6SyGwI8PZ3rAS4sK5wuRrYIsPblbRk+pKnkP3GF7IVEzloOgH4q4zmUC4NncgU0zZubLhtJvnsMSpSRdove4=
+	t=1731397327; cv=none; b=YnJjv3FVv6t8hu2I+C8z9tJAvIaTCh9df34FTKSeM36ypfAGIcYrs+3qHhzLMHZej4ri92n1xQtJfFx0n5ZRsS6LWF2i9szGpbDwevUcWzNUademYOP6Fivf6xvmklj1Vlaq+ujXOs4fqPVKxlaQH7zxt+HIW5d6bmiRvX8SeLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731377791; c=relaxed/simple;
-	bh=NxRKeUzGQNckc94jdll6DwNIvw1FmonhQhpVuy4egzI=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B/bVtwZ+lFnjPz4bzn05YF61evOq9DeTx6VHdXMF3wXw6IST3UKbQQz74LK9ktxR1tzbwfwaHmGBq72yXeZP9DqpG7M4vqD9qAeqxz4b0Yx7F1pbN0d7Z9D1ToGR686O0scnKi0eJc9vGszZsOvECuxFdWHteA4wVrru5sIKJu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fwjE9FwL; arc=none smtp.client-ip=209.85.221.179
+	s=arc-20240116; t=1731397327; c=relaxed/simple;
+	bh=4Zdw5kgKTgwPsGUNYQa35eedlMhMIviirI6Hy+Sd0hg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwhKhn+rERDBzKoeXSVo0N/p9rZaoNqrIMHi+P3WDM4T2c+XKKFO46XtV6EorGrJI4XwrhViPg9GpxtMYYSCjIUyukoEVekwHASH/IvXNh2c1U2st5tztQanWaD8Si0fWqgQkN8TL9qUDm3qjBvo1hKZdBfEZnZ/DXfaj82tlDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cxIZ3ZtK; arc=none smtp.client-ip=209.85.210.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fwjE9FwL"
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5142468fa79so819472e0c.3
-        for <chrome-platform@lists.linux.dev>; Mon, 11 Nov 2024 18:16:29 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cxIZ3ZtK"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7181a8af549so3320221a34.2
+        for <chrome-platform@lists.linux.dev>; Mon, 11 Nov 2024 23:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731377788; x=1731982588; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NxRKeUzGQNckc94jdll6DwNIvw1FmonhQhpVuy4egzI=;
-        b=fwjE9FwLOektVLliI0fqoYuV1nHLNFOUDg7WIgnYkbM2YDlQDOtN9o+Q/y4GNph1dV
-         soEdhy5NgwpMWY1Y18hJWPEk1BBBxDxsU4mGpn2lTINHypqSjlrhLv8D6EfrFcehnLil
-         fB3/8N5fH5XWsYmYgYsHFfPzilO2qguIwhyW4=
+        d=chromium.org; s=google; t=1731397325; x=1732002125; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mWb+6hjmOAxlNgDc7JKg2yzzLTEdqJ06FfSb5owKkeM=;
+        b=cxIZ3ZtKRpzgcSLpPgVmH3ifjAYAKHExWpo5hb6Ov9mrr4tIATjDfe6UWshWjnQs3s
+         XPKKKsVbkTrnykCbRSJYnz97VdLRLruRzLpwysSxh9S/AicV2ZStrGJIeq9sm8pUVRk6
+         kv5vgS66cplY3bqcAvU4e269SRfSGkLuO3j0k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731377788; x=1731982588;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1731397325; x=1732002125;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NxRKeUzGQNckc94jdll6DwNIvw1FmonhQhpVuy4egzI=;
-        b=hDoGj+tq/zNByCMVtQDkwIxxsczXDYEpOM80Mt55sUrQNhqaZrLfyq7qD2gtgNUqyU
-         sOqOULb6A8Hsprr4Dmqwj8tzyi+9Tsx3ykYLCG5eFbJsSp0V7bDBTdbiu2BzKfT3nUG8
-         mWa1sCWH8CBRid7OmKEjeTUhtRnx/s1o5mPCs3Wp0AID19/849/oK9iI8W946vzQyeFW
-         T0vBmLK40cr+D0FLcW59NQLlceus3usKsVziKHtpDuiCULXit9Rb9KY2TSXzus+A9ZSL
-         2tIfY07ZlzpJTjX8xjR/pJZqn5pmeq+IEycTGPnpTpDGdQcSYKKRxpnuwAHKoOo3GdWf
-         PDBw==
-X-Gm-Message-State: AOJu0YyepCn7mvmcE4XWN3NeeY6s1u0Ief0YRfCzhAgMgkQ7ECh3nVRy
-	PdAk+1w+Vf7rCkMAEUGqf0vwHKogw3VsFthJABcwk8LK9HhdD4O9A3WIlC3vbUkbiSuxdbXtcSp
-	od/AHSZiaPcNYlVPDPtuwmAobwMAR/mX0vFl0
-X-Google-Smtp-Source: AGHT+IFhUIXP7ugxUy7Dy8ell04Jmp5igMqxBklJN6VB90eF5BUKVkmxt6TVApQ3QciA6G8tm/1mdhhf0qwz2BvQ98Y=
-X-Received: by 2002:a05:6122:3d13:b0:50d:35d9:ad60 with SMTP id
- 71dfb90a1353d-51401ba6e0emr14533759e0c.5.1731377788451; Mon, 11 Nov 2024
- 18:16:28 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 11 Nov 2024 18:16:28 -0800
+        bh=mWb+6hjmOAxlNgDc7JKg2yzzLTEdqJ06FfSb5owKkeM=;
+        b=RO7Yc+XjrWmZQStuCm4dz0fj2VR7Ccb2qrsd978EBRQvu/5kJ98gGPzA7mc/unGIbf
+         u7G6Lb5ccfjdCN1wQwEDKOauOdok8LypYtXzxqciOy0+ruH7WjQfHT4SDYgngHQbcDJ5
+         vCKpXAc8VRpxEnk8Y4+UYwUcfT9Az7sQeKQrtSB4ZtT1LInvmsuJ5ejJfZNyPcfNeYgr
+         PlANG1DHFkYN9cXHxKm0d4/6BGzSxkQin5matSxsCoqKqY9E5hcqUe5qHkQ6T5NlDhEN
+         v85NY76iM9he9HQFvpTWXBs5cy+q0S7FmRKNyQWiLqqFf0e6fWNuBaq4KpgyJLWZFJgc
+         7bWw==
+X-Forwarded-Encrypted: i=1; AJvYcCU3Xq7G2jvKZAhPO0f5UOTv2IfkGhIMh19vPvUbIumQjIoMrvIebd9l+VWY2e+Rsu33Y5dYNmU5qu1q8iogXNs=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTfPBH9/ZZBtdjML++a2io4nCWDVUep08mX97Fh8Sx534PSc2R
+	M3MvJwPpNPPQYNPRPYYYfkEvB7QTxbqwmjkS56k3IDL1r3OyBhhbiZbicJbpJw==
+X-Google-Smtp-Source: AGHT+IHAivkem+e7/fcFL3MNsRfeSzjTTUbqrvF8zF3iiVeiJL0WKCuRtYmXL80k54VkCTs+Wi5+3g==
+X-Received: by 2002:a05:6830:1050:b0:71a:21c9:cd82 with SMTP id 46e09a7af769-71a21c9d013mr9830707a34.0.1731397325430;
+        Mon, 11 Nov 2024 23:42:05 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:7cd:9f36:34ae:c525])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f67f079sm9823430a12.85.2024.11.11.23.42.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Nov 2024 23:42:04 -0800 (PST)
+Date: Tue, 12 Nov 2024 15:42:01 +0800
+From: "Sung-Chi, Li" <lschyi@chromium.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	Jean Delvare <jdelvare@suse.com>, devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v2] hwmon: (cros_ec) register thermal sensors to thermal
+ framework
+Message-ID: <ZzMGyaBGX-yLZs8B@google.com>
+References: <20241111074904.1059268-1-lschyi@chromium.org>
+ <20241111095045.1218986-1-lschyi@chromium.org>
+ <4cb3b1c7-86fa-4344-a413-031723f31f1d@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <hqmx7jtkvrwvb27n56hw7rpefhp37lhr3a5fawz7gsl76uuj5s@h7m6wpdhibkk>
-References: <20240901040658.157425-1-swboyd@chromium.org> <phdcjgqqpjpruxp7v2mw446q73xr3eg4wfgfbjw5tasgr2pgg2@77swbk47b2tg>
- <CAE-0n514QMaQC2yjKP8bZqyfbv6B3AQm=+NJ87vxo6NdYiL03A@mail.gmail.com>
- <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
- <CAE-0n53-KmOS3zXmJPvOOZ7xxkek9-S=oBExgaY0PDnt_HjdNw@mail.gmail.com>
- <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
- <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
- <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
- <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com> <hqmx7jtkvrwvb27n56hw7rpefhp37lhr3a5fawz7gsl76uuj5s@h7m6wpdhibkk>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
-Date: Mon, 11 Nov 2024 18:16:27 -0800
-Message-ID: <CAE-0n50y1O2C47zOGJPmMjKXK_m6a=jhpEAP4nW+RymZbo2xyg@mail.gmail.com>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, devicetree@vger.kernel.org, 
-	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4cb3b1c7-86fa-4344-a413-031723f31f1d@roeck-us.net>
 
-Quoting Dmitry Baryshkov (2024-11-08 23:05:18)
-> On Thu, Nov 07, 2024 at 04:28:24PM -0800, Stephen Boyd wrote:
-> > Quoting Dmitry Baryshkov (2024-10-31 15:54:49)
-> > > On Thu, Oct 31, 2024 at 02:45:29PM -0700, Stephen Boyd wrote:
-> > > > Quoting Dmitry Baryshkov (2024-10-31 11:42:36)
-> > > > > On Tue, Oct 29, 2024 at 01:15:51PM -0700, Stephen Boyd wrote:
-> > Long story short, I don't see how we can avoid _any_ lane assignment
-> > logic in drm_bridge. The logic shouldn't walk the entire bridge chain,
-> > but it should at least act on the bridge that is a DP bridge. I think
-> > you're saying pretty much the same thing here, but you want the lane
-> > remapping to be done via the typec layer whereas I want it to be done in
-> > the drm_bridge layer. To me it looks out of place to add a
-> > typec_switch_desc inside each DP drm_bridge because we duplicate the
-> > logic about USB type-c DP altmode lane assignment to each DP bridge. A
-> > DP bridge should just think about DP and not know or care about USB
-> > type-c.
-> >
-> > This is what's leading me to think we need some sort of lane assignment
-> > capability at the DP connector. How that assignment flows from the DP
-> > connector created in drm_bridge_connector.c to the hardware is where it
-> > is less clear to me. Should that be implemented as a typec_switch_desc,
-> > essentially out of band with drm_bridge, or as some drm_bridge_funcs
-> > function similar to struct drm_bridge_funcs::hdmi_*()? If you look at
-> > IT6505 in it6505_get_extcon_property() it actually wants to pull the
-> > orientation of the type-c port with extcon_get_property(EXTCON_DISP_DP,
-> > EXTCON_PROP_USB_TYPEC_POLARITY). Maybe pushing the orientation to the DP
-> > bridge is backwards and we should be exposing this as some sort of
-> > connector API that the drm_bridge can query whenever it wants.
->
-> And it6505_get_extcon_property() / EXTCON_PROP_USB_TYPEC_POLARITY is a
-> Type-C code, isn't it?
->
+On Mon, Nov 11, 2024 at 09:01:33AM -0800, Guenter Roeck wrote:
+> On 11/11/24 01:50, Sung-Chi wrote:
+> > From: "Sung-Chi, Li" <lschyi@chromium.org>
+> > 
+> > cros_ec hwmon driver probes available thermal sensors when probing the
+> > driver.  Register these thermal sensors to the thermal framework, such
+> > that thermal framework can adopt these sensors as well.
+> > 
+> > To make cros_ec registrable to thermal framework, the cros_ec dts need
+> > the corresponding changes:
+> > 
+> > &cros_ec {
+> > 	#thermal-sensor-cells = <1>;
+> > };
+> > 
+> > Change-Id: I29b638427c715cb44391496881fc61ad53abccaf
+> 
+> Drop.
+> 
+> > Signed-off-by: Sung-Chi, Li <lschyi@chromium.org>
+> 
+> Detailed explanation will be needed: Why not use HWMON_C_REGISTER_TZ ?
+> Unless I am missing something, this code just duplicates code from the hwmon core.
+> 
+> Please do not send follow-up patch series as response to previous ones.
+> 
+> Guenter
+> 
 
-Sort of? It's combining DP and USB_TYPEC enums there so it's not very
-clear if it's one or the other instead of just both.
+Hi, thank you for pointing out using HWMON_C_REGISTER_TZ. After checking how
+HWMON_C_REGSITER_TZ works, I think I only need to add one line into the
+cros_ec_hwmon_info, and almost all concerns Thomas pointed out in latest reply
+would be resolved automatically (because there would be only one line of change,
+and that change is just a hwmon configuration, so should be a valid way of
+combining with the thermal system).
 
-> > and then a drm_bridge is created in cros-ec to terminate the bridge
-> > chain. The displayport altmode driver will find the drm_bridge and the
-> > drm_connector from the cros-ec node. When DP altmode is entered the
-> > displayport altmode driver will set the drm_connector orientation based
-> > on the presence of the dp-reverse-orientation property. We'll be able to
-> > hook the hpd_notify() path in cros-ec by adding code to the drm_bridge
-> > made there to do the HPD workaround. I'm not sure we need to use an
-> > auxiliary device in this case, because it's a one-off solution for
-> > cros-ec. And we don't even need to signal HPD from the cros-ec
-> > drm_bridge because the oob_hotplug event will do it for us. If anything,
-> > we need that displayport.c code to skip sending the hotplug event when
-> > "no-hpd" is present in the cros-ec node. Note, this works for any number
-> > of usb-c-connector nodes. And finally, DP bridges like IT6505 don't need
-> > to implement a typec_switch_desc, they can simply support flipping the
-> > orientation by querying the drm_connector for the bridge chain when they
-> > see fit. ANX7625 can support that as well when it doesn't see the
-> > 'orientation-switch' property.
-> >
-> > Did I miss anything? I suspect a drm_connector having an orientation is
-> > the most controversial part of this proposal.
->
-> Yes... I understand that having orientation-switch handling in the DRM
-> driver sounds strange, but this is what we do in the QMP PHY driver. It
-> makes the code easier, as it keeps lane remapping local to the place
-> where it belongs - to the Type-C handlers.
->
+Thank all for reviewing and giving inputs, and I will soon send out the one
+line patch.
 
-The QMP PHY is a type-c PHY, similar to ANX7625. It sits on the output
-of the DP and USB PHYs and handles the type-c orientation and lane
-merging for different USB type-c alternate modes. It's not a great
-example of a plain DP bridge because it combines USB and USB type-c
-features.
-
-Either way, doing this through Type-C handlers is weird because the port
-orientation in the Type-C framework is for the connector and there is an
-orientation control hardware that handles the orientation already. For
-example, with the IT6505 part on Corsola, the orientation is controlled
-by a redriver part that the EC controls. It takes the DP and USB signals
-and routes them to the correct pins on the usb-c-connector depending on
-the cable orientation. The input side pinout is basically 2 or 4 lanes
-DP and 2 lanes USB and the output side pinout is the USB type-c pinout
-SSTXRX1 and SSTXRX2.
-
-This redriver is equivalent to the QMP PHY type-c part. Maybe to bring
-this example closer to QMP we can imagine if the QMP PHY was split into
-two pairs of lanes, and the USB functionality wasn't used. The
-orientation control for a usb-c-connector would be on a redriver that
-takes 2 DP lanes from the QMP PHY as input. Saying that this QMP PHY is
-the "orientation-switch" with that property in DT is confusing, because
-it isn't controlling the orientation of the type-c port. The orientation
-is handled by the redriver. That redriver may even be controlled by the
-kernel as an orientation-switch.
-
-I understand that the QMP PHY driver has implemented the lane control
-for orientation with a typec_switch_desc, but the QMP PHY is a plain DP
-PHY in this scenario. How would the type-c handlers work here? We
-couldn't call them through the type-c framework as far as I can tell.
-
-This is why I'm thinking the end of the bridge chain needs to have some
-sort of orientation. If we had that then the place where the chain ends
-and becomes muxed onto the usb-c-connector, i.e. the redriver, would be
-where the DP bridge is told that it needs to flip the lanes. In the
-cases I have, the redriver is the EC, and so we've combined them all
-together in one node, cros-ec-typec. In the QMP PHY case the redriver is
-the QMP PHY type-c part that sits on the DP and USB PHYs and sends their
-signals out of the SoC.
-
-Maybe the DT property in the ANX7625 or IT6505 node should be something
-like "dp-orientation-switch" and then we have the type-c framework find
-this property? Then we would need to add support for that property in
-IT6505 using a typec_switch_desc, which is weird. I guess it all feels
-like a hack because it's not always the case that the DP PHY is glued to
-a USB type-c PHY.
+Best,
+Sung-Chi, Li

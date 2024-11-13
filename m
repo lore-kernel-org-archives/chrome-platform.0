@@ -1,98 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653FF23098C;
-	Tue, 12 Nov 2024 11:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165DC13CA99
+	for <chrome-platform@lists.linux.dev>; Wed, 13 Nov 2024 02:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731411575; cv=none; b=SicAf4fd6Kbx8vKS5ZzFHvSi0ovq7PB3oW/r/mNJ+INLAi8fT7/pmq7Eo/1RJo4ij765nG7OOQhMblGGTO2A9xQuQpWv11OYdryNV7iDeXLQK49Z8wMMdYxWvZHjKD0AQ2LwAihsH2xj+bBNZm7Z85d7Yw134ciqIXbeMAcnak8=
+	t=1731465499; cv=none; b=LV5NlE6BbKkwPI8cABG0Ez+WTqIONalAAFbpWzANG3/16rwN1u+raqa2Dzn0y811+7RK8WcGsOSHKd4HkIfquEEUnK+SaXOti4VcOPPmUtsEwsvYf6xXu+D/wMkbuYAKV+OheWX+k7LILPL5dJekThzWFuumSvtIxGj/Tsw2/Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731411575; c=relaxed/simple;
-	bh=LG7RZyrQQCMMftiyBGThQS+gGDQCRxNRxi5jzF0rtMU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=brWwCOwjCsznjZNN8YVHfqjz2OwY0fjMUb+i5tlRk/6ggcuH+fOLpj6CicYXSatqe1s8Yh3p+VY0wp2AMq2t62hV1RMaIp8UEWs7GsaDm8vLBbHO2WqIxQq/usCRGpBRnHmbDHX7VhyAc47O2jO/usl8DfNODsOPi2XuvsLO5Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vknOjlpo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731465499; c=relaxed/simple;
+	bh=bEMXAojs7dQlxuR19vx71TcyEikaADEHLaxXpr9+0Hg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GaGt5vFd2EoW51DRw9bHdKRUQa07ZGvQO8bRItiOVpsseMQAcV9Wjn2qpabYfcOk1LqLp5rrcU9J4wpjz1psmGmB7kKdD84hkiGWYvHqpFFzGM4kGS9hKeaSxLFdFgVQZxStWuXcAClh8OIsV0GiOS96yXPD6tX0vWJXwdUIRjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WKZXc1WT; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vknOjlpo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6627CC4CECD;
-	Tue, 12 Nov 2024 11:39:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1731411575;
-	bh=LG7RZyrQQCMMftiyBGThQS+gGDQCRxNRxi5jzF0rtMU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vknOjlpo6yb1Vp6IvyGWB9fU+5x7MozaZPEx5An53FahQpTAnNO5K4ounXAy8oTiB
-	 TMyhmIa3vhWYr8Y70CpG7AqAsJ6Muua1r2mtSVbGPeuPR0Yb5JXd60v2VL3pSHRStQ
-	 uWb9VIFmeHvu95V7xCVSAH9p70B6Adjzvh7A37xU=
-Date: Tue, 12 Nov 2024 12:39:32 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gabriel Somlo <somlo@cmu.edu>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jay Buddhabhatti <jay.buddhabhatti@amd.com>,
-	Ronak Jain <ronak.jain@amd.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	imx@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, qemu-devel@nongnu.org,
-	linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH] firmware: Switch back to struct platform_driver::remove()
-Message-ID: <2024111223-gizzard-scabby-eb98@gregkh>
-References: <36974feb6035201d53384557259ec72fe311053b.1731397962.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WKZXc1WT"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6cbe90c7c95so47990216d6.1
+        for <chrome-platform@lists.linux.dev>; Tue, 12 Nov 2024 18:38:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731465497; x=1732070297; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BDa364HRisrh5FkhBRAgoYWJ6EQLcIRifta+xIO2gRs=;
+        b=WKZXc1WTKE+TKNcKrxoGaKOAdkPvKjmEPNaG+2jBhxh9workKz+H5S4K/8/Pny0zCy
+         qmAYXahIW+2PGW7+IDWgbEh2vqPFE26zov0VMsr88RQbn+RELYX4YHoGSrdqiiYGxO+Z
+         na/CgRSyeud9APE0JpoR9vlJ5vKwlTdKPNh55suSd4KUJpcK0jDpzEfCqoIIu+z6/HaC
+         3uHMxm4Z214aYgFkmLWe9/gUANRTdBgqDu634i4MdrW3Jh2HDbCQMJFzn0i+OzbeNOwO
+         WqYlLeiZmpVovWfw0XfHcDR/apMPpmIi/ueqjS0sOdWMksryR3ijS+aWkD/2EbsEglgb
+         c52w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731465497; x=1732070297;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BDa364HRisrh5FkhBRAgoYWJ6EQLcIRifta+xIO2gRs=;
+        b=jDBbL/sJju4nuPUekhUclHPlFmD25DfLC2y74+loT0BvNNN1zEOkNJdtdYRDE6c/53
+         BMov0GGLZCo3mbrB+o/vH9UxEjLw8frdcU6ULPc/g/4lIrr+efbomighmPX9LWOLeKEY
+         3E8Q5uw02C4HKGX0HGxWOvP0ywr4WA3yXo3X1ttlfNfO6rSyfPH2fb4KL3GjfMjqVAHt
+         0T7lm03gkGgWnMymJs5tctPmBILkJSFAleNGBRSc+3fjQG44hFFEF7IvTPIEmL1aF4PK
+         zH0cLbXyke+nM1LvcyNtqK2785mDyv+wm9aLRF850efMvOO7Bx9V2gn9WhdMPZJ8PTYt
+         e23Q==
+X-Gm-Message-State: AOJu0Yzd/RH/5Ad8pqrvExD0pTfMZdaqINBqVZVQlhrg4UVx4OtzW/IJ
+	z/6WXF55Pm9WDnd0tcwI1GhB41z+moZqzH+MLjFwh470IHq3LNnf
+X-Google-Smtp-Source: AGHT+IGc3inXxpm8jaKojJuuia67ySeFfCUQL47bMuFDUWAFuzpojQ8jYW8dWSsemnx/d5Q/9Xj9wA==
+X-Received: by 2002:a05:6214:33ca:b0:6cb:826a:f20a with SMTP id 6a1803df08f44-6d39e008af7mr275618056d6.0.1731465496977;
+        Tue, 12 Nov 2024 18:38:16 -0800 (PST)
+Received: from pixel.. ([37.19.199.148])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d3bf23cc01sm35444306d6.122.2024.11.12.18.38.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2024 18:38:16 -0800 (PST)
+From: Brandon Casey <drafnel@gmail.com>
+To: bleung@chromium.org,
+	tzungbi@kernel.org
+Cc: chrome-platform@lists.linux.dev
+Subject: detect kbd backlight on Google Link (original Chromebook Pixel)
+Date: Tue, 12 Nov 2024 20:29:04 -0600
+Message-ID: <20241113023800.6263-1-drafnel@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <36974feb6035201d53384557259ec72fe311053b.1731397962.git.u.kleine-koenig@baylibre.com>
 
-On Tue, Nov 12, 2024 at 09:35:20AM +0100, Uwe Kleine-König wrote:
-> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-> return void") .remove() is (again) the right callback to implement for
-> platform drivers.
-> 
-> Convert all platform drivers below drivers/firmware to use .remove(),
-> with the eventual goal to drop struct platform_driver::remove_new(). As
-> .remove() and .remove_new() have the same prototypes, conversion is done
-> by just changing the structure member name in the driver initializer.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
-> ---
-> Hello,
-> 
-> I did a single patch for all of drivers/firmware. While I usually prefer
-> to do one logical change per patch, this seems to be overengineering
-> here as the individual changes are really trivial and shouldn't be much
-> in the way for stable backports.
-> 
-> There is no dedicated maintainer for drivers/firmware, maybe Sudeep as
-> biggest committer there can take it? Or would it be sensible to split
-> this patch?
+Hi,
 
-I'll just take it now, thanks!
+Hopefully this is a trivial and obviously correct patch that will be
+easy to accept.  Tested on my very own Chromebook Pixel.
 
-greg k-h
+Please advise if this is not the correct mailing list or procedure for
+submitting this patch, and/or if there is anything else that I need to
+do.
+
+Thanks,
+-Brandon
+

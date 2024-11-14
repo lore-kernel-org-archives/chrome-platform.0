@@ -1,99 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5F21E8822
-	for <chrome-platform@lists.linux.dev>; Thu, 14 Nov 2024 08:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1AE18BC33
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Nov 2024 10:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731574430; cv=none; b=DaM2ECTXcuaO46jqR8SEfN5vMLGb0iT6k0q7h4YySJwUWKI5+YQHVPepLXQZCU1AfidKM2kk9Y0CRKjH4IW8P6PbuWSOq4hq5Voae63DJ3Z/IiXk1EshSakgFScuSelbwj99oWMLE3Bwi+XSgy4iAOfN9HNDAou8J9rhnAcoIGg=
+	t=1731580623; cv=none; b=hmVQpBiSYBdf9tdfs2iGWXHTOhXJEmezBuCIBce9snvRarvZD5D78a8Vy2BRPGsnVAOpEeamWSeREmM/p8cfcHkoW+y6Dpm26XdRyflx96caoKLoWCzWinQ0OcLN2V18Ho9JsJHo03W4YlfB6ERFcJBiO4cEy66ioQvfOndnITg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731574430; c=relaxed/simple;
-	bh=5qnoDCgeNMkRmg3jf1MJZSKsVoa+jcGxRuaDBMi1it4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oVKUYeG4VTJYDQVb8EqmijCNWiLgKDosUUjfP22k7O53ffNysQiJcPTOKq9CzRzfrY4UNHfV0V5FgYP5wBGdbxz9zGIVr8HB7zFWLP6B8uOWbGDA+sP88QepJq4up4HbU1F65zhQyoWzUOFlId1vliCj7oMe1fVwCjJgRFxYiVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFE5A4tx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731580623; c=relaxed/simple;
+	bh=r0zfEM+44u3mW0HVdYOX0ErXs9/LS1lzZr3IPLxucp8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tUHWYT7fE0ukBT7NtRFcKMBwRMZI16ALYLdlWWjQGGY0zSm8efCzTSdW/XnCAf+mAEjeCrwa9tWPy8ecUe4Ga6JUBo+AbsHR+EJhsLl1PTVJ/nFDSoYx878A//PuFt2XIrAUw7ZRiurDekWGKYxu0oV/rtppqUQNoH1W0Gs8VGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SODZKS7w; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFE5A4tx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2246FC4CECD;
-	Thu, 14 Nov 2024 08:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731574429;
-	bh=5qnoDCgeNMkRmg3jf1MJZSKsVoa+jcGxRuaDBMi1it4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CFE5A4tx5wMi1VZa8n0fCWxdlbiw21jnyT24XNRyovbVLsEdCMM9bovKLiz/fagbz
-	 reAstIkVdfgI9A9Y5opqKw/mRI7oLIDdTpUkSfxOXvuQChxfLt7JEgRWk5GWrK1YwH
-	 tk4dD6t7wtO3KAKVgo5Z5BBRNFhIcZ0KSpacVwVjDFC7QTYxZzmBhnTnyVIgxqOo3l
-	 00TuRZTSzOZ++TIn5eWv/MGeZwd9YMmU2EdYW9nxDbHj/Dx5fqC1I1iX1LpL+w3YN5
-	 ORccaHmAPWaAq1xxb0avQfhQI5I+Vbj/styeznzgI1EakXYYx0kPHWhgLLdw/kEjL4
-	 22j4Bk0YnWXVg==
-Date: Thu, 14 Nov 2024 08:53:47 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Brandon Casey <drafnel@gmail.com>
-Cc: bleung@chromium.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: support Google
- Link
-Message-ID: <ZzW6mz9TGc8bglOi@google.com>
-References: <20241113023800.6263-1-drafnel@gmail.com>
- <20241113023800.6263-2-drafnel@gmail.com>
- <ZzRLOmDCOrCa5DJW@google.com>
- <B7B50D15-7465-4370-8D82-47C75A16A3AC@gmail.com>
- <ZzVbbh86elpYQG5s@google.com>
- <439FC80F-141E-438A-B201-772C9509D048@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SODZKS7w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1731580620;
+	bh=r0zfEM+44u3mW0HVdYOX0ErXs9/LS1lzZr3IPLxucp8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SODZKS7whgHUDhpHncSi3sdUkr6sedYtd4Zj3gUHgz4gDBJKCBDYpeV2ShdES7f9n
+	 0N/eELQDnQvpZU1iIGyu21yggduhO8wSRel9/EC8ymzZTAY3TIIsHIRI/VacqOe0iQ
+	 EMDUomAdgBIY0vvAJ0zMqRuZsnhfFmV83cFq/tsE9BQ9TuJtH+39TnK+0FHDH8K/Qi
+	 dsslLBYYypPj4jiTQp+iaYis4LS6/NhVBryXt8NS7DBiGE4O7rJPntbOOLZ70OAHuE
+	 gMdAt8gBe8TgcO1JidPdS+qF/6VtLEERCFYoeAyVarYdHI01F35FWXquR5lnfXjT5l
+	 OVsddY+bZKaFw==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5368417E35EA;
+	Thu, 14 Nov 2024 11:36:59 +0100 (CET)
+Message-ID: <8ba8d8be-8858-425b-99bd-b1fd063b2cf9@collabora.com>
+Date: Thu, 14 Nov 2024 11:36:59 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <439FC80F-141E-438A-B201-772C9509D048@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 6/7] platform/chrome: Introduce device tree hardware
+ prober
+To: Chen-Yu Tsai <wenst@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Wolfram Sang <wsa@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ Johan Hovold <johan@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-i2c@vger.kernel.org, Andrey Skvortsov <andrej.skvortzov@gmail.com>
+References: <20241106093335.1582205-1-wenst@chromium.org>
+ <20241106093335.1582205-7-wenst@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241106093335.1582205-7-wenst@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 13, 2024 at 10:38:36PM -0600, Brandon Casey wrote:
+Il 06/11/24 10:33, Chen-Yu Tsai ha scritto:
+> Some devices are designed and manufactured with some components having
+> multiple drop-in replacement options. These components are often
+> connected to the mainboard via ribbon cables, having the same signals
+> and pin assignments across all options. These may include the display
+> panel and touchscreen on laptops and tablets, and the trackpad on
+> laptops. Sometimes which component option is used in a particular device
+> can be detected by some firmware provided identifier, other times that
+> information is not available, and the kernel has to try to probe each
+> device.
 > 
+> This change attempts to make the "probe each device" case cleaner. The
+> current approach is to have all options added and enabled in the device
+> tree. The kernel would then bind each device and run each driver's probe
+> function. This works, but has been broken before due to the introduction
+> of asynchronous probing, causing multiple instances requesting "shared"
+> resources, such as pinmuxes, GPIO pins, interrupt lines, at the same
+> time, with only one instance succeeding. Work arounds for these include
+> moving the pinmux to the parent I2C controller, using GPIO hogs or
+> pinmux settings to keep the GPIO pins in some fixed configuration, and
+> requesting the interrupt line very late. Such configurations can be seen
+> on the MT8183 Krane Chromebook tablets, and the Qualcomm sc8280xp-based
+> Lenovo Thinkpad 13S.
 > 
-> On November 13, 2024 8:07:42 PM CST, Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> >On Wed, Nov 13, 2024 at 02:44:55AM -0600, Brandon Casey wrote:
-> >> 
-> >> 
-> >> On November 13, 2024 12:46:18 AM CST, Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> >> >On Tue, Nov 12, 2024 at 08:29:05PM -0600, Brandon Casey wrote:
-> >> >> On the Google Pixel chromebook (aka Google Link), the keyboard led
-> >> >> backlight has the ACPI device id "GGL0002".  Let's add it to the
-> >> >> configuration array.
-> >> >
-> >> >Why it can't be matched by "GOOG0002"? [1] 
-> >> 
-> >> I'm not sure I understand this question. On my device the backlight has ACPI id "GGL0002", not "GOOG0002"?
-> >> 
-> >> >Have you tried to update your AP firmware?
-> >> 
-> >> I have not explicitly updated any firmware. It has whatever firmware Chromeos has installed.
-> >
-> >IIUC, if your AP firmware includes patch [1] (submitted in 2015), it should
-> >report "GOOG0002" instead of "GGL0002".
-> >
-> >[1]: https://review.coreboot.org/c/coreboot/+/11478
+> Instead of this delicate dance between drivers and device tree quirks,
+> this change introduces a simple I2C component prober. For any given
+> class of devices on the same I2C bus, it will go through all of them,
+> doing a simple I2C read transfer and see which one of them responds.
+> It will then enable the device that responds.
 > 
-> I can only assume that Google did not ever ship a firmware update for Link that included that patch. I believe this device has all ChromeOS updates applied, so it represents a stock system, though no longer supported, and aside from being in developer mode and having a Linux partition.
+> This requires some minor modifications in the existing device tree.
+> The status for all the device nodes for the component options must be
+> set to "fail-needs-probe". This makes it clear that some mechanism is
+> needed to enable one of them, and also prevents the prober and device
+> drivers running at the same time.
+> 
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Please try to wrap your message to fit to 80-column.  See [2].
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-[2]: https://people.kernel.org/tglx/notes-about-netiquette
 
-> My firmware also reports the acpi device as GGL0001.
-> 
->     $ cat /sys/bus/acpi/devices/GGL000*/hid
->     GGL0001
->     GGL0002
-> 
->     $ cat /sys/bus/acpi/devices/GGL000*/path
->     \CRHW
->     \_SB_.KBLT
-> 
-> Is there any reason why we shouldn't do the same thing here for the keyboard backlight that was done in drivers/platform/chrome/chromeos_acpi.c and support both the legacy ID and the official ACPI ID? I see your commit 703e77134 which added GOOG0016 in addition to GGL0001.
-
-- The most important reason: "GGL0002" is assigned to other purpose.
-- For some reason, your machine is using a quite old firmware.  It makes
-  less sense to me for supporting a should-be-deprecated PNP ID by [1].
-- The case is different from 703e77134.  We prefer HID to PNP ID.

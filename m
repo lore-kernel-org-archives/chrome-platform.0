@@ -1,56 +1,58 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72C415667D
-	for <chrome-platform@lists.linux.dev>; Mon, 18 Nov 2024 09:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E309A191F79
+	for <chrome-platform@lists.linux.dev>; Mon, 18 Nov 2024 09:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731922445; cv=none; b=c2tdIfHBEs24tvst0il8+wU2jD3fQy9V48KeVnDwh0BQq77qHgWHdTeDGljDcnRYi3BJorBu6kShczddlnI8pCOfKP57VIw9FFGX1Ssy6CXkJWNK518Cf9HQvKUjfrU+OT95H/O1apHJ2t8SnPe0BSX+5HOWYVz/4axJWLCfoBU=
+	t=1731922448; cv=none; b=hYEygHQ3IeDocJJfnb/r79xcpOo09UKJe1CG/D5+eLuE1/NqgJVzV4L4iUXgxXgmTQD+LJ8J3e19CapIalrXMUdTXm05Xv4cX4vu8vbQOWONC7bQ7gSlX4hBn5fzDGHi/R7ncGP7ZBROy7jH0MxEaVaDC+9k+rOsy/JPowIpOuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731922445; c=relaxed/simple;
-	bh=mgpxk1Id3EynGOXNWYWN8QXCMTV4djO5BklM9jOek1k=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jyKc5l9/Iiau2C9NkEIv5ZshRs6DF6nZ7vmNp5keBSl3A0PC4GccUb86/83AFdRFe32+JoYevWjg4/oFA8MUgRBKbb0oh4ml5RM+hkbzJGNnKrWgFg0psTl4UddBu7ezlOI9RivkvE8fSVHOQ/417WbaJnYUKYnQSRlwcSb9DkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NaWLKrxU; arc=none smtp.client-ip=209.85.215.170
+	s=arc-20240116; t=1731922448; c=relaxed/simple;
+	bh=mr78STc32F6NVAyA04kXqtWn3/4JDgdZRTo0Intr1/Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=fAsx0wtzbYim4SiJqeycYs0azl/4p70mzOTJ4+ZZYw3HwADKlKHRg9/26/kAn204z0+0MeHh0Xs8aEXhjUCvydzLZOfWAl9WPrCfo9gY6IJpSuL26AqT3vcui0tnvDaf6oF/ikch1t2ucwtuq2RgHAltDUCK+QpLCjiP9RxIuIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mKeu0jMZ; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NaWLKrxU"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7fb632bfc0eso1001882a12.0
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Nov 2024 01:34:03 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mKeu0jMZ"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7ea9739647bso2827712a12.0
+        for <chrome-platform@lists.linux.dev>; Mon, 18 Nov 2024 01:34:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731922443; x=1732527243; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HO5WwwJBXKRwY38AXn2v73LeqlUfbbIi5JSituwuRLU=;
-        b=NaWLKrxUcLyCKzZMvk/t1vteUjpOw7ymrqZ4xy8ntBTLL2K3xXROP3d+ZDiijDqH2V
-         fma1Rx8EgZ0ZSsmv1aWY35DDMUmUgSFiqORP/OFCVqveXxd6qjY/RY0f/hGTTejPowJk
-         LHe84w/bDU318cv5OHZJ9U9UHtUm5L36Et8Xw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731922443; x=1732527243;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1731922445; x=1732527245; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HO5WwwJBXKRwY38AXn2v73LeqlUfbbIi5JSituwuRLU=;
-        b=NuKSon59tJ3JjnnuM+HgR/cBTiQ98kpjinwm+4T0iqbdIIbUz84BbghAzkPkJsd+rU
-         RPSduxGykZxZeh4QjcYUSIvW5i0rfnAcuReUeWO0ERb40vBzzl4qty/vI9uUk8SdEsr3
-         RLZb53lu18UgiAXXZPlR9dRTSgnmJ2MneRPByXhtMbPI/M0yNf29UScfA7jo3pT0V8th
-         t2K+DmfarUDHsu1XCvmXk4CQfTsy0B3b32y2eFrneZVU6LsfZ8UHjOAtT3r6h7TTA1o/
-         z14caQJ5NgzvKdwIEWhbI8UUvLqywdSpgelSsoco0Oz1HyBZsA7d2LhFbNHhfl8cNWVx
-         4HAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUeXxJUYyFUMBD3REsCHpEj8aO8vNLpI121eEfs2y8kjPqVFzDD9KtyK9dLilHCRassR7A69TiXTYkzJReCFGY=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCOHERx7XmCO4/telydMx+iDEZpZe2xOk4pMZ983t9KsyCwOU8
-	03vXgbE4H1m/DgC8Slxmf95oxDyf3zNfZ9qEBZZHYTStR47MHn9mbvsOIqAVtA==
-X-Google-Smtp-Source: AGHT+IGw5paEXgQzTMpgS3LU/sXd+9iUm8nVO94EMaVZJzu1tumWk19RpK5qWPbKJV3j9LEKVSmglg==
-X-Received: by 2002:a05:6a21:99a5:b0:1db:e8dc:4ae1 with SMTP id adf61e73a8af0-1dc90b37d1dmr14645634637.17.1731922443101;
-        Mon, 18 Nov 2024 01:34:03 -0800 (PST)
+        bh=Ks7+zAh8GlNof48UsfJ+LdfKrIBWbtjlmTnt6P9ZM8Q=;
+        b=mKeu0jMZ1wblrKZrypb3iS2fXqQXha8uAyco7ZexeZ5V/Zec8c2bfOMHrppt/gt3kq
+         4sfsZrYWTY4p+eAcZd20GqupJk17GgvbssbhJsiO4XUY/qKyZRWc0BCw5m4IDXVQcOTb
+         5S56JAIe6rwED9HF/W3VheNWbp/1FzWAbynP8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731922445; x=1732527245;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ks7+zAh8GlNof48UsfJ+LdfKrIBWbtjlmTnt6P9ZM8Q=;
+        b=Azxras+V6JdyBCMBC77maripS7CCk45Hx+UNSNLpKOrggD7suEO0CCNUpBtN+as3pO
+         XXx6dkGyf274GSkXPQd2b8+R+rvnvlJtuFBsmBU1pGZsBuKvhawrmP5c4pbFMzz6sDA4
+         B9Bpq9MLRmT0EktXn7wE9/y/bCGOciz7TpTabc6ychk3c4xosWNRERL6GnvDxLBhTCtY
+         4pvAPB4QnlyhOAqv0Ww+aQ/1bS18Z34ik2rEiu/5iCyN2UiYx1V7Q/8g5/KnyMUbk1th
+         po3RN63qrStuTzZ2CTo1J6iJxLS5IlPuW/xn7xa6lJYsB5XrgS3ZbLoStBK8jV+zhXGS
+         cftw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCt8GhIGI7k5uZj6sCeg2AYh4O9Oi3lsbEj7MqPhRTIhEhmIBfttiCO7ovULopp8/hKTVddVMtF0B5yMgS/eQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1unQyOhJWDyHFIJ7wXSocEquW3U/XlIqvDSGdTMwIocsoALIY
+	lzWBwYlu1lTlnd1CxG5zsbFgGN+axrxQwsIJ3RYdtBmw2v7tYyXhVG0oU9D8kw==
+X-Google-Smtp-Source: AGHT+IEJfWkT4rx6TA0lmY/3l1SbBZlpAFbZZ+EhIEzl62OAA3Oe1rd4uNwXlwBQvP/WP4bn+OmVHg==
+X-Received: by 2002:a05:6a20:c896:b0:1dc:bdbd:9017 with SMTP id adf61e73a8af0-1dcbdbd91f4mr150236637.40.1731922445334;
+        Mon, 18 Nov 2024 01:34:05 -0800 (PST)
 Received: from lschyi-p920.tpe.corp.google.com ([2401:fa00:1:10:e40d:fa29:75db:2caa])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e9f1e24ce4sm8333500a91.0.2024.11.18.01.33.59
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e9f1e24ce4sm8333500a91.0.2024.11.18.01.34.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2024 01:34:01 -0800 (PST)
+        Mon, 18 Nov 2024 01:34:04 -0800 (PST)
 From: "Sung-Chi, Li" <lschyi@chromium.org>
-Subject: [PATCH 0/3] Introduce new driver cros-ec-charge-state
-Date: Mon, 18 Nov 2024 17:33:45 +0800
-Message-Id: <20241118-add_charger_state-v1-0-94997079f35a@chromium.org>
+Date: Mon, 18 Nov 2024 17:33:46 +0800
+Subject: [PATCH 1/3] platform/chrome: cros_ec_charge_state: add new driver
+ to control charge
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -59,9 +61,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPkJO2cC/x2MUQqAIBAFrxL7nZBiUV0lQkRftT8Vq0QQ3T3pc
- xhmHkoQRqKxekhwceJjL6DrisLm9xWKY2EyjbFa6175GF0xskJcyj5D9aGJHQbfwrZUulOw8P0
- /p/l9P38eUSVjAAAA
+Message-Id: <20241118-add_charger_state-v1-1-94997079f35a@chromium.org>
+References: <20241118-add_charger_state-v1-0-94997079f35a@chromium.org>
+In-Reply-To: <20241118-add_charger_state-v1-0-94997079f35a@chromium.org>
 To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
  Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -69,52 +71,299 @@ To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
  devicetree@vger.kernel.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1731922438; l=1941;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1731922439; l=8745;
  i=lschyi@chromium.org; s=20241113; h=from:subject:message-id;
- bh=mgpxk1Id3EynGOXNWYWN8QXCMTV4djO5BklM9jOek1k=;
- b=S93M8Qm6z8yVyYooDGPIcBbKFzjnpP4+DusZuTLKwaJP/RewW6uWx2Hsl6ThQzR4hF9LqU7T/
- XFoRe728loECOBi/Arpv+Ily3CpPgxyV1JhMmBNI6jvqJoogu35WUwl
+ bh=mr78STc32F6NVAyA04kXqtWn3/4JDgdZRTo0Intr1/Y=;
+ b=6ULQoZs/+Ku8qgFPy2ll+3sbBufLGITxaWVjTEpjxIL63t2VI1Y0t3aFvm4E40JZQBd1AtoeV
+ eG9syX/9SIPApVJKwygVB32YxlGxhGybsHb1hEf1sacGf5LwTgWwJGU
 X-Developer-Key: i=lschyi@chromium.org; a=ed25519;
  pk=nE3PJlqSK35GdWfB4oVLOwi4njfaUZRhM66HGos9P6o=
 
-There is a battery charger IC connect to the ChromeOS Embedded
-Controller (EC) if that device is configured to work with batteries, and
-EC exposed the application processor with a set of control to limit the
-overall current used for charging and current flow into the system.
+Implement the new platform driver cros_ec_charge_state to have low finer
+control over the charge current flow through the charge chip connected
+on ChromeOS Embedded Controller (EC).
 
-We have seen that the battery charger is one of major thermal budget
-consumer on the device. As such, it would be great that we can limit the
-current running through the battery charger IC, and reserve thermal
-budget for application processor to have more room running in higher
-frequencies.
+The driver reads configured charge chip configurations from the device
+tree, and register these chip controls as thermal zone devices, so they
+are controllable from the thermal subsystem.
 
-There are some existing drivers that can limit the current flow into the
-system, but they either require certain features (e.g., needing ACPI
-supports for cros_charge-control.c, which is only available on x86
-system), and these current limiting mechanisms are achieved via indirect
-configurations (e.g., cros_usbpd-charger.c via setting certain USB PD
-charging profiles). As such, I introduced a new driver that can directly
-manipulate the battery charging current and the system input current.
+As such, corresponding DTS changes are needed, and here is a sample DTS
+configuration:
 
-Signed-off-by: Sung-Chi, Li
+```
+&cros_ec {
+	charge-chip-battery {
+		compatible = "google,cros-ec-charge-state";
+		type = "charge";
+		min-milliamp = <150>;
+		max-milliamp = <5000>;
+	};
+};
+```
+
+Signed-off-by: Sung-Chi, Li <lschyi@chromium.org>
 ---
-Sung-Chi, Li (3):
-      platform/chrome: cros_ec_charge_state: add new driver to control charge
-      dt-bindings: chrome: add new binding google,cros-ec-chrage-state
-      mfd: cros_ec: Add charge state control cell
+ drivers/platform/chrome/Kconfig                |  11 ++
+ drivers/platform/chrome/Makefile               |   1 +
+ drivers/platform/chrome/cros_ec_charge_state.c | 215 +++++++++++++++++++++++++
+ 3 files changed, 227 insertions(+)
 
- .../bindings/chrome/google,cros-charge-state.yaml  |  62 ++++++
- .../devicetree/bindings/mfd/google,cros-ec.yaml    |   4 +
- drivers/mfd/cros_ec_dev.c                          |   9 +
- drivers/platform/chrome/Kconfig                    |  11 ++
- drivers/platform/chrome/Makefile                   |   1 +
- drivers/platform/chrome/cros_ec_charge_state.c     | 215 +++++++++++++++++++++
- 6 files changed, 302 insertions(+)
----
-base-commit: 744cf71b8bdfcdd77aaf58395e068b7457634b2c
-change-id: 20241118-add_charger_state-8c0d6e9a5e45
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index 7dbeb786352a..34d00d8823cb 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -297,6 +297,17 @@ config CROS_TYPEC_SWITCH
+ 	  To compile this driver as a module, choose M here: the module will be
+ 	  called cros_typec_switch.
+ 
++config CROS_CHARGE_STATE
++	tristate "ChromeOS EC Charger Chip  Control"
++	depends on MFD_CROS_EC_DEV
++	default MFD_CROS_EC_DEV
++	help
++	  If you say Y here, you get support for configuring the battery
++	  charging and system input current.
++
++	  To compile this driver as a module, choose M here: the module will be
++	  called cros-ec-charge-state.
++
+ source "drivers/platform/chrome/wilco_ec/Kconfig"
+ 
+ # Kunit test cases
+diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+index 2dcc6ccc2302..01c7154ae119 100644
+--- a/drivers/platform/chrome/Makefile
++++ b/drivers/platform/chrome/Makefile
+@@ -32,6 +32,7 @@ obj-$(CONFIG_CROS_EC_SYSFS)		+= cros_ec_sysfs.o
+ obj-$(CONFIG_CROS_HPS_I2C)		+= cros_hps_i2c.o
+ obj-$(CONFIG_CROS_USBPD_LOGGER)		+= cros_usbpd_logger.o
+ obj-$(CONFIG_CROS_USBPD_NOTIFY)		+= cros_usbpd_notify.o
++obj-$(CONFIG_CROS_CHARGE_STATE)		+= cros_ec_charge_state.o
+ 
+ obj-$(CONFIG_WILCO_EC)			+= wilco_ec/
+ 
+diff --git a/drivers/platform/chrome/cros_ec_charge_state.c b/drivers/platform/chrome/cros_ec_charge_state.c
+new file mode 100644
+index 000000000000..3fed5b48bc92
+--- /dev/null
++++ b/drivers/platform/chrome/cros_ec_charge_state.c
+@@ -0,0 +1,215 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Charge state driver for ChromeOS Embedded Controller
++ *
++ * Copyright 2024 Google LLC
++ *
++ * This driver exports the low level control over charge chip connected to EC
++ * which allows to manipulate the current used to charge the battery, and also
++ * manipulate the current input to the whole system.
++ * This driver also registers that charge chip as a thermal cooling device.
++ */
++
++#include <linux/of.h>
++#include <linux/platform_data/cros_ec_commands.h>
++#include <linux/platform_data/cros_ec_proto.h>
++#include <linux/platform_device.h>
++#include <linux/thermal.h>
++
++#define DRV_NAME "cros-ec-charge-state"
++#define CHARGE_TYPE_CHARGE "charge"
++#define CHARGE_TYPE_INPUT "input"
++
++struct cros_ec_charge_state_data {
++	struct cros_ec_device *ec_dev;
++	struct device *dev;
++	enum charge_state_params charge_type;
++	uint32_t min_milliamp;
++	uint32_t max_milliamp;
++};
++
++static int
++cros_ec_charge_state_get_current_limit(struct cros_ec_device *ec_dev,
++				       enum charge_state_params charge_type,
++				       uint32_t *limit)
++{
++	struct ec_params_charge_state param;
++	struct ec_response_charge_state state;
++	int ret;
++
++	param.cmd = CHARGE_STATE_CMD_GET_PARAM;
++	param.get_param.param = charge_type;
++	ret = cros_ec_cmd(ec_dev, 0, EC_CMD_CHARGE_STATE, &param, sizeof(param),
++			  &state, sizeof(state));
++	if (ret < 0)
++		return ret;
++
++	*limit = cpu_to_le32(state.get_param.value);
++	return 0;
++}
++
++static int
++cros_ec_charge_state_set_current_limit(struct cros_ec_device *ec_dev,
++				       enum charge_state_params charge_type,
++				       uint32_t limit)
++{
++	struct ec_params_charge_state param;
++	int ret;
++
++	param.cmd = CHARGE_STATE_CMD_SET_PARAM;
++	param.set_param.param = charge_type;
++	param.set_param.value = cpu_to_le32(limit);
++	ret = cros_ec_cmd(ec_dev, 0, EC_CMD_CHARGE_STATE, &param, sizeof(param),
++			  NULL, 0);
++	return (ret < 0) ? ret : 0;
++}
++
++static int
++cros_ec_charge_state_get_max_state(struct thermal_cooling_device *cdev,
++				   unsigned long *state)
++{
++	struct cros_ec_charge_state_data *data = cdev->devdata;
++	*state = data->max_milliamp;
++	return 0;
++}
++
++static int
++cros_ec_charge_state_get_cur_state(struct thermal_cooling_device *cdev,
++				   unsigned long *state)
++{
++	struct cros_ec_charge_state_data *data = cdev->devdata;
++	uint32_t limit;
++	int ret;
++
++	ret = cros_ec_charge_state_get_current_limit(data->ec_dev,
++						     data->charge_type, &limit);
++	if (ret) {
++		dev_err(data->dev, "failed to get current state: %d", ret);
++		return ret;
++	}
++
++	*state = data->max_milliamp - limit;
++	return 0;
++}
++
++static int
++cros_ec_charge_state_set_cur_state(struct thermal_cooling_device *cdev,
++				   unsigned long state)
++{
++	struct cros_ec_charge_state_data *data = cdev->devdata;
++	uint32_t limit = data->max_milliamp - state;
++
++	if (limit < data->min_milliamp) {
++		dev_warn(
++			data->dev,
++			"failed to set current %u lower than minimum %d; set to minimum",
++			limit, data->min_milliamp);
++		limit = data->min_milliamp;
++	}
++
++	state = data->max_milliamp - limit;
++	return cros_ec_charge_state_set_current_limit(
++		data->ec_dev, data->charge_type, (uint32_t)state);
++}
++
++static const struct thermal_cooling_device_ops
++	cros_ec_charge_state_cooling_device_ops = {
++		.get_max_state = cros_ec_charge_state_get_max_state,
++		.get_cur_state = cros_ec_charge_state_get_cur_state,
++		.set_cur_state = cros_ec_charge_state_set_cur_state,
++	};
++
++static int
++cros_ec_charge_state_register_charge_chip(struct device *dev,
++					  struct device_node *node,
++					  struct cros_ec_device *cros_ec)
++{
++	struct cros_ec_charge_state_data *data;
++	struct thermal_cooling_device *cdev;
++	const char *type_val = NULL;
++	int ret;
++
++	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	ret = of_property_read_string(node, "type", &type_val);
++	if (ret) {
++		dev_err(dev, "failed to get charge type: %d", ret);
++		return ret;
++	}
++
++	if (!strcmp(type_val, CHARGE_TYPE_CHARGE)) {
++		data->charge_type = CS_PARAM_CHG_CURRENT;
++	} else if (!strcmp(type_val, CHARGE_TYPE_INPUT)) {
++		data->charge_type = CS_PARAM_CHG_INPUT_CURRENT;
++	} else {
++		dev_err(dev, "unknown charge type: %s", type_val);
++		return -1;
++	}
++
++	ret = of_property_read_u32(node, "min-milliamp", &data->min_milliamp);
++	if (ret) {
++		dev_err(dev, "failed to get min-milliamp data: %d", ret);
++		return ret;
++	}
++
++	ret = of_property_read_u32(node, "max-milliamp", &data->max_milliamp);
++	if (ret) {
++		dev_err(dev, "failed to get max-milliamp data: %d", ret);
++		return ret;
++	}
++
++	data->ec_dev = cros_ec;
++	data->dev = dev;
++
++	cdev = devm_thermal_of_cooling_device_register(
++		dev, node, node->name, data,
++		&cros_ec_charge_state_cooling_device_ops);
++	if (IS_ERR_VALUE(cdev)) {
++		dev_err(dev,
++			"failed to register charge chip %s as cooling device: %pe",
++			node->name, cdev);
++		return PTR_ERR(cdev);
++	}
++
++	return 0;
++}
++
++static int cros_ec_charge_state_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
++	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
++	struct device_node *child;
++
++	for_each_available_child_of_node(cros_ec->dev->of_node, child) {
++		if (!of_device_is_compatible(child,
++					     "google,cros-ec-charge-state"))
++			continue;
++		if (cros_ec_charge_state_register_charge_chip(dev, child,
++							      cros_ec))
++			continue;
++	}
++
++	return 0;
++}
++
++static const struct platform_device_id cros_ec_charge_state_id[] = {
++	{ DRV_NAME,  0 },
++	{}
++};
++
++static struct platform_driver cros_ec_chargedev_driver = {
++	.driver = {
++		.name = DRV_NAME,
++	},
++	.probe = cros_ec_charge_state_probe,
++};
++
++module_platform_driver(cros_ec_chargedev_driver);
++
++MODULE_DEVICE_TABLE(platform, cros_ec_charge_state_id);
++MODULE_DESCRIPTION("ChromeOS EC Charge State Driver");
++MODULE_AUTHOR("Sung-Chi, Li <lschyi@chromium.org>");
++MODULE_LICENSE("GPL");
 
-Best regards,
 -- 
-Sung-Chi, Li <lschyi@chromium.org>
+2.47.0.338.g60cca15819-goog
 

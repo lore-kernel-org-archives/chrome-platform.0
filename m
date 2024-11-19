@@ -1,34 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF2C1E7655;
-	Mon, 18 Nov 2024 20:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B66919ABCE
+	for <chrome-platform@lists.linux.dev>; Tue, 19 Nov 2024 02:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731961522; cv=none; b=SEu+532BDyPAMOAY/3fVhJGrulpAFKyjfhETfvu9kuOjHIHgk007iUakfdrLlWYuRFfERnne2FzVhyDsGlYQ6Urq2XZrszZTf8hf+NZ6tHLsuKU/TDkU3VXJd9t8Mvm86uvociNBES1Nd7owTZd8UW97RTuN+zSrpEM/rCLXvgw=
+	t=1731983004; cv=none; b=pBuKtuTIG+/0fxpwsx4Qqugm4WsGmL3NQC5Rqhmx3kfBqx5UPVVgK74D1xX1x4R0pl2mtfaGMixmiUyCMOr37npxS+Vj9K455pVYjovVLss3viNmvAXjCTk7QlilG4a/+jNJ0GrNDtuM5GR4CEJnTqJcEfqSe8bK7HJ3JCrdTBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731961522; c=relaxed/simple;
-	bh=tHTvg4MfuD+UxaEmJVzZwhlcaSNbdm8PdeBvNrw1sYA=;
+	s=arc-20240116; t=1731983004; c=relaxed/simple;
+	bh=4MusnTHOvGCXbl0nkaIvWiNeJ03CAQCB33OcASeipXM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=quqJorc3rJ7qQ4uinY9bline7F9npsWNasvPeb0ctQOyzsgNFHzcM+GNt9X3jrTvubL+YelXhZQirmrjAhQXjBwGslrPa/IHkidBCUKRm4xLrt5W8aJCV3KSjLtkEwdIScJuXjTWX5N659DdjNPz0cC5QiXDg+rfQjI5Ivb1s10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VbEEmDcR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=f6gqZwTkcaDKfa/tin29PqKW8lXHvlxDKSEGRKAU5VjselY/7tZ5jiDRH/JuQAtgjXu8cVQsT3zr+pYRXsmQfVUKiMBuD2kHtPInJ10M0rT2S8N5xD8ZWAihsKdJ/wabF4QdZZfYImuvtlumiYEgIMPeT5AqK3XQPTZyfNquoG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ei6gmwJ7; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbEEmDcR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F60EC4CECC;
-	Mon, 18 Nov 2024 20:25:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731961522;
-	bh=tHTvg4MfuD+UxaEmJVzZwhlcaSNbdm8PdeBvNrw1sYA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VbEEmDcR622t8z5N/L+cdxuOQUuf+bI5nBCT2ZK4uq0PdiDd94qlJVYrRJRSe6LFb
-	 y+KiQ5JTETwyW0HsQd647uSPD8izpVIUy1wVfo2+7caCkMjdEihMO9Il3mxuH+KOCw
-	 41G0lVqpUl7Rs7Eb8H2+yxXkSdyQ8JAWx6WbuCy89qRYjhRpBElK5rASzCSVWorJaI
-	 VCvsm3eTnlgkw1A2WC6lx9nJ8lmmtbO3pYa+SFtaKZ/AaP1fwqwHxUlplcWs4IftQy
-	 jCKFptgrwu6XegkJb+whbNThFRri0/y14O2iDmQ3Xlb0pEraHr+eTDbd9EwGLOrdil
-	 HOyUcN7b4Zq/w==
-Date: Mon, 18 Nov 2024 14:25:20 -0600
-From: Rob Herring <robh@kernel.org>
-To: "Sung-Chi, Li" <lschyi@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ei6gmwJ7"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7242f559a9fso434914b3a.1
+        for <chrome-platform@lists.linux.dev>; Mon, 18 Nov 2024 18:23:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1731983002; x=1732587802; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jHJ+VpcRmwxKu5/WPIGwQSIP5WqAzHzgd6c/ZcREfjA=;
+        b=ei6gmwJ7btwcqApBPT6TFT5aSzB7ns8IZMVOd7ZdSPxvoXLtsZVKgJ4pANEwWXTNxY
+         yZ348cPzIhqoD6itSynvRyBRQ2iXYCUbKvfmxRBVzbFh+YdsWZEIwBDf1JPT2N1QKKT+
+         q+0ImBPX+aOy6Q3rvj+AtnKCuvGal2ewctZE4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731983002; x=1732587802;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jHJ+VpcRmwxKu5/WPIGwQSIP5WqAzHzgd6c/ZcREfjA=;
+        b=c9bILOsP4Ov0Z6VZGdpoQSOwxpOcdi54zXlosNNtyfaGU5UMLCKX4tIlShACJfjSoQ
+         7nC+UPBg4NsnpLEmaNY7+bDLAwlsEHK/+7ByOhFWZqBUiNRTv9g38FPkX6IV2dJXi+jG
+         OcSdqD6fkA2P5knT26HIH+IZ30WZm7K5ENG3N/s133dDO2kHXiYd4IVr/14HOqw1tVtM
+         Z+F+mwHv925LymsVUtxYfmSp4c2NWtEAXyOPPLSmRAbypIwe5Et1gS0+KzAdj+2A4cik
+         PJGTDXp9r0AV/gw+ba1nP2bMfbbw+STSnzlEp8Kje1YYTT4SV6poneN+MDkhDMn00OgQ
+         PXwg==
+X-Forwarded-Encrypted: i=1; AJvYcCV50MyV94mtf1bJmevZze2suhtUS8QYg4B5zVsS7lOvOyXhlD+1FmxRLyEHKleuy9hsdxPcz/6ZPScy+7dFVjY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzqSI2GvdDb5dIZgaJPvzCGk51QPXGhedXsUBuusm0pa6xl0h6w
+	fTeYNR3QBM2pAW7Y6T01ZY0fIPhda4aBbxH384KUoUnMUPr8OjiJP38JDLKgaQ==
+X-Google-Smtp-Source: AGHT+IE78YUZbFTKrDWhSwPmB097Wk4a1j0g9tpeUAlr5hwezpZ0+bopaS9Y3Pj44h7ylBGk5x8F3A==
+X-Received: by 2002:aa7:88cf:0:b0:71e:5150:61d6 with SMTP id d2e1a72fcca58-72476d58a6dmr19963818b3a.21.1731983001735;
+        Mon, 18 Nov 2024 18:23:21 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:e40d:fa29:75db:2caa])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724771e1a69sm7123889b3a.141.2024.11.18.18.23.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2024 18:23:21 -0800 (PST)
+Date: Tue, 19 Nov 2024 10:23:18 +0800
+From: "Sung-Chi, Li" <lschyi@chromium.org>
+To: Rob Herring <robh@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -37,9 +59,10 @@ Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
 	devicetree@vger.kernel.org
 Subject: Re: [PATCH 2/3] dt-bindings: chrome: add new binding
  google,cros-ec-chrage-state
-Message-ID: <20241118202520.GA3273373-robh@kernel.org>
+Message-ID: <Zzv2ltfXqaW-2ALm@google.com>
 References: <20241118-add_charger_state-v1-0-94997079f35a@chromium.org>
  <20241118-add_charger_state-v1-2-94997079f35a@chromium.org>
+ <20241118202520.GA3273373-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -48,120 +71,71 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241118-add_charger_state-v1-2-94997079f35a@chromium.org>
+In-Reply-To: <20241118202520.GA3273373-robh@kernel.org>
 
-On Mon, Nov 18, 2024 at 05:33:47PM +0800, Sung-Chi, Li wrote:
-> Add new dt bindings for charge chip control. The charge chip control
-> dt configuration is used by the driver 'cros-ec-charge-state', which is
-> added in the commit "platform/chrome: cros_ec_charge_state: add new
-> driver to control charge".
+On Mon, Nov 18, 2024 at 02:25:20PM -0600, Rob Herring wrote:
+> > +properties:
+> > +  compatible:
+> > +    const: google,cros-ec-charge-state
+> > +
+> > +  min-milliamp:
+> > +    description: min current in milliamp.
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +
+> > +  max-milliamp:
+> > +    description: max current in milliamp.
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
 > 
-> As these charge chip controls are connected under the ChromeOS Embedded
-> Controller (EC), also add the patternProperties to the
-> mfd/google,cros-ec bindings.
+> Use standard units defined in property-units.yaml.
 > 
-> Signed-off-by: Sung-Chi, Li <lschyi@chromium.org>
-> ---
->  .../bindings/chrome/google,cros-charge-state.yaml  | 62 ++++++++++++++++++++++
->  .../devicetree/bindings/mfd/google,cros-ec.yaml    |  4 ++
->  2 files changed, 66 insertions(+)
+> No constraints? 4000000 amps is okay?
 > 
-> diff --git a/Documentation/devicetree/bindings/chrome/google,cros-charge-state.yaml b/Documentation/devicetree/bindings/chrome/google,cros-charge-state.yaml
-> new file mode 100644
-> index 000000000000..40e8f6988769
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/chrome/google,cros-charge-state.yaml
-> @@ -0,0 +1,62 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/chrome/google,cros-charge-state.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Google Chrome OS EC(Embedded Controller) charge state driver.
-> +
-> +maintainers:
-> +  - Sung-Chi, Li <lschyi@chromium.org>
-> +
-> +description:
-> +  Chrome OS devices have an Embedded Controller(EC) which has access to
-> +  battery charger IC. This node is intended to allow the host to read and
-> +  control the charger current. The node for this device should be under a
-> +  cros-ec node like google,cros-ec-spi.
-> +
-> +properties:
-> +  compatible:
-> +    const: google,cros-ec-charge-state
-> +
-> +  min-milliamp:
-> +    description: min current in milliamp.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  max-milliamp:
-> +    description: max current in milliamp.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
 
-Use standard units defined in property-units.yaml.
+Hi, I cannot find a good value as the max value, the will depend on what charge
+chip is used on that device. This is like a upper bound set from the kernel
+side, so setting it to the max uint32 value is acceptable (from the driver side
+when loading this config), not the desired current value. It is equivalent to
+kernel side do not specify any constraint. Surely, if kernel set a value that is
+larger than the max value, the EC will reject that request, either. The real
+current is bounded by the EC and the charge chip, so it will not damage any
+hardware.
+If we can find a meaningful constraint value to document it here, that would be
+great.
 
-No constraints? 4000000 amps is okay?
+Would it be sufficient that I add the explanation to the description?
 
-> +
-> +  type:
-
-Too generic. Property types are global. You need a vendor prefix for 
-starters.
-
-> +    description: current limit type.
-> +    enum:
-> +      - charge
-> +      - input
-
-What if you need to describe both?
-
-> +
-> +required:
-> +  - compatible
-> +  - min-milliamp
-> +  - man-milliamp
-> +  - type
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |+
-> +    spi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      cros_ec: ec@0 {
-> +        compatible = "google,cros-ec-spi";
-> +        reg = <0>;
-> +        interrupts = <35 0>;
-> +
-> +        charge_chip_battery_current: charge-chip-battery {
-> +          compatible = "google,cros-ec-charge";
-> +          type = "charge";
-> +          min-milliamp = <150>;
-> +          max-milliamp = <5000>;
-> +        };
-> +      };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> index aac8819bd00b..3db4a48d5176 100644
-> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> @@ -166,6 +166,10 @@ patternProperties:
->      type: object
->      $ref: /schemas/extcon/extcon-usbc-cros-ec.yaml#
->  
-> +  "^charge-chip-*":
-> +    type: object
-> +    $ref: /schemas/chrome/google,cros-charge-state.yaml#
-> +
->  required:
->    - compatible
->  
+> > +
+> > +  type:
 > 
-> -- 
-> 2.47.0.338.g60cca15819-goog
+> Too generic. Property types are global. You need a vendor prefix for 
+> starters.
 > 
+
+Thank you, I will use a more specific name in the following patches.
+
+> > +    description: current limit type.
+> > +    enum:
+> > +      - charge
+> > +      - input
+> 
+> What if you need to describe both?
+> 
+
+We need to declare different DTS nods for each. This node is representing the
+constraint, not the charge chip itself.
+The voltage, min and max milliamp on each current type are different on a single
+charge chip. For example, I have a device that uses the charge chip rt9490, and
+it has the following set up:
+
+- Input current
+  - min-milliamp: 100
+  - max-milliamp: 3300
+- Charge current
+  - min-milliamp: 150
+  - max-milliamp: 5000
+
+I cannot find a clean way to merge different current type, max, and min milliamp
+just in a single DTS node.
+Also, we need to split different constraints into its own DTS node. It is
+because the a cooling device in the thermal framework need its own DTS node, so
+we can use it in the trip section.

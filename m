@@ -1,141 +1,63 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B66919ABCE
-	for <chrome-platform@lists.linux.dev>; Tue, 19 Nov 2024 02:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B6E1448DC;
+	Tue, 19 Nov 2024 19:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731983004; cv=none; b=pBuKtuTIG+/0fxpwsx4Qqugm4WsGmL3NQC5Rqhmx3kfBqx5UPVVgK74D1xX1x4R0pl2mtfaGMixmiUyCMOr37npxS+Vj9K455pVYjovVLss3viNmvAXjCTk7QlilG4a/+jNJ0GrNDtuM5GR4CEJnTqJcEfqSe8bK7HJ3JCrdTBw=
+	t=1732043181; cv=none; b=ApEdkWKC8xPPTAuMx1YDMUy3E8NvuuvJWTfZvbmJt+YbIEruSGSeZTYsn9ljlK/9pTxI2aVSS8zU4lX3aWXY7Lt39kj3hv+FUE2h3cMv5lGurdy89yXpFrnnNpNtMrUWaf7pu32zfazhpMcMpe+TCCoKe5vujP8O9Luw72O556g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731983004; c=relaxed/simple;
-	bh=4MusnTHOvGCXbl0nkaIvWiNeJ03CAQCB33OcASeipXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f6gqZwTkcaDKfa/tin29PqKW8lXHvlxDKSEGRKAU5VjselY/7tZ5jiDRH/JuQAtgjXu8cVQsT3zr+pYRXsmQfVUKiMBuD2kHtPInJ10M0rT2S8N5xD8ZWAihsKdJ/wabF4QdZZfYImuvtlumiYEgIMPeT5AqK3XQPTZyfNquoG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ei6gmwJ7; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1732043181; c=relaxed/simple;
+	bh=LA8Ak7H2nGzpe2rXm5lB3uvhIo1Z3o91f4GSB189rQs=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=uW4tvrTmm7H+7rjV3R782wk46Q26n3lxcZaGTMl5IQqETMuj7STRxLEFWd80jF12XD2d4blgmVDYb7fGbSTPWZi08MJWijqR/QVjZVJUOfE2g+k2vNV7CLhalD6T6wL0UkNtejNL/V+YbyK0j18OgUG6So6XNn4Wiwh4mhbFg7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ki/ZECPb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ei6gmwJ7"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7242f559a9fso434914b3a.1
-        for <chrome-platform@lists.linux.dev>; Mon, 18 Nov 2024 18:23:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1731983002; x=1732587802; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jHJ+VpcRmwxKu5/WPIGwQSIP5WqAzHzgd6c/ZcREfjA=;
-        b=ei6gmwJ7btwcqApBPT6TFT5aSzB7ns8IZMVOd7ZdSPxvoXLtsZVKgJ4pANEwWXTNxY
-         yZ348cPzIhqoD6itSynvRyBRQ2iXYCUbKvfmxRBVzbFh+YdsWZEIwBDf1JPT2N1QKKT+
-         q+0ImBPX+aOy6Q3rvj+AtnKCuvGal2ewctZE4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731983002; x=1732587802;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jHJ+VpcRmwxKu5/WPIGwQSIP5WqAzHzgd6c/ZcREfjA=;
-        b=c9bILOsP4Ov0Z6VZGdpoQSOwxpOcdi54zXlosNNtyfaGU5UMLCKX4tIlShACJfjSoQ
-         7nC+UPBg4NsnpLEmaNY7+bDLAwlsEHK/+7ByOhFWZqBUiNRTv9g38FPkX6IV2dJXi+jG
-         OcSdqD6fkA2P5knT26HIH+IZ30WZm7K5ENG3N/s133dDO2kHXiYd4IVr/14HOqw1tVtM
-         Z+F+mwHv925LymsVUtxYfmSp4c2NWtEAXyOPPLSmRAbypIwe5Et1gS0+KzAdj+2A4cik
-         PJGTDXp9r0AV/gw+ba1nP2bMfbbw+STSnzlEp8Kje1YYTT4SV6poneN+MDkhDMn00OgQ
-         PXwg==
-X-Forwarded-Encrypted: i=1; AJvYcCV50MyV94mtf1bJmevZze2suhtUS8QYg4B5zVsS7lOvOyXhlD+1FmxRLyEHKleuy9hsdxPcz/6ZPScy+7dFVjY=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzqSI2GvdDb5dIZgaJPvzCGk51QPXGhedXsUBuusm0pa6xl0h6w
-	fTeYNR3QBM2pAW7Y6T01ZY0fIPhda4aBbxH384KUoUnMUPr8OjiJP38JDLKgaQ==
-X-Google-Smtp-Source: AGHT+IE78YUZbFTKrDWhSwPmB097Wk4a1j0g9tpeUAlr5hwezpZ0+bopaS9Y3Pj44h7ylBGk5x8F3A==
-X-Received: by 2002:aa7:88cf:0:b0:71e:5150:61d6 with SMTP id d2e1a72fcca58-72476d58a6dmr19963818b3a.21.1731983001735;
-        Mon, 18 Nov 2024 18:23:21 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:e40d:fa29:75db:2caa])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724771e1a69sm7123889b3a.141.2024.11.18.18.23.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2024 18:23:21 -0800 (PST)
-Date: Tue, 19 Nov 2024 10:23:18 +0800
-From: "Sung-Chi, Li" <lschyi@chromium.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: chrome: add new binding
- google,cros-ec-chrage-state
-Message-ID: <Zzv2ltfXqaW-2ALm@google.com>
-References: <20241118-add_charger_state-v1-0-94997079f35a@chromium.org>
- <20241118-add_charger_state-v1-2-94997079f35a@chromium.org>
- <20241118202520.GA3273373-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ki/ZECPb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E70C2C4CECF;
+	Tue, 19 Nov 2024 19:06:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732043181;
+	bh=LA8Ak7H2nGzpe2rXm5lB3uvhIo1Z3o91f4GSB189rQs=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=Ki/ZECPbpfp5qSZ9zSfE4RJyv+EPAS1rdL3cK3BX+Hc6hglaQjJg3rxYkywL4L4LH
+	 m32DEo59lkPEmtCyZvD7dowesAKVCcGm8S8JxCfABrRI4Ypu9OQq9nKTHI1CD50Ceg
+	 Kjtfe13StUTtYirBHAJq0TAbrQTC0jJ3jWqNyTDn/E//iPdaDiKvYf+U7H1MQcQz+E
+	 spNHWtoPQIzX0Jefko1KyDTe8wTd86fnUUIaAAh+B95DsQJaI6uiNHBRoa4U7mMG+9
+	 Qe4DO3sv8bu1buu/pQBMtzaaFlt6MSwTAH9rTfOcKo1yjGEltsimG6Wl+NplTN3wQJ
+	 BVJ9XYiQu8dbQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE47C3809A80;
+	Tue, 19 Nov 2024 19:06:33 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform changes for v6.13
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ZzqLCvx94JhkBmEP@google.com>
+References: <ZzqLCvx94JhkBmEP@google.com>
+X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
+X-PR-Tracked-Message-Id: <ZzqLCvx94JhkBmEP@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-for-6.13
+X-PR-Tracked-Commit-Id: ea45f3f46734a47bdbcfb31f41748484219d2ea6
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 78516f4aefff408bdc2e867b996065279c5dc89a
+Message-Id: <173204319234.653509.1783402739716067882.pr-tracker-bot@kernel.org>
+Date: Tue, 19 Nov 2024 19:06:32 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, pmalani@chromium.org, bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241118202520.GA3273373-robh@kernel.org>
 
-On Mon, Nov 18, 2024 at 02:25:20PM -0600, Rob Herring wrote:
-> > +properties:
-> > +  compatible:
-> > +    const: google,cros-ec-charge-state
-> > +
-> > +  min-milliamp:
-> > +    description: min current in milliamp.
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +
-> > +  max-milliamp:
-> > +    description: max current in milliamp.
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> 
-> Use standard units defined in property-units.yaml.
-> 
-> No constraints? 4000000 amps is okay?
-> 
+The pull request you sent on Mon, 18 Nov 2024 00:32:10 +0000:
 
-Hi, I cannot find a good value as the max value, the will depend on what charge
-chip is used on that device. This is like a upper bound set from the kernel
-side, so setting it to the max uint32 value is acceptable (from the driver side
-when loading this config), not the desired current value. It is equivalent to
-kernel side do not specify any constraint. Surely, if kernel set a value that is
-larger than the max value, the EC will reject that request, either. The real
-current is bounded by the EC and the charge chip, so it will not damage any
-hardware.
-If we can find a meaningful constraint value to document it here, that would be
-great.
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-for-6.13
 
-Would it be sufficient that I add the explanation to the description?
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/78516f4aefff408bdc2e867b996065279c5dc89a
 
-> > +
-> > +  type:
-> 
-> Too generic. Property types are global. You need a vendor prefix for 
-> starters.
-> 
+Thank you!
 
-Thank you, I will use a more specific name in the following patches.
-
-> > +    description: current limit type.
-> > +    enum:
-> > +      - charge
-> > +      - input
-> 
-> What if you need to describe both?
-> 
-
-We need to declare different DTS nods for each. This node is representing the
-constraint, not the charge chip itself.
-The voltage, min and max milliamp on each current type are different on a single
-charge chip. For example, I have a device that uses the charge chip rt9490, and
-it has the following set up:
-
-- Input current
-  - min-milliamp: 100
-  - max-milliamp: 3300
-- Charge current
-  - min-milliamp: 150
-  - max-milliamp: 5000
-
-I cannot find a clean way to merge different current type, max, and min milliamp
-just in a single DTS node.
-Also, we need to split different constraints into its own DTS node. It is
-because the a cooling device in the thermal framework need its own DTS node, so
-we can use it in the trip section.
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

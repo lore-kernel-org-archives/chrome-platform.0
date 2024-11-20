@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752DF145335;
-	Wed, 20 Nov 2024 16:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B49F145335;
+	Wed, 20 Nov 2024 16:37:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732120520; cv=none; b=p1jSptWfFDp/Vyzv7OzHR4DWCMkWNcU7Rs0iiq8AK0mxJE10FTxTY6AZ1I1KdanxZ1GJicXc1KsEEFaG+VnmDwcJyWDemfUoYW+nuB0/KS42of2RAdg9ZyKJJgRsAAUJFPqhGnXFKzyQP4WSxgHhGi5NfpHwQSRe8WMRM4mstoQ=
+	t=1732120662; cv=none; b=Cgr13CXGd6aSW949JSvi6sQ+gv8vUWrNji2UZEAmCbHhlaoezrVejlb6iGP8sEQw3up3/Q5QTQdFR/tLG6LPI2cgzG/hZuUcn8bVuaPQC3VhsxeJCdYy0fZV8Rc9X+6zlYvMkhKzadIcymMZ2mtvFrwfAWPj/9GddUTFTVT8zo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732120520; c=relaxed/simple;
-	bh=wrXCT/Qct4r92/jjtAU5YdXOU1Gry2h2bLHzjvDI8D8=;
+	s=arc-20240116; t=1732120662; c=relaxed/simple;
+	bh=MseR2j5hxTqT7Bar0/xqOpVboZgTwU8i2w8NcRlv5s4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FkFFHRi2lFVKUD/DzmI6g6rI75OOGDE0ls9SQbKG2zK8nulRnV4lPpxypa2QNRHEBeUhY6r2lgFtKTlLOlY13kfD2E9TS3v9gEU45SY2rGqjrusTCytqE1EvbhlXYixcozBdt9usfXo9oagnGzLaKSl3jxleiMqM5/Um5LbstWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDuCqdcx; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=jPeemz/rZSIOYC+VNenkSWlXPAMrAtOXuxjKCGkVKn5vMXWkYQ/SRYKLI+JYKp2w6RimBX0FOg7VE5SqjuDECgVlqUHHZkWMhPR02+Sx12vEH1hKqINUG5G/QtRX6YY6NblQmRXgkNgCzxsL7NijRs/GUTslKlde/8VG9vYAh+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMWSIgVt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDuCqdcx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 326F8C4CECE;
-	Wed, 20 Nov 2024 16:35:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMWSIgVt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 851C4C4CECD;
+	Wed, 20 Nov 2024 16:37:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732120519;
-	bh=wrXCT/Qct4r92/jjtAU5YdXOU1Gry2h2bLHzjvDI8D8=;
+	s=k20201202; t=1732120660;
+	bh=MseR2j5hxTqT7Bar0/xqOpVboZgTwU8i2w8NcRlv5s4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hDuCqdcx0ELUmUkYhONpIEevkQq04Tda9d2bNHkhXRistY0ZwdVffE2pims5pBaKR
-	 9MnFCvDM+bBuyLT4EuYJ5yKcOF49rPxmojXeZcN0TGsuYOVKTDTJe7E25XTMwT1TIp
-	 EhS5j/6xt8RVPR3kW2IoVuB90/tEvoecl9zKxNdgpIfIDbuoKdZ1oeP+vZtWlWqTmf
-	 IH4NN3w9KXd/FCAADkO3itJjReyGA30TTuswN+A0bXgOJy6zEC1hmILZsL/DsP7/Bv
-	 ycy9b2zEYrqPBIqk+DT3RBYNZLEV+vFqq7uQLNXGgGmdMIvadPbxtqg++XI2hhbzqh
-	 aiJt2LCp92JVg==
-Message-ID: <caafbc83-22de-4699-a126-e5df13866f1b@kernel.org>
-Date: Wed, 20 Nov 2024 17:35:13 +0100
+	b=QMWSIgVtcGml1aPdZ8hbOIM8g+T6EZigJrY91VWtxzfGrgTEgfs+N/9Q2lJ7Q7CFR
+	 lAEj9x9KchamdtSrvmPoNr2j88sALwzOqLjzyboLP0YFYRomvvphV/rS/oQ4JgwCBA
+	 ukSSjv44S3Dga/7oC+dHk7ycPqFyi6hUtQ9iSba2MViNzm3W7JpikZWu6F3X0TQ5ya
+	 aDWo7X3DGMUYnypoLi9K4W5ml13uSk8aWKcR/wxLu5zeyDSqHlHs3lMfjQ+4YE8vgj
+	 oro5JY5/u28wVHXb8aUkZNV9PoW1EGh07jAS27Y5dXeEwrcLxxFsSs1fMnyzy05lJt
+	 JHhl+JH//QFsA==
+Message-ID: <ecf58f72-39b9-4e9d-a2bb-8cc225b4f875@kernel.org>
+Date: Wed, 20 Nov 2024 17:37:34 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -37,15 +37,14 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/3] dt-bindings: chrome: add new binding
  google,cros-ec-chrage-state
-To: "Sung-Chi, Li" <lschyi@chromium.org>, Rob Herring <robh@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, devicetree@vger.kernel.org
+To: "Sung-Chi, Li" <lschyi@chromium.org>, Benson Leung <bleung@chromium.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ devicetree@vger.kernel.org
 References: <20241118-add_charger_state-v1-0-94997079f35a@chromium.org>
  <20241118-add_charger_state-v1-2-94997079f35a@chromium.org>
- <20241118202520.GA3273373-robh@kernel.org> <Zzv2ltfXqaW-2ALm@google.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,60 +90,64 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <Zzv2ltfXqaW-2ALm@google.com>
+In-Reply-To: <20241118-add_charger_state-v1-2-94997079f35a@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 19/11/2024 03:23, Sung-Chi, Li wrote:
+On 18/11/2024 10:33, Sung-Chi, Li wrote:
+> Add new dt bindings for charge chip control. The charge chip control
+> dt configuration is used by the driver 'cros-ec-charge-state', which is
+> added in the commit "platform/chrome: cros_ec_charge_state: add new
+> driver to control charge".
 > 
->>> +
->>> +  type:
->>
->> Too generic. Property types are global. You need a vendor prefix for 
->> starters.
->>
+> As these charge chip controls are connected under the ChromeOS Embedded
+> Controller (EC), also add the patternProperties to the
+> mfd/google,cros-ec bindings.
 > 
-> Thank you, I will use a more specific name in the following patches.
+> Signed-off-by: Sung-Chi, Li <lschyi@chromium.org>
+> ---
+>  .../bindings/chrome/google,cros-charge-state.yaml  | 62 ++++++++++++++++++++++
+>  .../devicetree/bindings/mfd/google,cros-ec.yaml    |  4 ++
+>  2 files changed, 66 insertions(+)
 > 
->>> +    description: current limit type.
->>> +    enum:
->>> +      - charge
->>> +      - input
->>
->> What if you need to describe both?
->>
-> 
-> We need to declare different DTS nods for each. This node is representing the
-> constraint, not the charge chip itself.
+> diff --git a/Documentation/devicetree/bindings/chrome/google,cros-charge-state.yaml b/Documentation/devicetree/bindings/chrome/google,cros-charge-state.yaml
+> new file mode 100644
+> index 000000000000..40e8f6988769
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/chrome/google,cros-charge-state.yaml
+> @@ -0,0 +1,62 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/chrome/google,cros-charge-state.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Google Chrome OS EC(Embedded Controller) charge state driver.
 
-Looks like you are re-implementing charger manager. Even title says: driver.
+Capitalize, drop driver, drop full stop.
 
-Use standard psy properties including battery. All this is supposed to
-describe hardware, not your driver.
 
-> The voltage, min and max milliamp on each current type are different on a single
-> charge chip. For example, I have a device that uses the charge chip rt9490, and
-> it has the following set up:
+...
 
-> 
-> - Input current
->   - min-milliamp: 100
->   - max-milliamp: 3300
-> - Charge current
->   - min-milliamp: 150
->   - max-milliamp: 5000
-> 
-> I cannot find a clean way to merge different current type, max, and min milliamp
-> just in a single DTS node.
+> +examples:
+> +  - |+
 
-Well, all other bindings were able, so I really do not get why this one
-is so special.
+No need for +
 
-> Also, we need to split different constraints into its own DTS node. It is
-> because the a cooling device in the thermal framework need its own DTS node, so
-> we can use it in the trip section.
+> +    spi {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      cros_ec: ec@0 {
+> +        compatible = "google,cros-ec-spi";
+> +        reg = <0>;
+> +        interrupts = <35 0>;
+> +
+> +        charge_chip_battery_current: charge-chip-battery {
 
-So fix thermal framework.
+1. Drop unused label.
+2. So this is a battery? Then just "battery"... or this is a charger?
+Please look how power supplies are done. This should not be different.
 
 Best regards,
 Krzysztof

@@ -1,153 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B49F145335;
-	Wed, 20 Nov 2024 16:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E992230990
+	for <chrome-platform@lists.linux.dev>; Thu, 21 Nov 2024 00:55:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732120662; cv=none; b=Cgr13CXGd6aSW949JSvi6sQ+gv8vUWrNji2UZEAmCbHhlaoezrVejlb6iGP8sEQw3up3/Q5QTQdFR/tLG6LPI2cgzG/hZuUcn8bVuaPQC3VhsxeJCdYy0fZV8Rc9X+6zlYvMkhKzadIcymMZ2mtvFrwfAWPj/9GddUTFTVT8zo4=
+	t=1732150501; cv=none; b=ukBkCIDRhXMgDkcwMDse/X6j1A0nkFLdxmmC8tnplRDzaDmkavFoL/NtBJxzxIVLWX+xAfz0s87tA8sJvuTFzKi1fNuan8F0jO8ffWp+20pwQ5WjaQiT+3c8Ms+8XOOPa8/M7XBXwM/CRHnjzxS7X33FpWs7sosS6NDmAaYxpDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732120662; c=relaxed/simple;
-	bh=MseR2j5hxTqT7Bar0/xqOpVboZgTwU8i2w8NcRlv5s4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jPeemz/rZSIOYC+VNenkSWlXPAMrAtOXuxjKCGkVKn5vMXWkYQ/SRYKLI+JYKp2w6RimBX0FOg7VE5SqjuDECgVlqUHHZkWMhPR02+Sx12vEH1hKqINUG5G/QtRX6YY6NblQmRXgkNgCzxsL7NijRs/GUTslKlde/8VG9vYAh+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMWSIgVt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732150501; c=relaxed/simple;
+	bh=Vcqu0HUUkjR5DzubC9ke8ZJXBo2PdRicRXcIe2jPFzc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gw/6Pureb9N4XwVdKQJ1koTekgtNo4S+s93r+CmYDLrfM4lcY9w3m6x+fusVU5si5/uuUdw6ONYQh1FHk34ZO8y2iI855+7UJFLIYP8+ZxvIKejUDpEgdbjhdN44DZsscdx20qZxbUJ1M8Fldncz4Vm457rHZeJ1m6gTSYETexI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AJLvEVIC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMWSIgVt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 851C4C4CECD;
-	Wed, 20 Nov 2024 16:37:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AJLvEVIC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13AB4C4CECD;
+	Thu, 21 Nov 2024 00:54:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732120660;
-	bh=MseR2j5hxTqT7Bar0/xqOpVboZgTwU8i2w8NcRlv5s4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QMWSIgVtcGml1aPdZ8hbOIM8g+T6EZigJrY91VWtxzfGrgTEgfs+N/9Q2lJ7Q7CFR
-	 lAEj9x9KchamdtSrvmPoNr2j88sALwzOqLjzyboLP0YFYRomvvphV/rS/oQ4JgwCBA
-	 ukSSjv44S3Dga/7oC+dHk7ycPqFyi6hUtQ9iSba2MViNzm3W7JpikZWu6F3X0TQ5ya
-	 aDWo7X3DGMUYnypoLi9K4W5ml13uSk8aWKcR/wxLu5zeyDSqHlHs3lMfjQ+4YE8vgj
-	 oro5JY5/u28wVHXb8aUkZNV9PoW1EGh07jAS27Y5dXeEwrcLxxFsSs1fMnyzy05lJt
-	 JHhl+JH//QFsA==
-Message-ID: <ecf58f72-39b9-4e9d-a2bb-8cc225b4f875@kernel.org>
-Date: Wed, 20 Nov 2024 17:37:34 +0100
+	s=k20201202; t=1732150500;
+	bh=Vcqu0HUUkjR5DzubC9ke8ZJXBo2PdRicRXcIe2jPFzc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AJLvEVICpmJ9eo5jLBTB59MntMj9tBQDh5vCYWqW0cNoarUNzwEguTw1rtuE7giM0
+	 bFPvC3nMkiOfnzoFXpBaYbH85+enSMfLsNjZsbbRGCOL0YFa+jUV6JXLxTO0ZZA/EX
+	 sMXv0NKArscZq1Ak0p9P292R/BDRQkg5wtTGk6JN5komlP4QYl/JGRGWhySTAN0BWv
+	 V4G+ZKvkBzl7lHHKgpKYYmA0IQ4vNZWChILqDr4u9p/kwYnRzyMFfLBi+atVOg8pak
+	 HpFqS9ARN9qLa2ejEyR4K9pIisUiOKQqEGXVFUAuOVYtLy1Nv6uT6b14WSN5/oam4v
+	 kz2GZNQTdjB9g==
+Date: Thu, 21 Nov 2024 00:54:58 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Brandon Casey <drafnel@gmail.com>
+Cc: bleung@chromium.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: support Google
+ Link
+Message-ID: <Zz6E4taK4VpXbeac@google.com>
+References: <20241113023800.6263-1-drafnel@gmail.com>
+ <20241113023800.6263-2-drafnel@gmail.com>
+ <ZzRLOmDCOrCa5DJW@google.com>
+ <B7B50D15-7465-4370-8D82-47C75A16A3AC@gmail.com>
+ <ZzVbbh86elpYQG5s@google.com>
+ <439FC80F-141E-438A-B201-772C9509D048@gmail.com>
+ <ZzW6mz9TGc8bglOi@google.com>
+ <EA9C2C4B-05C8-46D7-8B25-495377413347@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: chrome: add new binding
- google,cros-ec-chrage-state
-To: "Sung-Chi, Li" <lschyi@chromium.org>, Benson Leung <bleung@chromium.org>,
- Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- devicetree@vger.kernel.org
-References: <20241118-add_charger_state-v1-0-94997079f35a@chromium.org>
- <20241118-add_charger_state-v1-2-94997079f35a@chromium.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241118-add_charger_state-v1-2-94997079f35a@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <EA9C2C4B-05C8-46D7-8B25-495377413347@gmail.com>
 
-On 18/11/2024 10:33, Sung-Chi, Li wrote:
-> Add new dt bindings for charge chip control. The charge chip control
-> dt configuration is used by the driver 'cros-ec-charge-state', which is
-> added in the commit "platform/chrome: cros_ec_charge_state: add new
-> driver to control charge".
-> 
-> As these charge chip controls are connected under the ChromeOS Embedded
-> Controller (EC), also add the patternProperties to the
-> mfd/google,cros-ec bindings.
-> 
-> Signed-off-by: Sung-Chi, Li <lschyi@chromium.org>
-> ---
->  .../bindings/chrome/google,cros-charge-state.yaml  | 62 ++++++++++++++++++++++
->  .../devicetree/bindings/mfd/google,cros-ec.yaml    |  4 ++
->  2 files changed, 66 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/chrome/google,cros-charge-state.yaml b/Documentation/devicetree/bindings/chrome/google,cros-charge-state.yaml
-> new file mode 100644
-> index 000000000000..40e8f6988769
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/chrome/google,cros-charge-state.yaml
-> @@ -0,0 +1,62 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/chrome/google,cros-charge-state.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Google Chrome OS EC(Embedded Controller) charge state driver.
+On Mon, Nov 18, 2024 at 12:58:52PM -0600, Brandon Casey wrote:
+> You seem to be suggesting that my machine is in some odd/abnormal state.
+> Do you know whether Google has actually ever pushed an updated firmware
+> for this device (LINK) that included the patch referenced in [1]? If not, then
+> shouldn't my machine be considered to be in the "normal" state, not the
+> oddity?
 
-Capitalize, drop driver, drop full stop.
-
-
-...
-
-> +examples:
-> +  - |+
-
-No need for +
-
-> +    spi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      cros_ec: ec@0 {
-> +        compatible = "google,cros-ec-spi";
-> +        reg = <0>;
-> +        interrupts = <35 0>;
-> +
-> +        charge_chip_battery_current: charge-chip-battery {
-
-1. Drop unused label.
-2. So this is a battery? Then just "battery"... or this is a charger?
-Please look how power supplies are done. This should not be different.
-
-Best regards,
-Krzysztof
+No, I don't know.

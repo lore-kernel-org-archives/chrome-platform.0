@@ -1,261 +1,512 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E9D16F824
-	for <chrome-platform@lists.linux.dev>; Fri, 22 Nov 2024 10:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8096E15B10E
+	for <chrome-platform@lists.linux.dev>; Fri, 22 Nov 2024 18:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732270886; cv=none; b=lAOmrrfjVY7qe/6/YYML4tDO7RDtgpjFzBRq5HyvpDZE4g2G1MOsdQ+CqneZT5Zi2ulMqa4HHQnAextXuQdq4lE+T7ug3aOGFr8Z1a4xMnAnWhgyFXreHAQLO6iCTtimHiWIldLDV8309wUZ4o4KWS4brOLc8AUdUOmO7ZKeuMY=
+	t=1732301462; cv=none; b=X7ic6l4KpsayaHwoqe1gdwR96jydnH3wfk7CNTD2l61GORLffxMq8wUics727Y1Lgv+d80vbLFqEUU6R/y71yItZloAXe8tycQsm8+lwrMyvlr9sb8jWzmLo3pf/c+7rA8Sf4XXGoBduSRYQw93eGxxIcax6sZzT4xJpOn1AUts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732270886; c=relaxed/simple;
-	bh=1LWGdxgjKMEqxkfBZhwVMju1YBlsPo35yU1MFU7teB0=;
+	s=arc-20240116; t=1732301462; c=relaxed/simple;
+	bh=P8f3z3KImlG0Iv7G9gouR/0Ewo2VbVuTWyHT/5H1kcw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rF5FAAOyD1Hw9nCBY2FqLUE1Z3OYo2D8N1YL9Wef79XbfeKFRTNNacVoGFeooSsYOXN+nLEOuB3esKdleLra4AgYP/bQl9yod16o9jmC7GneUi6eOYcteCWR2CbD5qCceevu48xgjS6xh54XFtXKMKV39QNZUoYtbIsPQoiWmOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de; spf=pass smtp.mailfrom=t-8ch.de; dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b=SFThPj4C; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-8ch.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=iN0KXgLYmO2IpXOxfoQCTvOKyiQVFTTW3TLJDQGpqV/i6pk8335UxYtLZK4kBv2MpWW74tlBDNyyfwUao60+TIDcZ5tcsFhLJvC0mDc+MnCyrc6V1uU1kDzgpgr+cECr2g9oVRLGsFKOKfZX3KdxBISkXUDgGZkDfDuv0XRsqiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lAmH4fk4; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b="SFThPj4C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
-	t=1732270879; bh=1LWGdxgjKMEqxkfBZhwVMju1YBlsPo35yU1MFU7teB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SFThPj4CBn+1wWSbHDM6v+GVIrojRoJ6YIQ+iCYB7blrxfoycKQAgBT3CRGTweGs+
-	 LFR6m+NAiy2r1dhSdl2P3naqmjmQ34t/jHGWvS7nSXTeWKvFwCW2r7SScsmmmWvlBT
-	 4j+pBp2hUmD/Dl4481mTm6qX+Pq1A0Wugc4b9BVQ=
-Date: Fri, 22 Nov 2024 11:21:18 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-To: Sung-Chi Li <lschyi@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] power: supply: cros_usbpd-charger: extend as a
- thermal of cooling device
-Message-ID: <f805c0d8-a7f7-4e03-8d8c-0c13baa02ac4@t-8ch.de>
-References: <20241122-extend_power_limit-v1-0-a3ecd87afa76@chromium.org>
- <20241122-extend_power_limit-v1-1-a3ecd87afa76@chromium.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lAmH4fk4"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-724f0f6300aso69715b3a.2
+        for <chrome-platform@lists.linux.dev>; Fri, 22 Nov 2024 10:51:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732301460; x=1732906260; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O6gj0+7Va7J9njdmM7N9rJJ2/haGWOYo/Av9YNf4X90=;
+        b=lAmH4fk4KypAnHlzHIcfMMBZ5t0lvDn71C2ML1RLAD8AuKH/+MDWJZ4y8iaA0TIe5a
+         5IRYsBHyQDVTcsAkkbKIf9A4Lx8/S+UvtGamZ3sG4Qxr4gGzPT9vmjZFj+My98IC0jl/
+         gZTdV0DjowDX9i2VrawqG8cntHpWw6PYh2zVhWTYiLIrU/K1mKD4oCbNeYgniW/xwQAK
+         15V7CDvhwvkQ4zBZ+Ro2bZl57cKs1q/b8Pav1JncJv4PjzqvJdaOyfSjaDhffXUrcUMZ
+         D/BL4dCK66k9NbNtqFhJZRE8acqZU4prx7rMzZwVgmZu67OoPngtJcU2bSioHAYocmZi
+         4+2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732301460; x=1732906260;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O6gj0+7Va7J9njdmM7N9rJJ2/haGWOYo/Av9YNf4X90=;
+        b=jdiehAgWAYpgKfwxxvK/ETk0VbCn7rLxAlPSyx2JgN+rDvb7sqQq/lp7qRaXwyfP2i
+         Y5wnFQ2UTaziqRvpdtvWReoKV8xUdAEid49WEI74fM9V+F2oSi8R2pLj1Pz5yPADLSnn
+         GA8OvdZvs+9snifDqCcnKTX+OKNmE+Ctgdg5b1dWsgsM2HEkYZoCD+Bmml1B+IEMWjsU
+         CLIRUMi7PPYymKtATcLfELnmV120oKaAHlHUAURhx/OImXIyexdOoj/HW8wOX/jVaLxQ
+         rrmFvsrZPwCnwKbMBN31COM67reFcGPQA2/7QZenLnjS9OkaaZI+s/O9tGgX9htv16kk
+         zPZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEqJ6Si0uq8KVF+e3VZYTynjOIg2UFhDpDgXjdeOUtCvcAMn3gZ+vahT6TvtPobrWT3fdG43TeVoX32dqZ/AE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzM43gilOxFeeXv+QxvQVdxXYTYDYXYsj4V8xBNUvJBmLSj7/oq
+	c2ES53TmXuCvrpre9n6eFQIkKdMYAxsCokFyt10xdOUXjns1FqE1CSjcA/wPyw==
+X-Gm-Gg: ASbGncvJm+fIKmuqZemhzkTW9zxWIw4KnUbaUJso3KhHmP6LOom4k1pBNDZJ+x2CCEG
+	YOCfm4RyXJ2pZUZV08nbq6GL1VLkPZcmBgCCCzuQrD7c2L9TJZOjlH46rZEBAN3AUeTwQ6bkbCF
+	bwdxm8iQB8xkqVFb7zI/x2xaXrIB1pqJTq0F1SrF90TMJ1QlhpbLjk/2ACimaC9lImhfH/qO5Hy
+	NxLvFcKWvd9bJfrCzT4n9f1V872yr/4Zv0Sntd0qKeP90B88WjSjGAe8H9dK3w/y4JBFa5XlYHR
+	38C2IWSiBg==
+X-Google-Smtp-Source: AGHT+IHlHdUQZrAYBrn8jYfzeAbm/PUGlL+6jkZKwPyjqhDb+NJB7h3nT1GxGlaQHCtKtx7JDklLTQ==
+X-Received: by 2002:a05:6a00:2d10:b0:71e:695:41ee with SMTP id d2e1a72fcca58-724df3e2869mr5107604b3a.5.1732301459241;
+        Fri, 22 Nov 2024 10:50:59 -0800 (PST)
+Received: from google.com (30.176.125.34.bc.googleusercontent.com. [34.125.176.30])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fbcbfbc69esm1713825a12.6.2024.11.22.10.50.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 10:50:58 -0800 (PST)
+Date: Fri, 22 Nov 2024 18:50:54 +0000
+From: Benson Leung <bleung@google.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
+	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev,
+	jthies@google.com, akuchynski@google.com, pmalani@chromium.org,
+	dmitry.baryshkov@linaro.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, danielgeorgem@google.com
+Subject: Re: [PATCH v3 2/7] usb: typec: Add driver for Thunderbolt 3
+ Alternate Mode
+Message-ID: <Z0DRWhZ745-N0DFE@google.com>
+References: <20241107193021.2690050-1-abhishekpandit@chromium.org>
+ <20241107112955.v3.2.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="RLz5mJDVYXyB69SQ"
+Content-Disposition: inline
+In-Reply-To: <20241107112955.v3.2.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid>
+
+
+--RLz5mJDVYXyB69SQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241122-extend_power_limit-v1-1-a3ecd87afa76@chromium.org>
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-11-22 11:47:21+0800, Sung-Chi Li wrote:
-> cros_usbpd-charger is the driver that takes care the system input power
-> from the pd charger. This driver also exposes the functionality to limit
-> input current.
-> 
-> We can extend this driver to make it as a passive thermal cooling
-> device by limiting the input current. As such, this commit implements
-> the required cooling methods and OF style registration.
-> 
-> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+Hi Abhishek,
+
+
+On Thu, Nov 07, 2024 at 11:29:55AM -0800, Abhishek Pandit-Subedi wrote:
+> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>=20
+> Thunderbolt 3 Alternate Mode entry flow is described in
+> USB Type-C Specification Release 2.0.
+>=20
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 > ---
->  drivers/power/supply/cros_usbpd-charger.c | 98 +++++++++++++++++++++++++++++--
->  1 file changed, 93 insertions(+), 5 deletions(-)
-
-A dependency from CHARGER_CROS_PCHG to THERMAL needs to be added to
-drivers/power/supply/Kconfig.
-
-> 
-> diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
-> index 47d3f58aa15c..a0451630cdd7 100644
-> --- a/drivers/power/supply/cros_usbpd-charger.c
-> +++ b/drivers/power/supply/cros_usbpd-charger.c
-> @@ -13,6 +13,9 @@
->  #include <linux/platform_device.h>
->  #include <linux/power_supply.h>
->  #include <linux/slab.h>
-> +#ifdef CONFIG_THERMAL_OF
-
-Remove this ifdef. The header is perfectly usable in any case.
-
-Actually the CONFIG_THERMAL_OF dependency is not needed at all.
-It is only necessary for devm_thermal_of_zone_register() but not 
-devm_thermal_of_cooling_device_register() which you are using.
-I am confused.
-
-OTOH you are adding the #cooling-cells OF property which itself seems to
-be only used by devm_thermal_of_zone_register(), so I'm now even more
-confused.
-
-In general, try to also test the driver configurations
-!CONFIG_THERMAL_OF and !CONFIG_THERMAL.
-
-> +#include <linux/thermal.h>
-> +#endif /* CONFIG_THERMAL_OF */
->  
->  #define CHARGER_USBPD_DIR_NAME			"CROS_USBPD_CHARGER%d"
->  #define CHARGER_DEDICATED_DIR_NAME		"CROS_DEDICATED_CHARGER"
-> @@ -22,6 +25,7 @@
->  					 sizeof(CHARGER_DEDICATED_DIR_NAME))
->  #define CHARGER_CACHE_UPDATE_DELAY		msecs_to_jiffies(500)
->  #define CHARGER_MANUFACTURER_MODEL_LENGTH	32
-> +#define CHARGER_COOLING_INTERVALS		10
->  
->  #define DRV_NAME "cros-usbpd-charger"
->  
-> @@ -76,6 +80,8 @@ static enum power_supply_property cros_usbpd_dedicated_charger_props[] = {
->  /* Input voltage/current limit in mV/mA. Default to none. */
->  static u16 input_voltage_limit = EC_POWER_LIMIT_NONE;
->  static u16 input_current_limit = EC_POWER_LIMIT_NONE;
-> +/* Cooling level interns of current limit */
-> +static u16 input_current_cooling_level;
->  
->  static bool cros_usbpd_charger_port_is_dedicated(struct port_data *port)
->  {
-> @@ -459,13 +465,20 @@ static int cros_usbpd_charger_set_prop(struct power_supply *psy,
->  			break;
->  
->  		input_current_limit = intval;
-> -		if (input_current_limit == EC_POWER_LIMIT_NONE)
-> +		if (input_current_limit == EC_POWER_LIMIT_NONE) {
->  			dev_info(dev,
->  			  "External Current Limit cleared for all ports\n");
-> -		else
-> -			dev_info(dev,
-> -			  "External Current Limit set to %dmA for all ports\n",
-> -			  input_current_limit);
-> +			input_current_cooling_level = 0;
-> +		} else {
-> +			dev_info(
-> +				dev,
-> +				"External Current Limit set to %dmA for all ports\n",
-> +				input_current_limit);
-> +			input_current_cooling_level =
-> +				input_current_limit *
-> +				CHARGER_COOLING_INTERVALS /
-> +				port->psy_current_max;
-
-This seems to be a very spammy driver...
-
-> +		}
->  		break;
->  	case POWER_SUPPLY_PROP_INPUT_VOLTAGE_LIMIT:
->  		ret = cros_usbpd_charger_set_ext_power_limit(charger,
-> @@ -525,6 +538,66 @@ static void cros_usbpd_charger_unregister_notifier(void *data)
->  	cros_usbpd_unregister_notify(&charger->notifier);
->  }
->  
-> +#ifdef CONFIG_THERMAL_OF
-> +static int
-> +cros_usbpd_charger_get_max_cooling_state(struct thermal_cooling_device *cdev,
-> +					 unsigned long *cooling_level)
+>=20
+> Changes:
+> * Delay cable + plug checks so that the module doesn't fail to probe
+>   if cable + plug information isn't available by the time the partner
+>   altmode is registered.
+> * Remove unncessary brace after if (IS_ERR(plug))
+>=20
+> The rest of this patch should be the same as Heikki's original RFC.
+>=20
+>=20
+> Changes in v3:
+> - Revert rename of TYPEC_TBT_MODE
+> - Remove mode from typec_device_id
+>=20
+> Changes in v2:
+> - Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
+> - Pass struct typec_thunderbolt_data to typec_altmode_notify
+> - Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
+> - Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
+> - Change module license to GPL due to checkpatch warning
+>=20
+>  drivers/usb/typec/altmodes/Kconfig       |   9 +
+>  drivers/usb/typec/altmodes/Makefile      |   2 +
+>  drivers/usb/typec/altmodes/thunderbolt.c | 308 +++++++++++++++++++++++
+>  include/linux/usb/typec_tbt.h            |   1 +
+>  4 files changed, 320 insertions(+)
+>  create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
+>=20
+> diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmo=
+des/Kconfig
+> index 1a6b5e872b0d..7867fa7c405d 100644
+> --- a/drivers/usb/typec/altmodes/Kconfig
+> +++ b/drivers/usb/typec/altmodes/Kconfig
+> @@ -23,4 +23,13 @@ config TYPEC_NVIDIA_ALTMODE
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called typec_nvidia.
+> =20
+> +config TYPEC_TBT_ALTMODE
+> +	tristate "Thunderbolt3 Alternate Mode driver"
+> +	help
+> +	  Select this option if you have Thunderbolt3 hardware on your
+> +	  system.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called typec_thunderbolt.
+> +
+>  endmenu
+> diff --git a/drivers/usb/typec/altmodes/Makefile b/drivers/usb/typec/altm=
+odes/Makefile
+> index 45717548b396..508a68351bd2 100644
+> --- a/drivers/usb/typec/altmodes/Makefile
+> +++ b/drivers/usb/typec/altmodes/Makefile
+> @@ -4,3 +4,5 @@ obj-$(CONFIG_TYPEC_DP_ALTMODE)		+=3D typec_displayport.o
+>  typec_displayport-y			:=3D displayport.o
+>  obj-$(CONFIG_TYPEC_NVIDIA_ALTMODE)	+=3D typec_nvidia.o
+>  typec_nvidia-y				:=3D nvidia.o
+> +obj-$(CONFIG_TYPEC_TBT_ALTMODE)		+=3D typec_thunderbolt.o
+> +typec_thunderbolt-y			:=3D thunderbolt.o
+> diff --git a/drivers/usb/typec/altmodes/thunderbolt.c b/drivers/usb/typec=
+/altmodes/thunderbolt.c
+> new file mode 100644
+> index 000000000000..a945b9d35a1d
+> --- /dev/null
+> +++ b/drivers/usb/typec/altmodes/thunderbolt.c
+> @@ -0,0 +1,308 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/**
+> + * USB Typec-C Thuderbolt3 Alternate Mode driver
+> + *
+> + * Copyright (C) 2019 Intel Corporation
+> + * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/mutex.h>
+> +#include <linux/module.h>
+> +#include <linux/usb/pd_vdo.h>
+> +#include <linux/usb/typec_altmode.h>
+> +#include <linux/usb/typec_tbt.h>
+> +
+> +enum tbt_state {
+> +	TBT_STATE_IDLE,
+> +	TBT_STATE_SOP_P_ENTER,
+> +	TBT_STATE_SOP_PP_ENTER,
+> +	TBT_STATE_ENTER,
+> +	TBT_STATE_EXIT,
+> +	TBT_STATE_SOP_PP_EXIT,
+> +	TBT_STATE_SOP_P_EXIT
+> +};
+> +
+> +struct tbt_altmode {
+> +	enum tbt_state state;
+> +	struct typec_cable *cable;
+> +	struct typec_altmode *alt;
+> +	struct typec_altmode *plug[2];
+> +	u32 enter_vdo;
+> +
+> +	struct work_struct work;
+> +	struct mutex lock; /* device lock */
+> +};
+> +
+> +static bool tbt_ready(struct typec_altmode *alt);
+> +
+> +static int tbt_enter_mode(struct tbt_altmode *tbt)
 > +{
-> +	*cooling_level = CHARGER_COOLING_INTERVALS;
-> +	return 0;
+> +	struct typec_altmode *plug =3D tbt->plug[TYPEC_PLUG_SOP_P];
+> +	u32 vdo;
+> +
+> +	vdo =3D tbt->alt->vdo & (TBT_VENDOR_SPECIFIC_B0 | TBT_VENDOR_SPECIFIC_B=
+1);
+> +	vdo |=3D tbt->alt->vdo & TBT_INTEL_SPECIFIC_B0;
+> +	vdo |=3D TBT_MODE;
+> +
+> +	if (plug) {
+> +		if (typec_cable_is_active(tbt->cable))
+> +			vdo |=3D TBT_ENTER_MODE_ACTIVE_CABLE;
+> +
+> +		vdo |=3D TBT_ENTER_MODE_CABLE_SPEED(TBT_CABLE_SPEED(plug->vdo));
+> +		vdo |=3D plug->vdo & TBT_CABLE_ROUNDED;
+> +		vdo |=3D plug->vdo & TBT_CABLE_OPTICAL;
+> +		vdo |=3D plug->vdo & TBT_CABLE_RETIMER;
+> +		vdo |=3D plug->vdo & TBT_CABLE_LINK_TRAINING;
+> +	} else {
+> +		vdo |=3D TBT_ENTER_MODE_CABLE_SPEED(TBT_CABLE_USB3_PASSIVE);
+> +	}
+> +
+> +	tbt->enter_vdo =3D vdo;
+> +	return typec_altmode_enter(tbt->alt, &vdo);
 > +}
 > +
-> +static int
-> +cros_usbpd_charger_get_cur_cooling_state(struct thermal_cooling_device *cdev,
-> +					 unsigned long *cooling_level)
+> +static void tbt_altmode_work(struct work_struct *work)
 > +{
-> +	*cooling_level = input_current_cooling_level;
-> +	return 0;
-> +}
-> +
-> +static int
-> +cros_usbpd_charger_set_cur_cooling_state(struct thermal_cooling_device *cdev,
-> +					 unsigned long cooling_level)
-> +{
-> +	struct charger_data *charger = cdev->devdata;
-> +	struct port_data *port;
-> +	int current_limit;
-> +	int idx = -1;
+> +	struct tbt_altmode *tbt =3D container_of(work, struct tbt_altmode, work=
+);
 > +	int ret;
 > +
-> +	for (int i = 0; i < charger->num_registered_psy; i++) {
-> +		port = charger->ports[i];
-> +		if (port->psy_status == POWER_SUPPLY_STATUS_CHARGING) {
-> +			idx = i;
+> +	mutex_lock(&tbt->lock);
+> +
+> +	switch (tbt->state) {
+> +	case TBT_STATE_SOP_P_ENTER:
+> +		ret =3D typec_altmode_enter(tbt->plug[TYPEC_PLUG_SOP_P], NULL);
+> +		if (ret)
+> +			dev_dbg(&tbt->plug[TYPEC_PLUG_SOP_P]->dev,
+> +				"failed to enter mode (%d)\n", ret);
+> +		break;
+> +	case TBT_STATE_SOP_PP_ENTER:
+> +		ret =3D typec_altmode_enter(tbt->plug[TYPEC_PLUG_SOP_PP], NULL);
+> +		if (ret)
+> +			dev_dbg(&tbt->plug[TYPEC_PLUG_SOP_PP]->dev,
+> +				"failed to enter mode (%d)\n", ret);
+> +		break;
+> +	case TBT_STATE_ENTER:
+> +		ret =3D tbt_enter_mode(tbt);
+> +		if (ret)
+> +			dev_dbg(&tbt->alt->dev, "failed to enter mode (%d)\n",
+> +				ret);
+> +		break;
+> +	case TBT_STATE_EXIT:
+> +		typec_altmode_exit(tbt->alt);
+> +		break;
+> +	case TBT_STATE_SOP_PP_EXIT:
+> +		typec_altmode_exit(tbt->plug[TYPEC_PLUG_SOP_PP]);
+> +		break;
+> +	case TBT_STATE_SOP_P_EXIT:
+> +		typec_altmode_exit(tbt->plug[TYPEC_PLUG_SOP_P]);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	tbt->state =3D TBT_STATE_IDLE;
+> +
+> +	mutex_unlock(&tbt->lock);
+> +}
+> +
+> +static int tbt_altmode_vdm(struct typec_altmode *alt,
+> +			   const u32 hdr, const u32 *vdo, int count)
+> +{
+> +	struct tbt_altmode *tbt =3D typec_altmode_get_drvdata(alt);
+> +	int cmd_type =3D PD_VDO_CMDT(hdr);
+> +	int cmd =3D PD_VDO_CMD(hdr);
+> +
+> +	mutex_lock(&tbt->lock);
+> +
+> +	if (tbt->state !=3D TBT_STATE_IDLE) {
+> +		mutex_unlock(&tbt->lock);
+> +		return -EBUSY;
+> +	}
+> +
+> +	switch (cmd_type) {
+> +	case CMDT_RSP_ACK:
+> +		switch (cmd) {
+> +		case CMD_ENTER_MODE:
+> +			/*
+> +			 * Following the order describeded in USB Type-C Spec
+> +			 * R2.0 Section 6.7.3.
+> +			 */
+> +			if (alt =3D=3D tbt->plug[TYPEC_PLUG_SOP_P]) {
+> +				if (tbt->plug[TYPEC_PLUG_SOP_PP])
+> +					tbt->state =3D TBT_STATE_SOP_PP_ENTER;
+> +				else
+> +					tbt->state =3D TBT_STATE_ENTER;
+> +			} else if (alt =3D=3D tbt->plug[TYPEC_PLUG_SOP_PP]) {
+> +				tbt->state =3D TBT_STATE_ENTER;
+> +			} else {
+> +				struct typec_thunderbolt_data data;
+> +
+> +				data.device_mode =3D tbt->alt->vdo;
+> +				data.cable_mode =3D
+> +					tbt->plug[TYPEC_PLUG_SOP_P] ?
+> +						tbt->plug[TYPEC_PLUG_SOP_P]
+> +							->vdo :
+> +						0;
+> +				data.enter_vdo =3D tbt->enter_vdo;
+> +
+> +				typec_altmode_notify(alt, TYPEC_STATE_MODAL, &data);
+> +			}
+> +			break;
+> +		case CMD_EXIT_MODE:
+> +			if (alt =3D=3D tbt->alt) {
+> +				if (tbt->plug[TYPEC_PLUG_SOP_PP])
+> +					tbt->state =3D TBT_STATE_SOP_PP_EXIT;
+> +				else if (tbt->plug[TYPEC_PLUG_SOP_P])
+> +					tbt->state =3D TBT_STATE_SOP_P_EXIT;
+> +			} else if (alt =3D=3D tbt->plug[TYPEC_PLUG_SOP_PP]) {
+> +				tbt->state =3D TBT_STATE_SOP_P_EXIT;
+> +			}
 > +			break;
 > +		}
+> +		break;
+> +	case CMDT_RSP_NAK:
+> +		switch (cmd) {
+> +		case CMD_ENTER_MODE:
+> +			dev_warn(&alt->dev, "Enter Mode refused\n");
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +		break;
+> +	default:
+> +		break;
 > +	}
-
-Why not register one cooling device per charger?
-It would make things more predictable.
-I have no experience with the thermal subsystem, so this is just a
-guess.
-
 > +
-> +	if (idx == -1)
-> +		return -EINVAL;
+> +	if (tbt->state !=3D TBT_STATE_IDLE)
+> +		schedule_work(&tbt->work);
 > +
-> +	current_limit =
-> +		port->psy_current_max - (cooling_level * port->psy_current_max /
-> +					 CHARGER_COOLING_INTERVALS);
-> +	ret = cros_usbpd_charger_set_ext_power_limit(charger, current_limit,
-> +						     input_voltage_limit);
-> +	if (ret < 0)
-> +		return ret;
+> +	mutex_unlock(&tbt->lock);
 > +
-> +	input_current_limit = (current_limit == port->psy_current_max) ?
-> +				      EC_POWER_LIMIT_NONE :
-> +				      current_limit;
-> +	input_current_cooling_level = cooling_level;
 > +	return 0;
 > +}
 > +
-> +static struct thermal_cooling_device_ops cros_usbpd_charger_cooling_ops = {
+> +static int tbt_altmode_activate(struct typec_altmode *alt, int activate)
+> +{
+> +	struct tbt_altmode *tbt =3D typec_altmode_get_drvdata(alt);
+> +	int ret;
+> +
+> +	mutex_lock(&tbt->lock);
+> +
+> +	if (!tbt_ready(alt))
+> +		return -ENODEV;
 
-const
 
-> +	.get_max_state = cros_usbpd_charger_get_max_cooling_state,
-> +	.get_cur_state = cros_usbpd_charger_get_cur_cooling_state,
-> +	.set_cur_state = cros_usbpd_charger_set_cur_cooling_state,
+You need to mutex_unlock(&tbt->lock);  before the return.
+
+Credit to danielgeorgem@google.com for his catching this in his code review.
+
+> +
+> +	/* Preventing the user space from entering/exiting the cable alt mode */
+> +	if (alt !=3D tbt->alt)
+> +		ret =3D -EPERM;
+> +	else if (activate)
+> +		ret =3D tbt_enter_mode(tbt);
+> +	else
+> +		ret =3D typec_altmode_exit(alt);
+> +
+> +	mutex_unlock(&tbt->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct typec_altmode_ops tbt_altmode_ops =3D {
+> +	.vdm		=3D tbt_altmode_vdm,
+> +	.activate	=3D tbt_altmode_activate
 > +};
-> +#endif /* CONFIG_THERMAL_OF */
 > +
->  static int cros_usbpd_charger_probe(struct platform_device *pd)
->  {
->  	struct cros_ec_dev *ec_dev = dev_get_drvdata(pd->dev.parent);
-> @@ -534,6 +607,9 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
->  	struct charger_data *charger;
->  	struct power_supply *psy;
->  	struct port_data *port;
-> +#ifdef CONFIG_THERMAL_OF
-> +	struct thermal_cooling_device *cdev;
-> +#endif /* CONFIG_THERMAL_OF */
->  	int ret = -EINVAL;
->  	int i;
->  
-> @@ -674,6 +750,18 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
->  			goto fail;
->  	}
->  
-> +#ifdef CONFIG_THERMAL_OF
-
-Avoid ifdef in .c files.
-Use if (IS_ENABLED(CONFIG_THERMAL_OF)) in the normal code flow.
-The compiler will optimize away all the unreachable code.
-
-> +	cdev = devm_thermal_of_cooling_device_register(
-> +		dev, ec_device->dev->of_node, DRV_NAME, charger,
-> +		&cros_usbpd_charger_cooling_ops);
-> +	if (IS_ERR(cdev)) {
-> +		dev_err(dev,
-> +			"Failing register thermal cooling device (err:%pe)\n",
-> +			cdev);
-
-dev_err_probe().
-
-> +		goto fail;
-
-Does the call to devm_thermal_of_cooling_device_register() work if there
-is no OF configuration?
-
+> +static int tbt_altmode_probe(struct typec_altmode *alt)
+> +{
+> +	struct tbt_altmode *tbt;
+> +
+> +	tbt =3D devm_kzalloc(&alt->dev, sizeof(*tbt), GFP_KERNEL);
+> +	if (!tbt)
+> +		return -ENOMEM;
+> +
+> +	INIT_WORK(&tbt->work, tbt_altmode_work);
+> +	mutex_init(&tbt->lock);
+> +	tbt->alt =3D alt;
+> +
+> +	alt->desc =3D "Thunderbolt3";
+> +	typec_altmode_set_drvdata(alt, tbt);
+> +	typec_altmode_set_ops(alt, &tbt_altmode_ops);
+> +
+> +	if (tbt_ready(alt)) {
+> +		if (tbt->plug[TYPEC_PLUG_SOP_PP])
+> +			tbt->state =3D TBT_STATE_SOP_PP_ENTER;
+> +		else if (tbt->plug[TYPEC_PLUG_SOP_P])
+> +			tbt->state =3D TBT_STATE_SOP_P_ENTER;
+> +		else
+> +			tbt->state =3D TBT_STATE_ENTER;
+> +		schedule_work(&tbt->work);
 > +	}
-> +#endif /* CONFIG_THERMAL_OF */
 > +
->  	return 0;
->  
->  fail:
-> 
-> -- 
-> 2.47.0.371.ga323438b13-goog
-> 
+> +	return 0;
+> +}
+> +
+> +static void tbt_altmode_remove(struct typec_altmode *alt)
+> +{
+> +	struct tbt_altmode *tbt =3D typec_altmode_get_drvdata(alt);
+> +
+> +	for (int i =3D TYPEC_PLUG_SOP_PP; i > 0; --i) {
+> +		if (tbt->plug[i])
+> +			typec_altmode_put_plug(tbt->plug[i]);
+> +	}
+> +
+> +	if (tbt->cable)
+> +		typec_cable_put(tbt->cable);
+> +}
+> +
+> +static bool tbt_ready(struct typec_altmode *alt)
+> +{
+> +	struct tbt_altmode *tbt =3D typec_altmode_get_drvdata(alt);
+> +	struct typec_altmode *plug;
+> +
+> +	if (tbt->cable)
+> +		return true;
+> +
+> +	/* Thundebolt 3 requires a cable with eMarker */
+> +	tbt->cable =3D typec_cable_get(typec_altmode2port(tbt->alt));
+> +	if (!tbt->cable)
+> +		return false;
+> +
+> +	/* We accept systems without SOP' or SOP''. This means the port altmode
+> +	 * driver will be responsible for properly ordering entry/exit.
+> +	 */
+> +	for (int i =3D 0; i < TYPEC_PLUG_SOP_PP + 1; i++) {
+> +		plug =3D typec_altmode_get_plug(tbt->alt, i);
+> +		if (IS_ERR(plug))
+> +			continue;
+> +
+> +		if (!plug || plug->svid !=3D USB_TYPEC_VENDOR_INTEL)
+> +			break;
+> +
+> +		plug->desc =3D "Thunderbolt3";
+> +		plug->ops =3D &tbt_altmode_ops;
+> +		typec_altmode_set_drvdata(plug, tbt);
+> +
+> +		tbt->plug[i] =3D plug;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+> +static const struct typec_device_id tbt_typec_id[] =3D {
+> +	{ USB_TYPEC_TBT_SID },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(typec, tbt_typec_id);
+> +
+> +static struct typec_altmode_driver tbt_altmode_driver =3D {
+> +	.id_table =3D tbt_typec_id,
+> +	.probe =3D tbt_altmode_probe,
+> +	.remove =3D tbt_altmode_remove,
+> +	.driver =3D {
+> +		.name =3D "typec-thunderbolt",
+> +		.owner =3D THIS_MODULE,
+> +	}
+> +};
+> +module_typec_altmode_driver(tbt_altmode_driver);
+> +
+> +MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Thunderbolt3 USB Type-C Alternate Mode");
+> diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
+> index fa97d7e00f5c..55dcea12082c 100644
+> --- a/include/linux/usb/typec_tbt.h
+> +++ b/include/linux/usb/typec_tbt.h
+> @@ -44,6 +44,7 @@ struct typec_thunderbolt_data {
+> =20
+>  #define   TBT_GEN3_NON_ROUNDED                 0
+>  #define   TBT_GEN3_GEN4_ROUNDED_NON_ROUNDED    1
+> +#define TBT_CABLE_ROUNDED		BIT(19)
+>  #define TBT_CABLE_OPTICAL		BIT(21)
+>  #define TBT_CABLE_RETIMER		BIT(22)
+>  #define TBT_CABLE_LINK_TRAINING		BIT(23)
+> --=20
+> 2.47.0.277.g8800431eea-goog
+>=20
+>=20
+
+--RLz5mJDVYXyB69SQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCZ0DSjQAKCRBzbaomhzOw
+wkZvAP9YUwUqtJYVatouMpu3qUVFMaRJg1rnGFyCqyYzyt8bnwD/RarBErzGvVKG
+2GIfmjuCfDWuTW5U74cOleOqWkpscgM=
+=1bCC
+-----END PGP SIGNATURE-----
+
+--RLz5mJDVYXyB69SQ--

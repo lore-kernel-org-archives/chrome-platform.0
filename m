@@ -1,268 +1,125 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B851DAC89
-	for <chrome-platform@lists.linux.dev>; Thu, 21 Nov 2024 23:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E499E175D37
+	for <chrome-platform@lists.linux.dev>; Fri, 22 Nov 2024 01:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732230363; cv=none; b=SOkyYpUhKhvzeMmhp51vaexuUp4DlYB3MUjHZLSuGkTNcWr2Pe5R2m37/DTGWowpC5gwZRTmhJg9DMSZuOLx99DKpfvhlLCiJiG6mC8kfUQam6AV6f+u5im8Znmn8/zcKt0qOl8aRgXkg1rCX/F7O6EZIloFWaHJj6mH9Vx9XdQ=
+	t=1732240390; cv=none; b=JVwicFpUQHWzANkD7730wr5K24aquj9a/uJKsj63WBXQLiMOu0O74b4b4PkwrrEX+23B4lK15k4gLyKY5gQ6kGsA3veD3251Y7jtxKxlMb8VGSWoGP96U2aDr8MtFhJFkHMu2j1jtrq0i5ocLMTsEEji6BA0SkfBP9CT8A/5aj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732230363; c=relaxed/simple;
-	bh=7vVsWJAlaxSvMOvtdje6yXGcypqw9no47hXoQMLek34=;
+	s=arc-20240116; t=1732240390; c=relaxed/simple;
+	bh=9Gp11wURsPmM1pehQpfczGqb8HtkTf/exkB97GkATNU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QfVxbBoKwfgJWYV3UNiCbAFXrpaH5+2O1EeInj+hmH58T/yPL9j+CV3TwcLvwmXBrjiQYYz7fd8lOaxxc0NBUnYYBH0FHSNaRLVKs/VV9aNrvpFj+bbZJNR8UCJEyw/1nV9UXIE1QOG0Ss7jzJY1PvrGADDVV5TSZPCrSH6aiiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JRBPfjWo; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y4wxZqpfsQ3mJE+jTY9u8Q7qRPekL0UlX9k9zDqsErN8PqUodbeOpzcriTp86JHnxiCP26l/wA1XDLAY3i1fKwe+k8jM2awOPHrZmxaPDU1ksKvQTc9GHaDIbpAIS9zUtAxkqN66CD2rRd5Am67KQ9jaTMvAQ2f3uHR3U6P3NXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Y0XaZE3s; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JRBPfjWo"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53a007743e7so1626731e87.1
-        for <chrome-platform@lists.linux.dev>; Thu, 21 Nov 2024 15:06:00 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y0XaZE3s"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7ee020ec76dso1334565a12.3
+        for <chrome-platform@lists.linux.dev>; Thu, 21 Nov 2024 17:53:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732230359; x=1732835159; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1732240388; x=1732845188; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=skGr7TzxYrDaJmlRy1zO1szKe6aQTSkC3fXLyAmXUUw=;
-        b=JRBPfjWoZ3SqPaF8JvytYGPSBI21ZiKE6G+TPb/9vmwO0KywCDeFZSkT2VbaU+CVDR
-         sY8ErErCz43G6qV+9+gOt4ZczN4+5gjzRMVLJ0OIi/OR5PZ+OjrEFBx3heqj+rOeWRxc
-         pngizNPUv+BpuAQEuQVGhHrDTdkW0x4W49LzCLR2VJ1hFfhPTSTQ/11Rl8QB3fEvzuqk
-         oz0l7heaL4esNb4WWuTxNAY3txU+10V8u/40q/8RPoG9WoIdTVLexCIPtl0CN5os3bFV
-         Ve9zqVVDjTU3XgTtVPiidrvbJ9a6sf/hcIwxgCWC34QXgT3YF75mHkUM1QViVgQ9z4Xs
-         xCqw==
+        bh=3x8fo8ZdaZL0NcelbjOrkia6dNLJwkoa+yeWX98rz5Y=;
+        b=Y0XaZE3sTnaVg3+nH+oqYpvhYw3RpAa//2+FmMICyhxlLLJ0lZZfly4jvKLDVkYnDX
+         gcJZcUmhBXG2GhcyuCOoLT98Rpg+54NPyClB2QT2j7uxz7SH5vnabvMTeE9d6iZ1RSzQ
+         5d/PQ3Od244hnE940evO6D3Y0gj62Q+p5Oqco=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732230359; x=1732835159;
+        d=1e100.net; s=20230601; t=1732240388; x=1732845188;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=skGr7TzxYrDaJmlRy1zO1szKe6aQTSkC3fXLyAmXUUw=;
-        b=rhBt3vZJBRMn2nHdt/EzX9uEei8QYHByPa9oknMQCAU7COpvYw9T/mxFxCo90VVfyw
-         lLr1I+w7wTMF1mlqhopofPIafSyKd7mtQaHKGnZmWFRn7DGhiELSvVXh50iAHCjmZUCK
-         vj+YXn3kzBi7pPzmnOaoed4PTprgovgm2YuCvyIhGpdEwxpCwnFi61gJ9nC1Nq3fi8Ub
-         hzJJPVyLGS4af6EwEKq5ZXF1jdYk50ADNiaiCZaZj18AlxoGdi8geyJgUOrUygJynh60
-         lu+yx0h0o9dLh9gKRiu4b8U5ccTuP2ISwmf5MDVf3SyRm+s6wcvRxfdfvqFJBHns9ePq
-         tM1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUEcgO2EF+LYCn9qYE1f8GUdfsDwP9PT351Kv1GmwiHZbcvL/LjIH/OtJINHlyXTL+9zfkeBJEPKcYRSv2xyvQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqOQkm5uMdEsiIqxpVGP0Z5rl2PpbRbwOQfKZhTcq8phsDw9bS
-	npZYHLh3Vm0WF5t+hvM02lz7CNmXJPHVQu+d4jsCkFPXAbqH87l/VGZAN1ph0qk=
-X-Gm-Gg: ASbGncup2lC+FIMwHb+o2tp3CkoiEQWliFU06SzI7CoxVSRq0o3ePAnKCoGzVv4cWro
-	rFVviAljHnHSKhd+QXA/4DXiXf+xB/zL3iaKPVs8siSYcsnoyLPNwY+ClMPkyp0YjNeCzn8lRVZ
-	bQzMR0t+oVYmEXrjif9nLvLQBeABRepu5Fh29ox/JM6fbCeNFUb/vbU/eWB6FXN94QUAnIbq/H5
-	QRC6Ebe0q0wDSO5unUj+PhUjtgd6SDZn5FIqPVTv6wTJryp2SmSGmwH4FQKWA7wkJo1NeOoqDBo
-	5PX/7cwf3YIdl3ocGTJhdSt5TZfnvw==
-X-Google-Smtp-Source: AGHT+IFsFiPswuTvKRAMZXTwEOWckEDYLeJUZ4aXoe/XaGXinnkHcCPuSeYBh8t3kFTwrpf2UNrmrA==
-X-Received: by 2002:a05:6512:b81:b0:539:ddf1:ac6f with SMTP id 2adb3069b0e04-53dd39a4c7dmr232459e87.46.1732230359158;
-        Thu, 21 Nov 2024 15:05:59 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dd4253c64sm11188e87.107.2024.11.21.15.05.57
+        bh=3x8fo8ZdaZL0NcelbjOrkia6dNLJwkoa+yeWX98rz5Y=;
+        b=Jr6FYv7X3G1oJEJWHreXLUMqGvUlP351UOcAc7H8PppjXE/wguTJwxhuiVPcQJiZjT
+         evHdAQK5fN221ct26Js18WThSQxfqE5YlqKN3KEsRI54QKa3Y+LxwBm4DQPciAttUBrE
+         /nj8J2iBbhatIbnJQZELIPbBtEPiHMzqkzIE5BY7DL64B4ULaAil45L735nfHt1+Ok14
+         OoGctbrDzaW8gEuUlG5z8a8bX0Zcywcp3003vTnil/lBag9GlQ+2SCI3TE/k8ngjThMG
+         nLl8MNsROeiauRnFyKAn/qj7iKaWGeZoifg57vufSMYjX2aE9q2Y3pqqvDpRghi8kwq8
+         0Kfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpHkjyY7AmRzJWTzW9VSj/ZKFsFQDX71d+2TKqAucTnow9CW5HdkGlNfXlWcj6Sd2sI+VC4ushBGz2pdTAVcU=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxk/S55nD9kSUWkTm6bZtl+gW5fNCH/rw5ITrl9fUO7kq1yq/bi
+	/6/M/7Ng485cVLN15MpeaAZuSxzgDdscBsGlrlMlVgui5FR62Rtu/S9EvPV8VQ==
+X-Gm-Gg: ASbGncshgK3rNeXock6RUzuZvHFVhPdChm+uK3cIcBQJeCKNRnbNRF57bYN14xCUHrN
+	KZE3Il/HSoB9KXmJ4G5ohxccGiiVpOvhum7mCkCpFIgySV6XiBIzf9vtG+IUNQCZcXEFgZkqoI7
+	nIwAtU/7E6swTi7FWaGc/diin3hucMbdAAJA57oNyES+/dT69AhYYn62QYNPFPsMQsHQctkG91l
+	LFogVV3anKAgngL92iWtMO9De4zBqgblFGSS0O9UOQ=
+X-Google-Smtp-Source: AGHT+IF1rzuF3haOxVKx1OXtXDkDX/sEISCXgMO2PAx7+IkM05srtj8d/7FtAHkiZLQS2l8phBPE4g==
+X-Received: by 2002:a05:6a21:338a:b0:1db:f0af:2277 with SMTP id adf61e73a8af0-1e09e63211amr1302998637.38.1732240388215;
+        Thu, 21 Nov 2024 17:53:08 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:533e:26bf:b63:973a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de47d186sm451941b3a.76.2024.11.21.17.53.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2024 15:05:58 -0800 (PST)
-Date: Fri, 22 Nov 2024 01:05:55 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benson Leung <bleung@chromium.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
-	Pavan Holla <pholla@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v7 2/3] usb: typec: ucsi: Implement ChromeOS UCSI driver
-Message-ID: <wyz6rxgimqsas4giychio227mpivoqfihyvxmpqfh2it4vfqlq@3o4urzbow2c2>
-References: <20241115155234.1587589-1-ukaszb@chromium.org>
- <20241115155234.1587589-3-ukaszb@chromium.org>
- <jatq645z65hthaud4up6h6mxbggqpm73djtd6t3fxxkwccsifu@bb7bn24b7dak>
- <CALwA+NZ16WigkZuTwsRzDNC96OOR=+ZA-_UxtMq=fTWJ23a_Ag@mail.gmail.com>
- <CAA8EJprRQuXtGwiDeOiS56Nq=RW3p82-LTWGt8RervqGwP-=Vw@mail.gmail.com>
- <CALwA+NbUCstuayfm3ag-mBBRus1y-RM53auVFfffE_1OcW2zzA@mail.gmail.com>
- <CAA8EJppJ6FKDRvZg0WHk7+uygFTUDKqBnx0swQ=A_E7WiUQUdA@mail.gmail.com>
- <CALwA+Nbdah1SML92GPtsYmVKmPzTLTGSu1kuphp+PDGuERT27A@mail.gmail.com>
+        Thu, 21 Nov 2024 17:53:07 -0800 (PST)
+Date: Fri, 22 Nov 2024 09:53:04 +0800
+From: "Sung-Chi, Li" <lschyi@chromium.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] platform/chrome: cros_ec_charge_state: add new
+ driver to control charge
+Message-ID: <Zz_kACWsTYt9CPbV@google.com>
+References: <20241118-add_charger_state-v1-0-94997079f35a@chromium.org>
+ <20241118-add_charger_state-v1-1-94997079f35a@chromium.org>
+ <8fcf9154-6c0d-42eb-901b-0cc9e731e757@t-8ch.de>
+ <1e8bf721-f930-4365-be48-a8c5964c1457@kernel.org>
+ <7fc1bbbc-3cba-45bd-a5b6-0029cb5bb8fd@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALwA+Nbdah1SML92GPtsYmVKmPzTLTGSu1kuphp+PDGuERT27A@mail.gmail.com>
+In-Reply-To: <7fc1bbbc-3cba-45bd-a5b6-0029cb5bb8fd@t-8ch.de>
 
-On Mon, Nov 18, 2024 at 12:18:17PM +0100, ﾅ「kasz Bartosik wrote:
-> On Mon, Nov 18, 2024 at 12:08窶ｯPM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > On Mon, 18 Nov 2024 at 12:38, ﾅ「kasz Bartosik <ukaszb@chromium.org> wrote:
-> > >
-> > > On Mon, Nov 18, 2024 at 11:21窶ｯAM Dmitry Baryshkov
-> > > <dmitry.baryshkov@linaro.org> wrote:
-> > > >
-> > > > On Mon, 18 Nov 2024 at 12:10, ﾅ「kasz Bartosik <ukaszb@chromium.org> wrote:
-> > > > >
-> > > > > On Fri, Nov 15, 2024 at 6:00窶ｯPM Dmitry Baryshkov
-> > > > > <dmitry.baryshkov@linaro.org> wrote:
-> > > > > >
-> > > > > > On Fri, Nov 15, 2024 at 03:52:33PM +0000, ﾅ「kasz Bartosik wrote:
-> > > > > > > From: Pavan Holla <pholla@chromium.org>
-> > > > > > >
-> > > > > > > Implementation of a UCSI transport driver for ChromeOS.
-> > > > > > > This driver will be loaded if the ChromeOS EC implements a PPM.
-> > > > > > >
-> > > > > > > Signed-off-by: Pavan Holla <pholla@chromium.org>
-> > > > > > > Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> > > > > > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> > > > > > > Co-developed-by: ﾅ「kasz Bartosik <ukaszb@chromium.org>
-> > > > > > > Signed-off-by: ﾅ「kasz Bartosik <ukaszb@chromium.org>
-> > > > > > > ---
-> > > > > > >  MAINTAINERS                           |   7 +
-> > > > > > >  drivers/usb/typec/ucsi/Kconfig        |  13 ++
-> > > > > > >  drivers/usb/typec/ucsi/Makefile       |   1 +
-> > > > > > >  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 248 ++++++++++++++++++++++++++
-> > > > > > >  4 files changed, 269 insertions(+)
-> > > > > > >  create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> > > > > >
-> > > > > > > +static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd)
-> > > > > > > +{
-> > > > > > > +     return ucsi_sync_control_common(ucsi, cmd);
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +struct ucsi_operations cros_ucsi_ops = {
-> > > > > > > +     .read_version = cros_ucsi_read_version,
-> > > > > > > +     .read_cci = cros_ucsi_read_cci,
-> > > > > > > +     .read_message_in = cros_ucsi_read_message_in,
-> > > > > > > +     .async_control = cros_ucsi_async_control,
-> > > > > > > +     .sync_control = cros_ucsi_sync_control,
-> > > > > >
-> > > > > > .sync_control = ucsi_sync_control_common,
-> > > > > >
-> > > > >
-> > > > > I will change.
-> > > > >
-> > > > > > > +};
-> > > > > > > +
-> > > > > >
-> > > > > > [...]
-> > > > > >
-> > > > > > > +
-> > > > > > > +static int __maybe_unused cros_ucsi_suspend(struct device *dev)
-> > > > > > > +{
-> > > > > > > +     struct cros_ucsi_data *udata = dev_get_drvdata(dev);
-> > > > > > > +
-> > > > > > > +     cancel_work_sync(&udata->work);
-> > > > > > > +
-> > > > > > > +     return 0;
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +static void __maybe_unused cros_ucsi_complete(struct device *dev)
-> > > > > > > +{
-> > > > > > > +     struct cros_ucsi_data *udata = dev_get_drvdata(dev);
-> > > > > > > +
-> > > > > > > +     ucsi_resume(udata->ucsi);
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +static const struct dev_pm_ops cros_ucsi_pm_ops = {
-> > > > > > > +#ifdef CONFIG_PM_SLEEP
-> > > > > > > +     .suspend = cros_ucsi_suspend,
-> > > > > > > +     .complete = cros_ucsi_complete,
-> > > > > > > +#endif
-> > > > > >
-> > > > > > SET_SYSTEM_SLEEP_PM_OPS ? Or even better, DEFINE_SIMPLE_DEV_PM_OPS() ?
-> > > > > >
-> > > > > > What is the reason for using complete() instead of resume()?
-> > > > > >
-> > > > >
-> > > > > Due to change in
-> > > > > https://lore.kernel.org/linux-usb/20240910101527.603452-1-ukaszb@chromium.org/T/#m25bc17cc0a8d30439830415018c7f44f342900d1
-> > > > > we moved from using macro SIMPLE_DEV_PM_OPS and resume() to complete().
-> > > > > Per Heikki's suggestion I also squashed this change into "usb: typec:
-> > > > > ucsi: Implement ChromeOS UCSI driver".
-> > > >
-> > > > Neither original patch, nor this one document, why this is necessary
-> > > >
-> > >
-> > > The https://lore.kernel.org/linux-usb/20240910101527.603452-1-ukaszb@chromium.org/T/#m25bc17cc0a8d30439830415018c7f44f342900d1
-> > > commit messages says:
-> > > "On platforms using cros_ec_lpc, resume is split into .resume_early
-> > > and .complete.
-> > > To avoid missing EC events, use .complete to schedule work when resuming."
-> > >
-> > > I will add this as a comment on top of cros_ucsi_pm_ops struct.
-> > > Do you find it sufficient ?
-> >
-> > IMHO, no
-> >
+On Thu, Nov 21, 2024 at 03:11:30PM +0100, Thomas Weiﾟschuh wrote:
+> On 2024-11-21 15:00:13+0100, Krzysztof Kozlowski wrote:
+> > On 21/11/2024 14:47, Thomas Weiﾟschuh wrote:
+> > > 
+> > >> +
+> > >> +	return 0;
+> > >> +}
+> > >> +
+> > >> +static const struct platform_device_id cros_ec_charge_state_id[] = {
+> > >> +	{ DRV_NAME,  0 },
+> > >> +	{}
+> > >> +};
+> > > 
+> > > Reference this in the platform_driver below.
+> > 
+> > And missing module device table... This wasn't ever tested as module.
 > 
-> Ok. If you please tell me what is not clear or missing in this
-> explanation in your opinion
-> then I will update it.
+> It has one in the general MODULE_*() macro soup at the end of the file.
+> But yes, it should be moved where it can be found, right after
+> cros_ec_charge_state_id.
 
-For me it is a question of imbalance. The .complete() should be paired
-with .prepare(), .suspend() with .resume(), etc. Also by using just
-.suspend and .complete you are missing all other suspend/resume cases
-which are covered by SET_SYSTEM_SLEEP_PM_OPS() or
-SET_LATE_SYSTEM_SLEEP_PM_OPS().
+Thank you all for spending time reviewing my changes, and I am very sorry that
+I made so such careless mistakes. All these input are very valuable, and I
+learnt a lot from them, and I will prevent these mistakes in future commits.
 
-So, back to your question. I'm reviewing the UCSI part. I don't know
-anything about the cros_ec_lpc.c or any other CrOS EC drivers. You are
-doing some non-standard thing in your driver. As such you should provide
-a sensible explanation for it. If I understand correctly, it might be
-something in line with "UCSI is used with the systems using
-cros_ec_lpc.c. On such systems ... is not available until the
-.complete() callback of the cros_ec_lpc is executed. For this reason,
-delay ucsi_resume() until the .complete() stage."
+As we have seen lots of inputs from the DTS change commit, and I spent lot of
+time coming up a better solution for achieving my goal (export certain
+mechanisms, such that we can limit the charger chip current as a cooling
+device), I think maybe extending functionalities in the 
+driver/power/supply/cros_usbpd-charger.c would be a better approach. As a
+result, I will stop the development on this series. So anyone is helping on this
+series can stop review these changes.
 
-> 
-> Thanks,
-> Lukasz
-> 
-> > >
-> > > Thanks,
-> > > Lukasz
-> > >
-> > > > >
-> > > > > Thank you,
-> > > > > Lukasz
-> > > > >
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +static const struct platform_device_id cros_ucsi_id[] = {
-> > > > > > > +     { KBUILD_MODNAME, 0 },
-> > > > > > > +     {}
-> > > > > > > +};
-> > > > > > > +MODULE_DEVICE_TABLE(platform, cros_ucsi_id);
-> > > > > > > +
-> > > > > > > +static struct platform_driver cros_ucsi_driver = {
-> > > > > > > +     .driver = {
-> > > > > > > +             .name = KBUILD_MODNAME,
-> > > > > > > +             .pm = &cros_ucsi_pm_ops,
-> > > > > > > +     },
-> > > > > > > +     .id_table = cros_ucsi_id,
-> > > > > > > +     .probe = cros_ucsi_probe,
-> > > > > > > +     .remove = cros_ucsi_remove,
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +module_platform_driver(cros_ucsi_driver);
-> > > > > > > +
-> > > > > > > +MODULE_LICENSE("GPL");
-> > > > > > > +MODULE_DESCRIPTION("UCSI driver for ChromeOS EC");
-> > > > > > > --
-> > > > > > > 2.47.0.338.g60cca15819-goog
-> > > > > > >
-> > > > > >
-> > > > > > --
-> > > > > > With best wishes
-> > > > > > Dmitry
-> > > >
-> > > >
-> > > >
-> > > > --
-> > > > With best wishes
-> > > > Dmitry
-> >
-> >
-> >
-> > --
-> > With best wishes
-> > Dmitry
+However, because I am kind of new to developing the kernel driver module, any
+inputs are welcome, and I have to say I really learnt a lot from mistakes
+pointed by all of you, and I shall not make same mistakes in future
+contributions.
 
--- 
-With best wishes
-Dmitry
+Best,
+Sung-Chi Li

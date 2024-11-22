@@ -1,85 +1,261 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D53175D44;
-	Fri, 22 Nov 2024 07:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E9D16F824
+	for <chrome-platform@lists.linux.dev>; Fri, 22 Nov 2024 10:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732261758; cv=none; b=Rsfa3zzSnwZlzxj34oZ0f4/X/vKoUK8qBXdQW92qGuxkorP/EXCHYNhy4wwvEr0WYREJw7nlxqRRwdoDf8U5JHcKt9q09DDrtZKZZ2FdKloFpVY+C+ENQ8M2tlOLXcO9GbNxFHVfYtNEa7erbCb7vxqPBqbtn53ZiH7+g4wAZhE=
+	t=1732270886; cv=none; b=lAOmrrfjVY7qe/6/YYML4tDO7RDtgpjFzBRq5HyvpDZE4g2G1MOsdQ+CqneZT5Zi2ulMqa4HHQnAextXuQdq4lE+T7ug3aOGFr8Z1a4xMnAnWhgyFXreHAQLO6iCTtimHiWIldLDV8309wUZ4o4KWS4brOLc8AUdUOmO7ZKeuMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732261758; c=relaxed/simple;
-	bh=S+qNBPkjkTjMFUl0CwAxU9iquNF+lNSPF4WWI6IeZ1Y=;
+	s=arc-20240116; t=1732270886; c=relaxed/simple;
+	bh=1LWGdxgjKMEqxkfBZhwVMju1YBlsPo35yU1MFU7teB0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nBbjsl5o/8C2YAghX2x0o/9QvnxcheHuS6qwd/7LbUnHFLLc7Ij3uwTglgJRisohDQJVR6JDir/FZ7OCvgTo1ZiO2S+8WwMvzjPDSasbVlQWG1aMGYnt3NwdSUUf/zvQxcHxkewUfPkuJm/xOv9qKV9WKuCgStM30DTGE3m189I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qhLcJcVY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rF5FAAOyD1Hw9nCBY2FqLUE1Z3OYo2D8N1YL9Wef79XbfeKFRTNNacVoGFeooSsYOXN+nLEOuB3esKdleLra4AgYP/bQl9yod16o9jmC7GneUi6eOYcteCWR2CbD5qCceevu48xgjS6xh54XFtXKMKV39QNZUoYtbIsPQoiWmOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de; spf=pass smtp.mailfrom=t-8ch.de; dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b=SFThPj4C; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-8ch.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qhLcJcVY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA12C4CECE;
-	Fri, 22 Nov 2024 07:49:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732261757;
-	bh=S+qNBPkjkTjMFUl0CwAxU9iquNF+lNSPF4WWI6IeZ1Y=;
+	dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b="SFThPj4C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
+	t=1732270879; bh=1LWGdxgjKMEqxkfBZhwVMju1YBlsPo35yU1MFU7teB0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qhLcJcVYCiPouCekC36rvLGUitMNUMMFkrWn3TCuJjEWt3gWny/l9HRmAjxKdnvqO
-	 5NJxW84aKV+ExKhZDgikWWcpnkv2iwwF9t437CGv/GaJtY6TwuE9wGLJiW2fKps2Ka
-	 LgeAHePnZ9oa0jF0m3B8+rhpbQiZ27TImOcFsPx1GkLf+xXfBURDIr/zuSdmmbEtTH
-	 P/mQ5TU6+1hkwwOIyQk2rDgiffX7GI08xqRKpazwEdAMUBaNuuFVCmUXttNewSlW3Q
-	 uLHR4drxlArP1s9p/B7HAQfHr6oJQxe219wm32VIjpVJydOp70ejDFDFKnG/nhDdif
-	 30Uv1XrJkpBEQ==
-Date: Fri, 22 Nov 2024 08:49:14 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
+	b=SFThPj4CBn+1wWSbHDM6v+GVIrojRoJ6YIQ+iCYB7blrxfoycKQAgBT3CRGTweGs+
+	 LFR6m+NAiy2r1dhSdl2P3naqmjmQ34t/jHGWvS7nSXTeWKvFwCW2r7SScsmmmWvlBT
+	 4j+pBp2hUmD/Dl4481mTm6qX+Pq1A0Wugc4b9BVQ=
+Date: Fri, 22 Nov 2024 11:21:18 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
 To: Sung-Chi Li <lschyi@chromium.org>
 Cc: Benson Leung <bleung@chromium.org>, 
 	Guenter Roeck <groeck@chromium.org>, Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: mfd: cros-ec: add properties for
- thermal cooling cells
-Message-ID: <4f5sahkxxqb5qonh676igaiadkxv2pbhbibu6wtx4yenplfn4o@yvidi4ujavhr>
+Subject: Re: [PATCH 1/2] power: supply: cros_usbpd-charger: extend as a
+ thermal of cooling device
+Message-ID: <f805c0d8-a7f7-4e03-8d8c-0c13baa02ac4@t-8ch.de>
 References: <20241122-extend_power_limit-v1-0-a3ecd87afa76@chromium.org>
- <20241122-extend_power_limit-v1-2-a3ecd87afa76@chromium.org>
+ <20241122-extend_power_limit-v1-1-a3ecd87afa76@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241122-extend_power_limit-v1-2-a3ecd87afa76@chromium.org>
+In-Reply-To: <20241122-extend_power_limit-v1-1-a3ecd87afa76@chromium.org>
 
-On Fri, Nov 22, 2024 at 11:47:22AM +0800, Sung-Chi Li wrote:
-> The cros_ec supports limiting the input current to act as a passive
-> thermal cooling device. Add the property '#cooling-cells' bindings, such
-> that thermal framework can recognize cros_ec as a valid thermal cooling
-> device.
+On 2024-11-22 11:47:21+0800, Sung-Chi Li wrote:
+> cros_usbpd-charger is the driver that takes care the system input power
+> from the pd charger. This driver also exposes the functionality to limit
+> input current.
+> 
+> We can extend this driver to make it as a passive thermal cooling
+> device by limiting the input current. As such, this commit implements
+> the required cooling methods and OF style registration.
 > 
 > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
 > ---
->  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/power/supply/cros_usbpd-charger.c | 98 +++++++++++++++++++++++++++++--
+>  1 file changed, 93 insertions(+), 5 deletions(-)
+
+A dependency from CHARGER_CROS_PCHG to THERMAL needs to be added to
+drivers/power/supply/Kconfig.
+
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> index aac8819bd00b..2b6f098057af 100644
-> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> @@ -96,6 +96,9 @@ properties:
->    '#gpio-cells':
->      const: 2
+> diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
+> index 47d3f58aa15c..a0451630cdd7 100644
+> --- a/drivers/power/supply/cros_usbpd-charger.c
+> +++ b/drivers/power/supply/cros_usbpd-charger.c
+> @@ -13,6 +13,9 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/power_supply.h>
+>  #include <linux/slab.h>
+> +#ifdef CONFIG_THERMAL_OF
+
+Remove this ifdef. The header is perfectly usable in any case.
+
+Actually the CONFIG_THERMAL_OF dependency is not needed at all.
+It is only necessary for devm_thermal_of_zone_register() but not 
+devm_thermal_of_cooling_device_register() which you are using.
+I am confused.
+
+OTOH you are adding the #cooling-cells OF property which itself seems to
+be only used by devm_thermal_of_zone_register(), so I'm now even more
+confused.
+
+In general, try to also test the driver configurations
+!CONFIG_THERMAL_OF and !CONFIG_THERMAL.
+
+> +#include <linux/thermal.h>
+> +#endif /* CONFIG_THERMAL_OF */
 >  
-> +  '#cooling-cells':
-> +    const: 2
+>  #define CHARGER_USBPD_DIR_NAME			"CROS_USBPD_CHARGER%d"
+>  #define CHARGER_DEDICATED_DIR_NAME		"CROS_DEDICATED_CHARGER"
+> @@ -22,6 +25,7 @@
+>  					 sizeof(CHARGER_DEDICATED_DIR_NAME))
+>  #define CHARGER_CACHE_UPDATE_DELAY		msecs_to_jiffies(500)
+>  #define CHARGER_MANUFACTURER_MODEL_LENGTH	32
+> +#define CHARGER_COOLING_INTERVALS		10
+>  
+>  #define DRV_NAME "cros-usbpd-charger"
+>  
+> @@ -76,6 +80,8 @@ static enum power_supply_property cros_usbpd_dedicated_charger_props[] = {
+>  /* Input voltage/current limit in mV/mA. Default to none. */
+>  static u16 input_voltage_limit = EC_POWER_LIMIT_NONE;
+>  static u16 input_current_limit = EC_POWER_LIMIT_NONE;
+> +/* Cooling level interns of current limit */
+> +static u16 input_current_cooling_level;
+>  
+>  static bool cros_usbpd_charger_port_is_dedicated(struct port_data *port)
+>  {
+> @@ -459,13 +465,20 @@ static int cros_usbpd_charger_set_prop(struct power_supply *psy,
+>  			break;
+>  
+>  		input_current_limit = intval;
+> -		if (input_current_limit == EC_POWER_LIMIT_NONE)
+> +		if (input_current_limit == EC_POWER_LIMIT_NONE) {
+>  			dev_info(dev,
+>  			  "External Current Limit cleared for all ports\n");
+> -		else
+> -			dev_info(dev,
+> -			  "External Current Limit set to %dmA for all ports\n",
+> -			  input_current_limit);
+> +			input_current_cooling_level = 0;
+> +		} else {
+> +			dev_info(
+> +				dev,
+> +				"External Current Limit set to %dmA for all ports\n",
+> +				input_current_limit);
+> +			input_current_cooling_level =
+> +				input_current_limit *
+> +				CHARGER_COOLING_INTERVALS /
+> +				port->psy_current_max;
 
-This is not a cooling device. BTW, your commit msg is somehow circular.
-"Add cooling to make it a cooling device because it will be then cooling
-device."
+This seems to be a very spammy driver...
 
-Power supply already provides necessary framework for managing charging
-current and temperatures. If this is to stay, you need to explain why
-this is suitable to be considered a thermal zone or system cooling
-device (not power supply or input power cooling).
+> +		}
+>  		break;
+>  	case POWER_SUPPLY_PROP_INPUT_VOLTAGE_LIMIT:
+>  		ret = cros_usbpd_charger_set_ext_power_limit(charger,
+> @@ -525,6 +538,66 @@ static void cros_usbpd_charger_unregister_notifier(void *data)
+>  	cros_usbpd_unregister_notify(&charger->notifier);
+>  }
+>  
+> +#ifdef CONFIG_THERMAL_OF
+> +static int
+> +cros_usbpd_charger_get_max_cooling_state(struct thermal_cooling_device *cdev,
+> +					 unsigned long *cooling_level)
+> +{
+> +	*cooling_level = CHARGER_COOLING_INTERVALS;
+> +	return 0;
+> +}
+> +
+> +static int
+> +cros_usbpd_charger_get_cur_cooling_state(struct thermal_cooling_device *cdev,
+> +					 unsigned long *cooling_level)
+> +{
+> +	*cooling_level = input_current_cooling_level;
+> +	return 0;
+> +}
+> +
+> +static int
+> +cros_usbpd_charger_set_cur_cooling_state(struct thermal_cooling_device *cdev,
+> +					 unsigned long cooling_level)
+> +{
+> +	struct charger_data *charger = cdev->devdata;
+> +	struct port_data *port;
+> +	int current_limit;
+> +	int idx = -1;
+> +	int ret;
+> +
+> +	for (int i = 0; i < charger->num_registered_psy; i++) {
+> +		port = charger->ports[i];
+> +		if (port->psy_status == POWER_SUPPLY_STATUS_CHARGING) {
+> +			idx = i;
+> +			break;
+> +		}
+> +	}
 
-Best regards,
-Krzysztof
+Why not register one cooling device per charger?
+It would make things more predictable.
+I have no experience with the thermal subsystem, so this is just a
+guess.
 
+> +
+> +	if (idx == -1)
+> +		return -EINVAL;
+> +
+> +	current_limit =
+> +		port->psy_current_max - (cooling_level * port->psy_current_max /
+> +					 CHARGER_COOLING_INTERVALS);
+> +	ret = cros_usbpd_charger_set_ext_power_limit(charger, current_limit,
+> +						     input_voltage_limit);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	input_current_limit = (current_limit == port->psy_current_max) ?
+> +				      EC_POWER_LIMIT_NONE :
+> +				      current_limit;
+> +	input_current_cooling_level = cooling_level;
+> +	return 0;
+> +}
+> +
+> +static struct thermal_cooling_device_ops cros_usbpd_charger_cooling_ops = {
+
+const
+
+> +	.get_max_state = cros_usbpd_charger_get_max_cooling_state,
+> +	.get_cur_state = cros_usbpd_charger_get_cur_cooling_state,
+> +	.set_cur_state = cros_usbpd_charger_set_cur_cooling_state,
+> +};
+> +#endif /* CONFIG_THERMAL_OF */
+> +
+>  static int cros_usbpd_charger_probe(struct platform_device *pd)
+>  {
+>  	struct cros_ec_dev *ec_dev = dev_get_drvdata(pd->dev.parent);
+> @@ -534,6 +607,9 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
+>  	struct charger_data *charger;
+>  	struct power_supply *psy;
+>  	struct port_data *port;
+> +#ifdef CONFIG_THERMAL_OF
+> +	struct thermal_cooling_device *cdev;
+> +#endif /* CONFIG_THERMAL_OF */
+>  	int ret = -EINVAL;
+>  	int i;
+>  
+> @@ -674,6 +750,18 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
+>  			goto fail;
+>  	}
+>  
+> +#ifdef CONFIG_THERMAL_OF
+
+Avoid ifdef in .c files.
+Use if (IS_ENABLED(CONFIG_THERMAL_OF)) in the normal code flow.
+The compiler will optimize away all the unreachable code.
+
+> +	cdev = devm_thermal_of_cooling_device_register(
+> +		dev, ec_device->dev->of_node, DRV_NAME, charger,
+> +		&cros_usbpd_charger_cooling_ops);
+> +	if (IS_ERR(cdev)) {
+> +		dev_err(dev,
+> +			"Failing register thermal cooling device (err:%pe)\n",
+> +			cdev);
+
+dev_err_probe().
+
+> +		goto fail;
+
+Does the call to devm_thermal_of_cooling_device_register() work if there
+is no OF configuration?
+
+> +	}
+> +#endif /* CONFIG_THERMAL_OF */
+> +
+>  	return 0;
+>  
+>  fail:
+> 
+> -- 
+> 2.47.0.371.ga323438b13-goog
+> 

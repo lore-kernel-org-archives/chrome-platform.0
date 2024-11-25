@@ -1,102 +1,119 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDCC16FF37
-	for <chrome-platform@lists.linux.dev>; Mon, 25 Nov 2024 08:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106F4179BF
+	for <chrome-platform@lists.linux.dev>; Mon, 25 Nov 2024 08:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732521695; cv=none; b=THtCT186dtQHVulUM3HSu/YJu02X/uflbL2djDiq+2EOY53+fx2czG7ku44l7mIwnJOzmUwZVPmJiN7Vd1cbKVjnY3GGl7OucGhbyWNu/AQDhZsDUiGIK08YPCGVbLxLgLKPwDNHy1m+ek5AcGvvYrN1beXXrPBROkVxFKN3b3A=
+	t=1732523490; cv=none; b=HtOFXZNbKNbQ4++DtGnLQJnJHmWu13sKlTcSDVEsAXjOTiK1z7v1VUcT5VGiTHbAhAbNKfwi8IHYyhjgw/1IWIHPvGkGvv6KMpByPkvmXHHtTgVZQdPmuO2wPIHQOmfWx3sCVA1dkiv1R6MFc+pCdQquo4OEpb4z5t0BijhcLEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732521695; c=relaxed/simple;
-	bh=+tyiE9J0eGLoQYHuhhKZIa6hDUKaJOnKp7k8/yARY2U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jR2Z0FpP0FODeKCozO+je6iiqqH4KB0FLlBUlOVYPLQ9odKo+YeNZVHF8QkS6nPthYdTmA0PMlxph3HG4ZPO00mfwhzSM2fBPhP/jL4W7ZHVGAz6YZrpuyhut3AoHe42AztcpUBjE9ByuAuvkbirIbpGmqxbmtiL35qZN+toJhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UpmuYEyi; arc=none smtp.client-ip=209.85.167.44
+	s=arc-20240116; t=1732523490; c=relaxed/simple;
+	bh=He1DTAeJIyTPOcYmAq6cC2VSNdhtBdgya1P84hM+ZK8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CDKEd+hokCmucnrhdviGdFPhM32AX0asRAW0B/ycXqlTBulFc00Q0kZ+zuCSvsoXbUsXetfFFPcU0x0En9SqM2ydtRGFDXEvqQGn2z076fO6/hsHLBqtKtebVZs5xbdbb6HalUYvvvEDNiurSy/FoTJYm7jcWogaxuai6d5SZ6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NVsFYG21; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UpmuYEyi"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53ddeef9e4aso1916481e87.1
-        for <chrome-platform@lists.linux.dev>; Mon, 25 Nov 2024 00:01:33 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NVsFYG21"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-212884028a3so24953005ad.0
+        for <chrome-platform@lists.linux.dev>; Mon, 25 Nov 2024 00:31:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732521691; x=1733126491; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+tyiE9J0eGLoQYHuhhKZIa6hDUKaJOnKp7k8/yARY2U=;
-        b=UpmuYEyiMtdkyEzjuj4ZMEGU6SW9xZPEpQK6vAW3xI0r/UVFVBMYBpVk7MPc+P+UHS
-         HcGTYqKPdff1r8MWULzt2gH/dhFvbDiZDaAe4wZg0rfWi/YYCXftedjoS5VYEjfv7qZt
-         t6d5+oHm/87B8NFlWjk7OpGUjHuyuwiBsF7mo=
+        d=chromium.org; s=google; t=1732523487; x=1733128287; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g/Vcboz9yqJnuOCvwaptZL2oHcohzZsxdO1sPf8vDF8=;
+        b=NVsFYG21VXEWOak2JmNLE5xgh6ZZN8tePFfaDIoPPh7pGATcupZO+RZ0S241xUey33
+         /UiZZDoB8GRih+TYOvYtf6Jgtu+QURpfMw4J/nGkouu5UDl2PLWgNhDDl3LbHF0ZDD1X
+         hr3/0T0Nt0FynMnrPYyOCQTPaA86/KT7bx+10=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732521691; x=1733126491;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+tyiE9J0eGLoQYHuhhKZIa6hDUKaJOnKp7k8/yARY2U=;
-        b=mH5C38rya8QH2uX5bhBC16zFk63v9gLp5CIP/LTotlbKAfTkZvvBezVqqbf5kKHjiL
-         SG8BfWttw2AQCD2WPoR7P08CMurLztIUrz4aAhcO0XuWAGtNzf6YI33no5Zh0DRESvGs
-         JCFXCPkymdntyHR3vswCj1Hkirj9IWv1SX83acJGKhILIGdza52bQcYVlYc0g9tQeO5h
-         WJTOrKacBOonbUa63bHkYIy+UUDIHBJcULsOdITf70pxdNFjWmuyR2YNjFeWbBY8MtOn
-         BOt1sUIbAY6lPX6QRTCPEAnvT0za8XwVIZ1E2LW8KxIgn/es2HK/WCbsYZLVeZbeB01k
-         JV1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUHbGXZt5UwgdWUiAi2ENWjJTY60rsvmRG89wR2AJ6v87I3GaNwdvk4xjTDQvEorDYtHpXCL8xAOZr8MRY97LY=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzI6tTOZEaBey0Z4SgyV/KfYSRdS9RLkMM3zyJ8ZitaAf1J34a6
-	/JGOfljzPN/FMfLTpbxFfLxV6pKjPQDpAygPDHWccqOIyWvWeUKW00qhwpSCDjzLZxd6rZNnf/U
-	hZhREFaafqzV1f5XUeDLGp+Qyg7ADkO1t9Wz7
-X-Gm-Gg: ASbGncugVUcrHTFqkbTt87r6zGxpEN2juHsmnsaEpKoh2v7gY2c5apxxwZWNnVCMNyU
-	uCkTNyJ2WdMoC7LmhVMKETgSlpyJ4d/zc8kLe13eD7Rw1WHSiATFmBzPkI24=
-X-Google-Smtp-Source: AGHT+IFNA2YPDB29CKBTPo3ULGX/2k8v0BktEtEySMJsHpFYreImy/VSkDo3YvLTyiyt5hYDcUA3UR4cYjWGNCVrAeM=
-X-Received: by 2002:a05:6512:6c8:b0:53d:dd84:a92e with SMTP id
- 2adb3069b0e04-53ddd84a93bmr3341455e87.0.1732521691043; Mon, 25 Nov 2024
- 00:01:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732523487; x=1733128287;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g/Vcboz9yqJnuOCvwaptZL2oHcohzZsxdO1sPf8vDF8=;
+        b=iLWz0lDCf3d8hfOdAnLhfBO2EMkmnsgKtpPKU2rCA7eZIdOzh7nQYXROiFlQgUXTxn
+         1zVW6TEF74AkIqpPELvVoes15LMGIuv9AX7Dr2FFRACdTp/XqWutuRfKSYqwo3fOg5QK
+         ugTLSnjQxOhE/WXcOtkkKos2tBu6UTJ/uDy9C73j7kEAA/ZjWMpJWBTfwre+UhN6yrUm
+         /XX1O1Jq6m82pR1g4FhLCraR0OGQpLA13HsBYxQk/FFgd51fj4WDsi0d0EBNHAOmqdus
+         UI02nKx+RguTOnZySN2ub+7UC7mGIM+IcontiFBVFiWrIOX4CoU32AY3ZeCC4c0HyVzZ
+         eBJw==
+X-Gm-Message-State: AOJu0Yw67C5JeOxa6a8dZsdc/ThPOVP3ZHQRGbpobY2GgojJrTcrnFm4
+	BiHvXE0l85J17xgirInkAzDP2ZLHEcwKJjxVq025fGXhUxQbFQrouJiZvMSwRg==
+X-Gm-Gg: ASbGncvkz2VTeuXpxqmYecVa4jtYikGugYTdVDNYKxgGydPs/pxOX9IhtM2Co/sVUk6
+	Oj/k73ShkkA1LRsurLryBUsGB8MBSEMwsoxhMXp/h4Mt5aTZOUwwAk7xb/9Z0FdbLUmGYJYJ04B
+	3tN0EHCz6wUDQ0NQazVD7La5lsXuG2C3l0gymEy3husnHwL7VZN7xSA41ad+zO3Ay3SGqka36fv
+	ZA9h6kehcqxGJd6xg7WYq8CWg0CYc0zTb5bLdKns8wrcRsb1yPeMKCcxBBSbz13U9NRe3DM
+X-Google-Smtp-Source: AGHT+IHErz94EiqWWoHbBTw76REJa1NEGWWXxWddsah0jH/Nk15nl1D8qZYS9TdahVOTmzplFY3DdQ==
+X-Received: by 2002:a17:902:dac4:b0:20b:a41f:6e4d with SMTP id d9443c01a7336-2129fe38e54mr183070215ad.15.1732523487360;
+        Mon, 25 Nov 2024 00:31:27 -0800 (PST)
+Received: from lschyi-p920.tpe.corp.google.com ([2401:fa00:1:10:66a3:d18f:544f:227a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfece2sm59090025ad.157.2024.11.25.00.31.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Nov 2024 00:31:27 -0800 (PST)
+From: Sung-Chi Li <lschyi@chromium.org>
+Subject: [PATCH v2 0/2] Extend the cros_usbpd-charger to make it a passive
+ thermal cooling device
+Date: Mon, 25 Nov 2024 16:31:15 +0800
+Message-Id: <20241125-extend_power_limit-v2-0-c3266a86e9b1@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241106093335.1582205-1-wenst@chromium.org> <20241106093335.1582205-8-wenst@chromium.org>
- <1246d672-4370-4db7-b4d0-368524809435@collabora.com>
-In-Reply-To: <1246d672-4370-4db7-b4d0-368524809435@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 25 Nov 2024 16:01:20 +0800
-Message-ID: <CAGXv+5H8YwiTyk1eMSwPLuGw5sQxec4n8OKR-Qa5wz8QGH4h9w@mail.gmail.com>
-Subject: Re: [PATCH v11 7/7] arm64: dts: mediatek: mt8173-elm-hana: Mark
- touchscreens and trackpads as fail
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, Wolfram Sang <wsa@kernel.org>, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>, 
-	linux-i2c@vger.kernel.org, stable+noautosel@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANM1RGcC/32NQQ6CMBBFr0JmbQ0dDagr7mEIqe0Akwgl04oYw
+ t2tHMDle8l/f4VAwhTglq0gNHNgPybAQwa2N2NHil1iwBzPWiMqWiKNrpn8m6R58sBRFWjRXY1
+ 5tKaENJyEWl726L1O3HOIXj77x6x/9m9u1ipX5kTWXUqTkkVle/EDv4ajlw7qbdu+zny85rcAA
+ AA=
+To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Sung-Chi Li <lschyi@chromium.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732523485; l=1270;
+ i=lschyi@chromium.org; s=20241113; h=from:subject:message-id;
+ bh=He1DTAeJIyTPOcYmAq6cC2VSNdhtBdgya1P84hM+ZK8=;
+ b=OLCwUcBUsou2+ABwP0UXSKV7vUZPaomRddZGrl+h86RNJ+x71QSs7oiW+L7DP3Q1wvzytKfKH
+ 4ENfVmX64huAdUGwGKP6ecaGmBEYsfU1426QNSxPlqFMMjHCDNGYxz5
+X-Developer-Key: i=lschyi@chromium.org; a=ed25519;
+ pk=nE3PJlqSK35GdWfB4oVLOwi4njfaUZRhM66HGos9P6o=
 
-On Thu, Nov 14, 2024 at 6:36=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 06/11/24 10:33, Chen-Yu Tsai ha scritto:
-> > Instead of having them all available, mark them all as "fail-needs-prob=
-e"
-> > and have the implementation try to probe which one is present.
-> >
-> > Also remove the shared resource workaround by moving the pinctrl entry
-> > for the trackpad interrupt line back into the individual trackpad nodes=
-.
-> >
-> > Cc: <stable+noautosel@kernel.org> # Needs accompanying new driver to wo=
-rk
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
+The cros_usbpd-charger already supports limiting input current, so we
+can easily extend it as a passive thermal cooling device. By limiting
+the current flow into the system, we can reduce the heat generated by
+related chips, which results in reserving more thermal budget for the
+system.
 
-Hi Angelo,
+This series will only works on making it a OF style thermal cooling
+device, so related code are guarded by #ifdef macros.
 
-Could Wolfram also take this patch instead of it having to wait another cyc=
-le?
+---
+Changes in v2:
+- Revise commit message for including the reason of change for this
+  series.
+- Remove uses of `ifdef CONFIG_THERMAL_OF`, and use
+  `IS_ENABLED(CONFIG_THERMAL_OF)` when needed.
+- Does not failing the driver probing if failed to register the usbpd
+  device as a cooling device.
 
+---
+Sung-Chi Li (2):
+      power: supply: cros_usbpd-charger: extend as a thermal of cooling device
+      dt-bindings: mfd: cros-ec: add properties for thermal cooling cells
 
-Thanks
-ChenYu
+ .../devicetree/bindings/mfd/google,cros-ec.yaml    |  3 +
+ drivers/power/supply/cros_usbpd-charger.c          | 84 +++++++++++++++++++++-
+ 2 files changed, 85 insertions(+), 2 deletions(-)
+---
+base-commit: ac24e26aa08fe026804f678599f805eb13374a5d
+change-id: 20241122-extend_power_limit-62c2d9aabfa7
+
+Best regards,
+-- 
+Sung-Chi Li <lschyi@chromium.org>
+

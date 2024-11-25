@@ -1,222 +1,280 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8EC61ABEAC;
-	Mon, 25 Nov 2024 17:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBAE1B87F7
+	for <chrome-platform@lists.linux.dev>; Mon, 25 Nov 2024 18:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732554771; cv=none; b=tbITWgVB1I1OP7q7lfvCGzNVYhAQRfG+yJcjhQ5ZYQu6yZMZrd8r5pS1BKJXEpxoo+CbPzqCjltKvhyTcBi9svtxN6NtGpUauSyiqQ4M6nEi7nSqFJYKgNuFHtLwWm5I+OhVrL3jPGe0QjqNtu5JFvvICucxaQiCdvOIsU31iB8=
+	t=1732560292; cv=none; b=SXHQ7BSXgSlTFzaXoxLs4/OXwVnXUiIjOiGUATd103LZNB2kQ8aZP+ov2/CEVAPbvZfL+fmQcD9lMQjxuhmCmpDnejfotsIHIXtV9WpNgJhsy0TfLzrHQ4tKt3Z6fYlPi+2z/SC8fDTKmmK4LNtq5ngaoXupIInwsOPXrJjbzrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732554771; c=relaxed/simple;
-	bh=KtOOnhBNVpAKdAt3JpdknAUI1CMe4LmkorKrMIv82RQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dYJp9Fu5XjxkXwIKIwBrlgfiAeSIt3uq/p20dJNf89i3fydd6XQhVCq4YL72RHgCs4DKThcypkmCUiKXd/eMzQgzC/eLXPnAoOZUpRagDWQB5KtGx3VPXJLIfYBQgVZXLdsQ3HuDx+KyQ0BKvlGAambVkEawZfyewMkS10MzdWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ctOCiO4u; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732560292; c=relaxed/simple;
+	bh=nQdveVz0U8LjLVzHCbp//UgMS1/8ert9nrQXlFvrOdE=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=RK+9qvzlABPc84CdwO/Q4roIvZ44aLN+7c52XLta6I4oey2FWsh260OkNjZqjM9UThVY3sUdl+PZlCXpNKwqaXfOVbMNjZTR3lt8mipC31ignwsR2tO9cyRckXpaKa6akXbRcESwIrhM679/hxd3+3dRXwLI1yr2bypK2p8s6SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mP3zCcCS; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ctOCiO4u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54EF7C4CECF;
-	Mon, 25 Nov 2024 17:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732554771;
-	bh=KtOOnhBNVpAKdAt3JpdknAUI1CMe4LmkorKrMIv82RQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ctOCiO4uXrYbXIPuqEYW7Q9lND6/6xO0fPromgXDIiozCIJ0ogxIqkRWv+NIWbbqx
-	 PPHDijT6HN64vkNjwHDvLCl3pXbqDIoBK3YhBI9hOOWVQ5IzoZB2ZSB2HZ1sIYLtLg
-	 RaSvQ/gpZ2/dmwisb1D5qcDkwbgnZPDrc0pyumj3NOckYBOCK3vxbHr+8MwzycjU4Q
-	 UJeQpc/pJkPd5ck9dg7AWPGaPGHkJYQOhOnghxaPq4VY9aNKeAmjXZecWULK09a7kS
-	 XmRWQGt+34xtlRNUwETK/nqBP0BtpaN8dU5ein2QwAat+w0PcJxAdbpB5gz3cqgxqg
-	 A4LiDAzZjtGBQ==
-Message-ID: <fd20d991-60ca-41b0-adda-c2272975cd0a@kernel.org>
-Date: Mon, 25 Nov 2024 18:12:44 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mP3zCcCS"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-434a51e44d0so430245e9.3
+        for <chrome-platform@lists.linux.dev>; Mon, 25 Nov 2024 10:44:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732560289; x=1733165089; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=d51oFRTw84JSKB1foTZtP9z0jdqfbxCn0u7gU1Gqt2I=;
+        b=mP3zCcCSHpLktZdetMEFiYofEKC5EAhHDNIDDJd4hmO8UftrRNM4J/gG5vinO6suU6
+         Jvn9dkByBjVIdx5fufYW1NsoQgRMDNWmQwMJtR3kIKRQZAqQq8JY7B3Cit/wu93frpUh
+         F4iQrp5uC4x3aPXu+L3PZBfAfTUjZJedQ/3V6op1iqJRkJUrBCuDiVaW3t5liDF4asqv
+         vjo8JDrbEr30H6zHcVKq+OWyudkV9QZEunvUKGAdFiHSBo+vKEYXUIs92I2SL6IMKWET
+         4gdSglzK70iIyh25Lwm7vl7eFzp7nBCymqexDPo3sZASTSmkvEMaJ92wzoko2dt/aVOJ
+         iNIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732560289; x=1733165089;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=d51oFRTw84JSKB1foTZtP9z0jdqfbxCn0u7gU1Gqt2I=;
+        b=nTtXe51Ockhp6aR9LwMcMjuEfdO/g9PYf+QwSaTk32QP/beNR02zm06mJ9amx2rNye
+         6NJqyy+74Prh0Svlki2qZc4IsTmBVi9LX7gH39URkFSFj7KkKbaNCT6pMg7zHLoqyce4
+         Oip9OLFmxf/J44Q7ZJif+LZsMAw797nfNQ1Wmqb37rZB76Y6ohzUKfAORlmpscsCZUUl
+         iAgvNSBOLgadR1vz6TEgtHsuqM70QGx7MlE2RxNPvOpC7y/InLJgXzdeYLfWYRoquKN1
+         w1GdEC2ygOtbC2zccHLIIihylRforX7gC7/vI0D+SzIWz+/cDO/Q7G1Jrw3ZZkWgXg8g
+         6L7Q==
+X-Gm-Message-State: AOJu0YyvvX9xb7xoSeOSQEFX4Obtytt8hSjgJkwMc522Tu73PaW+1Uw5
+	Rt0obmvo2dFIHpjKDEzionK2kmPagUd5VQCYhGSHNCWDHzEhnqv3sZ0qHqgBsL9Z1PskHJT6DiH
+	ckA==
+X-Google-Smtp-Source: AGHT+IHA+04KBmSgohZAFUfxTxaLqHSlVruLNyGNeozjydYof7rH7Znp8aNlL99iQBrmVfTTirLhcmNCV14=
+X-Received: from wmrk17.prod.google.com ([2002:a05:600c:b51:b0:434:a152:3ce1])
+ (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:6a06:b0:434:9fb5:fe04
+ with SMTP id 5b1f17b1804b1-4349fb5ff09mr33583835e9.28.1732560288954; Mon, 25
+ Nov 2024 10:44:48 -0800 (PST)
+Date: Mon, 25 Nov 2024 18:44:45 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] dt-bindings: mfd: Add properties for thermal
- sensor cells
-To: Guenter Roeck <linux@roeck-us.net>, "Sung-Chi, Li" <lschyi@chromium.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
- <thomas@weissschuh.net>, Jean Delvare <jdelvare@suse.com>,
- devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
-References: <20241111074904.1059268-1-lschyi@chromium.org>
- <20241113024000.3327161-1-lschyi@chromium.org>
- <20241113024000.3327161-2-lschyi@chromium.org>
- <4efe981f-f7ae-41c7-9c12-2aa3a5d2d046@roeck-us.net>
- <eb1c249c-5f42-4878-8934-09d6ea5c43f2@kernel.org>
- <893bbd30-300f-4138-8f68-64573e1f0140@roeck-us.net>
- <61541768-1b32-4473-a569-850323a6c7a1@kernel.org>
- <eda10481-d1f2-45c4-a5ff-0f26398fe6bf@roeck-us.net>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <eda10481-d1f2-45c4-a5ff-0f26398fe6bf@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.371.ga323438b13-goog
+Message-ID: <20241125184446.1040187-1-dawidn@google.com>
+Subject: [PATCH 1/2] platform/chrome: cros_ec: jump to RW before probing
+From: Dawid Niedzwiecki <dawidn@google.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	chromeos-krk-upstreaming@google.com, Dawid Niedzwiecki <dawidn@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 25/11/2024 17:41, Guenter Roeck wrote:
->>>>>
->>>>> with the assumption that Lee will pick it up.
->>>>
->>>> This was merged, while I was AFK, so the ship has sailed, but let me
->>>> state here objection for any future discussions:
->>>>
->>>> NAK, this is not a thermal sensor. The commit msg explains what they
->>>> want to achieve, but that's not a valid reason to add property from
->>>> different class of devices.
->>>>
->>>> This is some hardware/temperature monitoring device or power supply, not
->>>> part of SoC, not integrated into any SoC thermal zone. Calling it
->>>
->>> I am confused. We have several thermal sensors registering as thermal
->>> zone, and fan controllers registering themselves as thermal cooling devices.
->>>
->>> Are you saying that this is all not permitted because they are not part
->>> of a SoC ?
->>
->>
->> These are fine, because they monitor or cool down the SoC.  Sensor can
->> be under the die.  Fan for battery or for battery charger also would be
->> fine, because it is a real cooling device.  It literally cools.
->>
-> 
-> Sorry, I don't get the distinction since you specifically refer to the SoC.
-> How about drive temperatures ? RAM temperatures ? Temperatures reported
+There are EC devices, like FPMCU, that use RWSIG as a method of
+authenticating RW section. After the authentication succeeds, EC device
+waits some time before jumping to RW. EC can be probed before the jump,
+which means there is a time window after jump to RW in which EC won't
+respond, because it is not initialized. It can cause a communication
+errors after probing.
 
-Several of them are part of the SoC, like DDR. But even if they are not,
-I agree they could be a thermal sensor, but I would stop before calling
-them thermal zones and this patchset leads to such calling.
+To avoid such problems, send the RWSIG continue command first, which
+skips waiting for the jump to RW. Send the command more times, to make
+sure EC is ready in RW before the start of the actual probing process. If
+a EC device doesn't support the RWSIG, it will respond with invalid
+command error code and probing will continue as usual.
 
-> by networking chips ? Power supply temperatures ? We have all those registering
-> thermal zones. The ASUS EC controller driver registers thermal zones
-> for its temperature sensors. Dell and HP drivers do the same.
+Signed-off-by: Dawid Niedzwiecki <dawidn@google.com>
+---
+ drivers/platform/chrome/cros_ec.c           |  5 ++
+ drivers/platform/chrome/cros_ec_i2c.c       |  3 +-
+ drivers/platform/chrome/cros_ec_ishtp.c     |  2 +-
+ drivers/platform/chrome/cros_ec_lpc.c       |  2 +-
+ drivers/platform/chrome/cros_ec_proto.c     | 60 +++++++++++++++++++++
+ drivers/platform/chrome/cros_ec_rpmsg.c     |  2 +-
+ drivers/platform/chrome/cros_ec_spi.c       |  2 +-
+ drivers/platform/chrome/cros_ec_uart.c      |  2 +-
+ include/linux/platform_data/cros_ec_proto.h |  2 +
+ 9 files changed, 74 insertions(+), 6 deletions(-)
 
-Maybe we need to clarify that thermal sensors and zones are not specific
-to SoCs?
+diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+index e821b3d39590..2bbe888f77ca 100644
+--- a/drivers/platform/chrome/cros_ec.c
++++ b/drivers/platform/chrome/cros_ec.c
+@@ -204,6 +204,11 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
+ 	mutex_init(&ec_dev->lock);
+ 	lockdep_set_class(&ec_dev->lock, &ec_dev->lockdep_key);
+ 
++	/* Send RWSIG continue to jump to RW for devices using RWSIG. */
++	err = cros_ec_rwsig_continue(ec_dev);
++	if (err)
++		dev_warn(dev, "Failed to continue RWSIG: %d\n", err);
++
+ 	err = cros_ec_query_all(ec_dev);
+ 	if (err) {
+ 		dev_err(dev, "Cannot identify the EC: error %d\n", err);
+diff --git a/drivers/platform/chrome/cros_ec_i2c.c b/drivers/platform/chrome/cros_ec_i2c.c
+index 62662ba5bf6e..38af97cdaab2 100644
+--- a/drivers/platform/chrome/cros_ec_i2c.c
++++ b/drivers/platform/chrome/cros_ec_i2c.c
+@@ -305,7 +305,8 @@ static int cros_ec_i2c_probe(struct i2c_client *client)
+ 	ec_dev->phys_name = client->adapter->name;
+ 	ec_dev->din_size = sizeof(struct ec_host_response_i2c) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request_i2c);
++	ec_dev->dout_size = sizeof(struct ec_host_request_i2c) +
++			    sizeof(struct ec_params_rwsig_action);
+ 
+ 	err = cros_ec_register(ec_dev);
+ 	if (err) {
+diff --git a/drivers/platform/chrome/cros_ec_ishtp.c b/drivers/platform/chrome/cros_ec_ishtp.c
+index 5ac37bd024c8..7e7190b30cbb 100644
+--- a/drivers/platform/chrome/cros_ec_ishtp.c
++++ b/drivers/platform/chrome/cros_ec_ishtp.c
+@@ -557,7 +557,7 @@ static int cros_ec_dev_init(struct ishtp_cl_data *client_data)
+ 	ec_dev->phys_name = dev_name(dev);
+ 	ec_dev->din_size = sizeof(struct cros_ish_in_msg) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct cros_ish_out_msg);
++	ec_dev->dout_size = sizeof(struct cros_ish_out_msg) + sizeof(struct ec_params_rwsig_action);
+ 
+ 	return cros_ec_register(ec_dev);
+ }
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 924bf4d3cc77..1e1d68359958 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -573,7 +573,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 	ec_dev->cmd_readmem = cros_ec_lpc_readmem;
+ 	ec_dev->din_size = sizeof(struct ec_host_response) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request);
++	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
+ 	ec_dev->priv = ec_lpc;
+ 
+ 	/*
+diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+index 5c9a53dffcf9..4bd17ddefbd6 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -15,6 +15,8 @@
+ #include "cros_ec_trace.h"
+ 
+ #define EC_COMMAND_RETRIES	50
++#define RWSIG_CONTINUE_RETRIES	8
++#define RWSIG_CONTINUE_MAX_ERRORS_IN_ROW	3
+ 
+ static const int cros_ec_error_map[] = {
+ 	[EC_RES_INVALID_COMMAND] = -EOPNOTSUPP,
+@@ -288,6 +290,64 @@ static int cros_ec_get_host_event_wake_mask(struct cros_ec_device *ec_dev, uint3
+ 	return ret;
+ }
+ 
++int cros_ec_rwsig_continue(struct cros_ec_device *ec_dev)
++{
++	struct cros_ec_command *msg;
++	struct ec_params_rwsig_action *rwsig_action;
++	int ret = 0;
++	int error_count = 0;
++
++	ec_dev->proto_version = 3;
++
++	msg = kmalloc(sizeof(*msg) + sizeof(*rwsig_action), GFP_KERNEL);
++	if (!msg)
++		return -ENOMEM;
++
++	msg->version = 0;
++	msg->command = EC_CMD_RWSIG_ACTION;
++	msg->insize = 0;
++	msg->outsize = sizeof(*rwsig_action);
++
++	rwsig_action = (struct ec_params_rwsig_action *)msg->data;
++	rwsig_action->action = RWSIG_ACTION_CONTINUE;
++
++	for (int i = 0; i < RWSIG_CONTINUE_RETRIES; i++) {
++		ret = cros_ec_send_command(ec_dev, msg);
++
++		if (ret < 0)
++			error_count++;
++		else if (msg->result == EC_RES_INVALID_COMMAND)
++			/*
++			 * If EC_RES_INVALID_COMMAND is retured, it means RWSIG
++			 * is not supported or EC is already in RW, so there is
++			 * nothing left to do.
++			 */
++			break;
++		else if (msg->result != EC_RES_SUCCESS)
++			/* Unexpected command error. */
++			error_count++;
++		else
++			/*
++			 * The EC_CMD_RWSIG_ACTION succeed. Send the command
++			 * more times, to make sure EC is in RW. A following
++			 * command can timeout, because EC may need some time to
++			 * initialize after jump to RW.
++			 */
++			error_count = 0;
++
++		if (error_count >= RWSIG_CONTINUE_MAX_ERRORS_IN_ROW)
++			break;
++
++		if (ret != -ETIMEDOUT)
++			usleep_range(90000, 100000);
++	}
++
++	kfree(msg);
++
++	return ret;
++}
++EXPORT_SYMBOL(cros_ec_rwsig_continue);
++
+ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
+ {
+ 	struct cros_ec_command *msg;
+diff --git a/drivers/platform/chrome/cros_ec_rpmsg.c b/drivers/platform/chrome/cros_ec_rpmsg.c
+index 39d3b50a7c09..bc2666491db1 100644
+--- a/drivers/platform/chrome/cros_ec_rpmsg.c
++++ b/drivers/platform/chrome/cros_ec_rpmsg.c
+@@ -231,7 +231,7 @@ static int cros_ec_rpmsg_probe(struct rpmsg_device *rpdev)
+ 	ec_dev->phys_name = dev_name(&rpdev->dev);
+ 	ec_dev->din_size = sizeof(struct ec_host_response) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request);
++	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
+ 	dev_set_drvdata(dev, ec_dev);
+ 
+ 	ec_rpmsg->rpdev = rpdev;
+diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
+index 86a3d32a7763..946373238502 100644
+--- a/drivers/platform/chrome/cros_ec_spi.c
++++ b/drivers/platform/chrome/cros_ec_spi.c
+@@ -766,7 +766,7 @@ static int cros_ec_spi_probe(struct spi_device *spi)
+ 	ec_dev->din_size = EC_MSG_PREAMBLE_COUNT +
+ 			   sizeof(struct ec_host_response) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request);
++	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
+ 
+ 	ec_spi->last_transfer_ns = ktime_get_ns();
+ 
+diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
+index 62bc24f6dcc7..19c179d49c90 100644
+--- a/drivers/platform/chrome/cros_ec_uart.c
++++ b/drivers/platform/chrome/cros_ec_uart.c
+@@ -283,7 +283,7 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
+ 	ec_dev->pkt_xfer = cros_ec_uart_pkt_xfer;
+ 	ec_dev->din_size = sizeof(struct ec_host_response) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request);
++	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
+ 
+ 	serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
+ 
+diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
+index b34ed0cc1f8d..701389c16fa7 100644
+--- a/include/linux/platform_data/cros_ec_proto.h
++++ b/include/linux/platform_data/cros_ec_proto.h
+@@ -246,6 +246,8 @@ int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev,
+ int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
+ 			    struct cros_ec_command *msg);
+ 
++int cros_ec_rwsig_continue(struct cros_ec_device *ec_dev);
++
+ int cros_ec_query_all(struct cros_ec_device *ec_dev);
+ 
+ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
+-- 
+2.47.0.371.ga323438b13-goog
 
-For now all bindings say:
-"thermal-sensor: device that measures temperature, has SoC-specific
-bindings"
-
-
-> 
->> But treating battery charger as cooling device is not correct, IMHO.
-> 
-> Confused. The patch you object to isn't introducing a cooling device,
-> it is introducing #thermal-sensor-cells. The EC reports temperature
-
-
-The next patchset is. This is one of the problems with series from
-Sung-Chi, Li - they add hardware description piece by piece, to match
-the driver needs, while we expect to see complete hardware picture.
-
-In the complete picture (f:lschyi@chromium.org in lore) you would see
-the battery being called a cooling sensor with explanation:
-
-"The cros_ec supports limiting the input current to act as a passive
-thermal cooling device. Add the property '#cooling-cells' bindings, such
-that thermal framework can recognize cros_ec as a valid thermal cooling
-device."
-
-
-
-> sensor results, and the driver wants to register those as thermal zones.
-> Yes, it may well be that one of those temperature sensors is close to
-> a battery charger, but I am not even sure if that is really the case.
-
-Hm, my impression based on very limited commit msg was that it is about
-battery.
-
-Probably I don't understand how the hardware looks here, but sorry,
-commit msgs and bindings descriptions are for a reason - to help me
-understanding it.
-
-> 
->> Battery charger does not cool anything down and already we have there
->> properties for managing thermal and current aspects.
->>
-> Agreed, but unless I am missing something that isn't done here.
-
-Yep, I connected two separate patchsets, because they form greater work
-of making power supply a cooling device, AFAIU.
-
-> 
->> BTW, if power supply bindings miss some thermal aspects, then let's grow
->> the common binding first and agree on common aspects.
->>
-> 
-> I don't even know how the two patches are associated with power supplies
-> or battery chargers in the first place. All they try to do is to enable
-> adding the temperature sensor values reported by the EC in Chromebooks
-> to thermal zones. I don't recall any previous limitations on the ability
-> to register thermal sensors as thermal zone with the thermal subsystem,
-> and I am trying to understand what those limitations are.
-> 
-> So far my approach was "ok, someone wants to register a thermal sensor as
-> thermal zone - fine, let's do that. We have close to 50 thermal sensors on
-> a variety of devices - including but not limited to disk drives, memory,
-> Ethernet controllers, Ethernet PHYs, SFPs, RTCs, and ECs - registering
-> as thermal zones from hardware monitoring drivers. I don't recall anyone
-> ever saying "no, you can't do that".
-> 
-> I am trying to understand if some of those are inappropriate and, if so,
-> why that is the case.
-
-
-Probably would be nice to drop remaining references to SoC from thermal
-bindings and just interpret thermal zones as system-wide.
-
-I retract than my objects against sensor cells, but I keep my objection
-of changing these bindings piece by piece. This should be one complete
-work for bindings so we see what this hardware is supposed to do.
-
-Best regards,
-Krzysztof

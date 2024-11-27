@@ -1,195 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298B31917F0;
-	Wed, 27 Nov 2024 09:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7754C1EE00F
+	for <chrome-platform@lists.linux.dev>; Wed, 27 Nov 2024 11:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732698645; cv=none; b=I3G5TIp6TqCggTMcPzhtIVkpEj2AM9ZEfJVwQlfCBUtSac9gVAZ4F5pRl8My9NILi7EogHKmcELz2w4qJw7BDQuL6RULGaPj2nFg8fA+UK0O8r3QQtIHRmLYMQHBX5NvjOz2rh1Cw+4zHigfNxX+MD2fuqcSb5soFfjdJox7LpA=
+	t=1732706187; cv=none; b=une9WLQWXA3uOf6bOfA5zFGnsRfkyYErm0m21anbbTkZikHV8z3E8+hfOSNbUlGcx1IjhfZUrg0y2gfp/p8faobZzo1C6nK2C9wPn10ITAXZO/Am+qHtGPed7Nv7S29v7Lj5qK8os3wOZcGaZIHiX8C5rFxRaLfF2tzFyO8lnz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732698645; c=relaxed/simple;
-	bh=cILoJznEakS0xNgdjT3evu4plynf+BdBXLdjjw9AWDM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q7ajnjJJOqXCZLoPmrBqGSz9Mme7Ta3J5i/wHYr5Lr96/KCMMM1CtyzrNNxCB5POFWxC/Ok2wAAKgIeF6D/2KTCRwUB69OQXkiFac4ut1rr3Qzb8GXBG9lrzKj1YbvESmyDiBCE1MoA2FL/OwIQm1VQpVFRIwCe63bhBqci/dAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39B1FC4CECC;
-	Wed, 27 Nov 2024 09:10:44 +0000 (UTC)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH] extcon: Switch back to struct platform_driver::remove()
-Date: Wed, 27 Nov 2024 10:10:36 +0100
-Message-ID: <20241127091036.444330-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1732706187; c=relaxed/simple;
+	bh=12DqePLKoTrEy4MFBKf2pq2QIO8hf39o64WQAb2Jn8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F0BTVk1Vcgq6gwTWlpu8hZxDbPBdSn3AdryHGNTEBd2Qs6TrJGxmpZdDBkFVjrVAlLGWhDw82Ye8E240iqiSM46tV8im2lofVhwA7iVIw2JQuRYSCjbCgu3qkriVv8OkZ4dgcFXuAnKpx374gE1XthfGG8+RP/fO5GYDNno5Qek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CdtAx3KB; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CdtAx3KB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=12Dq
+	ePLKoTrEy4MFBKf2pq2QIO8hf39o64WQAb2Jn8w=; b=CdtAx3KB0YICFDFVfczE
+	4JUiYove8hph0vLsd7cIgmSUVQ+pr+9AoP41cqJHm+SsNM3lvPdNimaJOBFD9oSM
+	H4CoVY6deMuSbMAd+6wiQ9CCGhSgQgvg74txg9RB3uSKqgQAKBg0JmQPIgfpUBsI
+	YnAfUy7D1LChHIKnSabgTcywPNL1py9dTZdHOmDj2Fd+RUkk3sC5Ag2DnAFewOXn
+	yn7nEGSFSUHEKFYhQPm1bHZVl5jZXPjnSe0ovLcfltTFHiUgHYviFDxn17jM1gel
+	Fxj6ic1I5bbDlpYz0ATLWSQIpuhTFklXtxOHShGNbB4426S9gEHtjkgHlXG+lV55
+	+w==
+Received: (qmail 533524 invoked from network); 27 Nov 2024 12:16:16 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Nov 2024 12:16:16 +0100
+X-UD-Smtp-Session: l3s3148p1@hlggGOMnatMujntz
+Date: Wed, 27 Nov 2024 12:16:15 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Wolfram Sang <wsa@kernel.org>, chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v11 0/7] platform/chrome: Introduce DT hardware prober
+Message-ID: <Z0b_f0gg9KgSozPH@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Chen-Yu Tsai <wenst@chromium.org>, Wolfram Sang <wsa@kernel.org>,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+References: <20241106093335.1582205-1-wenst@chromium.org>
+ <CAGXv+5Fzrz9sBvE=FpV6URpcZtxvchxfY9WE4k4s+S3BzMWw2g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5936; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=HiJ/B4IqM+rtiSxxWBmvwXK8XCoFKN73GWiVFlpTVi8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnRuIMwh04I1vIABkUihVEaJ3Wy7+eZeSSicbSa PdQU+ciauaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZ0biDAAKCRCPgPtYfRL+ TilZCACjIMygkN6dpbwYNqk0Yq0kEb8n000WKi88V6vryVSqCnBGNDibb7Q5Ah83cc89iHLKcyT iRvU9JBV6p97+9AueWD4cxDbuGKXWGLgdyxcKihxq4Zp2RVHffWTlZjafBJOv2RyXRuRvjJUQkL FhKkLuQr1vJHuPJ7wG+M6YoIngQ5oeSPoQJXkNw88TvvOyGWL6JGDZEq/PBuF9dmqZBEaeTOXw5 yGSZsu/vcSyzPz+qbzCGHkDo6+XD8il3+b6o2Yw7++yU1P0/fVjD+/Tbcc7belPRpfV+KBNpuyn b486u7X6srPfsgYiXkoeFRC1+GlvNMLCYl3XpyInDnYTLEPr
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HQnyox1fdhJ456xp"
+Content-Disposition: inline
+In-Reply-To: <CAGXv+5Fzrz9sBvE=FpV6URpcZtxvchxfY9WE4k4s+S3BzMWw2g@mail.gmail.com>
 
-From: Uwe Kleine-König <ukleinek@kernel.org>
 
-After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-return void") .remove() is (again) the right callback to implement for
-platform drivers.
+--HQnyox1fdhJ456xp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Convert all platform drivers below drivers/extcon to use .remove(), with
-the eventual goal to drop struct platform_driver::remove_new(). As
-.remove() and .remove_new() have the same prototypes, conversion is done
-by just changing the structure member name in the driver initializer.
 
-En passant make the alignment of the struct initializer in
-extcon-usbc-cros-ec.c consistent.
+> Just checking in. I just wanted to make sure that this is still on
+> track for v6.13-rc1.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
-Hello,
+Eeeks, not only Andi was so busy that he lost track of patches. Please
+accept my apologies, I was under the impression that this series was
+still under discussion. I sadly missed that it was ready for prime time.
 
-given the simplicity of the individual changes I do this all in a single
-patch. I you don't agree, please tell and I will happily split it.
+That being said, I applied it now and will send it to Linus by the end
+of the week. Sadly, this series was not exposed to -next before, so I
+hope a few days of -next will work for him.
 
-It's based on today's next, feel free to drop changes that result in a
-conflict when you come around to apply this. I'll care for the fallout
-at a later time then. (Having said that, if you use b4 am -3 and git am
--3, there should be hardly any conflict.)
+But I will surely try. Sorry again!
 
-Best regards
-Uwe
 
- drivers/extcon/extcon-adc-jack.c     | 2 +-
- drivers/extcon/extcon-intel-cht-wc.c | 2 +-
- drivers/extcon/extcon-intel-mrfld.c  | 2 +-
- drivers/extcon/extcon-max3355.c      | 2 +-
- drivers/extcon/extcon-max77843.c     | 2 +-
- drivers/extcon/extcon-rtk-type-c.c   | 2 +-
- drivers/extcon/extcon-usb-gpio.c     | 2 +-
- drivers/extcon/extcon-usbc-cros-ec.c | 6 +++---
- 8 files changed, 10 insertions(+), 10 deletions(-)
+--HQnyox1fdhJ456xp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/extcon/extcon-adc-jack.c b/drivers/extcon/extcon-adc-jack.c
-index 125016da7fde..46c40d85c2ac 100644
---- a/drivers/extcon/extcon-adc-jack.c
-+++ b/drivers/extcon/extcon-adc-jack.c
-@@ -196,7 +196,7 @@ static SIMPLE_DEV_PM_OPS(adc_jack_pm_ops,
- 
- static struct platform_driver adc_jack_driver = {
- 	.probe          = adc_jack_probe,
--	.remove_new     = adc_jack_remove,
-+	.remove         = adc_jack_remove,
- 	.driver         = {
- 		.name   = "adc-jack",
- 		.pm = &adc_jack_pm_ops,
-diff --git a/drivers/extcon/extcon-intel-cht-wc.c b/drivers/extcon/extcon-intel-cht-wc.c
-index 93552dc3c895..8131a3d7d562 100644
---- a/drivers/extcon/extcon-intel-cht-wc.c
-+++ b/drivers/extcon/extcon-intel-cht-wc.c
-@@ -627,7 +627,7 @@ MODULE_DEVICE_TABLE(platform, cht_wc_extcon_table);
- 
- static struct platform_driver cht_wc_extcon_driver = {
- 	.probe = cht_wc_extcon_probe,
--	.remove_new = cht_wc_extcon_remove,
-+	.remove = cht_wc_extcon_remove,
- 	.id_table = cht_wc_extcon_table,
- 	.driver = {
- 		.name = "cht_wcove_pwrsrc",
-diff --git a/drivers/extcon/extcon-intel-mrfld.c b/drivers/extcon/extcon-intel-mrfld.c
-index a1f737f13d49..9219f4328d70 100644
---- a/drivers/extcon/extcon-intel-mrfld.c
-+++ b/drivers/extcon/extcon-intel-mrfld.c
-@@ -275,7 +275,7 @@ static struct platform_driver mrfld_extcon_driver = {
- 		.name	= "mrfld_bcove_pwrsrc",
- 	},
- 	.probe		= mrfld_extcon_probe,
--	.remove_new	= mrfld_extcon_remove,
-+	.remove		= mrfld_extcon_remove,
- 	.id_table	= mrfld_extcon_id_table,
- };
- module_platform_driver(mrfld_extcon_driver);
-diff --git a/drivers/extcon/extcon-max3355.c b/drivers/extcon/extcon-max3355.c
-index e62ce7a8d131..b2ee4ff8b04d 100644
---- a/drivers/extcon/extcon-max3355.c
-+++ b/drivers/extcon/extcon-max3355.c
-@@ -127,7 +127,7 @@ MODULE_DEVICE_TABLE(of, max3355_match_table);
- 
- static struct platform_driver max3355_driver = {
- 	.probe		= max3355_probe,
--	.remove_new	= max3355_remove,
-+	.remove		= max3355_remove,
- 	.driver		= {
- 		.name	= "extcon-max3355",
- 		.of_match_table = max3355_match_table,
-diff --git a/drivers/extcon/extcon-max77843.c b/drivers/extcon/extcon-max77843.c
-index 9849e3b8327e..2ae9f7f1a67f 100644
---- a/drivers/extcon/extcon-max77843.c
-+++ b/drivers/extcon/extcon-max77843.c
-@@ -956,7 +956,7 @@ static struct platform_driver max77843_muic_driver = {
- 		.of_match_table = of_max77843_muic_dt_match,
- 	},
- 	.probe		= max77843_muic_probe,
--	.remove_new	= max77843_muic_remove,
-+	.remove		= max77843_muic_remove,
- 	.id_table	= max77843_muic_id,
- };
- 
-diff --git a/drivers/extcon/extcon-rtk-type-c.c b/drivers/extcon/extcon-rtk-type-c.c
-index 19a01e663733..bdc2b7b3a246 100644
---- a/drivers/extcon/extcon-rtk-type-c.c
-+++ b/drivers/extcon/extcon-rtk-type-c.c
-@@ -1778,7 +1778,7 @@ static const struct dev_pm_ops extcon_rtk_type_c_pm_ops = {
- 
- static struct platform_driver extcon_rtk_type_c_driver = {
- 	.probe		= extcon_rtk_type_c_probe,
--	.remove_new	= extcon_rtk_type_c_remove,
-+	.remove		= extcon_rtk_type_c_remove,
- 	.driver		= {
- 		.name	= "extcon-rtk-type_c",
- 		.of_match_table = extcon_rtk_type_c_match,
-diff --git a/drivers/extcon/extcon-usb-gpio.c b/drivers/extcon/extcon-usb-gpio.c
-index 9b61eb99b7dc..5e8ad21ad206 100644
---- a/drivers/extcon/extcon-usb-gpio.c
-+++ b/drivers/extcon/extcon-usb-gpio.c
-@@ -279,7 +279,7 @@ MODULE_DEVICE_TABLE(platform, usb_extcon_platform_ids);
- 
- static struct platform_driver usb_extcon_driver = {
- 	.probe		= usb_extcon_probe,
--	.remove_new	= usb_extcon_remove,
-+	.remove		= usb_extcon_remove,
- 	.driver		= {
- 		.name	= "extcon-usb-gpio",
- 		.pm	= &usb_extcon_pm_ops,
-diff --git a/drivers/extcon/extcon-usbc-cros-ec.c b/drivers/extcon/extcon-usbc-cros-ec.c
-index 805a47230689..529ac5898e38 100644
---- a/drivers/extcon/extcon-usbc-cros-ec.c
-+++ b/drivers/extcon/extcon-usbc-cros-ec.c
-@@ -525,12 +525,12 @@ MODULE_DEVICE_TABLE(of, extcon_cros_ec_of_match);
- 
- static struct platform_driver extcon_cros_ec_driver = {
- 	.driver = {
--		.name  = "extcon-usbc-cros-ec",
-+		.name = "extcon-usbc-cros-ec",
- 		.of_match_table = of_match_ptr(extcon_cros_ec_of_match),
- 		.pm = DEV_PM_OPS,
- 	},
--	.remove_new = extcon_cros_ec_remove,
--	.probe   = extcon_cros_ec_probe,
-+	.remove = extcon_cros_ec_remove,
-+	.probe = extcon_cros_ec_probe,
- };
- 
- module_platform_driver(extcon_cros_ec_driver);
+-----BEGIN PGP SIGNATURE-----
 
-base-commit: 6f3d2b5299b0a8bcb8a9405a8d3fceb24f79c4f0
--- 
-2.45.2
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdG/3wACgkQFA3kzBSg
+KbaO8Q//YQ/9g1dt8JdYH661u4RqF4lC38vtKoaZJEADzExdg71xeJQx5nw4Ucg7
+wdvlvIVqq2quH31KM5oOz04t7bglWhsqGlLUUG5CAe3W55tjNpJYgBEnBQs+9ylf
+VdxC/3js3Z2K07RQmCiCGDZuyF7eLkc0AOYrWg6vnGKpnZWO8aTsDRSe6XsDXFPF
+saOY5F3nwjwpoOmUT/qY2ezh/Cls0qClCdXbvoSj5p6+XHcRObtGuMBCSdiYo9uU
+Ec+25hpHSYChlEA0PdlXzw2jObBfp0fOUNWBqadOgAuYsLwK02jI90fvhymPRsiM
+HJD8H1L2oulpK3VayJtRhjQowUW3UrdcdleoOwq91TY32vrlZ6SDtO/C8WphUqT+
+ORaJHqIeBZSW2nwAXBOepoid1JR2pPYiEWZ02kfaKvG0g/sMFoHyXV9OB9GAWyRT
+hNQPXZBFS0LV+6J7pIzmxjXxugwrTnI7AWJlGHGjxYxjc42Y9C8H7H8JfkadRuAW
+w3wcqoPXRJUZsg3GZHBCwIDYtXgr3q7J2iwDPe5h/cDFE5CbtsCL8O8iV9NNqrjF
+T928c/gxQjsRotHFRUBfihhIia/M2zLB8M6Rq+KRzaCCy78UiZkRhiDinstbzlki
+sI0XLrvQAEQVgoJNDsr7K2orxIcijqjlZ0k6pqNf4roXjJJ8Hxc=
+=h8vf
+-----END PGP SIGNATURE-----
 
+--HQnyox1fdhJ456xp--

@@ -1,100 +1,122 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7754C1EE00F
-	for <chrome-platform@lists.linux.dev>; Wed, 27 Nov 2024 11:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E06A45025;
+	Thu, 28 Nov 2024 04:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732706187; cv=none; b=une9WLQWXA3uOf6bOfA5zFGnsRfkyYErm0m21anbbTkZikHV8z3E8+hfOSNbUlGcx1IjhfZUrg0y2gfp/p8faobZzo1C6nK2C9wPn10ITAXZO/Am+qHtGPed7Nv7S29v7Lj5qK8os3wOZcGaZIHiX8C5rFxRaLfF2tzFyO8lnz4=
+	t=1732768176; cv=none; b=bY82MMu18bwpqiMFAR6FaBw9GmfhmD+8WQBmqCD2w5nalkUxJmws2YJOIwM4gh+gtJK6dVrQFPQ/ZgdbahMCHWqQD4lUgJTnQ+LzNd4yV0EjhFqI/NXXzAixYMPHhcZHqXfkaiaWWmwxihf3enbJhCd1RLQBKqL3bn+d+fuUWoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732706187; c=relaxed/simple;
-	bh=12DqePLKoTrEy4MFBKf2pq2QIO8hf39o64WQAb2Jn8w=;
+	s=arc-20240116; t=1732768176; c=relaxed/simple;
+	bh=ZReHJ+Ws4lewYIGJ0xabxD2HSvCS9j48AAi0eHrSfDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F0BTVk1Vcgq6gwTWlpu8hZxDbPBdSn3AdryHGNTEBd2Qs6TrJGxmpZdDBkFVjrVAlLGWhDw82Ye8E240iqiSM46tV8im2lofVhwA7iVIw2JQuRYSCjbCgu3qkriVv8OkZ4dgcFXuAnKpx374gE1XthfGG8+RP/fO5GYDNno5Qek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CdtAx3KB; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=IuqaAE1qE4tYqa31Yz5VXcbisc2jkBqYrsJOnvXcEWVgA+qGkqUJEM+qyyik4aLZ3glHoLGAhscGbTUv0gSTR9PQ2nkB10PFs3pMmOc3ReRT/F7Bze4D/zp+UAbn+QYcVg4Rml+c/3+dRLu+cH5rvAmZTbmcxtU5nYgY6k+vcUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N7cHF1HI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CdtAx3KB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=12Dq
-	ePLKoTrEy4MFBKf2pq2QIO8hf39o64WQAb2Jn8w=; b=CdtAx3KB0YICFDFVfczE
-	4JUiYove8hph0vLsd7cIgmSUVQ+pr+9AoP41cqJHm+SsNM3lvPdNimaJOBFD9oSM
-	H4CoVY6deMuSbMAd+6wiQ9CCGhSgQgvg74txg9RB3uSKqgQAKBg0JmQPIgfpUBsI
-	YnAfUy7D1LChHIKnSabgTcywPNL1py9dTZdHOmDj2Fd+RUkk3sC5Ag2DnAFewOXn
-	yn7nEGSFSUHEKFYhQPm1bHZVl5jZXPjnSe0ovLcfltTFHiUgHYviFDxn17jM1gel
-	Fxj6ic1I5bbDlpYz0ATLWSQIpuhTFklXtxOHShGNbB4426S9gEHtjkgHlXG+lV55
-	+w==
-Received: (qmail 533524 invoked from network); 27 Nov 2024 12:16:16 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Nov 2024 12:16:16 +0100
-X-UD-Smtp-Session: l3s3148p1@hlggGOMnatMujntz
-Date: Wed, 27 Nov 2024 12:16:15 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Wolfram Sang <wsa@kernel.org>, chrome-platform@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v11 0/7] platform/chrome: Introduce DT hardware prober
-Message-ID: <Z0b_f0gg9KgSozPH@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Chen-Yu Tsai <wenst@chromium.org>, Wolfram Sang <wsa@kernel.org>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-References: <20241106093335.1582205-1-wenst@chromium.org>
- <CAGXv+5Fzrz9sBvE=FpV6URpcZtxvchxfY9WE4k4s+S3BzMWw2g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N7cHF1HI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B450DC4CECE;
+	Thu, 28 Nov 2024 04:29:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732768175;
+	bh=ZReHJ+Ws4lewYIGJ0xabxD2HSvCS9j48AAi0eHrSfDo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N7cHF1HIZ2+umIwzkBnR4sA/+gWTJbyLC0/Wj+0YkfH+xKZQIwo7MY9J4Wdy+WOOD
+	 vTc+YZ1mZkgdZLZl/rE2T/0AXOAn9yJ6I2B73drGixgVI4ZVkepNafdeo+Fx6Lp9Dn
+	 ZDa2e4GgyRjNfPtu/XcamXqdFtO3iVDJFdMxnceLfWCw5NhSLqyT6aKYNMJzHySvek
+	 Uw/Bo50v/nHvyrPw67v5fU9HFgiPGSmZRrBI3RxfOc17JFjZmiY1QK/A9Vc3Zkig2q
+	 19YVJbBs3pDoVB3rOHLMaktXUUZm80uWhR/uF1728TKO4IhXUuXjpjeihJV3mi8KWJ
+	 Vj2QNNTvTnrHw==
+Date: Thu, 28 Nov 2024 04:29:32 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Dawid Niedzwiecki <dawidn@google.com>
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com
+Subject: Re: [PATCH 1/2] platform/chrome: cros_ec: jump to RW before probing
+Message-ID: <Z0fxrDTuCIeCDTiV@google.com>
+References: <20241125184446.1040187-1-dawidn@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HQnyox1fdhJ456xp"
-Content-Disposition: inline
-In-Reply-To: <CAGXv+5Fzrz9sBvE=FpV6URpcZtxvchxfY9WE4k4s+S3BzMWw2g@mail.gmail.com>
-
-
---HQnyox1fdhJ456xp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241125184446.1040187-1-dawidn@google.com>
 
+On Mon, Nov 25, 2024 at 06:44:45PM +0000, Dawid Niedzwiecki wrote:
+> To avoid such problems, send the RWSIG continue command first, which
+> skips waiting for the jump to RW. Send the command more times, to make
+> sure EC is ready in RW before the start of the actual probing process. If
+> a EC device doesn't support the RWSIG, it will respond with invalid
+> command error code and probing will continue as usual.
 
-> Just checking in. I just wanted to make sure that this is still on
-> track for v6.13-rc1.
+I'm wondering should it only send RWSIG_ACTION_CONTINUE if EC_CMD_GET_VERSION
+shows the FW is still in RO.
 
-Eeeks, not only Andi was so busy that he lost track of patches. Please
-accept my apologies, I was under the impression that this series was
-still under discussion. I sadly missed that it was ready for prime time.
+Curious about: who (in which use case) is responsible for sending
+RWSIG_ACTION_ABORT if it wants the EC stays in RO?
 
-That being said, I applied it now and will send it to Linus by the end
-of the week. Sadly, this series was not exposed to -next before, so I
-hope a few days of -next will work for him.
+> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+[...]
+> @@ -204,6 +204,11 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
+>  	mutex_init(&ec_dev->lock);
+>  	lockdep_set_class(&ec_dev->lock, &ec_dev->lockdep_key);
+>  
+> +	/* Send RWSIG continue to jump to RW for devices using RWSIG. */
+> +	err = cros_ec_rwsig_continue(ec_dev);
+> +	if (err)
+> +		dev_warn(dev, "Failed to continue RWSIG: %d\n", err);
 
-But I will surely try. Sorry again!
+Too verbose, use dev_info() instead.
 
+> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+[...]
+> +int cros_ec_rwsig_continue(struct cros_ec_device *ec_dev)
+> +{
+[...]
+> +	for (int i = 0; i < RWSIG_CONTINUE_RETRIES; i++) {
+> +		ret = cros_ec_send_command(ec_dev, msg);
+> +
+> +		if (ret < 0)
+> +			error_count++;
 
---HQnyox1fdhJ456xp
-Content-Type: application/pgp-signature; name="signature.asc"
+Should it just return the error if the transmission fails?
 
------BEGIN PGP SIGNATURE-----
+> +		else if (msg->result == EC_RES_INVALID_COMMAND)
+> +			/*
+> +			 * If EC_RES_INVALID_COMMAND is retured, it means RWSIG
+> +			 * is not supported or EC is already in RW, so there is
+> +			 * nothing left to do.
+> +			 */
+> +			break;
+> +		else if (msg->result != EC_RES_SUCCESS)
+> +			/* Unexpected command error. */
+> +			error_count++;
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdG/3wACgkQFA3kzBSg
-KbaO8Q//YQ/9g1dt8JdYH661u4RqF4lC38vtKoaZJEADzExdg71xeJQx5nw4Ucg7
-wdvlvIVqq2quH31KM5oOz04t7bglWhsqGlLUUG5CAe3W55tjNpJYgBEnBQs+9ylf
-VdxC/3js3Z2K07RQmCiCGDZuyF7eLkc0AOYrWg6vnGKpnZWO8aTsDRSe6XsDXFPF
-saOY5F3nwjwpoOmUT/qY2ezh/Cls0qClCdXbvoSj5p6+XHcRObtGuMBCSdiYo9uU
-Ec+25hpHSYChlEA0PdlXzw2jObBfp0fOUNWBqadOgAuYsLwK02jI90fvhymPRsiM
-HJD8H1L2oulpK3VayJtRhjQowUW3UrdcdleoOwq91TY32vrlZ6SDtO/C8WphUqT+
-ORaJHqIeBZSW2nwAXBOepoid1JR2pPYiEWZ02kfaKvG0g/sMFoHyXV9OB9GAWyRT
-hNQPXZBFS0LV+6J7pIzmxjXxugwrTnI7AWJlGHGjxYxjc42Y9C8H7H8JfkadRuAW
-w3wcqoPXRJUZsg3GZHBCwIDYtXgr3q7J2iwDPe5h/cDFE5CbtsCL8O8iV9NNqrjF
-T928c/gxQjsRotHFRUBfihhIia/M2zLB8M6Rq+KRzaCCy78UiZkRhiDinstbzlki
-sI0XLrvQAEQVgoJNDsr7K2orxIcijqjlZ0k6pqNf4roXjJJ8Hxc=
-=h8vf
------END PGP SIGNATURE-----
+Same as `ret < 0`, should it just return if any unexpected errors?
 
---HQnyox1fdhJ456xp--
+> +		else
+> +			/*
+> +			 * The EC_CMD_RWSIG_ACTION succeed. Send the command
+> +			 * more times, to make sure EC is in RW. A following
+> +			 * command can timeout, because EC may need some time to
+> +			 * initialize after jump to RW.
+> +			 */
+> +			error_count = 0;
+> +
+> +		if (error_count >= RWSIG_CONTINUE_MAX_ERRORS_IN_ROW)
+> +			break;
+
+It could return 0 if `error_count >= RWSIG_CONTINUE_MAX_ERRORS_IN_ROW`.
+
+> +
+> +		if (ret != -ETIMEDOUT)
+> +			usleep_range(90000, 100000);
+> +	}
+> +
+> +	kfree(msg);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(cros_ec_rwsig_continue);

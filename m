@@ -1,122 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E06A45025;
-	Thu, 28 Nov 2024 04:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0361D137742
+	for <chrome-platform@lists.linux.dev>; Thu, 28 Nov 2024 04:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732768176; cv=none; b=bY82MMu18bwpqiMFAR6FaBw9GmfhmD+8WQBmqCD2w5nalkUxJmws2YJOIwM4gh+gtJK6dVrQFPQ/ZgdbahMCHWqQD4lUgJTnQ+LzNd4yV0EjhFqI/NXXzAixYMPHhcZHqXfkaiaWWmwxihf3enbJhCd1RLQBKqL3bn+d+fuUWoE=
+	t=1732769845; cv=none; b=ebDDhZ/Bptc3JKoR1bNg/6PVBAJgjJyJxsiy+JS7ED54Xd8swPeYpHjxA/dXWau3dCk8KCcCRqTJY90aj8T6FD/a2s0uozUj1JEZ/fnBcSVh+spj3OB9bAJqbpj9BNVm4D+mHFPLDhh+yROI1Oppjoee5415JY7JxYAvkqeMsp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732768176; c=relaxed/simple;
-	bh=ZReHJ+Ws4lewYIGJ0xabxD2HSvCS9j48AAi0eHrSfDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IuqaAE1qE4tYqa31Yz5VXcbisc2jkBqYrsJOnvXcEWVgA+qGkqUJEM+qyyik4aLZ3glHoLGAhscGbTUv0gSTR9PQ2nkB10PFs3pMmOc3ReRT/F7Bze4D/zp+UAbn+QYcVg4Rml+c/3+dRLu+cH5rvAmZTbmcxtU5nYgY6k+vcUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N7cHF1HI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732769845; c=relaxed/simple;
+	bh=9gNdiwWZ1MbH1bVKN1QAiVS5Fv7sTB11zjZfTxLD7cA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=mCZ3vLkeHYGWupd7KAQPw6PCuspuHXyCnJdXe8k7gACe1TmwxWA6AanfMBwPSyScOS81rW7EkyHHUZLeHhRf/KY9ZKxS0YElAXGwYlAP1n8O/R3EnlFB/0MMxITPzS2kVbDjZHZqX4wSXPKv+eRE3xteE5ROZy1ott+r38gojoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l8DMXId5; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N7cHF1HI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B450DC4CECE;
-	Thu, 28 Nov 2024 04:29:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732768175;
-	bh=ZReHJ+Ws4lewYIGJ0xabxD2HSvCS9j48AAi0eHrSfDo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N7cHF1HIZ2+umIwzkBnR4sA/+gWTJbyLC0/Wj+0YkfH+xKZQIwo7MY9J4Wdy+WOOD
-	 vTc+YZ1mZkgdZLZl/rE2T/0AXOAn9yJ6I2B73drGixgVI4ZVkepNafdeo+Fx6Lp9Dn
-	 ZDa2e4GgyRjNfPtu/XcamXqdFtO3iVDJFdMxnceLfWCw5NhSLqyT6aKYNMJzHySvek
-	 Uw/Bo50v/nHvyrPw67v5fU9HFgiPGSmZRrBI3RxfOc17JFjZmiY1QK/A9Vc3Zkig2q
-	 19YVJbBs3pDoVB3rOHLMaktXUUZm80uWhR/uF1728TKO4IhXUuXjpjeihJV3mi8KWJ
-	 Vj2QNNTvTnrHw==
-Date: Thu, 28 Nov 2024 04:29:32 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Dawid Niedzwiecki <dawidn@google.com>
-Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com
-Subject: Re: [PATCH 1/2] platform/chrome: cros_ec: jump to RW before probing
-Message-ID: <Z0fxrDTuCIeCDTiV@google.com>
-References: <20241125184446.1040187-1-dawidn@google.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l8DMXId5"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53dd8b7796dso354290e87.1
+        for <chrome-platform@lists.linux.dev>; Wed, 27 Nov 2024 20:57:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1732769841; x=1733374641; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9gNdiwWZ1MbH1bVKN1QAiVS5Fv7sTB11zjZfTxLD7cA=;
+        b=l8DMXId5pXxA8faZpuifAVkDCJ1zIFntn1LFJiCW3z5dFbYQsOtmYagEEh9bjfw4I7
+         nTMvlPQN2uzWJj/AkU7ha7JU86wSK7pAVKGldULBxtUnOLr1EQv8hfZJiYD6N/KhafJx
+         UpDcnh2JNw7cD3ceV3ERlFsrH+cO9F4m6+ZJY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732769841; x=1733374641;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9gNdiwWZ1MbH1bVKN1QAiVS5Fv7sTB11zjZfTxLD7cA=;
+        b=ecqcraKjTkcfDd25ip97A5Dq41O5H0JzNRqAODSo0PAnWuOCpdpm+1EeCwTE/A/su0
+         J6130rZrpfHHZxzvQrDS8l4ZYR4r8mQPMsW911+zhQxthgXdC8DFGyNCvbdAT5/KIZJb
+         N1wDWWWw9ML3xDcwVpm9orVItsFfv0gE2yyupxcSZzrROVEppJfC5YS+i50vYxhaGcCc
+         Tkk4wGvSojJXpE8a/q5TpwbS6B96LAAii0JMzRjFVkNa0Q453r8s4HHlfcDZGvPbrNv7
+         KtQ0fymoURIjtvaUg2A0BxJU7HL6TmqIT1j2gx4OSFn4RWgqEny+TE5HUNHENexvAxXl
+         PdCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWmFZaoHYumYaSmgURq6m+mWUzDuLD5pf0D4r+9JzfJP1S4vfsCdmoHt4D1Q5elwnSlO+Cxr8/3EFkE9RnjRtc=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVZqI5Jae2q1xZhTkx4szVtZxW6vrrwXehXv0uSMKa/tRG6w9+
+	AemfkGtVkLMHmNBeNrvSdVuWL671RXaAGqcK7FPFG+9Cln2jPtwdNgtDKm1tjzHTEsW1uD/GzqS
+	DTTMUCDCPineF4KXmBeDYYCQqRdYRSuUR7b5h
+X-Gm-Gg: ASbGncskQHicH0yt8P0UPDN1sPTv4bdWEsDy/5TU4iDgEZ2pe8PwBhfK2delwtYYzoS
+	ANXKwlTbkXTSuJpVcKFMtCWvz10EGUOySH7vveHJrKOkJKcjapyxNtAI63C0=
+X-Google-Smtp-Source: AGHT+IG7n8N4nAMz6o9K2XahUaKaMVFWZxqJsiGFCbLs2B2ko1EorvcGfAfKGctbegSVwAcOe4uRUizxkULBFWIPM2Q=
+X-Received: by 2002:a05:6512:23aa:b0:539:ea7a:7688 with SMTP id
+ 2adb3069b0e04-53df00a9f35mr3140014e87.1.1732769841115; Wed, 27 Nov 2024
+ 20:57:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241125184446.1040187-1-dawidn@google.com>
+References: <20241106093335.1582205-1-wenst@chromium.org> <CAGXv+5Fzrz9sBvE=FpV6URpcZtxvchxfY9WE4k4s+S3BzMWw2g@mail.gmail.com>
+ <Z0b_f0gg9KgSozPH@shikoro>
+In-Reply-To: <Z0b_f0gg9KgSozPH@shikoro>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 28 Nov 2024 12:57:09 +0800
+Message-ID: <CAGXv+5GUGwqEGpyJptAUc7aqdGAeFP=-um4=EfUNzxkahiXB9A@mail.gmail.com>
+Subject: Re: [PATCH v11 0/7] platform/chrome: Introduce DT hardware prober
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Chen-Yu Tsai <wenst@chromium.org>, 
+	Wolfram Sang <wsa@kernel.org>, chrome-platform@lists.linux.dev, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 25, 2024 at 06:44:45PM +0000, Dawid Niedzwiecki wrote:
-> To avoid such problems, send the RWSIG continue command first, which
-> skips waiting for the jump to RW. Send the command more times, to make
-> sure EC is ready in RW before the start of the actual probing process. If
-> a EC device doesn't support the RWSIG, it will respond with invalid
-> command error code and probing will continue as usual.
+On Wed, Nov 27, 2024 at 7:16=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+>
+> > Just checking in. I just wanted to make sure that this is still on
+> > track for v6.13-rc1.
+>
+> Eeeks, not only Andi was so busy that he lost track of patches. Please
+> accept my apologies, I was under the impression that this series was
+> still under discussion. I sadly missed that it was ready for prime time.
+>
+> That being said, I applied it now and will send it to Linus by the end
+> of the week. Sadly, this series was not exposed to -next before, so I
+> hope a few days of -next will work for him.
+>
+> But I will surely try. Sorry again!
 
-I'm wondering should it only send RWSIG_ACTION_CONTINUE if EC_CMD_GET_VERSION
-shows the FW is still in RO.
+Thanks! Fingers crossed! Hopefully Linus sees that all the stuff is
+just new symbols and pretty isolated.
 
-Curious about: who (in which use case) is responsible for sending
-RWSIG_ACTION_ABORT if it wants the EC stays in RO?
 
-> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-[...]
-> @@ -204,6 +204,11 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
->  	mutex_init(&ec_dev->lock);
->  	lockdep_set_class(&ec_dev->lock, &ec_dev->lockdep_key);
->  
-> +	/* Send RWSIG continue to jump to RW for devices using RWSIG. */
-> +	err = cros_ec_rwsig_continue(ec_dev);
-> +	if (err)
-> +		dev_warn(dev, "Failed to continue RWSIG: %d\n", err);
-
-Too verbose, use dev_info() instead.
-
-> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-[...]
-> +int cros_ec_rwsig_continue(struct cros_ec_device *ec_dev)
-> +{
-[...]
-> +	for (int i = 0; i < RWSIG_CONTINUE_RETRIES; i++) {
-> +		ret = cros_ec_send_command(ec_dev, msg);
-> +
-> +		if (ret < 0)
-> +			error_count++;
-
-Should it just return the error if the transmission fails?
-
-> +		else if (msg->result == EC_RES_INVALID_COMMAND)
-> +			/*
-> +			 * If EC_RES_INVALID_COMMAND is retured, it means RWSIG
-> +			 * is not supported or EC is already in RW, so there is
-> +			 * nothing left to do.
-> +			 */
-> +			break;
-> +		else if (msg->result != EC_RES_SUCCESS)
-> +			/* Unexpected command error. */
-> +			error_count++;
-
-Same as `ret < 0`, should it just return if any unexpected errors?
-
-> +		else
-> +			/*
-> +			 * The EC_CMD_RWSIG_ACTION succeed. Send the command
-> +			 * more times, to make sure EC is in RW. A following
-> +			 * command can timeout, because EC may need some time to
-> +			 * initialize after jump to RW.
-> +			 */
-> +			error_count = 0;
-> +
-> +		if (error_count >= RWSIG_CONTINUE_MAX_ERRORS_IN_ROW)
-> +			break;
-
-It could return 0 if `error_count >= RWSIG_CONTINUE_MAX_ERRORS_IN_ROW`.
-
-> +
-> +		if (ret != -ETIMEDOUT)
-> +			usleep_range(90000, 100000);
-> +	}
-> +
-> +	kfree(msg);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(cros_ec_rwsig_continue);
+ChenYu

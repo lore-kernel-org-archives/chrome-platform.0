@@ -1,236 +1,193 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504371C82E6
-	for <chrome-platform@lists.linux.dev>; Thu, 28 Nov 2024 23:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B121F943E
+	for <chrome-platform@lists.linux.dev>; Mon,  2 Dec 2024 09:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732836049; cv=none; b=KAcnf6Eon01Kl5/Qj2gdsku0m48cFhINZ5EF6kDXDNX8mN941X0YqcbOWaouV0hn9nugn3dilTW5uPusp685VP9HdDcpr/tkJT3ojoVHqfRvtynVpF/pUuJGRlVE/a1Xe/rkCqwdZK3ijKj9ax3qwg8krWjNKjRn9S8zxivmuJ4=
+	t=1733130975; cv=none; b=HTKH1R4gWNAHrWziSk4bwBgcqkMzZVHiepckLiX7rfDOWYk1Hoh5eaIZOK4RpSIUmOOH1vvnRxQaTrw1D5Xj6DHJz2d1K2W8VFo5t6GLn294RPjHDKXxvIKlZ615in2pBxdZmm7yT/0sQk1cA167h6DH3x2c/SIfX8lroAhN56k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732836049; c=relaxed/simple;
-	bh=tbcZYXU6HcwHtSy5LuzFDa9JvHECIlXLmldxQYaGrnY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TVj51yTQ0Uy72GrR3rYIpyere8RrGSYKhLeZzYD1+vkYkeAV6an/eI4GEctvZSmFZ2IEECwm9Qt8weCB7n1rmXLvnbNluv0yUOB6T9RzTKYfTQNFMMhQzQqh199DrGtIvIia3HUDKo2g0L2AvcoKI4hwBnIdj1Xy04jfvuzZdkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JedQd9e7; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1733130975; c=relaxed/simple;
+	bh=5WrUnJEqQiuUuTJ+OJiQnCJ7THQ+A+DF5medutrEQfM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qpIiqZxaIT7cw+q4cgYi9Ab89vf0T0+gxikX7S/leXVLO5CUoNE/MkN+tGMMsa+01dU2RJVKa7GPOCYo24L5UtO9L44qHBdpB3LsTeRtjdz/L9RpjTgDvk5IzcXqXRen4Z55NPIrybYgbtod01rDUy573QIs4knqupyWJP5NTRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xpiWnpfN; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JedQd9e7"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ffc3f2b3a9so19343861fa.1
-        for <chrome-platform@lists.linux.dev>; Thu, 28 Nov 2024 15:20:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xpiWnpfN"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6ef66a7ac14so20457137b3.0
+        for <chrome-platform@lists.linux.dev>; Mon, 02 Dec 2024 01:16:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732836045; x=1733440845; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1733130972; x=1733735772; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NO7pr5IjtQ7DDii6MRKHjZ3m6XUBJXvLyCa0CyvruQQ=;
-        b=JedQd9e72aTnVU3wtwpgvXIfRxQc1dCdOQ6owPg9XX/P8eW464zle9stwoXaPnM2iE
-         fkrQVolS2bFZVn5Wh5ZdTe7THaPbuPrrBm9grM9wVMfjiQxA+ostVfXavSUaqf8sXz1x
-         o7ZsQxJutnkPPDELKjCkQwHeTxSNCysJJijsI=
+        bh=1eG6H9xL8sk/1S7A6iBU9/Voo1x3apTymTAnplNQbuo=;
+        b=xpiWnpfNSOImiqHl97AvBjzdWciJur/LAshC2s/hjeSquL1oOFkv1UoBGKoMqgBEpD
+         zWZQ0XcvJWTRvWgLIbhjtRwt3Ze1NptqPYojBFnPoJ6Xi3/4maqoYBQiaJWcgeEzr+Pe
+         c7XmoWg+xvo298AWID9VsMZKLwPcESauVu8c91DllUtucmH6u7Clgay3WTuMY1AYRw9V
+         z75WPhfimnpkgzoBN+qKW5qseDAMdRovexXHVcDFwBXwsPBLG4UPZt2NsJHufWP06gey
+         D+fA3AvoQw5UVVAXqOxGJ4HLsaEbfFCKJhKBIhz0Xp/2CJJYzb5aW5SW9Dwu1CRGEBLh
+         t/ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732836045; x=1733440845;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1733130972; x=1733735772;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NO7pr5IjtQ7DDii6MRKHjZ3m6XUBJXvLyCa0CyvruQQ=;
-        b=krxt9CFczsksNzuZWZC5QVUsyP9E/asPa9HyaHc7AjAXNNpwIN+2deciTJv3CCnjB5
-         MLNmyS5X2S6MXz2ypc9jRxUninwcIfe7MOEJJYSog+5e/NTEve0reC4hEOoUmz9AgccV
-         +P2+UMOT0jhx12+X4Vqp8EJnH1LRBiJFnm2TRPTMUDrRmEcjjyc9tJNEVSSXeXC9mE+5
-         cwiG33XS5/DkLXeonZ1sd9FmiXksPmmkQRkAqf6eFfzY8XNnjwpCvR+IQgGBbLW3X3sL
-         5Lnzj/bFx4rOJFfrEjuvwZqONdVYAeAQY8+GOPrNWrnYuMKrfDpocxRNLY29//jtjvA0
-         B/AA==
-X-Forwarded-Encrypted: i=1; AJvYcCXRupF4lYo68vaxloemwLZY9y3c7UyUR9qw2rZxUMAH/8KrJD/48/CIutAKyYYCigeJKkPhnzfcZR5EM0J5+Pc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdEfEbp5IYSphXAEhac+spV3+2lL1Y1K8nXO8xiIN10nFoB/fS
-	Dpnuuost4ik+Y/CWlapjfGrSoQJlYBX3zFY8yxzb0IfSQJ2vuCrj9cqD4mGG
-X-Gm-Gg: ASbGncsbh30FlKQVwezsAmvfTmxyLfFZH1rIf28MUf+VDzyxzttoH9IwPjWRiDRMrEP
-	FT/LVrlScGX8HdiKQm/uUiwNFv5lEnjHSfOY0NK0sPq18MwmbLYJhjQjuTyA5TsEJEdi/CprB/E
-	HGd6J1GW0dEBdpxrXDzz6JxOr6woV3LoPTIbjBM/GCNzg2FHnI95s6lmxJJaX4bvbbplx8t/2KN
-	Hm9f/CxHOlQI3YqVgnjX6XodLWwNfrLww/A1qEXeOkmABrvF4GBqbwcP4GH4ys7tzt3OoIKkBGj
-	Oj1uRf7Y7fgMWPO5Fc1Iy1BC+2WFNZ3EOAo=
-X-Google-Smtp-Source: AGHT+IGmiebKIbZzhcAjX1oLllwlbZw4xh5D+KuARx/TSvORsh+S7wRIiiNwsgWUZtSjqXFexldF4g==
-X-Received: by 2002:a05:651c:1502:b0:2fc:9674:60b5 with SMTP id 38308e7fff4ca-2ffd60a9703mr75687331fa.25.1732836045246;
-        Thu, 28 Nov 2024 15:20:45 -0800 (PST)
-Received: from ukaszb-ng.c.googlers.com.com (103.45.147.34.bc.googleusercontent.com. [34.147.45.103])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5997d5672sm110757566b.77.2024.11.28.15.20.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Nov 2024 15:20:44 -0800 (PST)
-From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Benson Leung <bleung@chromium.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Pavan Holla <pholla@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH v8 3/3] usb: typec: cros_ec_ucsi: Recover from write timeouts
-Date: Thu, 28 Nov 2024 23:20:35 +0000
-Message-ID: <20241128232035.1525978-4-ukaszb@chromium.org>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-In-Reply-To: <20241128232035.1525978-1-ukaszb@chromium.org>
-References: <20241128232035.1525978-1-ukaszb@chromium.org>
+        bh=1eG6H9xL8sk/1S7A6iBU9/Voo1x3apTymTAnplNQbuo=;
+        b=d9gPtCs3N8azCyCB+uc6AOa/Qel/uso41J8UyxOQ1enmqWJZwsZwWmhpdiBnZXIo6+
+         Ku6LoJbkIRKyDoeCemj/g0YXMgHCxHmLwYOm/t0qEe0BnNORUsolrFmN5yeIX6kJHheq
+         Ug0zpkzcZ6WzvXbPFbAGT9zVfM1CbJTeZgbDpHLeF+IsxN/MGZhu7sFUrL3uYBX8EV1F
+         Yn0tZXGvBmkNRXbIQU43lw0WdQl2w4XWzxpAmStKsL7V5jh9tdaJ2kTx+LUOZRXLZxnJ
+         J1qcr812mKHY4/q60RTl9QiTp/3AV5ZPVJSKefshXoXVkPEMnjLsb70vSHKgaoPtlxmN
+         Dnhw==
+X-Forwarded-Encrypted: i=1; AJvYcCXl1Ap6j0vRJoSteFbOTemMb5riMMde1D+MgJxOhuNM82IMdt0XbEceuHzMO/T7F3hwF3FEx/nlbJ8X4ycOlqA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOe+gEdXJsiyBHPwhWO5QTtxCFlBMnAZI08P3pDsvYoc5HF1HQ
+	AyBEzOmCyXvSPReOMwxCLmmD6RLexxRhVlaXjIGaE4nEmZhuq/eSSLBlbr2gRfBdr5dLunUiU/H
+	3RvEt/k/3roFeLSABwX1qBhoxmyQ/9C62RNG1
+X-Gm-Gg: ASbGncssmYiNHAbXIsCiqEjdVQXssUC95+62+a/exCjRChGErFlOACD1vpcrS6rLssE
+	EVZQksO9JFp0tXgb0WV+lnxA1phNiDg==
+X-Google-Smtp-Source: AGHT+IGLfK90CGrw+U7d4tyOPXLmg+EKv1CY3vyA/Q00bc/KKdGdeAKIVU8n+M6Hhwa6n30VmDCqUxFawN0x4JzUV9Q=
+X-Received: by 2002:a05:690c:3505:b0:6db:e1e0:bf6a with SMTP id
+ 00721157ae682-6ef4a0dfcb2mr152707887b3.7.1733130972344; Mon, 02 Dec 2024
+ 01:16:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241125184446.1040187-1-dawidn@google.com> <Z0fxrDTuCIeCDTiV@google.com>
+In-Reply-To: <Z0fxrDTuCIeCDTiV@google.com>
+From: =?UTF-8?Q?Dawid_Nied=C5=BAwiecki?= <dawidn@google.com>
+Date: Mon, 2 Dec 2024 10:16:01 +0100
+Message-ID: <CAJ_BA_BvGPfAghiQo8uQSAhdqG3NiWXbO7c-Q_x6cvUUukrzsA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] platform/chrome: cros_ec: jump to RW before probing
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+On Thu, Nov 28, 2024 at 5:29=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Mon, Nov 25, 2024 at 06:44:45PM +0000, Dawid Niedzwiecki wrote:
+> > To avoid such problems, send the RWSIG continue command first, which
+> > skips waiting for the jump to RW. Send the command more times, to make
+> > sure EC is ready in RW before the start of the actual probing process. =
+If
+> > a EC device doesn't support the RWSIG, it will respond with invalid
+> > command error code and probing will continue as usual.
+>
+> I'm wondering should it only send RWSIG_ACTION_CONTINUE if EC_CMD_GET_VER=
+SION
+> shows the FW is still in RO.
 
-In a suspend-resume edge case, the OPM is timing out in ucsi_resume and
-the PPM is getting stuck waiting for a command complete ack. Add a write
-timeout recovery task that will get us out of this state.
+In theory yes, but in practice it is not necessary. If FW is in RW, it
+will return
+EC_RES_INVALID_COMMAND (the same case as RWSIG is not supported), so
+the job is done.
+EC_CMD_GET_VERSION + potentially RWSIG_ACTION_CONTINUE sequence is longer.
+Additionally, EC_CMD_GET_VERSION requires bigger buffers to store
+versions strings.
 
-Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
----
- drivers/usb/typec/ucsi/cros_ec_ucsi.c | 88 ++++++++++++++++++++++++++-
- 1 file changed, 87 insertions(+), 1 deletion(-)
+>
+> Curious about: who (in which use case) is responsible for sending
+> RWSIG_ACTION_ABORT if it wants the EC stays in RO?
 
-diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-index c588d9a57643..6daf61e7e62a 100644
---- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-+++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/container_of.h>
- #include <linux/dev_printk.h>
-+#include <linux/jiffies.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_data/cros_ec_commands.h>
-@@ -29,6 +30,9 @@
-  */
- #define WRITE_TMO_MS		5000
- 
-+/* Number of times to attempt recovery from a write timeout before giving up. */
-+#define WRITE_TMO_CTR_MAX	5
-+
- struct cros_ucsi_data {
- 	struct device *dev;
- 	struct ucsi *ucsi;
-@@ -36,6 +40,8 @@ struct cros_ucsi_data {
- 	struct cros_ec_device *ec;
- 	struct notifier_block nb;
- 	struct work_struct work;
-+	struct delayed_work write_tmo;
-+	int tmo_counter;
- 
- 	struct completion complete;
- 	unsigned long flags;
-@@ -99,12 +105,43 @@ static int cros_ucsi_async_control(struct ucsi *ucsi, u64 cmd)
- 	return 0;
- }
- 
-+static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd)
-+{
-+	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
-+	int ret;
-+
-+	ret = ucsi_sync_control_common(ucsi, cmd);
-+	if (ret)
-+		goto out;
-+
-+	/* Successful write. Cancel any pending recovery work. */
-+	cancel_delayed_work_sync(&udata->write_tmo);
-+
-+	return 0;
-+out:
-+	/* EC may return -EBUSY if CCI.busy is set. Convert this to a timeout.
-+	 */
-+	if (ret == -EBUSY)
-+		ret = -ETIMEDOUT;
-+
-+	/* Schedule recovery attempt when we timeout or tried to send a command
-+	 * while still busy.
-+	 */
-+	if (ret == -ETIMEDOUT) {
-+		cancel_delayed_work_sync(&udata->write_tmo);
-+		schedule_delayed_work(&udata->write_tmo,
-+				      msecs_to_jiffies(WRITE_TMO_MS));
-+	}
-+
-+	return ret;
-+}
-+
- struct ucsi_operations cros_ucsi_ops = {
- 	.read_version = cros_ucsi_read_version,
- 	.read_cci = cros_ucsi_read_cci,
- 	.read_message_in = cros_ucsi_read_message_in,
- 	.async_control = cros_ucsi_async_control,
--	.sync_control = ucsi_sync_control_common,
-+	.sync_control = cros_ucsi_sync_control,
- };
- 
- static void cros_ucsi_work(struct work_struct *work)
-@@ -118,6 +155,54 @@ static void cros_ucsi_work(struct work_struct *work)
- 	ucsi_notify_common(udata->ucsi, cci);
- }
- 
-+static void cros_ucsi_write_timeout(struct work_struct *work)
-+{
-+	struct cros_ucsi_data *udata =
-+		container_of(work, struct cros_ucsi_data, write_tmo.work);
-+	u32 cci;
-+	u64 cmd;
-+
-+	if (cros_ucsi_read(udata->ucsi, UCSI_CCI, &cci, sizeof(cci))) {
-+		dev_err(udata->dev,
-+			"Reading CCI failed; no write timeout recovery possible.");
-+		return;
-+	}
-+
-+	if (cci & UCSI_CCI_BUSY) {
-+		udata->tmo_counter++;
-+
-+		if (udata->tmo_counter <= WRITE_TMO_CTR_MAX)
-+			schedule_delayed_work(&udata->write_tmo,
-+					      msecs_to_jiffies(WRITE_TMO_MS));
-+		else
-+			dev_err(udata->dev,
-+				"PPM unresponsive - too many write timeouts.");
-+
-+		return;
-+	}
-+
-+	/* No longer busy means we can reset our timeout counter. */
-+	udata->tmo_counter = 0;
-+
-+	/* Need to ack previous command which may have timed out. */
-+	if (cci & UCSI_CCI_COMMAND_COMPLETE) {
-+		cmd = UCSI_ACK_CC_CI | UCSI_ACK_COMMAND_COMPLETE;
-+		cros_ucsi_async_control(udata->ucsi, &cmd);
-+
-+		/* Check again after a few seconds that the system has
-+		 * recovered to make sure our async write above was successful.
-+		 */
-+		schedule_delayed_work(&udata->write_tmo,
-+				      msecs_to_jiffies(WRITE_TMO_MS));
-+		return;
-+	}
-+
-+	/* We recovered from a previous timeout. Treat this as a recovery from
-+	 * suspend and call resume.
-+	 */
-+	ucsi_resume(udata->ucsi);
-+}
-+
- static int cros_ucsi_event(struct notifier_block *nb,
- 			   unsigned long host_event, void *_notify)
- {
-@@ -162,6 +247,7 @@ static int cros_ucsi_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, udata);
- 
- 	INIT_WORK(&udata->work, cros_ucsi_work);
-+	INIT_DELAYED_WORK(&udata->write_tmo, cros_ucsi_write_timeout);
- 	init_completion(&udata->complete);
- 
- 	udata->ucsi = ucsi_create(dev, &cros_ucsi_ops);
--- 
-2.47.0.338.g60cca15819-goog
+Currently, it is done by flashrom
+https://source.chromium.org/chromiumos/chromiumos/codesearch/+/01195dd492ea=
+196cdc60e467a896369e30e90c5b:src/third_party/flashrom/cros_ec.c;l=3D480
 
+>
+> > diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrom=
+e/cros_ec.c
+> [...]
+> > @@ -204,6 +204,11 @@ int cros_ec_register(struct cros_ec_device *ec_dev=
+)
+> >       mutex_init(&ec_dev->lock);
+> >       lockdep_set_class(&ec_dev->lock, &ec_dev->lockdep_key);
+> >
+> > +     /* Send RWSIG continue to jump to RW for devices using RWSIG. */
+> > +     err =3D cros_ec_rwsig_continue(ec_dev);
+> > +     if (err)
+> > +             dev_warn(dev, "Failed to continue RWSIG: %d\n", err);
+>
+> Too verbose, use dev_info() instead.
+
+I will change that.
+
+>
+> > diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform=
+/chrome/cros_ec_proto.c
+> [...]
+> > +int cros_ec_rwsig_continue(struct cros_ec_device *ec_dev)
+> > +{
+> [...]
+> > +     for (int i =3D 0; i < RWSIG_CONTINUE_RETRIES; i++) {
+> > +             ret =3D cros_ec_send_command(ec_dev, msg);
+> > +
+> > +             if (ret < 0)
+> > +                     error_count++;
+>
+> Should it just return the error if the transmission fails?
+
+The transmission failure is kind of expected here. It is possible that
+FPMCU is not ready, when AP
+starts sending commands. That's why the retry (which is removed in
+PATCH 2/2) was added in the
+cros_ec_get_proto_info function.
+
+>
+> > +             else if (msg->result =3D=3D EC_RES_INVALID_COMMAND)
+> > +                     /*
+> > +                      * If EC_RES_INVALID_COMMAND is retured, it means=
+ RWSIG
+> > +                      * is not supported or EC is already in RW, so th=
+ere is
+> > +                      * nothing left to do.
+> > +                      */
+> > +                     break;
+> > +             else if (msg->result !=3D EC_RES_SUCCESS)
+> > +                     /* Unexpected command error. */
+> > +                     error_count++;
+>
+> Same as `ret < 0`, should it just return if any unexpected errors?
+
+It should return here. It is unexpected that the command itself
+returns error, we should return
+in this case. I will change that.
+
+>
+> > +             else
+> > +                     /*
+> > +                      * The EC_CMD_RWSIG_ACTION succeed. Send the comm=
+and
+> > +                      * more times, to make sure EC is in RW. A follow=
+ing
+> > +                      * command can timeout, because EC may need some =
+time to
+> > +                      * initialize after jump to RW.
+> > +                      */
+> > +                     error_count =3D 0;
+> > +
+> > +             if (error_count >=3D RWSIG_CONTINUE_MAX_ERRORS_IN_ROW)
+> > +                     break;
+>
+> It could return 0 if `error_count >=3D RWSIG_CONTINUE_MAX_ERRORS_IN_ROW`.
+
+True. I will fix that.
+
+>
+> > +
+> > +             if (ret !=3D -ETIMEDOUT)
+> > +                     usleep_range(90000, 100000);
+> > +     }
+> > +
+> > +     kfree(msg);
+> > +
+> > +     return ret;
+> > +}
+> > +EXPORT_SYMBOL(cros_ec_rwsig_continue);

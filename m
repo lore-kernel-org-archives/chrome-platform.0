@@ -1,32 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA8B1DE3CB
-	for <chrome-platform@lists.linux.dev>; Mon,  2 Dec 2024 19:00:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490561DE3D4
+	for <chrome-platform@lists.linux.dev>; Mon,  2 Dec 2024 19:00:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733166042; cv=none; b=EAjp150YXSGemvTTDBM9kzQMYzpLDh0qse1jLGf5yw0Ta3V48yIpO20ySijuUVJH83Ji+mLtE1o+0CYFQ5kj6aEX+wrr+l5ydc6FqyhdT0rvX5Kpry6I995iM72bVlH5PSbm8Bs/LTdrLttWs/Am384Sbosc1ETnIUMyxRVFi74=
+	t=1733166042; cv=none; b=RUM9mSZgU7HlkZ9U29AlGszjsR1dAPVUzOJRRzWQbPcpchZ05MXz3tdRouj6uxSrJL7Ywp9QASckv4qlGTRtGa4nzxGT9tESkktR1+O6pRRxyJZpLqqJo3K9rr4spgtbjk+W+NYv8PnvJ3k1Og6AEe7yu/5D9dbHXPQR/hSGzb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733166042; c=relaxed/simple;
-	bh=xou28swiaoBiDmWpjvH656ao7GcdNsfrzFboEHzP1GM=;
+	bh=c+OK0c9DqudvV6de1q2cguTuEZ7rc+EiMnpII+VV+gk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ECYQu0kZ4H3CWCpLWG8HR8LGVRznyu20iJBD8POLjQD2KtiOGCAEfFx/rSO+n9jIMyVl+YyqmutNUHp356/dUJSzGr4g4vBsUUkOW2PG8RDNRUaP4iRLG3hIY00ofhKr0G5r9E3z487jEAnN7DbkmzYUEwWKOoUieapy9q6TQMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=VqX26pnl; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=Hs67NXjXl1A7AW09f88xZwX1TiBYgndrSszK6ScRPpz6qQhGPpjaJ8ZtpVkIV1bP3Hwh+v30TYTp3kIl/UuVxuw+braMv2I/1Eqo8bci2WmHMwyvKxFMD8TBiJfxags1rORCD55p8GFgCko0KXvzRcv2V8FIiMi7ktuTvszH7Og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=PRoJTN2/; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="VqX26pnl"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="PRoJTN2/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1733166037;
-	bh=xou28swiaoBiDmWpjvH656ao7GcdNsfrzFboEHzP1GM=;
+	bh=c+OK0c9DqudvV6de1q2cguTuEZ7rc+EiMnpII+VV+gk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VqX26pnlkKD4n+vv/jNOMJWWV3ESbtROgqI/ThqvtEtZ4dhs0a0zruOYJPBUNnoyF
-	 PL9lyngKcbu8L/cn+IzJbZKlApbrEiP0EgrTjmkCX0o9HdgNFxI7KFB9PRs/HlRoHa
-	 xiD+Ep6fGcSkjH2TV8X9Ca69OaWAHpV45r7ymKEQ=
+	b=PRoJTN2/WD38X6ex2MklShCZg4/Zhp1aBS6bQhM8KrWUKqsIfTO3E8JpPTZQWn4yX
+	 i5z49I+Y6UsDRqwh7UMg09/F+TG8YXqtHA7xPEWaCEmYJ+9zF+wZlqRnJCyDh2xJeW
+	 xqMnqBJ6ZG0AY934vDKCRdaTH8lcC+h9nHW3odGI=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 02 Dec 2024 20:00:37 +0100
-Subject: [PATCH 2/5] s390/sclp_config: use BIN_ATTR_ADMIN_WO() for
- bin_attribute definition
+Date: Mon, 02 Dec 2024 20:00:36 +0100
+Subject: [PATCH 1/5] sysfs: add macro BIN_ATTR_ADMIN_WO()
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,7 +34,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241202-sysfs-const-bin_attr-admin_wo-v1-2-f489116210bf@weissschuh.net>
+Message-Id: <20241202-sysfs-const-bin_attr-admin_wo-v1-1-f489116210bf@weissschuh.net>
 References: <20241202-sysfs-const-bin_attr-admin_wo-v1-0-f489116210bf@weissschuh.net>
 In-Reply-To: <20241202-sysfs-const-bin_attr-admin_wo-v1-0-f489116210bf@weissschuh.net>
 To: Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
@@ -54,65 +53,46 @@ Cc: linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733166036; l=1812;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733166036; l=1326;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=xou28swiaoBiDmWpjvH656ao7GcdNsfrzFboEHzP1GM=;
- b=vfWtzqSvOITqm9SIRme74Qk53uJwokLIIK0tBYouqbxDGe+gNmhS3pAcZF3um7CX0Thy4ZYvi
- H8BDLWi3jB1Ckix9bcV5uNOkUK2JN6TmlPQN38QAc33eOmKZczOf8Yb
+ bh=c+OK0c9DqudvV6de1q2cguTuEZ7rc+EiMnpII+VV+gk=;
+ b=fYgHqAdIAZatDuw8uWF0U9ElsIjChzM1qpbbyZvPW4NW8SrhhzeOs4sK7avctzwIrWksSbzAm
+ jxiHNn1GgsFDhjK/57O009WAci/xOF8vWIVviFFNIlMNHEynIxZO/h2
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Using the macro saves some lines of code and prepares the attribute for
-the general constifications of struct bin_attributes.
-
-While at it also constify the callback parameter.
+The macros BIN_ATTR_RO/BIN_ATTR_WO/BIN_ATTR_WR and
+BIN_ATTR_ADMIN_RO/BIN_ATTR_ADMIN_RW already exist.
+To complete the collection also add BIN_ATTR_ADMIN_WO.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/s390/char/sclp_config.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ include/linux/sysfs.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/s390/char/sclp_config.c b/drivers/s390/char/sclp_config.c
-index f56ea9b60e08e817652a9b7d19d420e9977c6552..0fe0782ccd325c1c3907e5d6272f770477e9ea46 100644
---- a/drivers/s390/char/sclp_config.c
-+++ b/drivers/s390/char/sclp_config.c
-@@ -127,9 +127,9 @@ static int sclp_ofb_send_req(char *ev_data, size_t len)
- 	return rc;
- }
+diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+index 0f2fcd244523f050c5286f19d4fe1846506f9214..bcae49105e54a79b7d8a610f17212cb5920c205a 100644
+--- a/include/linux/sysfs.h
++++ b/include/linux/sysfs.h
+@@ -385,12 +385,18 @@ struct bin_attribute bin_attr_##_name = __BIN_ATTR_RW(_name, _size)
+ #define __BIN_ATTR_ADMIN_RO(_name, _size)				\
+ 	__BIN_ATTR(_name, 0400, _name##_read, NULL, _size)
  
--static ssize_t sysfs_ofb_data_write(struct file *filp, struct kobject *kobj,
--				    struct bin_attribute *bin_attr,
--				    char *buf, loff_t off, size_t count)
-+static ssize_t event_data_write(struct file *filp, struct kobject *kobj,
-+				const struct bin_attribute *bin_attr,
-+				char *buf, loff_t off, size_t count)
- {
- 	int rc;
++#define __BIN_ATTR_ADMIN_WO(_name, _size)				\
++	__BIN_ATTR(_name, 0200, NULL, _name##_write, _size)
++
+ #define __BIN_ATTR_ADMIN_RW(_name, _size)					\
+ 	__BIN_ATTR(_name, 0600, _name##_read, _name##_write, _size)
  
-@@ -137,13 +137,7 @@ static ssize_t sysfs_ofb_data_write(struct file *filp, struct kobject *kobj,
- 	return rc ?: count;
- }
+ #define BIN_ATTR_ADMIN_RO(_name, _size)					\
+ struct bin_attribute bin_attr_##_name = __BIN_ATTR_ADMIN_RO(_name, _size)
  
--static const struct bin_attribute ofb_bin_attr = {
--	.attr = {
--		.name = "event_data",
--		.mode = S_IWUSR,
--	},
--	.write = sysfs_ofb_data_write,
--};
-+static const BIN_ATTR_ADMIN_WO(event_data, 0);
- #endif
++#define BIN_ATTR_ADMIN_WO(_name, _size)					\
++struct bin_attribute bin_attr_##_name = __BIN_ATTR_ADMIN_WO(_name, _size)
++
+ #define BIN_ATTR_ADMIN_RW(_name, _size)					\
+ struct bin_attribute bin_attr_##_name = __BIN_ATTR_ADMIN_RW(_name, _size)
  
- static int __init sclp_ofb_setup(void)
-@@ -155,7 +149,7 @@ static int __init sclp_ofb_setup(void)
- 	ofb_kset = kset_create_and_add("ofb", NULL, firmware_kobj);
- 	if (!ofb_kset)
- 		return -ENOMEM;
--	rc = sysfs_create_bin_file(&ofb_kset->kobj, &ofb_bin_attr);
-+	rc = sysfs_create_bin_file(&ofb_kset->kobj, &bin_attr_event_data);
- 	if (rc) {
- 		kset_unregister(ofb_kset);
- 		return rc;
 
 -- 
 2.47.1

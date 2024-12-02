@@ -1,31 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CCF1DE3C8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA8B1DE3CB
 	for <chrome-platform@lists.linux.dev>; Mon,  2 Dec 2024 19:00:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733166042; cv=none; b=YP8rLRWm8ghGFFjTWNSi3FsUgBLkMQFGoMxVMIYKt6Bfchcp3uuK+vnEZZEShLZHWDqChUa9c9gCpTIPicT+04ujN56gUkSGGDEq3qiUp2lAZd8xMsJm1pog2DA8ZqiW1s/n8s1KCg+QGvxAAS1L+vAxGInK5TFWgfT4nV+8ewc=
+	t=1733166042; cv=none; b=EAjp150YXSGemvTTDBM9kzQMYzpLDh0qse1jLGf5yw0Ta3V48yIpO20ySijuUVJH83Ji+mLtE1o+0CYFQ5kj6aEX+wrr+l5ydc6FqyhdT0rvX5Kpry6I995iM72bVlH5PSbm8Bs/LTdrLttWs/Am384Sbosc1ETnIUMyxRVFi74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733166042; c=relaxed/simple;
-	bh=TMBtf8tHW7HSo+J0IXx7Vgtjq1QjUtkf1n/uqfOEV94=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uEu1HOtUHB/LoRPjvuM6KP8pPGGorrITvkvwqIlhUS7Zb2zViJpONw5DYegMVptNEUse9U5bTNSLUsQCgQ1pTn2tz8+hWNjMBWiozC07s96d0lltTcZB6y/GK8/rdDQxa/q1/30Yn483lBMUa4ARq31Du/lahPezHd/UXfi19BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=UCRrJsEI; arc=none smtp.client-ip=159.69.126.157
+	bh=xou28swiaoBiDmWpjvH656ao7GcdNsfrzFboEHzP1GM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ECYQu0kZ4H3CWCpLWG8HR8LGVRznyu20iJBD8POLjQD2KtiOGCAEfFx/rSO+n9jIMyVl+YyqmutNUHp356/dUJSzGr4g4vBsUUkOW2PG8RDNRUaP4iRLG3hIY00ofhKr0G5r9E3z487jEAnN7DbkmzYUEwWKOoUieapy9q6TQMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=VqX26pnl; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="UCRrJsEI"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="VqX26pnl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1733166037;
-	bh=TMBtf8tHW7HSo+J0IXx7Vgtjq1QjUtkf1n/uqfOEV94=;
-	h=From:Subject:Date:To:Cc:From;
-	b=UCRrJsEIeshSRwM/Fmf8PF9CwtfNSvEPZYzfdwayKyZ0BljSsO1TS2Vx3olEuVi8c
-	 liYIpma/oFebeGv3rzy9oPpxSQmya00+yua1JEZNRHhxeZrW1G3RwDsPIWrbI/YR6U
-	 rS2PSdnZfRR0OFAwRz9dCLxv3drRVms6BrkgPHmU=
+	bh=xou28swiaoBiDmWpjvH656ao7GcdNsfrzFboEHzP1GM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=VqX26pnlkKD4n+vv/jNOMJWWV3ESbtROgqI/ThqvtEtZ4dhs0a0zruOYJPBUNnoyF
+	 PL9lyngKcbu8L/cn+IzJbZKlApbrEiP0EgrTjmkCX0o9HdgNFxI7KFB9PRs/HlRoHa
+	 xiD+Ep6fGcSkjH2TV8X9Ca69OaWAHpV45r7ymKEQ=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH 0/5] sysfs: introduce and use macro BIN_ATTR_ADMIN_WO()
-Date: Mon, 02 Dec 2024 20:00:35 +0100
-Message-Id: <20241202-sysfs-const-bin_attr-admin_wo-v1-0-f489116210bf@weissschuh.net>
+Date: Mon, 02 Dec 2024 20:00:37 +0100
+Subject: [PATCH 2/5] s390/sclp_config: use BIN_ATTR_ADMIN_WO() for
+ bin_attribute definition
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -34,10 +35,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIANMDTmcC/x3MTQqDMBBA4avIrB1oQrTYqxSRxEzqLJqUTPAH8
- e6G7t63eScIZSaBV3NCppWFU6xQbQPzYuOHkH016Ic2SukO5ZAgOKcoBR3HyZaS0fpvzS3h4E3
- fh/AkZzTUxy9T4P3/f4/XdQO9DLWpbwAAAA==
-X-Change-ID: 20241125-sysfs-const-bin_attr-admin_wo-9d466ff7eb42
+Message-Id: <20241202-sysfs-const-bin_attr-admin_wo-v1-2-f489116210bf@weissschuh.net>
+References: <20241202-sysfs-const-bin_attr-admin_wo-v1-0-f489116210bf@weissschuh.net>
+In-Reply-To: <20241202-sysfs-const-bin_attr-admin_wo-v1-0-f489116210bf@weissschuh.net>
 To: Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
  Alexander Gordeev <agordeev@linux.ibm.com>, 
  Christian Borntraeger <borntraeger@linux.ibm.com>, 
@@ -54,43 +54,66 @@ Cc: linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733166036; l=1317;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733166036; l=1812;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=TMBtf8tHW7HSo+J0IXx7Vgtjq1QjUtkf1n/uqfOEV94=;
- b=qkbGdke2NYYCgu59TeLJS7A7eWNgWRdWBo+2G8qKIHkdDBXG//myctF8vmaEN7qBuRPkewQeU
- 8qsJmBMqoyKBRHgFsXoN/t3Iemm8g1hIGmKXIQBKBNYcCX9Goj8tC6r
+ bh=xou28swiaoBiDmWpjvH656ao7GcdNsfrzFboEHzP1GM=;
+ b=vfWtzqSvOITqm9SIRme74Qk53uJwokLIIK0tBYouqbxDGe+gNmhS3pAcZF3um7CX0Thy4ZYvi
+ H8BDLWi3jB1Ckix9bcV5uNOkUK2JN6TmlPQN38QAc33eOmKZczOf8Yb
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-For the bin_attribute constification effort it is useful to have
-BIN_ATTR_ADMIN_WO() macro.
-Introduce it and switch over all places in the tree which can make use
-of it.
+Using the macro saves some lines of code and prepares the attribute for
+the general constifications of struct bin_attributes.
 
-While at it also constify the bin_attribute callback parameters.
-
-This series is meant to be applied through the driver core tree.
+While at it also constify the callback parameter.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-Thomas Weißschuh (5):
-      sysfs: add macro BIN_ATTR_ADMIN_WO()
-      s390/sclp_config: use BIN_ATTR_ADMIN_WO() for bin_attribute definition
-      powerpc/powernv/flash: Use BIN_ATTR_ADMIN_WO() for bin_attribute definition
-      firmware: google: gsmi: Use BIN_ATTR_ADMIN_WO() for bin_attribute definition
-      scsi: arcmsr: Use BIN_ATTR_ADMIN_WO() for bin_attribute definitions
+ drivers/s390/char/sclp_config.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
- arch/powerpc/platforms/powernv/opal-flash.c | 14 ++----
- drivers/firmware/google/gsmi.c              | 17 +++----
- drivers/s390/char/sclp_config.c             | 16 ++-----
- drivers/scsi/arcmsr/arcmsr_attr.c           | 73 ++++++++++-------------------
- include/linux/sysfs.h                       |  6 +++
- 5 files changed, 49 insertions(+), 77 deletions(-)
----
-base-commit: e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-change-id: 20241125-sysfs-const-bin_attr-admin_wo-9d466ff7eb42
+diff --git a/drivers/s390/char/sclp_config.c b/drivers/s390/char/sclp_config.c
+index f56ea9b60e08e817652a9b7d19d420e9977c6552..0fe0782ccd325c1c3907e5d6272f770477e9ea46 100644
+--- a/drivers/s390/char/sclp_config.c
++++ b/drivers/s390/char/sclp_config.c
+@@ -127,9 +127,9 @@ static int sclp_ofb_send_req(char *ev_data, size_t len)
+ 	return rc;
+ }
+ 
+-static ssize_t sysfs_ofb_data_write(struct file *filp, struct kobject *kobj,
+-				    struct bin_attribute *bin_attr,
+-				    char *buf, loff_t off, size_t count)
++static ssize_t event_data_write(struct file *filp, struct kobject *kobj,
++				const struct bin_attribute *bin_attr,
++				char *buf, loff_t off, size_t count)
+ {
+ 	int rc;
+ 
+@@ -137,13 +137,7 @@ static ssize_t sysfs_ofb_data_write(struct file *filp, struct kobject *kobj,
+ 	return rc ?: count;
+ }
+ 
+-static const struct bin_attribute ofb_bin_attr = {
+-	.attr = {
+-		.name = "event_data",
+-		.mode = S_IWUSR,
+-	},
+-	.write = sysfs_ofb_data_write,
+-};
++static const BIN_ATTR_ADMIN_WO(event_data, 0);
+ #endif
+ 
+ static int __init sclp_ofb_setup(void)
+@@ -155,7 +149,7 @@ static int __init sclp_ofb_setup(void)
+ 	ofb_kset = kset_create_and_add("ofb", NULL, firmware_kobj);
+ 	if (!ofb_kset)
+ 		return -ENOMEM;
+-	rc = sysfs_create_bin_file(&ofb_kset->kobj, &ofb_bin_attr);
++	rc = sysfs_create_bin_file(&ofb_kset->kobj, &bin_attr_event_data);
+ 	if (rc) {
+ 		kset_unregister(ofb_kset);
+ 		return rc;
 
-Best regards,
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+2.47.1
 

@@ -1,213 +1,185 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6615F1DE4CE
-	for <chrome-platform@lists.linux.dev>; Mon,  2 Dec 2024 19:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB101F6661
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Dec 2024 14:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733166045; cv=none; b=aleZLOsHU6LUymvO0uOquzrjlSiKOLqC58IhaaCCcwyilJRYS3CZEvvIQdIGljbhdqEghT/i4aTrIGKS5C1uvS2HdooQCvujVpf0kqMaE9BE+XrvibJ8eO6O1Y0W3/VMv5JRwcr2+Esq2eiCMWKMYoJly42O36OdIzJDG+bvZpY=
+	t=1733235835; cv=none; b=NF4Ge9PaOYnFMXkKzeAztsjt9WIATOV6BWpfzM28G1iE59GhgKzAxfAhcbxlDFTurEP2Y4HB0yAT5d8HgaKkQ0Phk0/O4XfMf4LYruPeKtynVgD9XavGY8p28CEX+tCFxICwetYdgHW54rPCgOILPS/nDADvYZrT4RaRyRftDEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733166045; c=relaxed/simple;
-	bh=6f4mNkpvqRUUeyyo/NJcoh7bQ9hdy8tWinO29V+C6p4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=F8lSgy7GSD5WkjwLJn7s4+tNIC7haiewWMkvYKr876fr084mLklKdAfiYKTdV5Z/1aUvrRQDSB1pGtqF5HWcy2K8fpelq6MbCvHki86Mxbid9uKHjN7FoOHOxsyvZXyrV7DjPymm/WFJyXiAqLjhhCYKSg6s1KCIrEJ2NoCOl4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=btGY7MOa; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1733235835; c=relaxed/simple;
+	bh=LiwZqTaCwtPYbVUbQgJB4TamMAu7Ry1f9Ko8KBJxWS8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DbEfNy3nDna5KN1x/b3w1QHBEa0ZZxBaI8NOkCuuXalH6S5pUr7QjLY7SSlnf1FJDVtgTIC28zTRV5COAEMfl05z4VN/z6njcs3SnsZUtUqv1RIw7GHTGU8lVnqfAT0prpQC/F0eSdR6TffpGZJCrJkVp/B20g3bM58/6E5NJNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cwKnUGSl; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="btGY7MOa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1733166038;
-	bh=6f4mNkpvqRUUeyyo/NJcoh7bQ9hdy8tWinO29V+C6p4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=btGY7MOaNEAELCcGQDyjd+njX9nVHFypYDtpB/GQKbJV1iIi5gtyX6lfQLN7FWOuO
-	 bRv+xU7gwx500gh/9MMVmfaAtXQQ8JGkfIy68gIH6SKOtmJKqw+r0n4opaFZwZlINv
-	 6+f7CdANi7p7PQi79BD4w4Iln7oPIuGuojs0Y12Y=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 02 Dec 2024 20:00:40 +0100
-Subject: [PATCH 5/5] scsi: arcmsr: Use BIN_ATTR_ADMIN_WO() for
- bin_attribute definitions
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cwKnUGSl"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aa560a65fd6so944240466b.0
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Dec 2024 06:23:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1733235832; x=1733840632; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=M2lWSxr19Z7HZJY/3NWn0r9Ksm2XuDvm2IGMEOHYfkE=;
+        b=cwKnUGSlkfUSGpsVDWzqHrFdBLgWEhPeEzf0sEgRGDspbsn1Uk09Mt6KsDhkw476bg
+         MbfwxkLGvGtQpQHUueMkUPDsylv1TzuZ/d2Vfi3hiuMZaBLTco1q1bBvzOvy31SJbPzd
+         1kibNS/nqRe/MGuxxsBfgLsN30b3HbvhK0E6g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733235832; x=1733840632;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M2lWSxr19Z7HZJY/3NWn0r9Ksm2XuDvm2IGMEOHYfkE=;
+        b=PtQvJ+pKs5RSeQf3duiSdg6zygUy1V+GdKKV7jm5OwN5c6hYMIaagm2fVEbj8YNNCg
+         s7MkE417eWF+tpo9dEwq/gzwK3l/e+pfFWBp4XHH9Ge83isXa0Hctv3n4dhsqPyzFiSv
+         k7SjLoCNOzH9qwAEAa1agq/GDFGSu2z/xeZyrWya6F+gscTNhX5R84OWXVEd6Y3e5tia
+         5ylFX/8PysBX9CygUgpcj2ymAWkIoAlUus0m6is82jyTYjzKd692x1gmkWXp6SoXYgWp
+         dzo5U3+tj7uZ+FNb0zb9OKK5xCJhSzO43aQ3uiOk6j8gRrnxGc94AUhkm9rNbFzT5Fqh
+         TpZg==
+X-Forwarded-Encrypted: i=1; AJvYcCW3bCE0zHtkHo5npJvYWJRMoAS9v1XlqbouQ60hZU8xi2uc1mfAx+sm72DmtfsueMoLrNnAOk8ECvNuwerkfXM=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzY+rcDIfW3N0eu14KjeYW/YUw97h/+Zq+PcOjhz2VTt55j1Wrz
+	Xhn/3NGDvJbh4AMc8pqr+gcznZbujj+CM6AurKiEMycgV6ziV4s2e+03vOSq
+X-Gm-Gg: ASbGncs0DaTXGGEFu5C9uTq44hs9CLAFbhiyDtd1ibcl9M12zdfZ3SRDHizhYNGl6ms
+	a336cKvZFB00qdqIHokN1cD/MzV9neWX3Peu7kIfRlZT2jwtuFBuzo7Z2MFeFv6GSMMdeVT/5dD
+	uln+q14ojpaCeLMbfNvNw5bUP5Bs5yZydS/urVGFIWvh3fEE51JnqglJJ8vvW0Zx+OBlAwmms/6
+	heedIb4PBRCNhDFpmqBxsx4qFek2+t/xkxjqdo4LziKbRB0bvexuPQ9gFIA0NZmV6nX0MguLdtQ
+	qQ64HvpadP2WwycoywfgxtQsSuO+oIOaFEg=
+X-Google-Smtp-Source: AGHT+IEceZ72opQVXCjcIbIhEScJB0UgFCekVOen2KPTUnFVSLZvTRkCNJqKeuGt+mmCYDf5q7M8Mg==
+X-Received: by 2002:a17:906:311b:b0:aa5:27da:104a with SMTP id a640c23a62f3a-aa5f72cb6c3mr336661866b.15.1733235832185;
+        Tue, 03 Dec 2024 06:23:52 -0800 (PST)
+Received: from ukaszb-ng.c.googlers.com.com (103.45.147.34.bc.googleusercontent.com. [34.147.45.103])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5998e6a64sm618272466b.96.2024.12.03.06.23.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Dec 2024 06:23:51 -0800 (PST)
+From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benson Leung <bleung@chromium.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Pavan Holla <pholla@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH v9 0/2] usb: typec: Implement UCSI driver for ChromeOS
+Date: Tue,  3 Dec 2024 14:23:12 +0000
+Message-ID: <20241203142314.3892422-1-ukaszb@chromium.org>
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241202-sysfs-const-bin_attr-admin_wo-v1-5-f489116210bf@weissschuh.net>
-References: <20241202-sysfs-const-bin_attr-admin_wo-v1-0-f489116210bf@weissschuh.net>
-In-Reply-To: <20241202-sysfs-const-bin_attr-admin_wo-v1-0-f489116210bf@weissschuh.net>
-To: Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
- Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Tzung-Bi Shih <tzungbi@kernel.org>, Brian Norris <briannorris@chromium.org>, 
- Julius Werner <jwerner@chromium.org>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, chrome-platform@lists.linux.dev, 
- linux-scsi@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733166036; l=5414;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=6f4mNkpvqRUUeyyo/NJcoh7bQ9hdy8tWinO29V+C6p4=;
- b=X+0t7vXFXcE/fxGdmCbWy1dFY2LlFh9Er23M7zOt4ShPWbyx8SOdqDkvlV+lJJOf3qu+NW089
- pkVCKYBLt9UDGRGnD6yU5YvE+wYS5X+ZbLLkLjH9v7kC4Ht9hxJJQuG
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Using the macro saves some lines of code and prepares the attributes for
-the general constifications of struct bin_attributes.
+This series implements a UCSI ChromeOS EC transport driver. 
+The ChromeOS EC is expected to implement UCSI Platform Policy
+Manager (PPM).
 
-While at it also constify the callback parameters.
-
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/scsi/arcmsr/arcmsr_attr.c | 73 ++++++++++++++-------------------------
- 1 file changed, 26 insertions(+), 47 deletions(-)
+Changes in v9:
+- Squash "usb: typec: cros_ec_ucsi: Recover from write timeouts" commit
+into "usb: typec: ucsi: Implement ChromeOS UCSI driver".
+- Replaced out label in cros_ucsi_sync_control() with switch statement.
+- Link to v8: https://lore.kernel.org/linux-usb/20241128232035.1525978-1-ukaszb@chromium.org/ 
 
-diff --git a/drivers/scsi/arcmsr/arcmsr_attr.c b/drivers/scsi/arcmsr/arcmsr_attr.c
-index baeb5e79569026f1af6612705689219bb4a7052f..af7750b551910b06254e443c25bebf323e29f162 100644
---- a/drivers/scsi/arcmsr/arcmsr_attr.c
-+++ b/drivers/scsi/arcmsr/arcmsr_attr.c
-@@ -58,11 +58,11 @@
- #include <scsi/scsi_transport.h>
- #include "arcmsr.h"
- 
--static ssize_t arcmsr_sysfs_iop_message_read(struct file *filp,
--					     struct kobject *kobj,
--					     struct bin_attribute *bin,
--					     char *buf, loff_t off,
--					     size_t count)
-+static ssize_t mu_read_read(struct file *filp,
-+			    struct kobject *kobj,
-+			    const struct bin_attribute *bin,
-+			    char *buf, loff_t off,
-+			    size_t count)
- {
- 	struct device *dev = container_of(kobj,struct device,kobj);
- 	struct Scsi_Host *host = class_to_shost(dev);
-@@ -105,11 +105,11 @@ static ssize_t arcmsr_sysfs_iop_message_read(struct file *filp,
- 	return allxfer_len;
- }
- 
--static ssize_t arcmsr_sysfs_iop_message_write(struct file *filp,
--					      struct kobject *kobj,
--					      struct bin_attribute *bin,
--					      char *buf, loff_t off,
--					      size_t count)
-+static ssize_t mu_write_write(struct file *filp,
-+			      struct kobject *kobj,
-+			      const struct bin_attribute *bin,
-+			      char *buf, loff_t off,
-+			      size_t count)
- {
- 	struct device *dev = container_of(kobj,struct device,kobj);
- 	struct Scsi_Host *host = class_to_shost(dev);
-@@ -153,11 +153,11 @@ static ssize_t arcmsr_sysfs_iop_message_write(struct file *filp,
- 	}
- }
- 
--static ssize_t arcmsr_sysfs_iop_message_clear(struct file *filp,
--					      struct kobject *kobj,
--					      struct bin_attribute *bin,
--					      char *buf, loff_t off,
--					      size_t count)
-+static ssize_t mu_clear_write(struct file *filp,
-+			      struct kobject *kobj,
-+			      const struct bin_attribute *bin,
-+			      char *buf, loff_t off,
-+			      size_t count)
- {
- 	struct device *dev = container_of(kobj,struct device,kobj);
- 	struct Scsi_Host *host = class_to_shost(dev);
-@@ -188,58 +188,37 @@ static ssize_t arcmsr_sysfs_iop_message_clear(struct file *filp,
- 	return 1;
- }
- 
--static const struct bin_attribute arcmsr_sysfs_message_read_attr = {
--	.attr = {
--		.name = "mu_read",
--		.mode = S_IRUSR ,
--	},
--	.size = ARCMSR_API_DATA_BUFLEN,
--	.read = arcmsr_sysfs_iop_message_read,
--};
-+static const BIN_ATTR_ADMIN_RO(mu_read, ARCMSR_API_DATA_BUFLEN);
- 
--static const struct bin_attribute arcmsr_sysfs_message_write_attr = {
--	.attr = {
--		.name = "mu_write",
--		.mode = S_IWUSR,
--	},
--	.size = ARCMSR_API_DATA_BUFLEN,
--	.write = arcmsr_sysfs_iop_message_write,
--};
-+static const BIN_ATTR_ADMIN_WO(mu_write, ARCMSR_API_DATA_BUFLEN);
- 
--static const struct bin_attribute arcmsr_sysfs_message_clear_attr = {
--	.attr = {
--		.name = "mu_clear",
--		.mode = S_IWUSR,
--	},
--	.size = 1,
--	.write = arcmsr_sysfs_iop_message_clear,
--};
-+static const BIN_ATTR_ADMIN_WO(mu_clear, 1);
- 
- int arcmsr_alloc_sysfs_attr(struct AdapterControlBlock *acb)
- {
- 	struct Scsi_Host *host = acb->host;
- 	int error;
- 
--	error = sysfs_create_bin_file(&host->shost_dev.kobj, &arcmsr_sysfs_message_read_attr);
-+	error = sysfs_create_bin_file(&host->shost_dev.kobj, &bin_attr_mu_read);
- 	if (error) {
- 		printk(KERN_ERR "arcmsr: alloc sysfs mu_read failed\n");
- 		goto error_bin_file_message_read;
- 	}
--	error = sysfs_create_bin_file(&host->shost_dev.kobj, &arcmsr_sysfs_message_write_attr);
-+	error = sysfs_create_bin_file(&host->shost_dev.kobj, &bin_attr_mu_write);
- 	if (error) {
- 		printk(KERN_ERR "arcmsr: alloc sysfs mu_write failed\n");
- 		goto error_bin_file_message_write;
- 	}
--	error = sysfs_create_bin_file(&host->shost_dev.kobj, &arcmsr_sysfs_message_clear_attr);
-+	error = sysfs_create_bin_file(&host->shost_dev.kobj, &bin_attr_mu_clear);
- 	if (error) {
- 		printk(KERN_ERR "arcmsr: alloc sysfs mu_clear failed\n");
- 		goto error_bin_file_message_clear;
- 	}
- 	return 0;
- error_bin_file_message_clear:
--	sysfs_remove_bin_file(&host->shost_dev.kobj, &arcmsr_sysfs_message_write_attr);
-+	sysfs_remove_bin_file(&host->shost_dev.kobj, &bin_attr_mu_write);
- error_bin_file_message_write:
--	sysfs_remove_bin_file(&host->shost_dev.kobj, &arcmsr_sysfs_message_read_attr);
-+	sysfs_remove_bin_file(&host->shost_dev.kobj, &bin_attr_mu_read);
- error_bin_file_message_read:
- 	return error;
- }
-@@ -248,9 +227,9 @@ void arcmsr_free_sysfs_attr(struct AdapterControlBlock *acb)
- {
- 	struct Scsi_Host *host = acb->host;
- 
--	sysfs_remove_bin_file(&host->shost_dev.kobj, &arcmsr_sysfs_message_clear_attr);
--	sysfs_remove_bin_file(&host->shost_dev.kobj, &arcmsr_sysfs_message_write_attr);
--	sysfs_remove_bin_file(&host->shost_dev.kobj, &arcmsr_sysfs_message_read_attr);
-+	sysfs_remove_bin_file(&host->shost_dev.kobj, &bin_attr_mu_clear);
-+	sysfs_remove_bin_file(&host->shost_dev.kobj, &bin_attr_mu_write);
-+	sysfs_remove_bin_file(&host->shost_dev.kobj, &bin_attr_mu_read);
- }
- 
- 
+Changes in v8:
+- Set .sync_control in cros_ucsi_ops struct to point
+to ucsi_sync_control_common().
+- Added explanation why complete() is used instead of resume()
+in cros_ucsi_pm_ops struct.
+- Updated s/miliseconds/milliseconds/.
+- Link to v7: https://lore.kernel.org/linux-usb/20241115155234.1587589-1-ukaszb@chromium.org/ 
+
+Changes in v7:
+- Dropped the following commits for now as I want to focus
+on upstreaming cros_ec_ucsi driver first. Then I will get
+back to the topic of trace events and netlink:
+  "usb: typec: cros_ec_ucsi: Add trace events"
+  "usb: typec: cros_ec_ucsi: Add netlink"
+- Squashed "usb: typec: cros_ec_ucsi: Use complete instead of resume"
+into "usb: typec: ucsi: Implement ChromeOS UCSI driver".
+- Added "usb: typec: cros_ec_ucsi: Recover from write timeouts" commmit.
+- Added usage of common functins ucsi_sync_control_common()
+and ucsi_notify_common().
+- Commits:
+  "platform/chrome: Update EC feature flags"
+  "mfd: cros_ec: Load cros_ec_ucsi on supported ECs"
+  "mfd: cros_ec: Don't load charger with UCSI"
+landed in the tree https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/log/?h=for-mfd-next    
+- Link to v6: https://lore.kernel.org/linux-usb/20240910101527.603452-1-ukaszb@chromium.org
+
+Changes in v6:
+- Reverted to type names uint*_t in cros_ec_commands.h in order 
+to be consistent with type names used in other parts of the file.
+- Updated comments in cros_ec_commands.h related to UCSI.
+- Added missing sign-offs.
+- Fixed memory leak in cros_ucsi_async_control() by moving
+ec_params_ucsi_ppm_set request buffer to stack.
+- Replaced cros_ucsi_read with cros_ucsi_read_cci in cros_ucsi_work().
+- Updated changes in v5, it was missing information related to
+commits addition:
+  platform/chrome: Update EC feature flags
+  usb: typec: cros_ec_ucsi: Use complete instead of resume
+  mfd: cros_ec: Load cros_ec_ucsi on supported ECs
+  mfd: cros_ec: Don't load charger with UCSI
+- Link to v5: https://lore.kernel.org/r/all/20240903163033.3170815-1-ukaszb@chromium.org/
+
+Changes in v5:
+- Increased WRITE_TMO_MS to 5000.
+- Replaced DRV_NAME with KBUILD_MODNAME.
+- Added comments for WRITE_TMO_MS and MAX_EC_DATA_SIZE defines.
+- Refactored cros_ucsi_async_control() to dynamically allocate memory
+for a message to EC instead of allocating the message on stack.
+- Replaced type names uint*_t with u*.
+- Removed ret variable in cros_ucsi_work().
+- Updated ucsi_operations interface to align with changes introduced in
+  v6.11.
+- Replaced test_bit() with test_and_clear_bit() in cros_ucsi_work().
+- Updated EC feature flags in commit "platform/chrome: Update EC feature
+  flags".
+- Added new commit "usb: typec: cros_ec_ucsi: Use complete instead
+of resume".
+- Added trace events in commit "usb: typec: cros_ec_ucsi: Add trace
+  events".
+- Added netlink in commit "usb: typec: cros_ec_ucsi: Add netlink"
+for debugging and testing puropses.
+- Added new commit "mfd: cros_ec: Load cros_ec_ucsi on supported ECs".
+- Added new commit "mfd: cros_ec: Don't load charger with UCSI".
+- Link to v4: https://lore.kernel.org/all/CAB2FV=6We88NrvN8NZYt8NkMFH9N_ZBGyUWVUpGwPdja2X_+NA@mail.gmail.com/T/
+
+Changes in v4:
+- Setup notifications before calling ucsi_register.
+- Cancel work before destroying driver data.
+- Link to v3: https://lore.kernel.org/r/20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org
+
+Changes in v3:
+- Moved driver from platform/chrome to usb/typec/ucsi.
+- Used id_table instead of MODULE_ALIAS.
+- Split EC header changes into seperate commit.
+- Fixes from additional internal reviews and kernel bot warnings.
+- Link to v2: https://lore.kernel.org/r/20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org
+
+Changes in v2:
+- No code or commit message changes.
+- Added drivers/platform/chrome maintainers for review.
+
+Pavan Holla (2):
+  platform/chrome: Update ChromeOS EC header for UCSI
+  usb: typec: ucsi: Implement ChromeOS UCSI driver
+
+ MAINTAINERS                                   |   7 +
+ drivers/usb/typec/ucsi/Kconfig                |  13 +
+ drivers/usb/typec/ucsi/Makefile               |   1 +
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c         | 335 ++++++++++++++++++
+ .../linux/platform_data/cros_ec_commands.h    |  28 +-
+ 5 files changed, 383 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
 
 -- 
-2.47.1
+2.47.0.338.g60cca15819-goog
 

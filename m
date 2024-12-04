@@ -1,182 +1,288 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029D0205E28
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Dec 2024 23:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7072618C92F
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Dec 2024 10:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733269861; cv=none; b=ixO1eekJW2WkQ57A99artCp6wxyJvzSrclvxW908Wj1XyCZVqgkSP2qnRpFp/Fhnuf95jg9Ny7ojqdakoqo3lJZBibLAzsGepbswjRy5u0xymcrwVA3iSMq2CpVqLATJMzWGHaeLMwBUUNIiyVxVR9OBajw7QF0XuiYNmfxizvA=
+	t=1733309120; cv=none; b=stq3fKfGC3fPCCuc72ENlKmABMLmPX8LXA/0ayVqFgSlVS0aASMhrsD4GLEmvOzBhcAhqX8Kd7jIMdz4PFTd0bHmEfA96jK4lbf5RbkkMhE5WOxD6bn08VrLz+AxYIW1avPn5Xv5hoc70FVZnIUeOG1Ec5ruejrQHICTd5Tg4yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733269861; c=relaxed/simple;
-	bh=R45xxkijHNvo3KBLPSidEKjRiqPbaArVtuFKk4DrS9Y=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CrJcfIDRmPaAgjGT4okZa641d0+/iQ6WNfePiUp4fd76s0eB21Z8QcF7df+6pYEdqPwvTTT7Yq+8XVJmzwpoVe6CEbR3vD57xaFVSl4sIaRrs/ElSC+Oteykyr8RgKZZewh0MkHzhJpLoVPuk0Vm+mptmIjjdOKvYwEyxKHMcZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VNhVu/oe; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1733309120; c=relaxed/simple;
+	bh=fxYcdUfZVshmW3K+OY/btqceQ6KRhi9srUFU5dW2Pyw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Nevrh0r/DUaWXZFZYOZzQE8kLNIH56ppjz+xATH1LMWoZ2XCkq5ROSN0LV0CdEUfTfcBFYGCQVpZB7KjDWFQGfEN169VBtjxbo9YTq3uS3ZoT0sbmAKCN2Z9WLu2qvD7Id+4AJAFD3xfCho4vap28xJD0FE7jXnZUNYQvHbhJhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p4Asu4EQ; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VNhVu/oe"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7b66d5f6ec8so413330385a.0
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Dec 2024 15:50:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p4Asu4EQ"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-385dfa9b758so2130545f8f.0
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Dec 2024 02:45:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733269859; x=1733874659; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EnjgP+/pVl9iI2xT3/J2oBRnCck1VdgzOQo4g6wMy/Y=;
-        b=VNhVu/oe0rwAK5yBoCCaTkPyHVGDvNl54Or+6qj4QYpO7L6//Gwb7yueADSZwtuLtd
-         gS9yij43xX6qTbOliFJEE10bbsGsrQT26gWWgpyx+i3JWKonCnDRlJsy/LYZpc7BpJyT
-         MpjFkRnjmw/IsjwiNF9Hop41xfMYUaz8QQKgw=
+        d=google.com; s=20230601; t=1733309117; x=1733913917; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=47E3YyW6DrR27MbE2FWe5udRH/OIbLEqcmInTqvOrvY=;
+        b=p4Asu4EQimeabhR2BOP4+KQcicIn36ta7jxuWuBSKmdpQwYTF027mReS0Mh9xD77lQ
+         HFfhSFiCgqxoxBF/iSSGSU5KRgkSNXLrPIRP9/U6MZiYsfWR/QsuJpbT7a+Ofq09IZLr
+         bV68cGDx/gBFC7ybKW3dsO5A7ssA3+AWmXczOfWdYaOR38LEvTbkh1Rvy/YGfK1QsfJZ
+         M8W//x0XBCtKWlR0kx6TCjcQHf58HnOHtZW8JFaZ1PCl3fwWAP40bSMNadSgWkbQKaWt
+         vGQ6ps1CYaGkdYN8tl5j8FlSQhKT87PUx7v9JStR/wC83rxOHf9gZvv85/1LW3gn4FJ7
+         bUSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733269859; x=1733874659;
-        h=cc:to:subject:message-id:date:user-agent:from:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EnjgP+/pVl9iI2xT3/J2oBRnCck1VdgzOQo4g6wMy/Y=;
-        b=jhPZrhug424ee5StLOkujMyx7kpC0jatnOQYfD2isf56HkpXwXpwI2CKInUtfmNSps
-         zICGzxflM0LewwBtThw1XsvLI92325+JLGfgNgyTFFkSfyRx6r6ZRvolb0y/o246pq5l
-         ZzXOZEesBEstBGOa50jQ/fQDNKjbKq2vTmsZGl3j4mWcAIMAgblFtYECspbCYpm/HNS8
-         CPt9/IpNyDqANZHYLx86YIkwubeFX9HF8Phf83miHrnhjtwzGwSHYu7GE9au3CafpJPJ
-         4wzGFBCw/d2h/zsH9wx5jVI5XWtjEpZIS3zKlrV1zzrfTq0q1Iqegn3H2GoRJG92eu96
-         GYDg==
-X-Gm-Message-State: AOJu0YwjjIsJmly8tbW1mGKIu19HnwY1FeGkenRpl7e3ZWyXUKoDdmB/
-	DYPRGJYWA4IW/2hZYDYiLBjpFoYN37GZWPv0BVeiXSRmyHwH864jV1NTgTxMYaaBFGOBqVH3zzh
-	Lfyef9RH8pqsqJ0xqfq1cCPiV5gNQBoSaY6a2
-X-Gm-Gg: ASbGncuEQMdEIPs/rTjhylEw4GtdEWtVg3ygHWMUsgOLaDVhhnku7uzd5SsIqPQIBO7
-	V4M+eXjNJ9JRr82pZa8prMGzs2CMp3BCwr0+WpnGEiu/P/W4p4tRYRAbUrGs=
-X-Google-Smtp-Source: AGHT+IHEgBXWoi8BJHO3jSXOG7m1oHxpYBSZUKMhC1usrxD/ibe1QmfujCFJzYfILghK3QdcAVLyYpr9Sv5mqRngbJA=
-X-Received: by 2002:a05:6214:2029:b0:6d3:7a47:2034 with SMTP id
- 6a1803df08f44-6d8c443cefdmr40855326d6.3.1733269858918; Tue, 03 Dec 2024
- 15:50:58 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 3 Dec 2024 15:50:58 -0800
+        d=1e100.net; s=20230601; t=1733309117; x=1733913917;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=47E3YyW6DrR27MbE2FWe5udRH/OIbLEqcmInTqvOrvY=;
+        b=U0XkCEU8b6WY8JonJ2OaHUJ1pTWInMWeM0tL7tbJWpKlPkuC0SWKQgwSut8JLUUesj
+         PI46ZDZMTCgBocAYUf72nPNVmurSomjHrQYFoBU/bAdEagwAifZajhoxG7ocRBS5dzz1
+         XB7ED1ZwmGdrfKT1XTanF7JeDTX2oBtJn6ctpvUBYWwC8BT6N1L/tMHUBD2J/eJhYSFP
+         ZOo7t1rnrfOJCpCjDu6673C8d92XXRSmffgVXcvOjmp5UfrzsMYT1wlSZVMTIYwP3rED
+         DTG+1arDK91Qo9v5aYct5Gdon4HbWgMsfyj5FqGes1qmNOvAFl7QuyPPRaLU24hXXTBn
+         AO7w==
+X-Gm-Message-State: AOJu0YwDnp9M2RJPSQ8WDxcKsoPhsMWLCyC+T+yIRtFGAFQQMJy2A2Ae
+	1OO67hWW9Bw0Brpo4MYdprlZTQ/MfqQU8UyYHZWaCTt39sQUskc3YTvseLub9F+4LHmOBAUHcX7
+	3nw==
+X-Google-Smtp-Source: AGHT+IHO5lBRS9CVlcosceV4uqtJ3ozsKz1F+Tz3ehGwr2YlfyuEuN7UJFBK45IYdvS2HvYYpO+OLpjs6HY=
+X-Received: from wmil20.prod.google.com ([2002:a7b:c454:0:b0:434:9dec:7cc5])
+ (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:186b:b0:385:ec89:2f07
+ with SMTP id ffacd0b85a97d-38607ae4117mr2655875f8f.32.1733309116850; Wed, 04
+ Dec 2024 02:45:16 -0800 (PST)
+Date: Wed,  4 Dec 2024 10:45:13 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <cartdeijkv6z23dgm7uif4lti3lahfqmuyxcmruzqbefhsp6yk@m6ocjhncs2ko>
-References: <lf7y7wpuca6kzqcglgs5d443iusf7xjocum4adi7t3npfavccx@zgsp37oyztme>
- <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
- <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
- <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
- <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com>
- <hqmx7jtkvrwvb27n56hw7rpefhp37lhr3a5fawz7gsl76uuj5s@h7m6wpdhibkk>
- <CAE-0n50y1O2C47zOGJPmMjKXK_m6a=jhpEAP4nW+RymZbo2xyg@mail.gmail.com>
- <5kisfv22tgqwzjpxqrbx56ywr7l4r7pny3pl2r7crv4rijqbwk@azricdasttg7>
- <CAE-0n50Bxi2GfnxOmMwe-F+k5jMSiyAVPDb6K8pYm-i6hpJTOA@mail.gmail.com> <cartdeijkv6z23dgm7uif4lti3lahfqmuyxcmruzqbefhsp6yk@m6ocjhncs2ko>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
-Date: Tue, 3 Dec 2024 15:50:58 -0800
-Message-ID: <CAE-0n51-QLLje0f7T4p3xK6Q-FRk4K0NUrVVm4cxkKoevuzktw@mail.gmail.com>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241204104514.1541964-1-dawidn@google.com>
+Subject: [PATCH v2 1/2] platform/chrome: cros_ec: jump to RW before probing
+From: Dawid Niedzwiecki <dawidn@google.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, devicetree@vger.kernel.org, 
-	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
+	chromeos-krk-upstreaming@google.com, Dawid Niedzwiecki <dawidn@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Quoting Dmitry Baryshkov (2024-11-21 14:59:42)
-> On Tue, Nov 19, 2024 at 08:09:31PM -0500, Stephen Boyd wrote:
-> >
-> > It sounds like we're debating how to handle lane assignment in the
-> > kernel. Either way, the code is going to be implemented in the bridge
-> > driver because it's the one that has to change what physical lane a
-> > logical lane is assigned to. The question is if it should be some sort
-> > of bridge_funcs callback, or should bridge drivers hook into the typec
-> > framework to expose an orientation switch, or something else?
->
-> I was assuming that orientation switch is such kind of a hook.
->
-> >
-> > I'm thinking we should introduce some sort of bridge_funcs callback that
-> > can be called from the DP altmode driver, either parallel to the
-> > drm_connector_oob_hotplug_event() function or from it directly. If we
-> > can pass the fwnode for the usb-c-connector to the oob_hotplug_event
-> > callback, maybe that's all we need to figure out which lanes go where.
-> > And then in the 2 DP connector muxing world we can call
-> > drm_connector_oob_hotplug_event() with one or the other DP connector
-> > node, which will likely be children nodes of the "HPD redriver" device.
->
-> If you call it from drm_bridge_connector's oob_hotplug_event handler,
-> this should fly. Does it cover your 3-DP or 4-DP usecases?
->
+There are EC devices, like FPMCU, that use RWSIG as a method of
+authenticating RW section. After the authentication succeeds, EC device
+waits some time before jumping to RW. EC can be probed before the jump,
+which means there is a time window after jump to RW in which EC won't
+respond, because it is not initialized. It can cause a communication
+errors after probing.
 
-I think it will work as long as we're able to add some sort of property
-to the usb-c-connector node to indicate that the DP lanes are flipped.
-It feels like that should be in the displayport altmode node to keep
-things tidy because the SuperSpeed port is overloaded. Maybe the drm
-framework can have some API that can take the fwnode from the
-oob_hotplug_event handler and tell the bridge driver which way the
-orientation is.
+To avoid such problems, send the RWSIG continue command first, which
+skips waiting for the jump to RW. Send the command more times, to make
+sure EC is ready in RW before the start of the actual probing process. If
+a EC device doesn't support the RWSIG, it will respond with invalid
+command error code and probing will continue as usual.
 
- connector {
-   compatible = "usb-c-connector";
+Signed-off-by: Dawid Niedzwiecki <dawidn@google.com>
+---
+V1 -> V2:
+- Use dev_info instead of dev_warn when cros_ec_rwsig_continue returns
+  an error.
+- Return immediately from cros_ec_rwsig_continue, if the RWSIG_ACTION
+  command fails itself, not SPI transaction.
 
-   altmodes {
-     displayport {
-       orientation-reversed;
-     }
-   };
+ drivers/platform/chrome/cros_ec.c           |  5 ++
+ drivers/platform/chrome/cros_ec_i2c.c       |  3 +-
+ drivers/platform/chrome/cros_ec_ishtp.c     |  2 +-
+ drivers/platform/chrome/cros_ec_lpc.c       |  2 +-
+ drivers/platform/chrome/cros_ec_proto.c     | 62 +++++++++++++++++++++
+ drivers/platform/chrome/cros_ec_rpmsg.c     |  2 +-
+ drivers/platform/chrome/cros_ec_spi.c       |  2 +-
+ drivers/platform/chrome/cros_ec_uart.c      |  2 +-
+ include/linux/platform_data/cros_ec_proto.h |  2 +
+ 9 files changed, 76 insertions(+), 6 deletions(-)
 
-   ports {
-     ...
-   };
- };
-
-
- int drm_dp_typec_orientation_flipped(struct fwnode_handle *fwnode)
- {
-   struct fwnode_handle *altmodes;
-   struct fwnode_handle *dp;
-
-   altmodes = fwnode_get_named_child_node(fwnode, "altmodes");
-   if (!altmodes)
-     return -EINVAL;
-
-   dp = fwnode_get_named_child_node(altmodes, "displayport");
-   if (!dp)
-     return -EINVAL;
-
-   if (fwnode_property_read_bool(dp, "orientation-reversed"))
-     return 1;
-
-   return 0;
+diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
+index e821b3d39590..110771a8645e 100644
+--- a/drivers/platform/chrome/cros_ec.c
++++ b/drivers/platform/chrome/cros_ec.c
+@@ -204,6 +204,11 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
+ 	mutex_init(&ec_dev->lock);
+ 	lockdep_set_class(&ec_dev->lock, &ec_dev->lockdep_key);
+ 
++	/* Send RWSIG continue to jump to RW for devices using RWSIG. */
++	err = cros_ec_rwsig_continue(ec_dev);
++	if (err)
++		dev_info(dev, "Failed to continue RWSIG: %d\n", err);
++
+ 	err = cros_ec_query_all(ec_dev);
+ 	if (err) {
+ 		dev_err(dev, "Cannot identify the EC: error %d\n", err);
+diff --git a/drivers/platform/chrome/cros_ec_i2c.c b/drivers/platform/chrome/cros_ec_i2c.c
+index 62662ba5bf6e..38af97cdaab2 100644
+--- a/drivers/platform/chrome/cros_ec_i2c.c
++++ b/drivers/platform/chrome/cros_ec_i2c.c
+@@ -305,7 +305,8 @@ static int cros_ec_i2c_probe(struct i2c_client *client)
+ 	ec_dev->phys_name = client->adapter->name;
+ 	ec_dev->din_size = sizeof(struct ec_host_response_i2c) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request_i2c);
++	ec_dev->dout_size = sizeof(struct ec_host_request_i2c) +
++			    sizeof(struct ec_params_rwsig_action);
+ 
+ 	err = cros_ec_register(ec_dev);
+ 	if (err) {
+diff --git a/drivers/platform/chrome/cros_ec_ishtp.c b/drivers/platform/chrome/cros_ec_ishtp.c
+index 5ac37bd024c8..7e7190b30cbb 100644
+--- a/drivers/platform/chrome/cros_ec_ishtp.c
++++ b/drivers/platform/chrome/cros_ec_ishtp.c
+@@ -557,7 +557,7 @@ static int cros_ec_dev_init(struct ishtp_cl_data *client_data)
+ 	ec_dev->phys_name = dev_name(dev);
+ 	ec_dev->din_size = sizeof(struct cros_ish_in_msg) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct cros_ish_out_msg);
++	ec_dev->dout_size = sizeof(struct cros_ish_out_msg) + sizeof(struct ec_params_rwsig_action);
+ 
+ 	return cros_ec_register(ec_dev);
  }
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 924bf4d3cc77..1e1d68359958 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -573,7 +573,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 	ec_dev->cmd_readmem = cros_ec_lpc_readmem;
+ 	ec_dev->din_size = sizeof(struct ec_host_response) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request);
++	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
+ 	ec_dev->priv = ec_lpc;
+ 
+ 	/*
+diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+index 5c9a53dffcf9..9b451fac275d 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -15,6 +15,8 @@
+ #include "cros_ec_trace.h"
+ 
+ #define EC_COMMAND_RETRIES	50
++#define RWSIG_CONTINUE_RETRIES	8
++#define RWSIG_CONTINUE_MAX_ERRORS_IN_ROW	3
+ 
+ static const int cros_ec_error_map[] = {
+ 	[EC_RES_INVALID_COMMAND] = -EOPNOTSUPP,
+@@ -288,6 +290,66 @@ static int cros_ec_get_host_event_wake_mask(struct cros_ec_device *ec_dev, uint3
+ 	return ret;
+ }
+ 
++int cros_ec_rwsig_continue(struct cros_ec_device *ec_dev)
++{
++	struct cros_ec_command *msg;
++	struct ec_params_rwsig_action *rwsig_action;
++	int ret = 0;
++	int error_count = 0;
++
++	ec_dev->proto_version = 3;
++
++	msg = kmalloc(sizeof(*msg) + sizeof(*rwsig_action), GFP_KERNEL);
++	if (!msg)
++		return -ENOMEM;
++
++	msg->version = 0;
++	msg->command = EC_CMD_RWSIG_ACTION;
++	msg->insize = 0;
++	msg->outsize = sizeof(*rwsig_action);
++
++	rwsig_action = (struct ec_params_rwsig_action *)msg->data;
++	rwsig_action->action = RWSIG_ACTION_CONTINUE;
++
++	for (int i = 0; i < RWSIG_CONTINUE_RETRIES; i++) {
++		ret = cros_ec_send_command(ec_dev, msg);
++
++		if (ret < 0) {
++			error_count++;
++		} else if (msg->result == EC_RES_INVALID_COMMAND) {
++			/*
++			 * If EC_RES_INVALID_COMMAND is retured, it means RWSIG
++			 * is not supported or EC is already in RW, so there is
++			 * nothing left to do.
++			 */
++			break;
++		} else if (msg->result != EC_RES_SUCCESS) {
++			/* Unexpected command error. */
++			ret = cros_ec_map_error(msg->result);
++			break;
++		} else {
++			/*
++			 * The EC_CMD_RWSIG_ACTION succeed. Send the command
++			 * more times, to make sure EC is in RW. A following
++			 * command can timeout, because EC may need some time to
++			 * initialize after jump to RW.
++			 */
++			error_count = 0;
++		}
++
++		if (error_count >= RWSIG_CONTINUE_MAX_ERRORS_IN_ROW)
++			break;
++
++		if (ret != -ETIMEDOUT)
++			usleep_range(90000, 100000);
++	}
++
++	kfree(msg);
++
++	return ret;
++}
++EXPORT_SYMBOL(cros_ec_rwsig_continue);
++
+ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
+ {
+ 	struct cros_ec_command *msg;
+diff --git a/drivers/platform/chrome/cros_ec_rpmsg.c b/drivers/platform/chrome/cros_ec_rpmsg.c
+index 39d3b50a7c09..bc2666491db1 100644
+--- a/drivers/platform/chrome/cros_ec_rpmsg.c
++++ b/drivers/platform/chrome/cros_ec_rpmsg.c
+@@ -231,7 +231,7 @@ static int cros_ec_rpmsg_probe(struct rpmsg_device *rpdev)
+ 	ec_dev->phys_name = dev_name(&rpdev->dev);
+ 	ec_dev->din_size = sizeof(struct ec_host_response) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request);
++	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
+ 	dev_set_drvdata(dev, ec_dev);
+ 
+ 	ec_rpmsg->rpdev = rpdev;
+diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
+index 86a3d32a7763..946373238502 100644
+--- a/drivers/platform/chrome/cros_ec_spi.c
++++ b/drivers/platform/chrome/cros_ec_spi.c
+@@ -766,7 +766,7 @@ static int cros_ec_spi_probe(struct spi_device *spi)
+ 	ec_dev->din_size = EC_MSG_PREAMBLE_COUNT +
+ 			   sizeof(struct ec_host_response) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request);
++	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
+ 
+ 	ec_spi->last_transfer_ns = ktime_get_ns();
+ 
+diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
+index 62bc24f6dcc7..19c179d49c90 100644
+--- a/drivers/platform/chrome/cros_ec_uart.c
++++ b/drivers/platform/chrome/cros_ec_uart.c
+@@ -283,7 +283,7 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
+ 	ec_dev->pkt_xfer = cros_ec_uart_pkt_xfer;
+ 	ec_dev->din_size = sizeof(struct ec_host_response) +
+ 			   sizeof(struct ec_response_get_protocol_info);
+-	ec_dev->dout_size = sizeof(struct ec_host_request);
++	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
+ 
+ 	serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
+ 
+diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
+index b34ed0cc1f8d..701389c16fa7 100644
+--- a/include/linux/platform_data/cros_ec_proto.h
++++ b/include/linux/platform_data/cros_ec_proto.h
+@@ -246,6 +246,8 @@ int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev,
+ int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
+ 			    struct cros_ec_command *msg);
+ 
++int cros_ec_rwsig_continue(struct cros_ec_device *ec_dev);
++
+ int cros_ec_query_all(struct cros_ec_device *ec_dev);
+ 
+ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
+-- 
+2.47.0.338.g60cca15819-goog
 
-There's another wrinkle on some Corsola devices where the EC says
-there's a usb-c-connector on the board, but in reality the DP lanes are
-connected to a DP-to-HDMI bridge that is controlled by the EC which goes
-to an HDMI connector on the side of the laptop. The EC does the
-arbitration as usual because there's only one DP source and one or two
-usb type-c connectors physically on the laptop in addition to the HDMI
-connector.
-
-The easiest way to imagine this is that we took the usb-c-connector and
-jammed an HDMI dongle in there with some glue so that it can never be
-removed. There isn't any USB going there either because it can't be
-used. I suppose we can continue to describe this with an
-altmodes/displayport node but then add some compatible like
-"usb-c-hdmi-connector" or another property to the altmodes/displayport
-node like "type = hdmi" that signifies this is a connector that only
-outputs HDMI.

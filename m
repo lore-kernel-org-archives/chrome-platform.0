@@ -1,108 +1,191 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0080A1547CA;
-	Wed,  4 Dec 2024 15:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733327553; cv=pass; b=YyNp4Arl4XW/98+cmguhWNldxcvz614fQecFY1bNvNMXDRPTtKcId5skLYftEpWv4Ju7CRmP6l9x6IUAjzJ3WSt9TeRO3YMwDxtPjHoyYpW7UMx+Dv0XopHsiVFpn8LcJWeBxyD38JN9I7Gcu8ZIl4kWkeLNLIcUCCDcndsGbso=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733327553; c=relaxed/simple;
-	bh=3GgiW3N3LZXUecZzX/Z2bD7+HxZswZiDkcxIzU0Xo+s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Vmvj6oqJPuTzBnVgj67UJFjUSQNfpy7bcHl6T8Luw+vijMWUYbcyKL7g/Ms9IHtAJmDgOQCPmA9bKPxHZtwJMJKmcmecD1tZRSDsOUXzPmbhGFEu1ppzQGC/1UEe1pxvNqNkQyIeRQrsxHsLA4s/kIWTobCns6wk8opI9UuDPUY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=laura.nao@collabora.com header.b=BJwNCBh4; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F192391AA
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Dec 2024 19:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733341752; cv=none; b=gYPlZncoOrMlnFJn/i5oqk5RObc1OwTPsX6p6VXi4BR2e7maZnmPVXp1t4T1unz33ulv7Ja9Gm1GudRMG3eGv+OPyFzJuppEoDRrF6AEE5pKQm9xAMef+aDczQStJUoIPDWrOcdPo2rn1WljLMxAxqW9yekNciEAfjHUtPiQVhE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733341752; c=relaxed/simple;
+	bh=X5D9Z6XvpiGeN1N9oKVJTtb9pC6bQ3oFckwDPASPiWw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EAHFxuk9/0bmHxda5uhb4EQ0tf7J6Ga+ejdh2Nk0LPdHuifyAbQjVKGI/c3d6eUSYoOuhylv+SQqKQgJ1syZPfROZ9y+u/57WbZGgSZaUGtU9sjFdfiwEFfdVkoo/RBlFuLwWrq0qiReQp2aIU7anaNCXLo73u6vMmb5M3JrZVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nutx13AV; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=laura.nao@collabora.com header.b="BJwNCBh4"
-ARC-Seal: i=1; a=rsa-sha256; t=1733327539; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=hNs4+qe1RmVGYY2POaIHuG1D8b9khVvg9QRQTKlRWSOiaU7RcJ4rRAUJpSjORgMcFR61xUMNZLY5MLFTjQoEAraUwMsmwImKiZDSmZpq6cdLhGBcGxDcIDK64SJCYp30R/+pNFOUSPOdbIYkqOpTFbtAIoNKkQ0a7B/GfMHnVMo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1733327539; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=t+IOc0/iUALeNouk/Un46l8WsfTzgxm/2DTtzgWefrU=; 
-	b=EqhoHs6thdnmqnu25+iGd8pnF7vHIguvkMBCXsC++uwiURKcbmaPXDhNg8Rw+e78QYTBYcBIH9h4Y6P2p12+dUXnsZkou5aG94CDy8DI7I19fAbse8Tswf52zCuuFqNSDw2EsOLAh0hCUNvl5GbyZ+xxc8YA7FfI2HsGu4bDu+I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=laura.nao@collabora.com;
-	dmarc=pass header.from=<laura.nao@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733327539;
-	s=zohomail; d=collabora.com; i=laura.nao@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=t+IOc0/iUALeNouk/Un46l8WsfTzgxm/2DTtzgWefrU=;
-	b=BJwNCBh4EdmZGLio2uXycnjDwApd/XO27+TkvJMtxZT1Q1eSoAzZUaLkx6sDClH8
-	Kl/F/v/sgTzd+nDGSSYhDFuC8JpmxuplaIDQ4HN40GXsBkmUTnpQyd5PyfKkC4SswaC
-	NDDJA7GpSEJCyzVVapL3Aj+jOCLstz/NcnBzf9YE=
-Received: by mx.zohomail.com with SMTPS id 1733327536916423.899350380492;
-	Wed, 4 Dec 2024 07:52:16 -0800 (PST)
-From: Laura Nao <laura.nao@collabora.com>
-To: ubizjak@gmail.com
-Cc: laura.nao@collabora.com,
-	alan.maguire@oracle.com,
-	bpf@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	kernel@collabora.com,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [REGRESSION] module BTF validation failure (Error -22) on next
-Date: Wed,  4 Dec 2024 16:53:05 +0100
-Message-Id: <20241204155305.444280-1-laura.nao@collabora.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20241115171712.427535-1-laura.nao@collabora.com>
-References: <20241115171712.427535-1-laura.nao@collabora.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nutx13AV"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5d0ccd931a3so122539a12.3
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Dec 2024 11:49:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1733341749; x=1733946549; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/mngP4iptJPLYAmaFSpR8JCKdxNOCSzn3Y98pXoqTYA=;
+        b=nutx13AVKgdDWcKilMmn6FEciIrpqsGSrM3XLkLYkndlMqonNysYf53cC7d6PMFWhp
+         oRxnkvTQKmaoub/wPAKGU6D03DftDYAdRuX9J7jFuP/J7EteAO0HKeJatKhqIdQow3dd
+         TdnDEcIyKFamFb0qVs4Iy681grQRXJMEv6YQs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733341749; x=1733946549;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/mngP4iptJPLYAmaFSpR8JCKdxNOCSzn3Y98pXoqTYA=;
+        b=dq3uXr5535nL+RkZ0dxdBZusn9EtNMTvn5YE0A4VBzyY2pjWnsFTX7mHtXUtMbb421
+         led3b245E9/777Dlv2oUZorJN4ddGqsmdU8ZQp6R9IkDe9eHaaWyQ9J49ZS3I0QyBo1r
+         g+LcF973llEpNRnq6mX+ZEqo6B06eBr4mxgD3uy+lEIYsEoDIk4G7e9TMvsMpT3O1mcW
+         7tjlw6WQ2L2mBNWlr2/j0DBRJmcpRfcLA0adQWnwxFZh2Nxv9PoewJ0Q5zrkuV8kK1HV
+         jdsPjk/FUI/C0yeyr/YTT+4v14FTlJPzJeO0zpAuzSOkzDrMunMyMrV6JWPwLWE4fcQm
+         dVpA==
+X-Forwarded-Encrypted: i=1; AJvYcCVzVs5DIRec34dPDJgpaXShelt5zn9s6usmZiKjqYWtZ3DdEuiNw7Nsqdh/3Z9VIG6e67bBCu2/hHpmGo0IKPk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIrgqpDpOcYp/cEDyc9vMm4Oo7s5DxIhanVYL30TQI1mDEXoLz
+	fk63l0Ne+DlAbF16ZTAzU1shawEWRutnKgfANRFqwZn94U8QRhqUh0IP8NyB
+X-Gm-Gg: ASbGnctbETZeXPP4MfbYItfmZVZxsnF5WQoR+ebDV8rYZ4ZGu9uES/y5z0fuPH8Im1t
+	i5+nsuUURf3kOrXHxzSHbEUudbfI1RaGJDT7Z+j++KNLst8xWyAaYZAPuyYgRXNAIBvnbig54+d
+	Uuy8AX1K+/ppnPw8V6BrZuKBY/qGei/1Xkxz1IRPn1Dn0h4p0kkW7hBouTBuGOPOPepIOq2DqLn
+	PI4JaCvXl76vvhbQeGOK1tlZPe7izhlr3JZAF2MsWr3YUjo4Gvj2zVUzbUc0nuVS/9rjOsYJThX
+	fFGZlW0K6PtdRrs/iZJpWqwhJ+ZfTrk5zzc=
+X-Google-Smtp-Source: AGHT+IFj9qAeVoF1+BsjtPFOFB0f/2B4gDimDvOScuftI2HUtisUhVOLvlmZIDXlzlRNfVJjRYEcAQ==
+X-Received: by 2002:a17:906:30cf:b0:aa5:3e7b:c117 with SMTP id a640c23a62f3a-aa5f7dc3e85mr694609566b.28.1733341748877;
+        Wed, 04 Dec 2024 11:49:08 -0800 (PST)
+Received: from ukaszb-ng.c.googlers.com.com (103.45.147.34.bc.googleusercontent.com. [34.147.45.103])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5996df797sm775338166b.68.2024.12.04.11.49.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2024 11:49:08 -0800 (PST)
+From: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benson Leung <bleung@chromium.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Pavan Holla <pholla@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH v10 0/2] usb: typec: Implement UCSI driver for ChromeOS
+Date: Wed,  4 Dec 2024 19:48:58 +0000
+Message-ID: <20241204194900.371696-1-ukaszb@chromium.org>
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-On 11/15/24 18:17, Laura Nao wrote:
-> I managed to reproduce the issue locally and I've uploaded the vmlinux[1]
-> (stripped of DWARF data) and vmlinux.raw[2] files, as well as one of the
-> modules[3] and its btf data[4] extracted with:
-> 
-> bpftool -B vmlinux btf dump file cros_kbd_led_backlight.ko > cros_kbd_led_backlight.ko.raw
-> 
-> Looking again at the logs[5], I've noticed the following is reported:
-> 
-> [    0.415885] BPF: 	 type_id=115803 offset=177920 size=1152
-> [    0.416029] BPF:
-> [    0.416083] BPF: Invalid offset
-> [    0.416165] BPF:
-> 
-> There are two different definitions of rcu_data in '.data..percpu', one
-> is a struct and the other is an integer:
-> 
-> type_id=115801 offset=177920 size=1152 (VAR 'rcu_data')
-> type_id=115803 offset=177920 size=1152 (VAR 'rcu_data')
-> 
-> [115801] VAR 'rcu_data' type_id=115572, linkage=static
-> [115803] VAR 'rcu_data' type_id=1, linkage=static
-> 
-> [115572] STRUCT 'rcu_data' size=1152 vlen=69
-> [1] INT 'long unsigned int' size=8 bits_offset=0 nr_bits=64 encoding=(none)
-> 
-> I assume that's not expected, correct?
-> 
-> I'll dig a bit deeper and report back if I can find anything else.
+This series implements a UCSI ChromeOS EC transport driver. 
+The ChromeOS EC is expected to implement UCSI Platform Policy
+Manager (PPM).
 
-I ran a bisection, and it appears the culprit commit is:
-https://lore.kernel.org/all/20241021080856.48746-2-ubizjak@gmail.com/
+---
+Changes in v10:
+- Added cancel_delayed_work() in the cros_ucsi_suspend() in order
+to prevent premature wake up during suspend.
+- Added cancel_delayed_work() in the cros_ucsi_destroy() as well.
+- Link to v9: https://lore.kernel.org/linux-usb/20241203142314.3892422-1-ukaszb@chromium.org/
 
-Hi Uros, do you have any suggestions or insights on resolving this issue?
+Changes in v9:
+- Squash "usb: typec: cros_ec_ucsi: Recover from write timeouts" commit
+into "usb: typec: ucsi: Implement ChromeOS UCSI driver".
+- Replaced out label in cros_ucsi_sync_control() with switch statement.
+- Link to v8: https://lore.kernel.org/linux-usb/20241128232035.1525978-1-ukaszb@chromium.org/ 
 
-This problem is now impacting mainline as well. The full context can be 
-found at the beginning of this thread[1].
+Changes in v8:
+- Set .sync_control in cros_ucsi_ops struct to point
+to ucsi_sync_control_common().
+- Added explanation why complete() is used instead of resume()
+in cros_ucsi_pm_ops struct.
+- Updated s/miliseconds/milliseconds/.
+- Link to v7: https://lore.kernel.org/linux-usb/20241115155234.1587589-1-ukaszb@chromium.org/ 
 
-Thanks,
+Changes in v7:
+- Dropped the following commits for now as I want to focus
+on upstreaming cros_ec_ucsi driver first. Then I will get
+back to the topic of trace events and netlink:
+  "usb: typec: cros_ec_ucsi: Add trace events"
+  "usb: typec: cros_ec_ucsi: Add netlink"
+- Squashed "usb: typec: cros_ec_ucsi: Use complete instead of resume"
+into "usb: typec: ucsi: Implement ChromeOS UCSI driver".
+- Added "usb: typec: cros_ec_ucsi: Recover from write timeouts" commmit.
+- Added usage of common functins ucsi_sync_control_common()
+and ucsi_notify_common().
+- Commits:
+  "platform/chrome: Update EC feature flags"
+  "mfd: cros_ec: Load cros_ec_ucsi on supported ECs"
+  "mfd: cros_ec: Don't load charger with UCSI"
+landed in the tree https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/log/?h=for-mfd-next    
+- Link to v6: https://lore.kernel.org/linux-usb/20240910101527.603452-1-ukaszb@chromium.org
 
-Laura
+Changes in v6:
+- Reverted to type names uint*_t in cros_ec_commands.h in order 
+to be consistent with type names used in other parts of the file.
+- Updated comments in cros_ec_commands.h related to UCSI.
+- Added missing sign-offs.
+- Fixed memory leak in cros_ucsi_async_control() by moving
+ec_params_ucsi_ppm_set request buffer to stack.
+- Replaced cros_ucsi_read with cros_ucsi_read_cci in cros_ucsi_work().
+- Updated changes in v5, it was missing information related to
+commits addition:
+  platform/chrome: Update EC feature flags
+  usb: typec: cros_ec_ucsi: Use complete instead of resume
+  mfd: cros_ec: Load cros_ec_ucsi on supported ECs
+  mfd: cros_ec: Don't load charger with UCSI
+- Link to v5: https://lore.kernel.org/r/all/20240903163033.3170815-1-ukaszb@chromium.org/
 
-[1] https://lore.kernel.org/all/20241106160820.259829-1-laura.nao@collabora.com/
+Changes in v5:
+- Increased WRITE_TMO_MS to 5000.
+- Replaced DRV_NAME with KBUILD_MODNAME.
+- Added comments for WRITE_TMO_MS and MAX_EC_DATA_SIZE defines.
+- Refactored cros_ucsi_async_control() to dynamically allocate memory
+for a message to EC instead of allocating the message on stack.
+- Replaced type names uint*_t with u*.
+- Removed ret variable in cros_ucsi_work().
+- Updated ucsi_operations interface to align with changes introduced in
+  v6.11.
+- Replaced test_bit() with test_and_clear_bit() in cros_ucsi_work().
+- Updated EC feature flags in commit "platform/chrome: Update EC feature
+  flags".
+- Added new commit "usb: typec: cros_ec_ucsi: Use complete instead
+of resume".
+- Added trace events in commit "usb: typec: cros_ec_ucsi: Add trace
+  events".
+- Added netlink in commit "usb: typec: cros_ec_ucsi: Add netlink"
+for debugging and testing puropses.
+- Added new commit "mfd: cros_ec: Load cros_ec_ucsi on supported ECs".
+- Added new commit "mfd: cros_ec: Don't load charger with UCSI".
+- Link to v4: https://lore.kernel.org/all/CAB2FV=6We88NrvN8NZYt8NkMFH9N_ZBGyUWVUpGwPdja2X_+NA@mail.gmail.com/T/
 
-#regzbot introduced: 001217defd
+Changes in v4:
+- Setup notifications before calling ucsi_register.
+- Cancel work before destroying driver data.
+- Link to v3: https://lore.kernel.org/r/20240403-public-ucsi-h-v3-0-f848e18c8ed2@chromium.org
+
+Changes in v3:
+- Moved driver from platform/chrome to usb/typec/ucsi.
+- Used id_table instead of MODULE_ALIAS.
+- Split EC header changes into seperate commit.
+- Fixes from additional internal reviews and kernel bot warnings.
+- Link to v2: https://lore.kernel.org/r/20240325-public-ucsi-h-v2-0-a6d716968bb1@chromium.org
+
+Changes in v2:
+- No code or commit message changes.
+- Added drivers/platform/chrome maintainers for review.
+
+Pavan Holla (2):
+  platform/chrome: Update ChromeOS EC header for UCSI
+  usb: typec: ucsi: Implement ChromeOS UCSI driver
+
+ MAINTAINERS                                   |   7 +
+ drivers/usb/typec/ucsi/Kconfig                |  13 +
+ drivers/usb/typec/ucsi/Makefile               |   1 +
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c         | 337 ++++++++++++++++++
+ .../linux/platform_data/cros_ec_commands.h    |  28 +-
+ 5 files changed, 385 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
+
+-- 
+2.47.0.338.g60cca15819-goog
 

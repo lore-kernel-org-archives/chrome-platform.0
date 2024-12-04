@@ -1,288 +1,101 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7072618C92F
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Dec 2024 10:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AD01AC8B9
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Dec 2024 10:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733309120; cv=none; b=stq3fKfGC3fPCCuc72ENlKmABMLmPX8LXA/0ayVqFgSlVS0aASMhrsD4GLEmvOzBhcAhqX8Kd7jIMdz4PFTd0bHmEfA96jK4lbf5RbkkMhE5WOxD6bn08VrLz+AxYIW1avPn5Xv5hoc70FVZnIUeOG1Ec5ruejrQHICTd5Tg4yA=
+	t=1733309122; cv=none; b=A8w+icj1JpyA7Li5t24o8hcpDwMypmCxHKaNfXBgboqKIOIMZ5vN1eoncpb//0snsWUSZoDdWwP3+BVEKBaPKh6Ij5kbFs620lbb7HpHbIKRfloNlctmqG+s0ig5G2DFY/BaNjBlbfOZE/am48dCIIehTaWPB+24DeRCifxePM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733309120; c=relaxed/simple;
-	bh=fxYcdUfZVshmW3K+OY/btqceQ6KRhi9srUFU5dW2Pyw=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Nevrh0r/DUaWXZFZYOZzQE8kLNIH56ppjz+xATH1LMWoZ2XCkq5ROSN0LV0CdEUfTfcBFYGCQVpZB7KjDWFQGfEN169VBtjxbo9YTq3uS3ZoT0sbmAKCN2Z9WLu2qvD7Id+4AJAFD3xfCho4vap28xJD0FE7jXnZUNYQvHbhJhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p4Asu4EQ; arc=none smtp.client-ip=209.85.221.74
+	s=arc-20240116; t=1733309122; c=relaxed/simple;
+	bh=6ABzvr6unTAz8/XLgLI/eNk5SIQaJ8uqIkH12ItsGbo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=b8nPA4kodN0s4/RBWWYQv+QnFNgL6EZfyvws7fQsuoeqO1q9cFBRB077fNyYMruXBmBQX8i82+1EhvDcl+iLPTZ7lbHVFSxbXTJjhdL3subVMeSMZv+jygHcLmp3jsvDl3+XyCpoYTdJydJzKbfiblMK5B/ArhKV9AHvuRM3wQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gU9P8Z8G; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p4Asu4EQ"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-385dfa9b758so2130545f8f.0
-        for <chrome-platform@lists.linux.dev>; Wed, 04 Dec 2024 02:45:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gU9P8Z8G"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-434a6483514so47327815e9.0
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Dec 2024 02:45:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733309117; x=1733913917; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=47E3YyW6DrR27MbE2FWe5udRH/OIbLEqcmInTqvOrvY=;
-        b=p4Asu4EQimeabhR2BOP4+KQcicIn36ta7jxuWuBSKmdpQwYTF027mReS0Mh9xD77lQ
-         HFfhSFiCgqxoxBF/iSSGSU5KRgkSNXLrPIRP9/U6MZiYsfWR/QsuJpbT7a+Ofq09IZLr
-         bV68cGDx/gBFC7ybKW3dsO5A7ssA3+AWmXczOfWdYaOR38LEvTbkh1Rvy/YGfK1QsfJZ
-         M8W//x0XBCtKWlR0kx6TCjcQHf58HnOHtZW8JFaZ1PCl3fwWAP40bSMNadSgWkbQKaWt
-         vGQ6ps1CYaGkdYN8tl5j8FlSQhKT87PUx7v9JStR/wC83rxOHf9gZvv85/1LW3gn4FJ7
-         bUSg==
+        d=google.com; s=20230601; t=1733309119; x=1733913919; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B3syshFz8xNToh+qn8VphOqjnxGVpP91fDVz4fAB19M=;
+        b=gU9P8Z8G9RygpiGJaMbMRLxlnQm/DVhAwud/OwXwoZmhExvFyfsBtOSOfLkp4WpyDX
+         DCI0qsNsf5lnqnDR3H0gf7/lPH4V30E6Fl/XHEzULA5rkXrtI5HeTHJHzodLl4qh+MI7
+         1jsSBdLt34uhZO6T3oULMT/+ahIsWyjljJz5IJmFEQsZSFHaXbizetQkNt06fZy3Kvs6
+         8epZvRzLz8Q095v8r3mgkJk/rTay5Y6b+laO69Sb9I8xko5T1cY13yCP0ChEGmLUNkZw
+         PyNGIWvr5PqcA/e88qk5GqMfMopc+lHLcK/HaeGHrKRAUyl5fhzd/dCDuWMcHYRU8EYb
+         inug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733309117; x=1733913917;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=47E3YyW6DrR27MbE2FWe5udRH/OIbLEqcmInTqvOrvY=;
-        b=U0XkCEU8b6WY8JonJ2OaHUJ1pTWInMWeM0tL7tbJWpKlPkuC0SWKQgwSut8JLUUesj
-         PI46ZDZMTCgBocAYUf72nPNVmurSomjHrQYFoBU/bAdEagwAifZajhoxG7ocRBS5dzz1
-         XB7ED1ZwmGdrfKT1XTanF7JeDTX2oBtJn6ctpvUBYWwC8BT6N1L/tMHUBD2J/eJhYSFP
-         ZOo7t1rnrfOJCpCjDu6673C8d92XXRSmffgVXcvOjmp5UfrzsMYT1wlSZVMTIYwP3rED
-         DTG+1arDK91Qo9v5aYct5Gdon4HbWgMsfyj5FqGes1qmNOvAFl7QuyPPRaLU24hXXTBn
-         AO7w==
-X-Gm-Message-State: AOJu0YwDnp9M2RJPSQ8WDxcKsoPhsMWLCyC+T+yIRtFGAFQQMJy2A2Ae
-	1OO67hWW9Bw0Brpo4MYdprlZTQ/MfqQU8UyYHZWaCTt39sQUskc3YTvseLub9F+4LHmOBAUHcX7
-	3nw==
-X-Google-Smtp-Source: AGHT+IHO5lBRS9CVlcosceV4uqtJ3ozsKz1F+Tz3ehGwr2YlfyuEuN7UJFBK45IYdvS2HvYYpO+OLpjs6HY=
-X-Received: from wmil20.prod.google.com ([2002:a7b:c454:0:b0:434:9dec:7cc5])
- (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:186b:b0:385:ec89:2f07
- with SMTP id ffacd0b85a97d-38607ae4117mr2655875f8f.32.1733309116850; Wed, 04
- Dec 2024 02:45:16 -0800 (PST)
-Date: Wed,  4 Dec 2024 10:45:13 +0000
+        d=1e100.net; s=20230601; t=1733309119; x=1733913919;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B3syshFz8xNToh+qn8VphOqjnxGVpP91fDVz4fAB19M=;
+        b=SCw1GxRYGSZD4w4Zk3FH1vUABfkv0zqXW7qL6L8Yh5yumSvIgTNkiJN2et9tn9lLJA
+         aBLQEu8JNtvmDugeLLVRB/fbwPg42FhmqOyIsWMsSEtdo35iIk0WdlFmeHP2405z39JM
+         yqwGA+uuGRWtiUI5ttEBKm7cHwPOlJTl0zRN7ViZ4kMD+7idJ/b8wtzD8yKmW7gwSqx/
+         VyFTTkCUm5JqNMsRNaJgSlcT1e9FzWBSdOCgZGZJZoXThVDDeky+beHJ/nXQ3vbS/ocy
+         aiRocVTHdzZs9eHryUSsqCFzHWVvhTM7zvvDnTKBeHFnvUGunt+DiIlQb2n9onWzLpJg
+         52zw==
+X-Gm-Message-State: AOJu0Yz/WMqQ4JZZPOEUj/UEmhAKtGEFrHYc8x+0MZoUOrAQQA/DVvgM
+	s3Drkx+JOT+OkbNMAaFprmMTN1HJGYRbugM9NFbYALcxhyIBzUMVnf4yvk8gbZsovLQzAXgnuyJ
+	QAQ==
+X-Google-Smtp-Source: AGHT+IHunP8FhVAqcbAxizHfk/ZUvf9lDejn99ybNwBIyZAYS1noMkvMq/IFx/7VnRvYK1UwBw4/MParSvQ=
+X-Received: from wmba12.prod.google.com ([2002:a05:600c:6dcc:b0:434:9ed7:8b97])
+ (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:3b8c:b0:434:a4bc:535b
+ with SMTP id 5b1f17b1804b1-434d09bf66dmr50011475e9.11.1733309119162; Wed, 04
+ Dec 2024 02:45:19 -0800 (PST)
+Date: Wed,  4 Dec 2024 10:45:14 +0000
+In-Reply-To: <20241204104514.1541964-1-dawidn@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
+References: <20241204104514.1541964-1-dawidn@google.com>
 X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241204104514.1541964-1-dawidn@google.com>
-Subject: [PATCH v2 1/2] platform/chrome: cros_ec: jump to RW before probing
+Message-ID: <20241204104514.1541964-2-dawidn@google.com>
+Subject: [PATCH v2 2/2] platform/chrome: cros_ec_proto: remove unnecessary retries
 From: Dawid Niedzwiecki <dawidn@google.com>
 To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>
 Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	chromeos-krk-upstreaming@google.com, Dawid Niedzwiecki <dawidn@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-There are EC devices, like FPMCU, that use RWSIG as a method of
-authenticating RW section. After the authentication succeeds, EC device
-waits some time before jumping to RW. EC can be probed before the jump,
-which means there is a time window after jump to RW in which EC won't
-respond, because it is not initialized. It can cause a communication
-errors after probing.
-
-To avoid such problems, send the RWSIG continue command first, which
-skips waiting for the jump to RW. Send the command more times, to make
-sure EC is ready in RW before the start of the actual probing process. If
-a EC device doesn't support the RWSIG, it will respond with invalid
-command error code and probing will continue as usual.
+Remove the retry of the get protocol info command. It is not needed
+anymore, because RWSIG continue command is send before start of the
+probing. That assures the EC device is ready in RW and there is no
+need to try again because FPMCU is not fully booted.
 
 Signed-off-by: Dawid Niedzwiecki <dawidn@google.com>
 ---
-V1 -> V2:
-- Use dev_info instead of dev_warn when cros_ec_rwsig_continue returns
-  an error.
-- Return immediately from cros_ec_rwsig_continue, if the RWSIG_ACTION
-  command fails itself, not SPI transaction.
+ drivers/platform/chrome/cros_ec_proto.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
- drivers/platform/chrome/cros_ec.c           |  5 ++
- drivers/platform/chrome/cros_ec_i2c.c       |  3 +-
- drivers/platform/chrome/cros_ec_ishtp.c     |  2 +-
- drivers/platform/chrome/cros_ec_lpc.c       |  2 +-
- drivers/platform/chrome/cros_ec_proto.c     | 62 +++++++++++++++++++++
- drivers/platform/chrome/cros_ec_rpmsg.c     |  2 +-
- drivers/platform/chrome/cros_ec_spi.c       |  2 +-
- drivers/platform/chrome/cros_ec_uart.c      |  2 +-
- include/linux/platform_data/cros_ec_proto.h |  2 +
- 9 files changed, 76 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-index e821b3d39590..110771a8645e 100644
---- a/drivers/platform/chrome/cros_ec.c
-+++ b/drivers/platform/chrome/cros_ec.c
-@@ -204,6 +204,11 @@ int cros_ec_register(struct cros_ec_device *ec_dev)
- 	mutex_init(&ec_dev->lock);
- 	lockdep_set_class(&ec_dev->lock, &ec_dev->lockdep_key);
- 
-+	/* Send RWSIG continue to jump to RW for devices using RWSIG. */
-+	err = cros_ec_rwsig_continue(ec_dev);
-+	if (err)
-+		dev_info(dev, "Failed to continue RWSIG: %d\n", err);
-+
- 	err = cros_ec_query_all(ec_dev);
- 	if (err) {
- 		dev_err(dev, "Cannot identify the EC: error %d\n", err);
-diff --git a/drivers/platform/chrome/cros_ec_i2c.c b/drivers/platform/chrome/cros_ec_i2c.c
-index 62662ba5bf6e..38af97cdaab2 100644
---- a/drivers/platform/chrome/cros_ec_i2c.c
-+++ b/drivers/platform/chrome/cros_ec_i2c.c
-@@ -305,7 +305,8 @@ static int cros_ec_i2c_probe(struct i2c_client *client)
- 	ec_dev->phys_name = client->adapter->name;
- 	ec_dev->din_size = sizeof(struct ec_host_response_i2c) +
- 			   sizeof(struct ec_response_get_protocol_info);
--	ec_dev->dout_size = sizeof(struct ec_host_request_i2c);
-+	ec_dev->dout_size = sizeof(struct ec_host_request_i2c) +
-+			    sizeof(struct ec_params_rwsig_action);
- 
- 	err = cros_ec_register(ec_dev);
- 	if (err) {
-diff --git a/drivers/platform/chrome/cros_ec_ishtp.c b/drivers/platform/chrome/cros_ec_ishtp.c
-index 5ac37bd024c8..7e7190b30cbb 100644
---- a/drivers/platform/chrome/cros_ec_ishtp.c
-+++ b/drivers/platform/chrome/cros_ec_ishtp.c
-@@ -557,7 +557,7 @@ static int cros_ec_dev_init(struct ishtp_cl_data *client_data)
- 	ec_dev->phys_name = dev_name(dev);
- 	ec_dev->din_size = sizeof(struct cros_ish_in_msg) +
- 			   sizeof(struct ec_response_get_protocol_info);
--	ec_dev->dout_size = sizeof(struct cros_ish_out_msg);
-+	ec_dev->dout_size = sizeof(struct cros_ish_out_msg) + sizeof(struct ec_params_rwsig_action);
- 
- 	return cros_ec_register(ec_dev);
- }
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 924bf4d3cc77..1e1d68359958 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -573,7 +573,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
- 	ec_dev->cmd_readmem = cros_ec_lpc_readmem;
- 	ec_dev->din_size = sizeof(struct ec_host_response) +
- 			   sizeof(struct ec_response_get_protocol_info);
--	ec_dev->dout_size = sizeof(struct ec_host_request);
-+	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
- 	ec_dev->priv = ec_lpc;
- 
- 	/*
 diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index 5c9a53dffcf9..9b451fac275d 100644
+index 9b451fac275d..2b90eed3a439 100644
 --- a/drivers/platform/chrome/cros_ec_proto.c
 +++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -15,6 +15,8 @@
- #include "cros_ec_trace.h"
+@@ -368,15 +368,6 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
+ 	msg->insize = sizeof(*info);
  
- #define EC_COMMAND_RETRIES	50
-+#define RWSIG_CONTINUE_RETRIES	8
-+#define RWSIG_CONTINUE_MAX_ERRORS_IN_ROW	3
+ 	ret = cros_ec_send_command(ec_dev, msg);
+-	/*
+-	 * Send command once again when timeout occurred.
+-	 * Fingerprint MCU (FPMCU) is restarted during system boot which
+-	 * introduces small window in which FPMCU won't respond for any
+-	 * messages sent by kernel. There is no need to wait before next
+-	 * attempt because we waited at least EC_MSG_DEADLINE_MS.
+-	 */
+-	if (ret == -ETIMEDOUT)
+-		ret = cros_ec_send_command(ec_dev, msg);
  
- static const int cros_ec_error_map[] = {
- 	[EC_RES_INVALID_COMMAND] = -EOPNOTSUPP,
-@@ -288,6 +290,66 @@ static int cros_ec_get_host_event_wake_mask(struct cros_ec_device *ec_dev, uint3
- 	return ret;
- }
- 
-+int cros_ec_rwsig_continue(struct cros_ec_device *ec_dev)
-+{
-+	struct cros_ec_command *msg;
-+	struct ec_params_rwsig_action *rwsig_action;
-+	int ret = 0;
-+	int error_count = 0;
-+
-+	ec_dev->proto_version = 3;
-+
-+	msg = kmalloc(sizeof(*msg) + sizeof(*rwsig_action), GFP_KERNEL);
-+	if (!msg)
-+		return -ENOMEM;
-+
-+	msg->version = 0;
-+	msg->command = EC_CMD_RWSIG_ACTION;
-+	msg->insize = 0;
-+	msg->outsize = sizeof(*rwsig_action);
-+
-+	rwsig_action = (struct ec_params_rwsig_action *)msg->data;
-+	rwsig_action->action = RWSIG_ACTION_CONTINUE;
-+
-+	for (int i = 0; i < RWSIG_CONTINUE_RETRIES; i++) {
-+		ret = cros_ec_send_command(ec_dev, msg);
-+
-+		if (ret < 0) {
-+			error_count++;
-+		} else if (msg->result == EC_RES_INVALID_COMMAND) {
-+			/*
-+			 * If EC_RES_INVALID_COMMAND is retured, it means RWSIG
-+			 * is not supported or EC is already in RW, so there is
-+			 * nothing left to do.
-+			 */
-+			break;
-+		} else if (msg->result != EC_RES_SUCCESS) {
-+			/* Unexpected command error. */
-+			ret = cros_ec_map_error(msg->result);
-+			break;
-+		} else {
-+			/*
-+			 * The EC_CMD_RWSIG_ACTION succeed. Send the command
-+			 * more times, to make sure EC is in RW. A following
-+			 * command can timeout, because EC may need some time to
-+			 * initialize after jump to RW.
-+			 */
-+			error_count = 0;
-+		}
-+
-+		if (error_count >= RWSIG_CONTINUE_MAX_ERRORS_IN_ROW)
-+			break;
-+
-+		if (ret != -ETIMEDOUT)
-+			usleep_range(90000, 100000);
-+	}
-+
-+	kfree(msg);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(cros_ec_rwsig_continue);
-+
- static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
- {
- 	struct cros_ec_command *msg;
-diff --git a/drivers/platform/chrome/cros_ec_rpmsg.c b/drivers/platform/chrome/cros_ec_rpmsg.c
-index 39d3b50a7c09..bc2666491db1 100644
---- a/drivers/platform/chrome/cros_ec_rpmsg.c
-+++ b/drivers/platform/chrome/cros_ec_rpmsg.c
-@@ -231,7 +231,7 @@ static int cros_ec_rpmsg_probe(struct rpmsg_device *rpdev)
- 	ec_dev->phys_name = dev_name(&rpdev->dev);
- 	ec_dev->din_size = sizeof(struct ec_host_response) +
- 			   sizeof(struct ec_response_get_protocol_info);
--	ec_dev->dout_size = sizeof(struct ec_host_request);
-+	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
- 	dev_set_drvdata(dev, ec_dev);
- 
- 	ec_rpmsg->rpdev = rpdev;
-diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
-index 86a3d32a7763..946373238502 100644
---- a/drivers/platform/chrome/cros_ec_spi.c
-+++ b/drivers/platform/chrome/cros_ec_spi.c
-@@ -766,7 +766,7 @@ static int cros_ec_spi_probe(struct spi_device *spi)
- 	ec_dev->din_size = EC_MSG_PREAMBLE_COUNT +
- 			   sizeof(struct ec_host_response) +
- 			   sizeof(struct ec_response_get_protocol_info);
--	ec_dev->dout_size = sizeof(struct ec_host_request);
-+	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
- 
- 	ec_spi->last_transfer_ns = ktime_get_ns();
- 
-diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-index 62bc24f6dcc7..19c179d49c90 100644
---- a/drivers/platform/chrome/cros_ec_uart.c
-+++ b/drivers/platform/chrome/cros_ec_uart.c
-@@ -283,7 +283,7 @@ static int cros_ec_uart_probe(struct serdev_device *serdev)
- 	ec_dev->pkt_xfer = cros_ec_uart_pkt_xfer;
- 	ec_dev->din_size = sizeof(struct ec_host_response) +
- 			   sizeof(struct ec_response_get_protocol_info);
--	ec_dev->dout_size = sizeof(struct ec_host_request);
-+	ec_dev->dout_size = sizeof(struct ec_host_request) + sizeof(struct ec_params_rwsig_action);
- 
- 	serdev_device_set_client_ops(serdev, &cros_ec_uart_client_ops);
- 
-diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index b34ed0cc1f8d..701389c16fa7 100644
---- a/include/linux/platform_data/cros_ec_proto.h
-+++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -246,6 +246,8 @@ int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev,
- int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
- 			    struct cros_ec_command *msg);
- 
-+int cros_ec_rwsig_continue(struct cros_ec_device *ec_dev);
-+
- int cros_ec_query_all(struct cros_ec_device *ec_dev);
- 
- int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
+ 	if (ret < 0) {
+ 		dev_dbg(ec_dev->dev,
 -- 
 2.47.0.338.g60cca15819-goog
 

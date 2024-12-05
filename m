@@ -1,200 +1,232 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DDE18D65A
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Dec 2024 18:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1611B412D
+	for <chrome-platform@lists.linux.dev>; Thu,  5 Dec 2024 20:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733424436; cv=none; b=KuwJTa38Joyoq8UegR8ENGRFA2onq62ecYNzVkVXjAAVVIV1uJfKTKd3oZWBtwrmGQ1w1q/jwK6Whfjao63M6C6Zk1aKhuTxrhtM71xJkk5eN6AmEsixmpEoAqceYqbYfJZ8YTVrKpdKB2fzqA96VV1uuVnPNkH+AD70JmaxLWY=
+	t=1733431649; cv=none; b=oFEqc48JBGhRBNhqCv1HI9Sz/A5LahZ3ffo36Ed9Jm9jFrJ2imvtK4wlO6NyRoL38HQ7n3Spr5oeQOFHH327XFGYeR00RBjGOII8k1nyIt4F8fR61Q6frYVDRFxYV8FbJ/GfKFRIobfD7nPzXhevgpZUjYqnUKCh/hd5egLtVgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733424436; c=relaxed/simple;
-	bh=0Xd3Y3Tg1M4AOOd+LSTDLLjxjSv4FiUGmE38eniiojk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VvCjGJHtz8IwyFA2yJPo9xzvc/lS1gunLf9o+8VuVCNCH9+Q5eJI5o5HgXf3ITn0IrbYkYQV/iRXsZ2ANu5HdLQJ5zGpr38m3zJc9V02owBA9Vil7sEfv3/JBiiYvbY0eleqIYEUHAmwo/oKlBBqEj22qij6NhiZkHW4h70as9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GuP4VZot; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733431649; c=relaxed/simple;
+	bh=u5aND4+bmYLeegxlwVhwulMeUQLI6UQhFWuN0Ipz++Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=tgmPWWlIwcaoLR0b8x6we+J1ELlQvRLHserHnvrKZ/mshjcJ+Sdrle51pyQFI4b6Ep8cp3XfwUK+Q2NmEZbYRiggD8BBwGgcT9u8JoL8WvJBT9K3zHTGn0w9/LtIecoLDk1AYKB+CXck9S0n2Jqkp0zaM/25zASn7LqAEbpRcqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=NzWJ7uIz; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GuP4VZot"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53df1d1b726so1301258e87.0
-        for <chrome-platform@lists.linux.dev>; Thu, 05 Dec 2024 10:47:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733424433; x=1734029233; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T2KZgasCJzLR0eGkxk5shZvmaTdK44fm0EiIl+dZ+os=;
-        b=GuP4VZotP2LCaEU6wF4AdAOyb3hjSetD4muxO7+NA+l5tF0b5r/Osx1QWM7DtUbb1g
-         slW8LiPsQreA9s0MtgcPzqpkWsy8gWfm3uuND1Cl78p4P5MMNgelOKhmwLa2zqOUiBqa
-         J0S/d1BANZm5EOccX3v8TyLlIGOZmUnkyxuxA0kTZNao/8NKlH4hgLMcjBq8NafgkW2k
-         YcsTezsh2jWyU42HxFCh/lr4tyq9Vf9Ks5RWB6Lz7TgMBXQ+ttXmvRAnr9RkKHMzgktO
-         n779/bNrxb1P2SYvAugejdVaMmPCpKl7Pei+spAWsGf3jckst9A3eC80sVgemJa1h2N+
-         rWhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733424433; x=1734029233;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T2KZgasCJzLR0eGkxk5shZvmaTdK44fm0EiIl+dZ+os=;
-        b=Lr7BAsu8Crfyx3frdmu2rha/bCz2kSv02najuLR65luPI0FKa4KMysSDW9VvylIsk2
-         b6nqdtlNPIphl9PJZ+R4Y/KpnUvWUsytkVkRyHH4P901HxtZS9On/0T7KUt6MkkHrkOy
-         LtnMwWf8j6ohCGog57aq6wmVgX0OgnzQhjgm1H2pWwog5Bhugt16GcZ68R+ZfkY2NJSz
-         jGuROqmxAINf3OM1RDVC/0iIvD3AmNH+RisGOSxScmoiWOottmbDE4HIpx9ytNKlysGq
-         kga1g7FAO9lypfpeKe+rmpL2Jokqm9yfP6PT3co75r3LORQKJbBf7du/sApY0DZ03wcz
-         g0Qw==
-X-Gm-Message-State: AOJu0YzobJ/zq+lnc1XjEjn1rHDqigrEX8hUeQ2oKMYxKP5BtqkXKqgh
-	t5bZ66BgUTXEGrUW8AAM3+MaF5PW+NYts3j7jOqCpLZYKWOZbUNT4bmeCMYOOas=
-X-Gm-Gg: ASbGncufb9wqwp0MXmUHv6cGPcJ1YUWhckRvJim6tpEaE4mwPI5sUTfMU5lX4vyDhNb
-	5vpRL5anOSW2gi1xN82gYnOgXpYqfndto4Wnf7yn8WWOAquLrjwGKFmVGE4vzfNslOxmPa5kt/f
-	gTvHqzOme6A4RTHrV4S6sAWnz7JbltUtXc8UVyWPa5w0LdxGKzdda1MWBQZM4EG8cg0eX175Fic
-	TtFhPSVnJMbPUYElGw8367JebsP/QTlaTzMMkOcqDfbh/5246zW5MqcjcUVb/hfXv4BfK0EZGkd
-	KTruGJaayWzF7twODDs3f4NYoZluHw==
-X-Google-Smtp-Source: AGHT+IFz9mpVH5Uurdufw2Dv8q5pLYoVIssxSoi9mVUR6HgvpUPgwV1vo6g4uO5S/daRfryFj2eW3w==
-X-Received: by 2002:a05:6512:3d29:b0:53e:136b:991d with SMTP id 2adb3069b0e04-53e2c2aae84mr10863e87.12.1733424432646;
-        Thu, 05 Dec 2024 10:47:12 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e229c95dasm306005e87.227.2024.12.05.10.47.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 10:47:11 -0800 (PST)
-Date: Thu, 5 Dec 2024 20:47:08 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, devicetree@vger.kernel.org, 
-	Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
-	David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
-	Guenter Roeck <groeck@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Lee Jones <lee@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Prashant Malani <pmalani@chromium.org>, 
-	Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
- google,cros-ec-typec for DP altmode
-Message-ID: <kidsjzklpxvvamct3glvoawavoi5mjuyh3on5kbtfp6gavwxxn@eack224zuqa3>
-References: <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
- <CAE-0n501j+8bMnMKabFyZjn+MLUy3Z68Hiv1PsfW0APy5ggN8g@mail.gmail.com>
- <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
- <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com>
- <hqmx7jtkvrwvb27n56hw7rpefhp37lhr3a5fawz7gsl76uuj5s@h7m6wpdhibkk>
- <CAE-0n50y1O2C47zOGJPmMjKXK_m6a=jhpEAP4nW+RymZbo2xyg@mail.gmail.com>
- <5kisfv22tgqwzjpxqrbx56ywr7l4r7pny3pl2r7crv4rijqbwk@azricdasttg7>
- <CAE-0n50Bxi2GfnxOmMwe-F+k5jMSiyAVPDb6K8pYm-i6hpJTOA@mail.gmail.com>
- <cartdeijkv6z23dgm7uif4lti3lahfqmuyxcmruzqbefhsp6yk@m6ocjhncs2ko>
- <CAE-0n51-QLLje0f7T4p3xK6Q-FRk4K0NUrVVm4cxkKoevuzktw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="NzWJ7uIz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1733431639;
+	bh=u5aND4+bmYLeegxlwVhwulMeUQLI6UQhFWuN0Ipz++Y=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=NzWJ7uIzGl5K2d6FT2DHBLQKbZl9u9l9/4jYl6KbxEvyhtaODD8jQW1NueEG2jzPM
+	 yKdB8PmobykPcbez6qx16V+ybB9elHqvhfFLoEYyZfQpXP3i4I9zPW7M8JwM4xjEFj
+	 0tkZe8sAfFU5wQ6ASXzhGWMNoKsrSwjOJzm8JOTA=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Thu, 05 Dec 2024 21:46:37 +0100
+Subject: [PATCH v5 3/4] power: supply: test-power: implement a power supply
+ extension
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE-0n51-QLLje0f7T4p3xK6Q-FRk4K0NUrVVm4cxkKoevuzktw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241205-power-supply-extensions-v5-3-f0f996db4347@weissschuh.net>
+References: <20241205-power-supply-extensions-v5-0-f0f996db4347@weissschuh.net>
+In-Reply-To: <20241205-power-supply-extensions-v5-0-f0f996db4347@weissschuh.net>
+To: Sebastian Reichel <sre@kernel.org>, Armin Wolf <W_Armin@gmx.de>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, linux-acpi@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733431638; l=5423;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=u5aND4+bmYLeegxlwVhwulMeUQLI6UQhFWuN0Ipz++Y=;
+ b=3d1a0ClYPsrF756j0asmMRqi8KoJBQQntAPdwQzs27RZBeAjlwqC7wINhPqW7YosTcw0pQKYl
+ raB87fC3MqQB9cmlfLGlvpZuudOBLdaQGBVdKArZ7LJWLytKI3oRNWa
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Tue, Dec 03, 2024 at 03:50:58PM -0800, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2024-11-21 14:59:42)
-> > On Tue, Nov 19, 2024 at 08:09:31PM -0500, Stephen Boyd wrote:
-> > >
-> > > It sounds like we're debating how to handle lane assignment in the
-> > > kernel. Either way, the code is going to be implemented in the bridge
-> > > driver because it's the one that has to change what physical lane a
-> > > logical lane is assigned to. The question is if it should be some sort
-> > > of bridge_funcs callback, or should bridge drivers hook into the typec
-> > > framework to expose an orientation switch, or something else?
-> >
-> > I was assuming that orientation switch is such kind of a hook.
-> >
-> > >
-> > > I'm thinking we should introduce some sort of bridge_funcs callback that
-> > > can be called from the DP altmode driver, either parallel to the
-> > > drm_connector_oob_hotplug_event() function or from it directly. If we
-> > > can pass the fwnode for the usb-c-connector to the oob_hotplug_event
-> > > callback, maybe that's all we need to figure out which lanes go where.
-> > > And then in the 2 DP connector muxing world we can call
-> > > drm_connector_oob_hotplug_event() with one or the other DP connector
-> > > node, which will likely be children nodes of the "HPD redriver" device.
-> >
-> > If you call it from drm_bridge_connector's oob_hotplug_event handler,
-> > this should fly. Does it cover your 3-DP or 4-DP usecases?
-> >
-> 
-> I think it will work as long as we're able to add some sort of property
-> to the usb-c-connector node to indicate that the DP lanes are flipped.
-> It feels like that should be in the displayport altmode node to keep
-> things tidy because the SuperSpeed port is overloaded. Maybe the drm
-> framework can have some API that can take the fwnode from the
-> oob_hotplug_event handler and tell the bridge driver which way the
-> orientation is.
-> 
->  connector {
->    compatible = "usb-c-connector";
-> 
->    altmodes {
->      displayport {
->        orientation-reversed;
->      }
->    };
-> 
->    ports {
->      ...
->    };
->  };
-> 
-> 
->  int drm_dp_typec_orientation_flipped(struct fwnode_handle *fwnode)
->  {
->    struct fwnode_handle *altmodes;
->    struct fwnode_handle *dp;
-> 
->    altmodes = fwnode_get_named_child_node(fwnode, "altmodes");
->    if (!altmodes)
->      return -EINVAL;
-> 
->    dp = fwnode_get_named_child_node(altmodes, "displayport");
->    if (!dp)
->      return -EINVAL;
-> 
->    if (fwnode_property_read_bool(dp, "orientation-reversed"))
->      return 1;
+Allow easy testing of the new power supply extension functionality.
 
-If that passes through DT maintainers, that's fine with me.
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/power/supply/test_power.c | 111 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 111 insertions(+)
 
-> 
->    return 0;
->  }
-> 
-> There's another wrinkle on some Corsola devices where the EC says
-> there's a usb-c-connector on the board, but in reality the DP lanes are
-> connected to a DP-to-HDMI bridge that is controlled by the EC which goes
-> to an HDMI connector on the side of the laptop. The EC does the
-> arbitration as usual because there's only one DP source and one or two
-> usb type-c connectors physically on the laptop in addition to the HDMI
-> connector.
-> 
-> The easiest way to imagine this is that we took the usb-c-connector and
-> jammed an HDMI dongle in there with some glue so that it can never be
-> removed. There isn't any USB going there either because it can't be
-> used. I suppose we can continue to describe this with an
-> altmodes/displayport node but then add some compatible like
-> "usb-c-hdmi-connector" or another property to the altmodes/displayport
-> node like "type = hdmi" that signifies this is a connector that only
-> outputs HDMI.
-
-Does that DP-to-HDMI bridge talk USB-C or just pure DP? In other words,
-will it be properly discovered and handled if we just leave it as a
-weird usb-c-connector (maybe with an additional annotation, we have
-USB_PORT_CONNECT_TYPE_HARD_WIRED for USB ports, we might have something
-similar for Type-C connectors).
+diff --git a/drivers/power/supply/test_power.c b/drivers/power/supply/test_power.c
+index 442ceb7795e1d84e34da2801d228d53fb67e08d9..1e15d3d192ef4040839aa9740b06f5ab78b6b6d3 100644
+--- a/drivers/power/supply/test_power.c
++++ b/drivers/power/supply/test_power.c
+@@ -37,6 +37,7 @@ static int battery_charge_counter	= -1000;
+ static int battery_current		= -1600;
+ static enum power_supply_charge_behaviour battery_charge_behaviour =
+ 	POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
++static bool battery_hook;
+ 
+ static bool module_initialized;
+ 
+@@ -238,6 +239,85 @@ static const struct power_supply_config test_power_configs[] = {
+ 	},
+ };
+ 
++static int power_supply_ext_manufacture_year = 1234;
++static int power_supply_ext_temp_max = 1000;
++static const enum power_supply_property power_supply_ext_props[] = {
++	POWER_SUPPLY_PROP_MANUFACTURE_YEAR,
++	POWER_SUPPLY_PROP_TEMP_MAX,
++};
++
++static int power_supply_ext_get_property(struct power_supply *psy,
++					 const struct power_supply_ext *ext,
++					 void *ext_data,
++					 enum power_supply_property psp,
++					 union power_supply_propval *val)
++{
++	switch (psp) {
++	case POWER_SUPPLY_PROP_MANUFACTURE_YEAR:
++		val->intval = power_supply_ext_manufacture_year;
++		break;
++	case POWER_SUPPLY_PROP_TEMP_MAX:
++		val->intval = power_supply_ext_temp_max;
++		break;
++	default:
++		return -EINVAL;
++	}
++	return 0;
++}
++
++static int power_supply_ext_set_property(struct power_supply *psy,
++					 const struct power_supply_ext *ext,
++					 void *ext_data,
++					 enum power_supply_property psp,
++					 const union power_supply_propval *val)
++{
++	switch (psp) {
++	case POWER_SUPPLY_PROP_MANUFACTURE_YEAR:
++		power_supply_ext_manufacture_year = val->intval;
++		break;
++	case POWER_SUPPLY_PROP_TEMP_MAX:
++		power_supply_ext_temp_max = val->intval;
++		break;
++	default:
++		return -EINVAL;
++	}
++	return 0;
++}
++
++static int power_supply_ext_property_is_writeable(struct power_supply *psy,
++						  const struct power_supply_ext *ext,
++						  void *ext_data,
++						  enum power_supply_property psp)
++{
++	return true;
++}
++
++static const struct power_supply_ext power_supply_ext = {
++	.properties = power_supply_ext_props,
++	.num_properties = ARRAY_SIZE(power_supply_ext_props),
++	.get_property = power_supply_ext_get_property,
++	.set_property = power_supply_ext_set_property,
++	.property_is_writeable = power_supply_ext_property_is_writeable,
++};
++
++static void test_battery_configure_battery_hook(bool enable)
++{
++	struct power_supply *psy;
++
++	psy = test_power_supplies[TEST_BATTERY];
++
++	if (enable) {
++		if (power_supply_register_extension(psy, &power_supply_ext, NULL)) {
++			pr_err("registering battery extension failed\n");
++			return;
++		}
++	} else {
++		power_supply_unregister_extension(psy, &power_supply_ext);
++	}
++
++	battery_hook = enable;
++}
++
+ static int __init test_power_init(void)
+ {
+ 	int i;
+@@ -258,6 +338,8 @@ static int __init test_power_init(void)
+ 		}
+ 	}
+ 
++	test_battery_configure_battery_hook(true);
++
+ 	module_initialized = true;
+ 	return 0;
+ failed:
+@@ -524,6 +606,26 @@ static int param_set_battery_current(const char *key,
+ 
+ #define param_get_battery_current param_get_int
+ 
++static int param_set_battery_hook(const char *key,
++				  const struct kernel_param *kp)
++{
++	bool old_battery_hook;
++	int ret;
++
++	old_battery_hook = battery_hook;
++
++	ret = param_set_bool(key, kp);
++	if (ret)
++		return ret;
++
++	if (old_battery_hook != battery_hook)
++		test_battery_configure_battery_hook(battery_hook);
++
++	return 0;
++}
++
++#define param_get_battery_hook param_get_bool
++
+ static const struct kernel_param_ops param_ops_ac_online = {
+ 	.set = param_set_ac_online,
+ 	.get = param_get_ac_online,
+@@ -574,6 +676,11 @@ static const struct kernel_param_ops param_ops_battery_current = {
+ 	.get = param_get_battery_current,
+ };
+ 
++static const struct kernel_param_ops param_ops_battery_hook = {
++	.set = param_set_battery_hook,
++	.get = param_get_battery_hook,
++};
++
+ #define param_check_ac_online(name, p) __param_check(name, p, void);
+ #define param_check_usb_online(name, p) __param_check(name, p, void);
+ #define param_check_battery_status(name, p) __param_check(name, p, void);
+@@ -584,6 +691,7 @@ static const struct kernel_param_ops param_ops_battery_current = {
+ #define param_check_battery_voltage(name, p) __param_check(name, p, void);
+ #define param_check_battery_charge_counter(name, p) __param_check(name, p, void);
+ #define param_check_battery_current(name, p) __param_check(name, p, void);
++#define param_check_battery_hook(name, p) __param_check(name, p, void);
+ 
+ 
+ module_param(ac_online, ac_online, 0644);
+@@ -621,6 +729,9 @@ MODULE_PARM_DESC(battery_charge_counter,
+ module_param(battery_current, battery_current, 0644);
+ MODULE_PARM_DESC(battery_current, "battery current (milliampere)");
+ 
++module_param(battery_hook, battery_hook, 0644);
++MODULE_PARM_DESC(battery_hook, "battery hook");
++
+ MODULE_DESCRIPTION("Power supply driver for testing");
+ MODULE_AUTHOR("Anton Vorontsov <cbouatmailru@gmail.com>");
+ MODULE_LICENSE("GPL");
 
 -- 
-With best wishes
-Dmitry
+2.47.1
+

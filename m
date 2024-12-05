@@ -1,72 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB39D1D4340;
-	Thu,  5 Dec 2024 09:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660B7212B30;
+	Thu,  5 Dec 2024 10:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733390496; cv=none; b=rfev1Y7k4oyD3/lAeTogRhJ+wHFQThoE5YyjDVYzVQfTyvMGZQDPBRv8n3jZdvOpTVT9ImBXjvlTL6D3roW4iEkBrsc8IPQvPrQdJgmw98x0dyqO/1THlzCOELkjVLNVUjzvThfbTILJp9AncOGnvei5N5tmVJLOSCfsp3Au3FI=
+	t=1733392893; cv=none; b=YDKlCFo/fRVgViV2pcFahanh+gqPAeDKCuf9EMg0yloFS2mVpP2TsILlq9czDYOyzODvBCWQAjmVcV5q/NCPuu8ppzJqmY+1O/cWYghXX24M/6YEMbeJ2uHX9QBpyu09NjS2bMKkAjtK9zxCuiYn3byZmtt0oqo2Vw8DulCGahM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733390496; c=relaxed/simple;
-	bh=0NtFK3oCzvBSihoOheuwFu9KzJvVPyvwejVb22YMDX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VS0XelSj88p/W3qjWuam62Ds/D/TqFKBHWR4EN/2af2Y+uh6xt6IxBcu6xz7z9uS1rG9l16PN67aTaLB0NYE/C6eKtTcHW1bkIt0OWm8s3xmvqj8wi7K1sFVF8HXY6+tu85cbn6b9YL4IygQ7UYAs2+F2P3ADs/18l3KWX5j4/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bO+iAcht; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733392893; c=relaxed/simple;
+	bh=v21otZvzUkNay7ZFsI1Y15KNxaF2kIaTH+hEyosvgLo=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g8vmmUhVa5Pp6+e+lrbzocFRHRlOb6Vfhxo7pgjiqULI2Ve/T1LT6nsUglZiTAUJluIwtbme55JSm8mdhYo50qyxQymPDi5PPJalEXQJKyWQ+qhUznLVaGhTUC5DdI8uE188rS4dKh72I1gg28neupnfD+PhMARxSu4LLtu9tsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ImOjY0R1; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bO+iAcht"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2DA0C4CEDE;
-	Thu,  5 Dec 2024 09:21:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733390495;
-	bh=0NtFK3oCzvBSihoOheuwFu9KzJvVPyvwejVb22YMDX8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bO+iAchtJ2xcasBhdzF+wbKSTg19ybb/JAHkdXYvclcrjO0D4X8bJ3DeLNUn2bEFa
-	 77lJpJ0g3Pajml0kav68z3LlmOMFTdeTXhAtjxYw8F+oAacKePbD0UKw9UHzIMcqev
-	 TvabFo0KBg2gviCqTfvyVJSA7M+9v5w237FTHKikw8hH5q8K4tncW5uvC4zwyHnzys
-	 BtHac/HZX0UM+Kf69TC/JMuKcpkf83Lj3DCfPhTjX05rh/Eqn77fFYUts72J6jyaa8
-	 29bEH6HxVThRRTUJK7Rj24nbhs18WAgJ6WPlYn9cXFCYWYTBplwHLHRuLnes8eWfid
-	 QmTznu7igjaEA==
-Date: Thu, 5 Dec 2024 09:21:30 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, chrome-platform@lists.linux.dev,
-	linux-scsi@vger.kernel.org
-Subject: Re: [PATCH 5/5] scsi: arcmsr: Use BIN_ATTR_ADMIN_WO() for
- bin_attribute definitions
-Message-ID: <Z1FwmmFEDKeEgNRO@google.com>
-References: <20241202-sysfs-const-bin_attr-admin_wo-v1-0-f489116210bf@weissschuh.net>
- <20241202-sysfs-const-bin_attr-admin_wo-v1-5-f489116210bf@weissschuh.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ImOjY0R1"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aa62f1d2b21so16443166b.1;
+        Thu, 05 Dec 2024 02:01:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733392885; x=1733997685; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=b6DpBiLftEN8D+gl9wRNAAKrPJWYeb4y6zIoZbJxWJY=;
+        b=ImOjY0R1SZ7Nkmb+CC6wGfxNlrK+/747dTDUbyOqv/7w0KZ1hqKYGJy358ebQaYHwz
+         W6eWOe7Zn4tLmnzbc7rKNeOEgq6K6kp+3aBhyy4ipvUbUuisNDskm3uRhoIMvGnYPeGY
+         I2kSul5TtfSdK+3wWBtEGLnr55O6jKrNtYlYx3UNW17WL4KMA7OaqkHZEoqpVeqyBrdS
+         NU+tSKLl9x5I6DKEmngRgsDfZX5ajkP8BAPT2LW+HxfF0vz1CwaTggY0Z12SUw+G3JwY
+         Eih/U2qPJ8grUP6yGBcBcew568N3kIW/iTJ0DjzOQLWVR6cybxCvPCozzdtfm1PuD6kc
+         y68g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733392885; x=1733997685;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b6DpBiLftEN8D+gl9wRNAAKrPJWYeb4y6zIoZbJxWJY=;
+        b=qLbIG0hG7LoDDwk3vHVAWSoHsAlG57A2OSzjrXZ/7mJ5Z0bX070VoPxJ5C9jA4XfYe
+         dE2Y4mKh0gRdeIytmoaXj4jrmiuoiFctv0RaeQE490AEJKVZRgvWFeS3QfkHFm5mtdcT
+         y1iB+cwWGu57XWt94jjQ2pKA6kYRCChkCHNP0rEpmEL7mkEuGhzx7cBFcKsW/Klg4KsG
+         /zmfUhVAx5Kgt6bESshQKGSUjPgmc8oiuMcLFlCxhP8opWZU1nDYAj7DlO2QjWUdgpVU
+         3Hb1iMi5cEW6xfa/fone6XPP+/Evp7t/Mwoxdef60geqB5TxIDxqMkkt4oxcZ17Zjh23
+         SeSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUe02qohpMaWgVEarIrTkDRgaoavGoOqpmzQgUDnHRIdHdyWVQp6nIJmZKInYNWkNmsZ4SwUIDAc7CIY1o=@lists.linux.dev, AJvYcCVEIJHYieGjNo/Ux+W96L2npSMRjTbMdiiQaGgbMhUS8OjnjvgGK8KBUCPL8SNOVFe4p/q7/u/lcEkMYmSpViY=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzq8y7p1rV1kBVgbYJJH3w4XdQJscqEB/m/vBu3SNIWeYn+KHpJ
+	zRVq13Y09f3ZZW/RdohVPgNRLQEDtxKi7UzlH/S9PjwDOCWXCtqq
+X-Gm-Gg: ASbGncucOFxz+okrK17QEU4P5qPatO0rszs5NWyTYERynpGBhX6CLSBiZV84yZYESfY
+	omD0vMplpo02xXgMvLw4qVMvHT79kMvXsqoldqyivS3p+jBJ+JU6OM+n+C/L4fGRajbs6K3rL79
+	AdVOAT2BayoNo1SLlcYHhQcnQflvuNQw0uKKvICrUDUo7sRDDkmKoIuhTivV7eRb4uqNnCCIbcY
+	Gz7LaUkijF7kMcRtAPDJiOax+ED3n4m0ePj9jJ0w2IYpwwdywPQXZi+m3I8UfMmzn+mtL7/T2Pf
+	dvZ4cseF1fsZr+zGw40jHrw=
+X-Google-Smtp-Source: AGHT+IG2gW4KauIAqc9H7+S/c1RnImhk15kwQEK5S81eH+MUP7TMqxZDW5jHMC2Ra3qDuj0UirKvug==
+X-Received: by 2002:a17:906:2929:b0:aa5:427e:6af6 with SMTP id a640c23a62f3a-aa5f7cac468mr695125366b.3.1733392884726;
+        Thu, 05 Dec 2024 02:01:24 -0800 (PST)
+Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa625e4dbacsm68854666b.16.2024.12.05.02.01.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2024 02:01:24 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Thu, 5 Dec 2024 11:01:22 +0100
+To: Laura Nao <laura.nao@collabora.com>
+Cc: alan.maguire@oracle.com, bpf@vger.kernel.org,
+	chrome-platform@lists.linux.dev, kernel@collabora.com,
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] module BTF validation failure (Error -22) on next
+Message-ID: <Z1F58qzclMgeEMcC@krava>
+References: <90b3b613-8665-425b-8132-5b9ac86ab616@oracle.com>
+ <20241113093703.9936-1-laura.nao@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241202-sysfs-const-bin_attr-admin_wo-v1-5-f489116210bf@weissschuh.net>
+In-Reply-To: <20241113093703.9936-1-laura.nao@collabora.com>
 
-On Mon, Dec 02, 2024 at 08:00:40PM +0100, Thomas Weiﬂschuh wrote:
-> Using the macro saves some lines of code and prepares the attributes for
-> the general constifications of struct bin_attributes.
+On Wed, Nov 13, 2024 at 10:37:03AM +0100, Laura Nao wrote:
+> Hi Alan,
 > 
-> While at it also constify the callback parameters.
+> On 11/7/24 16:05, Alan Maguire wrote:
+> > Thanks for the report! Judging from the config, you're seeing this with
+> > pahole v1.24. I have seen issues like this in the past where during a
+> > kernel build, module BTF has been built against vmlinux BTF, and then
+> > something later re-triggers vmlinux BTF generation. If that re-triggered
+> > vmlinux BTF does not use the same type ids for types, this can result in
+> > mismatch errors as above since modules are referring to out-of-date type
+> > ids in vmlinux. That's just a preliminary guess though, we'll
+> > need more info to help get to the bottom of this.
+> > 
+> > A few suggestions to help debug this:
+> > 
+> > - if you have build logs, check BTF generation of vmlinux. Did it in
+> > fact happen twice perhaps? Even better if, if kernel CI saves logs, feel
+> > free to send a pointer and I'll take a look.
 > 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> Thanks for the pointers!
+> 
+> From what I can tell in the logs, the BTF generation of vmlinux only 
+> occurred once. The automated build process in KernelCI generally involves 
+> building the kernel first, followed by the modules and other artifacts 
+> (such as the kselftest archive). 
+> The full build log can be downloaded by selecting 'build_log' from 
+> the dropdown menu at the top of this page:
+> 
+> https://kernelci-api.westus3.cloudapp.azure.com/viewer?node_id=6732f41d58937056c61734ab
+> 
+> I do see some warnings reported in the logs though:
+> 
+> WARN: resolve_btfids: unresolved symbol bpf_lsm_task_getsecid_obj
+> WARN: resolve_btfids: unresolved symbol bpf_lsm_current_getsecid_subj
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+hi,
+this is fixed in bpf/master already:
+  8618f5ffba4d bpf, lsm: Remove getlsmprop hooks BTF IDs
+
+I can't reproduce this as well, will check the logs you posted
+
+jirka
+
+> 
+> > - can you post the vmlinux (stripped of DWARF data if possible to limit
+> > size) and one of the failing modules somewhere so we can analyze?
+> > - Failing that,
+> > bpftool btf dump file /path/2/vmlinux_from_build > vmlinux.raw
+> > and upload of the vmlinux.raw and one of the failing module .kos would help.
+> > 
+> 
+> Currently, KernelCI only retains the bzImage, not the vmlinux binary. The 
+> bzImage can be downloaded from the same link mentioned above by selecting 
+> 'kernel' from the dropdown menu (modules can also be downloaded the same
+> way). I‚Äôll try to replicate the build on my end and share the vmlinux 
+> with DWARF data stripped for convenience.
+> 
+> Thanks,
+> 
+> Laura
+> 
+> 

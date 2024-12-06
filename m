@@ -1,101 +1,136 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D86C1EC01B
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Dec 2024 09:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B74202C4B;
+	Fri,  6 Dec 2024 12:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733476523; cv=none; b=sqwx5eePr2l471znc5zNXf9oCMkqoolzhvdztxqpGGYioyf3r7fdFDHfZEiNpn3ySYykUQOyV5qPQjLo/ELtAvyb4AZlxJcTYtGnNcmsqJ4d7CGguE4kIDgBNPOR1TW+x/HOgaIdv/S+tl8DZ598TD4KZuv7ZduwP9IyU4Gy0hw=
+	t=1733488516; cv=none; b=LlYBgKhL3dzpyfZQZYqLA/YrQzuDKstlB1Dgl76YebMp5vJ2Fca+nYAJPaWGk+9sswnXzMki59VqYYlfSPwTjpXbQV2xrVNvNB7NME14C06SY3Gwy/y3ASR5x1ohNoJKboMhc8oY7hDpW4KgvM9qzcs5RAnEsDeCj7mwDXVWsc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733476523; c=relaxed/simple;
-	bh=MYzwUtFpbWL9r6VYxqXwzVKHwi1Bcmepx+5EUyvVXBQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FkqvJipvv6+ugleHNWgfvAhFNHKaOPxDaShYtfvtbg3THjoIEZCaATBgAIcJpXgx2S7HDW0rOAHPrmakK/fX+RGofnOjx2SShFamiLqw92o0v3JTsFgP+EmZR9zpLgxoqIXoohU5OgDIKHH50KLwREg57KUpm67epxMXXnQkFLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ynYaM2uJ; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com
+	s=arc-20240116; t=1733488516; c=relaxed/simple;
+	bh=tglxYqpw8kY5WRMteTGZtIlEcVhj/Jpqf8p32WV1aVE=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACPe06nhZpIT4UnH32T8csKuUBMARB2CvFsef45pK6b44uVRwYJdknOogsUfzb/fxyh46zz0k5FIkmowIPNjmuyPrtU1/gONEA1giYPiUPP7iS+r4ZQAyi2s2fT6AGIbbSmNey1UxHYpxyFXKlJSSou9OMGhwUeB3euQh0QjfwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mMBrakDH; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ynYaM2uJ"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-434a96889baso11081975e9.2
-        for <chrome-platform@lists.linux.dev>; Fri, 06 Dec 2024 01:15:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mMBrakDH"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aa503cced42so285329366b.3;
+        Fri, 06 Dec 2024 04:35:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733476520; x=1734081320; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l+JZ3feBgmuGJFJUNDda/aWNqtr6PNOEfgO0nNPTEuQ=;
-        b=ynYaM2uJEkAYMar7gBC2xkOeaHEoSV6j+NRpGeJbRZeEmpC/qKqgTJq3OyJwnAIkcZ
-         rrt0w8/eLfEwEqe/Lw6ijaIorEqBvBjwc7nr5ZPRb0PTYqUPG6scEfUj1okzcCDHIxuw
-         YtNxbjZp0a3ff1Auiud3kbfDIIInP0JGt+w1IN70jPBGAc8DcPRMHv+Tmqa3ibvRmdOb
-         pTEtuX6tGHHbsH6fVeAoHvAZ4Zl8sZfFBIkzf6N+n+gBTLIugone2Pcp7fb5s026VupE
-         7B+qWQsDVlV+wV1Wg11KUN46qUs8Irll/13yep3jX0GtwNJ3GC+TE0d/Xdt/C+0G8yhU
-         2JOw==
+        d=gmail.com; s=20230601; t=1733488512; x=1734093312; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=g6PvnI7O8BCrsugwoXvIAfj4V3SCjwh4w+40SQgRUeo=;
+        b=mMBrakDH+8HRucoRRNmquMppvWTz8A0i00JLJklYYtGhhtatbNzXVLMRBelXDn2Jys
+         JVUzSlN4XbUbeRMb7WyxZCDYy1ZYX6kMYFrFSFsYDpWmM1PsqvBbHc/YCm3u2gFAyxja
+         UCX+CfvqAZL0eX2DPyS2IUhLEVcqMuqoxmncpJZ9SFJdHyR9qcelHztEec4QKm9/eYee
+         uH74M0KGaNDk9IOx8dPPMXl609ESbOQMg8snZMGDoQAOFJSiNkKLx6FT4jrX8Ur/Jejg
+         HUvIFUpIKSz3/TPz26RoMI+qrwOxz49D3kNt9VUy1OpUZweEHVuoT4jAZTXX6rLIeEm9
+         DTmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733476520; x=1734081320;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l+JZ3feBgmuGJFJUNDda/aWNqtr6PNOEfgO0nNPTEuQ=;
-        b=h1/OHs/9n6nEC9ZIYfJfEHuBM4se0NKmhU++FyexKLKqX+Jbc9mg2FERPx4mvc6ODp
-         WkK6RWMj7eO1cVNRunnF84skku0aRnQzCDdbHxxL5bYVv2zGeLa+VMpVyUAT/wDpAEhw
-         F8vzz7m/B/rp6fOCBmgnfcjjWBup8HVojoHjGTnw2jUBtT4CpPBR8grt6LinR9xxSqfw
-         bMUh6sbuND9QQPskGfNEPFkTzbfLPnx9moIKWvcnY/8hevS+LHpHYP+F5noqk1XApvts
-         yZgFFjSNbmIsi8Qxte6V8LiFhEp4I91mhR3ZK48AGIs+cxJLFzzB6sgU8pRi8kmIbJZd
-         Wc1A==
-X-Gm-Message-State: AOJu0Ywyc2AOXCvki7CU0JLP/L+Z9yod+GtRGHwPguw6SFMxX6dwClv1
-	+3AXA54bP6ZgIJ7c0/wbooxyG0nnCz8rvJanE0HM0zAXmNovfJx4gi/4IfxnHSHdhifhdlJU2b6
-	Bmg==
-X-Google-Smtp-Source: AGHT+IGvlgmSL41HUWBgAW5WsyYxVW4mjk2MZubNbT5HwXXppbgMYzun6U3vqW3i+ksER3v8bc0vGgNRHIk=
-X-Received: from wmil25.prod.google.com ([2002:a7b:c459:0:b0:434:a152:3ce1])
- (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:3488:b0:431:5187:28dd
- with SMTP id 5b1f17b1804b1-434ddedd684mr14502025e9.28.1733476520171; Fri, 06
- Dec 2024 01:15:20 -0800 (PST)
-Date: Fri,  6 Dec 2024 09:15:14 +0000
-In-Reply-To: <20241206091514.2538350-1-dawidn@google.com>
+        d=1e100.net; s=20230601; t=1733488512; x=1734093312;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g6PvnI7O8BCrsugwoXvIAfj4V3SCjwh4w+40SQgRUeo=;
+        b=m65MA38wFU5QIEq6yQADxAMPv+9BGyGD0W8amDe5YvAPHQqLerR1l3UzP91i8rUEKe
+         /al/g7o0v9d/dUPwoEP3zyULl3GEAcbDWV3rt3LFkgNq+mlWbfTtugpg2VGRksvkKCJY
+         0m3FOh4FuMZkLMqO+ef9RMZa/bQCabqMv0kYZcfBvK3+i3AbAg2exmXQLbwk7uOSB9px
+         qNSmCMPnVic8nKheSZlOiFK6iLOf8fqBb1eOScZaOVdj4icCGvRB4Y1GUmTw7SBfFBE6
+         PkO8sC+RWOCVAF5xZFlEifuozmimF4kNA60lpvtHUwonxUgHD5cHuxOWGOu7Ud1ZLcTx
+         ikag==
+X-Forwarded-Encrypted: i=1; AJvYcCWU0fGmD8Vdmv+0CwSC6OiEmzuSBJZ+Q/qv7xWNJddt7ULLCH/0yUhN0GrO71VaWK9fGPkQvRM6idhkeno=@lists.linux.dev, AJvYcCXegWolWBlaAy8JHENP3MtT8eTmca4uboMYiHMJXd2A4w0IifhMFUbddM3pEdV2gtBEwmnJO0xYE645pVmxQ5U=@lists.linux.dev
+X-Gm-Message-State: AOJu0YykPgui2ELMB+ty+RSCawO6JcOyzwj/TQuXkqB71JQDqjYpTcyT
+	FFqN89yK3vRKfnLOq+TgHuzqD667mijNujodQM2p93b5I3DcqqRa
+X-Gm-Gg: ASbGncuMNPIDKhzaIEl2LA/vQwk6qDvHo2g3uPDesV/WEZz+yRRTpjhBB6i21ldyxu8
+	Adcn+5x2rDZk+c+QTfqsaZ1Yg4UAe52UHUbHX9O/UB3RFrxbxHRMI/qjN5hII2FdOqyonMV7pXB
+	rj3C9DqMsff4i9b8CMfVo3JlxGDATpwZl30aJCKJfMfonej27dSBqho5kLs6f/mtfmGCssxs8Ei
+	EnTocqRLDYjSqLw8/dBawWTFGQ+TJRvnksCcfs5ATqdoW7+gBIZJVr77xZqbRQhTuVe4eeFdFO0
+	IsVMpsRrhsrVu2qgaqJJMsg=
+X-Google-Smtp-Source: AGHT+IHPxphMS4Qk/qebUjsQnqXB+pmqqV+jQbEkFsAiVmVVudNvGQtOHi6M0kzkTx8dBwklanyjTQ==
+X-Received: by 2002:a17:906:2931:b0:aa6:313b:469e with SMTP id a640c23a62f3a-aa63a3776bdmr171084666b.52.1733488512309;
+        Fri, 06 Dec 2024 04:35:12 -0800 (PST)
+Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6260e0389sm232510066b.174.2024.12.06.04.35.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Dec 2024 04:35:11 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Fri, 6 Dec 2024 13:35:10 +0100
+To: Laura Nao <laura.nao@collabora.com>
+Cc: alan.maguire@oracle.com, bpf@vger.kernel.org,
+	chrome-platform@lists.linux.dev, kernel@collabora.com,
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] module BTF validation failure (Error -22) on next
+Message-ID: <Z1LvfndLE1t1v995@krava>
+References: <20241113093703.9936-1-laura.nao@collabora.com>
+ <20241115171712.427535-1-laura.nao@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20241206091514.2538350-1-dawidn@google.com>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241206091514.2538350-3-dawidn@google.com>
-Subject: [PATCH v3 2/2] platform/chrome: cros_ec_proto: remove unnecessary retries
-From: Dawid Niedzwiecki <dawidn@google.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	chromeos-krk-upstreaming@google.com, Dawid Niedzwiecki <dawidn@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241115171712.427535-1-laura.nao@collabora.com>
 
-Remove the retry of the get protocol info command. It is not needed
-anymore, because RWSIG continue command is send before start of the
-probing. That assures the EC device is ready in RW and there is no
-need to try again because FPMCU is not fully booted.
+On Fri, Nov 15, 2024 at 06:17:12PM +0100, Laura Nao wrote:
+> On 11/13/24 10:37, Laura Nao wrote:
+> > 
+> > Currently, KernelCI only retains the bzImage, not the vmlinux binary. The
+> > bzImage can be downloaded from the same link mentioned above by selecting
+> > 'kernel' from the dropdown menu (modules can also be downloaded the same
+> > way). I’ll try to replicate the build on my end and share the vmlinux
+> > with DWARF data stripped for convenience.
+> > 
+> 
+> I managed to reproduce the issue locally and I've uploaded the vmlinux[1]
+> (stripped of DWARF data) and vmlinux.raw[2] files, as well as one of the 
+> modules[3] and its btf data[4] extracted with:
+> 
+> bpftool -B vmlinux btf dump file cros_kbd_led_backlight.ko > cros_kbd_led_backlight.ko.raw
+> 
+> Looking again at the logs[5], I've noticed the following is reported:
+> 
+> [    0.415885] BPF: 	 type_id=115803 offset=177920 size=1152
+> [    0.416029] BPF:  
+> [    0.416083] BPF: Invalid offset
+> [    0.416165] BPF: 
+> 
+> There are two different definitions of rcu_data in '.data..percpu', one
+> is a struct and the other is an integer:
+> 
+> type_id=115801 offset=177920 size=1152 (VAR 'rcu_data')
+> type_id=115803 offset=177920 size=1152 (VAR 'rcu_data')
+> 
+> [115801] VAR 'rcu_data' type_id=115572, linkage=static
+> [115803] VAR 'rcu_data' type_id=1, linkage=static
+> 
+> [115572] STRUCT 'rcu_data' size=1152 vlen=69
+> [1] INT 'long unsigned int' size=8 bits_offset=0 nr_bits=64 encoding=(none)
+> 
+> I assume that's not expected, correct?
 
-Signed-off-by: Dawid Niedzwiecki <dawidn@google.com>
----
- drivers/platform/chrome/cros_ec_proto.c | 9 ---------
- 1 file changed, 9 deletions(-)
+yes, that seems wrong.. but I can't reproduce with your config
+together with pahole 1.24 .. could you try with latest one?
 
-diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index ed3623b54bc3..877b107fee4b 100644
---- a/drivers/platform/chrome/cros_ec_proto.c
-+++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -366,15 +366,6 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
- 	msg->insize = sizeof(*info);
- 
- 	ret = cros_ec_send_command(ec_dev, msg);
--	/*
--	 * Send command once again when timeout occurred.
--	 * Fingerprint MCU (FPMCU) is restarted during system boot which
--	 * introduces small window in which FPMCU won't respond for any
--	 * messages sent by kernel. There is no need to wait before next
--	 * attempt because we waited at least EC_MSG_DEADLINE_MS.
--	 */
--	if (ret == -ETIMEDOUT)
--		ret = cros_ec_send_command(ec_dev, msg);
- 
- 	if (ret < 0) {
- 		dev_dbg(ec_dev->dev,
--- 
-2.47.0.338.g60cca15819-goog
+jirka
 
+> 
+> I'll dig a bit deeper and report back if I can find anything else.
+> 
+> [1] https://people.collabora.com/~laura.nao/dbg-btf-mismatch-next-20241113/vmlinux
+> [2] https://people.collabora.com/~laura.nao/dbg-btf-mismatch-next-20241113/vmlinux.raw
+> [3] https://people.collabora.com/~laura.nao/dbg-btf-mismatch-next-20241113/cros_kbd_led_backlight.ko
+> [4] https://people.collabora.com/~laura.nao/dbg-btf-mismatch-next-20241113/cros_kbd_led_backlight.ko.raw
+> [5] https://pastebin.com/raw/FvvrPhAY
+> 
+> Best,
+> 
+> Laura
+> 

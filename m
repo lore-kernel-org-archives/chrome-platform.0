@@ -1,126 +1,238 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C8421506D
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Dec 2024 23:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CB345BEC
+	for <chrome-platform@lists.linux.dev>; Sun,  8 Dec 2024 12:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733528336; cv=none; b=HXYtqZmuUKGHmt/P2qeNYug1jYyla0byHuVNWX/LFpNvky5A7qELQcvZkB0eGMDv/NQN1OLeatDcSgWSV79gOlCHNBZW7l8TAe0KDVcwYtRllOY5R4ySdwHknIxq6W90a1rl5J4vYHCYVpHerxdkLrtMCjCN6GTiIsvarli9Dy4=
+	t=1733662199; cv=none; b=iHfGD93yNx8on5SggUGRQyxYoNP7RxPTt0kVrv8y5JPduMdeDz0SHCQTXnmN3OKdyE5rfuDk9NAc5/eZLOAdHTvqoWkFPd8MdH5DZo2iBE9rudKB7TKnM8TPLea1GQ2/Bl7/IXW0jlq11ktv1luZuTAcKypLCjB6FynMeGEcdmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733528336; c=relaxed/simple;
-	bh=Ulzg2xjkFRD+wiTK/aYzwa6zKISjF0fC6sX0+p179fU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IGQIq8HDIbKG8tL091fuwcc/c2yeHEzXuM7TlzVoQQR+RyulZQB/JrU10CCrELDjZTuSL/UQLrVmNQ0CPP7wZjYSB+enw0HTVzWt8DobuQ09iAZ3gmW9SXYzqP/LEIjV72neCUlr9uFkSepeC1iHHnvG3kZDiCuN1xW6byA/eRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DaUeTDGR; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1733662199; c=relaxed/simple;
+	bh=CN2X+9pkicfQp7HSgL0eKKftjm6PnSqsyu+tXoHm8c8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=giwvPs3GjpOtMekyeCMhzIQslFsjMB1gWKdIBTJ7OcKKmDSf0NZ0hiHFNG6+JqsTsUZUq5w7UubvUW+cADc7DT1R4An5JAvskFAbDs7KtKG10eXM3jlzRfK/e1DeaieL8bA8yMVpdizzG1EF9vGtD2PjgoHU6Osk0Pva/b64CPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mbtsWhaw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DaUeTDGR"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7fd17f231a7so1766319a12.0
-        for <chrome-platform@lists.linux.dev>; Fri, 06 Dec 2024 15:38:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733528333; x=1734133133; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M7ywRolWY01/rWUFSkYNRJ4dfXAYAQRxZrdC+AkeGz8=;
-        b=DaUeTDGRGe0yRKyiOHZgRL6peqwOhLZqnWcDyHlXdr6HitJmC9l58UXakQ8eYeXGpN
-         nOICODG5HVOpyqY2+CTGuYOizYQoCJG4MlXioRFdTocN+v1tA48x+Hv98c185lSntVSk
-         eUJHMfwfD7zI06079YZJxpdxnvqVkgCwQPOso=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733528333; x=1734133133;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M7ywRolWY01/rWUFSkYNRJ4dfXAYAQRxZrdC+AkeGz8=;
-        b=mSBTNqTLogSgMxXp/amwYYhplFDjNT6kruXSg1fvlpma1I0Chsf1XOjBStT9Mz+HTV
-         1PPt2SygFSFYUu0v90QLk4Peux8UjXTLas39h7mntLR1tkJcnUa/Sj/7e0KMdm5I/Wu7
-         J5QeNHlBf6snOnlHdxpas3uV4hU0MD5MCi9Xg3g38y0ZS+4UN273mTfNJcExtAQojxp7
-         kXQYFOg/9uETAxloMGW4bfLr9UdExzqigA7uveAvHg8VwlaJ8oDODhMkS9Txz0vgJlBA
-         5QCCtO2cXFaTgYjmb2rlMoveGt4GpevONAXdYlJb4Tqnyki0VnGCH8z9/dfV4g7kuQB4
-         8vsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVenZxQ5Q57J/tyFTpt0kJSGI9jmsZ/FpXyKxjU6+5kelQLS+Rlw/FtvsDoW3r4V+mvi5Azy7Ty42whzOR/edo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQio+s2fCYn/RhKLh314Qb2jCd4JNpE6UVS1npy8mMeLsTT49J
-	4jSYxhAlNIKCGw2ShMlPwKbVMEMC3eJYPddzR04w/xkROgHsctGo9JnLcB2Mug==
-X-Gm-Gg: ASbGncueq5+Xwa6oQ00F1m8G7CeGCoUD8P4tUExxpi8Cbotl8Kw5gpRvvtimg2Og7HW
-	YKuPEuSKbHR1ecWff6FLqfRIcvXhcfYioYn+rpgYIbj5wcdiFZG5s7q3V/UiGKHXQrGf5l5YemS
-	oCNr68Ye+4L6CmXHL/T8NtrW1pqAuRfGTgGr9pPnW2b/qeHa1NeB1QOxpHHK68lov/W8Ha+UllU
-	QRPpKjfYKPPpY0JbTCqn5wa4U3hP6jGTwasf/488IL8xKSxH2oR9EC7/cUuX3lkn/QENnsP0mPz
-	msJjNtBwD8bgwNzXDCiTn867
-X-Google-Smtp-Source: AGHT+IE2pYezOEFHi20tWshTX8jQdgxLAviowJebOf0BsxXK7byF4aVYK7F4ypRAUugG9hj/xkBzoA==
-X-Received: by 2002:a17:90a:d445:b0:2eb:140d:f6df with SMTP id 98e67ed59e1d1-2ef693676demr7738327a91.1.1733528332939;
-        Fri, 06 Dec 2024 15:38:52 -0800 (PST)
-Received: from localhost (227.180.227.35.bc.googleusercontent.com. [35.227.180.227])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2ef4600ead7sm3702702a91.53.2024.12.06.15.38.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Dec 2024 15:38:52 -0800 (PST)
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-To: heikki.krogerus@linux.intel.com,
-	tzungbi@kernel.org,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: akuchynski@google.com,
-	pmalani@chromium.org,
-	jthies@google.com,
-	dmitry.baryshkov@linaro.org,
-	badhri@google.com,
-	rdbabiera@google.com,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 7/7] platform/chrome: cros_ec_typec: Disable tbt on port
-Date: Fri,  6 Dec 2024 15:38:18 -0800
-Message-ID: <20241206153813.v4.7.Ic14738918e3d026fa2d85e95fb68f8e07a0828d0@changeid>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-In-Reply-To: <20241206233830.2401638-1-abhishekpandit@chromium.org>
-References: <20241206233830.2401638-1-abhishekpandit@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mbtsWhaw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B1FDC4AF0B
+	for <chrome-platform@lists.linux.dev>; Sun,  8 Dec 2024 12:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733662199;
+	bh=CN2X+9pkicfQp7HSgL0eKKftjm6PnSqsyu+tXoHm8c8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=mbtsWhawDeyg2QCAqTOyp5m4xwulrzhT9Nz4luWfTZjncmP9zgLUm9xO/q/XorQfQ
+	 BEHtnKhyE3SNSBzPVN4IxJM8e77rKB7ZLfA1YNN68cfLmelsMcKYipQRYyL68oAjqo
+	 9fM7TFueszc9CC7FusTSd3HHh5GeT29cBgeW66Psvhm7THwf1Nz8lRTEErZM0Rd2HS
+	 5J5I8KGlRJd2z6zuxnin4zQf3H3Mb2U6vhzwJj701PpnlL+QMmeMfSlcZDt78OY8Yk
+	 MoF+yzRp3bbPl2T3Y5EO6FBWQTROjOXuEO3VHKtlon1VyLFAHASJXipdVV0nk3SNuU
+	 YaHUl2OhBNxiQ==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d3e9a88793so1084402a12.1
+        for <chrome-platform@lists.linux.dev>; Sun, 08 Dec 2024 04:49:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV1WYo7+PFElhbvefDp1PbqgAf1xvUNnZaCqPUIDz+cE2Zba2Q3s3SFnR2WiJrj/oUVk8vqYAOH1C7RtHcKqtA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyE9WzGz7ubYhGNEW8dQO8bg4eVKDQUlFFqc+FfZ1vBJHOb4O7n
+	GgGqABFKsUW7lhke+pIU0uxV1kVvDzHqSQbasIZvYty6xtCKk2aFa90r0rNS8ODNx+7ov1n+0Gx
+	kQv/IwdzyQlKud5KcJGWFQSk/oM4=
+X-Google-Smtp-Source: AGHT+IE3Ql6yANc2m9iOBtynT86gMk4gS0j0goAd+difa6EqQgJSzh4L8cPu2UMNgIXPxrQZjWidJElJdZuBPwuTS1Q=
+X-Received: by 2002:a05:6402:3209:b0:5d3:fb9d:3f69 with SMTP id
+ 4fb4d7f45d1cf-5d3fb9d429bmr1205972a12.21.1733662198314; Sun, 08 Dec 2024
+ 04:49:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241127091036.444330-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20241127091036.444330-2-u.kleine-koenig@baylibre.com>
+From: Chanwoo Choi <chanwoo@kernel.org>
+Date: Sun, 8 Dec 2024 21:49:16 +0900
+X-Gmail-Original-Message-ID: <CAGTfZH3Lv1Cn7dNgA7GL6f4OW=ENXS9mG+p03NAUbbNMg05DtQ@mail.gmail.com>
+Message-ID: <CAGTfZH3Lv1Cn7dNgA7GL6f4OW=ENXS9mG+p03NAUbbNMg05DtQ@mail.gmail.com>
+Subject: Re: [PATCH] extcon: Switch back to struct platform_driver::remove()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Altmodes with cros_ec are either automatically entered by the EC or
-entered by the AP if TBT or USB4 are supported on the system. Due to the
-security risk of PCIe tunneling, TBT modes should not be auto entered by
-the kernel at this time and will require user intervention.
+On Wed, Nov 27, 2024 at 6:30=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> From: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org>
+>
+> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+> return void") .remove() is (again) the right callback to implement for
+> platform drivers.
+>
+> Convert all platform drivers below drivers/extcon to use .remove(), with
+> the eventual goal to drop struct platform_driver::remove_new(). As
+> .remove() and .remove_new() have the same prototypes, conversion is done
+> by just changing the structure member name in the driver initializer.
+>
+> En passant make the alignment of the struct initializer in
+> extcon-usbc-cros-ec.c consistent.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> ---
+> Hello,
+>
+> given the simplicity of the individual changes I do this all in a single
+> patch. I you don't agree, please tell and I will happily split it.
+>
+> It's based on today's next, feel free to drop changes that result in a
+> conflict when you come around to apply this. I'll care for the fallout
+> at a later time then. (Having said that, if you use b4 am -3 and git am
+> -3, there should be hardly any conflict.)
+>
+> Best regards
+> Uwe
+>
+>  drivers/extcon/extcon-adc-jack.c     | 2 +-
+>  drivers/extcon/extcon-intel-cht-wc.c | 2 +-
+>  drivers/extcon/extcon-intel-mrfld.c  | 2 +-
+>  drivers/extcon/extcon-max3355.c      | 2 +-
+>  drivers/extcon/extcon-max77843.c     | 2 +-
+>  drivers/extcon/extcon-rtk-type-c.c   | 2 +-
+>  drivers/extcon/extcon-usb-gpio.c     | 2 +-
+>  drivers/extcon/extcon-usbc-cros-ec.c | 6 +++---
+>  8 files changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/extcon/extcon-adc-jack.c b/drivers/extcon/extcon-adc=
+-jack.c
+> index 125016da7fde..46c40d85c2ac 100644
+> --- a/drivers/extcon/extcon-adc-jack.c
+> +++ b/drivers/extcon/extcon-adc-jack.c
+> @@ -196,7 +196,7 @@ static SIMPLE_DEV_PM_OPS(adc_jack_pm_ops,
+>
+>  static struct platform_driver adc_jack_driver =3D {
+>         .probe          =3D adc_jack_probe,
+> -       .remove_new     =3D adc_jack_remove,
+> +       .remove         =3D adc_jack_remove,
+>         .driver         =3D {
+>                 .name   =3D "adc-jack",
+>                 .pm =3D &adc_jack_pm_ops,
+> diff --git a/drivers/extcon/extcon-intel-cht-wc.c b/drivers/extcon/extcon=
+-intel-cht-wc.c
+> index 93552dc3c895..8131a3d7d562 100644
+> --- a/drivers/extcon/extcon-intel-cht-wc.c
+> +++ b/drivers/extcon/extcon-intel-cht-wc.c
+> @@ -627,7 +627,7 @@ MODULE_DEVICE_TABLE(platform, cht_wc_extcon_table);
+>
+>  static struct platform_driver cht_wc_extcon_driver =3D {
+>         .probe =3D cht_wc_extcon_probe,
+> -       .remove_new =3D cht_wc_extcon_remove,
+> +       .remove =3D cht_wc_extcon_remove,
+>         .id_table =3D cht_wc_extcon_table,
+>         .driver =3D {
+>                 .name =3D "cht_wcove_pwrsrc",
+> diff --git a/drivers/extcon/extcon-intel-mrfld.c b/drivers/extcon/extcon-=
+intel-mrfld.c
+> index a1f737f13d49..9219f4328d70 100644
+> --- a/drivers/extcon/extcon-intel-mrfld.c
+> +++ b/drivers/extcon/extcon-intel-mrfld.c
+> @@ -275,7 +275,7 @@ static struct platform_driver mrfld_extcon_driver =3D=
+ {
+>                 .name   =3D "mrfld_bcove_pwrsrc",
+>         },
+>         .probe          =3D mrfld_extcon_probe,
+> -       .remove_new     =3D mrfld_extcon_remove,
+> +       .remove         =3D mrfld_extcon_remove,
+>         .id_table       =3D mrfld_extcon_id_table,
+>  };
+>  module_platform_driver(mrfld_extcon_driver);
+> diff --git a/drivers/extcon/extcon-max3355.c b/drivers/extcon/extcon-max3=
+355.c
+> index e62ce7a8d131..b2ee4ff8b04d 100644
+> --- a/drivers/extcon/extcon-max3355.c
+> +++ b/drivers/extcon/extcon-max3355.c
+> @@ -127,7 +127,7 @@ MODULE_DEVICE_TABLE(of, max3355_match_table);
+>
+>  static struct platform_driver max3355_driver =3D {
+>         .probe          =3D max3355_probe,
+> -       .remove_new     =3D max3355_remove,
+> +       .remove         =3D max3355_remove,
+>         .driver         =3D {
+>                 .name   =3D "extcon-max3355",
+>                 .of_match_table =3D max3355_match_table,
+> diff --git a/drivers/extcon/extcon-max77843.c b/drivers/extcon/extcon-max=
+77843.c
+> index 9849e3b8327e..2ae9f7f1a67f 100644
+> --- a/drivers/extcon/extcon-max77843.c
+> +++ b/drivers/extcon/extcon-max77843.c
+> @@ -956,7 +956,7 @@ static struct platform_driver max77843_muic_driver =
+=3D {
+>                 .of_match_table =3D of_max77843_muic_dt_match,
+>         },
+>         .probe          =3D max77843_muic_probe,
+> -       .remove_new     =3D max77843_muic_remove,
+> +       .remove         =3D max77843_muic_remove,
+>         .id_table       =3D max77843_muic_id,
+>  };
+>
+> diff --git a/drivers/extcon/extcon-rtk-type-c.c b/drivers/extcon/extcon-r=
+tk-type-c.c
+> index 19a01e663733..bdc2b7b3a246 100644
+> --- a/drivers/extcon/extcon-rtk-type-c.c
+> +++ b/drivers/extcon/extcon-rtk-type-c.c
+> @@ -1778,7 +1778,7 @@ static const struct dev_pm_ops extcon_rtk_type_c_pm=
+_ops =3D {
+>
+>  static struct platform_driver extcon_rtk_type_c_driver =3D {
+>         .probe          =3D extcon_rtk_type_c_probe,
+> -       .remove_new     =3D extcon_rtk_type_c_remove,
+> +       .remove         =3D extcon_rtk_type_c_remove,
+>         .driver         =3D {
+>                 .name   =3D "extcon-rtk-type_c",
+>                 .of_match_table =3D extcon_rtk_type_c_match,
+> diff --git a/drivers/extcon/extcon-usb-gpio.c b/drivers/extcon/extcon-usb=
+-gpio.c
+> index 9b61eb99b7dc..5e8ad21ad206 100644
+> --- a/drivers/extcon/extcon-usb-gpio.c
+> +++ b/drivers/extcon/extcon-usb-gpio.c
+> @@ -279,7 +279,7 @@ MODULE_DEVICE_TABLE(platform, usb_extcon_platform_ids=
+);
+>
+>  static struct platform_driver usb_extcon_driver =3D {
+>         .probe          =3D usb_extcon_probe,
+> -       .remove_new     =3D usb_extcon_remove,
+> +       .remove         =3D usb_extcon_remove,
+>         .driver         =3D {
+>                 .name   =3D "extcon-usb-gpio",
+>                 .pm     =3D &usb_extcon_pm_ops,
+> diff --git a/drivers/extcon/extcon-usbc-cros-ec.c b/drivers/extcon/extcon=
+-usbc-cros-ec.c
+> index 805a47230689..529ac5898e38 100644
+> --- a/drivers/extcon/extcon-usbc-cros-ec.c
+> +++ b/drivers/extcon/extcon-usbc-cros-ec.c
+> @@ -525,12 +525,12 @@ MODULE_DEVICE_TABLE(of, extcon_cros_ec_of_match);
+>
+>  static struct platform_driver extcon_cros_ec_driver =3D {
+>         .driver =3D {
+> -               .name  =3D "extcon-usbc-cros-ec",
+> +               .name =3D "extcon-usbc-cros-ec",
 
-With this change, a userspace program will need to explicitly activate
-the thunderbolt mode on the port and partner in order to enter the mode
-and the thunderbolt driver will not automatically enter when a partner
-is connected.
+If there is  no change, this line is changed.
+Please don't touch this line.
 
-Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
----
+>                 .of_match_table =3D of_match_ptr(extcon_cros_ec_of_match)=
+,
+>                 .pm =3D DEV_PM_OPS,
+>         },
+> -       .remove_new =3D extcon_cros_ec_remove,
+> -       .probe   =3D extcon_cros_ec_probe,
+> +       .remove =3D extcon_cros_ec_remove,
+> +       .probe =3D extcon_cros_ec_probe,
 
-(no changes since v3)
+If there is  no change on probe, this line is changed.
+Please don't touch this line.
 
-Changes in v3:
-- Set port.inactive = true instead of auto-enter.
+(snip)
 
-Changes in v2:
-- Only disable auto-enter for Thunderbolt
-- Update commit message to clearly indicate the need for userspace
-  intervention to enter TBT mode
+If you fix the above comment, it looks good to me.
 
- drivers/platform/chrome/cros_ec_typec.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 0b87be52e1db..743cb5a9fe51 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -311,6 +311,7 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
- 		memset(&desc, 0, sizeof(desc));
- 		desc.svid = USB_TYPEC_TBT_SID;
- 		desc.mode = TBT_MODE;
-+		desc.inactive = true;
- 		amode = cros_typec_register_thunderbolt(port, &desc);
- 		if (IS_ERR(amode))
- 			return PTR_ERR(amode);
--- 
-2.47.0.338.g60cca15819-goog
-
+Best Regards,
+Chanwoo Choi
+Samsung Electronics

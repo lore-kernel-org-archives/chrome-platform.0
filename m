@@ -1,238 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CB345BEC
-	for <chrome-platform@lists.linux.dev>; Sun,  8 Dec 2024 12:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5548D14885B
+	for <chrome-platform@lists.linux.dev>; Sun,  8 Dec 2024 14:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733662199; cv=none; b=iHfGD93yNx8on5SggUGRQyxYoNP7RxPTt0kVrv8y5JPduMdeDz0SHCQTXnmN3OKdyE5rfuDk9NAc5/eZLOAdHTvqoWkFPd8MdH5DZo2iBE9rudKB7TKnM8TPLea1GQ2/Bl7/IXW0jlq11ktv1luZuTAcKypLCjB6FynMeGEcdmk=
+	t=1733669977; cv=none; b=bdLxR/g6kTYicMMt1bmEnMGiPZRz+8kocisawghMNfWO8sK0aCVz5TUdaJH3npVRgEP2FvUEWWcS90KvuWtcydk2OWM4GqH6lHVwmB6YFo9wWP4VmRtIkfehx1+2mEIKMj9+F2ATXPqb/q71uQJmro+GGjqP5snvtfWc+ctSc8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733662199; c=relaxed/simple;
-	bh=CN2X+9pkicfQp7HSgL0eKKftjm6PnSqsyu+tXoHm8c8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=giwvPs3GjpOtMekyeCMhzIQslFsjMB1gWKdIBTJ7OcKKmDSf0NZ0hiHFNG6+JqsTsUZUq5w7UubvUW+cADc7DT1R4An5JAvskFAbDs7KtKG10eXM3jlzRfK/e1DeaieL8bA8yMVpdizzG1EF9vGtD2PjgoHU6Osk0Pva/b64CPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mbtsWhaw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733669977; c=relaxed/simple;
+	bh=za3Dkm3Zck5C4BmBz90pqL2Z3JihLGLCqJq5inSro9w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jypyMz/tVwNIeKJFRItvw2z0328Jfg0BVawo68AnPAjcRg2mkV6goR4FuVslMuhysA+wyvFm2u+1BahiDGV+Cb90lx+jPlQ+4FZ08MYGwQHUNANbE/gnranweRO7i9npARMs03cl+gwSziQF19mu/CwHnNrYrvLZVmdyyGV7wn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=kGfTZjG/; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mbtsWhaw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B1FDC4AF0B
-	for <chrome-platform@lists.linux.dev>; Sun,  8 Dec 2024 12:49:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733662199;
-	bh=CN2X+9pkicfQp7HSgL0eKKftjm6PnSqsyu+tXoHm8c8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=mbtsWhawDeyg2QCAqTOyp5m4xwulrzhT9Nz4luWfTZjncmP9zgLUm9xO/q/XorQfQ
-	 BEHtnKhyE3SNSBzPVN4IxJM8e77rKB7ZLfA1YNN68cfLmelsMcKYipQRYyL68oAjqo
-	 9fM7TFueszc9CC7FusTSd3HHh5GeT29cBgeW66Psvhm7THwf1Nz8lRTEErZM0Rd2HS
-	 5J5I8KGlRJd2z6zuxnin4zQf3H3Mb2U6vhzwJj701PpnlL+QMmeMfSlcZDt78OY8Yk
-	 MoF+yzRp3bbPl2T3Y5EO6FBWQTROjOXuEO3VHKtlon1VyLFAHASJXipdVV0nk3SNuU
-	 YaHUl2OhBNxiQ==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d3e9a88793so1084402a12.1
-        for <chrome-platform@lists.linux.dev>; Sun, 08 Dec 2024 04:49:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV1WYo7+PFElhbvefDp1PbqgAf1xvUNnZaCqPUIDz+cE2Zba2Q3s3SFnR2WiJrj/oUVk8vqYAOH1C7RtHcKqtA=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyE9WzGz7ubYhGNEW8dQO8bg4eVKDQUlFFqc+FfZ1vBJHOb4O7n
-	GgGqABFKsUW7lhke+pIU0uxV1kVvDzHqSQbasIZvYty6xtCKk2aFa90r0rNS8ODNx+7ov1n+0Gx
-	kQv/IwdzyQlKud5KcJGWFQSk/oM4=
-X-Google-Smtp-Source: AGHT+IE3Ql6yANc2m9iOBtynT86gMk4gS0j0goAd+difa6EqQgJSzh4L8cPu2UMNgIXPxrQZjWidJElJdZuBPwuTS1Q=
-X-Received: by 2002:a05:6402:3209:b0:5d3:fb9d:3f69 with SMTP id
- 4fb4d7f45d1cf-5d3fb9d429bmr1205972a12.21.1733662198314; Sun, 08 Dec 2024
- 04:49:58 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="kGfTZjG/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1733669973;
+	bh=za3Dkm3Zck5C4BmBz90pqL2Z3JihLGLCqJq5inSro9w=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=kGfTZjG/1FQM6BZi5NANBbvq7rCk+3XIE5MSu/bcvg804QjUlzq2m9T5Xxf11Aqvi
+	 Lp+lt3rlldgY4dkZ5sca5sxGGQPTnZLsQZRc/xYgQaqjl6bnEPkdWLLmc1POO0HyED
+	 g/HoaQn+uqjOJJJ3gHmwAejcXd33wT0f9xxW+MAY=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 08 Dec 2024 15:59:28 +0100
+Subject: [PATCH 3/3] power: supply: cros_charge-control: hide start
+ threshold on v2 cmd
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241127091036.444330-2-u.kleine-koenig@baylibre.com>
-In-Reply-To: <20241127091036.444330-2-u.kleine-koenig@baylibre.com>
-From: Chanwoo Choi <chanwoo@kernel.org>
-Date: Sun, 8 Dec 2024 21:49:16 +0900
-X-Gmail-Original-Message-ID: <CAGTfZH3Lv1Cn7dNgA7GL6f4OW=ENXS9mG+p03NAUbbNMg05DtQ@mail.gmail.com>
-Message-ID: <CAGTfZH3Lv1Cn7dNgA7GL6f4OW=ENXS9mG+p03NAUbbNMg05DtQ@mail.gmail.com>
-Subject: Re: [PATCH] extcon: Switch back to struct platform_driver::remove()
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241208-cros_charge-control-v2-v1-3-8d168d0f08a3@weissschuh.net>
+References: <20241208-cros_charge-control-v2-v1-0-8d168d0f08a3@weissschuh.net>
+In-Reply-To: <20241208-cros_charge-control-v2-v1-0-8d168d0f08a3@weissschuh.net>
+To: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Sebastian Reichel <sre@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Thomas Koch <linrunner@gmx.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733669972; l=2140;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=za3Dkm3Zck5C4BmBz90pqL2Z3JihLGLCqJq5inSro9w=;
+ b=+0EygRWKP9SttMXFlFgC9ncZpGD99nkUvVZGjw06/U4VxGBhCFJqTpVtZNopI4yKgl9mBS5kQ
+ d1KlWsmvkthCrk7KUbcH6JbEOsAxCH1nrhdy6vVZH1XFtzNT8SyFHB8
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Wed, Nov 27, 2024 at 6:30=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> From: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org>
->
-> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-> return void") .remove() is (again) the right callback to implement for
-> platform drivers.
->
-> Convert all platform drivers below drivers/extcon to use .remove(), with
-> the eventual goal to drop struct platform_driver::remove_new(). As
-> .remove() and .remove_new() have the same prototypes, conversion is done
-> by just changing the structure member name in the driver initializer.
->
-> En passant make the alignment of the struct initializer in
-> extcon-usbc-cros-ec.c consistent.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
-> ---
-> Hello,
->
-> given the simplicity of the individual changes I do this all in a single
-> patch. I you don't agree, please tell and I will happily split it.
->
-> It's based on today's next, feel free to drop changes that result in a
-> conflict when you come around to apply this. I'll care for the fallout
-> at a later time then. (Having said that, if you use b4 am -3 and git am
-> -3, there should be hardly any conflict.)
->
-> Best regards
-> Uwe
->
->  drivers/extcon/extcon-adc-jack.c     | 2 +-
->  drivers/extcon/extcon-intel-cht-wc.c | 2 +-
->  drivers/extcon/extcon-intel-mrfld.c  | 2 +-
->  drivers/extcon/extcon-max3355.c      | 2 +-
->  drivers/extcon/extcon-max77843.c     | 2 +-
->  drivers/extcon/extcon-rtk-type-c.c   | 2 +-
->  drivers/extcon/extcon-usb-gpio.c     | 2 +-
->  drivers/extcon/extcon-usbc-cros-ec.c | 6 +++---
->  8 files changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/extcon/extcon-adc-jack.c b/drivers/extcon/extcon-adc=
--jack.c
-> index 125016da7fde..46c40d85c2ac 100644
-> --- a/drivers/extcon/extcon-adc-jack.c
-> +++ b/drivers/extcon/extcon-adc-jack.c
-> @@ -196,7 +196,7 @@ static SIMPLE_DEV_PM_OPS(adc_jack_pm_ops,
->
->  static struct platform_driver adc_jack_driver =3D {
->         .probe          =3D adc_jack_probe,
-> -       .remove_new     =3D adc_jack_remove,
-> +       .remove         =3D adc_jack_remove,
->         .driver         =3D {
->                 .name   =3D "adc-jack",
->                 .pm =3D &adc_jack_pm_ops,
-> diff --git a/drivers/extcon/extcon-intel-cht-wc.c b/drivers/extcon/extcon=
--intel-cht-wc.c
-> index 93552dc3c895..8131a3d7d562 100644
-> --- a/drivers/extcon/extcon-intel-cht-wc.c
-> +++ b/drivers/extcon/extcon-intel-cht-wc.c
-> @@ -627,7 +627,7 @@ MODULE_DEVICE_TABLE(platform, cht_wc_extcon_table);
->
->  static struct platform_driver cht_wc_extcon_driver =3D {
->         .probe =3D cht_wc_extcon_probe,
-> -       .remove_new =3D cht_wc_extcon_remove,
-> +       .remove =3D cht_wc_extcon_remove,
->         .id_table =3D cht_wc_extcon_table,
->         .driver =3D {
->                 .name =3D "cht_wcove_pwrsrc",
-> diff --git a/drivers/extcon/extcon-intel-mrfld.c b/drivers/extcon/extcon-=
-intel-mrfld.c
-> index a1f737f13d49..9219f4328d70 100644
-> --- a/drivers/extcon/extcon-intel-mrfld.c
-> +++ b/drivers/extcon/extcon-intel-mrfld.c
-> @@ -275,7 +275,7 @@ static struct platform_driver mrfld_extcon_driver =3D=
+ECs implementing the v2 command will not stop charging when the end
+threshold is reached. Instead they will begin discharging until the
+start threshold is reached, leading to permanent charge and discharge
+cycles. This defeats the point of the charge control mechanism.
+
+Avoid the issue by hiding the start threshold on v2 systems.
+Instead on those systems program the EC with start == end which forces
+the EC to reach and stay at that level.
+
+v1 does not support thresholds and v3 works correctly,
+at least judging from the code.
+
+Reported-by: Thomas Koch <linrunner@gmx.net>
+Fixes: c6ed48ef5259 ("power: supply: add ChromeOS EC based charge control driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/power/supply/cros_charge-control.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/supply/cros_charge-control.c
+index 108b121db4423187fb65548396fb9195b8801006..9b0a7500296b4d7eb8cd53153e148926bb98aec1 100644
+--- a/drivers/power/supply/cros_charge-control.c
++++ b/drivers/power/supply/cros_charge-control.c
+@@ -139,6 +139,10 @@ static ssize_t cros_chctl_store_threshold(struct device *dev, struct cros_chctl_
+ 		return -EINVAL;
+ 
+ 	if (is_end_threshold) {
++		/* Start threshold is not exposed, use fixed value */
++		if (priv->cmd_version == 2)
++			priv->current_start_threshold = val == 100 ? 0 : val;
++
+ 		if (val < priv->current_start_threshold)
+ 			return -EINVAL;
+ 		priv->current_end_threshold = val;
+@@ -234,12 +238,10 @@ static umode_t cros_chtl_attr_is_visible(struct kobject *kobj, struct attribute
  {
->                 .name   =3D "mrfld_bcove_pwrsrc",
->         },
->         .probe          =3D mrfld_extcon_probe,
-> -       .remove_new     =3D mrfld_extcon_remove,
-> +       .remove         =3D mrfld_extcon_remove,
->         .id_table       =3D mrfld_extcon_id_table,
->  };
->  module_platform_driver(mrfld_extcon_driver);
-> diff --git a/drivers/extcon/extcon-max3355.c b/drivers/extcon/extcon-max3=
-355.c
-> index e62ce7a8d131..b2ee4ff8b04d 100644
-> --- a/drivers/extcon/extcon-max3355.c
-> +++ b/drivers/extcon/extcon-max3355.c
-> @@ -127,7 +127,7 @@ MODULE_DEVICE_TABLE(of, max3355_match_table);
->
->  static struct platform_driver max3355_driver =3D {
->         .probe          =3D max3355_probe,
-> -       .remove_new     =3D max3355_remove,
-> +       .remove         =3D max3355_remove,
->         .driver         =3D {
->                 .name   =3D "extcon-max3355",
->                 .of_match_table =3D max3355_match_table,
-> diff --git a/drivers/extcon/extcon-max77843.c b/drivers/extcon/extcon-max=
-77843.c
-> index 9849e3b8327e..2ae9f7f1a67f 100644
-> --- a/drivers/extcon/extcon-max77843.c
-> +++ b/drivers/extcon/extcon-max77843.c
-> @@ -956,7 +956,7 @@ static struct platform_driver max77843_muic_driver =
-=3D {
->                 .of_match_table =3D of_max77843_muic_dt_match,
->         },
->         .probe          =3D max77843_muic_probe,
-> -       .remove_new     =3D max77843_muic_remove,
-> +       .remove         =3D max77843_muic_remove,
->         .id_table       =3D max77843_muic_id,
->  };
->
-> diff --git a/drivers/extcon/extcon-rtk-type-c.c b/drivers/extcon/extcon-r=
-tk-type-c.c
-> index 19a01e663733..bdc2b7b3a246 100644
-> --- a/drivers/extcon/extcon-rtk-type-c.c
-> +++ b/drivers/extcon/extcon-rtk-type-c.c
-> @@ -1778,7 +1778,7 @@ static const struct dev_pm_ops extcon_rtk_type_c_pm=
-_ops =3D {
->
->  static struct platform_driver extcon_rtk_type_c_driver =3D {
->         .probe          =3D extcon_rtk_type_c_probe,
-> -       .remove_new     =3D extcon_rtk_type_c_remove,
-> +       .remove         =3D extcon_rtk_type_c_remove,
->         .driver         =3D {
->                 .name   =3D "extcon-rtk-type_c",
->                 .of_match_table =3D extcon_rtk_type_c_match,
-> diff --git a/drivers/extcon/extcon-usb-gpio.c b/drivers/extcon/extcon-usb=
--gpio.c
-> index 9b61eb99b7dc..5e8ad21ad206 100644
-> --- a/drivers/extcon/extcon-usb-gpio.c
-> +++ b/drivers/extcon/extcon-usb-gpio.c
-> @@ -279,7 +279,7 @@ MODULE_DEVICE_TABLE(platform, usb_extcon_platform_ids=
-);
->
->  static struct platform_driver usb_extcon_driver =3D {
->         .probe          =3D usb_extcon_probe,
-> -       .remove_new     =3D usb_extcon_remove,
-> +       .remove         =3D usb_extcon_remove,
->         .driver         =3D {
->                 .name   =3D "extcon-usb-gpio",
->                 .pm     =3D &usb_extcon_pm_ops,
-> diff --git a/drivers/extcon/extcon-usbc-cros-ec.c b/drivers/extcon/extcon=
--usbc-cros-ec.c
-> index 805a47230689..529ac5898e38 100644
-> --- a/drivers/extcon/extcon-usbc-cros-ec.c
-> +++ b/drivers/extcon/extcon-usbc-cros-ec.c
-> @@ -525,12 +525,12 @@ MODULE_DEVICE_TABLE(of, extcon_cros_ec_of_match);
->
->  static struct platform_driver extcon_cros_ec_driver =3D {
->         .driver =3D {
-> -               .name  =3D "extcon-usbc-cros-ec",
-> +               .name =3D "extcon-usbc-cros-ec",
+ 	struct cros_chctl_priv *priv = cros_chctl_attr_to_priv(attr, n);
+ 
+-	if (priv->cmd_version < 2) {
+-		if (n == CROS_CHCTL_ATTR_START_THRESHOLD)
+-			return 0;
+-		if (n == CROS_CHCTL_ATTR_END_THRESHOLD)
+-			return 0;
+-	}
++	if (n == CROS_CHCTL_ATTR_START_THRESHOLD && priv->cmd_version < 3)
++		return 0;
++	else if (n == CROS_CHCTL_ATTR_END_THRESHOLD && priv->cmd_version < 2)
++		return 0;
+ 
+ 	return attr->mode;
+ }
 
-If there is  no change, this line is changed.
-Please don't touch this line.
+-- 
+2.47.1
 
->                 .of_match_table =3D of_match_ptr(extcon_cros_ec_of_match)=
-,
->                 .pm =3D DEV_PM_OPS,
->         },
-> -       .remove_new =3D extcon_cros_ec_remove,
-> -       .probe   =3D extcon_cros_ec_probe,
-> +       .remove =3D extcon_cros_ec_remove,
-> +       .probe =3D extcon_cros_ec_probe,
-
-If there is  no change on probe, this line is changed.
-Please don't touch this line.
-
-(snip)
-
-If you fix the above comment, it looks good to me.
-
-Best Regards,
-Chanwoo Choi
-Samsung Electronics

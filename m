@@ -1,91 +1,71 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6F914B088
-	for <chrome-platform@lists.linux.dev>; Sun,  8 Dec 2024 14:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047F2B66E;
+	Mon,  9 Dec 2024 02:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733669977; cv=none; b=IKpEOQyv+B9d/ym/UZ1jqsugxbQL8n008jOSk8MVKUn3uFpSsqFWsOfq51EBP8pURCyJPv10qYIq6WQDn75EQl51MtZ45WjTTSd5FlbVxMWZxUeNSuVO/8781gR7OUwZAa/GejjpUU2K0fkpFj2QgMuRxXUsduRTbKNSa63mvqE=
+	t=1733710847; cv=none; b=IHQvu3tLnE59JQ8ka9rETQTHrmjLODhRwfFZn6JmVNQesNeQip3cEdqQCh4au50n9RKLJf5Rs1964ecqpf1sOdd2E0DwRJe8eAviD76rLl5ekdllUxbOeRQly0qP5QCUX8W/Isv0CVotRs2wf5tiaNE4eRG98OOlIQNN6VSr8iw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733669977; c=relaxed/simple;
-	bh=xAKdt+XUPvyRkhE19c1Wd0o1p1dyMhTM02DujFoE+fc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kpqlmjTLzb4lzEhRs9yZBvO2lS3DdEfHsZE8Nanpz7FvGtSqxTcWvMRj5191v0Ppy/bzQvolaJ1f93WbpqtHF/p3hTQmQmxuPEEJWwrXcLTuCCpvuvYeMEeqatiRoAo6T+jXZibLIz+TkPgq7om8RBWUc+vR4gRIP12pCuibV0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DDSCvzVE; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1733710847; c=relaxed/simple;
+	bh=NW/0AnpVZYFNsaANc1AZBCYAwwQEYK/rTc7tMz0pn28=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i39PKBvy7SDeNxMKERYuhk7/ymo3GMHs4k+5tXDcQ39Fr3OJa42p7AN37rEVoTOiX6R4U5YFilqE6qAoFPkRg6EpN9pi0vR/smIkoX8lhjRa21Dyjb112V2GVAD8QHoq/tfQoiThHt35yXUq+Pq4F/zY0ZDGYad+5ucE4uxIs1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JDNHGitm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DDSCvzVE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1733669973;
-	bh=xAKdt+XUPvyRkhE19c1Wd0o1p1dyMhTM02DujFoE+fc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=DDSCvzVE9bT2Ixa+Xai9eHEsZ3Xu8HQ4iWxTGQnDLPfK66bSeLdV3ueHoExfhUuUp
-	 Fy3ZREPOmIVDtK0nKC3lBXoKjV8PZR8luFWoby91rL4WtfvwTFWiXBJSwvE1gXBQ5f
-	 FoTppeyT740usY9ZaKyTBO3N4pdbFn0sElEWN8C4=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 08 Dec 2024 15:59:27 +0100
-Subject: [PATCH 2/3] power: supply: cros_charge-control: allow
- start_threshold == end_threshold
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JDNHGitm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B41FCC4CED2;
+	Mon,  9 Dec 2024 02:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733710846;
+	bh=NW/0AnpVZYFNsaANc1AZBCYAwwQEYK/rTc7tMz0pn28=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JDNHGitm/8f2Tk+rbCAS69m0xLhD3B2/tXOJRKU3gFGmznlghGGukbqtNYXqqvPyp
+	 SaDaintKZYAZWOm3GWFKehRUE0gcLNVJms/ka67Dq2nxkmTZ1/4XwcDg/w1ymwn4XH
+	 lEd+s1SxQ+7UVtw7wWy4rxBSNuTyLHsmzwjQHVywoWAgbfQ9FlP9YqvlzvfnOZ0ZpL
+	 i7SKwC4PjyXAQC2Gs7dWbIQrykHoq3+DqmmxHsbqt43gypwaU9XSmqdNRJ3WL6wP3E
+	 gjDPCf249KDJ1RzMI4Uw76Ndj2DJTqRCIZQni9NZnqrz2lC/NYuatFaHwsd/8bux2f
+	 VeFqurysg8Wvg==
+Date: Mon, 9 Dec 2024 02:20:43 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Dawid Niedzwiecki <dawidn@google.com>
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com
+Subject: Re: [PATCH v3 0/2] platform/chrome: cros_ec: improve probing for
+ RWSIG
+Message-ID: <Z1ZT-ytCFmOvrFu5@google.com>
+References: <20241206091514.2538350-1-dawidn@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20241208-cros_charge-control-v2-v1-2-8d168d0f08a3@weissschuh.net>
-References: <20241208-cros_charge-control-v2-v1-0-8d168d0f08a3@weissschuh.net>
-In-Reply-To: <20241208-cros_charge-control-v2-v1-0-8d168d0f08a3@weissschuh.net>
-To: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- Sebastian Reichel <sre@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Thomas Koch <linrunner@gmx.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733669972; l=1214;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=xAKdt+XUPvyRkhE19c1Wd0o1p1dyMhTM02DujFoE+fc=;
- b=/m2irmWjCvb+/32Yh1ZuYvQFdD+iiny3bpW4IprRJA6kEJYthe1thZIcXseRJ3cNMvvSV97H4
- drdxZrE/9IuDCOyJEmqUb4vMq+z0VCW3iYPlX1nB8FnhYU8k/kUl3w4
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241206091514.2538350-1-dawidn@google.com>
 
-Allow setting the start and stop thresholds to the same value.
-There is no reason to disallow it.
+On Fri, Dec 06, 2024 at 09:15:12AM +0000, Dawid Niedzwiecki wrote:
+> V2 -> V3:
+> - Move exiting from `cros_ec_rwsig_continue` if `error_count` exceeds
+>   `RWSIG_CONTINUE_MAX_ERRORS_IN_ROW` to the `if (rev < 0)` statement when
+>   `error_count` is incremented.
+> 
+> V1 -> V2:
+> - Use dev_info instead of dev_warn when cros_ec_rwsig_continue returns
+>   an error.
+> - Return immediately from cros_ec_rwsig_continue, if the RWSIG_ACTION
+>   command fails itself, not SPI transaction.
+> 
+> [...]
 
-Suggested-by: Thomas Koch <linrunner@gmx.net>
-Fixes: c6ed48ef5259 ("power: supply: add ChromeOS EC based charge control driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/power/supply/cros_charge-control.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Applied to
 
-diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/supply/cros_charge-control.c
-index 58ca6d9ed6132af63a36ea4c5bf212acf066936c..108b121db4423187fb65548396fb9195b8801006 100644
---- a/drivers/power/supply/cros_charge-control.c
-+++ b/drivers/power/supply/cros_charge-control.c
-@@ -139,11 +139,11 @@ static ssize_t cros_chctl_store_threshold(struct device *dev, struct cros_chctl_
- 		return -EINVAL;
- 
- 	if (is_end_threshold) {
--		if (val <= priv->current_start_threshold)
-+		if (val < priv->current_start_threshold)
- 			return -EINVAL;
- 		priv->current_end_threshold = val;
- 	} else {
--		if (val >= priv->current_end_threshold)
-+		if (val > priv->current_end_threshold)
- 			return -EINVAL;
- 		priv->current_start_threshold = val;
- 	}
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
--- 
-2.47.1
+[1/2] platform/chrome: cros_ec: jump to RW before probing
+      commit: 4b308a1944b8ff1d50131849372672396a799a37
+[2/2] platform/chrome: cros_ec_proto: remove unnecessary retries
+      commit: bd37caa72a61fea3c1ddf465ed1b122b6a613349
 
+Thanks!

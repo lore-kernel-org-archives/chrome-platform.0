@@ -1,107 +1,149 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CF9226869
-	for <chrome-platform@lists.linux.dev>; Tue, 10 Dec 2024 20:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFA522A1E3;
+	Tue, 10 Dec 2024 20:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733862334; cv=none; b=rp45e5TdV4v1AdBP18Ic4iNqa9yUw5cizdJ51JiObyqRbCD3aAU0CPftstMY/MwwAXdqFWmK+Y3mMWVdL+JXyWmqzljOLs0MBMDwDwLjz3Bf9s3JOT0Zq/OehKK9Azec2K6+4l1pD13yfyxI8A2NkQ/lHg4TL+DvDXFJsDeWPTQ=
+	t=1733863402; cv=none; b=bB4Zuo9FQd3cZ69iYlTyj6XLKSLqK9kBtFpqNk4jjkmRf8qQI50IYh6wrt6LQ9+3DVgSB1vzUMtCTcWk5+E9ILTd0BS6dKOF+RvEUm7bGbrbWz7RDjqz357GtW43+O43hmv++YYfOKBBiwAQb8fZqfbEd1bCVe3yxCCE9kXAoRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733862334; c=relaxed/simple;
-	bh=Eftfg8/Dg5TvjrjAPiWy1krsu696melQ99u5UYTA1dY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CEO9s9FDobw8d2Wb3r9MHNnkxvCdKyTz4wMcOjdrN5VR5BhbZSZqdbO3PGPA6gZufkEXDKctWcOrh3oG1u0WmcpwhdXBYhQGLcyfNPBohwokjF86MZ6ZuLnShhKARG8hunUavc8qpDf4IY73LOuqN1kemxHrhQO2Kf7vvKYRuso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M8i6tc66; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733863402; c=relaxed/simple;
+	bh=bGHhrprHjsToC4P72S/FLs8cS2mBs18/lgIPgsVAUBg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RbHXbwkE744cqIl183lkYfslDSVVgoHMfbgbjR/0+5RZgKzqLgQJXesD1q83fP3QsEXwH6JJiyYCG2T9tO0hTfAp2PzyHFwMCJn8vqkkKCRNMkX8GASHVKIY89SYI2rMt6CLuF41YyAUKUSnkhTeuROXQO93r0L0Lki7zwFTR5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jVla6AdU; arc=none smtp.client-ip=209.85.208.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M8i6tc66"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54025432becso1398887e87.1
-        for <chrome-platform@lists.linux.dev>; Tue, 10 Dec 2024 12:25:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jVla6AdU"
+Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-5d3f57582a2so24035a12.1;
+        Tue, 10 Dec 2024 12:43:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733862331; x=1734467131; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AbCufamCvcmoTO2tkUzwZ6hlFtoLOKL9jj6eQkqSANQ=;
-        b=M8i6tc66lgJVctau6sGdNHw89idq8o5F/XzrYP8Hpg/+LO7iYwK2ykIhWk4b0oOBGU
-         JDR3cOaHyHNl/7Et/gLz7wMPsVw02+fo/hRbL/m3+/XQp5rHen22y1lqgRHHBkcwDc/f
-         i721sRKp1R7lVG9RaGdNQ4qRjqsN6FZWYasTCatN7cUa85bi8uz55gxCXyGBgX/Fe2Mb
-         dpldvJL1Vl3bRXT4awKKOqMQ/243X2nxstXSilv08uC+Z+Xbu6zu3pgLQGSAyJFxKyX+
-         o/5X/3/ouEo8r9X6edUYwg3VpDko4znRkPLLmDN8SqeR4U2VDk47Xgk0eRcJwFaMZ0Hv
-         aUSg==
+        d=gmail.com; s=20230601; t=1733863399; x=1734468199; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p7FUX9r36NLSxog04wPW5u0vmu66rr70tdVVE7HRO7I=;
+        b=jVla6AdUGO6cGQInWObEmzEw3NC9mIvkM7Mlc/H+e/PzI38de4F8KtVUrQPwu9gg/2
+         45ftQjaCn75zQNQa0EhNrleZWABqceb0DdmZ6TsX/fUNZU4jFdN5kFt2W4DIUIdBfyff
+         QZNCF6wOrPptrWUiMT86eqGGjLjHIhPNjQ3f/BGcm3Bi13s6fjIYP/DWc5B5Qv/uxa3q
+         83vQg3x2jCYSflkdoxTbo7ekZ2Yd3DdfyPUkSobPAJ1jopEL/EbrDRTmL3c00NODfIE0
+         GMDtpQD1g/oSHKAZaLPcWvbOZAyyTZ++XmOqflj0bC3TUloGQ7Mb3PUbWkatxZNV8tYl
+         Me/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733862331; x=1734467131;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AbCufamCvcmoTO2tkUzwZ6hlFtoLOKL9jj6eQkqSANQ=;
-        b=CPJsAu5BTnQHj2kQYVbOK9D69qGQ69Agd15VxVkFDmE5luPy44mswK9DSBJ4W9s1l9
-         lBkaYpYnrbKBdtZ1D5KGDqS9LC2Ffzy8QgBgpmld8RBOO2Cw6E5oTSyIhSAFq1WmKkzp
-         RZaCowRveRQQV3hXPZ1utBJ1dK6YAlChs1gFq0yXglTXzf75yQFkbquE8Fr6YGE5OUDh
-         A+kgCUZQuAZX9wrTBkpNcdn3/e5GAiGHq8j0MwLJ4sZOWscbpkbNcX6UvbXERVXD7qh7
-         WlWFIaX/CbIMdfRHMzko2x2I4mu9eTVSiwqr+1NzsX2a5Ep7xhoo6q8Dth67nbfUXoOR
-         fnWg==
-X-Forwarded-Encrypted: i=1; AJvYcCXYEsbn7BsTPlOKKUddYrZ9o8EW3K/OSy9EOoeIhrmgk+/B/tq35M2x5hX5X7Nahlner1DQUSjj8si3R+HTMXM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxG/dsvTDg95wODHm4VLnwQq87UShXv7lRY0zdYLfp0RS7fEKoS
-	8p820NNxDkTmJu1qE2bRkpIBJudLt8r/IjaVV52TA5qm9qYZffBfVEbZ+hevQTg=
-X-Gm-Gg: ASbGncuyUlcK7E/e8/ilhsgGtC3YqYgnAjuWsVVd58vTHcqx/zGwd+NktFzUL7kzWhB
-	OvqSRCiADFBSzgnuAY1BDgaAZeSyKcsaViUNtBik5qiYQ7DBzxGi5xWatkme1Ii+fha0LDFEKFy
-	vEcnZGmi3bnVLy/mkFN+/XYlh8b2B+T+DGMh97z9cRzvCWkC3DCmIOGDkbRJFblWhYQXzLLuveG
-	zyek5MA3SgoHGn6BtijwXcXGEqFYnH6mTOWXhBi5BVmoA6kpeZoWXpYFVLEK31GBdhmPfd8CIz9
-	lVYlJoS2KjyJbIBQojsorO1Jbr5Km+7JuA==
-X-Google-Smtp-Source: AGHT+IE/6a9XGLsme7DQ7TSb4ZPIQEmSjWQFXWPgunivnIT1TRtOnxsoic/g6XxGYnyN7DNbPOeIIQ==
-X-Received: by 2002:a05:6512:3194:b0:540:1b2d:8ee6 with SMTP id 2adb3069b0e04-5402a5d6aa3mr61232e87.7.1733862330891;
-        Tue, 10 Dec 2024 12:25:30 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5401ea77d14sm783579e87.113.2024.12.10.12.25.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 12:25:29 -0800 (PST)
-Date: Tue, 10 Dec 2024 22:25:27 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benson Leung <bleung@chromium.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
-	Pavan Holla <pholla@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v11 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
-Message-ID: <vgywywt6zixcp7mydb6lwixhvtjg7fkv4v3ttac6jjd5ikwphv@vfuy3oo4nsqa>
-References: <20241210144527.1657888-1-ukaszb@chromium.org>
- <20241210144527.1657888-3-ukaszb@chromium.org>
+        d=1e100.net; s=20230601; t=1733863399; x=1734468199;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p7FUX9r36NLSxog04wPW5u0vmu66rr70tdVVE7HRO7I=;
+        b=fBcA7KVMF4F2QQnGbzwKOnEieYWw9pyT31zeCDuqt0KZM/Tfn43G+k2ncWVJfQgxSU
+         Qk/cNeUkhVyeex9PgBemqvFmSIbKjJ6MHT3281jK3cveJAUuLV7lzXYFPtB5fStMxE+o
+         ARjFgT0oOhLzCxf5jvCXmzyWs8ttnifUCskBshF/Hw8mVyORxDN/dMKOkza0c/KNQ00S
+         rZJ0diLWR2R6OHsy+URkKpdh3ioaHbkOCAugXBdu7bo7gmn0I8RSre/f9uC9iaIeQ4m9
+         IaUQ7pK1IMfsK56gpD+0HEXQDa9wodXZXM9LUAmr077PC2nwmqK7+D5gBoy70NDK7Nps
+         tV8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUfEwUyfrY0zf+1qRDKVXeItPPSxzfe6c0qZpZlEfD+JmncL4k0vVjoDTkC/OJ0e7sKL2Mw6fCwDmzvmNI=@lists.linux.dev, AJvYcCVqslt4F4ijLVVa3PHMmWQfV8bOCTu5yMkfvYEXNqo0IW1BGBob3GZryaY/6pqHyCT61k5uIf0lEaQ5VCPjBPU=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywa/f5BIdCzZtcu+RWQPkIqp4se8o1zgLJ2BFYOyYmRY4GtinAB
+	YVv6YZOjvPAYhqXSHrh1TlZL8wGIMXHg5+E+6jHibqHW2f2rS3khSVmgS+M05zszwVeAi4D8L11
+	TwJAbTXxmXAV9ljmGNuji6WJd562JA/R0
+X-Gm-Gg: ASbGncuODEPqOpzyL/UJSZs9dOjuo1W4Sz1ECtG4HA81vt+cvkQt+Y7EdvvNxuq71xu
+	hZo7gkbhl4ZFQOrVB+E1JJih7FpqsFgeaxo93ycsr481LtBtQcIHTCDK8oaz0mttuvH7L
+X-Google-Smtp-Source: AGHT+IH6/kVdCtFLUgKn/dMiQKnQ9X+KOaQspRb/5dceLHrlZ3p371HZVEd2uTvW2I21VnUEN5e5BjgD/7YKKFjempg=
+X-Received: by 2002:a05:6402:3588:b0:5d3:d79a:6d6d with SMTP id
+ 4fb4d7f45d1cf-5d433023b05mr184216a12.0.1733863399397; Tue, 10 Dec 2024
+ 12:43:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241210144527.1657888-3-ukaszb@chromium.org>
+References: <20241113093703.9936-1-laura.nao@collabora.com>
+ <20241115171712.427535-1-laura.nao@collabora.com> <Z1LvfndLE1t1v995@krava>
+In-Reply-To: <Z1LvfndLE1t1v995@krava>
+From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date: Tue, 10 Dec 2024 21:42:43 +0100
+Message-ID: <CAP01T76qFo-fzRh2PjGPtWd-N4tgMyoh_rz2GdZwePy=dRHFgQ@mail.gmail.com>
+Subject: Re: [REGRESSION] module BTF validation failure (Error -22) on next
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Laura Nao <laura.nao@collabora.com>, alan.maguire@oracle.com, bpf@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, kernel@collabora.com, 
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 10, 2024 at 02:45:27PM +0000, Łukasz Bartosik wrote:
-> From: Pavan Holla <pholla@chromium.org>
-> 
-> Implementation of a UCSI transport driver for ChromeOS.
-> This driver will be loaded if the ChromeOS EC implements a PPM.
-> 
-> Signed-off-by: Pavan Holla <pholla@chromium.org>
-> Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> Co-developed-by: Łukasz Bartosik <ukaszb@chromium.org>
-> Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
-> ---
->  MAINTAINERS                           |   7 +
->  drivers/usb/typec/ucsi/Kconfig        |  13 +
->  drivers/usb/typec/ucsi/Makefile       |   1 +
->  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 337 ++++++++++++++++++++++++++
->  4 files changed, 358 insertions(+)
->  create mode 100644 drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> 
+On Fri, 6 Dec 2024 at 13:37, Jiri Olsa <olsajiri@gmail.com> wrote:
+>
+> On Fri, Nov 15, 2024 at 06:17:12PM +0100, Laura Nao wrote:
+> > On 11/13/24 10:37, Laura Nao wrote:
+> > >
+> > > Currently, KernelCI only retains the bzImage, not the vmlinux binary.=
+ The
+> > > bzImage can be downloaded from the same link mentioned above by selec=
+ting
+> > > 'kernel' from the dropdown menu (modules can also be downloaded the s=
+ame
+> > > way). I=E2=80=99ll try to replicate the build on my end and share the=
+ vmlinux
+> > > with DWARF data stripped for convenience.
+> > >
+> >
+> > I managed to reproduce the issue locally and I've uploaded the vmlinux[=
+1]
+> > (stripped of DWARF data) and vmlinux.raw[2] files, as well as one of th=
+e
+> > modules[3] and its btf data[4] extracted with:
+> >
+> > bpftool -B vmlinux btf dump file cros_kbd_led_backlight.ko > cros_kbd_l=
+ed_backlight.ko.raw
+> >
+> > Looking again at the logs[5], I've noticed the following is reported:
+> >
+> > [    0.415885] BPF:    type_id=3D115803 offset=3D177920 size=3D1152
+> > [    0.416029] BPF:
+> > [    0.416083] BPF: Invalid offset
+> > [    0.416165] BPF:
+> >
+> > There are two different definitions of rcu_data in '.data..percpu', one
+> > is a struct and the other is an integer:
+> >
+> > type_id=3D115801 offset=3D177920 size=3D1152 (VAR 'rcu_data')
+> > type_id=3D115803 offset=3D177920 size=3D1152 (VAR 'rcu_data')
+> >
+> > [115801] VAR 'rcu_data' type_id=3D115572, linkage=3Dstatic
+> > [115803] VAR 'rcu_data' type_id=3D1, linkage=3Dstatic
+> >
+> > [115572] STRUCT 'rcu_data' size=3D1152 vlen=3D69
+> > [1] INT 'long unsigned int' size=3D8 bits_offset=3D0 nr_bits=3D64 encod=
+ing=3D(none)
+> >
+> > I assume that's not expected, correct?
+>
+> yes, that seems wrong.. but I can't reproduce with your config
+> together with pahole 1.24 .. could you try with latest one?
+>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+As a data point, I ran into this problem with pahole 1.27 on
+bpf/master, I see the same rcu_data duplication.
+For now I'm probably going to test patches with the latest pahole.
 
--- 
-With best wishes
-Dmitry
+> jirka
+>
+> >
+> > I'll dig a bit deeper and report back if I can find anything else.
+> >
+> > [1] https://people.collabora.com/~laura.nao/dbg-btf-mismatch-next-20241=
+113/vmlinux
+> > [2] https://people.collabora.com/~laura.nao/dbg-btf-mismatch-next-20241=
+113/vmlinux.raw
+> > [3] https://people.collabora.com/~laura.nao/dbg-btf-mismatch-next-20241=
+113/cros_kbd_led_backlight.ko
+> > [4] https://people.collabora.com/~laura.nao/dbg-btf-mismatch-next-20241=
+113/cros_kbd_led_backlight.ko.raw
+> > [5] https://pastebin.com/raw/FvvrPhAY
+> >
+> > Best,
+> >
+> > Laura
+> >
+>

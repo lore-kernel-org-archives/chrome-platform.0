@@ -1,169 +1,156 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F958204F82
-	for <chrome-platform@lists.linux.dev>; Wed, 11 Dec 2024 19:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CA5259498;
+	Wed, 11 Dec 2024 21:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733947084; cv=none; b=AvT7L4UTnX/+kRr62lPcFDHr0K70Xh4TdLuKJ2VKe01IW7P9k2vX27Te/6TNHR04WxZWPcj6oSyP5/QLe63zSvclE+/k94USN9nujHPIZ9cAEe9s99U2C48VRZpergv5x52rC6UeJASMYawgAXCvQlANSOH2h94F0t4/RuQrL70=
+	t=1733951430; cv=none; b=bgD8bcZVL9mvZwAtMaKwvM/YBIRTdW1+qjHWZHXlaeeIt7JdpG9bgbAQBf4h8FYROfqahcQViK9YSItork3YjAWFU9bbn8xUmS3LFis9usJY7OBUBri6AGP32C8eja07pSlwTrFYNdetvSXSkyfi0U5aq1BwNGxrBtmb3L99zjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733947084; c=relaxed/simple;
-	bh=K9yc/Ys1CTbFvSWOmqHUjMgumzjvSVyWlxbVSYFSEYE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iQHQX23gldbHufy0AUe4NRW2fL6ogIGhDPcoGO7XrIJt40WGloRa+UNjyEgkncK/GLr8MxsMNPEIZtMCTpLWCZ3ii/OsfKqntZ4PRgtuZIKB/PWnjlbxY/fsVv0XI6yrqsHoYHd/KM/Sails7wmeSwNxHGCKuwLEXj8uRBOoCpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=sxIkc2cz; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1733951430; c=relaxed/simple;
+	bh=OrSrCRThbnz38HRK4gbxPzXWxGq7zO/a92bWosVgsHM=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cy4VQsoWPVSda8egGq3L37TsTcn+74UjShCA51C2oUjCu3JUHXGb/5Q2191lhD1Yc6UaANXJZMxEM5FC+WBwp3IX05J/TPGSGJe6N2F74MbXOTFDQDzzltVtN1/FjK2uAmGTLZYZRxkQ5EXw/WrI0Xa82IVo2eEk5JxQU4/xdO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aN1LQL/J; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="sxIkc2cz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1733947079;
-	bh=K9yc/Ys1CTbFvSWOmqHUjMgumzjvSVyWlxbVSYFSEYE=;
-	h=From:Subject:Date:To:Cc:From;
-	b=sxIkc2czWxgHvbnmj/729epw7ynwppG2nql9bh1BsYYp+RCiu1/MqPs9gMY+jJwgp
-	 NA0U1/QOp1/aMTcwxfu2CIdudFdnZli6jEAoe+gFaPMKM0s7Q2o8NwsUjqKW9UnkRx
-	 f36jWVQo7kLRK7uKLx77EIJUkWc6zmwq8ytu90bg=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v6 0/4] power: supply: extension API
-Date: Wed, 11 Dec 2024 20:57:54 +0100
-Message-Id: <20241211-power-supply-extensions-v6-0-9d9dc3f3d387@weissschuh.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aN1LQL/J"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-434a852bb6eso68675085e9.3;
+        Wed, 11 Dec 2024 13:10:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733951427; x=1734556227; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yZz00LLpT83ITUjYV+X2dbIbEBxGxb+OmoGdlRCf7RU=;
+        b=aN1LQL/JehHHWVFAguCw0+zNqW5ZGMa/OeuSB7+N/rDcXkdw/jF6JqsFTF2TkOcF5n
+         BJ0spEVjboSEF/V4Ek8E/zz+D9lg8ilso2sKKy6O3OC+Q+wsO2uHJgR4y7lPQgEV0oXA
+         tgz9DIRl3YIjq3yUC+lz7O1KAI11UMYefnO0Ia/U6B0nkNYjL2bJAm5CgWQU4k2gZ+BQ
+         bl2fnZn3accBor6SmDVMj09cnDDDlEZsmpAtKs/X3lDT+twNmldZoyt0zIzndLf1Q4qn
+         FjPGgSC7bBQFPaeu0aI5pQLYD1KF2CP2MpV0QggxMR7kOU/sCW48vfQ941r+o8zaDdUN
+         hUgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733951427; x=1734556227;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yZz00LLpT83ITUjYV+X2dbIbEBxGxb+OmoGdlRCf7RU=;
+        b=RhpAcBVkWI5kcAbIrfdp3XAATFKNSY3DgOh/mZHQAiuY6cHCmDYXIUW055TXSDGn5x
+         reTe4N32SgPW6YCECfmgWTrrFRkxuQOTsfgE+aFkVkO2WvWcqwrOuMKiYgujvNi/6Guc
+         1Vy4zPL6YIOriQIr1ItLvLWOf4kdcWZ9Xa1jxQFb3mHj8ov0gVwOzL1DIdKEUq+49zfC
+         SdsVHAYtqbbQH6ZHzzHR212k19ltMkA3OGixG/41+4yJtmyqM2oXhSo1hFzpTHEIE+5v
+         +jkxxVpVCUgCm0bis4ksiRAszwiqssFfBbSoIQEzriS5NBTqej1DDI3j2NqansgvJkHL
+         9dpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUuTBysLecphwC32RtFenjTR7JmCgEiuKAMZGdKoJzJVhyZrUR2Bvg4QJE5/ToR9XfT4pjOObzdA3cEEihDsCw=@lists.linux.dev, AJvYcCXYjQI8/9MEw1aOHHhjqsTFCfZvce7P7d1Gzc7Bnd0snReICcsULyojEF60fiI66Wl+HECA8hYLEJMI2aI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMJJwAxm2PkwmchN1yCwxX4VLqs1u0T/aIR9kOB8EAUu04u83N
+	F3JacJrjPTX1fK5d2G+08ubcfYs6DCOaPmilRyFC/pbLYx1GywJ6
+X-Gm-Gg: ASbGncs0P0ibtpvDRnqOJzsWk2OLewLrAFVCKeG0pjy8euKdT15foxwCuLiZiFfi+B3
+	J4xvv0eQf5FG/vxPwXUe+K+UnKnKIju0RY4pv2eBoQw/u/wXOty3371mfnf7WhUrKj/H5QtcoZo
+	oaT921tatyqpxEBqoL4hffyBp1wEXVGa/akP4D98lqTxV1MeFOKAjZ9ZqgOzsdMqarlTSKlX42f
+	k6cTe7iG78ofSjoCqKCLCc3mKRVf2BhlR+oTU5MeBOz3/G/j8RgN4rrulN0ApE=
+X-Google-Smtp-Source: AGHT+IEoFF9lfFi/tcgC2R9iqPaNL1Un1IvsKyFFFNVGF8Q2i3Q3Ttd2SniT7E4tri3YhTDfR23Oqg==
+X-Received: by 2002:a05:600c:4446:b0:434:fa73:a907 with SMTP id 5b1f17b1804b1-4361c3723acmr35152305e9.13.1733951426556;
+        Wed, 11 Dec 2024 13:10:26 -0800 (PST)
+Received: from krava (85-193-35-130.rib.o2.cz. [85.193.35.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4361e323828sm17329325e9.0.2024.12.11.13.10.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 13:10:26 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Wed, 11 Dec 2024 22:10:24 +0100
+To: Laura Nao <laura.nao@collabora.com>
+Cc: olsajiri@gmail.com, alan.maguire@oracle.com, bpf@vger.kernel.org,
+	chrome-platform@lists.linux.dev, kernel@collabora.com,
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] module BTF validation failure (Error -22) on
+Message-ID: <Z1n_wGj0CGjh_gLP@krava>
+References: <Z1LvfndLE1t1v995@krava>
+ <20241210135501.251505-1-laura.nao@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAMLuWWcC/3XRTW6DMBAF4KtEXtfV2NgGd9V7VFkAHhdLFVAbS
- KKIu2dIf1Kp2Ltnab4Z6V1ZwhgwsZfDlUVcQgpDT8E8HVjb1f078uAoMwlSgQHJx+GEkad5HD8
- uHM8T9ttI4lA6q6zXYJ1lND1G9OF8l9+OlLuQpiFe7osWsf3+mCZrLoIDb5Q2xkoLjWtfTxhSS
- m03d889TmyDF/kXq/KYJEy61hW6ASFrt4sVD8yCymMFYUaix8YWvsL9y9QvJujlMUVYSRuFUq6
- uK9zF9AOToPOYJsyDt9a4RhWq/IetX+1E/Jyp7um7onW9ARLPDdgMAgAA
-X-Change-ID: 20240602-power-supply-extensions-07d949f509d9
-To: Sebastian Reichel <sre@kernel.org>, Armin Wolf <W_Armin@gmx.de>, 
- Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- linux-pm@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733947078; l=4647;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=K9yc/Ys1CTbFvSWOmqHUjMgumzjvSVyWlxbVSYFSEYE=;
- b=tt178b2xZNdHPRXo0xYqx035UAXyRX1iIb/2ucabjHIoOaMBEu5K/r3k/r6qByVcbhMHsPAYV
- 8+M8sbBglvzCkDLVbYw46wp0vjcNnXOZFKI9mTLF8GsmXFKIM4DsAnU
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+In-Reply-To: <20241210135501.251505-1-laura.nao@collabora.com>
 
-Introduce a mechanism for drivers to extend the properties implemented
-by a power supply.
+On Tue, Dec 10, 2024 at 02:55:01PM +0100, Laura Nao wrote:
+> Hi Jiri,
+> 
+> Thanks for the feedback!
+> 
+> On 12/6/24 13:35, Jiri Olsa wrote:
+> > On Fri, Nov 15, 2024 at 06:17:12PM +0100, Laura Nao wrote:
+> >> On 11/13/24 10:37, Laura Nao wrote:
+> >>>
+> >>> Currently, KernelCI only retains the bzImage, not the vmlinux
+> >>> binary. The
+> >>> bzImage can be downloaded from the same link mentioned above by
+> >>> selecting
+> >>> 'kernel' from the dropdown menu (modules can also be downloaded the
+> >>> same
+> >>> way). I’ll try to replicate the build on my end and share the
+> >>> vmlinux
+> >>> with DWARF data stripped for convenience.
+> >>>
+> >>
+> >> I managed to reproduce the issue locally and I've uploaded the
+> >> vmlinux[1]
+> >> (stripped of DWARF data) and vmlinux.raw[2] files, as well as one of
+> >> the
+> >> modules[3] and its btf data[4] extracted with:
+> >>
+> >> bpftool -B vmlinux btf dump file cros_kbd_led_backlight.ko >
+> >> cros_kbd_led_backlight.ko.raw
+> >>
+> >> Looking again at the logs[5], I've noticed the following is reported:
+> >>
+> >> [    0.415885] BPF: 	 type_id=115803 offset=177920 size=1152
+> >> [    0.416029] BPF:
+> >> [    0.416083] BPF: Invalid offset
+> >> [    0.416165] BPF:
+> >>
+> >> There are two different definitions of rcu_data in '.data..percpu',
+> >> one
+> >> is a struct and the other is an integer:
+> >>
+> >> type_id=115801 offset=177920 size=1152 (VAR 'rcu_data')
+> >> type_id=115803 offset=177920 size=1152 (VAR 'rcu_data')
+> >>
+> >> [115801] VAR 'rcu_data' type_id=115572, linkage=static
+> >> [115803] VAR 'rcu_data' type_id=1, linkage=static
+> >>
+> >> [115572] STRUCT 'rcu_data' size=1152 vlen=69
+> >> [1] INT 'long unsigned int' size=8 bits_offset=0 nr_bits=64
+> >> encoding=(none)
+> >>
+> >> I assume that's not expected, correct?
+> > 
+> > yes, that seems wrong.. but I can't reproduce with your config
+> > together with pahole 1.24 .. could you try with latest one?
+> 
+> I just tested next-20241210 with the latest pahole version (1.28 from
+> the master branch[1]), and the issue does not occur with this version
+> (I can see only one instance of rcu_data in the BTF data, as expected).
+> 
+> I can confirm that the same kernel revision still exhibits the issue
+> with pahole 1.24.
+> 
+> If helpful, I can also test versions between 1.24 and 1.28 to identify
+> which ones work.
 
-Motivation
-----------
+I managed to reproduce finally with gcc-12, but had to use pahole 1.25,
+1.24 failed with unknown attribute
 
-Various drivers, mostly in platform/x86 extend the ACPI battery driver
-with additional sysfs attributes to implement more UAPIs than are
-exposed through ACPI by using various side-channels, like WMI,
-nonstandard ACPI or EC communication.
+	[95096] VAR 'rcu_data' type_id=94868, linkage=static
+	[95098] VAR 'rcu_data' type_id=4, linkage=static
+	type_id=95096 offset=177088 size=1152 (VAR 'rcu_data')
+	type_id=95098 offset=177088 size=1152 (VAR 'rcu_data')
 
-While the created sysfs attributes look similar to the attributes
-provided by the powersupply core, there are various deficiencies:
+will try to check what's going on
 
-* They don't show up in uevent payload.
-* They can't be queried with the standard in-kernel APIs.
-* They don't work with triggers.
-* The extending driver has to reimplement all of the parsing,
-  formatting and sysfs display logic.
-* Writing a extension driver is completely different from writing a
-  normal power supply driver.
-* ~Properties can not be properly overriden.~
-  (Overriding is now explicitly forbidden)
-
-The proposed extension API avoids all of these issues.
-An extension is just a "struct power_supply_ext" with the same kind of
-callbacks as in a normal "struct power_supply_desc".
-
-The API is meant to be used via battery_hook_register(), the same way as
-the current extensions.
-Further usecases are fuel gauges and the existing battery_info
-properties.
-
-When testing, please enable lockdep to make sure the locking is correct.
-
-The series is based on the linux-power-supply/for-next branch.
-It also depends on some recent fixes not yet available in the for-next
-branch [0].
-
-[0] https://lore.kernel.org/lkml/20240528-cros_ec-charge-control-v2-0-81fb27e1cff4@weissschuh.net/
-
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
-Changes in v6:
-- Drop alreay picked up ACPI battery hook rename patch
-- Only return bool from power_supply_property_is_writeable()
-- Improve naming for test_power symbols
-- Integrate cros_charge-control fixes from the psy/fixes branch
-- Add sysfs UAPI for extension discovery
-- Use __must_check on API
-- Make power_supply_for_each_extension() safer.
-  (And uglier, ideas welcome)
-- Link to v5: https://lore.kernel.org/r/20241205-power-supply-extensions-v5-0-f0f996db4347@weissschuh.net
-
-Changes in v5:
-- Drop already picked up patches
-- Simplify power_supply_ext_has_property()
-- Handle failure of power_supply_update_sysfs_and_hwmon()
-- Reduce some locking scopes
-- Add missing locking to power_supply_show_charge_behaviour()
-- Improve sanity checks in power_supply_register_extension()
-- Implement writeable property in test_power battery
-- Rename ACPI battery hook messages for clarity
-- Link to v4: https://lore.kernel.org/r/20241111-power-supply-extensions-v4-0-7240144daa8e@weissschuh.net
-
-Changes in v4:
-- Drop RFC state
-- Integrate locking commit
-- Reregister hwmon device
-- Link to v3: https://lore.kernel.org/r/20240904-power-supply-extensions-v3-0-62efeb93f8ec@weissschuh.net
-
-Changes in v3:
-- Make naming more consistent
-- Readd locking
-- Allow multiple active extensions
-- Allow passing a "void *ext_data" when registering
-- Switch example driver from system76 to cros_charge-control
-- Link to v2: https://lore.kernel.org/r/20240608-power-supply-extensions-v2-0-2dcd35b012ad@weissschuh.net
-
-Changes in v2:
-- Drop locking patch, let's figure out the API first
-- Allow registration of multiple extensions
-- Pass extension to extension callbacks as parameter
-- Disallow property overlap between extensions and core psy
-- Drop system76/pdx86 maintainers, as the system76 changes are only RFC
-  state anyways
-- Link to v1: https://lore.kernel.org/r/20240606-power-supply-extensions-v1-0-b45669290bdc@weissschuh.net
-
----
-Thomas Weißschuh (4):
-      power: supply: core: implement extension API
-      power: supply: test-power: implement a power supply extension
-      power: supply: cros_charge-control: implement a power supply extension
-      power: supply: core: add UAPI to discover currently used extensions
-
- Documentation/ABI/testing/sysfs-class-power |   9 ++
- drivers/power/supply/cros_charge-control.c  | 200 ++++++++++++----------------
- drivers/power/supply/power_supply.h         |  19 +++
- drivers/power/supply/power_supply_core.c    | 177 ++++++++++++++++++++++--
- drivers/power/supply/power_supply_sysfs.c   |  36 ++++-
- drivers/power/supply/test_power.c           | 113 ++++++++++++++++
- include/linux/power_supply.h                |  35 +++++
- 7 files changed, 467 insertions(+), 122 deletions(-)
----
-base-commit: 810dde9dad8222f3b831cf5179927fc66fc6a006
-change-id: 20240602-power-supply-extensions-07d949f509d9
-
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
-
+jirka

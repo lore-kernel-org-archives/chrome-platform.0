@@ -1,179 +1,123 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2BB20E6E1;
-	Thu, 12 Dec 2024 09:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54E8211A1E
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Dec 2024 12:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733995357; cv=none; b=GoeorydF0PR+EW7/RHQ6WRsYnrO8TCgHZfjjEvOtcKW/WK6K8vqCZaAfFtoWC8v6TeXMHhIfhdnlT1bKMozkQQzaK98sSWeHvTm8rrXH1IfWsU5r7fNLGPhY13P1wNnF6GjDLc3GgCFPqRqPdZI8/btgB6yCl0tUaRAUScjSDnQ=
+	t=1734005476; cv=none; b=RpRqCBy9Kgvp3GNKsHCLaVd7gTBJj0xfwMn5JV8BjwrNZJnO2f6MrHug0Qz/DPLkjbG2MkayuIfi5eMpqb5nytw4qVtuTlb88a09bMinqlZNTlz6ZxySvL4C3BF7wndjPa47M2T37t5yaR7b47fLK5Y02bL8SkZh4V7o08A8eKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733995357; c=relaxed/simple;
-	bh=MH76A8RrBVeEauyXdzge4bB1tbBOOSK8hzAcOTLGZu4=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dhcQn/8P7jj8nvhSyvABZFgkMMmle5q2H2TqFCu9NIht9tH1qYU32DixrMzeTShVmi7mN+wbWS7wJjmpm/04Tue3tgIAtIY6YMIHIiY2cvq4xCNfpzLG14iLJ2B9mqpW9wqQGPgKSbgAsT2LTWTZzKIgxgBaAgRwPfwzCXqvbL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cK3KV0q6; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734005476; c=relaxed/simple;
+	bh=zcbELSpkNbPADO4bWdCMabNQ/G3qr8N+Zs56TfZUQmw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JHqPk298w2OfHjQykEU6pAxqf/L30ruDWggYQBIlpWgI8t9K7pFuxQUit4QaYzLcH9dCLW9w3K8PVeSc+1mMp9v7fIWWE1r7CA96Pox1tnQQhFbjN3fTRQ2XzBersSQgu8e93RSli+93Oo/u0hI1b/4nXJ+VktIZyAmHIA2Bzz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp; dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b=Mdy4BtEW; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cK3KV0q6"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43622267b2eso3754125e9.0;
-        Thu, 12 Dec 2024 01:22:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="Mdy4BtEW"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-725abf74334so404904b3a.3
+        for <chrome-platform@lists.linux.dev>; Thu, 12 Dec 2024 04:11:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733995353; x=1734600153; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9/8qAprzepzOhI9hq4ABjT0H5BvreqQl8xCmHayUS8c=;
-        b=cK3KV0q6GckXsol6rWcOOxrEl9rsuYnumOuVhnfQPMI7X4d55yXPTsWDEvRCTz9UHw
-         r6uL3Ix5CRlEjJKpE4dfLi1LAp3tVZGhuGVJnOlf1oeyYCNGqjr779FaJY7Yx0tWAKhq
-         SdEpRdoL99bkFPVdiKc8smElz84i/yYz1KiGdO2fhAIw+6yghYhuET0VQe3eB3vBORTK
-         kokoGpQleX15GcPPM8YdWokFJX3hZWtRpf93lH0y6/gOYPvKknvlXcraM15zRuH1ytlq
-         Pq0aKesfuSa0/S7BrjFdkEEUxN67mKGz91q/f2JQhjMooZE1mMwx06SjE3jLBMjCo+VC
-         e7Ew==
+        d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1734005473; x=1734610273; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Kt1dBd9tzbwEFbZQF/J5QZap/tCRkDClNmmFyMj4h0=;
+        b=Mdy4BtEW1Qgb76rPELejsPazUpbI8pkrJ0qPwsAsxP4XFKuiX2tcuvlatpoQ6HcWU2
+         TdUG+g+xtUDpiv+8lAIWeadYvl5+7MWLK6BqbUR2MAOyhH9qKqDWvQoyTWsrkCBVM6Vr
+         etxxIcwkdpgFVBSR95fbQ3vbjv6bQEhLBXAksTu9b2zI/72yOzQH7ddfmmcGXCNYRH5o
+         J7hdbAt9AYJO2MC/rsX4SSp+zF6lE4c3q+FkHYbwFxyqCCRM/H8OWSlocFWV5i/DgjfE
+         HozThflQFQ4wJXVjMUXeNyNtglFAJcAm+cYRMDc8LzDpFOeXPdENZEpii+9C1TyZGucW
+         Vpbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733995353; x=1734600153;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9/8qAprzepzOhI9hq4ABjT0H5BvreqQl8xCmHayUS8c=;
-        b=PaBiluCSUHQcKr3r9jsApnWysE0dZIbMG7O0YBZpmRZQsktFD6PW82I1OmjYMNggjR
-         44FFKO52BvruyBDGxiWUag8sHlAfF3kvo8hzQmg/lYKVoNhSoFWyd1lngH2Wec/BO6gy
-         cC8HPFhYSMJ53iUHYH2sjE+v8ohhtpeTBEt2jPg4P4IO+zaSZ6Ou2KQbthJ77gZgrKFv
-         T8N7hysrQsDCPm65DVM84E/43ISEuK0XLBRK+EEUkZGClRvG9S1q77yBwm2ph/z8qP4B
-         R6OYhCAkr+NDtWWbkS1sz652X2sg84WW/N5O1JN0sMvm9t0CRBTlGm/4z77L9IABhiQe
-         0wiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJA1iL9rAVqYmJe39TTgBwdrQTOc9H6M/WIaLQborHbqBxLCbgIbKL8ZL3IRW71a6iXYJARAI7wiRk21s=@lists.linux.dev, AJvYcCX//56YwJuBOAD6g/A6gKEgJMWXpHINHDx6haYzzhVY+ZNC83NRBJZTk7Z4QSa6yTi8ZTXF1K4O2Ie/6PblPUU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVHvNaR0nkq/McZNqbTYmukZNp1E/87M7Pi/ql14m8QdLwtu/u
-	36DSo2wB10ONuFawTKBTuGYCAxawjy+hdezPVUHroRrc889ZNu8T
-X-Gm-Gg: ASbGncvh1cEWXcewLw3LcZeEvd4PTxaA4WhyW3Rt+1Sjc9ugriMPW2cHVzsBBtU6w+4
-	H622Z5N5QWjX1z3jWL9YeCmv/LynFuC02V+7Qmn0KCGZL7HEisGErsCv9aCdJ0lEP8dJX8oWQf3
-	KcZ1ruzHY+lxB1ZXQ8IRNXtUPIP/1sIc4B8eT519a1MQ1ITppUPEWGwN9Umwy1UXzWO6WaQY9Kq
-	xF0m1kUt9qylTm6GEapTqSZnNQUT9WMI9C4XVeJKvuGIlvFvAcTVkWpjwZ9+P2GXr5hgkJB5RCj
-	cMlBlJ6vyeVVQEl/qB8SCoChXFEuXw==
-X-Google-Smtp-Source: AGHT+IF5BcgvSTVBRtoBdBseMDIWG1i+t5YhY/Nf3IWtocZuQeNr3CTNju1EKFip3g+LBHDjf7c81A==
-X-Received: by 2002:a05:600c:4e4b:b0:434:a0bf:98ea with SMTP id 5b1f17b1804b1-4361c35cc4bmr46472845e9.9.1733995353163;
-        Thu, 12 Dec 2024 01:22:33 -0800 (PST)
-Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43625717c9fsm10563025e9.44.2024.12.12.01.22.32
+        d=1e100.net; s=20230601; t=1734005473; x=1734610273;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9Kt1dBd9tzbwEFbZQF/J5QZap/tCRkDClNmmFyMj4h0=;
+        b=Ld326FYEcyLQNVHf1GSgFnJch6/WovU+QwxZni+x5uHn22vhufqavf1XQn9Tc1jBVx
+         +QCtl5JfoU+za3V42iLj5aqT6lV17BrhMHTodahVNQUNxkSFCUmD/6cYXVPRRzRTRxgX
+         c4JhCkA/Svz6NIRprSYBOW2sT9p1w8WLMSIu/m7TZ9dVaGmN4TEu4k2cbirgh4rFTHiN
+         Bo98R7AP9wJo7Hc4AnzEFrO8I4jGRINmlIgxh+GfjOL++gWdQXZ3MYjo43jvUb5p3TEc
+         NzVHBuHrV8Rcgxx0TlOScLOws0bulEoSL3uOYKFvganYYUr7ZiGH070CGCXxKA4VME8q
+         GGvw==
+X-Forwarded-Encrypted: i=1; AJvYcCXYqsVaKC9ukxiJQeBsxfqbqwni2Zla8dk9SNz/lSQ/G4/rrpryyhjHHHJ1pRZafL5o0SZg+rTewfbLZo6EOTE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzQ9dgeCjZIk7mF+p0xP5qDU4TwUCYUi9sBN+uMA+EAcuPtv8Mi
+	i6ppT5epRkEIp7w09d8iZnbzK1Wp706BKjwMqN+UHmDXbBo6aS6w/Qf+ASoj8YI=
+X-Gm-Gg: ASbGnctHDqiiuPLFBOuSWep2vMULu8PIH4TfVj1LdFmXWqNy7MooViZ0VzRRt8z61UP
+	Vpfy1Ajimk4Ty8em1LEF5EipRRwJmDnnNLCm+6KQcCEyjVfeDk9SRvUKuef513BV52uI+B8V4Qq
+	b39TI0PsGJwWHPsZ5i7XzcOCJNemToS2nXO3ntxWj5Dk0TLXw+k3vlP8dG8KVpPQf+Izu2NgPju
+	Qlx56z1/2PWSTrfC6Z1uAykTp6SxZOnBnD4HdViUxzwR7VqNAo2XPRnOg9amwaY2KEea1dHDb5f
+	I3zM
+X-Google-Smtp-Source: AGHT+IEg57HPSz6PBiagBeC1thIpaBi1Aia/aWRV3PYT0qflShVp1kto0KyeDc+hWIyxmzbANM4RSA==
+X-Received: by 2002:a05:6a00:430c:b0:728:ac38:4bee with SMTP id d2e1a72fcca58-729069568c0mr104595b3a.2.1734005473133;
+        Thu, 12 Dec 2024 04:11:13 -0800 (PST)
+Received: from localhost.localdomain ([2001:f70:39c0:3a00:b741:6a01:f624:e219])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-728e1f67ad1sm4574683b3a.76.2024.12.12.04.11.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2024 01:22:32 -0800 (PST)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Thu, 12 Dec 2024 10:22:30 +0100
-To: Jiri Olsa <olsajiri@gmail.com>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>
-Cc: Laura Nao <laura.nao@collabora.com>, alan.maguire@oracle.com,
-	bpf@vger.kernel.org, chrome-platform@lists.linux.dev,
-	kernel@collabora.com, linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [REGRESSION] module BTF validation failure (Error -22) on
-Message-ID: <Z1qrVu2Pv6qXI9tD@krava>
-References: <Z1LvfndLE1t1v995@krava>
- <20241210135501.251505-1-laura.nao@collabora.com>
- <Z1n_wGj0CGjh_gLP@krava>
+        Thu, 12 Dec 2024 04:11:12 -0800 (PST)
+From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+To: alexandre.belloni@bootlin.com,
+	bleung@chromium.org,
+	groeck@chromium.org
+Cc: linux-rtc@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+Subject: [PATCH] rtc: cros-ec: disable wakeup in the error path of .probe()
+Date: Thu, 12 Dec 2024 21:11:07 +0900
+Message-Id: <20241212121107.3903967-1-joe@pf.is.s.u-tokyo.ac.jp>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z1n_wGj0CGjh_gLP@krava>
 
-On Wed, Dec 11, 2024 at 10:10:24PM +0100, Jiri Olsa wrote:
-> On Tue, Dec 10, 2024 at 02:55:01PM +0100, Laura Nao wrote:
-> > Hi Jiri,
-> > 
-> > Thanks for the feedback!
-> > 
-> > On 12/6/24 13:35, Jiri Olsa wrote:
-> > > On Fri, Nov 15, 2024 at 06:17:12PM +0100, Laura Nao wrote:
-> > >> On 11/13/24 10:37, Laura Nao wrote:
-> > >>>
-> > >>> Currently, KernelCI only retains the bzImage, not the vmlinux
-> > >>> binary. The
-> > >>> bzImage can be downloaded from the same link mentioned above by
-> > >>> selecting
-> > >>> 'kernel' from the dropdown menu (modules can also be downloaded the
-> > >>> same
-> > >>> way). I’ll try to replicate the build on my end and share the
-> > >>> vmlinux
-> > >>> with DWARF data stripped for convenience.
-> > >>>
-> > >>
-> > >> I managed to reproduce the issue locally and I've uploaded the
-> > >> vmlinux[1]
-> > >> (stripped of DWARF data) and vmlinux.raw[2] files, as well as one of
-> > >> the
-> > >> modules[3] and its btf data[4] extracted with:
-> > >>
-> > >> bpftool -B vmlinux btf dump file cros_kbd_led_backlight.ko >
-> > >> cros_kbd_led_backlight.ko.raw
-> > >>
-> > >> Looking again at the logs[5], I've noticed the following is reported:
-> > >>
-> > >> [    0.415885] BPF: 	 type_id=115803 offset=177920 size=1152
-> > >> [    0.416029] BPF:
-> > >> [    0.416083] BPF: Invalid offset
-> > >> [    0.416165] BPF:
-> > >>
-> > >> There are two different definitions of rcu_data in '.data..percpu',
-> > >> one
-> > >> is a struct and the other is an integer:
-> > >>
-> > >> type_id=115801 offset=177920 size=1152 (VAR 'rcu_data')
-> > >> type_id=115803 offset=177920 size=1152 (VAR 'rcu_data')
-> > >>
-> > >> [115801] VAR 'rcu_data' type_id=115572, linkage=static
-> > >> [115803] VAR 'rcu_data' type_id=1, linkage=static
-> > >>
-> > >> [115572] STRUCT 'rcu_data' size=1152 vlen=69
-> > >> [1] INT 'long unsigned int' size=8 bits_offset=0 nr_bits=64
-> > >> encoding=(none)
-> > >>
-> > >> I assume that's not expected, correct?
-> > > 
-> > > yes, that seems wrong.. but I can't reproduce with your config
-> > > together with pahole 1.24 .. could you try with latest one?
-> > 
-> > I just tested next-20241210 with the latest pahole version (1.28 from
-> > the master branch[1]), and the issue does not occur with this version
-> > (I can see only one instance of rcu_data in the BTF data, as expected).
-> > 
-> > I can confirm that the same kernel revision still exhibits the issue
-> > with pahole 1.24.
-> > 
-> > If helpful, I can also test versions between 1.24 and 1.28 to identify
-> > which ones work.
-> 
-> I managed to reproduce finally with gcc-12, but had to use pahole 1.25,
-> 1.24 failed with unknown attribute
-> 
-> 	[95096] VAR 'rcu_data' type_id=94868, linkage=static
-> 	[95098] VAR 'rcu_data' type_id=4, linkage=static
-> 	type_id=95096 offset=177088 size=1152 (VAR 'rcu_data')
-> 	type_id=95098 offset=177088 size=1152 (VAR 'rcu_data')
+Current code leaves the device's wakeup enabled in the error path of
+.probe(), which results in a memory leak. Fix it by calling
+devm_add_action_or_reset() with a callback which calls
+device_init_wakeup(dev, false).
 
-so for me the difference seems to be using gcc-12 and this commit in linux tree:
-  dabddd687c9e percpu: cast percpu pointer in PERCPU_PTR() via unsigned long
+This bug was found by an experimental static analysis tool that I am
+developing.
 
-which adds extra __pcpu_ptr variable into dwarf, and it has the same
-address as the per cpu variable and that confuses pahole
+Fixes: 6f2a71a31afd ("rtc: cros-ec: add cros-ec-rtc driver.")
+Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+---
+ drivers/rtc/rtc-cros-ec.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-it ends up with adding per cpu variable twice.. one with real type
-(type_id=94868) and the other with unsigned long type (type_id=4)
+diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
+index 60a48c3ba3ca..4cd6eab0fd8c 100644
+--- a/drivers/rtc/rtc-cros-ec.c
++++ b/drivers/rtc/rtc-cros-ec.c
+@@ -314,6 +314,13 @@ static int cros_ec_rtc_resume(struct device *dev)
+ static SIMPLE_DEV_PM_OPS(cros_ec_rtc_pm_ops, cros_ec_rtc_suspend,
+ 			 cros_ec_rtc_resume);
+ 
++static void cros_ec_disable_wakeup(void *data)
++{
++	struct device *dev = data;
++
++	device_init_wakeup(dev, false);
++}
++
+ static int cros_ec_rtc_probe(struct platform_device *pdev)
+ {
+ 	struct cros_ec_dev *ec_dev = dev_get_drvdata(pdev->dev.parent);
+@@ -343,6 +350,11 @@ static int cros_ec_rtc_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
++	ret = devm_add_action_or_reset(&pdev->dev, cros_ec_disable_wakeup,
++				       &pdev->dev);
++	if (ret)
++		return ret;
++
+ 	cros_ec_rtc->rtc = devm_rtc_allocate_device(&pdev->dev);
+ 	if (IS_ERR(cros_ec_rtc->rtc))
+ 		return PTR_ERR(cros_ec_rtc->rtc);
+-- 
+2.34.1
 
-however this got fixed in pahole 1.28 commit:
-  47dcb534e253 btf_encoder: Stop indexing symbols for VARs
-
-which filters out __pcpu_ptr variable completely, adding Stephen to the loop
-
-with gcc-14 the __pcpu_ptr variable has VSCOPE_OPTIMIZED scope, so it won't
-get into btf even without above pahole fix
-
-I suggest gcc/pahole upgrade ;-)
-
-thanks,
-jirka

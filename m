@@ -1,123 +1,204 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54E8211A1E
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Dec 2024 12:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0942147E3;
+	Thu, 12 Dec 2024 14:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734005476; cv=none; b=RpRqCBy9Kgvp3GNKsHCLaVd7gTBJj0xfwMn5JV8BjwrNZJnO2f6MrHug0Qz/DPLkjbG2MkayuIfi5eMpqb5nytw4qVtuTlb88a09bMinqlZNTlz6ZxySvL4C3BF7wndjPa47M2T37t5yaR7b47fLK5Y02bL8SkZh4V7o08A8eKM=
+	t=1734013685; cv=none; b=NZFme7H8Tb+eiIHo5ndACuxOhI71DOWvMBnf2uvv2nt1kPFIwwt570D292cP/HskBjhDGd11F0s1Um8HJsWMjyvCrfr1FtiP8yt8yTew9SKDqbOryuQgI96jJB6eHsSPFJwSFLXnFkKzpkuiVZkAUP1TD7/lDWMmLXORFAfkb/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734005476; c=relaxed/simple;
-	bh=zcbELSpkNbPADO4bWdCMabNQ/G3qr8N+Zs56TfZUQmw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JHqPk298w2OfHjQykEU6pAxqf/L30ruDWggYQBIlpWgI8t9K7pFuxQUit4QaYzLcH9dCLW9w3K8PVeSc+1mMp9v7fIWWE1r7CA96Pox1tnQQhFbjN3fTRQ2XzBersSQgu8e93RSli+93Oo/u0hI1b/4nXJ+VktIZyAmHIA2Bzz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp; dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b=Mdy4BtEW; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp
+	s=arc-20240116; t=1734013685; c=relaxed/simple;
+	bh=zhbWlbfmCT2R0OnXcZwGTaUYbhyJtBWfLrYAfXhKGAQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XiA63rB1UvJ18QB6PLzownT+kVgJik48k9mJWjO35Q3WQYjCCcV7NQ/S31xjykXIpbuEr3bR9Cl1MfnDg+yZi8OaHWIHUDdOMa4lx4EMWCndGaesICHLxnqYoYOsvvKz4JVu0o+oiidbO8rJM3HrI3Mtipr+fbojSXYfqq0r1q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=UTCMwipG; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="Mdy4BtEW"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-725abf74334so404904b3a.3
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Dec 2024 04:11:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1734005473; x=1734610273; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Kt1dBd9tzbwEFbZQF/J5QZap/tCRkDClNmmFyMj4h0=;
-        b=Mdy4BtEW1Qgb76rPELejsPazUpbI8pkrJ0qPwsAsxP4XFKuiX2tcuvlatpoQ6HcWU2
-         TdUG+g+xtUDpiv+8lAIWeadYvl5+7MWLK6BqbUR2MAOyhH9qKqDWvQoyTWsrkCBVM6Vr
-         etxxIcwkdpgFVBSR95fbQ3vbjv6bQEhLBXAksTu9b2zI/72yOzQH7ddfmmcGXCNYRH5o
-         J7hdbAt9AYJO2MC/rsX4SSp+zF6lE4c3q+FkHYbwFxyqCCRM/H8OWSlocFWV5i/DgjfE
-         HozThflQFQ4wJXVjMUXeNyNtglFAJcAm+cYRMDc8LzDpFOeXPdENZEpii+9C1TyZGucW
-         Vpbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734005473; x=1734610273;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9Kt1dBd9tzbwEFbZQF/J5QZap/tCRkDClNmmFyMj4h0=;
-        b=Ld326FYEcyLQNVHf1GSgFnJch6/WovU+QwxZni+x5uHn22vhufqavf1XQn9Tc1jBVx
-         +QCtl5JfoU+za3V42iLj5aqT6lV17BrhMHTodahVNQUNxkSFCUmD/6cYXVPRRzRTRxgX
-         c4JhCkA/Svz6NIRprSYBOW2sT9p1w8WLMSIu/m7TZ9dVaGmN4TEu4k2cbirgh4rFTHiN
-         Bo98R7AP9wJo7Hc4AnzEFrO8I4jGRINmlIgxh+GfjOL++gWdQXZ3MYjo43jvUb5p3TEc
-         NzVHBuHrV8Rcgxx0TlOScLOws0bulEoSL3uOYKFvganYYUr7ZiGH070CGCXxKA4VME8q
-         GGvw==
-X-Forwarded-Encrypted: i=1; AJvYcCXYqsVaKC9ukxiJQeBsxfqbqwni2Zla8dk9SNz/lSQ/G4/rrpryyhjHHHJ1pRZafL5o0SZg+rTewfbLZo6EOTE=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQ9dgeCjZIk7mF+p0xP5qDU4TwUCYUi9sBN+uMA+EAcuPtv8Mi
-	i6ppT5epRkEIp7w09d8iZnbzK1Wp706BKjwMqN+UHmDXbBo6aS6w/Qf+ASoj8YI=
-X-Gm-Gg: ASbGnctHDqiiuPLFBOuSWep2vMULu8PIH4TfVj1LdFmXWqNy7MooViZ0VzRRt8z61UP
-	Vpfy1Ajimk4Ty8em1LEF5EipRRwJmDnnNLCm+6KQcCEyjVfeDk9SRvUKuef513BV52uI+B8V4Qq
-	b39TI0PsGJwWHPsZ5i7XzcOCJNemToS2nXO3ntxWj5Dk0TLXw+k3vlP8dG8KVpPQf+Izu2NgPju
-	Qlx56z1/2PWSTrfC6Z1uAykTp6SxZOnBnD4HdViUxzwR7VqNAo2XPRnOg9amwaY2KEea1dHDb5f
-	I3zM
-X-Google-Smtp-Source: AGHT+IEg57HPSz6PBiagBeC1thIpaBi1Aia/aWRV3PYT0qflShVp1kto0KyeDc+hWIyxmzbANM4RSA==
-X-Received: by 2002:a05:6a00:430c:b0:728:ac38:4bee with SMTP id d2e1a72fcca58-729069568c0mr104595b3a.2.1734005473133;
-        Thu, 12 Dec 2024 04:11:13 -0800 (PST)
-Received: from localhost.localdomain ([2001:f70:39c0:3a00:b741:6a01:f624:e219])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-728e1f67ad1sm4574683b3a.76.2024.12.12.04.11.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2024 04:11:12 -0800 (PST)
-From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-To: alexandre.belloni@bootlin.com,
-	bleung@chromium.org,
-	groeck@chromium.org
-Cc: linux-rtc@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Subject: [PATCH] rtc: cros-ec: disable wakeup in the error path of .probe()
-Date: Thu, 12 Dec 2024 21:11:07 +0900
-Message-Id: <20241212121107.3903967-1-joe@pf.is.s.u-tokyo.ac.jp>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="UTCMwipG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1734013673; x=1734618473; i=w_armin@gmx.de;
+	bh=gBO0h3mLD00rm/CE/bkTi0A3SpHw5vASQnim86ZPijs=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=UTCMwipGh9hwCseroJ5piu4qvZgnYkINmW9nsBZ3QHSB9MCM2GDN2cjjbNtWQtDd
+	 QMWrUxzLn56HrwOQR24h+vhQkz+68pRaKzVDTcsWaB4jCWrCGyL3oHpWKk2ANndxt
+	 eLhw5xyzsDIfgNZHjqLzBZsRsu0Zo+Nuc6GUN3IaDcjiOJ13dCXGfbE5tCVabd9xU
+	 cWRajQj6EMKv4P3bTXJqICandg9UW9sLqQ27sAgu5bbkEfvOVPC0F9/mNqqw1UJbG
+	 E3seexqY/h/TlP4YL5dDUmJlPdv6pa7IpAXdMXraUWJN6zu5VEOiIDz0hSfIbZ46V
+	 ePr29r6oZ0QON3yPPA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.42.132] ([141.76.178.168]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M89L1-1tH3D032wN-00GllY; Thu, 12
+ Dec 2024 15:27:53 +0100
+Message-ID: <2e2f4845-7500-40ec-985d-3a495842e020@gmx.de>
+Date: Thu, 12 Dec 2024 15:27:52 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/4] power: supply: extension API
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Sebastian Reichel <sre@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-pm@vger.kernel.org
+References: <20241211-power-supply-extensions-v6-0-9d9dc3f3d387@weissschuh.net>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20241211-power-supply-extensions-v6-0-9d9dc3f3d387@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:K4Q5wxQsGKPsci0M0ApYakQMV8M0E6bpoyZdHGjpQ3Z7+7AhLMR
+ lRSliIne7RKZuAB8fO0tzzlQuQ5dGwxPTxJYor1myGKDgpEgCdwkbGzKxCuP84yYktzxUVm
+ 5H6XsPqJPD/U+h/OGsqxhJolz+AgSY2I3ZVhkYwzSamin8rt4AjvrP1G/D2dISV9Lv/BUe5
+ gkpZ3TFohGshh5xxH9pfw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:4pLWmrWe7W0=;mzg2ZehVALyF+rvW/20+kkVWeio
+ 45oRq0QYMTgtCWcTlehvCTOPpz4dQZKkJmYMWt2YzlJzPdzlR8dvFK6T2bdT+zuXA+EfSfAup
+ 0JxJlU6FWNBpHNFV2MY/aP+r8PamDpk0+tkP6MJADyNxmqTWrQFxyU3xPzqShXWzIexqgkyFn
+ iiybogy0cZt2V3mqxQ1R+O2uIKphvx2FHzmHvq4sS+2lZB0e0CDKF23HmR0l3XbN+/l3a+nlZ
+ i9K3Bi6VpeuUP5RBxQ0BcKgvoiOdkfgjxd9cspffqsaEK1WdB0xwEEJFnCaaXBnzQADqWEpVY
+ HRIxE5xPtPGmTu5MhCczLFwxNrZw98quqhNDz+7b9GrWWYeRsy+2rMJEdpPblDqWNmJRtifGZ
+ lCt/f9Rm3ye4sgH4HMd86LCMvceCxeic22jSc/i5nTS91tiz7MMSb3k9QY4aUwB8HuoS2wOxM
+ KRXDX0vA5U8QS+X0Igeq4sAuXFbtxm+qL0EXqCYfC0EXgjRUvwGTj0ybH7Lt+kZP3ng141SEq
+ mpkigP/x/2XYGjlBd1nkMJlKisx7LAqeum9CUGoI36cSk+Zx6WSCr1vGozhrCtwxwc5UItEMe
+ KRvoiVtVkPd9Bs8yyekegWDlA04aTpbDh5SaRB/yThiu6jNdYIq0BfrUFGFQuwvCuuPtAmUUa
+ y9MsTeqCgv2IPEEp+/tI0O7jcsG8rQazvU/VmzKBNqf1+BnjPfLLCNvrSQA8gh+EcfCpMqHAM
+ TAIHI1fFT60hRw663fGCr7oWrWujE4tg6ikIhG+PkuMx6i7K1lYBpfiKTxUgWGjU0Xedb7d5v
+ FnvGnd83E4TEsJqTACy/UiWurvt74/4yMQeFiTNHoGijTzl/njKyRZk8kzf7Zu78p4noMhqVR
+ 4SPSUHQ6RTk6tXklqKUed0RNJan2Tn/OsOQ6ytKicJ/De9TuDuB5PhPJu+G58hNvuG6AaDxYm
+ Zx7V8ibeBVR+sXKV4eHrolL9HGU0bCsDndRw7BufTz5CR/LFiGc8VKsckWYtSeCE/eIMZWU7e
+ Z76olwJeA9AQNIHlvvO3XOQFQr8iPdSb9K9SSZxZ4YT6VSDlUQ80Rn+W/5tCBrxmM0J/5h5QV
+ KqVOQ+9R8sf61k9r375JT6RMn5upls
 
-Current code leaves the device's wakeup enabled in the error path of
-.probe(), which results in a memory leak. Fix it by calling
-devm_add_action_or_reset() with a callback which calls
-device_init_wakeup(dev, false).
+Am 11.12.24 um 20:57 schrieb Thomas Wei=C3=9Fschuh:
 
-This bug was found by an experimental static analysis tool that I am
-developing.
+> Introduce a mechanism for drivers to extend the properties implemented
+> by a power supply.
+>
+> Motivation
+> ----------
+>
+> Various drivers, mostly in platform/x86 extend the ACPI battery driver
+> with additional sysfs attributes to implement more UAPIs than are
+> exposed through ACPI by using various side-channels, like WMI,
+> nonstandard ACPI or EC communication.
+>
+> While the created sysfs attributes look similar to the attributes
+> provided by the powersupply core, there are various deficiencies:
+>
+> * They don't show up in uevent payload.
+> * They can't be queried with the standard in-kernel APIs.
+> * They don't work with triggers.
+> * The extending driver has to reimplement all of the parsing,
+>    formatting and sysfs display logic.
+> * Writing a extension driver is completely different from writing a
+>    normal power supply driver.
+> * ~Properties can not be properly overriden.~
+>    (Overriding is now explicitly forbidden)
+>
+> The proposed extension API avoids all of these issues.
+> An extension is just a "struct power_supply_ext" with the same kind of
+> callbacks as in a normal "struct power_supply_desc".
+>
+> The API is meant to be used via battery_hook_register(), the same way as
+> the current extensions.
+> Further usecases are fuel gauges and the existing battery_info
+> properties.
+>
+> When testing, please enable lockdep to make sure the locking is correct.
+>
+> The series is based on the linux-power-supply/for-next branch.
+> It also depends on some recent fixes not yet available in the for-next
+> branch [0].
+>
+> [0] https://lore.kernel.org/lkml/20240528-cros_ec-charge-control-v2-0-81=
+fb27e1cff4@weissschuh.net/
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+> Changes in v6:
+> - Drop alreay picked up ACPI battery hook rename patch
+> - Only return bool from power_supply_property_is_writeable()
+> - Improve naming for test_power symbols
+> - Integrate cros_charge-control fixes from the psy/fixes branch
+> - Add sysfs UAPI for extension discovery
+> - Use __must_check on API
+> - Make power_supply_for_each_extension() safer.
+>    (And uglier, ideas welcome)
 
-Fixes: 6f2a71a31afd ("rtc: cros-ec: add cros-ec-rtc driver.")
-Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
----
- drivers/rtc/rtc-cros-ec.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Maybe we can use a do { ... } while (0) construct here.
 
-diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
-index 60a48c3ba3ca..4cd6eab0fd8c 100644
---- a/drivers/rtc/rtc-cros-ec.c
-+++ b/drivers/rtc/rtc-cros-ec.c
-@@ -314,6 +314,13 @@ static int cros_ec_rtc_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(cros_ec_rtc_pm_ops, cros_ec_rtc_suspend,
- 			 cros_ec_rtc_resume);
- 
-+static void cros_ec_disable_wakeup(void *data)
-+{
-+	struct device *dev = data;
-+
-+	device_init_wakeup(dev, false);
-+}
-+
- static int cros_ec_rtc_probe(struct platform_device *pdev)
- {
- 	struct cros_ec_dev *ec_dev = dev_get_drvdata(pdev->dev.parent);
-@@ -343,6 +350,11 @@ static int cros_ec_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	ret = devm_add_action_or_reset(&pdev->dev, cros_ec_disable_wakeup,
-+				       &pdev->dev);
-+	if (ret)
-+		return ret;
-+
- 	cros_ec_rtc->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(cros_ec_rtc->rtc))
- 		return PTR_ERR(cros_ec_rtc->rtc);
--- 
-2.34.1
-
+> - Link to v5: https://lore.kernel.org/r/20241205-power-supply-extensions=
+-v5-0-f0f996db4347@weissschuh.net
+>
+> Changes in v5:
+> - Drop already picked up patches
+> - Simplify power_supply_ext_has_property()
+> - Handle failure of power_supply_update_sysfs_and_hwmon()
+> - Reduce some locking scopes
+> - Add missing locking to power_supply_show_charge_behaviour()
+> - Improve sanity checks in power_supply_register_extension()
+> - Implement writeable property in test_power battery
+> - Rename ACPI battery hook messages for clarity
+> - Link to v4: https://lore.kernel.org/r/20241111-power-supply-extensions=
+-v4-0-7240144daa8e@weissschuh.net
+>
+> Changes in v4:
+> - Drop RFC state
+> - Integrate locking commit
+> - Reregister hwmon device
+> - Link to v3: https://lore.kernel.org/r/20240904-power-supply-extensions=
+-v3-0-62efeb93f8ec@weissschuh.net
+>
+> Changes in v3:
+> - Make naming more consistent
+> - Readd locking
+> - Allow multiple active extensions
+> - Allow passing a "void *ext_data" when registering
+> - Switch example driver from system76 to cros_charge-control
+> - Link to v2: https://lore.kernel.org/r/20240608-power-supply-extensions=
+-v2-0-2dcd35b012ad@weissschuh.net
+>
+> Changes in v2:
+> - Drop locking patch, let's figure out the API first
+> - Allow registration of multiple extensions
+> - Pass extension to extension callbacks as parameter
+> - Disallow property overlap between extensions and core psy
+> - Drop system76/pdx86 maintainers, as the system76 changes are only RFC
+>    state anyways
+> - Link to v1: https://lore.kernel.org/r/20240606-power-supply-extensions=
+-v1-0-b45669290bdc@weissschuh.net
+>
+> ---
+> Thomas Wei=C3=9Fschuh (4):
+>        power: supply: core: implement extension API
+>        power: supply: test-power: implement a power supply extension
+>        power: supply: cros_charge-control: implement a power supply exte=
+nsion
+>        power: supply: core: add UAPI to discover currently used extensio=
+ns
+>
+>   Documentation/ABI/testing/sysfs-class-power |   9 ++
+>   drivers/power/supply/cros_charge-control.c  | 200 ++++++++++++--------=
+--------
+>   drivers/power/supply/power_supply.h         |  19 +++
+>   drivers/power/supply/power_supply_core.c    | 177 ++++++++++++++++++++=
+++--
+>   drivers/power/supply/power_supply_sysfs.c   |  36 ++++-
+>   drivers/power/supply/test_power.c           | 113 ++++++++++++++++
+>   include/linux/power_supply.h                |  35 +++++
+>   7 files changed, 467 insertions(+), 122 deletions(-)
+> ---
+> base-commit: 810dde9dad8222f3b831cf5179927fc66fc6a006
+> change-id: 20240602-power-supply-extensions-07d949f509d9
+>
+> Best regards,

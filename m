@@ -1,331 +1,275 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE5C1AF0CE;
-	Fri, 13 Dec 2024 09:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734081944; cv=pass; b=dfjUEHNZs7wPE+T6CUduy1+NPAeVsMO7MlRgIMgcjIMtSZIGodNYjgsIcYAA1GMAG6dOx/x5RrwrDdDHAWlyiF/QqlcILRHCJ6UBE76u8mPG6qipsary0OoHAErX00mvswyfxLntkKR0jZHH+smagZL6/WBkyN0HUVZ0UtmebBs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734081944; c=relaxed/simple;
-	bh=wpZWKto3YUjaWLEDbKUz1Yi+7s3Zag5arrGJ3uJk7Aw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n4l2Q43VBtEHu/XIjuUd2hB0qZYCO9aEzWSBGBp6EIgOqSX9/dOgOMQC3iE20B7XGCbQxT9kJ1xuGjoMRnOm0QoGdpXJLIGpAz20R9T9ndxESlwx2YsiSxV62VfaQP1Q5uF5riBTHGbdTxsIyf6t+38/OP7VJGL5IyP7qt9D4rs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=laura.nao@collabora.com header.b=PgKYW9tR; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0FE18452C
+	for <chrome-platform@lists.linux.dev>; Fri, 13 Dec 2024 17:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734112521; cv=none; b=lVYdOJHHEShf0KtzCvsUjLnbSDDcY6Yrtfujeo5kU4oap+STOl42PSVZZIkPK2NKrZmIDSuwv/IQDTcOWqU9BC47iD58cq9QT/pwv+0iD/stJWKfSnGlTULoc78Chtw0WjnZDVN396oQI5njxbmkPBCQVeWNUOI/PI6T70OUr+s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734112521; c=relaxed/simple;
+	bh=EXMl1VjQUQGEWOFRwkpxn2GPtLeQmxpmZUabvDA8kC4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Rj7ABWc5IlVgirHCow3lZoVG8UPPDzaLUQVWPQgtV7xNBxre+hulEUvZy90aIYRTC4fKS3XJqHkKdYRdl1ufClxMgy8+/SSxDFnfW5N/e+IbzxWycVxQrDUiTOnedf+dBmCWlKMntQtIqNQFJlxR3NDbZSIN5o3fWvn8tjco+Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LoX/ySi8; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=laura.nao@collabora.com header.b="PgKYW9tR"
-ARC-Seal: i=1; a=rsa-sha256; t=1734081928; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=HjqkwyGBy8oFpiH2OzBbdgLIjA6J/qJ+Z1tRCrZTgBlKf9fweZBx+lpCzz+ouQURY0eWWu3JaL90KEe68uYm8CwyzJyyYvgiRzMJSSiGzjrUeH9RuI9IACgRKCs1U0UmuBr+3sU0Jj8PTZGoVciWjUboCCD0noHSV8/XVzFpT/s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1734081928; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=YnSfpiMRcV4J4vXvcSY+ixR1XW0AUmLlpepzk/A6xy0=; 
-	b=SOrr3tKcIvCFh9e4zcoVhw49t0Y8eTXDC+HrYHiwjEH9Dik1C0BBD9zyXfn4vkXrjTskZEbTOW0AI5I/jUYqfLaencplbOlarQlRO+FnO10fBrMsRTbdljr7Il1bijhnf9dohQTWZZMuZYpdKdxpo0uHT8Wp/aj6U8o2FuDuMw0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=laura.nao@collabora.com;
-	dmarc=pass header.from=<laura.nao@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734081928;
-	s=zohomail; d=collabora.com; i=laura.nao@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Reply-To;
-	bh=YnSfpiMRcV4J4vXvcSY+ixR1XW0AUmLlpepzk/A6xy0=;
-	b=PgKYW9tRgcP27jptrUtgW/N7L044UtUVDMmc9SmjC8RI7T+kb16sYU6NEcbRVAVM
-	7+N1lrMDCFr213kX5FwRldujDhgDiMum4wERmccIHfx+o37ewO/JQm46bDnsM28/peK
-	xV4jhmgljik4IjgBh3dLnmfxJ9scQuTlZDUfUEu8=
-Received: by mx.zohomail.com with SMTPS id 1734081926159795.2400700570497;
-	Fri, 13 Dec 2024 01:25:26 -0800 (PST)
-From: Laura Nao <laura.nao@collabora.com>
-To: stephen.s.brennan@oracle.com
-Cc: alan.maguire@oracle.com,
-	bpf@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	kernel@collabora.com,
-	laura.nao@collabora.com,
-	linux-kernel@vger.kernel.org,
-	olsajiri@gmail.com,
-	regressions@lists.linux.dev
-Subject: Re: [REGRESSION] module BTF validation failure (Error -22) on
-Date: Fri, 13 Dec 2024 10:26:03 +0100
-Message-Id: <20241213092603.13399-1-laura.nao@collabora.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <87zfl0mv0g.fsf@oracle.com>
-References: <87zfl0mv0g.fsf@oracle.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LoX/ySi8"
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e387ad7abdaso1522785276.0
+        for <chrome-platform@lists.linux.dev>; Fri, 13 Dec 2024 09:55:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1734112518; x=1734717318; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SNAl3pYsAdok6wmTwstpNCbMSVKtC0nPPGJ5z8X86Jk=;
+        b=LoX/ySi86JRD45w+PEuBdjMt6iHkP818m4MVmQKUZT+c+KDbya3Cbwn7u1XNarRcE0
+         OjKE/2LfqP5BgAE6C7HnQIOj6R6Gai2+9OavJDv8Or3TqwUC0ZuCbU0K2GvtZJTu4h9l
+         Jn1+ZF3aqzrdb4JaX4ermZaQpH5A0KIj/Mgqg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734112518; x=1734717318;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SNAl3pYsAdok6wmTwstpNCbMSVKtC0nPPGJ5z8X86Jk=;
+        b=lUaPHNtzxppE6E8xMgcYJ/kS2KcHSMmJTh0aa6WCjKdfX9voHqgm8mxRrFWVhmKtXw
+         ltwaiIgKBsv8cKxkQAsEF6NG/Xba20LqO9NZ7Gt3FMJAO9pmhTFou3XDWKt7Oz2bp7fz
+         0y8F4TAkSkil+YHKXOl7gspTpsGVndu/8OzGcIVhJoQC8ljZvnphyujqacnOusY2c3m6
+         0DvUyvxiJM0I2suFtVmKA0STiuO/f6pewNt/RX7hd7ULo3HzLceCXd33y19l4W7mLTAO
+         B5zphPAA9V+g6Xjl85iIIA/74Pse6JMPZlgiM1JkljiYmCx7HnFdmtnQ9RAgGPKPCZyP
+         ccFQ==
+X-Gm-Message-State: AOJu0YwmVOJugV/DpiC82cIK/X1hySXfc96vfkZvELcv0iRdu5EcmIjG
+	o9uiWwxDjCl2YyQuu7RW5bX0Lu3GYiDe31U+CzAgRwEf7FkYnK6u+8wYT1UWRytIj3K447BDa4Z
+	pAXvV99lbIZiJ9NBp9nO7ZCanW6HwUHcvNAvo
+X-Gm-Gg: ASbGncvmlH+pFKKOW0G2qck5lIaKbW8UhxTSIckCVsGaeawV17bJ1ppZe0Om+WZ5pJV
+	5H7XqIRWd5lWx99CyBDiHSpgpmbbco8vsuDF9IQ==
+X-Google-Smtp-Source: AGHT+IHKj2DJBifjxgnaueO2xSRR3Bbz5xWR0O8owRadJHa6UFQcidPK/tlY3CyGB4z7uua1HkTtXclZdEar54N9Twg=
+X-Received: by 2002:a05:6902:248f:b0:e39:9291:7bd9 with SMTP id
+ 3f1490d57ef6-e434ac01361mr2519259276.31.1734112518070; Fri, 13 Dec 2024
+ 09:55:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20241206233830.2401638-1-abhishekpandit@chromium.org>
+ <20241206153813.v4.2.I3080b036e8de0b9957c57c1c3059db7149c5e549@changeid> <CAE-0n52KWd5twmXk5fHf=kfdNm27QTJMPLrU3CRb9SnrtAF_UA@mail.gmail.com>
+In-Reply-To: <CAE-0n52KWd5twmXk5fHf=kfdNm27QTJMPLrU3CRb9SnrtAF_UA@mail.gmail.com>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Fri, 13 Dec 2024 09:55:06 -0800
+Message-ID: <CANFp7mUOxyYfkr6Ce93aLzJXRopbvfEjq52tsa+DhKi-Y90Uvw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/7] usb: typec: Add driver for Thunderbolt 3 Alternate Mode
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: chrome-platform@lists.linux.dev, heikki.krogerus@linux.intel.com, 
+	linux-usb@vger.kernel.org, tzungbi@kernel.org, akuchynski@google.com, 
+	pmalani@chromium.org, jthies@google.com, dmitry.baryshkov@linaro.org, 
+	badhri@google.com, rdbabiera@google.com, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/12/24 22:49, Stephen Brennan wrote:
-> Jiri Olsa <olsajiri@gmail.com> writes:
->> On Wed, Dec 11, 2024 at 10:10:24PM +0100, Jiri Olsa wrote:
->>> On Tue, Dec 10, 2024 at 02:55:01PM +0100, Laura Nao wrote:
->>>> Hi Jiri,
->>>>
->>>> Thanks for the feedback!
->>>>
->>>> On 12/6/24 13:35, Jiri Olsa wrote:
->>>>> On Fri, Nov 15, 2024 at 06:17:12PM +0100, Laura Nao wrote:
->>>>>> On 11/13/24 10:37, Laura Nao wrote:
->>>>>>>
->>>>>>> Currently, KernelCI only retains the bzImage, not the vmlinux
->>>>>>> binary. The
->>>>>>> bzImage can be downloaded from the same link mentioned above by
->>>>>>> selecting
->>>>>>> 'kernel' from the dropdown menu (modules can also be downloaded
->>>>>>> the
->>>>>>> same
->>>>>>> way). I’ll try to replicate the build on my end and share the
->>>>>>> vmlinux
->>>>>>> with DWARF data stripped for convenience.
->>>>>>>
->>>>>>
->>>>>> I managed to reproduce the issue locally and I've uploaded the
->>>>>> vmlinux[1]
->>>>>> (stripped of DWARF data) and vmlinux.raw[2] files, as well as one
->>>>>> of
->>>>>> the
->>>>>> modules[3] and its btf data[4] extracted with:
->>>>>>
->>>>>> bpftool -B vmlinux btf dump file cros_kbd_led_backlight.ko >
->>>>>> cros_kbd_led_backlight.ko.raw
->>>>>>
->>>>>> Looking again at the logs[5], I've noticed the following is
->>>>>> reported:
->>>>>>
->>>>>> [    0.415885] BPF: 	 type_id=115803 offset=177920 size=1152
->>>>>> [    0.416029] BPF:
->>>>>> [    0.416083] BPF: Invalid offset
->>>>>> [    0.416165] BPF:
->>>>>>
->>>>>> There are two different definitions of rcu_data in
->>>>>> '.data..percpu',
->>>>>> one
->>>>>> is a struct and the other is an integer:
->>>>>>
->>>>>> type_id=115801 offset=177920 size=1152 (VAR 'rcu_data')
->>>>>> type_id=115803 offset=177920 size=1152 (VAR 'rcu_data')
->>>>>>
->>>>>> [115801] VAR 'rcu_data' type_id=115572, linkage=static
->>>>>> [115803] VAR 'rcu_data' type_id=1, linkage=static
->>>>>>
->>>>>> [115572] STRUCT 'rcu_data' size=1152 vlen=69
->>>>>> [1] INT 'long unsigned int' size=8 bits_offset=0 nr_bits=64
->>>>>> encoding=(none)
->>>>>>
->>>>>> I assume that's not expected, correct?
->>>>>
->>>>> yes, that seems wrong.. but I can't reproduce with your config
->>>>> together with pahole 1.24 .. could you try with latest one?
->>>>
->>>> I just tested next-20241210 with the latest pahole version (1.28
->>>> from
->>>> the master branch[1]), and the issue does not occur with this
->>>> version
->>>> (I can see only one instance of rcu_data in the BTF data, as
->>>> expected).
->>>>
->>>> I can confirm that the same kernel revision still exhibits the
->>>> issue
->>>> with pahole 1.24.
->>>>
->>>> If helpful, I can also test versions between 1.24 and 1.28 to
->>>> identify
->>>> which ones work.
->>>
->>> I managed to reproduce finally with gcc-12, but had to use pahole
->>> 1.25,
->>> 1.24 failed with unknown attribute
->>>
->>> 	[95096] VAR 'rcu_data' type_id=94868, linkage=static
->>> 	[95098] VAR 'rcu_data' type_id=4, linkage=static
->>> 	type_id=95096 offset=177088 size=1152 (VAR 'rcu_data')
->>> 	type_id=95098 offset=177088 size=1152 (VAR 'rcu_data')
->>
->> so for me the difference seems to be using gcc-12 and this commit in
->> linux tree:
->>    dabddd687c9e percpu: cast percpu pointer in PERCPU_PTR() via
->>    unsigned long
->>
->> which adds extra __pcpu_ptr variable into dwarf, and it has the same
->> address as the per cpu variable and that confuses pahole
->>
->> it ends up with adding per cpu variable twice.. one with real type
->> (type_id=94868) and the other with unsigned long type (type_id=4)
->>
->> however this got fixed in pahole 1.28 commit:
->>    47dcb534e253 btf_encoder: Stop indexing symbols for VARs
->>
->> which filters out __pcpu_ptr variable completely, adding Stephen to
->> the loop
-> 
-> Thanks for sharing this. Your analysis is spot-on, but I can fill in
-> the
-> details a bit. I just grabbed 6.13-rc2 and built it with gcc 11 and
-> pahole 1.27, and observed the same issue:
-> 
->    $ bpftool btf dump file vmlinux | grep "VAR 'rcu_data"
->    [4045] VAR 'rcu_data' type_id=3962, linkage=static
->    [4047] VAR 'rcu_data' type_id=1, linkage=static
->            type_id=4045 offset=196608 size=520 (VAR 'rcu_data')
->            type_id=4047 offset=196608 size=520 (VAR 'rcu_data')
-> 
-> In pahole 1.27, the (simplified) process for generating variables for
-> BTF is:
-> 
-> 1. Look through the ELF symbol table, and find all symbols whose
-> addresses are within the percpu section, and add them to a list.
-> 
-> 2. Look through the DWARF: for each tag of type DW_TAG_variable,
-> determine if the variable is "global". If so, and if the address
-> matches
-> one of the symbols found in Step 1, continue.
-> 
-> 3. Except for one special case, pahole doesn't check whether the DWARF
-> variable's name matches the symbol name. It simply emits a variable
-> using the name of the symbol from Step 1, and the type information
-> from
-> Step 2.
-> 
-> The result of this process, in this case, is:
-> 
-> 1. kernel/rcu/tree.c contains a declaration of "rcu_data". This
-> results
-> in an ELF symbol in vmlinux of the same name. Great!
-> 
->    $ eu-readelf -s vmlinux | grep '\brcu_data\b'
->    12319: 0000000000030000    520 OBJECT  LOCAL  DEFAULT       21
->    rcu_data
-> 
-> 
-> 2. A DWARF entry is emitted for "rcu_data" which has a matching
-> location
-> (DW_AT_location has value DW_OP_addr 0x30000, matching the ELF
-> symbol).
-> So far so good - pahole emits a BTF variable with the expected type.
-> 
->    $ llvm-dwarfdump --name=rcu_data
->    ...
->    0x01af03f1: DW_TAG_variable
->                  DW_AT_name        ("rcu_data")
->                  DW_AT_decl_file
->                  ("/home/stepbren/repos/linux-upstream/kernel/rcu/tree.c")
->                  DW_AT_decl_line   (80)
->                  DW_AT_decl_column (8)
->                  DW_AT_type        (0x01aefb38 "rcu_data")
->                  DW_AT_alignment   (0x40)
->                  DW_AT_location    (DW_OP_addr 0x30000)
-> 
-> 3. In kernel/rcu/tree.c, we also have the following declaration at
-> line
-> 5227 which uses per_cpu_ptr() on &rcu_data:
-> 
-> 5222 void rcutree_migrate_callbacks(int cpu)
-> 5223 {
-> 5224 	unsigned long flags;
-> 5225 	struct rcu_data *my_rdp;
-> 5226 	struct rcu_node *my_rnp;
-> 5227 	struct rcu_data *rdp = per_cpu_ptr(&rcu_data, cpu);
->                                 ^^^^^^^^^^^
-> 
-> With the new changes in dabddd687c9e ("percpu: cast percpu pointer in
-> PERCPU_PTR() via unsigned long"), this expands to a lexical block
-> which
-> contains a variable named "__pcpu_ptr", of type unsigned long. The
-> compiler emits the following DW_TAG_variable in the DWARF:
-> 
-> 0x01b05d20:         DW_TAG_variable
->                        DW_AT_name        ("__pcpu_ptr")
->                        DW_AT_decl_file
->                        ("/home/stepbren/repos/linux-upstream/kernel/rcu/tree.c")
->                        DW_AT_decl_line   (5227)
->                        DW_AT_decl_column (25)
->                        DW_AT_type        (0x01adb52e "long unsigned
->                        int")
->                        DW_AT_location    (DW_OP_addr 0x30000,
->                        DW_OP_stack_value)
-> 
-> Since the DW_AT_location has a DW_OP_addr - pahole understands this to
-> mean that the variable is located in global memory, and thus has
-> VSCOPE_GLOBAL. But of course, the actual "scope" of this variable is
-> not
-> global, it is limited to the lexical block, which is completely hidden
-> away by the macro. But pahole 1.27 does not consider this, and since
-> the
-> address matches the "rcu_data" symbol, it emits a variable of type
-> "long
-> unsigned int" under the name "rcu_data" -- despite the fact that the
-> DWARF info has a name of "__pcpu_ptr".
-> 
-> The changes I made in 1.28 address this (unintentionally) by:
-> 
-> 1. Requiring global variables be both "in the global scope" (i.e. in
-> the
-> CU-level, rather than any function or other lexical block.
-> 2. Requiring global variables have global memory (some of them could
-> be
-> register variables, despite having global scope -- e.g.
-> current_stack_pointer).
-> 3. No longer using the ELF symbol table, and instead using the DWARF
-> names for variables.
-> 
-> With #1, we would filter this variable. And with #3, even if the
-> variable were not filtered, we would output (a bunch of) variables
-> with
-> the correct __pcpu_ptr variable name, which is unhelpful but at least
-> helps us understand where these things come from.
-> 
-> Rebuilding with GCC 14, we can see that the "__pcpu_ptr" variable no
-> longer has a DW_AT_location:
-> 
-> 0x01afa82f:         DW_TAG_variable
->                        DW_AT_name        ("__pcpu_ptr")
->                        DW_AT_decl_file
->                        ("/home/stepbren/repos/linux-upstream/kernel/rcu/tree.c")
->                        DW_AT_decl_line   (5227)
->                        DW_AT_decl_column (25)
->                        DW_AT_type        (0x01ad0267 "long unsigned
->                        int")
-> 
-> This is the reason that pahole 1.27 now recognizes it as
-> VSCOPE_OPTIMIZED. Without a memory location pahole can't do anything
-> to
-> match it against the "rcu_data" variable so nothing is emitted, and we
-> don't get the issue.
-> 
-> I'm not sure if this adds at all to the discussion, since the overall
-> answer is the same, an upgrade of pahole and/or gcc. (Pahole would be
-> recommended; GCC just changed the generated DWARF and I could imagine
-> other situations popping up elsewhere).
+On Tue, Dec 10, 2024 at 4:21=E2=80=AFPM Stephen Boyd <swboyd@chromium.org> =
+wrote:
 >
+> Quoting Abhishek Pandit-Subedi (2024-12-06 15:38:13)
+> > diff --git a/drivers/usb/typec/altmodes/thunderbolt.c b/drivers/usb/typ=
+ec/altmodes/thunderbolt.c
+> > new file mode 100644
+> > index 000000000000..14e89e9a7691
+> > --- /dev/null
+> > +++ b/drivers/usb/typec/altmodes/thunderbolt.c
+> > @@ -0,0 +1,387 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/**
+>
+> Remove extra *, this isn't kerneldoc.
+Done
 
-Thank you for the help with debugging and for the detailed explanation!  
-                                                                         
-We'll proceed with updating pahole to v1.28 in the KernelCI build        
-environment.                                                             
-                                                                         
-Best,                                                                    
-                                                                         
-Laura                                                                    
-                                                                         
-#regzbot resolve: fixed by changes in pahole 1.28
- 
-> 
-> Thanks,
-> Stephen
-> 
->> with gcc-14 the __pcpu_ptr variable has VSCOPE_OPTIMIZED scope, so it
->> won't
->> get into btf even without above pahole fix
->>
->> I suggest gcc/pahole upgrade ;-)
->>
->> thanks,
->> jirka
+>
+> > + * USB Typec-C Thuderbolt3 Alternate Mode driver
+> > + *
+> > + * Copyright (C) 2019 Intel Corporation
+> > + * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > + */
+> > +
+> > +#include <linux/delay.h>
+>
+> Is this include used?
 
+Compiles without it so I'm guessing no.
+
+>
+> > +#include <linux/mutex.h>
+> > +#include <linux/module.h>
+> > +#include <linux/usb/pd_vdo.h>
+> > +#include <linux/usb/typec_altmode.h>
+> > +#include <linux/usb/typec_tbt.h>
+>
+> Please include workqueue.h
+Done
+
+>
+> > +
+> > +enum tbt_state {
+> > +       TBT_STATE_IDLE,
+> > +       TBT_STATE_SOP_P_ENTER,
+> > +       TBT_STATE_SOP_PP_ENTER,
+> > +       TBT_STATE_ENTER,
+> > +       TBT_STATE_EXIT,
+> > +       TBT_STATE_SOP_PP_EXIT,
+> > +       TBT_STATE_SOP_P_EXIT
+> > +};
+> > +
+> > +struct tbt_altmode {
+> > +       enum tbt_state state;
+> > +       struct typec_cable *cable;
+> > +       struct typec_altmode *alt;
+> > +       struct typec_altmode *plug[2];
+> > +       u32 enter_vdo;
+> > +
+> > +       struct work_struct work;
+> > +       struct mutex lock; /* device lock */
+>
+> What does it protect? The whole struct tbt_altmode?
+
+This looks like it's protecting control flow (enter/exit/vdm can all
+be triggered on probe, via .activate or potentially autonomously via
+port driver triggering the alt-mode).
+
+>
+> > +};
+> [...]
+> > +
+> > +/* MUST HOLD tbt->lock.
+>
+> Use lockdep_assert_held(tbt->lock) and remove the comment?
+Done.
+
+>
+> > + *
+> > + * If SOP' is available, enter that first (which will trigger a VDM re=
+sponse
+> > + * that will enter SOP" if available and then the port). If entering S=
+OP' fails,
+> > + * stop attempting to enter either cable altmode (probably not support=
+ed) and
+> > + * directly enter the port altmode.
+> > + */
+> > +static int tbt_enter_modes_ordered(struct typec_altmode *alt)
+> > +{
+> > +       struct tbt_altmode *tbt =3D typec_altmode_get_drvdata(alt);
+> > +       int ret =3D 0;
+> > +
+> > +       if (!tbt_ready(tbt->alt))
+> > +               return -ENODEV;
+> > +
+> > +       if (tbt->plug[TYPEC_PLUG_SOP_P]) {
+> > +               ret =3D typec_cable_altmode_enter(alt, TYPEC_PLUG_SOP_P=
+, NULL);
+> > +               if (ret < 0) {
+> > +                       for (int i =3D TYPEC_PLUG_SOP_PP; i > 0; --i) {
+> > +                               if (tbt->plug[i])
+> > +                                       typec_altmode_put_plug(tbt->plu=
+g[i]);
+> > +
+> > +                               tbt->plug[i] =3D NULL;
+> > +                       }
+> > +               } else {
+> > +                       return ret;
+> > +               }
+> > +       }
+> > +
+> > +       return tbt_enter_mode(tbt);
+> > +}
+> > +
+> > +static int tbt_cable_altmode_vdm(struct typec_altmode *alt,
+> > +                                enum typec_plug_index sop, const u32 h=
+dr,
+> > +                                const u32 *vdo, int count)
+> > +{
+> [...]
+> > +               case CMD_EXIT_MODE:
+> > +                       /* Exit in opposite order: Port, SOP", then SOP=
+'. */
+> > +                       if (sop =3D=3D TYPEC_PLUG_SOP_PP)
+> > +                               tbt->state =3D TBT_STATE_SOP_P_EXIT;
+> > +                       break;
+> > +               }
+> > +               break;
+> > +       default:
+> > +               break;
+> > +       }
+> > +
+> > +       if (tbt->state !=3D TBT_STATE_IDLE)
+> > +               schedule_work(&tbt->work);
+> > +
+> > +
+>
+> Nitpick: Why two newlines?
+Clang format missed it :(
+
+>
+> > +       mutex_unlock(&tbt->lock);
+> > +       return 0;
+> > +}
+> > +
+> [...]
+> > diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> > index febe453b96be..b5e67a57762c 100644
+> > --- a/drivers/usb/typec/class.c
+> > +++ b/drivers/usb/typec/class.c
+> > @@ -458,7 +458,8 @@ static umode_t typec_altmode_attr_is_visible(struct=
+ kobject *kobj,
+> >         struct typec_altmode *adev =3D to_typec_altmode(kobj_to_dev(kob=
+j));
+> >
+> >         if (attr =3D=3D &dev_attr_active.attr)
+> > -               if (!adev->ops || !adev->ops->activate)
+> > +               if (!is_typec_port(adev->dev.parent) &&
+> > +                   (!adev->ops || !adev->ops->activate))
+> >                         return 0444;
+> >
+> >         return attr->mode;
+> > @@ -563,7 +564,7 @@ typec_register_altmode(struct device *parent,
+> >
+> >         if (is_port) {
+> >                 alt->attrs[3] =3D &dev_attr_supported_roles.attr;
+> > -               alt->adev.active =3D true; /* Enabled by default */
+> > +               alt->adev.active =3D !desc->inactive; /* Enabled by def=
+ault */
+> >         }
+> >
+> >         sprintf(alt->group_name, "mode%d", desc->mode);
+> > diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+> > index d616b8807000..252af3f77039 100644
+> > --- a/include/linux/usb/typec.h
+> > +++ b/include/linux/usb/typec.h
+> > @@ -140,6 +140,7 @@ int typec_cable_set_identity(struct typec_cable *ca=
+ble);
+> >   * @mode: Index of the Mode
+> >   * @vdo: VDO returned by Discover Modes USB PD command
+> >   * @roles: Only for ports. DRP if the mode is available in both roles
+> > + * @inactive: Only for ports. Make this port inactive (default is acti=
+ve).
+> >   *
+> >   * Description of an Alternate Mode which a connector, cable plug or p=
+artner
+> >   * supports.
+> > @@ -150,6 +151,7 @@ struct typec_altmode_desc {
+> >         u32                     vdo;
+> >         /* Only used with ports */
+> >         enum typec_port_data    roles;
+> > +       bool                    inactive;
+> >  };
+> >
+> >  void typec_partner_set_pd_revision(struct typec_partner *partner, u16 =
+pd_revision);
+>
+> These two files look like they can be a different patch? Or the commit
+> text can describe these changes.
+
+I think earlier in the series, they were its own patch -- got merged
+down into this over several refactors. I'll pull it out into its own
+patch.

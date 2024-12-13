@@ -1,173 +1,72 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87FA11E25F6
-	for <chrome-platform@lists.linux.dev>; Fri, 13 Dec 2024 18:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3D4188704
+	for <chrome-platform@lists.linux.dev>; Fri, 13 Dec 2024 21:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734114813; cv=none; b=byxnX2JEKYHQm4KpCnCHFxi7MWsM2eKdsw7Nnd5iBhxSeMLZgSKeo/oA5XsfKgV7fSE8xn/ql4XH4DnEBhfmcfOMYOTigElbTvuyDP5rm+DcnZ2tMbjYiHbL+NqEORP0w/opYU1qCmrCV0IdZtHBROnR9ZAtSZtfmyo0qzzl3CU=
+	t=1734123656; cv=none; b=FYIOsksYyK5vYGBYQ54ZOe/wmSK+ZSGZkq5dhNeV9MnCKiB/a4AOyUba2JlCSgxqhOoJ0PKaBvZxB45upRCQRfQG8coDk52HE8YQay48vCePwKXLCKM21vcVUtZeA5bkTmBeDGNOzwGFlEi0FspNeVHAhXlbDviK0S6Um0/jguo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734114813; c=relaxed/simple;
-	bh=bT8KlM+ZL/eiWqAMprSqiRuYUiHzyEZIk1F8RSU/WBo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zr+4fNnnm7q6j0SuQCAFDHHgnSNQywjWyX19qWzFnsGNx22Y8tPpQlQZ3H+ISQenahXx4D/uApcNIe5fVtUi7F14Kl7F3CQ0Bc4FWZVSZq6gyFu12XbAVO1zNpKgTAsKFqcHQVe36Pw4vVACB5+USmgzXTL/K1g1Usf6pur9o5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SOKafj5c; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1734123656; c=relaxed/simple;
+	bh=In/CvyBOIy7P/fcaUpqhO1y9bSBdanIyX1QtjfBWla0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J5Zo1CXhyuCCL9aJNgVx2I1kAlZKTpZCH43Hwh2aBXzh7r/Viya6k6WpDyt2FuCAgFJ6GE6gC/CANvcLSHeEZCQgSOVeik5KiSh46qCFimujW6lVGOys+eqkyRMMLMywH5e3UykcbSf5T/4IJ7nPPnvhFj7xSx7pqxWTd9NXFDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=jR1BiDCj; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SOKafj5c"
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e46ebe19489so76358276.2
-        for <chrome-platform@lists.linux.dev>; Fri, 13 Dec 2024 10:33:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1734114810; x=1734719610; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=829Wt2h4wc7zRVWwHu94uPaVmsfJV58oeCdGN9YNk7Q=;
-        b=SOKafj5cTWvBYr6pZA+zVkzdmCvs06NcgRRy42BZD339+DHzqR2H9zKaldJ4/JKLc0
-         ytnvPUchyyuf8spULjqwsEc9qKYC0dM8RfiAfRg7UZsyt1L0lRYK2AY/inmxW0tWxtF+
-         Bv6Sjd8aps0kgA9VErZpgM6Uw0DuezWqV6uP8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734114810; x=1734719610;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=829Wt2h4wc7zRVWwHu94uPaVmsfJV58oeCdGN9YNk7Q=;
-        b=c3wDmCyrPERnnnAVocmIcoGsQSQXOImHOjiTFq9WAMNRgqcsypJfSLmzzxWQPy6jcu
-         WwDddmoR21pm/pEu3mzgXH6NRfNI0/KJmXUbb7qwLBiRK/7Uspr7ldsEMOfmjvvXRDDJ
-         rk8jhCsdOBQ32GtyT1vCasSKbLFV9HrA+ZD0OvQDthVe2HcFjZWk/5l2oZjnjYxzgmQ0
-         jr6iWvPiLtta+/+bqJI2nuy+zdUavy6ry97CcLobI6QKeQgRrwucWMxMlZCR/nXURg30
-         vdT4I6Wl9nSjeqBXpf0eQ3Sl5inSuA0TP2SUkyCOoGUYVdufxlGxlB24cFyZKNjD8Y1f
-         AmYg==
-X-Gm-Message-State: AOJu0YxCfZ+2J9o/YQUdVGIYlxBV4Av5BN08YdUVFpaZwRAKgtoWzPFM
-	gaUk81U7iKL1RvPKy3bxyTUcNaTjd4xwupXK0vz7PxYh99vAVwvf40ESYr/nrow5ks4WcTzVykM
-	yN1J88uTzhjlR7JHX580w5NYG0y6uPyTpki0/
-X-Gm-Gg: ASbGncvbZrSEuBiD+dCdzaZ43HYM+0vX31Wlv/AaXDtrkznyCdzIFTqhvkPdBH5Nwub
-	J3jgrBCe8pK8uI3vlCEygwpz8kpPzQSRSC/T2kw==
-X-Google-Smtp-Source: AGHT+IE3568CmXdR+xkSlTDpC9QvSdoqyGIUGd4ssW2QqVKIifwb+ku9xLRguvMe2zp8+ZbKiJWLJDRE0IcvnUcstHw=
-X-Received: by 2002:a05:6902:1583:b0:e39:921c:e41a with SMTP id
- 3f1490d57ef6-e43500fbd93mr3457706276.48.1734114810649; Fri, 13 Dec 2024
- 10:33:30 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="jR1BiDCj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1734123650;
+	bh=In/CvyBOIy7P/fcaUpqhO1y9bSBdanIyX1QtjfBWla0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jR1BiDCj6/a1leQjIquNf4GB4P45ny1qx+0C72dsUyB9hfGG4oiyMY6VyRnmmrzBx
+	 xW2YwSSAEeri6zldGU9SjsIfd/0CRpn/STIpik6oLcQYVDZNqfg3ybup7BMlJpKg+3
+	 IE2Wag1KC/OggCdrGjTMk1ReZnGx8mWLUQFRGNhQ=
+Date: Fri, 13 Dec 2024 22:00:50 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Sebastian Reichel <sre@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v6 0/4] power: supply: extension API
+Message-ID: <0f6b04ea-c8e9-4fc5-b7c7-72080ed0c954@t-8ch.de>
+References: <20241211-power-supply-extensions-v6-0-9d9dc3f3d387@weissschuh.net>
+ <2e2f4845-7500-40ec-985d-3a495842e020@gmx.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241206233830.2401638-1-abhishekpandit@chromium.org>
- <20241206153813.v4.5.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800@changeid> <2bfe74d6a29ca13a7f89f116a2f0c6be.sboyd@kernel.org>
-In-Reply-To: <2bfe74d6a29ca13a7f89f116a2f0c6be.sboyd@kernel.org>
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date: Fri, 13 Dec 2024 10:33:19 -0800
-Message-ID: <CANFp7mV75SpTAyh=A4kZA2=NWi7+ry0+W+a5kpcjLrPwyhJ8UQ@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] platform/chrome: cros_ec_typec: Displayport support
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: chrome-platform@lists.linux.dev, heikki.krogerus@linux.intel.com, 
-	linux-usb@vger.kernel.org, tzungbi@kernel.org, akuchynski@google.com, 
-	pmalani@chromium.org, jthies@google.com, dmitry.baryshkov@linaro.org, 
-	badhri@google.com, rdbabiera@google.com, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2e2f4845-7500-40ec-985d-3a495842e020@gmx.de>
 
-On Wed, Dec 11, 2024 at 1:58=E2=80=AFPM Stephen Boyd <sboyd@kernel.org> wro=
-te:
->
-> Quoting Abhishek Pandit-Subedi (2024-12-06 15:38:16)
-> > diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/pla=
-tform/chrome/cros_typec_altmode.c
-> > new file mode 100644
-> > index 000000000000..bb7c7ad2ff6e
-> > --- /dev/null
-> > +++ b/drivers/platform/chrome/cros_typec_altmode.c
-> > @@ -0,0 +1,281 @@
-> [...]
-> > +
-> > +static const struct typec_altmode_ops cros_typec_altmode_ops =3D {
-> > +       .enter =3D cros_typec_altmode_enter,
-> > +       .exit =3D cros_typec_altmode_exit,
-> > +       .vdm =3D cros_typec_altmode_vdm,
-> > +};
-> > +
-> > +#if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
-> > +int cros_typec_displayport_status_update(struct typec_altmode *altmode=
-,
-> > +                                        struct typec_displayport_data =
-*data)
-> > +{
-> > +       struct cros_typec_dp_data *dp_data =3D
-> > +               typec_altmode_get_drvdata(altmode);
->
-> How does this work? I see that the type of the drvdata is struct
-> cros_typec_altmode_data per the allocation in
-> cros_typec_register_displayport(), but here we're treating it as the
-> type struct cros_typec_dp_data, which has a struct
-> cros_typec_altmode_data as the first member. The allocation is too small
-> from what I can tell. The same problem looks to be there in
-> cros_typec_displayport_vdm().
->
-> > +       struct cros_typec_altmode_data *adata =3D &dp_data->adata;
-> > +
-> > +       if (!dp_data->pending_status_update) {
-> > +               dev_dbg(&altmode->dev,
-> > +                       "Got DPStatus without a pending request");
-> > +               return 0;
-> > +       }
-> > +
-> > +       if (dp_data->configured && dp_data->data.conf !=3D data->conf)
-> > +               dev_dbg(&altmode->dev,
-> > +                       "DP Conf doesn't match. Requested 0x%04x, Actua=
-l 0x%04x",
-> > +                       dp_data->data.conf, data->conf);
-> > +
-> > +       mutex_lock(&adata->lock);
-> > +
-> > +       dp_data->data =3D *data;
-> > +       dp_data->pending_status_update =3D false;
-> > +       adata->header |=3D VDO_CMDT(CMDT_RSP_ACK);
-> > +       adata->vdo_data =3D &dp_data->data.status;
-> > +       adata->vdo_size =3D 2;
-> > +       schedule_work(&adata->work);
-> > +
-> > +       mutex_unlock(&adata->lock);
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +struct typec_altmode *
-> > +cros_typec_register_displayport(struct cros_typec_port *port,
-> > +                               struct typec_altmode_desc *desc,
-> > +                               bool ap_mode_entry)
-> > +{
-> > +       struct typec_altmode *alt;
-> > +       struct cros_typec_altmode_data *data;
-> > +
-> > +       alt =3D typec_port_register_altmode(port->port, desc);
-> > +       if (IS_ERR(alt))
-> > +               return alt;
-> > +
-> > +       data =3D devm_kzalloc(&alt->dev, sizeof(*data), GFP_KERNEL);
-> > +       if (!data) {
-> > +               typec_unregister_altmode(alt);
-> > +               return ERR_PTR(-ENOMEM);
-> > +       }
-> > +
-> > +       INIT_WORK(&data->work, cros_typec_altmode_work);
-> > +       mutex_init(&data->lock);
-> > +       data->alt =3D alt;
-> > +       data->port =3D port;
-> > +       data->ap_mode_entry =3D ap_mode_entry;
-> > +       data->sid =3D desc->svid;
-> > +       data->mode =3D desc->mode;
-> > +
-> > +       typec_altmode_set_ops(alt, &cros_typec_altmode_ops);
-> > +       typec_altmode_set_drvdata(alt, data);
->
-> 'data' is of type struct cros_typec_altmode_data here
-This should have been allocated as cros_typec_dp_data. Missed during a
-previous refactor that changed the type from a union to this format.
+On 2024-12-12 15:27:52+0100, Armin Wolf wrote:
+> Am 11.12.24 um 20:57 schrieb Thomas Weißschuh:
+> 
+> > Introduce a mechanism for drivers to extend the properties implemented
+> > by a power supply.
 
->
-> > +
-> > +       return alt;
-> > +}
+[..]
+
+> > ---
+> > Changes in v6:
+> > - Drop alreay picked up ACPI battery hook rename patch
+> > - Only return bool from power_supply_property_is_writeable()
+> > - Improve naming for test_power symbols
+> > - Integrate cros_charge-control fixes from the psy/fixes branch
+> > - Add sysfs UAPI for extension discovery
+> > - Use __must_check on API
+> > - Make power_supply_for_each_extension() safer.
+> >    (And uglier, ideas welcome)
+> 
+> Maybe we can use a do { ... } while (0) construct here.
+
+I don't think so. The macro needs to expand to a dangling loop
+condition. So whatever statement comes after gets executed in the loop.
+
+[..]

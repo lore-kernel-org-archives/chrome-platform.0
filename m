@@ -1,34 +1,31 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31688101DE;
-	Sat, 14 Dec 2024 22:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D89A1D696
+	for <chrome-platform@lists.linux.dev>; Sun, 15 Dec 2024 13:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734213849; cv=none; b=H5+mbq89lMQ13AadPT5CAEXtwHrS0YhKPY/Um16xsb8zdf8WKtaPsz3lFsIDvtMJpZyRAMUQzPFQgk+6Cl0PbI+1U7t605IBMPtn1RYek4+wBZcWSpLAElOoZAszn+9hUuOqPSjxB3NCOQPq2vRPajeQ5aYem5Gk6+16Osuev58=
+	t=1734269363; cv=none; b=Va2AuybiX9cZzNlJYNx170Psj7yGsp+hAPSJkNCXxsAw/qRiKJGplkGpDP40aH35L1/Zv3TLG6Str1hpvCsVk419AL5h+VUBCgkxCoha5FzYlVfZe/5a3hAGxzQ3ufbqaAL/2chS86UqV8H6fT5pRsNftuNCDOUXUfKrG/7zyiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734213849; c=relaxed/simple;
-	bh=eM600mWZ4a7iJiNFgjD5YBQLfn+RzL8RVxRXZxMdK/o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QE5deIyPApoyJgzJ/rtytlXrYy7JvT7r0LZG5ez0KEoVww5bOcywudZebT2+OSleL+YHWZ9XpX0eB12TR23F4UoM/FWCXwXtIqP4p81ToiNg+YBt1j6vX6uEeSUjtseTr65kYzj0rry10T2pbTR3j1HiyUH2n4r7kv6qAC9RiLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 973DEC4CED1;
-	Sat, 14 Dec 2024 22:04:08 +0000 (UTC)
-Received: by mercury (Postfix, from userid 1000)
-	id EA5A710604B1; Sat, 14 Dec 2024 23:04:05 +0100 (CET)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Sebastian Reichel <sre@kernel.org>, Armin Wolf <W_Armin@gmx.de>, 
- Hans de Goede <hdegoede@redhat.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- linux-pm@vger.kernel.org
-In-Reply-To: <20241211-power-supply-extensions-v6-0-9d9dc3f3d387@weissschuh.net>
-References: <20241211-power-supply-extensions-v6-0-9d9dc3f3d387@weissschuh.net>
-Subject: Re: (subset) [PATCH v6 0/4] power: supply: extension API
-Message-Id: <173421384589.2755040.15453506845982357839.b4-ty@collabora.com>
-Date: Sat, 14 Dec 2024 23:04:05 +0100
+	s=arc-20240116; t=1734269363; c=relaxed/simple;
+	bh=5+FrfB2caBpHvRCQHU5a1w+yZLVExymWuXyTi6GSin0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TSPsFW7apLVpyngC3n7ILm72SObJkLzED4Smix4X4yDCafs3zByaQzftm5e4AIWXcCWdspttFUeNTwIvEbGS0YIaalk4KbxZzd50pnUmTuFwzQGnkxoQpvDZhJWooEk7Z11bTU3olOL4Hi7T/QvwDE4dqIuXRcaC5r/uSqGhLgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=tb0PlQSG; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="tb0PlQSG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1734269358;
+	bh=5+FrfB2caBpHvRCQHU5a1w+yZLVExymWuXyTi6GSin0=;
+	h=From:Date:Subject:To:Cc:From;
+	b=tb0PlQSG6U/FaLUtbqr58ro4HpUp7xH+KLXPZzJTAnQAQASXEhtyhZjjAYA9Vqhat
+	 Ubk5DMk2LnaGQ6Xf3UEHt3hx+m3FUvJfGc/A2cTressVY18pZ0zZ4c44UaPf3VLpoG
+	 k0S9aIS2Fm5xATUhOC+tUWD43T86GR80cNeG78iw=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 15 Dec 2024 14:29:15 +0100
+Subject: [PATCH] platform/chrome: cros_ec_vbc: Constify 'struct
+ bin_attribute'
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -37,29 +34,81 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20241215-sysfs-const-bin_attr-chrome-v1-1-92249c4bc295@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAKrZXmcC/x3MwQqDMAwA0F+RnA20RQvzV2RIW6PmsHYkRTbEf
+ 1/Z8V3eBUrCpDB1FwidrFxyg+07SEfIOyGvzeCMG6yzI+pXN8VUslaMnJdQq2A6pLwIfYirGSg
+ m8g9ow1to489/n5/3/QOms+AubQAAAA==
+X-Change-ID: 20241215-sysfs-const-bin_attr-chrome-6abd04ebce69
+To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Guenter Roeck <groeck@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734269357; l=2113;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=5+FrfB2caBpHvRCQHU5a1w+yZLVExymWuXyTi6GSin0=;
+ b=QQwXZ2v/BiaOxnSxSNVElxtVbuhLfR02qpzf2sYEdI1BceiE8VRFtTRVk2jNCaCYGHffwXzAQ
+ 0w5QfBVUIasCSZ2g27WVRFNKvrTywTjjF/iRyOy3cQAI/7rn5nFtm/l
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
+The sysfs core now allows instances of 'struct bin_attribute' to be
+moved into read-only memory. Make use of that to protect them against
+accidental or malicious modifications.
 
-On Wed, 11 Dec 2024 20:57:54 +0100, Thomas Weißschuh wrote:
-> Introduce a mechanism for drivers to extend the properties implemented
-> by a power supply.
-> 
-> Motivation
-> ----------
-> 
-> Various drivers, mostly in platform/x86 extend the ACPI battery driver
-> with additional sysfs attributes to implement more UAPIs than are
-> exposed through ACPI by using various side-channels, like WMI,
-> nonstandard ACPI or EC communication.
-> 
-> [...]
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/platform/chrome/cros_ec_vbc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Applied, thanks!
+diff --git a/drivers/platform/chrome/cros_ec_vbc.c b/drivers/platform/chrome/cros_ec_vbc.c
+index 7bdb489354c5d203d2f4af22214314f6ead12c4e..963c4db23055d8fd807ec72072b1ae0a95c1bbb0 100644
+--- a/drivers/platform/chrome/cros_ec_vbc.c
++++ b/drivers/platform/chrome/cros_ec_vbc.c
+@@ -15,7 +15,7 @@
+ #define DRV_NAME "cros-ec-vbc"
+ 
+ static ssize_t vboot_context_read(struct file *filp, struct kobject *kobj,
+-				  struct bin_attribute *att, char *buf,
++				  const struct bin_attribute *att, char *buf,
+ 				  loff_t pos, size_t count)
+ {
+ 	struct device *dev = kobj_to_dev(kobj);
+@@ -59,7 +59,7 @@ static ssize_t vboot_context_read(struct file *filp, struct kobject *kobj,
+ }
+ 
+ static ssize_t vboot_context_write(struct file *filp, struct kobject *kobj,
+-				   struct bin_attribute *attr, char *buf,
++				   const struct bin_attribute *attr, char *buf,
+ 				   loff_t pos, size_t count)
+ {
+ 	struct device *dev = kobj_to_dev(kobj);
+@@ -99,16 +99,16 @@ static ssize_t vboot_context_write(struct file *filp, struct kobject *kobj,
+ 	return data_sz;
+ }
+ 
+-static BIN_ATTR_RW(vboot_context, 16);
++static const BIN_ATTR_RW(vboot_context, 16);
+ 
+-static struct bin_attribute *cros_ec_vbc_bin_attrs[] = {
++static const struct bin_attribute *const cros_ec_vbc_bin_attrs[] = {
+ 	&bin_attr_vboot_context,
+ 	NULL
+ };
+ 
+ static const struct attribute_group cros_ec_vbc_attr_group = {
+ 	.name = "vbc",
+-	.bin_attrs = cros_ec_vbc_bin_attrs,
++	.bin_attrs_new = cros_ec_vbc_bin_attrs,
+ };
+ 
+ static int cros_ec_vbc_probe(struct platform_device *pd)
 
-[4/4] power: supply: core: add UAPI to discover currently used extensions
-      commit: 288a2cabcf6bb35532e8b2708829bdc2b85bc690
+---
+base-commit: 2d8308bf5b67dff50262d8a9260a50113b3628c6
+change-id: 20241215-sysfs-const-bin_attr-chrome-6abd04ebce69
 
 Best regards,
 -- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
+Thomas Weißschuh <linux@weissschuh.net>
 

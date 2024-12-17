@@ -1,142 +1,66 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 161AE1D47D9;
-	Tue, 17 Dec 2024 11:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA011F8ADF
+	for <chrome-platform@lists.linux.dev>; Tue, 17 Dec 2024 18:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734433319; cv=none; b=YwYorsNANi+iwXJVqnquZ0z2XmcQtHl87goSgpVKaVGJ+pouB2NK8tOfNViqhrvkwX8M0BPtSGOJYcvyCT2vSB789bir69riNDHQT5m9jb/urRmW8sEitNi0uckVRBJJAC9la/MeTt/sjkCbE+YA3860I/lpoGcTVrVTutAN45I=
+	t=1734461929; cv=none; b=SCnF2ikwoZ4jw2VWH53k/ApGXWDlKlnNnYU2cDoihRnPVJsCwrEEA0Hh71OAzJwqdc7oGE6LgDbHEQ+DYOmI74Fdvq6bw1XsgWx/qfM3wtka5Ti4ZCtg/XZsP1xONa2myUHB8LtgrV/1gltFXmBMipnt4kysSqcMfx3d2ikIaAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734433319; c=relaxed/simple;
-	bh=NrqjMZ+J+2WHaZCrdfnIKMWsZCnqh8duGYd7H0hLNEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fr5NDVdNuWsC4v/dPEKc0P6qetjvvw7EaXaxwE0Q+9NAfc6fa0WuNPXf7V13L9YSdFdA05wod7k3wjmuQdyWKHQatyDt317VRyZ3RpgeJhbAUKqNgm2GaMFGQ5nmndzGt/fdvul9On3psexDFot+Ik/05812dxncNd0jhHndnTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6FFEA1063;
-	Tue, 17 Dec 2024 03:02:23 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE4E93F528;
-	Tue, 17 Dec 2024 03:01:47 -0800 (PST)
-Date: Tue, 17 Dec 2024 11:01:40 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-rtc@vger.kernel.org, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Yiting Deng <yiting.deng@amlogic.com>,
- Xianwei Zhao <xianwei.zhao@amlogic.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth
- <sebastian.hesselbarth@gmail.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Support Opensource <support.opensource@diasemi.com>, Paul Cercueil
- <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>, Piotr
- Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, Chanwoo Choi
- <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, Neil
- Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Eddie Huang
- <eddie.huang@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Orson Zhai
- <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
- Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Vincent
- Shih <vincent.sunplus@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Michal
- Simek <michal.simek@amd.com>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
- linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] rtc: use boolean values with device_init_wakeup()
-Message-ID: <20241217110140.22c92138@donnerap.manchester.arm.com>
-In-Reply-To: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
-References: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1734461929; c=relaxed/simple;
+	bh=fbHCKnfG5NRep7BfY0oobhD0kOGNRHN5i/W+xzw1qWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aAb6mjvEcxNb+bufc2wbmCqRIgXQzmn2SbrM9B//gDGcQW8dPPoxZu99lgX+PTG88Z+pY1iHhzfzqhgXa+bmms5/rBkJ7D1Jn1Rhf+NIFIDN3sWwE5sQxfIjoRCP4+D+og9QyTccrR7U603tv1J5Iw6g/wNq3rj+X2v3k9VNmtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=I+WDdntw; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="I+WDdntw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1734461925;
+	bh=fbHCKnfG5NRep7BfY0oobhD0kOGNRHN5i/W+xzw1qWk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I+WDdntwN2YaV3qOxpeCQWGNdY5z2byTtquxZOwOwIlaugNaYa65yLtdJOBDgajse
+	 GdYWsLTrZj8ehD4d7cjNLOQ6EN7N4OSF6uUG4RdpLST2G6uyGdeG0EZ5P4Y5UfRyKL
+	 zuGw3TdxYX44cQQ4P0YLyIKoEL8llOe0QcuewkL4=
+Date: Tue, 17 Dec 2024 19:58:44 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Brian Norris <briannorris@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Julius Werner <jwerner@chromium.org>, chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] firmware: google: Constify 'struct bin_attribute'
+Message-ID: <3b905b05-d8dc-479f-8f9e-dae7b119b539@t-8ch.de>
+References: <20241215-sysfs-const-bin_attr-google-v1-0-e5c2808f5833@weissschuh.net>
+ <Z2ClAB6qY5LaMuHQ@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z2ClAB6qY5LaMuHQ@google.com>
 
-On Tue, 17 Dec 2024 08:13:26 +0100
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
-
-> device_init_wakeup() second argument is a bool type. Use proper boolean
-> values when calling it to match the type and to produce unambiguous code
-> which is easier to understand.
+On 2024-12-16 14:09:04-0800, Brian Norris wrote:
+> On Sun, Dec 15, 2024 at 03:49:08PM +0100, Thomas Weißschuh wrote:
+> > The sysfs core now allows instances of 'struct bin_attribute' to be
+> > moved into read-only memory. Make use of that to protect them against
+> > accidental or malicious modifications.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> I'm not in love with all these "_new" transformations that need a second
+> round of cleanup, but I'm not aware of any better way to do it.
 
-Verified via regexps that it's indeed this pattern: 1 => true, 0 => false.
+Absolutely agree. My hope is to get the post-transition cleanup directly
+through Linus or Greg in one big commit. At that point the changes are
+purely mechanical and trivial.
+So I don't have to annoy everyone even more...
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> ---
-> Created with a coccinelle script. I opted for a single patch because the change
-> is rather trivial. I can break out per driver if this is desired. If you
-> like the change at all, that is.
+> For the series:
 > 
->  drivers/rtc/rtc-88pm80x.c       | 2 +-
->  drivers/rtc/rtc-88pm860x.c      | 2 +-
->  drivers/rtc/rtc-amlogic-a4.c    | 6 +++---
->  drivers/rtc/rtc-armada38x.c     | 2 +-
->  drivers/rtc/rtc-as3722.c        | 2 +-
->  drivers/rtc/rtc-at91rm9200.c    | 2 +-
->  drivers/rtc/rtc-at91sam9.c      | 2 +-
->  drivers/rtc/rtc-cadence.c       | 2 +-
->  drivers/rtc/rtc-cmos.c          | 2 +-
->  drivers/rtc/rtc-cpcap.c         | 2 +-
->  drivers/rtc/rtc-cros-ec.c       | 2 +-
->  drivers/rtc/rtc-da9055.c        | 2 +-
->  drivers/rtc/rtc-ds3232.c        | 2 +-
->  drivers/rtc/rtc-isl1208.c       | 2 +-
->  drivers/rtc/rtc-jz4740.c        | 2 +-
->  drivers/rtc/rtc-loongson.c      | 4 ++--
->  drivers/rtc/rtc-lp8788.c        | 2 +-
->  drivers/rtc/rtc-lpc32xx.c       | 2 +-
->  drivers/rtc/rtc-max77686.c      | 2 +-
->  drivers/rtc/rtc-max8925.c       | 2 +-
->  drivers/rtc/rtc-max8997.c       | 2 +-
->  drivers/rtc/rtc-meson-vrtc.c    | 2 +-
->  drivers/rtc/rtc-mpc5121.c       | 2 +-
->  drivers/rtc/rtc-mt6397.c        | 2 +-
->  drivers/rtc/rtc-mv.c            | 4 ++--
->  drivers/rtc/rtc-mxc.c           | 2 +-
->  drivers/rtc/rtc-mxc_v2.c        | 2 +-
->  drivers/rtc/rtc-omap.c          | 2 +-
->  drivers/rtc/rtc-palmas.c        | 2 +-
->  drivers/rtc/rtc-pic32.c         | 2 +-
->  drivers/rtc/rtc-pm8xxx.c        | 2 +-
->  drivers/rtc/rtc-pxa.c           | 2 +-
->  drivers/rtc/rtc-rc5t583.c       | 2 +-
->  drivers/rtc/rtc-rc5t619.c       | 2 +-
->  drivers/rtc/rtc-renesas-rtca3.c | 2 +-
->  drivers/rtc/rtc-rk808.c         | 2 +-
->  drivers/rtc/rtc-s3c.c           | 2 +-
->  drivers/rtc/rtc-s5m.c           | 2 +-
->  drivers/rtc/rtc-sa1100.c        | 2 +-
->  drivers/rtc/rtc-sc27xx.c        | 4 ++--
->  drivers/rtc/rtc-sh.c            | 2 +-
->  drivers/rtc/rtc-spear.c         | 4 ++--
->  drivers/rtc/rtc-sun6i.c         | 2 +-
->  drivers/rtc/rtc-sunplus.c       | 4 ++--
->  drivers/rtc/rtc-tegra.c         | 2 +-
->  drivers/rtc/rtc-test.c          | 2 +-
->  drivers/rtc/rtc-tps6586x.c      | 2 +-
->  drivers/rtc/rtc-tps65910.c      | 2 +-
->  drivers/rtc/rtc-twl.c           | 2 +-
->  drivers/rtc/rtc-wm831x.c        | 2 +-
->  drivers/rtc/rtc-wm8350.c        | 2 +-
->  drivers/rtc/rtc-xgene.c         | 4 ++--
->  drivers/rtc/rtc-zynqmp.c        | 4 ++--
->  53 files changed, 62 insertions(+), 62 deletions(-)
-> 
+> Acked-by: Brian Norris <briannorris@chromium.org>
+
+Thanks.
+
+[..]

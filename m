@@ -1,926 +1,367 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6A2132132
-	for <chrome-platform@lists.linux.dev>; Tue, 17 Dec 2024 07:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CCD156644;
+	Tue, 17 Dec 2024 08:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734419748; cv=none; b=lFMLvo9odVSquCK0N8pdW5W4vQZ3sP5of05dJabvOG8gcqibFO5Z1/dr7/602m1qygCPnAqdqJfwWrz38kVBKyLjcU7SJr1tAYNDAGPoSU3giFi4tU0baIQx2p/Cfsr1+gWAp5b520mS16TCKWO5dK4XwD43WZeJFDlS7ZvAq4I=
+	t=1734422577; cv=none; b=YRkdmNP1ECpw7Uhp+0Q57vPmNk0T2FJsgLqFuq/Pk9xWIVcPp8E0uJGCmhXibONCV9odRLSO0Alb1RayYzRfpisXKvL/u6GqpX1I9KJh26UxSwB4KQpNyQPibKJYgMcEG2C3Y9XKrf0Ii2/tYyawCZ010BsdT8sj2kIegz84qYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734419748; c=relaxed/simple;
-	bh=WPui7jMUaBHKPyiD+wAhYBFDBlqkc+fFLFeTeTz33rg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bdhTzRRyQZWY4TgqQ3oTffLCpLBXZhsyfYPLd3UzxKrUBtvro5Z+IUvQeWQu4jbryCxoY2DRdE+ANpWfLGnxQ2CEfRwh04URjZpa+Ri7bYxTRznjus8Q1XKdaKtqIdcLxoRI4O1BsLHDpAKXkuQSi8XjljYbwXmudRSO5WRIS4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=aTCZSgXi; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1734422577; c=relaxed/simple;
+	bh=9Hp6gBaZltBdCJpha2XOW2+2tQX3NfSz4GmobUXmJL0=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HmAKwl1wLnZcQvUM1P5Nvxvz0gVYJQcMynxUyC7fe1CRYgQCAcYXajFDvOvq/+EUAuPqBUK1tINkFIhFGiBeKHNqSlVGNlDe9Ijfpf7x5np1vYlVpMyPBLykeJDi8DKXvkYF2PK3GJCuPv3LbTJHe+2IdllQleLlTyhSZrZIluU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QPKctoym; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aTCZSgXi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=b/7I37hxwoXCTJ
-	gyBf1JpuEr92Ph0ikoAk2pcmg4ckM=; b=aTCZSgXiv3O7G4p6VHvXKpHcWEyGW1
-	aJpixOg3kqNkPtJoulqHAdqGEEXfsyIR3VDFBDV9gpbJc6EIS3usJRiT0YO/BvDo
-	u0u/shsCvMQ2CmVxmOHUxkCJTDXyMWE5rVQL70yjcgK5utLkuIpephkboCJWkpyX
-	TqZ1PCaxeZVCeImVN3agTlaYNLESyn2ZlNmUdFa2PKP3sbj6YRFYLQmjHRWNjPq+
-	L1qaJUm+4bieXdYdYf8UzBbPNR5HfgwFqpJP3wCu288HR+szFX+1UnAAsf/q79cj
-	rWx/2bEI4g3kyQRn28iqbh/Ou2kaYs+JI2k17jgKZNOgKx/UeNIqZ/HQ==
-Received: (qmail 3980322 invoked from network); 17 Dec 2024 08:15:40 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Dec 2024 08:15:40 +0100
-X-UD-Smtp-Session: l3s3148p1@VAKHEHIpqoVehhtS
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-rtc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Yiting Deng <yiting.deng@amlogic.com>,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Eddie Huang <eddie.huang@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Vincent Shih <vincent.sunplus@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: [PATCH] rtc: use boolean values with device_init_wakeup()
-Date: Tue, 17 Dec 2024 08:13:26 +0100
-Message-ID: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QPKctoym"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d7e527becaso98196a12.3;
+        Tue, 17 Dec 2024 00:02:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734422572; x=1735027372; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=I8KYznOvQ9Ns7fS2EG3QX401236xaX+oyKJLcRk8+uE=;
+        b=QPKctoymF2VKaED0kcJNbqTcqvdjxIUt5TJAMa6sLA6W1h4gryuy9i6TyOnAoZLvIh
+         /t2hM93qYK87sycrjyaa5FXy8iPEQQ7i1K5TeDIeQuqXBAW0InCO6mhRESzFeOiF2zFr
+         uH1Mt2TT8EGtvvCEeZVilArA5SpDUhM0Fj9cPUrRwqCtxuV2dfBaBHJTNg6Up6wTFXB2
+         1DXRc/lBG646RCMOQ8dX5n3lCHm0lfGOzF3szvaw41duY/qMA2O+qU825mLsb42wmvnP
+         M/cMiayucrxA3dg8q7kv1Ha6ThUangecESnFL3OYqewnFecSk7p0+UWlvgGv3Z9QjHRL
+         C8WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734422572; x=1735027372;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I8KYznOvQ9Ns7fS2EG3QX401236xaX+oyKJLcRk8+uE=;
+        b=JLjcsDLWGF0jAkdLAS/xGibVAq0fxli5gNuiQMyBoG/2GGc4T7paO6+pUO3JftkFnZ
+         X3LJhyUUx3gcu9+GXHXnX5gZFRXvgkweYDeJEK96Mqzpoa5/vrBMGVqy1a5aw/9TByf2
+         wAPp42fkCo4cCudhBVGzr/EjU6jxPaFKtjugAcJGsE2J+Y1E4/BAkIu+NhZ4+zz92WcC
+         aW1Ae3shX0bcBX4+DQiJs6CU7lNl2HehhczXpnNuc0vvsVC/lV5LG8HjA15dhWUpKdLC
+         twqS+XiWxJvSxTvmGApb2ZfoKz4zSriO9wfugb3+oAc4IxSqyKcuA13X3e8VUs/hugOA
+         2M7w==
+X-Forwarded-Encrypted: i=1; AJvYcCWDzbAhGGhIhuY9w+phZ0B+zQFqN1xzbQTG0pkBMCuztEv8Z3EPZDz82BReITXxKleZS8jZb07+0l6RFNDLbRk=@lists.linux.dev, AJvYcCWrdTIpE5+O63QE/gb/3KBVwtC0Y1zyTcRjwiKPw+w22nbq1NNQsuuguzGUjVlBKtPWkSZ8MaEhIF2g+tU=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywi1Lq4shbuVCsR5Tug9W5e9D+lAhgsMQiGQZwTJtuehdjPWyEV
+	aHVvvzW4oBj1rcNVWC+2KaB6jk+S/HeV4ddiR7jcnSlg5LUcHqD2
+X-Gm-Gg: ASbGncsa0ItEtBnn0GPWwmQA6/2EJv3dWTVeakBs+mw8kDb7ZbZU1zPFG6D8Ppz9S93
+	SEtImQJt/aaKJToHc66BhavvYxDXvdNxk33G5HStmkGuYL3GSNjr1Cr1AVv8kGBDUbmxAFUoc4Z
+	h+ePHDnNhpaqOK5xD/4n+Hqd5ohyKp8hPgXJivhTRETQwpOMFg11VAk0nSF8Pjy91H+vqZcweXi
+	hnHozH+OGwOlgRX/gHsNLwpBxhlNSourVDHSqGyjo7jzylRYmVE3zGlEc0AQvfTsXQ3HVKkVGeg
+	aLLBvc5D1nl1FbtAvF3P8dxefpYgsg==
+X-Google-Smtp-Source: AGHT+IEe3pc2lVsVkhnqLCSlyDpewTkSJC79/CsviL5DkUxD+u6OxER0DZOVHU5iwPxiRLJwA2Z93A==
+X-Received: by 2002:a05:6402:40cf:b0:5d3:ba42:e9fa with SMTP id 4fb4d7f45d1cf-5d63c3405a8mr33138305a12.16.1734422571994;
+        Tue, 17 Dec 2024 00:02:51 -0800 (PST)
+Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d652ae12a7sm3990967a12.50.2024.12.17.00.02.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2024 00:02:51 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Tue, 17 Dec 2024 09:02:49 +0100
+To: Alan Maguire <alan.maguire@oracle.com>
+Cc: Cong Wang <xiyou.wangcong@gmail.com>, Uros Bizjak <ubizjak@gmail.com>,
+	Laura Nao <laura.nao@collabora.com>, bpf@vger.kernel.org,
+	chrome-platform@lists.linux.dev, kernel@collabora.com,
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
+	Stephen Brennan <stephen.s.brennan@oracle.com>,
+	"dwarves@vger.kernel.org" <dwarves@vger.kernel.org>
+Subject: Re: [REGRESSION] module BTF validation failure (Error -22) on next
+Message-ID: <Z2EwKSgh0cA2EHun@krava>
+References: <20241115171712.427535-1-laura.nao@collabora.com>
+ <20241204155305.444280-1-laura.nao@collabora.com>
+ <CAFULd4a+GjfN5EgPM-utJNfwo5vQ9Sq+uqXJ62eP9ed7bBJ50w@mail.gmail.com>
+ <Z10MkXtzyY9RDqSp@pop-os.localdomain>
+ <3be0346a-8bc9-4be1-8418-b26c7aa4a862@oracle.com>
+ <c067bc3d-62d6-4677-9daf-17c57f007e67@oracle.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <c067bc3d-62d6-4677-9daf-17c57f007e67@oracle.com>
 
-device_init_wakeup() second argument is a bool type. Use proper boolean
-values when calling it to match the type and to produce unambiguous code
-which is easier to understand.
+On Mon, Dec 16, 2024 at 03:19:01PM +0000, Alan Maguire wrote:
+> On 14/12/2024 12:15, Alan Maguire wrote:
+> > On 14/12/2024 04:41, Cong Wang wrote:
+> >> On Thu, Dec 05, 2024 at 08:36:33AM +0100, Uros Bizjak wrote:
+> >>> On Wed, Dec 4, 2024 at 4:52 PM Laura Nao <laura.nao@collabora.com> wrote:
+> >>>>
+> >>>> On 11/15/24 18:17, Laura Nao wrote:
+> >>>>> I managed to reproduce the issue locally and I've uploaded the vmlinux[1]
+> >>>>> (stripped of DWARF data) and vmlinux.raw[2] files, as well as one of the
+> >>>>> modules[3] and its btf data[4] extracted with:
+> >>>>>
+> >>>>> bpftool -B vmlinux btf dump file cros_kbd_led_backlight.ko > cros_kbd_led_backlight.ko.raw
+> >>>>>
+> >>>>> Looking again at the logs[5], I've noticed the following is reported:
+> >>>>>
+> >>>>> [    0.415885] BPF:    type_id=115803 offset=177920 size=1152
+> >>>>> [    0.416029] BPF:
+> >>>>> [    0.416083] BPF: Invalid offset
+> >>>>> [    0.416165] BPF:
+> >>>>>
+> >>>>> There are two different definitions of rcu_data in '.data..percpu', one
+> >>>>> is a struct and the other is an integer:
+> >>>>>
+> >>>>> type_id=115801 offset=177920 size=1152 (VAR 'rcu_data')
+> >>>>> type_id=115803 offset=177920 size=1152 (VAR 'rcu_data')
+> >>>>>
+> >>>>> [115801] VAR 'rcu_data' type_id=115572, linkage=static
+> >>>>> [115803] VAR 'rcu_data' type_id=1, linkage=static
+> >>>>>
+> >>>>> [115572] STRUCT 'rcu_data' size=1152 vlen=69
+> >>>>> [1] INT 'long unsigned int' size=8 bits_offset=0 nr_bits=64 encoding=(none)
+> >>>>>
+> >>>>> I assume that's not expected, correct?
+> >>>>>
+> >>>>> I'll dig a bit deeper and report back if I can find anything else.
+> >>>>
+> >>>> I ran a bisection, and it appears the culprit commit is:
+> >>>> https://lore.kernel.org/all/20241021080856.48746-2-ubizjak@gmail.com/
+> >>>>
+> >>>> Hi Uros, do you have any suggestions or insights on resolving this issue?
+> >>>
+> >>> There is a stray ";" at the end of the #define, perhaps this makes a difference:
+> >>>
+> >>> +#define PERCPU_PTR(__p) \
+> >>> + (typeof(*(__p)) __force __kernel *)(__p);
+> >>> +
+> >>>
+> >>> and SHIFT_PERCPU_PTR macro now expands to:
+> >>>
+> >>> RELOC_HIDE((typeof(*(p)) __force __kernel *)(p);, (offset))
+> >>>
+> >>> A follow-up patch in the series changes PERCPU_PTR macro to:
+> >>>
+> >>> #define PERCPU_PTR(__p) \
+> >>> ({ \
+> >>> unsigned long __pcpu_ptr = (__force unsigned long)(__p); \
+> >>> (typeof(*(__p)) __force __kernel *)(__pcpu_ptr); \
+> >>> })
+> >>>
+> >>> so this should again correctly cast the value.
+> >>
+> >> Hm, I saw a similar bug but with pahole 1.28. My kernel complains about
+> >> BTF invalid offset:
+> >>
+> >> [    7.785788] BPF: 	 type_id=2394 offset=0 size=1
+> >> [    7.786411] BPF:
+> >> [    7.786703] BPF: Invalid offset
+> >> [    7.787119] BPF:
+> >>
+> >> Dumping the vmlinux (there is no module invovled), I saw it is related to
+> >> percpu pointer too:
+> >>
+> >> [2394] VAR '__pcpu_unique_cpu_hw_events' type_id=2, linkage=global
+> >> ...
+> >> [163643] DATASEC '.data..percpu' size=2123280 vlen=808
+> >>         type_id=2393 offset=0 size=1 (VAR '__pcpu_scope_cpu_hw_events')
+> >>         type_id=2394 offset=0 size=1 (VAR '__pcpu_unique_cpu_hw_events')
+> >> ...
+> >>
+> >> I compiled and installed the latest pahole from its git repo:
+> >>
+> >> $ pahole --version
+> >> v1.28
+> >>
+> >> Thanks.
+> > 
+> > Thanks for the report! Looking at percpu-defs.h it looks like the
+> > existence of such variables requires either
+> > 
+> > #if defined(ARCH_NEEDS_WEAK_PER_CPU) ||
+> > defined(CONFIG_DEBUG_FORCE_WEAK_PER_CPU)
+> > 
+> > ...
+> > 
+> > #define DEFINE_PER_CPU_SECTION(type, name, sec)                         \
+> >         __PCPU_DUMMY_ATTRS char __pcpu_scope_##name;                    \
+> >         extern __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;            \
+> >         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
+> >         extern __PCPU_ATTRS(sec) __typeof__(type) name;                 \
+> >         __PCPU_ATTRS(sec) __weak __typeof__(type) name
+> > 
+> > 
+> > I'm guessing your .config has CONFIG_DEBUG_FORCE_WEAK_PER_CPU, or are
+> > you building on s390/alpha?
+> > 
+> > I've reproduced this on bpf-next with CONFIG_DEBUG_FORCE_WEAK_PER_CPU=y,
+> > pahole v1.28 and gcc-12; I see ~900 __pcpu_ variables and get the same
+> > BTF errors since multipe __pcpu_ vars share the offset 0.
+> > 
+> > A simple workaround in dwarves - and I verified this resolved the issue
+> > for me - would be
+> > 
+> > diff --git a/btf_encoder.c b/btf_encoder.c
+> > index 3754884..4a1799a 100644
+> > --- a/btf_encoder.c
+> > +++ b/btf_encoder.c
+> > @@ -2174,7 +2174,8 @@ static bool filter_variable_name(const char *name)
+> >                 X("__UNIQUE_ID"),
+> >                 X("__tpstrtab_"),
+> >                 X("__exitcall_"),
+> > -               X("__func_stack_frame_non_standard_")
+> > +               X("__func_stack_frame_non_standard_"),
+> > +               X("__pcpu_")
+> >                 #undef X
+> >         };
+> >         int i;
+> > 
+> > ...but I'd like us to understand further why variables which were
+> > supposed to be in a .discard section end up being encoded as there may
+> > be other problems lurking here aside from this one. More soon hopefully...
+> >
+> 
+> 
+> A bit more context here - variable encoding takes the address of the
+> variable from DWARF to locate the associated ELF section. Because we
+> insist on having a variable specification - with a location - this
+> usually works fine. However the problem is that because these dummy
+> __pcpu_ variables specify a .discard section, their addresses are 0, so
+> we get for example:
+> 
+>  <1><1e535>: Abbrev Number: 114 (DW_TAG_variable)
+>     <1e536>   DW_AT_name        : (indirect string, offset: 0x5e97):
+> __pcpu_unique_kstack_offset
+>     <1e53a>   DW_AT_decl_file   : 1
+>     <1e53b>   DW_AT_decl_line   : 823
+>     <1e53d>   DW_AT_decl_column : 1
+>     <1e53e>   DW_AT_type        : <0x57>
+>     <1e542>   DW_AT_external    : 1
+>     <1e542>   DW_AT_declaration : 1
+>  <1><1e542>: Abbrev Number: 156 (DW_TAG_variable)
+>     <1e544>   DW_AT_specification: <0x1e535>
+>     <1e548>   DW_AT_location    : 9 byte block: 3 0 0 0 0 0 0 0 0
+> (DW_OP_addr: 0)
+> 
+> 
+> You can see the same thing for a simple program like this:
+> 
+> #include <stdio.h>
+> 
+> #define SEC(name) __attribute__((section(name)))
+> 
+> SEC("/DISCARD/") int d1;
+> extern int d1;
+> SEC("/DISCARD/") int d2;
+> extern int d2;
+> 
+> int main(int argc, char *argv[])
+> {
+> 	return 0;
+> }
+> 
+> 
+> If you compile it with -g, the DWARF shows that d1 and d2 both have
+> address 0:
+> 
+>  <1><72>: Abbrev Number: 5 (DW_TAG_variable)
+>     <73>   DW_AT_name        : d1
+>     <76>   DW_AT_decl_file   : 1
+>     <77>   DW_AT_decl_line   : 5
+>     <78>   DW_AT_decl_column : 22
+>     <79>   DW_AT_type        : <0x57>
+>     <7d>   DW_AT_external    : 1
+>     <7d>   DW_AT_location    : 9 byte block: 3 0 0 0 0 0 0 0 0
+> (DW_OP_addr: 0)
+>  <1><87>: Abbrev Number: 5 (DW_TAG_variable)
+>     <88>   DW_AT_name        : d2
+>     <8b>   DW_AT_decl_file   : 1
+>     <8c>   DW_AT_decl_line   : 7
+>     <8d>   DW_AT_decl_column : 22
+>     <8e>   DW_AT_type        : <0x57>
+>     <92>   DW_AT_external    : 1
+>     <92>   DW_AT_location    : 9 byte block: 3 0 0 0 0 0 0 0 0
+> (DW_OP_addr: 0)
+> 
+> 
+> So the reason this happens for dwarves v1.28 in particular is - as I
+> understand it - we moved away from recording ELF section information for
+> each variable and matching that with DWARF info, instead relying on the
+> address to locate the associated ELF section. In cases like the above
+> the address information unfortunately leads us astray.
+> 
+> Seems like there's a few approaches we can take in fixing this:
+> 
+> 1. designate "__pcpu_" prefix as a variable prefix to filter out. This
+> resolves the immediate problem but is too narrowly focused IMO and we
+> may end up playing whack-a-mole with other dummy variable prefixes.
+> 2. resurrect ELF section variable information fully; i.e. record a list
+> of variables per ELF section (or at least per ELF section we care
+> about). If variable is not on the list for the ELF section, do not
+> encode it.
+> 3. midway between the two; for the 0 address case specifically, verify
+> that the variable name really _is_ in the associated ELF section. No
+> need to create a local ELF table variable representation, we could just
+> walk the table in the case of the 0 addresses.
+> 
+> Diff for approach 3 is as follows
+> 
+> diff --git a/btf_encoder.c b/btf_encoder.c
+> index 3754884..21a0ab6 100644
+> --- a/btf_encoder.c
+> +++ b/btf_encoder.c
+> @@ -2189,6 +2189,26 @@ static bool filter_variable_name(const char *name)
+>         return false;
+>  }
+> 
+> +bool variable_in_sec(struct btf_encoder *encoder, const char *name,
+> size_t shndx)
+> +{
+> +       uint32_t sym_sec_idx;
+> +       uint32_t core_id;
+> +       GElf_Sym sym;
+> +
+> +       elf_symtab__for_each_symbol_index(encoder->symtab, core_id, sym,
+> sym_sec_idx) {
+> +               const char *sym_name;
+> +
+> +               if (sym_sec_idx != shndx || elf_sym__type(&sym) !=
+> STT_OBJECT)
+> +                       continue;
+> +               sym_name = elf_sym__name(&sym, encoder->symtab);
+> +               if (!sym_name)
+> +                       continue;
+> +               if (strcmp(name, sym_name) == 0)
+> +                       return true;
+> +       }
+> +       return false;
+> +}
+> +
+>  static int btf_encoder__encode_cu_variables(struct btf_encoder *encoder)
+>  {
+>         struct cu *cu = encoder->cu;
+> @@ -2258,6 +2278,11 @@ static int
+> btf_encoder__encode_cu_variables(struct btf_encoder *encoder)
+>                 if (filter_variable_name(name))
+>                         continue;
+> 
+> +               /* A 0 address may be in a .discard section; ensure the
+> +                * variable really is in this section by checking ELF
+> symtab.
+> +                */
+> +               if (addr == 0 && !variable_in_sec(encoder, name, shndx))
+> +                       continue;
+>                 /* Check for invalid BTF names */
+>                 if (!btf_name_valid(name)) {
+>                         dump_invalid_symbol("Found invalid variable name
+> when encoding btf",
+> 
+> 
+> ...so slightly more complex than option 1, but a bit more general in its
+> applicability to .discard section variables.
+> 
+> For the pahole folks, what do we think? Which option (or indeed other
+> ones I haven't thought of) makes sense for a fix for this? Thanks!
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-Created with a coccinelle script. I opted for a single patch because the change
-is rather trivial. I can break out per driver if this is desired. If you
-like the change at all, that is.
+I can reproduce this with the CONFIG_DEBUG_FORCE_WEAK_PER_CPU enable,
+the fix looks fine, could you send formal patch?
 
- drivers/rtc/rtc-88pm80x.c       | 2 +-
- drivers/rtc/rtc-88pm860x.c      | 2 +-
- drivers/rtc/rtc-amlogic-a4.c    | 6 +++---
- drivers/rtc/rtc-armada38x.c     | 2 +-
- drivers/rtc/rtc-as3722.c        | 2 +-
- drivers/rtc/rtc-at91rm9200.c    | 2 +-
- drivers/rtc/rtc-at91sam9.c      | 2 +-
- drivers/rtc/rtc-cadence.c       | 2 +-
- drivers/rtc/rtc-cmos.c          | 2 +-
- drivers/rtc/rtc-cpcap.c         | 2 +-
- drivers/rtc/rtc-cros-ec.c       | 2 +-
- drivers/rtc/rtc-da9055.c        | 2 +-
- drivers/rtc/rtc-ds3232.c        | 2 +-
- drivers/rtc/rtc-isl1208.c       | 2 +-
- drivers/rtc/rtc-jz4740.c        | 2 +-
- drivers/rtc/rtc-loongson.c      | 4 ++--
- drivers/rtc/rtc-lp8788.c        | 2 +-
- drivers/rtc/rtc-lpc32xx.c       | 2 +-
- drivers/rtc/rtc-max77686.c      | 2 +-
- drivers/rtc/rtc-max8925.c       | 2 +-
- drivers/rtc/rtc-max8997.c       | 2 +-
- drivers/rtc/rtc-meson-vrtc.c    | 2 +-
- drivers/rtc/rtc-mpc5121.c       | 2 +-
- drivers/rtc/rtc-mt6397.c        | 2 +-
- drivers/rtc/rtc-mv.c            | 4 ++--
- drivers/rtc/rtc-mxc.c           | 2 +-
- drivers/rtc/rtc-mxc_v2.c        | 2 +-
- drivers/rtc/rtc-omap.c          | 2 +-
- drivers/rtc/rtc-palmas.c        | 2 +-
- drivers/rtc/rtc-pic32.c         | 2 +-
- drivers/rtc/rtc-pm8xxx.c        | 2 +-
- drivers/rtc/rtc-pxa.c           | 2 +-
- drivers/rtc/rtc-rc5t583.c       | 2 +-
- drivers/rtc/rtc-rc5t619.c       | 2 +-
- drivers/rtc/rtc-renesas-rtca3.c | 2 +-
- drivers/rtc/rtc-rk808.c         | 2 +-
- drivers/rtc/rtc-s3c.c           | 2 +-
- drivers/rtc/rtc-s5m.c           | 2 +-
- drivers/rtc/rtc-sa1100.c        | 2 +-
- drivers/rtc/rtc-sc27xx.c        | 4 ++--
- drivers/rtc/rtc-sh.c            | 2 +-
- drivers/rtc/rtc-spear.c         | 4 ++--
- drivers/rtc/rtc-sun6i.c         | 2 +-
- drivers/rtc/rtc-sunplus.c       | 4 ++--
- drivers/rtc/rtc-tegra.c         | 2 +-
- drivers/rtc/rtc-test.c          | 2 +-
- drivers/rtc/rtc-tps6586x.c      | 2 +-
- drivers/rtc/rtc-tps65910.c      | 2 +-
- drivers/rtc/rtc-twl.c           | 2 +-
- drivers/rtc/rtc-wm831x.c        | 2 +-
- drivers/rtc/rtc-wm8350.c        | 2 +-
- drivers/rtc/rtc-xgene.c         | 4 ++--
- drivers/rtc/rtc-zynqmp.c        | 4 ++--
- 53 files changed, 62 insertions(+), 62 deletions(-)
-
-diff --git a/drivers/rtc/rtc-88pm80x.c b/drivers/rtc/rtc-88pm80x.c
-index 5c39cf252392..a3e52a5a708f 100644
---- a/drivers/rtc/rtc-88pm80x.c
-+++ b/drivers/rtc/rtc-88pm80x.c
-@@ -308,7 +308,7 @@ static int pm80x_rtc_probe(struct platform_device *pdev)
- 	/* remember whether this power up is caused by PMIC RTC or not */
- 	info->rtc_dev->dev.platform_data = &pdata->rtc_wakeup;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	return 0;
- out_rtc:
-diff --git a/drivers/rtc/rtc-88pm860x.c b/drivers/rtc/rtc-88pm860x.c
-index 814230d61842..964cd048fcdb 100644
---- a/drivers/rtc/rtc-88pm860x.c
-+++ b/drivers/rtc/rtc-88pm860x.c
-@@ -326,7 +326,7 @@ static int pm860x_rtc_probe(struct platform_device *pdev)
- 	schedule_delayed_work(&info->calib_work, VRTC_CALIB_INTERVAL);
- #endif	/* VRTC_CALIBRATION */
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	return 0;
- }
-diff --git a/drivers/rtc/rtc-amlogic-a4.c b/drivers/rtc/rtc-amlogic-a4.c
-index 2278b4c98a71..09d78c2cc691 100644
---- a/drivers/rtc/rtc-amlogic-a4.c
-+++ b/drivers/rtc/rtc-amlogic-a4.c
-@@ -361,7 +361,7 @@ static int aml_rtc_probe(struct platform_device *pdev)
- 				     "failed to get_enable rtc sys clk\n");
- 	aml_rtc_init(rtc);
- 
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- 	platform_set_drvdata(pdev, rtc);
- 
- 	rtc->rtc_dev = devm_rtc_allocate_device(dev);
-@@ -391,7 +391,7 @@ static int aml_rtc_probe(struct platform_device *pdev)
- 	return 0;
- err_clk:
- 	clk_disable_unprepare(rtc->sys_clk);
--	device_init_wakeup(dev, 0);
-+	device_init_wakeup(dev, false);
- 
- 	return ret;
- }
-@@ -426,7 +426,7 @@ static void aml_rtc_remove(struct platform_device *pdev)
- 	struct aml_rtc_data *rtc = dev_get_drvdata(&pdev->dev);
- 
- 	clk_disable_unprepare(rtc->sys_clk);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- }
- 
- static const struct aml_rtc_config a5_rtc_config = {
-diff --git a/drivers/rtc/rtc-armada38x.c b/drivers/rtc/rtc-armada38x.c
-index 569c1054d6b0..713fa0d077cd 100644
---- a/drivers/rtc/rtc-armada38x.c
-+++ b/drivers/rtc/rtc-armada38x.c
-@@ -527,7 +527,7 @@ static __init int armada38x_rtc_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, rtc);
- 
- 	if (rtc->irq != -1)
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 	else
- 		clear_bit(RTC_FEATURE_ALARM, rtc->rtc_dev->features);
- 
-diff --git a/drivers/rtc/rtc-as3722.c b/drivers/rtc/rtc-as3722.c
-index 0f21af27f4cf..9682d6457b7f 100644
---- a/drivers/rtc/rtc-as3722.c
-+++ b/drivers/rtc/rtc-as3722.c
-@@ -187,7 +187,7 @@ static int as3722_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	as3722_rtc->rtc = devm_rtc_device_register(&pdev->dev, "as3722-rtc",
- 				&as3722_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-at91rm9200.c b/drivers/rtc/rtc-at91rm9200.c
-index 9b3898b8de7c..f6b0102a843a 100644
---- a/drivers/rtc/rtc-at91rm9200.c
-+++ b/drivers/rtc/rtc-at91rm9200.c
-@@ -528,7 +528,7 @@ static int __init at91_rtc_probe(struct platform_device *pdev)
- 	 * being wake-capable; if it didn't, do that here.
- 	 */
- 	if (!device_can_wakeup(&pdev->dev))
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 
- 	if (at91_rtc_config->has_correction)
- 		rtc->ops = &sama5d4_rtc_ops;
-diff --git a/drivers/rtc/rtc-at91sam9.c b/drivers/rtc/rtc-at91sam9.c
-index 15b21da2788f..38991cca5930 100644
---- a/drivers/rtc/rtc-at91sam9.c
-+++ b/drivers/rtc/rtc-at91sam9.c
-@@ -353,7 +353,7 @@ static int at91_rtc_probe(struct platform_device *pdev)
- 
- 	/* platform setup code should have handled this; sigh */
- 	if (!device_can_wakeup(&pdev->dev))
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 
- 	platform_set_drvdata(pdev, rtc);
- 
-diff --git a/drivers/rtc/rtc-cadence.c b/drivers/rtc/rtc-cadence.c
-index bf2a9a1fdea7..8634eea799ab 100644
---- a/drivers/rtc/rtc-cadence.c
-+++ b/drivers/rtc/rtc-cadence.c
-@@ -359,7 +359,7 @@ static void cdns_rtc_remove(struct platform_device *pdev)
- 	struct cdns_rtc *crtc = platform_get_drvdata(pdev);
- 
- 	cdns_rtc_alarm_irq_enable(&pdev->dev, 0);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- 
- 	clk_disable_unprepare(crtc->pclk);
- 	clk_disable_unprepare(crtc->ref_clk);
-diff --git a/drivers/rtc/rtc-cmos.c b/drivers/rtc/rtc-cmos.c
-index 78f2ce12c75a..4bd3a3a04d44 100644
---- a/drivers/rtc/rtc-cmos.c
-+++ b/drivers/rtc/rtc-cmos.c
-@@ -864,7 +864,7 @@ static void acpi_cmos_wake_setup(struct device *dev)
- 		dev_info(dev, "RTC can wake from S4\n");
- 
- 	/* RTC always wakes from S1/S2/S3, and often S4/STD */
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- }
- 
- static void cmos_check_acpi_rtc_status(struct device *dev,
-diff --git a/drivers/rtc/rtc-cpcap.c b/drivers/rtc/rtc-cpcap.c
-index afc8fcba8f88..568a89e79c11 100644
---- a/drivers/rtc/rtc-cpcap.c
-+++ b/drivers/rtc/rtc-cpcap.c
-@@ -295,7 +295,7 @@ static int cpcap_rtc_probe(struct platform_device *pdev)
- 	}
- 	disable_irq(rtc->update_irq);
- 
--	err = device_init_wakeup(dev, 1);
-+	err = device_init_wakeup(dev, true);
- 	if (err) {
- 		dev_err(dev, "wakeup initialization failed (%d)\n", err);
- 		/* ignore error and continue without wakeup support */
-diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
-index 60a48c3ba3ca..865c2e82c7a5 100644
---- a/drivers/rtc/rtc-cros-ec.c
-+++ b/drivers/rtc/rtc-cros-ec.c
-@@ -337,7 +337,7 @@ static int cros_ec_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	ret = device_init_wakeup(&pdev->dev, 1);
-+	ret = device_init_wakeup(&pdev->dev, true);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to initialize wakeup\n");
- 		return ret;
-diff --git a/drivers/rtc/rtc-da9055.c b/drivers/rtc/rtc-da9055.c
-index 844168fcae1e..05adec6b77bf 100644
---- a/drivers/rtc/rtc-da9055.c
-+++ b/drivers/rtc/rtc-da9055.c
-@@ -288,7 +288,7 @@ static int da9055_rtc_probe(struct platform_device *pdev)
- 	if (ret & DA9055_RTC_ALM_EN)
- 		rtc->alarm_enable = 1;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rtc->rtc = devm_rtc_device_register(&pdev->dev, pdev->name,
- 					&da9055_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-ds3232.c b/drivers/rtc/rtc-ds3232.c
-index dd37b055693c..19c09c418746 100644
---- a/drivers/rtc/rtc-ds3232.c
-+++ b/drivers/rtc/rtc-ds3232.c
-@@ -508,7 +508,7 @@ static int ds3232_probe(struct device *dev, struct regmap *regmap, int irq,
- 		return ret;
- 
- 	if (ds3232->irq > 0)
--		device_init_wakeup(dev, 1);
-+		device_init_wakeup(dev, true);
- 
- 	ds3232_hwmon_register(dev, name);
- 
-diff --git a/drivers/rtc/rtc-isl1208.c b/drivers/rtc/rtc-isl1208.c
-index 7b82e4a14b7a..f71a6bb77b2a 100644
---- a/drivers/rtc/rtc-isl1208.c
-+++ b/drivers/rtc/rtc-isl1208.c
-@@ -830,7 +830,7 @@ static int isl1208_setup_irq(struct i2c_client *client, int irq)
- 					isl1208_driver.driver.name,
- 					client);
- 	if (!rc) {
--		device_init_wakeup(&client->dev, 1);
-+		device_init_wakeup(&client->dev, true);
- 		enable_irq_wake(irq);
- 	} else {
- 		dev_err(&client->dev,
-diff --git a/drivers/rtc/rtc-jz4740.c b/drivers/rtc/rtc-jz4740.c
-index bafa7d1b9b88..44bba356268c 100644
---- a/drivers/rtc/rtc-jz4740.c
-+++ b/drivers/rtc/rtc-jz4740.c
-@@ -367,7 +367,7 @@ static int jz4740_rtc_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, rtc);
- 
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- 
- 	ret = dev_pm_set_wake_irq(dev, irq);
- 	if (ret)
-diff --git a/drivers/rtc/rtc-loongson.c b/drivers/rtc/rtc-loongson.c
-index 8d713e563d7c..6f5f4430c2ae 100644
---- a/drivers/rtc/rtc-loongson.c
-+++ b/drivers/rtc/rtc-loongson.c
-@@ -329,7 +329,7 @@ static int loongson_rtc_probe(struct platform_device *pdev)
- 					     alarm_irq);
- 
- 		priv->pm_base = regs - priv->config->pm_offset;
--		device_init_wakeup(dev, 1);
-+		device_init_wakeup(dev, true);
- 
- 		if (has_acpi_companion(dev))
- 			acpi_install_fixed_event_handler(ACPI_EVENT_RTC,
-@@ -360,7 +360,7 @@ static void loongson_rtc_remove(struct platform_device *pdev)
- 		acpi_remove_fixed_event_handler(ACPI_EVENT_RTC,
- 						loongson_rtc_handler);
- 
--	device_init_wakeup(dev, 0);
-+	device_init_wakeup(dev, false);
- 	loongson_rtc_alarm_irq_enable(dev, 0);
- }
- 
-diff --git a/drivers/rtc/rtc-lp8788.c b/drivers/rtc/rtc-lp8788.c
-index c0b8fbce1082..0793d70507f7 100644
---- a/drivers/rtc/rtc-lp8788.c
-+++ b/drivers/rtc/rtc-lp8788.c
-@@ -293,7 +293,7 @@ static int lp8788_rtc_probe(struct platform_device *pdev)
- 	rtc->alarm = lp->pdata ? lp->pdata->alarm_sel : DEFAULT_ALARM_SEL;
- 	platform_set_drvdata(pdev, rtc);
- 
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- 
- 	rtc->rdev = devm_rtc_device_register(dev, "lp8788_rtc",
- 					&lp8788_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-lpc32xx.c b/drivers/rtc/rtc-lpc32xx.c
-index 76ad7031a13d..74280bffe1b0 100644
---- a/drivers/rtc/rtc-lpc32xx.c
-+++ b/drivers/rtc/rtc-lpc32xx.c
-@@ -257,7 +257,7 @@ static int lpc32xx_rtc_probe(struct platform_device *pdev)
- 			dev_warn(&pdev->dev, "Can't request interrupt.\n");
- 			rtc->irq = -1;
- 		} else {
--			device_init_wakeup(&pdev->dev, 1);
-+			device_init_wakeup(&pdev->dev, true);
- 		}
- 	}
- 
-diff --git a/drivers/rtc/rtc-max77686.c b/drivers/rtc/rtc-max77686.c
-index a8f4b645c09d..7bb044d2ac25 100644
---- a/drivers/rtc/rtc-max77686.c
-+++ b/drivers/rtc/rtc-max77686.c
-@@ -770,7 +770,7 @@ static int max77686_rtc_probe(struct platform_device *pdev)
- 		goto err_rtc;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	info->rtc_dev = devm_rtc_device_register(&pdev->dev, id->name,
- 					&max77686_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-max8925.c b/drivers/rtc/rtc-max8925.c
-index 64bb8ac6ef62..6ce8afbeac68 100644
---- a/drivers/rtc/rtc-max8925.c
-+++ b/drivers/rtc/rtc-max8925.c
-@@ -270,7 +270,7 @@ static int max8925_rtc_probe(struct platform_device *pdev)
- 	/* XXX - isn't this redundant? */
- 	platform_set_drvdata(pdev, info);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	info->rtc_dev = devm_rtc_device_register(&pdev->dev, "max8925-rtc",
- 					&max8925_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-max8997.c b/drivers/rtc/rtc-max8997.c
-index 20e50d9fdf88..e7618d715bd8 100644
---- a/drivers/rtc/rtc-max8997.c
-+++ b/drivers/rtc/rtc-max8997.c
-@@ -473,7 +473,7 @@ static int max8997_rtc_probe(struct platform_device *pdev)
- 	max8997_rtc_enable_wtsr(info, true);
- 	max8997_rtc_enable_smpl(info, true);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	info->rtc_dev = devm_rtc_device_register(&pdev->dev, "max8997-rtc",
- 					&max8997_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-meson-vrtc.c b/drivers/rtc/rtc-meson-vrtc.c
-index 648fa362ec44..5849729f7d01 100644
---- a/drivers/rtc/rtc-meson-vrtc.c
-+++ b/drivers/rtc/rtc-meson-vrtc.c
-@@ -74,7 +74,7 @@ static int meson_vrtc_probe(struct platform_device *pdev)
- 	if (IS_ERR(vrtc->io_alarm))
- 		return PTR_ERR(vrtc->io_alarm);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	platform_set_drvdata(pdev, vrtc);
- 
-diff --git a/drivers/rtc/rtc-mpc5121.c b/drivers/rtc/rtc-mpc5121.c
-index 600328131603..b90f8337a7e6 100644
---- a/drivers/rtc/rtc-mpc5121.c
-+++ b/drivers/rtc/rtc-mpc5121.c
-@@ -303,7 +303,7 @@ static int mpc5121_rtc_probe(struct platform_device *op)
- 		return PTR_ERR(rtc->regs);
- 	}
- 
--	device_init_wakeup(&op->dev, 1);
-+	device_init_wakeup(&op->dev, true);
- 
- 	platform_set_drvdata(op, rtc);
- 
-diff --git a/drivers/rtc/rtc-mt6397.c b/drivers/rtc/rtc-mt6397.c
-index 152699219a2b..6979d225a78e 100644
---- a/drivers/rtc/rtc-mt6397.c
-+++ b/drivers/rtc/rtc-mt6397.c
-@@ -286,7 +286,7 @@ static int mtk_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rtc->rtc_dev->ops = &mtk_rtc_ops;
- 	rtc->rtc_dev->range_min = RTC_TIMESTAMP_BEGIN_1900;
-diff --git a/drivers/rtc/rtc-mv.c b/drivers/rtc/rtc-mv.c
-index 51029c536244..c27ad626d09f 100644
---- a/drivers/rtc/rtc-mv.c
-+++ b/drivers/rtc/rtc-mv.c
-@@ -264,7 +264,7 @@ static int __init mv_rtc_probe(struct platform_device *pdev)
- 	}
- 
- 	if (pdata->irq >= 0)
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 	else
- 		clear_bit(RTC_FEATURE_ALARM, pdata->rtc->features);
- 
-@@ -287,7 +287,7 @@ static void __exit mv_rtc_remove(struct platform_device *pdev)
- 	struct rtc_plat_data *pdata = platform_get_drvdata(pdev);
- 
- 	if (pdata->irq >= 0)
--		device_init_wakeup(&pdev->dev, 0);
-+		device_init_wakeup(&pdev->dev, false);
- 
- 	if (!IS_ERR(pdata->clk))
- 		clk_disable_unprepare(pdata->clk);
-diff --git a/drivers/rtc/rtc-mxc.c b/drivers/rtc/rtc-mxc.c
-index dbb935dbbd8a..608db97d450c 100644
---- a/drivers/rtc/rtc-mxc.c
-+++ b/drivers/rtc/rtc-mxc.c
-@@ -377,7 +377,7 @@ static int mxc_rtc_probe(struct platform_device *pdev)
- 	}
- 
- 	if (pdata->irq >= 0) {
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 		ret = dev_pm_set_wake_irq(&pdev->dev, pdata->irq);
- 		if (ret)
- 			dev_err(&pdev->dev, "failed to enable irq wake\n");
-diff --git a/drivers/rtc/rtc-mxc_v2.c b/drivers/rtc/rtc-mxc_v2.c
-index 13c041bb79f1..570f27af4732 100644
---- a/drivers/rtc/rtc-mxc_v2.c
-+++ b/drivers/rtc/rtc-mxc_v2.c
-@@ -302,7 +302,7 @@ static int mxc_rtc_probe(struct platform_device *pdev)
- 	if (pdata->irq < 0)
- 		return pdata->irq;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 	ret = dev_pm_set_wake_irq(&pdev->dev, pdata->irq);
- 	if (ret)
- 		dev_err(&pdev->dev, "failed to enable irq wake\n");
-diff --git a/drivers/rtc/rtc-omap.c b/drivers/rtc/rtc-omap.c
-index c123778e2d9b..0f90065e352c 100644
---- a/drivers/rtc/rtc-omap.c
-+++ b/drivers/rtc/rtc-omap.c
-@@ -920,7 +920,7 @@ static void omap_rtc_remove(struct platform_device *pdev)
- 		omap_rtc_power_off_rtc = NULL;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- 
- 	if (!IS_ERR(rtc->clk))
- 		clk_disable_unprepare(rtc->clk);
-diff --git a/drivers/rtc/rtc-palmas.c b/drivers/rtc/rtc-palmas.c
-index 7256a88b490c..aecada6bcf8b 100644
---- a/drivers/rtc/rtc-palmas.c
-+++ b/drivers/rtc/rtc-palmas.c
-@@ -287,7 +287,7 @@ static int palmas_rtc_probe(struct platform_device *pdev)
- 
- 	palmas_rtc->irq = platform_get_irq(pdev, 0);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 	palmas_rtc->rtc = devm_rtc_device_register(&pdev->dev, pdev->name,
- 				&palmas_rtc_ops, THIS_MODULE);
- 	if (IS_ERR(palmas_rtc->rtc)) {
-diff --git a/drivers/rtc/rtc-pic32.c b/drivers/rtc/rtc-pic32.c
-index bed3c27e665f..2812da2c50c5 100644
---- a/drivers/rtc/rtc-pic32.c
-+++ b/drivers/rtc/rtc-pic32.c
-@@ -330,7 +330,7 @@ static int pic32_rtc_probe(struct platform_device *pdev)
- 
- 	pic32_rtc_enable(pdata, 1);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	pdata->rtc->ops = &pic32_rtcops;
- 	pdata->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
-diff --git a/drivers/rtc/rtc-pm8xxx.c b/drivers/rtc/rtc-pm8xxx.c
-index 2f32187ecc8d..b2518aea4218 100644
---- a/drivers/rtc/rtc-pm8xxx.c
-+++ b/drivers/rtc/rtc-pm8xxx.c
-@@ -503,7 +503,7 @@ static int pm8xxx_rtc_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, rtc_dd);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rtc_dd->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(rtc_dd->rtc))
-diff --git a/drivers/rtc/rtc-pxa.c b/drivers/rtc/rtc-pxa.c
-index 34d8545c8e15..62ee6b8f9bcd 100644
---- a/drivers/rtc/rtc-pxa.c
-+++ b/drivers/rtc/rtc-pxa.c
-@@ -360,7 +360,7 @@ static int __init pxa_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(dev, 1);
-+	device_init_wakeup(dev, true);
- 
- 	return 0;
- }
-diff --git a/drivers/rtc/rtc-rc5t583.c b/drivers/rtc/rtc-rc5t583.c
-index eecb49bab56a..8ba9cda74acf 100644
---- a/drivers/rtc/rtc-rc5t583.c
-+++ b/drivers/rtc/rtc-rc5t583.c
-@@ -245,7 +245,7 @@ static int rc5t583_rtc_probe(struct platform_device *pdev)
- 		dev_err(&pdev->dev, "IRQ is not free.\n");
- 		return ret;
- 	}
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	ricoh_rtc->rtc = devm_rtc_device_register(&pdev->dev, pdev->name,
- 		&rc5t583_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-rc5t619.c b/drivers/rtc/rtc-rc5t619.c
-index 711f62eecd79..74d169102074 100644
---- a/drivers/rtc/rtc-rc5t619.c
-+++ b/drivers/rtc/rtc-rc5t619.c
-@@ -414,7 +414,7 @@ static int rc5t619_rtc_probe(struct platform_device *pdev)
- 
- 		} else {
- 			/* enable wake */
--			device_init_wakeup(&pdev->dev, 1);
-+			device_init_wakeup(&pdev->dev, true);
- 			enable_irq_wake(rtc->irq);
- 		}
- 	} else {
-diff --git a/drivers/rtc/rtc-renesas-rtca3.c b/drivers/rtc/rtc-renesas-rtca3.c
-index d127933bfc8a..a056291d3887 100644
---- a/drivers/rtc/rtc-renesas-rtca3.c
-+++ b/drivers/rtc/rtc-renesas-rtca3.c
-@@ -768,7 +768,7 @@ static int rtca3_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	priv->rtc_dev = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(priv->rtc_dev))
-diff --git a/drivers/rtc/rtc-rk808.c b/drivers/rtc/rtc-rk808.c
-index 2d9bcb3ce1e3..59b8e9a30fe6 100644
---- a/drivers/rtc/rtc-rk808.c
-+++ b/drivers/rtc/rtc-rk808.c
-@@ -418,7 +418,7 @@ static int rk808_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rk808_rtc->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(rk808_rtc->rtc))
-diff --git a/drivers/rtc/rtc-s3c.c b/drivers/rtc/rtc-s3c.c
-index c0ac3bdb2f42..58c957eb753d 100644
---- a/drivers/rtc/rtc-s3c.c
-+++ b/drivers/rtc/rtc-s3c.c
-@@ -456,7 +456,7 @@ static int s3c_rtc_probe(struct platform_device *pdev)
- 	dev_dbg(&pdev->dev, "s3c2410_rtc: RTCCON=%02x\n",
- 		readw(info->base + S3C2410_RTCCON));
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	info->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(info->rtc)) {
-diff --git a/drivers/rtc/rtc-s5m.c b/drivers/rtc/rtc-s5m.c
-index dad294a0ce2a..36acca5b2639 100644
---- a/drivers/rtc/rtc-s5m.c
-+++ b/drivers/rtc/rtc-s5m.c
-@@ -729,7 +729,7 @@ static int s5m_rtc_probe(struct platform_device *pdev)
- 				info->irq, ret);
- 			return ret;
- 		}
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 	}
- 
- 	return devm_rtc_register_device(info->rtc_dev);
-diff --git a/drivers/rtc/rtc-sa1100.c b/drivers/rtc/rtc-sa1100.c
-index 13799b1abca1..1ad93648d69c 100644
---- a/drivers/rtc/rtc-sa1100.c
-+++ b/drivers/rtc/rtc-sa1100.c
-@@ -292,7 +292,7 @@ static int sa1100_rtc_probe(struct platform_device *pdev)
- 	}
- 
- 	platform_set_drvdata(pdev, info);
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	return sa1100_rtc_init(pdev, info);
- }
-diff --git a/drivers/rtc/rtc-sc27xx.c b/drivers/rtc/rtc-sc27xx.c
-index ce7a2ddbbc16..2b83561d4d28 100644
---- a/drivers/rtc/rtc-sc27xx.c
-+++ b/drivers/rtc/rtc-sc27xx.c
-@@ -613,14 +613,14 @@ static int sprd_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	rtc->rtc->ops = &sprd_rtc_ops;
- 	rtc->rtc->range_min = 0;
- 	rtc->rtc->range_max = 5662310399LL;
- 	ret = devm_rtc_register_device(rtc->rtc);
- 	if (ret) {
--		device_init_wakeup(&pdev->dev, 0);
-+		device_init_wakeup(&pdev->dev, false);
- 		return ret;
- 	}
- 
-diff --git a/drivers/rtc/rtc-sh.c b/drivers/rtc/rtc-sh.c
-index a5df521876ba..9ea40f40188f 100644
---- a/drivers/rtc/rtc-sh.c
-+++ b/drivers/rtc/rtc-sh.c
-@@ -611,7 +611,7 @@ static int __init sh_rtc_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_unmap;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 	return 0;
- 
- err_unmap:
-diff --git a/drivers/rtc/rtc-spear.c b/drivers/rtc/rtc-spear.c
-index 26eed927f8b3..959acff8faff 100644
---- a/drivers/rtc/rtc-spear.c
-+++ b/drivers/rtc/rtc-spear.c
-@@ -395,7 +395,7 @@ static int spear_rtc_probe(struct platform_device *pdev)
- 		goto err_disable_clock;
- 
- 	if (!device_can_wakeup(&pdev->dev))
--		device_init_wakeup(&pdev->dev, 1);
-+		device_init_wakeup(&pdev->dev, true);
- 
- 	return 0;
- 
-@@ -411,7 +411,7 @@ static void spear_rtc_remove(struct platform_device *pdev)
- 
- 	spear_rtc_disable_interrupt(config);
- 	clk_disable_unprepare(config->clk);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- }
- 
- #ifdef CONFIG_PM_SLEEP
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index e681c1745866..e5e6013d080e 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -826,7 +826,7 @@ static int sun6i_rtc_probe(struct platform_device *pdev)
- 
- 	clk_prepare_enable(chip->losc);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	chip->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(chip->rtc))
-diff --git a/drivers/rtc/rtc-sunplus.c b/drivers/rtc/rtc-sunplus.c
-index 9b1ce0e8ba27..519a06e728d6 100644
---- a/drivers/rtc/rtc-sunplus.c
-+++ b/drivers/rtc/rtc-sunplus.c
-@@ -269,7 +269,7 @@ static int sp_rtc_probe(struct platform_device *plat_dev)
- 	if (ret)
- 		goto free_reset_assert;
- 
--	device_init_wakeup(&plat_dev->dev, 1);
-+	device_init_wakeup(&plat_dev->dev, true);
- 	dev_set_drvdata(&plat_dev->dev, sp_rtc);
- 
- 	sp_rtc->rtc = devm_rtc_allocate_device(&plat_dev->dev);
-@@ -307,7 +307,7 @@ static void sp_rtc_remove(struct platform_device *plat_dev)
- {
- 	struct sunplus_rtc *sp_rtc = dev_get_drvdata(&plat_dev->dev);
- 
--	device_init_wakeup(&plat_dev->dev, 0);
-+	device_init_wakeup(&plat_dev->dev, false);
- 	reset_control_assert(sp_rtc->rstc);
- 	clk_disable_unprepare(sp_rtc->rtcclk);
- }
-diff --git a/drivers/rtc/rtc-tegra.c b/drivers/rtc/rtc-tegra.c
-index 79a3102c8354..46788db89953 100644
---- a/drivers/rtc/rtc-tegra.c
-+++ b/drivers/rtc/rtc-tegra.c
-@@ -319,7 +319,7 @@ static int tegra_rtc_probe(struct platform_device *pdev)
- 	writel(0xffffffff, info->base + TEGRA_RTC_REG_INTR_STATUS);
- 	writel(0, info->base + TEGRA_RTC_REG_INTR_MASK);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	ret = devm_request_irq(&pdev->dev, info->irq, tegra_rtc_irq_handler,
- 			       IRQF_TRIGGER_HIGH, dev_name(&pdev->dev),
-diff --git a/drivers/rtc/rtc-test.c b/drivers/rtc/rtc-test.c
-index 7e0d8fb26465..a68b8c884102 100644
---- a/drivers/rtc/rtc-test.c
-+++ b/drivers/rtc/rtc-test.c
-@@ -132,7 +132,7 @@ static int test_probe(struct platform_device *plat_dev)
- 		break;
- 	default:
- 		rtd->rtc->ops = &test_rtc_ops;
--		device_init_wakeup(&plat_dev->dev, 1);
-+		device_init_wakeup(&plat_dev->dev, true);
- 	}
- 
- 	timer_setup(&rtd->alarm, test_rtc_alarm_handler, 0);
-diff --git a/drivers/rtc/rtc-tps6586x.c b/drivers/rtc/rtc-tps6586x.c
-index e796729fc817..54c8429b16bf 100644
---- a/drivers/rtc/rtc-tps6586x.c
-+++ b/drivers/rtc/rtc-tps6586x.c
-@@ -241,7 +241,7 @@ static int tps6586x_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	platform_set_drvdata(pdev, rtc);
- 	rtc->rtc = devm_rtc_allocate_device(&pdev->dev);
-diff --git a/drivers/rtc/rtc-tps65910.c b/drivers/rtc/rtc-tps65910.c
-index 2ea1bbfbbc2a..284aa2f0392b 100644
---- a/drivers/rtc/rtc-tps65910.c
-+++ b/drivers/rtc/rtc-tps65910.c
-@@ -418,7 +418,7 @@ static int tps65910_rtc_probe(struct platform_device *pdev)
- 	tps_rtc->irq = irq;
- 	if (irq != -1) {
- 		if (device_property_present(tps65910->dev, "wakeup-source"))
--			device_init_wakeup(&pdev->dev, 1);
-+			device_init_wakeup(&pdev->dev, true);
- 		else
- 			device_set_wakeup_capable(&pdev->dev, 1);
- 	} else {
-diff --git a/drivers/rtc/rtc-twl.c b/drivers/rtc/rtc-twl.c
-index 794429182b34..e6106e67e1f4 100644
---- a/drivers/rtc/rtc-twl.c
-+++ b/drivers/rtc/rtc-twl.c
-@@ -572,7 +572,7 @@ static int twl_rtc_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	platform_set_drvdata(pdev, twl_rtc);
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	twl_rtc->rtc = devm_rtc_device_register(&pdev->dev, pdev->name,
- 					&twl_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-wm831x.c b/drivers/rtc/rtc-wm831x.c
-index 640833e21057..218316be942a 100644
---- a/drivers/rtc/rtc-wm831x.c
-+++ b/drivers/rtc/rtc-wm831x.c
-@@ -420,7 +420,7 @@ static int wm831x_rtc_probe(struct platform_device *pdev)
- 	if (ret & WM831X_RTC_ALM_ENA)
- 		wm831x_rtc->alarm_enabled = 1;
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	wm831x_rtc->rtc = devm_rtc_allocate_device(&pdev->dev);
- 	if (IS_ERR(wm831x_rtc->rtc))
-diff --git a/drivers/rtc/rtc-wm8350.c b/drivers/rtc/rtc-wm8350.c
-index 6797eb4d2e49..3bd60d067a5e 100644
---- a/drivers/rtc/rtc-wm8350.c
-+++ b/drivers/rtc/rtc-wm8350.c
-@@ -420,7 +420,7 @@ static int wm8350_rtc_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	wm_rtc->rtc = devm_rtc_device_register(&pdev->dev, "wm8350",
- 					&wm8350_rtc_ops, THIS_MODULE);
-diff --git a/drivers/rtc/rtc-xgene.c b/drivers/rtc/rtc-xgene.c
-index 0813ea1a03c2..6660b664e8dd 100644
---- a/drivers/rtc/rtc-xgene.c
-+++ b/drivers/rtc/rtc-xgene.c
-@@ -174,7 +174,7 @@ static int xgene_rtc_probe(struct platform_device *pdev)
- 	/* Turn on the clock and the crystal */
- 	writel(RTC_CCR_EN, pdata->csr_base + RTC_CCR);
- 
--	ret = device_init_wakeup(&pdev->dev, 1);
-+	ret = device_init_wakeup(&pdev->dev, true);
- 	if (ret) {
- 		clk_disable_unprepare(pdata->clk);
- 		return ret;
-@@ -197,7 +197,7 @@ static void xgene_rtc_remove(struct platform_device *pdev)
- 	struct xgene_rtc_dev *pdata = platform_get_drvdata(pdev);
- 
- 	xgene_rtc_alarm_irq_enable(&pdev->dev, 0);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- 	clk_disable_unprepare(pdata->clk);
- }
- 
-diff --git a/drivers/rtc/rtc-zynqmp.c b/drivers/rtc/rtc-zynqmp.c
-index af1abb69d1e3..625f708a7caf 100644
---- a/drivers/rtc/rtc-zynqmp.c
-+++ b/drivers/rtc/rtc-zynqmp.c
-@@ -337,7 +337,7 @@ static int xlnx_rtc_probe(struct platform_device *pdev)
- 
- 	xlnx_init_rtc(xrtcdev);
- 
--	device_init_wakeup(&pdev->dev, 1);
-+	device_init_wakeup(&pdev->dev, true);
- 
- 	return devm_rtc_register_device(xrtcdev->rtc);
- }
-@@ -345,7 +345,7 @@ static int xlnx_rtc_probe(struct platform_device *pdev)
- static void xlnx_rtc_remove(struct platform_device *pdev)
- {
- 	xlnx_rtc_alarm_irq_enable(&pdev->dev, 0);
--	device_init_wakeup(&pdev->dev, 0);
-+	device_init_wakeup(&pdev->dev, false);
- }
- 
- static int __maybe_unused xlnx_rtc_suspend(struct device *dev)
--- 
-2.45.2
-
+thanks,
+jirka

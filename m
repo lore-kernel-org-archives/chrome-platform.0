@@ -1,109 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E756917DFE3;
-	Wed, 18 Dec 2024 09:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3291155C87;
+	Wed, 18 Dec 2024 19:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734515315; cv=none; b=LSFc9skMOf65PPhUO+4gzaAl16KG0f+FsDVrxVyfEZ1vvzoO1SwCnKy0A2gzSecocJtqXNPuynfOZsmKj9Jpkd/J+auvCcPYTco+v+V+YPUEiP8F0QpS+syFfdVawTY6kCf4A14Qng0itEG+5J9ZFr+3wF8OItTEDAAlG5hGhp8=
+	t=1734551554; cv=none; b=oG8VSRpkMeapefKcVjztzsApuN+ccZrjYqvO/JxAfoIR4ngCsjp0fLoOoFyyv79/DBXnbbWBOT2MJ9u5t+LL08+E7+38QiPDssRsL7SnbW8k/y2oyRFNOal8IzKiF0rOCLy3j0vJbkqccqRiTbaDLTny/be2L8fYywOVw7flWQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734515315; c=relaxed/simple;
-	bh=t3VDoLQH/nwImVNxx8yKcxlYXpnZ/nRYCUG06H65KfI=;
+	s=arc-20240116; t=1734551554; c=relaxed/simple;
+	bh=MTDqj2C6p8mu61jp/vPRGFl8kUJBhrxZD/OzxDofY4w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nL6yySAE8MZ8M+7L5ZnfyRynjhpNbcLlFcakku2dmtHyXNrO5JRMq2R8Fk/GLDl/UC2Y/cr0JFnzeCw/XXqH/7UmC+lI3cTqQzQhQucIjbAUeAU113crwpYzOwhDjn/oUTF2oy1l+UxDpnHw7O4ZyDzpga+E+oHYnfYmNKGIM44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/DE74tS; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fAchDrWnWEOvhvBeV5rSSYFF6g5RL8QLfFyxtJPDY0J3Fq6NUjcfG1gT8DfgtbV68DRaxJoWsDnU0AdVLpBFvC5e9Y4221HlyvmrZgC2H4BMJO++4qJYNT5UWvR1+F0N/+Kg0r2s3iHdKsMDD/M9bGNEvskzrYEHYk6K/JQgOxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o+z6/K84; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/DE74tS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734515313; x=1766051313;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t3VDoLQH/nwImVNxx8yKcxlYXpnZ/nRYCUG06H65KfI=;
-  b=K/DE74tS6ebmT/xmOvfVRgAmZWQWnHJv2Hlxki0/7d+N3znUm+8PlnwR
-   tGp/I7VdOP4RAkdApXFgMOqYCXwv6tqHjZdDdLX5Q3jTMQlDwpIwAerlf
-   /KrxsxpgRKT9ysCfQgGcH0R9k/J1K3V6JlVyzQAL1/1WdFAqSNqeGmRO3
-   jdoVKAX4WwE28fxIYOxWSkZ+6BBUClb2Eps5iSFzOzzsEluq262SFrJMa
-   rNbeS8Lvzox+KBottWDQKyvn7/1AAtxnmkbiTpiLo598FHg09j+qpWatj
-   MJDOEc1l/kjA+gETIrMtVwVQphV6AyFo08T8QgAO2Fbhe/pPkJgdhStfA
-   w==;
-X-CSE-ConnectionGUID: ZokoNeLhReS5uOJPGcglhg==
-X-CSE-MsgGUID: H+ZPi+6rSFiOhgwrin05kA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="46394607"
-X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="46394607"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 01:48:32 -0800
-X-CSE-ConnectionGUID: PY7e+UdRSBOMlt4wrmcCrg==
-X-CSE-MsgGUID: 9PdEsYeDQlqeOM4IX1V0zg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="97667605"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by fmviesa007.fm.intel.com with SMTP; 18 Dec 2024 01:48:27 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 18 Dec 2024 11:48:26 +0200
-Date: Wed, 18 Dec 2024 11:48:26 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev, akuchynski@google.com,
-	sboyd@kernel.org, pmalani@chromium.org, badhri@google.com,
-	rdbabiera@google.com, dmitry.baryshkov@linaro.org,
-	jthies@google.com, Bill Wendling <morbo@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v5 4/8] usb: typec: Print err when displayport fails to
- enter
-Message-ID: <Z2KaajPTXyndS34i@kuha.fi.intel.com>
-References: <20241213233552.451927-1-abhishekpandit@chromium.org>
- <20241213153543.v5.4.I6cff9d767b0f8ab6458d8940941e42c920902d49@changeid>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o+z6/K84"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D155C4CECD;
+	Wed, 18 Dec 2024 19:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734551553;
+	bh=MTDqj2C6p8mu61jp/vPRGFl8kUJBhrxZD/OzxDofY4w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o+z6/K84LHeO1ksCvn7ADx7+GlQoQ9Fw7QQZBzWTyhhN6yDSMVSKe0OXE9kZO9hkV
+	 v4VG5xFOE85o/D+LYpBISQ54H18DsqxkDbq5r1Lmv9UivDObbodIg3JaMlqW42WGz4
+	 JyME7yIeDy8zOhdLBPvEZ5yMccFcB3P4n6nGsxcluYO6HA2sHAKT6nL65pejwOWSyt
+	 o4uaFIQOjnVPhRBd+DXDCUDbxy/L4pHqx7PlpuuAlragAzoUgZP8AMwp8OGU+q09LT
+	 2K0ko+QllqJFTPZyuu0z9b65W02UgkJVFLssx6WEGtZWIneYOtrrxt9zbMVuAR2w6Z
+	 2yyBAMxR6lOWA==
+Date: Wed, 18 Dec 2024 12:52:29 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Sebastian Reichel <sre@kernel.org>, Armin Wolf <W_Armin@gmx.de>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v6 4/4] power: supply: core: add UAPI to discover
+ currently used extensions
+Message-ID: <20241218195229.GA2796534@ax162>
+References: <20241211-power-supply-extensions-v6-0-9d9dc3f3d387@weissschuh.net>
+ <20241211-power-supply-extensions-v6-4-9d9dc3f3d387@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241213153543.v5.4.I6cff9d767b0f8ab6458d8940941e42c920902d49@changeid>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241211-power-supply-extensions-v6-4-9d9dc3f3d387@weissschuh.net>
 
-On Fri, Dec 13, 2024 at 03:35:45PM -0800, Abhishek Pandit-Subedi wrote:
-> Print the error reason for typec_altmode_enter so users can understand
-> why displayport failed to enter.
+Hi Thomas,
+
+On Wed, Dec 11, 2024 at 08:57:58PM +0100, Thomas Weiﬂschuh wrote:
+> Userspace wants to now about the used power supply extensions,
+> for example to handle a device extended by a certain extension
+> differently or to discover information about the extending device.
 > 
-> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+> Add a sysfs directory to the power supply device.
+> This directory contains links which are named after the used extension
+> and point to the device implementing that extension.
+> 
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
 > ---
-> 
-> Changes in v5:
-> - Put dev_err on single line.
-> - Slip clang-format a washington to look the other way.
-> 
->  drivers/usb/typec/altmodes/displayport.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-> index 3245e03d59e6..ac84a6d64c2f 100644
-> --- a/drivers/usb/typec/altmodes/displayport.c
-> +++ b/drivers/usb/typec/altmodes/displayport.c
-> @@ -252,7 +252,7 @@ static void dp_altmode_work(struct work_struct *work)
->  	case DP_STATE_ENTER:
->  		ret = typec_altmode_enter(dp->alt, NULL);
->  		if (ret && ret != -EBUSY)
-> -			dev_err(&dp->alt->dev, "failed to enter mode\n");
-> +			dev_err(&dp->alt->dev, "failed to enter mode: %d\n", ret);
->  		break;
->  	case DP_STATE_ENTER_PRIME:
->  		ret = typec_cable_altmode_enter(dp->alt, TYPEC_PLUG_SOP_P, NULL);
-> -- 
-> 2.47.1.613.gc27f4b7a9f-goog
+>  Documentation/ABI/testing/sysfs-class-power |  9 +++++++++
+>  drivers/power/supply/cros_charge-control.c  |  5 ++++-
+>  drivers/power/supply/power_supply.h         |  2 ++
+>  drivers/power/supply/power_supply_core.c    | 19 +++++++++++++++++--
+>  drivers/power/supply/power_supply_sysfs.c   | 10 ++++++++++
+>  drivers/power/supply/test_power.c           |  4 +++-
+>  include/linux/power_supply.h                |  2 ++
+>  7 files changed, 47 insertions(+), 4 deletions(-)
+...
+> diff --git a/drivers/power/supply/power_supply.h b/drivers/power/supply/power_supply.h
+> index 531785516d2ac31f9a7f73a58e15e64cb81820ed..9ed749cd09369f0f13017847687509736b30aae8 100644
+> --- a/drivers/power/supply/power_supply.h
+> +++ b/drivers/power/supply/power_supply.h
+> @@ -39,6 +40,7 @@ struct power_supply_ext_registration {
+>  
+>  extern void __init power_supply_init_attrs(void);
+>  extern int power_supply_uevent(const struct device *dev, struct kobj_uevent_env *env);
+> +extern const struct attribute_group power_supply_extension_group;
+>  extern const struct attribute_group *power_supply_attr_groups[];
+>  
+>  #else
+> diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supply/power_supply_core.c
+> index bc22edbd0e6a02c27500132075f5c98d814a7330..5142fbd580ee3d629a2aae7d0b9bcd5709162129 100644
+> --- a/drivers/power/supply/power_supply_core.c
+> +++ b/drivers/power/supply/power_supply_core.c
+> @@ -1346,17 +1346,21 @@ static int power_supply_update_sysfs_and_hwmon(struct power_supply *psy)
+>  }
+>  
+>  int power_supply_register_extension(struct power_supply *psy, const struct power_supply_ext *ext,
+> -				    void *data)
+> +				    struct device *dev, void *data)
+>  {
+>  	struct power_supply_ext_registration *reg;
+>  	size_t i;
+>  	int ret;
+>  
+> -	if (!psy || !ext || !ext->properties || !ext->num_properties)
+> +	if (!psy || !dev || !ext || !ext->name || !ext->properties || !ext->num_properties)
+>  		return -EINVAL;
+>  
+>  	guard(rwsem_write)(&psy->extensions_sem);
+>  
+> +	power_supply_for_each_extension(reg, psy)
+> +		if (strcmp(ext->name, reg->ext->name) == 0)
+> +			return -EEXIST;
+> +
+>  	for (i = 0; i < ext->num_properties; i++)
+>  		if (power_supply_has_property(psy, ext->properties[i]))
+>  			return -EEXIST;
+> @@ -1366,9 +1370,15 @@ int power_supply_register_extension(struct power_supply *psy, const struct power
+>  		return -ENOMEM;
+>  
+>  	reg->ext = ext;
+> +	reg->dev = dev;
+>  	reg->data = data;
+>  	list_add(&reg->list_head, &psy->extensions);
+>  
+> +	ret = sysfs_add_link_to_group(&psy->dev.kobj, power_supply_extension_group.name,
+> +				      &dev->kobj, ext->name);
+> +	if (ret)
+> +		goto sysfs_link_failed;
+> +
+>  	ret = power_supply_update_sysfs_and_hwmon(psy);
+>  	if (ret)
+>  		goto sysfs_hwmon_failed;
+> @@ -1376,6 +1386,8 @@ int power_supply_register_extension(struct power_supply *psy, const struct power
+>  	return 0;
+>  
+>  sysfs_hwmon_failed:
+> +	sysfs_remove_link_from_group(&psy->dev.kobj, power_supply_extension_group.name, ext->name);
+> +sysfs_link_failed:
+>  	list_del(&reg->list_head);
+>  	kfree(reg);
+>  	return ret;
+> @@ -1392,6 +1404,9 @@ void power_supply_unregister_extension(struct power_supply *psy, const struct po
+>  		if (reg->ext == ext) {
+>  			list_del(&reg->list_head);
+>  			kfree(reg);
+> +			sysfs_remove_link_from_group(&psy->dev.kobj,
+> +						     power_supply_extension_group.name,
+> +						     reg->ext->name);
+>  			power_supply_update_sysfs_and_hwmon(psy);
+>  			return;
+>  		}
 
--- 
-heikki
+I am seeing a build failure in certain configurations because
+power_supply_extension_group is only declared under a CONFIG_SYSFS ifdef
+but this code can be built without CONFIG_SYSFS.
+
+  $ echo 'CONFIG_EXPERT=y
+  CONFIG_SYSFS=n' >allno.config
+
+  $ make -skj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux- KCONFIG_ALLCONFIG=1 mrproper allnoconfig drivers/power/supply/power_supply_core.o
+  drivers/power/supply/power_supply_core.c: In function 'power_supply_register_extension':
+  drivers/power/supply/power_supply_core.c:1389:55: error: 'power_supply_extension_group' undeclared (first use in this function); did you mean 'power_supply_attr_groups'?
+   1389 |         ret = sysfs_add_link_to_group(&psy->dev.kobj, power_supply_extension_group.name,
+        |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        |                                                       power_supply_attr_groups
+  drivers/power/supply/power_supply_core.c:1389:55: note: each undeclared identifier is reported only once for each function it appears in
+  drivers/power/supply/power_supply_core.c: In function 'power_supply_unregister_extension':
+  drivers/power/supply/power_supply_core.c:1419:54: error: 'power_supply_extension_group' undeclared (first use in this function); did you mean 'power_supply_attr_groups'?
+   1419 |                                                      power_supply_extension_group.name,
+        |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        |                                                      power_supply_attr_groups
+
+Should the declaration be moved out from the ifdef or is there some
+other solution I am not seeing?
+
+Cheers,
+Nathan
+
+diff --git a/drivers/power/supply/power_supply.h b/drivers/power/supply/power_supply.h
+index 9ed749cd0936..6fc9939145fc 100644
+--- a/drivers/power/supply/power_supply.h
++++ b/drivers/power/supply/power_supply.h
+@@ -40,7 +40,6 @@ struct power_supply_ext_registration {
+ 
+ extern void __init power_supply_init_attrs(void);
+ extern int power_supply_uevent(const struct device *dev, struct kobj_uevent_env *env);
+-extern const struct attribute_group power_supply_extension_group;
+ extern const struct attribute_group *power_supply_attr_groups[];
+ 
+ #else
+@@ -51,6 +50,8 @@ static inline void power_supply_init_attrs(void) {}
+ 
+ #endif /* CONFIG_SYSFS */
+ 
++extern const struct attribute_group power_supply_extension_group;
++
+ #ifdef CONFIG_LEDS_TRIGGERS
+ 
+ extern void power_supply_update_leds(struct power_supply *psy);

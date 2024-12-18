@@ -1,112 +1,136 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9173F9D5
-	for <chrome-platform@lists.linux.dev>; Wed, 18 Dec 2024 01:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CB017DFE3
+	for <chrome-platform@lists.linux.dev>; Wed, 18 Dec 2024 09:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734487096; cv=none; b=iB2S6Lpv5oS5dWbUo7VbqHJuu7q2836tEtkwEI5+d3c3AhTN31hJgeo4CVXeXdS/0CTZuQKc3dxfD+O3fsAgCku8KUVEmBRJ1If/Z6RX31MUTQdrdZi+aEBrqj0r9fCO3Wf99QTDOUlCPzKFedTAcsMruTgDAI9Jc+0CBB4zfuU=
+	t=1734515261; cv=none; b=RvCHjbUkukubRRiAawjlrc3378rIFfG9yFpdB8pncZGa94xmADoaXcBfdNV7xkltp8KXIXd05BcGAMglhfs4oPmCNf5nAM816nXf5JR3+cAV4G884Xr+XgryeygOYhM37khZ6IaytPb7Wy4fGo/IkeVgHKnljre2gXl3nfwCUNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734487096; c=relaxed/simple;
-	bh=BENOydFBcsvElpsve8XNmKaW1hEgQWwrmiaAlYXCQuw=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=XLSn6YFpqu8bEEH7rUpgPaTrYC8kJe1GQ1XWvoQ1oE2VJj70m//Mvc9sCEAvE9Lmlh69a7vpG9yT3v8TEy0prstAYgnTiD9G7n6tN/Y5dN7UqY95LM5POOyqZczQi5vXD+E63gZ5aPgpy3H/mRXRsHCrVbJkn6IZBxZyfmwFotE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--robbarnes.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XMvTQJ4S; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--robbarnes.bounces.google.com
+	s=arc-20240116; t=1734515261; c=relaxed/simple;
+	bh=GyTIwOmrMGpYe7/CtVlAK+628ACb60AN2nWgu8VKsEI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qS4D7EwMRq5Y/VCTqqDQQWPFiEGxRZgLAINlztUartDlzYUlnBEYQeONb/NGBlfTHhwcUdHbGEYR9cUwqKLXXqreyKhBLtX0wVECSDHmr6CVFjGILt1dOsPevbJ1yILCxAKkwLEU7nLOCWm/uTLuPfra/OXNGuSmgolC34swofU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMk1HIwh; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XMvTQJ4S"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-7289afa200aso7689634b3a.0
-        for <chrome-platform@lists.linux.dev>; Tue, 17 Dec 2024 17:58:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734487094; x=1735091894; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1QUWFEMVgJcNYDWFP2lpTlp76cDDudW+fhyyQmylIMw=;
-        b=XMvTQJ4SbwbCKqv3Br1nvcLXb2k5bjUaXPc9bZzY4KKYZF2tbayx3qfoKf3p0WQdH7
-         dMldeBDIBijrm5YSKUSU0Pdq3ZAp7p60ZCcKn16Pnj+AiAiDPiw+7/GoDimXOqflYgp+
-         yg4jaWa/bLKbjuBbZpVcMAG95rZ9nEE6swJPCmXtZHVP7nHtK6zG+YZo5ruyklzIuuaC
-         kIvFcPwNyZYqssuFuGCnV862109XnkfTDPMdH2/wNcuECT06l9ciAb0vPCtY2rR1my3P
-         iyAZ58/nVL6ZCGR3i8COoFGwqkRd0u1j5aduOlRJK8Nvf04PPnSnBrFx5XhUqUOR+SHi
-         gJ9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734487094; x=1735091894;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1QUWFEMVgJcNYDWFP2lpTlp76cDDudW+fhyyQmylIMw=;
-        b=fyV4kBFQhoi9uwI18zCOm+JZNqqwwmjBtH9+zjUHMinjjE5h0fMcFZQ98kv1JU3GFV
-         Ewe13CnKo+DxYvE9MMTrRlG0FwZuraXhix9ubSUM+QiKwaaffZykH+XgHCyCU4w9TZ64
-         TMe91zoSFjJOP0HLghEAGbDRaMxGUMD8R6Uo09AIHnaHQTwRZaKxorG+Ol1PV85U8uK+
-         WUUo3KzGc2ZtXijehTgzuibrmGP+6BnI9+E46Gfe2jnalqFEuYbzneS8IwRjEGUSxmMy
-         6pQTd+xoZwI3a5EpFF/Z1gbnSVA4boSeDZ7lSAuyPSz+tl1axXB87Z+8XenZ2D8Ko7l+
-         GrjQ==
-X-Gm-Message-State: AOJu0YwdpjgHzM338qUgAsESqxwqNypNE5vlWRJyW2EP9iWlLlQIaNVB
-	BGXD5cVjmiYKOvemYJbC/BP363dQ/Aoi2ea/PBUPYCXBo6WLlUnldXCJeWsBvtkfaYJju7Q3o24
-	gIfXoxu/3kUChPA==
-X-Google-Smtp-Source: AGHT+IHFeeowND6LmGF2oVcLp4eMKmIWd77UcaNbjhbW5nDWoyJeA8jXH+pR1K02sQZwcqZqcgusw/9Wyr1BATQ=
-X-Received: from pfnc17.prod.google.com ([2002:aa7:81d1:0:b0:725:dd0a:6e99])
- (user=robbarnes job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:3cd0:b0:728:e182:a8b with SMTP id d2e1a72fcca58-72a8d226adbmr2022308b3a.9.1734487094452;
- Tue, 17 Dec 2024 17:58:14 -0800 (PST)
-Date: Wed, 18 Dec 2024 01:57:59 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMk1HIwh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734515259; x=1766051259;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GyTIwOmrMGpYe7/CtVlAK+628ACb60AN2nWgu8VKsEI=;
+  b=AMk1HIwhIb8vsYT5NRffXND4caNzVFYE9xSf95htOBIIsAG0UeD1hvMy
+   6KVU2Xy5rw6xRwEMK+5AvTmvY8OAfoz1C2BrhK8u+Gkab4Gmzw9YzKetb
+   hcS5xOvkoUDT9tGPX6zHnBKF0A55EK+W1b0itWVb010lJWWp3Fa/XxX/K
+   0mv9SH7W3Y5nd8Zu1jS1g7iv1CMprKRI/KwjmidS0anOZ4f/l2x+l4Yam
+   U2bz5TeKdomj89kiZntpApmJ+Cf12fZuGXK/F/xUPztLdkJyS3FrOp3wq
+   7yJ2JkKsCtxzpU26rAJYGZaBhLOz7kSLEeVUx6eOFnmqOO3bzVC9d7AuA
+   Q==;
+X-CSE-ConnectionGUID: Fu2wZeo6Su+/SLDFMu+xow==
+X-CSE-MsgGUID: 4t3hlU93SKCiLKJXdIXQ7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="35132068"
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
+   d="scan'208";a="35132068"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 01:47:39 -0800
+X-CSE-ConnectionGUID: UKbPKYZOT7qBsUfuNb2+cQ==
+X-CSE-MsgGUID: uHOMTjbOQOq9StPfzgpc2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
+   d="scan'208";a="98228751"
+Received: from kuha.fi.intel.com ([10.237.72.152])
+  by fmviesa010.fm.intel.com with SMTP; 18 Dec 2024 01:47:34 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 18 Dec 2024 11:47:33 +0200
+Date: Wed, 18 Dec 2024 11:47:33 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, akuchynski@google.com,
+	sboyd@kernel.org, pmalani@chromium.org, badhri@google.com,
+	rdbabiera@google.com, dmitry.baryshkov@linaro.org,
+	jthies@google.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/8] usb: typec: Make active on port altmode writable
+Message-ID: <Z2KaNX7_9jfWb-Hw@kuha.fi.intel.com>
+References: <20241213233552.451927-1-abhishekpandit@chromium.org>
+ <20241213153543.v5.3.I794566684ab2965e209f326b08232006eff333f8@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20241218015759.3558830-1-robbarnes@google.com>
-Subject: [PATCH] platform/chrome: cros_ec_lpc: Only check for events on MKBP notifies
-From: Rob Barnes <robbarnes@google.com>
-To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, Daisuke Nojiri <dnojiri@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Rob Barnes <robbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241213153543.v5.3.I794566684ab2965e209f326b08232006eff333f8@changeid>
 
-Only check EC for MKBP events when the ACPI notify value indicates the
-notify is due to an MKBP host event. This reduces unnecessary queries to
-the EC.
+On Fri, Dec 13, 2024 at 03:35:44PM -0800, Abhishek Pandit-Subedi wrote:
+> The active property of port altmode should be writable (to prevent or
+> allow partner altmodes from entering) and needs to be part of
+> typec_altmode_desc so we can initialize the port to an inactive state if
+> desired.
+> 
+> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 
-Notify value 0x80 is reserved for devices specific notifies. It is used
-by many devices to indicate various events. It's only used by cros_ec
-for MKBP events.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Signed-off-by: Rob Barnes <robbarnes@google.com>
----
- drivers/platform/chrome/cros_ec_lpc.c       | 2 +-
- include/linux/platform_data/cros_ec_proto.h | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+> ---
+> 
+> Changes in v5:
+> - Extract port altmode ".active" changes to its own patch
+> 
+>  drivers/usb/typec/class.c | 5 +++--
+>  include/linux/usb/typec.h | 2 ++
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index febe453b96be..b5e67a57762c 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -458,7 +458,8 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
+>  	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
+>  
+>  	if (attr == &dev_attr_active.attr)
+> -		if (!adev->ops || !adev->ops->activate)
+> +		if (!is_typec_port(adev->dev.parent) &&
+> +		    (!adev->ops || !adev->ops->activate))
+>  			return 0444;
+>  
+>  	return attr->mode;
+> @@ -563,7 +564,7 @@ typec_register_altmode(struct device *parent,
+>  
+>  	if (is_port) {
+>  		alt->attrs[3] = &dev_attr_supported_roles.attr;
+> -		alt->adev.active = true; /* Enabled by default */
+> +		alt->adev.active = !desc->inactive; /* Enabled by default */
+>  	}
+>  
+>  	sprintf(alt->group_name, "mode%d", desc->mode);
+> diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+> index d616b8807000..252af3f77039 100644
+> --- a/include/linux/usb/typec.h
+> +++ b/include/linux/usb/typec.h
+> @@ -140,6 +140,7 @@ int typec_cable_set_identity(struct typec_cable *cable);
+>   * @mode: Index of the Mode
+>   * @vdo: VDO returned by Discover Modes USB PD command
+>   * @roles: Only for ports. DRP if the mode is available in both roles
+> + * @inactive: Only for ports. Make this port inactive (default is active).
+>   *
+>   * Description of an Alternate Mode which a connector, cable plug or partner
+>   * supports.
+> @@ -150,6 +151,7 @@ struct typec_altmode_desc {
+>  	u32			vdo;
+>  	/* Only used with ports */
+>  	enum typec_port_data	roles;
+> +	bool			inactive;
+>  };
+>  
+>  void typec_partner_set_pd_revision(struct typec_partner *partner, u16 pd_revision);
+> -- 
+> 2.47.1.613.gc27f4b7a9f-goog
 
-diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index c784119ab5dc0..5405762ea5558 100644
---- a/drivers/platform/chrome/cros_ec_lpc.c
-+++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -419,7 +419,7 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
- 		return;
- 	}
- 
--	if (ec_dev->mkbp_event_supported)
-+	if (value == ACPI_NOTIFY_CROS_EC_MKBP && ec_dev->mkbp_event_supported)
- 		do {
- 			ret = cros_ec_get_next_event(ec_dev, NULL,
- 						     &ec_has_more_events);
-diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index b34ed0cc1f8dc..7d5b8a6bba3cc 100644
---- a/include/linux/platform_data/cros_ec_proto.h
-+++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -48,6 +48,11 @@
-  */
- #define ACPI_NOTIFY_CROS_EC_PANIC 0xB0
- 
-+/*
-+ * ACPI notify value for MKBP host event.
-+ */
-+#define ACPI_NOTIFY_CROS_EC_MKBP 0x80
-+
- /*
-  * Command interface between EC and AP, for LPC, I2C and SPI interfaces.
-  */
 -- 
-2.47.1.613.gc27f4b7a9f-goog
-
+heikki

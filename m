@@ -1,204 +1,157 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B276C156879
-	for <chrome-platform@lists.linux.dev>; Wed, 18 Dec 2024 20:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734553786; cv=none; b=KzfmSnphOA0WTIZZnO4Ti7YiHhstp67AIQ/rBsKWJCgxI+L2RLfDGsZ90nH0ZBQggPdqZOEnhH+4Fv4US6NlCvhp85NUgRY2Gzl51q6CqK3+a1r+YbNqfmo0oH8pFBBQn/R4/PecDjH6NoqdtVm9AfjDT3rTzlf+d3+HQNkuuJo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734553786; c=relaxed/simple;
-	bh=diqa9nZqF9nbPA0bjVREC0L9pUZfJbkw72Y0TjZKvZk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750071F543D
+	for <chrome-platform@lists.linux.dev>; Wed, 18 Dec 2024 22:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734559909; cv=pass; b=tz1x6Ctb4vg/msToq7Gk7UzydberqHjnaRaPoI6ina2A0u75zQZDgbNpBfaeuFRk0Sk1DdAF73KQoz+8kcN6/dqxPBtdggJuCg58Tu1BpRn7LfZ03Am5h2sXfxrSXISA5e0tckMsWumnHq7C13Hq/b3S3XIZ/1PXhaFoMHiuvaw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734559909; c=relaxed/simple;
+	bh=IIFJUgSFcllsxyTqqalwYX8lwQT014h+3ow/BGcKCeY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ri9P/0V90e3KuGu7/CN8x5nlzCP4Hwhe0e/oAXhjfuNfXvujKRyaE3f58Wx0WlL7tzhqkWbURthOGGZG9NvPH2kcVIILSo2loQI4hQ99oMCwx7xJw8MCJug3JyqIvGlF5ek0iIvY11mVVHpf6vy3tGlewCvJrcW3WGbLZpJdYBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=JsgTj/WP; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=T8qk9EDbhFRk4rjm7dBHfeOJyj7uulY0aPoztafM5BzJd7CVZP/NGMAewl6dMogi3UCDM30FvLtDENIit3cTltI4XxFmGDyMQcvt35Xjv3tATrz9GQ6ephuX6Xzb7/hlkdE9eFY8aaPnFZJnw+BNRZucIg7ro8eaD+6eFMlT85o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=YnPOmvDW; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="JsgTj/WP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1734553772;
-	bh=diqa9nZqF9nbPA0bjVREC0L9pUZfJbkw72Y0TjZKvZk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JsgTj/WPPgh+Mh2dc0fyV9GruKo2ESgMd+IEjZEgoS9RViruUS0hQHPkD0YHzn4Lk
-	 qFSg1OYKtlUmgQslmVYLpwRtrNlv5Kc5GJsIH17QRfbrWsI2wLUga12TwsC22wxZTV
-	 kHax0da50KSB9CRTZUbGAXOt1prDQMTNzsxKwa64=
-Date: Wed, 18 Dec 2024 21:29:31 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Nathan Chancellor <nathan@kernel.org>, 
-	Sebastian Reichel <sre@kernel.org>
-Cc: Armin Wolf <W_Armin@gmx.de>, Hans de Goede <hdegoede@redhat.com>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="YnPOmvDW"
+ARC-Seal: i=1; a=rsa-sha256; t=1734559903; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=gXuHM4YTxBw6TZ2iIXJDgG9hQEp1v3bkJOg0hxBDgT0rpNyX/ExkE1iNFBRluKJvyfQKBFX5J4j2Xu3ThT5li9aOmuRcbFSxhkrkCCwVJXPZNJvW2+NB5quYKFHw4nC6YSf+J3kP6qyqWH7vD1L2YxbzG5iOllIyFKF5lHP7blU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1734559903; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=zIC73tJE+0Lgr/1a9NeB62/o6YEaEQYqq8EDI1i5mfo=; 
+	b=ZtaeDTFM1WM3+m3qca+EJIG94ImfvlTNAM8b/2uCmClE2n9P5apZbJDBvgIglqNB+pkNtZYYx+nfJxZN9nFrddA63Vga5Rs7ZZhGUXn25q487ymqMObtoPbp4kcIETeTxgVGG9qDcshKDNGL1Z9ZAoGRlSwNEI8k/sfS67cjeMM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734559903;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=zIC73tJE+0Lgr/1a9NeB62/o6YEaEQYqq8EDI1i5mfo=;
+	b=YnPOmvDWxpVOfcIWcS63XMO8waj7CXDs1rtic/I6R8X6Tm+KfaGb7E/naXHxFsNe
+	f0n/N8VympK7Z5OpLGWPBVW8WFxOiu7AuBMOJFcGWHSYwwN8+ue0LmPrQff427dN0BZ
+	UHsxegIIMBJwQmAxobvmTPssLDDxdo0opM5MPuGU=
+Received: by mx.zohomail.com with SMTPS id 1734559900336540.3066848116509;
+	Wed, 18 Dec 2024 14:11:40 -0800 (PST)
+Received: by mercury (Postfix, from userid 1000)
+	id ABC7B1060345; Wed, 18 Dec 2024 23:11:35 +0100 (CET)
+Date: Wed, 18 Dec 2024 23:11:35 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Armin Wolf <W_Armin@gmx.de>, 
+	Hans de Goede <hdegoede@redhat.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-pm@vger.kernel.org
 Subject: Re: [PATCH v6 4/4] power: supply: core: add UAPI to discover
  currently used extensions
-Message-ID: <eb265cb2-b079-4bca-bc35-17a9f4d0ec3e@t-8ch.de>
+Message-ID: <otwk52a7nkle7yx3444swh5xasm3l6lmu2suapmvjuplezihyv@p6vrs6lo454e>
 References: <20241211-power-supply-extensions-v6-0-9d9dc3f3d387@weissschuh.net>
  <20241211-power-supply-extensions-v6-4-9d9dc3f3d387@weissschuh.net>
  <20241218195229.GA2796534@ax162>
+ <eb265cb2-b079-4bca-bc35-17a9f4d0ec3e@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eerui4o2x4lxvoah"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241218195229.GA2796534@ax162>
+In-Reply-To: <eb265cb2-b079-4bca-bc35-17a9f4d0ec3e@t-8ch.de>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.3.1/234.486.72
+X-ZohoMailClient: External
 
-Hi Nathan,
 
-On 2024-12-18 12:52:29-0700, Nathan Chancellor wrote:
-> On Wed, Dec 11, 2024 at 08:57:58PM +0100, Thomas Weißschuh wrote:
-> > Userspace wants to now about the used power supply extensions,
-> > for example to handle a device extended by a certain extension
-> > differently or to discover information about the extending device.
-> > 
-> > Add a sysfs directory to the power supply device.
-> > This directory contains links which are named after the used extension
-> > and point to the device implementing that extension.
-> > 
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > ---
-> >  Documentation/ABI/testing/sysfs-class-power |  9 +++++++++
-> >  drivers/power/supply/cros_charge-control.c  |  5 ++++-
-> >  drivers/power/supply/power_supply.h         |  2 ++
-> >  drivers/power/supply/power_supply_core.c    | 19 +++++++++++++++++--
-> >  drivers/power/supply/power_supply_sysfs.c   | 10 ++++++++++
-> >  drivers/power/supply/test_power.c           |  4 +++-
-> >  include/linux/power_supply.h                |  2 ++
-> >  7 files changed, 47 insertions(+), 4 deletions(-)
-> ...
-> > diff --git a/drivers/power/supply/power_supply.h b/drivers/power/supply/power_supply.h
-> > index 531785516d2ac31f9a7f73a58e15e64cb81820ed..9ed749cd09369f0f13017847687509736b30aae8 100644
-> > --- a/drivers/power/supply/power_supply.h
-> > +++ b/drivers/power/supply/power_supply.h
-> > @@ -39,6 +40,7 @@ struct power_supply_ext_registration {
-> >  
-> >  extern void __init power_supply_init_attrs(void);
-> >  extern int power_supply_uevent(const struct device *dev, struct kobj_uevent_env *env);
-> > +extern const struct attribute_group power_supply_extension_group;
-> >  extern const struct attribute_group *power_supply_attr_groups[];
-> >  
-> >  #else
-> > diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supply/power_supply_core.c
-> > index bc22edbd0e6a02c27500132075f5c98d814a7330..5142fbd580ee3d629a2aae7d0b9bcd5709162129 100644
-> > --- a/drivers/power/supply/power_supply_core.c
-> > +++ b/drivers/power/supply/power_supply_core.c
-> > @@ -1346,17 +1346,21 @@ static int power_supply_update_sysfs_and_hwmon(struct power_supply *psy)
-> >  }
-> >  
-> >  int power_supply_register_extension(struct power_supply *psy, const struct power_supply_ext *ext,
-> > -				    void *data)
-> > +				    struct device *dev, void *data)
-> >  {
-> >  	struct power_supply_ext_registration *reg;
-> >  	size_t i;
-> >  	int ret;
-> >  
-> > -	if (!psy || !ext || !ext->properties || !ext->num_properties)
-> > +	if (!psy || !dev || !ext || !ext->name || !ext->properties || !ext->num_properties)
-> >  		return -EINVAL;
-> >  
-> >  	guard(rwsem_write)(&psy->extensions_sem);
-> >  
-> > +	power_supply_for_each_extension(reg, psy)
-> > +		if (strcmp(ext->name, reg->ext->name) == 0)
-> > +			return -EEXIST;
-> > +
-> >  	for (i = 0; i < ext->num_properties; i++)
-> >  		if (power_supply_has_property(psy, ext->properties[i]))
-> >  			return -EEXIST;
-> > @@ -1366,9 +1370,15 @@ int power_supply_register_extension(struct power_supply *psy, const struct power
-> >  		return -ENOMEM;
-> >  
-> >  	reg->ext = ext;
-> > +	reg->dev = dev;
-> >  	reg->data = data;
-> >  	list_add(&reg->list_head, &psy->extensions);
-> >  
-> > +	ret = sysfs_add_link_to_group(&psy->dev.kobj, power_supply_extension_group.name,
-> > +				      &dev->kobj, ext->name);
-> > +	if (ret)
-> > +		goto sysfs_link_failed;
-> > +
-> >  	ret = power_supply_update_sysfs_and_hwmon(psy);
-> >  	if (ret)
-> >  		goto sysfs_hwmon_failed;
-> > @@ -1376,6 +1386,8 @@ int power_supply_register_extension(struct power_supply *psy, const struct power
-> >  	return 0;
-> >  
-> >  sysfs_hwmon_failed:
-> > +	sysfs_remove_link_from_group(&psy->dev.kobj, power_supply_extension_group.name, ext->name);
-> > +sysfs_link_failed:
-> >  	list_del(&reg->list_head);
-> >  	kfree(reg);
-> >  	return ret;
-> > @@ -1392,6 +1404,9 @@ void power_supply_unregister_extension(struct power_supply *psy, const struct po
-> >  		if (reg->ext == ext) {
-> >  			list_del(&reg->list_head);
-> >  			kfree(reg);
-> > +			sysfs_remove_link_from_group(&psy->dev.kobj,
-> > +						     power_supply_extension_group.name,
-> > +						     reg->ext->name);
-> >  			power_supply_update_sysfs_and_hwmon(psy);
-> >  			return;
-> >  		}
-> 
-> I am seeing a build failure in certain configurations because
-> power_supply_extension_group is only declared under a CONFIG_SYSFS ifdef
-> but this code can be built without CONFIG_SYSFS.
+--eerui4o2x4lxvoah
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 4/4] power: supply: core: add UAPI to discover
+ currently used extensions
+MIME-Version: 1.0
 
-Thanks for the report.
+Hi,
 
->   $ echo 'CONFIG_EXPERT=y
->   CONFIG_SYSFS=n' >allno.config
-> 
->   $ make -skj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux- KCONFIG_ALLCONFIG=1 mrproper allnoconfig drivers/power/supply/power_supply_core.o
->   drivers/power/supply/power_supply_core.c: In function 'power_supply_register_extension':
->   drivers/power/supply/power_supply_core.c:1389:55: error: 'power_supply_extension_group' undeclared (first use in this function); did you mean 'power_supply_attr_groups'?
->    1389 |         ret = sysfs_add_link_to_group(&psy->dev.kobj, power_supply_extension_group.name,
->         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->         |                                                       power_supply_attr_groups
->   drivers/power/supply/power_supply_core.c:1389:55: note: each undeclared identifier is reported only once for each function it appears in
->   drivers/power/supply/power_supply_core.c: In function 'power_supply_unregister_extension':
->   drivers/power/supply/power_supply_core.c:1419:54: error: 'power_supply_extension_group' undeclared (first use in this function); did you mean 'power_supply_attr_groups'?
->    1419 |                                                      power_supply_extension_group.name,
->         |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->         |                                                      power_supply_attr_groups
+On Wed, Dec 18, 2024 at 09:29:31PM +0100, Thomas Wei=DFschuh wrote:
+> On 2024-12-18 12:52:29-0700, Nathan Chancellor wrote:
+> > I am seeing a build failure in certain configurations because
+> > power_supply_extension_group is only declared under a CONFIG_SYSFS ifdef
+> > but this code can be built without CONFIG_SYSFS.
+>=20
+> Thanks for the report.
+>=20
+> >   $ echo 'CONFIG_EXPERT=3Dy
+> >   CONFIG_SYSFS=3Dn' >allno.config
+> >=20
+> >   $ make -skj"$(nproc)" ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux- KCO=
+NFIG_ALLCONFIG=3D1 mrproper allnoconfig drivers/power/supply/power_supply_c=
+ore.o
+> >   drivers/power/supply/power_supply_core.c: In function 'power_supply_r=
+egister_extension':
+> >   drivers/power/supply/power_supply_core.c:1389:55: error: 'power_suppl=
+y_extension_group' undeclared (first use in this function); did you mean 'p=
+ower_supply_attr_groups'?
+> >    1389 |         ret =3D sysfs_add_link_to_group(&psy->dev.kobj, power=
+_supply_extension_group.name,
+> >         |                                                       ^~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+> >         |                                                       power_s=
+upply_attr_groups
+> >   drivers/power/supply/power_supply_core.c:1389:55: note: each undeclar=
+ed identifier is reported only once for each function it appears in
+> >   drivers/power/supply/power_supply_core.c: In function 'power_supply_u=
+nregister_extension':
+> >   drivers/power/supply/power_supply_core.c:1419:54: error: 'power_suppl=
+y_extension_group' undeclared (first use in this function); did you mean 'p=
+ower_supply_attr_groups'?
+> >    1419 |                                                      power_su=
+pply_extension_group.name,
+> >         |                                                      ^~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~
+> >         |                                                      power_su=
+pply_attr_groups
+>=20
+> The reproducer doesn't actually enable CONFIG_POWER_SUPPLY, when I use it
+> I get a whole array of errors.
+>=20
+> > Should the declaration be moved out from the ifdef or is there some
+> > other solution I am not seeing?
+>=20
+> This, inline constants or a #define.
+>=20
+> Sebastian, do you want me to send a patch?
 
-The reproducer doesn't actually enable CONFIG_POWER_SUPPLY, when I use it
-I get a whole array of errors.
+Yes, please send a patch. I suppose a define next to the NULL define
+for power_supply_attr_groups should be good enough and consistent
+with existing handling of this problem in the subsystem.=20
 
-> Should the declaration be moved out from the ifdef or is there some
-> other solution I am not seeing?
+Greetings,
 
-This, inline constants or a #define.
+-- Sebastian
 
-Sebastian, do you want me to send a patch?
+--eerui4o2x4lxvoah
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Cheers,
-> Nathan
-> 
-> diff --git a/drivers/power/supply/power_supply.h b/drivers/power/supply/power_supply.h
-> index 9ed749cd0936..6fc9939145fc 100644
-> --- a/drivers/power/supply/power_supply.h
-> +++ b/drivers/power/supply/power_supply.h
-> @@ -40,7 +40,6 @@ struct power_supply_ext_registration {
->  
->  extern void __init power_supply_init_attrs(void);
->  extern int power_supply_uevent(const struct device *dev, struct kobj_uevent_env *env);
-> -extern const struct attribute_group power_supply_extension_group;
->  extern const struct attribute_group *power_supply_attr_groups[];
->  
->  #else
-> @@ -51,6 +50,8 @@ static inline void power_supply_init_attrs(void) {}
->  
->  #endif /* CONFIG_SYSFS */
->  
-> +extern const struct attribute_group power_supply_extension_group;
-> +
->  #ifdef CONFIG_LEDS_TRIGGERS
->  
->  extern void power_supply_update_leds(struct power_supply *psy);
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmdjSIsACgkQ2O7X88g7
++ppwSw/+JIBBJeZjTcNbURvfdfQrjHyPIUOmGJJTkxriENOR1kfwJIJ2JIPwLe4h
+Jsbwxx69vWEowODu2430epiPrSpD/wLSvG7Ex/ZuUMZj7YD14B902523xzZ++C8F
+JsRSrBlRnlGCFSnLMe3c+DgnsVupr03yNbBxuoMBVxXKOVw7qWnRf5W759U7zMUj
+wuhEu9AUn8Pdy/KemCRz5i+Z4Ox93w6cXRD1+s3HZ7iTq8JP6cVnFCwiAgEGMalQ
+NewD9HHmSXkCO06ZyvWrDk16cQzRwEEm1PwK6K+0SeotpBMVLHabpff942KluG1O
+hK+LcIWSS+yBbZkTJpPEd0BK4X21MKc5GaTDKCgU5mrJdzabkbSDxAuectlFpR5y
+v+S5MNlHwlM3dDpsWDLaqQs6xikIRVqovvotjOs8CIvlepKU4FvD3vTVZbAx5I8b
+x1D8NI8pWIuNqDYqHwWmJSRM4utEY/g36dyNFPrzpMCK9+Z/+G75adAiAXxGI8Yz
+ytMX5riBheJURJ5lCMLu8Mb6XfbelisDcG/t8cwdhH7VQQiMrtiqR9/rO8S7r7RW
+uOhOfNV5K1c4o8h5CbPjYa+jsLJ3/K95IEJ0+t/fGvLYcHUL2mT/SKYg1zbrPonZ
+d64NYkoakcfB604AQfysFcQZPyXCbYHogFr0Dv/O6tGVcrKMZ0c=
+=0J0E
+-----END PGP SIGNATURE-----
+
+--eerui4o2x4lxvoah--

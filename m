@@ -1,170 +1,256 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D7A4690
-	for <chrome-platform@lists.linux.dev>; Wed, 18 Dec 2024 22:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734561997; cv=pass; b=oyP3Hwcwor6MgOueVmQ+kJfQBA6yONiUh4A8jnwyVo09LWRISr8NSf/eNz6Lw2pQHM2QCJOI5s0l8jw1KRgqVrBeBDkOwCyoCXzXd1w5DzJv/gGqYXOlNC3Mde17aAATbTmOfd5gW0OUjN4woEDdW7rtU5PSWMJKCXdpoyD17ek=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734561997; c=relaxed/simple;
-	bh=gom19N4DjFmRLYBDNIQJeQBetpAxp3RniMSiSs1VxcM=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE181B644
+	for <chrome-platform@lists.linux.dev>; Thu, 19 Dec 2024 01:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734571130; cv=none; b=k/uQ1ERIZYFFdDkYgLYeNHsMxkjqZ/OGtYCmnIAsEzEsRzZuwr57x+GMD2jTSNtj89fQ1sGQlH+xMIEH/vCRwz+BOCXC6LN2WHx7RzKXZOBjjP0rfM02VMLFaRH1pJVkFm27M5JKIkJYQ0l/7HOwL+O86ZgqRPWS24vrG21egfU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734571130; c=relaxed/simple;
+	bh=zOPYZ0noYe5xCNfWNHHE5VT+VOJySgqJczmIywH5aKI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gCAfX1VGsrutBp4r4WLAXKXgKKZZHfyLqbrD3+FmHdyhFuAckf1DvHuXqlnzPXagTlE3MxZPG8336hsLqu+XaESqiTeXsUg12R32e7jTTJVqQ7BfrXR2ACddY9z15cwQ8SQWc2j6xnFqNjnZLXmQ/duyAigvS+xOx5al0XI3eVc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=Q8gU4J73; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Msm5G0tVi3L6Tcphp82wzCf2fbQ1GE7J0k/ghUwKs4AWtMEXAHZL8QtaXHL9Kz9R4yeECe7TSS1ZtWg+7sraA04bkDbMPT6iqRffW4dvI/E2Z5DduGRNYauAarSbfaM31ynY2Im9j2eOl/aUzSiLjtOplCI6JU5aZqmX90JVPII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B/gcv8JC; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="Q8gU4J73"
-ARC-Seal: i=1; a=rsa-sha256; t=1734561991; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=I5bOT54wAezpehLU2X4E76Q563894EvsUMwTSd2ChKX9V9vuoPo8jpDA30D8J/ibQG7C8/rI3gXkDNmWI2G0TeKmCNVrLOi3F6Lk+7r4KnC0HblRtIEqkafvgYJt4uzcTZH4c8P1T2LqHE0lMkzcjIXPjOk0kzUpKiIDaDge4A8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1734561991; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=9kkUB+G5DbEygu4ZRjirxEqrd26K9Di6wcZN27V0lxY=; 
-	b=Bt4FWtWHc+ATvo2KS4SibxslNdMMpH54l33Q/+BLZoNhpu1FYZ1RSPnCIFPOeei6v1GyD2gZ5hIOy5dTdNkn35gTtdS9xPuxfuqAI8TWI9UD9ZFfhOp+xGMvwOLWiW9lvL9jJYicLeY166/XdAmdzV1gPGgImtcdG4x2NN3JbLM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734561991;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=9kkUB+G5DbEygu4ZRjirxEqrd26K9Di6wcZN27V0lxY=;
-	b=Q8gU4J73i160KkQVZTJ1jC0F61XvKv55Q+Qtn2qBywCzMtv4gbUimFrZMjjmfC9j
-	v15dFGeHUe0UzTNtC0vFzodnv+VLqL//WF+wydWCbBgM7cVQhqbPxSRzDNSbRYOnsGE
-	ZWciLp6uxIqUP1T3xFwQJHIp5a+ATihuX6rkHlLs=
-Received: by mx.zohomail.com with SMTPS id 1734561988612787.2009935196426;
-	Wed, 18 Dec 2024 14:46:28 -0800 (PST)
-Received: by mercury (Postfix, from userid 1000)
-	id 517C71060345; Wed, 18 Dec 2024 23:46:23 +0100 (CET)
-Date: Wed, 18 Dec 2024 23:46:23 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Nathan Chancellor <nathan@kernel.org>, Armin Wolf <W_Armin@gmx.de>, 
-	Hans de Goede <hdegoede@redhat.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v6 4/4] power: supply: core: add UAPI to discover
- currently used extensions
-Message-ID: <lbtleh6bihwxbj4nlj24wddqvhr7srrkyq5osi4oc6kaxq225n@asu5qkwxe6zc>
-References: <20241211-power-supply-extensions-v6-0-9d9dc3f3d387@weissschuh.net>
- <20241211-power-supply-extensions-v6-4-9d9dc3f3d387@weissschuh.net>
- <20241218195229.GA2796534@ax162>
- <eb265cb2-b079-4bca-bc35-17a9f4d0ec3e@t-8ch.de>
- <otwk52a7nkle7yx3444swh5xasm3l6lmu2suapmvjuplezihyv@p6vrs6lo454e>
- <26833b6c-834d-433b-8d80-0ad39b1c968e@t-8ch.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B/gcv8JC"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-728f1525565so346000b3a.1
+        for <chrome-platform@lists.linux.dev>; Wed, 18 Dec 2024 17:18:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734571128; x=1735175928; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8GKLWgSaFyOyBanOdsrMy5uvCwvu9h4/1PoCzkqGNIc=;
+        b=B/gcv8JCm8jSaFwtkMTX83tf35yS8f6vOUxugHgJ7En/T7aXo3DFLjsdqTg4TffEXc
+         aYMPqaR9QFj98B0mCVIyrjZQetxsq8isDORyytkXPcbN40YuaPurvR1RqLOiXHNkojav
+         sYwViTdoZ1R+9xMFtUoLHSYoezen2mDZ3A5t1OswOG7AtdD7QabEZLCVs/atC2jP69Ed
+         i5Fb5wk+DFIQDWOK+V4MJV+OCe/g+M8V4ISg7HJxWLF20IAIqc/fahv42bEY1WakJIiS
+         vIAg+KOtq4vTl+2+cumikDiyq9tT7mI4kGcnKQYefpDHEaNOHp56pgR1+vo96UQBU7aN
+         ChWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734571128; x=1735175928;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8GKLWgSaFyOyBanOdsrMy5uvCwvu9h4/1PoCzkqGNIc=;
+        b=vg6dIlztMcBK8hzRynHkp956K6nLiYillBCC9CbyoiPnq8s5nwHytuM5HUMrA2kJyb
+         X5ys1JkViMd7AKfJIHtCQDsSyAMnj+1Smm5VcxnMAOj+m+S5aRyti9Z6KOsIZptssSBQ
+         a5mxtJxxdGljqR4f9k5HOphmrky09SnzcOEHTO3gLrM/vyzj6g4ETqz23cRN64Rkul2b
+         smCdUjMGaivzqMJcdfQlTEFnlWhoSS2U22OGL2IxAOropdoUuA1gwRt/IqOYEuln91OB
+         AW9ZyLF8OTpHb4oxTL8SHM6xX8N/5+RzNTjuUW6v1PPyrgYL2+RfFDtaoqiPDa39NWBX
+         Scnw==
+X-Forwarded-Encrypted: i=1; AJvYcCURJ7pYnSuniErbDDONU48qLrmE4O2O7Gohlsnl/SYLoNfaD1LvkXbxqHyruWkK6jK9YBVA6ai+0milt5kD/Wo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzxKIHEjjj3wTHcW6Ac6y7pCTT5TllVaXRWMpt+HIHtxzP5m7lq
+	SElLLYLge11ymD9ddN99hqnIigQjqpv2v5o/PDTFwQ6J3SzQrX8xdarFBGYe0Q==
+X-Gm-Gg: ASbGncvKA6Ug0ulMIHwGteTfgQlYPZn+O1p3sa18TqtTzXCsw2XuhgpDt6Kyiob+hB1
+	5Pm/Clu6YIH+GtG30QMKnOZl1tJnNx9FflNKUuefm8c+rdDdQKUlJPx7NkUGkPQYvTuDwoBSocB
+	t+A+ryFn0zRLfHnTHnapID48lbPny+cgOYRm4eq7ub9naO/0IDmjEuvKtIoHC5wOGapMEjHoi1d
+	T+HJeA7R2YXTWi8fZnYKzipDVIMxjtw8xjYkL712opCMwhfsxUGtjQtLYgsl+BYyi58yToGV7js
+	4EC1ZFT/+HACDk5G
+X-Google-Smtp-Source: AGHT+IEoV352txeBY/6Pj7PNTU6sj27JgQG9dJ+WPNC4pwZzHlRD1/Fnho5ilUQmlFeoHJFXMc2mcQ==
+X-Received: by 2002:a05:6a00:f8a:b0:725:9dc7:4f8b with SMTP id d2e1a72fcca58-72a8d23f53bmr6772048b3a.15.1734571127716;
+        Wed, 18 Dec 2024 17:18:47 -0800 (PST)
+Received: from google.com (30.176.125.34.bc.googleusercontent.com. [34.125.176.30])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8347d1sm116676b3a.66.2024.12.18.17.18.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2024 17:18:46 -0800 (PST)
+Date: Thu, 19 Dec 2024 01:18:42 +0000
+From: Benson Leung <bleung@google.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
+	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev,
+	akuchynski@google.com, sboyd@kernel.org, pmalani@chromium.org,
+	badhri@google.com, rdbabiera@google.com,
+	dmitry.baryshkov@linaro.org, jthies@google.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/8] usb: typec: Only use SVID for matching altmodes
+Message-ID: <Z2N0cjJU_RzEZfWh@google.com>
+References: <20241213233552.451927-1-abhishekpandit@chromium.org>
+ <20241213153543.v5.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zwjc7voobm6ufg2p"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Y2G4k320tFOEEIbr"
 Content-Disposition: inline
-In-Reply-To: <26833b6c-834d-433b-8d80-0ad39b1c968e@t-8ch.de>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.3.1/234.468.73
-X-ZohoMailClient: External
+In-Reply-To: <20241213153543.v5.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
 
 
---zwjc7voobm6ufg2p
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+--Y2G4k320tFOEEIbr
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 4/4] power: supply: core: add UAPI to discover
- currently used extensions
-MIME-Version: 1.0
 
-Hi,
-
-On Wed, Dec 18, 2024 at 11:16:16PM +0100, Thomas Wei=DFschuh wrote:
-> On 2024-12-18 23:11:35+0100, Sebastian Reichel wrote:
-> > On Wed, Dec 18, 2024 at 09:29:31PM +0100, Thomas Wei=DFschuh wrote:
-> > > On 2024-12-18 12:52:29-0700, Nathan Chancellor wrote:
-> > > > I am seeing a build failure in certain configurations because
-> > > > power_supply_extension_group is only declared under a CONFIG_SYSFS =
-ifdef
-> > > > but this code can be built without CONFIG_SYSFS.
-> > >=20
-> > > Thanks for the report.
-> > >=20
-> > > >   $ echo 'CONFIG_EXPERT=3Dy
-> > > >   CONFIG_SYSFS=3Dn' >allno.config
-> > > >=20
-> > > >   $ make -skj"$(nproc)" ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-=
- KCONFIG_ALLCONFIG=3D1 mrproper allnoconfig drivers/power/supply/power_supp=
-ly_core.o
-> > > >   drivers/power/supply/power_supply_core.c: In function 'power_supp=
-ly_register_extension':
-> > > >   drivers/power/supply/power_supply_core.c:1389:55: error: 'power_s=
-upply_extension_group' undeclared (first use in this function); did you mea=
-n 'power_supply_attr_groups'?
-> > > >    1389 |         ret =3D sysfs_add_link_to_group(&psy->dev.kobj, p=
-ower_supply_extension_group.name,
-> > > >         |                                                       ^~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >         |                                                       pow=
-er_supply_attr_groups
-> > > >   drivers/power/supply/power_supply_core.c:1389:55: note: each unde=
-clared identifier is reported only once for each function it appears in
-> > > >   drivers/power/supply/power_supply_core.c: In function 'power_supp=
-ly_unregister_extension':
-> > > >   drivers/power/supply/power_supply_core.c:1419:54: error: 'power_s=
-upply_extension_group' undeclared (first use in this function); did you mea=
-n 'power_supply_attr_groups'?
-> > > >    1419 |                                                      powe=
-r_supply_extension_group.name,
-> > > >         |                                                      ^~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >         |                                                      powe=
-r_supply_attr_groups
-> > >=20
-> > > The reproducer doesn't actually enable CONFIG_POWER_SUPPLY, when I us=
-e it
-> > > I get a whole array of errors.
-> > >=20
-> > > > Should the declaration be moved out from the ifdef or is there some
-> > > > other solution I am not seeing?
-> > >=20
-> > > This, inline constants or a #define.
-> > >=20
-> > > Sebastian, do you want me to send a patch?
-> >=20
-> > Yes, please send a patch. I suppose a define next to the NULL define
-> > for power_supply_attr_groups should be good enough and consistent
-> > with existing handling of this problem in the subsystem.=20
+On Fri, Dec 13, 2024 at 03:35:42PM -0800, Abhishek Pandit-Subedi wrote:
+> Mode in struct typec_altmode is used to indicate the index of the
+> altmode on a port, partner or plug. It is used in enter mode VDMs but
+> doesn't make much sense for matching against altmode drivers or for
+> matching partner to port altmodes.
 >=20
-> That doesn't work because of the usage of the member "name" of the
-> symbol power_supply_extension_group.
+> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Right. Maybe make the power_supply_extension_group static to
-power_supply_sysfs.c and instead offer power_supply_add_extension_sysfs()
-as a wrapper to sysfs_add_link_to_group(). Then power_supply.h can
-provide a dummy for !CONFIG_SYSFS making this similar to the
-power_supply_add_hwmon_sysfs() handling.
 
--- Sebastian
 
---zwjc7voobm6ufg2p
+> ---
+>=20
+> Changes in v5:
+> - Rebase with module_alias_printf
+>=20
+> Changes in v3:
+> - Removed mode from altmode device ids
+> - Updated modalias for typecd bus to remove mode
+> - Re-ordered to start of series
+>=20
+> Changes in v2:
+> - Update altmode_match to ignore mode entirely
+> - Also apply the same behavior to typec_match
+>=20
+>  drivers/usb/typec/altmodes/displayport.c | 2 +-
+>  drivers/usb/typec/altmodes/nvidia.c      | 2 +-
+>  drivers/usb/typec/bus.c                  | 6 ++----
+>  drivers/usb/typec/class.c                | 4 ++--
+>  scripts/mod/devicetable-offsets.c        | 1 -
+>  scripts/mod/file2alias.c                 | 9 ++-------
+>  6 files changed, 8 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec=
+/altmodes/displayport.c
+> index 2f03190a9873..3245e03d59e6 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -791,7 +791,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
+>  EXPORT_SYMBOL_GPL(dp_altmode_remove);
+> =20
+>  static const struct typec_device_id dp_typec_id[] =3D {
+> -	{ USB_TYPEC_DP_SID, USB_TYPEC_DP_MODE },
+> +	{ USB_TYPEC_DP_SID },
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(typec, dp_typec_id);
+> diff --git a/drivers/usb/typec/altmodes/nvidia.c b/drivers/usb/typec/altm=
+odes/nvidia.c
+> index fe70b36f078f..2b77d931e494 100644
+> --- a/drivers/usb/typec/altmodes/nvidia.c
+> +++ b/drivers/usb/typec/altmodes/nvidia.c
+> @@ -24,7 +24,7 @@ static void nvidia_altmode_remove(struct typec_altmode =
+*alt)
+>  }
+> =20
+>  static const struct typec_device_id nvidia_typec_id[] =3D {
+> -	{ USB_TYPEC_NVIDIA_VLINK_SID, TYPEC_ANY_MODE },
+> +	{ USB_TYPEC_NVIDIA_VLINK_SID },
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(typec, nvidia_typec_id);
+> diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
+> index aa879253d3b8..ae90688d23e4 100644
+> --- a/drivers/usb/typec/bus.c
+> +++ b/drivers/usb/typec/bus.c
+> @@ -454,8 +454,7 @@ static int typec_match(struct device *dev, const stru=
+ct device_driver *driver)
+>  	const struct typec_device_id *id;
+> =20
+>  	for (id =3D drv->id_table; id->svid; id++)
+> -		if (id->svid =3D=3D altmode->svid &&
+> -		    (id->mode =3D=3D TYPEC_ANY_MODE || id->mode =3D=3D altmode->mode))
+> +		if (id->svid =3D=3D altmode->svid)
+>  			return 1;
+>  	return 0;
+>  }
+> @@ -470,8 +469,7 @@ static int typec_uevent(const struct device *dev, str=
+uct kobj_uevent_env *env)
+>  	if (add_uevent_var(env, "MODE=3D%u", altmode->mode))
+>  		return -ENOMEM;
+> =20
+> -	return add_uevent_var(env, "MODALIAS=3Dtypec:id%04Xm%02X",
+> -			      altmode->svid, altmode->mode);
+> +	return add_uevent_var(env, "MODALIAS=3Dtypec:id%04X", altmode->svid);
+>  }
+> =20
+>  static int typec_altmode_create_links(struct altmode *alt)
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 4b3047e055a3..febe453b96be 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -237,13 +237,13 @@ static int altmode_match(struct device *dev, void *=
+data)
+>  	if (!is_typec_altmode(dev))
+>  		return 0;
+> =20
+> -	return ((adev->svid =3D=3D id->svid) && (adev->mode =3D=3D id->mode));
+> +	return (adev->svid =3D=3D id->svid);
+>  }
+> =20
+>  static void typec_altmode_set_partner(struct altmode *altmode)
+>  {
+>  	struct typec_altmode *adev =3D &altmode->adev;
+> -	struct typec_device_id id =3D { adev->svid, adev->mode, };
+> +	struct typec_device_id id =3D { adev->svid };
+>  	struct typec_port *port =3D typec_altmode2port(adev);
+>  	struct altmode *partner;
+>  	struct device *dev;
+> diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-=
+offsets.c
+> index 9c7b404defbd..d3d00e85edf7 100644
+> --- a/scripts/mod/devicetable-offsets.c
+> +++ b/scripts/mod/devicetable-offsets.c
+> @@ -237,7 +237,6 @@ int main(void)
+> =20
+>  	DEVID(typec_device_id);
+>  	DEVID_FIELD(typec_device_id, svid);
+> -	DEVID_FIELD(typec_device_id, mode);
+> =20
+>  	DEVID(tee_client_device_id);
+>  	DEVID_FIELD(tee_client_device_id, uuid);
+> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+> index 5b5745f00eb3..7049c31062c6 100644
+> --- a/scripts/mod/file2alias.c
+> +++ b/scripts/mod/file2alias.c
+> @@ -1221,17 +1221,12 @@ static void do_tbsvc_entry(struct module *mod, vo=
+id *symval)
+>  	module_alias_printf(mod, true, "tbsvc:%s", alias);
+>  }
+> =20
+> -/* Looks like: typec:idNmN */
+> +/* Looks like: typec:idN */
+>  static void do_typec_entry(struct module *mod, void *symval)
+>  {
+> -	char alias[256] =3D {};
+> -
+>  	DEF_FIELD(symval, typec_device_id, svid);
+> -	DEF_FIELD(symval, typec_device_id, mode);
+> -
+> -	ADD(alias, "m", mode !=3D TYPEC_ANY_MODE, mode);
+> =20
+> -	module_alias_printf(mod, false, "typec:id%04X%s", svid, alias);
+> +	module_alias_printf(mod, false, "typec:id%04X", svid);
+>  }
+> =20
+>  /* Looks like: tee:uuid */
+> --=20
+> 2.47.1.613.gc27f4b7a9f-goog
+>=20
+>=20
+
+--Y2G4k320tFOEEIbr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmdjULkACgkQ2O7X88g7
-+pqUYxAAplmQPfm/LT8dh+Pf5BN1oGzexOAt8JuXwzFscFtaXElYuBj8CibRGspn
-obgehyumqepGFi1lkapeZv8WJxIdkbDwIggf5aob8Hem9usZxG04Ky/7Pim+9G9f
-PkKWVI4Sy5UxBZ3Jl5zQiHYJ10BcKAAg6KYoXzRqqBf7NOT+c7fdbkDeLq4S5itO
-ezGYwguN0CYE7pKHW46WFHMK+G25ps2VgTrOn/eSpVaM2DN0oMAQAtiqwhGbOPOS
-jWKSAgW7As8pD+Rd7HouxvqoSyUik8I9eO1wAXkE87jxpI5xqTn4ege5x4iA1ZBQ
-RIeZpK11H1MBqU74/v5XM/M9sLbf0Pf0Vh5b/VyhwioJs6ki7N4oOMBCBw/1SNaC
-Hy5gqqDPYfWdXLKtvuxo2hITGG7wxp9pdMviFv+0zgy1QkmYwNellB+DmDWb7M9Y
-6/Q/05mfWBALMTPCz0W7OEMuN3WLVIIRXEZgJ/Nw4TM+oHhICRHFpV2B3XjDUDcx
-GNbPL+/qr/KkxjV/fSe1zX9lr3kcvNJnOO6AjDtRFAv40PJUy+3t8X6b8zwt9kq/
-Kv71PRgkLThOVuxzPSowAkEcD3evTiaFhPwmqaaeacj5HAn/PEE2c7rtFd95F26N
-Uk25Q2uYRliRCJgiQkmKXM3B9BcRVMwrcSF4xiJXj0W0suwH9is=
-=VGrv
+iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCZ2N0cgAKCRBzbaomhzOw
+wkw0AP9VNknHcWgUi7nZvPhRVKYlBqDN0DYORfEm9tw+ROo1kgD+Ph0CXzQGAWwR
+xRrlRwx/IlWTbIyp0C1gVTTpSLFseAg=
+=uW64
 -----END PGP SIGNATURE-----
 
---zwjc7voobm6ufg2p--
+--Y2G4k320tFOEEIbr--

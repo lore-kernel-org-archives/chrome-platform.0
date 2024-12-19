@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C1521882D
-	for <chrome-platform@lists.linux.dev>; Thu, 19 Dec 2024 07:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3544218848
+	for <chrome-platform@lists.linux.dev>; Thu, 19 Dec 2024 07:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734593532; cv=none; b=g1UsjYuWZ3yUFFfoYP+YjKuQDDuGxxI4EC1BlzqfFaDrw/fISp+G3aP+Ch3Lljy0Ty8mYk+Cowj6J/7Fy8Jh80CDpHS+Y535MLefP+cY3MK5yUrthc63rX2E1Neha6ooKwuR9mTSZRa+bj6HBLlze9Goa8xo4Hcqu7F3e8DM6Z8=
+	t=1734594630; cv=none; b=J4baoWINNyAVa3SbDTYhkjmlKiC77MoaTKfHJxkQFnB/mLHdGiSinpNQyNmJKmoc6z5n29WSqjzs/vUaODQM/08OPCfuab4S+8BCtWqGA9TJxFEfpToOJ6OHM1vmu77lFC8DF/4WjzTKeThnibkwwAkfW4AcTy/dPX5vAbsaLLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734593532; c=relaxed/simple;
-	bh=e2IbsiOoO3EPFUAOqg25iHCtvCfjnHRVHByLTl6MTlI=;
+	s=arc-20240116; t=1734594630; c=relaxed/simple;
+	bh=Dwk6bXNu5eZTvBfMa7fJbM+NhBSxfOByQaqOb5V8mPQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XF8lP8hmivwxAXFh45QbYo+e06vkBgpHKDGQfs474y2mavfJMnjVlWgn+3x2BaQtNHOeGLSCU2zdZKboonoWadPg/n3geykMktTuhrYtnv4O3htDD2FJk/dNx1ZXFim/Zza32YxhQ5lxmPdV35U47kKzaC1vTd/Im1qHHK+pUfs=
+	 In-Reply-To:To:Cc; b=CtsRjihkSB9UhJo69+9yepfOUJCLrVLU/CfzT2TuGBx/orM0Poz+qGIQsujOHrJfXs5c46pYKQzlm5JdyzvUkG8CoXTKOpv711Tw3xj55rOkPqaisDE+7nOVpNI6PaHMroTL6hvanmrtdv7OiGTHARaBG7ijNHppMuX1CXc1cZM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,22 +18,22 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tOB0O-00088Z-1R; Thu, 19 Dec 2024 08:31:32 +0100
+	id 1tOBId-0003kT-Pr; Thu, 19 Dec 2024 08:50:23 +0100
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tOB0L-004APu-25;
-	Thu, 19 Dec 2024 08:31:30 +0100
+	id 1tOBIc-004AWh-0Q;
+	Thu, 19 Dec 2024 08:50:22 +0100
 Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
 	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tOB0M-00GkbH-0q;
+	id 1tOB0M-00GkbH-0u;
 	Thu, 19 Dec 2024 08:31:30 +0100
 From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Date: Thu, 19 Dec 2024 08:31:28 +0100
-Subject: [PATCH 07/11] regulator: allow user configuration of hardware
- protection action
+Date: Thu, 19 Dec 2024 08:31:32 +0100
+Subject: [PATCH 11/11] reboot: retire hw_protection_reboot and
+ hw_protection_shutdown helpers
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241219-hw_protection-reboot-v1-7-263a0c1df802@pengutronix.de>
+Message-Id: <20241219-hw_protection-reboot-v1-11-263a0c1df802@pengutronix.de>
 References: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
 In-Reply-To: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
 To: Daniel Lezcano <daniel.lezcano@linaro.org>, 
@@ -65,92 +65,54 @@ X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-When the core detects permanent regulator hardware failure or imminent
-power failure of a critical supply, it will call hw_protection_shutdown
-in an attempt to do a limited orderly shutdown followed by powering off
-the system.
+The hw_protection_reboot and hw_protection_shutdown functions mix
+mechanism with policy: They let the driver requesting an emergency
+action for hardware protection also decide how to deal with it.
 
-This doesn't work out well for many unattended embedded systems that don't
-have support for shutdown and that power on automatically when power is
-supplied:
+This is inadequate in the general case as a driver reporting e.g. an
+imminent power failure can't know whether a shutdown or a reboot would
+be more appropriate for a given hardware platform.
 
-  - A brief power cycle gets detected by the driver
-  - The kernel powers down the system and SoC goes into shutdown mode
-  - Power is restored
-  - The system remains oblivious to the restored power
-  - System needs to be manually power cycled for a duration long enough
-    to drain the capacitors
+With the addition of the hw_protection parameter, it's now possible to
+configure at runtime the default emergency action and drivers are
+expected to use hw_protection_trigger to have this parameter dictate
+policy.
 
-Allow users to fix this by calling the newly introduced
-hw_protection_trigger() instead: This way the hw_protection commandline
-or sysfs parameter is used to dictate the policy of dealing with the
-regulator fault.
+As no current users of either hw_protection_shutdown or
+hw_protection_shutdown helpers remain, remove them, as not to tempt
+driver authors to call them.
+
+Existing users now either defer to hw_protection_trigger or call
+__hw_protection_trigger with a suitable argument directly when
+they have inside knowledge on whether a reboot or shutdown would
+be more appropriate.
 
 Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 ---
- drivers/regulator/core.c        |  4 ++--
- drivers/regulator/irq_helpers.c | 16 ++++++++--------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ include/linux/reboot.h | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-index 8cb948a91e60d958c6b5ec97d736e6e3bf4b47eb..74c8f1262f2cd4e796ba8f4f1bdf17b685a615c1 100644
---- a/drivers/regulator/core.c
-+++ b/drivers/regulator/core.c
-@@ -5137,8 +5137,8 @@ static void regulator_handle_critical(struct regulator_dev *rdev,
- 	if (!reason)
- 		return;
- 
--	hw_protection_shutdown(reason,
--			       rdev->constraints->uv_less_critical_window_ms);
-+	hw_protection_trigger(reason,
-+			      rdev->constraints->uv_less_critical_window_ms);
+diff --git a/include/linux/reboot.h b/include/linux/reboot.h
+index 281696f509932e444eadd453fb0233aa7a07fbce..5c709463a7f85189e169bbaeb8bb7b115b20c996 100644
+--- a/include/linux/reboot.h
++++ b/include/linux/reboot.h
+@@ -200,16 +200,6 @@ static inline void hw_protection_trigger(const char *reason, int ms_until_forced
+ 	__hw_protection_trigger(reason, ms_until_forced, HWPROT_ACT_DEFAULT);
  }
  
- /**
-diff --git a/drivers/regulator/irq_helpers.c b/drivers/regulator/irq_helpers.c
-index 0aa188b2bbb26797b7907cbfb581459ef41df286..5742faee8071dd8104c094587d66693f48fb0f9b 100644
---- a/drivers/regulator/irq_helpers.c
-+++ b/drivers/regulator/irq_helpers.c
-@@ -64,16 +64,16 @@ static void regulator_notifier_isr_work(struct work_struct *work)
- reread:
- 	if (d->fatal_cnt && h->retry_cnt > d->fatal_cnt) {
- 		if (!d->die)
--			return hw_protection_shutdown("Regulator HW failure? - no IC recovery",
--						      REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
-+			return hw_protection_trigger("Regulator HW failure? - no IC recovery",
-+						     REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
- 		ret = d->die(rid);
- 		/*
- 		 * If the 'last resort' IC recovery failed we will have
- 		 * nothing else left to do...
- 		 */
- 		if (ret)
--			return hw_protection_shutdown("Regulator HW failure. IC recovery failed",
--						      REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
-+			return hw_protection_trigger("Regulator HW failure. IC recovery failed",
-+						     REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
- 
- 		/*
- 		 * If h->die() was implemented we assume recovery has been
-@@ -263,14 +263,14 @@ static irqreturn_t regulator_notifier_isr(int irq, void *data)
- 	if (d->fatal_cnt && h->retry_cnt > d->fatal_cnt) {
- 		/* If we have no recovery, just try shut down straight away */
- 		if (!d->die) {
--			hw_protection_shutdown("Regulator failure. Retry count exceeded",
--					       REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
-+			hw_protection_trigger("Regulator failure. Retry count exceeded",
-+					      REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
- 		} else {
- 			ret = d->die(rid);
- 			/* If die() failed shut down as a last attempt to save the HW */
- 			if (ret)
--				hw_protection_shutdown("Regulator failure. Recovery failed",
--						       REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
-+				hw_protection_trigger("Regulator failure. Recovery failed",
-+						      REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
- 		}
- 	}
- 
+-static inline void hw_protection_reboot(const char *reason, int ms_until_forced)
+-{
+-	__hw_protection_trigger(reason, ms_until_forced, HWPROT_ACT_REBOOT);
+-}
+-
+-static inline void hw_protection_shutdown(const char *reason, int ms_until_forced)
+-{
+-	__hw_protection_trigger(reason, ms_until_forced, HWPROT_ACT_SHUTDOWN);
+-}
+-
+ /*
+  * Emergency restart, callable from an interrupt handler.
+  */
 
 -- 
 2.39.5

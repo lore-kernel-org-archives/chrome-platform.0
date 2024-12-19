@@ -1,151 +1,103 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B363DDF58
-	for <chrome-platform@lists.linux.dev>; Thu, 19 Dec 2024 01:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E989314A630
+	for <chrome-platform@lists.linux.dev>; Thu, 19 Dec 2024 07:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734571966; cv=none; b=bNoNRShd9h/gcVWd07fbHL8iUCMjZoeoh7jedkS9/vrZD7fe84zUTdg8z2YxvU9cwWwEE+0Sd3G+FtKjH8WmaeJV9ih3K6rX7oV41Zc11pPc8Jo1aoZrZ8Z93Wy805ZjFfmUdbFkZu3KKcJwUwpQaJU97I8/EkK0rP58jXa07ZE=
+	t=1734593502; cv=none; b=eaX3I7dUcY2YtCeDSSTI5WxUM/QyVtJEnQSPBy6Dw4dGyoWTENDgWdQvyVE0+ecY2puSw3PAFr81rXLxZFoWHl6P4+fGnzOkCNlIBlo7KhPVv1sgAb8R7spUSYpW0s/+4ZI7ngSPvSsD8iwRISBZeEvXOWVoJJ0loduiY/YBFew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734571966; c=relaxed/simple;
-	bh=8blMIFWIaRAEoQhTNsLSwyGbfT66ERNtangswkpsRjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n2G4+eB/yV1YnPD9UTlbaJbAF/wPYwPSCJgD0AcaIkUJPZ/ZenHnrqqwBmiFP4TvdZBHwSQ6XxAggf3dd0cEAP/fFsLMfNIlirMAZRlIG7nZyMl4QNxcTCzX8Sdlznhfu9jUagcsXaybWNCrbywCZuGOkEgQa5+GK3Yd7vW2PNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zb3QWDgS; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zb3QWDgS"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-728f1525565so355275b3a.1
-        for <chrome-platform@lists.linux.dev>; Wed, 18 Dec 2024 17:32:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734571964; x=1735176764; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Vv5IuBsFycDvduWgc7NHFnRgiZfbZKV4iW9U1gRZ7o=;
-        b=zb3QWDgSkeC0C1PuVRd55bbzUpWK43Y7fYppQjBTr2zNocpr1v9nFDWGVo4SkOBJi6
-         EUMYsLv+VUP5LTHyWnePJhR2rh3vIX6zeS5Joe0qlsRWC1hQz6avuZPH60ILKZLlG1z0
-         3PhxOHKQcJ7Rwjjspmj0MfOVu+n4wTi+9Rdx2i/VU230ggvzB+VXV9Q415fB3G73ElZ0
-         1gCo7jUN0hdmWq+TG5NItqPzxQsdWBNzLPzhBK4gYTvr/weBr5PwDjKyYDbw8puxIpo4
-         4yzhe2y3kajpCJo0/N6suLV4i1+TouA0mRKNK6k6S5N8tZFiCl8jRLFh/6Jb0Kdbuya0
-         jhOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734571964; x=1735176764;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Vv5IuBsFycDvduWgc7NHFnRgiZfbZKV4iW9U1gRZ7o=;
-        b=Fgc29nMcXBCLfadnXv3Th4FFJ4k9hIZ7U7+9G1qR1lKQZK4myR340mjtNXickQ03dA
-         8qDeSibfxmYYuy1AF4q61JjglkfBfzVHsPfuEb8sk+FVN4Cw7do4OGx+bNpYWu3oZ2ra
-         8T4V3msz+LAqhH45D90TZjsneo3g19k67TG3cEWmKAZfHRFboVo2sflDJdhmiKp21vMn
-         1yt7rgrkPnOkTAnIaN4nhk72AbdchSdzw4yrVNwYEig8jXkjjGVnVNE3Odb6U4xq8Gfh
-         d3fKGqgzjHZig+QarXm0Nt8Lkwrbckay0GgVA8B72kerK45sfmND1bpD4psQhFwRNMfm
-         Ik5A==
-X-Forwarded-Encrypted: i=1; AJvYcCVdWsAKl/O3siYMJlcRrNoGpmrFRJgpN1rTkzhZnZL+q+cZvLAWTwX1SOLe3QfPaVwAZMC2lBdErfcNqoZMqkM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YynwrDXSXOP4DlZ/iHT+UU0CK7n3nMJQGTlhjrcLfZXxssV7hjJ
-	0hoW9UHzYhQSvIOb6Be6EbxodyTY8EGfKjgFEbuXzJIm0G8FAckruHyDOIAyjQ==
-X-Gm-Gg: ASbGncsuBnE7CgdMut8omgfWiIB3+vHxaJ+zmU+mRhrlAN7iiVA1dwbG0IJT2ZwYI3A
-	g0BIF3lM57UTkqQ8oIQ4E4sgPt3dDT9KLebdJtDNmN7fhQKBSczv1CF4vJdtBD5BBzDn3hLCala
-	6/n+0Fxd8eG5cL0/F6v1BLHYYsRZ6MiFmPD+0pZd8GDwCAE5DpPpx8y/ynBZCeUpNrRXMhYrRir
-	2Xh2Ys5A2/BQtK5IUtSidQMERMCRfbxq8Y0F0uQTjVzZAmteMGvWo7dFNKkLS7u4OC04MCC5JYJ
-	+Rk++WnzAJNT1ED3
-X-Google-Smtp-Source: AGHT+IEWdcFyqngpDRkgZRR2/yfs+zFaqpUf2HE7wFRE1geSZItzQFoY3i/znViH3/xvzTMsNpqvIA==
-X-Received: by 2002:a05:6a00:240d:b0:72a:8bb6:2963 with SMTP id d2e1a72fcca58-72a8d23edf6mr7811128b3a.13.1734571963776;
-        Wed, 18 Dec 2024 17:32:43 -0800 (PST)
-Received: from google.com (30.176.125.34.bc.googleusercontent.com. [34.125.176.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad815835sm130651b3a.27.2024.12.18.17.32.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 17:32:42 -0800 (PST)
-Date: Thu, 19 Dec 2024 01:32:38 +0000
-From: Benson Leung <bleung@google.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
-	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev,
-	akuchynski@google.com, sboyd@kernel.org, pmalani@chromium.org,
-	badhri@google.com, rdbabiera@google.com,
-	dmitry.baryshkov@linaro.org, jthies@google.com,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 8/8] platform/chrome: cros_ec_typec: Disable tbt on
- port
-Message-ID: <Z2N3tt8O21-D6Ikq@google.com>
-References: <20241213233552.451927-1-abhishekpandit@chromium.org>
- <20241213153543.v5.8.Ic14738918e3d026fa2d85e95fb68f8e07a0828d0@changeid>
+	s=arc-20240116; t=1734593502; c=relaxed/simple;
+	bh=kv7H/2Fmdq5NzjHdH9WlL1ylasJJ18efPHXVIQWM2Hk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=gImpUAGumOuqYzUTmDoS2rtuRaFKHFSvb5lsM3xmquHMIWsEXFTTXDQ39di8fpf/rw9v5YqPM7he+n0HsM0dmEHEn07mkEg+e4IrNVBPiHi78/G1bCdQpD1eKuiXyLMBW2wrVZhImVcJFJtrIxj6Sr/6zh7yjYTMoc6Y8sBSHV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1tOB0O-00088a-1R; Thu, 19 Dec 2024 08:31:32 +0100
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1tOB0L-004APv-2A;
+	Thu, 19 Dec 2024 08:31:30 +0100
+Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
+	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.96)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1tOB0M-00GkbH-0r;
+	Thu, 19 Dec 2024 08:31:30 +0100
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Date: Thu, 19 Dec 2024 08:31:29 +0100
+Subject: [PATCH 08/11] platform/chrome: cros_ec_lpc: prepare for
+ hw_protection_shutdown removal
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="W8cAO6hx+FSI0lHc"
-Content-Disposition: inline
-In-Reply-To: <20241213153543.v5.8.Ic14738918e3d026fa2d85e95fb68f8e07a0828d0@changeid>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241219-hw_protection-reboot-v1-8-263a0c1df802@pengutronix.de>
+References: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
+In-Reply-To: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Fabio Estevam <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Matti Vaittinen <mazziesaccount@gmail.com>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
+ kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
+In the general case, a driver doesn't know which of system shutdown or
+reboot is the better action to take to protect hardware in an emergency
+situation. For this reason, hw_protection_shutdown is going to be
+removed in favor of hw_protection_trigger, which defaults to shutdown,
+but may be configured at kernel runtime to be a reboot instead.
 
---W8cAO6hx+FSI0lHc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The ChromeOS EC situation is different as we do know that shutdown is
+the correct action as the EC is programmed to force reset after the
+short period, thus replace hw_protection_shutdown with
+__hw_protection_trigger with HWPROT_ACT_SHUTDOWN as argument to
+maintain the same behavior.
 
-On Fri, Dec 13, 2024 at 03:35:49PM -0800, Abhishek Pandit-Subedi wrote:
-> Altmodes with cros_ec are either automatically entered by the EC or
-> entered by the AP if TBT or USB4 are supported on the system. Due to the
-> security risk of PCIe tunneling, TBT modes should not be auto entered by
-> the kernel at this time and will require user intervention.
->=20
-> With this change, a userspace program will need to explicitly activate
-> the thunderbolt mode on the port and partner in order to enter the mode
-> and the thunderbolt driver will not automatically enter when a partner
-> is connected.
->=20
-> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+No functional change.
 
-Reviewed-by: Benson Leung <bleung@chromium.org>
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+---
+ drivers/platform/chrome/cros_ec_lpc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 924bf4d3cc77b9f27d415a10c61ae06886fa7f80..068781b75529d80b51b3773845bcf457fa958710 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -414,7 +414,7 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
+ 		blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, ec_dev);
+ 		kobject_uevent_env(&ec_dev->dev->kobj, KOBJ_CHANGE, (char **)env);
+ 		/* Begin orderly shutdown. EC will force reset after a short period. */
+-		hw_protection_shutdown("CrOS EC Panic", -1);
++		__hw_protection_trigger("CrOS EC Panic", -1, HWPROT_ACT_SHUTDOWN);
+ 		/* Do not query for other events after a panic is reported */
+ 		return;
+ 	}
 
-> ---
->=20
-> (no changes since v3)
->=20
-> Changes in v3:
-> - Set port.inactive =3D true instead of auto-enter.
->=20
-> Changes in v2:
-> - Only disable auto-enter for Thunderbolt
-> - Update commit message to clearly indicate the need for userspace
->   intervention to enter TBT mode
->=20
->  drivers/platform/chrome/cros_ec_typec.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
-hrome/cros_ec_typec.c
-> index 1ac5798d887f..6ee182101bc9 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -311,6 +311,7 @@ static int cros_typec_register_port_altmodes(struct c=
-ros_typec_data *typec,
->  		memset(&desc, 0, sizeof(desc));
->  		desc.svid =3D USB_TYPEC_TBT_SID;
->  		desc.mode =3D TBT_MODE;
-> +		desc.inactive =3D true;
->  		amode =3D cros_typec_register_thunderbolt(port, &desc);
->  		if (IS_ERR(amode))
->  			return PTR_ERR(amode);
-> --=20
-> 2.47.1.613.gc27f4b7a9f-goog
->=20
+-- 
+2.39.5
 
---W8cAO6hx+FSI0lHc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCZ2N3tgAKCRBzbaomhzOw
-woI7AP4m7+qsKf6OdfCv5MTSwIwsD2yr+IwtWh+s50egADVb0AEAh+bZVfhhc7KK
-CacGzufNf3FY6eEErPLaAfAFZ27aDAQ=
-=/0op
------END PGP SIGNATURE-----
-
---W8cAO6hx+FSI0lHc--

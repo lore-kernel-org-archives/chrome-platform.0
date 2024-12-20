@@ -1,41 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55377DA7F;
-	Fri, 20 Dec 2024 04:15:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C5218EAB;
+	Fri, 20 Dec 2024 04:29:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734668122; cv=none; b=o7abbPT3/NOFlZLeVYPxZnquJBh3i+50lJQIxek78Ir3BLlayGRlNsgyiKaqvc8+nqUPN9lzJjsKuvL/tGf3wGDmou8iMNf6LmelmgqlUbVlBZtVQPtx2P/yVkHlm85SVFbR2kq2muakv7Mev9IhWRkId34duzz8IEbXzjE/vJA=
+	t=1734668942; cv=none; b=GrHtWqslqGImw75AnOwUDKdSkR/Sv+dRhuYpHbx9cG598bhPz6Bqd5zQq/ticBYrl8IFjatmy30sWmsCGCULvqzObGuwkMDDdndyMbkAx3ULmsWBtXliQoYySlLGEEqch8ZIlTTW21i4VhQaKB9tk3qLC4CJ0MD8vC13whGIXSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734668122; c=relaxed/simple;
-	bh=rbugXgmu/Bf9y1avq1oVFiMjHUyP7ghc+eAAlKRHelI=;
+	s=arc-20240116; t=1734668942; c=relaxed/simple;
+	bh=uPUnHYn/V1+uMo80vM/4FkDBN47Pxt/+NHL6ybpWZ7A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sF69Ss9z6VL02UKSaup0UopdJ/D8zsSfatr7cYS627nZzAD55Ct7P31dwjTphTARDKE6QZULYx4YOZbdHUWPXeu+Vd3Qc+SAFny/vPTrhTP0mAfZ/83KAVoBGGRtp58Kj04iTgl9LBDyLFAUA5jmo1l2NQQynUDzdUeYFk/dQVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GmICHGKJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=L0fsXxS9Yh6seXLX02CVWiET/PSugrf1tyGK/CswV293Pm02OvC+V3eM7CeKkt4W3xYCOpY61zLEt+/IWIAmEYb0CxUdH4wzjm/2FqMzIQkUIMxZDpIWj5vaYMhquEl+fC1M7kcKyTCowpTMSIjLQuVJSbV+nboa743EwX9ULUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4RKSCwQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GmICHGKJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A6E3C4CECD;
-	Fri, 20 Dec 2024 04:15:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4RKSCwQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3CBC4CECD;
+	Fri, 20 Dec 2024 04:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734668122;
-	bh=rbugXgmu/Bf9y1avq1oVFiMjHUyP7ghc+eAAlKRHelI=;
+	s=k20201202; t=1734668942;
+	bh=uPUnHYn/V1+uMo80vM/4FkDBN47Pxt/+NHL6ybpWZ7A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GmICHGKJeAJ6Jz2EpEG2xPuXGy4/n1DxdwgyC1I4A2NwfIwNuzIf1FRz5wbQDcRUk
-	 YRon3GHlsZ9OsI11D2rkIX3cdbkMIGCB+SMLQpDteHDwTSgKT4Q87c6LcGLZGAHagH
-	 yEFJgG4AqZV5O8yh5fAy5dBu5p80cg1l8s0rdYoQVEKUBkZNSHob07zBxJ7kXOe5Kn
-	 WJWEWwOHvA2G2Md9nZ42lf1HXH5WckPPmo8T4tS+43Ly30yR8Y6Fbb7VaVOSDWB7PK
-	 5aR5OSTwjaTD6Ui9B9esGyZvagVRVPeZiLe/8y1ehkSlRPJVbs3I4X5yQLnjeI4cA6
-	 I/DAEyA1JnYEQ==
-Date: Fri, 20 Dec 2024 04:15:19 +0000
+	b=H4RKSCwQ1BKLiT5ChzVtgl1UQA0rglKgLqk/JBoa7leqe/bwuAFOdaxb2V0TrXbaN
+	 pAzzH1Dj6v61fb1Z2R/liF9RTdmY1Z3fsSqcUQ88CCLj7h5l1SvmI8MCVvOoc6HsAB
+	 ZLHyRuMIXKVzAFknDOX9g3ipy+Fq5htQ5LeAqRRDuB0xFAYXMrGAsqzxW5aenThmCf
+	 U1RRpOacI16yjzkDRRGU0KGiptUSsLi2arnnvIaVq7Fj50nwv2NgO73zwzVb2IcIBO
+	 2lkQsMNJPEHp1hU8j6e0N+4i+yROMGy3dpkYwgPTpf+EQgUnGO1pAJFu7e184E/PNf
+	 0GBmrnGtS5mbg==
+Date: Fri, 20 Dec 2024 04:28:57 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Rob Barnes <robbarnes@google.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Daisuke Nojiri <dnojiri@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: Only check for events on
- MKBP notifies
-Message-ID: <Z2TvV7Lzsl81yuww@google.com>
-References: <20241218015759.3558830-1-robbarnes@google.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, akuchynski@google.com,
+	sboyd@kernel.org, pmalani@chromium.org, badhri@google.com,
+	rdbabiera@google.com, dmitry.baryshkov@linaro.org,
+	jthies@google.com, Benson Leung <bleung@chromium.org>,
+	Bill Wendling <morbo@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v5 0/8] Thunderbolt and DP altmode support for
+ cros-ec-typec
+Message-ID: <Z2TyiUt1SCASbznh@google.com>
+References: <20241213233552.451927-1-abhishekpandit@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -44,24 +55,21 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241218015759.3558830-1-robbarnes@google.com>
+In-Reply-To: <20241213233552.451927-1-abhishekpandit@chromium.org>
 
-On Wed, Dec 18, 2024 at 01:57:59AM +0000, Rob Barnes wrote:
-> Only check EC for MKBP events when the ACPI notify value indicates the
-> notify is due to an MKBP host event. This reduces unnecessary queries to
-> the EC.
+On Fri, Dec 13, 2024 at 03:35:41PM -0800, Abhishek Pandit-Subedi wrote:
+> Abhishek Pandit-Subedi (7):
+>   usb: typec: Only use SVID for matching altmodes
+>   usb: typec: Make active on port altmode writable
+>   usb: typec: Print err when displayport fails to enter
+>   platform/chrome: cros_ec_typec: Update partner altmode active
+>   platform/chrome: cros_ec_typec: Displayport support
+>   platform/chrome: cros_ec_typec: Thunderbolt support
+>   platform/chrome: cros_ec_typec: Disable tbt on port
 > 
-> Notify value 0x80 is reserved for devices specific notifies. It is used
-> by many devices to indicate various events. It's only used by cros_ec
-> for MKBP events.
-> 
-> [...]
+> Heikki Krogerus (1):
+>   usb: typec: Add driver for Thunderbolt 3 Alternate Mode
 
-Applied to
-
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-
-[1/1] platform/chrome: cros_ec_lpc: Only check for events on MKBP notifies
-      commit: a15ab7a5cc2a17b6a803f624fcf215f4e68d56b6
-
-Thanks!
+It looks no but just want to confirm: does the 4 cros_ec_typec patches
+build-time depend on the typec patches?  I.e. can they merge through
+different trees?

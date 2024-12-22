@@ -1,160 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F45F157E99;
-	Fri, 20 Dec 2024 06:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DB416EBE8
+	for <chrome-platform@lists.linux.dev>; Sun, 22 Dec 2024 09:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734677817; cv=none; b=XuWLx9GxFFWJWoknkbE9hsSlw6tfHtx7ZfLedtev4frOW7PK4J6rpUg+CGJk/CpJ1hOV2BySGRInbP6BlKrFi4WZB1C2iZtRSZoYTANJrHXN3liaJepUZUHlwgCeSMw7oudzK7gAy4pmlqQpv6bie29qaYdjbW33sK17RBKs/As=
+	t=1734860294; cv=none; b=X6eRViJWwkDE75DvnzBvs4Vjh6SyeJ+XAE8VAdOX1ICUNzF3EIAvCcaxhL5+uharIZ8xeuWEDuHdV1iCDw4vffuxwzSaAynAihbHjMaXaWvXyWc3XgOh8jluY6pZqYLpVVRDEwRoWSDLlXBa8rgHDSh0mhhPjSgfEbgAVEa2ncY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734677817; c=relaxed/simple;
-	bh=/CIwRAQpU+FEb+4P5INMAwLfobrrnCIKq8277eG46Es=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RGLtv4w/BF+aJFjanEjxQClWaB1xAEHgOXEKkNpmS7SZe0VTNI3TJp4fa5ogNDizgRtMVsUE8DRu1s/QHbaIBxzdnFNLV2LzbcbjQKJ9BjxqkFW3iQ9dePrlAImDgaJGG/QoUME0RVcudRIzzXtnRhrvhMqjrBuoVIPjPTdC+YQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+D2HkXR; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1734860294; c=relaxed/simple;
+	bh=7/Z4feutFCC0vyPIRuRx3lInp2wI6p1e9mt6TdsadGk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L3/UIp59duzG0u5D/d+3wbcgxPZY4FSbtJDvALkqdEp5Y384xWrTk27IEjE8pwGfAVzNh+3ff0/TOm4tVYsYxzoxq3Ji5hD1u7W98jnUWGeIRwWiQiceSj0H/fSyIi4yIxdPvc/YpPW4bXousPllSHG8hN5sU2bDAE3ZQSPVwNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlJ5x9wc; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+D2HkXR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734677816; x=1766213816;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/CIwRAQpU+FEb+4P5INMAwLfobrrnCIKq8277eG46Es=;
-  b=K+D2HkXRK8wDcve7122qvnbDfXTy4GbnapyvbkSms6rkzBejEYK7GbFs
-   kVxeLneuv09Dyd1GQvMQAfQqC3QGRdFyCjR4uWsxzF1/0yNtKQASlOOs+
-   Ssn1aF995pyVAZBlDMsstHFhtDpVrzwLrgOmr7ZScDutH5cLEJkxzfiJH
-   gfwbze8x2H6K9+03PFmyiXU+Z2yFz9kwPWo54ft76Hyttc05YG7AMK8wO
-   kFc8zC2yC/+dahlplRqEWoy+nG6dt2DlEowRvHkOUsB6PssFPY6nhI0jV
-   i4dH0GNfBhgFbT0ivgeYj3/Bw90lVt1hP3lQ4wDkeEpw4S3fkHrSUjJIE
-   g==;
-X-CSE-ConnectionGUID: mmMmm9pWRRWhNvoIBnOTrw==
-X-CSE-MsgGUID: UIn/qqGbR2GW+1mMQ79zPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="45908536"
-X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="45908536"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 22:56:55 -0800
-X-CSE-ConnectionGUID: pUZ2YiQFQOylVbzLCIoZzQ==
-X-CSE-MsgGUID: GkSREMQWS6qG9O0E6BlgbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="98264060"
-Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Dec 2024 22:56:49 -0800
-Received: from kbuild by a46f226878e0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tOWwJ-0000vf-22;
-	Fri, 20 Dec 2024 06:56:47 +0000
-Date: Fri, 20 Dec 2024 14:56:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Fabio Estevam <festevam@denx.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: Re: [PATCH 04/11] reboot: rename now misleading hw_protection symbols
-Message-ID: <202412201443.inJcQtcl-lkp@intel.com>
-References: <20241219-hw_protection-reboot-v1-4-263a0c1df802@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlJ5x9wc"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ffd6b7d77aso41459491fa.0
+        for <chrome-platform@lists.linux.dev>; Sun, 22 Dec 2024 01:38:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734860291; x=1735465091; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E1VR6WrBGJiq8FcvrsTE/IPll45Ma2lRFsR787hkaUg=;
+        b=dlJ5x9wcLKiWJxNMDlRFooZOn2D/Uttl1qZpPQyf5+rJ+y7bHUKIS6VRCh4yUpH1cP
+         gGros6xmCFIv/GNhvPgoKYlpuRqB6DbMyf3JVNkDcf/Ta9mbzuA+SCHmc2QqH9nsF5An
+         yBwnsa1PC8BXlbgluEboudk26/tU12h0o4Y6eQxey5MSTKmdlGmC/Cz7OxNvc76p/KDl
+         H/PeTSgJpwMyt36g5LbbqTNlQ4ctvOKKCxnoIAo41o27qVdJbq0cDjjDL9EjdDxL3HRh
+         nzVz9U2i4FmESDYAh91qgSYHMHWhlqloeD6Oelqe0C7QAP55gPjxxXRurgUgwoUKLm1y
+         Tf6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734860291; x=1735465091;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=E1VR6WrBGJiq8FcvrsTE/IPll45Ma2lRFsR787hkaUg=;
+        b=KEyS8YYtm6NU+u5Z3mLx6+kruWH2AR/0zAGOWHaTgz/Ksu6ihRNKRk0lNzROVXkesu
+         c7w5Lv7RlyLKrwv6kwEi7xfY8QQIdl6Xlk+TjxfSUZYpwQvgT6uB+XSgRMjD4kZrIUK8
+         hABQUGvAJw/NQf215ji3s2+IIKiDx6JvebqHYKmgdm0BUXG6jzotX6i6W1T6IpCVHqBn
+         MQD/k9fnhcFKP0G0RaGgBFGu02TWnJwxZtD5c4B5W5v95Kqc86p2Sf3hwZKgDK4Wn9Mq
+         R+3jZBYPqHPJAVFA3RcWw9qyR3L4s16vXrgpjNHvK9jlf5YIKQObA1hL+iNSD3kxh2MM
+         CxhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXLBfgjmbC1CLUZuHsljyOVDYKVddeqkfLcBxQampEyN/PISA45+MaQMMDdjUxL+rBEAmfSQ2PGlRRq3S6++Os=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCrssBlgmqGz0tfOw3bRAQCp69eMd77pxXwn9lNSdvU1xWTq/Q
+	hISr0H4wrgsBEdrOQaZPQsEFLjfNTk12MYUT/8ALAxBp2mIHdu2t
+X-Gm-Gg: ASbGncuIkyd342lYLvFCHPxhvW7vvmo8nDx03uNnJ78GZCvwEjL3ZBOpyOsywN9blDX
+	f1QX/RhmCwg7bTCBTWWTQRuTd5/rkPDV4OaqzYbB3cOmu9abWWJTOBHBdtgn/8kVOfp2sQd3Ttm
+	hGjrUTL63O5ihw8w7LGjq9nRkpojU4YTc/bYbVfbhL3YNXWMpc5ckoSR7g0AiCyR5GJF7Tz1gou
+	9430AciFy9BGE+4M59e9NTyrHeX6/rBdvpe/9yQfeDOfX95+34Hs1I5FI8heeGF8p3IG497/0kq
+	eiIw09Eg6fki/BjPWI/xqKB6O0rw8V30k44=
+X-Google-Smtp-Source: AGHT+IEBtKIpnX8TZ6UDUpxSD2fI++u22nBQeqIjoQjnAxtybi0jVENYejU8eL4eDzo/jSMChxACSg==
+X-Received: by 2002:a05:6512:2815:b0:540:1a0c:9bac with SMTP id 2adb3069b0e04-5422954b420mr3045195e87.34.1734860290772;
+        Sun, 22 Dec 2024 01:38:10 -0800 (PST)
+Received: from ?IPV6:2001:14ba:419:b800::7? (2001-14ba-419-b800--7.rev.dnainternet.fi. [2001:14ba:419:b800::7])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-542235f66c8sm913969e87.3.2024.12.22.01.38.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Dec 2024 01:38:09 -0800 (PST)
+Message-ID: <dc8d1cdf-dff4-48fc-a03d-aeab9be22e44@gmail.com>
+Date: Sun, 22 Dec 2024 11:38:06 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241219-hw_protection-reboot-v1-4-263a0c1df802@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/11] reboot: support runtime configuration of emergency
+ hw_protection action
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+ chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+ kernel@pengutronix.de, Matteo Croce <mcroce@microsoft.com>
+References: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ahmad,
+On 19/12/2024 09:31, Ahmad Fatoum wrote:
+> We currently leave the decision of whether to shutdown or reboot to
+> protect hardware in an emergency situation to the individual drivers.
+> 
+> This works out in some cases, where the driver detecting the critical
+> failure has inside knowledge: It binds to the system management controller
+> for example or is guided by hardware description that defines what to do.
+> 
+> This is inadequate in the general case though as a driver reporting e.g.
+> an imminent power failure can't know whether a shutdown or a reboot would
+> be more appropriate for a given hardware platform.
 
-kernel test robot noticed the following build warnings:
+Sometimes it can. There are platforms where the hardware is such we know 
+that poweroff or reboot are the way to go. In such case the driver 
+should get the information from the hardware description (like device-tree).
 
-[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
+> To address this, this series adds a hw_protection kernel parameter and
+> sysfs toggle that can be used to change the action from the shutdown
+> default to reboot. A new hw_protection_trigger API then makes use of
+> this default action.
+> 
+> My particular use case is unattended embedded systems that don't
+> have support for shutdown and that power on automatically when power is
+> supplied:
+> 
+>    - A brief power cycle gets detected by the driver
+>    - The kernel powers down the system and SoC goes into shutdown mode
+>    - Power is restored
+>    - The system remains oblivious to the restored power
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmad-Fatoum/reboot-replace-__hw_protection_shutdown-bool-action-parameter-with-an-enum/20241219-155416
-base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-patch link:    https://lore.kernel.org/r/20241219-hw_protection-reboot-v1-4-263a0c1df802%40pengutronix.de
-patch subject: [PATCH 04/11] reboot: rename now misleading hw_protection symbols
-config: i386-buildonly-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201443.inJcQtcl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201443.inJcQtcl-lkp@intel.com/reproduce)
+This sounds like a consequence of a hardware design as restoring the 
+power doesn't wake up the SoC(?)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412201443.inJcQtcl-lkp@intel.com/
+>    - System needs to be manually power cycled for a duration long enough
+>      to drain the capacitors
+> 
+> With this series, such systems can configure the kernel with
+> hw_protection=reboot to have the boot firmware worry about critical
+> conditions.
 
-All warnings (new ones prefixed by >>):
+I am not against the change though. Just wondering if this is still a 
+consequence of the hardware design, and if the device-tree would be 
+proper place to indicate that poweroff shouldn't be used.
 
-   kernel/reboot.c:241: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
-   kernel/reboot.c:995: warning: Function parameter or struct member 'action' not described in 'hw_failure_emergency_schedule'
-   kernel/reboot.c:995: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_schedule'
->> kernel/reboot.c:1023: warning: Function parameter or struct member 'action' not described in '__hw_protection_trigger'
->> kernel/reboot.c:1023: warning: Excess function parameter 'shutdown' description in '__hw_protection_trigger'
+I'm about to leave my computer behind for holidays, so I am probably not 
+able to do a proper review until the next year. Thus this quick comment 
+:) Also, no strong opinion so I'm not expecting anyone to hold back 
+waiting for me!
 
+Good luck and happy holidays!
+-- Matti
 
-vim +1023 kernel/reboot.c
+> ---
+> Ahmad Fatoum (11):
+>        reboot: replace __hw_protection_shutdown bool action parameter with an enum
+>        reboot: reboot, not shutdown, on hw_protection_reboot timeout
+>        docs: thermal: sync hardware protection doc with code
+>        reboot: rename now misleading hw_protection symbols
+>        reboot: indicate whether it is a HARDWARE PROTECTION reboot or shutdown
+>        reboot: add support for configuring emergency hardware protection action
+>        regulator: allow user configuration of hardware protection action
+>        platform/chrome: cros_ec_lpc: prepare for hw_protection_shutdown removal
+>        dt-bindings: thermal: give OS some leeway in absence of critical-action
+>        thermal: core: allow user configuration of hardware protection action
+>        reboot: retire hw_protection_reboot and hw_protection_shutdown helpers
+> 
+>   Documentation/ABI/testing/sysfs-kernel-reboot      |   8 ++
+>   Documentation/admin-guide/kernel-parameters.txt    |   6 +
+>   .../devicetree/bindings/thermal/thermal-zones.yaml |   5 +-
+>   Documentation/driver-api/thermal/sysfs-api.rst     |  25 +++--
+>   drivers/platform/chrome/cros_ec_lpc.c              |   2 +-
+>   drivers/regulator/core.c                           |   4 +-
+>   drivers/regulator/irq_helpers.c                    |  16 +--
+>   drivers/thermal/thermal_core.c                     |  17 +--
+>   drivers/thermal/thermal_core.h                     |   1 +
+>   drivers/thermal/thermal_of.c                       |   7 +-
+>   include/linux/reboot.h                             |  25 +++--
+>   include/uapi/linux/capability.h                    |   1 +
+>   kernel/reboot.c                                    | 122 ++++++++++++++++-----
+>   13 files changed, 173 insertions(+), 66 deletions(-)
+> ---
+> base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+> change-id: 20241218-hw_protection-reboot-96953493726a
+> 
+> Best regards,
 
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1002  
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1003  /**
-c37fda1c195d45 Ahmad Fatoum    2024-12-19  1004   * __hw_protection_trigger - Trigger an emergency system shutdown or reboot
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1005   *
-79fa723ba84c2b Fabio Estevam   2023-11-29  1006   * @reason:		Reason of emergency shutdown or reboot to be printed.
-79fa723ba84c2b Fabio Estevam   2023-11-29  1007   * @ms_until_forced:	Time to wait for orderly shutdown or reboot before
-79fa723ba84c2b Fabio Estevam   2023-11-29  1008   *			triggering it. Negative value disables the forced
-79fa723ba84c2b Fabio Estevam   2023-11-29  1009   *			shutdown or reboot.
-79fa723ba84c2b Fabio Estevam   2023-11-29  1010   * @shutdown:		If true, indicates that a shutdown will happen
-79fa723ba84c2b Fabio Estevam   2023-11-29  1011   *			after the critical tempeature is reached.
-79fa723ba84c2b Fabio Estevam   2023-11-29  1012   *			If false, indicates that a reboot will happen
-79fa723ba84c2b Fabio Estevam   2023-11-29  1013   *			after the critical tempeature is reached.
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1014   *
-79fa723ba84c2b Fabio Estevam   2023-11-29  1015   * Initiate an emergency system shutdown or reboot in order to protect
-79fa723ba84c2b Fabio Estevam   2023-11-29  1016   * hardware from further damage. Usage examples include a thermal protection.
-79fa723ba84c2b Fabio Estevam   2023-11-29  1017   * NOTE: The request is ignored if protection shutdown or reboot is already
-79fa723ba84c2b Fabio Estevam   2023-11-29  1018   * pending even if the previous request has given a large timeout for forced
-79fa723ba84c2b Fabio Estevam   2023-11-29  1019   * shutdown/reboot.
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1020   */
-c37fda1c195d45 Ahmad Fatoum    2024-12-19  1021  void __hw_protection_trigger(const char *reason, int ms_until_forced,
-d3e5893beaf551 Ahmad Fatoum    2024-12-19  1022  			     enum hw_protection_action action)
-dfa19b11385d4c Matti Vaittinen 2021-06-03 @1023  {
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1024  	static atomic_t allow_proceed = ATOMIC_INIT(1);
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1025  
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1026  	pr_emerg("HARDWARE PROTECTION shutdown (%s)\n", reason);
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1027  
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1028  	/* Shutdown should be initiated only once. */
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1029  	if (!atomic_dec_and_test(&allow_proceed))
-07a22b61946f0b Petr Mladek     2022-06-23  1030  		return;
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1031  
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1032  	/*
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1033  	 * Queue a backup emergency shutdown in the event of
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1034  	 * orderly_poweroff failure
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1035  	 */
-595ab92650cc28 Ahmad Fatoum    2024-12-19  1036  	hw_failure_emergency_schedule(action, ms_until_forced);
-d3e5893beaf551 Ahmad Fatoum    2024-12-19  1037  	if (action == HWPROT_ACT_REBOOT)
-79fa723ba84c2b Fabio Estevam   2023-11-29  1038  		orderly_reboot();
-d3e5893beaf551 Ahmad Fatoum    2024-12-19  1039  	else
-d3e5893beaf551 Ahmad Fatoum    2024-12-19  1040  		orderly_poweroff(true);
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1041  }
-c37fda1c195d45 Ahmad Fatoum    2024-12-19  1042  EXPORT_SYMBOL_GPL(__hw_protection_trigger);
-dfa19b11385d4c Matti Vaittinen 2021-06-03  1043  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki

@@ -1,172 +1,76 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4C4188714
-	for <chrome-platform@lists.linux.dev>; Sun, 22 Dec 2024 09:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC1727702;
+	Tue, 24 Dec 2024 06:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734861581; cv=none; b=qo3psBMlUzE0GuRU41cO4ZNX+NJwlzDop1aAEm6l5EtCc8zrrIlf5RyAP5dyw/THAtLZ+Z6Zt1OyBpupmznR6ugIbhDqDoXAefkQFhnoUMVOiRisxIhp16VS8mbGp3FzkRRPOXc459ypvt138lqL55Udyqtky+zUpF71kpGvZm0=
+	t=1735023444; cv=none; b=jUrl+FnOzUkg8+XMH6GEdJ0JzHZSjO81kf2Eqs/nXqsQRNbDGwiVDasoPbfB5H+kQfLqDmZJXSXMqDHVp/sKQcUpq2Yv3Jv3hn4fVngZwbtmJ7w6jqCqiysEzmtQjeJjkKtm30S8kbUJDyY5XueBxs9Pr4NdN+zKQu4EEWlfcLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734861581; c=relaxed/simple;
-	bh=c1jEBsE0ZFcv4ZJbYf/uCmaCL4wXgSXoJOgd1V9o03U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dv5kXMqG2E+2FmZadHRtPfp9hcTy4HakVHYSAOVQRecmOwzHyDave4tUnsi8DSjYg9+mMuwl8P/XYJpSWFQjfABiTWXYZSQRXjZnMawTawzg2RZL/y5Ik6j74xG6sxL5S7Xfi6rpcFV4JSJN9HQMA4QMczLemqnb8sa3Kjlp/34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tPIjY-000172-TX; Sun, 22 Dec 2024 10:58:48 +0100
-Message-ID: <273ef7c1-3a4f-4413-9b0b-a3e0fba366a8@pengutronix.de>
-Date: Sun, 22 Dec 2024 10:58:44 +0100
+	s=arc-20240116; t=1735023444; c=relaxed/simple;
+	bh=SNH4I1aYLVRvyxMIWpO8H+OiNsIEteJedPisSBmZ4qI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uFmNbXicnqOn5BHGSDIwv3bq/ViAJ5lD1eI2kjbOIveykVCXEwfdyVqD9RiRVgLGUjbQ268ebXLb5/gIMgAOagIzJMt+d8obl6IqjI4Kv6aMAK/tGxlt2734GxMmKaorNy7nCph3GyxaKd2Ing0tUmkXfTgcJSI0Jd9lKpWIBvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xbdqtSQe; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xbdqtSQe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4348BC4CED0;
+	Tue, 24 Dec 2024 06:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1735023443;
+	bh=SNH4I1aYLVRvyxMIWpO8H+OiNsIEteJedPisSBmZ4qI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=xbdqtSQePNPK01pFOeTP5xjDpIhH64jEV4vHedCaccttIzMtddIbZPu06ozSNnBIv
+	 mbbZhUcuPntaFYqSYKEKqvWqQz8mIGmsK9cHis9eCU6XFXQ1DstaSdhi+eGTlT8bgv
+	 aC681Z/sM5iMN/qx1l/r+PPP9s7/t+TlMGOclzpc=
+Date: Tue, 24 Dec 2024 07:56:38 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Pavan Holla <pholla@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v11 2/2] usb: typec: ucsi: Implement ChromeOS UCSI driver
+Message-ID: <2024122433-aids-varnish-8a5b@gregkh>
+References: <20241210144527.1657888-1-ukaszb@chromium.org>
+ <20241210144527.1657888-3-ukaszb@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] reboot: support runtime configuration of emergency
- hw_protection action
-To: Matti Vaittinen <mazziesaccount@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
- <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
- chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
- kernel@pengutronix.de, Matteo Croce <mcroce@microsoft.com>
-References: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
- <dc8d1cdf-dff4-48fc-a03d-aeab9be22e44@gmail.com>
-Content-Language: en-US
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <dc8d1cdf-dff4-48fc-a03d-aeab9be22e44@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+In-Reply-To: <20241210144527.1657888-3-ukaszb@chromium.org>
 
-Hello Matti,
-
-On 22.12.24 10:38, Matti Vaittinen wrote:
-> On 19/12/2024 09:31, Ahmad Fatoum wrote:
->> We currently leave the decision of whether to shutdown or reboot to
->> protect hardware in an emergency situation to the individual drivers.
->>
->> This works out in some cases, where the driver detecting the critical
->> failure has inside knowledge: It binds to the system management controller
->> for example or is guided by hardware description that defines what to do.
->>
->> This is inadequate in the general case though as a driver reporting e.g.
->> an imminent power failure can't know whether a shutdown or a reboot would
->> be more appropriate for a given hardware platform.
+On Tue, Dec 10, 2024 at 02:45:27PM +0000, Łukasz Bartosik wrote:
+> From: Pavan Holla <pholla@chromium.org>
 > 
-> Sometimes it can. There are platforms where the hardware is such we know that poweroff or reboot are the way to go. In such case the driver should get the information from the hardware description (like device-tree).
-
-Sure, the thermal framework for example has a device tree property that
-tells it what the critical action should be. This continues to work as
-before, but this series adjust only the default behavior when that device
-tree property is missing.
-
->> To address this, this series adds a hw_protection kernel parameter and
->> sysfs toggle that can be used to change the action from the shutdown
->> default to reboot. A new hw_protection_trigger API then makes use of
->> this default action.
->>
->> My particular use case is unattended embedded systems that don't
->> have support for shutdown and that power on automatically when power is
->> supplied:
->>
->>    - A brief power cycle gets detected by the driver
->>    - The kernel powers down the system and SoC goes into shutdown mode
->>    - Power is restored
->>    - The system remains oblivious to the restored power
+> Implementation of a UCSI transport driver for ChromeOS.
+> This driver will be loaded if the ChromeOS EC implements a PPM.
 > 
-> This sounds like a consequence of a hardware design as restoring the power doesn't wake up the SoC(?)
+> Signed-off-by: Pavan Holla <pholla@chromium.org>
+> Co-developed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> Co-developed-by: Łukasz Bartosik <ukaszb@chromium.org>
+> Signed-off-by: Łukasz Bartosik <ukaszb@chromium.org>
+> ---
+>  MAINTAINERS                           |   7 +
+>  drivers/usb/typec/ucsi/Kconfig        |  13 +
+>  drivers/usb/typec/ucsi/Makefile       |   1 +
+>  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 337 ++++++++++++++++++++++++++
 
-There are two thresholds involved: One when the regulator first reports imminent
-voltage loss and the kernel does something about it and one when the capacitor
-have been depleted enough that the CPU is powered off.
+Given all of the 0-day reports I now have in my inbox for this driver,
+I'm going to drop this series from my tree.  Chromium developers, please
+do better testing, these are simple build issues that you all should
+have caught way before version 11 of the driver :(
 
-With short voltage glitches (or big enough capacitors), I run into the situation,
-where the kernel gets a voltage loss interrupt, goes into shutdown, but voltage
-is restored before the CPU is actually powered off. As the system isn't designed
-for shutdown anyway, there is no mechanism to wake up from it and we need to
-hard power cycle the device.
+thanks,
 
->>    - System needs to be manually power cycled for a duration long enough
->>      to drain the capacitors
->>
->> With this series, such systems can configure the kernel with
->> hw_protection=reboot to have the boot firmware worry about critical
->> conditions.
-> 
-> I am not against the change though. Just wondering if this is still a consequence of the hardware design, and if the device-tree would be proper place to indicate that poweroff shouldn't be used.
-
-I considered this initially: add a device tree property for regulators, like there's
-already for thermal zones. But I concluded that that this is a system-wide decision
-and should be decided on at a system-wide level. We already have a
-reboot=[warm,cold,...etc.] parameter, so this fits right in and it allows configuring
-this also for non-DT platforms.
-
-> I'm about to leave my computer behind for holidays, so I am probably not able to do a proper review until the next year. Thus this quick comment :) Also, no strong opinion so I'm not expecting anyone to hold back waiting for me!
-
-Thanks and wishing you happy holidays as well.
-
-Cheers,
-Ahmad
-
-> 
-> Good luck and happy holidays!
-> -- Matti
-> 
->> ---
->> Ahmad Fatoum (11):
->>        reboot: replace __hw_protection_shutdown bool action parameter with an enum
->>        reboot: reboot, not shutdown, on hw_protection_reboot timeout
->>        docs: thermal: sync hardware protection doc with code
->>        reboot: rename now misleading hw_protection symbols
->>        reboot: indicate whether it is a HARDWARE PROTECTION reboot or shutdown
->>        reboot: add support for configuring emergency hardware protection action
->>        regulator: allow user configuration of hardware protection action
->>        platform/chrome: cros_ec_lpc: prepare for hw_protection_shutdown removal
->>        dt-bindings: thermal: give OS some leeway in absence of critical-action
->>        thermal: core: allow user configuration of hardware protection action
->>        reboot: retire hw_protection_reboot and hw_protection_shutdown helpers
->>
->>   Documentation/ABI/testing/sysfs-kernel-reboot      |   8 ++
->>   Documentation/admin-guide/kernel-parameters.txt    |   6 +
->>   .../devicetree/bindings/thermal/thermal-zones.yaml |   5 +-
->>   Documentation/driver-api/thermal/sysfs-api.rst     |  25 +++--
->>   drivers/platform/chrome/cros_ec_lpc.c              |   2 +-
->>   drivers/regulator/core.c                           |   4 +-
->>   drivers/regulator/irq_helpers.c                    |  16 +--
->>   drivers/thermal/thermal_core.c                     |  17 +--
->>   drivers/thermal/thermal_core.h                     |   1 +
->>   drivers/thermal/thermal_of.c                       |   7 +-
->>   include/linux/reboot.h                             |  25 +++--
->>   include/uapi/linux/capability.h                    |   1 +
->>   kernel/reboot.c                                    | 122 ++++++++++++++++-----
->>   13 files changed, 173 insertions(+), 66 deletions(-)
->> ---
->> base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
->> change-id: 20241218-hw_protection-reboot-96953493726a
->>
->> Best regards,
-> 
-> 
-
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+greg k-h

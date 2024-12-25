@@ -1,88 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6196AD4B;
-	Wed, 25 Dec 2024 02:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CCD632;
+	Wed, 25 Dec 2024 02:42:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735094447; cv=none; b=MJIUItX4hh3S4zgU2eii6k3ivbA2bwsmL//pD9icQOn8w87MovGbf4PelD90ctRn0XaxINTDUnKMWWlE5FmBcVmdfsg8ZTzCMRyPJsbYr70ByIb6KV71FiRd+mcQ+ocFDqd0sOIYiYMiEddCDsRIkRiaBi5kniMwJaU6hQoPUmg=
+	t=1735094521; cv=none; b=TLLlkLTo8y3Pafn7nJ5w8MgxrM2hz22Ra3pGYcVBRKxI0MhMuogIldUIoiB0D0+Kiqi8u7/v3OgdXQf3mafeaXkTc6m2uuj3K9cjcQvwaEGTFH7KmKh2VlwGZb7LO4b5zcWN1txOsVH5VjR2GuLlZqTSf1HGt9SOlpVrU096hJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735094447; c=relaxed/simple;
-	bh=Z7mFVKKRTAydm/tADPT5ar6T4gYFMEUvMEEt3sg2ITM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qoeiQVrxOZz2zkNb25W6oKHMrUhrjZCDgZf6J+BX8QDoowdwffE0XOG3XfOPKYbj+j7j3lNtXJmnvEDtO2kl8Z+W2D4yXZUKp9CVc5kE1DpaPNrJO4Iqo+bjSr4VBZ27Ib/Dmzk6Xs4BmtfN2Y/L8dKr8BGXFGpc0qrlHaFx7XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMCNqVR7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735094521; c=relaxed/simple;
+	bh=fyLf3RASkCe2x0XKlRNqhZ0gTwHmNi/WjJCvj3hFC+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SmiEmiaUUvHLSzwJJNPYT2OVOcmGBg7fY2nl0VxI9RGBKk5kUi0uz5sxicNllYcs1i2FM4eXX8tNFRPTOumY4Lkwf1m4kOlEYR09QzwKDX3xLHAB87FJWdAwBKExglxqi7w9ZTmo7lPookCh25qIYgSRfWlYSJmFsodnVwqlQGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U4LtHHf/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMCNqVR7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 939EBC4CED0;
-	Wed, 25 Dec 2024 02:40:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U4LtHHf/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28938C4CEDC;
+	Wed, 25 Dec 2024 02:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735094446;
-	bh=Z7mFVKKRTAydm/tADPT5ar6T4gYFMEUvMEEt3sg2ITM=;
-	h=Date:From:To:Cc:Subject:From;
-	b=PMCNqVR7E4VeQfXx4y85ZS1BvqJMFVmajHxOxXqSllmiurkxOsoMKRpPIb7jz+XX9
-	 EX+uhQkFGvkDcvQUMv2UNb3nZzuUx/KW0cdRWrOurLLsj0zNKDY8qBVlvvZKPhhhzC
-	 P7g8c7o8shk++cBLy7YvWta/IkFa0zt6MYlRHU37V89t7gr1l3tPKR3rqeSqxcsd3d
-	 e+tuqQB7fXPpTvmRqT3XkqpK43jJa/23084nhfJq7AV8g8NbCSdr371b2J/4n7VYKP
-	 RaKUVBFRLSxy0DFUvCQzdnTjRXuOjUqKQoY+mz2Zr7s3j/J1DHDMuwYCGp5/3HbUvG
-	 HS4I/GG1TkpPQ==
-Date: Wed, 25 Dec 2024 02:40:43 +0000
+	s=k20201202; t=1735094520;
+	bh=fyLf3RASkCe2x0XKlRNqhZ0gTwHmNi/WjJCvj3hFC+8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U4LtHHf/u6YAJ9HmGqERoIx5KcV7eX4dpjO4r7zd8JHJ4byecIxkS3kEEUU3w90k0
+	 y7QzfWcjzDnyMZ4XES4q536tz+FKJa2KcZgbdAGvFFLuaFnnIAHVZ9y7km6I4znC1T
+	 zv+RchV3pU1Ld0KBJyHvqMd61jsdsN/cwqgd33qruV/pdtUZNG642yMNTHO79THMPC
+	 o2ottKNdiIgatxUBDwrXua6e1IagyQhAEE7cqnWiWYY9uKXEwXZJZDLu6B62AwDFuB
+	 d368hM+rltZPwqyhLx6LOBbs55z6y1uLdtE5og+Muhuf51l4sQulzq34xmN2RcZELf
+	 a7cEeAnBa5lqQ==
+Date: Wed, 25 Dec 2024 02:41:57 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: tzungbi@kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, bleung@chromium.org
-Subject: [GIT PULL] chrome-platform fixes for v6.13-rc5
-Message-ID: <Z2twq2LlnCfYQPAc@google.com>
+To: "Dustin L. Howett" <dustin@howett.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Alexandru M Stan <ams@frame.work>, linux@frame.work,
+	stable@vger.kernel.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: fix product identity for
+ early Framework Laptops
+Message-ID: <Z2tw9REoq5rbpv6S@google.com>
+References: <20241224-platform-chrome-cros_ec_lpc-fix-product-identity-for-early-framework-laptops-v1-1-0d31d6e1d22c@howett.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6Xxe2bfK/gCTWSgc"
-Content-Disposition: inline
-
-
---6Xxe2bfK/gCTWSgc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241224-platform-chrome-cros_ec_lpc-fix-product-identity-for-early-framework-laptops-v1-1-0d31d6e1d22c@howett.net>
 
-The following changes since commit ea45f3f46734a47bdbcfb31f41748484219d2ea6:
+On Tue, Dec 24, 2024 at 12:55:58PM -0600, Dustin L. Howett wrote:
+> The product names for the Framework Laptop (12th and 13th Generation
+> Intel Core) are incorrect as of 62be134abf42.
+> 
+> [...]
 
-  platform/chrome: Switch back to struct platform_driver::remove() (2024-10-28 08:48:34 +0000)
+Applied to
 
-are available in the Git repository at:
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-for-6.13-rc5
+[1/1] platform/chrome: cros_ec_lpc: fix product identity for early Framework Laptops
+      commit: dcd59d0d7d51b2a4b768fc132b0d74a97dfd6d6a
 
-for you to fetch changes up to dcd59d0d7d51b2a4b768fc132b0d74a97dfd6d6a:
-
-  platform/chrome: cros_ec_lpc: fix product identity for early Framework Laptops (2024-12-25 01:47:35 +0000)
-
-----------------------------------------------------------------
-chrome platform changes for 6.13-rc5
-
-* Fixes
-
-  - Fix wrong product names for early Framework Laptops.
-
-----------------------------------------------------------------
-Dustin L. Howett (1):
-      platform/chrome: cros_ec_lpc: fix product identity for early Framework Laptops
-
- drivers/platform/chrome/cros_ec_lpc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---6Xxe2bfK/gCTWSgc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCZ2twqAAKCRArxTEGBto8
-9Gk1AQDnpzidYSFWtBVB423iTyffYnclfvPMScFEyP+XUYHLYQEAgY0IxXnuGCD7
-F8K4oBTAXfG6hnzaskIhrUhLRMty9go=
-=Z+Zc
------END PGP SIGNATURE-----
-
---6Xxe2bfK/gCTWSgc--
+Thanks!

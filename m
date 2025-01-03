@@ -1,64 +1,65 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BEDD528
-	for <chrome-platform@lists.linux.dev>; Thu,  2 Jan 2025 21:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDC417C64
+	for <chrome-platform@lists.linux.dev>; Fri,  3 Jan 2025 00:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735851903; cv=none; b=DqadxY2tNhE0ARzxHEMcv+Xw6LNPSBHGVYLDQFcs1nx8eNiDCvIzyHMfPvh3MsZJy3hbnKh4EZDiW/YMax/sISyiAcXdZrYMt6nc7w8n249AsIqCChlXOz30wi9oe24wLvg8PEzlIiSiSCC9WVwN0Jw7xEegVio7vfb5wGQ+o6g=
+	t=1735863601; cv=none; b=Kq57MDNacUbt8oKZUW/jH6Ifn+iDRbGUJ/h2AhnNLVl6XOd6yiLC604YFYP2JOMj7y64++Y0sWIBQAnGMUGzCbPhFejs9yZq092Yw7B/W9kBZ1IWXWwTXt56WMytpL3XGYazrH1uDrKq/kz+ZYtN8T9L5x7q/24zn5GtvVZrEXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735851903; c=relaxed/simple;
-	bh=5zQdK13xtrCKDK9xGESW4BfJFPD/Ar1U64fYytvJ8OU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=czmeOCvMGJovmZjcca1B82F56MbZaX3gy29NSoEzaO8oqVGFM40oQDIfuk8H/jh2/y6UYb5pC5b/fYt2p8qr3XEmCPTEdZVf3mqnBp+U0Fyxl5+Fc+sO1yDHLfmiYLY6Pvpn+0N1nn1ODTJIY3XdTFb7plnHzl52w1HcuEyEgdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RyfEW49Q; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1735863601; c=relaxed/simple;
+	bh=VTARsa9ubT9Gq+CnQmSNnlK5085LoIO8r5GRwz16lWU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hOWX88mShv38ZHzAaQ65mR1RJkuxkAYZAh630wu/+OjyM9SwCl2R1idu04Xj11ATSwQdA8q0a71IrG8lLyeJvuwcLYKcjTrgAdOa5Kr7gyjfmr0FTsRGwJqJ54T2iwHDYOmIrClhpbfPN0opzzYqf9LNHT9bhgM0smhTE7jb2DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZQXuNxIT; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RyfEW49Q"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2161eb95317so165401915ad.1
-        for <chrome-platform@lists.linux.dev>; Thu, 02 Jan 2025 13:05:01 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZQXuNxIT"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ee989553c1so16206752a91.3
+        for <chrome-platform@lists.linux.dev>; Thu, 02 Jan 2025 16:19:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1735851901; x=1736456701; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1735863599; x=1736468399; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C+QJbavX7HdDfHFe53DpWiA/pVYzEokj+ijuptplxbY=;
-        b=RyfEW49QWHE0BQaDEVX95GDI6Paao34TI+7hVpHVrRufG/dSb34QnNzqWQNMXrDh4B
-         sGekpZfbb/hSv7efDJN1aJaOItWBkKILP25UBwiyZUGrc5PmP0bdPzD2phBGxWAW/f6M
-         mYORteOS5Of6AJp0VoaDkcM6wFzkcgflKPMoI=
+        bh=Ga/+oqzxTMrr1K+wxhfOHEFNCM6WEaRf7ZhNpOKGkRE=;
+        b=ZQXuNxITZnAH4nMfzcFcy+s8MM7s9MxFqaCz8PNlE/4vg9Rg8PQP1ADKVaT8zdalRZ
+         sT31+SLQaLFB7UgLJhVZMpxVPfpTKIVONOH1YkaYH+MbxXI8aFccpcVNox7laZ37mSW+
+         3k501hqIsXihuSXK1+6ENQqZny6bctvCjcEeE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735851901; x=1736456701;
+        d=1e100.net; s=20230601; t=1735863599; x=1736468399;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C+QJbavX7HdDfHFe53DpWiA/pVYzEokj+ijuptplxbY=;
-        b=KbSj+afPGsDfmUb8y4CaKhhC+p/7yIhCh2AwvKb0HZfqY4sB1lF2ZJy6z/4fZIWPvC
-         pjqIMj2lDeOthtZX63bl2xxTuoC9ldBdDgQ0x2QSwIUVVr1AOIc+EE+AwO80wwlAgFvS
-         P4zAR45hmTq3NJtV0/6abvQ8AyMH7etxbqaP10ga3sSV0YMfdrDBqXDBOEIezrnjx//u
-         hszSDkmfn17rbRAnh6fRxFvpb8jYM+d+Ow/Phtfzw8TrN9dulfforOItNIFOsskdKFgM
-         OFToXKOTeX98Obn7MMkGNuAmRF9/dkl/9YUu0nhhhoyI7Dcdv+1g+q/iWXhFUKR8wGpp
-         mupg==
-X-Gm-Message-State: AOJu0Ywknn+VreYcRW9t0pMOFJiK7plqv/Xl5+0cqZQjuHsZ1KoeEs4Q
-	bkuBJPPkkIYtOmKUUEHPmyYh81dCxESoUH6ZE8KdUMXxhClfqtiVK6mqfzm/Tg==
-X-Gm-Gg: ASbGncv5lSPpvT6EoWtErQMr2fHYuGlwzpMvNqpOnA10CUXab2vsM9Tuc4rjSkNTMEq
-	MfyXe0hOLal+YQaJpQfwIu2uu5hGykv5BX91co186NZGHhBYNzYCRjSPkoty+mzcRQ7NUtlN3Di
-	k1GfYIsItqcK4yoXcvvPJWHSNu/lxta7a7/ubW8yYP62ND2+Zz1RKjHtPPFoiyDyez+gozpKBBT
-	4Dbq2ri1eFP3By/nQd+lfqBlErVGYycnwihp20LDTu4sWEGNBRFpAYz
-X-Google-Smtp-Source: AGHT+IFeVIuWpD+bU/N/5lsp5Npf6SscW4FsNkIABUkoJa1UsIzVQZxQEh//J3q9swwxxfUw3FN7EQ==
-X-Received: by 2002:a05:6a00:600c:b0:71e:16b3:e5dc with SMTP id d2e1a72fcca58-72abde84e5cmr67424044b3a.19.1735851901295;
-        Thu, 02 Jan 2025 13:05:01 -0800 (PST)
+        bh=Ga/+oqzxTMrr1K+wxhfOHEFNCM6WEaRf7ZhNpOKGkRE=;
+        b=ll6IcHNO+dt3h1IRHmObDrHEMuHOS1YurQsukgMOMhLeXebHttQD+2BskJpX2qRrLa
+         MHZPwlXINHzx41+1T8Yip+vdwrR9z4Bv/kAeJkVlr5kFPU/jrsuJRjJY6dBdfiNzcxSq
+         2aTQ4LZt5Ww+FL64kqHqRerq+jXVquDCvIYDytcn25hHK43hBJiWLCa6PXbMqu50xGxP
+         hrvWROMJSFQdWFktITKCiCUg+AkyAXd8ai8vPgL6wQ5QiQJEn25gDFr5dOq+CTYp8hHJ
+         oAUj8dy5VnjcWtcd14zqUoGaiYOoZ5RbtqYFlbkb+Y6wUK6ZGWTlbF/Clj98tIL4eAqh
+         CGmw==
+X-Gm-Message-State: AOJu0Yz7CTDT+F5YsF5LxiC8BkUZbL2ITQAQ2K1igOesXmhVuvm0+met
+	9R25PsloHVX9ysgNsqkLm4gsNt6jywJjTL4bH3fFnxWW37myHBNgXf4GYmsNuw==
+X-Gm-Gg: ASbGnct5m/X20RCVAt1ctkbfVjpbbKNLBkoTJdYTH5ofGctBMJXuy5ZiVT2BbYTQyHu
+	65Ty2Ls+Ti6Am+FFhfo2Uqtv5Jy9sJ3DpBiol/23XYuMEjL/SBXV989DTcz5tVRVZXmzlArPQTH
+	Lfv5VuxZh1NGRVY9PlU2X9zF2umQKqR5k+DqUoAwCUOYkKZIfNqvx7UP9kWo2RGgDFx07/1avYB
+	30VyYPYBM8WKLrHF3vPhetUi/enAVdgzikqvljfCF8Q3I4yxp8ZWCTG
+X-Google-Smtp-Source: AGHT+IGNK5e2xpbknJWXafMRqS2yyJfwimoKv+yG6dzOE4d8dPOc80W3o+HEL2fSBKYuIWwK0vb23Q==
+X-Received: by 2002:a05:6a00:944b:b0:72a:aa0f:c86e with SMTP id d2e1a72fcca58-72abdd20f48mr61878725b3a.4.1735863599284;
+        Thu, 02 Jan 2025 16:19:59 -0800 (PST)
 Received: from localhost ([100.107.238.250])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-72aad8fbac8sm24877169b3a.159.2025.01.02.13.05.00
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-72aad8360fbsm25043613b3a.75.2025.01.02.16.19.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jan 2025 13:05:00 -0800 (PST)
+        Thu, 02 Jan 2025 16:19:58 -0800 (PST)
 From: Gwendal Grignou <gwendal@chromium.org>
-To: bleung@chromium.org
+To: bleung@chromium.org,
+	tzungbi@kernel.org
 Cc: chrome-platform@lists.linux.dev,
-	dnojiri@chromium.org,
-	utkarsh.h.patel@intel.com,
+	dustin@howett.net,
+	ben@jubnut.com,
 	Gwendal Grignou <gwendal@chromium.org>
-Subject: [PATCH] platform/chrome: Update chromeos EC command tracing
-Date: Thu,  2 Jan 2025 13:04:56 -0800
-Message-ID: <20250102210456.2399245-1-gwendal@chromium.org>
+Subject: [PATCH 0/2] Add support for IO memory mapped EC
+Date: Thu,  2 Jan 2025 16:19:48 -0800
+Message-ID: <20250103001950.2868856-1-gwendal@chromium.org>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -68,67 +69,23 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Mechanically update tracing with new command:
-sed -n 's/^#define \(EC_CMD_[[:alnum:]_]*\)\s.*/\tTRACE_SYMBOL(\1),
-\\/p'
-include/linux/platform_data/cros_ec_commands.h
+Some EC - Realtek - have their register IO mapped by the BIOS -
+coreboot. They are not using the well know io register.
 
-Fixes: 425d20518c54 ("media: cros-ec-cec: Support receiving messages from multiple ports")
-Fixes: 5d227f02ceb9 ("media: cros-ec-cec: Get number of CEC ports from EC")
-Fixes: 56d629af09b9 ("power: supply: PCHG: Peripheral device charger")
-Fixes: 845301001308 ("power: supply: PCHG: Use MKBP for device event handling")
-Fixes: cd2c40ff90b0 ("platform/chrome: cros_ec: Import Type C host commands")
-Fixes: b64afd949ee3 ("platform/chrome: cros_ec: Import Type C control command")
-Fixes: 0e0dba884c43 ("platform_chrome: cros_ec: Add Type-C VDM defines")
-Fixes: 8553a979fcd0 ("platform/chrome: cros_ec_typec: Send mux configuration acknowledgment to EC")
+The memory mapping information is retrieved through the ACPI CRS
+resource, and is used to access the registers.
 
-Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
----
- drivers/platform/chrome/cros_ec_trace.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+To ease the support of these ECs, the global structure and accessor
+funcions are now aware of the EC device private structure.
 
-diff --git a/drivers/platform/chrome/cros_ec_trace.c b/drivers/platform/chrome/cros_ec_trace.c
-index 425e9441b7ca5..9827b3117597c 100644
---- a/drivers/platform/chrome/cros_ec_trace.c
-+++ b/drivers/platform/chrome/cros_ec_trace.c
-@@ -122,8 +122,10 @@
- 	TRACE_SYMBOL(EC_CMD_ENTERING_MODE), \
- 	TRACE_SYMBOL(EC_CMD_I2C_PASSTHRU_PROTECT), \
- 	TRACE_SYMBOL(EC_CMD_CEC_WRITE_MSG), \
-+	TRACE_SYMBOL(EC_CMD_CEC_READ_MSG), \
- 	TRACE_SYMBOL(EC_CMD_CEC_SET), \
- 	TRACE_SYMBOL(EC_CMD_CEC_GET), \
-+	TRACE_SYMBOL(EC_CMD_CEC_PORT_COUNT), \
- 	TRACE_SYMBOL(EC_CMD_EC_CODEC), \
- 	TRACE_SYMBOL(EC_CMD_EC_CODEC_DMIC), \
- 	TRACE_SYMBOL(EC_CMD_EC_CODEC_I2S_RX), \
-@@ -161,11 +163,18 @@
- 	TRACE_SYMBOL(EC_CMD_ADC_READ), \
- 	TRACE_SYMBOL(EC_CMD_ROLLBACK_INFO), \
- 	TRACE_SYMBOL(EC_CMD_AP_RESET), \
-+	TRACE_SYMBOL(EC_CMD_PCHG_COUNT), \
-+	TRACE_SYMBOL(EC_CMD_PCHG), \
-+	TRACE_SYMBOL(EC_CMD_PCHG_UPDATE), \
- 	TRACE_SYMBOL(EC_CMD_REGULATOR_GET_INFO), \
- 	TRACE_SYMBOL(EC_CMD_REGULATOR_ENABLE), \
- 	TRACE_SYMBOL(EC_CMD_REGULATOR_IS_ENABLED), \
- 	TRACE_SYMBOL(EC_CMD_REGULATOR_SET_VOLTAGE), \
- 	TRACE_SYMBOL(EC_CMD_REGULATOR_GET_VOLTAGE), \
-+	TRACE_SYMBOL(EC_CMD_TYPEC_DISCOVERY), \
-+	TRACE_SYMBOL(EC_CMD_TYPEC_CONTROL), \
-+	TRACE_SYMBOL(EC_CMD_TYPEC_STATUS), \
-+	TRACE_SYMBOL(EC_CMD_TYPEC_VDM_RESPONSE), \
- 	TRACE_SYMBOL(EC_CMD_CR51_BASE), \
- 	TRACE_SYMBOL(EC_CMD_CR51_LAST), \
- 	TRACE_SYMBOL(EC_CMD_FP_PASSTHRU), \
-@@ -184,6 +193,7 @@
- 	TRACE_SYMBOL(EC_CMD_BATTERY_GET_STATIC), \
- 	TRACE_SYMBOL(EC_CMD_BATTERY_GET_DYNAMIC), \
- 	TRACE_SYMBOL(EC_CMD_CHARGER_CONTROL), \
-+	TRACE_SYMBOL(EC_CMD_USB_PD_MUX_ACK), \
- 	TRACE_SYMBOL(EC_CMD_BOARD_SPECIFIC_BASE), \
- 	TRACE_SYMBOL(EC_CMD_BOARD_SPECIFIC_LAST)
- 
+Gwendal Grignou (2):
+  platform/chrome: cros_ec_lpc: Merge lpc_driver_ops into ec private
+    structure
+  platform/chrome: Add Support for direct EC register memory access
+
+ drivers/platform/chrome/cros_ec_lpc.c | 208 ++++++++++++++++++--------
+ 1 file changed, 144 insertions(+), 64 deletions(-)
+
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 

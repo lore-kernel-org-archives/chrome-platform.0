@@ -1,58 +1,57 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D827C7462
-	for <chrome-platform@lists.linux.dev>; Fri,  3 Jan 2025 00:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3908C13C
+	for <chrome-platform@lists.linux.dev>; Fri,  3 Jan 2025 00:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735863603; cv=none; b=S3aHo+W0G10Bsto2Uw1E7JJWnh7+EYnzkALSYlf1dLFApEv/Phd9mE+X0oDsUm2n6031xbMrZcb8ursvH0AIUbiqALHzEQWl9YR5XctoLOM+dh3LA9gUz3Gz1GytAVi3uAb+BEVkyISTV7L28lEaTsud9xWbrMZ4T6poOIq9J6w=
+	t=1735863605; cv=none; b=kwS4CD/jb6UYprzVsgXIkm5ucjzy/Tvbzm0NB+izUDSfCWVY+GXW+DtyqxjC2H7QHGwREDP1ZPzOGEFaJgcir6Whm6WsuJyuKfxalMRdZm/cDo042ZrQC9j4OEvd6j38bBtRGMyABLIx2aWCsM69Nm8B2vlSAMafHCQFwkyyKtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735863603; c=relaxed/simple;
-	bh=9+PMwJSBtbnRrdRKqOI9qUKTn77JVMXc32NdS+uEUdA=;
+	s=arc-20240116; t=1735863605; c=relaxed/simple;
+	bh=i5FQTLzkcb7SSf1q+bmtqH8VA0AC5WxhrA8sdIO6+34=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lV7UvfcO2Bjwmx5HV6TZ6CgfkBlETe9xiYny6du0Lrq51/vCzu7E1KYoiOxdGTJj4wzuX+NaNZEAUHjmOwqhRZe0ntvjrRb2Z3KES8v89CbfRJCOn4U0xVFkNU0AXlZ4jbeKy1EgxVySFoqATALPmKUFQKHZOdJ040gW1njckVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Zab1aAeV; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=jdBuDYA+1lhCy6zdoETC8TIfMzRidBuYJqE03oqmKYcZV7bxaxYMQVijK3VNXA9WvLjc9Imui/UUBzfvBYYuEFEgxVxVYVDqX6CKxNmWb9+bfPV5Om9QKvIsJjCWFdp6aNtr5Z09y++LDWqSwCblI0NUPUG2udyqCAEcHMupwiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nrJLTQKo; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Zab1aAeV"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2167141dfa1so159209825ad.1
-        for <chrome-platform@lists.linux.dev>; Thu, 02 Jan 2025 16:20:01 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nrJLTQKo"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2163b0c09afso159774895ad.0
+        for <chrome-platform@lists.linux.dev>; Thu, 02 Jan 2025 16:20:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1735863601; x=1736468401; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1735863603; x=1736468403; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0wCFJmLXYWEqPRvXDCw0V2SKlwrC4S5tpHK9yiJ7wgw=;
-        b=Zab1aAeVK6p8PaLXxwwkRDYinasQyFFwhDN5/T29JPxw79lM15dQhWnlYnfdthtwNP
-         HSMBw7odPToH2OFK6LRmirVXr2MtEJCbyrsdd/EdY62inqArd62U42kDhbigXXLoX5bd
-         Proy0BWnkZ2e7NM88fJ4vtbyUzSmly1yhx17U=
+        bh=sk9hY9rH2n06O5wo6tT+bI+cPFtrNVFPmDit0J2GDo0=;
+        b=nrJLTQKoFuGmGXmV1eLNc1kGgoO1eMbLDkAVpIowiCZIJmDiAvVDC0sClqksLXndN+
+         liGjgipevL+UCdIdP7VnnMW/OkAhAp90yurABZmN/ijJfkeolOECCg/C9XLwHiwFzPAk
+         Zt9rnNqWX13QpAOixHOmbC5lzxML57tLvUEb8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735863601; x=1736468401;
+        d=1e100.net; s=20230601; t=1735863603; x=1736468403;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0wCFJmLXYWEqPRvXDCw0V2SKlwrC4S5tpHK9yiJ7wgw=;
-        b=btrLmIj6SIAtWHAvwBC6l0pl8w1vo3bNkdbrbk6ix5EIRMTX91DmqrN70Q+FPRRAG/
-         L0/WGoKUY20PAH4FjWDFp7AmNJOXIE+9Z7gNkcOl9A+TEgbq0T4NP75qiU1stCovuC7b
-         JV1TixclEizbSijeTVrOi11vwKHSy6Lqf6mddqscadC2Db+mHqQX5feeL/crnz8urBgQ
-         ooFMKJ19C8chmKDWxlvnXan/VTPU1HjZqElifexstQwE35SrRY5Q6JRYr3YofegWVSCM
-         DqPZDg6x38Yh+MlY6DzDeW0YBdjTfUv+KpCZl18DsKgQBG2hYtiMZU7luTdZFRI+v7PG
-         /LoA==
-X-Gm-Message-State: AOJu0Yw91Ol98AjE1I8RN+7avJhwedbI4FBKUz2TjvW85uxSnvKIksFo
-	xRqn2UwxjMYP4piHdkO6E/VxO+F3afdY/rGL25C31IY+1dzRESAZvcwtNHMJSqtNzk3k+O35/yo
-	=
-X-Gm-Gg: ASbGncuDVVUpaiZNNR0flpR06f+Yh7MaxDRGCWHyQiKfWIhdYoER170OKjaVucRnnfL
-	WT1atsm3VYtHHEkkRqJhwYJGRqyFGSMyGICtOv61NiVjMkUKXpX2FfzfUyNuKVjwkro3MgCuLpb
-	+0cRGzh57MJpeZFo4HPd51FMAPArDsOAwCdhZKlSP8CUdg4UmryA/X0peEham4aOaKh2FNkEOpE
-	BM+QxOoJOvYweqZrKViRRIVHApKykbWgf0oeq8vRhke3ET6YsZyt411
-X-Google-Smtp-Source: AGHT+IH8VacYW85t/eI0YVdzbqyICzlUH0qhTdxcX97bhGg8UPYrbM3l7gOzNX/RQfRaIyUgaQBE4A==
-X-Received: by 2002:a17:902:ecd2:b0:215:58be:334e with SMTP id d9443c01a7336-219e6ccdcecmr578891065ad.10.1735863601087;
-        Thu, 02 Jan 2025 16:20:01 -0800 (PST)
+        bh=sk9hY9rH2n06O5wo6tT+bI+cPFtrNVFPmDit0J2GDo0=;
+        b=hPjnA9kKni5cOv8m4jOfyD52UTDp2sYHSZStVPilwTBMIo7kJrOa7DEYV0rCU4F96h
+         uCeJSfGFVHSpq3sHlxSl6RmLNon29WdjmIiaYfILMYGYiwfhTX2NSfqGkYPOT1lZFyQd
+         E6v8nEUkiuFIwQYkEvh/sRQWBFS75Huye2IeuGyPZiRk2lUy01U1Bu0wqIJMHVEttU3G
+         s+6KUTCeVlOJDbeVGL6df1wM3Y9SFxycjQiKRKjjim0exrSrbztzAPkc2ogm8NJtuAim
+         Ms8jzTPCnZG7qX882Y98+O8MZfMMCR8eC3TDc49Xr4/QTl0gxdcVdvUWwFUqKxm9t/54
+         gpXg==
+X-Gm-Message-State: AOJu0Yx7crfJBLZu8k/CQuN+p9gDTHMSaE3L20NxNnGCrCL8ozbqD4Q5
+	2iyPROJbnED6ntTpfP8ojKGOzJ6Xt10KOb8MvlpOLs6iYg0qLssO89vVfN83Cw==
+X-Gm-Gg: ASbGncvhY6x100/HMnFdnpuadUqA9KkdV7d2tizAD2zMD+7gth6iPSezYLKjxle2kuZ
+	dzMS8uWhaYQ0D8UdgOLOoxXZagy+Oel7FWpzTpRTHw/JVU0e06CkkFeQTuRJ6MHTSRKz32mLJ1i
+	CmrE9Wel464Reu8PDyszeyLehhuwdZSJs4o+Q0W7qxHLxxUnwKBdpiVO4L9lIWfzFhlCuCJ97z/
+	vreO3luKwL4ig6x4L5PAfO87Hc4gRePNz/R5jUg1t7O+UtqEAMGYExa
+X-Google-Smtp-Source: AGHT+IFB8h0/Qe7HJkmyHnbznkIhFRPxVPqBeH6xvd9DuRBI0nFmDthNZBUW86f1yKwstPKKa+RhcA==
+X-Received: by 2002:a17:903:2c6:b0:216:2a36:5b2a with SMTP id d9443c01a7336-219e6f25e3bmr715929785ad.47.1735863602982;
+        Thu, 02 Jan 2025 16:20:02 -0800 (PST)
 Received: from localhost ([100.107.238.250])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-219dc970520sm234545355ad.75.2025.01.02.16.20.00
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-219dc9f4fbcsm233992945ad.174.2025.01.02.16.20.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jan 2025 16:20:00 -0800 (PST)
+        Thu, 02 Jan 2025 16:20:02 -0800 (PST)
 From: Gwendal Grignou <gwendal@chromium.org>
 To: bleung@chromium.org,
 	tzungbi@kernel.org
@@ -60,9 +59,9 @@ Cc: chrome-platform@lists.linux.dev,
 	dustin@howett.net,
 	ben@jubnut.com,
 	Gwendal Grignou <gwendal@chromium.org>
-Subject: [PATCH 1/2] platform/chrome: cros_ec_lpc: Merge lpc_driver_ops into ec private structure
-Date: Thu,  2 Jan 2025 16:19:49 -0800
-Message-ID: <20250103001950.2868856-2-gwendal@chromium.org>
+Subject: [PATCH 2/2] platform/chrome: Add Support for direct EC register memory access
+Date: Thu,  2 Jan 2025 16:19:50 -0800
+Message-ID: <20250103001950.2868856-3-gwendal@chromium.org>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
 In-Reply-To: <20250103001950.2868856-1-gwendal@chromium.org>
 References: <20250103001950.2868856-1-gwendal@chromium.org>
@@ -74,302 +73,222 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove cros_ec_lpc_ops global variable, since EC specific info can be
-stored in the device private structure, introduced in
-commit e4dbf9d65e4218 ("platform/chrome: cros_ec_lpc: add a "quirks" system").
+Add support to access EC memory region HOST command and ACPI memory
+region directly.
 
-Add ec_lpc pointer to read/write function to be able to access ec
-specific data.
+The memory region comes from the CRS ACPI resource descriptor.
 
-MEC support still uses global variables.
+Able to communicate with the EC:
+```
+ ectool version
+...
+Build info:    brtk-0.0.0-df0ad93+ 2024-12-13 19:25:55 elmo@396-a1a
+```
+Coreboot must exposed the memory region:
+```
+cat /proc/iomem | grep GOOG0004
+    fe0b0000-fe0bffff : GOOG0004:00
+```
+Can observe the commands flowing between AP and EC:
+cd /sys/kernel/debug/tracing
+echo 1 > events/cros_ec/enable
+echo 1 > tracing_on
+cat trace_pipe
+     kworker/7:0-51      [007] .....   188.619393: cros_ec_request_start: version: 0, offset: 0, command: EC_CMD_CONSOLE_SNAPSHOT, outsize: 0, insize: 0
+     kworker/7:0-51      [007] .....   188.625656: cros_ec_request_done: version: 0, offset: 0, command: EC_CMD_CONSOLE_SNAPSHOT, outsize: 0, insize: 0, ec result: EC_RES_SUCCESS, retval: 0
+     kworker/7:0-51      [007] .....   188.625663: cros_ec_request_start: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248
+     kworker/7:0-51      [007] .....   188.635119: cros_ec_request_done: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248, ec result: EC_RES_SUCCESS, retval: 147
+     kworker/7:0-51      [007] .....   188.635130: cros_ec_request_start: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248
+     kworker/7:0-51      [007] .....   188.642764: cros_ec_request_done: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248, ec result: EC_RES_SUCCESS, retval: 0
+     timberslide-3755    [005] .....   188.643039: cros_ec_request_start: version: 0, offset: 0, command: EC_CMD_GET_UPTIME_INFO, outsize: 0, insize: 44
+     timberslide-3755    [006] .....   188.650876: cros_ec_request_done: version: 0, offset: 0, command: EC_CMD_GET_UPTIME_INFO, outsize: 0, insize: 44, ec result: EC_RES_SUCCESS, retval: 44
+     timberslide-3755    [006] .....   188.650912: cros_ec_request_start: version: 0, offset: 0, command: EC_CMD_GET_UPTIME_INFO, outsize: 0, insize: 44
+     timberslide-3755    [006] .....   188.657907: cros_ec_request_done: version: 0, offset: 0, command: EC_CMD_GET_UPTIME_INFO, outsize: 0, insize: 44, ec result: EC_RES_SUCCESS, retval: 44
+     kworker/7:0-51      [007] .....   198.858864: cros_ec_request_start: version: 0, offset: 0, command: EC_CMD_CONSOLE_SNAPSHOT, outsize: 0, insize: 0
+     kworker/7:0-51      [007] .....   198.866866: cros_ec_request_done: version: 0, offset: 0, command: EC_CMD_CONSOLE_SNAPSHOT, outsize: 0, insize: 0, ec result: EC_RES_SUCCESS, retval: 0
+     kworker/7:0-51      [007] .....   198.866882: cros_ec_request_start: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248
+     kworker/7:0-51      [007] .....   198.874414: cros_ec_request_done: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248, ec result: EC_RES_SUCCESS, retval: 0
 
 Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_lpc.c | 86 +++++++++++++--------------
- 1 file changed, 41 insertions(+), 45 deletions(-)
+ drivers/platform/chrome/cros_ec_lpc.c | 126 +++++++++++++++++++++-----
+ 1 file changed, 105 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index c559596a5e20b..413c969235a84 100644
+index 413c969235a84..342a488afa8a3 100644
 --- a/drivers/platform/chrome/cros_ec_lpc.c
 +++ b/drivers/platform/chrome/cros_ec_lpc.c
-@@ -70,13 +70,6 @@ struct lpc_driver_data {
+@@ -70,6 +70,8 @@ struct lpc_driver_data {
  /**
   * struct cros_ec_lpc - LPC device-specific data
   * @mmio_memory_base: The first I/O port addressing EC mapped memory.
-- */
--struct cros_ec_lpc {
--	u16 mmio_memory_base;
--};
--
--/**
-- * struct lpc_driver_ops - LPC driver operations
++ * @base: For EC supporting memory mapping, base address of the mapped region.
++ * @mem32: Information about the memory mapped register region, if present.
   * @read: Copy length bytes from EC address offset into buffer dest.
   *        Returns a negative error code on error, or the 8-bit checksum
   *        of all bytes read.
-@@ -84,18 +77,19 @@ struct cros_ec_lpc {
-  *         Returns a negative error code on error, or the 8-bit checksum
-  *         of all bytes written.
+@@ -79,6 +81,8 @@ struct lpc_driver_data {
   */
--struct lpc_driver_ops {
--	int (*read)(unsigned int offset, unsigned int length, u8 *dest);
--	int (*write)(unsigned int offset, unsigned int length, const u8 *msg);
-+struct cros_ec_lpc {
-+	u16 mmio_memory_base;
-+	int (*read)(struct cros_ec_lpc *ec_lpc, unsigned int offset,
-+		    unsigned int length, u8 *dest);
-+	int (*write)(struct cros_ec_lpc *ec_lpc, unsigned int offset,
-+		     unsigned int length, const u8 *msg);
- };
- 
--static struct lpc_driver_ops cros_ec_lpc_ops = { };
--
- /*
-  * A generic instance of the read function of struct lpc_driver_ops, used for
-  * the LPC EC.
-  */
--static int cros_ec_lpc_read_bytes(unsigned int offset, unsigned int length,
-+static int cros_ec_lpc_read_bytes(struct cros_ec_lpc *_, unsigned int offset, unsigned int length,
- 				  u8 *dest)
- {
- 	u8 sum = 0;
-@@ -114,7 +108,7 @@ static int cros_ec_lpc_read_bytes(unsigned int offset, unsigned int length,
-  * A generic instance of the write function of struct lpc_driver_ops, used for
-  * the LPC EC.
-  */
--static int cros_ec_lpc_write_bytes(unsigned int offset, unsigned int length,
-+static int cros_ec_lpc_write_bytes(struct cros_ec_lpc *_, unsigned int offset, unsigned int length,
- 				   const u8 *msg)
- {
- 	u8 sum = 0;
-@@ -133,8 +127,8 @@ static int cros_ec_lpc_write_bytes(unsigned int offset, unsigned int length,
-  * An instance of the read function of struct lpc_driver_ops, used for the
-  * MEC variant of LPC EC.
-  */
--static int cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
--				      u8 *dest)
-+static int cros_ec_lpc_mec_read_bytes(struct cros_ec_lpc *ec_lpc, unsigned int offset,
-+				      unsigned int length, u8 *dest)
- {
- 	int in_range = cros_ec_lpc_mec_in_range(offset, length);
- 
-@@ -145,15 +139,15 @@ static int cros_ec_lpc_mec_read_bytes(unsigned int offset, unsigned int length,
- 		cros_ec_lpc_io_bytes_mec(MEC_IO_READ,
- 					 offset - EC_HOST_CMD_REGION0,
- 					 length, dest) :
--		cros_ec_lpc_read_bytes(offset, length, dest);
-+		cros_ec_lpc_read_bytes(ec_lpc, offset, length, dest);
- }
- 
- /*
-  * An instance of the write function of struct lpc_driver_ops, used for the
-  * MEC variant of LPC EC.
-  */
--static int cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
--				       const u8 *msg)
-+static int cros_ec_lpc_mec_write_bytes(struct cros_ec_lpc *ec_lpc, unsigned int offset,
-+				       unsigned int length, const u8 *msg)
- {
- 	int in_range = cros_ec_lpc_mec_in_range(offset, length);
- 
-@@ -164,10 +158,11 @@ static int cros_ec_lpc_mec_write_bytes(unsigned int offset, unsigned int length,
- 		cros_ec_lpc_io_bytes_mec(MEC_IO_WRITE,
- 					 offset - EC_HOST_CMD_REGION0,
+ struct cros_ec_lpc {
+ 	u16 mmio_memory_base;
++	void __iomem *base;
++	struct acpi_resource_fixed_memory32 mem32;
+ 	int (*read)(struct cros_ec_lpc *ec_lpc, unsigned int offset,
+ 		    unsigned int length, u8 *dest);
+ 	int (*write)(struct cros_ec_lpc *ec_lpc, unsigned int offset,
+@@ -160,6 +164,47 @@ static int cros_ec_lpc_mec_write_bytes(struct cros_ec_lpc *ec_lpc, unsigned int
  					 length, (u8 *)msg) :
--		cros_ec_lpc_write_bytes(offset, length, msg);
-+		cros_ec_lpc_write_bytes(ec_lpc, offset, length, msg);
+ 		cros_ec_lpc_write_bytes(ec_lpc, offset, length, msg);
+ }
++
++static int cros_ec_lpc_direct_read(struct cros_ec_lpc *ec_lpc, unsigned int offset,
++				   unsigned int length, u8 *dest)
++{
++	int sum = 0;
++	int i;
++
++	// Check range
++	if (offset < EC_HOST_CMD_REGION0 || offset > EC_LPC_ADDR_MEMMAP +
++			EC_MEMMAP_SIZE) {
++		return cros_ec_lpc_read_bytes(ec_lpc, offset, length, dest);
++	}
++
++	for (i = 0; i < length; ++i) {
++		dest[i] = readb(ec_lpc->base + offset - EC_HOST_CMD_REGION0 + i);
++		sum += dest[i];
++	}
++
++	/* Return checksum of all bytes read */
++	return sum;
 +}
++
++static int cros_ec_lpc_direct_write(struct cros_ec_lpc *ec_lpc, unsigned int offset,
++				    unsigned int length, const u8 *msg)
++{
++	int sum = 0;
++	int i;
++
++	// Check range
++	if (offset < EC_HOST_CMD_REGION0 || offset > EC_LPC_ADDR_MEMMAP +
++			EC_MEMMAP_SIZE) {
++		return cros_ec_lpc_write_bytes(ec_lpc, offset, length, msg);
++	}
++
++	for (i = 0; i < length; ++i) {
++		writeb(msg[i], ec_lpc->base + offset - EC_HOST_CMD_REGION0 + i);
++		sum += msg[i];
++	}
++
++	/* Return checksum of all bytes written */
++	return sum;
  }
  
--static int ec_response_timed_out(void)
-+static int ec_response_timed_out(struct cros_ec_lpc *ec_lpc)
+ static int ec_response_timed_out(struct cros_ec_lpc *ec_lpc)
+@@ -450,6 +495,23 @@ static struct acpi_device *cros_ec_lpc_get_device(const char *id)
+ 	return adev;
+ }
+ 
++static acpi_status cros_ec_lpc_resources(struct acpi_resource *res, void *data)
++{
++	struct cros_ec_lpc *ec_lpc = data;
++
++	switch (res->type) {
++	case ACPI_RESOURCE_TYPE_FIXED_MEMORY32:
++		ec_lpc->mem32 = res->data.fixed_memory32;
++		break;
++	case ACPI_RESOURCE_TYPE_EXTENDED_IRQ:
++		/* Ignored, using a more generic way to find IRQ. */
++	case ACPI_RESOURCE_TYPE_END_TAG:
++	default:
++		break;
++	}
++	return AE_OK;
++}
++
+ static int cros_ec_lpc_probe(struct platform_device *pdev)
  {
- 	unsigned long one_second = jiffies + HZ;
- 	u8 data;
-@@ -175,7 +170,7 @@ static int ec_response_timed_out(void)
- 
- 	usleep_range(200, 300);
- 	do {
--		ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_CMD, 1, &data);
-+		ret = ec_lpc->read(ec_lpc, EC_LPC_ADDR_HOST_CMD, 1, &data);
- 		if (ret < 0)
- 			return ret;
- 		if (!(data & EC_LPC_STATUS_BUSY_MASK))
-@@ -189,6 +184,7 @@ static int ec_response_timed_out(void)
- static int cros_ec_pkt_xfer_lpc(struct cros_ec_device *ec,
- 				struct cros_ec_command *msg)
- {
-+	struct cros_ec_lpc *ec_lpc = ec->priv;
- 	struct ec_host_response response;
- 	u8 sum;
- 	int ret = 0;
-@@ -199,17 +195,17 @@ static int cros_ec_pkt_xfer_lpc(struct cros_ec_device *ec,
- 		goto done;
- 
- 	/* Write buffer */
--	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_PACKET, ret, ec->dout);
-+	ret = ec_lpc->write(ec_lpc, EC_LPC_ADDR_HOST_PACKET, ret, ec->dout);
- 	if (ret < 0)
- 		goto done;
- 
- 	/* Here we go */
- 	sum = EC_COMMAND_PROTOCOL_3;
--	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_CMD, 1, &sum);
-+	ret = ec_lpc->write(ec_lpc, EC_LPC_ADDR_HOST_CMD, 1, &sum);
- 	if (ret < 0)
- 		goto done;
- 
--	ret = ec_response_timed_out();
-+	ret = ec_response_timed_out(ec_lpc);
- 	if (ret < 0)
- 		goto done;
- 	if (ret) {
-@@ -219,7 +215,7 @@ static int cros_ec_pkt_xfer_lpc(struct cros_ec_device *ec,
- 	}
- 
- 	/* Check result */
--	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
-+	ret = ec_lpc->read(ec_lpc, EC_LPC_ADDR_HOST_DATA, 1, &sum);
- 	if (ret < 0)
- 		goto done;
- 	msg->result = ret;
-@@ -229,7 +225,7 @@ static int cros_ec_pkt_xfer_lpc(struct cros_ec_device *ec,
- 
- 	/* Read back response */
- 	dout = (u8 *)&response;
--	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PACKET, sizeof(response),
-+	ret = ec_lpc->read(ec_lpc, EC_LPC_ADDR_HOST_PACKET, sizeof(response),
- 				   dout);
- 	if (ret < 0)
- 		goto done;
-@@ -246,7 +242,7 @@ static int cros_ec_pkt_xfer_lpc(struct cros_ec_device *ec,
- 	}
- 
- 	/* Read response and process checksum */
--	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PACKET +
-+	ret = ec_lpc->read(ec_lpc, EC_LPC_ADDR_HOST_PACKET +
- 				   sizeof(response), response.data_len,
- 				   msg->data);
- 	if (ret < 0)
-@@ -270,6 +266,7 @@ static int cros_ec_pkt_xfer_lpc(struct cros_ec_device *ec,
- static int cros_ec_cmd_xfer_lpc(struct cros_ec_device *ec,
- 				struct cros_ec_command *msg)
- {
-+	struct cros_ec_lpc *ec_lpc = ec->priv;
- 	struct ec_lpc_host_args args;
- 	u8 sum;
- 	int ret = 0;
-@@ -291,7 +288,7 @@ static int cros_ec_cmd_xfer_lpc(struct cros_ec_device *ec,
- 	sum = msg->command + args.flags + args.command_version + args.data_size;
- 
- 	/* Copy data and update checksum */
--	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_PARAM, msg->outsize,
-+	ret = ec_lpc->write(ec_lpc, EC_LPC_ADDR_HOST_PARAM, msg->outsize,
- 				    msg->data);
- 	if (ret < 0)
- 		goto done;
-@@ -299,18 +296,18 @@ static int cros_ec_cmd_xfer_lpc(struct cros_ec_device *ec,
- 
- 	/* Finalize checksum and write args */
- 	args.checksum = sum;
--	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_ARGS, sizeof(args),
-+	ret = ec_lpc->write(ec_lpc, EC_LPC_ADDR_HOST_ARGS, sizeof(args),
- 				    (u8 *)&args);
- 	if (ret < 0)
- 		goto done;
- 
- 	/* Here we go */
- 	sum = msg->command;
--	ret = cros_ec_lpc_ops.write(EC_LPC_ADDR_HOST_CMD, 1, &sum);
-+	ret = ec_lpc->write(ec_lpc, EC_LPC_ADDR_HOST_CMD, 1, &sum);
- 	if (ret < 0)
- 		goto done;
- 
--	ret = ec_response_timed_out();
-+	ret = ec_response_timed_out(ec_lpc);
- 	if (ret < 0)
- 		goto done;
- 	if (ret) {
-@@ -320,7 +317,7 @@ static int cros_ec_cmd_xfer_lpc(struct cros_ec_device *ec,
- 	}
- 
- 	/* Check result */
--	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_DATA, 1, &sum);
-+	ret = ec_lpc->read(ec_lpc, EC_LPC_ADDR_HOST_DATA, 1, &sum);
- 	if (ret < 0)
- 		goto done;
- 	msg->result = ret;
-@@ -329,7 +326,7 @@ static int cros_ec_cmd_xfer_lpc(struct cros_ec_device *ec,
- 		goto done;
- 
- 	/* Read back args */
--	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_ARGS, sizeof(args), (u8 *)&args);
-+	ret = ec_lpc->read(ec_lpc, EC_LPC_ADDR_HOST_ARGS, sizeof(args), (u8 *)&args);
- 	if (ret < 0)
- 		goto done;
- 
-@@ -345,7 +342,7 @@ static int cros_ec_cmd_xfer_lpc(struct cros_ec_device *ec,
- 	sum = msg->command + args.flags + args.command_version + args.data_size;
- 
- 	/* Read response and update checksum */
--	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_HOST_PARAM, args.data_size,
-+	ret = ec_lpc->read(ec_lpc, EC_LPC_ADDR_HOST_PARAM, args.data_size,
- 				   msg->data);
- 	if (ret < 0)
- 		goto done;
-@@ -381,7 +378,7 @@ static int cros_ec_lpc_readmem(struct cros_ec_device *ec, unsigned int offset,
- 
- 	/* fixed length */
- 	if (bytes) {
--		ret = cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + offset, bytes, s);
-+		ret = ec_lpc->read(ec_lpc, ec_lpc->mmio_memory_base + offset, bytes, s);
- 		if (ret < 0)
- 			return ret;
- 		return bytes;
-@@ -389,7 +386,7 @@ static int cros_ec_lpc_readmem(struct cros_ec_device *ec, unsigned int offset,
- 
- 	/* string */
- 	for (; i < EC_MEMMAP_SIZE; i++, s++) {
--		ret = cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + i, 1, s);
-+		ret = ec_lpc->read(ec_lpc, ec_lpc->mmio_memory_base + i, 1, s);
- 		if (ret < 0)
- 			return ret;
- 		cnt++;
-@@ -492,8 +489,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+@@ -498,29 +560,52 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 			dev_info(dev, "got AML mutex '%s'", name);
  		}
+ 	}
+-
+-	/*
+-	 * The Framework Laptop (and possibly other non-ChromeOS devices)
+-	 * only exposes the eight I/O ports that are required for the Microchip EC.
+-	 * Requesting a larger reservation will fail.
+-	 */
+-	if (!devm_request_region(dev, EC_HOST_CMD_REGION0,
+-				 EC_HOST_CMD_MEC_REGION_SIZE, dev_name(dev))) {
+-		dev_err(dev, "couldn't reserve MEC region\n");
+-		return -EBUSY;
++	adev = ACPI_COMPANION(dev);
++	if (adev) {
++		/*
++		 * Retrieve the resource information in the CRS register, if available.
++		 */
++		status = acpi_walk_resources(adev->handle, METHOD_NAME__CRS,
++					     cros_ec_lpc_resources, ec_lpc);
++		if (ACPI_FAILURE(status)) {
++			dev_err(dev, "failed to get resources\n");
++			return -ENODEV;
++		}
++		if (ec_lpc->mem32.address_length) {
++			ec_lpc->base = devm_ioremap(dev,
++						    ec_lpc->mem32.address,
++						    ec_lpc->mem32.address_length);
++			if (IS_ERR(ec_lpc->base))
++				return AE_ERROR;
++
++			ec_lpc->read = cros_ec_lpc_direct_read;
++			ec_lpc->write = cros_ec_lpc_direct_write;
++		}
+ 	}
++	if (!ec_lpc->read) {
++		/*
++		 * The Framework Laptop (and possibly other non-ChromeOS devices)
++		 * only exposes the eight I/O ports that are required for the Microchip EC.
++		 * Requesting a larger reservation will fail.
++		 */
++		if (!devm_request_region(dev, EC_HOST_CMD_REGION0,
++					 EC_HOST_CMD_MEC_REGION_SIZE, dev_name(dev))) {
++			dev_err(dev, "couldn't reserve MEC region\n");
++			return -EBUSY;
++		}
  
- 		if (quirks & CROS_EC_LPC_QUIRK_AML_MUTEX) {
--			const char *name
--				= driver_data->quirk_aml_mutex_name;
-+			const char *name = driver_data->quirk_aml_mutex_name;
- 			ret = cros_ec_lpc_mec_acpi_mutex(ACPI_COMPANION(dev), name);
- 			if (ret) {
- 				dev_err(dev, "failed to get AML mutex '%s'", name);
-@@ -523,9 +519,9 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
- 	 * protocol fails, fallback to the non MEC variant and try to
- 	 * read again the ID.
- 	 */
--	cros_ec_lpc_ops.read = cros_ec_lpc_mec_read_bytes;
--	cros_ec_lpc_ops.write = cros_ec_lpc_mec_write_bytes;
--	ret = cros_ec_lpc_ops.read(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
-+	ec_lpc->read = cros_ec_lpc_mec_read_bytes;
-+	ec_lpc->write = cros_ec_lpc_mec_write_bytes;
-+	ret = ec_lpc->read(ec_lpc, EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
+-	cros_ec_lpc_mec_init(EC_HOST_CMD_REGION0,
+-			     EC_LPC_ADDR_MEMMAP + EC_MEMMAP_SIZE);
++		cros_ec_lpc_mec_init(EC_HOST_CMD_REGION0,
++				     EC_LPC_ADDR_MEMMAP + EC_MEMMAP_SIZE);
+ 
+-	/*
+-	 * Read the mapped ID twice, the first one is assuming the
+-	 * EC is a Microchip Embedded Controller (MEC) variant, if the
+-	 * protocol fails, fallback to the non MEC variant and try to
+-	 * read again the ID.
+-	 */
+-	ec_lpc->read = cros_ec_lpc_mec_read_bytes;
+-	ec_lpc->write = cros_ec_lpc_mec_write_bytes;
++		/*
++		 * Read the mapped ID twice, the first one is assuming the
++		 * EC is a Microchip Embedded Controller (MEC) variant, if the
++		 * protocol fails, fallback to the non MEC variant and try to
++		 * read again the ID.
++		 */
++		ec_lpc->read = cros_ec_lpc_mec_read_bytes;
++		ec_lpc->write = cros_ec_lpc_mec_write_bytes;
++	}
+ 	ret = ec_lpc->read(ec_lpc, EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
  	if (ret < 0)
  		return ret;
- 	if (buf[0] != 'E' || buf[1] != 'C') {
-@@ -536,9 +532,9 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
- 		}
- 
- 		/* Re-assign read/write operations for the non MEC variant */
--		cros_ec_lpc_ops.read = cros_ec_lpc_read_bytes;
--		cros_ec_lpc_ops.write = cros_ec_lpc_write_bytes;
--		ret = cros_ec_lpc_ops.read(ec_lpc->mmio_memory_base + EC_MEMMAP_ID, 2,
-+		ec_lpc->read = cros_ec_lpc_read_bytes;
-+		ec_lpc->write = cros_ec_lpc_write_bytes;
-+		ret = ec_lpc->read(ec_lpc, ec_lpc->mmio_memory_base + EC_MEMMAP_ID, 2,
- 					   buf);
- 		if (ret < 0)
- 			return ret;
+@@ -594,7 +679,6 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 	 * Connect a notify handler to process MKBP messages if we have a
+ 	 * companion ACPI device.
+ 	 */
+-	adev = ACPI_COMPANION(dev);
+ 	if (adev) {
+ 		status = acpi_install_notify_handler(adev->handle,
+ 						     ACPI_ALL_NOTIFY,
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 

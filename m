@@ -1,134 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822822D600
-	for <chrome-platform@lists.linux.dev>; Mon,  6 Jan 2025 07:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511181DE3D6
+	for <chrome-platform@lists.linux.dev>; Mon,  6 Jan 2025 14:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736147209; cv=none; b=toPe7WF9onSUf1k44qj2YtdGb3U/lUta7Hg/s5Cims66DPhWcJKWW2FcOGH0YARgbbA7dXoikatMn/oGCPJ/bu625rW83+TMlg/6wf58vee+GbnYor3aGSvf6/MXHTGK4OHXcRCC7gtPrM2t2lURHxxAoozHRemszBPcqzP49YU=
+	t=1736173754; cv=none; b=kg2ihhnYo9BpHH/3Bb2BAj6HxzqMaLcHwOO6JC5lW6fEadbA4OWH7EFRlotniuSEtKgbZ4943GzDDQMsWL0n2znNNDYo0ixWkRy5V8cOXpUVTAbbzbOIByTAJgo6pSBgNkVszMEX+tbtCyjOWbDcVoI3y6qHy7XDHBmKhys52YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736147209; c=relaxed/simple;
-	bh=GUbg4aHLMsWYLz+V2S0cTUSrElvUz3q0QODYrjL3220=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KL6qAi0+a6pS3Vsx3NLkJW9eDcPqTMke98gLU5Sxa03JBxCEpuptFXPDnl+7PzJm3fzF8d56jqQMNgyYZCg/ydLvZaIGYY+1+Bzsbf/kh5oDCjr7afjceG6ZcjQYAD9w9ZwJ9puaahlduN1keLgesbXBxllMKQ7yRcYni6JvhF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qy1Mmtmi; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qy1Mmtmi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2CECC4CED6;
-	Mon,  6 Jan 2025 07:06:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736147209;
-	bh=GUbg4aHLMsWYLz+V2S0cTUSrElvUz3q0QODYrjL3220=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qy1MmtmiBPY9w9So0482Q3UcMpRTnlayO5wpMEIa9Hw8iZGMTcwQUrsLy5KYnr+3g
-	 jhiTxaVVWn5RyQRfFIGRt/iQ63RUz7JoE7wSjkl7uvWgmXx4nfsh2OV7v3AF1Tn6Mb
-	 /gszSxZaeC8OcMzLzEF/uH5hFw7lJ56feM3nf34j8nD04aXn2ltxrazvfuvmXPsgSv
-	 +b7hKkMJ9oQb/4L0eg63VFG60CgGHGCnQ+xYObIJH06OPjYZ6UmmVNtcN0zGATUC+m
-	 g9m4YsagdFYy8aDwCXIzb2QChkzJBn+U3Ct/1dYlvNTKKoFi2ie8Yw9HtIJE4TEl27
-	 MOGeMaWOGDd0A==
-Date: Mon, 6 Jan 2025 07:06:45 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Gwendal Grignou <gwendal@chromium.org>
-Cc: bleung@chromium.org, chrome-platform@lists.linux.dev, dustin@howett.net,
-	ben@jubnut.com
-Subject: Re: [PATCH 2/2] platform/chrome: Add Support for direct EC register
- memory access
-Message-ID: <Z3uBBRFHixsNjG2e@google.com>
-References: <20250103001950.2868856-1-gwendal@chromium.org>
- <20250103001950.2868856-3-gwendal@chromium.org>
+	s=arc-20240116; t=1736173754; c=relaxed/simple;
+	bh=tDpzm4Bj9QcJNosTjFSSPqoZ3zZOgYkdsQMreDEVpwY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hcLU/gAN0Zvy8nWWLbxpxgHKOuT24LCXSrtx2CWp9KjwhCsBgeTVo/Xp7JpoLa6U3gEfmt4Q8kWtK1LZyQKnZdYo2MbzCQqGNQbYPQLuptKAIOcJyYdkKFOhVeGcWSh2YrJ1D99QjRQbzQtON2rCo2sbUjHF+P+YekXEngRfHgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1tUo5x-0005hl-W8; Mon, 06 Jan 2025 15:28:42 +0100
+Message-ID: <1c0957b2-48cf-49a1-aa5e-666defd7f0fd@pengutronix.de>
+Date: Mon, 6 Jan 2025 15:28:39 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250103001950.2868856-3-gwendal@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/11] reboot: reboot, not shutdown, on
+ hw_protection_reboot timeout
+To: kernel test robot <lkp@intel.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
+ devicetree@vger.kernel.org, kernel@pengutronix.de
+References: <20241219-hw_protection-reboot-v1-2-263a0c1df802@pengutronix.de>
+ <202412201310.JWkUQ9qf-lkp@intel.com>
+Content-Language: en-US
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <202412201310.JWkUQ9qf-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-On Thu, Jan 02, 2025 at 04:19:50PM -0800, Gwendal Grignou wrote:
-> Able to communicate with the EC:
-> ```
->  ectool version
-> ...
-> Build info:    brtk-0.0.0-df0ad93+ 2024-12-13 19:25:55 elmo@396-a1a
-> ```
+On 20.12.24 07:12, kernel test robot wrote:
+> Hi Ahmad,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ahmad-Fatoum/reboot-replace-__hw_protection_shutdown-bool-action-parameter-with-an-enum/20241219-155416
+> base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+> patch link:    https://lore.kernel.org/r/20241219-hw_protection-reboot-v1-2-263a0c1df802%40pengutronix.de
+> patch subject: [PATCH 02/11] reboot: reboot, not shutdown, on hw_protection_reboot timeout
+> config: i386-buildonly-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412201310.JWkUQ9qf-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    kernel/reboot.c:241: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
+>>> kernel/reboot.c:995: warning: Function parameter or struct member 'action' not described in 'hw_failure_emergency_schedule'
+>>> kernel/reboot.c:995: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_schedule'
 
-Not sure if I understand: does it originally intend to show EC firmware
-version (i.e. "RW version:")?
+Will fix the kernel doc issues for v2.
 
-> Coreboot must exposed the memory region:
-> ```
-> cat /proc/iomem | grep GOOG0004
->     fe0b0000-fe0bffff : GOOG0004:00
-> ```
-
-`grep GOOG0004 /proc/iomem`.
-
-> Can observe the commands flowing between AP and EC:
-> cd /sys/kernel/debug/tracing
-> echo 1 > events/cros_ec/enable
-> echo 1 > tracing_on
-> cat trace_pipe
->      kworker/7:0-51      [007] .....   188.619393: cros_ec_request_start: version: 0, offset: 0, command: EC_CMD_CONSOLE_SNAPSHOT, outsize: 0, insize: 0
->      kworker/7:0-51      [007] .....   188.625656: cros_ec_request_done: version: 0, offset: 0, command: EC_CMD_CONSOLE_SNAPSHOT, outsize: 0, insize: 0, ec result: EC_RES_SUCCESS, retval: 0
->      kworker/7:0-51      [007] .....   188.625663: cros_ec_request_start: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248
->      kworker/7:0-51      [007] .....   188.635119: cros_ec_request_done: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248, ec result: EC_RES_SUCCESS, retval: 147
->      kworker/7:0-51      [007] .....   188.635130: cros_ec_request_start: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248
->      kworker/7:0-51      [007] .....   188.642764: cros_ec_request_done: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248, ec result: EC_RES_SUCCESS, retval: 0
->      timberslide-3755    [005] .....   188.643039: cros_ec_request_start: version: 0, offset: 0, command: EC_CMD_GET_UPTIME_INFO, outsize: 0, insize: 44
->      timberslide-3755    [006] .....   188.650876: cros_ec_request_done: version: 0, offset: 0, command: EC_CMD_GET_UPTIME_INFO, outsize: 0, insize: 44, ec result: EC_RES_SUCCESS, retval: 44
->      timberslide-3755    [006] .....   188.650912: cros_ec_request_start: version: 0, offset: 0, command: EC_CMD_GET_UPTIME_INFO, outsize: 0, insize: 44
->      timberslide-3755    [006] .....   188.657907: cros_ec_request_done: version: 0, offset: 0, command: EC_CMD_GET_UPTIME_INFO, outsize: 0, insize: 44, ec result: EC_RES_SUCCESS, retval: 44
->      kworker/7:0-51      [007] .....   198.858864: cros_ec_request_start: version: 0, offset: 0, command: EC_CMD_CONSOLE_SNAPSHOT, outsize: 0, insize: 0
->      kworker/7:0-51      [007] .....   198.866866: cros_ec_request_done: version: 0, offset: 0, command: EC_CMD_CONSOLE_SNAPSHOT, outsize: 0, insize: 0, ec result: EC_RES_SUCCESS, retval: 0
->      kworker/7:0-51      [007] .....   198.866882: cros_ec_request_start: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248
->      kworker/7:0-51      [007] .....   198.874414: cros_ec_request_done: version: 1, offset: 0, command: EC_CMD_CONSOLE_READ, outsize: 1, insize: 248, ec result: EC_RES_SUCCESS, retval: 0
-
-Can't it observe the trace before applying the patch?  I failed to
-connect the trace and the direct memory accesses.
+>    kernel/reboot.c:1023: warning: Function parameter or struct member 'action' not described in '__hw_protection_shutdown'
+>    kernel/reboot.c:1023: warning: Excess function parameter 'shutdown' description in '__hw_protection_shutdown'
+> 
+> 
+> vim +995 kernel/reboot.c
+> 
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   983  
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   984  static DECLARE_DELAYED_WORK(hw_failure_emergency_poweroff_work,
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   985  			    hw_failure_emergency_poweroff_func);
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   986  
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   987  /**
+> 595ab92650cc28 Ahmad Fatoum    2024-12-19   988   * hw_failure_emergency_schedule - Schedule an emergency system shutdown or reboot
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   989   *
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   990   * This may be called from any critical situation to trigger a system shutdown
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   991   * after a given period of time. If time is negative this is not scheduled.
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   992   */
+> 595ab92650cc28 Ahmad Fatoum    2024-12-19   993  static void hw_failure_emergency_schedule(enum hw_protection_action action,
+> 595ab92650cc28 Ahmad Fatoum    2024-12-19   994  					  int poweroff_delay_ms)
+> dfa19b11385d4c Matti Vaittinen 2021-06-03  @995  {
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   996  	if (poweroff_delay_ms <= 0)
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   997  		return;
+> 595ab92650cc28 Ahmad Fatoum    2024-12-19   998  	hw_failure_emergency_action = action;
+> dfa19b11385d4c Matti Vaittinen 2021-06-03   999  	schedule_delayed_work(&hw_failure_emergency_poweroff_work,
+> dfa19b11385d4c Matti Vaittinen 2021-06-03  1000  			      msecs_to_jiffies(poweroff_delay_ms));
+> dfa19b11385d4c Matti Vaittinen 2021-06-03  1001  }
+> dfa19b11385d4c Matti Vaittinen 2021-06-03  1002  
+> 
 
 
-On a related note, the patch should use prefix "cros_ec_lpc" too.
-
-> +static int cros_ec_lpc_direct_read(struct cros_ec_lpc *ec_lpc, unsigned int offset,
-> +				   unsigned int length, u8 *dest)
-> +{
-[...]
-> +	// Check range
-
-To be consitent to the rest of code, don't use C99 comment style.  Or just
-drop it as the intent is clear.
-
-> +static int cros_ec_lpc_direct_write(struct cros_ec_lpc *ec_lpc, unsigned int offset,
-> +				    unsigned int length, const u8 *msg)
-> +{
-[...]
-> +	// Check range
-
-Same here.
-
-> +static acpi_status cros_ec_lpc_resources(struct acpi_resource *res, void *data)
-> +{
-> +	struct cros_ec_lpc *ec_lpc = data;
-> +
-> +	switch (res->type) {
-> +	case ACPI_RESOURCE_TYPE_FIXED_MEMORY32:
-> +		ec_lpc->mem32 = res->data.fixed_memory32;
-> +		break;
-> +	case ACPI_RESOURCE_TYPE_EXTENDED_IRQ:
-> +		/* Ignored, using a more generic way to find IRQ. */
-> +	case ACPI_RESOURCE_TYPE_END_TAG:
-
-If nothing to do (or comment) in the case, could it drop the case?
-
-> @@ -498,29 +560,52 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
-[...]
-> +		if (ec_lpc->mem32.address_length) {
-> +			ec_lpc->base = devm_ioremap(dev,
-> +						    ec_lpc->mem32.address,
-> +						    ec_lpc->mem32.address_length);
-> +			if (IS_ERR(ec_lpc->base))
-> +				return AE_ERROR;
-
-`PTR_ERR(...)`?
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |

@@ -1,106 +1,92 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB3819ABDE;
-	Thu,  9 Jan 2025 20:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557822046A3
+	for <chrome-platform@lists.linux.dev>; Thu,  9 Jan 2025 22:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736452992; cv=none; b=Ii8TvOidvF+53uMA6ag7H0JA7hvkHuEKTr2DTf2kSJJ8VFq2dvnJohKeN/PtCAqv5zEy2eZi1/FLG6jKYxO33E/ddVEdg52MrtTHx2MXdRE41n79k4ChmwmRfJxaJvKy+/6wk0GArcfzut9Np7uKnccGrk+4JEH960cXDzlxqjw=
+	t=1736460420; cv=none; b=IgB1OsLz6AvLtzQMOq3Pzaoads856nPGFJdzqhfiJXCroymvHSdyVokcdkciCgAAYaGhcMhSgM+7dXbaQ2gqVWKpRFrEStM7eXD+WiPfMprX/dzDaFJpK7j5f2IKFAOXqGqtn9cL1yw0VY+ABdfPit832FdsZHirmrikpalA204=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736452992; c=relaxed/simple;
-	bh=CEraVU4ce4vgP8jPE97cGax/9P4aNGpnQ4WcUIe/0vQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SZb6L7g1yM+WQZCc7InPbmUE5T1jTw0XAvFx6r1i0PwasPudg8y13cR6UT0aVXJr0+c7WH8tebyrpDyAPRygFFnqsyFur4t462nIgjChPaZ7QgWaVAWg6WxFYuykWDZ+z3YOhK0krg+dMVLAamYZgcIe+8ODODwIfoP/vBoPm/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=aqnMgi8d; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1736460420; c=relaxed/simple;
+	bh=6z84NXznKiE1NpRqFZDZSeRqLTK2pAiyrFfu5gZG7/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X5dQKCaLvMAj5gsp5+NQurxg+D/q6bGc817JNcr2GMmz4Ot4UwCWKt9BweEdA7o0BnB+ScuOqm4Pzf/J+yWOJnr2e20K/UHT+poAWbqyVl/1IkzWSLCkbWQphm3zqo9foNX/fwabwSg0++Vg6/qGeL67lPYnblu4uKklgpgDjT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fo1Ho9FC; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="aqnMgi8d"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 81E65FF802;
-	Thu,  9 Jan 2025 20:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736452988;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ufquL8MTaCaDartUz08Jv9Co5w4deNYxwsOj/E8fcww=;
-	b=aqnMgi8dmXNmdqbb82gZLgfSEWXhFqHsrY4xDCQkXxC1eVbQ/WCgrOzndGV9myrqe/hElG
-	jef5H3/ls9gbinUu25fBKeiz2GZiCFulJ+4WhYBhfC45VCcq4EfPtR0KIHfjbcek+Q1VfV
-	9wBuydXTJ3vjy+3TBFcHwgj4253G33JMK1TEdzYz0Ww2Ja4TgQmwoyNJWYJWfnKuos+WPd
-	cU46FTlgkwEX3NlsLIdW4FYBG1lIgDNygresvTuecEYNDGFWiC7SET7ShqD2glnBctwGq+
-	pVYOLHmLiyMp2+38SZucpgCpNOe0nHGnaKhJZh2gFh8WYrNUDI6LJ28dYOimqg==
-Date: Thu, 9 Jan 2025 21:03:04 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: linux-rtc@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Yiting Deng <yiting.deng@amlogic.com>,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fo1Ho9FC"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2161eb94cceso17377885ad.2
+        for <chrome-platform@lists.linux.dev>; Thu, 09 Jan 2025 14:06:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1736460418; x=1737065218; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8tXgQ4cb0sIkfCID//2h8RdPOUcbcJV/Yvr7tKk7nQ8=;
+        b=fo1Ho9FCW+1dNTnis3XfYNl31vcu4cO+zBONAcAImWqqIV879RhEDGPlaWrfkXUjd/
+         iQPR/JUhBbW/qhGkJWVPvQooZTcGJlSpS51eY7k+mKJJD1yNJ8+eL96N6SFqZ23z3KNh
+         lVmnt8YigB6vEy+IL3YMBwqRnSOnqw7q6Fuk0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736460418; x=1737065218;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8tXgQ4cb0sIkfCID//2h8RdPOUcbcJV/Yvr7tKk7nQ8=;
+        b=Hvbom7ggxbfzKZoQEPpdqqnifRn7vrTK5/Ry8UWxu70WgSb5GWV3Pskadttnv62Jk2
+         mbpRZCAkctWv/YkIjsz0uMh480d8vKU5V7NWr/67882V7A3DunMZhNLLzXN26nwGhFEQ
+         d+5BVX8ZQ8ztV4UpDexLjuynysQTbcQH6KYKTOGli0eCK7eXmr1OI/34XEi03QEKQ2li
+         cgIfTHbQwPm2KKeGD9XJhUDscRtYy3lbvdXFY2ZwI8G9MbRMsIBGV1q8t3CUiR2iO4rq
+         9eCYYr+FkZkvWJJxCKD/M7ryF346a+8JhknWzUCOJwy+sYrb5sW14ivLXfUW/E1jfwuC
+         c29A==
+X-Forwarded-Encrypted: i=1; AJvYcCUz4uVANNK8dgNfHB89072TInfRNkAHlLBoWTGgTFF8N+s5b489lWCHVEmle/cy6eeE7frV7h3jUNDqHG/Fzkw=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9HFIpM79UB4UyeA4m8bj4/5QgjAPjErPbsT3KZdNtHEwq8C4+
+	akCFY5TtKcYRKSjRx6ZIfcHl1GrZAktNxyeC0PhoIuLyo1VGohwaIgJypg8xOw==
+X-Gm-Gg: ASbGncuLQLW6mMGexsMWwWI29SpEgTHhIjZGq9X9xVt5DjkTKyB4+rMcQVCFa/Ggh5F
+	DLmz6lv4fC6kz9mmoQaUMPiGwZnY2Si4xukgz4WVENYKtuJwkRTESycKJHrwZlxuIBiwTJN75Ls
+	XLo42Fn7VgBrR34e48ZnQPVwlTw4K0hmBjj5R6gpQEWVnlpR35W5Kl0EkzJRMm6YhexnnARmkE7
+	gNTRllgyPMTz1OpzMUTLsi1BGykTueqi2yD9i3l49upT+vfTqUpfrYck95bD8+oxk7bY2ZipoQf
+	uTNAcgq+4UUSSgECPcbP
+X-Google-Smtp-Source: AGHT+IFbGsLInk2MTDokl6bXci0oi0ScYGAl8eACwvZ0JgMc+OuCQNESJJhMTrboOSbjH+j4yrWz/w==
+X-Received: by 2002:a05:6a21:329d:b0:1e3:cf57:5f5f with SMTP id adf61e73a8af0-1e88d043d3amr12319701637.27.1736460417708;
+        Thu, 09 Jan 2025 14:06:57 -0800 (PST)
+Received: from localhost (129.135.125.34.bc.googleusercontent.com. [34.125.135.129])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-72d4067e5d8sm277650b3a.122.2025.01.09.14.06.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jan 2025 14:06:57 -0800 (PST)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
 	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Eddie Huang <eddie.huang@mediatek.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Vincent Shih <vincent.sunplus@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] rtc: use boolean values with device_init_wakeup()
-Message-ID: <173644377117.1019413.12980385173648327961.b4-ty@bootlin.com>
-References: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
+	chrome-platform@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Pavan Holla <pholla@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	=?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>
+Subject: [PATCH 0/2] usb: typec: cros-ec-ucsi: A couple small cleanups
+Date: Thu,  9 Jan 2025 14:06:51 -0800
+Message-ID: <20250109220655.1677506-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 17 Dec 2024 08:13:26 +0100, Wolfram Sang wrote:
-> device_init_wakeup() second argument is a bool type. Use proper boolean
-> values when calling it to match the type and to produce unambiguous code
-> which is easier to understand.
-> 
-> 
+A couple small cleanups to the cros-ec-ucsi driver that was recently
+introduced. Patches on top of next-20250109.
 
-Applied, thanks!
+Stephen Boyd (2):
+  usb: typec: cros-ec-ucsi: Add newlines to printk messages
+  usb: typec: cros-ec-ucsi: Mark cros_ucsi_ops static/const
 
-[1/1] rtc: use boolean values with device_init_wakeup()
-      https://git.kernel.org/abelloni/c/8c28c4993f11
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c | 30 ++++++++++++---------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
 
-Best regards,
 
+base-commit: 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+https://chromeos.dev
+

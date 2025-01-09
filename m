@@ -1,39 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F6F1DFFD
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jan 2025 02:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB3819ABDE;
+	Thu,  9 Jan 2025 20:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736303167; cv=none; b=nPXDNpT1Z3wFLjACwIIg5xt+wkMLEvLbbLOn5DekDX2n7mSWhcVevuz2XumB2Y4oN1xMyVWoAscBYKoxBG8fSUhQh/SIoeFrOk6SUCWtrte9FVxV0X+MvizL4MY3cOPwW0U2jS7ZDdWqyxIw3TKxOZyYiKZ+Kv2F8hB6BXru/CY=
+	t=1736452992; cv=none; b=Ii8TvOidvF+53uMA6ag7H0JA7hvkHuEKTr2DTf2kSJJ8VFq2dvnJohKeN/PtCAqv5zEy2eZi1/FLG6jKYxO33E/ddVEdg52MrtTHx2MXdRE41n79k4ChmwmRfJxaJvKy+/6wk0GArcfzut9Np7uKnccGrk+4JEH960cXDzlxqjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736303167; c=relaxed/simple;
-	bh=b2iNNU52Y9gjfWvopfgBwrUQ8eNML/Csd8ZaJiSY1AA=;
+	s=arc-20240116; t=1736452992; c=relaxed/simple;
+	bh=CEraVU4ce4vgP8jPE97cGax/9P4aNGpnQ4WcUIe/0vQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F5GSRlXRMY2hTj6K4q4HDPLeFt7YBqGVqmL6FdU1iyxf2TfNOp9L+9+jXFu7L66xowt/0My8H9mNY+/4I0KIc8fT52jdPIclxaWqDNlGdklQKkgNZ9wH3Nw0eIV2XQU+aeWbTrNpKZ1wxiEtKlYckXFc3QueL1HKwlD/jnrnAcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hMsTcQe5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SZb6L7g1yM+WQZCc7InPbmUE5T1jTw0XAvFx6r1i0PwasPudg8y13cR6UT0aVXJr0+c7WH8tebyrpDyAPRygFFnqsyFur4t462nIgjChPaZ7QgWaVAWg6WxFYuykWDZ+z3YOhK0krg+dMVLAamYZgcIe+8ODODwIfoP/vBoPm/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=aqnMgi8d; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMsTcQe5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46336C4CED6;
-	Wed,  8 Jan 2025 02:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736303167;
-	bh=b2iNNU52Y9gjfWvopfgBwrUQ8eNML/Csd8ZaJiSY1AA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hMsTcQe50Xj+VOHuYgnbrBFXbN4ZnlAbDYa09LHG1SmTxVEGxUsB1HCrnQ5KMyJ3G
-	 4X4uo4w+8S+nJY9FHM3kxjQIzuyXbMob+yeCflSFBakwIN2LT6aG2BOP6eg9T8EXEp
-	 b4ZeDHvbl4WkWTle59SIVs6Xk96GPMXCOBkvA3GZJomtXys7NReIKKTpt/s+8OUn6r
-	 ITRYORyCzNtM1j5oeNXxqJkric13O8M/WpanLGK1C5z/XJSq7gkJLaiVXblBKwLiIU
-	 G/FpCACFY9tGeMtwY3I+2bt71yEtgnRD8Iv9hu5aVwmi0y86mrvdQP8e+vYTyXCqzh
-	 xh844fR9fJ2ow==
-Date: Wed, 8 Jan 2025 02:26:04 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Gwendal Grignou <gwendal@chromium.org>
-Cc: bleung@chromium.org, chrome-platform@lists.linux.dev, dustin@howett.net,
-	ben@jubnut.com
-Subject: Re: [PATCH v3 0/2] Add support for IO memory mapped EC
-Message-ID: <Z33iPIaUNFnOYQpk@google.com>
-References: <20250107174514.2748108-1-gwendal@chromium.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="aqnMgi8d"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 81E65FF802;
+	Thu,  9 Jan 2025 20:03:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1736452988;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ufquL8MTaCaDartUz08Jv9Co5w4deNYxwsOj/E8fcww=;
+	b=aqnMgi8dmXNmdqbb82gZLgfSEWXhFqHsrY4xDCQkXxC1eVbQ/WCgrOzndGV9myrqe/hElG
+	jef5H3/ls9gbinUu25fBKeiz2GZiCFulJ+4WhYBhfC45VCcq4EfPtR0KIHfjbcek+Q1VfV
+	9wBuydXTJ3vjy+3TBFcHwgj4253G33JMK1TEdzYz0Ww2Ja4TgQmwoyNJWYJWfnKuos+WPd
+	cU46FTlgkwEX3NlsLIdW4FYBG1lIgDNygresvTuecEYNDGFWiC7SET7ShqD2glnBctwGq+
+	pVYOLHmLiyMp2+38SZucpgCpNOe0nHGnaKhJZh2gFh8WYrNUDI6LJ28dYOimqg==
+Date: Thu, 9 Jan 2025 21:03:04 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: linux-rtc@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Yiting Deng <yiting.deng@amlogic.com>,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Eddie Huang <eddie.huang@mediatek.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Vincent Shih <vincent.sunplus@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Michal Simek <michal.simek@amd.com>,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH] rtc: use boolean values with device_init_wakeup()
+Message-ID: <173644377117.1019413.12980385173648327961.b4-ty@bootlin.com>
+References: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -42,29 +83,24 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250107174514.2748108-1-gwendal@chromium.org>
+In-Reply-To: <20241217071331.3607-2-wsa+renesas@sang-engineering.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On Tue, Jan 07, 2025 at 09:45:12AM -0800, Gwendal Grignou wrote:
-> Some EC - Realtek - have their register IO mapped by the BIOS -
-> coreboot. They are not using the well know io register.
+On Tue, 17 Dec 2024 08:13:26 +0100, Wolfram Sang wrote:
+> device_init_wakeup() second argument is a bool type. Use proper boolean
+> values when calling it to match the type and to produce unambiguous code
+> which is easier to understand.
 > 
-> The memory mapping information is retrieved through the ACPI CRS
-> resource, and is used to access the registers.
 > 
-> To ease the support of these ECs, the global structure and accessor
-> funcions are now aware of the EC device private structure.
->
-> [...]
 
-Have removed the redundant title prefix "FROMLIST" and fixed a minor typo.
+Applied, thanks!
 
-Applied to
+[1/1] rtc: use boolean values with device_init_wakeup()
+      https://git.kernel.org/abelloni/c/8c28c4993f11
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+Best regards,
 
-[1/2] platform/chrome: cros_ec_lpc: Merge lpc_driver_ops into ec private structure
-      commit: 58517215304b6113beaa3a319ed19cdd9f8fbcc1
-[2/2] platform/chrome: cros_ec_lpc: Support direct EC register memory access
-      commit: be4fccb5e1fb5c732f2868b9a278e71d9be0283c
-
-Thanks!
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com

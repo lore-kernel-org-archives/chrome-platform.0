@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3318A25760
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Jan 2025 16:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E0C14A4D1
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Jan 2025 16:25:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736785539; cv=none; b=uguAZ5pWp9fvN4Dq/5CblP5rdcjbhqq6tHjjS8xUt90t5ikskCeoL43/CWnTZfBYjqys//pGVMpG/rtR0GjyM1SY1fg2wWEUyMLdjilJkY6P5zpC9drLHn0jJ2rAwamdsWxlPSNIcpA4mO6X/wpaFdKcrd7QkzjxABwlMU02UQI=
+	t=1736785539; cv=none; b=GsNvCK9m/eT2+LdVFUKpZIR2FTx/Ms2FFz8TXhMvrBu2r83mtZFOyCW7V74hNSS3MSrljgE7Ha3BDYtZLDecbcXglpjAP8hJel6PDFoUWRd8Ecm3WQJrB3uqJOD7L/KKW//ODaCIPGFK9qwDh0moWBsEkIJLbI5fn1sVkkHoxto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736785539; c=relaxed/simple;
-	bh=kJ2yKBl7nEqQNMvLzNDc3qKjivLR/JBqBYSo25/UQFQ=;
+	bh=Rd12b/OfYLsFT9Z0L+47eIYuJ58fKJa/sUCAw8DVwzA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=skGU58wQXpKSeRkVqXDqxSglvLMLzXxe4sNWsR2elXWqy4iSK2YP9hpOe3NgxYYmvrXXNPQGZ9aUssU32ElS4er8JXW9fExj+6Nr4cg+soYsVegU/i5p/7IB4dyvA3oRREUe2r9M+SDzHXmKb6iS87MzrQp3yuNzKfklYzp79Zk=
+	 In-Reply-To:To:Cc; b=Fgc0SpfLDC+SLVZqQsYHcRDMEPkHMz2DJ1O8pkxwVgZMv7So4hjPI0wifJSxGT3mOKBzrOK7X3awyn4WMAFPJsLqYQdKfH7KHXdun1hgQs/Y3sxUGPeAcFkBC94ixEiSRA8aUxQyirB8Jr1BALNor+rZJ+YEnhaB5SA99VeDDnY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,22 +18,22 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tXNFs-0000JH-8B; Mon, 13 Jan 2025 17:25:32 +0100
+	id 1tXNFs-0000JF-8B; Mon, 13 Jan 2025 17:25:32 +0100
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tXNFp-000HzI-2l;
+	id 1tXNFp-000HzG-2c;
 	Mon, 13 Jan 2025 17:25:30 +0100
 Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
 	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tXNFq-007FQL-2x;
+	id 1tXNFq-007FQL-2v;
 	Mon, 13 Jan 2025 17:25:30 +0100
 From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Date: Mon, 13 Jan 2025 17:25:29 +0100
-Subject: [PATCH v2 04/12] reboot: describe do_kernel_restart's cmd argument
- in kernel-doc
+Date: Mon, 13 Jan 2025 17:25:27 +0100
+Subject: [PATCH v2 02/12] reboot: reboot, not shutdown, on
+ hw_protection_reboot timeout
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250113-hw_protection-reboot-v2-4-161d3fc734f0@pengutronix.de>
+Message-Id: <20250113-hw_protection-reboot-v2-2-161d3fc734f0@pengutronix.de>
 References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
 In-Reply-To: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -66,30 +66,138 @@ X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-A W=1 build rightfully complains about the function's kernel-doc
-being incomplete.
+hw_protection_shutdown() will kick off an orderly shutdown and if that
+takes longer than a configurable amount of time, an emergency shutdown
+will occur.
 
-Describe its single parameter to fix this.
+Recently, hw_protection_reboot() was added for those systems that don't
+implement a proper shutdown and are better served by rebooting and
+having the boot firmware worry about doing something about the critical
+condition.
 
+On timeout of the orderly reboot of hw_protection_reboot(), the system
+would go into shutdown, instead of reboot. This is not a good idea, as
+going into shutdown was explicitly not asked for.
+
+Fix this by always doing an emergency reboot if hw_protection_reboot()
+is called and the orderly reboot takes too long.
+
+Fixes: 79fa723ba84c ("reboot: Introduce thermal_zone_device_critical_reboot()")
 Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 ---
- kernel/reboot.c | 3 +++
- 1 file changed, 3 insertions(+)
+ kernel/reboot.c | 70 ++++++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 49 insertions(+), 21 deletions(-)
 
 diff --git a/kernel/reboot.c b/kernel/reboot.c
-index 222b63dfd31020d0e2bc1b1402dbfa82adc71990..21a85cf95413979322d3183af1a378f5ddd8e780 100644
+index 847ac5d17a659981c6765699eac323f5e87f48c1..222b63dfd31020d0e2bc1b1402dbfa82adc71990 100644
 --- a/kernel/reboot.c
 +++ b/kernel/reboot.c
-@@ -229,6 +229,9 @@ EXPORT_SYMBOL(unregister_restart_handler);
+@@ -932,48 +932,76 @@ void orderly_reboot(void)
+ }
+ EXPORT_SYMBOL_GPL(orderly_reboot);
+ 
++static const char *hw_protection_action_str(enum hw_protection_action action)
++{
++	switch (action) {
++	case HWPROT_ACT_SHUTDOWN:
++		return "shutdown";
++	case HWPROT_ACT_REBOOT:
++		return "reboot";
++	default:
++		return "undefined";
++	}
++}
++
++static enum hw_protection_action hw_failure_emergency_action;
++
  /**
-  *	do_kernel_restart - Execute kernel restart handler call chain
+- * hw_failure_emergency_poweroff_func - emergency poweroff work after a known delay
+- * @work: work_struct associated with the emergency poweroff function
++ * hw_failure_emergency_action_func - emergency action work after a known delay
++ * @work: work_struct associated with the emergency action function
   *
-+ *	@cmd: pointer to buffer containing command to execute for restart
-+ *		or %NULL
+  * This function is called in very critical situations to force
+- * a kernel poweroff after a configurable timeout value.
++ * a kernel poweroff or reboot after a configurable timeout value.
+  */
+-static void hw_failure_emergency_poweroff_func(struct work_struct *work)
++static void hw_failure_emergency_action_func(struct work_struct *work)
+ {
++	const char *action_str = hw_protection_action_str(hw_failure_emergency_action);
++
++	pr_emerg("Hardware protection timed-out. Trying forced %s\n",
++		 action_str);
++
+ 	/*
+-	 * We have reached here after the emergency shutdown waiting period has
+-	 * expired. This means orderly_poweroff has not been able to shut off
+-	 * the system for some reason.
++	 * We have reached here after the emergency action waiting period has
++	 * expired. This means orderly_poweroff/reboot has not been able to
++	 * shut off the system for some reason.
+ 	 *
+-	 * Try to shut down the system immediately using kernel_power_off
+-	 * if populated
++	 * Try to shut off the system immediately if possible
+ 	 */
+-	pr_emerg("Hardware protection timed-out. Trying forced poweroff\n");
+-	kernel_power_off();
++
++	if (hw_failure_emergency_action == HWPROT_ACT_REBOOT)
++		kernel_restart(NULL);
++	else
++		kernel_power_off();
+ 
+ 	/*
+ 	 * Worst of the worst case trigger emergency restart
+ 	 */
+-	pr_emerg("Hardware protection shutdown failed. Trying emergency restart\n");
++	pr_emerg("Hardware protection %s failed. Trying emergency restart\n",
++		 action_str);
+ 	emergency_restart();
+ }
+ 
+-static DECLARE_DELAYED_WORK(hw_failure_emergency_poweroff_work,
+-			    hw_failure_emergency_poweroff_func);
++static DECLARE_DELAYED_WORK(hw_failure_emergency_action_work,
++			    hw_failure_emergency_action_func);
+ 
+ /**
+- * hw_failure_emergency_poweroff - Trigger an emergency system poweroff
++ * hw_failure_emergency_schedule - Schedule an emergency system shutdown or reboot
 + *
-  *	Calls functions registered with register_restart_handler.
++ * @action:		The hardware protection action to be taken
++ * @action_delay_ms:	Time in milliseconds to elapse before triggering action
   *
-  *	Expected to be called from machine_restart as last step of the restart
+  * This may be called from any critical situation to trigger a system shutdown
+- * after a given period of time. If time is negative this is not scheduled.
++ * or reboot after a given period of time.
++ * If time is negative this is not scheduled.
+  */
+-static void hw_failure_emergency_poweroff(int poweroff_delay_ms)
++static void hw_failure_emergency_schedule(enum hw_protection_action action,
++					  int action_delay_ms)
+ {
+-	if (poweroff_delay_ms <= 0)
++	if (action_delay_ms <= 0)
+ 		return;
+-	schedule_delayed_work(&hw_failure_emergency_poweroff_work,
+-			      msecs_to_jiffies(poweroff_delay_ms));
++	hw_failure_emergency_action = action;
++	schedule_delayed_work(&hw_failure_emergency_action_work,
++			      msecs_to_jiffies(action_delay_ms));
+ }
+ 
+ /**
+@@ -1006,7 +1034,7 @@ void __hw_protection_shutdown(const char *reason, int ms_until_forced,
+ 	 * Queue a backup emergency shutdown in the event of
+ 	 * orderly_poweroff failure
+ 	 */
+-	hw_failure_emergency_poweroff(ms_until_forced);
++	hw_failure_emergency_schedule(action, ms_until_forced);
+ 	if (action == HWPROT_ACT_REBOOT)
+ 		orderly_reboot();
+ 	else
 
 -- 
 2.39.5

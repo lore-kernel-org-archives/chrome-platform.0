@@ -1,111 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E373594A;
-	Tue, 14 Jan 2025 00:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE55146590
+	for <chrome-platform@lists.linux.dev>; Tue, 14 Jan 2025 20:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736814783; cv=none; b=mem9lmq+tWJVWHuovvH5wUxqUbi0ImUCAGnoI4++C88RujHZe2qm9GiAWhVcCXYQ6EsdSwfBufvGrIT1aqbTqVCKWRBHsOMZgsx3V1bVw+sF2ZIHyVaB/KpeUt54sXH0GV9sex4CiQ6Fa05bui3iCGlELRqnAWT/wJ9nrUrTdb0=
+	t=1736886090; cv=none; b=CzLFl1k5GZCpS1cHTz2oOtIgJfipxfhQkIjpGlwlkVHKJY8Khp+mrMabxHsOFGuQhXZjVaiia6xL5IOFUIpIHeTvcSpFt+tkYIRiegK3pSsCfDbE4e1pFUxWpROa6OhV5U8L4Ugqg5B/bTtH9TkSPx6bVrKoCAl77TvcC9c4G2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736814783; c=relaxed/simple;
-	bh=Dc4HoTEpMuIQqxN+yb0S9m9HX99LLQVjCKWKk5kwv+s=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=CgilEIb02e0Star39zvnAVhkRCS5g0+IszdG3ofC24E9L4D1iQQHFnraJ+g4yJpp9iqhn5Jp5ceQERoZZKJpc8uExZIv5rSe5Fl291gfosl1PxRf+2zgAyDtbX7F+YZAxvEWhC9hwsvoTtSoIaf+udx7LoverjS1oYMyYmqG3a4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ljBxiGVv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736886090; c=relaxed/simple;
+	bh=6LsiRLmf3vJ0QZ2B9ZXfWvVrviaE72Q1LBWtTb4zU/Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LavkhL4ylQcxG25E37iLB7Mj5ftAXhBuBUReyvRpKHQZ3JdULglfyW/lMGBAjmveB0gAeCZJKMWr26Vbs5mhXVNa1jyhtfXXJSve32mX+xOkPYp9EVy00AdW6eGOxc63/9z9yN47x5lKDUeCAfeoogkmbyKoTGOhNRrXxB77u3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d74WA0w7; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ljBxiGVv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4902DC4CED6;
-	Tue, 14 Jan 2025 00:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1736814782;
-	bh=Dc4HoTEpMuIQqxN+yb0S9m9HX99LLQVjCKWKk5kwv+s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ljBxiGVv/Vn72sT9smo/jB0vLdthB/Y3AxhqWw8vFy3s0v5OM70ANCXF8EK9+cKEJ
-	 vMNAPTF7Lv/g4sdyYPEKkCXDG+r5SVZrXWdXN9cMDr7IqBA7XU+xYFnZLHOSMVaNtp
-	 TCeDnAiXIIVLH6xbi5oX2nSl4aPvTB7bNz1IV8Bs=
-Date: Mon, 13 Jan 2025 16:33:00 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
- <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>, Zhang Rui
- <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Jonathan Corbet
- <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Matti Vaittinen
- <mazziesaccount@gmail.com>, Benson Leung <bleung@chromium.org>, Tzung-Bi
- Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
- devicetree@vger.kernel.org, kernel@pengutronix.de, Matteo Croce
- <mcroce@microsoft.com>
-Subject: Re: [PATCH v2 00/12] reboot: support runtime configuration of
- emergency hw_protection action
-Message-Id: <20250113163300.4dce8816af9d448b6e263140@linux-foundation.org>
-In-Reply-To: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
-References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d74WA0w7"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2167141dfa1so2664695ad.1
+        for <chrome-platform@lists.linux.dev>; Tue, 14 Jan 2025 12:21:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1736886087; x=1737490887; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6RDXYZ6iA4Cx28zWNpxRn61oUA+7R9bbWsjGNe2+aB0=;
+        b=d74WA0w71jj6GDYpe2MOPKAMbYAG6ELV+or8F7F3s5e10vIiztzHTTKMiQ3kC7U+l/
+         AzkJ8it/OTwwa8wKflE6jLhkhqTQdzH0dOmJusNq9OEgpR42V6giusbgzJCiH56r9cjO
+         v2G/DQx9o4fwZU7FuSmRqZtKDN4Jn+r7qVMCs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736886087; x=1737490887;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6RDXYZ6iA4Cx28zWNpxRn61oUA+7R9bbWsjGNe2+aB0=;
+        b=eVR+5xYOT00gH8+AtK34mcvrr4tMOrSF7crM1emhgTwFK0QaDn68FXy7ebbOePXdrr
+         69+CPKHW3UToRFRWJHdOTt32tEQHIghY/r8kI2Vg9z5sCGH3in2TV/mgZhGKiFC9paWM
+         rOqT3pJL1zOSZOeoXQHQs6Vt9EXGw+GeMkMSFJkNEWV9134vqSPgGQe41e7+uU7g7KOu
+         5jmeROwq2u61EYdqxSUKruRsUQmH2lktDD8eXUuZ9AREJfwY/q5C4iA7kT1rPZ2be+07
+         w2Fgv48e6uGsAeXWqD9N1JjMP6qodsq3w0XVD3qx6wjk9OVJGs26ILcEEE66Q1Sv+pWq
+         XqrA==
+X-Gm-Message-State: AOJu0YzNwaxuv67mMzJ4IqjEUkOudhHlhSQrOufLyQTdNOzb+2OmiMq1
+	qHamF+4snOAUryaXfu/RPCLUINfyubgP+jc3NJWonCeNebDysZ5FZcf0yu9LkA==
+X-Gm-Gg: ASbGncswkkYp4R3OjJb4l0Fw0qm3tJLzCPXlP9B4ajTtRKphcsnSMhdJ06MXbM2PZob
+	Sorf/5hYdUHhIv9gtxHEOH5nAtQV8dQRp1a3BI9OUGHfwcA58qRJcJLXwkVgdjQK+f6NoHoAwtr
+	80uB/wRKZanWdqQASyAD9A9slpYme5No9kN0hdxS1HLe8Bm05/PFHFaGkSeNFpvxmF8uFiuE9zq
+	AbHwNKWbMh/kC+Li046ZvvXwud0PHmxF4pzQqSR2wgViiN7yw==
+X-Google-Smtp-Source: AGHT+IGcdfgOHbotcXIAOAcDh37ufsFMFqqSLn1l6B8SLaRnPnoXBBUKMKTObyCH9KXhUMMeJF0r9w==
+X-Received: by 2002:a17:903:1d2:b0:21a:7e04:7021 with SMTP id d9443c01a7336-21bf0d1c68dmr4761365ad.24.1736886086695;
+        Tue, 14 Jan 2025 12:21:26 -0800 (PST)
+Received: from localhost ([2620:15c:9d:2:8099:8137:eb8c:82f4])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-21a9f10df57sm70732625ad.12.2025.01.14.12.21.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jan 2025 12:21:26 -0800 (PST)
+From: Gwendal Grignou <gwendal@chromium.org>
+To: tzungbi@kernel.org
+Cc: chrome-platform@lists.linux.dev,
+	Gwendal Grignou <gwendal@chromium.org>
+Subject: [PATCH] platform/chrome: cros_ec_lpc: Handle EC without CRS section
+Date: Tue, 14 Jan 2025 12:21:22 -0800
+Message-ID: <20250114202122.2352277-1-gwendal@chromium.org>
+X-Mailer: git-send-email 2.48.0.rc2.279.g1de40edade-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 13 Jan 2025 17:25:25 +0100 Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+Fix logic to support GOOG0004 device without CRS section.
+Instead of failing, assume there are not memory mapped EC registers.
 
-> We currently leave the decision of whether to shutdown or reboot to
-> protect hardware in an emergency situation to the individual drivers.
-> 
-> This works out in some cases, where the driver detecting the critical
-> failure has inside knowledge: It binds to the system management controller
-> for example or is guided by hardware description that defines what to do.
-> 
-> This is inadequate in the general case though as a driver reporting e.g.
-> an imminent power failure can't know whether a shutdown or a reboot would
-> be more appropriate for a given hardware platform.
-> 
-> To address this, this series adds a hw_protection kernel parameter and
-> sysfs toggle that can be used to change the action from the shutdown
-> default to reboot. A new hw_protection_trigger API then makes use of
-> this default action.
-> 
-> My particular use case is unattended embedded systems that don't
-> have support for shutdown and that power on automatically when power is
-> supplied:
-> 
->   - A brief power cycle gets detected by the driver
->   - The kernel powers down the system and SoC goes into shutdown mode
->   - Power is restored
->   - The system remains oblivious to the restored power
->   - System needs to be manually power cycled for a duration long enough
->     to drain the capacitors
-> 
-> With this series, such systems can configure the kernel with
-> hw_protection=reboot to have the boot firmware worry about critical
-> conditions.
+Fixes: be4fccb5e1fb ("platform/chrome: cros_ec_lpc: Support direct EC register memory access")
 
-This seems useful.
+Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
+---
+ drivers/platform/chrome/cros_ec_lpc.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
->  Documentation/ABI/testing/sysfs-kernel-reboot      |   8 ++
->  Documentation/admin-guide/kernel-parameters.txt    |   6 +
->  .../devicetree/bindings/thermal/thermal-zones.yaml |   5 +-
->  Documentation/driver-api/thermal/sysfs-api.rst     |  25 ++--
->  drivers/platform/chrome/cros_ec_lpc.c              |   2 +-
->  drivers/regulator/core.c                           |   4 +-
->  drivers/regulator/irq_helpers.c                    |  16 +--
->  drivers/thermal/thermal_core.c                     |  17 +--
->  drivers/thermal/thermal_core.h                     |   1 +
->  drivers/thermal/thermal_of.c                       |   7 +-
->  include/linux/reboot.h                             |  36 ++++--
->  include/uapi/linux/capability.h                    |   1 +
->  kernel/reboot.c                                    | 140 ++++++++++++++++-----
->  13 files changed, 195 insertions(+), 73 deletions(-)
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 288ef9198bb0a..a878758b9211c 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -562,11 +562,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+ 		 */
+ 		status = acpi_walk_resources(adev->handle, METHOD_NAME__CRS,
+ 					     cros_ec_lpc_resources, ec_lpc);
+-		if (ACPI_FAILURE(status)) {
+-			dev_err(dev, "failed to get resources\n");
+-			return -ENODEV;
+-		}
+-		if (ec_lpc->mem32.address_length) {
++		if (ACPI_SUCCESS(status) && ec_lpc->mem32.address_length) {
+ 			ec_lpc->base = devm_ioremap(dev,
+ 						    ec_lpc->mem32.address,
+ 						    ec_lpc->mem32.address_length);
+-- 
+2.48.0.rc2.279.g1de40edade-goog
 
-I'm not sure what the merge path is.  Maybe the drivers tree, maybe
-mm.git's mm-nonmm branches.
-
-We're at -rc7 so I'll save this away and shall revisit after -rc1 with
-a view to gathering acks (please) and adding the series to mm-nonmm, thanks.

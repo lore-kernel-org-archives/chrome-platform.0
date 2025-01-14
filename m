@@ -1,170 +1,111 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB31620AF8F
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Jan 2025 16:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E373594A;
+	Tue, 14 Jan 2025 00:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736786389; cv=none; b=ne1cLj1sSkiuXEeQVARRdKUX145ZSyqb0sQZEQBRqgZEJxGba3DOBeJ/gnVhVAR7he4R1XmJ0XLcCJDhGBd5lUFdJzPzJFGDNwhhxh1iRrXOa9wR+GuCQT3vLXlgyfJoALj8LkmylUUtQ8FGWMDU3rDPK1ty6pS17DXSbk2fFHQ=
+	t=1736814783; cv=none; b=mem9lmq+tWJVWHuovvH5wUxqUbi0ImUCAGnoI4++C88RujHZe2qm9GiAWhVcCXYQ6EsdSwfBufvGrIT1aqbTqVCKWRBHsOMZgsx3V1bVw+sF2ZIHyVaB/KpeUt54sXH0GV9sex4CiQ6Fa05bui3iCGlELRqnAWT/wJ9nrUrTdb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736786389; c=relaxed/simple;
-	bh=LN/2GKVWP8SVrflImM2f/d6NIlKudTEI+VcMQwEcCKY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WsfPLIrDhtxCNyIJo/fZiLeGgmGbr+O9BTj02VGOSKFMAEm+02AM4LKgH27JNxr44WCqUITqX6sb66vxA01SGafD6UTj8TkDQAJwgsiNvW/YpcN5mgePf1kJANF+toqJKzbaDfGhfCP6bHRM+gXVfpz9PZqi4/PBFdEYGsyh1nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tXNTL-0001hK-Kt; Mon, 13 Jan 2025 17:39:27 +0100
-Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tXNTJ-000I5o-2V;
-	Mon, 13 Jan 2025 17:39:26 +0100
-Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
-	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.96)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tXNFq-007FQL-34;
-	Mon, 13 Jan 2025 17:25:30 +0100
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Date: Mon, 13 Jan 2025 17:25:36 +0100
-Subject: [PATCH v2 11/12] thermal: core: allow user configuration of
- hardware protection action
+	s=arc-20240116; t=1736814783; c=relaxed/simple;
+	bh=Dc4HoTEpMuIQqxN+yb0S9m9HX99LLQVjCKWKk5kwv+s=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=CgilEIb02e0Star39zvnAVhkRCS5g0+IszdG3ofC24E9L4D1iQQHFnraJ+g4yJpp9iqhn5Jp5ceQERoZZKJpc8uExZIv5rSe5Fl291gfosl1PxRf+2zgAyDtbX7F+YZAxvEWhC9hwsvoTtSoIaf+udx7LoverjS1oYMyYmqG3a4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ljBxiGVv; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ljBxiGVv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4902DC4CED6;
+	Tue, 14 Jan 2025 00:33:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1736814782;
+	bh=Dc4HoTEpMuIQqxN+yb0S9m9HX99LLQVjCKWKk5kwv+s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ljBxiGVv/Vn72sT9smo/jB0vLdthB/Y3AxhqWw8vFy3s0v5OM70ANCXF8EK9+cKEJ
+	 vMNAPTF7Lv/g4sdyYPEKkCXDG+r5SVZrXWdXN9cMDr7IqBA7XU+xYFnZLHOSMVaNtp
+	 TCeDnAiXIIVLH6xbi5oX2nSl4aPvTB7bNz1IV8Bs=
+Date: Mon, 13 Jan 2025 16:33:00 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>, Zhang Rui
+ <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Jonathan Corbet
+ <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Matti Vaittinen
+ <mazziesaccount@gmail.com>, Benson Leung <bleung@chromium.org>, Tzung-Bi
+ Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
+ devicetree@vger.kernel.org, kernel@pengutronix.de, Matteo Croce
+ <mcroce@microsoft.com>
+Subject: Re: [PATCH v2 00/12] reboot: support runtime configuration of
+ emergency hw_protection action
+Message-Id: <20250113163300.4dce8816af9d448b6e263140@linux-foundation.org>
+In-Reply-To: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
+References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250113-hw_protection-reboot-v2-11-161d3fc734f0@pengutronix.de>
-References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
-In-Reply-To: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Fabio Estevam <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
- Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Matti Vaittinen <mazziesaccount@gmail.com>, 
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org, 
- chrome-platform@lists.linux.dev, devicetree@vger.kernel.org, 
- kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>
-X-Mailer: b4 0.14.2
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-In the general case, we don't know which of system shutdown or
-reboot is the better action to take to protect hardware in an emergency
-situation. We thus allow the policy to come from the device-tree in the
-form of an optional critical-action OF property, but so far there was no
-way for the end user to configure this.
+On Mon, 13 Jan 2025 17:25:25 +0100 Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
 
-With recent addition of the hw_protection parameter, the user can now
-choose a default action for the case, where the driver isn't fully sure
-what's the better course of action.
+> We currently leave the decision of whether to shutdown or reboot to
+> protect hardware in an emergency situation to the individual drivers.
+> 
+> This works out in some cases, where the driver detecting the critical
+> failure has inside knowledge: It binds to the system management controller
+> for example or is guided by hardware description that defines what to do.
+> 
+> This is inadequate in the general case though as a driver reporting e.g.
+> an imminent power failure can't know whether a shutdown or a reboot would
+> be more appropriate for a given hardware platform.
+> 
+> To address this, this series adds a hw_protection kernel parameter and
+> sysfs toggle that can be used to change the action from the shutdown
+> default to reboot. A new hw_protection_trigger API then makes use of
+> this default action.
+> 
+> My particular use case is unattended embedded systems that don't
+> have support for shutdown and that power on automatically when power is
+> supplied:
+> 
+>   - A brief power cycle gets detected by the driver
+>   - The kernel powers down the system and SoC goes into shutdown mode
+>   - Power is restored
+>   - The system remains oblivious to the restored power
+>   - System needs to be manually power cycled for a duration long enough
+>     to drain the capacitors
+> 
+> With this series, such systems can configure the kernel with
+> hw_protection=reboot to have the boot firmware worry about critical
+> conditions.
 
-Let's make use of this by passing HWPROT_ACT_DEFAULT in absence of the
-critical-action OF property.
+This seems useful.
 
-As HWPROT_ACT_DEFAULT is shutdown by default, this introduces no
-functional change for users, unless they start using the new parameter.
+>  Documentation/ABI/testing/sysfs-kernel-reboot      |   8 ++
+>  Documentation/admin-guide/kernel-parameters.txt    |   6 +
+>  .../devicetree/bindings/thermal/thermal-zones.yaml |   5 +-
+>  Documentation/driver-api/thermal/sysfs-api.rst     |  25 ++--
+>  drivers/platform/chrome/cros_ec_lpc.c              |   2 +-
+>  drivers/regulator/core.c                           |   4 +-
+>  drivers/regulator/irq_helpers.c                    |  16 +--
+>  drivers/thermal/thermal_core.c                     |  17 +--
+>  drivers/thermal/thermal_core.h                     |   1 +
+>  drivers/thermal/thermal_of.c                       |   7 +-
+>  include/linux/reboot.h                             |  36 ++++--
+>  include/uapi/linux/capability.h                    |   1 +
+>  kernel/reboot.c                                    | 140 ++++++++++++++++-----
+>  13 files changed, 195 insertions(+), 73 deletions(-)
 
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
----
- drivers/thermal/thermal_core.c | 17 ++++++++++-------
- drivers/thermal/thermal_core.h |  1 +
- drivers/thermal/thermal_of.c   |  7 +++++--
- 3 files changed, 16 insertions(+), 9 deletions(-)
+I'm not sure what the merge path is.  Maybe the drivers tree, maybe
+mm.git's mm-nonmm branches.
 
-diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-index 19a3894ad752a91ef621794abbeec9abfb2323ec..abe990b7b40b0c7fa5034093b961e239840a18c1 100644
---- a/drivers/thermal/thermal_core.c
-+++ b/drivers/thermal/thermal_core.c
-@@ -369,7 +369,8 @@ void thermal_governor_update_tz(struct thermal_zone_device *tz,
- 	tz->governor->update_tz(tz, reason);
- }
- 
--static void thermal_zone_device_halt(struct thermal_zone_device *tz, bool shutdown)
-+static void thermal_zone_device_halt(struct thermal_zone_device *tz,
-+				     enum hw_protection_action action)
- {
- 	/*
- 	 * poweroff_delay_ms must be a carefully profiled positive value.
-@@ -380,21 +381,23 @@ static void thermal_zone_device_halt(struct thermal_zone_device *tz, bool shutdo
- 
- 	dev_emerg(&tz->device, "%s: critical temperature reached\n", tz->type);
- 
--	if (shutdown)
--		hw_protection_shutdown(msg, poweroff_delay_ms);
--	else
--		hw_protection_reboot(msg, poweroff_delay_ms);
-+	__hw_protection_trigger(msg, poweroff_delay_ms, action);
- }
- 
- void thermal_zone_device_critical(struct thermal_zone_device *tz)
- {
--	thermal_zone_device_halt(tz, true);
-+	thermal_zone_device_halt(tz, HWPROT_ACT_DEFAULT);
- }
- EXPORT_SYMBOL(thermal_zone_device_critical);
- 
-+void thermal_zone_device_critical_shutdown(struct thermal_zone_device *tz)
-+{
-+	thermal_zone_device_halt(tz, HWPROT_ACT_SHUTDOWN);
-+}
-+
- void thermal_zone_device_critical_reboot(struct thermal_zone_device *tz)
- {
--	thermal_zone_device_halt(tz, false);
-+	thermal_zone_device_halt(tz, HWPROT_ACT_REBOOT);
- }
- 
- static void handle_critical_trips(struct thermal_zone_device *tz,
-diff --git a/drivers/thermal/thermal_core.h b/drivers/thermal/thermal_core.h
-index be271e7c8f4141146a03efecc82fc4036ec12df6..7d6637126007168ac05010af0f16a4c8012a0d77 100644
---- a/drivers/thermal/thermal_core.h
-+++ b/drivers/thermal/thermal_core.h
-@@ -262,6 +262,7 @@ int thermal_build_list_of_policies(char *buf);
- void __thermal_zone_device_update(struct thermal_zone_device *tz,
- 				  enum thermal_notify_event event);
- void thermal_zone_device_critical_reboot(struct thermal_zone_device *tz);
-+void thermal_zone_device_critical_shutdown(struct thermal_zone_device *tz);
- void thermal_governor_update_tz(struct thermal_zone_device *tz,
- 				enum thermal_notify_event reason);
- 
-diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
-index fab11b98ca4952d23d0232998433bd0650b53d24..c574e775d686599deddd08f932a5a6dd781d342e 100644
---- a/drivers/thermal/thermal_of.c
-+++ b/drivers/thermal/thermal_of.c
-@@ -396,9 +396,12 @@ static struct thermal_zone_device *thermal_of_zone_register(struct device_node *
- 	of_ops.should_bind = thermal_of_should_bind;
- 
- 	ret = of_property_read_string(np, "critical-action", &action);
--	if (!ret)
--		if (!of_ops.critical && !strcasecmp(action, "reboot"))
-+	if (!ret && !of_ops.critical) {
-+		if (!strcasecmp(action, "reboot"))
- 			of_ops.critical = thermal_zone_device_critical_reboot;
-+		else if (!strcasecmp(action, "shutdown"))
-+			of_ops.critical = thermal_zone_device_critical_shutdown;
-+	}
- 
- 	tz = thermal_zone_device_register_with_trips(np->name, trips, ntrips,
- 						     data, &of_ops, &tzp,
-
--- 
-2.39.5
-
+We're at -rc7 so I'll save this away and shall revisit after -rc1 with
+a view to gathering acks (please) and adding the series to mm-nonmm, thanks.

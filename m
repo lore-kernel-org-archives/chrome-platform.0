@@ -1,106 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376A441C69;
-	Mon, 20 Jan 2025 01:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC33C13D531;
+	Mon, 20 Jan 2025 07:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737338215; cv=none; b=ehxDtWRxwvaSdfZiDZtOpZ68AvzxpB7Oi3GNkAMCOStXUhRSMCoSzGpN7BigGW7BSRNl/Aw1p4ysrhW91D/sOrtNueBmBXC9wUKFbYEaUhK2iM6BEteAaC/smhdxnto9q8DkwajiU1JHY2fMDtvwnnW2InlkmF4+DQpGQKXJCTo=
+	t=1737357035; cv=none; b=TNms7Bu5Rj9ODrEBKHGKwpQV+kfEBHoOfK/sI3pln/TnyyKbX6hjjms2OD2qvJgZ7Wu61xalyKEzFla3qSBabrqDiHTVORaOjDlspl8xqrdNutUFyJIZJFNQoczBRWF4UGMiTKy7Gvidzg2shlEHFAigXaZEnp0aQiHmzywpKm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737338215; c=relaxed/simple;
-	bh=SxHfnqTP7dQujC5b4a990KHTSj861FdIumuF1+o2hu8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CRqeNWgdpEl8Kp0/Mxb70MlHWfs5Xi4VLeqzSBc8vzzKqngdZeIwuDmbBlqy/BiiYKECUTqEjpqf21rYh7GxknZKCCZtBAOfIMraw3wDaa4cqkQHR5w7PhTiRtU8+giYOSCthu+C6Um3DRNlN1Xno2AZPWdob7zKsOpN33kc/Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NYJXbB5I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737357035; c=relaxed/simple;
+	bh=hhiIowDDPlKiniZiubya6fCr04S5es+7qxmNrFX3e3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rTBA7QsG5Z3BM8BwPzT75ekqRIFClKIhfQdwr3tLRDAEaM/F/iiU6wNjru8EochlMp0WDeTxw7KnrCpsqEQaQSb6rUvRWSGHybiaKIWwUQ6lExpFA04IKwYQkEmX1D15UKJW+2c7aRarf0JOyxeBi7qcI1G/gtOtAXSHgdX++tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gn+lGuxF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NYJXbB5I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B0EFC4CED6;
-	Mon, 20 Jan 2025 01:56:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gn+lGuxF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D25A1C4CEDD;
+	Mon, 20 Jan 2025 07:10:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737338214;
-	bh=SxHfnqTP7dQujC5b4a990KHTSj861FdIumuF1+o2hu8=;
-	h=Date:From:To:Cc:Subject:From;
-	b=NYJXbB5IznglW+BzNkPzXpFpiRNzN/3ZxNXGImjOmVgNJB27PNvuG8Hdn1Qn1Q9yc
-	 VXc4qD0/0QjqDCbcRbIYx2/zGIU8HgN5TR6CxUqsdxPWgY3vBtDtLdQXFD8c/nZl6A
-	 bwRTOqZPG5+9V2WKz/9+kVzHy7WMKbH9RVoetEYTd85MFgzkcGqDH9ZL2CeXwTvUPQ
-	 MTiXOymTGYB7HByF/KJdRSUgTOQzq0TZ0F4tlzQ9+ZMMhoGPoy/sx44ZC1RFx1Qiby
-	 CrUb4qpeh1vWVQLr2TuqLtdkTT3z9fgzlmYqChGrhgGEl7oEOblY/FTJTM4QtmcjEd
-	 S0U7vVgVrAFAg==
-Date: Mon, 20 Jan 2025 01:56:51 +0000
+	s=k20201202; t=1737357035;
+	bh=hhiIowDDPlKiniZiubya6fCr04S5es+7qxmNrFX3e3s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gn+lGuxFY2FGoDwKruU5Ne3KVPiRvv5hBu5t1P/hqGYkJwBwjBYY21D1eeaiGNveA
+	 sEd+0LX2e5z9YmJhr+NZeRdI16bCcPVhJsngLJJOKjGX7wAWrHWzkGWL5qreaEOWfg
+	 atMrpDwLBBXsw07FSOjqxOwxK3IOSs8ESvgRj4f1cBhPUoLrrK0YgN9FP8cYxI1CqI
+	 XC8q1iNsDLpOgfvtyGrwvd5zDAXV79MOWjdM1TTndT5SrTS6oALQXrk3dDKu2+Qj3N
+	 bn+QwUrDJfbuXOEILXLcVbw4b+h7+/WUoBIRXaERch22SrpVp3Css63cc3wERxjxKc
+	 xDzkdM8lI5sbg==
+Date: Mon, 20 Jan 2025 07:10:28 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: briannorris@chromium.org, jwerner@chromium.org, tzungbi@kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-Subject: [GIT PULL] chrome-platform-firmware updates for v6.14
-Message-ID: <Z42tY9rGfqes47SM@google.com>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Fabio Estevam <festevam@denx.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH v2 01/12] reboot: replace __hw_protection_shutdown bool
+ action parameter with an enum
+Message-ID: <Z4325IopvxTN_34R@google.com>
+References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
+ <20250113-hw_protection-reboot-v2-1-161d3fc734f0@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="IJ7hDq/8yOaCF7rV"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250113-hw_protection-reboot-v2-1-161d3fc734f0@pengutronix.de>
 
+On Mon, Jan 13, 2025 at 05:25:26PM +0100, Ahmad Fatoum wrote:
+> Currently __hw_protection_shutdown() either reboots or shuts down the
+> system according to its shutdown argument.
+> 
+> To make the logic easier to follow, both inside __hw_protection_shutdown
+> and at caller sites, lets replace the bool parameter with an enum.
+> 
+> This will be extra useful, when in a later commit, a third action is
+> added to the enumeration.
+> 
+> No functional change.
+> 
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 
---IJ7hDq/8yOaCF7rV
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+With a minor question,
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-Hi Linus,
+> @@ -1009,10 +1007,10 @@ void __hw_protection_shutdown(const char *reason, int ms_until_forced, bool shut
+>  	 * orderly_poweroff failure
+>  	 */
+>  	hw_failure_emergency_poweroff(ms_until_forced);
+> -	if (shutdown)
+> -		orderly_poweroff(true);
+> -	else
+> +	if (action == HWPROT_ACT_REBOOT)
+>  		orderly_reboot();
+> +	else
+> +		orderly_poweroff(true);
 
-Please pull chrome-platform-firmware updates for v6.14.
-
-Thanks,
-Tzung-Bi
-
-
-The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b37:
-
-  Linux 6.13-rc1 (2024-12-01 14:28:56 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git t=
-ags/chrome-platform-firmware-v6.14
-
-for you to fetch changes up to 7543d5702c2cfe0e8e8bc8bf4fe8cd44f08d6d39:
-
-  firmware: google: vpd: Use const 'struct bin_attribute' callback (2024-12=
--17 03:59:31 +0000)
-
-----------------------------------------------------------------
-chrome-platform-firmware: Updates for v6.14
-
-* Cleanups
-
-  - Constify 'struct bin_attribute'.
-
-----------------------------------------------------------------
-Thomas Wei=DFschuh (4):
-      firmware: google: cbmem: Constify 'struct bin_attribute'
-      firmware: google: gsmi: Constify 'struct bin_attribute'
-      firmware: google: memconsole: Use const 'struct bin_attribute' callba=
-ck
-      firmware: google: vpd: Use const 'struct bin_attribute' callback
-
- drivers/firmware/google/cbmem.c      | 10 +++++-----
- drivers/firmware/google/gsmi.c       |  6 +++---
- drivers/firmware/google/memconsole.c |  4 ++--
- drivers/firmware/google/vpd.c        |  8 ++++----
- 4 files changed, 14 insertions(+), 14 deletions(-)
-
---IJ7hDq/8yOaCF7rV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCZ42tYgAKCRArxTEGBto8
-9B1DAQD3QVuxrcFwjE+zWRiu3HqnDMKpl3vuE8Y6ZT4mvMeyLAD/W/MWpBelzGqU
-7uEvUpOqupCPvY42p6xCBKZAXA766wI=
-=K1wL
------END PGP SIGNATURE-----
-
---IJ7hDq/8yOaCF7rV--
+It probably doesn't really matter.  Does it intend to change the branch
+order?  As s/shutdown/action == HWPROT_ACT_SHUTDOWN/ should be more
+intuitive for the hunk to me.

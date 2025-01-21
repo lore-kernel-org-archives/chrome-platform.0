@@ -1,25 +1,25 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F251BD9CD
-	for <chrome-platform@lists.linux.dev>; Tue, 21 Jan 2025 09:30:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A321B0F26
+	for <chrome-platform@lists.linux.dev>; Tue, 21 Jan 2025 09:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737451807; cv=none; b=JTknKCg8FaaoA8K/Neoaoldc0PsHcxI/tE9hXHLIqGWDCgDqkBKsCDeYOXGbx+LANxv+nPN2KJwnotTqLaAaDLDHjxe8D8hw9x8s1TbnJmImjThVpCDheUE1jH3H0e/LisArNf7KEjBdoD7GGW2A+DiIXctnUq/4AtL2A8BeOeE=
+	t=1737452139; cv=none; b=Ohxv+BWzZzxWfaHfLZaiQOdISqxE9nEte1I9mk26h0ZYQYPC/5LsiMESG1qniq2an2Qsb9ABT7shlEoacpV0wmKWoIN9ZTn1G3huGaKMcIcIqX/aVLEamfdxSJdlnI7ddjdBTxPLrQ3IqSyuzuereeveKaj3TP8M3iBYlGLb7Kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737451807; c=relaxed/simple;
-	bh=YK3A0x56wCxL4D4B2EDAD8jf9kgkUswidL7QC3zAi8w=;
+	s=arc-20240116; t=1737452139; c=relaxed/simple;
+	bh=UOt96m3Ai0Um04yoDoVTR8MiDB83yaiSBVo5rTHIuVE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H9l5xUh1Hl6WGmWNN7WkeUODowvQ0zvOrKEoZ+PsKYnWyCSY3cjoA8MBdqQ/P2BatJLHGSnk7lyr+mrzuWKeVkEc3hxrEi3Z+O7c8qCHjrbkM2r+v2dBceRIA7Z3tMeqGYCqZ8YKVSs4PKvnl2KTkUJ2k9dW8st7zO7gxwuG+9s=
+	 In-Reply-To:Content-Type; b=QnuZNuljfsnq/1T4ptNZ/DBLjrC5ylgS5S6A0/MiR6qJ+ShULYoQy9oC2h5rVkdaMYAdnjYDdqbAhAx5sOzPIOaW5XzYtrQTtg3YKiuUZpHKCCZ6dzPjOSG2jW5YEPNS3ve0x0Zh+oc1FdQQ6UeMyVh6ZnFSNfe+05QFzXfyyw8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1taAZu-0004Ec-FK; Tue, 21 Jan 2025 10:29:46 +0100
-Message-ID: <c3a1cc54-0928-419a-ac3d-7a3772918e3d@pengutronix.de>
-Date: Tue, 21 Jan 2025 10:29:45 +0100
+	id 1taAfG-0005Xs-1G; Tue, 21 Jan 2025 10:35:18 +0100
+Message-ID: <825acb12-ac34-49fe-b2d1-d42e08e0cebc@pengutronix.de>
+Date: Tue, 21 Jan 2025 10:35:15 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -27,8 +27,8 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/12] docs: thermal: sync hardware protection doc with
- code
+Subject: Re: [PATCH v2 07/12] reboot: add support for configuring emergency
+ hardware protection action
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
  Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
@@ -42,13 +42,14 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
- devicetree@vger.kernel.org, kernel@pengutronix.de
+ devicetree@vger.kernel.org, kernel@pengutronix.de,
+ Matteo Croce <mcroce@microsoft.com>
 References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
- <20250113-hw_protection-reboot-v2-3-161d3fc734f0@pengutronix.de>
- <Z433CXhyYHqYEn4N@google.com>
+ <20250113-hw_protection-reboot-v2-7-161d3fc734f0@pengutronix.de>
+ <Z433SVbr-h3JCycF@google.com>
 Content-Language: en-US
 From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <Z433CXhyYHqYEn4N@google.com>
+In-Reply-To: <Z433SVbr-h3JCycF@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
@@ -56,34 +57,22 @@ X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-On 20.01.25 08:11, Tzung-Bi Shih wrote:
-> On Mon, Jan 13, 2025 at 05:25:28PM +0100, Ahmad Fatoum wrote:
->> Originally, the thermal framework's only hardware protection action was
->> to trigger a shutdown. This has been changed a little over a year ago to
->> also support rebooting as alternative hardware protection action.
->>
->> Update the documentation to reflect this.
->>
->> Fixes: 62e79e38b257 ("thermal/thermal_of: Allow rebooting after critical temp")
->> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Hi,
+
+On 20.01.25 08:12, Tzung-Bi Shih wrote:
+>> +What:		/sys/kernel/reboot/hw_protection
+>> +Date:		Feb 2025
+>> +KernelVersion:	6.14
 > 
-> With a possible typo,
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> The info might need to be adjusted if the series would be for 6.15. 
 
-Thanks.
+I was being optimistic, but ye, now v6.15 would be earliest.
+I will wait a bit to see if there's more feedback and then send v3
+with the suggested changes and tags.
 
-> 
->> +At first, the kernel will attempt an orderly power-off or reboot, but
->> +accepts a delay after which it proceeds to do a forced power-off or
->> +reboot, respectively. If this fails, ``emergency restart()`` is invoked
->                                                    ^
-> s/ /_/?
-
-Typo was there before and didn't notice when reworking the paragraph.
-Will fix for v3.
-
-Cheers,
+Thank you for taking the time,
 Ahmad
+
 
 -- 
 Pengutronix e.K.                           |                             |

@@ -1,168 +1,113 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9D11AE850
-	for <chrome-platform@lists.linux.dev>; Mon, 20 Jan 2025 09:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B121C07D5
+	for <chrome-platform@lists.linux.dev>; Tue, 21 Jan 2025 09:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737364616; cv=none; b=lX1TXjr6iBTW59ucblNSdhHtf+4zp057EhjPMXC2zZ28sv7BKJU1X70pDYkoqNUEoiYfx1p/LB6ZbjXYGG3YW0IvlcdGcPkrMEvekOLbmLmBYlsiQ8Q+Yy87hNe0JbuMe/2LEEe7MyLbRIg+RNsJl0VZ0+KhXCSyBliZhnmHHRs=
+	t=1737451704; cv=none; b=rH3jIYN69qgDp9LVhi+M79/vgabdxVt+CUbiP04xtV5gX/YK7Mmb8y95KBRdaZQzKcnJgp699hCHeG0QhoK5qdwMfqdWOv5jyB3vftrOy/019uMCUMH4YnBVpPkXIuPGscgppCkHDu62dZtCW82+4adKVG0VhyO0lFkAs6iZRZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737364616; c=relaxed/simple;
-	bh=HA9jbb7sf9FEcEGIypHqxSqTIh49BbritadiThhm0/8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WYeAWV3cwGxeQPDQUH5VoGfPzDqnDXXtchler8Y1aPQoXeDpXiNJwbXbtcYRWAJrkdDdqSwvgSh0GYulvaFHCut10yaCm6pblUuzpVTmdhqpyQZWgb3vUbKKvrgLKE+oftAX55m2oJ08FtV3+CdhddHWfIk6PI4oGPTGi5SLS90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dYTZKfiD; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dYTZKfiD"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5401be44b58so4372801e87.0
-        for <chrome-platform@lists.linux.dev>; Mon, 20 Jan 2025 01:16:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737364612; x=1737969412; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5GKui2+m9IAjivOenJXop0/jshpzhAnhINNH8CjefO4=;
-        b=dYTZKfiDg9XrXLyPsgXyoE1j8WbJOocFyXTSYZozy9kUDNOkuPMlZd0AdtyQdfiY7k
-         fDezMeNsS7GZL7Y4dOBJaTbWbeuY8JbSrZOwAS3wC0zs6jnG2T0XX1huk+sFYU0D8cBD
-         eSmxbOAwyoO+6lxksyh9zmtSWOVRyX4Vzb+UtEfnGaPnlqF3yGiTX0bVbm7J/hughvaE
-         17wPn4am2LgfLOsFKHHomZEM0FtES3XvQsCQPjtmVAh4hVhkgJIqC6BTtPwI7MegicJZ
-         /8MK3JU9IsqdPGKGjoGggnb5Ix6LpwoXSOTGyZtsghvfpdMFbDU+c1KG0mJcRq9IhttS
-         Da0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737364612; x=1737969412;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5GKui2+m9IAjivOenJXop0/jshpzhAnhINNH8CjefO4=;
-        b=eXBtXUOPcmlGFu714Nasq7/hycBrJuG/4D/kVzB/BkczRBucUkYW4Ll/yoSEHwR4vj
-         VR+QIAHWEidKTOTnp8gt3oXHwmx3TiMOpVhiVzCmEB1VjKzXilZnk5QVm9I/yD9JODi8
-         0+J732r+vdvZQ09hlh2uDxM+VGCoJH35kes+y/DLEgE/8fIzw7ysyQsrirYjK9ZjusCf
-         JeyvNkUxbdUwhjKlDpUIRuRTZJQBZh38AqXrGRNxosZf0+4yhts/8OyaUi048XyzL7xc
-         wrVCUtSteAbBiOgodJlPVWr2vPw/+mQzVlmGXew/wnKUaY+GLB/9hjF6uSCMxTEL77Dk
-         iB5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUnw8udzXaKbeJhJWlLl1h4xmdN52lGZhSmg66v+Qv2zWLLBTxvwhrDiKJ/z5il7wHX+Kj50tG4dOfMpWyt2Q8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwifzOth+pyQhbVCLJ2siDBeWokDs4JoMVire66bOBvq1NEwgu7
-	Amvg7IVKVlkbcjbQeThIEZ5y0Yv2iExlL7Z7YTyD0v0KNns3yDZdlsMKAujc9Zc=
-X-Gm-Gg: ASbGncsyk4WERsmTbvJqAqzBvPzO6r7hD4Htvq512KxMtvlnrYscjdVrG5T0ViqY35H
-	8Eaew233L4CfX7FovusNX/w923OBPvKZ1+FlHB6nQqleB+9SAkWYAtBQ9szEe4LVkOFMxkMBUjC
-	hGnQePWVdja/OB5ZExjjzmb2czx8u4aGZOYn5lDP1iRKkpIQM2vGFEaZxxPYz3NuXMK7AWuzW+b
-	CWiIRo97DQxGNISC6Q7GdHr1Zyz1uNr71Reh2RMmSk85U2hIFDk+AVGrRwXvVViC+cNW/0eBcoV
-	AA==
-X-Google-Smtp-Source: AGHT+IEa+n48Uv8t7RWPHQjoPF7/uY9Me0OAnRXFnlzYDS/J3Z3bAwwUyNmzVAbCCcuLCA7BppNsgw==
-X-Received: by 2002:a05:6512:1292:b0:540:353a:df90 with SMTP id 2adb3069b0e04-5439c27b46fmr6101201e87.43.1737364612359;
-        Mon, 20 Jan 2025 01:16:52 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af729ccsm1223639e87.188.2025.01.20.01.16.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 01:16:51 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 20 Jan 2025 11:16:45 +0200
-Subject: [PATCH v2 3/3] usb: typec: ucsi: acpi: move LG Gram quirk to
- ucsi_gram_sync_control()
+	s=arc-20240116; t=1737451704; c=relaxed/simple;
+	bh=o1kL8kt+AXGjJ2DSrH3rG7DQ3wNaZkClXMiy69KbBTg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nCqN90WLuNuOyLJTYtAn9aixfBnUW3OnbCFdixG5yl28BBwuF/204+bNimAAAY9jmTtcIPf9BH7fUlmhjRw3CRZHAJubxduv1XR0lrPHQdYhSKveL0SJ8AXfK2dKcQUgJEcQQ4CIyLZn6vMUSmIMr0aejgGLhrA4KKVz5SCvZ28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1taAY6-0003oE-84; Tue, 21 Jan 2025 10:27:54 +0100
+Message-ID: <981e62da-00a4-415b-b53a-617992babaca@pengutronix.de>
+Date: Tue, 21 Jan 2025 10:27:52 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/12] reboot: replace __hw_protection_shutdown bool
+ action parameter with an enum
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
+ devicetree@vger.kernel.org, kernel@pengutronix.de
+References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
+ <20250113-hw_protection-reboot-v2-1-161d3fc734f0@pengutronix.de>
+ <Z4325IopvxTN_34R@google.com>
+Content-Language: en-US
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <Z4325IopvxTN_34R@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250120-ucsi-merge-commands-v2-3-462a1ec22ecc@linaro.org>
-References: <20250120-ucsi-merge-commands-v2-0-462a1ec22ecc@linaro.org>
-In-Reply-To: <20250120-ucsi-merge-commands-v2-0-462a1ec22ecc@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
- =?utf-8?q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2515;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=HA9jbb7sf9FEcEGIypHqxSqTIh49BbritadiThhm0/8=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ3qfSI2su+Gqz+s52fYmVh9LvO5UFPbs+pmW6LpnHW/vJ
- s8PX/qwk9GYhYGRi0FWTJHFp6Blasym5LAPO6bWwwxiZQKZwsDFKQATKa5l/5/Cs59voqLUp+fy
- fdev7andLbhGevMP7dbef+y1F2wOVnXoxrP5JRzg3vZSgen1K9XvWl82Nj5TWyJbHsEckzE7sy6
- fNY+pY2JwwTzvpCVPqp2PHZlkv7cgIu+OTXy3g8FDrzrWp5PnVn8NqZo6yX1+1fuFd9nP6tTdSu
- 8M5006NyP8s3Rgz1+W1OmRnWl7l8RPuaCxztf62Z63LYV6V/1sY41l3Xnl5DQel1150NXf6fF/2
- 6sVDSscBGNnSUmtPmT1m7HiTGq8SMb39R/+tijxHHt+cat+fnr4kYj3cXue80cs2uGuIX8ijT3e
- tOJCUoDlwR2zQovrrbftcryhYv/ifoDdU25uK0a+k49jAA==
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-It is easier to keep all command-specific quirks in a single place. Move
-them to ucsi_gram_sync_control() as the code now allows us to return
-modified messages data.
+Hello,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/usb/typec/ucsi/ucsi_acpi.c | 30 +++++++++---------------------
- 1 file changed, 9 insertions(+), 21 deletions(-)
+On 20.01.25 08:10, Tzung-Bi Shih wrote:
+> On Mon, Jan 13, 2025 at 05:25:26PM +0100, Ahmad Fatoum wrote:
+>> Currently __hw_protection_shutdown() either reboots or shuts down the
+>> system according to its shutdown argument.
+>>
+>> To make the logic easier to follow, both inside __hw_protection_shutdown
+>> and at caller sites, lets replace the bool parameter with an enum.
+>>
+>> This will be extra useful, when in a later commit, a third action is
+>> added to the enumeration.
+>>
+>> No functional change.
+>>
+>> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> 
+> With a minor question,
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 8b02082201ec5b85031472563b8b8d1eea6134de..ada5d0d21ee6fb1f406b6a8b8466bc71ffdb5b46 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -99,17 +99,23 @@ static const struct ucsi_operations ucsi_acpi_ops = {
- 	.async_control = ucsi_acpi_async_control
- };
- 
--static int ucsi_gram_read_message_in(struct ucsi *ucsi, void *val, size_t val_len)
-+static int ucsi_gram_sync_control(struct ucsi *ucsi, u64 command, u32 *cci,
-+				  void *val, size_t len)
- {
- 	u16 bogus_change = UCSI_CONSTAT_POWER_LEVEL_CHANGE |
- 			   UCSI_CONSTAT_PDOS_CHANGE;
- 	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
- 	int ret;
- 
--	ret = ucsi_acpi_read_message_in(ucsi, val, val_len);
-+	ret = ucsi_sync_control_common(ucsi, command, cci, val, len);
- 	if (ret < 0)
- 		return ret;
- 
-+	if (UCSI_COMMAND(ua->cmd) == UCSI_GET_PDOS &&
-+	    ua->cmd & UCSI_GET_PDOS_PARTNER_PDO(1) &&
-+	    ua->cmd & UCSI_GET_PDOS_SRC_PDOS)
-+		ua->check_bogus_event = true;
-+
- 	if (UCSI_COMMAND(ua->cmd) == UCSI_GET_CONNECTOR_STATUS &&
- 	    ua->check_bogus_event) {
- 		/* Clear the bogus change */
-@@ -122,28 +128,10 @@ static int ucsi_gram_read_message_in(struct ucsi *ucsi, void *val, size_t val_le
- 	return ret;
- }
- 
--static int ucsi_gram_sync_control(struct ucsi *ucsi, u64 command, u32 *cci,
--				  void *data, size_t size)
--{
--	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
--	int ret;
--
--	ret = ucsi_sync_control_common(ucsi, command, cci, data, size);
--	if (ret < 0)
--		return ret;
--
--	if (UCSI_COMMAND(ua->cmd) == UCSI_GET_PDOS &&
--	    ua->cmd & UCSI_GET_PDOS_PARTNER_PDO(1) &&
--	    ua->cmd & UCSI_GET_PDOS_SRC_PDOS)
--		ua->check_bogus_event = true;
--
--	return ret;
--}
--
- static const struct ucsi_operations ucsi_gram_ops = {
- 	.read_version = ucsi_acpi_read_version,
- 	.read_cci = ucsi_acpi_read_cci,
--	.read_message_in = ucsi_gram_read_message_in,
-+	.read_message_in = ucsi_acpi_read_message_in,
- 	.sync_control = ucsi_gram_sync_control,
- 	.async_control = ucsi_acpi_async_control
- };
+Thanks for your review.
+
+>> @@ -1009,10 +1007,10 @@ void __hw_protection_shutdown(const char *reason, int ms_until_forced, bool shut
+>>  	 * orderly_poweroff failure
+>>  	 */
+>>  	hw_failure_emergency_poweroff(ms_until_forced);
+>> -	if (shutdown)
+>> -		orderly_poweroff(true);
+>> -	else
+>> +	if (action == HWPROT_ACT_REBOOT)
+>>  		orderly_reboot();
+>> +	else
+>> +		orderly_poweroff(true);
+> 
+> It probably doesn't really matter.  Does it intend to change the branch
+> order?  As s/shutdown/action == HWPROT_ACT_SHUTDOWN/ should be more
+> intuitive for the hunk to me.
+
+My thinking was that having poweroff in the else branch underlines that
+it's the default, i.e. either reboot was explicitly asked for or we fall
+back to the poweroff default.
+
+I see that this is subjective. I can change it for v3 if that's preferred.
+
+Cheers,
+Ahmad
+
+> 
+
 
 -- 
-2.39.5
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |

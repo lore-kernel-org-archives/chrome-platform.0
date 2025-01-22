@@ -1,81 +1,63 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A321B0F26
-	for <chrome-platform@lists.linux.dev>; Tue, 21 Jan 2025 09:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3FE1FAA;
+	Wed, 22 Jan 2025 03:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737452139; cv=none; b=Ohxv+BWzZzxWfaHfLZaiQOdISqxE9nEte1I9mk26h0ZYQYPC/5LsiMESG1qniq2an2Qsb9ABT7shlEoacpV0wmKWoIN9ZTn1G3huGaKMcIcIqX/aVLEamfdxSJdlnI7ddjdBTxPLrQ3IqSyuzuereeveKaj3TP8M3iBYlGLb7Kc=
+	t=1737517854; cv=none; b=gXlh7+GnRmt+zHb53aXyFL3r7BYxjXWDWT7H0QWbZZUdoCJ75KEMnehgZ4feR+QsSQHY3i5mr7yimwvvqYmlEEAXn6fFoyzrbf22YkcmhvdwfBg2PK6WLwCWOacWNrWuHeuYIsao0nSESr5PiA4YpGdPk9JA/BGrgmKuQuzJIMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737452139; c=relaxed/simple;
-	bh=UOt96m3Ai0Um04yoDoVTR8MiDB83yaiSBVo5rTHIuVE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QnuZNuljfsnq/1T4ptNZ/DBLjrC5ylgS5S6A0/MiR6qJ+ShULYoQy9oC2h5rVkdaMYAdnjYDdqbAhAx5sOzPIOaW5XzYtrQTtg3YKiuUZpHKCCZ6dzPjOSG2jW5YEPNS3ve0x0Zh+oc1FdQQ6UeMyVh6ZnFSNfe+05QFzXfyyw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1taAfG-0005Xs-1G; Tue, 21 Jan 2025 10:35:18 +0100
-Message-ID: <825acb12-ac34-49fe-b2d1-d42e08e0cebc@pengutronix.de>
-Date: Tue, 21 Jan 2025 10:35:15 +0100
+	s=arc-20240116; t=1737517854; c=relaxed/simple;
+	bh=pX9ICoI9R+KoiSYKz5n40bDBTeqHvcv2PrlU+ZnvT0Y=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ea3YSP2DewhsfECmUINq7nK2mZy+UpKVB39N6eHLa5mWdj2Arc7iK5bbXOOtIYQOHOCZihkivdzjdptmCFBrh1Q6npio/Uu1usd6wMXqD9cKom2QbGXE/an4P4aAY4IczJ90y8KlOVxzweG7ei+zQkrgI/zBBspQalMskh4NoCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D7dYigIk; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D7dYigIk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9BFC4CED6;
+	Wed, 22 Jan 2025 03:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737517854;
+	bh=pX9ICoI9R+KoiSYKz5n40bDBTeqHvcv2PrlU+ZnvT0Y=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=D7dYigIk0c7Gaikpyr0f46C5kM92sDpBkNQAUKc4aM4K+kzKzUrTqiXmkVovd8slN
+	 KTL9rsC61lEVsUsS5Yu81ZRhivVZh5y6hgD/0O3+fT3P+uLlaCHQmu1ChbCyjA8+L8
+	 a7zN6gr69NPzyjr+Cg1cuoExngUdKTzMYYOmg2MFwdZt1El4XYEON9wBseXqO0fRhd
+	 SYhXfGWpct0uPz1MeJ3padpcv04aFpaf8Krq0OExx634x8FfpWlmZFrNTb0bvSZuDb
+	 xfiZFu8gpuDnJq893B4f0U4A2d5lFVKLJ4TdzerFFTZazCcMGALWnzpf71qC9VNUS0
+	 Ef+Sqqzh6LrOw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33DF7380AA6B;
+	Wed, 22 Jan 2025 03:51:20 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform updates for v6.14
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Z42tFgmKC5PJkCQm@google.com>
+References: <Z42tFgmKC5PJkCQm@google.com>
+X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
+X-PR-Tracked-Message-Id: <Z42tFgmKC5PJkCQm@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v6.14
+X-PR-Tracked-Commit-Id: fccebbdde2067e359f01382a72c31ed2af7acbac
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: b394eabd539d01db10e27b57ac2497cbd1d32c6d
+Message-Id: <173751787876.223864.7910213851030082398.pr-tracker-bot@kernel.org>
+Date: Wed, 22 Jan 2025 03:51:18 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, bleung@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/12] reboot: add support for configuring emergency
- hardware protection action
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
- <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
- devicetree@vger.kernel.org, kernel@pengutronix.de,
- Matteo Croce <mcroce@microsoft.com>
-References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
- <20250113-hw_protection-reboot-v2-7-161d3fc734f0@pengutronix.de>
- <Z433SVbr-h3JCycF@google.com>
-Content-Language: en-US
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <Z433SVbr-h3JCycF@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Hi,
+The pull request you sent on Mon, 20 Jan 2025 01:55:34 +0000:
 
-On 20.01.25 08:12, Tzung-Bi Shih wrote:
->> +What:		/sys/kernel/reboot/hw_protection
->> +Date:		Feb 2025
->> +KernelVersion:	6.14
-> 
-> The info might need to be adjusted if the series would be for 6.15. 
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v6.14
 
-I was being optimistic, but ye, now v6.15 would be earliest.
-I will wait a bit to see if there's more feedback and then send v3
-with the suggested changes and tags.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/b394eabd539d01db10e27b57ac2497cbd1d32c6d
 
-Thank you for taking the time,
-Ahmad
-
+Thank you!
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

@@ -1,64 +1,64 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CAA23A9
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Jan 2025 11:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E5F20FAA1
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Jan 2025 11:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737544719; cv=none; b=j3jjheDbHA87ZFraphexLZ5vPUXeM1t1ZjWmkLAT0BnS9gHpEYClXYPBt73oG8Blq6HOaTHHOrC80SmO6ylYkic88T88M6OWSbKkDwyS4ERvoB70TxuFydQHSlD/KInLopSpbrLZpxauPUrnpLzcSShuuX890nB9oLnnbDBVI2Q=
+	t=1737545300; cv=none; b=AfTfVQddSKFFUNgeGoPjQxb9llY9YQJQCarFHgIlVyHLe3eZOYDL5sdgvcpAb+9PuGBrHQbt7Yv0k+kQ7MNrWEwcPORG/rNQVOrX4xh60p2eW7vxcHie8k0Lg1oCnmYXpOlcYUHRdD0LTBeJ2XvV1Cf8lkNVe7qN8tEEEbgy1qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737544719; c=relaxed/simple;
-	bh=VkIsIxFqNnFXBeJpYhyYhbtCp2L6Z0FpexhGbCLsYwY=;
+	s=arc-20240116; t=1737545300; c=relaxed/simple;
+	bh=qgdsDOji/Ki6OjklleBu3dfhkX2SIINNrfcy28ZqIgw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pGWRBItwvuqdfGn8u8L26oT96Djn5RK/u6oXF3XaLSREF5P8ZLjAIJCC4fIKkxe6q0poOvL+oE3AHbugpQdQ/XCdAF+Yc7uFq0zdPb1zWhz1f8i7TXuwKWMrYHKpnmtPvzNtxCVkh/h13BVvxCgRsHiXGSlPe73Cj7aTi6aD2xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I1m9nIc4; arc=none smtp.client-ip=209.85.208.182
+	 In-Reply-To:Content-Type; b=V/LEicDjgj3ybd7d7OXm8vO4ePlfdR6cPpGZNfdoOD5fqX70sXxEKwPri2zMcJJI9HHlO9A1mONx0tz/jeRhsxHFENaiSqkiXwJVADoeqIRZkt60xhHDMErWHEhU00vDrhXQmGfbtcQfgfWvNln5rVTPQJmhcL3lL5N6VpzZ4BY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gYEpi0hH; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I1m9nIc4"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30613802a59so72658681fa.0
-        for <chrome-platform@lists.linux.dev>; Wed, 22 Jan 2025 03:18:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gYEpi0hH"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53f22fd6832so7047588e87.1
+        for <chrome-platform@lists.linux.dev>; Wed, 22 Jan 2025 03:28:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737544715; x=1738149515; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1737545296; x=1738150096; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=IHnhEphz7DnDm4X924MxgWq7ImAvK6C+Os9CX2NZWyk=;
-        b=I1m9nIc4s+HAL/12ZVhXxr1DHW/aHhHWiNqrLbt1j33B3a5SzYpFnCGJb2aXNSwZWt
-         PNNjUSru+siXlxNK8Emal+trGaPKFKuST8Chpq2mlPc9Z3K4L/ekyrZ4un9VSPsgXo3n
-         kIs92c4WSKFumkP8poTW5TwRmxIQAkU3mugBSzo6QK0uNkS6gMdq/xeHkV2qFrvFV2H/
-         JV4jriL6wdQqt3r2rZ8X7U32owbMgMgUNkh4uvhLQ6jnip81ezc29AzpSZ0xpJjHvVT1
-         yqSLCn/zxTZMcNzLlEZG+Mgnoph/4ibkC68gCt0KYsuz+xJFNvdIkL99fMmHqoozkgcr
-         Maow==
+        bh=D8uucZoYmTyAW8wW7Yobh9x7Be1LOOBbsYawBwsq5P0=;
+        b=gYEpi0hHKtM5JZnZwgT2rpA2SmJL3BwZqatUhm9mNZ7KHGBLdnqqB2k3BefFS+QNr9
+         6OQ6QiphmPNwTuCQrhoH0Qm2r9y7nQMxcB6lz0zY9uc6JpO21Z3kxj4OCdBPNoj8kroM
+         7uzJmIH6UgA3EDuJRbeMYf7sCiFOcr5ZA88tJmqel/G3k5hDjHDazs7FUSRfDV1P/WnM
+         Od5osc30nrGkkpFOrfePz0JnU5N5td+jC+4PTDpqH30C5BpBaFz6vm+lYzo981XU2Pk6
+         9LvVFOxeqfoPvo0UBFbbVSqOkOkVvInIUBi3chhMs5BlYwkBCQLnjobIf+agIuKfx8Ab
+         UdMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737544715; x=1738149515;
+        d=1e100.net; s=20230601; t=1737545296; x=1738150096;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IHnhEphz7DnDm4X924MxgWq7ImAvK6C+Os9CX2NZWyk=;
-        b=kHjHaq0ZMSgY5VpGfAAIXTabRAOvLGJHivrvOns+vSPrNmpNNC4UDXFiXzkAG0ku1+
-         ueDGabppQLC3dIZYsfkCazJoPBLILReQjE3BGtU0MCGiKlwMsByPkKpJ+dZN24A8o9xK
-         uHNRvqcXTRe6u2dv4Y0cIbaOJoE0B8GtHtIMarEVtZK6gAlBOBWwKeuT6ocdkZt/G3wW
-         5BRUWEvp7mPifpixskcXs2qtoDJQ1KE5wW+USi7++uOwPFC0MVhaRJAh9O/4AkNnFfGq
-         S0IhICPF0l1gz1RxRh+OFZCAkmnS0pntOKyba5hiVsuvwAVnsgPHYdW/Jhk8quR5jb26
-         F75g==
-X-Forwarded-Encrypted: i=1; AJvYcCWLOc2QROH26EkUmJSUqEsjWP/lJ+x5mprOU5ftpaJuGqUAwy/Lr8ieJNHseLS1gKJbKkmvHkb7zSmEyHhi4dw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwRP1GFzWXFuHyuf4lCa1nkUj6DlU+kQKcpYFrv2Ruk30EvCVUc
-	BG7jtLKf5zoYPDJ/8mB9XOqspQZcNRLGfFHB+NnGsQg8NxUO9S55
-X-Gm-Gg: ASbGncvdNGPjFBy7h5hgdCMdPKxBeUDI8QnyIGgzO1yZJCTI/rg2qvOA+83yZTpo+bl
-	n3v7g/y3MFdYOB96Onl0mKEO3a7VYvvxYaYwFUtWdG/+sCqJqDVDK/pVurIlJxe1zVoam/1F517
-	tc3glhG7Yh+sYfOzoS4WKV9jKD2KV4n5vPy3vOQ48aNFqJJOWp8tXvNp5voUajDVsug2z6pZxbv
-	b6ilVL1Fui4jQOr2T7f8ZDxwNdiwjtmW7GCtlSw5sPrXbYyviqW9u32XGLUKQEl46INAX9zPyPw
-	HB8l1Ww=
-X-Google-Smtp-Source: AGHT+IFhihhIAFdpOqRUkM/GOfhDJsLCkBNl8oVs51jpSRx6+pmdoU/RFlOu7IKHaOw9TUD6UWkJVQ==
-X-Received: by 2002:a2e:b8ce:0:b0:300:34b2:f89e with SMTP id 38308e7fff4ca-3072ca97ef0mr77473731fa.17.1737544715028;
-        Wed, 22 Jan 2025 03:18:35 -0800 (PST)
+        bh=D8uucZoYmTyAW8wW7Yobh9x7Be1LOOBbsYawBwsq5P0=;
+        b=KMKSD5g7S+9Fl9Z1GzFA++qtzkryr9hiGI5ryEKD7NmLjYAwLZTKKgchCMrZ/v6nJz
+         /tb35v64rTQnf/SHjddkiSAzz39OmVa7URQMVR7Roi2HsC7mIwd7DRodWRVm5ISZWo69
+         IEWonKjnNJLstI0aheqfqOM+sEu1Idfk5a7aGaOMEY4csRu5nKk+XRiAXWBmZ+rgmz4L
+         b/lR2hbZWolRgx0Xb9DbSUROsaMvjey6d5skrx1l8R5GwvzAbBDsCZ152WgGwQuV+aLE
+         /oEE3kqZernkw5K+C6b3kK9hmpbODH1JZQ/76blIEU5BPyHjzcdfLKiEtV72tQblaeTr
+         qtbw==
+X-Forwarded-Encrypted: i=1; AJvYcCXF1aOLdvMZ2QCfdPRh8FzpWGH2L8wx6v7x0ewjP+qw/YJ/9Rh3qpEGZLuX4ybxt+ZT86Jlgkv15n805if5t2w=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxCFWREAL2jxD71MUUY7HBx6dBbaMOiGoecmIEmaRLTjJe2k8o2
+	lEjpWCgu3MzmqzOIYAubgDk/BiyWgl38utClYqko8k8UPSdXHSCy
+X-Gm-Gg: ASbGncta9MlMm6l3CHHcsTCfescAUO/HChNIawdhHP+9I5Zj+A2tg6cgcWa9F7zuPPc
+	M3JmKU+6++AC9PpYqsC8xg/vvfNnevbzACbcIEMEoiFWPshRISyzZp6vWf6MGVbBCZTVJgXLb80
+	hv9RKJQEzsoFSw+Kspt67aB30uVZuk3zVZ1dDMljyJlFxAP87U3DgEKSXTiaMQgP+RUhQ4CQMAk
+	9FsnomKQfsz2jUVBitFQf2Isi8liSErlig/CK5qPO/Tsk0YB1muVPV09oxBfrnJIFZm2H3ed2DP
+	E17mKMs=
+X-Google-Smtp-Source: AGHT+IFY2ZBn6rdMHyRFnFAwDqHZp13c5/EODEKdU4E4T1JbLWhr6Ok/wScVhHBxOQ5gw+OI+RSfxw==
+X-Received: by 2002:a05:6512:159b:b0:540:1fd9:b634 with SMTP id 2adb3069b0e04-5439c28255cmr8070137e87.34.1737545295590;
+        Wed, 22 Jan 2025 03:28:15 -0800 (PST)
 Received: from [172.16.183.207] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3072a35a057sm26180611fa.48.2025.01.22.03.18.32
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af78d62sm2171995e87.241.2025.01.22.03.28.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jan 2025 03:18:33 -0800 (PST)
-Message-ID: <eb123791-a63d-4a59-a8c2-e7716201d976@gmail.com>
-Date: Wed, 22 Jan 2025 13:18:31 +0200
+        Wed, 22 Jan 2025 03:28:13 -0800 (PST)
+Message-ID: <7b6d3226-4422-415a-9146-16c421463ac5@gmail.com>
+Date: Wed, 22 Jan 2025 13:28:12 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -66,8 +66,8 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/12] regulator: allow user configuration of hardware
- protection action
+Subject: Re: [PATCH v2 02/12] reboot: reboot, not shutdown, on
+ hw_protection_reboot timeout
 To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
  Andrew Morton <akpm@linux-foundation.org>,
  Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
@@ -83,36 +83,67 @@ Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
  chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
  kernel@pengutronix.de
 References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
- <20250113-hw_protection-reboot-v2-8-161d3fc734f0@pengutronix.de>
+ <20250113-hw_protection-reboot-v2-2-161d3fc734f0@pengutronix.de>
 Content-Language: en-US, en-AU, en-GB, en-BW
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250113-hw_protection-reboot-v2-8-161d3fc734f0@pengutronix.de>
+In-Reply-To: <20250113-hw_protection-reboot-v2-2-161d3fc734f0@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 13/01/2025 18:25, Ahmad Fatoum wrote:
-> When the core detects permanent regulator hardware failure or imminent
-> power failure of a critical supply, it will call hw_protection_shutdown
-> in an attempt to do a limited orderly shutdown followed by powering off
-> the system.
+> hw_protection_shutdown() will kick off an orderly shutdown and if that
+> takes longer than a configurable amount of time, an emergency shutdown
+> will occur.
 > 
-> This doesn't work out well for many unattended embedded systems that don't
-> have support for shutdown and that power on automatically when power is
-> supplied:
+> Recently, hw_protection_reboot() was added for those systems that don't
+> implement a proper shutdown and are better served by rebooting and
+> having the boot firmware worry about doing something about the critical
+> condition.
 > 
->    - A brief power cycle gets detected by the driver
->    - The kernel powers down the system and SoC goes into shutdown mode
->    - Power is restored
->    - The system remains oblivious to the restored power
->    - System needs to be manually power cycled for a duration long enough
->      to drain the capacitors
+> On timeout of the orderly reboot of hw_protection_reboot(), the system
+> would go into shutdown, instead of reboot. This is not a good idea, as
+> going into shutdown was explicitly not asked for.
 > 
-> Allow users to fix this by calling the newly introduced
-> hw_protection_trigger() instead: This way the hw_protection commandline
-> or sysfs parameter is used to dictate the policy of dealing with the
-> regulator fault.
+> Fix this by always doing an emergency reboot if hw_protection_reboot()
+> is called and the orderly reboot takes too long.
 > 
+> Fixes: 79fa723ba84c ("reboot: Introduce thermal_zone_device_critical_reboot()")
 > Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> ---
+>   kernel/reboot.c | 70 ++++++++++++++++++++++++++++++++++++++++-----------------
+>   1 file changed, 49 insertions(+), 21 deletions(-)
+> 
+> diff --git a/kernel/reboot.c b/kernel/reboot.c
+> index 847ac5d17a659981c6765699eac323f5e87f48c1..222b63dfd31020d0e2bc1b1402dbfa82adc71990 100644
+> --- a/kernel/reboot.c
+> +++ b/kernel/reboot.c
+> @@ -932,48 +932,76 @@ void orderly_reboot(void)
+>   }
+>   EXPORT_SYMBOL_GPL(orderly_reboot);
+>   
+> +static const char *hw_protection_action_str(enum hw_protection_action action)
+> +{
+> +	switch (action) {
+> +	case HWPROT_ACT_SHUTDOWN:
+> +		return "shutdown";
+> +	case HWPROT_ACT_REBOOT:
+> +		return "reboot";
+> +	default:
+> +		return "undefined";
+> +	}
+> +}
+> +
+> +static enum hw_protection_action hw_failure_emergency_action;
+
+nit: Do we have a (theoretical) possibility that two emergency restarts 
+get scheduled with different actions? Should the action be allocated 
+(maybe not) for each caller, or should there be a check if an operation 
+with conflicting action is already scheduled?
+
+If this was already considered and thought it is not an issue:
 
 Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
+
+Yours,
+	-- Matti

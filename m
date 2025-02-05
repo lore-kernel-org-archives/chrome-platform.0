@@ -1,133 +1,70 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F2928399
-	for <chrome-platform@lists.linux.dev>; Tue,  4 Feb 2025 15:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0883215177;
+	Wed,  5 Feb 2025 04:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738681942; cv=none; b=aWABsTW8wtYNylg53RfsfDRoi1oR9Sz6P2Cr5VP7GATC8aSmKxxeffffBA0Cg6BDz3MhHi2Czr4hXgKbW9JFZ/mpbxU0JPYtxRzmYnq1+UHwtvNHiUj4QuBJbcBKCCYzJHzT1GCIB3e/G94rVfnCZ9clM6Uwsmuiwy/JpnjXo2E=
+	t=1738729346; cv=none; b=Q48x7f/555mPC4la/lavxG2vfTazgV8xYSzPNmEU3SFG3HRSrnT/OHYxNxrcBTtBqFSZFrcfd5m7X3npN3Rzg2e0JX4iuC1aDYGTMpBvcte88H0NMu760ONei7MR6UyDy5JK8v9WtQ06AjK5nyb4Ox6LmOGij2c0xN1z8LN335Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738681942; c=relaxed/simple;
-	bh=vEg1T8/MwUn36zXk/yj6LDVNwrBqNF7NWh7EyuxzvSo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MIfi2KNEkNe+xLxDWs5u3ND9WdGK0Mmu5I8Y9HK0Bdb8pZaPGsi/VujLpKv+vQXJUgGv5Cqu4qYISqj7y5CUBKRtzvroYbyZlzEfKkIENUkC2m2ZXbH7V23L5LBDWUJrm+REYOuwA2pvyZgE4IrtNnpNrQrYOFblkrQ7Uytmj7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ByLJnvMt; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1738729346; c=relaxed/simple;
+	bh=NbJql2ZwXuvn0HZZPsoshgHS/pxPW6BBEjcZSJGyFTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eHXsFZ+EjACZqASOFVzbt8HqCgMbm0f9R61oItKjiocmBCqWjxPK45yIvQoabKwwBhOmoQo61SqRrXA+K6vdxZX6K3e+A6CuFiNy31kj8jpzCn6UqR+YJmwvXDWyasWCcKmwqjM6haleO58YkVYRyglXLCC4KJ5aiiC3BqzdPks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fq7HmHqe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ByLJnvMt"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3072f8dc069so54586841fa.3
-        for <chrome-platform@lists.linux.dev>; Tue, 04 Feb 2025 07:12:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1738681939; x=1739286739; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=54shYnDt35zDT9Qq10+3QpMg62F5m3j18XmDWSEaqWo=;
-        b=ByLJnvMtAoWZLNsRXvudvqAai9gArnF6inO8At/C7TzlQfF9M9qDyfqIt79PhLbqSg
-         DiU3Pks49Nb8WIQXx9N8KpgCbxUASifhFPIWDs45gh9HkE+igQERf/v53c8ZCvtV0SwD
-         hzXoYH7DiU4qf6pqy8c30HzNhdIooN/2nNKE8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738681939; x=1739286739;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=54shYnDt35zDT9Qq10+3QpMg62F5m3j18XmDWSEaqWo=;
-        b=nhS0/2qqiEcVCtutXyk8CySPDTAVHwTfAg7WDJfpLPatnaCQzR/qp97ehR4Zd2IDJf
-         yGsCo6LuR0WH44DptkIwFoCvFhxYRySIOAEVeEFJNd5JuDznI0j9BkYQc285XxsEC1fA
-         +ZXt+nkZxuLSlPwxby22LxsNBtFLECZLAP48tQ8VgG6wZTWIQsGFyfPJ5UwULRpn6Czd
-         D3yGddJaGAdzNmGrHDSeMXFntxso4QoqBW678BbSOdZ9vdlF545wCOTfrTEgoPjsXC0X
-         SBxtYgyGNLTBzZC5pdh4B1DKLnHl/5lSkuRkBpNlA6u6miGGN6d9lYVQUTgL6yYiuhgl
-         93LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVnZthSaCKRND+WHcUbRv4GQPkJHDxIbSKT7xnql5oKX5NpdOfJgsAlgntXJHL32KFK+K9XxPhAlaPzmxz0/QM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRHz5q17ZdoVWB0gfAKLYp7DjERwPZQUXIJ2CIOiLeXwIHNX0z
-	aBrem/a6MzNu79qdtvwvIRCTFf0sQj/pzzpWJ7eadFWGQrwPn5H3kOXuufLDvtrODXNMnUa1jpp
-	Izl5jyt6g4/4C8omLmyApEU+bJEiZuUq2vhs=
-X-Gm-Gg: ASbGnct/uJYHOpvEL37AkKhEa/8LIw6setUuUGM78D8DUzAPnq91kpKbNx6gzfCjKRO
-	Q2t6krpqgNCuIT06JRpmAFguyp7dz9d/nP6t2WVzGFHzlnagznWKxQWHQMLz3N3fifleiqKcXVH
-	IvtnH+y4m5qiZ0GihXQp4aJI9v
-X-Google-Smtp-Source: AGHT+IGAHQQeLqE0F5UIqZHCMeBFhochWigyW/GzL17fCCpnJ2XXS4B8O6yfzgAzJzJDZ24G0GdZnvAY5GzJA15wcmk=
-X-Received: by 2002:a2e:b8cb:0:b0:302:2598:dec2 with SMTP id
- 38308e7fff4ca-307968d698emr95776721fa.14.1738681938649; Tue, 04 Feb 2025
- 07:12:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fq7HmHqe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 543EDC4CED1;
+	Wed,  5 Feb 2025 04:22:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738729346;
+	bh=NbJql2ZwXuvn0HZZPsoshgHS/pxPW6BBEjcZSJGyFTI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fq7HmHqeRSgoZRBo3F9Okar2vJh1TLs+2NFeu19EiOb+1XmPM04yADCsJa1JQ5QC3
+	 KuLRgM1/Onkr6GYbhCFibJDjiG+pcehpMg71nZVJ0mkZLeb6t9Y6vudavJzoCkAjj9
+	 LPVwv9GVmHnK7gI4CDURIheKYrbZ7/ujGXrD0hdN05g+sATm485rgVJ1z4rKc6aXN0
+	 XZKCAyXhsV0Ykw8iekXKoZOs35KVj9uGiefOVRCnMbjs5sBjnjscTQUwm56T+7DBnL
+	 YQbvgWOJ+NL9+NBh95AeTZXSwlqjcTmL3rBUR1s3sjhS0/7lE1nWAB4Q3TAURCjcNE
+	 BT6+oiA3Dcy5Q==
+Date: Wed, 5 Feb 2025 04:22:22 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Subject: Re: [PATCH 0/2] Add sysfs attributes to cros-ec-typec
+Message-ID: <Z6LnfiPNQsh50OAv@google.com>
+References: <20250203125947.2701106-1-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250204024600.4138776-1-jthies@google.com> <20250204024600.4138776-3-jthies@google.com>
- <Z6Ilasq-FdKlfsYx@google.com>
-In-Reply-To: <Z6Ilasq-FdKlfsYx@google.com>
-From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
-Date: Tue, 4 Feb 2025 16:12:07 +0100
-X-Gm-Features: AWEUYZmgKBlaNixW1GPkhE_rD3pNbT8hKMLNHzVXXWrr7xfTkE2QXVzt22Lg_Xw
-Message-ID: <CALwA+NYb1oKrpXv7EDi4Oqhm0TMv2yHB3qgry9K2HBMu29q0sw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] usb: typec: ucsi: resume work after EC init
-To: Jameson Thies <jthies@google.com>
-Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, bleung@chromium.org, 
-	heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org, 
-	dmitry.baryshkov@linaro.org, abhishekpandit@chromium.org, 
-	akuchynski@chromium.org, Benson Leung <bleung@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250203125947.2701106-1-akuchynski@chromium.org>
 
-On Tue, Feb 4, 2025 at 3:34=E2=80=AFPM Benson Leung <bleung@google.com> wro=
-te:
->
-> Hi Jameson,
->
-> On Tue, Feb 04, 2025 at 02:45:59AM +0000, Jameson Thies wrote:
-> > A manual EC sysjump will restart the PPM and break communication with
-> > the UCSI driver by disabling notifications in the initial PPM state.
-> > Update cros_ec_ucsi to listen for PPM init events and treat them as a
-> > system resume to re-establish communication with the PPM (ChromeOS EC).
-> >
-> > Signed-off-by: Jameson Thies <jthies@google.com>
->
-> Reviewed-by: Benson Leung <bleung@chromium.org>
->
+On Mon, Feb 03, 2025 at 12:59:45PM +0000, Andrei Kuchynski wrote:
+> This patch series adds sysfs attributes to expose the state of EC.
+> These attributes provide user-space applications with a read-only view of
+> the EC state, eliminating the need for ioct calls and facilitating
+> diagnostics.
+> 
+> Tested on a ChromeOS Brya device with kernel 6.6. Verified that user-space
+> applications can correctly read the new sysfs attributes.
+> 
+> [...]
 
-Reviewed-by: =C5=81ukasz Bartosik <ukaszb@chromium.org>
+Applied to
 
-> > ---
-> >  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 17 ++++++++++++-----
-> >  1 file changed, 12 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/=
-ucsi/cros_ec_ucsi.c
-> > index c605c8616726..5f17fcbda059 100644
-> > --- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> > +++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> > @@ -205,12 +205,19 @@ static int cros_ucsi_event(struct notifier_block =
-*nb,
-> >  {
-> >       struct cros_ucsi_data *udata =3D container_of(nb, struct cros_ucs=
-i_data, nb);
-> >
-> > -     if (!(host_event & PD_EVENT_PPM))
-> > -             return NOTIFY_OK;
-> > +     if (host_event & PD_EVENT_INIT) {
-> > +             /* Late init event received from ChromeOS EC. Treat this =
-as a
-> > +              * system resume to re-enable communication with the PPM.
-> > +              */
-> > +             dev_dbg(udata->dev, "Late PD init received\n");
-> > +             ucsi_resume(udata->ucsi);
-> > +     }
-> >
-> > -     dev_dbg(udata->dev, "UCSI notification received\n");
-> > -     flush_work(&udata->work);
-> > -     schedule_work(&udata->work);
-> > +     if (host_event & PD_EVENT_PPM) {
-> > +             dev_dbg(udata->dev, "UCSI notification received\n");
-> > +             flush_work(&udata->work);
-> > +             schedule_work(&udata->work);
-> > +     }
-> >
-> >       return NOTIFY_OK;
-> >  }
-> > --
-> > 2.48.1.362.g079036d154-goog
-> >
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+
+[1/2] platform/chrome: cros_ec_sysfs: Expose PD mux status
+      commit: e6a3215f78716d25ad60b002fd0585c04ffd5d01
+[2/2] platform/chrome: cros_ec_sysfs: Expose AP_MODE_ENTRY feature state
+      commit: 435a3d78b87a93c52a4f84e36ba4a0857554c958
+
+Thanks!

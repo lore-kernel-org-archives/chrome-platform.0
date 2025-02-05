@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0883215177;
-	Wed,  5 Feb 2025 04:22:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0DD2AF0E;
+	Wed,  5 Feb 2025 04:27:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738729346; cv=none; b=Q48x7f/555mPC4la/lavxG2vfTazgV8xYSzPNmEU3SFG3HRSrnT/OHYxNxrcBTtBqFSZFrcfd5m7X3npN3Rzg2e0JX4iuC1aDYGTMpBvcte88H0NMu760ONei7MR6UyDy5JK8v9WtQ06AjK5nyb4Ox6LmOGij2c0xN1z8LN335Y=
+	t=1738729655; cv=none; b=GYvtPJfMR9KTCRrEB9EppyL1EGktpN5xwKzxWVdv2fJ7vzjl99rbXMfBMDEavyRGmGpX4LxizrbnTZJIXfNM6/0r7EIBIk1vFDp4wAEhvVQEbVtgTS5mRmURL9zw0FEBMQa1loesuMTH6gc9MRLxjRMfUe6oIhRr/sQxq96ARsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738729346; c=relaxed/simple;
-	bh=NbJql2ZwXuvn0HZZPsoshgHS/pxPW6BBEjcZSJGyFTI=;
+	s=arc-20240116; t=1738729655; c=relaxed/simple;
+	bh=s7foDQoVI2naSB264vrCozpwinSzQ1kbWowc5+BbdzY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eHXsFZ+EjACZqASOFVzbt8HqCgMbm0f9R61oItKjiocmBCqWjxPK45yIvQoabKwwBhOmoQo61SqRrXA+K6vdxZX6K3e+A6CuFiNy31kj8jpzCn6UqR+YJmwvXDWyasWCcKmwqjM6haleO58YkVYRyglXLCC4KJ5aiiC3BqzdPks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fq7HmHqe; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=X6+s8ZuSOS82SipoPdJfWPbEmEe/82x7PLNljXFeH/tr4UR5nbNuA4RLVnzq8uAyIkaH8BC7OAuCV2V3ob+Gga9AQOufrhY0tjAjdtBy8RX74DN7ekPNanzm2q5JDBwK17z/mogVNADmWjf7X+udotBO88HIMxSpi420FUSJ2dU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hz4Sglot; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fq7HmHqe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 543EDC4CED1;
-	Wed,  5 Feb 2025 04:22:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hz4Sglot"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39796C4CEE2;
+	Wed,  5 Feb 2025 04:27:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738729346;
-	bh=NbJql2ZwXuvn0HZZPsoshgHS/pxPW6BBEjcZSJGyFTI=;
+	s=k20201202; t=1738729655;
+	bh=s7foDQoVI2naSB264vrCozpwinSzQ1kbWowc5+BbdzY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fq7HmHqeRSgoZRBo3F9Okar2vJh1TLs+2NFeu19EiOb+1XmPM04yADCsJa1JQ5QC3
-	 KuLRgM1/Onkr6GYbhCFibJDjiG+pcehpMg71nZVJ0mkZLeb6t9Y6vudavJzoCkAjj9
-	 LPVwv9GVmHnK7gI4CDURIheKYrbZ7/ujGXrD0hdN05g+sATm485rgVJ1z4rKc6aXN0
-	 XZKCAyXhsV0Ykw8iekXKoZOs35KVj9uGiefOVRCnMbjs5sBjnjscTQUwm56T+7DBnL
-	 YQbvgWOJ+NL9+NBh95AeTZXSwlqjcTmL3rBUR1s3sjhS0/7lE1nWAB4Q3TAURCjcNE
-	 BT6+oiA3Dcy5Q==
-Date: Wed, 5 Feb 2025 04:22:22 +0000
+	b=Hz4SglotsyCYt/m5Rl8fa3qn7QbJHu140CCVzBf5TSiY37jko5Z2kzJY/gStK4I26
+	 cRVQShcPi0X6RIh5Keho8K5s6ITdreMyUF0icCDsQO76QgzualNPiMuaRwhfmPUwv3
+	 iwThasOPIQ/e+DdtZEV8Xs61er1lVr6OLP3solTxhwWKSTjKgoAIO5wdvQLdyCW2EQ
+	 GkUoL1oi7PONj6gKlqCeW8cG2Nx67txTFfw2b9lryyLWBmZdUxPrO3wHPVEFGcP9jz
+	 pwENje9yblJX4xePqRO0Q+ie5O9pLyI3vAMA+4h2eLP/nqYAk7CosN54n3tfMBjfFB
+	 GQ6zPIfw872OA==
+Date: Wed, 5 Feb 2025 04:27:31 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Subject: Re: [PATCH 0/2] Add sysfs attributes to cros-ec-typec
-Message-ID: <Z6LnfiPNQsh50OAv@google.com>
-References: <20250203125947.2701106-1-akuchynski@chromium.org>
+To: Jameson Thies <jthies@google.com>
+Cc: ukaszb@chromium.org, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, bleung@chromium.org,
+	heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+	dmitry.baryshkov@linaro.org, abhishekpandit@chromium.org,
+	akuchynski@chromium.org
+Subject: Re: [PATCH v1 1/2] platform/chrome: add PD_EVENT_INIT bit definition
+Message-ID: <Z6Los9yZs1st7OTO@google.com>
+References: <20250204024600.4138776-1-jthies@google.com>
+ <20250204024600.4138776-2-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -45,26 +46,13 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250203125947.2701106-1-akuchynski@chromium.org>
+In-Reply-To: <20250204024600.4138776-2-jthies@google.com>
 
-On Mon, Feb 03, 2025 at 12:59:45PM +0000, Andrei Kuchynski wrote:
-> This patch series adds sysfs attributes to expose the state of EC.
-> These attributes provide user-space applications with a read-only view of
-> the EC state, eliminating the need for ioct calls and facilitating
-> diagnostics.
+On Tue, Feb 04, 2025 at 02:45:58AM +0000, Jameson Thies wrote:
+> Update cros_ec_commands.h to include a definition for PD_EVENT_INIT.
+> On platforms supporting UCSI, this host event type is sent when the PPM
+> initializes.
 > 
-> Tested on a ChromeOS Brya device with kernel 6.6. Verified that user-space
-> applications can correctly read the new sysfs attributes.
-> 
-> [...]
+> Signed-off-by: Jameson Thies <jthies@google.com>
 
-Applied to
-
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-
-[1/2] platform/chrome: cros_ec_sysfs: Expose PD mux status
-      commit: e6a3215f78716d25ad60b002fd0585c04ffd5d01
-[2/2] platform/chrome: cros_ec_sysfs: Expose AP_MODE_ENTRY feature state
-      commit: 435a3d78b87a93c52a4f84e36ba4a0857554c958
-
-Thanks!
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>

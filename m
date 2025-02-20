@@ -1,59 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1811F151B
-	for <chrome-platform@lists.linux.dev>; Thu, 20 Feb 2025 09:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3163B1F543F
+	for <chrome-platform@lists.linux.dev>; Thu, 20 Feb 2025 12:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740044894; cv=none; b=mLH2MwQmXOG9zIJP5264Kx9595Yy13jD1sAKkwz7g0Bn/CLtaOIgBqtSM7GCvTydf9HiYZKsXDWPPLMOKItRvwTYd9rQqBWrUmuplIgNiCar0p/c9W38nT6sE5OcmX71WW5fnYFQqqDablzbdFf0hxqHRifgKbcDc/BhwJZ8Pto=
+	t=1740052915; cv=none; b=kdAW3zTi4AANmHkOYd/cmgiRpv63vna0OgC0cutsar39G2RFDeVViJ/PSsSj4F+Up4bPo1MSfh+iXmZKHRWYO+/2hslEg0EJGAj94EhObA5HtXwyvo9lGMFOfPTRyLp6Z6ui0yGxy27XErZndRk4M9yWgAeYSy863wePym1M9mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740044894; c=relaxed/simple;
-	bh=fn+x7hQpkWHUgoK4Xm5vM3HNl25OuzoXgrarP1Ztd04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DrAt5YBxbebhmnsQo1R7dLyJj3p2fmFynfXHgLk0Q3+e6gGThqAazjKnHfl1/n7ExaFrL2ViP1SeeNK2eL0sV//EmsdlqCkj3GIPY8tkfw+v+zXA/DJLTZItR1n83tLY6VJZYr0iLmNq/5qwdQ8Zock2+6K9tGRi3yIMpWnZXTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fOZv/wX+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740052915; c=relaxed/simple;
+	bh=+cjoYnPhl7go8vNPd0AzCZxrUj9Vc0ZTGF3CSggyUh0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HBrcGzPncogHvyjhFe2JLEnXzDNrrlA9blri0hk32CmQu64yTBziwVYt+NHZu24XfVWKSoKcdF+aYzlzoVS8jkZL6NTIjZ36jmCxTRlzzH/om4ktVQUdwMs24rzALHiKSzezqlJbCtO56/QlrKBnIxhlL0O5TuykT97N0eKgARE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aAkr6XlP; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fOZv/wX+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7630C4CEE3;
-	Thu, 20 Feb 2025 09:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740044893;
-	bh=fn+x7hQpkWHUgoK4Xm5vM3HNl25OuzoXgrarP1Ztd04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fOZv/wX+fw7r9lk4+UFEjKmPdqrBM4U6ZQS7taG81FQ+z2rptW2bgDpBdfhF1UrYx
-	 41MvK/5u8mQwwD1lxigir4jDbxCujQlYXz9zI0kj7EG951cCVpVW95NXgF7KlmmSnr
-	 tPbnEn7PE/YIVguLk6EHVm8J/iNEE10nV6p1U8Mm6oWh9aeRf1iXhCPEt4pmkMBCae
-	 ziQvQLIlVY18Ppw/HDp6/UA8cRLsb0TFFMl68S8sVkzMBNItjQ8GMmrhtAg78dIE1h
-	 Z1zq/GJRTtcU5Cxog4B4nSC8L3J9R8eHeBiX/erQ9+2W3Zut0pAZxRCU3QRqfOqPmy
-	 S5lXS9ux9AR1g==
-Date: Thu, 20 Feb 2025 09:48:10 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Daniel Schaefer <dhs@frame.work>
-Cc: chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>,
-	"Dustin L . Howett" <dustin@howett.net>, linux@frame.work
-Subject: Re: [PATCH] platform/chrome: cros_usbpd_logger: fail probe if HC not
- supported
-Message-ID: <Z7b6Wg-Ui2p_bnCO@google.com>
-References: <20250220023441.158615-1-dhs@frame.work>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aAkr6XlP"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1740052901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mgkXS4965mRZXXmxJJl0d53HLCngL7V5dDdxIELeblI=;
+	b=aAkr6XlP1qCgm2YwlGLBOsB7XXQ63mlMaWwlaKKe7XtPkaA19Ubno4hqmG2U+bYqU+l/z0
+	8185mxXHilAly9FBeTi/yObE8+N3ehEnbV431B/rBWMSa8UckbA97vEQgpyq510orKL2V3
+	WOvhw2Cxr/YjgXgHIN8oxyTS2yN6qYg=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Cheng-Yi Chiang <cychiang@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Benson Leung <bleung@chromium.org>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	chrome-platform@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: cros_ec_codec: Use str_enable_disable() helper in wov_enable_put()
+Date: Thu, 20 Feb 2025 13:01:01 +0100
+Message-ID: <20250220120100.1530-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250220023441.158615-1-dhs@frame.work>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Feb 20, 2025 at 10:34:41AM +0800, Daniel Schaefer wrote:
-> If the EC_CMD_PD_GET_LOG_ENTRY does not exist, the driver does not need
-> to stay active.
-> 
-> Framework Computer systems don't use the PD infrastructure in the chrome
-> EC firmware, so it does not support this host command.
+Remove hard-coded strings by using the str_enable_disable() helper
+function.
 
-Does the firmware still report `EC_FEATURE_USB_PD` feature [1]?  Similarly,
-do "cros-charge-control" and "cros-usbpd-charger" need to stay active [2]?
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/codecs/cros_ec_codec.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-[1]: https://elixir.bootlin.com/linux/v6.13/source/drivers/mfd/cros_ec_dev.c#L263
-[2]: https://elixir.bootlin.com/linux/v6.13/source/drivers/mfd/cros_ec_dev.c#L89
+diff --git a/sound/soc/codecs/cros_ec_codec.c b/sound/soc/codecs/cros_ec_codec.c
+index 11e7b3f6d410..571222ec520c 100644
+--- a/sound/soc/codecs/cros_ec_codec.c
++++ b/sound/soc/codecs/cros_ec_codec.c
+@@ -21,6 +21,7 @@
+ #include <linux/platform_data/cros_ec_commands.h>
+ #include <linux/platform_data/cros_ec_proto.h>
+ #include <linux/platform_device.h>
++#include <linux/string_choices.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+@@ -657,7 +658,7 @@ static int wov_enable_put(struct snd_kcontrol *kcontrol,
+ 					   (uint8_t *)&p, sizeof(p), NULL, 0);
+ 		if (ret) {
+ 			dev_err(priv->dev, "failed to %s wov\n",
+-				enabled ? "enable" : "disable");
++				str_enable_disable(enabled));
+ 			return ret;
+ 		}
+ 
+-- 
+2.48.1
+

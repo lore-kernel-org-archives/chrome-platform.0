@@ -1,59 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518308821;
-	Fri, 21 Feb 2025 01:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A25378F52;
+	Fri, 21 Feb 2025 01:41:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740101563; cv=none; b=q7n9i5sDSJaXlpDnrSTIj2J/sxG4IzOGgqE0e0qGxEpegIqEDvApTMe8l6hJpKsu2LmlmY/K5iy9qN5ji4A7MgNi9WJqyoQ80lhXp1Vi7u+SVDYgAldBtlhmOechc2TqTzsjfxG88QaqJ626tyBFOogi1bn7CXuir9LyCbBm3MA=
+	t=1740102106; cv=none; b=NxsV73+Ac8TGeeMMQOmfEyx05miZHE0x/1maypbsOcK9kX6FD3MkhrRBP12C2OOgy+xudTiBAATg9mEPRQ0mJYiuzt9O2LOy/A41ecf5P7FLrMfwh5vz/jp2P3efJe4A2fg+Diy3UZarqFxlTOt9r+2X+HMkXFPk75gXk5znbWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740101563; c=relaxed/simple;
-	bh=bICxg/KZ8fYAMVBO7f9Pw5O4sSUhtSMXVxKr+6OEke0=;
+	s=arc-20240116; t=1740102106; c=relaxed/simple;
+	bh=ViIZ0tHfFjauVtWx3ImK+yTR7M7kKjp9seXzk+6u76U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R7G0/t2KjGIcBL+FRXzR6AOOQ2asSm+eppLXD/jfrDu0WjElD97QLNLLmlhGqrcX8jbUKQwCBKnCcg7RCM8e5TH0cRHqKY9+wTv6BvItxJzUwC+wUgnFublMJgGKrbXIxck6l5j/uSadY/Jaoe2pA1gETx6Nyd4sYnZp9OG866w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nT0PHOXY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=u/A5TFJplko9Y77EluEa2DMjj5JtshNgBTXq8w9wXJWjyGvx40naUz6+9K7Es5DYIaJYSA0u1yrAIB7seOT3kfdb46WMa36C3E/Ei6AYc2xJPB0OtX7E3OyYl4yiFWwWjHC3CctEb4krk1d+k91gM5jY5Ik22GfxPNFULqDY8Nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O82wkX04; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nT0PHOXY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A72EAC4CEE9;
-	Fri, 21 Feb 2025 01:32:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O82wkX04"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B84C4CED1;
+	Fri, 21 Feb 2025 01:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740101560;
-	bh=bICxg/KZ8fYAMVBO7f9Pw5O4sSUhtSMXVxKr+6OEke0=;
+	s=k20201202; t=1740102106;
+	bh=ViIZ0tHfFjauVtWx3ImK+yTR7M7kKjp9seXzk+6u76U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nT0PHOXYW4fFKJfrXebiDQN/gNspiEu8rfpQ431j/hXlmcAzXpoC/T4549r2ijOn/
-	 r1VpWu4qkSIQXoyrDINIZtisKlnx4hqURQH71sznOPOEt/McjJ4tjSBHsoR7yqp8g8
-	 wEiaRKbF1H/mzUTgI70N60dX5iSRWMHHenunxzASkMLrdBR7JvkOKIwgyFCRbA6uVb
-	 13fjXF6vWI4r3naKLrFs2pu7pBxQLYbvtRIJXZjLynnUbggWvvft3qD7hM46jz5txo
-	 P+dillbyM6c4ESWh20jUBhrF6pF8yjBy8mn5FCTbR6j2sB+1/Bj7B8UsbNAR3sol3H
-	 TzVUgzclf3VZQ==
-Date: Fri, 21 Feb 2025 01:32:36 +0000
+	b=O82wkX04zJh+EnsIC3PVIawS4834xBqOGtVJ8CgULdt/oG5uiTz/izgmLdjJmCLe4
+	 fX+tMkdEESYzOw9TkTa3Y8V1gEADmB04+91eodSDBTNouin2BgAbGsyq0zszNEZ8G1
+	 y48tiaeytzJAgE6Vv0NImxz4JTNY4ZYU3NTLLASXK3CZuYYiA9f/o4yMCZ6akATjyY
+	 Ywf4RHf87YfzX/prBHbjqA91cWuk93wCzB+I3WuELqBk5TzMYiKHG6UxRzY6fQm2Ln
+	 184O+flK5Wr1KNl/hFuHjjQ9uxUGr5ZJF17ZkqJXe0pDjJk0HgFnwYqaREaIjakWOP
+	 /ZeDKygu4q3Rw==
+Date: Fri, 21 Feb 2025 01:41:42 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Cheng-Yi Chiang <cychiang@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Benson Leung <bleung@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-sound@vger.kernel.org,
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Prashant Malani <pmalani@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	chrome-platform@lists.linux.dev, Jameson Thies <jthies@google.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: cros_ec_codec: Use str_enable_disable() helper in
- wov_enable_put()
-Message-ID: <Z7fXtFWlci-c52K-@google.com>
-References: <20250220120100.1530-2-thorsten.blum@linux.dev>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Add support for setting
+ USB mode via sysfs
+Message-ID: <Z7fZ1vpb02fn0YoG@google.com>
+References: <20250210130419.4110130-1-akuchynski@chromium.org>
+ <Z7SYg8HaSVx9QyH9@tzungbi-laptop>
+ <CAMMMRMfYWqGEJDmMaPQFjQFeUhWJ4wVp-xy2TTdAhp3gRv-n8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250220120100.1530-2-thorsten.blum@linux.dev>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMMMRMfYWqGEJDmMaPQFjQFeUhWJ4wVp-xy2TTdAhp3gRv-n8g@mail.gmail.com>
 
-On Thu, Feb 20, 2025 at 01:01:01PM +0100, Thorsten Blum wrote:
-> Remove hard-coded strings by using the str_enable_disable() helper
-> function.
+On Thu, Feb 20, 2025 at 01:39:57PM +0000, Andrei Kuchynski wrote:
+> On Tue, Feb 18, 2025 at 2:26 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> >
+> > On Mon, Feb 10, 2025 at 01:04:19PM +0000, Andrei Kuchynski wrote:
+> > > +static int cros_typec_enter_usb_mode(struct typec_port *tc_port, enum usb_mode mode)
+> > > +{
+> > > +     struct cros_typec_port *port = typec_get_drvdata(tc_port);
+> > > +     struct ec_params_typec_control req = {
+> > > +             .port = port->port_num,
+> > > +             .command = (mode == USB_MODE_USB4) ?
+> > > +                     TYPEC_CONTROL_COMMAND_ENTER_MODE : TYPEC_CONTROL_COMMAND_EXIT_MODES,
+> > > +             .mode_to_enter = CROS_EC_ALTMODE_USB4
+> >
+> > The symbol `CROS_EC_ALTMODE_USB4` doesn't exist.  On a related note, wouldn't
+> > it always enter CROS_EC_ALTMODE_USB4 if the value is hard-coded here?
+> >
 > 
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+> CROS_EC_ALTMODE_USB4 is defined in drivers/platform/chrome/cros_ec_typec.h.
 
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+I see.  Overlooked that.

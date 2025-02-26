@@ -1,78 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9D820AF8E;
-	Wed, 26 Feb 2025 15:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFE825E82D;
+	Wed, 26 Feb 2025 22:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740585245; cv=none; b=mmyOL9vFdmAE90jxSh/ywZVL8Wdqgxr2TZDWGLbULW1mXJH4HW2k+TijB/3C6SSHjDMFgxXbsWbewKcUHda8SDKAYci73n3IUsrOfKZax9/7Si8cigiPcGvEhxde4IN6tno3SjccBGDc76a8p6t/mOJr4Y+S8WaVR5sFVhoTpXM=
+	t=1740610518; cv=none; b=HoXE9lFT83GW/nf5SySzNqKZqMAgtXfnJRbi9vdOrmlxNmndwV3g2eL3Uu3QVq/O6WNHVU2gO9oOmQ6gWU3LNBuFfdSVICKRXRsDJjJmF+h7e+koUVoprLuj+wezpC177INNOUOHnPutIG/m1VX4lgzAhsTIckVWjAVScmxvaGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740585245; c=relaxed/simple;
-	bh=IHPkSRz8POGRAPI3+TsZtf+aSugk/+coyipS7hZDYFU=;
+	s=arc-20240116; t=1740610518; c=relaxed/simple;
+	bh=3rualdVsZ0rnSLUknJnwEmuB93Nt/mrluRr78WdEdIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jARmyNxrBMKlk2r2i8jFyHoMB/kW0x3Yfau+iuOhXrcJYuRckZMlPsmlIMToBX7LWJ+JDfuw61QtLuU7qelOcA40kyjjN+2msW5JNJpDnAd6Pwi43JCSAx9xFZyJGXHhuqW01H+JX4Dl4geXj1zFmJyWmhrqJhxmO20HrvfZNeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ebRrTCn0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UYpBLJJGHXb1qobUzcTlmwpWucUnzt4MSjdIxUDDv+NDOr38r3Fa/JKaQRE5xgHeQQYfOjKVpxRPsdjUXmyFnwENPjIkA/c8bsveLo9FAvYr2q0t+O2fQBC6J5yiepbp0osAJfEexhIBEFFSaYzvy3LzJqlgu6GbEYRdyrFoxBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UE4RPiIm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ebRrTCn0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D0CC4CED6;
-	Wed, 26 Feb 2025 15:54:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UE4RPiIm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CAF4C4CED6;
+	Wed, 26 Feb 2025 22:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740585244;
-	bh=IHPkSRz8POGRAPI3+TsZtf+aSugk/+coyipS7hZDYFU=;
+	s=k20201202; t=1740610517;
+	bh=3rualdVsZ0rnSLUknJnwEmuB93Nt/mrluRr78WdEdIM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ebRrTCn0FtzefQG7EREqZV+fhlEodGXj9wNSk+4qoYb6UP5dS/y/P1v0gQ54I/juH
-	 zbvnuRNk8SaufOg5oUcragcZLJVgJaMahtSZT7gJn5vfkeFGrLhauR0Y1aHAiSE8In
-	 BbZcumY7bidvd8HoKmA7/0fbzPUOHtjdw3GhQ3JiYNsQEuLCR9m9b60KkHhaVYzil7
-	 kPgWEfJVI0vYEVLsfN+dAVflnpE5u5C0CFWEgdP5qaW2sg5ftTCG4LnzgXCZxjsJ7K
-	 SqF5eeujjSSpT+IfMlJTmyw9IRBi0SU5wimHcZASFDIJWXeFWQSJ5OzHiCQeuXdf3J
-	 8Y76xMSVlGm2w==
-Date: Wed, 26 Feb 2025 09:54:02 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: linux-arm-msm@vger.kernel.org, patches@lists.linux.dev,
-	Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
+	b=UE4RPiImGNejxCgGvcmt+qoRUzr6PSyoLUkPypdhGaXcKaVH67Z+ogZJ1cvqtZ17H
+	 q4O2UtzyGkJA25bOgFBPVWd9MEuva8LWVqRqiYqMlB9nyXGSvdhypCElfmOqt1FgFS
+	 yZwQD+OFIRr0PdLIL8DrumvaZ5fc2lLIvqufKydh9zHcW2f8QaT1Davb+8b7erL5K+
+	 q14iwyqgXnwdb6Pf8SukIe6AJJ2ISWRUyKFYjbYZvTiPRLeGe+GhQAiOemBEUBr6Xz
+	 XTOeRc8fWokBq1l++rJElbPNZw93bc78zvhxOBuOgAml3aBHxj50A6Fv0Np67VfAJt
+	 GohZrtUQ8jvFQ==
+Date: Wed, 26 Feb 2025 22:55:10 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Fabio Estevam <festevam@denx.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, Pin-yen Lin <treapking@chromium.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] dt-bindings: usb: Add binding for ChromeOS Pogo
- pin keyboard connector
-Message-ID: <174058524070.2499032.1136545857184253798.robh@kernel.org>
-References: <20250225223038.879614-1-swboyd@chromium.org>
- <20250225223038.879614-2-swboyd@chromium.org>
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH v3 08/12] regulator: allow user configuration of hardware
+ protection action
+Message-ID: <f3a1ae24-6ee0-43d7-8648-cf25ac139960@sirena.org.uk>
+References: <20250217-hw_protection-reboot-v3-0-e1c09b090c0c@pengutronix.de>
+ <20250217-hw_protection-reboot-v3-8-e1c09b090c0c@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="69+QFFE4FM9qynJX"
+Content-Disposition: inline
+In-Reply-To: <20250217-hw_protection-reboot-v3-8-e1c09b090c0c@pengutronix.de>
+X-Cookie: I've been there.
+
+
+--69+QFFE4FM9qynJX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225223038.879614-2-swboyd@chromium.org>
 
+On Mon, Feb 17, 2025 at 09:39:48PM +0100, Ahmad Fatoum wrote:
+> When the core detects permanent regulator hardware failure or imminent
+> power failure of a critical supply, it will call hw_protection_shutdown
+> in an attempt to do a limited orderly shutdown followed by powering off
+> the system.
 
-On Tue, 25 Feb 2025 14:30:36 -0800, Stephen Boyd wrote:
-> Describe the set of pins used to connect the detachable keyboard on
-> detachable ChromeOS devices. The set of pins is called the "pogo pins".
-> It's basically USB 2.0 with an extra pin for base detection. We expect
-> to find a keyboard on the other side of this connector with a specific
-> vid/pid, so describe that as a child device at the port of the usb
-> device connected upstream.
-> 
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: <devicetree@vger.kernel.org>
-> Cc: <chrome-platform@lists.linux.dev>
-> Cc: Pin-yen Lin <treapking@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  .../usb/google,usb-pogo-keyboard.yaml         | 68 +++++++++++++++++++
->  1 file changed, 68 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/google,usb-pogo-keyboard.yaml
-> 
+Not that it matters at this point but
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
+--69+QFFE4FM9qynJX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme/m80ACgkQJNaLcl1U
+h9BMTQf9EPlgFM5IHJeDldbatcC7CEidjNZXpHX8EVgKK1b4TRFL1eAxjG0TbxD2
+uMRhc02ghjwIGueCDC/fq7Ziivq6rpmWNQc3RBZMXP499VIVnBvSEFYCryeohXkj
+kKdWMjGH468A5J4qa6IiCdzpRJB/lyhyiU0Rjup9YKdpC+LFhjvWR7N4oqAUmzss
+k16nd/Nw3lEs23Kd3FoJ+TfQImtUm3QQ2doQyWcFgbpoO2uOI4X40LXVb6RKLq39
+RtuDh+WWEFjQeByjIrHjQ9HHn4aTpYKE4aqVKRGpwHlWr5pQqfIcyg2NDjUfrBGT
+bdyJw53DkC0StS3yRxrJo3Yp5iQqhg==
+=zpJM
+-----END PGP SIGNATURE-----
+
+--69+QFFE4FM9qynJX--

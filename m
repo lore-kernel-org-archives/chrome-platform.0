@@ -1,101 +1,178 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D3E1E5B6F
-	for <chrome-platform@lists.linux.dev>; Mon,  3 Mar 2025 07:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6A12063D7;
+	Wed,  5 Mar 2025 10:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740985694; cv=none; b=hiY6xNxYOtXa9Ops915pnYyU1oeuihJsMpbpDtlIJeh5ClkU0iGKxQ2OsYEbeqNiC27C31Zya6DciSoD6zPpdk+26LE86isDsMC1cM6NPylzhOy4NKtUKPR0CU0gDSGPzthdxyKq4KRZ8ROqTzZ6OSArGb0rOLE1kquk0YKbW5E=
+	t=1741169476; cv=none; b=MsPlABNaK7qMgUe4nLfe35MgdXLLxA2nv7lYbzuLvKBLU8mQoig7Xq0V5eLA+k99FKx2XM4vUJdXmgQSnsTJmwTu87M54Uwbh5K0bbm6B5xMDQPoHJFr4oibDYfx+CFxYFXcfuV0rtxxurOuD009oa2kDmFANVWyXLFNZsYdF68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740985694; c=relaxed/simple;
-	bh=k0s1zoqCwF7NrMnsyzRl2nJZzaiZ5CaTUbqo5y8w+TI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iiPH3y+mxY/90dOrvz6B+T6SlT3b0IXRLI/FvM2mXv+7vJk0FsiPeUbS8tVkLlS6Xy64nIs/BQ9AYAnzE9s0RflGW7BI8q9cR2WeCBsHvNVx1ieAPpfgcoKYnR3+6NkWo6rnW3bkK4fneCT/B4WuYTMyNs3aGqfgO/qB8xVdgoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=frame.work; spf=pass smtp.mailfrom=frame.work; dkim=pass (2048-bit key) header.d=frame.work header.i=@frame.work header.b=FUce3267; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=frame.work
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=frame.work
+	s=arc-20240116; t=1741169476; c=relaxed/simple;
+	bh=30rEyG+pIJxPNakYv5p7IGH7V2SxGpqIbqxG9RIgGU4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=n99VepLz77ePbxUJHOaEZ5QSxJ5Cj/eXWEZmkAtNAXI625ggAmyQ08PouAVeYxGogZx7ICsbbarGC0kfpJXiotI4wPHFHW4yYpyxb6Pc6ucy4c3lka2xFftDmwlBKnFHHQxytqyMZocq2zcjX1LZiss3CzmgZ6z37ZCiU0gREjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=W8ld+Ol0; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=frame.work header.i=@frame.work header.b="FUce3267"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2fee05829edso2697920a91.3
-        for <chrome-platform@lists.linux.dev>; Sun, 02 Mar 2025 23:08:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=frame.work; s=google; t=1740985691; x=1741590491; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MDZFVcYDjYmhUC/IeXT22/0bs2WUbeQV9WygPjJbNqE=;
-        b=FUce3267W2QUtYYvWO9Bgz1EbTFiIbyRgjle3Frpoz2AlZdjXjsXzN95LB+FOfJsUp
-         nRXfO5m2vWQ3OVaZb1U+6JNAXTx/W/pzQnHNtu+OCoE96dpLHG2KSKYjvsHkgz17FENk
-         VHMHlEHXFKlsAiCtGjFGcAWRjoJjjERtrYyvTxn/poCoAXXb3ukx1dTMHGxmY3L9M+1K
-         p+ufNL98KWTYuUtLBM/+mAgkJTP3FrVfHrInkWZCoQtkWPhQS0YxbL3Cr08rT1etiyLu
-         J6Gb72cASfAyEYXJVAFk6MxeoiApqGrbv1q/MxdQMaGeoEArqW3jn8UmlWaU+kZ6fnab
-         jWxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740985691; x=1741590491;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MDZFVcYDjYmhUC/IeXT22/0bs2WUbeQV9WygPjJbNqE=;
-        b=ORI5e+7m4dHtrTsYlOC4ErlzYVUZ7MG/jPjDg5s5ZP1ekwytJVb2IhqrpIUkFP+UYA
-         1gjJJQxiqYEIbvzlKH83XRg422yFQ/1mweqSVTGuEtDKyLespVsxIukFrT7zHfw+zqkD
-         DK2wDZkOlzDEJ1+54+QN6VSMxvgBN2nvfNDFZF7XLpkNWMHs9viibPVsfsqAv/Gwq3CF
-         4Ts/U4FZmobdgNX7eikksUSws/uz2rp2pQZvMwRpBIbujP3wzNKtwWBvoSBoEiezmbRb
-         0zkgcj+G6Qi1dXUcDJDQh1WS6ivEU+tiBHYA8KsTFcovkGk3vg3YGIErB70g1038bqle
-         KkcQ==
-X-Gm-Message-State: AOJu0YwuMf8n86i0q6syB98PqrLdsVmLXyi7oMOB83RZuNacMV3fGa2N
-	isg8O5RJW0EEgb8BttOp1dGsmon6q5nUymKpuge6R3IrgmutxhG4Zwx3nsa4Y8MVpnIuseO3/n/
-	twG3aumf/qWxEahFRQrNFMOrdLO+f07VbCCfobQ==
-X-Gm-Gg: ASbGnctvqOk3Jr+GLeFqXeViWwKFNw3NVPuG8HPwyVDSFqKB3Q93IZwzwgF37zHtnBe
-	GJOPWRrzzh6cLmvLhI6J1ydHkrJyjOrpQGbCihSOa5aZokEDxlDwaR01H2/7bRudSnQz+ZU5uH5
-	canJYUYNqMlRW5xx/hbV8ipzE90po=
-X-Google-Smtp-Source: AGHT+IEkUBfmVoSV7Az7Lhyg0xo1unkdDYvHgNB+hiWE1n7t2CKgOyOXAC5vygTkwCmofqUZxHUo5lWGNeMLOFC89GY=
-X-Received: by 2002:a17:90a:d605:b0:2f2:8bdd:cd8b with SMTP id
- 98e67ed59e1d1-2febabf199bmr19148706a91.29.1740985691043; Sun, 02 Mar 2025
- 23:08:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="W8ld+Ol0"
+Received: from pps.filterd (m0431383.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5258qqsZ019244;
+	Wed, 5 Mar 2025 02:10:37 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pfpt0220; bh=qbqF48qVGJ7k977FyHARI9U
+	rv+TEi3KnHj8UcH7vyaU=; b=W8ld+Ol0lHAzikVYU52DOPnFV7VVZgfOtqPH0jJ
+	VaMQnIcC1KqcbpBxK0AJrqnZIfA7kp5JmtRAMDtrxPbofa3ohLjhuhaGeIDQV7qj
+	eaivNu7zId34ZTotRMa0qGJ5TL5NbOPjewooyqQWLOezzRjZsAe5Y2SI6yQRXSd9
+	SxUkPw0D8uEmxrBVJD6DWrZiSSGGNtKSpovRv41muoRNt2PA7hGD6R0Fs8c6/l8v
+	WsZn4iiU6EyK6RmfGhTCZx35/VxR0Q2u5q7TXZ3CNzitlD3fqXHsSj0hJD3TA2Zb
+	453lgjgyf+3tsZGmbYzHE03WqBXMqOgWz1QybM5PE2L3o8A==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 456kg184rh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Mar 2025 02:10:36 -0800 (PST)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Wed, 5 Mar 2025 02:10:35 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Wed, 5 Mar 2025 02:10:35 -0800
+Received: from tx2-sever.caveonetworks.com (unknown [10.110.141.15])
+	by maili.marvell.com (Postfix) with ESMTP id 35B843F703F;
+	Wed,  5 Mar 2025 02:10:35 -0800 (PST)
+From: George Cherian <george.cherian@marvell.com>
+To: <linux@roeck-us.net>, <wim@linux-watchdog.org>, <jwerner@chromium.org>,
+        <evanbenn@chromium.org>, <kabel@kernel.org>, <krzk@kernel.org>,
+        <mazziesaccount@gmail.com>, <thomas.richard@bootlin.com>,
+        <lma@chromium.org>, <bleung@chromium.org>,
+        <support.opensource@diasemi.com>, <shawnguo@kernel.org>,
+        <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+        <festevam@gmail.com>, <andy@kernel.org>, <paul@crapouillou.net>,
+        <alexander.usyskin@intel.com>, <andreas.werner@men.de>,
+        <daniel@thingy.jp>, <romain.perier@gmail.com>,
+        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
+        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
+        <benjaminfair@google.com>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
+        <npiggin@gmail.com>, <christophe.leroy@csgroup.eu>,
+        <naveen@kernel.org>, <mwalle@kernel.org>, <xingyu.wu@starfivetech.com>,
+        <ziv.xu@starfivetech.com>, <hayashi.kunihiko@socionext.com>,
+        <mhiramat@kernel.org>
+CC: <linux-watchdog@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <chrome-platform@lists.linux.dev>, <imx@lists.linux.dev>,
+        <linux-mips@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <patches@opensource.cirrus.com>,
+        George Cherian <george.cherian@marvell.com>
+Subject: [PATCH v4 0/2] Add stop_on_panic support for watchdog 
+Date: Wed, 5 Mar 2025 10:10:23 +0000
+Message-ID: <20250305101025.2279951-1-george.cherian@marvell.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250220023441.158615-1-dhs@frame.work> <Z7b6Wg-Ui2p_bnCO@google.com>
-In-Reply-To: <Z7b6Wg-Ui2p_bnCO@google.com>
-From: Daniel Schaefer <dhs@frame.work>
-Date: Mon, 3 Mar 2025 15:07:59 +0800
-X-Gm-Features: AQ5f1Jqofx2TZ4iMMD0RMQJW2Ojd_BHjbi701RC3z4KR2VXjC8c4VhU8gPN1N3g
-Message-ID: <CAAjcXz7-=MK-PmEior_dQbEHNa1gLJiFMPqYh3c5BVKUTOfj_Q@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_usbpd_logger: fail probe if HC not supported
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>, 
-	"Dustin L . Howett" <dustin@howett.net>, linux@frame.work
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: w2sqtc8AAqn1lQeUebd10xLXrXXuTShg
+X-Proofpoint-GUID: w2sqtc8AAqn1lQeUebd10xLXrXXuTShg
+X-Authority-Analysis: v=2.4 cv=E7k3pbdl c=1 sm=1 tr=0 ts=67c8231c cx=c_pps a=gIfcoYsirJbf48DBMSPrZA==:117 a=gIfcoYsirJbf48DBMSPrZA==:17 a=Vs1iUdzkB0EA:10 a=lsmenjMKv-2rqCzf5cEA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-05_04,2025-03-05_01,2024-11-22_01
 
-You are right, if we remove this feature, the driver won't load. So we
-don't need this kernel patch.
-We found there's a bug in Chrome EC where it enables this feature,
-even when the Kconfig is turned off.
-We're including this patch in our future Framework EC builds:
-https://github.com/FrameworkComputer/EmbeddedController/commit/57030a466bb7=
-e130313cf2b2a305a753e9c9a55e
+This series adds a new kernel command line option to watchdog core to
+stop the watchdog on panic. This is useul in certain systems which prevents
+successful loading of kdump kernel due to watchdog reset.
 
-On Thu, Feb 20, 2025 at 5:48=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> On Thu, Feb 20, 2025 at 10:34:41AM +0800, Daniel Schaefer wrote:
-> > If the EC_CMD_PD_GET_LOG_ENTRY does not exist, the driver does not need
-> > to stay active.
-> >
-> > Framework Computer systems don't use the PD infrastructure in the chrom=
-e
-> > EC firmware, so it does not support this host command.
->
-> Does the firmware still report `EC_FEATURE_USB_PD` feature [1]?  Similarl=
-y,
-> do "cros-charge-control" and "cros-usbpd-charger" need to stay active [2]=
-?
->
-> [1]: https://elixir.bootlin.com/linux/v6.13/source/drivers/mfd/cros_ec_de=
-v.c#L263
-> [2]: https://elixir.bootlin.com/linux/v6.13/source/drivers/mfd/cros_ec_de=
-v.c#L89
+Some of the watchdog drivers stop function could sleep. For such
+drivers the stop_on_panic is not valid as the notifier callback happens
+in atomic context. Introduce WDIOF_STOP_MAYSLEEP flag to watchdog_info
+options to indicate whether the stop function would sleep.
+
+
+Changelog:
+v1 -> v2
+- Remove the per driver flag setting option
+- Take the parameter via kernel command-line parameter to watchdog_core.
+
+v2 -> v3
+- Remove the helper function watchdog_stop_on_panic() from watchdog.h.
+- There are no users for this. 
+
+v3 -> v4
+- Since the panic notifier is in atomic context, watchdog functions
+  which sleep can't be called. 
+- Add an options flag WDIOF_STOP_MAYSLEEP to indicate whether stop
+  function sleeps.
+- Simplify the stop_on_panic kernel command line parsing.
+- Enable the panic notiffier only if the watchdog stop function doesn't
+  sleep
+
+George Cherian (2):
+  watchdog: Add a new flag WDIOF_STOP_MAYSLEEP
+  drivers: watchdog: Add support for panic notifier callback
+
+ drivers/watchdog/advantech_ec_wdt.c |  3 ++-
+ drivers/watchdog/arm_smc_wdt.c      |  3 ++-
+ drivers/watchdog/armada_37xx_wdt.c  |  2 +-
+ drivers/watchdog/asm9260_wdt.c      |  2 +-
+ drivers/watchdog/bcm47xx_wdt.c      |  3 ++-
+ drivers/watchdog/bd9576_wdt.c       |  2 +-
+ drivers/watchdog/bd96801_wdt.c      |  2 +-
+ drivers/watchdog/cgbc_wdt.c         |  2 +-
+ drivers/watchdog/cros_ec_wdt.c      |  5 ++++-
+ drivers/watchdog/da9052_wdt.c       |  3 ++-
+ drivers/watchdog/da9055_wdt.c       |  4 +++-
+ drivers/watchdog/da9062_wdt.c       |  4 +++-
+ drivers/watchdog/da9063_wdt.c       |  4 +++-
+ drivers/watchdog/db8500_wdt.c       |  5 ++++-
+ drivers/watchdog/dw_wdt.c           |  5 +++--
+ drivers/watchdog/f71808e_wdt.c      |  3 ++-
+ drivers/watchdog/gpio_wdt.c         |  2 +-
+ drivers/watchdog/i6300esb.c         |  5 ++++-
+ drivers/watchdog/imx_sc_wdt.c       |  2 +-
+ drivers/watchdog/intel-mid_wdt.c    |  5 ++++-
+ drivers/watchdog/it87_wdt.c         |  5 ++++-
+ drivers/watchdog/jz4740_wdt.c       |  5 ++++-
+ drivers/watchdog/kempld_wdt.c       |  3 ++-
+ drivers/watchdog/lenovo_se10_wdt.c  |  5 ++++-
+ drivers/watchdog/max77620_wdt.c     |  5 ++++-
+ drivers/watchdog/mei_wdt.c          |  3 ++-
+ drivers/watchdog/menf21bmc_wdt.c    |  4 +++-
+ drivers/watchdog/mlx_wdt.c          |  2 +-
+ drivers/watchdog/msc313e_wdt.c      |  5 ++++-
+ drivers/watchdog/npcm_wdt.c         |  3 ++-
+ drivers/watchdog/omap_wdt.c         |  5 ++++-
+ drivers/watchdog/pm8916_wdt.c       |  5 +++--
+ drivers/watchdog/pseries-wdt.c      |  2 +-
+ drivers/watchdog/rave-sp-wdt.c      |  5 ++++-
+ drivers/watchdog/renesas_wdt.c      |  7 ++++--
+ drivers/watchdog/retu_wdt.c         |  5 ++++-
+ drivers/watchdog/rn5t618_wdt.c      |  6 +++--
+ drivers/watchdog/rzg2l_wdt.c        |  5 ++++-
+ drivers/watchdog/rzv2h_wdt.c        |  5 ++++-
+ drivers/watchdog/shwdt.c            |  6 +++--
+ drivers/watchdog/sl28cpld_wdt.c     |  5 ++++-
+ drivers/watchdog/softdog.c          |  5 ++++-
+ drivers/watchdog/sp805_wdt.c        |  5 ++++-
+ drivers/watchdog/starfive-wdt.c     |  3 ++-
+ drivers/watchdog/stpmic1_wdt.c      |  5 ++++-
+ drivers/watchdog/ts4800_wdt.c       |  5 ++++-
+ drivers/watchdog/twl4030_wdt.c      |  5 ++++-
+ drivers/watchdog/uniphier_wdt.c     |  3 ++-
+ drivers/watchdog/w83627hf_wdt.c     |  5 ++++-
+ drivers/watchdog/watchdog_core.c    | 35 +++++++++++++++++++++++++++++
+ drivers/watchdog/wm831x_wdt.c       |  5 ++++-
+ drivers/watchdog/wm8350_wdt.c       |  5 ++++-
+ drivers/watchdog/xen_wdt.c          |  5 ++++-
+ drivers/watchdog/ziirave_wdt.c      |  5 ++++-
+ include/linux/watchdog.h            |  2 ++
+ include/uapi/linux/watchdog.h       |  1 +
+ 56 files changed, 198 insertions(+), 58 deletions(-)
+
+-- 
+2.34.1
+

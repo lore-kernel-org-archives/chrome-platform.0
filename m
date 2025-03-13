@@ -1,157 +1,109 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE5B1EE017
-	for <chrome-platform@lists.linux.dev>; Wed, 12 Mar 2025 20:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19DDC1F3FE2
+	for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 04:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741809621; cv=none; b=QV3tnfomnf9962f68jz+60p/w+D5DLwWsgxRlD940YXWISn1qrmidyAYiN7A2DSN2j/pAy0SWUf5CzgDzny3ZM4HeT7OhkJLpx/jcw19xQQK0CL7bpf1fIxyLqoUpLNkqanUyX/ZuZxKOkqaThpGIRSu5nt2aytMwdboLMNLVw0=
+	t=1741841287; cv=none; b=Xllrt2fJaKgIJItszPj+zf69XK7ceQaCAAZK7bSUMdWU6dSnEPtoFNX+7EOxlAPoodGyZO89k32S5+ALNehYVIeKvAfUdtZt+2sk4UndOgKbEcRf4DCxkP/fPOcbkZ/vHD7+OOqbXKUDE0PuMYJTRZCXfoa5Ym9KNvepawqdLTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741809621; c=relaxed/simple;
-	bh=05+7dVWuOECHdsMMg1bh5t6jzIqyq0QLMWPcZxTVIQY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=UtkMYZ5w6VTjVhsf5hcJP0IJOduDwzCXeNgK5IisL+xKz4ZT2xcxc5S7hZNLT5iH5yaAc0Z4MTZh3mWWUoYCkDdiBTgV5J79hTP4rlHhq1tZBenEXje7+yhJQdqf6fiXJzbAPxfO7XN2SjXL8Ia7/mBZ+FENEomBcvuY72K6lTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=muj/B9Lm; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com
+	s=arc-20240116; t=1741841287; c=relaxed/simple;
+	bh=Y0Td/sWdH+knvqeBCTi/FRD4AvDH3lbDPwadbtlNZfE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RQB2bmYe7L16GgbyorUYzoPH5uc1Ax0PHs2qN8hJAn5NIumW77NJB0sbU8b9Le+k6GnXVrRfa2lt26K47sFsLnEfrpH34edOflZ2U0MKDxzivnfrORHxyfnwvaEmK7jkxeJ48V8aIB5bTnmeS2J/2EyTf1p8Al5GoEXorFppA9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JQNJSiw7; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="muj/B9Lm"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-223477ba158so6177295ad.0
-        for <chrome-platform@lists.linux.dev>; Wed, 12 Mar 2025 13:00:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JQNJSiw7"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22403cbb47fso10505755ad.0
+        for <chrome-platform@lists.linux.dev>; Wed, 12 Mar 2025 21:48:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741809620; x=1742414420; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L17RDKhWUu6oMmo9Xalv19pEsxNZy4ncT3jPzEM2UX4=;
-        b=muj/B9LmOwffWRJTRTQyWq/Wbo1ZvyLnSbynJWOIDW7fY1nTV0E9AnnUzPArpGkZB0
-         4j/HolalKpVGmP28dW+0O1ikDXo+rGqyu/cOT2HyIPhucMBAj3XOxmShz4zu7ACrFR8g
-         I9h4xLFLmznYkTJoBhjt/AidyQCJg6ELgjm+GmtdlukxNhU9rKWMAFt+1U5W/X7coZja
-         6G3yJCAUNYsiwlIA0JgWkVuIs5NL8afxpG/wmPIKznfD7jPELUefsrXr4eSHjHlju4MX
-         eI4BT7fk09VOR94Rt/JEesTKe+m5kRYaAMUDXjunca5BYRvNU6XFo6t2IZT/0vw9chj0
-         LUOA==
+        d=chromium.org; s=google; t=1741841284; x=1742446084; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=REcOQ3NimKP7+/Ghwgmby8IZ78g2GtCKzkTqzXtjVyU=;
+        b=JQNJSiw7sJQV7eKoomZ3DNU/LRtmta934oLU6L2bPr+9I1vSVqhCImEd+4jDv3Je8r
+         BO8R74YchW7gP3rUGEx+9VyB0DFKDK8ktJPYa3k0HdltdUaag4v2Foy0FfO09Wt6UNou
+         wfMnfgZqnBI5vTnDqOcX4HpoFQ0S44G3IXcRQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741809620; x=1742414420;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L17RDKhWUu6oMmo9Xalv19pEsxNZy4ncT3jPzEM2UX4=;
-        b=owLGZEFHaYlG8ulljNHPlxpIByD4Luw6ETi3EN0M7pwBll6JsIuSKwMxNZpgOwQBKC
-         DiUY6g1a0mbHOpPORh2eGtGN7CGX1oAEkXOdTyfBbG5p1oU8DIYHFtgyAgbANmlcvMcE
-         RdgLUW0F5d2ak9SJTkWl7QsFyZYoGp3HjtfJWT5vtqW/2lu467fIyD4R7bm+zdYz0yyM
-         JV1NomnZnCaR9SbZF5BNR0UywfxTOnQs69nV5SvHGsJzrAx0rnanSXBbA820eECO+Ewm
-         qQom/Kr0LHhtKrTCug+4uexYQqu2k9bl7hv4qwA114CpOl4jxxaqFWP93U0A7Y0jM9kD
-         q1iA==
-X-Forwarded-Encrypted: i=1; AJvYcCV1LgGPgSBie2oaFPyH2IGY1gUaEpChHfk3EDmRP2FyotZ/F5P6qA+H8yw4+ITSJ8XrccFhLrxMGrjyPy4aHzA=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGrKsRJAuqhPNNvLwMIJ5o5aYfqsQZF6GN1074jnoqo4INUEON
-	sYMQ4V9hk1Yg6RfdagV5Yk4mdbJxXjYKifYwmtHnq1EIYSVrqURNvwHjp0RaldLKT+Eu2bey3iy
-	//g==
-X-Google-Smtp-Source: AGHT+IH4K/47qeRDt1YjBAXcU3FOe5IP5JjThNYGWQevxtIT/iQUAQ0NeIwRHC3jFWJ6xWJBzD8leYYbizE=
-X-Received: from plbmp13.prod.google.com ([2002:a17:902:fd0d:b0:21f:56e1:c515])
- (user=jthies job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:2405:b0:224:24d5:f20a
- with SMTP id d9443c01a7336-22428bfdba7mr411018645ad.48.1741809619744; Wed, 12
- Mar 2025 13:00:19 -0700 (PDT)
-Date: Wed, 12 Mar 2025 19:59:12 +0000
-In-Reply-To: <20250312195951.1579682-1-jthies@google.com>
+        d=1e100.net; s=20230601; t=1741841284; x=1742446084;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=REcOQ3NimKP7+/Ghwgmby8IZ78g2GtCKzkTqzXtjVyU=;
+        b=vlLZfKyUjM8bErcNb7isWw9oBH8JbxXvN/n8X+fnfaYW1xAkc8KaeSxD6EfjUXNaeJ
+         dV6m1ennFStaXOHHAC+lBW3EmO96tvB4l1Ndjo15WG9JuS4zaQs8Cy1EGcWTOQqD34+9
+         IUPTA1irCCATqlKG4BydaWn/K3LUX+KaNUJzbQL4/en3AYRYvN9wsmWXu/h3RY577SFf
+         cj4uDNNl0ySKrsKP9m3iU01yULNs3jEjR7h3+Wq/1240R8y7XAmFpH+KaiQ3MB2fMr9F
+         C+mSpx4cN0V/OVnh7QgyUUv2SmbXb3QqXTMrJ7zTXLYxlpqyPFdkuygYD6ZzsT1/a7hM
+         gwGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWc/QJJiJlL8Rp40KrpjSe0mhTiRWpVdjX/9pa1oO6cJxuHnCi3W/wE8zjRg5ynIYh0gYAgOODwcuQ3ptboTYk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwhQS81MQ4VQ1lvykapDQT3h+9qdFBYKJgX9LV9hD5QTf3ETkpo
+	M1bGXUlJ1cxaMu8TnSX0ezsmfgvOgfqATUQU4yZ9AKWlE50pDYrRBIcQVqDue4g3Zz4cZirvJ2E
+	=
+X-Gm-Gg: ASbGnctA44E/y3s9SY386/9J99h+XaqlbUa1Y3eWEBrzGe67EM2cw+9xqPrdpI9T3Rh
+	SggMSJR+q3gjYZ9q2lW0USRB7MEVjUG7T4DCvnCbh3gwOjJMVPzeRg6YIAhmYRrolTHjCv89+fQ
+	VY3BZrIeszB8vCa/lR0F6Bz79TmW4MaXcuztgiFoFhnI05gjggtXlMWZXk5vi2MccTN4QNFKRX9
+	BqUhwKymyYFP5+4EcVFk4lSNmavnUtIkebpEkwgRkounjyT0yM/4EouRhuUrOqb5jUT3m8Fck1q
+	N5azq0vABM+avzoibm0Nldyl+1IAUov9YE+/n3TtzIrmIvw6SMBt2GrKo7wVfZeuNHs=
+X-Google-Smtp-Source: AGHT+IFivHliX3YVhdxncqv12rrqQ3yO7uTaNUb3Gnhhii9egYkYfMhfwC4Ns2bXiI/Sc861z4Cx7g==
+X-Received: by 2002:a17:902:ccc5:b0:223:f9a4:3f99 with SMTP id d9443c01a7336-22428a9d152mr344857145ad.29.1741841284353;
+        Wed, 12 Mar 2025 21:48:04 -0700 (PDT)
+Received: from lschyi-p920.tpe.corp.google.com ([2401:fa00:1:10:1872:6051:5c24:509e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bd5c03sm4188025ad.249.2025.03.12.21.48.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Mar 2025 21:48:04 -0700 (PDT)
+From: Sung-Chi Li <lschyi@chromium.org>
+Subject: [PATCH 0/3] Export the target RPM fan control by ChromeOS EC under
+ hwmon
+Date: Thu, 13 Mar 2025 12:47:41 +0800
+Message-Id: <20250313-extend_ec_hwmon_fan-v1-0-5c566776f2c4@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20250312195951.1579682-1-jthies@google.com>
-X-Mailer: git-send-email 2.49.0.rc0.332.g42c0ae87b1-goog
-Message-ID: <20250312195951.1579682-4-jthies@google.com>
-Subject: [PATCH v1 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is defined
- in OF or ACPI
-From: Jameson Thies <jthies@google.com>
-To: tzungbi@kernel.org, ukaszb@chromium.org, bleung@chromium.org, 
-	heikki.krogerus@linux.intel.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, groeck@chromium.org, swboyd@chromium.org, 
-	akuchynski@chromium.org
-Cc: devicetree@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Jameson Thies <jthies@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG1j0mcC/x3MQQqAIBBA0avErBNKcVFXiZDJxppFU2iUEN09a
+ fkW/z+QKDIl6KsHIl2ceJeCtq7ArygLKZ6LQTfaNqY1ivJJMjvybr23XVxAUWiD7RAn7ScDpTw
+ iBc7/dRjf9wNxGYvyZQAAAA==
+X-Change-ID: 20250313-extend_ec_hwmon_fan-a5f59aab2cb3
+To: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Benson Leung <bleung@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sung-Chi Li <lschyi@chromium.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741841282; l=847;
+ i=lschyi@chromium.org; s=20241113; h=from:subject:message-id;
+ bh=Y0Td/sWdH+knvqeBCTi/FRD4AvDH3lbDPwadbtlNZfE=;
+ b=6crJeFwDT8h8Rk+m2OeKexaNtQbX5DfEuIIILaDCnFdUl2qZRkUR2HWQEJBeTDc0KSkaDvwpF
+ lcKNjE6CRHeBxUNV3+8QlRLnzLCaFg1kXTyCaoIVGAoUQQaXP69v0Lf
+X-Developer-Key: i=lschyi@chromium.org; a=ed25519;
+ pk=nE3PJlqSK35GdWfB4oVLOwi4njfaUZRhM66HGos9P6o=
 
-Check for cros_ec_ucsi to be defined in the OF device tree or an ACPI
-node. If it is defined by either OF or ACPI, it does not need to be
-added as a subdevice of cros_ec_dev.
+ChromeOS embedded controller (EC) supports closed-loop fan control. We
+anticipate to have the fan related control from the kernel side, so this
+series register the HWMON_F_TARGET attribute, and implement the read and
+write function for setting/reading the target fan RPM from the EC side.
 
-Signed-off-by: Jameson Thies <jthies@google.com>
+Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
 ---
- drivers/mfd/cros_ec_dev.c | 39 ++++++++++++++++++++++++++++++++++-----
- 1 file changed, 34 insertions(+), 5 deletions(-)
+Sung-Chi Li (3):
+      hwmon: (cros_ec) Add setting target fan RPM function
+      hwmon: (cros_ec) Add reading target fan RPM function
+      hwmon: (cros_ec) Register fan target attribute
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index 9f84a52b48d6..5fb6cd20c5ec 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2014 Google, Inc.
-  */
- 
-+#include <linux/acpi.h>
- #include <linux/dmi.h>
- #include <linux/kconfig.h>
- #include <linux/mfd/core.h>
-@@ -128,11 +129,6 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
- 		.mfd_cells	= cros_ec_rtc_cells,
- 		.num_cells	= ARRAY_SIZE(cros_ec_rtc_cells),
- 	},
--	{
--		.id		= EC_FEATURE_UCSI_PPM,
--		.mfd_cells	= cros_ec_ucsi_cells,
--		.num_cells	= ARRAY_SIZE(cros_ec_ucsi_cells),
--	},
- 	{
- 		.id		= EC_FEATURE_HANG_DETECT,
- 		.mfd_cells	= cros_ec_wdt_cells,
-@@ -169,6 +165,15 @@ static const struct mfd_cell cros_ec_vbc_cells[] = {
- 	{ .name = "cros-ec-vbc", }
- };
- 
-+
-+static int ucsi_acpi_match(struct device *dev, void *data)
-+{
-+	struct acpi_device_id ucsi_acpi_device_ids[] = {
-+		{ "GOOG0021", 0 },
-+	};
-+	return !!acpi_match_device(ucsi_acpi_device_ids, dev);
-+}
-+
- static void cros_ec_class_release(struct device *dev)
- {
- 	kfree(to_cros_ec_dev(dev));
-@@ -256,6 +261,30 @@ static int ec_device_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	/*
-+	 * FW nodes can load cros_ec_ucsi, but early PDC devices did not define
-+	 * the required nodes. On PDC systems without FW nodes for cros_ec_ucsi,
-+	 * the driver should be added as an mfd subdevice.
-+	 */
-+	if (cros_ec_check_features(ec, EC_FEATURE_USB_PD) &&
-+	    cros_ec_check_features(ec, EC_FEATURE_UCSI_PPM)) {
-+		struct device *acpi_dev = device_find_child(ec->ec_dev->dev,
-+							    NULL,
-+							    ucsi_acpi_match);
-+
-+		if (!!acpi_dev) {
-+			put_device(acpi_dev);
-+		} else if (!of_find_compatible_node(NULL, NULL, "google,cros-ec-ucsi")) {
-+			retval = mfd_add_hotplug_devices(ec->dev,
-+						cros_ec_ucsi_cells,
-+						ARRAY_SIZE(cros_ec_ucsi_cells));
-+			if (retval)
-+				dev_warn(ec->dev,
-+					 "failed to add cros_ec_ucsi: %d\n",
-+					 retval);
-+		}
-+	}
-+
- 	/*
- 	 * UCSI provides power supply information so we don't need to separately
- 	 * load the cros_usbpd_charger driver.
+ drivers/hwmon/cros_ec_hwmon.c | 69 +++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 64 insertions(+), 5 deletions(-)
+---
+base-commit: 9fbcd7b32bf7c0a5bda0f22c25df29d00a872017
+change-id: 20250313-extend_ec_hwmon_fan-a5f59aab2cb3
+
+Best regards,
 -- 
-2.49.0.rc0.332.g42c0ae87b1-goog
+Sung-Chi Li <lschyi@chromium.org>
 

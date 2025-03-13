@@ -1,150 +1,311 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837AB1C860E
-	for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 07:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0282686AD;
+	Thu, 13 Mar 2025 14:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741851981; cv=none; b=pd0SjdcYbMel0xtVPBB7rV2xQA9kyP9mIdAyBwRj5t4xKdsfymwkVD8wH72wAo/EH2l8yiFRIIta6HDAzusZQC5vmoxznpEQ+gA1DNcC2ndpM6GIjXW6UBDPhr09XxAxnJr7KmqJSBTTSp8dKVVPivsZsrl84l8icdc+aOqjUPk=
+	t=1741877688; cv=none; b=PifRfrmpWQk7bMGreN04mowGAzOC0DoiUMeY5unb6qy7uTs60QqM7q1ITmdeFH7esXgZ5mUzWZdlGpTiabuQdRD4tzq1UYVj22hvYF49bJdS+EiQmX7SQShrJTNysN9af1l0Cd3/wh4LHp9M3OB0QuGBgxAmAa2mXo7f7BwXxXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741851981; c=relaxed/simple;
-	bh=+9lQweextTTn/IhcDeZqVgy0G3YUsnxGCvjs4Fxg5ho=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ga5yfhhoxk3tfG2HDuiB1PRiidX7Iott1HjwfjOIg2DAGVoQN3Ka+waZJ5zYH3lYC4qJKtKR5HCutcCaI8B4BR1Zqf0qjau/Dh1/iiajglLQ6UBRSbPM59bGhYndgbr+fnNdtJbcmJP6KHzim3x/8H+PGkVbFZrCtyBTPz+PfnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Iybh7r6C; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741877688; c=relaxed/simple;
+	bh=WO37ftlXY8Hra+PQUsB9eOVDsD38P6pU0xpddpYq8hw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q7n57b1RBCImPeLdBethChDNcyHmEW1WYyvRvcZIH2emQ7M4tW2fdsWyTSWK3go6uLNn5jg03gh74YDp+Q/DP2yTLu5RFWB42H9C57Q3Yq4RryjoIkgFryHHo4sZ3/yaEKoqlGDLxEho3Gf2Le2EWxNI1KAsNmr3RQ1NFdrXx+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iirHsAE1; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Iybh7r6C"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3912ebb8e88so37996f8f.0
-        for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 00:46:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741851978; x=1742456778; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=WKBV0HOV9H2moWhOQYnoY7FaAphKEGthliLfv79nizM=;
-        b=Iybh7r6Cx3cIViB9TnGiwTYAsSCjKEEXjteNbPisEcug5A73jyT16dSWRXWrAfHks9
-         7QK90DiCrhFAjXuIZ/cz2R2UQl/dUnq+ffEWmaoEvZ7z3buBTnhkxJ/yLqGRAD8CXrh7
-         GhPzqzBqgrD7x56ifQbgFWWBHCATAlXsqhynHODQcTBSwM2plmxEqB8zMbBikmr0DaCX
-         x+7aJcEqKBT/9qfRx4tFF6KibaZ5CptTlZkwOglqnKHjMiv2HGWsgVTJ6nPulvizaXw7
-         VeRMDkPeIbEZhu+KjcGrFq9p5fYnlNIeN2cvAu5o8G1poXUSia/r/wVHrUk6EpXdeOue
-         skuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741851978; x=1742456778;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WKBV0HOV9H2moWhOQYnoY7FaAphKEGthliLfv79nizM=;
-        b=DKXWzxP3papULmBWq9I5/XvdyWl4K2uV2JE6g9m5f1sqXE1zKARcmN7cv658wC8xg+
-         RcO/S60UX4OaRq4t4inyoEfHjt9PIuEsqVpWrUxd5R+gdFW2U2vMN+/12uoknojAyzVS
-         JMJn36JA+CA3XQh6rL2TKwi/bkBVsEQ7VGUlPOirLlAJJcq02cPkUnYTtlKazdj+Ilyv
-         YOhmAZKpGsgP1qjvjEi4BplugeGSf4Wzi73qLwUEAU77EMBybRxhckpHWWlV17vRj1XH
-         E0LLKRFiNHwmFMSrAdgSX5yiQd/iSYbMqTbnuatChdIOvqyr9i2fwfZSr2NAyooz3pP6
-         gWdg==
-X-Forwarded-Encrypted: i=1; AJvYcCUP1JaIO68eECaMI+58K8IE51sra+zKJIClZVIcIQyBIYu2Yw6MgOWIcSvWFxJaCDV4Mv5bWSZ3WmT/WHbaZ/g=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzk6dU+HjNv94L0qOsp/Gmkpkqo7lYscEzWhr/BYYA871nOuPHN
-	63AduuCgSD9M/PS2Kba+b8CmfGL0sVHyJhe12QcldPNQUhUO6nS1/gSWC82kMhQ=
-X-Gm-Gg: ASbGncupR5YLaVai2Apb1JUjwZRY+PZfdp5wTWSmMNLp3x63IoYpYFENDL0UEZpop6U
-	kkkg/ZrX38TMpym/yL2vQjGWT5bg7g1ds2Q7GO+/p785xIYW1jJlOb3MeIRa4w4SfoH9SxzHITQ
-	CPYcDQTxZ2Y3paC9NT7LfF9er6YJ7pTQawNDT/p0yUA5eo2iyQSV564Hj3qnBRcQwg5oLlULzDA
-	zYdFfUdcgkWQN5EV+m0xXcTvDJbMtCCOIfPGCKwBU31pV53O4XsGjr2alpse+GzgAS7DWL2PEx9
-	dBuZxKnZZO8HhMJDUMPIwz7HwzMhjeaSuCyu04dmY9kHtG+KiZpDuOgn9rVX0zM=
-X-Google-Smtp-Source: AGHT+IExUdfs3Abfb/hUFEpHaJ3AXE8m+poE/fDH3i06TyTjBm/cDzQkU9CL+6pHvKT6Kk24cwEL4g==
-X-Received: by 2002:a05:600c:1da2:b0:43b:c0fa:f9bf with SMTP id 5b1f17b1804b1-43ce6d2d117mr62307535e9.3.1741851977693;
-        Thu, 13 Mar 2025 00:46:17 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.198.86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d19541339sm8051115e9.21.2025.03.13.00.46.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Mar 2025 00:46:17 -0700 (PDT)
-Message-ID: <090bbaee-88e0-42fa-b43d-db80ec065d35@linaro.org>
-Date: Thu, 13 Mar 2025 08:46:15 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iirHsAE1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741877686; x=1773413686;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WO37ftlXY8Hra+PQUsB9eOVDsD38P6pU0xpddpYq8hw=;
+  b=iirHsAE1snlFzAvwBU1xKwUDDQWurTQoJGwA2KNgYghwdl7/zStgGgdc
+   iGEU6Pl/Mq3Z7P/f00EAzQRRKq3k0KuizKMjnGfE+MNeKYjXA9m4S7UIR
+   WJh5M/+RwySAZUATN3QMnj/WVGdnr4U+Ye2B8xav80LBCRodPiYck77wr
+   O+uPi68Q4vUssyWA3nRLLKFw8TOVwz2B1WeEXN1d7MOmn5WldlJNWB2AU
+   GCm1J39ldX7UV8Kj6hxAZliM5x2tmhhTLFkUvth3umBTdfb4pPCXNwlz/
+   5nS+jTr7EuRhrPNLqCUH8Ss5DZRxJPqYvYmZ3QWsfEQk/XbtO/yQKc/EZ
+   g==;
+X-CSE-ConnectionGUID: 7WbTRudfRvWg7gJ/srVNZg==
+X-CSE-MsgGUID: 96BjTON4S26xg4SEbdWPcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="30591025"
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
+   d="scan'208";a="30591025"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 07:54:45 -0700
+X-CSE-ConnectionGUID: XIRhdl9NQXqBzBs1Nhepgg==
+X-CSE-MsgGUID: cTm/eqcPTJOIXN1Pu9fpRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
+   d="scan'208";a="120932648"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 13 Mar 2025 07:54:41 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tsjxG-0009YM-2R;
+	Thu, 13 Mar 2025 14:54:38 +0000
+Date: Thu, 13 Mar 2025 22:53:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jameson Thies <jthies@google.com>, tzungbi@kernel.org,
+	ukaszb@chromium.org, bleung@chromium.org,
+	heikki.krogerus@linux.intel.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, groeck@chromium.org,
+	swboyd@chromium.org, akuchynski@chromium.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	Jameson Thies <jthies@google.com>
+Subject: Re: [PATCH v1 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is
+ defined in OF or ACPI
+Message-ID: <202503132256.f6p359iT-lkp@intel.com>
+References: <20250312195951.1579682-4-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is
- defined in OF or ACPI
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Jameson Thies <jthies@google.com>, tzungbi@kernel.org,
- ukaszb@chromium.org, bleung@chromium.org, heikki.krogerus@linux.intel.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, groeck@chromium.org,
- swboyd@chromium.org, akuchynski@chromium.org
-Cc: devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20250312195951.1579682-1-jthies@google.com>
- <20250312195951.1579682-4-jthies@google.com>
- <52e592c5-7f97-4b7b-bcf1-1bca34c716e1@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <52e592c5-7f97-4b7b-bcf1-1bca34c716e1@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250312195951.1579682-4-jthies@google.com>
 
-On 13/03/2025 08:11, Krzysztof Kozlowski wrote:
-> On 12/03/2025 20:59, Jameson Thies wrote:
->> Check for cros_ec_ucsi to be defined in the OF device tree or an ACPI
->> node. If it is defined by either OF or ACPI, it does not need to be
->> added as a subdevice of cros_ec_dev.
-> 
-> No, it does not have to. You just populate the children and appropriate
+Hi Jameson,
 
-Uh, I did not notice that it is !of_find_compatible_node(), so this
-comment should be rephrased - you just add MFD children anyway and if
-there is no node, they won't be created.
+kernel test robot noticed the following build errors:
 
-> devices will be created automatically. None of parent devices should
-> ever check if the child exist to create a child - it makes no sense.
+[auto build test ERROR on 9fc83373f0ffb8834da48b1446a5c2fef9525bb1]
 
-This is still valid - none of parents should be poking around to see if
-there is a child or not. The core handles it, DT handles it etc.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jameson-Thies/dt-bindings-Add-cros-ec-ucsi-to-cros-ec-typec-device-tree-documentation/20250313-040216
+base:   9fc83373f0ffb8834da48b1446a5c2fef9525bb1
+patch link:    https://lore.kernel.org/r/20250312195951.1579682-4-jthies%40google.com
+patch subject: [PATCH v1 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is defined in OF or ACPI
+config: i386-buildonly-randconfig-001-20250313 (https://download.01.org/0day-ci/archive/20250313/202503132256.f6p359iT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503132256.f6p359iT-lkp@intel.com/reproduce)
 
-Best regards,
-Krzysztof
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503132256.f6p359iT-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/mfd/cros_ec_dev.c: In function 'ec_device_probe':
+>> drivers/mfd/cros_ec_dev.c:273:61: error: passing argument 3 of 'device_find_child' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     273 |                                                             ucsi_acpi_match);
+         |                                                             ^~~~~~~~~~~~~~~
+         |                                                             |
+         |                                                             int (*)(struct device *, void *)
+   In file included from include/linux/acpi.h:14,
+                    from drivers/mfd/cros_ec_dev.c:8:
+   include/linux/device.h:1101:49: note: expected 'device_match_t' {aka 'int (*)(struct device *, const void *)'} but argument is of type 'int (*)(struct device *, void *)'
+    1101 |                                  device_match_t match);
+         |                                  ~~~~~~~~~~~~~~~^~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/device_find_child +273 drivers/mfd/cros_ec_dev.c
+
+   181	
+   182	static int ec_device_probe(struct platform_device *pdev)
+   183	{
+   184		int retval = -ENOMEM;
+   185		struct device_node *node;
+   186		struct device *dev = &pdev->dev;
+   187		struct cros_ec_platform *ec_platform = dev_get_platdata(dev);
+   188		struct cros_ec_dev *ec = kzalloc(sizeof(*ec), GFP_KERNEL);
+   189		struct ec_response_pchg_count pchg_count;
+   190		int i;
+   191	
+   192		if (!ec)
+   193			return retval;
+   194	
+   195		dev_set_drvdata(dev, ec);
+   196		ec->ec_dev = dev_get_drvdata(dev->parent);
+   197		ec->dev = dev;
+   198		ec->cmd_offset = ec_platform->cmd_offset;
+   199		ec->features.flags[0] = -1U; /* Not cached yet */
+   200		ec->features.flags[1] = -1U; /* Not cached yet */
+   201		device_initialize(&ec->class_dev);
+   202	
+   203		for (i = 0; i < ARRAY_SIZE(cros_mcu_devices); i++) {
+   204			/*
+   205			 * Check whether this is actually a dedicated MCU rather
+   206			 * than an standard EC.
+   207			 */
+   208			if (cros_ec_check_features(ec, cros_mcu_devices[i].id)) {
+   209				dev_info(dev, "CrOS %s MCU detected\n",
+   210					 cros_mcu_devices[i].desc);
+   211				/*
+   212				 * Help userspace differentiating ECs from other MCU,
+   213				 * regardless of the probing order.
+   214				 */
+   215				ec_platform->ec_name = cros_mcu_devices[i].name;
+   216				break;
+   217			}
+   218		}
+   219	
+   220		/*
+   221		 * Add the class device
+   222		 */
+   223		ec->class_dev.class = &cros_class;
+   224		ec->class_dev.parent = dev;
+   225		ec->class_dev.release = cros_ec_class_release;
+   226	
+   227		retval = dev_set_name(&ec->class_dev, "%s", ec_platform->ec_name);
+   228		if (retval) {
+   229			dev_err(dev, "dev_set_name failed => %d\n", retval);
+   230			goto failed;
+   231		}
+   232	
+   233		retval = device_add(&ec->class_dev);
+   234		if (retval)
+   235			goto failed;
+   236	
+   237		/* check whether this EC is a sensor hub. */
+   238		if (cros_ec_get_sensor_count(ec) > 0) {
+   239			retval = mfd_add_hotplug_devices(ec->dev,
+   240					cros_ec_sensorhub_cells,
+   241					ARRAY_SIZE(cros_ec_sensorhub_cells));
+   242			if (retval)
+   243				dev_err(ec->dev, "failed to add %s subdevice: %d\n",
+   244					cros_ec_sensorhub_cells->name, retval);
+   245		}
+   246	
+   247		/*
+   248		 * The following subdevices can be detected by sending the
+   249		 * EC_FEATURE_GET_CMD Embedded Controller device.
+   250		 */
+   251		for (i = 0; i < ARRAY_SIZE(cros_subdevices); i++) {
+   252			if (cros_ec_check_features(ec, cros_subdevices[i].id)) {
+   253				retval = mfd_add_hotplug_devices(ec->dev,
+   254							cros_subdevices[i].mfd_cells,
+   255							cros_subdevices[i].num_cells);
+   256				if (retval)
+   257					dev_err(ec->dev,
+   258						"failed to add %s subdevice: %d\n",
+   259						cros_subdevices[i].mfd_cells->name,
+   260						retval);
+   261			}
+   262		}
+   263	
+   264		/*
+   265		 * FW nodes can load cros_ec_ucsi, but early PDC devices did not define
+   266		 * the required nodes. On PDC systems without FW nodes for cros_ec_ucsi,
+   267		 * the driver should be added as an mfd subdevice.
+   268		 */
+   269		if (cros_ec_check_features(ec, EC_FEATURE_USB_PD) &&
+   270		    cros_ec_check_features(ec, EC_FEATURE_UCSI_PPM)) {
+   271			struct device *acpi_dev = device_find_child(ec->ec_dev->dev,
+   272								    NULL,
+ > 273								    ucsi_acpi_match);
+   274	
+   275			if (!!acpi_dev) {
+   276				put_device(acpi_dev);
+   277			} else if (!of_find_compatible_node(NULL, NULL, "google,cros-ec-ucsi")) {
+   278				retval = mfd_add_hotplug_devices(ec->dev,
+   279							cros_ec_ucsi_cells,
+   280							ARRAY_SIZE(cros_ec_ucsi_cells));
+   281				if (retval)
+   282					dev_warn(ec->dev,
+   283						 "failed to add cros_ec_ucsi: %d\n",
+   284						 retval);
+   285			}
+   286		}
+   287	
+   288		/*
+   289		 * UCSI provides power supply information so we don't need to separately
+   290		 * load the cros_usbpd_charger driver.
+   291		 */
+   292		if (cros_ec_check_features(ec, EC_FEATURE_USB_PD) &&
+   293		    !cros_ec_check_features(ec, EC_FEATURE_UCSI_PPM)) {
+   294			retval = mfd_add_hotplug_devices(ec->dev,
+   295							 cros_usbpd_charger_cells,
+   296							 ARRAY_SIZE(cros_usbpd_charger_cells));
+   297	
+   298			if (retval)
+   299				dev_warn(ec->dev, "failed to add usbpd-charger: %d\n",
+   300					 retval);
+   301		}
+   302	
+   303		/*
+   304		 * Lightbar is a special case. Newer devices support autodetection,
+   305		 * but older ones do not.
+   306		 */
+   307		if (cros_ec_check_features(ec, EC_FEATURE_LIGHTBAR) ||
+   308		    dmi_match(DMI_PRODUCT_NAME, "Link")) {
+   309			retval = mfd_add_hotplug_devices(ec->dev,
+   310						cros_ec_lightbar_cells,
+   311						ARRAY_SIZE(cros_ec_lightbar_cells));
+   312			if (retval)
+   313				dev_warn(ec->dev, "failed to add lightbar: %d\n",
+   314					 retval);
+   315		}
+   316	
+   317		/*
+   318		 * The PD notifier driver cell is separate since it only needs to be
+   319		 * explicitly added on platforms that don't have the PD notifier ACPI
+   320		 * device entry defined.
+   321		 */
+   322		if (IS_ENABLED(CONFIG_OF) && ec->ec_dev->dev->of_node) {
+   323			if (cros_ec_check_features(ec, EC_FEATURE_USB_PD)) {
+   324				retval = mfd_add_hotplug_devices(ec->dev,
+   325						cros_usbpd_notify_cells,
+   326						ARRAY_SIZE(cros_usbpd_notify_cells));
+   327				if (retval)
+   328					dev_err(ec->dev,
+   329						"failed to add PD notify devices: %d\n",
+   330						retval);
+   331			}
+   332		}
+   333	
+   334		/*
+   335		 * The PCHG device cannot be detected by sending EC_FEATURE_GET_CMD, but
+   336		 * it can be detected by querying the number of peripheral chargers.
+   337		 */
+   338		retval = cros_ec_cmd(ec->ec_dev, 0, EC_CMD_PCHG_COUNT, NULL, 0,
+   339				     &pchg_count, sizeof(pchg_count));
+   340		if (retval >= 0 && pchg_count.port_count) {
+   341			retval = mfd_add_hotplug_devices(ec->dev,
+   342						cros_ec_pchg_cells,
+   343						ARRAY_SIZE(cros_ec_pchg_cells));
+   344			if (retval)
+   345				dev_warn(ec->dev, "failed to add pchg: %d\n",
+   346					 retval);
+   347		}
+   348	
+   349		/*
+   350		 * The following subdevices cannot be detected by sending the
+   351		 * EC_FEATURE_GET_CMD to the Embedded Controller device.
+   352		 */
+   353		retval = mfd_add_hotplug_devices(ec->dev, cros_ec_platform_cells,
+   354						 ARRAY_SIZE(cros_ec_platform_cells));
+   355		if (retval)
+   356			dev_warn(ec->dev,
+   357				 "failed to add cros-ec platform devices: %d\n",
+   358				 retval);
+   359	
+   360		/* Check whether this EC instance has a VBC NVRAM */
+   361		node = ec->ec_dev->dev->of_node;
+   362		if (of_property_read_bool(node, "google,has-vbc-nvram")) {
+   363			retval = mfd_add_hotplug_devices(ec->dev, cros_ec_vbc_cells,
+   364							ARRAY_SIZE(cros_ec_vbc_cells));
+   365			if (retval)
+   366				dev_warn(ec->dev, "failed to add VBC devices: %d\n",
+   367					 retval);
+   368		}
+   369	
+   370		return 0;
+   371	
+   372	failed:
+   373		put_device(&ec->class_dev);
+   374		return retval;
+   375	}
+   376	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

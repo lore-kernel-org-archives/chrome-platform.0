@@ -1,66 +1,65 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90811FBEA3
-	for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 07:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8C91FAC30
+	for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 07:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741849906; cv=none; b=di6ht9lIgwaq+TvuXsxUmo3wlPOOdKZ/GGXVwLQteMSkRZW+kYdFEZKoZzWtH/KPqRhZF+M+kmlprXoW8sDrdGUyKhtATAhiAuaIpOAA9NblKmlaYkNZ/lSZboSxTRV59LEFTAub6u293EAcx2uIdxVleISUJ3xwX1sLEN/aT+A=
+	t=1741849991; cv=none; b=e7HHQKBHhyQi7PqTG/F3La6HXvKxe6/5lWeasgMYixQPz6akRDEW0JFIZXG8JlP9h+zHMRzsfq+KjkpN6JAEZvhUS1ZWcd5YMj5eZEcQbMb8pkYoKrv001W+80BwJgpZozOTqPyHuAHZPFAT3jIe/DnI6iqptcz2MYSy2bEkAW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741849906; c=relaxed/simple;
-	bh=gOCEcaOm4eg+X9g2FjfIO3JavsstQR67oggC/rHb/Jg=;
+	s=arc-20240116; t=1741849991; c=relaxed/simple;
+	bh=RlkKnSO9Op5zAuttnqf+oaANcdhLjxjpG9k30kOAXL4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=krBDKTqPl+g/0X+ulQdspN3ZY3t3/f/5irqnbqzEZOuGJ+knRVYSHrpU8dVT+YE8OC4IHdldbwoyAqGu09Muq+qkx0lmftiKOfasBsEU6OWntQD3TX4kHF1AvXK3uePXAhFTEaBricklrJM3dp8l1034KDlNvuwDHTezOJEews4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UnBQFTW4; arc=none smtp.client-ip=209.85.218.43
+	 In-Reply-To:Content-Type; b=S+XUAAP+p58Tzc3O3EaMgHPqV4uBRnxv2+kJK5oVALcKJ16IxOupT1C2RjZX26lVVWyjyvoY2DAUjolwfeiMBI1dewJME428pcn72TbsY9F7y+jDDwNn23JjEzD/CrXNwMS1QFMgXrUExfwvv76ZkrsQFb2rXfyDuHX4WpB3k74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=memcSCuW; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UnBQFTW4"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ac250d158a8so7607066b.2
-        for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 00:11:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="memcSCuW"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac250d158a8so7625766b.2
+        for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 00:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741849903; x=1742454703; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1741849988; x=1742454788; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=gOCEcaOm4eg+X9g2FjfIO3JavsstQR67oggC/rHb/Jg=;
-        b=UnBQFTW4yC/wTkTHvAUym4Fs0S99QN8EqkaSJ+SDwy3axQggZXwciHIGHT1hPDcFeO
-         yAzqiiXJvvBKFUJv6uK4sHHqG2AoqZXxRdU5r8962y9wrKBFaRhHsBoGrGp0aB6KZY5a
-         kxsVONla3gKcnnP8kb1l41ZwSBbWQbw4zCIQs9q1NFyziHLEF9cWBEyGSU5CiDh2LNdN
-         C8uHcEwKw3qmuVdCijPkIKBBL5SHIs6ZbkE3IoAhPmj4SRoTAg8jQLIe+5vOccp/5yoS
-         u3BKMVlFIyk7MVK8gUGrFOT0rVSRQxyTk94zBKTMSa6uGPEapDwIkeztEb9BHLt9ZRA7
-         DcWw==
+        bh=Oxpm2eADKTJ0HNPt8dE5MWzYOLLZtxS5F6staQWLbBs=;
+        b=memcSCuWaHBtSrGiY2Z2x0BXezO8BMmdJEctpnIcGwk3HncDLH17Yd5ZYPObLQd3bG
+         Q5V7Xu/bNL1Bal5iqzpTcnGfrQoIS58MdVMtmKq8eP21cKPNuuG9t1Rvs7eqTYLlWPNm
+         v4laUwUjrb8BkWfL08LvzzsGaBocyiH+UUQEb3rG5AMjTZ/LRwr1VE/vYdrIG9UBcfKt
+         lNYMI4v4GHttiOgQXE3+IR7yudLH3bCLnLEQ8oGowUPPo4dY+OP3PcPnUsuPxAn5bse7
+         Af1BqB50QWr4tGRDMX/jifYiHnQnppH13LNJHsaGOHur0+3aqYLYyNauW1KMffgj2jcz
+         2yag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741849903; x=1742454703;
+        d=1e100.net; s=20230601; t=1741849988; x=1742454788;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gOCEcaOm4eg+X9g2FjfIO3JavsstQR67oggC/rHb/Jg=;
-        b=SzoUgmq7fmLHAAoSm5fy9DaepShRvpkXqD4Wpu+oL/MFaZo6gy4yR9RSxBSK734zFt
-         XJQiuQUNfhkY1JGEWxlzdjhQnvgbltow6WMiMlcm8ysDvsvn8mpv4BVnX0Dcq5808ADU
-         1/iSk1SebbgCkdI86AX1mfmntxeCIo+4CM0RymSm79kfCokQySmHS5enC/zHcqNh5wMs
-         Yq1OFS/xDfR3zvN4oalWLqbIwp4Ia4CNia3+P6LAFkMMrP1KskkvbKBDCrkBbV89f4SY
-         O6GUqpLEU129qeLpXE6E/HvaO/xLfrigOzXWompoQ4cWpGv/Id5kee5qJWRNidWog1X6
-         /SPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWRuhljaLIz2Jrv7vRaWDpp/nMAXYA1IRTpreICrVT/4q3SldyFCMitZQagAdVJS2cmMN0MkJrsHHyHPnbbrLw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcMMuFlwKnMv4UfPUCNOwaXweF9vLMA5eOF9+fNZHy4ID4hVN9
-	jxzZoWiT38cSeKpHe8KDD9pCTnogR2YiqVpGM+WWfoSUyYKm8ScY4Bd+B2sH1d8=
-X-Gm-Gg: ASbGncsqtkfLgHBhpzgVRfgbVrx1TdqPF43gyDoJIojGoaZdum21A5Ym3SxvwHeeL+7
-	zsllDQyG6SIl2gg7OQNLaEp7QdBdfOh8ixHp0YELu20zL0Ml6R6/7d0ZH5W06BuEaZvE+Jrmkrm
-	juLRke/u0URfxeL6Tw+kyGFkAdPoXkVzy6KLkJA6r8yaHb8E+5IjeimvGdTMh+7V/yCb0c12F4Z
-	x5x8GwTsC4lANLVh0N8AijBBJMC7jJ85KvwbpWB5aDVpsa5a5XN0vUV/ONCdVDApop+Ozwadogt
-	tNms8E8IwNh4Z8WSeKeTVIopJ3Yxi1vKAy8YQmSiIIVIH3h9qaWHuAFgkduuY9mCEdzU6o/QAg=
-	=
-X-Google-Smtp-Source: AGHT+IHf+zTLxwilMFVAfGkK4qptdBvl1euTGV3k7WvO0Y7yIjyV+YJp/OXPip+JVtdHHXI0I4Dvxw==
-X-Received: by 2002:a17:907:3e8f:b0:abf:7a26:c489 with SMTP id a640c23a62f3a-ac2b9ea164cmr398284566b.9.1741849903224;
-        Thu, 13 Mar 2025 00:11:43 -0700 (PDT)
+        bh=Oxpm2eADKTJ0HNPt8dE5MWzYOLLZtxS5F6staQWLbBs=;
+        b=a3jSD/s/Y+5Bh3K8RxRC99wlfhp7KljN8gRCVfYggX17gGFx8ZsAy1ge6Xk1kchsEs
+         4xll3AN4MHEYHsXvjxeB12URLgNZ88dRRxTaqA+jXucZ/lnTu6+UWKcNEljBZz+GKzBG
+         v9yVK3ArDprqepahgXNrC8etM7NsU88A0CxEhqBgAvOzN7bKoIh3XdvKa66cEBu/mVNf
+         PXSTYMrC3LCW/SxuNeJYVOGSdkWaheGP26TkalIdF5rHzkiDvwhaVg4u6npcLkrJefCp
+         oR9v3I6Shp9yyZLb3HXiq43Y2owoH2vXCTmYpCbAUng8DUJBXnl3JXn1I3Kfh8f+8I8D
+         Qo2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWl3RMWtvN+py/CzLG+Jbcx0exrBkRA7EY2jEvkfBJL9v7zIdLQPFgtO3U0CelnoCE1ZvoGNPoHz4RUn/MwK5Y=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yye0E5FDPNL+MEf4KmlVHPyz6oaeJkrAP6+zGnLaPvoDvAOQXZj
+	vnQ9mhdflbEqtUIae36y4Asniiw6TSY57p5Dmztxszc/o+BIocX9QnP5goek1ts=
+X-Gm-Gg: ASbGncvtsacMb7trcoC4Ku1ufhg7CKr/D1NcJDDmC2XtvzxqmroHgl6aXePWYD2LT0j
+	8V71Dbo02gAva/wdqVTePXGssHfeQZfaAAWiXPdpWgOM9SRxs4R7bpjt8K07so+C7WNfjDInM+3
+	APTwS+LRXLA6xV44bbFKwlbMn7lbjsD4ErUrR2+Kil6HV4JYxfDKzZ7UoEt1lno0FGXDW1vyN1L
+	F+lrz6bn9PeKbD7qTh4O4WA5wc38XcsYy+e6qCwEZo8i7Lpnu7Dhv2507l5zegtMPT0WeXsbcKO
+	ywjccb/81U4pv2vYDxjjvh9vCN3wLXIIE26l5+HYCDZ4DZqxxIOxpyvyj8O2uTw=
+X-Google-Smtp-Source: AGHT+IFUhUiFu/mjetItfFFKDDSk1YQbc4560vtLNugH5OGNSZVSqwqkrR3M4x4BmHABYaUJnnfcLA==
+X-Received: by 2002:a17:907:3e0a:b0:ac0:b71e:44e7 with SMTP id a640c23a62f3a-ac2b9ee628fmr460280266b.12.1741849988300;
+        Thu, 13 Mar 2025 00:13:08 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.198.86])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac314a9dafcsm45512366b.170.2025.03.13.00.11.41
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac31484b234sm45565866b.77.2025.03.13.00.13.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Mar 2025 00:11:42 -0700 (PDT)
-Message-ID: <52e592c5-7f97-4b7b-bcf1-1bca34c716e1@linaro.org>
-Date: Thu, 13 Mar 2025 08:11:40 +0100
+        Thu, 13 Mar 2025 00:13:06 -0700 (PDT)
+Message-ID: <13c6d57b-0235-4c8d-95ef-111f87d6c25d@linaro.org>
+Date: Thu, 13 Mar 2025 08:13:04 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -68,8 +67,8 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is
- defined in OF or ACPI
+Subject: Re: [PATCH v1 1/3] dt-bindings: Add cros-ec-ucsi to cros-ec-typec
+ device tree documentation
 To: Jameson Thies <jthies@google.com>, tzungbi@kernel.org,
  ukaszb@chromium.org, bleung@chromium.org, heikki.krogerus@linux.intel.com,
  robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, groeck@chromium.org,
@@ -77,7 +76,7 @@ To: Jameson Thies <jthies@google.com>, tzungbi@kernel.org,
 Cc: devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
  linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 References: <20250312195951.1579682-1-jthies@google.com>
- <20250312195951.1579682-4-jthies@google.com>
+ <20250312195951.1579682-2-jthies@google.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -124,18 +123,29 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20250312195951.1579682-4-jthies@google.com>
+In-Reply-To: <20250312195951.1579682-2-jthies@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 12/03/2025 20:59, Jameson Thies wrote:
-> Check for cros_ec_ucsi to be defined in the OF device tree or an ACPI
-> node. If it is defined by either OF or ACPI, it does not need to be
-> added as a subdevice of cros_ec_dev.
+> Add documentation for the cros-ec-ucsi device tree definition. Defining
+> this node will load the cros_ec_ucsi driver which is used for USB-C port
+> control on PDC based ChromeOS systems. Additionally, update mantainers
+> list to reflect changes to the ChromeOS USB owners.
+> 
+> Signed-off-by: Jameson Thies <jthies@google.com>
+> ---
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 
-No, it does not have to. You just populate the children and appropriate
-devices will be created automatically. None of parent devices should
-ever check if the child exist to create a child - it makes no sense.
+A nit, subject: drop second/last, redundant "device tree documentation".
+The "dt-bindings" prefix is already stating that these are "device tree
+documentation".
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
 Best regards,
 Krzysztof

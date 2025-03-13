@@ -1,97 +1,164 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9681F8BC5
-	for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 23:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AA41FAC57
+	for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 23:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741908556; cv=none; b=Qkrt0xh8p64iNXTqagVZL+2uroYXYwp3naU9d7v0WR0LOELBCkyWi0uDHrL/VecLb3M7u0FIznneDfc4502qgYSjqCvuHbsg7xB58V+tLYJCFc4FkSY9fYC46ZnLHSlwctoE5igsNczf4LaNSf6oXcJVWcmH+mQhcAgthSd5fGw=
+	t=1741909020; cv=none; b=bjHJe1ovnB66RKj+XyXLXE+z5WeIyWjaQxx4baPKLMpt1GPICJrg4I/I8S+yp27ZiMUOuHeWj7bqOWxCwyzYhcoBfUuj3p8/sxa5UhfL6LoG8zO6wwWzIP/TmCfcjmxpgJPAOBRI7pCBXg9JmyKH/kRmToqFTuvUGljFx+MFbOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741908556; c=relaxed/simple;
-	bh=fLmgjAemiovWofaWjxUzmEbQJocXHzEtlxZq33BB5yw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VhUuAkyQJV69KyINboULBBe88iVV8q28NGnDzxix1Q2x8MYqXtVGs8Ke9azGvo2JEoEG7n6ibE/gePJExDzcOZZ1WczmBPE7DpBSEPdUvPGkfCogRa1ZbuYCtQmMMo/CnyGbtQ21opdxtRoQHLQcZObHUyEV+y70HCEeT+Nyogc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zHtzot47; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1741909020; c=relaxed/simple;
+	bh=heNQMoaASzMgnAGg8FIo6sshUkCJ/+HlHZD3xDULFps=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AejmL/L6g0ClJbB+3Hs+rksyBrAJdxSaEpVnaAS4Si9U5ZP91BjMeeq5/BswB5oFWPymtWDwDucBVXpxm/5cugmWQg1l0evwSp8XsaVN9qLFVRQxkEgsahf//Rzsnb8zSEUfF5lABm4y9vIdlrcswQRo/snP2aSX1BBj+TSlbwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NZTG6xe2; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zHtzot47"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5e56b229d60so4878589a12.0
-        for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 16:29:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NZTG6xe2"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-224019ad9edso40632865ad.1
+        for <chrome-platform@lists.linux.dev>; Thu, 13 Mar 2025 16:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741908553; x=1742513353; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fLmgjAemiovWofaWjxUzmEbQJocXHzEtlxZq33BB5yw=;
-        b=zHtzot47hIPMbQPGzLkn0w/rsiAxkwMFYWxNoP1e0pc6cglUgGWB9eVG7RJfkVqZC9
-         TtHGWzWWDl27Buxq/IsXimQyZ3jKWb0NboWzj/4iU8TXe5Ihiv9Ffx1HxJD+r6UHS5Y4
-         uxbKr1eboyjf7ZaC10uFj+9fuCcZGytc+fShpiW1DH8uM8tv5Z21zVIVH2ps+N3ILJZV
-         h6xNUsmmpNuIkxlWuHgOciXKBkQvAKaDCONuQacxpAcfnK+smlWlVyi42Uwwv30g7l2z
-         vOfZBc5kyasfQh4LwhjlPyMxZggukrhaxuI+9QSenVVTQ1g9JbKWzMF+raiCbtJIR6bK
-         aOGA==
+        d=gmail.com; s=20230601; t=1741909017; x=1742513817; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=pvZ3NjvDQucP+b6gUBiGyaTJOTqX9NynS/VORumDxWc=;
+        b=NZTG6xe2cP12T3q8ekHVVskCO7xX4ErHQ8v6YwDw+QudcQDhhbRRlhbbNWVpq4eb6u
+         tROAUTu0PLvS+pME2UJzx3GY3JCnANg99beaDPyO3YiKPxszY9bikMA4C97O7WX2wT0a
+         ieNEokN8H59wdzn7v72fu18u+3NNzjDFPSz2eql+UW+0b9oISsmtAhO7ZSkWsntyEAdO
+         WnG5Et54cGXpTPdVciYPOPRlswmaxnE8tbMUklqRkgtCb6LBEVsgYAAzSmdrb92keye5
+         KoOmxQ48avJL4pRHpWtXo29IE3Po6ROuPyd3Xj1kQMsnJGKNgZ7c5LyFZOfFTvoy6Ip3
+         Cb5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741908553; x=1742513353;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fLmgjAemiovWofaWjxUzmEbQJocXHzEtlxZq33BB5yw=;
-        b=sPI5tt3zLeg+V2YrJGEORg9xT4EGKJypyOYC3sr4Y0ArbQl8op6C4mWKEql1cFhcdt
-         YmzYuRIpHcJqGlBxFq0lWVMhio3FfcV0a9pH8Y0B0IKbkzgSLuBjefP/5HGE8qRlC2PB
-         8O2B5gMw0H3zldsQkHNaSxBHh01xUpaumvNakan3zp907pBzcZP7oTwvOHuZdxosFuLF
-         sG+6buOBq1/gIzZzXS/6Rf+XlD60KF+Upu7Z8IBUkZM70Ipz26mwSL5/Rhht7ThkUAlW
-         auD3apWOWwVFW3lVEjc/BA+N6cqrtv9iS76IrJcTljY6ooOJY2ZpqUvkKK/hcYbBqf9h
-         aPNw==
-X-Forwarded-Encrypted: i=1; AJvYcCXRq2fsCheGolMJAQ63I8WojhhJj/G66bjFrRN3NR3gzyvnDXEjzbN6aAJVVTcqvWIan9oH5e/hzgRdMWC/uS8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzzaBG9pyZiAneTmaAeyYP3Uk5tYLep0zpEtY+FzwFMuccgOhQ9
-	evDVFTnkkMvnt/0VcvHl01cJKFB9f/LT1Y093OLrnQ/ZrK/6CxfMja9Mt3AGjI9kDwA/LlrwI6Z
-	oM77xnHuzd633oUKHK1eygB6mgZFDxGNigtEQ
-X-Gm-Gg: ASbGncvg0RVVqy7YiLxxy6gL/VEM/T75iNbZIv3lLH2ejl6aldW0SkfdcYLXPN+0BhS
-	TG2rUgKYZN9laoe4lJtOGb7RbiN0WOnilTC09BP/pPas4mFmZRKy4X4JNeJeAx2p8KehUGpKJsd
-	z8jmeQVJqVrIUyyKjYTS3xA9Cfa0v5daHjtDyP7F3mSxcQuw3rd+LHxUr6Aoj5zS2DLA==
-X-Google-Smtp-Source: AGHT+IEhG6Uj2ZgXODFDQkPgzEVnFaKEkMeOMCOgSAKxsS7ffAl3Oika6RfeExnwIHlB01YBUlfrm+cZgMXZ8GfGSBI=
-X-Received: by 2002:a17:907:6ea9:b0:ac0:4364:4083 with SMTP id
- a640c23a62f3a-ac330de660fmr24794366b.0.1741908552998; Thu, 13 Mar 2025
- 16:29:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741909017; x=1742513817;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pvZ3NjvDQucP+b6gUBiGyaTJOTqX9NynS/VORumDxWc=;
+        b=m0Ilc/38kASKVXKJqngzw8RN5JdqWYsAFrUE67VTyWhN0nKlgI/ic0LAeGzqSJ8U6d
+         21bk+syzV+O3pgKDaEVt152KRW1v6FYnaymX5OHPT1QtKq4kD4drrZKj4ihsXhTBD8C5
+         nVcqPRUbK6AuIDBoJZNCNFUUN3zYWdB+Pa+fAV5XkOw7+dk/yZJVozGz4UWvYU3oiwSM
+         Bhth4UVLnzcvmZ0FblLI8V7wYwDmsQ/eSZ7eYgRGocFpF94o3I4HCeXq64PL9fmifZ8y
+         uYUblpkqZeU45ruVM8iGCwTLQ5AqNMXoXx8ZFMpdADoGQu4PUEgL7gZA2ykPyhvDfc4c
+         WGyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW09R3pJAHlyNKJNVf4SXnGzW+Eo1IL+vwlc9we3EZJpjZHlw2yT6b4oF/kAwFiY/yMAp9ARNZ9BgJE5tLn1Q0=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yylzwp4OKffABeR/gL1R5wxcAK5FRDq/Ekz+wMmuoIVAR1mTix6
+	Wi9mB7x3KPsunCR0RbT55URuuY//xpqqO6bZox1nzUnSErxZj7ZS
+X-Gm-Gg: ASbGnctDrA6LNbANxw8V3uwZ8CrhSq97GCDWHE0EVwo87jCe4FeH3DnH2Bkpb2ScJvn
+	dxeigRt24SwXNmsdQfLiBXHzUyXY0Wd+MKt95xYSuWB5tSj4iRFcNSLDI9smTr/cUJG2dE/nq53
+	Br8cC7Qzn58jq25tyxbLFAeguswI8bUj4i31VpGxMlyVG5M5WhHi+gA8TkCjOvc3wWAICmrpY0F
+	dgP9YUMpcv7kQIVLKYS+WZSYcTidbVjKZJZ/NXN/w2XKDLJ80Va1sfkCD/YrqpDhXFwnPqpy1tv
+	axRvyoLr+xdQO3SZBMDM/8F2R7alwPiBjN2It2TbW76qTKw8yXDJwx3lGUDgdczKdVHDpPgbdBt
+	cZlvTNTZvxVLKFyM3Cw==
+X-Google-Smtp-Source: AGHT+IHFyhH8wq5/B3eBtB/BDaMT4VJzJIcP4ftczyi30Yl5qBqAadO5cNDN3vyAqKPlRi6a4pnncg==
+X-Received: by 2002:a05:6a00:2daa:b0:730:8a5b:6e61 with SMTP id d2e1a72fcca58-73722311dc6mr474300b3a.2.1741909016890;
+        Thu, 13 Mar 2025 16:36:56 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-737116b2bfasm1976914b3a.177.2025.03.13.16.36.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Mar 2025 16:36:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <523fe47a-73da-4eec-80b7-61408e0ba27b@roeck-us.net>
+Date: Thu, 13 Mar 2025 16:36:54 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250312195951.1579682-4-jthies@google.com> <202503132357.RnlF5A0E-lkp@intel.com>
-In-Reply-To: <202503132357.RnlF5A0E-lkp@intel.com>
-From: Jameson Thies <jthies@google.com>
-Date: Thu, 13 Mar 2025 16:29:01 -0700
-X-Gm-Features: AQ5f1JrveV3I6ofpSQly6Maa1d3lFcNQ3Xq7VBo9SbjQm6kMIPtOwMRmVpnj6fw
-Message-ID: <CAMFSARdJgVQitDWmszbhSiVfu4hCoyyNVj3LPHb+7wq64C1BiA@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is
- defined in OF or ACPI
-To: kernel test robot <lkp@intel.com>
-Cc: tzungbi@kernel.org, ukaszb@chromium.org, bleung@chromium.org, 
-	heikki.krogerus@linux.intel.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, groeck@chromium.org, swboyd@chromium.org, 
-	akuchynski@chromium.org, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] hwmon: (cros_ec) Add reading target fan RPM function
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>,
+ Sung-Chi Li <lschyi@chromium.org>
+Cc: Jean Delvare <jdelvare@suse.com>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250313-extend_ec_hwmon_fan-v1-0-5c566776f2c4@chromium.org>
+ <20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4@chromium.org>
+ <782e6319-2082-4f05-9987-fa68439701ef@t-8ch.de>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <782e6319-2082-4f05-9987-fa68439701ef@t-8ch.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Echoing my response on patch 1/3, thank you for taking a look at this.
-I=E2=80=99ll follow up with a v2 series to address your comments and resolv=
-e
-the build issues. Additional responses below.
+On 3/13/25 09:24, Thomas Weißschuh wrote:
+> On 2025-03-13 12:47:43+0800, Sung-Chi Li wrote:
+>> Implement the functionality of reading the target fan RPM setting from
+>> ChromeOS embedded controller under framework.
+>>
+>> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+>> ---
+>>   drivers/hwmon/cros_ec_hwmon.c | 18 ++++++++++++++++++
+>>   1 file changed, 18 insertions(+)
+>>
+>> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+>> index b2fec0768301f116f49c57b8dbfb042b98a573e1..73bfcbbaf9531be6b753cfef8045fd5dab5b2ab3 100644
+>> --- a/drivers/hwmon/cros_ec_hwmon.c
+>> +++ b/drivers/hwmon/cros_ec_hwmon.c
+>> @@ -36,6 +36,19 @@ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index
+>>   	return 0;
+>>   }
+>>   
+>> +static int cros_ec_hwmon_read_fan_target(struct cros_ec_device *cros_ec, u8 index, int32_t *speed)
+> 
+> int32_t is a userspace type. In the kernel use i32, or even better u32.
+> 
 
-> > devices will be created automatically. None of parent devices should
-> > ever check if the child exist to create a child - it makes no sense.
->
-> This is still valid - none of parents should be poking around to see if
-> there is a child or not. The core handles it, DT handles it etc.
->
+Seems to be pretty widely used to complain about.
 
-Understood, we can remove this for DT. We need to keep part of this
-check for ACPI because there are platforms which need this driver and
-haven't defined proper ACPI nodes in their FW to load cros_ec_ucsi.
+$ git grep int32_t drivers/ | wc
+   43662  192381 3555402
 
-Thanks,
-Jameson
+Also, in comparison:
+
+$ git grep i32 drivers/ | wc
+     820    4009   68486
+
+Guenter
+

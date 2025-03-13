@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0282686AD;
-	Thu, 13 Mar 2025 14:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE8A269818;
+	Thu, 13 Mar 2025 16:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741877688; cv=none; b=PifRfrmpWQk7bMGreN04mowGAzOC0DoiUMeY5unb6qy7uTs60QqM7q1ITmdeFH7esXgZ5mUzWZdlGpTiabuQdRD4tzq1UYVj22hvYF49bJdS+EiQmX7SQShrJTNysN9af1l0Cd3/wh4LHp9M3OB0QuGBgxAmAa2mXo7f7BwXxXk=
+	t=1741882089; cv=none; b=VnYAq83wB9yDqL4VY+haJ1buw/5SdFjMy30cUUPWnheeqPhbtgXWpMqa9ZadHBUz3tef/4l+07Kj8Br2IZQitmyiV5A9Q5MTGtjuGiljJ4XKle83FTNuxzHFQQwj1lWuzpXyjqKNm7aagbZbqapgQHuXuVTYvlUnJT9OO7pfO6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741877688; c=relaxed/simple;
-	bh=WO37ftlXY8Hra+PQUsB9eOVDsD38P6pU0xpddpYq8hw=;
+	s=arc-20240116; t=1741882089; c=relaxed/simple;
+	bh=hMqJXk5eOhmEOR+ONN1O/Bon0ZOcsikAip9Gjm/6PQ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q7n57b1RBCImPeLdBethChDNcyHmEW1WYyvRvcZIH2emQ7M4tW2fdsWyTSWK3go6uLNn5jg03gh74YDp+Q/DP2yTLu5RFWB42H9C57Q3Yq4RryjoIkgFryHHo4sZ3/yaEKoqlGDLxEho3Gf2Le2EWxNI1KAsNmr3RQ1NFdrXx+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iirHsAE1; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=faTesaA8NMhQ2dbGpgRdYerWuyAPelE4P14qQ/JlT1zfNUTau50zKeswgBNdURrQVyVwmwKXiTPnh5s22I9/jqwZd0CMJX+MWOGsnefV89pQT8OLCUuoHrRRaXzH4M5rw27hBvN7loPXYRfTUgSI44uBnTR2xcb66Z3HYcdczg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GBQ6k8yD; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iirHsAE1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GBQ6k8yD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741877686; x=1773413686;
+  t=1741882087; x=1773418087;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WO37ftlXY8Hra+PQUsB9eOVDsD38P6pU0xpddpYq8hw=;
-  b=iirHsAE1snlFzAvwBU1xKwUDDQWurTQoJGwA2KNgYghwdl7/zStgGgdc
-   iGEU6Pl/Mq3Z7P/f00EAzQRRKq3k0KuizKMjnGfE+MNeKYjXA9m4S7UIR
-   WJh5M/+RwySAZUATN3QMnj/WVGdnr4U+Ye2B8xav80LBCRodPiYck77wr
-   O+uPi68Q4vUssyWA3nRLLKFw8TOVwz2B1WeEXN1d7MOmn5WldlJNWB2AU
-   GCm1J39ldX7UV8Kj6hxAZliM5x2tmhhTLFkUvth3umBTdfb4pPCXNwlz/
-   5nS+jTr7EuRhrPNLqCUH8Ss5DZRxJPqYvYmZ3QWsfEQk/XbtO/yQKc/EZ
-   g==;
-X-CSE-ConnectionGUID: 7WbTRudfRvWg7gJ/srVNZg==
-X-CSE-MsgGUID: 96BjTON4S26xg4SEbdWPcQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="30591025"
+  bh=hMqJXk5eOhmEOR+ONN1O/Bon0ZOcsikAip9Gjm/6PQ8=;
+  b=GBQ6k8yDAh7PQVmt6RnaS7XW0L8wMyNm1pm/QMKb3+fh+lLMQ7u6ZX7J
+   K08cY/9fU8r5W+8Ne8zzxHt/QkXjESm2NMwHNajBTBVgf2QPrbVmEAfEx
+   Jm4kTWBthtrOYBWaEgZtNE00z6vEN8sXYVipGd+P8EYzc4joR5er59AiF
+   7cDb6taHw1TtmccrI8RzCjAgZIgEeSNvtsy6G8+7hjcIr4IhJs91Orfhv
+   DwHIOXNee4nnJgZb0l+P9d64geRLnFoluflPFs4wB8RtN6kUU1MNdZKVi
+   Q6EJoXdLKv8tnDIojo5MjZ1FdQ5X6dUro4fT8sztuWIoerHr1g5reorNE
+   Q==;
+X-CSE-ConnectionGUID: 4qatXchiSRW7zSkHJehPUA==
+X-CSE-MsgGUID: rcNKK4M+TEeBZ+r+BEYvXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="42179560"
 X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
-   d="scan'208";a="30591025"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 07:54:45 -0700
-X-CSE-ConnectionGUID: XIRhdl9NQXqBzBs1Nhepgg==
-X-CSE-MsgGUID: cTm/eqcPTJOIXN1Pu9fpRg==
+   d="scan'208";a="42179560"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 09:08:06 -0700
+X-CSE-ConnectionGUID: BktotUkyRWGZ6FHY7LxLrg==
+X-CSE-MsgGUID: AbCLbLZxSdexJGFg60jKbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
-   d="scan'208";a="120932648"
+   d="scan'208";a="121496932"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 13 Mar 2025 07:54:41 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 Mar 2025 09:08:03 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsjxG-0009YM-2R;
-	Thu, 13 Mar 2025 14:54:38 +0000
-Date: Thu, 13 Mar 2025 22:53:56 +0800
+	id 1tsl6G-0009dE-2e;
+	Thu, 13 Mar 2025 16:08:00 +0000
+Date: Fri, 14 Mar 2025 00:07:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jameson Thies <jthies@google.com>, tzungbi@kernel.org,
 	ukaszb@chromium.org, bleung@chromium.org,
@@ -60,7 +60,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Jameson Thies <jthies@google.com>
 Subject: Re: [PATCH v1 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is
  defined in OF or ACPI
-Message-ID: <202503132256.f6p359iT-lkp@intel.com>
+Message-ID: <202503132357.RnlF5A0E-lkp@intel.com>
 References: <20250312195951.1579682-4-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -82,32 +82,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jameson-Thies/dt-bindings
 base:   9fc83373f0ffb8834da48b1446a5c2fef9525bb1
 patch link:    https://lore.kernel.org/r/20250312195951.1579682-4-jthies%40google.com
 patch subject: [PATCH v1 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is defined in OF or ACPI
-config: i386-buildonly-randconfig-001-20250313 (https://download.01.org/0day-ci/archive/20250313/202503132256.f6p359iT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503132256.f6p359iT-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-003-20250313 (https://download.01.org/0day-ci/archive/20250313/202503132357.RnlF5A0E-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503132357.RnlF5A0E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503132256.f6p359iT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503132357.RnlF5A0E-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/mfd/cros_ec_dev.c: In function 'ec_device_probe':
->> drivers/mfd/cros_ec_dev.c:273:61: error: passing argument 3 of 'device_find_child' from incompatible pointer type [-Werror=incompatible-pointer-types]
+>> drivers/mfd/cros_ec_dev.c:273:12: error: incompatible function pointer types passing 'int (struct device *, void *)' to parameter of type 'device_match_t' (aka 'int (*)(struct device *, const void *)') [-Wincompatible-function-pointer-types]
      273 |                                                             ucsi_acpi_match);
          |                                                             ^~~~~~~~~~~~~~~
-         |                                                             |
-         |                                                             int (*)(struct device *, void *)
-   In file included from include/linux/acpi.h:14,
-                    from drivers/mfd/cros_ec_dev.c:8:
-   include/linux/device.h:1101:49: note: expected 'device_match_t' {aka 'int (*)(struct device *, const void *)'} but argument is of type 'int (*)(struct device *, void *)'
+   include/linux/device.h:1101:21: note: passing argument to parameter 'match' here
     1101 |                                  device_match_t match);
-         |                                  ~~~~~~~~~~~~~~~^~~~~
-   cc1: some warnings being treated as errors
+         |                                                 ^
+   1 error generated.
 
 
-vim +/device_find_child +273 drivers/mfd/cros_ec_dev.c
+vim +273 drivers/mfd/cros_ec_dev.c
 
    181	
    182	static int ec_device_probe(struct platform_device *pdev)

@@ -1,189 +1,166 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9A81FFC52
-	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 14:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200FE12B63
+	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 22:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741962207; cv=none; b=j8v/2IYNyehJk+gajBi+veLw3oKfdsjsZ5cPVKS7tYN8IcDgCHTjPTKoixLWtji73r+yYRgGVWXh71V1pbJfjQFsOud8csoPMCH9u4TYvQspLbMB5uIAHbDXA4i35nz0plJPxwenfjDWxDsnO7WEc8BCCanUK0srct+7umlBjok=
+	t=1741989977; cv=none; b=DLtvaob1wWv+GODLG69GHvrelfLArN0E2gVAPkT+gmmsSeDqyDWsgEjuyBIVnonKge9Bv3knQkqzy1HYsH6FlSqKA++vLBoaTX0d1ZW2lrIn4Q8+z/Ik2w91g/Zfav39qe0jNfgGCoWQDbr0lWnLi2iYHecwGzYqFXDfTaYPBj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741962207; c=relaxed/simple;
-	bh=pEjdX24R2qOQHhHO8GtjN8hy9iBx/vf7c+ERVnPYw0w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tGfcPBxD4IV7LGgXYoXZyY3AzT3BI4ziDnqTcsdblcm1wMTizwrDAahewxkIXeXxPdhjs5/L7hAU2up+W4vwqHo+NeEQoiDf0xLTPk3xrlhGJQXbWR5qLvybA+TmUEWflBNck9Oa51V9ctNKwxz3q6+SvFPWdtVcjqGvdk+XDsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l5Ob7Gtw; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741989977; c=relaxed/simple;
+	bh=CKhlM71HHWzhYTD7pWKMXzC0UBFFhRub+4ucFciopmk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=McpV278ltEAyafhdSFLNOYn6+p/PkBpl9kMPMLQaOLi5F0EryfSwaSNeVp67/eETBMzQ7wStBQnUNumu+w7DMFTPbbgZMaz9TcInVAutH+BxiWI+Bi6ieuNFEH67awzUl3qAra/Y133K6rUrcoStDZXyWpKRZOrNPIUMX/p5ACs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FeFfcuBV; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l5Ob7Gtw"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2fee05829edso4408822a91.3
-        for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 07:23:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FeFfcuBV"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30761be8fcfso28301011fa.0
+        for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 15:06:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741962204; x=1742567004; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=uNJToVRxkj9gSN78UZ+8BwUBvD3Z5JHkelp5nFBUOE0=;
-        b=l5Ob7Gtw7RFTWRG9q9Q6m2BKx6n2bojefHfRcvZ294y47MiNeDUY8kNRxWyq1R3+qM
-         8tms0ucNDm/nxdXZwosdW7hS1LQecPrCMQavO1tJSfzg9qK4ZjP1fZcph8kp57rgz0GJ
-         E9pfp+zDyzHzebUkmxceNp7sLe1a2tl8B9slq6pimmqqlKRcpLyMmb2G4dQI2C+eI4i/
-         kUGT7/01VuIL8TThEF/fm/zXBKe2CqeUlUkzQ4KukKE7vt8ThnUCXh+8EsFFQsV3YQnv
-         XP4V7mpADV8ew943C4HekXzzZKmMN4Gx/GGoKleYPQf7G1j6p1llZTHPO9boSPFMo1Lg
-         vNTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741962204; x=1742567004;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1741989973; x=1742594773; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uNJToVRxkj9gSN78UZ+8BwUBvD3Z5JHkelp5nFBUOE0=;
-        b=FyNDhcTwsdQMSTnS7eifZJxa/SPpZmWoiWRop7tKT4A+yimV5laFVIIyTRqzX2ZYcR
-         vmOpcOydCtNnlMNgnBorlD9o3pjxkYiHQ27XbHSE+RgXVYrji3e9roHCzu/2Dn27zHKw
-         HSbrc8rztDc+aoUZ9yYlDFfzO4gyT1nX4+gvqBTKpcjfY8KZ6bEKW22uLDf0AURfW7df
-         cFiLLxqR/Kezb5C/NSIn2j7gB/vI+b3Itdy5P9Wzb71QfhCVEfGydbfNCAQt6vZoxevX
-         6v9BdFGp+KtBmE3dotohozKAN7wH+TA/2vugNIIbASTFII/Ri7n4FCW81LrVNNdvKu+d
-         hkow==
-X-Forwarded-Encrypted: i=1; AJvYcCVLWwkLnzEhWwkDKEXfuiyjhTbg5BwqnmbtKKbYI3hSWWbeQbhHhcMEcH5soI8x8lBPw9iqywh+3wlBiniCfX4=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx5pr5hpSQdrD/W4r67rGxRgizbbQLi0fYPo/PlrL7hM8Rek7tf
-	84nhvFO6IJqDjohoWQlZMpVyTKVjqP38UH3O0HvL1/h3UzslcphU
-X-Gm-Gg: ASbGnctSCNefRal5Cclj5I9A1YTP6yBUG25aoCNFdrIRLm0rPUd8jowCHelX/nvzhoW
-	OyzKZHKehV9fJbjz1/eZlAVPm0PQBqNgSBcBo8yo1q8rI0z9FsIGh1Y0NBJ8bKSwJdD2FdhBDSk
-	VGP5QcLufUfhrazdZKqJ8uE8qBGp2RJKBOf4oDb299rQ5P3fEtz7R9a3JUKAMIXk630cL+mENzP
-	PkoyejTjXSjrTCclyXMs5+cNYn5Ao0Po4XyhrbMF45NP+n4lBpQzAd/1wKwl9kVtH3DDaSp1VWg
-	X/oU8MxK+myL+0Phcj9V7d0wAa+qmpSODcnFYZl/Jo3VVzuz1Hy8X8siYnks+xyacaKM6x9KvOs
-	NF2gPsAYUaMl+bsvxaA==
-X-Google-Smtp-Source: AGHT+IGyKSHsBl3vQIbkGe1tj6XJ5FsfEJXyyChd8Wl6/UgHQoCRuL4PFEak/DRtGbx+aaAvVsfZmA==
-X-Received: by 2002:a17:90b:5144:b0:2f4:432d:250d with SMTP id 98e67ed59e1d1-30151cff08emr3314697a91.21.1741962204416;
-        Fri, 14 Mar 2025 07:23:24 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-301534f477csm1064747a91.5.2025.03.14.07.23.23
+        bh=Q+G1znUUY7rtTf9DzLNl5P+qD4jbuh64Bw3HveeQEA0=;
+        b=FeFfcuBVogztyG6WAIIthwmFacdb8frt6sFAcRgGNSbINK03hSIoqXlktfwfQet9X5
+         4GFjnC4Dq9aILSv2uyTFuXGSdyPGtwFquauwcAaRzheNNqLG/tpBn83vblKwWuTHmqvq
+         9M3p93s7X10Cwf/IIH+OD4Qd7i7j7ECrAoeE0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741989973; x=1742594773;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q+G1znUUY7rtTf9DzLNl5P+qD4jbuh64Bw3HveeQEA0=;
+        b=PsZHaCb0H1kzpMvqN380hU0Vt2t1R/vdFRZLW2ki52f5ky06MLeMizJ05/R4iNEzPa
+         RTeb645s7tTNxmtcGm3P6/u9MDxU15gL2AYyVGE3jDzIaDVKFqYY/pMq0E+D5T+9BytX
+         tijO6vSQsRZGmXpmeGqGhUGagtfkDAKH/rdp76hi+ZdTA84ztJkf06QNr4SmVp67An79
+         4OBg7JOEHStD+8tedsBeXJFck9hvVnXASqU/qMV/gDk8tJdgpiSAMRk2JkJwbNgK3lLs
+         4D6tHXZLvkflG6YcFCaagotT1Ce43eQ3VTN1kVTc2xNwtlsoWySKfKIaIE2W/Z/D0gwy
+         2jhw==
+X-Forwarded-Encrypted: i=1; AJvYcCVgA30Jwt0VnEPDUU5HiyM+kWEYY6cf5jU+VQienAH+ZDhehXHSfwXjvNGP8d0GfaKZvLPcKyJnZihLgI+arrs=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzCA0eaD2neIQOb28maZKDi5AO76fvrKczWcv4qxmnqT9SDDARV
+	9QV2Uff1pLgiaBnycenB5i+wXmtJeLRP0rx3+fTbLmjgoAKLydS0vO5Rs90iDB3jNWD0ntYl2wd
+	zlhcR
+X-Gm-Gg: ASbGncshxcfSho18oZMKEcQE3mFj/Ajqom0Gfa+2bE2Bv8gdtJ5GvV1UTXfaCGDhoUh
+	qIjYT5JVQAuFYXexYCzrZQOOkJDYb235IpaG64J+W8Kb92hYn8L7wxXnXSzWRo21LwHdhTQzkgy
+	66WN7Xoex/VxOIygcbBQztfpnWUPGuwNNkKhR7sWayndCYGg+XQ/FjYC81YVrqfXDil4zjC73Y0
+	PM4nS5PyG0b5bhVGF9omUGhhgveWj3ioVAUC5wdvR5SwFtv2ZJXfTU2XehsFgyBWcFmtfFU4AZA
+	dkSEL4PrkOHXJtasSpV+/V9D16L5+ag5bT8+e3vyoG75h6ih/Yxw/EsF1P59/WrQQVwSZJUjWbs
+	GgYFGvFk9D8FK
+X-Google-Smtp-Source: AGHT+IEFJrT1ZH7RzHGzU7m4H2ssD1GZUXpF51OAIkybWTyHxUxS9iMTnvERF0b4uTwKLOrx/m74Sg==
+X-Received: by 2002:a2e:b8d0:0:b0:30b:d44d:e76a with SMTP id 38308e7fff4ca-30c4a8d8ae1mr21870351fa.25.1741989972601;
+        Fri, 14 Mar 2025 15:06:12 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f1170dbsm6948381fa.64.2025.03.14.15.06.12
+        for <chrome-platform@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 07:23:23 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b9301c9b-9fac-46c4-ae6a-95029a1a2668@roeck-us.net>
-Date: Fri, 14 Mar 2025 07:23:22 -0700
+        Fri, 14 Mar 2025 15:06:12 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30bf251025aso22025021fa.1
+        for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 15:06:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVeiCCmKJDWXuciLreDQPvrwd97+Hc/9WbU3hS3eQN/rXKGmBPdVB2ufp//Zt289BE5nsl/dVwklEpbAzhivnM=@lists.linux.dev
+X-Received: by 2002:a05:6512:3d02:b0:545:c7d:1784 with SMTP id
+ 2adb3069b0e04-549c3988b84mr1398468e87.43.1741989528244; Fri, 14 Mar 2025
+ 14:58:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] hwmon: (cros_ec) Add reading target fan RPM function
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>
-Cc: Sung-Chi Li <lschyi@chromium.org>, Jean Delvare <jdelvare@suse.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250313-extend_ec_hwmon_fan-v1-0-5c566776f2c4@chromium.org>
- <20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4@chromium.org>
- <782e6319-2082-4f05-9987-fa68439701ef@t-8ch.de>
- <523fe47a-73da-4eec-80b7-61408e0ba27b@roeck-us.net>
- <5cb816c0-c445-4a23-82de-e3d9cbce54ee@t-8ch.de>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <5cb816c0-c445-4a23-82de-e3d9cbce54ee@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250312104344.3084425-1-wenst@chromium.org> <20250312104344.3084425-2-wenst@chromium.org>
+In-Reply-To: <20250312104344.3084425-2-wenst@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 14 Mar 2025 14:58:36 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=X14XEdikE3hP4y53uZec12O_ZPtU+GyJ+Tf8R3DK89AA@mail.gmail.com>
+X-Gm-Features: AQ5f1Jqp4S31G39Rg1NsczcQY3Hb3QPTaquvIuzNNpiFQjs9eAjzZVdMi2mJRe0
+Message-ID: <CAD=FV=X14XEdikE3hP4y53uZec12O_ZPtU+GyJ+Tf8R3DK89AA@mail.gmail.com>
+Subject: Re: [PATCH 1/8] dt-bindings: HID: i2c-hid: elan: Introduce Elan eKTH8D18
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev, 
+	linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/14/25 01:52, Thomas Weißschuh wrote:
-> On 2025-03-13 16:36:54-0700, Guenter Roeck wrote:
->> On 3/13/25 09:24, Thomas Weißschuh wrote:
->>> On 2025-03-13 12:47:43+0800, Sung-Chi Li wrote:
->>>> Implement the functionality of reading the target fan RPM setting from
->>>> ChromeOS embedded controller under framework.
->>>>
->>>> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
->>>> ---
->>>>    drivers/hwmon/cros_ec_hwmon.c | 18 ++++++++++++++++++
->>>>    1 file changed, 18 insertions(+)
->>>>
->>>> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
->>>> index b2fec0768301f116f49c57b8dbfb042b98a573e1..73bfcbbaf9531be6b753cfef8045fd5dab5b2ab3 100644
->>>> --- a/drivers/hwmon/cros_ec_hwmon.c
->>>> +++ b/drivers/hwmon/cros_ec_hwmon.c
->>>> @@ -36,6 +36,19 @@ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index
->>>>    	return 0;
->>>>    }
->>>> +static int cros_ec_hwmon_read_fan_target(struct cros_ec_device *cros_ec, u8 index, int32_t *speed)
->>>
->>> int32_t is a userspace type. In the kernel use i32, or even better u32.
->>>
->>
->> Seems to be pretty widely used to complain about.
-> 
-> There is even a checkpatch.pl test for it, which should have triggered:
-> PREFER_KERNEL_TYPES.
-> 
->> $ git grep int32_t drivers/ | wc
->>    43662  192381 3555402
-> 
-> 33k of those are in generated amdgpu headers.
-> This search also happens to include the more frequently used uint32_t.
-> 
->> Also, in comparison:
->>
->> $ git grep i32 drivers/ | wc
->>      820    4009   68486
-> 
-> The numbers for u32 look a bit different:
-> 
-> $ git grep u32 drivers/ | wc
->      234768 1137059 17410570
-> 
-> 
-> Also this specific driver already consistently uses uNN.
-> This does look wrong:
-> 
-> 	int32_t target_rpm;
->   	u16 speed;
->   	u8 temp;
-> 
-_That_ is a much better argument.
+Hi,
 
-Thanks,
-Guenter
 
+On Wed, Mar 12, 2025 at 3:43=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> The Elan eKTH8D18 touchscreen controller is an I2C HID device with a
+> longer boot-up time. Power sequence timing wise it is compatible with
+> the eKTH6A12NAY, with a power-on delay of at least 5ms, 20ms
+> out-of-reset for I2C ack response, and 150ms out-of-reset for I2C HID
+> enumeration. Enumeration and subsequent operation follows the I2C HID
+> standard. The eKTH6A12NAY requires longer times for both parts.
+
+Somehow the last sentence above confused me. Can it just be dropped?
+All you care about is that the new trackpad matches the timings for
+"eKTH6A12NAY". Not sure what you mean by "eKTH6A12NAY" needing
+"longer" timings.
+
+
+> Add a compatible string for it with the ekth6a12nay one as a fallback.
+>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>  .../bindings/input/elan,ekth6915.yaml         | 29 ++++++++++++++++---
+>  1 file changed, 25 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b=
+/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> index cb3e1801b0d3..81c391952ccc 100644
+> --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> @@ -4,14 +4,14 @@
+>  $id: http://devicetree.org/schemas/input/elan,ekth6915.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>
+> -title: Elan eKTH6915 touchscreen controller
+> +title: Elan I2C-HID touchscreen controllers
+>
+>  maintainers:
+>    - Douglas Anderson <dianders@chromium.org>
+>
+>  description:
+> -  Supports the Elan eKTH6915 touchscreen controller.
+> -  This touchscreen controller uses the i2c-hid protocol with a reset GPI=
+O.
+> +  Supports the Elan eKTH6915 and other I2C-HID touchscreen controllers.
+> +  These touchscreen controller use the i2c-hid protocol with a reset GPI=
+O.
+>
+>  allOf:
+>    - $ref: /schemas/input/touchscreen/touchscreen.yaml#
+> @@ -23,12 +23,18 @@ properties:
+>            - enum:
+>                - elan,ekth5015m
+>            - const: elan,ekth6915
+> +      - items:
+> +          - enum:
+> +              - elan,ekth8d18
+> +          - const: elan,ekth6a12nay
+
+The "enum" above is weird, but it matches what we did for
+"elan,ekth5015m" so I guess it's fine? I'd leave it up to bindings
+maintainers. I guess the assumption is that we might add additional
+touchscreens to the list...
+
+
+>    reg:
+> -    const: 0x10
+> +    enum:
+> +      - 0x10
+> +      - 0x16
+
+Again happy to leave it to the bindings maintainers, but _maybe_ just
+drop the "reg" parts here and below. It doesn't really have to be part
+of the bindings.

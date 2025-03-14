@@ -1,104 +1,107 @@
-Received: from omta034.useast.a.cloudfilter.net (omta034.useast.a.cloudfilter.net [44.202.169.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FC2D531
-	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 00:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A05519CC24;
+	Fri, 14 Mar 2025 08:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741913287; cv=none; b=G86nH+T6qw+py9byvHD4F/NLI/NuYxG3VDld9yKX5dA+iRReOQk5/gTl2HUcdL9TjMt88ZIuYsrsqZiU1gGCiiCZ/G+KO/bOQSbdvjvz9xH4fqJkpA48bWoGO7U0NcNHhrmyccwPeZ4V9D0her9i3d0zbYmHndK79ejGIndduAI=
+	t=1741940239; cv=none; b=me9a4K+v2FsPdDVQJCfs/szMEj5YRZdPAfcIvs4bRAc8HEP5KBH/UV+QW5H6+wouvqEZ7ew2S9MfJqf8MTG2K2/VYV2zX4BRijYjtt2X3v3JzhV2li3sjnYrZ59YL6FRZ9KuOLuuUe9etv7S1uPhhRvBsfIKFsEMRho3PDSeh9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741913287; c=relaxed/simple;
-	bh=TQD3AJzqUtfxU2ZtBhJ0LHa7vvbXsj3A7BUF66xhl54=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d36Ah8BzqFke3uBQzZAlAfDsohz4mTsHN8jbWNfbRVyCRhKebJyWc+LlxzaIVtW8msyT9zUdnM7NEQDtpCc9RY1xOHMGfGIcfidccYGBjq0cpDE5lpx84QxZPu1TXCw+ydDdEzAuxgE0vVlSqycx6qvLmeuSXy8ZcSzC4XYUmI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=dIRn+R1+; arc=none smtp.client-ip=44.202.169.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1741940239; c=relaxed/simple;
+	bh=FhM8haTH27eXiHrnuMgVwFYc5tZtWF+eW6pPbLzO0PY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Um5Hg7DDXDaJo8mNNxNZRqC8Ed8K3Jbm1tOYLTpR0OOrGxpm9a7sM9DXiewtJKo6NumrPktLldeuu1AQINclykNDMrKkacgI5io1PqeJvZLOFYCKVO3CyXocZKNeCM6hPJcAF4UeofWpqVuq1Wg5CGV3BSc2PMsm5miWtCirj6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SExaSyJH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="dIRn+R1+"
-Received: from eig-obgw-5001a.ext.cloudfilter.net ([10.0.29.139])
-	by cmsmtp with ESMTPS
-	id sq2BtjNvsXshwstDTt0AV4; Fri, 14 Mar 2025 00:47:59 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id stDStWK7NHEACstDSt7aP4; Fri, 14 Mar 2025 00:47:58 +0000
-X-Authority-Analysis: v=2.4 cv=HdLfTTE8 c=1 sm=1 tr=0 ts=67d37cbe
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=6Vi/Wpy7sgpXGMLew8oZcg==:17
- a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
- a=pCqRpgb2EoSYttADf5oA:9 a=QEXdDO2ut3YA:10 a=Xt_RvD8W3m28Mn_h3AK8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Ygi1TZ6kTOz8skaSiNhkQe8V1nGHCFg15P5UFWzKVtc=; b=dIRn+R1+T7USvNbetrG28jIkaJ
-	AskPcM/0W8kW3KrF8bJDtUpJzXJEIk1hniRexG2VXo5MzhVGwcru0Jek7y5z6s28+ov7Zko3Y5sBZ
-	SQcCYWVU+q8uuxzmfKJQYEd/ys2JwqAfCHZEcluR5gAPrhkw3fm0cbNq9gIkYJZLnckKZschBHLCG
-	F5z2Rmg/18OfejD5EGOBHCC334f5l2tDbiGQWkAFPxe+v6a/xy1vAtbrowyC0WPpgyNDqjkSmHSFe
-	/oc8OcxJdr7Vx1img6Gd5qvvCiTFNfc5Vt1xtBlOM+B9azal4g4SRXeDMI2KidIzLancF62/zFU1E
-	OPx0RBGQ==;
-Received: from [45.124.203.140] (port=53636 helo=[192.168.0.159])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.1)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1tstDQ-00000003GmM-3ZZ4;
-	Thu, 13 Mar 2025 19:47:57 -0500
-Message-ID: <63d0cca7-b095-4762-8ec4-5004e5c6bad1@embeddedor.com>
-Date: Fri, 14 Mar 2025 11:17:45 +1030
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SExaSyJH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B326C4CEE3;
+	Fri, 14 Mar 2025 08:17:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741940238;
+	bh=FhM8haTH27eXiHrnuMgVwFYc5tZtWF+eW6pPbLzO0PY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SExaSyJHOVRU229B1Is5QN4TX/Wdvp3CsN+cirTihtNymHZqgKHu00OjOyiGAO5n0
+	 ptMzlGxzODZ+9NtGP2rPOEjik/CIUWX8RSjdQsX3rlXLf3+DrtOmRovMAYUDerHRl8
+	 l/9qzkWgQxF0BsIVyp4IY6W9qAw0NKmyyKb26ZWtjYP9grN38FZA1JUK8BXvwk4bOH
+	 ZJ/RNkcIAiKOsx+tl5fC7I26zjlYr7eAVvNx/SRfZ4RxUikxhg9n7lWPtzgnlL7yyx
+	 BqSaWyapCKLOFtY73Qa2/2Z0hpltwql8M13mfaHHEkDinjbAO/n1oRFNJWEMpSXBzH
+	 qT9k8gS3tpwIA==
+Date: Fri, 14 Mar 2025 08:17:15 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-rtc@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] rtc: Avoid a couple of
+ -Wflex-array-member-not-at-end warnings
+Message-ID: <Z9PmC4lExxDMusf3@google.com>
+References: <Z9N8BsVJF-s6Hcvd@kspp>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] rtc: Avoid a couple of -Wflex-array-member-not-at-end
- warnings
-To: Tzung-Bi Shih <tzungbi@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- linux-rtc@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <Z851qvkycepdNlBd@kspp> <Z9EZByipsNmBoVea@google.com>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <Z9EZByipsNmBoVea@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 45.124.203.140
-X-Source-L: No
-X-Exim-ID: 1tstDQ-00000003GmM-3ZZ4
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.159]) [45.124.203.140]:53636
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfD1CQqsAAP+uuj6DQSAF0YWfFGdtRMCDw652sNvlvoh/lYBzvwlyZRxuF8h7l0JgVlCQCO6l1jsvzFVKIl/FISWOzS/WZEyb6FUzroL8mbUPBiXdkLH3
- I7RF6BnW2aixxnMlWzdFQwXrrlxTp9r77GBt77qfjJG5wZFQH7NtVOKrlBkpEZkX0f++eLPBOtV+K0fFF4Szjv6lBeqSRj4uvc7bagd4IyDTStKj4MO/Wfw6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z9N8BsVJF-s6Hcvd@kspp>
 
+On Fri, Mar 14, 2025 at 11:14:54AM +1030, Gustavo A. R. Silva wrote:
+>  static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
+>  			   u32 *response)
+>  {
+> +	DEFINE_RAW_FLEX(struct cros_ec_command, msg, data,
+> +			sizeof(struct ec_response_rtc));
+>  	int ret;
+> -	struct {
+> -		struct cros_ec_command msg;
+> -		struct ec_response_rtc data;
+> -	} __packed msg;
+>  
+> -	memset(&msg, 0, sizeof(msg));
+> -	msg.msg.command = command;
+> -	msg.msg.insize = sizeof(msg.data);
+> +	msg->command = command;
+> +	msg->insize = sizeof(struct ec_response_rtc);
+>  
+> -	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
+> +	ret = cros_ec_cmd_xfer_status(cros_ec, msg);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	*response = msg.data.time;
+> +	memcpy(response, msg->data, sizeof(*response));
 
-> I'm not a big fan of the solution.  How about using something similar to:
-> 
-> struct cros_ec_command *msg = kzalloc(sizeof(*msg) +
->                                        sizeof(struct ec_response_rtc), ...);
-> 
+Technically they are the same as `struct ec_response_rtc` only has an
+u32 member.  Any reason to not translate it something similar to:
 
-Thanks for the feedback. :) We can actually use DEFINE_RAW_FLEX():
+*response = ((struct ec_response_rtc *)msg->data)->time;
 
-https://lore.kernel.org/linux-hardening/Z9N8BsVJF-s6Hcvd@kspp/
+>  
+>  	return 0;
+>  }
+> @@ -57,18 +54,15 @@ static int cros_ec_rtc_get(struct cros_ec_device *cros_ec, u32 command,
+>  static int cros_ec_rtc_set(struct cros_ec_device *cros_ec, u32 command,
+>  			   u32 param)
+>  {
+> +	DEFINE_RAW_FLEX(struct cros_ec_command, msg, data,
+> +			sizeof(struct ec_response_rtc));
+>  	int ret;
+> -	struct {
+> -		struct cros_ec_command msg;
+> -		struct ec_response_rtc data;
+> -	} __packed msg;
+>  
+> -	memset(&msg, 0, sizeof(msg));
+> -	msg.msg.command = command;
+> -	msg.msg.outsize = sizeof(msg.data);
+> -	msg.data.time = param;
+> +	msg->command = command;
+> +	msg->outsize = sizeof(struct ec_response_rtc);
+> +	memcpy(msg->data, &param, sizeof(param));
 
---
-Gustavo
+Same here, how about:
 
+((struct ec_response_rtc *)msg->data)->time = param;

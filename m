@@ -1,103 +1,102 @@
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6481ACEC6
-	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 08:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B101D7E42
+	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 08:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741941214; cv=none; b=a4Ohs1d9mo4jJ2+pHjvDoZMFNRrdobYFjmBflMpaM4bd6O22iBEQjjkxeLTCwAsOaA/JbQ0+NjAsxX4a63GVpqpvnaAeb0DEaz0q+ibKY8syM074sqzKPYD5Atw0Wx02fNtKJTl8cX8I68g5xuplixwCuJldaRottTEzCXQX7V0=
+	t=1741942337; cv=none; b=lngqBQRAykBUGH9frlopcAjtG2WEp+Hu79F3PvRsEW2QInLvPSDHQj1qaFrP8i31AI4NLsYh9j/L7slk7FeLTayJIPvMAxY3wnO9rwsj3qwUkqbhGhtuN5upTtaRC5hkgKdapvVbK05zhlIbvJKmdT4H1CDqDSMcdPzpI81VuMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741941214; c=relaxed/simple;
-	bh=MGJdDMkD6/gz2VLWUBnuEe0WVufidACgUTjTQja/X6Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lb2aA23arxWx4MoMAcuUCQKbB04/a3GcXJSu1onh9kjkZBe7Yc19OAm8CGwQwIxMwcLFNkahJZjULh4kFYTckUjRTeu5Jo4Mw9N4+UoJ8jctGCCAZ9SArrWR/stlTAOxTdQ8/zgNK0aBSnbVQWyYc2CUGaXU0oAawOFPBiXQ6sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=wzlQM/r4; arc=none smtp.client-ip=35.89.44.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1741942337; c=relaxed/simple;
+	bh=0IugbQ0xdOnTYVC524TeNpw2WOR2AlKdYbu31P0ik1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GntThYxC+GaC7EIAqF2xTYxCG45HF34YAOtZNDwTDtGRzqPa2Nu3q5XrliywH9lJlYwMscrT4HJdAaf3yAJHPJKAYoZojk5P4IvRKb5sIec4IhMK6j9rYUJu698atnmpz/8nmQGSi82XPB+Gnt9G+rO3dIzFuOMsrhX+K9l9fjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=uf9Cv4cw; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="wzlQM/r4"
-Received: from eig-obgw-5005a.ext.cloudfilter.net ([10.0.29.234])
-	by cmsmtp with ESMTPS
-	id srX2tPhlwAfjwt0TutrDBb; Fri, 14 Mar 2025 08:33:26 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id t0TttMywrhQfUt0TttNf8C; Fri, 14 Mar 2025 08:33:25 +0000
-X-Authority-Analysis: v=2.4 cv=Negt1HD4 c=1 sm=1 tr=0 ts=67d3e9d5
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=6Vi/Wpy7sgpXGMLew8oZcg==:17
- a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
- a=dkecWN29NwlNYE_-JqQA:9 a=QEXdDO2ut3YA:10 a=Xt_RvD8W3m28Mn_h3AK8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=l62YLbyLOHyKJhy5MddIlMXG8M11WTu9emmcANot26w=; b=wzlQM/r4FXzRdifNBt+SsYjSBo
-	V+3YuS5TdLG2Jmflg3MsnHzZ+3Ywa/mQ7hgfv75zMfPNWQyLMZrnRgNERRiPgkzkEoMhWmBZrQYqF
-	8EV+RMpT9sQJcmDms++y3rQbCjb06HpFwyJuew4QXmDup4sp9P5YWf3Xk5+UqHApF46gofIM1g0HS
-	1U0+y8uA2k7jCJnmU/bHXpc7EsZBQo/jxznUM6xJlRaKo8Ii6HKfEXICnEwZbScv5s8E/pUH0WM5z
-	rU4v4Gs3N2WukFOGP5ZcTy02xeK1TbwXm1W6TkcjmuBIvIHu3eS7Iwz35D13VDE5ub5GFWgxoMCO9
-	JFrqoI5w==;
-Received: from [45.124.203.140] (port=53657 helo=[192.168.0.159])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.1)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1tt0Tr-000000045Ms-2aDv;
-	Fri, 14 Mar 2025 03:33:24 -0500
-Message-ID: <5cb4bca3-da10-4434-a90d-f752d8f1ab1c@embeddedor.com>
-Date: Fri, 14 Mar 2025 19:03:13 +1030
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="uf9Cv4cw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1741942331;
+	bh=0IugbQ0xdOnTYVC524TeNpw2WOR2AlKdYbu31P0ik1g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uf9Cv4cwOOCEF7NPBC9CwoCy0zBvQ7ACYolbw2moT3y6jhwkoR7GSm3xO/6A8g/KA
+	 8teYOaXTmOxl/g6sdBQuSPFPhs98uAxA3EedxY6/ovgr3SB6J/GPAm5N6oWHEpPYB3
+	 RYBvDKImArKLY/pruUuY2N+wpjowRWqF0L1IBd0s=
+Date: Fri, 14 Mar 2025 09:52:11 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@weissschuh.net>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Sung-Chi Li <lschyi@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] hwmon: (cros_ec) Add reading target fan RPM function
+Message-ID: <5cb816c0-c445-4a23-82de-e3d9cbce54ee@t-8ch.de>
+References: <20250313-extend_ec_hwmon_fan-v1-0-5c566776f2c4@chromium.org>
+ <20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4@chromium.org>
+ <782e6319-2082-4f05-9987-fa68439701ef@t-8ch.de>
+ <523fe47a-73da-4eec-80b7-61408e0ba27b@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] rtc: Avoid a couple of
- -Wflex-array-member-not-at-end warnings
-To: Tzung-Bi Shih <tzungbi@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- linux-rtc@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <Z9N8BsVJF-s6Hcvd@kspp> <Z9PmC4lExxDMusf3@google.com>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <Z9PmC4lExxDMusf3@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 45.124.203.140
-X-Source-L: No
-X-Exim-ID: 1tt0Tr-000000045Ms-2aDv
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.159]) [45.124.203.140]:53657
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfK7gCBxe4PQ2GfGwh3dVB4/7AiWHUGRTwyDr24IxxHIyrTxO7TYlui593XZb+5XuCZ0AHn+XQgbREq+W123fDfKampzcGm3bU4hA3Q8MQLiQQtdU/a5L
- IrCmFG4Th5Rdu8pv5weop4IYNRE2ufJ6hcLQNvNNwjJOv2+88BvROM5uPR25W53az/8hC3d+K2myFCoLAvKJ1GCpU6+WAdD8i3rHT8cYgXdAc5tFZcAHySAL
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <523fe47a-73da-4eec-80b7-61408e0ba27b@roeck-us.net>
 
-
-> Same here, how about:
+On 2025-03-13 16:36:54-0700, Guenter Roeck wrote:
+> On 3/13/25 09:24, Thomas Weißschuh wrote:
+> > On 2025-03-13 12:47:43+0800, Sung-Chi Li wrote:
+> > > Implement the functionality of reading the target fan RPM setting from
+> > > ChromeOS embedded controller under framework.
+> > > 
+> > > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+> > > ---
+> > >   drivers/hwmon/cros_ec_hwmon.c | 18 ++++++++++++++++++
+> > >   1 file changed, 18 insertions(+)
+> > > 
+> > > diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+> > > index b2fec0768301f116f49c57b8dbfb042b98a573e1..73bfcbbaf9531be6b753cfef8045fd5dab5b2ab3 100644
+> > > --- a/drivers/hwmon/cros_ec_hwmon.c
+> > > +++ b/drivers/hwmon/cros_ec_hwmon.c
+> > > @@ -36,6 +36,19 @@ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index
+> > >   	return 0;
+> > >   }
+> > > +static int cros_ec_hwmon_read_fan_target(struct cros_ec_device *cros_ec, u8 index, int32_t *speed)
+> > 
+> > int32_t is a userspace type. In the kernel use i32, or even better u32.
+> > 
 > 
-> ((struct ec_response_rtc *)msg->data)->time = param;
+> Seems to be pretty widely used to complain about.
 
-Yeah, let's go with that then :)
+There is even a checkpatch.pl test for it, which should have triggered:
+PREFER_KERNEL_TYPES.
 
-https://lore.kernel.org/linux-hardening/Z9PpPg06OK8ghNvm@kspp/
+> $ git grep int32_t drivers/ | wc
+>   43662  192381 3555402
 
-Thanks!
---
-Gustavo
+33k of those are in generated amdgpu headers.
+This search also happens to include the more frequently used uint32_t.
 
+> Also, in comparison:
+> 
+> $ git grep i32 drivers/ | wc
+>     820    4009   68486
+
+The numbers for u32 look a bit different:
+
+$ git grep u32 drivers/ | wc
+    234768 1137059 17410570
+
+
+Also this specific driver already consistently uses uNN.
+This does look wrong:
+
+	int32_t target_rpm;
+ 	u16 speed;
+ 	u8 temp;
+
+
+Thomas

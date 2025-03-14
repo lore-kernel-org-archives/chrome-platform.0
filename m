@@ -1,65 +1,65 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE881A254E
-	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 12:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A811FF7DB
+	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 13:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741954968; cv=none; b=bMhh+j7Dc1QGjV5mDJMMgl9y7OdykyyOQDTqCVEPy/GFTzQU4Cu1kmvPBkCBmY9MLYQqp/X+q+lde91FJPzJMt/bTIX8GGkJVpN/FWiI1qz5gLp2oA02Kurp53GKs6bi4Uv1BACOudqCWlfyF9WqXlFenj3Yrrsm53a7M5JnDeU=
+	t=1741959542; cv=none; b=aXjJSEhwyWqUAByK0FPZ1HpsKjUvWSat5XYEQNq21UM0KdyE+cli8wi3wzD5jItXhNuoKjcWeI9Urse2LkcUVlfphx3FsT8XM5P82vJY6or1XfNdqDgJvgk0uhxPSBARzCazG1IFqImVgT5TCzVzRmlV1Y+Z7VUu4N0yoyGiUPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741954968; c=relaxed/simple;
-	bh=XOkBCRF4fPWiEwhz3wTVytovSusd2orQZZzDz4mYZ3I=;
+	s=arc-20240116; t=1741959542; c=relaxed/simple;
+	bh=hCH0QbOU7YEFPetxxX91L6YysqIx/EQog2etLguJj28=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OKPuBn63/4BCEJgj79z/BSR7B4rl2Eo6K1UPYYIcQG4kpoH8sDkqgso4rxNj5VqkUST2xMV1pHflbxbqgW87ZxMo4keSDZeXNInhIrtEXw/71+7gdkEA5LaVngBR+vW/Xt/uK44p7LqiArDisY2VqL+T72kkRlZuZw3CPavczbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VweS2YmE; arc=none smtp.client-ip=209.85.208.182
+	 In-Reply-To:Content-Type; b=snp8BZ46eBrdPPDeXJZPjCXivKNyB0tIb5RxSZOpUa5R1TY627dsyvrrAssKNzLDioikTCMscz5s48RVn9g3MEzbeJ7U2gNrGZTvLstMdiECuYoH6J8ZD31BtRTfKB60qCsfxcMHUpErTgQ3Aq3o8Sgp5mb4l00LR+PKxhOkVcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e8d+vccu; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VweS2YmE"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30795988ebeso21083661fa.3
-        for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 05:22:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e8d+vccu"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54998f865b8so1876886e87.3
+        for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 06:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741954965; x=1742559765; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1741959539; x=1742564339; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ry2RdRxaIEj6R0WcfwppEn7IhChq0ONiN9TM0ey9o88=;
-        b=VweS2YmEOSGqHsnTSfOzVbHSfLiCq3816+CQhALCtqSm5fxrR/4MPaN/IN1kXyWCn7
-         wco/4ho+cBHnlZg4WsEi7OgGuKoKJNeli4a21v3+Qn43zfjidAeHCbhHRNymZzt2h5E3
-         HeJ0xgpSvvWQTA83q8IoHokyNOy88aZakv5IOIFGunbAFGIc2NqcFxYQgAQJp3CPNzEJ
-         JAg/arNPQeTMLV1PfTbYkywH7HRdLsCaYA73O5gzFvIabsvS3GsXN3qeoMTQxO7mH+MY
-         efoVWcHoRGKxNOcgXKVU0khxoBKQ/l6J5BvGlRkm9/6LXi18aTy0eMaxsnYdJsK67pVN
-         OtLA==
+        bh=ZhzCTWJ98QeetX0Lqy44K0mjT6jwPvVzdYi9tkPlycc=;
+        b=e8d+vccuNf8uCZtqXGRyKStEDkLsytw46giuFLK3T8iSnjnthPefz37/eAWOzi2qw5
+         arULZ89zuORUfX1D7qdqcYIS615qUMNc6mLZog7tOhIPpKyRq+toqkKjduyhqnWH+yKx
+         62Lppu3WpgRczs41sxEcKLJNGlgyjPSwC4PqowDhAXdpsbBHw6O8Cz0U0XKI1Gqs7Pm5
+         TPyPUZgJl0ZrrNd+c3BTr/9nPPbP65S763+zP2aOX6tmNY8j+70l1Km6InLAQCDlcLiR
+         CwDYtwq8CzOyWWuH6X9mXB7BplZ06rURwaHotJXmKRyldt9wrfU5WRQIVe2KkUI4I1Z6
+         cPkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741954965; x=1742559765;
+        d=1e100.net; s=20230601; t=1741959539; x=1742564339;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ry2RdRxaIEj6R0WcfwppEn7IhChq0ONiN9TM0ey9o88=;
-        b=FRT76rXjHoIL38bXmOlfO8A9PWRZ8PE2YLysz5a1e9Xs3pF3laJPRamzpDx/3g8R0q
-         YQzWGAEkJaoVdBg/pfFk0EtPGGbSxwOKrLRm18CfRuLzCCMh0zXOl95BYMDJo0r1+YBz
-         wzdiG/p77FdhhHgzO46QLVekLFpWTKFHgrI6hxSsg0Q5KRSQWyj13DKKxauUW2ZpbHZt
-         C8AoMRiyr6hfjZzAbyBwoAvzPq+29p2P2/j3VtVQQd2NHH2OBao8XetWWi7XhvhHSZfY
-         xmY8h12T7iyXQ0Cc/DJqEts+YqXd/rIF5CCfFxMKV2niQoO4le7h33hn5H/zYUNYusNO
-         5urg==
-X-Forwarded-Encrypted: i=1; AJvYcCXxvbg286KKchTNhPS/AgcZ2107E+cNEUFuKokxnhkrz6T7CER8Vv66F1hfScA9VV7ZqhuoOACt4jzTeKkA1Rk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyArEXqo6bK53BM8BN1Y12wL3BJk6z2QX4naVkWKnSwu3iW5+b1
-	vZS/aVYjsz0YnGJnX/8J3u47KGD9IxR68ehPSLvIDlnOrylfpn94OP8MiQ==
-X-Gm-Gg: ASbGncubjeXs0BcpJ/6UbpZAkbblgUCDFP2MbICgJNPFacjT+s0jTh37jDjg8IDmwbK
-	qmIMnT6jMJlKi0QJgXEVVh6/SGRQtpSJhZwC5MZPOtAah+zxvFc6vAS9RcdyZp6gJgo5sDrCOhJ
-	OBY0EXYUUESfSJjvaAKsrB5a3wiMXmsmUVvXlW3iKOkFTl8BOT638oaj356XyONUZYDWoLIRqHX
-	LsY3kN3xvYTVSkpllxbjtaM4KR9m6GNmZ6GLfliZwTG9Fur8SW81LcZqhUCg/6rkjbSTslW6K8Y
-	JMHyTemAZo/msCKtey6xkfVnaRw0VQ1X1BBzMDasl80hwOgvRz2gFV88xkJsYnRrD4ZFd2Rk8sQ
-	byy7HdB001ScRce9uZy6JEGnXtQ==
-X-Google-Smtp-Source: AGHT+IF2n2QrYzrJyXMDAPimkCx+4Qfg2BIZON+iQVvMQCrSsEtdz43VKcbb2wXM0ULY60GxnyX72w==
-X-Received: by 2002:a05:6512:159a:b0:546:2f7a:38c4 with SMTP id 2adb3069b0e04-549c38e2ecfmr656026e87.13.1741954964411;
-        Fri, 14 Mar 2025 05:22:44 -0700 (PDT)
+        bh=ZhzCTWJ98QeetX0Lqy44K0mjT6jwPvVzdYi9tkPlycc=;
+        b=CvrUpTpO0biR7XRfRZdG/Kyv+QXWiP6l85ju9QFMRbNcBOKPU4B/BT92IYUE+yv5Yj
+         y4Nd5HWkFDH45lfvtlDbJyzjbc5TKkoODjTOBd1HqxeWSt9jttc2+B8qvfC2P2bM777H
+         BNNk5kA9mK/cwZXtGF6amzOch3vwgh4BKNgJrGDE36hBjYO95BCVzR2VVxL2l49cCdLj
+         FFwiw3IbRHU6w5F5HrhyGw1df6qUyGRmW+4I7LUzDVczUxfKvZveRIPnzjCRCq3OTQdB
+         JDePs4gTqXR+gpyFqqu+YLwWKJPgAmYp19NRL26AcP0xhiLftU1hSlkaP4EVnJHG6HvQ
+         ZDrg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7Ui4tV29arKXacGPdiPHfXTzvJetR5VToiCnKlOcyrGDF/a7SfiqR/1syH5nEDEtfNh1DBdZGSQbbSlI+GIs=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzK6xwljh3FHA1JQ6SBBdSxpOpGzyI9gbJ+nhMwbjEPvjXGq5Fc
+	Wiq13GKGbeB+pjo+Tr1D+Zd94x6Cs6EsE6Ow7k5U42T/Du3iUSnj
+X-Gm-Gg: ASbGncvDyvszWflLxdUM2MCjGZxD8wh7Lnt8NjOnYNRlHPlZNZ0Fj3MARMIETnd4HR7
+	A3E2DCOWj056p025ZDOZgQvMDCF6wSVB5/1wrzx76VAlICvtrZhflz6Z/liGWCDcu2s1Pixe6oM
+	qv5iZ9Ov5eT8l/t769vljyXU9neN4FzJme8zvBdsrBdoRrcirtUtq2kqM0KqbX/N95v1Vf+g1+T
+	A0gmszb/a64ctlkJXV8IjpTOIoAboisW4pxcA3aEaEp6cnrVL4nEMQnJzyQ5fZ48wFiiz/E7mDO
+	Wn7PFmpzmayDManP5c6QN8dPJiLBfgjDP+2AQuHtcDuUQvFpF6r2HtAF02hEbnX7/vY+pasfB2U
+	dPjk+y177F/FzJ1S1Q6NbXm42Pg==
+X-Google-Smtp-Source: AGHT+IH1My44mUZhsIp30MFzqw7ymCnGpSbaC4sDTDo0UIMwA5zmXEolpYiOvBXwOInnJCKMdYyptw==
+X-Received: by 2002:a05:6512:b0e:b0:545:3032:bc50 with SMTP id 2adb3069b0e04-549c38fb8f3mr1052670e87.19.1741959538508;
+        Fri, 14 Mar 2025 06:38:58 -0700 (PDT)
 Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba864c1dsm514246e87.119.2025.03.14.05.22.40
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba881f66sm525666e87.178.2025.03.14.06.38.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 05:22:42 -0700 (PDT)
-Message-ID: <58e19481-530c-4465-aec5-1f44462eaf5f@gmail.com>
-Date: Fri, 14 Mar 2025 14:22:40 +0200
+        Fri, 14 Mar 2025 06:38:56 -0700 (PDT)
+Message-ID: <a8f76dd0-56be-46a5-9cc1-2d17d013127d@gmail.com>
+Date: Fri, 14 Mar 2025 15:38:55 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -67,8 +67,8 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/7] power: reset: Introduce PSCR Recording Framework
- for Non-Volatile Storage
+Subject: Re: [PATCH v6 7/7] Documentation: Add sysfs documentation for PSCRR
+ reboot reason tracking
 To: Oleksij Rempel <o.rempel@pengutronix.de>,
  Sebastian Reichel <sre@kernel.org>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -82,119 +82,86 @@ Cc: kernel@pengutronix.de, linux-kernel@vger.kernel.org,
  Guenter Roeck <groeck@chromium.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
  Andrew Morton <akpm@linux-foundation.org>, chrome-platform@lists.linux.dev
 References: <20250314113604.1776201-1-o.rempel@pengutronix.de>
- <20250314113604.1776201-4-o.rempel@pengutronix.de>
+ <20250314113604.1776201-8-o.rempel@pengutronix.de>
 Content-Language: en-US, en-AU, en-GB, en-BW
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250314113604.1776201-4-o.rempel@pengutronix.de>
+In-Reply-To: <20250314113604.1776201-8-o.rempel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi deee Ho Oleksij,
-
 On 14/03/2025 13:36, Oleksij Rempel wrote:
-> This commit introduces the Power State Change Reasons Recording (PSCRR)
-> framework into the kernel. The framework is vital for systems where
-> PMICs or watchdogs cannot provide information on power state changes. It
-> stores reasons for system shutdowns and reboots, like under-voltage or
-> software-triggered events, in non-volatile hardware storage. This
-> approach is essential for postmortem analysis in scenarios where
-> traditional storage methods (block devices, RAM) are not feasible. The
-> framework aids bootloaders and early-stage system components in recovery
-> decision-making, although it does not cover resets caused by hardware
-> issues like system freezes or watchdog timeouts.
+> Add documentation for the Power State Change Reason Recorder (PSCRR)
+> sysfs interface, which allows tracking of system shutdown and reboot
+> reasons. The documentation provides details on available sysfs entries
+> under `/sys/kernel/pscrr/`, explaining their functionality, example usage,
+> and how they interact with different backend storage options (e.g., NVMEM).
 > 
 > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-
-I see you're already at v6, so I am probably slightly late... I think I 
-hadn't noticed this before. Thus, feel free to treat my comments as mere 
-suggestions.
-
-All in all, I do like this series. Looks mostly very good to me :) Just 
-wondering if we could utilize this same for standardizing reading the 
-reset reason registers which are included in many PMICs?
-
 > ---
-
-...
-
-> +int pscrr_core_init(const struct pscrr_backend_ops *ops)
-> +{
-> +	enum psc_reason stored_val = PSCR_UNKNOWN;
-> +	int ret;
+>   .../ABI/testing/sysfs-kernel-reboot-pscrr     | 46 +++++++++++++++++++
+>   1 file changed, 46 insertions(+)
+>   create mode 100644 Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+> new file mode 100644
+> index 000000000000..7cc643f89675
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+> @@ -0,0 +1,46 @@
+> +What:		/sys/kernel/pscrr/reason
+> +Date:		April 2025
+> +KernelVersion:  6.15
+> +Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
+> +Description:
+> +		This file provides access to the last recorded power state
+> +		change reason. The storage backend is configurable and, if
+> +		supported, the reason may be stored persistently in an
+> +		NVMEM cell or another backend.
 > +
-> +	mutex_lock(&pscrr_lock);
+> +		Reading this file returns an integer representing the last
+> +		recorded shutdown or reboot cause.
 > +
-> +	if (g_pscrr) {
-> +		pr_err("PSCRR: Core is already initialized!\n");
-> +		ret = -EBUSY;
-> +		goto err_unlock;
-> +	}
+> +		Writing an integer value to this file sets the reason to be
+> +		stored and recorded for system analysis.
 > +
-> +	if (!ops->read_reason || !ops->write_reason) {
-> +		pr_err("PSCRR: Backend must provide read and write callbacks\n");
-
-Why both are required?
-
-I can easily envision integrating the some PMIC's 'boot reason' register 
-reading to the PSCRR. Benefit would be that user-space could use this 
-same interface when reading the reset reason on a system where reason is 
-stored using mechanisms provided by this series - and when reset reason 
-is automatically stored by the HW (for example to a PMIC).
-
-In a PMIC case the write_reason might not be needed, right?
-
-> +		ret = -EINVAL;
-> +		goto err_unlock;
-> +	}
+> +		Example usage (values are for illustration and may not reflect
+> +		actual reasons used in a given system):
+> +		  Read:
+> +			$ cat /sys/kernel/pscrr/reason
+> +			3   # (Example: Power loss event, may differ per system)
 > +
-> +	g_pscrr = kzalloc(sizeof(*g_pscrr), GFP_KERNEL);
-> +	if (!g_pscrr) {
-> +		ret = -ENOMEM;
-> +		goto err_unlock;
-> +	}
+> +		  Write:
+> +			$ echo 5 > /sys/kernel/pscrr/reason
+> +			# Sets the reason to 5 (Example: User-triggered reboot,
+> +			# this may not be a real value in your system)
 > +
-> +	g_pscrr->ops = ops;
-> +	g_pscrr->last_boot_reason = PSCR_UNKNOWN;
+> +		Values are defined in:
+> +		  - `include/linux/reboot.h` (enum psc_reason)
+
+Is it possible to provide the reason (also) as string?
+
+I believe we should fix the meaning of the numbers so the ABI is not 
+changing for the users. Hence we could as well document the meaning of 
+the values(?) If I read the suggestion right, we will in any case have 
+predefined set of reasons in the kernel side.
+
+Or, am I missing something?
+
 > +
-> +	ret = ops->read_reason(&stored_val);
-> +	if (!ret) {
-> +		g_pscrr->last_boot_reason = stored_val;
-> +		pr_info("PSCRR: Initial read_reason: %d (%s)\n",
-> +			stored_val, psc_reason_to_str(stored_val));
-> +	} else {
-> +		pr_warn("PSCRR: read_reason failed, err=%pe\n",
-> +			ERR_PTR(ret));
-> +	}
-
-...
-
-> +/**
-> + * struct pscrr_backend_ops - Backend operations for storing power state change
-> + *			      reasons.
-> + *
-> + * This structure defines the interface for backend implementations that handle
-> + * the persistent storage of power state change reasons. Different backends
-> + * (e.g., NVMEM, EEPROM, battery-backed RAM) can implement these operations to
-> + * store and retrieve shutdown reasons across reboots.
-
-Maybe we should support / mention also a case where the PMIC driver 
-could just register the read-callback and provide the reset reason 
-stored by the PMIC to users. In this case the write_reason might not be 
-needed.
-
-> + *
-> + * @write_reason: Function pointer to store the specified `psc_reason` in
-> + *		  persistent storage. This function is called before a reboot
-> + *		  to record the last power state change reason.
-> + * @read_reason:  Function pointer to retrieve the last stored `psc_reason`
-> + *		  from persistent storage. This function is called at boot to
-> + *		  restore the shutdown reason.
-> + */
-> +struct pscrr_backend_ops {
-> +	int (*write_reason)(enum psc_reason reason);
-> +	int (*read_reason)(enum psc_reason *reason);
-> +};
-
-Yours,
-	-- Matti
+> +What:		/sys/kernel/pscrr/reason_boot
+> +Date:		April 2025
+> +KernelVersion:  6.15
+> +Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
+> +Description:
+> +		This file provides the last recorded power state change reason
+> +		from before the current system boot. If a supported backend
+> +		(e.g., NVMEM) is configured, this value is retained across
+> +		reboots.
+> +
+> +		Example usage (values are for illustration and may not reflect
+> +		actual reasons used in a given system):
+> +		  Read:
+> +			$ cat /sys/kernel/pscrr/reason_boot
+> +			2   # (Example: Over-temperature shutdown, may differ per system)
+> +
 

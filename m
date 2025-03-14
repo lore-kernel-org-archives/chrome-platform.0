@@ -1,114 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47321FA243;
-	Fri, 14 Mar 2025 11:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3411FE468
+	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 11:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741951593; cv=none; b=OBwxMPia3vTmstZBNeW5tPSVttViQkQyG/zJEQ0lshkfZQCMc7+pn0dXm1hw9VKjDKLDXuI89V6Tg0VbIeycRA+qCHzvkxD+pOs0QzFlFR8XR04gts3AIMK8EuJAMk0M12e3mbw0v3CkMsV9ufT2g/kAEz/YWtPO4zLqza2t5tI=
+	t=1741952188; cv=none; b=UIMS6m1p2htYS+Co82pLakv1w92piut4+YWmjNoS7CAOZTCvfQaLlnoMvbPt/SzOTja9iYnd1k8FrSqMgwTpOBbJI3k2npsQwicZoA3Fgb59LyP555MHDvKpQoXDIzWfaVPn4BAYg/OStj1v/Jt7Zc81TLjjSciD5VJiDXb6Vjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741951593; c=relaxed/simple;
-	bh=jy65FiPTJOdJJVXh5B7913Du6P29GcNh3wf++fmmB5E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TnBiJdCnQncRgLDLTOlxpJmCjh219SOl624/bam7dFEug6DE0gKPks7LvtgtDjgJSw4D6Jw2dx3ZLJXTHqcnGFhdoG63IQahqk0aR4oxzHdtfCp3TojR06wB4Jb/eO8G4PZ1ofX1k9jsH/a9bZCelQ+UwIKpIzGsFCZ106eNd5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RymfN2vu; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RymfN2vu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741951592; x=1773487592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jy65FiPTJOdJJVXh5B7913Du6P29GcNh3wf++fmmB5E=;
-  b=RymfN2vuaj2v0xrLZ6ykWe41ysGV7FODFMetSN075XXlDaR5/LeXbp6K
-   CohcjFIB9vcOfGk6q1u1rLU157xBVv52ND3p0NA5FWxtRAwXP1fU7aZms
-   lWfHixIq/0Hnzkr3W8bw2qH3QypTG9ArBmhH0N4DTH6DBnTnOAaGi2Yt1
-   es7Ja1108hn/QrDiBQepidNeAs2k9kHA/nndyBmb2+4CBBGQRYVEiOXCx
-   6agMvmJXD1OuH8LfgqULNIwoFEKZOHcDcy2IV3RxEqP8Gq/+6LmqDu0vg
-   r96wZeodun6Pqss9YbLU1oCP4RwKyc5y1NGZnFJa90hsgVv2X6iFS3Pyy
-   g==;
-X-CSE-ConnectionGUID: NFbhy4c5RMSFW0LeC0bihg==
-X-CSE-MsgGUID: yo/86hYGTQeA0cfKRH0JqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="42964513"
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="42964513"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 04:26:31 -0700
-X-CSE-ConnectionGUID: 8TH9kjZeTO21QaxlKXpkxQ==
-X-CSE-MsgGUID: VxkCBXuTTy6ibvK7RjHfdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="126120517"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 14 Mar 2025 04:26:29 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tt3BH-000ANc-0x;
-	Fri, 14 Mar 2025 11:26:24 +0000
-Date: Fri, 14 Mar 2025 19:25:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sung-Chi Li <lschyi@chromium.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Benson Leung <bleung@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, chrome-platform@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sung-Chi Li <lschyi@chromium.org>
-Subject: Re: [PATCH 2/3] hwmon: (cros_ec) Add reading target fan RPM function
-Message-ID: <202503141908.rieksBce-lkp@intel.com>
-References: <20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4@chromium.org>
+	s=arc-20240116; t=1741952188; c=relaxed/simple;
+	bh=lTbHJ1/ZlZxy/0X5aGRTsmnSe0G1gRDQaLVCb3W0FPk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BCOMhFc8BXQ/dsEYWWqHpGomcB5qIlRJaYfW0Lt+9Wday9IjpGLozVa9yaWNxDlaS2x/UhhXKml5p8xVFUzz9z88QR/+MHFxobVBBsQxlLIas5nBARq9sX8aqCCjm+sereIZ8K/mgLAjcBQbX0XR1ML0JY/3cuE8WX0eP2hVBaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tt3Kg-0007NZ-QE; Fri, 14 Mar 2025 12:36:06 +0100
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tt3Kf-005h5q-1t;
+	Fri, 14 Mar 2025 12:36:05 +0100
+Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tt3Kf-007S64-1c;
+	Fri, 14 Mar 2025 12:36:05 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Sebastian Reichel <sre@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH v6 1/7] power: Extend power_on_reason.h for upcoming PSCRR framework
+Date: Fri, 14 Mar 2025 12:35:58 +0100
+Message-Id: <20250314113604.1776201-2-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250314113604.1776201-1-o.rempel@pengutronix.de>
+References: <20250314113604.1776201-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4@chromium.org>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Hi Sung-Chi,
+Prepare for the introduction of the Power State Change Reason Recorder
+(PSCRR)  framework by expanding the power_on_reason.h header. This
+extension includes new power-on reasons:
+- POWER_ON_REASON_OVER_CURRENT for over-current conditions.
+- POWER_ON_REASON_REGULATOR_FAILURE for regulator failures.
+- POWER_ON_REASON_OVER_TEMPERATURE for over temperature situations.
+- POWER_ON_REASON_EC_PANIC for EC panics
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+changes v6:
+- add POWER_ON_REASON_EC_PANIC
+- s/POWER_ON_REASON_OVERTEMPERATURE/POWER_ON_REASON_OVER_TEMPERATURE
+---
+ include/linux/power/power_on_reason.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-[auto build test WARNING on 9fbcd7b32bf7c0a5bda0f22c25df29d00a872017]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sung-Chi-Li/hwmon-cros_ec-Add-setting-target-fan-RPM-function/20250313-125018
-base:   9fbcd7b32bf7c0a5bda0f22c25df29d00a872017
-patch link:    https://lore.kernel.org/r/20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4%40chromium.org
-patch subject: [PATCH 2/3] hwmon: (cros_ec) Add reading target fan RPM function
-config: x86_64-randconfig-121-20250314 (https://download.01.org/0day-ci/archive/20250314/202503141908.rieksBce-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141908.rieksBce-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503141908.rieksBce-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/cros_ec_hwmon.c:48:18: sparse: sparse: cast to restricted __le32
-
-vim +48 drivers/hwmon/cros_ec_hwmon.c
-
-    38	
-    39	static int cros_ec_hwmon_read_fan_target(struct cros_ec_device *cros_ec, u8 index, int32_t *speed)
-    40	{
-    41		int ret;
-    42		struct ec_response_pwm_get_fan_rpm r;
-    43	
-    44		ret = cros_ec_cmd(cros_ec, 0, EC_CMD_PWM_GET_FAN_TARGET_RPM, NULL, 0, &r, sizeof(r));
-    45		if (ret < 0)
-    46			return ret;
-    47	
-  > 48		*speed = le32_to_cpu(r.rpm);
-    49		return 0;
-    50	}
-    51	
-
+diff --git a/include/linux/power/power_on_reason.h b/include/linux/power/power_on_reason.h
+index 95a1ec0c403c..bf9501792696 100644
+--- a/include/linux/power/power_on_reason.h
++++ b/include/linux/power/power_on_reason.h
+@@ -15,5 +15,9 @@
+ #define POWER_ON_REASON_XTAL_FAIL "crystal oscillator failure"
+ #define POWER_ON_REASON_BROWN_OUT "brown-out reset"
+ #define POWER_ON_REASON_UNKNOWN "unknown reason"
++#define POWER_ON_REASON_OVER_CURRENT "over current"
++#define POWER_ON_REASON_REGULATOR_FAILURE "regulator failure"
++#define POWER_ON_REASON_OVER_TEMPERATURE "over temperature"
++#define POWER_ON_REASON_EC_PANIC "EC panic"
+ 
+ #endif /* POWER_ON_REASON_H */
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.5
+

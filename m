@@ -1,43 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F661DAC81;
-	Fri, 14 Mar 2025 08:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47321FA243;
+	Fri, 14 Mar 2025 11:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741942699; cv=none; b=pe8FeN2QqPLwem7mczTiD6yEJqbvcrRbobFpJ6GVojsQ+baBNZ9Plszl74gRniXakna7DfuQ47pn+KWpMAK+ntjEl6BI6Xkc7SItWw2fGrdS9QNJL/IiMW4TgsDMWeVigmKDVWJIP2QKo7u9FFhspbdgZLvplkOlF4+e0v0B7+s=
+	t=1741951593; cv=none; b=OBwxMPia3vTmstZBNeW5tPSVttViQkQyG/zJEQ0lshkfZQCMc7+pn0dXm1hw9VKjDKLDXuI89V6Tg0VbIeycRA+qCHzvkxD+pOs0QzFlFR8XR04gts3AIMK8EuJAMk0M12e3mbw0v3CkMsV9ufT2g/kAEz/YWtPO4zLqza2t5tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741942699; c=relaxed/simple;
-	bh=3mIJSm06YxRGhx1k9fxKkWTTiVXafceuKeP4nRH10+4=;
+	s=arc-20240116; t=1741951593; c=relaxed/simple;
+	bh=jy65FiPTJOdJJVXh5B7913Du6P29GcNh3wf++fmmB5E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sAxYWYiSuNLK2HMcxk9XKQ+QVrwdaS4PfBGhUVDMg2P6F5l5yOUvm5vzdK1Fq+PoLnn/7yKVyXxPBMlkj/jQhZ/m6/SpdBCb/KoJ5c98JuLAywQH9xR/xLAYTnWYnBMNvIUgalR8+6lAQ4+70bDmPYD3S4fEwyxpFmbwmRWyAU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oH2SDzvC; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TnBiJdCnQncRgLDLTOlxpJmCjh219SOl624/bam7dFEug6DE0gKPks7LvtgtDjgJSw4D6Jw2dx3ZLJXTHqcnGFhdoG63IQahqk0aR4oxzHdtfCp3TojR06wB4Jb/eO8G4PZ1ofX1k9jsH/a9bZCelQ+UwIKpIzGsFCZ106eNd5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RymfN2vu; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oH2SDzvC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB311C4CEE5;
-	Fri, 14 Mar 2025 08:58:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741942699;
-	bh=3mIJSm06YxRGhx1k9fxKkWTTiVXafceuKeP4nRH10+4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oH2SDzvCb26vKBz2jjfDjEUORM/o+zOTu6tdhyp2vSOjmgsv1qaxoUK7CS94utsQf
-	 JDCMZ/2B0RfV9xsoHBETGGm+zCYJERnQZR823z6kpr7y/KlWGUV/qz8UOO4SBxLVsa
-	 XTWQSG2O3c0TD8Pj9G1Tsg44usnZ8wCw+u+R5WhNP18ATlj/+UnHsm8YOo2ehhHjxX
-	 P/3PYzxh8cMHRp9lCClxBKjZODLeridLCryg2lqcr54L+3krFA1ETC2gNRRe11Sr48
-	 6MrSDiET9u0Zz9h1uc795xDyjcNm8GWiTAy+xJ+ZIaNbEd2QbakO06MvoArx2Y6Bbq
-	 1emc8fnLp+pQw==
-Date: Fri, 14 Mar 2025 08:58:15 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-rtc@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2][next] rtc: Avoid a couple of
- -Wflex-array-member-not-at-end warnings
-Message-ID: <Z9Pvp4i4Mm4vAXSA@google.com>
-References: <Z9PpPg06OK8ghNvm@kspp>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RymfN2vu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741951592; x=1773487592;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jy65FiPTJOdJJVXh5B7913Du6P29GcNh3wf++fmmB5E=;
+  b=RymfN2vuaj2v0xrLZ6ykWe41ysGV7FODFMetSN075XXlDaR5/LeXbp6K
+   CohcjFIB9vcOfGk6q1u1rLU157xBVv52ND3p0NA5FWxtRAwXP1fU7aZms
+   lWfHixIq/0Hnzkr3W8bw2qH3QypTG9ArBmhH0N4DTH6DBnTnOAaGi2Yt1
+   es7Ja1108hn/QrDiBQepidNeAs2k9kHA/nndyBmb2+4CBBGQRYVEiOXCx
+   6agMvmJXD1OuH8LfgqULNIwoFEKZOHcDcy2IV3RxEqP8Gq/+6LmqDu0vg
+   r96wZeodun6Pqss9YbLU1oCP4RwKyc5y1NGZnFJa90hsgVv2X6iFS3Pyy
+   g==;
+X-CSE-ConnectionGUID: NFbhy4c5RMSFW0LeC0bihg==
+X-CSE-MsgGUID: yo/86hYGTQeA0cfKRH0JqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="42964513"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="42964513"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 04:26:31 -0700
+X-CSE-ConnectionGUID: 8TH9kjZeTO21QaxlKXpkxQ==
+X-CSE-MsgGUID: VxkCBXuTTy6ibvK7RjHfdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="126120517"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 14 Mar 2025 04:26:29 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tt3BH-000ANc-0x;
+	Fri, 14 Mar 2025 11:26:24 +0000
+Date: Fri, 14 Mar 2025 19:25:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sung-Chi Li <lschyi@chromium.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Benson Leung <bleung@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, chrome-platform@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sung-Chi Li <lschyi@chromium.org>
+Subject: Re: [PATCH 2/3] hwmon: (cros_ec) Add reading target fan RPM function
+Message-ID: <202503141908.rieksBce-lkp@intel.com>
+References: <20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -46,19 +68,47 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z9PpPg06OK8ghNvm@kspp>
+In-Reply-To: <20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4@chromium.org>
 
-On Fri, Mar 14, 2025 at 07:00:54PM +1030, Gustavo A. R. Silva wrote:
-> Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
-> a flexible structure where the size of the flexible-array member
-> is known at compile-time, and refactor the rest of the code,
-> accordingly.
-> 
-> So, with these changes, fix the following warning:
-> 
-> drivers/rtc/rtc-cros-ec.c:62:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> drivers/rtc/rtc-cros-ec.c:40:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Hi Sung-Chi,
 
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9fbcd7b32bf7c0a5bda0f22c25df29d00a872017]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sung-Chi-Li/hwmon-cros_ec-Add-setting-target-fan-RPM-function/20250313-125018
+base:   9fbcd7b32bf7c0a5bda0f22c25df29d00a872017
+patch link:    https://lore.kernel.org/r/20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4%40chromium.org
+patch subject: [PATCH 2/3] hwmon: (cros_ec) Add reading target fan RPM function
+config: x86_64-randconfig-121-20250314 (https://download.01.org/0day-ci/archive/20250314/202503141908.rieksBce-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141908.rieksBce-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503141908.rieksBce-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/cros_ec_hwmon.c:48:18: sparse: sparse: cast to restricted __le32
+
+vim +48 drivers/hwmon/cros_ec_hwmon.c
+
+    38	
+    39	static int cros_ec_hwmon_read_fan_target(struct cros_ec_device *cros_ec, u8 index, int32_t *speed)
+    40	{
+    41		int ret;
+    42		struct ec_response_pwm_get_fan_rpm r;
+    43	
+    44		ret = cros_ec_cmd(cros_ec, 0, EC_CMD_PWM_GET_FAN_TARGET_RPM, NULL, 0, &r, sizeof(r));
+    45		if (ret < 0)
+    46			return ret;
+    47	
+  > 48		*speed = le32_to_cpu(r.rpm);
+    49		return 0;
+    50	}
+    51	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

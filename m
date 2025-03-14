@@ -1,139 +1,189 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7091EB3E
-	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 14:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9A81FFC52
+	for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 14:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741961446; cv=none; b=XGY5Uc2u6P/tOKagq2ZWMx2jbFIVXl8NLfrR2XH64IAuFezeXV5JaD/2eyD+dDm6F7YoYVo6sBjW2SJrSBs9zEmlfBHLzyjHd4CgEgg1mXAjNm3Lei2Hx+FLbFdLwmqyW3EtWxXqHKumh0FhrL8DDqskqUcHmholI1FcgQJ4LjA=
+	t=1741962207; cv=none; b=j8v/2IYNyehJk+gajBi+veLw3oKfdsjsZ5cPVKS7tYN8IcDgCHTjPTKoixLWtji73r+yYRgGVWXh71V1pbJfjQFsOud8csoPMCH9u4TYvQspLbMB5uIAHbDXA4i35nz0plJPxwenfjDWxDsnO7WEc8BCCanUK0srct+7umlBjok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741961446; c=relaxed/simple;
-	bh=C5toxvwiwwhMhsd9e2XE4L4Jrk1EIjC5qUAeyoJngFo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ClohDbNYOraw4L0xDwFKl3WNft+xl+T0vxgOjGmw6Eump+5hfT7E5Su3aE1EZ3pkHCo3/F24lSltSuCbpbZKqK+i0Isf08HwENPpkOLItxLWYFM10KLbvq0RZbWsGdgxxvsruzJRd4t5vdXp83t99npjPzOZjEQ6aT8hg1uSHpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tt5k1-0000lP-74; Fri, 14 Mar 2025 15:10:25 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tt5jz-005iXB-2e;
-	Fri, 14 Mar 2025 15:10:23 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tt5jz-00DBIm-2G;
-	Fri, 14 Mar 2025 15:10:23 +0100
-Date: Fri, 14 Mar 2025 15:10:23 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Sebastian Reichel <sre@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org,
-	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>,
-	Guenter Roeck <groeck@chromium.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v6 7/7] Documentation: Add sysfs documentation for PSCRR
- reboot reason tracking
-Message-ID: <Z9Q4z2dPdpqVcu6u@pengutronix.de>
-References: <20250314113604.1776201-1-o.rempel@pengutronix.de>
- <20250314113604.1776201-8-o.rempel@pengutronix.de>
- <a8f76dd0-56be-46a5-9cc1-2d17d013127d@gmail.com>
+	s=arc-20240116; t=1741962207; c=relaxed/simple;
+	bh=pEjdX24R2qOQHhHO8GtjN8hy9iBx/vf7c+ERVnPYw0w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tGfcPBxD4IV7LGgXYoXZyY3AzT3BI4ziDnqTcsdblcm1wMTizwrDAahewxkIXeXxPdhjs5/L7hAU2up+W4vwqHo+NeEQoiDf0xLTPk3xrlhGJQXbWR5qLvybA+TmUEWflBNck9Oa51V9ctNKwxz3q6+SvFPWdtVcjqGvdk+XDsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l5Ob7Gtw; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l5Ob7Gtw"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2fee05829edso4408822a91.3
+        for <chrome-platform@lists.linux.dev>; Fri, 14 Mar 2025 07:23:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741962204; x=1742567004; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=uNJToVRxkj9gSN78UZ+8BwUBvD3Z5JHkelp5nFBUOE0=;
+        b=l5Ob7Gtw7RFTWRG9q9Q6m2BKx6n2bojefHfRcvZ294y47MiNeDUY8kNRxWyq1R3+qM
+         8tms0ucNDm/nxdXZwosdW7hS1LQecPrCMQavO1tJSfzg9qK4ZjP1fZcph8kp57rgz0GJ
+         E9pfp+zDyzHzebUkmxceNp7sLe1a2tl8B9slq6pimmqqlKRcpLyMmb2G4dQI2C+eI4i/
+         kUGT7/01VuIL8TThEF/fm/zXBKe2CqeUlUkzQ4KukKE7vt8ThnUCXh+8EsFFQsV3YQnv
+         XP4V7mpADV8ew943C4HekXzzZKmMN4Gx/GGoKleYPQf7G1j6p1llZTHPO9boSPFMo1Lg
+         vNTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741962204; x=1742567004;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uNJToVRxkj9gSN78UZ+8BwUBvD3Z5JHkelp5nFBUOE0=;
+        b=FyNDhcTwsdQMSTnS7eifZJxa/SPpZmWoiWRop7tKT4A+yimV5laFVIIyTRqzX2ZYcR
+         vmOpcOydCtNnlMNgnBorlD9o3pjxkYiHQ27XbHSE+RgXVYrji3e9roHCzu/2Dn27zHKw
+         HSbrc8rztDc+aoUZ9yYlDFfzO4gyT1nX4+gvqBTKpcjfY8KZ6bEKW22uLDf0AURfW7df
+         cFiLLxqR/Kezb5C/NSIn2j7gB/vI+b3Itdy5P9Wzb71QfhCVEfGydbfNCAQt6vZoxevX
+         6v9BdFGp+KtBmE3dotohozKAN7wH+TA/2vugNIIbASTFII/Ri7n4FCW81LrVNNdvKu+d
+         hkow==
+X-Forwarded-Encrypted: i=1; AJvYcCVLWwkLnzEhWwkDKEXfuiyjhTbg5BwqnmbtKKbYI3hSWWbeQbhHhcMEcH5soI8x8lBPw9iqywh+3wlBiniCfX4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5pr5hpSQdrD/W4r67rGxRgizbbQLi0fYPo/PlrL7hM8Rek7tf
+	84nhvFO6IJqDjohoWQlZMpVyTKVjqP38UH3O0HvL1/h3UzslcphU
+X-Gm-Gg: ASbGnctSCNefRal5Cclj5I9A1YTP6yBUG25aoCNFdrIRLm0rPUd8jowCHelX/nvzhoW
+	OyzKZHKehV9fJbjz1/eZlAVPm0PQBqNgSBcBo8yo1q8rI0z9FsIGh1Y0NBJ8bKSwJdD2FdhBDSk
+	VGP5QcLufUfhrazdZKqJ8uE8qBGp2RJKBOf4oDb299rQ5P3fEtz7R9a3JUKAMIXk630cL+mENzP
+	PkoyejTjXSjrTCclyXMs5+cNYn5Ao0Po4XyhrbMF45NP+n4lBpQzAd/1wKwl9kVtH3DDaSp1VWg
+	X/oU8MxK+myL+0Phcj9V7d0wAa+qmpSODcnFYZl/Jo3VVzuz1Hy8X8siYnks+xyacaKM6x9KvOs
+	NF2gPsAYUaMl+bsvxaA==
+X-Google-Smtp-Source: AGHT+IGyKSHsBl3vQIbkGe1tj6XJ5FsfEJXyyChd8Wl6/UgHQoCRuL4PFEak/DRtGbx+aaAvVsfZmA==
+X-Received: by 2002:a17:90b:5144:b0:2f4:432d:250d with SMTP id 98e67ed59e1d1-30151cff08emr3314697a91.21.1741962204416;
+        Fri, 14 Mar 2025 07:23:24 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-301534f477csm1064747a91.5.2025.03.14.07.23.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Mar 2025 07:23:23 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <b9301c9b-9fac-46c4-ae6a-95029a1a2668@roeck-us.net>
+Date: Fri, 14 Mar 2025 07:23:22 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a8f76dd0-56be-46a5-9cc1-2d17d013127d@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] hwmon: (cros_ec) Add reading target fan RPM function
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>
+Cc: Sung-Chi Li <lschyi@chromium.org>, Jean Delvare <jdelvare@suse.com>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250313-extend_ec_hwmon_fan-v1-0-5c566776f2c4@chromium.org>
+ <20250313-extend_ec_hwmon_fan-v1-2-5c566776f2c4@chromium.org>
+ <782e6319-2082-4f05-9987-fa68439701ef@t-8ch.de>
+ <523fe47a-73da-4eec-80b7-61408e0ba27b@roeck-us.net>
+ <5cb816c0-c445-4a23-82de-e3d9cbce54ee@t-8ch.de>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
+ nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
+ hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
+ c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
+ 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
+ GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
+ sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
+ Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
+ HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
+ BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
+ l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
+ J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
+ cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
+ wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
+ hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
+ nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
+ QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
+ trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
+ WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
+ HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <5cb816c0-c445-4a23-82de-e3d9cbce54ee@t-8ch.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 14, 2025 at 03:38:55PM +0200, Matti Vaittinen wrote:
-> On 14/03/2025 13:36, Oleksij Rempel wrote:
-> > Add documentation for the Power State Change Reason Recorder (PSCRR)
-> > sysfs interface, which allows tracking of system shutdown and reboot
-> > reasons. The documentation provides details on available sysfs entries
-> > under `/sys/kernel/pscrr/`, explaining their functionality, example usage,
-> > and how they interact with different backend storage options (e.g., NVMEM).
-> > 
-> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > ---
-> >   .../ABI/testing/sysfs-kernel-reboot-pscrr     | 46 +++++++++++++++++++
-> >   1 file changed, 46 insertions(+)
-> >   create mode 100644 Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
-> > 
-> > diff --git a/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
-> > new file mode 100644
-> > index 000000000000..7cc643f89675
-> > --- /dev/null
-> > +++ b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
-> > @@ -0,0 +1,46 @@
-> > +What:		/sys/kernel/pscrr/reason
-> > +Date:		April 2025
-> > +KernelVersion:  6.15
-> > +Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
-> > +Description:
-> > +		This file provides access to the last recorded power state
-> > +		change reason. The storage backend is configurable and, if
-> > +		supported, the reason may be stored persistently in an
-> > +		NVMEM cell or another backend.
-> > +
-> > +		Reading this file returns an integer representing the last
-> > +		recorded shutdown or reboot cause.
-> > +
-> > +		Writing an integer value to this file sets the reason to be
-> > +		stored and recorded for system analysis.
-> > +
-> > +		Example usage (values are for illustration and may not reflect
-> > +		actual reasons used in a given system):
-> > +		  Read:
-> > +			$ cat /sys/kernel/pscrr/reason
-> > +			3   # (Example: Power loss event, may differ per system)
-> > +
-> > +		  Write:
-> > +			$ echo 5 > /sys/kernel/pscrr/reason
-> > +			# Sets the reason to 5 (Example: User-triggered reboot,
-> > +			# this may not be a real value in your system)
-> > +
-> > +		Values are defined in:
-> > +		  - `include/linux/reboot.h` (enum psc_reason)
+On 3/14/25 01:52, Thomas Weißschuh wrote:
+> On 2025-03-13 16:36:54-0700, Guenter Roeck wrote:
+>> On 3/13/25 09:24, Thomas Weißschuh wrote:
+>>> On 2025-03-13 12:47:43+0800, Sung-Chi Li wrote:
+>>>> Implement the functionality of reading the target fan RPM setting from
+>>>> ChromeOS embedded controller under framework.
+>>>>
+>>>> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+>>>> ---
+>>>>    drivers/hwmon/cros_ec_hwmon.c | 18 ++++++++++++++++++
+>>>>    1 file changed, 18 insertions(+)
+>>>>
+>>>> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+>>>> index b2fec0768301f116f49c57b8dbfb042b98a573e1..73bfcbbaf9531be6b753cfef8045fd5dab5b2ab3 100644
+>>>> --- a/drivers/hwmon/cros_ec_hwmon.c
+>>>> +++ b/drivers/hwmon/cros_ec_hwmon.c
+>>>> @@ -36,6 +36,19 @@ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index
+>>>>    	return 0;
+>>>>    }
+>>>> +static int cros_ec_hwmon_read_fan_target(struct cros_ec_device *cros_ec, u8 index, int32_t *speed)
+>>>
+>>> int32_t is a userspace type. In the kernel use i32, or even better u32.
+>>>
+>>
+>> Seems to be pretty widely used to complain about.
 > 
-> Is it possible to provide the reason (also) as string?
+> There is even a checkpatch.pl test for it, which should have triggered:
+> PREFER_KERNEL_TYPES.
 > 
-> I believe we should fix the meaning of the numbers so the ABI is not
-> changing for the users. Hence we could as well document the meaning of the
-> values(?) If I read the suggestion right, we will in any case have
-> predefined set of reasons in the kernel side.
+>> $ git grep int32_t drivers/ | wc
+>>    43662  192381 3555402
 > 
-> Or, am I missing something?
+> 33k of those are in generated amdgpu headers.
+> This search also happens to include the more frequently used uint32_t.
+> 
+>> Also, in comparison:
+>>
+>> $ git grep i32 drivers/ | wc
+>>      820    4009   68486
+> 
+> The numbers for u32 look a bit different:
+> 
+> $ git grep u32 drivers/ | wc
+>      234768 1137059 17410570
+> 
+> 
+> Also this specific driver already consistently uses uNN.
+> This does look wrong:
+> 
+> 	int32_t target_rpm;
+>   	u16 speed;
+>   	u8 temp;
+> 
+_That_ is a much better argument.
 
-Yes, it is correct, the values should be fixed for user space. Should
-they be documented in this documentation too?
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Thanks,
+Guenter
+

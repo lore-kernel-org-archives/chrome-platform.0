@@ -1,108 +1,112 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A59F2E3377
-	for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 03:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F9EEEA9
+	for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 04:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742183731; cv=none; b=Wze2C6CJOSACwIdTzySVHE2CjMl4mMtUfYTV9C3wpWfSCrVpRvKXQh+fL/OP6/dVW4T44ywPrNFul64VmFdiRIQWYwtBZ9lArtAJZ3x9hOKlCe55cMaYhg2HnLscSiO1fhlbWGVbjvmhOw2a+CAVfHqmJtJ5hbbasS0+WDX/h1E=
+	t=1742186601; cv=none; b=iZFiIlq9cTefUgFy09SFHbKmB47ajLdKufhELZ+7YG6Yj0DE0WCJ7GiiXs5z1b2i/Pbh7KCbD2H7YUOf0iJ7TTGbQtNBnjtu0LZeNjUulqnyABdurDmbEqDPn6wFNo78C1lkn8gTvLis1iBwITYGtw6prl24a+L0bor1NAhiP+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742183731; c=relaxed/simple;
-	bh=hXHELc8xnpl+q7yyJCE/ro7GYj3uJ/qOkojU06P1S78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QqGKGU/tuDFdU1olzBrSCd6kzy6Sg1P6SDV7H60/Q5Oi9gou8eNdvXZxT3m7WPRAjPh1a2wl/71CIZxBN/9V4Z5VwsD2D8zcK1MYlD3SwwgogbvLIqzlW/h80lbgyT7GdQrXz13hGws9XQDUS/VbMgaQ9NAmpljDIUgDihSSLR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V+qLRkl7; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1742186601; c=relaxed/simple;
+	bh=OHdQtfx+uuhnWp1sTD1WAzlOAjtZAJhksJYh+ZhNzno=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lCgGYCCNbP0qLVoS2geORGwe1dFviyi31G0eTreInlWUriLKIByFYBKahLFKRVl5Rqus5PmeJpieNmVfKHaHQ9vVoEP/hsGnPRlmSP4hslHvms6oLCZk1bWrnaKGzkdCXoxI3IMUQzpvSCcYhz1vO/SZuaYxe/4t7OCSNESByy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=at7X4qYe; arc=none smtp.client-ip=35.89.44.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V+qLRkl7"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2254e0b4b79so91887875ad.2
-        for <chrome-platform@lists.linux.dev>; Sun, 16 Mar 2025 20:55:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1742183729; x=1742788529; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=CBTWj2JRao6hEYbpJcvmwDMWkAU9+qspu6K1SR4O2CU=;
-        b=V+qLRkl7pR3yb6ZtmJCqQsnJ4CJoenEqrNO0bAFuVRu9bMggEGSLsM7kiZz+NdF7qU
-         uYMvTxqgcesPa/TDoB8aGT9Dl4kaxHZa3sJaWrMQk8HNRgz7UmJ/xfTBwdQiPNLVcADS
-         Jfbt7AOShoj/qTE8NmrcuTv9N+RF9T2XGrqNE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742183729; x=1742788529;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CBTWj2JRao6hEYbpJcvmwDMWkAU9+qspu6K1SR4O2CU=;
-        b=FdlkC3xUH/EkqIM//+9jtbF2Z4ZRClb4k1VPEIAm2AciD3f8UN0mbzkRf5/FGQ/Gdb
-         NBS1iYNxf7RTrHCEd9Sqm2fmU5V0NWjEwNqJ1SjiSvaYgQ5nGaUHbEIXcRKoUjBtjJ+F
-         rWoJqq8Ek6AE8DNqfd2s7lS2CpXf9HYeh4x1c+KRXuRPPZxBmLhbQpj0HfXcCQknOkVY
-         vVfVS9PKZFj5Tz/55s6+4yEbL+pvQb9RhDSxYFmMaPou9leBTkUJcH8/iA25BdmrfzAS
-         wpGRRy+e4Di+blGbf08j3qdP/dEGoEPu/aA4XGcpMAgZh2SuSBrN/f6hAe4qjRUQaLzC
-         7TnA==
-X-Forwarded-Encrypted: i=1; AJvYcCWlJXB6PGT5m9ZypaNdFni58pu5E8bOZFMqtqddnnRghvFxnZx+AFSvFMygDRa8G8iR5Cm6YWJUmMsRdR49i6U=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdcO5FQa22op9pgU1TVJX9nscks+0IbGC/ZT+qaTlSnKUtzxmJ
-	R7R/7XQfmFkfOS2Rn55xguFGWBHFhGdbOO3DMziSPYHcF6IDmPPhbjulj43w0g==
-X-Gm-Gg: ASbGncuErpQwxA2q+2Axkr2f1ZHe1EvByFQH/gzjzwXxhQEX/e7BQA+BzvHrr5wW87B
-	IDSE0/yXEwHJu5au+JPJ1VyKbhXPYa+oeqBt08IsYwlP3oK5Vi3u0reg83QRB7WVLEbhbdhdXXs
-	Kuw29pBJ0XUqzgVZGPPthPK9rJdeYLzv3s+48hsiTPYFMdsiYKkFCnVi6jpJmRuSrQZXy/tFXzB
-	v6o/Rvnh/MJs7tEYlBlGshd/Grpn/nFnHzLKcvsNg94dYIQna5hQdTK3EjLUwa7Pd+xH5q4ryPo
-	fddeCYNzv2KG4rSJOnaU5AfmyrByiz8akGvJ4DU=
-X-Google-Smtp-Source: AGHT+IH3J7SE6tEIIitDjSkDltLraVGoaJjVC2z0o5w6R0wVkSrN3Zf1UMSWDRTpV7zvnevMPEVf0g==
-X-Received: by 2002:a05:6a00:b91:b0:736:5e6f:295b with SMTP id d2e1a72fcca58-737223bec84mr11823501b3a.12.1742183729670;
-        Sun, 16 Mar 2025 20:55:29 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:77b5:e0b8:95d2:83db])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73711557ee8sm6764462b3a.52.2025.03.16.20.55.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 20:55:29 -0700 (PDT)
-Date: Mon, 17 Mar 2025 11:55:26 +0800
-From: "Sung-Chi, Li" <lschyi@chromium.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] hwmon: (cros_ec) Add setting target fan RPM function
-Message-ID: <Z9edLnXKlc_L2Fmb@google.com>
-References: <20250313-extend_ec_hwmon_fan-v1-0-5c566776f2c4@chromium.org>
- <20250313-extend_ec_hwmon_fan-v1-1-5c566776f2c4@chromium.org>
- <714be928-a655-4561-98fb-800bcb15cbfb@t-8ch.de>
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="at7X4qYe"
+Received: from eig-obgw-5009a.ext.cloudfilter.net ([10.0.29.176])
+	by cmsmtp with ESMTPS
+	id tv5XteM0oAfjwu2IKt9yFf; Mon, 17 Mar 2025 04:41:44 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id u2IJtXG6kaBenu2IJtbZ1L; Mon, 17 Mar 2025 04:41:43 +0000
+X-Authority-Analysis: v=2.4 cv=I7xjRsgg c=1 sm=1 tr=0 ts=67d7a807
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=BLCW4eN0VRAnxn5/FNkZeA==:17
+ a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=7T7KSl7uo7wA:10
+ a=aqjusoyMyk9cqG8RMkgA:9 a=QEXdDO2ut3YA:10 a=Xt_RvD8W3m28Mn_h3AK8:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Qagcm+b9ADxCwFZUPtxgdLD7LayhL+I77jhLGCR+kCQ=; b=at7X4qYe1cbeLW5Bm0KmR2/31F
+	zlVNX4nzxQcvP5RbjR/r6GYC84+JLo3YEG8lHcTLDLbKl/xzV5PUMp91TSy8qYoz0Kz7PJz4oYs2R
+	wSe91x1ktjzIcdNAyiJA5WX6srJldV4oGRjXTzqjP/EVjFxqmPB3IkjaGDDUVptbwBNMp6WfhxUkB
+	tAzK0MfEehYo5NB1w0ZVZvaRNxFW67PH16QXHgrMnOUp2D22O6rk1s4dKc0C6QlN2xwN/4MlVEn9O
+	v/rHdEQbpCU17zOtEAYHB2mdTrcFuYu+ldHvOI13TH2Lsxivc3vwC8nC7cD4hqRIiqfoZN1JKx7sN
+	lCI0E2ww==;
+Received: from [129.127.202.110] (port=50746 helo=[192.168.225.44])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.1)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1tu2IH-00000000dxd-3LUv;
+	Sun, 16 Mar 2025 23:41:42 -0500
+Message-ID: <112490dd-4490-44f4-abd2-07f7a519aa7b@embeddedor.com>
+Date: Mon, 17 Mar 2025 15:10:38 +1030
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <714be928-a655-4561-98fb-800bcb15cbfb@t-8ch.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] iio: cros_ec: Avoid -Wflex-array-member-not-at-end
+ warning
+To: Tzung-Bi Shih <tzungbi@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+References: <Z9dy43vUUh4goi-Q@kspp> <Z9d7rp-ullvmXKoM@google.com>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <Z9d7rp-ullvmXKoM@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 129.127.202.110
+X-Source-L: No
+X-Exim-ID: 1tu2IH-00000000dxd-3LUv
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.225.44]) [129.127.202.110]:50746
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 3
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfIwLkfCqX43Dko/Cb5436+/Iqf9OcF9RlzDbER11U59cYCVUxPzUEGCbA0P/8m2XFwKVYjbqwh/xTKTJBah5JeGqV8shF03By58ei/0wkWbh2BGs6vU6
+ 0NsgG/JGD6giagL9UO+GfNdp2jFBwlnnleaRo4odOI/ahnzU4dlQq8lDrqiKfwYhkGj7WcsvWbBV23cUwbq3ith03RMMeljXbyPyEy3QUdRbvuCYf5vDZ+U5
 
-On Thu, Mar 13, 2025 at 05:21:35PM +0100, Thomas Weißschuh wrote:
-> On 2025-03-13 12:47:42+0800, Sung-Chi Li wrote:
-> > Implement the functionality of setting the target fan RPM to ChromeOS
-> > embedded controller under hwmon framework.
-> > 
-> > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-> > ---
-> >  drivers/hwmon/cros_ec_hwmon.c | 34 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 34 insertions(+)
-> > 
-> > diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-> > index 9991c3fa020ac859cbbff29dfb669e53248df885..b2fec0768301f116f49c57b8dbfb042b98a573e1 100644
-> > --- a/drivers/hwmon/cros_ec_hwmon.c
-> > +++ b/drivers/hwmon/cros_ec_hwmon.c
-> > @@ -52,6 +52,26 @@ static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8
-> >  	return 0;
-> >  }
-> >  
-> > +static int cros_ec_hwmon_set_fan_rpm(struct cros_ec_device *cros_ec, u8 index, u16 val)
-> > +{
-> > +	struct ec_params_pwm_set_fan_target_rpm_v1 p_v1 = {
+
+
+On 17/03/25 12:02, Tzung-Bi Shih wrote:
+> On Mon, Mar 17, 2025 at 11:24:59AM +1030, Gustavo A. R. Silva wrote:
+>>   static int cros_ec_get_host_cmd_version_mask(struct cros_ec_device *ec_dev,
+>>   					     u16 cmd_offset, u16 cmd, u32 *mask)
+>>   {
+>> +	DEFINE_RAW_FLEX(struct cros_ec_command, buf, data,
+>> +			sizeof(struct ec_response_get_cmd_versions));
 > 
-> The v1 protocol was "only" introduces in 2014.
-> Could it be possible that devices without that command are still in use?
-> If so the presence of the command should be probed.
-> 
-You are right, I will probe the command versions for both get and set fan RPM
-values in the next change, and perform different handling based on the version.
+> max(sizeof(struct ec_params_get_cmd_versions),
+>      sizeof(struct ec_response_get_cmd_versions))?
+
+I considered that, but DEFINE_RAW_FLEX() complains about it due to the
+
+_Static_assert(__builtin_constant_p(count),				\
+		       "onstack flex array members require compile-time const count");
+
+--
+Gustavo
+

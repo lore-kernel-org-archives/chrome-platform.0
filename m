@@ -1,52 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404E3126BF9;
-	Fri, 14 Mar 2025 23:43:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B17D517;
+	Mon, 17 Mar 2025 00:54:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741995825; cv=none; b=MxQmqjhjB44dH1O2a7FBD6GamQOYk06r3sfMPX04A7p6D6T0nGuxTbny5zIoeE69tgLiRuEGTYE7cKPMXot2+Ntfug3A4f8c22F8wtHd081521OVuxK7smfPKv2bBtG6qUWPNfASrSXUlR25LhrwCsOWmtL0Jd+EpU3/kVL+F8c=
+	t=1742172896; cv=none; b=pGCFChMJR5qfKW2/VPv0wMgCBqWCSz3kDaTG/maU2hl8WEVfIEfL7d12Cs2jizFDZXOQxfAugRmQyv88kpJ2HlS9fDpX4sYDCyCUDqYkhJwuIl0Nomp1HV8FGetXNzc6mt8LQATuYR/W6mr+/WesO6vGlE5L8vKusWddVKbKLcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741995825; c=relaxed/simple;
-	bh=rXwMh7DKwUBAV1pWsbA1nv/BVDEbqtMibrCXomL6GL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F0huv4JIRPpH9WOy3uQWvVaCHRORX5qMGrIl4YAglGTCPdpwmIkcH25AWRwjZBz8JmDgBPDYSAq16l1lu7fg2JbUnVZfWNPTaoiqfUeJLQLQ3Le88fJq6ytjQpJMLPya+kcFSF5zKC5Lxy4BCQzAP5RiCl9lZYILo9y67lHkeMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYz7rUHG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742172896; c=relaxed/simple;
+	bh=PhYok/zPKf3wCn1k/iNeF5smnW6Md5Du1eC4AZwuRhI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kFYQFJk/iZpmhv+cjwo+I6yMdqO9ct8/G4PZlwdnzR005B6VliYXgjaBpc22BhEc6nT1/q2wef14BrwqMch7mQv7ruDpDq5E0d/cUnNY2gjwulILQHXA0EBurksv5EMEhSpIL/u8UGCOa6FRJCrRMCk9HsdZ9xJwHuI8nCqoe/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=odGaLx8Y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYz7rUHG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 854E4C4CEE3;
-	Fri, 14 Mar 2025 23:43:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="odGaLx8Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD5BC4CEDD;
+	Mon, 17 Mar 2025 00:54:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741995824;
-	bh=rXwMh7DKwUBAV1pWsbA1nv/BVDEbqtMibrCXomL6GL8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eYz7rUHGgBNx2eQl4bluF0GRsaCsWKdPVrd0PDjfhvaBxAqLEq9NwHY0Stjxg9aTc
-	 EnpQ6rLuJY8fteJ3VhYDdR1+gP7Rjuj7U2XooR1JY8NESae/CAohGoLzqclc1pYSyo
-	 K3Di6WInqaV8HVnnv0FBZaTNUjoQJHwt/5T7lnKiiOVDikwz4aAjxR/VQK7fip5bEI
-	 MCN6fo0X+UnH3v21U6VCUrQXLZWA3OF7usMcjQrxfmi+sQTp/sO0H4D3sqg0O7Y3kC
-	 xvzPz8+2hWoxgDZFRWw9rcmvUl+vHIe3kC5HenJrxdoC9gpKGEirdtNWua6CcXzABD
-	 pLf4hcUBG14tA==
-Date: Fri, 14 Mar 2025 18:43:43 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: linux-mediatek@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-input@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=k20201202; t=1742172896;
+	bh=PhYok/zPKf3wCn1k/iNeF5smnW6Md5Du1eC4AZwuRhI=;
+	h=Date:From:To:Cc:Subject:From;
+	b=odGaLx8YO37zkIiU+lHBSy3wwLeGCbacoan4ZIMTC5oYJWPkH226wLey9CzcHS+Iy
+	 T1N0aUyW6mrGV7Tgr6zQlbeAvbFWsK32ATL5bbzV+KcvLC/HYgNUOUOPa9E1fRmM5S
+	 O4PUbA9hHSc2CDiCE0utre23Ih/N6RF4R03Uf8mYebN4nWhHPI36FzNrbCvo8bEAWg
+	 TZ9GjbwhFxlj32pE9S6sr06XShK7yGzMT52DgdczT2/VM6zE/DN1RmDSqs6nZqfaae
+	 U2F4LcMVby0KDCZ/3CUWkcjf3BbCKNFLf75IbNKpx7FEztkzfcpdgDIHDwjlh2sEUe
+	 BXJkaZx9Cc2hw==
+Date: Mon, 17 Mar 2025 11:24:59 +1030
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
 	Benson Leung <bleung@chromium.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH 3/8] dt-bindings: arm: mediatek: Add MT8186 Squirtle
- Chromebooks
-Message-ID: <174199582298.2541457.8793216796013121859.robh@kernel.org>
-References: <20250312104344.3084425-1-wenst@chromium.org>
- <20250312104344.3084425-4-wenst@chromium.org>
+	Guenter Roeck <groeck@chromium.org>
+Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] iio: cros_ec: Avoid -Wflex-array-member-not-at-end
+ warning
+Message-ID: <Z9dy43vUUh4goi-Q@kspp>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -55,18 +47,71 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250312104344.3084425-4-wenst@chromium.org>
 
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-On Wed, 12 Mar 2025 18:43:37 +0800, Chen-Yu Tsai wrote:
-> Add an entry for the MT8186 based Squirtle Chromebooks, also known as the
-> Acer Chromebook Spin 311 (R724T). The device is a 2-in-1 convertible.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
->  Documentation/devicetree/bindings/arm/mediatek.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
+a flexible structure where the size of the flexible-array member
+is known at compile-time, and refactor the rest of the code,
+accordingly.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+So, with these changes, fix the following warning:
+
+drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c:39:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+
+This looks pretty much like the following patch for RTC:
+
+https://lore.kernel.org/linux-hardening/Z9PpPg06OK8ghNvm@kspp/
+
+Thanks
+
+ .../cros_ec_sensors/cros_ec_sensors_core.c    | 27 +++++++------------
+ 1 file changed, 10 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+index 7751d6f69b12..760a07f64390 100644
+--- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+@@ -34,25 +34,18 @@
+ static int cros_ec_get_host_cmd_version_mask(struct cros_ec_device *ec_dev,
+ 					     u16 cmd_offset, u16 cmd, u32 *mask)
+ {
++	DEFINE_RAW_FLEX(struct cros_ec_command, buf, data,
++			sizeof(struct ec_response_get_cmd_versions));
+ 	int ret;
+-	struct {
+-		struct cros_ec_command msg;
+-		union {
+-			struct ec_params_get_cmd_versions params;
+-			struct ec_response_get_cmd_versions resp;
+-		};
+-	} __packed buf = {
+-		.msg = {
+-			.command = EC_CMD_GET_CMD_VERSIONS + cmd_offset,
+-			.insize = sizeof(struct ec_response_get_cmd_versions),
+-			.outsize = sizeof(struct ec_params_get_cmd_versions)
+-			},
+-		.params = {.cmd = cmd}
+-	};
+-
+-	ret = cros_ec_cmd_xfer_status(ec_dev, &buf.msg);
++
++	buf->command = EC_CMD_GET_CMD_VERSIONS + cmd_offset;
++	buf->insize = sizeof(struct ec_response_get_cmd_versions);
++	buf->outsize = sizeof(struct ec_params_get_cmd_versions);
++	((struct ec_params_get_cmd_versions *)buf->data)->cmd = cmd;
++
++	ret = cros_ec_cmd_xfer_status(ec_dev, buf);
+ 	if (ret >= 0)
+-		*mask = buf.resp.version_mask;
++		*mask = ((struct ec_response_get_cmd_versions *)buf->data)->version_mask;
+ 	return ret;
+ }
+ 
+-- 
+2.43.0
 

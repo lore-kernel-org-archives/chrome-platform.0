@@ -1,140 +1,221 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC2B214A8F
-	for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 07:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E72E5789D
+	for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 07:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742196500; cv=none; b=PUFiBYN5odKmDCHWQylAOFqz4W8N3rB/9Twq7lz1GAUaynPvst64R2ibF+AMQEnW8lHj0IFJ7wzlisCj6EXCFOsv+sLKLOgjaeUtWNaMIb7t7zkg9m6AVxsN76Rn8Cpm0Mn44zJiAdUI1EZGXZG9gXKS3KX859NKT+h14Fb3xKo=
+	t=1742198106; cv=none; b=OCil1C+UD4xYMjI28Vv1SH1IJ+cJruBVn3GB3LZNHzjLB6cG+5KVblTti18ThMxBRrANgcBwGdVuO88yA9ft0yzwOyx/tlL7DuneHSzV04EdBclxS9GP8vnHGVAKppBSd/YEHNOBMJSZc82r7aTaAO55hyz+onby/7qM1GWVE6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742196500; c=relaxed/simple;
-	bh=JCZ8NJHlL5qeLs16kSk8UAGx4B14ozu5Wfh9P0ZeBWY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bVea2iW7DmKn5Lzl+JCBgq0NVlI6xhTaDr3u0VxiI52LJss+R5C7W2JyDAwbiXw5NaOpEGV1oBg3cmn5XomhumzIrpdJDbPRVMhlgTjmqpW2iLH5pof/ZKQFH36OwnqxCxQ4XJ8bO7rYi1aMb5XlHPUCrjPFOIPgxfWp54Qjrbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=fMjcT59i; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1742198106; c=relaxed/simple;
+	bh=kCkc4N+7QhSoIFulEWpB4EZ2H9QujvTV7t+ztLrDXes=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RL/dWvDwMAwWDFXKVyF6Kp1rHCU3W6kSzbhP6s0ITs11RfSUf1PL+vaBKByvb68od7868/gBh7o1CC3OEIibUQ6EGsoykdVOWLB2V9vwT6hCxRhwdbo0fqJ+fG8j1jK4MVSw1QvlOCsSnaqKTM9EdqCgj17vaos1WspehhSyZTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X5pY73vb; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="fMjcT59i"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-39149bccb69so3957424f8f.2
-        for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 00:28:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5pY73vb"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30bf5d7d107so37439961fa.2
+        for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 00:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1742196497; x=1742801297; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MmeybRpBrE7pprKBEyj/DYqPzBvtjQqQQdCE2g+fCIc=;
-        b=fMjcT59isNpcYiObSO4eECEbvaJCP/c/9/KF5twj8Zuz13kU4veaz2A3LXw3xSSNB4
-         Oq1xixxC9qNtadbxsce25kl6+7HS5qf8bunomJx/NJZkSLFX4cQk+1qP/MptZ8aeQn5L
-         sMuZ2qHN4jIkoqg5j4bly1syviD7lrbtSw5SI8DgXuuoYJJDx003LNz43m5y0tK0OKFW
-         db4wI8qfcFm9jKkXAqN6gSIPxf28yKGmq2l2j8OaN63McAjhxv0Nhtc4rbUaPWZLfRSk
-         bdP840/1KE7l6ai4L2uly4wTjDferos/EsEywJQTrRh07fo8+zWGFDGnedb2JO0GQpma
-         LbqA==
+        d=gmail.com; s=20230601; t=1742198103; x=1742802903; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4PGlkNj5JuQM/oiAzbkxBTyJefdHugxU09PeAiuQE7o=;
+        b=X5pY73vbvWyLgrG54X5Y2DbVFRtB0w8oVAStxAv7/InuNK4q/meP4LQzugZBoJ8yMO
+         XusqhDmTp6iOA9UUUYVwbRnrCjgJO7N6+Q2gEihpZmRC5cjdEjwrz2QEgCB7j/qtU/uO
+         tia2SDxzCDwBx7qWgAxaj3JS+NqhNeFIi3tYmNLs+dWq+Zs57wecIeQwfGBpp/3MxInK
+         CVVEXrRAKdlHklCyo75FycDH+o3+6wv7xDAC7E9T3uF26jMerwl+Cn2TLBrzfkAdJUzv
+         MhhmHcJ325qIH+MOkAlnRRq0AtNZ31VAaTW1iAEFoOe3Lp2VNfaugx4PFnaqgd8QNdCQ
+         SbsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742196497; x=1742801297;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MmeybRpBrE7pprKBEyj/DYqPzBvtjQqQQdCE2g+fCIc=;
-        b=uVpwyO1LbHm1elMi9JWm34fRGt8gm5Gk/VLo1KFynC5mZRKb0CDQnrW7FBWE19P+pH
-         4F42RPqkZXAEzj31iC2J3IQC4832CORh8khVZMpB26wyfGsx73bhFSveTjSbmAQfxk0l
-         dv4oxUDXxSb4UkkFCB3H+NmuTB/NECBX1Jx5lfcP8+2T/wMInkDkrRaycZ8Tg0Am0esx
-         PpPeHvZ3my2pvz0VeFjYY40NRaIpdY38lg54OejaX3UNVyeKbnRyNvkBS2WFfGmrQbPY
-         OMwoEI+SYZX0DuowXwDEZE3L9QO86y/vJhkFvn7WTk/VbkZ87bbzC79PDItpRfJlSaIH
-         VjEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWpwCbqXmzNZAuIZbpZeN9MImAhl63hJViZhTXe/s5D08llmzmuGDgWMf2n/+lzyViFO+KfvcIFL0f4j63Q0GA=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHRZTC2h6CO/IaLRxBLojYVQAcEdZy+6D+ipTHsQ/BPbOnWDzJ
-	ZNJ5cufX6eEI9i0H2Zten2PWrNUJDwc2EVdipf7kNXYED05e3GKMNnluP7GLgxs=
-X-Gm-Gg: ASbGncs8gYkuhIRWKKwKDgHUb59WPyEgiIz3iozxq6q6aWwepOnDEgE8QuXbsbwJkL8
-	hyrIrgotUQ/hbpdR0H3eS5izjYOsSaIBUv4fouBxEpp7E4jJalBFs7s71sDSlMB9fGi8XuIspaL
-	pvAQtmTo7vPoFZ+2hvLsLjqL4AYDFoi6dGlj9MoVGyuvBxvfpoXSoyYlUAwVe79FO3pHUQb5TOZ
-	WAiFNp7jIJ6sYcOJkrag7DADMzKYkblIj5DOPBujwRKd9EL9bQuQH7NMhZ5dhTu0bIBaDsbDyLP
-	B/kZKKpMm7tF0Ov8fc3NvZEu2D9NkIOUJJePAZtz7Dxy
-X-Google-Smtp-Source: AGHT+IF0SQg1rbhlVfPRDe4evUEMB6cbst75qf2siyPSgaa7hhC48ie0idr/zrL8lWoqGTejEIooqA==
-X-Received: by 2002:a05:6000:4025:b0:391:2e0f:efce with SMTP id ffacd0b85a97d-3971cd57552mr11869458f8f.1.1742196496768;
-        Mon, 17 Mar 2025 00:28:16 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:8f96:5dba:51a8:70a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df320csm13962684f8f.7.2025.03.17.00.28.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 00:28:16 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Ray Jui <rjui@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Michael Buesch <m@bues.ch>,
-	Thomas Richard <thomas.richard@bootlin.com>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 00/15] gpio: more gpio_chip setter conversions
-Date: Mon, 17 Mar 2025 08:28:14 +0100
-Message-ID: <174219649255.10395.5377350063272830181.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250310-gpiochip-set-conversion-v1-0-03798bb833eb@linaro.org>
-References: <20250310-gpiochip-set-conversion-v1-0-03798bb833eb@linaro.org>
+        d=1e100.net; s=20230601; t=1742198103; x=1742802903;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4PGlkNj5JuQM/oiAzbkxBTyJefdHugxU09PeAiuQE7o=;
+        b=eHJfo639p4B9p47RNKG29klEy19qBRTbE+XixVHZ5NOkBl57rFKFmqGs2+GKcmaDIL
+         OryODa7pHK3Yf+QExJB7+o99ScDDlTYai3QaYgeU5kg1+X+BnQUZt4TGXCWcGQRMWiOG
+         SD4p7N/3SVjEzXHOrU8CQASL9tf8YiASKK+Eb1xkB2/kfIEWf7AjVyfA7ceIzJNitCmA
+         ZP6doeTD3BSggr4I2VsCwEINWPjTmjOcSgC9X328AP6fxg/889Bow+g9HChC6RLPINLt
+         h1vyVwgb23Wj6m6q+6JIaipAXTc/DqnC2XSy/qhBYgjzx0Z6LGvWdWj3ShPSeiOdb8Uz
+         A/qA==
+X-Forwarded-Encrypted: i=1; AJvYcCXTn1bhJpE9IeBWa2ukLzizcqfCj7tiCRqDhB+xy2f/gBln+GP5JezCjN/AZSPBuyBMcYU2VPYJcK3wUo9BeH0=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzf/iOFw7NPs15WuaEqPyG38Fg25QYOzXlBK8pUt1j6jKP670pZ
+	cDpd0NiExlTGGGGe+LpTAPMEYvPWgtEffOY9eJhcK+1CjyJpAuot
+X-Gm-Gg: ASbGncuh6oR6ikf5ebj5XlrC2RlK7VPI4bQkOzctTgRHsDIWlosmG/gZQV8vSOYK3Lm
+	jn7hW2AQws9Sa37qVDGRbzL2mOtBJHnH5BBK40FUqgSZRbI8F9qV3MqB85kZ+qHGM2L1TtMH8ud
+	tMjNGfBZ2Nq/leMHaKECggmnXJePQ86EThd6SbqitKdzw2ep1IKIZzcEshgsmQ5siU9DwsfZEdS
+	R2c0zArvOMss6Knau81QuXywNlk6aFWNY79rtjl/DTBj+dwZNTdnv/nTOBVuD4mWNgSLo54keCZ
+	ZZOZYM6aHKEWE8DpA6wwBjJCEbCUCKVDTMBIkzZVt6GpNP/Td8PjdOjhE72trk3PyYlJCr/nVJ6
+	r+ZUkPvAdkKeADrD3TCZ7EjyqNg==
+X-Google-Smtp-Source: AGHT+IHpSYFJH34gIO7tBqgPtELK+iiAIDW1hiL3+I6Fh1bFLkfP7bnMzxpGii0X1yem28TLEK8LGg==
+X-Received: by 2002:a05:6512:6cc:b0:549:7145:5d25 with SMTP id 2adb3069b0e04-549c396e1f1mr5578803e87.34.1742198102726;
+        Mon, 17 Mar 2025 00:55:02 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba8a702asm1234607e87.212.2025.03.17.00.55.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 00:55:02 -0700 (PDT)
+Message-ID: <1a9252ba-d793-4b7e-8fb3-6a35a171c688@gmail.com>
+Date: Mon, 17 Mar 2025 09:55:01 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/7] power: reset: Introduce PSCR Recording Framework
+ for Non-Volatile Storage
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Sebastian Reichel <sre@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, kernel@pengutronix.de,
+ linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ linux-pm@vger.kernel.org, =?UTF-8?Q?S=C3=B8ren_Andersen?= <san@skov.dk>,
+ Guenter Roeck <groeck@chromium.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>, chrome-platform@lists.linux.dev
+References: <20250314113604.1776201-1-o.rempel@pengutronix.de>
+ <20250314113604.1776201-4-o.rempel@pengutronix.de>
+ <58e19481-530c-4465-aec5-1f44462eaf5f@gmail.com>
+ <Z9Q18k_wu1JQxrtJ@pengutronix.de>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <Z9Q18k_wu1JQxrtJ@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-
-
-On Mon, 10 Mar 2025 13:40:14 +0100, Bartosz Golaszewski wrote:
-> This is another round of GPIO driver conversions to using the
-> int-returning value setter callbacks.
+On 14/03/2025 15:58, Oleksij Rempel wrote:
+> Hi Matti,
 > 
+> Thanks for your feedback and for taking the time to review this patch series!
 > 
+> On Fri, Mar 14, 2025 at 02:22:40PM +0200, Matti Vaittinen wrote:
+>> Hi deee Ho Oleksij,
+>>
+>> On 14/03/2025 13:36, Oleksij Rempel wrote:
+>>> This commit introduces the Power State Change Reasons Recording (PSCRR)
+>>> framework into the kernel. The framework is vital for systems where
+>>> PMICs or watchdogs cannot provide information on power state changes. It
+>>> stores reasons for system shutdowns and reboots, like under-voltage or
+>>> software-triggered events, in non-volatile hardware storage. This
+>>> approach is essential for postmortem analysis in scenarios where
+>>> traditional storage methods (block devices, RAM) are not feasible. The
+>>> framework aids bootloaders and early-stage system components in recovery
+>>> decision-making, although it does not cover resets caused by hardware
+>>> issues like system freezes or watchdog timeouts.
+>>>
+>>> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+>>
+>> I see you're already at v6, so I am probably slightly late... I think I
+>> hadn't noticed this before. Thus, feel free to treat my comments as mere
+>> suggestions.
+>>
+>> All in all, I do like this series. Looks mostly very good to me :) Just
+>> wondering if we could utilize this same for standardizing reading the reset
+>> reason registers which are included in many PMICs?
+>>
+>>> ---
+>>
+>> ...
+>>
+>>> +int pscrr_core_init(const struct pscrr_backend_ops *ops)
+>>> +{
+>>> +	enum psc_reason stored_val = PSCR_UNKNOWN;
+>>> +	int ret;
+>>> +
+>>> +	mutex_lock(&pscrr_lock);
+>>> +
+>>> +	if (g_pscrr) {
+>>> +		pr_err("PSCRR: Core is already initialized!\n");
+>>> +		ret = -EBUSY;
+>>> +		goto err_unlock;
+>>> +	}
+>>> +
+>>> +	if (!ops->read_reason || !ops->write_reason) {
+>>> +		pr_err("PSCRR: Backend must provide read and write callbacks\n");
+>>
+>> Why both are required?
+>>
+>> I can easily envision integrating the some PMIC's 'boot reason' register
+>> reading to the PSCRR. Benefit would be that user-space could use this same
+>> interface when reading the reset reason on a system where reason is stored
+>> using mechanisms provided by this series - and when reset reason is
+>> automatically stored by the HW (for example to a PMIC).
+>>
+>> In a PMIC case the write_reason might not be needed, right?
+>   
+> I agree that PMICs could be valuable sources of reset reasons, and integrating
+> them into PSCRR makes sense. However, this introduces new challenges when
+> multiple providers exist on the same system, each reporting different power
+> state change reasons.
 
-Applied, thanks!
+I see that now. I didn't think of having multiple sources of this 
+information at the same time, but I agree it is a valid setup. For 
+example an under voltage warning triggering software reset could leave a 
+reason in PSCRR non volatile memory, while it wouldn't leave a trace in 
+a PMIC. More severe under voltage on same system might trigger the 
+hardware shutdown by the PMIC, which would leave the reason in PMIC but 
+not necessarily to the non volatile memory (depending on the amount 
+backup-energy). So yes, we might need multiple sources to get a good 
+picture. Thanks for pointing this out to me.
 
-[01/15] gpio: bcm-kona: use lock guards
-        commit: cd7d117a297149b61871d441fa1a8146c55c435d
-[02/15] gpio: bcm-kona: use new line value setter callbacks
-        commit: d5cc72803b146c811b01f9a5b91e97337adf5784
-[03/15] gpio: bd71815: use new line value setter callbacks
-        commit: 7bd2bb7901a67f6b14c913596acb471351f500a5
-[04/15] gpio: bd71828: use new line value setter callbacks
-        commit: 8a050f738d41d337fb73ef582916328dc5bd73e1
-[05/15] gpio: bd9571mwv: use new line value setter callbacks
-        commit: fe7667f2085ee7d66a6a34e6bf6830be7e641b52
-[06/15] gpio: bt8xx: allow to build the module with COMPILE_TEST=y
-        commit: c948feeadba290e989b049913576b3d30ba02235
-[07/15] gpio: bt8xx: use lock guards
-        commit: b9a557d05a7dde42b1e3652751eea6c06091402e
-[08/15] gpio: bt8xx: use new line value setter callbacks
-        commit: 19c39c53752ae0b5cbf7577bcdf7c13d1c146e65
-[09/15] gpio: cgbc: use new line value setter callbacks
-        commit: 1e69c7532a188a84b4cb535944fd7d60393a1fc8
-[10/15] gpio: creg-snps: use new line value setter callbacks
-        commit: 68f5b74e0db7ab57885ad4ec05f7418cac8f4063
-[11/15] gpio: cros-ec: use new line value setter callbacks
-        commit: 2661dc2de18617ac827aa9b50cb145bf5a185896
-[12/15] gpio: crystalcove: use new line value setter callbacks
-        commit: 96498b83b3ded5f01207775d681374d62111d548
-[13/15] gpio: cs5535: use new line value setter callbacks
-        commit: 588dfcdb162855b954f92fce73a12e3fa86ded01
-[14/15] gpio: da9052: use new line value setter callbacks
-        commit: 489c19cee3b9fd58e7967dbc4e54cdf212b073a0
-[15/15] gpio: da9055: use new line value setter callbacks
-        commit: 2eb5dc9a4b0d193b27289281faa05aadab978b41
+> Handling Multiple Read-Only Providers (PMIC, Firmware, etc.):
+> - If we have multiple sources (e.g., PMIC, firmware logs, NVMEM-based storage),
+>    we need to define how to handle conflicting or differing reset reasons.
+> - Using priorities may work in simple cases but is unlikely to scale well
+>    across different platforms.
+> - A more flexible solution would be to expose all read-only providers
+>    separately, rather than forcing one to override others.
+> 
+> Potential UAPI and Sysfs Structure
+> - The current sysfs API exposes:
+>    - `/sys/kernel/pscrr/reason` → Default recorder
+>    - `/sys/kernel/pscrr/reason_boot` → Last stored reason on default recorder
+>       from before boot
+> - If we introduce read-only providers (like PMICs), we may need a dedicated
+>    subdirectory to keep them separate.
+> - A possible structure:
+>    ```
+>    /sys/kernel/pscrr/
+>    ├── reason         # Default recorder
+>    ├── reason_boot    # Default recorder (before boot)
+>    ├── providers/
+>    │   ├── pmic0      # Read-only reset reason from PMIC
+>    │   ├── firmware   # Reset reason from firmware logs
+>    │   ├── another_provider
+>    ```
+> - This would allow user-space tools to query all available sources while keeping
+>    the default recorder behavior intact.
+> 
+> Next Steps
+> - I propose keeping this patch series focused on the default PSCRR recorder.
+> - Support for multiple read-only providers should be designed as a future
+>    extension, possibly with an expanded sysfs API.
 
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Makes sense. Better to get something ready than keep everything on the 
+table. :) Still wonder if we should allow registering read-only 
+providers, even if we supported only a single source? But, I am not 
+insisting this, just doing a suggestion. Don't want to make "the 
+perfect" to be the enemy of good. (Actually, when I think of it, in many 
+cases I wouldn't want to even make the "good" to be enemy of "much 
+better than nothing").
+
+> Would you agree that this approach keeps things maintainable while allowing
+> for future extensibility?
+
+Sure.
+
+> Also, do you have a preference for naming the
+> subdirectory (`providers/`, `sources/`, etc.)?
+
+I am bad with naming but both of those would work for me :)
+
+Yours,
+	-- Matti
+

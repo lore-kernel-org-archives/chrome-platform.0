@@ -1,65 +1,65 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E72E5789D
-	for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 07:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E231552E3
+	for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 08:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742198106; cv=none; b=OCil1C+UD4xYMjI28Vv1SH1IJ+cJruBVn3GB3LZNHzjLB6cG+5KVblTti18ThMxBRrANgcBwGdVuO88yA9ft0yzwOyx/tlL7DuneHSzV04EdBclxS9GP8vnHGVAKppBSd/YEHNOBMJSZc82r7aTaAO55hyz+onby/7qM1GWVE6U=
+	t=1742201166; cv=none; b=SZ3RScazFrhWtwmEbD6KQnK96gHXKJlxxQIZW5/2GGR3XS6qCjdQ99CHRd5cNvuhiCFU7miKbaAEga8AXxlR4X1FonvwChTEYalsPfD3xFbZU5DrvVKwYMBVmnNvSmI09n5oBAdzi4/mp6272myk8uCgB+Wdo7DYaBfAcrMk38M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742198106; c=relaxed/simple;
-	bh=kCkc4N+7QhSoIFulEWpB4EZ2H9QujvTV7t+ztLrDXes=;
+	s=arc-20240116; t=1742201166; c=relaxed/simple;
+	bh=HXbTEk6n3QynE7gKkPGXFKjRIRjrNpjqXDTnnipaiRM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RL/dWvDwMAwWDFXKVyF6Kp1rHCU3W6kSzbhP6s0ITs11RfSUf1PL+vaBKByvb68od7868/gBh7o1CC3OEIibUQ6EGsoykdVOWLB2V9vwT6hCxRhwdbo0fqJ+fG8j1jK4MVSw1QvlOCsSnaqKTM9EdqCgj17vaos1WspehhSyZTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X5pY73vb; arc=none smtp.client-ip=209.85.208.176
+	 In-Reply-To:Content-Type; b=TAPjJ0Akd0svKdOHH1Io6LrtfttFKfpDlFWpqyYor8snITeVIBxQJnQ4NF+rkyOceqe8CzfKCdTS09BtQ+H75glfqMtYOXzQFJi4JqFVQqJVVRLQ2fQ4laI4WXM3irmtCiPHCMSHLYsKuFiwVSMfVS2K+2a5ufeLv1PNQMakIZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d1++4Wfm; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5pY73vb"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30bf5d7d107so37439961fa.2
-        for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 00:55:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d1++4Wfm"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5439a6179a7so4654200e87.1
+        for <chrome-platform@lists.linux.dev>; Mon, 17 Mar 2025 01:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742198103; x=1742802903; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1742201163; x=1742805963; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=4PGlkNj5JuQM/oiAzbkxBTyJefdHugxU09PeAiuQE7o=;
-        b=X5pY73vbvWyLgrG54X5Y2DbVFRtB0w8oVAStxAv7/InuNK4q/meP4LQzugZBoJ8yMO
-         XusqhDmTp6iOA9UUUYVwbRnrCjgJO7N6+Q2gEihpZmRC5cjdEjwrz2QEgCB7j/qtU/uO
-         tia2SDxzCDwBx7qWgAxaj3JS+NqhNeFIi3tYmNLs+dWq+Zs57wecIeQwfGBpp/3MxInK
-         CVVEXrRAKdlHklCyo75FycDH+o3+6wv7xDAC7E9T3uF26jMerwl+Cn2TLBrzfkAdJUzv
-         MhhmHcJ325qIH+MOkAlnRRq0AtNZ31VAaTW1iAEFoOe3Lp2VNfaugx4PFnaqgd8QNdCQ
-         SbsQ==
+        bh=MxbiKv6elGIs5Nn4LiqGeMrFmApt2xh9/qpgGFawsLg=;
+        b=d1++4WfmRh+/w0MxZSOnmPF4VfC3KoGpibb52Rh+jp5AJZj+2GlhhEsDhNDWh5Gbw2
+         a+41vGnU63UBo487TRs8mdffYep+oRF5vLRkVYliKEijvSr7CSkqSruaV6oZfiZFL0FQ
+         7sSL/PwsCMRcanl8hI1kLDniVMOz5A+HaegM5CuWxKsydhzKvSmoc8MEULd7aTKJ/pfX
+         aItxnjcEfO1Ort1qeM28knWnjSRBKLQNAbrZMth+4IBYHLBoGbBN8nYDGpg4uxm3jA0T
+         /hrz0PSUw3eVaOckl4oOYlUOuwZN/4c0Co55fuZkxLcD0H9YS6WzHJTNYTYyjmUFSYV4
+         V5rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742198103; x=1742802903;
+        d=1e100.net; s=20230601; t=1742201163; x=1742805963;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4PGlkNj5JuQM/oiAzbkxBTyJefdHugxU09PeAiuQE7o=;
-        b=eHJfo639p4B9p47RNKG29klEy19qBRTbE+XixVHZ5NOkBl57rFKFmqGs2+GKcmaDIL
-         OryODa7pHK3Yf+QExJB7+o99ScDDlTYai3QaYgeU5kg1+X+BnQUZt4TGXCWcGQRMWiOG
-         SD4p7N/3SVjEzXHOrU8CQASL9tf8YiASKK+Eb1xkB2/kfIEWf7AjVyfA7ceIzJNitCmA
-         ZP6doeTD3BSggr4I2VsCwEINWPjTmjOcSgC9X328AP6fxg/889Bow+g9HChC6RLPINLt
-         h1vyVwgb23Wj6m6q+6JIaipAXTc/DqnC2XSy/qhBYgjzx0Z6LGvWdWj3ShPSeiOdb8Uz
-         A/qA==
-X-Forwarded-Encrypted: i=1; AJvYcCXTn1bhJpE9IeBWa2ukLzizcqfCj7tiCRqDhB+xy2f/gBln+GP5JezCjN/AZSPBuyBMcYU2VPYJcK3wUo9BeH0=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzf/iOFw7NPs15WuaEqPyG38Fg25QYOzXlBK8pUt1j6jKP670pZ
-	cDpd0NiExlTGGGGe+LpTAPMEYvPWgtEffOY9eJhcK+1CjyJpAuot
-X-Gm-Gg: ASbGncuh6oR6ikf5ebj5XlrC2RlK7VPI4bQkOzctTgRHsDIWlosmG/gZQV8vSOYK3Lm
-	jn7hW2AQws9Sa37qVDGRbzL2mOtBJHnH5BBK40FUqgSZRbI8F9qV3MqB85kZ+qHGM2L1TtMH8ud
-	tMjNGfBZ2Nq/leMHaKECggmnXJePQ86EThd6SbqitKdzw2ep1IKIZzcEshgsmQ5siU9DwsfZEdS
-	R2c0zArvOMss6Knau81QuXywNlk6aFWNY79rtjl/DTBj+dwZNTdnv/nTOBVuD4mWNgSLo54keCZ
-	ZZOZYM6aHKEWE8DpA6wwBjJCEbCUCKVDTMBIkzZVt6GpNP/Td8PjdOjhE72trk3PyYlJCr/nVJ6
-	r+ZUkPvAdkKeADrD3TCZ7EjyqNg==
-X-Google-Smtp-Source: AGHT+IHpSYFJH34gIO7tBqgPtELK+iiAIDW1hiL3+I6Fh1bFLkfP7bnMzxpGii0X1yem28TLEK8LGg==
-X-Received: by 2002:a05:6512:6cc:b0:549:7145:5d25 with SMTP id 2adb3069b0e04-549c396e1f1mr5578803e87.34.1742198102726;
-        Mon, 17 Mar 2025 00:55:02 -0700 (PDT)
+        bh=MxbiKv6elGIs5Nn4LiqGeMrFmApt2xh9/qpgGFawsLg=;
+        b=eAgixjK0IUIjd2yOrwa96vq7Lrj2T6LdrPNWObOp/OvdPA7B0yrK1K3LlQ+wy8ZvaU
+         HYBxpp+CmU5+VpbTu0RisON8F3KpBz4gvBn1GS1MtusuYV07XZN9zR9eknZPhAx97/5P
+         BuqbS9Pif+r5DWxtmljaQYOQcRZAq+cRmOy7fgeg6vr3NsPQzy/nmTiLsf2ZOJgaC5QD
+         dCIPTVg8tfJzSNJ3yz1n2zR7ecIXeY+ykmoAp6F2ATTAXyb6kcJKjVkfSEAZ48Os1siA
+         6tmgViF5JmqIcn7vW21bCprWLgcOG/Mdr9xx4L9bkHv6Lm12R0A44kcWir63xOtwBpda
+         JumQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWjJ5YvHnk7yRpwEBdVl59daO1897Ss4C9LgTli45ty8cIe37FqbJESwVn6AkjoOTvp2Y79RZ93SK8IIo3U5QY=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9hRu/nHHBBobvgDbBAakwokMOrtmvaFkQEjtARTtvKEEKpUYW
+	UZSbocxD862oM9wLi7meWx5AiMej5+Oe5j2AGHcTlsha56c6VL5KZuYeHA==
+X-Gm-Gg: ASbGncvRg7zagzxansxVeiLLcwQYCXuVsBKI4L+qT/MR7GFBwYadCqDsvIZ0Jeo/EzM
+	OEVfLp7ougGYDT0UyPDPSlnvY8YuGJ8Iwe57+3NTW5KjoaitKup3ehebngSemYygB4hSEve6G1Z
+	c5jjhOrNqnJjx50uAIkcDqfjDZE+Tg3CjfIk+7m7lsWzJCqRy+tz6npBICqArMrkj21eD9j45x4
+	QsTAIVyeXLTuoCuhUgTm+cMFbXX9xIEnYzY4kEuQunYRThTrecDEgmp/x+T7wKKTSlhi9ZY2FER
+	t4DMWnkfNYkJwkwd+7fW02ATfnyowbEaCRoABQGZoyCiUAweOfm2UmgS8e8FfQqOw3UywXp4ICl
+	eCTwf4SqeKA/iDsU0hvXezklmWQ==
+X-Google-Smtp-Source: AGHT+IFeAg/G8whxA4gtxiYZbH0SjBZ7xoClvaA1Vcblwhy4bW0jCjldjrGw6uW7vsQd59L9ZAQ4WA==
+X-Received: by 2002:a05:6512:3990:b0:549:68a7:177c with SMTP id 2adb3069b0e04-549ba3d563fmr7023614e87.7.1742201162859;
+        Mon, 17 Mar 2025 01:46:02 -0700 (PDT)
 Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba8a702asm1234607e87.212.2025.03.17.00.55.01
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba7a86c1sm1281669e87.21.2025.03.17.01.46.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 00:55:02 -0700 (PDT)
-Message-ID: <1a9252ba-d793-4b7e-8fb3-6a35a171c688@gmail.com>
-Date: Mon, 17 Mar 2025 09:55:01 +0200
+        Mon, 17 Mar 2025 01:46:02 -0700 (PDT)
+Message-ID: <a34c14c1-875d-40a4-8019-67f7b9aa4133@gmail.com>
+Date: Mon, 17 Mar 2025 10:46:01 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -67,8 +67,8 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/7] power: reset: Introduce PSCR Recording Framework
- for Non-Volatile Storage
+Subject: Re: [PATCH v6 7/7] Documentation: Add sysfs documentation for PSCRR
+ reboot reason tracking
 To: Oleksij Rempel <o.rempel@pengutronix.de>
 Cc: Sebastian Reichel <sre@kernel.org>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -81,140 +81,83 @@ Cc: Sebastian Reichel <sre@kernel.org>,
  Guenter Roeck <groeck@chromium.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
  Andrew Morton <akpm@linux-foundation.org>, chrome-platform@lists.linux.dev
 References: <20250314113604.1776201-1-o.rempel@pengutronix.de>
- <20250314113604.1776201-4-o.rempel@pengutronix.de>
- <58e19481-530c-4465-aec5-1f44462eaf5f@gmail.com>
- <Z9Q18k_wu1JQxrtJ@pengutronix.de>
+ <20250314113604.1776201-8-o.rempel@pengutronix.de>
+ <a8f76dd0-56be-46a5-9cc1-2d17d013127d@gmail.com>
+ <Z9Q4z2dPdpqVcu6u@pengutronix.de>
 Content-Language: en-US, en-AU, en-GB, en-BW
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <Z9Q18k_wu1JQxrtJ@pengutronix.de>
+In-Reply-To: <Z9Q4z2dPdpqVcu6u@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 14/03/2025 15:58, Oleksij Rempel wrote:
-> Hi Matti,
-> 
-> Thanks for your feedback and for taking the time to review this patch series!
-> 
-> On Fri, Mar 14, 2025 at 02:22:40PM +0200, Matti Vaittinen wrote:
->> Hi deee Ho Oleksij,
->>
+On 14/03/2025 16:10, Oleksij Rempel wrote:
+> On Fri, Mar 14, 2025 at 03:38:55PM +0200, Matti Vaittinen wrote:
 >> On 14/03/2025 13:36, Oleksij Rempel wrote:
->>> This commit introduces the Power State Change Reasons Recording (PSCRR)
->>> framework into the kernel. The framework is vital for systems where
->>> PMICs or watchdogs cannot provide information on power state changes. It
->>> stores reasons for system shutdowns and reboots, like under-voltage or
->>> software-triggered events, in non-volatile hardware storage. This
->>> approach is essential for postmortem analysis in scenarios where
->>> traditional storage methods (block devices, RAM) are not feasible. The
->>> framework aids bootloaders and early-stage system components in recovery
->>> decision-making, although it does not cover resets caused by hardware
->>> issues like system freezes or watchdog timeouts.
+>>> Add documentation for the Power State Change Reason Recorder (PSCRR)
+>>> sysfs interface, which allows tracking of system shutdown and reboot
+>>> reasons. The documentation provides details on available sysfs entries
+>>> under `/sys/kernel/pscrr/`, explaining their functionality, example usage,
+>>> and how they interact with different backend storage options (e.g., NVMEM).
 >>>
 >>> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
->>
->> I see you're already at v6, so I am probably slightly late... I think I
->> hadn't noticed this before. Thus, feel free to treat my comments as mere
->> suggestions.
->>
->> All in all, I do like this series. Looks mostly very good to me :) Just
->> wondering if we could utilize this same for standardizing reading the reset
->> reason registers which are included in many PMICs?
->>
 >>> ---
->>
->> ...
->>
->>> +int pscrr_core_init(const struct pscrr_backend_ops *ops)
->>> +{
->>> +	enum psc_reason stored_val = PSCR_UNKNOWN;
->>> +	int ret;
+>>>    .../ABI/testing/sysfs-kernel-reboot-pscrr     | 46 +++++++++++++++++++
+>>>    1 file changed, 46 insertions(+)
+>>>    create mode 100644 Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+>>>
+>>> diff --git a/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+>>> new file mode 100644
+>>> index 000000000000..7cc643f89675
+>>> --- /dev/null
+>>> +++ b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+>>> @@ -0,0 +1,46 @@
+>>> +What:		/sys/kernel/pscrr/reason
+>>> +Date:		April 2025
+>>> +KernelVersion:  6.15
+>>> +Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
+>>> +Description:
+>>> +		This file provides access to the last recorded power state
+>>> +		change reason. The storage backend is configurable and, if
+>>> +		supported, the reason may be stored persistently in an
+>>> +		NVMEM cell or another backend.
 >>> +
->>> +	mutex_lock(&pscrr_lock);
+>>> +		Reading this file returns an integer representing the last
+>>> +		recorded shutdown or reboot cause.
 >>> +
->>> +	if (g_pscrr) {
->>> +		pr_err("PSCRR: Core is already initialized!\n");
->>> +		ret = -EBUSY;
->>> +		goto err_unlock;
->>> +	}
+>>> +		Writing an integer value to this file sets the reason to be
+>>> +		stored and recorded for system analysis.
 >>> +
->>> +	if (!ops->read_reason || !ops->write_reason) {
->>> +		pr_err("PSCRR: Backend must provide read and write callbacks\n");
+>>> +		Example usage (values are for illustration and may not reflect
+>>> +		actual reasons used in a given system):
+>>> +		  Read:
+>>> +			$ cat /sys/kernel/pscrr/reason
+>>> +			3   # (Example: Power loss event, may differ per system)
+>>> +
+>>> +		  Write:
+>>> +			$ echo 5 > /sys/kernel/pscrr/reason
+>>> +			# Sets the reason to 5 (Example: User-triggered reboot,
+>>> +			# this may not be a real value in your system)
+>>> +
+>>> +		Values are defined in:
+>>> +		  - `include/linux/reboot.h` (enum psc_reason)
 >>
->> Why both are required?
+>> Is it possible to provide the reason (also) as string?
 >>
->> I can easily envision integrating the some PMIC's 'boot reason' register
->> reading to the PSCRR. Benefit would be that user-space could use this same
->> interface when reading the reset reason on a system where reason is stored
->> using mechanisms provided by this series - and when reset reason is
->> automatically stored by the HW (for example to a PMIC).
+>> I believe we should fix the meaning of the numbers so the ABI is not
+>> changing for the users. Hence we could as well document the meaning of the
+>> values(?) If I read the suggestion right, we will in any case have
+>> predefined set of reasons in the kernel side.
 >>
->> In a PMIC case the write_reason might not be needed, right?
->   
-> I agree that PMICs could be valuable sources of reset reasons, and integrating
-> them into PSCRR makes sense. However, this introduces new challenges when
-> multiple providers exist on the same system, each reporting different power
-> state change reasons.
-
-I see that now. I didn't think of having multiple sources of this 
-information at the same time, but I agree it is a valid setup. For 
-example an under voltage warning triggering software reset could leave a 
-reason in PSCRR non volatile memory, while it wouldn't leave a trace in 
-a PMIC. More severe under voltage on same system might trigger the 
-hardware shutdown by the PMIC, which would leave the reason in PMIC but 
-not necessarily to the non volatile memory (depending on the amount 
-backup-energy). So yes, we might need multiple sources to get a good 
-picture. Thanks for pointing this out to me.
-
-> Handling Multiple Read-Only Providers (PMIC, Firmware, etc.):
-> - If we have multiple sources (e.g., PMIC, firmware logs, NVMEM-based storage),
->    we need to define how to handle conflicting or differing reset reasons.
-> - Using priorities may work in simple cases but is unlikely to scale well
->    across different platforms.
-> - A more flexible solution would be to expose all read-only providers
->    separately, rather than forcing one to override others.
+>> Or, am I missing something?
 > 
-> Potential UAPI and Sysfs Structure
-> - The current sysfs API exposes:
->    - `/sys/kernel/pscrr/reason` → Default recorder
->    - `/sys/kernel/pscrr/reason_boot` → Last stored reason on default recorder
->       from before boot
-> - If we introduce read-only providers (like PMICs), we may need a dedicated
->    subdirectory to keep them separate.
-> - A possible structure:
->    ```
->    /sys/kernel/pscrr/
->    ├── reason         # Default recorder
->    ├── reason_boot    # Default recorder (before boot)
->    ├── providers/
->    │   ├── pmic0      # Read-only reset reason from PMIC
->    │   ├── firmware   # Reset reason from firmware logs
->    │   ├── another_provider
->    ```
-> - This would allow user-space tools to query all available sources while keeping
->    the default recorder behavior intact.
-> 
-> Next Steps
-> - I propose keeping this patch series focused on the default PSCRR recorder.
-> - Support for multiple read-only providers should be designed as a future
->    extension, possibly with an expanded sysfs API.
+> Yes, it is correct, the values should be fixed for user space. Should
+> they be documented in this documentation too?
 
-Makes sense. Better to get something ready than keep everything on the 
-table. :) Still wonder if we should allow registering read-only 
-providers, even if we supported only a single source? But, I am not 
-insisting this, just doing a suggestion. Don't want to make "the 
-perfect" to be the enemy of good. (Actually, when I think of it, in many 
-cases I wouldn't want to even make the "good" to be enemy of "much 
-better than nothing").
+I believe it could be helpful for both the user-space users and 
+potential pscrr provider driver writers. It could also set things to stone.
 
-> Would you agree that this approach keeps things maintainable while allowing
-> for future extensibility?
-
-Sure.
-
-> Also, do you have a preference for naming the
-> subdirectory (`providers/`, `sources/`, etc.)?
-
-I am bad with naming but both of those would work for me :)
+But, I don't have much experience on the documentation like this so 
+please treat this as a suggestion - but do as you see fits best.
 
 Yours,
 	-- Matti

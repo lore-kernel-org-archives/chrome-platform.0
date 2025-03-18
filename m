@@ -1,122 +1,699 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9731C207E0E
-	for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 10:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3E1208983
+	for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 11:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742293415; cv=none; b=FTEFD8m2n8yy/sKH92oPyXp7cpC+SLbhO4wWihZu35BUuD5m/m4f06vldV8t8JMA2HG3v3ydGbjovHECx1Wi1W0FZs196A1Y1dFaYRy4lmLlbMFXotLMF5tVgm4Lb48VXwqUkR0QuZcLU4uSq9A44C6ung407NU/L1Fk7gCuPko=
+	t=1742295697; cv=none; b=lElRi0yIecfwRfSz95u/AdpvxQ0tcCEnNyZEw6M84ZCsV8s94byY0TSDioIKNjsTL/wyDwchh/Ay60Vx7cV8NznKARFzyaBeGAmTyAHodVGWCOP01IIC0qJOhNvSpArqNk1iq00Dg7Z9KkuDrCOcVVxchYfCcFv/VpnPNvKvof0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742293415; c=relaxed/simple;
-	bh=MXp/aYEgJIRz1h77NEm+oyEhJoefXLGLbsCnRTPjoSw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HGUFHEX+eSS8lPnskQ3H1iGEIEcjefvcFCCgAz1xAogJkecDPIJ7MOp9K1wWT26/F4yn8gipB2QQ7Od59W3OYj+4Lzkc0zAfygIzKOVm4+/0s2LKd0D9kyRLgiA/pg6wx0QH4mHPJo1nZ9gshuocP+mCiYaZoDNtVjsRXg5xyYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZgirUvtv; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1742295697; c=relaxed/simple;
+	bh=zQSxmPuwwODk9OffD/eQp3zEWqz+GYeXSt5uwVbEfcA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=huXvxia4b6PpbsKtNun4AmPDMsdjn26DmcdTnvjqqrRCJ2GVj8Y/x5IVt2R35JdUJ6EuFmoOYUcJ3qIYaOdvkZLY3bG+RluhfXM92f0G1zn1SqQzoz8PItWhyTMHueSd0nWGoZrOq2+i7DbvswtkRz1O7//ZWmDNT/mFO8t8avk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V3EzJnEy; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZgirUvtv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1742293405;
-	bh=MXp/aYEgJIRz1h77NEm+oyEhJoefXLGLbsCnRTPjoSw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZgirUvtvTJlzz8+DjhuOddBdW2GY6kD/5YNW/T2N9njNVVEfkdvf6BgIXKhnNG/8m
-	 Bsuw7tbiBkcG9Ah7XL2rsIzs9mBlSSzGK4/1bLbRD/Twlzo6xOO6u06m0cX776sU4N
-	 f3Tmt9Va+AzoJtTcOZZVRCaSGiXdTKH7+mZmI+cg4W/SPhnZmniHUQCYnh13DiNVKl
-	 pAhOTXgUTwn7iAV+mUKa4qevGHg2WxV5aVPfbvuewmPSC3EJntNk0XOlEKIidrFrNl
-	 aJ5lzp5REDeSAKqS9rzXVbAIp09TS2q1M2bL8CZa0y0WLrBW8DwxwQPs6RBTl69RnK
-	 Y8uyxymn+WuWw==
-Received: from laura.lan (unknown [IPv6:2001:b07:646b:e2:79a1:e959:3816:993])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: laura.nao)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 073CC17E0B25;
-	Tue, 18 Mar 2025 11:23:24 +0100 (CET)
-From: Laura Nao <laura.nao@collabora.com>
-To: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	bleung@chromium.org,
-	tzungbi@kernel.org
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	chrome-platform@lists.linux.dev,
-	nfraprado@collabora.com,
-	kernel@collabora.com,
-	Laura Nao <laura.nao@collabora.com>
-Subject: [PATCH 2/2] arm64: dts: mediatek: mt8192-asurada-spherion: Mark trackpads as fail-needs-probe
-Date: Tue, 18 Mar 2025 11:22:59 +0100
-Message-Id: <20250318102259.189289-3-laura.nao@collabora.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250318102259.189289-1-laura.nao@collabora.com>
-References: <20250318102259.189289-1-laura.nao@collabora.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V3EzJnEy"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54998f865b8so4842671e87.3
+        for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 04:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742295692; x=1742900492; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FvvXJNhqTuB+LXGgq3K2vcR5rfqmW3LN4Q3RN9r2edE=;
+        b=V3EzJnEyMDG6lSOm+YVFAY10U8ZSmSWVb8JCNaoU7lm0MH4J6wM/ysqp72xUvaeCme
+         BELUCAUYHKYGy3b/pxtdysAn5F9/s5ZK/V9Jkbffue1ieRkjGvjzQHrFnhi/IHKELuxI
+         Fc8DHygB2Grj9Ll6VHnqDdhCw8R9dcThZLWMKQlL0DNZc8jxO5A6mvgN/xqWsp7RnitL
+         /dFO3xqZlZJUg3YzloS7J6ybp/12CpJpjDBRBpGy8dGuYTWDxrs91Gr7ZYprUi+Ao5i3
+         1+2USzD+1OthHB+zHa13Z0PNogNvo2N61kL/IMNUsok7vB3BIrS19ki36f3XzLzb6Jrq
+         bdqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742295692; x=1742900492;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FvvXJNhqTuB+LXGgq3K2vcR5rfqmW3LN4Q3RN9r2edE=;
+        b=izJ1E/yHG5JHdzG1W6XbhfyGYB3JDB09b0T8/6PDvaxEeFrXvWXGG3wghFa8eDhIaf
+         jdED5KzGSBKR/7+k+RzdHlmegC96maYJqwPWKYYnl+0C+3nsW3d+5ZHJnKsE0T/U89Qv
+         dn2jXjehngPss+MUGFrLXWCqGMue4qbK/+kGBQBfMqi4D328O8FchLRmidmUrAQrRewc
+         SfsB+YviWaQokI62srsd1J+R1gY3Leg1ijJz9+NUAytsWNgUQ057PZLkzx0Otb4KILiZ
+         0WBAhKPYMvczkuLYQBy6kBNzSWin3xTwfQwp4XSTH7uVegA8xnkPo5+pZ6GvXmvNm1jj
+         qDyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUH8vUsehyhMiKeK8p8GOm6R6KtuFO6i9eY/AbLw4oN1tc+NLf8uzc4hrX7we5WlC0/2z2r1JxKjV2J/0DESwI=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9d0YGRaWTwZBpwVgdMUKdaQDYKUXBBbNNYea7BOLqtKBAh5nW
+	C6Ueog5I4bKgp27ADbsv5dEmbXRoKjdsupYoWtaBN7P9JfQzepHs
+X-Gm-Gg: ASbGncsTelP3VOP/LgXoOep7iPytdvkTf96tUk0hpegc+Kp/2wzN84tshp/Nh+gvNVB
+	J5oO8qvEUSTr8u6HW/V5MfdI3QgdyxGm6iiMFqw6lgyrpU4RZNoXrVqCbViaHyAxSuBdGGN8G6J
+	puFLvR75ySz1tqoySI80P2jfN0JCNr32R6FO4D3jB82CzSLGP7sjXuONjYo7MPLaxwnAIPAdzS6
+	1Z3LyRH22po6A/2qeDIvDCjtdpJnAmnpQRLx88TDM8+MQ62DTfTC7ihe9MRIBpmbv6Bl0/BLZ/F
+	98z/VsY39x1wAoSJ/laoYwDt3n11AIVn2lbcU1PcqQUjo3L5YsM6Tlc/zA==
+X-Google-Smtp-Source: AGHT+IHsTPasObiRRvFzwrNZ7EgJlSvpv29k7GXRbSQdCCDG341LCl13T3LWBxpr7QofZPrf/8a1Eg==
+X-Received: by 2002:a05:6512:308f:b0:549:8b24:9894 with SMTP id 2adb3069b0e04-54a03b9041amr2776075e87.15.1742295691671;
+        Tue, 18 Mar 2025 04:01:31 -0700 (PDT)
+Received: from [172.16.183.207] ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f1170dbsm18802131fa.64.2025.03.18.04.01.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Mar 2025 04:01:31 -0700 (PDT)
+Message-ID: <ea681b76-db1c-4529-bd53-09e4bf384977@gmail.com>
+Date: Tue, 18 Mar 2025 13:01:30 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/7] power: reset: Introduce PSCR Recording Framework
+ for Non-Volatile Storage
+To: Oleksij Rempel <o.rempel@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org,
+ =?UTF-8?Q?S=C3=B8ren_Andersen?= <san@skov.dk>,
+ Guenter Roeck <groeck@chromium.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>, chrome-platform@lists.linux.dev
+References: <20250318094716.3053546-1-o.rempel@pengutronix.de>
+ <20250318094716.3053546-4-o.rempel@pengutronix.de>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20250318094716.3053546-4-o.rempel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Different Spherion variants use different trackpads on the same I2C2
-bus. Instead of enabling all of them by default, mark them as
-"fail-needs-probe" and let the implementation determine which one is
-actually present.
+Hi Oleksij,
 
-Additionally, move the trackpad pinctrl entry back to the individual
-trackpad nodes.
+I like this, It's simple and clean.
 
-Signed-off-by: Laura Nao <laura.nao@collabora.com>
----
- .../arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts | 7 +++++++
- arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi           | 6 ++++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+Minor comments below. Mostly related to the documentation, and also a 
+suggestion to use guard() for mutexes. This is all very minor though, 
+and you can consider these if you end up re-spinning.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts b/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-index 8c485c3ced2c..163960f58db5 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-@@ -85,8 +85,15 @@ &i2c2 {
- 	trackpad@2c {
- 		compatible = "hid-over-i2c";
- 		reg = <0x2c>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_pins>;
- 		hid-descr-addr = <0x20>;
- 		interrupts-extended = <&pio 15 IRQ_TYPE_LEVEL_LOW>;
- 		wakeup-source;
-+		status = "fail-needs-probe";
- 	};
- };
-+
-+&trackpad {
-+	status = "fail-needs-probe";
-+};
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi b/arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi
-index dd0d07fbe61a..b11b32a63bbc 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi
-@@ -335,11 +335,13 @@ &i2c2 {
- 	clock-frequency = <400000>;
- 	clock-stretch-ns = <12600>;
- 	pinctrl-names = "default";
--	pinctrl-0 = <&i2c2_pins>, <&trackpad_pins>;
-+	pinctrl-0 = <&i2c2_pins>;
- 
--	trackpad@15 {
-+	trackpad: trackpad@15 {
- 		compatible = "elan,ekth3000";
- 		reg = <0x15>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_pins>;
- 		interrupts-extended = <&pio 15 IRQ_TYPE_LEVEL_LOW>;
- 		vcc-supply = <&pp3300_u>;
- 		wakeup-source;
--- 
-2.39.5
+Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+
+Thanks!
+
+On 18/03/2025 11:47, Oleksij Rempel wrote:
+> This commit introduces the Power State Change Reasons Recording (PSCRR)
+> framework into the kernel. The framework is vital for systems where
+> PMICs or watchdogs cannot provide information on power state changes. It
+> stores reasons for system shutdowns and reboots, like under-voltage or
+> software-triggered events, in non-volatile hardware storage. This
+> approach is essential for postmortem analysis in scenarios where
+> traditional storage methods (block devices, RAM) are not feasible. The
+> framework aids bootloaders and early-stage system components in recovery
+> decision-making, although it does not cover resets caused by hardware
+> issues like system freezes or watchdog timeouts.
+
+
+We might want to rephrase this if we envision that boot reason could be 
+read from PMICs (or other devices able to store the boot reason) using 
+PSCRR interface. (Because a few PMICs can store the boot reason even for 
+the hardware initiated shutdowns like Watchdog or voltage/current 
+protection).
+
+> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+> changes v7:
+> - make write_reason optional
+> - update documentation
+> changes v6:
+> - move enum pscr_reason to kernel reboot core
+> - move reason storage to reboot core
+> - add locking
+> ---
+>   drivers/power/reset/Kconfig  |  21 ++
+>   drivers/power/reset/Makefile |   1 +
+>   drivers/power/reset/pscrr.c  | 417 +++++++++++++++++++++++++++++++++++
+>   include/linux/pscrr.h        |  58 +++++
+>   4 files changed, 497 insertions(+)
+>   create mode 100644 drivers/power/reset/pscrr.c
+>   create mode 100644 include/linux/pscrr.h
+> 
+> diff --git a/drivers/power/reset/Kconfig b/drivers/power/reset/Kconfig
+> index 60bf0ca64cf3..b874a04698df 100644
+> --- a/drivers/power/reset/Kconfig
+> +++ b/drivers/power/reset/Kconfig
+> @@ -316,3 +316,24 @@ config POWER_MLXBF
+>   	  This driver supports reset or low power mode handling for Mellanox BlueField.
+>   
+>   endif
+> +
+> +menuconfig PSCRR
+> +	bool "Power State Change Reasons Recording (PSCRR) Framework"
+> +	help
+> +	  Enables the Power State Change Reasons Recording (PSCRR) framework.
+> +
+> +	  This framework is designed to store reasons for system shutdowns or
+> +	  reboots,  like under voltage or software-triggered events, in
+> +	  non-volatile hardware storage. It is particularly useful for
+> +	  postmortem analysis, where traditional storage methods (like block
+> +	  devices or RAM) are not feasible due to immediate power-down
+> +	  requirements or insufficient power to retain data.
+> +
+> +	  This is useful for bootloaders or other early-stage system components
+> +	  to make recovery decisions based on the last known system state. Note
+> +	  that this framework does not track hardware-induced resets, such as
+> +	  system freezes, watchdog timeouts, or sudden power losses without
+> +	  controlled shutdown.
+
+same 'nit' here.
+
+> It is primarily intended for controlled power
+> +	  state transitions.
+> +
+> +	  If unsure, say N.
+> diff --git a/drivers/power/reset/Makefile b/drivers/power/reset/Makefile
+> index 10782d32e1da..dbd6ae6b26a4 100644
+> --- a/drivers/power/reset/Makefile
+> +++ b/drivers/power/reset/Makefile
+> @@ -32,6 +32,7 @@ obj-$(CONFIG_POWER_RESET_KEYSTONE) += keystone-reset.o
+>   obj-$(CONFIG_POWER_RESET_SYSCON) += syscon-reboot.o
+>   obj-$(CONFIG_POWER_RESET_SYSCON_POWEROFF) += syscon-poweroff.o
+>   obj-$(CONFIG_POWER_RESET_RMOBILE) += rmobile-reset.o
+> +obj-$(CONFIG_PSCRR) += pscrr.o
+>   obj-$(CONFIG_REBOOT_MODE) += reboot-mode.o
+>   obj-$(CONFIG_SYSCON_REBOOT_MODE) += syscon-reboot-mode.o
+>   obj-$(CONFIG_POWER_RESET_SC27XX) += sc27xx-poweroff.o
+> diff --git a/drivers/power/reset/pscrr.c b/drivers/power/reset/pscrr.c
+> new file mode 100644
+> index 000000000000..466eca0e4f7f
+> --- /dev/null
+> +++ b/drivers/power/reset/pscrr.c
+> @@ -0,0 +1,417 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * pscrr_core.c - Core Power State Change Reason Recording
+> + *
+> + * This framework provides a method for recording the cause of the last system
+> + * reboot, particularly in scenarios where **hardware protection events** (e.g.,
+> + * undervoltage, overcurrent, thermal shutdown) force an immediate reset.
+
+Is this contradicting the Kconfig / commit message?
+
+> Unlike
+> + * traditional logging mechanisms that rely on block storage (e.g., NAND, eMMC),
+> + * PSCRR ensures shutdown reasons are preserved in a way that survives power
+> + * loss for later analysis.
+
+Here, the 'level of power-loss' plays a role, right? I assume some level 
+of power must be retained for the 'storage' to stay alive.
+
+> + *
+> + * Purpose:
+> + * --------
+> + * The primary goal of PSCRR is to help developers and system operators analyze
+> + * real-world failures by identifying what conditions embedded devices
+> + * experience in the field. By persisting power state change reasons across
+> + * reboots, engineers can gain insight into why and how systems fail, enabling
+> + * better debugging and long-term system improvements.
+> + *
+> + * At the time of developing this framework, no specific recovery strategies
+> + * were designed. Instead, the focus is on reliable event recording to support
+> + * future diagnostic and recovery efforts.
+> + *
+> + * Sysfs Interface:
+> + * ----------------
+> + *    /sys/kernel/pscrr/reason       - Read/write current power state change
+> + *				       reason
+> + *    /sys/kernel/pscrr/reason_boot  - Read-only last recorded reason from
+> + *				       previous boot
+> + *
+> + * Why is this needed?
+> + * --------------------
+> + * Many embedded systems experience power-related faults where **safe shutdown
+> + * of block storage (e.g., NAND, eMMC) is not possible**:
+> + *   - Undervoltage protection triggers a hard shutdown before data can be
+> + *     written.
+> + *   - eMMC/NAND cannot be safely updated during power failure.
+> + *
+> + * To ensure post-mortem analysis is possible, alternate non-volatile storage
+> + * should be used, such as:
+> + *   - Battery-backed RTC scratchpad
+> + *   - EEPROM or small NVMEM regions
+> + *   - FRAM or other fast, low-power persistent memory
+> + *
+> + * How PSCRR Works:
+> + * ----------------
+> + *   - A driver detects a problem (e.g., overtemperature) and calls:
+> + *       hw_protection_trigger(PSCR_OVERTEMPERATURE, ...);
+> + *   - Or, userspace sets the reboot or shutdown reason:
+> + *       echo 3 > /sys/kernel/pscrr/reason
+> + *   - The reboot subsystem records the reason as variable.
+> + *   - Before reboot, PSCRR writes the reason to hardware storage
+> + *     via the backend's `.write_reason()` callback.
+> + *   - On the next boot, the stored reason is retrieved from persistent storage
+> + *     and exposed via `/sys/kernel/pscrr/reason_boot` for analysis.
+> + *   - Userspace can dynamically set `/sys/kernel/pscrr/reason` to
+> + *     update the shutdown reason before a reboot.
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/kobject.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/notifier.h>
+> +#include <linux/power/power_on_reason.h>
+> +#include <linux/pscrr.h>
+> +#include <linux/reboot.h>
+> +#include <linux/slab.h>
+> +#include <linux/sysfs.h>
+> +
+> +struct pscrr_data {
+> +	struct notifier_block reboot_nb;
+> +	const struct pscrr_backend_ops *ops;
+> +
+> +	enum psc_reason last_boot_reason;
+> +
+> +	/* Kobject for sysfs */
+> +	struct kobject *kobj;
+> +};
+> +
+> +static struct pscrr_data *g_pscrr;
+> +static DEFINE_MUTEX(pscrr_lock);
+> +
+> +/**
+> + * pscrr_reboot_notifier - Stores the last power state change reason before
+> + *			   reboot.
+> + * @nb: Notifier block structure (unused in this function).
+> + * @action: The type of reboot action (unused in this function).
+> + * @unused: Unused parameter.
+> + *
+> + * This function is called when the system is about to reboot or shut down. It
+> + * writes the last recorded power state change reason to persistent storage
+> + * using the registered backend’s write_reason() function.
+> + *
+> + * If writing fails, an error message is logged, but the reboot sequence is
+> + * not blocked. The function always returns `NOTIFY_OK` to ensure that the
+> + * system can reboot safely even if the reason cannot be stored.
+> + *
+> + * Return:
+> + * - `NOTIFY_OK` on success or failure, allowing reboot to proceed.
+> + * - `NOTIFY_DONE` if the PSCRR subsystem is not initialized.
+> + */
+> +static int pscrr_reboot_notifier(struct notifier_block *nb,
+> +				 unsigned long action, void *unused)
+> +{
+> +	int ret;
+> +
+> +	mutex_lock(&pscrr_lock);
+> +
+> +	if (!g_pscrr || !g_pscrr->ops || !g_pscrr->ops->write_reason) {
+> +		mutex_unlock(&pscrr_lock);
+
+use of guard() could allow omit this one unlock :)
+
+> +		return NOTIFY_DONE;
+> +	}
+> +
+> +	ret = g_pscrr->ops->write_reason(get_psc_reason());
+> +	if (ret) {
+> +		pr_err("PSCRR: Failed to store reason %d (%s) at reboot, err=%pe\n",
+> +		       get_psc_reason(), psc_reason_to_str(get_psc_reason()),
+> +		       ERR_PTR(ret));
+> +	} else {
+> +		pr_info("PSCRR: Stored reason %d (%s) at reboot.\n",
+> +			get_psc_reason(), psc_reason_to_str(get_psc_reason()));
+> +	}
+> +
+> +	mutex_unlock(&pscrr_lock);
+> +
+> +	/*
+> +	 * Return NOTIFY_OK to allow reboot to proceed despite failure, in
+> +	 * case there is any.
+> +	 */
+> +	return NOTIFY_OK;
+> +}
+> +
+> +/*----------------------------------------------------------------------*/
+> +/* Sysfs Interface */
+> +/*----------------------------------------------------------------------*/
+> +
+> +/**
+> + * reason_show - Retrieves the current power state change reason via sysfs.
+> + * @kobj: Kernel object associated with this attribute (unused).
+> + * @attr: The sysfs attribute being accessed (unused).
+> + * @buf: Buffer to store the output string.
+> + *
+> + * This function is used to read the current power state change reason from
+> + * the `/sys/kernel/pscrr/reason` sysfs entry.
+> + *
+> + * If the PSCRR subsystem is not initialized, the function returns a message
+> + * indicating that no backend is registered.
+> + *
+> + * The returned value is formatted as an integer (`enum psc_reason`) followed
+> + * by a newline (`\n`) for compatibility with standard sysfs behavior.
+> + *
+> + * Return:
+> + * - Number of bytes written to `buf` (formatted integer string).
+> + * - `"No backend registered\n"` if the PSCRR subsystem is uninitialized.
+> + */
+> +static ssize_t reason_show(struct kobject *kobj, struct kobj_attribute *attr,
+> +			   char *buf)
+> +{
+> +	enum psc_reason r;
+> +
+> +	mutex_lock(&pscrr_lock);
+> +
+> +	if (!g_pscrr || !g_pscrr->ops) {
+> +		mutex_unlock(&pscrr_lock);
+
+same here.
+
+> +		return scnprintf(buf, PAGE_SIZE, "No backend registered\n");
+> +	}
+> +
+> +	/* If the backend can read from hardware, do so. Otherwise, use our cached value. */
+> +	if (g_pscrr->ops->read_reason) {
+> +		if (g_pscrr->ops->read_reason(&r) == 0) {
+> +			/* Also update our cached value for consistency */
+> +			set_psc_reason(r);
+> +		} else {
+> +			/* If read fails, fallback to cached. */
+> +			r = get_psc_reason();
+> +		}
+> +	} else {
+> +		r = get_psc_reason();
+> +	}
+> +
+> +	mutex_unlock(&pscrr_lock);
+> +
+> +	return scnprintf(buf, PAGE_SIZE, "%d\n", r);
+> +}
+> +
+> +/**
+> + * reason_store - Updates the current power state change reason via sysfs.
+> + * @kobj: Kernel object associated with this attribute (unused).
+> + * @attr: The sysfs attribute being modified (unused).
+> + * @buf: User-provided input buffer containing the reason value.
+> + * @count: Number of bytes written to the attribute.
+> + *
+> + * This function allows users to set the power state change reason through
+> + * the `/sys/kernel/pscrr/reason` sysfs entry.
+> + *
+> + * If the reason is out of range, a warning is logged but the write is still
+> + * attempted. If the backend write fails, an error is logged, and the function
+> + * returns the error code.
+> + *
+> + * Return:
+> + * - `count` on success (indicating the number of bytes processed).
+> + * - `-ENODEV` if the PSCRR subsystem is not initialized.
+> + * - Any other error code returned by the backend’s `write_reason()`.
+> + */
+> +static ssize_t reason_store(struct kobject *kobj, struct kobj_attribute *attr,
+> +			    const char *buf, size_t count)
+> +{
+> +	long val;
+> +	int ret;
+> +
+> +	mutex_lock(&pscrr_lock); 
+
+guard() could help simplifying the error handling.
+
+> +
+> +	if (!g_pscrr || !g_pscrr->ops || !g_pscrr->ops->write_reason) {
+> +		ret = -ENODEV;
+> +		goto err_unlock;
+> +	}
+> +
+> +	ret = kstrtol(buf, 10, &val);
+> +	if (ret)
+> +		goto err_unlock;
+> +
+> +	if (val > U32_MAX) {
+> +		ret = -ERANGE;
+> +		goto err_unlock;
+> +	}
+> +
+> +	if (val < PSCR_UNKNOWN || val > PSCR_MAX_REASON)
+> +		/*
+> +		 * Log a warning, but still attempt to write the value. In
+> +		 * case the backend can handle it, we don't want to block it.
+> +		 */
+> +		pr_warn("PSCRR: writing unknown reason %ld (out of range)\n",
+> +			val);
+> +
+> +	ret = g_pscrr->ops->write_reason((enum psc_reason)val);
+> +	if (ret) {
+> +		pr_err("PSCRR: write_reason(%ld) failed, err=%d\n", val, ret);
+> +		goto err_unlock;
+> +	}
+> +
+> +	set_psc_reason((enum psc_reason)val);
+> +
+> +	mutex_unlock(&pscrr_lock);
+> +
+> +	return count; /* number of bytes consumed */
+> +
+> +err_unlock:
+> +	mutex_unlock(&pscrr_lock);
+> +	return ret;
+> +}
+> +
+> +static struct kobj_attribute reason_attr = __ATTR(reason, 0644, reason_show,
+> +						  reason_store);
+> +
+> +/**
+> + * reason_boot_show - Retrieves the last recorded power state change reason.
+> + * @kobj: Kernel object associated with this attribute (unused).
+> + * @attr: The sysfs attribute being accessed (unused).
+> + * @buf: Buffer to store the output string.
+> + *
+> + * This function provides access to the `/sys/kernel/pscrr/reason_boot` sysfs
+> + * entry, which contains the last recorded power state change reason from the
+> + * **previous boot**. The value is retrieved from `priv->last_boot_reason`,
+> + * which is initialized at module load time by reading from persistent storage.
+> + *
+> + * If the PSCRR NVMEM backend (`priv`) is not initialized, the function returns
+> + * `-ENODEV` to indicate that the value is unavailable.
+> + *
+> + * The returned value is formatted as an integer (`enum psc_reason`) followed
+> + * by a newline (`\n`) for sysfs compatibility.
+> + *
+> + * Return:
+> + * - Number of bytes written to `buf` (formatted integer string).
+> + * - `-ENODEV` if the PSCRR backend is not initialized.
+> + */
+> +static ssize_t reason_boot_show(struct kobject *kobj,
+> +				struct kobj_attribute *attr, char *buf)
+> +{
+> +	enum psc_reason last_boot_reason;
+> +
+> +	mutex_lock(&pscrr_lock);
+> +
+> +	if (!g_pscrr) {
+> +		mutex_unlock(&pscrr_lock);
+
+also here.
+
+> +		return -ENODEV;
+> +	}
+> +
+> +	last_boot_reason = g_pscrr->last_boot_reason;
+> +
+> +	mutex_unlock(&pscrr_lock);
+> +
+> +	return scnprintf(buf, PAGE_SIZE, "%d\n", last_boot_reason);
+> +}
+> +
+> +static struct kobj_attribute reason_boot_attr =
+> +	__ATTR(reason_boot, 0444, reason_boot_show, NULL); /* Read-only */
+> +
+> +static struct attribute *pscrr_attrs[] = {
+> +	&reason_attr.attr,
+> +	&reason_boot_attr.attr,
+> +	NULL,
+> +};
+> +
+> +static struct attribute_group pscrr_attr_group = {
+> +	.attrs = pscrr_attrs,
+> +};
+> +
+> +int pscrr_core_init(const struct pscrr_backend_ops *ops)
+> +{
+> +	enum psc_reason stored_val = PSCR_UNKNOWN;
+> +	int ret;
+> +
+> +	mutex_lock(&pscrr_lock);
+
+And here as well.
+
+> +
+> +	if (g_pscrr) {
+> +		pr_err("PSCRR: Core is already initialized!\n");
+> +		ret = -EBUSY;
+> +		goto err_unlock;
+> +	}
+> +
+> +	if (!ops->read_reason) {
+> +		pr_err("PSCRR: Backend must provide read callbacks\n");
+> +		ret = -EINVAL;
+> +		goto err_unlock;
+> +	}
+> +
+> +	g_pscrr = kzalloc(sizeof(*g_pscrr), GFP_KERNEL);
+> +	if (!g_pscrr) {
+> +		ret = -ENOMEM;
+> +		goto err_unlock;
+> +	}
+> +
+> +	g_pscrr->ops = ops;
+> +	g_pscrr->last_boot_reason = PSCR_UNKNOWN;
+> +
+> +	ret = ops->read_reason(&stored_val);
+> +	if (!ret) {
+> +		g_pscrr->last_boot_reason = stored_val;
+> +		pr_info("PSCRR: Initial read_reason: %d (%s)\n",
+> +			stored_val, psc_reason_to_str(stored_val));
+> +	} else {
+> +		pr_warn("PSCRR: read_reason failed, err=%pe\n",
+> +			ERR_PTR(ret));
+> +	}
+> +
+> +	/* Setup the reboot notifier */
+> +	g_pscrr->reboot_nb.notifier_call = pscrr_reboot_notifier;
+> +	ret = register_reboot_notifier(&g_pscrr->reboot_nb);
+> +	if (ret) {
+> +		pr_err("PSCRR: Failed to register reboot notifier, err=%pe\n",
+> +		       ERR_PTR(ret));
+> +		goto err_free;
+> +	}
+> +
+> +	/* Create a kobject and sysfs group under /sys/kernel/pscrr */
+> +	g_pscrr->kobj = kobject_create_and_add("pscrr", kernel_kobj);
+> +	if (!g_pscrr->kobj) {
+> +		pr_err("PSCRR: Failed to create /sys/kernel/pscrr\n");
+> +		ret = -ENOMEM;
+> +		goto err_unreg_reboot;
+> +	}
+> +
+> +	ret = sysfs_create_group(g_pscrr->kobj, &pscrr_attr_group);
+> +	if (ret) {
+> +		pr_err("PSCRR: Failed to create sysfs group, err=%pe\n",
+> +		       ERR_PTR(ret));
+> +		goto err_kobj_put;
+> +	}
+> +
+> +	mutex_unlock(&pscrr_lock);
+> +
+> +	pr_info("PSCRR: initialized successfully.\n");
+> +
+> +	return 0;
+> +
+> +err_kobj_put:
+> +	kobject_put(g_pscrr->kobj);
+> +err_unreg_reboot:
+> +	unregister_reboot_notifier(&g_pscrr->reboot_nb);
+> +err_free:
+> +	kfree(g_pscrr);
+> +	g_pscrr = NULL;
+> +err_unlock:
+> +	mutex_unlock(&pscrr_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(pscrr_core_init);
+> +
+> +void pscrr_core_exit(void)
+> +{
+> +	mutex_lock(&pscrr_lock);
+
+And here.
+
+> +
+> +	if (!g_pscrr) {
+> +		mutex_unlock(&pscrr_lock);
+> +		return;
+> +	}
+> +
+> +	if (g_pscrr->kobj) {
+> +		sysfs_remove_group(g_pscrr->kobj, &pscrr_attr_group);
+> +		kobject_put(g_pscrr->kobj);
+> +	}
+> +
+> +	unregister_reboot_notifier(&g_pscrr->reboot_nb);
+> +
+> +	kfree(g_pscrr);
+> +	g_pscrr = NULL;
+> +
+> +	mutex_unlock(&pscrr_lock);
+> +
+> +	pr_info("PSCRR: exited.\n");
+> +}
+> +EXPORT_SYMBOL_GPL(pscrr_core_exit);
+> +
+> +MODULE_AUTHOR("Oleksij Rempel <o.rempel@pengutronix.de>");
+> +MODULE_DESCRIPTION("Power State Change Reason Recording (PSCRR) core");
+> +MODULE_LICENSE("GPL");
+> diff --git a/include/linux/pscrr.h b/include/linux/pscrr.h
+> new file mode 100644
+> index 000000000000..b208f1a12b97
+> --- /dev/null
+> +++ b/include/linux/pscrr.h
+> @@ -0,0 +1,58 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * pscrr.h - Public header for Power State Change Reason Recording (PSCRR).
+> + */
+> +
+> +#ifndef __PSCRR_H__
+> +#define __PSCRR_H__
+> +
+> +#include <linux/reboot.h>
+> +
+> +/**
+> + * struct pscrr_backend_ops - Backend operations for storing power state change
+> + *                            reasons.
+> + *
+> + * This structure defines the interface for backend implementations that handle
+> + * the persistent storage of power state change reasons. Different backends
+> + * (e.g., NVMEM, EEPROM, battery-backed RAM) can implement these operations to
+> + * store and retrieve shutdown reasons across reboots.
+> + *
+> + * Some systems may have **read-only** hardware-based providers, such as PMICs
+> + * (Power Management ICs), that automatically log reset reasons without software
+> + * intervention. In such cases, the backend may implement only the `read_reason`
+> + * function, while `write_reason` remains unused or unimplemented.
+> + *
+> + * @write_reason: Function pointer to store the specified `psc_reason` in
+> + *                persistent storage. This function is called before a reboot
+> + *                to record the last power state change reason. Some hardware
+> + *                may not support software-initiated writes, in which case
+> + *                this function may not be required.
+> + * @read_reason:  Function pointer to retrieve the last stored `psc_reason`
+> + *                from persistent storage. This function is called at boot to
+> + *                restore the shutdown reason. On read-only hardware providers
+> + *                (e.g., PMICs with built-in reset reason registers), this may
+> + *                be the only function implemented.
+> + */
+> +struct pscrr_backend_ops {
+> +	int (*write_reason)(enum psc_reason reason);
+> +	int (*read_reason)(enum psc_reason *reason);
+> +};
+> +
+> +/**
+> + * pscrr_core_init - Initialize the PSCRR core with a given backend
+> + * @ops: Backend operations that the core will call
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + * The core sets up sysfs, registers reboot notifier, etc.
+> + */
+> +int pscrr_core_init(const struct pscrr_backend_ops *ops);
+> +
+> +/**
+> + * pscrr_core_exit - De-initialize the PSCRR core
+> + *
+> + * Unregisters the reboot notifier, removes the sysfs entries, etc.
+> + * Should be called by the backend driver at removal/shutdown.
+> + */
+> +void pscrr_core_exit(void);
+> +
+> +#endif /* __PSCRR_H__ */
 

@@ -1,75 +1,72 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B7420DD5C
-	for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 14:21:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54B020371E
+	for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 14:36:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742307689; cv=none; b=dt+b8bHBTDiERlcGtzRmj3ORazAh981POnm0qigzjRmxYC6YUNq8mq+vg+Y6lC5XFdKIqNiruTBExgBIbnwu8i16w8x8qx1WTwBthSDXpAq7SLWS8djJL4S9MBbFtdl/KGXo06fGU2eYtTaqtmbzZVGixGPP0xixWVY3s+wlVpc=
+	t=1742308587; cv=none; b=iYm75UbLNomPrLB8qF8ZAR1LJ1ik3ErNrLvoWxmgs+2At2xcy0JWqHlT+7UwJFTjjGVqJ8Ac5DsbdZHK4MJO+pJ8S73hXqTnNpZomggboAFI9Dt5r3ADJ69EhM4nUxIYVwPZmmM4OuTTFZTIRqZrl9Y77ZtSZwsLXVMr6Z0Ru9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742307689; c=relaxed/simple;
-	bh=R1uBNBSVuYoXGI+w/jGLsCwuPYjh6hh6pbgZVbgBndk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pNIpGfcviH3oxrsCwvdd0F8ZM0+bEVM/TR2zEQgvoXKCNfGiYjqtiPH+eOSsqx2jDGMCPKEquR3Y30jMmBK8sIhI1DDCPA7hA6+qSK3KaXajsHxng70kvTB6uLpM78qU6QOcONRL0mfz7o4R5c3mqY3a1SoyJf+M6Po7HSwFlRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MPx7Op0G; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1742308587; c=relaxed/simple;
+	bh=BszjjWPBiRXCAq9+SjLvTIzV/2BzX1g3T0xH6nCwWTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wzt/71CqJwmPAcskuc12GecvLfZmOJF+thXwSayVUAJLeXk2OOLUtav98im14xKKtbB8m50lA2PaiFWJNs/3/bmbisZNUiO21LU+8lqnjDkrT83nCPv5YvNe/R4iKL+qvcaS1mQkmzSvVa418lx0waE4zZppBOrDBt/yj0TTwvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=N9qbVU5k; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MPx7Op0G"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="N9qbVU5k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1742307682;
-	bh=R1uBNBSVuYoXGI+w/jGLsCwuPYjh6hh6pbgZVbgBndk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MPx7Op0GztK8XDA43dN7d9m9g8obqpG4VPaQyhXd3Wl3l63svvb8erQsNCqAkJ1u2
-	 MvooMn7k6FmeqtVm5AELGh767VevQUwQq8sY/nsrzLz0FCZVJuUJMDpODZuedGLjG4
-	 s/P3ilp+tqDk8w7DinMJPePdGw252accAnez0PnFr+L7ViRN8Di/Jj2W7Y//8ZGQZ0
-	 NocnTStQZGqAJFsJ8sFTDSNDdcUwGC5hebX9diyn17HFnmmlupDbOOw6f1NiWFQrLB
-	 BI+Od0udujNoSt5YXyIhaLaoHJahUpWeEHHF/LfFDUbcuauHFn6x4ztckbPdyY8mFo
-	 3+HzCvYiCWO9Q==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	s=mail; t=1742308583;
+	bh=BszjjWPBiRXCAq9+SjLvTIzV/2BzX1g3T0xH6nCwWTw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N9qbVU5kRtV+7KHu9rj0ev9uLjhEERqRjGZc2JknKYmkqnLDdRbS73dXu3N5PptlM
+	 jqtS6nFT+FEUsZTU8k8AAaKRu8pTCGU9PMh1t278ce68Q8SNcPp2ldlbbierlK66GW
+	 pS+xYzH7KVviklv9a899v8A5IMMnRsJ9Y3gIT51JBqyjbrcFykUP+q+htdaEp/yQgI
+	 OG4LYUJOCyp15uXDW7Rp9Ni1iYQSiblqenNuFCPdHXaq4P2SBEyRcUt5wxa+1utZHB
+	 NskUmH0ZkkMQKOGTorPj8GxA0dKf26K0wor4ucSYqYN8Mt0KcZSD227oZWJ5OvPXBw
+	 LsOmwZoAqAEuw==
+Received: from notapiano (unknown [70.107.117.78])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8AC4817E0848;
-	Tue, 18 Mar 2025 15:21:21 +0100 (CET)
-Message-ID: <79fc072f-9fea-4810-bd9d-3539ebb70ca3@collabora.com>
-Date: Tue, 18 Mar 2025 15:21:20 +0100
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6CA6317E0385;
+	Tue, 18 Mar 2025 15:36:20 +0100 (CET)
+Date: Tue, 18 Mar 2025 11:36:18 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Laura Nao <laura.nao@collabora.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	bleung@chromium.org, tzungbi@kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
+	kernel@collabora.com
+Subject: Re: [PATCH 1/2] platform/chrome: Add support for Google Spherion in
+ HW prober
+Message-ID: <f74001b3-ea40-4acc-b8a1-635532a5f205@notapiano>
+References: <20250318102259.189289-1-laura.nao@collabora.com>
+ <20250318102259.189289-2-laura.nao@collabora.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] arm64: dts: mediatek: mt8192-asurada-spherion: Mark
- trackpads as fail-needs-probe
-To: Laura Nao <laura.nao@collabora.com>, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com, bleung@chromium.org,
- tzungbi@kernel.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- chrome-platform@lists.linux.dev, nfraprado@collabora.com,
- kernel@collabora.com
-References: <20250318102259.189289-1-laura.nao@collabora.com>
- <20250318102259.189289-3-laura.nao@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250318102259.189289-3-laura.nao@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250318102259.189289-2-laura.nao@collabora.com>
 
-Il 18/03/25 11:22, Laura Nao ha scritto:
-> Different Spherion variants use different trackpads on the same I2C2
-> bus. Instead of enabling all of them by default, mark them as
-> "fail-needs-probe" and let the implementation determine which one is
-> actually present.
-> 
-> Additionally, move the trackpad pinctrl entry back to the individual
-> trackpad nodes.
+On Tue, Mar 18, 2025 at 11:22:58AM +0100, Laura Nao wrote:
+> Add a new compatible entry for "google,spherion" to the hardware prober
+> platform list, using the same I2C component prober and trackpad data as
+> "google,hana".
 > 
 > Signed-off-by: Laura Nao <laura.nao@collabora.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-
+Thanks,
+Nícolas

@@ -1,64 +1,64 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45482080D3
-	for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 11:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5CD207677
+	for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 11:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742297178; cv=none; b=B+Sp7HDO0Pr3bNZcYvWHPEM0S9yhkLxGUmNE+d2pJYI6S4xuZvAkBf+bi5A0774qTgwOg0FxiTyngBqF0TmNiauCDiYy0uedOo/l8oJ/zVbgMiIdQzPVG7ZkVMl/gpyLMcBYh99UqHjrFJXip/LElmI9zZO4UgFgq3UXaa0n5zM=
+	t=1742297275; cv=none; b=kt9J2sGeD1DzWhFBBZS6Goumrz5vxv9UPuDp70hc0+yWsh97qTq9FYXG+jgN1dRrFfsRBqa2bQSieSfM4RtDgCg/57z4S+isf7RUV9g0K5RnnMWQb5WZLknO5NTgdcNH9h1+Nkx1PvcmK5ESJ1XWGhr9/77KNaZeUnS3HMA9VcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742297178; c=relaxed/simple;
-	bh=V0jgOiffCLkxm0OMAOIqhoH49dNtMd4X/16OaH5jjwM=;
+	s=arc-20240116; t=1742297275; c=relaxed/simple;
+	bh=1btfEb0nhExcNTi2rYAFFqhfEYGkL8D2ne7lYeiVgz4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uhAsYBFEfe5Be0PnyFiLhzg77K3UuObaRR9DIvHKGNrTDjc9PHmiZC09nNFHZN7QT/DG6gk6HvI9ZUu0Nt+efTK/ptojREawdiCfyhE+YPZPL1XaizJk2r+1UgNPtjL9Un6zc0beGfMRUliMlUa89ClC0g8GJrr9y/jZ/85CYW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z7kEYJcw; arc=none smtp.client-ip=209.85.208.181
+	 In-Reply-To:Content-Type; b=nTcNPMuW3Ua4YNmeFzuo2U3gVNBcxP1KDpz+iucoWRERmLK5KPuPxi+oHQnRSD7J2Q2y38q30HhOH0pzFV5RSpZ46XT4XyGLfDmlvuQslA9UVm8Pk3BK6bYvlzVNwYXfUSvCLNNSM8zChOfmDOHU3ju9qGVdGUc2CxtjTFo4ieY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MNZt0amU; arc=none smtp.client-ip=209.85.208.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z7kEYJcw"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30c05fd126cso52013361fa.3
-        for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 04:26:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MNZt0amU"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30bee1cb370so59557971fa.1
+        for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 04:27:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742297171; x=1742901971; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1742297272; x=1742902072; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=btQLCq7XpQDCc3ShAJyVvb50nNp5mbjOUHKo263Hklw=;
-        b=Z7kEYJcwIIJE7GV1WhQiw/9xyKAKOA52nlIDJDkgOufhD0kLVldV6QrUgbGw6wdegV
-         6Ff57v1CsHDYuxKUvM57C/c9NQvKsv1oIzijKAtRMiiBWvrcCNf3v3Pl4JfE5lRB2lHj
-         v4yG/THpr0U2eH1SO6nRJsL8n+ckQcis6fo94Xt9QvtbyPeaIpH0KyzKNx/NhORgq4k3
-         0xvDqpFKBfMqeMJL6kCl15uSI5tZpFW7grI/+geRTCIZPorQ7ICLXNVu5fOkZX47LRrD
-         4zuAqekOvEuNPrIhlFpyruIT/IjANbctCckWC+ZNiwFrjkiVCLII/wFjUGZMt6liSNzM
-         mcpw==
+        bh=Zcnl5GlKCMfJmW1p4sjVmtozHXscsIgYow35rf7G1GY=;
+        b=MNZt0amUPUxLNrOYpd2AsBLKDVyP9YlbK+bhGoMdvBTMIVCFres0EeVNFeU+jtUO1w
+         Pm1T7PzrBQ7vxheaEI0RylwLI+Hvq0jocVjixCY3RfGSPlacmBqEG5qYYCCHXj5hbmkM
+         JQ8nq+cTS1ucWiVnCYIjB4PG2o599O5WWXSVlNxMyJGBeFBFtFsLNUSx2llgixqOvTOg
+         zH3HS66DT8KY8Gsf5XGOiTQNGfadVs46wMKsune2SbkC3I3JlzW8UssWqvFxTieCK27P
+         aS8TPucM3ddiDVEem0w+A2+IXdW6EqN4QjC4SPb4Xx7vcbo0f+VCtIWirlej2krQc1BJ
+         F7TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742297171; x=1742901971;
+        d=1e100.net; s=20230601; t=1742297272; x=1742902072;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=btQLCq7XpQDCc3ShAJyVvb50nNp5mbjOUHKo263Hklw=;
-        b=JpN4IRvJhHS38A3vwhr1Rh6AjwgjoNUhxO/57mHBV3pB87omNvwHcUWKbzLbxmZUkF
-         Xk3ZJWSVkxuf1cwrAgLQYuiSwT8fqNWHZ0dmOWR+xqvRFTghVFQmy3yHfHg8BPQ3FEgi
-         paPd4arjpk2ScDVRqJ3+32u8FkM/v0kjpMQY4y7HW6V9HsFbVD9l94kAtxVzvzdJ4PKi
-         j+91jTMr42eBErOrqSbVV353OE1Jfx+o8tyLnj2JeESjsvvGuwz17THeqECh3Caj+V4J
-         /+mTVqfLvT6X64Qi8yEd0xu1Pq+BBLaQz7empIXP8+UYCu6JLly+yYVwqU2uYhW+p3Db
-         cLNg==
-X-Forwarded-Encrypted: i=1; AJvYcCW0P1nROOIgrKUQ8A0wXekLrLmQ/U/87A9li6jjd1YWGiO2spXQKR9xkX+JLBxLMdHw7gs76WOePMxXx821zkY=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRHCMKJalI8PBewu8YlECpSHdJAMMu0iL7oE77xjpZ5P1RmurH
-	kaT90T+evEMfWMzleGULOXL8wTgFE9zRla7g4lzMpjG0MePj1xfB
-X-Gm-Gg: ASbGncsamwl+I4mbmMvhOvJK/qhusMdx6YxfPVfuRgptxjs8H+VBMxUfCJKKpIHGzK1
-	8iHThqj1vc4nSv+wPRtPXjXcMUhKY+s1EILZdkoIjnj9vOUbyd+9qdb7PgpMCeLBo6EnMgLVbqO
-	MmyCy0S2ginmxbodsE7s2uOlpLGuF9RJmrgr74b7zVIwE4FBs7q0hUtR8PynHahEsgbcgzQapVb
-	zyMcFo++s7iyk4oh5NUI7fNVrlE35wmtq0MowKv/SPiEUg0uozq7zvMbO1oh1HY3Liy9cYTCoJ4
-	Q2ZbL0uZF867MpvF1dvJ1lG1VDkemtOGLyIxTj/GY2ocneguuGBh1lhrYg==
-X-Google-Smtp-Source: AGHT+IHzlAWaDOts8D3ujQUd5J6woXe3kP3cM1wyrozycFymsmVYWCH0d8Z8sZUCZAPAcv22hhV2VQ==
-X-Received: by 2002:a2e:8844:0:b0:30c:514d:92ed with SMTP id 38308e7fff4ca-30c514d9327mr82647391fa.14.1742297170547;
-        Tue, 18 Mar 2025 04:26:10 -0700 (PDT)
+        bh=Zcnl5GlKCMfJmW1p4sjVmtozHXscsIgYow35rf7G1GY=;
+        b=lmxpTJ6XccLSNBLYLbASBUpZiG654Yj6KF3rS+5CcSo3qjqHnm4qpgmKEytnL0gPTk
+         nWvxKCqa+tcnbnnJW4EqQ60IHSbMWQ5Ipy+iyaH+pqiYpKspz1XaKjF9wFLqM+Gpg8OY
+         Bj5zuvEeL6buyoRiAu7U5ldMXE/eGuf5IJdS7f5XSWOoHgqdKLvQHZkOV1KWYuEWhV1a
+         1W0K9ydJ3+1yFINMktnxNcEluvDNl/2JyoNpPoxV7UNGehyTozEGeHzHsjqQBmERkhkv
+         KMgxLKJZy0skacML6OK0lDTtoBqqgkvr083RZzUZijB9sv2Fdcu8U8LgG7SwSrlhQz/r
+         o/lA==
+X-Forwarded-Encrypted: i=1; AJvYcCXfcV7XUUZ3lfU3LL6VKIOswcPzE8oRA9n1T9PBcG67N4P/goitQUhNbWmvH4zEG6mCLKVVJKz3/9OlmCJX1fk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKGsXsi/xpDb8+B0wsMZ693hVO75/PuUgxw5skOqUzx/MoqmDY
+	jakAlHoHOwtczpvALtjov+3Cxraf2NVtSEb6PsxhdWxCpIsjQycc
+X-Gm-Gg: ASbGnctCo9crRZIxPa4ah/ErZmaE4yuNJYVsiIDV6Byt0BDZkY7ZdxZrHrNKuA4GP7H
+	ZcV2OTyzmWU9hYKtnNSHSg5dA5SN1RmuLvipPmhV5RSJEzo19vKfvBZTKGjCUOMv4t+EV3HAgzE
+	WnbPvu28v2dC9shqgGyneBq/YPyRe99NTA8h4rOfkM0Y0JRrA2L6+vEL6d9LGq/N5f31/igePlF
+	h/Nz9ujUK8O95r/lGSCN68e6kwiEsMcENsAxdIJDYNEGtlM+ty1StQr1TeEnhPytg+xNAcucUQY
+	zTI3W9s071eVAkAQEWx1fvigtOA6aR5P5jTHkFJL/1lO3XerMXfxf0NAjg==
+X-Google-Smtp-Source: AGHT+IEvZc01ulZSub0QgeTOuwAOi7z7tliPNhgrvh4e5mEa0+pNv/UfnHT4a0tcm+JYufa1tEjSnQ==
+X-Received: by 2002:a2e:a9a6:0:b0:30b:ca48:108e with SMTP id 38308e7fff4ca-30c4a74da96mr99734661fa.5.1742297271619;
+        Tue, 18 Mar 2025 04:27:51 -0700 (PDT)
 Received: from [172.16.183.207] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f1c306esm19038491fa.72.2025.03.18.04.26.09
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f0e9990sm19630921fa.26.2025.03.18.04.27.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Mar 2025 04:26:10 -0700 (PDT)
-Message-ID: <e87c1389-c173-47ee-8b01-cb0764a55afc@gmail.com>
-Date: Tue, 18 Mar 2025 13:26:09 +0200
+        Tue, 18 Mar 2025 04:27:51 -0700 (PDT)
+Message-ID: <50205854-b8fc-4022-8a07-ec36d8203f87@gmail.com>
+Date: Tue, 18 Mar 2025 13:27:50 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -66,118 +66,53 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/7] reboot: hw_protection_trigger: use standardized
- numeric shutdown/reboot reasons instead of strings
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
- Sebastian Reichel <sre@kernel.org>,
+Subject: Re: [PATCH v7 7/7] Documentation: Add sysfs documentation for PSCRR
+ reboot reason tracking
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Sebastian Reichel <sre@kernel.org>,
  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
  Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: kernel@pengutronix.de, linux-kernel@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org,
- =?UTF-8?Q?S=C3=B8ren_Andersen?= <san@skov.dk>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, kernel@pengutronix.de,
+ linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ linux-pm@vger.kernel.org, =?UTF-8?Q?S=C3=B8ren_Andersen?= <san@skov.dk>,
  Guenter Roeck <groeck@chromium.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
  Andrew Morton <akpm@linux-foundation.org>, chrome-platform@lists.linux.dev
 References: <20250318094716.3053546-1-o.rempel@pengutronix.de>
- <20250318094716.3053546-3-o.rempel@pengutronix.de>
+ <20250318094716.3053546-8-o.rempel@pengutronix.de>
+ <cda899c6-4330-465c-80b2-63c9da73505b@gmail.com>
+ <Z9lYA9yUx62wNISq@pengutronix.de>
 Content-Language: en-US, en-AU, en-GB, en-BW
 From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250318094716.3053546-3-o.rempel@pengutronix.de>
+In-Reply-To: <Z9lYA9yUx62wNISq@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 18/03/2025 11:47, Oleksij Rempel wrote:
-> Prepares the kernel for the Power State Change Reason (PSCR) recorder,
-> which will store shutdown and reboot reasons in persistent storage.
+On 18/03/2025 13:24, Oleksij Rempel wrote:
+> On Tue, Mar 18, 2025 at 01:17:38PM +0200, Matti Vaittinen wrote:
+>> On 18/03/2025 11:47, Oleksij Rempel wrote:
+
+>> A side note which you can consider if you feel like:
+>> This, as far as I understand, will also make the ABI out of this. So,
+>> perhaps there should be comments in enum psc_reason and the defines in
+>> Defined in 'include/linux/reboot.h' that they are part of an ABI, and must
+>> not be changed? I suppose user-space tools may get unhappy if these values
+>> change between the kernel versions.
 > 
-> Instead of using string-based reason descriptions, which are often too
-> large to fit within limited storage spaces (e.g., RTC clocks with only 8
-> bits of battery-backed storage), we introduce `enum psc_reason`. This
-> enumerates predefined reasons for power state changes, making it
-> efficient to store and retrieve shutdown causes.
+> Yes, there is already: "Importantly, the order of these values **must
+> remain stable**, as bootloaders, user-space tools, or post-mortem
+> investigation utilities may rely on their numerical representation for
+> consistent behavior." :)
+
+Just noticed this. My bad, I did reviewing in wrong order :)
+
+>>
+>> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+>> Yours,
+>> 	-- Matti
+>>
+>>
 > 
-> Key changes:
-> - Introduced `enum psc_reason`, defining structured reasons for power state
->    changes.
-> - Replaced string-based shutdown reasons with `psc_reason` identifiers.
-> - Implemented `get_psc_reason()` and `set_psc_reason()` for tracking the
->    last shutdown cause.
-> - Added `psc_reason_to_str()` to map enum values to human-readable strings.
-> - Updated `hw_protection_trigger()` to use `psc_reason` instead of string
->    parameters.
-> - Updated all consumers of `hw_protection_trigger()` to pass an appropriate
->    `psc_reason` value instead
->    of a string.
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-
-> +
-> +/**
-> + * enum psc_reason - Enumerates reasons for power state changes.
-> + *
-> + * This enum defines various reasons why a system might transition into a
-> + * shutdown, reboot, or kexec state. While originally intended for hardware
-> + * protection events, `psc_reason` can be extended to track other system
-> + * transitions, such as controlled reboots triggered by software or
-> + * maintenance operations.
-> + *
-> + * The values in this enumeration provide structured and standardized
-> + * identifiers that replace free-form string descriptions. They are designed
-> + * to be stored efficiently, making them suitable for use in environments
-> + * with limited storage, such as battery-backed RTC registers, non-volatile
-> + * memory, or bootloader communication mechanisms.
-> + *
-> + * Importantly, the order of these values **must remain stable**, as
-> + * bootloaders, user-space tools, or post-mortem investigation utilities
-> + * may rely on their numerical representation for consistent behavior.
-
-Oh, here is the comment I was asking for in the other patch. So, this is 
-all fine - please ignore my comment in the other patch.
-
-> + *
-> + * @PSCR_UNKNOWN: Unknown or unspecified reason for the power state change.
-> + *	This value serves as a default when no explicit cause is recorded.
-> + *
-> + * @PSCR_UNDER_VOLTAGE: Shutdown or reboot triggered due to supply voltage
-> + *      dropping below a safe threshold. This helps prevent instability or
-> + *      corruption caused by insufficient power.
-> + *
-> + * @PSCR_OVER_CURRENT: System shutdown or reboot due to excessive current draw,
-> + *      which may indicate a short circuit, an overloaded power rail, or other
-> + *      hardware faults requiring immediate action.
-> + *
-> + * @PSCR_REGULATOR_FAILURE: A critical failure in a voltage regulator, causing
-> + *      improper power delivery. This may be due to internal component failure,
-> + *      transient conditions, or external load issues requiring mitigation.
-> + *
-> + * @PSCR_OVER_TEMPERATURE: System shutdown or reboot due to excessive thermal
-> + *	conditions. This attempts to prevent hardware damage when temperature
-> + *	sensors detect unsafe levels, often impacting CPUs, GPUs, or power
-> + *	components.
-> + *
-> + * @PSCR_EC_PANIC: Shutdown or reboot triggered by an Embedded Controller (EC)
-> + *	panic. The EC is a microcontroller responsible for low-level system
-> + *	management, including power sequencing, thermal control, and battery
-> + *	management. An EC panic may indicate critical firmware issues, power
-> + *	management errors, or an unrecoverable hardware fault requiring
-> + *	immediate response.
-> + *
-> + * @PSCR_REASON_COUNT: Number of defined power state change reasons. This
-> + *	value is useful for range checking and potential future extensions
-> + *	while maintaining compatibility.
-> + */
-> +enum psc_reason {
-> +	PSCR_UNKNOWN,
-> +	PSCR_UNDER_VOLTAGE,
-> +	PSCR_OVER_CURRENT,
-> +	PSCR_REGULATOR_FAILURE,
-> +	PSCR_OVER_TEMPERATURE,
-> +	PSCR_EC_PANIC,
-> +
-> +	/* Number of reasons */
-> +	PSCR_REASON_COUNT,
-> +};

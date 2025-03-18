@@ -1,94 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E881C6FF4;
-	Tue, 18 Mar 2025 08:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866EA146D6A
+	for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 09:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742285932; cv=none; b=Loo9bBvdz6yCGxjqvHyEkTqq/hx1Tiw/Y4rc43OIcKzZT9syYUKokSUDzYbfHFmkokQMIfdKqAezS3pT4qX2F7E7s6xVPkUb7Uy/bdb9PRV6prKy8LDE3+WEVnhNeXzLx3G7NDGcIn2B6kwv5KgY9QinOZ5egya8oaXRDJdxxJo=
+	t=1742289802; cv=none; b=du9Rnp/0Xw0aWF5bl1WdZEwRGQkJ8VLA2bYhxpEIN8GnKGopYa2NjMETx+KhtFtwQmEF/Ydt/5Coz9yiasPBz0ZF+rr4NrhYCsoKdtkqBV6OZkf1UNxKUDcjsOl6AWJs9JrzfJ0lt+0ry7dl7v5bJrtgvUH0mLNYaNVLUqXoL/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742285932; c=relaxed/simple;
-	bh=dScpwu90YUNJr/8QqjQTY3QTLtw075gaJ/d333YNViA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=h+3RsmeX9lwXwSRX4DohRvpwTXcqlYr45yKL1RLETDxhrdAlQzcESTuFey/dxqKx6UX5Ci6VgRwU6FLTcSTa3GIDPzOgiKpFLCSq+Xg9OaAJgt4sB4ASYR5+MIC4ItKoc/PwwPugvrhvlPZYNDsUl8TC6/GeVRlzgT5LrXBR8mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ux+EoWXc; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ux+EoWXc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7DB4C4CEDD;
-	Tue, 18 Mar 2025 08:18:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742285931;
-	bh=dScpwu90YUNJr/8QqjQTY3QTLtw075gaJ/d333YNViA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=ux+EoWXcsfi0Ov90Qtlw0Ik/ZuG51uVPuZ4Mpz0Vb8owJ7L7Ni6SKWIQmAfAVHCUv
-	 Vx+EsGw0fE5n3dT9gilGtaKr2L1kCT6H2YTxeMFv8egfbnHe+m0KxUiMIKxxB+GLyG
-	 /4L73NONm4lyxBovfGF2DK8SCynJwIbCPaPowGgU0RbTFKh4g3Ey8iBGDO6fQ4UbdH
-	 TmoI+3fUBQuqX+CTpJEuNxLTg9xsfh6k7rjMJyFPIa8NgZj02ssimy5QQ5qza5ZB00
-	 FBHOf7dDP3CHZzV5tElqKiNZ+eSjAA+62JNxamL+fezQwaUytUmCd0RPyQyuqG5Bh/
-	 5QRo1FJcQ+G2Q==
-Date: Tue, 18 Mar 2025 01:18:47 -0700
-From: Kees Cook <kees@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>, Jonathan Cameron <jic23@kernel.org>
-CC: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D=5Bnext=5D_iio=3A_cros=5Fec=3A_Avoid_?=
- =?US-ASCII?Q?-Wflex-array-member-not-at-end_warning?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Z9jRtoDZM0opi_4C@google.com>
-References: <Z9dy43vUUh4goi-Q@kspp> <Z9d7rp-ullvmXKoM@google.com> <112490dd-4490-44f4-abd2-07f7a519aa7b@embeddedor.com> <20250317120447.4fa26083@jic23-huawei> <Z9jRtoDZM0opi_4C@google.com>
-Message-ID: <5524C796-6426-4A32-962E-AB4B4E3DC4A7@kernel.org>
+	s=arc-20240116; t=1742289802; c=relaxed/simple;
+	bh=HusUqhTPS0ciCqs9HxS4PCOCLqPSEuv5F2xcjnnFGig=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=urlOG5vLu6OGpDQei0b0yAPi8oSnsFakdksTkDpe1ZvuXpWqIo43bFY5i+BUFp4pm6YBuSj1rFhBedBv2dRDO4cp07aB1dd7CgsLb1wHXHSDnZbGHeMWpxRLyUBBY2npX0msPdvQrhuaRRVihiaXMWKcjQOuzcmiQw3c5jjxwlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tuT9j-0004T2-KA; Tue, 18 Mar 2025 10:22:39 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tuT9h-000Owg-1u;
+	Tue, 18 Mar 2025 10:22:38 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tuT9h-002yVr-2r;
+	Tue, 18 Mar 2025 10:22:37 +0100
+Date: Tue, 18 Mar 2025 10:22:37 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Sebastian Reichel <sre@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v6 7/7] Documentation: Add sysfs documentation for PSCRR
+ reboot reason tracking
+Message-ID: <Z9k7XaPEFcPm34Xc@pengutronix.de>
+References: <20250314113604.1776201-1-o.rempel@pengutronix.de>
+ <20250314113604.1776201-8-o.rempel@pengutronix.de>
+ <a8f76dd0-56be-46a5-9cc1-2d17d013127d@gmail.com>
+ <Z9Q4z2dPdpqVcu6u@pengutronix.de>
+ <a34c14c1-875d-40a4-8019-67f7b9aa4133@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <a34c14c1-875d-40a4-8019-67f7b9aa4133@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
+On Mon, Mar 17, 2025 at 10:46:01AM +0200, Matti Vaittinen wrote:
+> On 14/03/2025 16:10, Oleksij Rempel wrote:
+> > On Fri, Mar 14, 2025 at 03:38:55PM +0200, Matti Vaittinen wrote:
+> > > On 14/03/2025 13:36, Oleksij Rempel wrote:
+> > > > Add documentation for the Power State Change Reason Recorder (PSCRR)
+> > > > sysfs interface, which allows tracking of system shutdown and reboot
+> > > > reasons. The documentation provides details on available sysfs entries
+> > > > under `/sys/kernel/pscrr/`, explaining their functionality, example usage,
+> > > > and how they interact with different backend storage options (e.g., NVMEM).
+> > > > 
+> > > > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > > > ---
+> > > >    .../ABI/testing/sysfs-kernel-reboot-pscrr     | 46 +++++++++++++++++++
+> > > >    1 file changed, 46 insertions(+)
+> > > >    create mode 100644 Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+> > > > 
+> > > > diff --git a/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+> > > > new file mode 100644
+> > > > index 000000000000..7cc643f89675
+> > > > --- /dev/null
+> > > > +++ b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+> > > > @@ -0,0 +1,46 @@
+> > > > +What:		/sys/kernel/pscrr/reason
+> > > > +Date:		April 2025
+> > > > +KernelVersion:  6.15
+> > > > +Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
+> > > > +Description:
+> > > > +		This file provides access to the last recorded power state
+> > > > +		change reason. The storage backend is configurable and, if
+> > > > +		supported, the reason may be stored persistently in an
+> > > > +		NVMEM cell or another backend.
+> > > > +
+> > > > +		Reading this file returns an integer representing the last
+> > > > +		recorded shutdown or reboot cause.
+> > > > +
+> > > > +		Writing an integer value to this file sets the reason to be
+> > > > +		stored and recorded for system analysis.
+> > > > +
+> > > > +		Example usage (values are for illustration and may not reflect
+> > > > +		actual reasons used in a given system):
+> > > > +		  Read:
+> > > > +			$ cat /sys/kernel/pscrr/reason
+> > > > +			3   # (Example: Power loss event, may differ per system)
+> > > > +
+> > > > +		  Write:
+> > > > +			$ echo 5 > /sys/kernel/pscrr/reason
+> > > > +			# Sets the reason to 5 (Example: User-triggered reboot,
+> > > > +			# this may not be a real value in your system)
+> > > > +
+> > > > +		Values are defined in:
+> > > > +		  - `include/linux/reboot.h` (enum psc_reason)
+> > > 
+> > > Is it possible to provide the reason (also) as string?
+> > > 
+> > > I believe we should fix the meaning of the numbers so the ABI is not
+> > > changing for the users. Hence we could as well document the meaning of the
+> > > values(?) If I read the suggestion right, we will in any case have
+> > > predefined set of reasons in the kernel side.
+> > > 
+> > > Or, am I missing something?
+> > 
+> > Yes, it is correct, the values should be fixed for user space. Should
+> > they be documented in this documentation too?
+> 
+> I believe it could be helpful for both the user-space users and potential
+> pscrr provider driver writers. It could also set things to stone.
 
+Ok, i'll send updated patch set. I'll be happy to have your Reviewed-by
+:)
 
-On March 17, 2025 6:51:50 PM PDT, Tzung-Bi Shih <tzungbi@kernel=2Eorg> wro=
-te:
->On Mon, Mar 17, 2025 at 12:04:47PM +0000, Jonathan Cameron wrote:
->> On Mon, 17 Mar 2025 15:10:38 +1030
->> "Gustavo A=2E R=2E Silva" <gustavo@embeddedor=2Ecom> wrote:
->>=20
->> > On 17/03/25 12:02, Tzung-Bi Shih wrote:
->> > > On Mon, Mar 17, 2025 at 11:24:59AM +1030, Gustavo A=2E R=2E Silva w=
-rote: =20
->> > >>   static int cros_ec_get_host_cmd_version_mask(struct cros_ec_devi=
-ce *ec_dev,
->> > >>   					     u16 cmd_offset, u16 cmd, u32 *mask)
->> > >>   {
->> > >> +	DEFINE_RAW_FLEX(struct cros_ec_command, buf, data,
->> > >> +			sizeof(struct ec_response_get_cmd_versions)); =20
->> > >=20
->> > > max(sizeof(struct ec_params_get_cmd_versions),
->> > >      sizeof(struct ec_response_get_cmd_versions))? =20
->> >=20
->> > I considered that, but DEFINE_RAW_FLEX() complains about it due to th=
-e
->> >=20
->> > _Static_assert(__builtin_constant_p(count),				\
->> > 		       "onstack flex array members require compile-time const count=
-");
->> >=20
->> Maybe add an assert that you indeed have the larger of the two + a comm=
-ent
->> on why it matters?
->
->Or, is there a way for using compiler-time MAX()?  I failed to find so=2E
-
-Did MAX() not work? I would expect it to do compile time comparison of two=
- sizeof()s=2E It can do other arithmetic no problem, e=2Eg=2E:
-https://elixir=2Ebootlin=2Ecom/linux/v6=2E13=2E7/source/lib/vsprintf=2Ec#L=
-1097
-
---=20
-Kees Cook
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |

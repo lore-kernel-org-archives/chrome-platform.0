@@ -1,90 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F08C1F5E6;
-	Tue, 18 Mar 2025 12:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B5E2080E3
+	for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 13:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742300438; cv=none; b=gPToYJm9h8yL4IndQq+hYN0DJx7RMrMkD4WwjwRiCEGsQdbOE9LjANL9+lUf6rhKxW9b2D4zkkIxWEk1k8IVZ7UueMtfdTJh0PPknSVsV3xJZ0UfTom6nLLdELtqtWD43t97Hi5OiFzP1Qqqtas9AIedOM1pfLmljZG92w9rwzI=
+	t=1742303971; cv=none; b=KUfFVtijYj4OzLqsjfdipXby1Wwkxci7V3riuckc0WHCY5vbXOVHYcZ7adtcr2P4GI6KAywXGUMR/RRyIKdrAqHKYe3uM5r4FiJUe8sKM7xiXVvfV7ivE7S8gIgPcKMfvRN0reCfOenhIrsbzCA5YVhjGycvEiNQQ1j6c512ap8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742300438; c=relaxed/simple;
-	bh=D5QUi1pWlnGEv6disQyh3R5CzW27ucioVI2XfpILFRY=;
+	s=arc-20240116; t=1742303971; c=relaxed/simple;
+	bh=pMKTPI3CtphXn0aZ69uxiZeoXzDanrh/Zv+eCgGWMGg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OW53BneottuMwlEsRDLLe4hsoq0agtpFAmC+k9TP97CUgI9ZLcEmKf/veWHMABs7ecURQWGaimBLqwJDXHQ1NV9T1zLQcPXv0+ikOXU2qQey1hHByoU7iraK/YTX1jbPSzivwOE03sQrnXAFNv1fjuHdOy3XSps1b9YSwqeYRPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HZGp3Cd1; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HZGp3Cd1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C804C4CEDD;
-	Tue, 18 Mar 2025 12:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742300437;
-	bh=D5QUi1pWlnGEv6disQyh3R5CzW27ucioVI2XfpILFRY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HZGp3Cd1T+o1JsYGw/e58my0LxzyBGapQzt0sfO26lVJdWTTv87shYxxR8yA7D5Gx
-	 zonOp1NWaQ7NnRcVQAYxbSeTYDv38Cml1ZBjJBCS5E7ql+b1oQX7smvL/y7WlQ1jlO
-	 DDwJAnvoXG8IM6TEumNm5cCSJRJR82pOmNV4JJZZYF/0kryROsOoLFxMG1Cr5BZXpe
-	 JVX6IfFjdfcUK8w0syy+UlSktzMw/utoG4S7Y3yYjnDDkGZqfLu0reQCHxi/EZw/qc
-	 MeD+CbRiFd1GdxtmrwU3JVDSZo8ZApXs2zyhhQdqqIxdPashncZacNNewcWfyyx3ha
-	 ZgSBZq2xaalrA==
-Date: Tue, 18 Mar 2025 12:20:31 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FEN0hUwB/o/hNqtf9y+lfmPb6bZdXeGj5sj4i4ouD7sR33pss1NGLjowaI5uAdccGUSGqgbiwLo/0XB+gq5LK/vsMT3hE4nt2ApEEywj+j4Fzzvhpsrn2C7XsXJ1ZLnetRJmG29/RPQLU3vwvf1aQIz+P64q90EsnVsqMVFrPek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tuWqo-0004E2-2F; Tue, 18 Mar 2025 14:19:22 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tuWqm-000Qyj-2W;
+	Tue, 18 Mar 2025 14:19:21 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tuWqn-00333k-0E;
+	Tue, 18 Mar 2025 14:19:21 +0100
+Date: Tue, 18 Mar 2025 14:19:21 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
 Cc: Sebastian Reichel <sre@kernel.org>,
 	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org,
-	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
-	Guenter Roeck <groeck@chromium.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	chrome-platform@lists.linux.dev,
 	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
+	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Zhang Rui <rui.zhang@intel.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v7 2/7] reboot: hw_protection_trigger: use standardized
- numeric shutdown/reboot reasons instead of strings
-Message-ID: <371ae28b-8efe-455a-838f-5e83979a9f1b@sirena.org.uk>
+	Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v7 3/7] power: reset: Introduce PSCR Recording Framework
+ for Non-Volatile Storage
+Message-ID: <Z9ly2eC0_r3gyToy@pengutronix.de>
 References: <20250318094716.3053546-1-o.rempel@pengutronix.de>
- <20250318094716.3053546-3-o.rempel@pengutronix.de>
+ <20250318094716.3053546-4-o.rempel@pengutronix.de>
+ <ea681b76-db1c-4529-bd53-09e4bf384977@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uGVe6NFPdRoUDrfM"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250318094716.3053546-3-o.rempel@pengutronix.de>
-X-Cookie: Swim at your own risk.
+In-Reply-To: <ea681b76-db1c-4529-bd53-09e4bf384977@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
+On Tue, Mar 18, 2025 at 01:01:30PM +0200, Matti Vaittinen wrote:
+> On 18/03/2025 11:47, Oleksij Rempel wrote:
+> > This commit introduces the Power State Change Reasons Recording (PSCRR)
+> > framework into the kernel. The framework is vital for systems where
+> > PMICs or watchdogs cannot provide information on power state changes. It
+> > stores reasons for system shutdowns and reboots, like under-voltage or
+> > software-triggered events, in non-volatile hardware storage. This
+> > approach is essential for postmortem analysis in scenarios where
+> > traditional storage methods (block devices, RAM) are not feasible. The
+> > framework aids bootloaders and early-stage system components in recovery
+> > decision-making, although it does not cover resets caused by hardware
+> > issues like system freezes or watchdog timeouts.
+> 
+> We might want to rephrase this if we envision that boot reason could be read
+> from PMICs (or other devices able to store the boot reason) using PSCRR
+> interface. (Because a few PMICs can store the boot reason even for the
+> hardware initiated shutdowns like Watchdog or voltage/current protection).
 
---uGVe6NFPdRoUDrfM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ack.
 
-On Tue, Mar 18, 2025 at 10:47:11AM +0100, Oleksij Rempel wrote:
-> Prepares the kernel for the Power State Change Reason (PSCR) recorder,
-> which will store shutdown and reboot reasons in persistent storage.
+> > It is primarily intended for controlled power
+> > +	  state transitions.
+> > +
+> > +	  If unsure, say N.
+> > diff --git a/drivers/power/reset/Makefile b/drivers/power/reset/Makefile
+> > index 10782d32e1da..dbd6ae6b26a4 100644
+> > --- a/drivers/power/reset/Makefile
+> > +++ b/drivers/power/reset/Makefile
+> > @@ -32,6 +32,7 @@ obj-$(CONFIG_POWER_RESET_KEYSTONE) += keystone-reset.o
+> >   obj-$(CONFIG_POWER_RESET_SYSCON) += syscon-reboot.o
+> >   obj-$(CONFIG_POWER_RESET_SYSCON_POWEROFF) += syscon-poweroff.o
+> >   obj-$(CONFIG_POWER_RESET_RMOBILE) += rmobile-reset.o
+> > +obj-$(CONFIG_PSCRR) += pscrr.o
+> >   obj-$(CONFIG_REBOOT_MODE) += reboot-mode.o
+> >   obj-$(CONFIG_SYSCON_REBOOT_MODE) += syscon-reboot-mode.o
+> >   obj-$(CONFIG_POWER_RESET_SC27XX) += sc27xx-poweroff.o
+> > diff --git a/drivers/power/reset/pscrr.c b/drivers/power/reset/pscrr.c
+> > new file mode 100644
+> > index 000000000000..466eca0e4f7f
+> > --- /dev/null
+> > +++ b/drivers/power/reset/pscrr.c
+> > @@ -0,0 +1,417 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * pscrr_core.c - Core Power State Change Reason Recording
+> > + *
+> > + * This framework provides a method for recording the cause of the last system
+> > + * reboot, particularly in scenarios where **hardware protection events** (e.g.,
+> > + * undervoltage, overcurrent, thermal shutdown) force an immediate reset.
+> 
+> Is this contradicting the Kconfig / commit message?
 
-Acked-by: Mark Brown <broonie@kernel.org>
+There is so many redundant text, i already lost track of it.  What do
+you mean?
 
---uGVe6NFPdRoUDrfM
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> > Unlike
+> > + * traditional logging mechanisms that rely on block storage (e.g., NAND, eMMC),
+> > + * PSCRR ensures shutdown reasons are preserved in a way that survives power
+> > + * loss for later analysis.
+> 
+> Here, the 'level of power-loss' plays a role, right? I assume some level of
+> power must be retained for the 'storage' to stay alive.
 
------BEGIN PGP SIGNATURE-----
+Yes, on the system I'm working on, there is designed capacity and
+voltage drop detector to do $THINGS before the system will go off. To
+get the full picture you may take a look to following patches:
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfZZQ4ACgkQJNaLcl1U
-h9Bzbgf+MLRi55KTU6TTeTVhe+bDgw23yrcRGPGwp/ktm3nzNkq+GVDFLsE8BI/x
-dGmlGJgLRqLaS/2AfbM/ODghgxGLHOGgJ1eTh3UdRuTSLfzM8sSD6Jr0pajjQOyq
-R+JrkR3Mlnn5/8uoMeeGAC9/pWPF9EbkLKVW02IAR1fpxCQuQ6TKyeuk9jw1R3iJ
-bOSsGI9pvWf7b97lI0I4kt/otU7+9z0zS7PlYar9Pz40qJCPLaei+u5TS4Ed9Cvf
-TY03AmnqcscR+kmdi2Ut6eMS/rgf3pXZSvZFp0yIn2gdHkDVvhJm/dx6+PVlc3CM
-ihG+nHuvbBM/37gUcFMf1n1EkbNKSg==
-=XxAG
------END PGP SIGNATURE-----
+https://lore.kernel.org/all/20231026144824.4065145-1-o.rempel@pengutronix.de
+https://lore.kernel.org/all/20250310102229.381887-1-o.rempel@pengutronix.de
 
---uGVe6NFPdRoUDrfM--
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |

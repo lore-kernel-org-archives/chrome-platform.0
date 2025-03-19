@@ -1,90 +1,74 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C0724E4C7
-	for <chrome-platform@lists.linux.dev>; Wed, 19 Mar 2025 04:24:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16A32517B1;
+	Wed, 19 Mar 2025 09:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742358249; cv=none; b=khhDL5yzuu/Givnr7aSehyTf2AO/k/aoMt4NGOO1aKUwwsrDIuLXrWy7nw72Evi8eJ0yfW7SWT9al2mWNKebEwuL9ZvVG7hEfILYLll9ejbcU8TFS/B5YNFazwj3SuCGNX1iPtK0hT8dsPMYODyM8sHoTzB7WefLo/uWJu9Tb4A=
+	t=1742375630; cv=none; b=moAaetti3olIdy4zmLzDAFC+Bx8ECKOGNSh7B+KIbQwYBxgK/SIUDjVsUF+vlOKlyjsdIgsgp9mkBUqBQDNTDs0MPRSYGGFd+BOQkWUd7LcymlgOB5m/6T2M3P9BABT/E8dVXefHsyPKgqRsjlXw6V1lMLGwnHUXrpbtQnJG5WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742358249; c=relaxed/simple;
-	bh=a2qNyugN9w/uB1pJA1qv4/kcNutyjnqoIx8nMHelY60=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M0yR7c3jl6ldAnoiQDeEy9rVA8xGob9ukn9yn2eVgb2yjvx3BkKBU48DwC+/DLb3kWllnWnuNLF75s6SLf49ZY7kfylvHySKfXKtIeW2u8hSJ+fkW4FQFcb4EOdkxAkCdLq7RnVGhJR4bxcFJVN7wd8x0Chf4RLH1d83wqgyefM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UOPHh03B; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1742375630; c=relaxed/simple;
+	bh=LkRAk+MpcTjxCqacaPf3nABggbIXUnseqT+2cZlt2gI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MZx29PUza85dfaxglHAxgADVeTyuZiKc0jOkQ5TstpsqalLGj+vNp67Ln7UUxNsq7Zm25Mku75PU21X/GaPZ03o6kEcOJYVWsnHiDRcV9fz5qVnRpjRNKszK9N4tfc5Pq633FNorvwuznILfalwcYmQ4XvT6FwYZk5mQIEApaGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ins+CBjh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UOPHh03B"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5499659e669so7082362e87.3
-        for <chrome-platform@lists.linux.dev>; Tue, 18 Mar 2025 21:24:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1742358246; x=1742963046; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a2qNyugN9w/uB1pJA1qv4/kcNutyjnqoIx8nMHelY60=;
-        b=UOPHh03BKJnuVbxlkEhmGRfQ1DS/lIOoK1yqz7/RukgHjOHG3IIM6iwkurghtvn7+g
-         HBvPCeh5ItOJBNRCW43b+vyLLPfAWiV0cAoFu6582aA0oVa5LB8xW9boRPK/eg6ZwYtr
-         /Zhqf9XVV+e9qGtmSBPoHhAAbmsiKZlYIggdQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742358246; x=1742963046;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a2qNyugN9w/uB1pJA1qv4/kcNutyjnqoIx8nMHelY60=;
-        b=rU3y0F/vyBtUUW/r6b62nBEZ2vXa6Uet6yd1g6Cf5ySr09m5LMTwJa+QrnMDmZUo6c
-         0xa957h+35JKeBUqSMAylKI3uAyDF3NKGwRTed+6FoMQ5CoGKTTBkRE0IeNnzxMQ4HUT
-         crtMIgKolvlyfteomw/OCG+xkStsc+7L5/BTkbYQny8WGOfPY2191JwrpWbjJrZdRJOV
-         6cx/zGcnQMg0FlCf7OUqZCw2ZofMkVinYMdfJGn3ogWskC8gby/HAGWsXsQTxE9E4L0+
-         +BgRXNjDp2dMxTW5pK2H5s20ZcWvzfFhQ66FjI6njG+N4TSvH3yFrnsrOd9XHeAQcFRt
-         RI6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWYVGggXn51FXp4UCrkIR8pgWYt24FYA+pF3YYuoz7kyGVkhqkCM8fJCbi01wOExN2Cs5BxtIFpLJWun3/hb78=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzMMId0AyqYmwWtgRdUan/cWMss0iCwa/txlHlmi09syrS8pJpd
-	etRgS/9gmsslKKtimWHCNpBU4YejPrGIEDKE7xvlgw9d+O/6e1I3+VC0uYWJieeUUbCLnVcq56F
-	OJvCkSXWyKCn1fdzDVYA1RhgbmVkujtCIw1by
-X-Gm-Gg: ASbGncuj7g+nu0ag/Df7f4emSz6ZSYeCJ3qn8m926y3WB3+cZerSSBklwJ69KaaHwaP
-	tXqaGv4f11Fgg1L4JF1Eok3U8/sw76qdr1+SAhcZ5BA+UBunvPJm0wj07q9w6BOl7geyqaxgS8S
-	NrPfDp32v7FCmj6uB/QQ0v6YMRwk0rgymoFX4hpZY3ajsOya6GdhGu/A==
-X-Google-Smtp-Source: AGHT+IEWZEscaVFUOUAsNjIprCbhq625oZrV53qjtBJsRwdVvGNmpIniSb7MX6P22AGKIV1DoFhBcxyYIRqcNBKHkLw=
-X-Received: by 2002:a05:6512:2342:b0:549:8cc9:67d1 with SMTP id
- 2adb3069b0e04-54acb2050cemr276298e87.38.1742358246305; Tue, 18 Mar 2025
- 21:24:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ins+CBjh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C538AC4CEEF;
+	Wed, 19 Mar 2025 09:13:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742375629;
+	bh=LkRAk+MpcTjxCqacaPf3nABggbIXUnseqT+2cZlt2gI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ins+CBjhIsaybuJZQTWNJ1FDFqF37YZou0LhP1Qz+I0cdULeAHmzzAsH3WFeGQk1S
+	 ImSwDAYi9NIpidz1tbEcOuH4H79kuqBDCjN6itLBqWc6hvqJ2wD2/gn7iSvbF0KM7r
+	 OimKsyOsjYnjU6ZYLDnCVbKBUH6uWXlgnvoTJYYqWZDr6d5Km+eIaTh5AhHCzz+Chb
+	 0zc6sN7f+CbUIReasmT7cjUuJrZyk0ZL2i92Fowac2Yn+O62ySmXs3CmE5WIiQzGoa
+	 uGyJjGR8qy++Jrn+HAvaBHDS+VqT2xm0cVBnXINjq02b1gYyWt6YAOajJ1LxIWkHgv
+	 Iy+xCe8fbLmyw==
+Date: Wed, 19 Mar 2025 09:13:45 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-iio@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2][next] iio: cros_ec: Avoid
+ -Wflex-array-member-not-at-end warning
+Message-ID: <Z9qKyZsH4akWG2q3@google.com>
+References: <Z9lE6IVDeC5lnChN@kspp>
+ <202503180840.77F2F47DE8@keescook>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250318102259.189289-1-laura.nao@collabora.com> <20250318102259.189289-3-laura.nao@collabora.com>
-In-Reply-To: <20250318102259.189289-3-laura.nao@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 19 Mar 2025 12:23:55 +0800
-X-Gm-Features: AQ5f1JpqtWWWC0q87IWTa2_visyDIAAE7HlagkjknGbBQwFRTMIurzAoihaTquM
-Message-ID: <CAGXv+5E-G0BY5q_EsxOkEEJvqXaX5=Y9PWqNbwysLEFfU-UmAg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: mediatek: mt8192-asurada-spherion: Mark
- trackpads as fail-needs-probe
-To: Laura Nao <laura.nao@collabora.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
-	bleung@chromium.org, tzungbi@kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev, 
-	nfraprado@collabora.com, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202503180840.77F2F47DE8@keescook>
 
-On Tue, Mar 18, 2025 at 6:26=E2=80=AFPM Laura Nao <laura.nao@collabora.com>=
- wrote:
->
-> Different Spherion variants use different trackpads on the same I2C2
-> bus. Instead of enabling all of them by default, mark them as
-> "fail-needs-probe" and let the implementation determine which one is
-> actually present.
->
-> Additionally, move the trackpad pinctrl entry back to the individual
-> trackpad nodes.
->
-> Signed-off-by: Laura Nao <laura.nao@collabora.com>
+On Tue, Mar 18, 2025 at 08:42:41AM -0700, Kees Cook wrote:
+> > +	((struct ec_params_get_cmd_versions *)buf->data)->cmd = cmd;
+> > +
+> > +	ret = cros_ec_cmd_xfer_status(ec_dev, buf);
+> >  	if (ret >= 0)
+> > -		*mask = buf.resp.version_mask;
+> > +		*mask = ((struct ec_response_get_cmd_versions *)buf->data)->version_mask;
+> >  	return ret;
+> >  }
+> 
+> Since "params" is used twice, I'd say do like the other patch and assign
+> it to a new variable:
+> 
+> 	struct ec_response_get_cmd_versions *params = buf->data;
+> 	...
+> 	params->cmd = cmd;
+> 	...
+> 		*mask = params->version_mask;
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Not a pushback for introducing new variables.  FWIW, it uses "param" and
+"response" only once.

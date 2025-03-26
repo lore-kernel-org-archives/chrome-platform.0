@@ -1,63 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FFD2E338B;
-	Wed, 26 Mar 2025 03:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864571EA7F3;
+	Wed, 26 Mar 2025 22:35:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742961530; cv=none; b=KElVTV5jBtzSe4xAr3aqX+VXHL/ixEhpCnuKybeYY9C23gTBuwuU/Vj+8D/pWz8xXWPe89HtKOXLuwrqvNmCyvL9yCpyW4Anna7xwiaWDsOn8rSrY17ZtuSTkW/tp/Xye0Qceakv2DyjnUIxG7//6weG92x7OBGIy2nn1gLzhG4=
+	t=1743028517; cv=none; b=Z5F5lAlRjO6C/Wl4vU4rXliUxj+Z6Eos6DYkbaW/HJMTiwq5OBEejsezidGr044a7AxKrDRErgxdB3JiGOByePQw27Z8uz7xVloTEod1biPR/DQ8r6qTuIZMbAOFxGjepCbfEsSRVr4dJBGa00xow6gYQMU//Lv1RjtfXc5XzSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742961530; c=relaxed/simple;
-	bh=euURHPx8+CVKjYbd83rY8AnJs/KTwk6/t53y8Btpz1c=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=A5JHnIOGLEbjNvbVG36L2f8Bq2RM9hP8XPpxoHASUQN5Mof/eYHSQ5sXBXsLw6q6K6Hka2j4wEWfXPrmF3iiOYNbexxZXJOY5KYyV1hFZj8b1KkdY5nysKFQEeDA7fen42JjggrwToRbAu/pmDKcDOi28+okSqf2QhXw9g9Tyls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CtYrxoaP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743028517; c=relaxed/simple;
+	bh=h2/FjSfnO5tJCgplmMq/TCSw9ir41yrKi5nabwTvw6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n9Nqax1lKEQSDnZqxKeKXbnx6/VM0+nlJd1VSH/WZ9VIzhkOB3UB/YLGjcKbUaJTa8hjfPb9lBzMOX2JsHM7nK/eXAfu9EzgUAXL59Gi26iZy8QFWVg4/8XaU64alj2KWLVTKwdTfTON30/dyQ3KPYe+HRwoqYodAcmxET++KVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ajWO2PEj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CtYrxoaP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F184C4CEE2;
-	Wed, 26 Mar 2025 03:58:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ajWO2PEj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C09BC4CEE5;
+	Wed, 26 Mar 2025 22:35:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742961530;
-	bh=euURHPx8+CVKjYbd83rY8AnJs/KTwk6/t53y8Btpz1c=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=CtYrxoaPa68/Rn9Uz9n7ZzPmZ8p1acb6yd7IkRenK0SXaz5MHOr4bkxMucDT6roBc
-	 T71ouHutNpVyqDX90xk59usHp0b/dZaMUEU6IxPIF0Eg5QGwOxF58L9QI1b4Z0MWVY
-	 Nq42N5PlMvanoMzGw8UUwIkalifEfuf9Bg30N0T/NAoQkr8TDLGhkpq4fpRbrXkEfX
-	 jNU+DB9BKbfXg3dLiwpXUYlwk1W1WasDzszLP9CjncTH7hofwlQdCoxG0mmsUQrAhg
-	 PW9o2zyCq/UXfi+7lA4zG2+SKq+69seT5YrZor21KNVM9XqrxfFgxIwbaNbSjyi9fI
-	 I65vC+gGEuLEQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADF95380DBFD;
-	Wed, 26 Mar 2025 03:59:27 +0000 (UTC)
-Subject: Re: [GIT PULL] chrome-platform updates for v6.15
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Z-H-ruKeKIiX0CEk@google.com>
-References: <Z-H-ruKeKIiX0CEk@google.com>
-X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
-X-PR-Tracked-Message-Id: <Z-H-ruKeKIiX0CEk@google.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v6.15
-X-PR-Tracked-Commit-Id: 9fc83373f0ffb8834da48b1446a5c2fef9525bb1
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b23d8a07abed9fef3d1b15fe05f671bae511c853
-Message-Id: <174296156619.837738.17418081546893200417.pr-tracker-bot@kernel.org>
-Date: Wed, 26 Mar 2025 03:59:26 +0000
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: torvalds@linux-foundation.org, bleung@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+	s=k20201202; t=1743028516;
+	bh=h2/FjSfnO5tJCgplmMq/TCSw9ir41yrKi5nabwTvw6Q=;
+	h=Date:From:To:Cc:Subject:From;
+	b=ajWO2PEjA+UzL2cs0zSXt+8Ca37WkTkpWlyFQy3H6smrpaUgoep2xYSKHtf4lc+Qd
+	 yHGoPzFDjh72YQBJ/koHFDmosC6d4/7GdxYDsoh7GdqOJeMW7Gv7RAsXuyBA3L7x2m
+	 L14j5r2v8KyOJdAY5INFNWQicXGtfZ41p037k1wdz1/DBPywFej1n3femDl7YfW6vi
+	 BSR0wZQCCmhQKuu8E6GnpXpxbR1756sdUXlGtnF0kRXngmjmfETby33J4tai+WL8pg
+	 bSk2UJQ+zJB9yfuden7W1h5+tCEpNT3BHdYeijBcBS2vbIJwyGmmG/l7Y0D0IC9RMD
+	 0NmTdef4DtwwQ==
+Date: Wed, 26 Mar 2025 16:35:13 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Lukasz Majczak <lma@chromium.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Benson Leung <bleung@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-watchdog@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] watchdog: cros-ec: Avoid
+ -Wflex-array-member-not-at-end warning
+Message-ID: <Z-SBITmMfwjocYwL@kspp>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The pull request you sent on Tue, 25 Mar 2025 00:54:06 +0000:
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v6.15
+Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
+a flexible structure where the size of the flexible-array member
+is known at compile-time, and refactor the rest of the code,
+accordingly.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b23d8a07abed9fef3d1b15fe05f671bae511c853
+So, with these changes, fix the following warning:
 
-Thank you!
+rivers/watchdog/cros_ec_wdt.c:29:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
 
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/watchdog/cros_ec_wdt.c | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/watchdog/cros_ec_wdt.c b/drivers/watchdog/cros_ec_wdt.c
+index 716c23f4388c..f6dba17d1036 100644
+--- a/drivers/watchdog/cros_ec_wdt.c
++++ b/drivers/watchdog/cros_ec_wdt.c
+@@ -25,26 +25,22 @@ static int cros_ec_wdt_send_cmd(struct cros_ec_device *cros_ec,
+ 				union cros_ec_wdt_data *arg)
+ {
+ 	int ret;
+-	struct {
+-		struct cros_ec_command msg;
+-		union cros_ec_wdt_data data;
+-	} __packed buf = {
+-		.msg = {
+-			.version = 0,
+-			.command = EC_CMD_HANG_DETECT,
+-			.insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
+-				   sizeof(struct ec_response_hang_detect) :
+-				   0,
+-			.outsize = sizeof(struct ec_params_hang_detect),
+-		},
+-		.data.req = arg->req
+-	};
+-
+-	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
++	DEFINE_RAW_FLEX(struct cros_ec_command, buf, data,
++			sizeof(union cros_ec_wdt_data));
++
++	buf->version = 0;
++	buf->command = EC_CMD_HANG_DETECT;
++	buf->insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
++		   sizeof(struct ec_response_hang_detect) :
++		   0;
++	buf->outsize = sizeof(struct ec_params_hang_detect);
++	((union cros_ec_wdt_data *)buf->data)->req = arg->req;
++
++	ret = cros_ec_cmd_xfer_status(cros_ec, buf);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	arg->resp = buf.data.resp;
++	arg->resp = ((union cros_ec_wdt_data *)buf->data)->resp;
+ 
+ 	return 0;
+ }
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.0
+

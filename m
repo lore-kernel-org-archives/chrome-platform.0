@@ -1,65 +1,65 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38F61F3FC2
-	for <chrome-platform@lists.linux.dev>; Thu, 27 Mar 2025 07:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0A621882F
+	for <chrome-platform@lists.linux.dev>; Thu, 27 Mar 2025 14:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743060188; cv=none; b=B8wpAjJwlWeVrLheKc1AR3ItoMe439/Lj9Bjl/O+B/IBOvTZBTngvoUDX+XDW64fUvsN5XLX8JTt7FL+8APltNSoqbWg/c3ZrE0eZXYpaTERS1VGVVK2ReyfROPE97FNmQKFbDWrO7r4Kq0fraBN8mIaLYbAXl7OD/xiTB2Xd1w=
+	t=1743086530; cv=none; b=GH4aIXHFWwMwe4PFPWgG0d3f5AIj7XVYVfOP5TQ1Pld3ZB5R9nySL2DrlxOM3RZlaNyw36y0oYR/1vYeFOyiF1CvOcdvgGTy5oBDHi+PyvA13iavB3iV2Qhii2Cn/2rpD7wF6F7Q2P4oM42kgawqKOBxU3y6gNrKEp4pq7bH6kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743060188; c=relaxed/simple;
-	bh=N9SMOd1thOD5auMiNd2nLvxsn7PA2OVj34IXN8Dpmfc=;
+	s=arc-20240116; t=1743086530; c=relaxed/simple;
+	bh=uVjCt12OKYdq8tTukghoZpsYK72mbDzi/1QIxzI3x2s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j4kzrmxRMqLuXQsdBX2pMuzWzvf0Vv2BrsjLIIV7x+aduqKndydViHp47ssXH/boOB71+1Y3ncz86Sr+A/yGk4YtWVU6dPnk2Mw+02d+MI69nnJ/z+TBmfwwwfjbUiNUP6JbU8eIbeGn6ZVAytvKrcPRAy5MkcRhf1ckXtVMIPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZOGP8L+I; arc=none smtp.client-ip=209.85.128.43
+	 In-Reply-To:Content-Type; b=D8oOu4+/Spq6ziB4SX6PGhZ4104wxmCEAPGhnFOfsxZIAM64/XQxzLllRWGyfiQiKPfjBbUPqahX/cyF71sQl9/E/fj1fW/v+R5HloF5B/Rkn5ZoXgOwh4Ltlk5PYiY32rp7N6ztQdQJ3RYHl6/iUJ9wPNny/MlhK7QioHqI+9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FaHuMd43; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZOGP8L+I"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43d64e6c83eso686255e9.0
-        for <chrome-platform@lists.linux.dev>; Thu, 27 Mar 2025 00:23:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FaHuMd43"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3912622c9c0so134579f8f.3
+        for <chrome-platform@lists.linux.dev>; Thu, 27 Mar 2025 07:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743060184; x=1743664984; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z/Y59y/fYXI/MIDZveqdd+FFwrRU+OYf9xm8AEwmjAE=;
-        b=ZOGP8L+IanmcbCZXlXCS1PzVEswbuU8DUL1ppCcC4FYvS4OrHK1hjiAmU5rf0NOBwS
-         n9qO6pC47nXCs8b/ZlacDxE1Dr6yzofPXr3vS3P1sduei1QkPeJumdx/vIZz/BGmBbxA
-         aSRwoOrwIIvXPp0yiUCczqIP9UtPgzw3PqKEL5iY7lryXW/UjGAxUvcjfrUXj3T3d9ab
-         bdQ5LuFqXFmlXPC4/W/B/CmHhg315t0vMk2/ttoPZqfB8na47Um2uJFzii5ZzhOEvWRH
-         gPnoqZQ44j+7oeH2f6fsVkvmgIzTdiz+211Es97I6Xck0wKUyUQDzZoI71Lc82DncQ7o
-         T3oQ==
+        d=linaro.org; s=google; t=1743086527; x=1743691327; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=GQ6ENJjmMMWO0y0iR8M6dWk36AQmBxaNp4B5objfMtk=;
+        b=FaHuMd43UQ38prPs5x6t2rQxucNjel8M8xx9Sv/U0WGwzkQWf+8zghaUcK5uinO3cB
+         cwckqQyUoCUezbfB1Hiw2UUggBMBn9DKCgfoVVzRaPgPcZjnaEmKASDiCmo+WmShYS1C
+         bTVtM/NY/zfRAvd+qoLKpwizrglMJHVX8DlPlKis67SAkK1iUEax/aGhsuYP5hIqZyPF
+         EffoRgotb/vrV0JdAEd0YUCIXP6fm4A9t0bEK9MNu6f3RC4wMDqln3BNE1h66ej36xzf
+         oKs4KzRBgeBsItCX8tdA8oDMQQ4k+6PpOnMTijhHNBuH3NaUtmRTutL6UqITUDaXlhNr
+         axdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743060184; x=1743664984;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z/Y59y/fYXI/MIDZveqdd+FFwrRU+OYf9xm8AEwmjAE=;
-        b=eneMY/Oqvb+Wehsxg3vms2TJLfq+VMsuXvb24OTmGP2FG2f/5zJQHSuSp/HzsI7SQx
-         rP4BitTiuAj9JIDp2IM3539FEJNHS32er6UvWIenj9wmDe/20DEJTi7iwiOmqX/20zlo
-         kctLcjjZtUS0bzeFS/FlFJWlR2YQzXfeA05ozEHAELirGTWYbZPQYcBF9EOetrxw0e+W
-         fmrHQ52XGdsGBXIAwk0/iINfcYfQjrX9cpFtmSlJY3S+EnMd/SyLYDNurQ4MiEk4sq0s
-         0xGqkJUvYaMSNAM0JrfUWaclVNpU3KWIMTS3FqfG4eIzJK/ZXXBIjp2tHQyUzKWfC44o
-         LVVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWaM6KuCPDHrf1EBQlNDHLffxoEauboah5uN6Pp7Bbxsb7Il74Rllue4IUly9j8UAF97pDQsyUEVFl874pOdwg=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8oAGFbmVl/XhIMECZPbrhpfzPVU8inv7PE8pc0sEOkh+xCIrB
-	n7buRnLAukaZoaYxZdb+MwFNhr1TmWikCszQJtquPFLAgWKLbBCs8ag7XMnZExU=
-X-Gm-Gg: ASbGnctuEBYNLAFUKd/JJYROFQ/6275E5T5vGYqihrDMqq279mDj+UTSMy+wje0yUmi
-	3gc2CnVkUJPZtCOQFC+rV5tsJqE5pwDnXjBrzjtm4n5x03o4CxAZTSkug7p8jZ/6+qyeSMtAnw1
-	cp2+eMZn6fBk72q+/qxghBV5LkwsczvhELdcHgbfUkIt7GvCkb+00qstrvcA75y2BIELuffhsOy
-	qvlCduxqr/whz8R0pray/pW1I+6AKYpkrPjeB22YKC4/EIdQtguz05XfM/UN1lvpt6TQbIpM9Bg
-	n6Igq73b0Z135rCtRzlN0bM5MlAPgCw0C7m8llDCeBZfntYAO/reoPYoL2CRX8M=
-X-Google-Smtp-Source: AGHT+IFWaINuXHKUMdyo5RP37K8zDQ0bWgCSEpHcoB9XhhgozZBQGKZ3w4EmQfkOaefijiS9p7CwZg==
-X-Received: by 2002:a5d:5849:0:b0:38b:eb86:694c with SMTP id ffacd0b85a97d-39ad2aaef54mr446469f8f.0.1743060184101;
-        Thu, 27 Mar 2025 00:23:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743086527; x=1743691327;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GQ6ENJjmMMWO0y0iR8M6dWk36AQmBxaNp4B5objfMtk=;
+        b=bFHCAqyQixnF71KKAAG+zgKhoigmG6voD1Y2xho/iPzAM9UUg9L+Hw2BLbI5ma/SJh
+         22LU1x4xy/FJZMXaMTzn1F/8T/+UoENwBFgtxqcm9vkHW5lf0850pwVO69aK9xteyQwA
+         3tMzuAh8dgJH7gF+Lkc1MXrzH4x6I81Uz7SugSV7CiFxXft+f3+9U3mvMejkUNGmAyU3
+         iKvQxWCyYuX2WHIfQ1MGtHSAQP6FCblfeUTnGlhOFBwDnPTqK5nC1do2WcDBvQTegmA0
+         XvqWPR7/MZFUoYgHCItqB58/yfUko1WSrwjZKUF5IXAgP1xrO7jVBzQjMA6/Qe0V6MEg
+         MvHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXaQycYo3hNiJRoEFSo+oXCyxvbNU30NTFAGdq3lqYvLo9yP2n7rKvw3Y1lNpNjcZVDyC6Vz+XvbSw9lZUpS5U=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yys7ZQ0/170Fv6lTkcXUSpFtdG6dZkFE8FTve5E/04FW+N06OgL
+	TymUSqIsWIKZ+gkbQ/h1PtRg/xkK6XQL9jvrnGcwJZWpgPDmyu5uxXYtcayzxgs=
+X-Gm-Gg: ASbGncuSM2zV9qo0DJEHzYjxDKppLBMntOl1z38whC7/OsrcRElT7HcSW27y2pjjGa4
+	W1t4bZ+31jtVVOSBirGgpAfcRfYqfQxuRlgrHd7mzIi6M5VR3cSyRwnlyY0tEIEpUuwkOOnHkDV
+	EL4qUmyHMBlhD9eCojUkt6+qo/T9fzVCBvRH8WX38/fRlCN/xn5VUUYD4FF3Ou0Pg71rU4aKc5k
+	YjVPV1jzktfrisgdS9Wk0Lpe3pOyR/XAXxC5/RNxvq+yjyRPlCcCBGl9S9wLwqU00ZOvkf49pUF
+	f0C1JmRL5cI4ysPhjQPzmWCeGFzeuxiEkocj2M5yvR9GpOCh88Ti4M+Oah3vbsw=
+X-Google-Smtp-Source: AGHT+IHMeyVSp84ZVswyUQyEc433wzebATMUgMMvgJmQXwYKz5AHJh0Xl4lDjTCEWpCNMsq5AW2eNQ==
+X-Received: by 2002:adf:9c90:0:b0:39b:f72c:b521 with SMTP id ffacd0b85a97d-39bf72cb76amr475188f8f.6.1743086527067;
+        Thu, 27 Mar 2025 07:42:07 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.198.86])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9957c3sm19517639f8f.18.2025.03.27.00.23.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39ab907da9asm17696645f8f.90.2025.03.27.07.42.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Mar 2025 00:23:03 -0700 (PDT)
-Message-ID: <5549a95e-938b-4560-9e60-146e5e0883c4@linaro.org>
-Date: Thu, 27 Mar 2025 08:23:01 +0100
+        Thu, 27 Mar 2025 07:42:06 -0700 (PDT)
+Message-ID: <25fd5b82-043e-4b0a-89fe-3c24d0a6dab4@linaro.org>
+Date: Thu, 27 Mar 2025 15:42:04 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -67,18 +67,18 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] UPSTREAM: media: platform: cros-ec: Add Moxie to the
- match table
+Subject: Re: [PATCH] [v2] media: platform: cros-ec: Add Moxie to the match
+ table
 To: Ken Lin <kenlin5@quanta.corp-partner.google.com>,
  LKML <linux-kernel@vger.kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, groeck@chromium.org,
+Cc: groeck@chromium.org, Benson Leung <bleung@chromium.org>,
  Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
  =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
  chrome-platform@lists.linux.dev, linux-media@vger.kernel.org
-References: <20250327103918.1.I704cb6f738208386a0d431d355169c6fdf0f51bc@changeid>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250327145729.1.I04b964661552ce532dbefd1ee5999fb0a0641a07@changeid>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -123,11 +123,11 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20250327103918.1.I704cb6f738208386a0d431d355169c6fdf0f51bc@changeid>
+In-Reply-To: <20250327145729.1.I04b964661552ce532dbefd1ee5999fb0a0641a07@changeid>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 27/03/2025 03:39, Ken Lin wrote:
+On 27/03/2025 07:59, Ken Lin wrote:
 > The Google Moxie device uses the same approach as the Google Brask
 > which enables the HDMI CEC via the cros-ec-cec driver.
 > 
@@ -135,16 +135,17 @@ On 27/03/2025 03:39, Ken Lin wrote:
 >            Mauro Carvalho Chehab <mchehab@kernel.org>,
 >            Reka Norman <rekanorman@chromium.org>,
 >            Stefan Adolfsson <sadolfsson@chromium.org>,
-No clue what's that... and I don't get why you call it upstream. Follow
-standard upstreaming processes and guides.
+> 
+<form letter>
+This is a friendly reminder during the review process.
 
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+It seems my or other reviewer's previous comments were not fully
+addressed. Maybe the feedback got lost between the quotes, maybe you
+just forgot to apply it. Please go back to the previous discussion and
+either implement all requested changes or keep discussing them.
 
-If this is for your own projects, then obviously NAK.
+Thank you.
+</form letter>
 
 Best regards,
 Krzysztof

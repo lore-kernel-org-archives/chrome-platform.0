@@ -1,155 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD5812C544;
-	Fri, 28 Mar 2025 13:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE57414D70E
+	for <chrome-platform@lists.linux.dev>; Fri, 28 Mar 2025 13:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743168004; cv=none; b=nTS8WNIDCXsFK0e4piEhk+FzPJWVyGnqh9szB40DXJZJV7EDJo+Xa8av+j6w6CSJ69yqJZZj8FsowPmTNkL///dzxxbpS/LnwJfMeb6W7jY9nrgKGVmOg43FR2e07VJrZ3vejQZhM+IwVTUTyLuesooJJWoyLS/56bCT7ZCb8yU=
+	t=1743168382; cv=none; b=DGejIFrOx2QXjhd/LuBg8crezxnphn10zqX/NMSGNU4cDQGQgPm69vOVeaDCcGxU7Dotmr6Vij/Ef03x5zuNW4q2KJ2RynBDfPs4Hb7Ra3ChIS+RWDu5wKIV/oZ6gvwZ24CmLcSy1iOZTlwgZ5CDyVfZUKj3nmUJ3wcnCRpks0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743168004; c=relaxed/simple;
-	bh=PbE3P7d+0IgWJs59aXFiaqzoZImTTdZogccba+32FoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fhMHXXxlMDoOSSCRSi+n6N7C4TGbMtXT+60QNfermDingNv1jZLKFbRR+PE/TDlzdO8xHbumlDb+pbJ3uiiLQ8cikqVm1MVdRouq+6Zh+Tdk6MMuWikOuFXlMVJSXuvODN8lxF7m1/wmnyw4UoqZ7GE3oigNwnvG4+ey80pIj58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZyLzW/Me; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743168382; c=relaxed/simple;
+	bh=ZjPEwmC8d6yJXPD/Af2mmAD/CXzsaS4nGWUuqYQ2klA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a9WFkg702lvzXnKdXjAfK13FA5ULLqV+51J24Had9hhgxWZevANrX68BnTF5aJNBJ8eaJ6oWtbdyUc2ozu7OnB7ClhlhqyPf0VcUhjENzz2+lLCNFH+nUqDvl4D8f2pTm/FZzKqM5udFHZKKhTnTyoG5v3X1RnAjZxOQ1++giVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=id4kLOGz; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZyLzW/Me"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B836BC4CEE4;
-	Fri, 28 Mar 2025 13:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743168003;
-	bh=PbE3P7d+0IgWJs59aXFiaqzoZImTTdZogccba+32FoA=;
-	h=Date:From:To:Cc:Subject:From;
-	b=ZyLzW/MeCbWhIBaIKgKM+VyXR7Ri2ulEOJ2nuHK22872cnvXaQSCdx7A8xiyU8548
-	 AhpqBe8Dp9ZaRxnntSI9ubUuvhmosXs3rRQRdWsPxVz95/KcG6NP1/w4GofNGNMfAW
-	 kajV6c4CsxJcB+pP3v4uAQd3i0KcicOAD9uD0MfU8lZFC+gF+ca9Ib22Q7sujtyFee
-	 CgXuX+2dOPKUWedVn6nzb9jjnNoxr6MjQTiwena84eoD1uhoKaTa3BNYx2t3KH45qz
-	 akbXubZtbtUVXg8dDqwm1hjOsUCgIq7q+DtztXE6bcL1qMuHNK4N5x21U80NQw5t7F
-	 9toMkG0/qWYAg==
-Date: Fri, 28 Mar 2025 07:20:00 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="id4kLOGz"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5dc89df7eccso4071352a12.3
+        for <chrome-platform@lists.linux.dev>; Fri, 28 Mar 2025 06:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1743168379; x=1743773179; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=x92zjhfd2x6noSpfStll/xqcTYe/rT8zkKTNHbnXK/I=;
+        b=id4kLOGzcsMbe38SpXAGf8xx8hUdMrU83B1DMqHSGXbJU6tMR7RaF07WTm6vBVQHxJ
+         2TpjVHgaz2ZDtSG7k2jlDv3kCyGlnJE/s0adHfERNaARc2eSzxeUVw0EihToBya12+ur
+         V5pwajgRPviCuyLbKMqX93vYbD9kc45WW6G3s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743168379; x=1743773179;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x92zjhfd2x6noSpfStll/xqcTYe/rT8zkKTNHbnXK/I=;
+        b=eRPTWfFwgmxuJdv0cW7cIPlZWf5tvM4884gdYKkUV+MAW/7fw7+sVeKYsNRY0JuQAk
+         GQIebUSvJuGXGOlwE6tfgyB5S2CaTAN8LvqEWLj/iVvHDTyNjgkfTRE1R4Uqw3oG4HWH
+         1SoV5HsVMX5nMFdH6vaFds2xe7DjpK5Ohle/zqEo9IEPwrbXCN22E6lERIYmvxj5ZcDA
+         dVnW6i+oAT7zexM8wpo2wXLSl1rdlePvRf8j669eGKsy9Ao3dlOe/FAkbWCmcT6ner5n
+         r3OxI1xK1zrXgsFYHrCjwb68v53fV3ywxry3qd09IQScnu0rhNFRlQx0UXyRh43VasL6
+         ZgOw==
+X-Gm-Message-State: AOJu0YxGIgGvmAzXlpldHDB36l3xUY+z+5LV0Ah/xggSaLDVac0G/Fi/
+	+3MYgvA4XrcTqM25NmtxFo7lQf1CvEUVVftAQGTdwy7ZQXwFkQihxggv9H1koQ==
+X-Gm-Gg: ASbGncsFNrwKoQLuH40+TmgTRERIBgdzvr8CaLiW9fjtJnpz9ht3nwit7QeQXOCIXvt
+	g08XdS4lFRWLz1befDKEKXJz8FYXwnQPyI/DC7jlBYy3fBWYuu9h/Hv8f6Jro2l+KhAaurETg3k
+	UGGEjfsbgHhhrGjXpaolRkjt0vtXdPB1DtIc5VP1hf9IZiUSnohg6kKRQGxmv7WH5TFMNxENQQ3
+	nxSPkO/VJgUnOZbDSJ9IRoFxXJzTqwzOdo//GZDDfYrrgP+3FRiUi+5rkXuU/ZqbMZgn3TaeJXU
+	5uiGoXyNsM5TORw0eRAFqkpB1N5gFiLQyyZf6THNNr9LTboOQtwfottT4WMeUgpt62ixBvLNsE/
+	vpykgFWj+czkHU+eZpkjzeZHpQNkV9HgE+g==
+X-Google-Smtp-Source: AGHT+IGZz7/5rdEd+k2LnpfWVd2CubAVWU4pOV0U+4t4bZFMZn0KMjyPhCW1xU9L8mZ2Wc+waAiwmg==
+X-Received: by 2002:a05:6402:270b:b0:5e5:bcd6:4ad8 with SMTP id 4fb4d7f45d1cf-5ed8e28ae2dmr7247798a12.9.1743168378947;
+        Fri, 28 Mar 2025 06:26:18 -0700 (PDT)
+Received: from srosek-gl03.c.googlers.com.com (157.250.32.34.bc.googleusercontent.com. [34.32.250.157])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5edc16eda94sm1413457a12.33.2025.03.28.06.26.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Mar 2025 06:26:18 -0700 (PDT)
+From: Slawomir Rosek <srosek@chromium.org>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH][next] platform/chrome: cros_ec_debugfs: Avoid
- -Wflex-array-member-not-at-end warnings
-Message-ID: <Z-aiAAcIP7sBRtz0@kspp>
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ukaszb@chromium.org,
+	Slawomir Rosek <srosek@chromium.org>
+Subject: [PATCH v1] platform/chrome: cros_ec_proto: allow to build as module
+Date: Fri, 28 Mar 2025 13:26:12 +0000
+Message-ID: <20250328132612.511471-1-srosek@chromium.org>
+X-Mailer: git-send-email 2.49.0.472.ge94155a9ec-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
--Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-getting ready to enable it, globally.
+This allows to build ChromeOS EC communication protocol helpers as
+kernel module which is particularly useful for Android GKI (Generic
+Kernel Image) configuration. With this change the ChromeOS Platform
+(CONFIG_CHROME_PLATFORMS=y) can be enabled directly from the vendor
+kconfig fragment whithout additional configuration in gki_defconfig.
 
-Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
-a flexible structure where the size of the flexible-array member
-is known at compile-time, and refactor the rest of the code,
-accordingly.
-
-So, with these changes, fix the following warnings:
-
-drivers/platform/chrome/cros_ec_debugfs.c:211:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-drivers/platform/chrome/cros_ec_debugfs.c:257:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-drivers/platform/chrome/cros_ec_debugfs.c:279:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Slawomir Rosek <srosek@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_debugfs.c | 52 +++++++++--------------
- 1 file changed, 20 insertions(+), 32 deletions(-)
+ drivers/platform/chrome/Kconfig         | 2 +-
+ drivers/platform/chrome/Makefile        | 3 ++-
+ drivers/platform/chrome/cros_ec_proto.c | 3 +++
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-index 92ac9a2f9c88..d10f9561990c 100644
---- a/drivers/platform/chrome/cros_ec_debugfs.c
-+++ b/drivers/platform/chrome/cros_ec_debugfs.c
-@@ -207,22 +207,15 @@ static ssize_t cros_ec_pdinfo_read(struct file *file,
- 	char read_buf[EC_USB_PD_MAX_PORTS * 40], *p = read_buf;
- 	struct cros_ec_debugfs *debug_info = file->private_data;
- 	struct cros_ec_device *ec_dev = debug_info->ec->ec_dev;
--	struct {
--		struct cros_ec_command msg;
--		union {
--			struct ec_response_usb_pd_control_v1 resp;
--			struct ec_params_usb_pd_control params;
--		};
--	} __packed ec_buf;
--	struct cros_ec_command *msg;
--	struct ec_response_usb_pd_control_v1 *resp;
--	struct ec_params_usb_pd_control *params;
-+	DEFINE_RAW_FLEX(struct cros_ec_command, msg, data,
-+			MAX(sizeof(struct ec_response_usb_pd_control_v1),
-+			    sizeof(struct ec_params_usb_pd_control)));
-+	struct ec_response_usb_pd_control_v1 *resp =
-+			(struct ec_response_usb_pd_control_v1 *)msg->data;
-+	struct ec_params_usb_pd_control *params =
-+			(struct ec_params_usb_pd_control *)msg->data;
- 	int i;
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index 1b2f2bd09662..f523ae3d3be0 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -155,7 +155,7 @@ config CROS_EC_LPC
+ 	  module will be called cros_ec_lpcs.
  
--	msg = &ec_buf.msg;
--	params = (struct ec_params_usb_pd_control *)msg->data;
--	resp = (struct ec_response_usb_pd_control_v1 *)msg->data;
--
- 	msg->command = EC_CMD_USB_PD_CONTROL;
- 	msg->version = 1;
- 	msg->insize = sizeof(*resp);
-@@ -253,17 +246,15 @@ static ssize_t cros_ec_pdinfo_read(struct file *file,
+ config CROS_EC_PROTO
+-	bool
++	tristate
+ 	help
+ 	  ChromeOS EC communication protocol helpers.
  
- static bool cros_ec_uptime_is_supported(struct cros_ec_device *ec_dev)
- {
--	struct {
--		struct cros_ec_command cmd;
--		struct ec_response_uptime_info resp;
--	} __packed msg = {};
-+	DEFINE_RAW_FLEX(struct cros_ec_command, msg, data,
-+			sizeof(struct ec_response_uptime_info));
- 	int ret;
+diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+index 1a5a484563cc..b981a1bb5bd8 100644
+--- a/drivers/platform/chrome/Makefile
++++ b/drivers/platform/chrome/Makefile
+@@ -25,7 +25,8 @@ endif
+ obj-$(CONFIG_CROS_EC_TYPEC)		+= cros-ec-typec.o
  
--	msg.cmd.command = EC_CMD_GET_UPTIME_INFO;
--	msg.cmd.insize = sizeof(msg.resp);
-+	msg->command = EC_CMD_GET_UPTIME_INFO;
-+	msg->insize = sizeof(struct ec_response_uptime_info);
- 
--	ret = cros_ec_cmd_xfer_status(ec_dev, &msg.cmd);
--	if (ret == -EPROTO && msg.cmd.result == EC_RES_INVALID_COMMAND)
-+	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-+	if (ret == -EPROTO && msg->result == EC_RES_INVALID_COMMAND)
- 		return false;
- 
- 	/* Other errors maybe a transient error, do not rule about support. */
-@@ -275,20 +266,17 @@ static ssize_t cros_ec_uptime_read(struct file *file, char __user *user_buf,
- {
- 	struct cros_ec_debugfs *debug_info = file->private_data;
- 	struct cros_ec_device *ec_dev = debug_info->ec->ec_dev;
--	struct {
--		struct cros_ec_command cmd;
--		struct ec_response_uptime_info resp;
--	} __packed msg = {};
--	struct ec_response_uptime_info *resp;
-+	DEFINE_RAW_FLEX(struct cros_ec_command, msg, data,
-+			sizeof(struct ec_response_uptime_info));
-+	struct ec_response_uptime_info *resp =
-+				(struct ec_response_uptime_info *)msg->data;
- 	char read_buf[32];
- 	int ret;
- 
--	resp = (struct ec_response_uptime_info *)&msg.resp;
--
--	msg.cmd.command = EC_CMD_GET_UPTIME_INFO;
--	msg.cmd.insize = sizeof(*resp);
-+	msg->command = EC_CMD_GET_UPTIME_INFO;
-+	msg->insize = sizeof(*resp);
- 
--	ret = cros_ec_cmd_xfer_status(ec_dev, &msg.cmd);
-+	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
- 	if (ret < 0)
- 		return ret;
- 
+ obj-$(CONFIG_CROS_EC_LPC)		+= cros_ec_lpcs.o
+-obj-$(CONFIG_CROS_EC_PROTO)		+= cros_ec_proto.o cros_ec_trace.o
++cros-ec-proto-objs			:= cros_ec_proto.o cros_ec_trace.o
++obj-$(CONFIG_CROS_EC_PROTO)		+= cros-ec-proto.o
+ obj-$(CONFIG_CROS_KBD_LED_BACKLIGHT)	+= cros_kbd_led_backlight.o
+ obj-$(CONFIG_CROS_EC_CHARDEV)		+= cros_ec_chardev.o
+ obj-$(CONFIG_CROS_EC_LIGHTBAR)		+= cros_ec_lightbar.o
+diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+index 877b107fee4b..f90d2e7b616c 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -1157,3 +1157,6 @@ int cros_ec_get_cmd_versions(struct cros_ec_device *ec_dev, u16 cmd)
+ 		return resp.version_mask;
+ }
+ EXPORT_SYMBOL_GPL(cros_ec_get_cmd_versions);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("ChromeOS EC communication protocol helpers");
 -- 
-2.43.0
+2.49.0.472.ge94155a9ec-goog
 

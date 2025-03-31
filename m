@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EA022A7EA;
-	Mon, 31 Mar 2025 14:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDC2233707;
+	Mon, 31 Mar 2025 14:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743432847; cv=none; b=MHMubc8NeW/WpmAyFJqia92trs3dZJZFUehaRwuOZUOOAq0IlSRjM2NxpCeQMP8W7VZwD5qERr/w0h0n9seYXiScAc100Ynql5w9KCRmvO9v0KBTWsqJXiN89skBZl4HhvJzembr1aDCD2mfix6Y8fZX2NY5jnZjRkk5BLwRAK0=
+	t=1743432912; cv=none; b=NZePOPau1mWZ21bvRLjWwAAEDlhah1toyQKJTIBD4xqPSYhdkBE2amsZNGOG/aV4S87FIAKPkc29Pq3zK7CbDshYhbUv6uXd/CCu4UPdGUtWBvjvg8kMx/rLrI41khiBq7Z+XRabcTkkflnlXgymoJKNy50v3y7Yk7bmvFCTeVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743432847; c=relaxed/simple;
-	bh=03GUPkvN3fUyT8jFdqABYHvz3SIz3uQ7nifCo28OzFA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XJsPt07vQKrDUuxVSE07wNT+07xZf9Dvd5hiy3gEjibo2USXnzQ8ckCI6i7/FTivGctCw/FZ09oVIcsBzJC/Z0DuBMeNomZiXAUs0aE3pRR5gAyYolG8620E23gVpsbx5BTT63BIKkLv4XKMVwPNcpT7q9emITMBSgvvUN1vTBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+2uzKjK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743432912; c=relaxed/simple;
+	bh=0P96wxzcxRR/BPqOYwGoS+LxP1S4tZaobRmn2PrpxoA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SjvU27IAuvLGQX5woYseRtB4EZp0Xlng2rlVOwBvIRDj86A0UaSru9eSG6f13ZcbU3pUEl4A5CGp3G1iOP48Qf/MAWoYERSll/j7BRDHgWreK/x90ufL0KxYlu5oBIW1BbdjUx5McfHbD8C2iC/tWNScVWB4UxWUwid4LKtyoW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ff9G4JOd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+2uzKjK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25601C4CEE3;
-	Mon, 31 Mar 2025 14:54:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ff9G4JOd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E00C4CEE3;
+	Mon, 31 Mar 2025 14:55:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743432847;
-	bh=03GUPkvN3fUyT8jFdqABYHvz3SIz3uQ7nifCo28OzFA=;
+	s=k20201202; t=1743432912;
+	bh=0P96wxzcxRR/BPqOYwGoS+LxP1S4tZaobRmn2PrpxoA=;
 	h=From:To:Cc:Subject:Date:From;
-	b=i+2uzKjKJd90xAWFxN+dKD4nG+0kc942kwvPkxhuo6NupY8dwncoP4sq5fG0xx7yg
-	 8zKd8E3omo1xnqgoiH8hXWgFjEXSeuSBA6f0qdM9tRrFvEv4zI7F9sNbiQ8gm8h6t6
-	 R2TLeeSoUCqdcKw9oCRcSZPUMf2Uj+yGgOGTr8j44zyngBhVqZQ+RGxBbYPt/tQqdb
-	 1xEF4W5Tps13pkk0ABE+dEom80VToNOqHAWerLz2I23QxxFTa7sjDypz89lNHmEuKp
-	 73K3gg2ExHF91CqyuRBfUyv9XrjYPJDIdvpId+Eni0kqwBxRE/RNacAz8tZEXkxXs2
-	 zlecPY83iluYg==
+	b=Ff9G4JOdlVmH1ZVCewFeIkvgCircmPXBrqd0Ypr4pL3Jn9JLaGIcvG1YgC1seqxbr
+	 c+fV/cfEefPiFTvb0dtYYVGAlcq+AaPPkNOBBR4/zYFKAS6NOaclawQnxNIHzmbmDM
+	 5IKhoehx26x67g8YrXH/7nR2KFwvX2Y96Pb3Gx9lOCMLkOY42BkqbWH9BR/HbOr7VA
+	 z/ThM8HBcrhH5kR974I4LvuJ2Xo3Ud6v5dPbUV3+nyqZCbMkU3aIJqgQysBD9rJsR9
+	 lFZuyvKy1V//h4CiIQYWL8iSC5DlGcmfyUmpAiKFX7heb8gftEw9Z2lokSRtkz7IB/
+	 ASroMM24mPKmQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,9 +35,9 @@ Cc: Daniel Schaefer <dhs@frame.work>,
 	Sasha Levin <sashal@kernel.org>,
 	bleung@chromium.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.13 01/24] platform/chrome: cros_ec_lpc: Match on Framework ACPI device
-Date: Mon, 31 Mar 2025 10:53:41 -0400
-Message-Id: <20250331145404.1705141-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 01/23] platform/chrome: cros_ec_lpc: Match on Framework ACPI device
+Date: Mon, 31 Mar 2025 10:54:47 -0400
+Message-Id: <20250331145510.1705478-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.9
+X-stable-base: Linux 6.12.21
 Content-Transfer-Encoding: 8bit
 
 From: Daniel Schaefer <dhs@frame.work>
@@ -73,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 8470b7f2b1358..7924b79f84f1f 100644
+index 626e2635e3da7..ac198d1fd1707 100644
 --- a/drivers/platform/chrome/cros_ec_lpc.c
 +++ b/drivers/platform/chrome/cros_ec_lpc.c
 @@ -30,6 +30,7 @@

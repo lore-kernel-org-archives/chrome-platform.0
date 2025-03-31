@@ -1,116 +1,138 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99082AE97
-	for <chrome-platform@lists.linux.dev>; Mon, 31 Mar 2025 18:01:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A482521423E
+	for <chrome-platform@lists.linux.dev>; Mon, 31 Mar 2025 18:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743444107; cv=none; b=sbufu5xYvAG8bW7oBLzAwLm6aMbVrZwjlDBkBYOJ26rjMcgAKTEb+VAD9NmhsY52ToqbwhZhPWlrfzAaTrNAAEmja455Ig7IanDB3k3xBlrDxYJteoRmcymlHi3V+rxWc2j6vsjQSs/c1v+hgBYz/cp0U+GsQGFbunVLd1+y+L4=
+	t=1743445928; cv=none; b=T03K9D0gVGJGID7qBtPvJyAYk7qaFA6+MsiHrpaR+vwihi/kRnNZu6kzdeBku/WjxIANujd3ej5NSEeDZSnxGREf30okIB5QEq2nS7GCQ/XHXpLhqT/L1RLAr4j8ymC8Kr8jLTdHm8qhpuG9JJ7e9tU1u96PPA6VOEn39ZP8tr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743444107; c=relaxed/simple;
-	bh=zvDInRbFEN6KQ8/MFQ0ALoZEWs6xzOdfkCHOclbbDBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XTSyMipyHYj1WwUYYzDqyfxF7TXIaCuuWnurFKQzn8FLnNPABy9NueRa7P/aoIDIyNVfHQp8tZNntKftIy+nZ1u0jrS+QU+IW02PbL1FarYXsP0cQn3156b5VHWtTqEAl2+NZNThgtehlW+3oystU+m4NyulXXQFU2QGgzBmM7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=a9o8ApWJ; arc=none smtp.client-ip=159.69.126.157
+	s=arc-20240116; t=1743445928; c=relaxed/simple;
+	bh=hCHGLIQRlS81v4saVTJQKp++mO53XYCzWBbD9/uwNc4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YwR5+Qsw1lBQuo1AXFiJDcMCsCLGaYcTEzJcCmKlYNsFfg96yr2vShvf3UpguX16X0GmKH5e8Mdn28iU200xRxMY0THI2B0WFOcD/PL7f0qdgxNMCL55rRG1Ryuy/rhLYqXuCjeUs9hanBtoe5H9iLUlKCZ3O9i9CSGdXowiGnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ZHSG+/3g; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="a9o8ApWJ"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ZHSG+/3g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1743444094;
-	bh=zvDInRbFEN6KQ8/MFQ0ALoZEWs6xzOdfkCHOclbbDBU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a9o8ApWJCwFDL5UteIBdhOmzt9P2DYrv3IP0tKihN8Z9m/qFI5Zp1ML4VCnvgmx6c
-	 zL1RyBDmO52T//7kZh4CWSGTt8cyCOBstlMfVt//6E7jiv2CO/YP5k2lBrzW2pRfI1
-	 p+egAHy7wWQCw9MZX4BTgJ2OhMPO4zK7VKX2/tQk=
-Date: Mon, 31 Mar 2025 20:01:34 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@weissschuh.net>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2][next] leds: Avoid -Wflex-array-member-not-at-end
- warning
-Message-ID: <56eed4c9-7fd1-4cc2-8198-9aa361c02b8a@t-8ch.de>
-References: <Z-rKcgFjsyKvd58q@kspp>
+	s=mail; t=1743445924;
+	bh=hCHGLIQRlS81v4saVTJQKp++mO53XYCzWBbD9/uwNc4=;
+	h=From:Date:Subject:To:Cc:From;
+	b=ZHSG+/3g6fYVOaFci988hLr4Ulh49rqUJRa62h9ABOKeiJz+tbVY0ZanB/YyJHi/6
+	 8VNM+jIKWeqjqs8uQC6yBFRBMfe72xl4iUubXv4aIsR8v5laS1he6w/dtIG5J+FcmF
+	 4NrO0UDJQG3oG8HtaMF53Fie8KawmfJoipP0R/1c=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Mon, 31 Mar 2025 20:29:47 +0200
+Subject: [PATCH] MAINTAINERS: consistently use my dedicated email address
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z-rKcgFjsyKvd58q@kspp>
+Message-Id: <20250331-email-correction-v1-1-4c0e92862202@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIABrf6mcC/x2MWwqAIBAAryL7neCjILtK9CG21kJprBFBdPekz
+ 4GZeaAgExYYxAOMFxXKqYJuBITVpwUlzZXBKNMpa7XE3dMmQ2bGcFZZamd73YZoXTRQs4Mx0v0
+ vx+l9P8PUmD1iAAAA
+X-Change-ID: 20250331-email-correction-193814cf39f2
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743445923; l=2962;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=hCHGLIQRlS81v4saVTJQKp++mO53XYCzWBbD9/uwNc4=;
+ b=Tp0HEruAidpJojz6x3Rwemd36RYaKTRqh0VwqC4u3VxhSrEGurR0Yoat1Nw0gaURCZHNI4vGO
+ TS7YlRn5eluAJMqLC3BxI18Cw6hfYK0iXGgFzcVzBKA0E03qoGJ6jjI
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On 2025-03-31 11:01:38-0600, Gustavo A. R. Silva wrote:
-> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-> getting ready to enable it, globally.
-> 
-> Replace an on-stack definition of a flexible structure with a call
-> to utility function cros_ec_cmd().
-> 
-> So, with these changes, fix the following warning:
-> 
-> drivers/leds/leds-cros_ec.c:70:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+I use a dedicated address for kernel development.
+Unfortunately at some point I used another address and later copied it
+around to other places.
 
-Thanks!
+Consistently use the dedicated address everywhere.
 
-Acked-by: Thomas Weißschuh <linux@weissschuh.net>
+As the old address does in fact work, an update to mailmap is
+not necessary.
 
-> ---
-> Changes in v2:
->  - Use utility function cros_ec_cmd() instead of DEFINE_RAW_FLEX(). (Thomas Weißschuh)
-> 
-> v1:
->  - Link: https://lore.kernel.org/linux-hardening/Z-azMlPnP7nPPJrY@kspp/
-> 
->  drivers/leds/leds-cros_ec.c | 21 ++++-----------------
->  1 file changed, 4 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
-> index 275522b81ea5..377cf04e202a 100644
-> --- a/drivers/leds/leds-cros_ec.c
-> +++ b/drivers/leds/leds-cros_ec.c
-> @@ -60,31 +60,18 @@ static inline struct cros_ec_led_priv *cros_ec_led_cdev_to_priv(struct led_class
->  union cros_ec_led_cmd_data {
->  	struct ec_params_led_control req;
->  	struct ec_response_led_control resp;
-> -} __packed;
-> +};
->  
->  static int cros_ec_led_send_cmd(struct cros_ec_device *cros_ec,
->  				union cros_ec_led_cmd_data *arg)
->  {
->  	int ret;
-> -	struct {
-> -		struct cros_ec_command msg;
-> -		union cros_ec_led_cmd_data data;
-> -	} __packed buf = {
-> -		.msg = {
-> -			.version = 1,
-> -			.command = EC_CMD_LED_CONTROL,
-> -			.insize  = sizeof(arg->resp),
-> -			.outsize = sizeof(arg->req),
-> -		},
-> -		.data.req = arg->req
-> -	};
-> -
-> -	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
-> +
-> +	ret = cros_ec_cmd(cros_ec, 1, EC_CMD_LED_CONTROL, &arg->req,
-> +			  sizeof(arg->req), &arg->resp, sizeof(arg->resp));
->  	if (ret < 0)
->  		return ret;
->  
-> -	arg->resp = buf.data.resp;
-> -
->  	return 0;
->  }
->  
-> -- 
-> 2.43.0
-> 
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Could this be merged either through the chrome platform or pdx86 tree?
+---
+ MAINTAINERS                         | 8 ++++----
+ drivers/platform/x86/gigabyte-wmi.c | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 306b1384eb6d4cb7a310ada44605eaeb88cc732f..dedd5a82886ac564cb7751b9c71ef86a087b4a8b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5506,12 +5506,12 @@ F:	Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
+ F:	sound/soc/codecs/cros_ec_codec.*
+ 
+ CHROMEOS EC CHARGE CONTROL
+-M:	Thomas Weißschuh <thomas@weissschuh.net>
++M:	Thomas Weißschuh <linux@weissschuh.net>
+ S:	Maintained
+ F:	drivers/power/supply/cros_charge-control.c
+ 
+ CHROMEOS EC HARDWARE MONITORING
+-M:	Thomas Weißschuh <thomas@weissschuh.net>
++M:	Thomas Weißschuh <linux@weissschuh.net>
+ L:	chrome-platform@lists.linux.dev
+ L:	linux-hwmon@vger.kernel.org
+ S:	Maintained
+@@ -5519,7 +5519,7 @@ F:	Documentation/hwmon/cros_ec_hwmon.rst
+ F:	drivers/hwmon/cros_ec_hwmon.c
+ 
+ CHROMEOS EC LED DRIVER
+-M:	Thomas Weißschuh <thomas@weissschuh.net>
++M:	Thomas Weißschuh <linux@weissschuh.net>
+ S:	Maintained
+ F:	drivers/leds/leds-cros_ec.c
+ 
+@@ -9992,7 +9992,7 @@ F:	Documentation/hwmon/gigabyte_waterforce.rst
+ F:	drivers/hwmon/gigabyte_waterforce.c
+ 
+ GIGABYTE WMI DRIVER
+-M:	Thomas Weißschuh <thomas@weissschuh.net>
++M:	Thomas Weißschuh <linux@weissschuh.net>
+ L:	platform-driver-x86@vger.kernel.org
+ S:	Maintained
+ F:	drivers/platform/x86/gigabyte-wmi.c
+diff --git a/drivers/platform/x86/gigabyte-wmi.c b/drivers/platform/x86/gigabyte-wmi.c
+index f6ba88baee4da8734809013067a8ecbd17ff7d3d..f42c85607a6bc8a751ec215b1818edf160acf644 100644
+--- a/drivers/platform/x86/gigabyte-wmi.c
++++ b/drivers/platform/x86/gigabyte-wmi.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /*
+- *  Copyright (C) 2021 Thomas Weißschuh <thomas@weissschuh.net>
++ *  Copyright (C) 2021 Thomas Weißschuh <linux@weissschuh.net>
+  */
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+@@ -159,6 +159,6 @@ static struct wmi_driver gigabyte_wmi_driver = {
+ module_wmi_driver(gigabyte_wmi_driver);
+ 
+ MODULE_DEVICE_TABLE(wmi, gigabyte_wmi_id_table);
+-MODULE_AUTHOR("Thomas Weißschuh <thomas@weissschuh.net>");
++MODULE_AUTHOR("Thomas Weißschuh <linux@weissschuh.net>");
+ MODULE_DESCRIPTION("Gigabyte WMI temperature driver");
+ MODULE_LICENSE("GPL");
+
+---
+base-commit: 609706855d90bcab6080ba2cd030b9af322a1f0c
+change-id: 20250331-email-correction-193814cf39f2
+
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+

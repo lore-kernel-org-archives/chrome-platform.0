@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91371E260A;
-	Mon, 31 Mar 2025 14:52:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EA022A7EA;
+	Mon, 31 Mar 2025 14:54:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743432767; cv=none; b=Nxf3umjGSicFLSdR3qYXr/OMP6brXP8H7zJoR09X4cuXWtQvIhkrNcsca9VHQRljLXMzU2v2ZbBVmdgC0qOI5IamqNg8AAQBwx/oFKNsS5M7R85Jyq4d5Z4J4+0zS6QTnb8t02LyjkCWRwEeICRpOKZpw08RWnL4VveA5GvBqgo=
+	t=1743432847; cv=none; b=MHMubc8NeW/WpmAyFJqia92trs3dZJZFUehaRwuOZUOOAq0IlSRjM2NxpCeQMP8W7VZwD5qERr/w0h0n9seYXiScAc100Ynql5w9KCRmvO9v0KBTWsqJXiN89skBZl4HhvJzembr1aDCD2mfix6Y8fZX2NY5jnZjRkk5BLwRAK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743432767; c=relaxed/simple;
-	bh=PHTS/WBwjTKYlMdCIAb1qBrBV5xna69lqUPWK3NIU3I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LP3L/nE8taoRrZxWXo0N2iIErcmHMCpAX3BEKh/tbNObC8A9Lzdi/oSqmBzSgEZJr8Su0puKdR09RbLOw091qHK6LfILQ94CSOvQYy5SgMmMBSkrGEmDeLTCcaxO7cjjKm3n0RNFy2btEv6fDXpl1s3pxy7noREvgaxuJNMxtwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLUwUQyF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743432847; c=relaxed/simple;
+	bh=03GUPkvN3fUyT8jFdqABYHvz3SIz3uQ7nifCo28OzFA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XJsPt07vQKrDUuxVSE07wNT+07xZf9Dvd5hiy3gEjibo2USXnzQ8ckCI6i7/FTivGctCw/FZ09oVIcsBzJC/Z0DuBMeNomZiXAUs0aE3pRR5gAyYolG8620E23gVpsbx5BTT63BIKkLv4XKMVwPNcpT7q9emITMBSgvvUN1vTBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+2uzKjK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLUwUQyF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95409C4CEE3;
-	Mon, 31 Mar 2025 14:52:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+2uzKjK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25601C4CEE3;
+	Mon, 31 Mar 2025 14:54:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743432767;
-	bh=PHTS/WBwjTKYlMdCIAb1qBrBV5xna69lqUPWK3NIU3I=;
+	s=k20201202; t=1743432847;
+	bh=03GUPkvN3fUyT8jFdqABYHvz3SIz3uQ7nifCo28OzFA=;
 	h=From:To:Cc:Subject:Date:From;
-	b=dLUwUQyFXWAmVwI1sjPLADc6RCr/s5sz4Emwroh5B2CnWtyKy+qMswNKAyS0+fnJU
-	 n1peNmtHrGAKmZ16thmkWzufIMkuRaNSG1EARVc3EGWbvonap6s+fFvTAuZnT3bsHo
-	 yw2FRggh/nqxbNxdCccET7gWUNJXnh2a3Vfbq6/ua9AGRRgLc5omxAjx7WW9wZP0mI
-	 smvZVoLjUfBb7RxGJJKu6ALTSx2ng6+1dQMKTEPZN39SEXi87BnLaN/A8El3DR7i3M
-	 EecxQhkqaBdS/ZPFU/ekotHrSlhqvLws9D4eqU7UJ5GtLD2oNtmGadf/NiGPGiBsOt
-	 Ekq68N6Grd9lQ==
+	b=i+2uzKjKJd90xAWFxN+dKD4nG+0kc942kwvPkxhuo6NupY8dwncoP4sq5fG0xx7yg
+	 8zKd8E3omo1xnqgoiH8hXWgFjEXSeuSBA6f0qdM9tRrFvEv4zI7F9sNbiQ8gm8h6t6
+	 R2TLeeSoUCqdcKw9oCRcSZPUMf2Uj+yGgOGTr8j44zyngBhVqZQ+RGxBbYPt/tQqdb
+	 1xEF4W5Tps13pkk0ABE+dEom80VToNOqHAWerLz2I23QxxFTa7sjDypz89lNHmEuKp
+	 73K3gg2ExHF91CqyuRBfUyv9XrjYPJDIdvpId+Eni0kqwBxRE/RNacAz8tZEXkxXs2
+	 zlecPY83iluYg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,9 +35,9 @@ Cc: Daniel Schaefer <dhs@frame.work>,
 	Sasha Levin <sashal@kernel.org>,
 	bleung@chromium.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.14 01/27] platform/chrome: cros_ec_lpc: Match on Framework ACPI device
-Date: Mon, 31 Mar 2025 10:52:19 -0400
-Message-Id: <20250331145245.1704714-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 01/24] platform/chrome: cros_ec_lpc: Match on Framework ACPI device
+Date: Mon, 31 Mar 2025 10:53:41 -0400
+Message-Id: <20250331145404.1705141-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14
+X-stable-base: Linux 6.13.9
 Content-Transfer-Encoding: 8bit
 
 From: Daniel Schaefer <dhs@frame.work>
@@ -73,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-index 5a2f1d98b3501..be319949b9415 100644
+index 8470b7f2b1358..7924b79f84f1f 100644
 --- a/drivers/platform/chrome/cros_ec_lpc.c
 +++ b/drivers/platform/chrome/cros_ec_lpc.c
 @@ -30,6 +30,7 @@
@@ -84,7 +84,7 @@ index 5a2f1d98b3501..be319949b9415 100644
  
  /* True if ACPI device is present */
  static bool cros_ec_lpc_acpi_device_found;
-@@ -514,7 +515,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+@@ -460,7 +461,7 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
  	acpi_status status;
  	struct cros_ec_device *ec_dev;
  	struct cros_ec_lpc *ec_lpc;
@@ -93,7 +93,7 @@ index 5a2f1d98b3501..be319949b9415 100644
  	u8 buf[2] = {};
  	int irq, ret;
  	u32 quirks;
-@@ -526,6 +527,9 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
+@@ -472,6 +473,9 @@ static int cros_ec_lpc_probe(struct platform_device *pdev)
  	ec_lpc->mmio_memory_base = EC_LPC_ADDR_MEMMAP;
  
  	driver_data = platform_get_drvdata(pdev);
@@ -103,7 +103,7 @@ index 5a2f1d98b3501..be319949b9415 100644
  	if (driver_data) {
  		quirks = driver_data->quirks;
  
-@@ -696,12 +700,6 @@ static void cros_ec_lpc_remove(struct platform_device *pdev)
+@@ -625,12 +629,6 @@ static void cros_ec_lpc_remove(struct platform_device *pdev)
  	cros_ec_unregister(ec_dev);
  }
  
@@ -116,7 +116,7 @@ index 5a2f1d98b3501..be319949b9415 100644
  static const struct lpc_driver_data framework_laptop_npcx_lpc_driver_data __initconst = {
  	.quirks = CROS_EC_LPC_QUIRK_REMAP_MEMORY,
  	.quirk_mmio_memory_base = 0xE00,
-@@ -713,6 +711,13 @@ static const struct lpc_driver_data framework_laptop_mec_lpc_driver_data __initc
+@@ -642,6 +640,13 @@ static const struct lpc_driver_data framework_laptop_mec_lpc_driver_data __initc
  	.quirk_aml_mutex_name = "ECMT",
  };
  
@@ -130,7 +130,7 @@ index 5a2f1d98b3501..be319949b9415 100644
  static const struct dmi_system_id cros_ec_lpc_dmi_table[] __initconst = {
  	{
  		/*
-@@ -866,7 +871,8 @@ static int __init cros_ec_lpc_init(void)
+@@ -795,7 +800,8 @@ static int __init cros_ec_lpc_init(void)
  	int ret;
  	const struct dmi_system_id *dmi_match;
  

@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD4A1EBA08;
-	Tue,  1 Apr 2025 09:52:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28A11F03D3;
+	Tue,  1 Apr 2025 09:56:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743501177; cv=none; b=EaIPvP10RroFM+ZdySvVQk7GnJz3Wt8GhOI2h+Bg2ldTLbyzPAgt162K0/7XH74U7bB8Gsau4Vjzw3QZUhyLL8JEiWmUDRiSDKBqYBoepgVIA3IxdYRZK9wXErJf6SDcMLSEqx8SbAVXGN/saKSZat79sr0YF6zA6e2j/BkUgdU=
+	t=1743501401; cv=none; b=eyjLV9TdUOTuwthnaJkicT9mMbftMqqmrzxbocVAfr0nI0uFrqvV8eZ2F63JUFvN7xdL3WG5w19mqDgFlxS07ofityTpLbdufuuoqstvSkTlbWJMRewqFlumH2DYs1Yh3Scsw8FDZtvsjmF8OSmuY8jkDzkUEiLs2FB1S4lqv0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743501177; c=relaxed/simple;
-	bh=0y7CwhlwwKJWWd1U2y0IItz2B07DT3mzsvfWUHPPIN0=;
+	s=arc-20240116; t=1743501401; c=relaxed/simple;
+	bh=r6HPVNbL59phmd4XeurjCVNmO0bQLIsjG0GRIPVMgz8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zw1WHUeOUF6M4iX+O6BlodL4IjwGclhlHu58xbIZCCA/AzchwB7+h6yqOMLpojOYedv0Q8gXNL2G2Q+joWWRUrYk6SPxZ6Ja+u7jqhXByvOUyx1MlFsvjiP0Acts3FfmHExv7lmu3W/sv1q55lhHQr/DnqIsXCiudMnCxrBUyG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P/vbWlsy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=f+y93zVepIUWOrNHoyHJQ6NduDgbr2SDoGO38m6lfeu7/Z+3iUno3ihuPu/GwJde7PuAhJtr5Ajlcl/1ySwrJ8seH+v7AI4ONjD2jCXlSFJL0gLcMkV9/oE+klfWsqu8Sz16eZplcz0n7IOBPY659xC+cl4NMXXNbVeHNpxguU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j6RiEMRJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P/vbWlsy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66BFAC4CEE5;
-	Tue,  1 Apr 2025 09:52:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j6RiEMRJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A289C4CEE4;
+	Tue,  1 Apr 2025 09:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743501176;
-	bh=0y7CwhlwwKJWWd1U2y0IItz2B07DT3mzsvfWUHPPIN0=;
+	s=k20201202; t=1743501401;
+	bh=r6HPVNbL59phmd4XeurjCVNmO0bQLIsjG0GRIPVMgz8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P/vbWlsy8iOgARZpKKP8Hokv7d2HJ9wv/Lx4ohAkBfpVA6NBYkBCQPn7xgkf6QDfB
-	 xWtnP1yBRbSxrwY0m6CPaP1CG6rDX9QOELbFMthGHOlpaI0AQQdBmSTz67gvX6r1ou
-	 /juu+YLgQ6fVd82u+/gbGhvtml7IbCWBOLxIjU+vELTAT2L0rjgCpHpbkMlcLaZ6E0
-	 KV+f5bFDC4Qg/Asf/idNloTLDnm7n9YxwLMrxmPrf5WhfkcwCngdrji7E2a0gVRN0j
-	 +nh8AYZsrBxx+FPskUoXdIu/JWiOIgfUCkESKXL6cjJiBPlYECLMcJOLGVfiF3Dmlj
-	 WUKLQFXgVa5Xg==
-Date: Tue, 1 Apr 2025 09:52:53 +0000
+	b=j6RiEMRJh66E8tviabjNtjgJLS16C/DoKsOuFYDSiao+vjhdw5KaCfyOZO7MoI5+j
+	 98ark8QP7UGFKtsgO9CvxrIhj3Jirw0Hw2bc0FSQ8iJXC3QI3lI8ldiyuGmqNlyljH
+	 Md976ejGpDgyFjY2qoeUt+cVNtFXIThv8Scl4QrNcbYuqis28lVCPJxlYuDrhwkVF0
+	 ZDj00qUn8y+59jSCIYdJfv/MtDaOr5w9SOCKwI2GpbFLQA/UKSEklsb+hufibW3LUi
+	 l3mh1iV8nk5543oonDaT3VCvopEP61d/JDUmfhYgWYaIKoAVwG94qBqE/ljXOsbZNW
+	 Z+KkGBTaqgCuA==
+Date: Tue, 1 Apr 2025 09:56:38 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] platform/chrome: cros_ec_proto: Avoid
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] platform/chrome: cros_kbd_led_backlight: Avoid
  -Wflex-array-member-not-at-end warnings
-Message-ID: <Z-u3dW2FRpb3m_JQ@google.com>
-References: <Z-adX1BB30dcSJ7x@kspp>
+Message-ID: <Z-u4VshJbamUY9Jb@google.com>
+References: <Z-afGnRbyGs4dHb1@kspp>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -44,9 +43,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z-adX1BB30dcSJ7x@kspp>
+In-Reply-To: <Z-afGnRbyGs4dHb1@kspp>
 
-On Fri, Mar 28, 2025 at 07:00:15AM -0600, Gustavo A. R. Silva wrote:
+On Fri, Mar 28, 2025 at 07:07:38AM -0600, Gustavo A. R. Silva wrote:
 > -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
 > getting ready to enable it, globally.
 > 
@@ -57,8 +56,8 @@ On Fri, Mar 28, 2025 at 07:00:15AM -0600, Gustavo A. R. Silva wrote:
 > 
 > So, with these changes, fix the following warnings:
 > 
-> drivers/platform/chrome/cros_ec_proto.c:143:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> drivers/platform/chrome/cros_ec_proto.c:761:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> drivers/platform/chrome/cros_kbd_led_backlight.c:141:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> drivers/platform/chrome/cros_kbd_led_backlight.c:162:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
 > 
 > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 

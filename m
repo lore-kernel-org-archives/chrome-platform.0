@@ -1,242 +1,140 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5802821B9E5;
-	Mon,  7 Apr 2025 18:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916E41C36;
+	Mon,  7 Apr 2025 19:13:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744049472; cv=none; b=VHjHhaXIr/r1o3jvOXcu7lhHsXJwx7MSWxHPyLGWNI6+qojmJv7DKUn3jGPJJc9ivHHB7NpDquvfed5EIhKGprihzdtTOaN9riyAc4qTaxKa50RbOWBDOGf99jnWEw/WiyR3fD8eheKQ1KEcLvkifmAKiKMJ8a8Tuw6xQGbGadQ=
+	t=1744053215; cv=none; b=st/mFW47rCSC9sIsATIDHMKyw9W8hMdLHVmwvUABSps7UxwLucVc9FKbKz7gu1VSSdExYZpJJDrQcOSjDg0qcGAhMR2fi8lEfuV2zzUOjywZ7anlCmjnP3tniUx7tWaW+46Ce1M+fEvMUvVhNGqGrgv9ufdfke49udcBx1N7WE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744049472; c=relaxed/simple;
-	bh=JoP37eI154QXI5o4dy1WjsbE8/dB4FiBGagGIPtkntI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TPbZ8R/R5CJMDa3XlZ7vhb985oe1nbxQ54Ccr8QHz/IepSedRTNI8ZQZ/kjuYG/NmoUieGQcjmSwErEXjEDM5JTl+n3DeyhL4bnaYiRaDMfnFgwFeckVFtgtXN1ukHrCtxpHU8xkJlBpY32w1dUqUXt9XygKCF6GbL8vBSbFWsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qKcv9nm1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744053215; c=relaxed/simple;
+	bh=zSXUnq/gy4D1tAup5XiKadhVrI1TzyvTfcOHNWLlO8M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sUwe/iw9DvH2j9e+4i7WH0D8jtuWMsdeaYprcSASnhmQmaOVyUFJSeYHwXtFvHNYVdnKZeXJSjV5kx8DudhTBI39DgU9OatkaLfv3Oja8Up+zTYcdX6F859C91KnkjZwuazLiOyhzUuudEcfxJMjJvZoIDzNMlaupryI3jIAVr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SrW0nBUq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qKcv9nm1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FB98C4CEE7;
-	Mon,  7 Apr 2025 18:11:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SrW0nBUq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 689DAC4CEDD;
+	Mon,  7 Apr 2025 19:13:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744049471;
-	bh=JoP37eI154QXI5o4dy1WjsbE8/dB4FiBGagGIPtkntI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qKcv9nm1+iBmkZPe+r6JBfFK1nOorX+qeQKVbcG5MXNbFsBpU/qbKg7QrdMj9FRTG
-	 B8aWbJiGo9ysKFKJgly7bjWBX+LQhr4qCjma80vpouy2qkCSIs+GW9ry8nuLtwzKZk
-	 rbzHp/b2HjcVF/wDDatrog48P62DTPeA1Mi98IPvFWhRDHqiHu9Tl2s3Y3QTQOTjcW
-	 /qCCfiyxKwLZoXzhDGyN2x+n4DvpjQ7Zia+qbSXbv7kWbU1hfuIa9a2kHUb/jPNIC6
-	 uiGIIWAWTvGAUg7vUBY1j9dCDpx/Whh2d/w0plHh5Qau0fhMfEnzOUESCirXubLxy3
-	 73kI5o6XDN78Q==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	=?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	abhishekpandit@chromium.org,
-	jthies@google.com,
-	akuchynski@chromium.org,
-	heikki.krogerus@linux.intel.com,
-	bleung@chromium.org,
-	lumag@kernel.org,
-	pooja.katiyar@intel.com,
-	diogo.ivo@tecnico.ulisboa.pt,
-	madhu.m@intel.com,
-	lk@c--e.de,
-	saranya.gopal@intel.com,
-	u.kleine-koenig@baylibre.com,
-	dan.carpenter@linaro.org,
-	mario.limonciello@amd.com,
-	gongruiqi1@huawei.com,
-	chrome-platform@lists.linux.dev,
-	linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 03/31] usb: typec: ucsi: return CCI and message from sync_control callback
-Date: Mon,  7 Apr 2025 14:10:19 -0400
-Message-Id: <20250407181054.3177479-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250407181054.3177479-1-sashal@kernel.org>
-References: <20250407181054.3177479-1-sashal@kernel.org>
+	s=k20201202; t=1744053215;
+	bh=zSXUnq/gy4D1tAup5XiKadhVrI1TzyvTfcOHNWLlO8M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SrW0nBUqZWVFeSdOGJ807GvZZJ7NE9vMoiEYbDztJtPmDoLsSYGjFAQTTv1HIzH3D
+	 QNEX6YWv8qpLURRliNhvv/L7SKU/7xydYTkTzgTGijxvKWs9kerLQP+yPGMDB+wxB/
+	 n/EqrFFFZ2DP5PxgbWpwIAEMNhZtq73Q3l3gufYLmDRQRKT0wzwje8IdynXjiprzN+
+	 bbrZKgI9DWooCtR/F4VQEIxANWJEB4QC1kpNIR9Nj3Ptvhv8SrPMpeqIJo/4m2VVke
+	 Ea2Twog7kje3VmFhz3KDuU8G/UIeUiZorTvNdU1Md5UNhbENIifo4L/3gq0pz9g/zw
+	 KEPbdbXizBTxg==
+Date: Mon, 7 Apr 2025 12:13:32 -0700
+From: Kees Cook <kees@kernel.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Lukasz Majczak <lma@chromium.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
+	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2][next] watchdog: cros-ec: Avoid
+ -Wflex-array-member-not-at-end warning
+Message-ID: <202504071212.D6CBE6740C@keescook>
+References: <Z-WG6_uhWsy_FCq3@kspp>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14.1
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z-WG6_uhWsy_FCq3@kspp>
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Thu, Mar 27, 2025 at 11:12:11AM -0600, Gustavo A. R. Silva wrote:
+> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+> getting ready to enable it, globally.
+> 
+> Use the `DEFINE_RAW_FLEX()` helper for on-stack definitions of
+> a flexible structure where the size of the flexible-array member
+> is known at compile-time, and refactor the rest of the code,
+> accordingly.
+> 
+> So, with these changes, fix the following warning:
+> 
+> drivers/watchdog/cros_ec_wdt.c:29:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> 
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+> Changes v2:
+>  - Fix truncated line in changelog text. (Tzung-Bi)
+>  - Update variable name: s/buf/msg (Tzung-Bi)
+>  - Cast to structs instead of union. (Tzung-Bi)
+>  - Add RB tag.
+> 
+> v1:
+>  - Link: https://lore.kernel.org/linux-hardening/Z-SBITmMfwjocYwL@kspp/
+> 
+>  drivers/watchdog/cros_ec_wdt.c | 30 +++++++++++++-----------------
+>  1 file changed, 13 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/watchdog/cros_ec_wdt.c b/drivers/watchdog/cros_ec_wdt.c
+> index 716c23f4388c..9ffe7f505645 100644
+> --- a/drivers/watchdog/cros_ec_wdt.c
+> +++ b/drivers/watchdog/cros_ec_wdt.c
+> @@ -25,26 +25,22 @@ static int cros_ec_wdt_send_cmd(struct cros_ec_device *cros_ec,
+>  				union cros_ec_wdt_data *arg)
+>  {
+>  	int ret;
+> -	struct {
+> -		struct cros_ec_command msg;
+> -		union cros_ec_wdt_data data;
+> -	} __packed buf = {
+> -		.msg = {
+> -			.version = 0,
+> -			.command = EC_CMD_HANG_DETECT,
+> -			.insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
+> -				   sizeof(struct ec_response_hang_detect) :
+> -				   0,
+> -			.outsize = sizeof(struct ec_params_hang_detect),
+> -		},
+> -		.data.req = arg->req
+> -	};
+> -
+> -	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
+> +	DEFINE_RAW_FLEX(struct cros_ec_command, msg, data,
+> +			sizeof(union cros_ec_wdt_data));
+> +
+> +	msg->version = 0;
 
-[ Upstream commit 667ecac55861281c1f5e107c8550ae893b3984f6 ]
+Technically redundant, but it was redundant before, so keeping style is
+okay.
 
-Some of the drivers emulate or handle some of the commands in the
-platform-specific way. The code ends up being split between several
-callbacks, which complicates emulation.
+> +	msg->command = EC_CMD_HANG_DETECT;
+> +	msg->insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
+> +		   sizeof(struct ec_response_hang_detect) :
+> +		   0;
+> +	msg->outsize = sizeof(struct ec_params_hang_detect);
+> +	*(struct ec_params_hang_detect *)msg->data = arg->req;
+> +
+> +	ret = cros_ec_cmd_xfer_status(cros_ec, msg);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	arg->resp = buf.data.resp;
+> +	arg->resp = *(struct ec_response_hang_detect *)msg->data;
 
-In preparation to reworking such drivers, move read_cci() and
-read_message_in() calls into ucsi_sync_control_common().
+msg->data used twice and a "sizeof()" earlier... might be nicer to have
+an explicit pointer?
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Łukasz Bartosik <ukaszb@chromium.org>
-Link: https://lore.kernel.org/r/20250120-ucsi-merge-commands-v2-1-462a1ec22ecc@linaro.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/typec/ucsi/cros_ec_ucsi.c |  5 +++--
- drivers/usb/typec/ucsi/ucsi.c         | 19 +++++++++++--------
- drivers/usb/typec/ucsi/ucsi.h         |  6 ++++--
- drivers/usb/typec/ucsi/ucsi_acpi.c    |  5 +++--
- drivers/usb/typec/ucsi/ucsi_ccg.c     |  5 +++--
- 5 files changed, 24 insertions(+), 16 deletions(-)
+-Kees
 
-diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-index c605c86167268..744f0709a40ed 100644
---- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-+++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-@@ -105,12 +105,13 @@ static int cros_ucsi_async_control(struct ucsi *ucsi, u64 cmd)
- 	return 0;
- }
- 
--static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd)
-+static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd, u32 *cci,
-+				  void *data, size_t size)
- {
- 	struct cros_ucsi_data *udata = ucsi_get_drvdata(ucsi);
- 	int ret;
- 
--	ret = ucsi_sync_control_common(ucsi, cmd);
-+	ret = ucsi_sync_control_common(ucsi, cmd, cci, data, size);
- 	switch (ret) {
- 	case -EBUSY:
- 		/* EC may return -EBUSY if CCI.busy is set.
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 2a2915b0a645f..e8c7e9dc49309 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -55,7 +55,8 @@ void ucsi_notify_common(struct ucsi *ucsi, u32 cci)
- }
- EXPORT_SYMBOL_GPL(ucsi_notify_common);
- 
--int ucsi_sync_control_common(struct ucsi *ucsi, u64 command)
-+int ucsi_sync_control_common(struct ucsi *ucsi, u64 command, u32 *cci,
-+			     void *data, size_t size)
- {
- 	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
- 	int ret;
-@@ -80,6 +81,13 @@ int ucsi_sync_control_common(struct ucsi *ucsi, u64 command)
- 	else
- 		clear_bit(COMMAND_PENDING, &ucsi->flags);
- 
-+	if (!ret && cci)
-+		ret = ucsi->ops->read_cci(ucsi, cci);
-+
-+	if (!ret && data &&
-+	    (*cci & UCSI_CCI_COMMAND_COMPLETE))
-+		ret = ucsi->ops->read_message_in(ucsi, data, size);
-+
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(ucsi_sync_control_common);
-@@ -95,7 +103,7 @@ static int ucsi_acknowledge(struct ucsi *ucsi, bool conn_ack)
- 		ctrl |= UCSI_ACK_CONNECTOR_CHANGE;
- 	}
- 
--	return ucsi->ops->sync_control(ucsi, ctrl);
-+	return ucsi->ops->sync_control(ucsi, ctrl, NULL, NULL, 0);
- }
- 
- static int ucsi_run_command(struct ucsi *ucsi, u64 command, u32 *cci,
-@@ -108,9 +116,7 @@ static int ucsi_run_command(struct ucsi *ucsi, u64 command, u32 *cci,
- 	if (size > UCSI_MAX_DATA_LENGTH(ucsi))
- 		return -EINVAL;
- 
--	ret = ucsi->ops->sync_control(ucsi, command);
--	if (ucsi->ops->read_cci(ucsi, cci))
--		return -EIO;
-+	ret = ucsi->ops->sync_control(ucsi, command, cci, data, size);
- 
- 	if (*cci & UCSI_CCI_BUSY)
- 		return ucsi_run_command(ucsi, UCSI_CANCEL, cci, NULL, 0, false) ?: -EBUSY;
-@@ -127,9 +133,6 @@ static int ucsi_run_command(struct ucsi *ucsi, u64 command, u32 *cci,
- 	else
- 		err = 0;
- 
--	if (!err && data && UCSI_CCI_LENGTH(*cci))
--		err = ucsi->ops->read_message_in(ucsi, data, size);
--
- 	/*
- 	 * Don't ACK connection change if there was an error.
- 	 */
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index 28780acc4af2e..892bcf8dbcd50 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -79,7 +79,8 @@ struct ucsi_operations {
- 	int (*read_cci)(struct ucsi *ucsi, u32 *cci);
- 	int (*poll_cci)(struct ucsi *ucsi, u32 *cci);
- 	int (*read_message_in)(struct ucsi *ucsi, void *val, size_t val_len);
--	int (*sync_control)(struct ucsi *ucsi, u64 command);
-+	int (*sync_control)(struct ucsi *ucsi, u64 command, u32 *cci,
-+			    void *data, size_t size);
- 	int (*async_control)(struct ucsi *ucsi, u64 command);
- 	bool (*update_altmodes)(struct ucsi *ucsi, struct ucsi_altmode *orig,
- 				struct ucsi_altmode *updated);
-@@ -531,7 +532,8 @@ void ucsi_altmode_update_active(struct ucsi_connector *con);
- int ucsi_resume(struct ucsi *ucsi);
- 
- void ucsi_notify_common(struct ucsi *ucsi, u32 cci);
--int ucsi_sync_control_common(struct ucsi *ucsi, u64 command);
-+int ucsi_sync_control_common(struct ucsi *ucsi, u64 command, u32 *cci,
-+			     void *data, size_t size);
- 
- #if IS_ENABLED(CONFIG_POWER_SUPPLY)
- int ucsi_register_port_psy(struct ucsi_connector *con);
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index ac1ebb5d95272..0ac6e5ce4a288 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -128,12 +128,13 @@ static int ucsi_gram_read_message_in(struct ucsi *ucsi, void *val, size_t val_le
- 	return ret;
- }
- 
--static int ucsi_gram_sync_control(struct ucsi *ucsi, u64 command)
-+static int ucsi_gram_sync_control(struct ucsi *ucsi, u64 command, u32 *cci,
-+				  void *data, size_t size)
- {
- 	struct ucsi_acpi *ua = ucsi_get_drvdata(ucsi);
- 	int ret;
- 
--	ret = ucsi_sync_control_common(ucsi, command);
-+	ret = ucsi_sync_control_common(ucsi, command, cci, data, size);
- 	if (ret < 0)
- 		return ret;
- 
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 4b1668733a4be..254c391618521 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -628,7 +628,8 @@ static int ucsi_ccg_async_control(struct ucsi *ucsi, u64 command)
- 	return ccg_write(uc, reg, (u8 *)&command, sizeof(command));
- }
- 
--static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command)
-+static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command, u32 *cci,
-+				 void *data, size_t size)
- {
- 	struct ucsi_ccg *uc = ucsi_get_drvdata(ucsi);
- 	struct ucsi_connector *con;
-@@ -652,7 +653,7 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command)
- 		ucsi_ccg_update_set_new_cam_cmd(uc, con, &command);
- 	}
- 
--	ret = ucsi_sync_control_common(ucsi, command);
-+	ret = ucsi_sync_control_common(ucsi, command, cci, data, size);
- 
- err_put:
- 	pm_runtime_put_sync(uc->dev);
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.43.0
+> 
+
 -- 
-2.39.5
-
+Kees Cook

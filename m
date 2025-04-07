@@ -1,169 +1,117 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0BA2222DA;
-	Mon,  7 Apr 2025 19:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8898D20FAB3
+	for <chrome-platform@lists.linux.dev>; Mon,  7 Apr 2025 19:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744054071; cv=none; b=BpQReAjOLHSyGie9UT7ObCFAOqpKu+KpCnC94nEziE0F8TcXXCMDUafOCebV6PmoeU+n6HDo/l/5IW+zP3NmjlVhAtIsRyqr25u+YZeWzjUVZu9w/bcVaFImyaSP5YaIVlcmjgP9dOcrnSuHTB4p0SsIAH01kpL4+v53CQ9o46s=
+	t=1744054939; cv=none; b=FpIymeuSFrOWekAYs3zyvZPo6uZYM9aTlpLNHuILANCWWJTXF/CIZH9gMT2o1hhU/9MlxVPaXeyq2h++YIBfpOhgcJ8QUnZjhd/+cmAkF/yj7OTjTpAIgWzIbcv1biGCV3FnXgHVHXQxaSla8i2Nat8tHlpgr9FpyAmSbqSgWKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744054071; c=relaxed/simple;
-	bh=nWMPJiZ/C1me5It7a1cdWkDqp5i0FTr20WskxIIMaYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hRggyfiXH7bFF2mMXMtiAfm5B8gW6OSuF7/0JsZ7QyxODE5XPrkndvs4Tn45aTZKUVqL8M+O957BjUTSqt0o1iQxS4GXaiN5RKWExySLMYSiVMRZYKrNkI019GvGySnOmXzgdfxSLxkl5jEgUFAkL6FRfhTt9gRFXU3PwiBoZYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Gi+8MJKk; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1744054939; c=relaxed/simple;
+	bh=y4/Sh+IxWge2qh7GivBoh7q/Q8aAv9vu8Lz20RMeV0Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VWF0fFZmlH94vICKH6GKOzr8C0jTgbCsOhFuoABoLXfbqA+WQ/yoPj0qxyVo3EBT2mMFYXH+4ZG/fzPWlc6VdGepnFtcFYOX+QvkUxi5c+ubp279pEGmsl7sSUhqrnR7Ud48Cr2LywKYS0CvHZfsw9dZbqkRMQ4xaG+UdIy1CGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=RLg7DO7p; arc=none smtp.client-ip=35.89.44.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Gi+8MJKk"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 37D604421F;
-	Mon,  7 Apr 2025 19:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744054065;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cjEt/IPzaAdKLiLHC8nJ5ihJ1fjZFnzeMJstnBzp7XQ=;
-	b=Gi+8MJKk54bvu0U11jHOJw08NvtnpAzunZzJXO4mlFlnzsLVy8DFQIv5f1cwemOl31f/in
-	yXq1Um8EF62nuW+7K5/FANGhJKfIDt3FpxkAeF2Uw52NGHGgsgSLt5hId5UF1i3v6U7LiQ
-	QV71SvnJzRB4Bv9Y0pBT6LtPqcjAci3aXj9uPyPUUIhwMeK2lXlaYCBe0svd+nHK7Htak4
-	/9HotCk7aCwdmAu+N82j0bdVIG/9XNextLdkUXD3MPHCRUDF3rNzBb5f+B2kzx0rN1agcB
-	y2M7EU6B7HGxiOcK1BDKg9fGTg+UZIk8/GVGNr8AJuzWT4pQ2/Cw+JF6m2DEKA==
-Date: Mon, 7 Apr 2025 21:27:39 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Ilpo =?UTF-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
- Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
- =?UTF-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Hui Pu
- <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, LKML
- <linux-kernel@vger.kernel.org>, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Hans de Goede
- <hdegoede@redhat.com>
-Subject: Re: [PATCH 02/34] platform: arm64: acer-aspire1-ec: convert to
- devm_drm_bridge_alloc() API
-Message-ID: <20250407212739.1e991b6a@booty>
-In-Reply-To: <a9000632-a6d1-d369-c317-9ee73aa645dc@linux.intel.com>
-References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
-	<20250407-drm-bridge-convert-to-alloc-api-v1-2-42113ff8d9c0@bootlin.com>
-	<a9000632-a6d1-d369-c317-9ee73aa645dc@linux.intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="RLg7DO7p"
+Received: from eig-obgw-5009a.ext.cloudfilter.net ([10.0.29.176])
+	by cmsmtp with ESMTPS
+	id 1m56u03B6f1UX1sMKuqNzK; Mon, 07 Apr 2025 19:42:17 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id 1sMKudX9f4PG71sMKuKhvA; Mon, 07 Apr 2025 19:42:16 +0000
+X-Authority-Analysis: v=2.4 cv=aZVnnwot c=1 sm=1 tr=0 ts=67f42a98
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=B3fuDwYyW55wTQKIj88FGw==:17
+ a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=7T7KSl7uo7wA:10
+ a=MRTGISs1mr4pDFNIwogA:9 a=QEXdDO2ut3YA:10 a=Xt_RvD8W3m28Mn_h3AK8:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=U95o1UiCLtOlksLs3gBeL5btxbXT5Fuwem2XPOf2NPo=; b=RLg7DO7ppTrGyuj+n9kox89h9K
+	nGbLuQOL7ya07snGngHtrPSXmKLHDTkUJOahJH73gWsmqMdTYPnWGGdd0YEZRejsuJ8CHqK3Hna3w
+	qa8IiyI1Nvvps6NRDVnp4QddDF1XtDNhtpzhuVwfpJaJcCtbwbgGw7AYvP6aDp9gfrX38KXU0i6UM
+	MXdR53cc8Arf9JhPt38oiOPkOHMdKdrtQPQ1grYYHwn/GZlJU9USC9NJmY6QV7Gh/4JN7mk28i/7v
+	WnQu6J5FQW5D3yzHU3Id3th75cjfUD1WnYKmeLzTO0VvOqoWZqoFJgLTUFBO2vkezdbu2XuxzesFw
+	V8no09zg==;
+Received: from [201.172.174.147] (port=35230 helo=[192.168.15.6])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.1)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1u1sMI-00000000Vbh-2wy2;
+	Mon, 07 Apr 2025 14:42:15 -0500
+Message-ID: <e8114ca6-d092-482b-9d6b-db7ea1c15cbc@embeddedor.com>
+Date: Mon, 7 Apr 2025 13:42:07 -0600
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvddtuedtfefgueehiefhjeeiffekudfhgfdtledvffekhfegteduieejveevteehnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgeefpdhrtghpthhtohepihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigr
- dhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2][next] watchdog: cros-ec: Avoid
+ -Wflex-array-member-not-at-end warning
+To: Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Lukasz Majczak <lma@chromium.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Benson Leung <bleung@chromium.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
+ linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+References: <Z-WG6_uhWsy_FCq3@kspp> <202504071212.D6CBE6740C@keescook>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <202504071212.D6CBE6740C@keescook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.172.174.147
+X-Source-L: No
+X-Exim-ID: 1u1sMI-00000000Vbh-2wy2
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.15.6]) [201.172.174.147]:35230
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 22
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfKx7IO8ODlvoKWMlHK0EtXGc3+msrZ7qUDLVZfEGXspARVbjwzgqZ//QXQQSjYeCM+J+gUmnZBTN7wVuCHXvo5zd/LRBXUh6odYJz07K0NXxQPRHdaCZ
+ XNo1MEc27Uc1mZv+7wqmYJs6OSsWdk67BnXk5Oe3nmkpSS+0aWtCFxqa7TR7Sznqh5sSWsdesC3HO7rvGtKor+vRYyMO9yViJFaNqP/2DhcDgP0qWCfmmBEp
 
-Hello Ilpo,
 
-On Mon, 7 Apr 2025 19:46:59 +0300 (EEST)
-Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com> wrote:
+> 
+>> +	msg->command = EC_CMD_HANG_DETECT;
+>> +	msg->insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
+>> +		   sizeof(struct ec_response_hang_detect) :
+>> +		   0;
+>> +	msg->outsize = sizeof(struct ec_params_hang_detect);
+>> +	*(struct ec_params_hang_detect *)msg->data = arg->req;
+>> +
+>> +	ret = cros_ec_cmd_xfer_status(cros_ec, msg);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>> -	arg->resp = buf.data.resp;
+>> +	arg->resp = *(struct ec_response_hang_detect *)msg->data;
+> 
+> msg->data used twice and a "sizeof()" earlier... might be nicer to have
+> an explicit pointer?
 
-> On Mon, 7 Apr 2025, Luca Ceresoli wrote:
->=20
-> > This is the new API for allocating DRM bridges.
-> >=20
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> >=20
-> > ---
-> >=20
-> > Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-> > Cc: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
-> > Cc: Hans de Goede <hdegoede@redhat.com>
-> > ---
-> >  drivers/platform/arm64/acer-aspire1-ec.c | 7 +++----
-> >  1 file changed, 3 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/drivers/platform/arm64/acer-aspire1-ec.c b/drivers/platfor=
-m/arm64/acer-aspire1-ec.c
-> > index 958fe1bf5f85bb69ac7962f217de9f0b40cde9a1..438532a047e68799ac53a16=
-a4c813fc16be997b9 100644
-> > --- a/drivers/platform/arm64/acer-aspire1-ec.c
-> > +++ b/drivers/platform/arm64/acer-aspire1-ec.c
-> > @@ -452,9 +452,9 @@ static int aspire_ec_probe(struct i2c_client *clien=
-t)
-> >  	int ret;
-> >  	u8 tmp;
-> > =20
-> > -	ec =3D devm_kzalloc(dev, sizeof(*ec), GFP_KERNEL);
-> > -	if (!ec)
-> > -		return -ENOMEM;
-> > +	ec =3D devm_drm_bridge_alloc(dev, struct aspire_ec, bridge, &aspire_e=
-c_bridge_funcs);
-> > +	if (IS_ERR(ec))
-> > +		return PTR_ERR(ec);
-> > =20
-> >  	ec->client =3D client;
-> >  	i2c_set_clientdata(client, ec);
-> > @@ -497,7 +497,6 @@ static int aspire_ec_probe(struct i2c_client *clien=
-t)
-> >  	fwnode =3D device_get_named_child_node(dev, "connector");
-> >  	if (fwnode) {
-> >  		INIT_WORK(&ec->work, aspire_ec_bridge_update_hpd_work);
-> > -		ec->bridge.funcs =3D &aspire_ec_bridge_funcs;
-> >  		ec->bridge.of_node =3D to_of_node(fwnode);
-> >  		ec->bridge.ops =3D DRM_BRIDGE_OP_HPD;
-> >  		ec->bridge.type =3D DRM_MODE_CONNECTOR_USB; =20
->=20
-> Hi Luca,
->=20
-> It took a while to locate where the code for the new helper is. I suggest=
-=20
-> if you need send another version of the series directly linking to the=20
-> commit in the cover letter so that it won't take multiple hoops to find i=
-t=20
-> if one wants to review the code and is not having all drm trees easily at=
-=20
-> hand. Here it is for the benefit of other pdx86 people:
->=20
-> https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b=
-715ea3d1ba537ef2da95eec
+Those are two different pointers:
 
-Apologies, indeed you have a good point. I added the link to the cover
-letter so it will be in v2, if any.
+*(struct ec_params_hang_detect *)msg->data = arg->req;
+arg->resp = *(struct ec_response_hang_detect *)msg->data;
 
-> Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-
-Thanks!
-
-> I assume you want this to go through the drm tree where the helper alread=
-y=20
-> is?
-
-MY best guess is that drm-misc-next is the appropriate branch, and it
-is where the helper is already present, but I'll let maintainers decide
-what is most appropriate.
-
-Luca
-
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--
+Gustavo

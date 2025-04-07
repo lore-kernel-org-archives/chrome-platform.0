@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186DC211460;
-	Mon,  7 Apr 2025 02:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EB22135B3;
+	Mon,  7 Apr 2025 02:54:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743992211; cv=none; b=lnVtruUBKnzxYQlzrFbZzlDLtIFI006deliGD7Tjf64zN9Y8XbycijjMMxnjZkx7fkZxpgW2sb/6t1XLkQ1LEthgc+DtKmp97TIGveRf2kAwSVGmJCT0rrnjlo9iMGMVxHcMZxYZSiPU+Jc17cU3vIhzbKFrxpCZKDbGTOkc1ZM=
+	t=1743994491; cv=none; b=KnPY8B3PFzcxIpCNNLSjyNujZOyL6UlUSF3cRYljiOm3S7am+fcCsn9ZkF9sMSPrAUWig34hvL2EpWe9NFLo1vB+O6+PvEUMN02GcE3AEfiYA+94CzQHb+jqsYrc+LvnqcrAOuU1AxsxRPyXYKjZF9kyHew8vEL0g8YyP9601es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743992211; c=relaxed/simple;
-	bh=+YPVBtUdXDL8aIMa/FW9iSku5vdP9lAXtJFKr/FTZ8M=;
+	s=arc-20240116; t=1743994491; c=relaxed/simple;
+	bh=0XzdAfsuqWup1ZNHYyTYHBxogRUNXsUn8b+2R0DeDgk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sTDd00bSK6txjNWhXMyoxVpXEeMJ447yVz9Hu+2vJCQphjMhzNxbspy9vWRCDezsGKPceWCKUzbK742OBoN+mKI6oQe7nesauIk5FafUfzYsTG3KLQ9qyUbVjHtwz87QhGIQ6Zpxf8Xd/1XW4Zm4rT1D3ayiVYHwhOHRLLwNZQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HShg0dF2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DWV5braEunZdQEfu8MmHwRogd+8ye4zs7Hs4dHyMs2epo2ELCevuPajxmhRlE5Ef9W9UWuTA6J9q+9ZV1n3TqGdPaOmwKrZrCCTvkFIxVwYkpB03j5KD5Bqi+8EuWmlg8jXnXyRLp/67qzaelnztH5YCLdvOHiyj5LaAcME+b6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5yWq1SX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HShg0dF2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDD3C4CEE7;
-	Mon,  7 Apr 2025 02:16:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5yWq1SX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66639C4CEE3;
+	Mon,  7 Apr 2025 02:54:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743992210;
-	bh=+YPVBtUdXDL8aIMa/FW9iSku5vdP9lAXtJFKr/FTZ8M=;
+	s=k20201202; t=1743994490;
+	bh=0XzdAfsuqWup1ZNHYyTYHBxogRUNXsUn8b+2R0DeDgk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HShg0dF20RdvloEvlAD/b7m5+ljObjq9aH0wjIuNl4K5x8VZOhwGn3Y36wmu5LGJf
-	 wPnL0lyj4AqGN2WzbzUFDqTPgpjk/gylC5ynPd4LUkkWnnmg1ycoh6PkWnqE2gJwSJ
-	 hGN3H5Z4HSq9qUzJuxYmvDdNsybUTepfqi7MkdGs/GkqOhA/SwnqdrZtPauUmYKQwj
-	 PQLImbL/PJz2ttOlpU3uk9wSU8JBP1bnpYKDCvPHKRkL6/LtvPR30Y8pFELDOl2cAU
-	 AjARgo8s0NppzVNTTEcIFgCWGQrNhXM+5OSb034pxnRQcG4mW/iYTHVByTSMdizjch
-	 ZpJrt1AQCsBGg==
-Date: Mon, 7 Apr 2025 02:16:48 +0000
+	b=D5yWq1SXzQnG9At25GUsnfRhGcU98ES1vSVPn6QiK95oPlUTkEMFSy0Ao5nkgrxKp
+	 RqrMDZa3QBk2HI1OmTg+rw8/UVDXN/R8w9c7t/rWRu9VOTPTRBt6ZxeqrMtJVUqlzg
+	 LploIUzjDSgJ+DOMXffyXY5ZJM5BGS9e/8cK3Ii7nGBxpplTmF5aeow4no7k8Mg88d
+	 AsTlcEWdRPf6oLk8vKitvxdWwxkkZX7YGBQEz0NRUC3Cd7fodcrPQ1N09S57/i9lDp
+	 lZpUP/M9qnyfFArEjrMoCJvFdfYx30W262au6lXqV2s8Hy+d/r7dBSTLgftlr4WLrl
+	 ZTsamkAp89y3w==
+Date: Mon, 7 Apr 2025 02:54:47 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] platform/chrome: cros_kbd_led_backlight: Avoid
- -Wflex-array-member-not-at-end warnings
-Message-ID: <Z_M1kLX_pbcq3taE@google.com>
-References: <Z-afGnRbyGs4dHb1@kspp>
+To: Slawomir Rosek <srosek@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	ukaszb@chromium.org
+Subject: Re: [PATCH v1] platform/chrome: cros_ec_proto: allow to build as
+ module
+Message-ID: <Z_M-d5L8FpSdy3ZT@google.com>
+References: <20250328132612.511471-1-srosek@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -43,16 +44,14 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z-afGnRbyGs4dHb1@kspp>
+In-Reply-To: <20250328132612.511471-1-srosek@chromium.org>
 
-On Fri, Mar 28, 2025 at 07:07:38AM -0600, Gustavo A. R. Silva wrote:
-> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-> getting ready to enable it, globally.
-> 
-> Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
-> a flexible structure where the size of the flexible-array member
-> is known at compile-time, and refactor the rest of the code,
-> accordingly.
+On Fri, Mar 28, 2025 at 01:26:12PM +0000, Slawomir Rosek wrote:
+> This allows to build ChromeOS EC communication protocol helpers as
+> kernel module which is particularly useful for Android GKI (Generic
+> Kernel Image) configuration. With this change the ChromeOS Platform
+> (CONFIG_CHROME_PLATFORMS=y) can be enabled directly from the vendor
+> kconfig fragment whithout additional configuration in gki_defconfig.
 > 
 > [...]
 
@@ -60,7 +59,7 @@ Applied to
 
     https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-[1/1] platform/chrome: cros_kbd_led_backlight: Avoid -Wflex-array-member-not-at-end warnings
-      commit: 04251bc86653a839ccb1f5ec248ad5e8afd9a627
+[1/1] platform/chrome: cros_ec_proto: allow to build as module
+      commit: ccf395bde6aeefac139f4f250287feb139e3355d
 
 Thanks!

@@ -1,70 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346DC77111;
-	Fri,  4 Apr 2025 14:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE4FF9D9;
+	Mon,  7 Apr 2025 02:15:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743777919; cv=none; b=Y8iKjQOQUzC9Pvhu+1vNYCErcKV0A1dbQd6erOYsgl7ZmAXPCqJYAVUEdfA4DQgkY7QF5SvaoFiftrjR0K7TZX/RR6zHGX+fLDinZocBhe+/Dro7dtZA+BrU3cLKSBSUchm8GW81wXGfrdlRs89HPZEfqdPrtOppK35EDNvVyO0=
+	t=1743992148; cv=none; b=DL3cr0RpHWT2aIJAw7zgXkB4igSj/EpbNK+i5N2em8CllgC8Swf35Ld5lwEIvEwDNyX9yxGE7SbG9hnOmpjREDWeQqD3MXxz2wZBWK4dlQ7YpS2lkvPxNrae5qCBcdsnp10YXGELJF0B6r1pKYsshnjMHayoh6vcalbYF8bYhhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743777919; c=relaxed/simple;
-	bh=QksyQbE+08Iq66gHvsGEsvjyWfi3Ado+GfSgaflv5T4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FSxlp+psZ+TRvEFdH4go0q4lXiewvOwFFYGtKwNWXUXWx53E+o/whXnfiUYVsRIV6tcBK1hF7AU7t8nueRLFxJrIRPauTsxJvEZH85woi1l9k8jQfAXDDx1u/g2xbgtJGGuQsLP/SmY5DrHiCKq/5M1HOQ7Qt3pQ8lGgeI/D+co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCwxTY91; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743992148; c=relaxed/simple;
+	bh=fWVq5GxNBvK8jcQCgLmMrPyyOGcfXN2mrSWkGFj6nBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sK/wc5HWC1rNOrBFFpUfh7CuG5hb8eta9T/+RKrXtH3Kc3oXLfAvdaf6o4SaDOMp/+hjol4o1RlRIAOgYGrEEn2lc35Wc+WUi1r9Ji0z7Dk4zDC+97PTajEjp8YXCKfUbdadv8uro/SSknQxLN9RuqYlkMCiD+nHgeTqupQUmdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fi8FdyHR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCwxTY91"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA5E5C4CEDD;
-	Fri,  4 Apr 2025 14:45:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fi8FdyHR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA9EC4CEE3;
+	Mon,  7 Apr 2025 02:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743777918;
-	bh=QksyQbE+08Iq66gHvsGEsvjyWfi3Ado+GfSgaflv5T4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=QCwxTY91Ihufe1nFDIVmN0Bh9qG/T1QKgEhv0owcyRB/WI3KcD8x1DxeWnV9fo7wo
-	 H/cm3A8QjVd9Rq18WntQSfye0Y4Lb9VqXpkm3vdpagnuVpH/cD+PNpc2nT7TfQG7Ou
-	 UXPr7MjizYCJSMvS1DAq9p/okOlsRvJOb5xiI71JApGJzfQV7eJTH7kqh+/i6nOhii
-	 QY5Wdggze6qxyt7jpYGfTiAzHao935iiR3dxQYT09oCv5TKFcJ3JnLNn8Lbb1zXqJ4
-	 ++8ThVX2Z1tUNvij7bLUMs3RMS79szyevYPX1qE4PplP6MLx7hwfjggF9T6wlUDij+
-	 0rurFzrk2FQmA==
-From: Lee Jones <lee@kernel.org>
-To: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-In-Reply-To: <Z-rKcgFjsyKvd58q@kspp>
-References: <Z-rKcgFjsyKvd58q@kspp>
-Subject: Re: (subset) [PATCH v2][next] leds: Avoid
- -Wflex-array-member-not-at-end warning
-Message-Id: <174377791657.384039.15622811983419116950.b4-ty@kernel.org>
-Date: Fri, 04 Apr 2025 15:45:16 +0100
+	s=k20201202; t=1743992147;
+	bh=fWVq5GxNBvK8jcQCgLmMrPyyOGcfXN2mrSWkGFj6nBU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fi8FdyHRUkPGHvXSqzgIRll58FpcbYs15TQV/aiz94P+kMnPgbP6uFI3PXMSLt7WU
+	 YQ2wa351n4bXUNLE90ZH53RM97hG1ouutMa+LONDKlPy9Qii0/zNHW4jjvzPmSrSS9
+	 RHYM28yGx5ZIHtfYQ/VFx98nAL27bFCxnuy29230Ow88J2sHhYZEhyoQzGoDP2Vd/a
+	 G2DK2JB1W1GEJreLhhn62r3YEJ167T+cVjg4++Pf+VPJiICBJH5udKeZ0nDgfPupdz
+	 O9GpWZtVapZa05eFedBDfzigqEAPO0Mc3e0FJfZRxvuNqZYA4W18Iv89NorrR+4o1p
+	 4hiaGYuZXA4vA==
+Date: Mon, 7 Apr 2025 02:15:44 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] platform/chrome: cros_ec_debugfs: Avoid
+ -Wflex-array-member-not-at-end warnings
+Message-ID: <Z_M1UHK3x7h_Zlb_@google.com>
+References: <Z-aiAAcIP7sBRtz0@kspp>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-510f9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z-aiAAcIP7sBRtz0@kspp>
 
-On Mon, 31 Mar 2025 11:01:38 -0600, Gustavo A. R. Silva wrote:
+On Fri, Mar 28, 2025 at 07:20:00AM -0600, Gustavo A. R. Silva wrote:
 > -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
 > getting ready to enable it, globally.
 > 
-> Replace an on-stack definition of a flexible structure with a call
-> to utility function cros_ec_cmd().
-> 
-> So, with these changes, fix the following warning:
-> 
+> Use the `DEFINE_RAW_FLEX()` helper for an on-stack definition of
+> a flexible structure where the size of the flexible-array member
+> is known at compile-time, and refactor the rest of the code,
+> accordingly.
+>
 > [...]
 
-Applied, thanks!
+Applied to
 
-[1/1] leds: Avoid -Wflex-array-member-not-at-end warning
-      commit: c0adca7285b2bdf2ef7a67bb02e282d861e7b6a8
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
---
-Lee Jones [李琼斯]
+[1/1] platform/chrome: cros_ec_debugfs: Avoid -Wflex-array-member-not-at-end warnings
+      commit: da90147bf52b7ab6d8f021418496a7b6f39b2249
 
+Thanks!

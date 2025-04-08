@@ -1,87 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F760217722;
-	Mon,  7 Apr 2025 20:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAF32356AE
+	for <chrome-platform@lists.linux.dev>; Tue,  8 Apr 2025 02:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744058180; cv=none; b=hFrDHBuesy+XnesdOl9xNrAfP96pwz/VR1ftqDqtnvXe1rEHXeUCDKfZHnGsSfCIcOhVRMzR1odU3qiLeH68+WPedBjMf/I4Wt3j59TZWWqc5asc2B9qkEBISbt0/F5yRdggMjJtkieXbkADwXXo1qfWr112S8hb5S9g2ihaoJ4=
+	t=1744080800; cv=none; b=LuBJkNL97yRjTwCQO2Vfr3v6o6XeQDfTPe0Lkz3L6zG2YgPt31+p+KTCWKfl7wxqdwT7sCWMHsI4urCkSuWZFn+xBe08qosDFjrA60G0eSxqX8mGcg9Tg+xPLJLU5cuNJxxvfRiYCdJlY1Oup/yZfiSi9p4vEGljZTXSTkXnFBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744058180; c=relaxed/simple;
-	bh=SEFMHa645xj5XB05KG2bL79aOQHT4caCQ1V0FQwTMWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FjB+8YgnhaCdAyZWZxzjVuSlc7R/sJn4mEUyjXVO+7iacbeY26e3z2a53oh6DbQq2hZN/+M0TjyJ7Shr/Qt31Bwv/NXvX57ugjpJmDe8zSRO7p1coO6V8pEnlCu8QSgOrDclcW57pIjbxwv0lg2BywYjKcxtLdtjb6MMNLKYqys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E3WLhrdk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744080800; c=relaxed/simple;
+	bh=GlZWLABENJln9JuG0rHtIge7k029ZMQOKPM4RNHoN2c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=R+AQkJt90O2h4SRpUU+7NQmnBMyitvIt03ZR9CrTpffQdrIWi5zK+MLEvFu+tBfjeFe19I4x3uW6/BvezYWisLABknmRPeJJMadT2MHM4S8UbFRHk5RaAFh0VHzLQ7OnKk1TQFoAdLmd7mLJf9AgH+HPtcROYa5s0ouO/WZ0x68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j/bT6g2Y; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E3WLhrdk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D501C4CEDD;
-	Mon,  7 Apr 2025 20:36:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744058179;
-	bh=SEFMHa645xj5XB05KG2bL79aOQHT4caCQ1V0FQwTMWA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E3WLhrdkFlGOeuw9sCam0RR1lmnr9l1+8hk5Tyx+GhHeMhS9uwxhXnRDQSU7RZhwz
-	 ajs+U3jhnqrzNI4wqt0/rCyH/ThWPWB7NJdioHW43Xhu2f/i/FVcgYUAoDeuLrv0XQ
-	 7Xu5H/O6qwMZm99L3MbYBPOi48m1gsHoD6mkmAaYBSDN/AyY68x/EEjZPQZdwSx4i9
-	 0ra2wsSQQ1ccvRFliHsg35rT9YFWFBrBKbNcuQPAxMBtpF++n8M/R5xuPKncKWaaeL
-	 toIWrpa5JNZPQAgKJD81KRXwgiK3+CAP9d4Tf8NupTcDr0uKyj5wEk6iZyFTpNw6wL
-	 POQLbX6eOrDSw==
-Date: Mon, 7 Apr 2025 13:36:16 -0700
-From: Kees Cook <kees@kernel.org>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Lukasz Majczak <lma@chromium.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/bT6g2Y"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7399a2dc13fso6795324b3a.2
+        for <chrome-platform@lists.linux.dev>; Mon, 07 Apr 2025 19:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744080798; x=1744685598; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aQaDjxACdPEUQ4vCNuqG8VAARrxNSVjkZ9UiooLYn/c=;
+        b=j/bT6g2YZM44tD/EsaCJPlwrDLH/S8N4xBR8WnsmIkxAloSyJocldoici5fTLF8kTw
+         CZ5IdtiXJR55jG6aBHa4XYVv5RXa97KZFHd+doU6PFFeattpRN39LoOMISrt6RCyr5ts
+         ATwP3/B6mpMv+WGqFdRjWUq8akDnJB1X3R15cVw0DrqKwn94bZwxdtQ93zH0yITZNyC3
+         NGQgL2QEs/CfIc8iC/wKdPRUH9vBwn0HVwRdbfxDxzAzEuXCqISdAeYXXQHLtdIXPh50
+         Oy4QNi/pSwpV/Oj+lIj/MdwdU20dRT156LTW8fu+hisF/Hk/1bIZADdTAfb/sLtngoWc
+         xm6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744080798; x=1744685598;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aQaDjxACdPEUQ4vCNuqG8VAARrxNSVjkZ9UiooLYn/c=;
+        b=u1O+4qkksRbDGjLR3cVqPu1Jj+UCMyPM8+JtKispPximFIqZqo4cqnALy2S/oUHAY9
+         wiMN0Q12VToL1X8Vjv657d0dDJmZ73s4GuQzvFv73/giu0paDwJS6CNzCELNX51Bqw+b
+         cI8wiK86BGUbbACglZsNy2xKqzZfhDJVnjKD7Da3VDMa7LwgWQ07yxMbjwBNEVCnUeET
+         XkaiwESDMDNCzyD9yG+69VgiXEcAcBMnRnLI9ngfZQ9+kd58TypYn2DAPgSXCd30TGzO
+         wpuFgPXeg3mD3YrmZloV65XhmfWKhdCMKGCfWF6P9yvvSPYYmTjsVwquPXvuxYx4bPMk
+         fTng==
+X-Forwarded-Encrypted: i=1; AJvYcCXn8uTPDllsIdLDbEX/66/bI4MqyA8ZTPoOpaNA6Wgsm4HR94XEMFQBJ4UFUi+DF1PUcJRFvnZ9P9EFLTYScMw=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyu09TOL6jVGpYUh6m4HODSQw7WuUhC7hz6I/ZRHtt+WC1Nih2a
+	Veyf2m324rzOpCTrcaHXe/ZK+Dh9kTCiKSPEWuDe8oXHIbvD7WSx
+X-Gm-Gg: ASbGnctbVHtUjl6h10fZENH74XIkYoImQr2QMBM2v3D/wSYxs9ziOiIn0wQIYu5AWrC
+	6qmKKwIoqJPoQuHVjsMYbE2ZUCd1iAecj3kaTkeyupUbImUXCs7uOrohSyw1mOdTetPVuGFQu0y
+	uDFActt5GH06xJAlRC/hPT3aAvPSOGe4XYcfz0GpoGc2CmzbNphw64dKJgzucdemd2pvwK+xs+m
+	44lLmVZggc7hQuUQbkvvpXZlhzUofpeNqi9SYeA5AFVDaSFjPd3KwwWUzUYD0H2ia+gfluR30jI
+	GbHq/XLQ7lefe7uHEqx+VHDfvWIO12HiTo8GtSmJRrOVQQ7mf27WXyPCckvbkVJ8MAn0/rUZEDw
+	Ocn7gdtcT6LV7GnM9bTaY2t5NH3/Rk/JkyLbrla3fW5BvPVZOiB7Hhsg20PrR
+X-Google-Smtp-Source: AGHT+IECaHrQ+Szc6+kFfW5D5EOAfNaIogqst7p76eUHcSzRzQmyMnSe3v8/og+7l3p/VwYQwZWQCQ==
+X-Received: by 2002:a05:6a00:1147:b0:736:a973:748 with SMTP id d2e1a72fcca58-739e4f79870mr20193054b3a.22.1744080797573;
+        Mon, 07 Apr 2025 19:53:17 -0700 (PDT)
+Received: from kells-Predator-PTX17-71.. (2001-b400-e33c-bd7e-da8e-dc2a-f3ab-1a8d.emome-ip6.hinet.net. [2001:b400:e33c:bd7e:da8e:dc2a:f3ab:1a8d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d9e9db78sm9700148b3a.97.2025.04.07.19.53.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 19:53:17 -0700 (PDT)
+From: Kells Ping <kellsping@gmail.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: groeck@chromium.org,
+	Kells Ping <kellsping@gmail.com>,
 	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2][next] watchdog: cros-ec: Avoid
- -Wflex-array-member-not-at-end warning
-Message-ID: <202504071331.D9E4D6B058@keescook>
-References: <Z-WG6_uhWsy_FCq3@kspp>
- <202504071212.D6CBE6740C@keescook>
- <e8114ca6-d092-482b-9d6b-db7ea1c15cbc@embeddedor.com>
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	chrome-platform@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: platform: cros-ec: Add Dirks to the match table
+Date: Tue,  8 Apr 2025 10:53:09 +0800
+Message-Id: <20250408105306.1.I4aa60f7aaea0752932636a188eaec8b3c7d44126@changeid>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e8114ca6-d092-482b-9d6b-db7ea1c15cbc@embeddedor.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 07, 2025 at 01:42:07PM -0600, Gustavo A. R. Silva wrote:
-> 
-> > 
-> > > +	msg->command = EC_CMD_HANG_DETECT;
-> > > +	msg->insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
-> > > +		   sizeof(struct ec_response_hang_detect) :
-> > > +		   0;
-> > > +	msg->outsize = sizeof(struct ec_params_hang_detect);
-> > > +	*(struct ec_params_hang_detect *)msg->data = arg->req;
-> > > +
-> > > +	ret = cros_ec_cmd_xfer_status(cros_ec, msg);
-> > >   	if (ret < 0)
-> > >   		return ret;
-> > > -	arg->resp = buf.data.resp;
-> > > +	arg->resp = *(struct ec_response_hang_detect *)msg->data;
-> > 
-> > msg->data used twice and a "sizeof()" earlier... might be nicer to have
-> > an explicit pointer?
-> 
-> Those are two different pointers:
-> 
-> *(struct ec_params_hang_detect *)msg->data = arg->req;
-> arg->resp = *(struct ec_response_hang_detect *)msg->data;
+The Google Dirks device uses the same approach as the Google Brask
+which enables the HDMI CEC via the cros-ec-cec driver.
 
-Argh. I did it again. I can't see "params" vs "response". q_q
+Signed-off-by: Kells Ping <kellsping@gmail.com>
+---
 
-Sorry for the noise!
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Reviewed-by: Kees Cook <kees@kernel.org>
-
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 12b73ea0f31d..a8d31c3126f8 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -329,6 +329,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Dexi", "0000:00:02.0", port_db_conns },
+ 	/* Google Dita */
+ 	{ "Google", "Dita", "0000:00:02.0", port_db_conns },
++	/* Google Dirks */
++	{ "Google", "Dirks", "0000:00:02.0", port_db_conns },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
 -- 
-Kees Cook
+2.34.1
+

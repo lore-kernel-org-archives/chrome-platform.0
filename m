@@ -1,202 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA5B1E5219;
-	Tue,  8 Apr 2025 15:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813C2254852
+	for <chrome-platform@lists.linux.dev>; Tue,  8 Apr 2025 15:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744127472; cv=none; b=nFH3vMmu01cwbAABQtAgI4xahg8N6ebHhSMe2KcAagVSND6UX29XQLcOt03A4kwvsJRHftjMYsAy0kH2patAZ142n7DWqq/XUEINEOUzukFDa0+NMbtP6ztWDkVyijqUQTtNQ8bkqo79lEMRTzy9PI0V3BmMdyF9kyuC7QIsUL8=
+	t=1744127785; cv=none; b=lIJ68qRiXW0mu1nCdiOa0AAMRnAqGldakez+6iXteKx6jjhEX2tVQeWMNU9FL7mkqUBcN/HOyQt6W7j4BaEq8da7yD/2T4HyzNS5P+jvk5bUrv+GPE6CzB4qP5Iwv1QSMCoGWXVH6mjATuwKTdY5/aYKu5wAO6goQkKnXbsMDTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744127472; c=relaxed/simple;
-	bh=fHyIFk+1JdVwh1YZHnuAzmhPYe/0ws1mktZxa7Zztis=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hxybd2xcFCR6GlnHu8/aku8Au2t3MCVHG1Hz51eLFKTm0EunYJdkdAkQNPhj75Stq/Lxt4rKWy3MeTYals6oyz6gV7CJsy8QW0G5DhXQUqyzK4lw+kw6OE2wKv/+8vcuWMN5KF740hFzaTYKtehpnnS1oa8qEQRL0mP7a0K31Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U92RPZbz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744127785; c=relaxed/simple;
+	bh=+eXao014CZnAwhC+SM1Hq9YPL6wJDL2oazpBhbkQcaQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WeRowdaZSewEdR32YYR1CwsIMVgUDcna9aa9NLmxdJUVXh9ZhdcAjM4s5Ig5LsuYQqqhixuTjCCOgqnSjMCBja9iTWFzcYAaGvwqm1Zi4s5EeBpLfozXFnQorBOgljLuzrOTMU9Uj3JuBIAUq9IXKFRDDwGUcaSB2hiC6Ikux+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UOK51068; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U92RPZbz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51D55C4CEE5;
-	Tue,  8 Apr 2025 15:51:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744127472;
-	bh=fHyIFk+1JdVwh1YZHnuAzmhPYe/0ws1mktZxa7Zztis=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U92RPZbzB9fHNqMYcnKtrz/GqeAT94kOVr2zBKXfoy72b/TXH1UV1Pf1iKd+FF1Mt
-	 fEsn+06FNEilpE9JZe4Zlklge1+NhbTctVc202lqfcvEDxj3sfuL425JMNNKbAv8Zy
-	 3XZ06lfKlaKvFyseN7gHRyVtS+O6zfETbsBEAg0e1albQ4vcN7UBXLpfMV13u9PmCO
-	 VjMZ379EgPxs5yizezEA0IXimAOEARimykKOEUJudXEx1J1Bn/fiNpJrruF/5hvVXa
-	 WxLGHFI56wktIKiFGnLrOz+2A1PufwrmZcAevCgKRkjYZ5K2i1sRn3kLD8oPjvHubU
-	 vUx4RBSwAqNqQ==
-Date: Tue, 8 Apr 2025 17:51:08 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Douglas Anderson <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Dmitry Baryshkov <lumag@kernel.org>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH 34/34] drm/bridge: panel: convert to
- devm_drm_bridge_alloc() API
-Message-ID: <20250408-thankful-husky-of-weather-355cae@houat>
-References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
- <20250407-drm-bridge-convert-to-alloc-api-v1-34-42113ff8d9c0@bootlin.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UOK51068"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-739525d4e12so5227491b3a.3
+        for <chrome-platform@lists.linux.dev>; Tue, 08 Apr 2025 08:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1744127782; x=1744732582; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2ZUpULk8hennxfcny51FPWJJyNUQSuBx+DrAa2UJoac=;
+        b=UOK51068XIzHHxCD6yqHXRy689Af3iqCV1XmfNgTeU6qQEIOPl0O0hl4sTVcKJHbtZ
+         aMg7qr7LbU9XoVuF1AnQ2S+IbgGHYsnWoBUACkUYBaPH9R9bIIeDOD+uZxckfaVp8l+J
+         vymchA9UXSwvTV696HRPlRbenYuoR83C+XHps=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744127782; x=1744732582;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2ZUpULk8hennxfcny51FPWJJyNUQSuBx+DrAa2UJoac=;
+        b=Mkk6kfIZxfI1ZYeEoU7hoR5M7mC/+xVy+BkVUKZmOXIgdw7Iyp3PA8bLre01P9qVg5
+         X7uq0EthJXE63rXBchjZFGi2yq1uupN6RX9o3B3UQtWGC1iYWABjtEnUNULe6hLlIpig
+         3QQONiNZ/aVvPod3I5bIdttLUM3gL5+70I+iCoJ/S5iVOQmLBfHLf+oDyFlLlhaUcIxr
+         BQ2VoYrh04wOL041JIa7jcf3Nwvkq65BbonVUJ8G4BO4VDT796ynmk6NQXTA6V1Zvm+8
+         PSySOZhyMx2UdrD20V4/nczsKVBndojvky+P5SmSAPOc5B+aJMHhtTa1VcE/5LNjPIL3
+         Ki8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUUvjiycLopCHDeBguy4jZp1Z+v/GfWda5LX9F5a4xhrBcTx4ZUp12N5BwGiv0RF1aTBpUR7hYLpSs05IvLgHo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKTA4xZuXf3scFrIksIQeQPJRJlArlyPnraZmSMI0zs1pcVBbv
+	1XZJVqMEgp/CatB9V5cFX2/klVzPnbA5okJz17IxHuzBCzPO9Px7zaq87a22DQ==
+X-Gm-Gg: ASbGncsVKR8aPFm+AJkK0VeNQEReziut2ZmO5T2KOUOBhZ6/em44gjNxMPcoo2ntRcg
+	vxoq9QPjLDPMVm/gF7aYIlQufYihF7tiuJdjZ81gWFcPKbkJB8i01lY19RO5sOXvHZkOz1VTCPd
+	cq9zua2aRKF9e92A6NSl3j+RNEvYbxcw32XgKfo0y+9oqet4Qlz4UjmeRXoizpOSh9tx8W882U4
+	8MCxKduMdMHJK1YQs1wcpkMhOcCyV8WspsLhEFKjgHTNYahuOA23vCZa0cD+mSxXSs7xBMMcfGN
+	WVrpkg/GicONrj2BUu07fr9oSRF8SJC6lEXDzw==
+X-Google-Smtp-Source: AGHT+IHKOMlwlJBzUBH1cp/XU5mAvhv3qP5Kx5amf6dtB8HfkU2s+spaYD0qsczOSgsFuhNauPNiJg==
+X-Received: by 2002:a05:6a00:2351:b0:736:5e28:cfba with SMTP id d2e1a72fcca58-739e4be3c73mr23939938b3a.18.1744127782556;
+        Tue, 08 Apr 2025 08:56:22 -0700 (PDT)
+Received: from localhost ([2620:15c:9d:2:8551:1093:9956:f769])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-739d97d188dsm10734863b3a.7.2025.04.08.08.56.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Apr 2025 08:56:22 -0700 (PDT)
+From: Gwendal Grignou <gwendal@chromium.org>
+To: tzungbi@kernel.org,
+	jic23@kernel.org
+Cc: linux-iio@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	Gwendal Grignou <gwendal@chromium.org>
+Subject: [PATCH v3] iio: cros_ec_sensors: Flush when changing the FIFO timeout
+Date: Tue,  8 Apr 2025 08:56:19 -0700
+Message-ID: <20250408155619.2169189-1-gwendal@chromium.org>
+X-Mailer: git-send-email 2.49.0.504.g3bcea36a83-goog
+In-Reply-To: <CAPUE2uuY=BaPFro5cQSmQg4JS1Z5J5aBL7XvqqAo-X=LR4be3Q@mail.gmail.com>
+References: <CAPUE2uuY=BaPFro5cQSmQg4JS1Z5J5aBL7XvqqAo-X=LR4be3Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="whaxztwnulei2tij"
-Content-Disposition: inline
-In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-34-42113ff8d9c0@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
+|hwfifo_timeout| is used by the EC firmware only when new samples are
+available.
+When the timeout changes, espcially when the new timeout is shorter than
+the current one, send the samples waiting in the FIFO to the host.
+Inline the call to transmit |hwfifo_timeout| value to the firmware.
 
---whaxztwnulei2tij
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 34/34] drm/bridge: panel: convert to
- devm_drm_bridge_alloc() API
-MIME-Version: 1.0
+Now flush when a sensor is suspended (ODR set to 0) as well.
 
-Hi,
+Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
+---
+Changes in v3:
+- Fix error detection when setting the sensor frequency
 
-On Mon, Apr 07, 2025 at 05:27:39PM +0200, Luca Ceresoli wrote:
-> This is the new API for allocating DRM bridges.
->=20
-> The devm lifetime management of this driver is peculiar. The underlying
-> device for the panel_bridge is the panel, and the devm lifetime is tied t=
-he
-> panel device (panel->dev). However the panel_bridge allocation is not
-> performed by the panel driver, but rather by a separate entity (typically
-> the previous bridge in the encoder chain).
->=20
-> Thus when that separate entoty is destroyed, the panel_bridge is not
-> removed automatically by devm, so it is rather done explicitly by calling
-> drm_panel_bridge_remove(). This is the function that does devm_kfree() the
-> panel_bridge in current code, so update it as well to put the bridge
-> reference instead.
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->=20
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: Simona Vetter <simona@ffwll.ch>
-> To: Andrzej Hajda <andrzej.hajda@intel.com>
-> To: Neil Armstrong <neil.armstrong@linaro.org>
-> To: Robert Foss <rfoss@kernel.org>
-> To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> To: Jonas Karlman <jonas@kwiboo.se>
-> To: Jernej Skrabec <jernej.skrabec@gmail.com>
-> To: Jagan Teki <jagan@amarulasolutions.com>
-> To: Shawn Guo <shawnguo@kernel.org>
-> To: Sascha Hauer <s.hauer@pengutronix.de>
-> To: Pengutronix Kernel Team <kernel@pengutronix.de>
-> To: Fabio Estevam <festevam@gmail.com>
-> To: Douglas Anderson <dianders@chromium.org>
-> To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> To: Krzysztof Kozlowski <krzk@kernel.org>
-> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Anusha Srivatsa <asrivats@redhat.com>
-> Cc: Paul Kocialkowski <paulk@sys-base.io>
-> Cc: Dmitry Baryshkov <lumag@kernel.org>
-> Cc: Herv=E9 Codina <herve.codina@bootlin.com>
-> Cc: Hui Pu <Hui.Pu@gehealthcare.com>
-> Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: asahi@lists.linux.dev
-> Cc: linux-kernel@vger.kernel.org
-> Cc: chrome-platform@lists.linux.dev
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: platform-driver-x86@vger.kernel.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> ---
->  drivers/gpu/drm/bridge/panel.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pane=
-l.c
-> index 79b009ab9396048eac57ad47631a902e949d77c6..ddd1e91970d09b93aa64f50cd=
-9155939a12a2c6f 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -287,15 +287,14 @@ struct drm_bridge *drm_panel_bridge_add_typed(struc=
-t drm_panel *panel,
->  	if (!panel)
->  		return ERR_PTR(-EINVAL);
-> =20
-> -	panel_bridge =3D devm_kzalloc(panel->dev, sizeof(*panel_bridge),
-> -				    GFP_KERNEL);
-> -	if (!panel_bridge)
-> -		return ERR_PTR(-ENOMEM);
-> +	panel_bridge =3D devm_drm_bridge_alloc(panel->dev, struct panel_bridge,=
- bridge,
-> +					     &panel_bridge_bridge_funcs);
-> +	if (IS_ERR(panel_bridge))
-> +		return (void *)panel_bridge;
-> =20
->  	panel_bridge->connector_type =3D connector_type;
->  	panel_bridge->panel =3D panel;
-> =20
-> -	panel_bridge->bridge.funcs =3D &panel_bridge_bridge_funcs;
->  	panel_bridge->bridge.of_node =3D panel->dev->of_node;
->  	panel_bridge->bridge.ops =3D DRM_BRIDGE_OP_MODES;
->  	panel_bridge->bridge.type =3D connector_type;
-> @@ -327,7 +326,7 @@ void drm_panel_bridge_remove(struct drm_bridge *bridg=
-e)
->  	panel_bridge =3D drm_bridge_to_panel_bridge(bridge);
-> =20
->  	drm_bridge_remove(bridge);
-> -	devm_kfree(panel_bridge->panel->dev, bridge);
-> +	devm_drm_put_bridge(panel_bridge->panel->dev, bridge);
->  }
->  EXPORT_SYMBOL(drm_panel_bridge_remove);
+Changes in v2:
+- Fix sysfs attribute in commit message
+- Indicated the function to send the content of the attribute is now
+  inline.
+- Improve error detection when setting the sensor frequency and flusing
+  the FIFO.
+ .../cros_ec_sensors/cros_ec_sensors_core.c    | 50 ++++++++++++-------
+ 1 file changed, 33 insertions(+), 17 deletions(-)
 
-I'm fine with it on principle, but as a temporary measure.
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+index b1abd6e16c4ba..67ffe88df7b23 100644
+--- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+@@ -103,22 +103,6 @@ static void get_default_min_max_freq(enum motionsensor_type type,
+ 	}
+ }
+ 
+-static int cros_ec_sensor_set_ec_rate(struct cros_ec_sensors_core_state *st,
+-				      int rate)
+-{
+-	int ret;
+-
+-	if (rate > U16_MAX)
+-		rate = U16_MAX;
+-
+-	mutex_lock(&st->cmd_lock);
+-	st->param.cmd = MOTIONSENSE_CMD_EC_RATE;
+-	st->param.ec_rate.data = rate;
+-	ret = cros_ec_motion_send_host_cmd(st, 0);
+-	mutex_unlock(&st->cmd_lock);
+-	return ret;
+-}
+-
+ static ssize_t cros_ec_sensor_set_report_latency(struct device *dev,
+ 						 struct device_attribute *attr,
+ 						 const char *buf, size_t len)
+@@ -134,7 +118,25 @@ static ssize_t cros_ec_sensor_set_report_latency(struct device *dev,
+ 
+ 	/* EC rate is in ms. */
+ 	latency = integer * 1000 + fract / 1000;
+-	ret = cros_ec_sensor_set_ec_rate(st, latency);
++
++	mutex_lock(&st->cmd_lock);
++	st->param.cmd = MOTIONSENSE_CMD_EC_RATE;
++	st->param.ec_rate.data = min(U16_MAX, latency);
++	ret = cros_ec_motion_send_host_cmd(st, 0);
++	mutex_unlock(&st->cmd_lock);
++	if (ret < 0)
++		return ret;
++
++	/*
++	 * Flush samples currently in the FIFO, especially when the new latency
++	 * is shorter than the old one: new timeout value is only considered when
++	 * there is a new sample available. It can take a while for a slow
++	 * sensor.
++	 */
++	mutex_lock(&st->cmd_lock);
++	st->param.cmd = MOTIONSENSE_CMD_FIFO_FLUSH;
++	ret = cros_ec_motion_send_host_cmd(st, 0);
++	mutex_unlock(&st->cmd_lock);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -764,6 +766,8 @@ EXPORT_SYMBOL_GPL(cros_ec_sensors_capture);
+  * @mask:	specifies which values to be requested
+  *
+  * Return:	the type of value returned by the device
++ *
++ * cmd_lock mutex held.
+  */
+ int cros_ec_sensors_core_read(struct cros_ec_sensors_core_state *st,
+ 			  struct iio_chan_spec const *chan,
+@@ -836,6 +840,8 @@ EXPORT_SYMBOL_GPL(cros_ec_sensors_core_read_avail);
+  * @mask:	specifies which values to write
+  *
+  * Return:	the type of value returned by the device
++ *
++ * cmd_lock mutex held.
+  */
+ int cros_ec_sensors_core_write(struct cros_ec_sensors_core_state *st,
+ 			       struct iio_chan_spec const *chan,
+@@ -853,6 +859,16 @@ int cros_ec_sensors_core_write(struct cros_ec_sensors_core_state *st,
+ 		st->param.sensor_odr.roundup = 1;
+ 
+ 		ret = cros_ec_motion_send_host_cmd(st, 0);
++
++		/* Flush the FIFO in case we are stopping a sensor.
++		 * If the FIFO has just been emptied, pending samples will be
++		 * stuck until new samples are available. It will not happen
++		 * when all the sensors are stopped.
++		 */
++		if (ret == 0 && frequency == 0) {
++			st->param.cmd = MOTIONSENSE_CMD_FIFO_FLUSH;
++			ret = cros_ec_motion_send_host_cmd(st, 0);
++		}
+ 		break;
+ 	default:
+ 		ret = -EINVAL;
+-- 
+2.49.0.504.g3bcea36a83-goog
 
-Now that we have the panel allocation function in place, we can just
-allocate a bridge for each panel and don't need drm_panel_bridge_add_*
-at all.
-
-As I was saying before, it doesn't need to happen right now, or before
-the rest of your work for hotplug goes in. But this needs to be tackled
-at some point.
-
-Maxime
-
---whaxztwnulei2tij
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/VF6wAKCRDj7w1vZxhR
-xZU9AP9+Olq0gODzONr66OWy2JUMq3Zt+9qdaFGpPxZ/7/LDgAD+JNtu7g0v4KKA
-HdXhPPGzl2cAOI04En1cGAdCRKq6ZQw=
-=xkvL
------END PGP SIGNATURE-----
-
---whaxztwnulei2tij--

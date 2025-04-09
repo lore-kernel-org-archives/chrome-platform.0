@@ -1,96 +1,60 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D38254B06
-	for <chrome-platform@lists.linux.dev>; Tue,  8 Apr 2025 15:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5955F450FE;
+	Wed,  9 Apr 2025 01:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744127789; cv=none; b=e46CaZDFrYiGXcIwKWm14EwrLxeauW0QIss3v88+MR2qFJkoQZl0/evkoldRSFjHjoxTFtbXoOOQwOBVjyaME3XFyPUtiQPHHtsUYx/7+xIV98jGOJTD7qcI5L7TMf5ri+ZeIshTb/iK8DafS5/IZo1Zbb/9EDhrmqEtuc3+nIM=
+	t=1744161572; cv=none; b=nwkOkXbidHmqheEkENEnocl8Fr875Ov+4XO8Slo6yobzv08G69CLVEKahCkpgHmCSf9XGd0H9+RN3AYyBW8yqcTwSbRE/hI5EO69Akp2k04kT9eiHxsR7Nqfy5A5VrStyhvrY5T5/EwSdpCEZEd5c/HsuOI5QJYiHMdj1KnvCCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744127789; c=relaxed/simple;
-	bh=SsbsF7KGX/EryEglMhWGujq9L4z4osJUyCBu6RILvQc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XvSq4oA9QkQO17ydTn7bZ9yYzKdbkUbSbnin8gzVN8X+LcH83A155pXolXvvBKJQjRFNmcMG41/Rvi0yrhghuaV4p4oncuA+4Rv6Za32dZR2omJyzldBloIGadvqZdGREfSn6t+V27XtAhbmlpQ6bsUDaGNkPiOnzNKmYP1KRcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=k4OAyzsm; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1744161572; c=relaxed/simple;
+	bh=oLB76dZ1a9iTwEdLHF0eFgFSVVWekvWRnHNDCRRf8s8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j0y8ZR20ffeGRH28oigX7mOZFZB524YZCmVzVMk8ebgG6QMOB0pGYTeP38AXQt8d1EK3fFFDRDxDVU0i7DYVHMAxnQoRERF/TxczMxFVNgwsnYgomOdsSpLTKE808ELMCDZyOEqVCAbhQ1w46KvVWwXU+V5SU9cItFsd2UmIj6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvoZflYb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="k4OAyzsm"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-524168b16d3so5124130e0c.0
-        for <chrome-platform@lists.linux.dev>; Tue, 08 Apr 2025 08:56:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1744127786; x=1744732586; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AM/+ze0roZREPn6ppfFn1kwGBymFDwlbRv56FB2XFog=;
-        b=k4OAyzsmSoXc/tJoUEFJxa67wm+sGeY/uKD0DD1jHhyDAOBYdAopqvSnXfeafTo5SS
-         XAnA2ErRS2RkwaKsPqweYuD2Pv48iI0M2m43bk7Le0ewE3SKB8VKLkMdj11rWFu8Dd+l
-         njtEGZeo5gpsBBbbGAGdR1WRTRtt7fpyp2QDo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744127786; x=1744732586;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AM/+ze0roZREPn6ppfFn1kwGBymFDwlbRv56FB2XFog=;
-        b=xHronMFX2cvHGysX/yoK3pGw182zzzTfLqlCIN0CILZ+QVOtD8aZ/UzrMz5Cjk3/YX
-         2DTOcfQhKP/p5O/L/+I/2CxHUp2g/k48pwpDorOE5XoDWAH/oBJR0BbUxUskwgbnz77/
-         XaMfwmBh9kdmkKqyX09BmC608J4UDMQSJBUxNrBVZvpzZZqiHhOU7/LtX00NKHpVXLpS
-         8TFseyUkm5kK83+mpoqicldBU+s0Ke2p55ejasseRPzXctXOiNtuTIBKUPBdFlKedg6T
-         GtvoR4qSNbUcjZ8XGO3Y2SVGYwFyaiaqEKj8VT/6KgvY3dc5+S/JqPFPsQlH1BLGkGws
-         0vbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXX/bUJU4KHdOvxA5HIpwJ7AobrzW3sFA7ftGpQ/y1WvKqkS1wrY7Z8TntTZdSmMMEzIHE/MLUWYGbUnW6OcNI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwPYudKLEw+uE/Tgz6AVkRFLh8WppHGxaoOEHiP5hWkG0/XBY03
-	gI+MskdLnWH1NXOskDGfDOW+wJGcWe3FexWfZJ4QvfmYYy0ZOR3ITsTVjydpjRS8tUPuVM4+h26
-	SiMBtd3zeuYT0g0s+VYKkS8IHW6S40vEzC4jvo0BYwFk5tH8=
-X-Gm-Gg: ASbGncuuIj570XKxc+TC9Gdhh8ugB3BEIjL4rAR1YCVR1BDR0nv7kwrXF1Kc+l4vY9c
-	3MykF5+qH2Bgu2mj5iUVchDwmWTyMzHImnTuQo+QchuOv6kANHzOwwZyI7QJIXpMghQSTnhk6L6
-	cymMz7c4gwcPHSPlgoy6XFLkhoft3SgPPoQDdcbaLD4cTYKJoy+nsz
-X-Google-Smtp-Source: AGHT+IFYyAoCweRNfVg0Eb4XcmWkknHyVugsHXwiVWQe/fbO2tHXGAdvyfXp4bwwisjC4UC8IqhtPCRhfCDCo+/RJAI=
-X-Received: by 2002:a05:6122:828d:b0:516:1ab2:9955 with SMTP id
- 71dfb90a1353d-52765d2d52amr13537968e0c.6.1744127786500; Tue, 08 Apr 2025
- 08:56:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvoZflYb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9DABC4CEE5;
+	Wed,  9 Apr 2025 01:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744161570;
+	bh=oLB76dZ1a9iTwEdLHF0eFgFSVVWekvWRnHNDCRRf8s8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fvoZflYbWPWh6fzevFtbf3Y2nEy5DgacqnfhR0rclNly0y1qiJZWxtwfZw0CvYyAt
+	 VLpw1/GsSY9I8l/WyyPh1hVjLgGIkZUW2tXqs8RH7cwidbil7bbqXyibXTDUz5VTLM
+	 FYHSeAKZTa0riyKfcDpfVWQBvmEcB6mCAyPbnSEPkkB6xm9EHIvFl4y4m91hvnbL/m
+	 9Y56K/AhtI951odbkMQnFOGkMlw21N5gNxvgPHQMD2MuypFVTkdiEhhSL69AxgjIl/
+	 ueTOiTNySFJu/OeK4KRjNwzJ/JQMFg2UvMwf6rJxtVqffjuvSRzhO2fn0uzGtenOB6
+	 wbv2B18cDpPBw==
+Date: Wed, 9 Apr 2025 01:19:27 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Gwendal Grignou <gwendal@chromium.org>
+Cc: jic23@kernel.org, linux-iio@vger.kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3] iio: cros_ec_sensors: Flush when changing the FIFO
+ timeout
+Message-ID: <Z_XLH7bwXAJ0hv5q@google.com>
+References: <CAPUE2uuY=BaPFro5cQSmQg4JS1Z5J5aBL7XvqqAo-X=LR4be3Q@mail.gmail.com>
+ <20250408155619.2169189-1-gwendal@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAPUE2uuY=BaPFro5cQSmQg4JS1Z5J5aBL7XvqqAo-X=LR4be3Q@mail.gmail.com>
- <20250408055412.1623257-1-gwendal@chromium.org> <Z_TXZT3SPEpTm6tc@google.com>
-In-Reply-To: <Z_TXZT3SPEpTm6tc@google.com>
-From: Gwendal Grignou <gwendal@chromium.org>
-Date: Tue, 8 Apr 2025 08:56:14 -0700
-X-Gm-Features: ATxdqUEZN_bemcGEIflJoObVScAUucOJdbwr9cZYFcOZt1ojv8QO1Xx95dJLyFs
-Message-ID: <CAPUE2us3WRVVLeqLs-wZgo7g3DspuAyJUMmBMjDvdegaQ+9aFw@mail.gmail.com>
-Subject: Re: [PATCH v2] iio: cros_ec_sensors: Flush when changing the FIFO timeout
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: jic23@kernel.org, linux-iio@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250408155619.2169189-1-gwendal@chromium.org>
 
-On Tue, Apr 8, 2025 at 12:59=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> On Mon, Apr 07, 2025 at 10:54:11PM -0700, Gwendal Grignou wrote:
-> > @@ -853,6 +859,16 @@ int cros_ec_sensors_core_write(struct cros_ec_sens=
-ors_core_state *st,
-> >               st->param.sensor_odr.roundup =3D 1;
-> >
-> >               ret =3D cros_ec_motion_send_host_cmd(st, 0);
-> > +
-> > +             /* Flush the FIFO in case we are stopping a sensor.
-> > +              * If the FIFO has just been emptied, pending samples wil=
-l be
-> > +              * stuck until new samples are available. It will not hap=
-pen
-> > +              * when all the sensors are stopped.
-> > +              */
-> > +             if (ret >=3D 0 && frequency =3D=3D 0) {
->
-> To disambiguate, `ret =3D=3D 0` or `!ret`[1].
-Fixed in V3.
->
-> [1]: https://elixir.bootlin.com/linux/v6.13/source/drivers/iio/common/cro=
-s_ec_sensors/cros_ec_sensors_core.c#L411
+On Tue, Apr 08, 2025 at 08:56:19AM -0700, Gwendal Grignou wrote:
+> |hwfifo_timeout| is used by the EC firmware only when new samples are
+> available.
+> When the timeout changes, espcially when the new timeout is shorter than
+> the current one, send the samples waiting in the FIFO to the host.
+> Inline the call to transmit |hwfifo_timeout| value to the firmware.
+> 
+> Now flush when a sensor is suspended (ODR set to 0) as well.
+> 
+> Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
+
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

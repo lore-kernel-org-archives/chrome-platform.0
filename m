@@ -1,208 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F2F194AD5;
-	Sat, 12 Apr 2025 10:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4E91F3B87;
+	Sun, 13 Apr 2025 20:01:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744454583; cv=none; b=JpCcVG9wFfefO5EBAKZ5P7LrZMgbZafTAH1z4Ox+481AFEIIEYVA2rXA9pqL+lIQlrsv91Ya8R28glckaZ4E2X46JyLZd1DWSRRvivXS3VMDmIgtlwTlLrInmWF9KchUHqn6UKl1aY91bYGkf5Q5loZQbiVVE6vQAemdjsTB4js=
+	t=1744574468; cv=none; b=Lx5RV588OgAT2IJGwcZKSwtQV7OOmhcKuMvGSC2lsWRgYUx16sXGISVCoJvoK4L4TIHQVMLHwA65LLiQXo496zMl8WYMzbHw6LFY0MMKoHw21/ZhbqrADdVDpYFfD+bWrbs/Ode1lotEnQ5Of3G932XIE9Dh5heloKfqA01AoEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744454583; c=relaxed/simple;
-	bh=OVYXXaVo+7EApCnWszZxt8gK0Gni9T29JmvAc0v2vJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cmE0xUEMxTdTK8rHwyfYAzvOQ5kbUA0MG7WkETjKKELkf4mizcI5FXWtjKvdPXoqY/n+WZD2aWahqs34rJnkS9b3q1x1rDQ8VatbRG6ZHM1KO7HgafnW2wQmGOjl2wriyu3GuYDepgXmj0SE7N6LfRQSXdn6PXwiBadxQHPTLLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gMEfyRDF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744574468; c=relaxed/simple;
+	bh=mBFfUee3RE/ORcogTSmYi0S8W7Std6PnRpce5lpwtgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pEHkgFomfH+yseMAyghs9Hk2CBcu+OlDKRRqN/rgKzRoPXfexxrv9+zBzythhipF2WzYcxcm19lUYkVvQwLt6Mjf38jtyCmGuvK8pvs8IKuHvTIJZJ8ny29xKcPQONUFD5NylFsbLEx6qXU0v5tXMrZQMr0pDZMzNSOIu5aqoXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nJSjaxJM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gMEfyRDF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08C24C4CEE3;
-	Sat, 12 Apr 2025 10:43:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nJSjaxJM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C246C4CEDD;
+	Sun, 13 Apr 2025 20:01:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744454583;
-	bh=OVYXXaVo+7EApCnWszZxt8gK0Gni9T29JmvAc0v2vJg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gMEfyRDFWZwqYcjln67BRrmwiNxLDQDSyKYmh1KAp7TtJsScPyisImBRx6yza5qsY
-	 mjIP3KfmTZTht50hpGzjryeyQlt+ezLTgqjhgfKevjeZzEb0ZYCtBARINEdtMcMx11
-	 NFogcTPOO74u9vNuopp95gXx8Kbpj4JajWK3p5W07GHw6ACLY8A/EKYVp6kCtMCEKU
-	 xu32245N8KC+aeYRG9yIPiO6FUHE/DC7L7uo5CdUv2eHQBudZTfafZChgAsrjTVD3a
-	 uX+D3Xtc9yOp4Eu9r/pnAz185Mic4wQqM/xOnTFjuDaNS5BZ1S+Oe9nLEJY4ecYn3p
-	 Ox4StUh5lKEKw==
-Date: Sat, 12 Apr 2025 11:42:56 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Gwendal Grignou <gwendal@chromium.org>
-Cc: tzungbi@kernel.org, linux-iio@vger.kernel.org,
- chrome-platform@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3] iio: cros_ec_sensors: Flush when changing the FIFO
- timeout
-Message-ID: <20250412114256.41602d67@jic23-huawei>
-In-Reply-To: <20250408155619.2169189-1-gwendal@chromium.org>
-References: <CAPUE2uuY=BaPFro5cQSmQg4JS1Z5J5aBL7XvqqAo-X=LR4be3Q@mail.gmail.com>
-	<20250408155619.2169189-1-gwendal@chromium.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=k20201202; t=1744574468;
+	bh=mBFfUee3RE/ORcogTSmYi0S8W7Std6PnRpce5lpwtgg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nJSjaxJM4QqCUxleHQ5qGPjrnyRDnJ9NOWy1OiDGoaBA7PUry14TZHm7qm7nvc1XG
+	 IOXC8rrPvrbh+Y7COhTRoNdD12cAXduQqoDY1hNHtXP+uVM0KTscPJaQXjpM7CK0EM
+	 dlQ7SZWfXhQFln9VYaEXQrXoiO8IJJYW2afClJUPBAdg4UkppTntLNX9ctUJsD39IZ
+	 Xx/g7SUBdIaww/K07eV2qMkenTjVYWiuuKURsUIl/Mp87iJtfcmZ5E4pyDGh1nDPH2
+	 3o49EY6Cf3v6SSJLM+afWRNfzDgOc/4d5Gkak7+0454of6DVNIwyqXHXiFOBjqqPAa
+	 PPwCPVgelqrQg==
+Date: Sun, 13 Apr 2025 22:01:03 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Doug Anderson <dianders@chromium.org>, 
+	Vincent Palatin <vpalatin@chromium.org>, Simon Glass <sjg@chromium.org>, Lee Jones <lee@kernel.org>, 
+	Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kernel-dev@igalia.com
+Subject: Re: [PATCH] i2c: cros-ec-tunnel: defer probe if parent EC is not
+ present
+Message-ID: <yh2uau644cq22qw5wnj7cypg6wf5aoef7a7z7smbvkva56jtle@dxzs6etk7cb6>
+References: <20250407-null-ec-parent-v1-1-f7dda62d3110@igalia.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250407-null-ec-parent-v1-1-f7dda62d3110@igalia.com>
 
-On Tue,  8 Apr 2025 08:56:19 -0700
-Gwendal Grignou <gwendal@chromium.org> wrote:
+Hi,
 
-> |hwfifo_timeout| is used by the EC firmware only when new samples are
-> available.
-> When the timeout changes, espcially when the new timeout is shorter than
-> the current one, send the samples waiting in the FIFO to the host.
-> Inline the call to transmit |hwfifo_timeout| value to the firmware.
+On Mon, Apr 07, 2025 at 05:33:34PM -0300, Thadeu Lima de Souza Cascardo wrote:
+> When i2c-cros-ec-tunnel and the EC driver are built-in, the EC parent
+> device will not be found, leading to NULL pointer dereference.
 > 
-> Now flush when a sensor is suspended (ODR set to 0) as well.
+> That can also be reproduced by unbinding the controller driver and then
+> loading i2c-cros-ec-tunnel module (or binding the device).
+
+...
+
+> Returning -EPROBE_DEFER will allow the device to be bound once the
+> controller is bound, in the case of built-in drivers.
 > 
-> Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
-Firstly.  Don't send a new version in reply to an old one.
-In general the reasons for this are:
-1 - it can get very confusing if a thread gets deeply nested.
-2 - at least some well known kernel folk start at their most recent emails
-    and work backwards when looking for what to review.  They will probably
-    never get to your thread!
+> Fixes: 9d230c9e4f4e ("i2c: ChromeOS EC tunnel driver")
+> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
 
-There may be other parts of the kernel that prefer this style, but most
-do not and I've never had anyone 'ask' for it (as opposed to not object).
-
-Various minor comments inline.
+merged in i2c/i2c-host-fixes.
 
 Thanks,
-Jonathan
-
-> ---
-> Changes in v3:
-> - Fix error detection when setting the sensor frequency
-> 
-> Changes in v2:
-> - Fix sysfs attribute in commit message
-> - Indicated the function to send the content of the attribute is now
->   inline.
-> - Improve error detection when setting the sensor frequency and flusing
->   the FIFO.
->  .../cros_ec_sensors/cros_ec_sensors_core.c    | 50 ++++++++++++-------
->  1 file changed, 33 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> index b1abd6e16c4ba..67ffe88df7b23 100644
-> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> @@ -103,22 +103,6 @@ static void get_default_min_max_freq(enum motionsensor_type type,
->  	}
->  }
->  
-> -static int cros_ec_sensor_set_ec_rate(struct cros_ec_sensors_core_state *st,
-> -				      int rate)
-> -{
-> -	int ret;
-> -
-> -	if (rate > U16_MAX)
-> -		rate = U16_MAX;
-> -
-> -	mutex_lock(&st->cmd_lock);
-> -	st->param.cmd = MOTIONSENSE_CMD_EC_RATE;
-> -	st->param.ec_rate.data = rate;
-> -	ret = cros_ec_motion_send_host_cmd(st, 0);
-> -	mutex_unlock(&st->cmd_lock);
-> -	return ret;
-> -}
-> -
->  static ssize_t cros_ec_sensor_set_report_latency(struct device *dev,
->  						 struct device_attribute *attr,
->  						 const char *buf, size_t len)
-> @@ -134,7 +118,25 @@ static ssize_t cros_ec_sensor_set_report_latency(struct device *dev,
->  
->  	/* EC rate is in ms. */
->  	latency = integer * 1000 + fract / 1000;
-> -	ret = cros_ec_sensor_set_ec_rate(st, latency);
-> +
-> +	mutex_lock(&st->cmd_lock);
-Maybe use cleanup.h and
-	guard(mutex)(&st->cmd_lock);
-mostly because it simplifies code and...
-> +	st->param.cmd = MOTIONSENSE_CMD_EC_RATE;
-> +	st->param.ec_rate.data = min(U16_MAX, latency);
-> +	ret = cros_ec_motion_send_host_cmd(st, 0);
-> +	mutex_unlock(&st->cmd_lock);
-
-I'm not sure why you unlock briefly here?
-
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/*
-> +	 * Flush samples currently in the FIFO, especially when the new latency
-> +	 * is shorter than the old one: new timeout value is only considered when
-> +	 * there is a new sample available. It can take a while for a slow
-> +	 * sensor.
-> +	 */
-> +	mutex_lock(&st->cmd_lock);
-> +	st->param.cmd = MOTIONSENSE_CMD_FIFO_FLUSH;
-> +	ret = cros_ec_motion_send_host_cmd(st, 0);
-> +	mutex_unlock(&st->cmd_lock);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -764,6 +766,8 @@ EXPORT_SYMBOL_GPL(cros_ec_sensors_capture);
->   * @mask:	specifies which values to be requested
->   *
->   * Return:	the type of value returned by the device
-> + *
-> + * cmd_lock mutex held.
-
-Maybe true, but has that changed in a fashion that means this should
-be in this fix patch rather than a follow up improving documentation?
-
->   */
->  int cros_ec_sensors_core_read(struct cros_ec_sensors_core_state *st,
->  			  struct iio_chan_spec const *chan,
-> @@ -836,6 +840,8 @@ EXPORT_SYMBOL_GPL(cros_ec_sensors_core_read_avail);
->   * @mask:	specifies which values to write
->   *
->   * Return:	the type of value returned by the device
-> + *
-> + * cmd_lock mutex held.
-As above.
-
->   */
->  int cros_ec_sensors_core_write(struct cros_ec_sensors_core_state *st,
->  			       struct iio_chan_spec const *chan,
-> @@ -853,6 +859,16 @@ int cros_ec_sensors_core_write(struct cros_ec_sensors_core_state *st,
->  		st->param.sensor_odr.roundup = 1;
->  
->  		ret = cros_ec_motion_send_host_cmd(st, 0);
-I'd rather see
-		if (ret)
-			break;
-given local style.
-
-Ideal would actually be to make this whole function do direct returns on error
-as that is easier to follow in cases like this where there is no cleanup.
-However that change doesn't belong in a fix. Something for another day!
-
-> +
-> +		/* Flush the FIFO in case we are stopping a sensor.
-Comment syntax slightly wrong.
-
-		/*
-		 * Flush the FIFO
-
-> +		 * If the FIFO has just been emptied, pending samples will be
-> +		 * stuck until new samples are available. It will not happen
-> +		 * when all the sensors are stopped.
-> +		 */
-> +		if (ret == 0 && frequency == 0) {
-
-With the break above, only need to check frequency here.
-
-> +			st->param.cmd = MOTIONSENSE_CMD_FIFO_FLUSH;
-> +			ret = cros_ec_motion_send_host_cmd(st, 0);
-> +		}
->  		break;
->  	default:
->  		ret = -EINVAL;
-
+Andi

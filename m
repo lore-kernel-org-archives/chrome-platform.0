@@ -1,65 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9F52DFA57;
-	Mon, 14 Apr 2025 13:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1091EEA4A;
+	Mon, 14 Apr 2025 22:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744637580; cv=none; b=EygfJgp0Wq4siOsJ0zJp8fDLODus/2XF+K0igtvUKpvNtTcn89DrFacql3opIdvPyB0Oh6KrWq5dbtoX46VJ8Vs+qfjie42xDtc7XT/ja8o8Pe+beSyR/gDzYMMi/nKL66dGw3Lokw97HefaGLZ/MtwsfGZsro2euwwsm1LxoSM=
+	t=1744668688; cv=none; b=gQYy0nI08T38fA5gYknEcJIEWVZrpoQtW4AQMzBpWoMsdFaLWqIfSdfU8UHNQeB5m/FSR5Dke5tfJMG9i0j3i6c5YKUEg6LlQljR9RbQbj5dfDMH4jdIWR72cOkXMsqZvj9KssURdBSUmyj3kpPB7Qf22kodsWOmQ8shjkvujFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744637580; c=relaxed/simple;
-	bh=PVh4ckW/rAu6UdSpu1FQ1HmH0IVyLanqaHyGThOzK58=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IV+slTg9+PpsTd9caQRrjdkPLCcZfNRehC6YaU/2xj1i4a0GDCG61z8CZAzpF35Tl+3oNqp981l8Lb9rhAZwU6S3KA0kss8fWnw5A+ubeRBk+ct5FgZEvrKIGCT4r+r9XR30t5j5FwB1Eajnrcy940xsUWu542nhWRuKiiBhZNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UL239mgp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744668688; c=relaxed/simple;
+	bh=cUE0zAXa5hPMBecTRoOdIjynzPgDmGWYiPP0wgNUr9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DrkcXK8cE8pWu6GzXUvh0t6Kb+ygSxzfKtUhVtok9LDGTW6c9MQQ9zv5YgH4Y78WyYK3A84kxqq4qW4DK7Pc5931dHHgW2xL7R6PAOK67Yvyx7g8IsJP8m0waYS2hc/reB9qZKAAgJMS4O0KbkN0EOYI/dWYF1thZ1gQ/PL0GpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hMA4HNAs; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UL239mgp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FF24C4CEE2;
-	Mon, 14 Apr 2025 13:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744637579;
-	bh=PVh4ckW/rAu6UdSpu1FQ1HmH0IVyLanqaHyGThOzK58=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UL239mgpFjvycQleYGG196KUI2P5dJvBx0NNdhasKNPF730HTIuavUmYHrahmqdo+
-	 uNJc3k6XJSXl8asyT6I8vxoQ7t92JLplM80KpAqC+IFou5pW1UVzQ5dsnDE6rUfsJZ
-	 0sWFN8/Mc9kAx+He3erSB/PBaqYWb8dv9hIwKp6xS33y7vpcWiYlADTjUYpfvNGEQ5
-	 /uPo0MtXKY/3V7NPeGpJAayKK1OtZ5h5FQWSmzxaBUwUal18bWYWTZgGnczNwS9q3Z
-	 sagIgbkcL40Br086w867EhMb6MJ8DT0I0EULpiE71yQ4C9rOcuuIG8vskJkxN+42YV
-	 kuTnoxeIIxZ3Q==
-Date: Mon, 14 Apr 2025 21:32:55 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	chrome-platform@lists.linux.dev, Simon Que <sque@chromium.org>
-Subject: Re: linux-next: Tree for Apr 11
- (drivers/platform/chrome/cros_kbd_led_backlight.c)
-Message-ID: <Z_0Oh8OjiLVUSbMh@tzungbi-laptop>
-References: <20250411154455.3767ebb7@canb.auug.org.au>
- <ed8adc69-c505-4108-bf63-92911b0395c7@infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hMA4HNAs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=Qxgdw+lYOjcGfLOYm1309qvR8kFdtfIB0s1YyPFtgnM=; b=hMA4HNAsuszo2WRXcLtSnJXKU1
+	SGGC1s1g9cSVVyZZLGgcm6lqSzDbNp53UngYqzDjgDMxa/+I2svgE9kdPtSTNg/Q120ieO4lny3bb
+	9vNnTrQcQPYE6RZkcQMQ8F5reca/g9375EPLVBiqdDjqC8MGVIkl4KL6RH+5ImFJh3GFeUcJdCZS3
+	6WMI5PwaSig7NEH4dShgd7yegjTeT8nBZBvTTu5KWYLxapiQReDG2A5m+PJxbVOBH3jaS5nW7M4VM
+	0qUEpwLG4CId17a0lgM8awIQZCQwEuMzCYhpOHOd1eEuX68zjceKZ+y80OYbv13Y0X7WoOgarZUWz
+	1YnCNsgA==;
+Received: from [50.39.124.201] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1u4S1B-00000001zOI-2v8T;
+	Mon, 14 Apr 2025 22:11:06 +0000
+Message-ID: <8c011b58-b9da-417f-80db-440f21a94fec@infradead.org>
+Date: Mon, 14 Apr 2025 15:10:44 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ed8adc69-c505-4108-bf63-92911b0395c7@infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] platform/chrome: cros_kbd_led_backlight: Remove
+ CROS_EC dependency
+To: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org,
+ sfr@canb.auug.org.au
+Cc: chrome-platform@lists.linux.dev, linux-next@vger.kernel.org,
+ srosek@chromium.org
+References: <20250414132427.204078-1-tzungbi@kernel.org>
+ <20250414132427.204078-2-tzungbi@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250414132427.204078-2-tzungbi@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 11, 2025 at 02:29:22PM -0700, Randy Dunlap wrote:
-> On 4/10/25 10:44 PM, Stephen Rothwell wrote:
-> > Hi all,
-> > 
-> > Changes since 20250410:
-> > 
-> 
-> pn x86_64:
-> 
-> ld: vmlinux.o: in function `keyboard_led_set_brightness_ec_pwm':
-> cros_kbd_led_backlight.c:(.text+0x3554e4c): undefined reference to `cros_ec_cmd_xfer_status'
-> ld: vmlinux.o: in function `keyboard_led_get_brightness_ec_pwm':
-> cros_kbd_led_backlight.c:(.text+0x3554f41): undefined reference to `cros_ec_cmd_xfer_status'
 
-Proposed a fix in https://lore.kernel.org/chrome-platform/20250414132427.204078-3-tzungbi@kernel.org/T/#u
+
+On 4/14/25 6:24 AM, Tzung-Bi Shih wrote:
+> After applying 3a1d61dc3202 ("platform/chrome: cros_kbd_led_backlight:
+> Remove OF match"), cros_kbd_led_backlight no longer depends on CROS_EC
+> directly.
+> 
+> Remove the redundant dependency.
+> 
+> Fixes: 3a1d61dc3202 ("platform/chrome: cros_kbd_led_backlight: Remove OF match")
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  drivers/platform/chrome/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+> index f523ae3d3be0..1614b9d3c5c2 100644
+> --- a/drivers/platform/chrome/Kconfig
+> +++ b/drivers/platform/chrome/Kconfig
+> @@ -161,7 +161,7 @@ config CROS_EC_PROTO
+>  
+>  config CROS_KBD_LED_BACKLIGHT
+>  	tristate "Backlight LED support for Chrome OS keyboards"
+> -	depends on LEDS_CLASS && (ACPI || CROS_EC || MFD_CROS_EC_DEV)
+> +	depends on LEDS_CLASS && (ACPI || MFD_CROS_EC_DEV)
+>  	help
+>  	  This option enables support for the keyboard backlight LEDs on
+>  	  select Chrome OS systems.
+
+-- 
+~Randy

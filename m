@@ -1,40 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564DA2DFA26;
-	Tue, 15 Apr 2025 02:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8093D1B0430;
+	Tue, 15 Apr 2025 02:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744685149; cv=none; b=Ggr+rIS4X3YqlPIZfUW92KYnbmHM+Olde98D5pBD1xht/OLt1KojFaj5Mdr5xN478CEK9mgCkvR+TDZCsvXPVJJYMsA62dvcyODeta5V5z68d/guTzj4XaK091IcGKzGzRRQdAuw9FJRzkcxe0iv3YM0gKDJ16/M2/s/xvTZEr8=
+	t=1744685580; cv=none; b=WNYfGy5D++uv03TaWvN/UAeD479Ax41wvzu9S/hWbemspZtzh3GmArvRrxIG0B8sWzE8GSovkBzRq2RC7z14mPOo8SBhsJwbqpyARKOHPZQsAUSYefVeDhPzwrTj4Dznhaz5zx1l5OArThr2uqn6FSpzSGD+BxESsEfFwFmkGbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744685149; c=relaxed/simple;
-	bh=68k+qc+ufXqb20CqNN3hfOgp/QguA8AweAHP94umCyU=;
+	s=arc-20240116; t=1744685580; c=relaxed/simple;
+	bh=oe32vFwjvXSWEc5QPi2s6lExfArkB3jNgqubGPspKuA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MPxY+emjlVP6WxWB5TXYrvOQZH9ux8C+13RKTLa1ugus2IrCGmDsj0PtzRrmOx+Cjyitfl6pse0bfTl5NPA/Zuy852QSipte1Azf1ZbD15D0wPvXnuxTRbJxAhffq3N+/D0XDGDOMFmgdF0GIRfafG4tvwAvuXThdCt9+4LWjjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cGgQ0ZE5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=e54spws3AsrffHBqegAxVoW96fCYpP62ciM6w4QHNUzLF6b9G31jY4B1lCcSIYEnJ8iuy2hL2Kw8tuxiOkKTrKM996o6uNxyV1uG3ThXK1vC0WbTzNSl4qRWPME8X0D8vzLpP95s9c3kWLdMmUb8NPf8zXJm99ikcLfjF3NIPYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aCmDq0Xv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cGgQ0ZE5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDBBEC4CEE2;
-	Tue, 15 Apr 2025 02:45:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCmDq0Xv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C015C4CEE2;
+	Tue, 15 Apr 2025 02:52:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744685148;
-	bh=68k+qc+ufXqb20CqNN3hfOgp/QguA8AweAHP94umCyU=;
+	s=k20201202; t=1744685580;
+	bh=oe32vFwjvXSWEc5QPi2s6lExfArkB3jNgqubGPspKuA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cGgQ0ZE5vOtdpnKqNyyWikmZMkddzER2mTDaubuSESd1/2QAzwwzPDHFbAJeh6Kkx
-	 CGVzz+XtyCH6v3s6m+c0NFxVx74Ehg3JGbOB+oEATs3knb2hNInrinvwfH2X54X1jx
-	 pNfZsA3iokFxqKkITUKQsTHBi46U+UE1p1b7CmDog7tA6dcf9sgy9wV9dsg4XnR4Q3
-	 03W8oBJnlHT96uCagmW0bh+vQ8xyxbWALrn71ZiyBXSxSD9euBGdRY9xpGadwYjtbM
-	 jYXhTfejV7MiefUs063aTUaYF8m/nuJbE7cY/xD4+vfePj4isHHmjm3kz7elMou9vd
-	 ZXqgboGhpG7zA==
-Date: Tue, 15 Apr 2025 02:45:45 +0000
+	b=aCmDq0XvQ19IW31yaIRdbzOuxL/oigyeUfR3OaiuD+zeIo04UNI8k0/Ffro2ZDles
+	 REn2mZAdh/6M/Yhu86EScT8LeA0lgDP/6TcaIi7Ujnb+7ZE4ahiaIG44qu80Bwceqt
+	 n6RPHCjmKAjSiA0RxUiQ5L46eO9dGK4udN8SeQlSCmfJZ/5aq3oIVR9yNhQhgPMatF
+	 hL4sfls5Z5WPCZZk0EjRW9ISRUbqHop9+YYeoMHGIFjEhQlz9j9O0WVj2QgSuqI0EX
+	 vdVtVI19Aol4gQyfdFg8gOYzOWjLW7LIwYs8WiSoPrOj5YC+5p3t3ZnkhF5oZOeBQr
+	 0ywJwrfNRCriQ==
+Date: Tue, 15 Apr 2025 02:52:55 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org, sfr@canb.auug.org.au
-Cc: chrome-platform@lists.linux.dev, linux-next@vger.kernel.org,
-	srosek@chromium.org, rdunlap@infradead.org
-Subject: Re: [PATCH 0/2] platform/chrome: cros_kbd_led_backlight: Fix
- dependencies
-Message-ID: <Z_3IWd1fng3IV9bZ@google.com>
-References: <20250414132427.204078-1-tzungbi@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Sebastian Reichel <sre@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v8 2/7] reboot: hw_protection_trigger: use standardized
+ numeric shutdown/reboot reasons instead of strings
+Message-ID: <Z_3KB0tLX6sKhdFI@google.com>
+References: <20250411121757.573419-1-o.rempel@pengutronix.de>
+ <20250411121757.573419-3-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -43,28 +57,19 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250414132427.204078-1-tzungbi@kernel.org>
+In-Reply-To: <20250411121757.573419-3-o.rempel@pengutronix.de>
 
-On Mon, Apr 14, 2025 at 09:24:25PM +0800, Tzung-Bi Shih wrote:
-> The first patch removes a redundant dependency.
+On Fri, Apr 11, 2025 at 02:17:52PM +0200, Oleksij Rempel wrote:
+> Prepares the kernel for the Power State Change Reason (PSCR) recorder,
+> which will store shutdown and reboot reasons in persistent storage.
 > 
-> The second patch fixes the build errors discovered in [1].
-> 
-> [1]: https://lore.kernel.org/chrome-platform/ed8adc69-c505-4108-bf63-92911b0395c7@infradead.org/T/#u
-> 
-> Tzung-Bi Shih (2):
->   platform/chrome: cros_kbd_led_backlight: Remove CROS_EC dependency
->   platform/chrome: cros_kbd_led_backlight: Fix build dependencies
+> Instead of using string-based reason descriptions, which are often too
+> large to fit within limited storage spaces (e.g., RTC clocks with only 8
+> bits of battery-backed storage), we introduce `enum psc_reason`. This
+> enumerates predefined reasons for power state changes, making it
+> efficient to store and retrieve shutdown causes.
 > 
 > [...]
+>  drivers/platform/chrome/cros_ec_lpc.c |  2 +-
 
-Applied to
-
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-
-[1/2] platform/chrome: cros_kbd_led_backlight: Remove CROS_EC dependency
-      commit: 9aea0edcc3e92f5c40184b96d004b4af5a8d264f
-[2/2] platform/chrome: cros_kbd_led_backlight: Fix build dependencies
-      commit: 31d3bd592df5bf2912b8d97b0652ac3f0cd335cf
-
-Thanks!
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>

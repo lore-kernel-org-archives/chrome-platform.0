@@ -1,75 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8093D1B0430;
-	Tue, 15 Apr 2025 02:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386C3BE6C
+	for <chrome-platform@lists.linux.dev>; Wed, 16 Apr 2025 00:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744685580; cv=none; b=WNYfGy5D++uv03TaWvN/UAeD479Ax41wvzu9S/hWbemspZtzh3GmArvRrxIG0B8sWzE8GSovkBzRq2RC7z14mPOo8SBhsJwbqpyARKOHPZQsAUSYefVeDhPzwrTj4Dznhaz5zx1l5OArThr2uqn6FSpzSGD+BxESsEfFwFmkGbg=
+	t=1744761735; cv=none; b=WSr+q6zcrr4LXFzuvG+h3l/tGXZ5WBYoRgA6Rt77cRC3LszTur6l54hkMyFsRUE8HNRaQ1R2zsk81hUE16EK0D463vsWFIqO/FYdw3lCTcHD+NUoHj2PAgea6s34rShhIUlnrMlAhf78dRPQ6q6Kk1gcLISxl/VJwSEOUEN2r9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744685580; c=relaxed/simple;
-	bh=oe32vFwjvXSWEc5QPi2s6lExfArkB3jNgqubGPspKuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e54spws3AsrffHBqegAxVoW96fCYpP62ciM6w4QHNUzLF6b9G31jY4B1lCcSIYEnJ8iuy2hL2Kw8tuxiOkKTrKM996o6uNxyV1uG3ThXK1vC0WbTzNSl4qRWPME8X0D8vzLpP95s9c3kWLdMmUb8NPf8zXJm99ikcLfjF3NIPYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aCmDq0Xv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744761735; c=relaxed/simple;
+	bh=9LdBVOezi3+S4+ZxOQ8+mmTVUoo6eXOCdNB3fmZA2G8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ArPsCF+cLuonJzTxMPFjKSdGRQZ+57xC2Oeah0tC0DRUVrO9MJr8rqdCjCxMuBes8mWhpT+hVyIJjwdCwp4X9y4ntgoT2cBt4gW7BOT5Cjs7/8w5ED8FA7Fg/R9hjsIHLNrkKYpplNQkfn08hFhxpv28DA+JJyi5SmeOX1mtgmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dvkol6CG; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCmDq0Xv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C015C4CEE2;
-	Tue, 15 Apr 2025 02:52:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744685580;
-	bh=oe32vFwjvXSWEc5QPi2s6lExfArkB3jNgqubGPspKuA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aCmDq0XvQ19IW31yaIRdbzOuxL/oigyeUfR3OaiuD+zeIo04UNI8k0/Ffro2ZDles
-	 REn2mZAdh/6M/Yhu86EScT8LeA0lgDP/6TcaIi7Ujnb+7ZE4ahiaIG44qu80Bwceqt
-	 n6RPHCjmKAjSiA0RxUiQ5L46eO9dGK4udN8SeQlSCmfJZ/5aq3oIVR9yNhQhgPMatF
-	 hL4sfls5Z5WPCZZk0EjRW9ISRUbqHop9+YYeoMHGIFjEhQlz9j9O0WVj2QgSuqI0EX
-	 vdVtVI19Aol4gQyfdFg8gOYzOWjLW7LIwYs8WiSoPrOj5YC+5p3t3ZnkhF5oZOeBQr
-	 0ywJwrfNRCriQ==
-Date: Tue, 15 Apr 2025 02:52:55 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Sebastian Reichel <sre@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dvkol6CG"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-224100e9a5cso70614475ad.2
+        for <chrome-platform@lists.linux.dev>; Tue, 15 Apr 2025 17:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1744761733; x=1745366533; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ETD26CH6iD+0uFy4hgKYmRwgyWbV2LZsUcS2ttgEWQs=;
+        b=dvkol6CG11OQh6F3fhZRYU05Ma0kbjJGO0UUW5MZCpNCjwzpMVrnKq5uF3nlopriA1
+         EL7iSBGIBw6deuOYv/GUbY5snJ2jfFK/oAzxyqDtWEgkLj3QmDib6V2o2veGwFxSDGyI
+         k/y4QWSl2XdVAXfLJpZdVrEWM8mhp/Do6sRFA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744761733; x=1745366533;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ETD26CH6iD+0uFy4hgKYmRwgyWbV2LZsUcS2ttgEWQs=;
+        b=NpLlb4CgCLVRr95VZMzvt8LjusBrDhB3T6XhQTN/9ZL5R8Yu6GEHS7WtPYzENYrEbF
+         3703l57wfutoAuBihZCBO4t3jEWsCPvQIVVnIo2rR2lrzf+73lbLVTg+pnbROhQq2ihY
+         ZRsNA10vDqhpilqWXsYjB3v1eTYCxsttUqXaDf7eScNDGZAkcT/+Tc2+iEeSx5aXirrd
+         vO0v2PTPt5OZyZR9Lt4tXSCoZOYu9nNI5vHguaGMn4PNhjWnolf1ZaaIpMCPMSqxYEai
+         5c3Byu5emTVJPohLuE9shmgmwyotmRGg2rPBKehJNf/Z75GFZVA5rELo0nmpDfymqMst
+         4lzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVX97+OnQGDZ7hvFldurerEl34Y21BJGQbVuMJSofl7AUwszO+7NQ3wEwvkAQSNd1iXmAU7NRbgbFa7YN6uNA8=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/ZVTZXp0A6W0H2U7v85g6q+/hswYuqzpsG9VkK/LW8gs8s5CN
+	4S4pNNp92QcmPu/j2EJZmsxpBEel7eom8+RP0bdol8sbypt4RUwUFkpys28wVg==
+X-Gm-Gg: ASbGnctgy0AcxxCGD4E4ZpX+tE9LjwyAylmWnVVLtUhGyiizRxL42TspuMm6KX+yNfR
+	P/4Wn0T5tGhvquAUhybXdWcTX7wq8HDklfqqiDmvMJ5FgD6xAzjJrxxo44EkZxdzgbHXNfSrKRx
+	O90xBklLgfFOAq/0s0XAzLHofAkoWiJGq/H5inOwBM3R10+/z0ocm1SRUIAgfcQ6QbEOSqIXymO
+	dnhCwY0Ex02j/5aVDfsUWngeYTZmHGs9cdv1p+a19/16+FPncEbhsiMJmroOFeiGj8w5jexglPN
+	aDwvx8dTZRKNdZ0usvybcpAEXRo+Kdq1tQQZRZOUPjPtBeNSPI1/AvI1jpzUgbXH7KoLi+9vfQU
+	jxA==
+X-Google-Smtp-Source: AGHT+IGTNhPFIcDKlL3bF0SzfSJ7SIXjnXhh0YeuCFsofT603F8bPtE9D2lDaA650EUHL4OU3b5nnQ==
+X-Received: by 2002:a17:903:2a85:b0:220:e63c:5aff with SMTP id d9443c01a7336-22c31ae8e3emr14464865ad.47.1744761733360;
+        Tue, 15 Apr 2025 17:02:13 -0700 (PDT)
+Received: from localhost (199.24.125.34.bc.googleusercontent.com. [34.125.24.199])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-22c33fc47e0sm1235925ad.167.2025.04.15.17.02.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Apr 2025 17:02:13 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	devicetree@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>,
 	Benson Leung <bleung@chromium.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org,
-	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
-	Guenter Roeck <groeck@chromium.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v8 2/7] reboot: hw_protection_trigger: use standardized
- numeric shutdown/reboot reasons instead of strings
-Message-ID: <Z_3KB0tLX6sKhdFI@google.com>
-References: <20250411121757.573419-1-o.rempel@pengutronix.de>
- <20250411121757.573419-3-o.rempel@pengutronix.de>
+	chrome-platform@lists.linux.dev,
+	Pin-yen Lin <treapking@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	=?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Subject: [PATCH 1/7] platform/chrome: cros_ec_typec: No pending status means attention
+Date: Tue, 15 Apr 2025 17:02:01 -0700
+Message-ID: <20250416000208.3568635-2-swboyd@chromium.org>
+X-Mailer: git-send-email 2.49.0.604.gff1f9ca942-goog
+In-Reply-To: <20250416000208.3568635-1-swboyd@chromium.org>
+References: <20250416000208.3568635-1-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250411121757.573419-3-o.rempel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 11, 2025 at 02:17:52PM +0200, Oleksij Rempel wrote:
-> Prepares the kernel for the Power State Change Reason (PSCR) recorder,
-> which will store shutdown and reboot reasons in persistent storage.
-> 
-> Instead of using string-based reason descriptions, which are often too
-> large to fit within limited storage spaces (e.g., RTC clocks with only 8
-> bits of battery-backed storage), we introduce `enum psc_reason`. This
-> enumerates predefined reasons for power state changes, making it
-> efficient to store and retrieve shutdown causes.
-> 
-> [...]
->  drivers/platform/chrome/cros_ec_lpc.c |  2 +-
+If we aren't expecting a status update when
+cros_typec_displayport_status_update() is called then we're handling an
+attention message, like HPD high/low or IRQ. Call
+typec_altmode_attention() in this case so that HPD signaling works in
+the DP altmode driver.
 
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: <chrome-platform@lists.linux.dev>
+Cc: Pin-yen Lin <treapking@chromium.org>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: Łukasz Bartosik <ukaszb@chromium.org>
+Cc: Jameson Thies <jthies@google.com>
+Cc: Andrei Kuchynski <akuchynski@chromium.org>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/platform/chrome/cros_typec_altmode.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
+index 557340b53af0..c2d9c548b5e8 100644
+--- a/drivers/platform/chrome/cros_typec_altmode.c
++++ b/drivers/platform/chrome/cros_typec_altmode.c
+@@ -280,11 +280,8 @@ int cros_typec_displayport_status_update(struct typec_altmode *altmode,
+ 		typec_altmode_get_drvdata(altmode);
+ 	struct cros_typec_altmode_data *adata = &dp_data->adata;
+ 
+-	if (!dp_data->pending_status_update) {
+-		dev_dbg(&altmode->dev,
+-			"Got DPStatus without a pending request\n");
+-		return 0;
+-	}
++	if (!dp_data->pending_status_update)
++		return typec_altmode_attention(altmode, data->status);
+ 
+ 	if (dp_data->configured && dp_data->data.conf != data->conf)
+ 		dev_dbg(&altmode->dev,
+-- 
+https://chromeos.dev
+

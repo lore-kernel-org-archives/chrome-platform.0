@@ -1,172 +1,96 @@
-Received: from omta034.useast.a.cloudfilter.net (omta034.useast.a.cloudfilter.net [44.202.169.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C81518E377
-	for <chrome-platform@lists.linux.dev>; Wed, 16 Apr 2025 00:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C65D22B8A7;
+	Wed, 16 Apr 2025 06:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744763059; cv=none; b=od/hpqzcUe0JjGKx+CXvA/udctNeh1TTKBvgNoZFMMyEQfKbO7OgEW4wamtUhPVZAbPc2kpi0ixnZL/60BFm9/Tp5nDLFABhpUG+L1OaDB+7sLGKQ4a+lYftUEdZIL7holSUhC9n6xKGjf66cdCBljEdhNNvfqtJWvyX85W9CoE=
+	t=1744785886; cv=none; b=TjyuOFLPgwrOoPOnrxA5Q2MfG1usO3kQrpeqP2DHf+5F1CROU38x3GgiPbTdmj2UQOucIQlm4fQ2NNWg+myAkgI4GMrRkc6EDdpdHmUwpDynNl+/m7O/aIGI7Wp3gzOdS7y0Cz2763YvHSQccNc+dbO7lt8U50D2QkJOsL01JFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744763059; c=relaxed/simple;
-	bh=nbjGo7o5PVE0LSyUGasinTe0CBH2iFAB776bGOj05Hs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=APuqZRHqFJbFyD03e0XMU54THXP8Cm0zzSklyTq73HdbMu1sdf3gdKjVELWPbf8hCZaddVJaGbbf+mLzvfI2t1krk8aYXti5e+27YVLSIbAFFo5yqY4hDv57KpefjEVmk5yVWW0K+s4CXJuUbLqq6NHxfqzXpbVLVQQlNPgSsUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=auf6czB4; arc=none smtp.client-ip=44.202.169.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1744785886; c=relaxed/simple;
+	bh=2QgoyFyBkjBvqoD5Ifrm8aom6MPxlvdHD2O2OdNVf5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZBmEOzQyHCYp/CfwWSANkLhLhsHCeKs5a6CWwPmx6xABcpAcfTtIeDrqEua4fybUpuMpAE14I5x1e+IRaapd7ynYCcfhf/f0uYthIWAepzYQuxojnrc0N56setvW+Xo9DhUuBXI4wWTwHYtjpxdKfSAEoEQ306BOL6fonCpoEas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7ZNcOTp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="auf6czB4"
-Received: from eig-obgw-6005a.ext.cloudfilter.net ([10.0.30.201])
-	by cmsmtp with ESMTPS
-	id 4iX8uZJmIXshw4qZduNJ2d; Wed, 16 Apr 2025 00:24:17 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id 4qZbulOyFZ6h14qZcuwDJX; Wed, 16 Apr 2025 00:24:16 +0000
-X-Authority-Analysis: v=2.4 cv=ergUzZpX c=1 sm=1 tr=0 ts=67fef8b0
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=B3fuDwYyW55wTQKIj88FGw==:17
- a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
- a=9MnfFl-tLoddl8rzticA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=Xt_RvD8W3m28Mn_h3AK8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=K7mFB8T9aqNCzoiArbNncglumRxV8ThsIT1sO4XwnZI=; b=auf6czB4jCDJ0Utts0EfkNZjBB
-	Wc6bFsG7+UjGMXYoeQ9WXOcciJsZXRQKfUXhT78ikxbjHHYhWlaC8aPoCus/X88wSso4A6GSkU6rF
-	eDMq6gQE9bUorN8vLTVRcIQykWAqfdWeJv7MrBgFV0GEo5+dvpiB3rd+3mUYX4NOFZ5hNfnubM1fj
-	Plx9c/372HD2XdAjffU03VQx4zW9+imaYb44dziKCb2gX0JS4G/vBxpYzEl5hBuKxFRM2zLoh04wt
-	Gw0uLEUrTRxUc7TAmJJyYzEcsfjqr+LR2ENgHlYtPHS4TwHdyYaqPY4z5Zn1/+neZvxK4GtNSiDw7
-	F1VPN6Rw==;
-Received: from [201.172.174.147] (port=38092 helo=[192.168.15.14])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.1)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1u4qZa-000000018Te-3og3;
-	Tue, 15 Apr 2025 19:24:14 -0500
-Message-ID: <78711464-250d-4c1a-8635-cc8993dfee10@embeddedor.com>
-Date: Tue, 15 Apr 2025 18:24:12 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7ZNcOTp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F385C4CEEC;
+	Wed, 16 Apr 2025 06:44:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744785885;
+	bh=2QgoyFyBkjBvqoD5Ifrm8aom6MPxlvdHD2O2OdNVf5A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c7ZNcOTp7R3go8mn78KMrvaVogeKux4vLdyiw4L3sxQoHnh3yifq/CzI4fZbJQVpX
+	 9qrg/WnDlg4P5mpnwqHPpspe7AaFwKFVWN1GPII0dlpK1pJisKrVdvvlvqbmS47Xv1
+	 HU8huy1m4HhrujT21i2CtK9UjL7NTM2Jgjss82UsaBMxvm0ikJa6JvKnhz0jusJoPL
+	 8WgQ1JTslXWgexdZ+WuSGt87uZlNMnwUOyVY5m8HCnZ24DnXhM3/+u6tPx0cSxc2Th
+	 bQYy1K1z9bIxpIGxJbX4cnj4MDTaySwuSe75cT2wGmvESNBzEP4hcE+fFOIiiv8Nw4
+	 SIKyYE4PZfJmg==
+Date: Wed, 16 Apr 2025 07:44:38 +0100
+From: Lee Jones <lee@kernel.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>, devicetree@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Pin-yen Lin <treapking@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 4/7] dt-bindings: Move google,cros-ec-typec binding to usb
+Message-ID: <20250416064438.GE372032@google.com>
+References: <20250416000208.3568635-1-swboyd@chromium.org>
+ <20250416000208.3568635-5-swboyd@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2][next] watchdog: cros-ec: Avoid
- -Wflex-array-member-not-at-end warning
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Lukasz Majczak <lma@chromium.org>, Wim Van Sebroeck
- <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, linux-watchdog@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- Kees Cook <keescook@chromium.org>
-References: <Z-WG6_uhWsy_FCq3@kspp>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <Z-WG6_uhWsy_FCq3@kspp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.172.174.147
-X-Source-L: No
-X-Exim-ID: 1u4qZa-000000018Te-3og3
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.15.14]) [201.172.174.147]:38092
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 13
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfFpBAJ1vcpLi6BRSzvWQQiJO3c86yHSZc0NlVXksqboUSwb1FodbstJ0jstDiSUuLb1uyzaWF/j0aAcQfruRrHDO3kCn5vBjiV6Az9nA0fHp+1p4VgP0
- EksHdOSJQdnLKhbI2PlWCyKerzbOB4tyACYTgAWzbNH6UHBIHPU1qegSIBkmbXJgOlaqyJccc2DWvHk4TMLWR1nix1J9OgxIBsEQvoEWcXcsEPGD4nT9gYl3
+In-Reply-To: <20250416000208.3568635-5-swboyd@chromium.org>
 
-Hi all,
+On Tue, 15 Apr 2025, Stephen Boyd wrote:
 
-Friendly ping: who can take this patch, please? 🙂
-
-Thanks!
--Gustavo
-
-On 27/03/25 11:12, Gustavo A. R. Silva wrote:
-> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-> getting ready to enable it, globally.
+> This binding is about USB type-c control. Move the binding to the usb
+> directory as it's a better home than chrome.
 > 
-> Use the `DEFINE_RAW_FLEX()` helper for on-stack definitions of
-> a flexible structure where the size of the flexible-array member
-> is known at compile-time, and refactor the rest of the code,
-> accordingly.
-> 
-> So, with these changes, fix the following warning:
-> 
-> drivers/watchdog/cros_ec_wdt.c:29:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> 
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Cc: <devicetree@vger.kernel.org>
+> Cc: <chrome-platform@lists.linux.dev>
+> Cc: Pin-yen Lin <treapking@chromium.org>
+> Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> Cc: Łukasz Bartosik <ukaszb@chromium.org>
+> Cc: Jameson Thies <jthies@google.com>
+> Cc: Andrei Kuchynski <akuchynski@chromium.org>
+> Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 > ---
-> Changes v2:
->   - Fix truncated line in changelog text. (Tzung-Bi)
->   - Update variable name: s/buf/msg (Tzung-Bi)
->   - Cast to structs instead of union. (Tzung-Bi)
->   - Add RB tag.
-> 
-> v1:
->   - Link: https://lore.kernel.org/linux-hardening/Z-SBITmMfwjocYwL@kspp/
-> 
->   drivers/watchdog/cros_ec_wdt.c | 30 +++++++++++++-----------------
->   1 file changed, 13 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/watchdog/cros_ec_wdt.c b/drivers/watchdog/cros_ec_wdt.c
-> index 716c23f4388c..9ffe7f505645 100644
-> --- a/drivers/watchdog/cros_ec_wdt.c
-> +++ b/drivers/watchdog/cros_ec_wdt.c
-> @@ -25,26 +25,22 @@ static int cros_ec_wdt_send_cmd(struct cros_ec_device *cros_ec,
->   				union cros_ec_wdt_data *arg)
->   {
->   	int ret;
-> -	struct {
-> -		struct cros_ec_command msg;
-> -		union cros_ec_wdt_data data;
-> -	} __packed buf = {
-> -		.msg = {
-> -			.version = 0,
-> -			.command = EC_CMD_HANG_DETECT,
-> -			.insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
-> -				   sizeof(struct ec_response_hang_detect) :
-> -				   0,
-> -			.outsize = sizeof(struct ec_params_hang_detect),
-> -		},
-> -		.data.req = arg->req
-> -	};
-> -
-> -	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
-> +	DEFINE_RAW_FLEX(struct cros_ec_command, msg, data,
-> +			sizeof(union cros_ec_wdt_data));
-> +
-> +	msg->version = 0;
-> +	msg->command = EC_CMD_HANG_DETECT;
-> +	msg->insize  = (arg->req.command == EC_HANG_DETECT_CMD_GET_STATUS) ?
-> +		   sizeof(struct ec_response_hang_detect) :
-> +		   0;
-> +	msg->outsize = sizeof(struct ec_params_hang_detect);
-> +	*(struct ec_params_hang_detect *)msg->data = arg->req;
-> +
-> +	ret = cros_ec_cmd_xfer_status(cros_ec, msg);
->   	if (ret < 0)
->   		return ret;
->   
-> -	arg->resp = buf.data.resp;
-> +	arg->resp = *(struct ec_response_hang_detect *)msg->data;
->   
->   	return 0;
->   }
+>  .../devicetree/bindings/mfd/google,cros-ec.yaml      |  2 +-
 
+Acked-by: Lee Jones <lee@kernel.org>
+
+>  .../{chrome => usb}/google,cros-ec-typec.yaml        | 12 ++++++------
+>  2 files changed, 7 insertions(+), 7 deletions(-)
+>  rename Documentation/devicetree/bindings/{chrome => usb}/google,cros-ec-typec.yaml (72%)
+
+-- 
+Lee Jones [李琼斯]

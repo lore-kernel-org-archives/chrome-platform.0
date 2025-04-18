@@ -1,173 +1,520 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B2B7482;
-	Wed, 16 Apr 2025 12:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFDD1ADC8D
+	for <chrome-platform@lists.linux.dev>; Fri, 18 Apr 2025 07:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744806710; cv=none; b=uMf8j7Sl8Sx4Su7QxpnGhBGEWslEpORoeAOLW+enpDO9MaQhuLyR6qDtFMNOpYd8lBfA9+tndTGKOzKZLS7yyxdjqSFOgJaoF6K87QR1e5GdYEU1oFDd7YLjZvx+XdEbwmgdOrLieHyZsmvb6T7XqaYCsILT8pqd3sqaDPesoiE=
+	t=1744963169; cv=none; b=hUzPg3Q3WidfxLBGTQtX5cRIsZK8rd+Op7FcjeStksi9+AjIFO8mLRU9197IhaZEFaK/DMdeYKuFytVFAzwtc99t4BTK5UimIRPc2OYCb2WssZM05tJQzndRsCqrU+KpgSjW2DQvneae6eCODf09UDXSarSoDXDLj4NcLNSAAIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744806710; c=relaxed/simple;
-	bh=UaYSwtDIOR2KEFn7Bxifq9gF3Xa/uzc4yutRRCguLc0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JuJmtS2l9jjjCiOu/rIxxyJduk39B7HdUkb8+zDduHP4r6BXKcw7i8WOGgA4ROx8JZoCCAZ2XxaY+muf6rHkJynWrvj4XCHgxN97pzlwuF3fIRAjC+u0Sl+dO5FYHJvNDUopsCd3kYWPYXWS1m675LHdUBDiKEHmaq3nm2tjiBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VrRiyVBy; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1744963169; c=relaxed/simple;
+	bh=FznFBKf3DiKczS+NQnR0fZzll1I4QEduWWrvGVuA45Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nY/b30ktdazzrdYhuFnHZkJQfwpBFtj6mGC+a+ef+W9XsSBdtRoNZImi9Z5r8NV+kXLYemgl1bxn54FGAbNr3a6RGPALbLKQxJrMbS5AjyEo6+xbDXdSE3b0iUMnleaVOCubKh+rSlZyjOXehlBPqwWIkfN8lZ9eyTShGja1bNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DSsvvNdL; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VrRiyVBy"
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0841D21;
-	Wed, 16 Apr 2025 14:29:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1744806583;
-	bh=UaYSwtDIOR2KEFn7Bxifq9gF3Xa/uzc4yutRRCguLc0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VrRiyVBy3dHHM9xMgih7iENisph7dICEf+Mz9mPyQSdyc2vBKgn4heu7T8Ndpq5GK
-	 P3LNuPe/FuGXnqQ1oXaiHlFZFRSRqE+BW7ZAoBxyF8WLCzpwat9H8kFyxWSUGwSEwO
-	 nbIsrZGOa7CI4yG2HJGiJ9Zl19t6H5MuEw0XTn4s=
-Message-ID: <6b699329-8ed4-4be6-81bb-17b4bf800d34@ideasonboard.com>
-Date: Wed, 16 Apr 2025 15:31:41 +0300
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DSsvvNdL"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39ac56756f6so1654249f8f.2
+        for <chrome-platform@lists.linux.dev>; Fri, 18 Apr 2025 00:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744963166; x=1745567966; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=VlP/sLjUiLpq46EPNoUaOS8iLmCZ72Ib0E5h+Wt0Mck=;
+        b=DSsvvNdLWMcz2Saxt/T6uPfvU32XlYMsiXSr7FapgteVBUL74ONa0i0RrzyYxRXZIY
+         xdwgx0BdOYOeLwT5YrRQ03zWPqUacWZoeSBTK7gz8k+VxsS27M4JH+1GAvBN1jUoWwJ5
+         rJYwgplQr+9m4B40IElO8krWZAQSf7kawv2LVAdi0ij0aErd3iDKMFFL1TzBE8/OGa+j
+         N71GZkq1fbFP+oqoHSoG0bpV6IURY3/quvXqCMw25e9tZ/lxbU4IJgha0yfkcoC/YO+i
+         dUzQuueH6nSdbKCJzaGL//k3Zs4CtXAPOLazFD2a61Oe485BCI7akpjSNCgnk6F9AkJN
+         vnGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744963166; x=1745567966;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VlP/sLjUiLpq46EPNoUaOS8iLmCZ72Ib0E5h+Wt0Mck=;
+        b=GhIYATRadGVeze4LZ0vZ4kP+kq6RhN0yCyAOIkbCaKzPwUzC0DI91FgGEio0gKP/RU
+         h5uhTFyABg3U8P+442Nzrhv284m6gyc1kGzGsHeqZLn086pZfYSBpCIl+RrKr3N6Kyiy
+         2tmaRshfe9zH/5hpN3fhZsTh0zmzXx1A2lG5DZEV9+QWK0XQawSmwJ9D+LStrtfryBf3
+         u0agVPTQRIq3ogo+8/JPRt61F3JdURGm6+oraPtD8wvZtmSA4g1MbBxuZg+vYtetuaYV
+         YQ8gh9/GeZasWssOprY9BsIJo2q5Qc+osTUvwzL2fOUUKa6RqyzSWdo0XCxkudJPlOcv
+         W4pA==
+X-Forwarded-Encrypted: i=1; AJvYcCWy27lkW3z/WkFjJ/K5BthJRoJmLIZeGGlOQvZzPDTqlCo+w2FKFsE8pFkLiO9SJY223+ODZJvV2MtULreZeBE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOPH/xHqrrnKeyTvxg97nD906xfFI+QTzpyPVWHgM24ZzA9oxt
+	ZUAn2FVUMJdX6Yd604Ve/RXiZcPXurzZNK9wuYm6mxadf4t2Yu7i39pC1452rEc=
+X-Gm-Gg: ASbGncti4gNv8Hc3NxT8CKOY/05+QgvH5B30iL6/H/qTksl+tYE9W1eVcqO6vKqCVCq
+	n3oqJITyetxc76S+v1+ys6cPhwaawg4Sy+4SoOEYY6jswTP0MjQ9NqZNRZJwD0JsRJl14XvBXOY
+	eyC0YR6y4eezNzVMsg9VnUcueaDWUkq6ub8S0qTvSYnPDm4ToE90RcaNvyVxeJYhEMAt8dCsKdN
+	EwR0iguXhMpRNQ9dJjFYOKq8frpFzxaXUaPKldaDO1p3RHr+Pt+trmk9Aw78RkCMGjRSNR4s5eB
+	WCgeevmCfQuOYKAFJ46hwPeJI5YLuRkwM6cCsvB1JuzMbchg677eSXwCSO1iM7Lyl8R+m97a4cw
+	FnY0=
+X-Google-Smtp-Source: AGHT+IFlhbAFZpgqDn6UaRmJNb7bvaxo+x6v+gyNy3lNAtXUqdbYT2u7SUZOx/KEy/JjWxCUP6ykeQ==
+X-Received: by 2002:a05:6000:4284:b0:39c:2678:302e with SMTP id ffacd0b85a97d-39efbae5c77mr1414040f8f.45.1744963165471;
+        Fri, 18 Apr 2025 00:59:25 -0700 (PDT)
+Received: from mai.linaro.org (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa43315esm1972701f8f.26.2025.04.18.00.59.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 00:59:24 -0700 (PDT)
+Date: Fri, 18 Apr 2025 09:59:23 +0200
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Sebastian Reichel <sre@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v8 2/7] reboot: hw_protection_trigger: use standardized
+ numeric shutdown/reboot reasons instead of strings
+Message-ID: <aAIGWxxQSufByjgr@mai.linaro.org>
+References: <20250411121757.573419-1-o.rempel@pengutronix.de>
+ <20250411121757.573419-3-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 29/34] drm: zynqmp_dp: convert to devm_drm_bridge_alloc()
- API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Anusha Srivatsa <asrivats@redhat.com>,
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
- =?UTF-8?Q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>,
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Michal Simek <michal.simek@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
- <20250407-drm-bridge-convert-to-alloc-api-v1-29-42113ff8d9c0@bootlin.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-29-42113ff8d9c0@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250411121757.573419-3-o.rempel@pengutronix.de>
 
-Hi,
-
-On 07/04/2025 17:23, Luca Ceresoli wrote:
-> This is the new API for allocating DRM bridges.
+On Fri, Apr 11, 2025 at 02:17:52PM +0200, Oleksij Rempel wrote:
+> Prepares the kernel for the Power State Change Reason (PSCR) recorder,
+> which will store shutdown and reboot reasons in persistent storage.
 > 
-> This driver has a peculiar structure. zynqmp_dpsub.c is the actual driver,
-> which delegates to a submodule (zynqmp_dp.c) the allocation of a
-> sub-structure embedding the drm_bridge and its initialization, however it
-> does not delegate the drm_bridge_add(). Hence, following carefully the code
-> flow, it is correct to change the allocation function and .funcs assignment
-> in the submodule, while the drm_bridge_add() is not in that submodule.
+> Instead of using string-based reason descriptions, which are often too
+> large to fit within limited storage spaces (e.g., RTC clocks with only 8
+> bits of battery-backed storage), we introduce `enum psc_reason`. This
+> enumerates predefined reasons for power state changes, making it
+> efficient to store and retrieve shutdown causes.
 > 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Key changes:
+> - Introduced `enum psc_reason`, defining structured reasons for power state
+>   changes.
+> - Replaced string-based shutdown reasons with `psc_reason` identifiers.
+> - Implemented `get_psc_reason()` and `set_psc_reason()` for tracking the
+>   last shutdown cause.
+> - Added `psc_reason_to_str()` to map enum values to human-readable strings.
+> - Updated `hw_protection_trigger()` to use `psc_reason` instead of string
+>   parameters.
+> - Updated all consumers of `hw_protection_trigger()` to pass an appropriate
+>   `psc_reason` value instead
+>   of a string.
 > 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
 > ---
-> 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Michal Simek <michal.simek@amd.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> changes v8:
+> - add Acked/Reviewed-by.
+> changes v6:
+> - added in this version
 > ---
->   drivers/gpu/drm/xlnx/zynqmp_dp.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
+>  drivers/platform/chrome/cros_ec_lpc.c |  2 +-
+>  drivers/regulator/core.c              |  7 ++-
+>  drivers/regulator/irq_helpers.c       | 22 ++++---
+>  drivers/thermal/thermal_core.c        |  3 +-
+>  include/linux/reboot.h                | 77 ++++++++++++++++++++++-
+>  kernel/reboot.c                       | 89 +++++++++++++++++++++++++--
+>  6 files changed, 182 insertions(+), 18 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 11d2415fb5a1f7fad03421898331289f2295d68b..de22b6457a78a7a2110f9f308d0b5a8700544010 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -2439,9 +2439,9 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
->   	struct zynqmp_dp *dp;
->   	int ret;
->   
-> -	dp = kzalloc(sizeof(*dp), GFP_KERNEL);
-> -	if (!dp)
-> -		return -ENOMEM;
-> +	dp = devm_drm_bridge_alloc(&pdev->dev, struct zynqmp_dp, bridge, &zynqmp_dp_bridge_funcs);
-> +	if (IS_ERR(dp))
-> +		return PTR_ERR(dp);
->   
->   	dp->dev = &pdev->dev;
->   	dp->dpsub = dpsub;
-> @@ -2488,7 +2488,6 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
->   
->   	/* Initialize the bridge. */
->   	bridge = &dp->bridge;
-> -	bridge->funcs = &zynqmp_dp_bridge_funcs;
->   	bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
->   		    | DRM_BRIDGE_OP_HPD;
->   	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
+> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+> index 7d9a78289c96..20d792f99f13 100644
+> --- a/drivers/platform/chrome/cros_ec_lpc.c
+> +++ b/drivers/platform/chrome/cros_ec_lpc.c
+> @@ -455,7 +455,7 @@ static void cros_ec_lpc_acpi_notify(acpi_handle device, u32 value, void *data)
+>  		blocking_notifier_call_chain(&ec_dev->panic_notifier, 0, ec_dev);
+>  		kobject_uevent_env(&ec_dev->dev->kobj, KOBJ_CHANGE, (char **)env);
+>  		/* Begin orderly shutdown. EC will force reset after a short period. */
+> -		__hw_protection_trigger("CrOS EC Panic", -1, HWPROT_ACT_SHUTDOWN);
+> +		__hw_protection_trigger(PSCR_EC_PANIC, -1, HWPROT_ACT_SHUTDOWN);
+>  		/* Do not query for other events after a panic is reported */
+>  		return;
+>  	}
+> diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+> index 90629a756693..a5b1bdbc2134 100644
+> --- a/drivers/regulator/core.c
+> +++ b/drivers/regulator/core.c
+> @@ -5263,6 +5263,7 @@ EXPORT_SYMBOL_GPL(regulator_bulk_free);
+>  static void regulator_handle_critical(struct regulator_dev *rdev,
+>  				      unsigned long event)
+>  {
+> +	enum psc_reason pscr;
+>  	const char *reason = NULL;
+>  
+>  	if (!rdev->constraints->system_critical)
+> @@ -5271,18 +5272,22 @@ static void regulator_handle_critical(struct regulator_dev *rdev,
+>  	switch (event) {
+>  	case REGULATOR_EVENT_UNDER_VOLTAGE:
+>  		reason = "System critical regulator: voltage drop detected";
+
+Even if the reason message here is slightly different from the one displayed by
+hw_protection_trigger() would it make sense to get rid of those 'reason' and
+the rdev_crit() as the hw_protection_trigger() will display a similar message ?
+
+> +		pscr = PSCR_UNDER_VOLTAGE;
+>  		break;
+>  	case REGULATOR_EVENT_OVER_CURRENT:
+>  		reason = "System critical regulator: over-current detected";
+> +		pscr = PSCR_OVER_CURRENT;
+>  		break;
+>  	case REGULATOR_EVENT_FAIL:
+>  		reason = "System critical regulator: unknown error";
+> +		pscr = PSCR_REGULATOR_FAILURE;
+>  	}
+>  
+>  	if (!reason)
+>  		return;
+>  
+> -	hw_protection_trigger(reason,
+> +	rdev_crit(rdev, "%s\n", reason);
+> +	hw_protection_trigger(pscr,
+>  			      rdev->constraints->uv_less_critical_window_ms);
+>  }
+>  
+> diff --git a/drivers/regulator/irq_helpers.c b/drivers/regulator/irq_helpers.c
+> index 5742faee8071..31395a912341 100644
+> --- a/drivers/regulator/irq_helpers.c
+> +++ b/drivers/regulator/irq_helpers.c
+> @@ -63,17 +63,22 @@ static void regulator_notifier_isr_work(struct work_struct *work)
+>  
+>  reread:
+>  	if (d->fatal_cnt && h->retry_cnt > d->fatal_cnt) {
+> -		if (!d->die)
+> -			return hw_protection_trigger("Regulator HW failure? - no IC recovery",
+> +		if (!d->die) {
+> +			pr_crit("Regulator HW failure? - no IC recovery\n");
+> +			return hw_protection_trigger(PSCR_REGULATOR_FAILURE,
+>  						     REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
+> +		}
+> +
+
+Same comment here and for the rest of the changes in this function and the next one.
+
+>  		ret = d->die(rid);
+>  		/*
+>  		 * If the 'last resort' IC recovery failed we will have
+>  		 * nothing else left to do...
+>  		 */
+> -		if (ret)
+> -			return hw_protection_trigger("Regulator HW failure. IC recovery failed",
+> +		if (ret) {
+> +			pr_crit("Regulator HW failure. IC recovery failed\n");
+> +			return hw_protection_trigger(PSCR_REGULATOR_FAILURE,
+>  						     REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
+> +		}
+>  
+>  		/*
+>  		 * If h->die() was implemented we assume recovery has been
+> @@ -263,14 +268,17 @@ static irqreturn_t regulator_notifier_isr(int irq, void *data)
+>  	if (d->fatal_cnt && h->retry_cnt > d->fatal_cnt) {
+>  		/* If we have no recovery, just try shut down straight away */
+>  		if (!d->die) {
+> -			hw_protection_trigger("Regulator failure. Retry count exceeded",
+> +			pr_crit("Regulator failure. Retry count exceeded\n");
+> +			hw_protection_trigger(PSCR_REGULATOR_FAILURE,
+>  					      REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
+>  		} else {
+>  			ret = d->die(rid);
+>  			/* If die() failed shut down as a last attempt to save the HW */
+> -			if (ret)
+> -				hw_protection_trigger("Regulator failure. Recovery failed",
+> +			if (ret) {
+> +				pr_crit("Regulator failure. Recovery failed\n");
+> +				hw_protection_trigger(PSCR_REGULATOR_FAILURE,
+>  						      REGULATOR_FORCED_SAFETY_SHUTDOWN_WAIT_MS);
+> +			}
+>  		}
+>  	}
+>  
+> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
+> index 17ca5c082643..9f13213f0722 100644
+> --- a/drivers/thermal/thermal_core.c
+> +++ b/drivers/thermal/thermal_core.c
+> @@ -377,11 +377,10 @@ static void thermal_zone_device_halt(struct thermal_zone_device *tz,
+>  	 * Its a must for forced_emergency_poweroff_work to be scheduled.
+>  	 */
+>  	int poweroff_delay_ms = CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS;
+> -	const char *msg = "Temperature too high";
+>  
+>  	dev_emerg(&tz->device, "%s: critical temperature reached\n", tz->type);
+>  
+> -	__hw_protection_trigger(msg, poweroff_delay_ms, action);
+> +	__hw_protection_trigger(PSCR_OVER_TEMPERATURE, poweroff_delay_ms, action);
+>  }
+>  
+>  void thermal_zone_device_critical(struct thermal_zone_device *tz)
+> diff --git a/include/linux/reboot.h b/include/linux/reboot.h
+> index aa08c3bbbf59..6477910c6a9e 100644
+> --- a/include/linux/reboot.h
+> +++ b/include/linux/reboot.h
+> @@ -178,6 +178,73 @@ void ctrl_alt_del(void);
+>  extern void orderly_poweroff(bool force);
+>  extern void orderly_reboot(void);
+>  
+> +
+> +/**
+> + * enum psc_reason - Enumerates reasons for power state changes.
+> + *
+> + * This enum defines various reasons why a system might transition into a
+> + * shutdown, reboot, or kexec state. While originally intended for hardware
+> + * protection events, `psc_reason` can be extended to track other system
+> + * transitions, such as controlled reboots triggered by software or
+> + * maintenance operations.
+> + *
+> + * The values in this enumeration provide structured and standardized
+> + * identifiers that replace free-form string descriptions. They are designed
+> + * to be stored efficiently, making them suitable for use in environments
+> + * with limited storage, such as battery-backed RTC registers, non-volatile
+> + * memory, or bootloader communication mechanisms.
+> + *
+> + * Importantly, the order of these values **must remain stable**, as
+> + * bootloaders, user-space tools, or post-mortem investigation utilities
+> + * may rely on their numerical representation for consistent behavior.
+> + *
+> + * @PSCR_UNKNOWN: Unknown or unspecified reason for the power state change.
+> + *	This value serves as a default when no explicit cause is recorded.
+> + *
+> + * @PSCR_UNDER_VOLTAGE: Shutdown or reboot triggered due to supply voltage
+> + *      dropping below a safe threshold. This helps prevent instability or
+> + *      corruption caused by insufficient power.
+> + *
+> + * @PSCR_OVER_CURRENT: System shutdown or reboot due to excessive current draw,
+> + *      which may indicate a short circuit, an overloaded power rail, or other
+> + *      hardware faults requiring immediate action.
+> + *
+> + * @PSCR_REGULATOR_FAILURE: A critical failure in a voltage regulator, causing
+> + *      improper power delivery. This may be due to internal component failure,
+> + *      transient conditions, or external load issues requiring mitigation.
+> + *
+> + * @PSCR_OVER_TEMPERATURE: System shutdown or reboot due to excessive thermal
+> + *	conditions. This attempts to prevent hardware damage when temperature
+> + *	sensors detect unsafe levels, often impacting CPUs, GPUs, or power
+> + *	components.
+> + *
+> + * @PSCR_EC_PANIC: Shutdown or reboot triggered by an Embedded Controller (EC)
+> + *	panic. The EC is a microcontroller responsible for low-level system
+> + *	management, including power sequencing, thermal control, and battery
+> + *	management. An EC panic may indicate critical firmware issues, power
+> + *	management errors, or an unrecoverable hardware fault requiring
+> + *	immediate response.
+> + *
+> + * @PSCR_REASON_COUNT: Number of defined power state change reasons. This
+> + *	value is useful for range checking and potential future extensions
+> + *	while maintaining compatibility.
+> + */
+> +enum psc_reason {
+> +	PSCR_UNKNOWN,
+> +	PSCR_UNDER_VOLTAGE,
+> +	PSCR_OVER_CURRENT,
+> +	PSCR_REGULATOR_FAILURE,
+> +	PSCR_OVER_TEMPERATURE,
+> +	PSCR_EC_PANIC,
+> +
+> +	/* Number of reasons */
+> +	PSCR_REASON_COUNT,
+> +};
+> +
+> +#define PSCR_MAX_REASON	(PSCR_REASON_COUNT - 1)
+> +
+> +const char *psc_reason_to_str(enum psc_reason reason);
+> +
+>  /**
+>   * enum hw_protection_action - Hardware protection action
+>   *
+> @@ -191,13 +258,13 @@ extern void orderly_reboot(void);
+>   */
+>  enum hw_protection_action { HWPROT_ACT_DEFAULT, HWPROT_ACT_SHUTDOWN, HWPROT_ACT_REBOOT };
+>  
+> -void __hw_protection_trigger(const char *reason, int ms_until_forced,
+> +void __hw_protection_trigger(enum psc_reason reason, int ms_until_forced,
+>  			     enum hw_protection_action action);
+>  
+>  /**
+>   * hw_protection_trigger - Trigger default emergency system hardware protection action
+>   *
+> - * @reason:		Reason of emergency shutdown or reboot to be printed.
+> + * @reason:		Reason of emergency shutdown or reboot.
+>   * @ms_until_forced:	Time to wait for orderly shutdown or reboot before
+>   *			triggering it. Negative value disables the forced
+>   *			shutdown or reboot.
+> @@ -206,11 +273,15 @@ void __hw_protection_trigger(const char *reason, int ms_until_forced,
+>   * hardware from further damage. The exact action taken is controllable at
+>   * runtime and defaults to shutdown.
+>   */
+> -static inline void hw_protection_trigger(const char *reason, int ms_until_forced)
+> +static inline void hw_protection_trigger(enum psc_reason reason,
+> +					 int ms_until_forced)
+>  {
+>  	__hw_protection_trigger(reason, ms_until_forced, HWPROT_ACT_DEFAULT);
+>  }
+>  
+> +enum psc_reason get_psc_reason(void);
+> +void set_psc_reason(enum psc_reason reason);
+> +
+>  /*
+>   * Emergency restart, callable from an interrupt handler.
+>   */
+> diff --git a/kernel/reboot.c b/kernel/reboot.c
+> index ec087827c85c..7e9a1a2df66a 100644
+> --- a/kernel/reboot.c
+> +++ b/kernel/reboot.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/kexec.h>
+>  #include <linux/kmod.h>
+>  #include <linux/kmsg_dump.h>
+> +#include <linux/power/power_on_reason.h>
+>  #include <linux/reboot.h>
+>  #include <linux/suspend.h>
+>  #include <linux/syscalls.h>
+> @@ -49,6 +50,7 @@ int reboot_default = 1;
+>  int reboot_cpu;
+>  enum reboot_type reboot_type = BOOT_ACPI;
+>  int reboot_force;
+> +enum psc_reason psc_last_reason = PSCR_UNKNOWN;
+
+static ?
+
+>  
+>  struct sys_off_handler {
+>  	struct notifier_block nb;
+> @@ -1010,10 +1012,86 @@ static void hw_failure_emergency_schedule(enum hw_protection_action action,
+>  			      msecs_to_jiffies(action_delay_ms));
+>  }
+>  
+> +/**
+> + * get_psc_reason - Retrieve the last recorded power state change reason.
+> + *
+> + * This function returns the most recent power state change reason stored
+> + * in `psc_last_reason`. The value is set using `set_psc_reason()` when a
+> + * shutdown, reboot, or kexec event occurs.
+> + *
+> + * The reason can be used for system diagnostics, post-mortem analysis, or
+> + * debugging unexpected power state changes. Bootloaders or user-space tools
+> + * may retrieve this value to determine why the system last transitioned to
+> + * a new power state.
+> + *
+> + * Return: A value from `enum psc_reason`, indicating the last known power
+> + * state change reason.
+> + */
+> +enum psc_reason get_psc_reason(void)
+> +{
+> +	return READ_ONCE(psc_last_reason);
+> +}
+> +EXPORT_SYMBOL_GPL(get_psc_reason);
+> +
+> +/**
+> + * set_psc_reason - Set the reason for the last power state change.
+> + *
+> + * @reason: A value from `enum psc_reason` indicating the cause of the power
+> + *          state change.
+> + *
+> + * This function records the reason for a shutdown, reboot, or kexec event
+> + * by storing it in `psc_last_reason`. It ensures that the value remains
+> + * consistent within the running system, allowing retrieval via
+> + * `get_psc_reason()` for diagnostics, logging, or post-mortem analysis.
+> + *
+> + * Persistence Consideration:
+> + * - This function **does not persist** the recorded reason across power cycles.
+> + * - After a system reset or complete power loss, the recorded reason is lost.
+> + * - To store power state change reasons persistently, additional tools such as
+> + *   the Power State Change Reason Recorder (PSCRR) framework should be used.
+> + */
+> +void set_psc_reason(enum psc_reason reason)
+> +{
+> +	WRITE_ONCE(psc_last_reason, reason);
+> +}
+> +EXPORT_SYMBOL_GPL(set_psc_reason);
+> +
+> +/**
+> + * psc_reason_to_str - Converts a power state change reason enum to a string.
+> + * @reason: The `psc_reason` enum value to be converted.
+> + *
+> + * This function provides a human-readable string representation of the power
+> + * state change reason, making it easier to interpret logs and debug messages.
+> + *
+> + * Return:
+> + * - A string corresponding to the given `psc_reason` value.
+> + * - `"Invalid"` if the value is not recognized.
+> + */
+> +const char *psc_reason_to_str(enum psc_reason reason)
+> +{
+> +	switch (reason) {
+> +	case PSCR_UNKNOWN:
+> +		return POWER_ON_REASON_UNKNOWN;
+> +	case PSCR_UNDER_VOLTAGE:
+> +		return POWER_ON_REASON_BROWN_OUT;
+> +	case PSCR_OVER_CURRENT:
+> +		return POWER_ON_REASON_OVER_CURRENT;
+> +	case PSCR_REGULATOR_FAILURE:
+> +		return POWER_ON_REASON_REGULATOR_FAILURE;
+> +	case PSCR_OVER_TEMPERATURE:
+> +		return POWER_ON_REASON_OVER_TEMPERATURE;
+> +	case PSCR_EC_PANIC:
+> +		return POWER_ON_REASON_EC_PANIC;
+> +	default:
+> +		return "Invalid";
+
+As it is an enum and the max reason is defined. Why not use the array of str
+with the psc_reason as the index ?
+
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(psc_reason_to_str);
+> +
+>  /**
+>   * __hw_protection_trigger - Trigger an emergency system shutdown or reboot
+>   *
+> - * @reason:		Reason of emergency shutdown or reboot to be printed.
+> + * @reason:		Reason of emergency shutdown or reboot.
+>   * @ms_until_forced:	Time to wait for orderly shutdown or reboot before
+>   *			triggering it. Negative value disables the forced
+>   *			shutdown or reboot.
+> @@ -1025,7 +1103,7 @@ static void hw_failure_emergency_schedule(enum hw_protection_action action,
+>   * pending even if the previous request has given a large timeout for forced
+>   * shutdown/reboot.
+>   */
+> -void __hw_protection_trigger(const char *reason, int ms_until_forced,
+> +void __hw_protection_trigger(enum psc_reason reason, int ms_until_forced,
+>  			     enum hw_protection_action action)
+>  {
+>  	static atomic_t allow_proceed = ATOMIC_INIT(1);
+> @@ -1033,8 +1111,11 @@ void __hw_protection_trigger(const char *reason, int ms_until_forced,
+>  	if (action == HWPROT_ACT_DEFAULT)
+>  		action = hw_protection_action;
+>  
+> -	pr_emerg("HARDWARE PROTECTION %s (%s)\n",
+> -		 hw_protection_action_str(action), reason);
+> +	set_psc_reason(reason);
+> +
+> +	pr_emerg("HARDWARE PROTECTION %s: %i (%s)\n",
+> +		 hw_protection_action_str(action), reason,
+> +		 psc_reason_to_str(reason));
+>  
+>  	/* Shutdown should be initiated only once. */
+>  	if (!atomic_dec_and_test(&allow_proceed))
+> -- 
+> 2.39.5
 > 
 
-To add to my last mail, this clearly cannot be right, as it changes 
-kzalloc call to devm_* call, without removing the kfree()s...
+-- 
 
-  Tomi
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog

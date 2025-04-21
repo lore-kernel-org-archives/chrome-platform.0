@@ -1,59 +1,59 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1372638A6
-	for <chrome-platform@lists.linux.dev>; Mon, 21 Apr 2025 10:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36C02638A2
+	for <chrome-platform@lists.linux.dev>; Mon, 21 Apr 2025 10:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745230401; cv=none; b=XfiFxcVxTiVE4ACe2DvVVpnQOlsTm+3xJS5HjFAHdU1wp0rOrr/oTnfhWXWrKVmJa6kK4WhgjNh5QGbJlulERmhzwWeWRz++aMA3mbwigz08qRDi7aNPNAFxEi0EF/dqsm/9KN2os88/2mWgWMhJl3XZNEXLAd0sWAO06wx2TcY=
+	t=1745230403; cv=none; b=V3Bwv2EGtHbqyIqzMTimvNwf363aS5B2ZkQxPpCOgVr2d8YxbmHHwQdB14Vt3enAkLuXzit/jowMtCO8NKyFHwMmfY5wE3nP4h0Cg2gFcxjkwK0NPYKW4E6ClCcMzU90UBanF7m8mJgvgyU1m9Sg3Zch+EczEhUe+TxMsgjyfWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745230401; c=relaxed/simple;
-	bh=5XUtMoDRCkTRdh5mvmKCDd+dNP+k6uqdEMLM9UzaAPI=;
+	s=arc-20240116; t=1745230403; c=relaxed/simple;
+	bh=sy8ThRyRgU7oedwZh2khgThNY5WH15EZl03oVLUYUIA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WEzf9SmkpBsYV4ncCKkOpdgpGZNBkc8kvVfw3V/p+pu5+zOLwvsLJPJykX3gX57LVFikAHpY7I0e24RFPRFlldUS+LTAjE3frt0Xk+lznnzTCAXw2Xr1O+OYoB0qAVllAdO16OXqfvSM/jsyTUBDwZyCci3UO9zYya2d3TtvnC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=g7ny9/GE; arc=none smtp.client-ip=209.85.214.175
+	 MIME-Version; b=RmhhXUcxkZQnLWMEKSS/MoPlvZWxYWiBhhhYYe/l+IGWpemA7/8onHgg3X131hLyLgHnENGowYkToBIcHaOYuT3ICzbpHVoDtU8L2ECBAGKHLORS/Qt+nx4U5RTwyxmgfPZqe6HINfNTK85GlNog0nSWUMwfHFWPZ93UREx0tzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CYOkeWy0; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="g7ny9/GE"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-227cf12df27so33005035ad.0
-        for <chrome-platform@lists.linux.dev>; Mon, 21 Apr 2025 03:13:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CYOkeWy0"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b03bc416962so2651952a12.0
+        for <chrome-platform@lists.linux.dev>; Mon, 21 Apr 2025 03:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1745230398; x=1745835198; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1745230401; x=1745835201; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QpytMjpN9gDZuQ/F9dqqmXXp6n+OWf7Vs6AgeBOpoF8=;
-        b=g7ny9/GExDGwCwNS+X30Mzw5wMZkr/0gghjP4E5oDIrDyhu5d2j6j0yGLS3dAL1T8B
-         y8ZFygsi7P0T0e8JlqMAFf4trDMciODCxzy26Tr2pmY6bT6f3dqcjZN5Frx3MqGYdDLR
-         xoXeyVSOHDhkZ2pUm8KRCRF/eGncHC/f/eFfM=
+        bh=rok2Mg43bnfRB9cqUAfce4PsDdZdAouW+RpiAparFCo=;
+        b=CYOkeWy0GfZ8EfS6mYsJaVTPqpYh7owiyIlLiIpIIRMAGf9w3SWG8vBXdUlGbvnIWA
+         ulhqYlmy9a1cJ13Z4hYwVs/tbS6u4pnZv2NAkWIB07RbbatPYIqPQzEaBpICfQ7Z5bk7
+         OO0E71bn1c9+iBfVmICVkPOXh8mN7J+tyjXEk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745230398; x=1745835198;
+        d=1e100.net; s=20230601; t=1745230401; x=1745835201;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QpytMjpN9gDZuQ/F9dqqmXXp6n+OWf7Vs6AgeBOpoF8=;
-        b=mGA89+FMq/3CiRW/UxUyILMOczXhhgveMSSv1PKBYh9NTNgLQKw0XAxYVexEWXXws4
-         IkZvnWy3LBO298RDNCT/8SbHrjhW09qex4WQmWop5x0DVICCnAeYWXGVkNydbwFf1gf1
-         C6rhNN2Vmw6TP/eIETD7J7XjnV0TQpUHTcqhWYVVxWoahEoO5dx/cUporgKRLyaxBYb5
-         t1KlHEw6dd3LA4nWBeNVlqD2GAGQ0zuWeE3igrdcx+dODS85Gcay7x/OD68WkpHMQUEm
-         GHxV2MOAlYOQ140n2We5Sc4OWbwumIX/uSC9naq0G1Q/u5wk0OTTf7dJPg8AYK76u9WP
-         mIyg==
-X-Forwarded-Encrypted: i=1; AJvYcCV7f7m0SGZoKyRC5i4uZCqTkTz3VPjZqaq1ZXixo5mu9AIP+3E5/ca35ybi3oR94toyo/i4eEg7tJ2qU+7mANM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmqydsMgG/yO6pmot9ybvg03paNTN5ZSxm+15jHBXVcrw9pwst
-	pZrXans32zsQYz/3PHJDXGjbde8gJPP2qNuEPKDeTBJ+AbOia642vBThwQjmGw==
-X-Gm-Gg: ASbGnculdx+yTvaCLZiMYfo+U+p1k9TFHde0yHIaWwSdluLqEMuD1G0rVrE2dMzYXLw
-	GjIllTJ/kdBbz6EIGz3h6hF8/KNBkPUTvfCiAfAAP4DL/YMhQyXX+EG7MBc4hWMmqSNS6+wfO/f
-	VXascRE2bggijHjHELz4RztBWDJBMu/yRWAbUS2pWi69IMot+ML/IzkR4m8XWo38tt4+nnt28kx
-	M4vNQWg18XAMnMBvXv+OJmgHJuMMZG9vBnKla8m47r0XZ+/WINAhtWTZwb0QRi5mwv7YP9xQ4MO
-	Wo9tlhnXZVtWQIY+wMrhdNHJVx9oB/IhJbG2tqYwMYCRPE52MoogKdakkJrjI+kwOydT1w==
-X-Google-Smtp-Source: AGHT+IF6rGXrSzCpvaNGhX4xciML4WX1Qp+Xf99qU1svwwhGPd2mOXprUmL/S+UqQYoWzSfytulsaw==
-X-Received: by 2002:a17:902:f644:b0:224:7a4:b31 with SMTP id d9443c01a7336-22c53e38f33mr139591965ad.6.1745230398086;
-        Mon, 21 Apr 2025 03:13:18 -0700 (PDT)
+        bh=rok2Mg43bnfRB9cqUAfce4PsDdZdAouW+RpiAparFCo=;
+        b=g8Y/+60Hp5YVgUinrJUNzuKbuPl2AqfwotoMrWAhkjb5pKCA4RbQxnGW2ssJFADNfz
+         8AItUdbwUipRSwMSAlYHjAfTkxUYfuJsX8nZNxX7czFMQbd/zvZc+FpKPLVYMjPVAuPg
+         kXH8zC2JUMrd8hZlsgziFnNPdOYR7ilpH1OedfcF2NcGSMKdp99hFiTKby2mV4N9Mhbq
+         u9ehK3wO3ATunmX7fyfL+ncUxUiFioa1PrvIng9Ks4pITgJj7orX+YC1BNTj/4Qj9PAx
+         WjP+O0/XObO2s8DylOk+h72dfcVK+PcjoB3eESU68o0SqHZ8k44hCCC2EMKrhp5gY/GB
+         7Wlw==
+X-Forwarded-Encrypted: i=1; AJvYcCVungzMLlu9zNiSo+zc6P5VQIUPgLsvauDFWv01f2f0O6yosehC48GYZ578ywmdoGVdUhjINwJS7v5aw+NUtFw=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+e5NelNH0UARK4c2GR9tsYxpw4tXNF/4cRgko5kriuYNVoVIi
+	GI8Yhb2fwEM8NJlyvGDMLVzwAwkJWSt80KYaIoJD6aoNH86rc28adEouAD+l6g==
+X-Gm-Gg: ASbGncsD5f+qyaW1brsh6pujIp73XDrG5ZjcmhIsCXRMnYrPjuz4u2cETpO73JPI0DH
+	C6PgvQSfTGdit9RVBuJwHwkYlB9ylfPm7aoWzCr6nxSpsJ89ohsU5C/FZWfSAAjBZpgKWiPyHXY
+	13ylfYcDRJCIz59cSnUPDesWi8Z/YBCkp4j67Vr/q2diNPGV5Ne/TwZ8DWqEnHdQZbIwdsk0QS2
+	4CJxadueYbAjLmhlcQpQmr5YwNSxvRKGWIJ6jw2UAIeMiK1vMvSclroXtuZILG9cjygLyFrEMGz
+	i/Eh0yh3APRC3W8qdS+0LUxByW9MhGyouKI/M8IN7ZG+51Gvazzne6x4slU=
+X-Google-Smtp-Source: AGHT+IHzGqLnsYoPPrUzas9aFIuhG2tfwpqW1sujdJRkCyGS/gKycIu8sZyY4IdNUXVMBMKhKzW5aQ==
+X-Received: by 2002:a17:90b:4ad0:b0:2fe:a742:51b0 with SMTP id 98e67ed59e1d1-3087bcc8fcbmr14175251a91.31.1745230401151;
+        Mon, 21 Apr 2025 03:13:21 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:7633:f42a:d31d:3f9c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22d78db8b04sm38985205ad.238.2025.04.21.03.13.15
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22d78db8b04sm38985205ad.238.2025.04.21.03.13.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 03:13:17 -0700 (PDT)
+        Mon, 21 Apr 2025 03:13:20 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -70,11 +70,10 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	linux-mediatek@lists.infradead.org,
 	chrome-platform@lists.linux.dev,
 	linux-input@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	stable+noautosel@kernel.org
-Subject: [PATCH v2 4/8] arm64: dts: mediatek: mt8186-steelix: Mark second source components for probing
-Date: Mon, 21 Apr 2025 18:12:42 +0800
-Message-ID: <20250421101248.426929-5-wenst@chromium.org>
+	Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH v2 5/8] arm64: dts: mediatek: mt8186: Merge Voltorb device trees
+Date: Mon, 21 Apr 2025 18:12:43 +0800
+Message-ID: <20250421101248.426929-6-wenst@chromium.org>
 X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
 In-Reply-To: <20250421101248.426929-1-wenst@chromium.org>
 References: <20250421101248.426929-1-wenst@chromium.org>
@@ -86,103 +85,76 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Steelix design has two possible trackpad component sources. Currently
-they are all marked as available, along with having workarounds for
-shared pinctrl muxing and GPIOs.
+There are only two different SKUs of Voltorb, and the only difference
+between them is whether a touchscreen is present or not. This can be
+detected by a simple I2C transfer to the address, instead of having
+separate device trees.
 
-Instead, mark them all as "fail-needs-probe" and have the implementation
-try to probe which one is present.
+Merge the two device trees together and simplify the compatible string
+list. The dtsi is still kept separate since there is an incoming device
+that shares the same design, but with slightly difference components.
 
-Also remove the shared resource workaround by moving the pinctrl entry
-for the trackpad interrupt line back into the individual trackpad nodes.
-
-Cc: <stable+noautosel@kernel.org> # Needs accompanying new driver to work
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- .../boot/dts/mediatek/mt8186-corsola-steelix.dtsi      |  7 +++++++
- .../mediatek/mt8186-corsola-tentacool-sku327683.dts    |  2 ++
- .../mediatek/mt8186-corsola-tentacruel-sku262148.dts   |  2 ++
- arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi       | 10 ++++------
- 4 files changed, 15 insertions(+), 6 deletions(-)
+ arch/arm64/boot/dts/mediatek/Makefile               |  3 +--
+ .../mediatek/mt8186-corsola-voltorb-sku589824.dts   | 13 -------------
+ ...orb-sku589825.dts => mt8186-corsola-voltorb.dts} |  5 ++---
+ 3 files changed, 3 insertions(+), 18 deletions(-)
+ delete mode 100644 arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dts
+ rename arch/arm64/boot/dts/mediatek/{mt8186-corsola-voltorb-sku589825.dts => mt8186-corsola-voltorb.dts} (76%)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix.dtsi b/arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix.dtsi
-index e74e886a00cb..822a177e7c19 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix.dtsi
-@@ -123,8 +123,11 @@ trackpad@2c {
- 		reg = <0x2c>;
- 		hid-descr-addr = <0x20>;
- 		interrupts-extended = <&pio 11 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_pin>;
- 		vdd-supply = <&pp3300_s3>;
- 		wakeup-source;
-+		status = "fail-needs-probe";
- 	};
+diff --git a/arch/arm64/boot/dts/mediatek/Makefile b/arch/arm64/boot/dts/mediatek/Makefile
+index 58484e830063..ff67931e7821 100644
+--- a/arch/arm64/boot/dts/mediatek/Makefile
++++ b/arch/arm64/boot/dts/mediatek/Makefile
+@@ -73,8 +73,7 @@ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-tentacool-sku327681.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-tentacool-sku327683.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-tentacruel-sku262144.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-tentacruel-sku262148.dtb
+-dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-voltorb-sku589824.dtb
+-dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-voltorb-sku589825.dtb
++dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-corsola-voltorb.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8186-evb.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8188-evb.dtb
+ dtb-$(CONFIG_ARCH_MEDIATEK) += mt8188-geralt-ciri-sku0.dtb
+diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dts b/arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dts
+deleted file mode 100644
+index d16834eec87a..000000000000
+--- a/arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dts
++++ /dev/null
+@@ -1,13 +0,0 @@
+-// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+-/*
+- * Copyright 2022 Google LLC
+- */
+-
+-/dts-v1/;
+-#include "mt8186-corsola-voltorb.dtsi"
+-
+-/ {
+-	model = "Google Voltorb sku589824 board";
+-	compatible = "google,voltorb-sku589824", "google,voltorb",
+-		     "mediatek,mt8186";
+-};
+diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dts b/arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dts
+similarity index 76%
+rename from arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dts
+rename to arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dts
+index 45e57f7706cc..cc805408a8b7 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dts
++++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dts
+@@ -7,9 +7,8 @@
+ #include "mt8186-corsola-voltorb.dtsi"
+ 
+ / {
+-	model = "Google Voltorb sku589825 board";
+-	compatible = "google,voltorb-sku589825", "google,voltorb",
+-		     "mediatek,mt8186";
++	model = "Google Voltorb board";
++	compatible = "google,voltorb", "mediatek,mt8186";
  };
  
-@@ -197,3 +200,7 @@ pins-vreg-en {
- 		};
- 	};
- };
-+
-+&trackpad {
-+	status = "fail-needs-probe";
-+};
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dts b/arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dts
-index c3ae6f9616c8..4dbf2cb73a81 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dts
-@@ -17,6 +17,8 @@ trackpad@15 {
- 		compatible = "hid-over-i2c";
- 		reg = <0x15>;
- 		interrupts-extended = <&pio 11 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_pin>;
- 		hid-descr-addr = <0x0001>;
- 		vdd-supply = <&pp3300_s3>;
- 		wakeup-source;
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dts b/arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dts
-index 447b57b12b41..ee5bc2cd9e9f 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dts
-@@ -19,6 +19,8 @@ trackpad@15 {
- 		compatible = "hid-over-i2c";
- 		reg = <0x15>;
- 		interrupts-extended = <&pio 11 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_pin>;
- 		hid-descr-addr = <0x0001>;
- 		vdd-supply = <&pp3300_s3>;
- 		wakeup-source;
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi b/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-index cebb134331fb..918f17385ba5 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-@@ -390,19 +390,17 @@ &i2c1 {
- 
- &i2c2 {
- 	pinctrl-names = "default";
--	/*
--	 * Trackpad pin put here to work around second source components
--	 * sharing the pinmux in steelix designs.
--	 */
--	pinctrl-0 = <&i2c2_pins>, <&trackpad_pin>;
-+	pinctrl-0 = <&i2c2_pins>;
- 	clock-frequency = <400000>;
- 	i2c-scl-internal-delay-ns = <10000>;
- 	status = "okay";
- 
--	trackpad@15 {
-+	trackpad: trackpad@15 {
- 		compatible = "elan,ekth3000";
- 		reg = <0x15>;
- 		interrupts-extended = <&pio 11 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&trackpad_pin>;
- 		vcc-supply = <&pp3300_s3>;
- 		wakeup-source;
- 	};
+ &i2c1 {
 -- 
 2.49.0.805.g082f7c87e0-goog
 

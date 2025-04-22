@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B5B25B690
-	for <chrome-platform@lists.linux.dev>; Tue, 22 Apr 2025 08:57:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1282125B699
+	for <chrome-platform@lists.linux.dev>; Tue, 22 Apr 2025 08:57:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745312262; cv=none; b=AL30mQLt1ztROmA/D0SnZLuQKCOm/o9Hyv9slCIDtNQ5t4CeE+LDWtqTpDRa3YWJq+K+EYPwU8sIyx3VqrZXgwh/xkeHUWJq2mjcwvDcLguB0DOVsFNaYi9M3Wka3sDhz666dGxidIuHFB42A0Pu4ZO8p5dTp2u4GQg3yXV6Bqs=
+	t=1745312262; cv=none; b=F0fOc4HGTyfScTtPpNnAcpGLdSOuV5lKN/lDicPH7pr7W7Cb5raUjUamJyiQI5+P5PbXw2jiOfTmBQZXw/PsRVT4thHgjeRdC7cKt4f9HEdnHJkirS5C+ot4JEswsJQY2mT13NbCh+s3vygADp1JmxWgZJCcBn1jHC6RHLPJevw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745312262; c=relaxed/simple;
-	bh=lTbHJ1/ZlZxy/0X5aGRTsmnSe0G1gRDQaLVCb3W0FPk=;
+	bh=uUmYJxs95mrM4B2aqNw/3s0vKcVGkdJCqAA4sx9f114=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qGgnaLZ+BdkgQaDTXdyoGxP0gSX3gLzhNUsSsEJPhruOHwnWo4TpCcfaSt0dQKHSL9DiJEqQsXRlsGKAxEGO6bxVcjU0uyi5liPkj+UXyyFjcXu4w1U10WObAFPDKmq27/8XCzx/r2Xf/kmQPHwv8kFh+6h9GGDoi9gyWFMjLrA=
+	 MIME-Version; b=hmeAiUV+2JAeNbUIJg1VHNfkl829B/J2s3NK5spT8xpLPHIfF2ir8K24ARtXKlRGcfJrvokRGXLvpZKfqVpvcch59suisCfLTlufsE9AqhCdbWKISc6E7GglWa0lwT+Pz8AGrSZ2x8fvsZ+pXjnKnaFiuiIQrkixaqiQX8gPbMA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,16 +18,16 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1u79RQ-0007Tz-3o; Tue, 22 Apr 2025 10:57:20 +0200
+	id 1u79RQ-0007U1-3o; Tue, 22 Apr 2025 10:57:20 +0200
 Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1u79RO-001WRC-2n;
+	id 1u79RO-001WRF-34;
 	Tue, 22 Apr 2025 10:57:18 +0200
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1u79RO-00AvpD-2W;
+	id 1u79RO-00Avph-2n;
 	Tue, 22 Apr 2025 10:57:18 +0200
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Sebastian Reichel <sre@kernel.org>,
@@ -50,9 +50,9 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
 	Ahmad Fatoum <a.fatoum@pengutronix.de>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH v9 1/7] power: Extend power_on_reason.h for upcoming PSCRR framework
-Date: Tue, 22 Apr 2025 10:57:11 +0200
-Message-Id: <20250422085717.2605520-2-o.rempel@pengutronix.de>
+Subject: [PATCH v9 4/7] nvmem: provide consumer access to cell size metrics
+Date: Tue, 22 Apr 2025 10:57:14 +0200
+Message-Id: <20250422085717.2605520-5-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250422085717.2605520-1-o.rempel@pengutronix.de>
 References: <20250422085717.2605520-1-o.rempel@pengutronix.de>
@@ -68,37 +68,84 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-Prepare for the introduction of the Power State Change Reason Recorder
-(PSCRR)  framework by expanding the power_on_reason.h header. This
-extension includes new power-on reasons:
-- POWER_ON_REASON_OVER_CURRENT for over-current conditions.
-- POWER_ON_REASON_REGULATOR_FAILURE for regulator failures.
-- POWER_ON_REASON_OVER_TEMPERATURE for over temperature situations.
-- POWER_ON_REASON_EC_PANIC for EC panics
+Add nvmem_cell_get_size() function to provide access to cell size
+metrics. In some cases we may get cell size less as consumer would
+expect it. So, nvmem_cell_write() would fail with incorrect buffer size.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
 changes v6:
-- add POWER_ON_REASON_EC_PANIC
-- s/POWER_ON_REASON_OVERTEMPERATURE/POWER_ON_REASON_OVER_TEMPERATURE
+- update function comment for nvmem_cell_get_size()
 ---
- include/linux/power/power_on_reason.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/nvmem/core.c           | 29 +++++++++++++++++++++++++++++
+ include/linux/nvmem-consumer.h |  7 +++++++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/include/linux/power/power_on_reason.h b/include/linux/power/power_on_reason.h
-index 95a1ec0c403c..bf9501792696 100644
---- a/include/linux/power/power_on_reason.h
-+++ b/include/linux/power/power_on_reason.h
-@@ -15,5 +15,9 @@
- #define POWER_ON_REASON_XTAL_FAIL "crystal oscillator failure"
- #define POWER_ON_REASON_BROWN_OUT "brown-out reset"
- #define POWER_ON_REASON_UNKNOWN "unknown reason"
-+#define POWER_ON_REASON_OVER_CURRENT "over current"
-+#define POWER_ON_REASON_REGULATOR_FAILURE "regulator failure"
-+#define POWER_ON_REASON_OVER_TEMPERATURE "over temperature"
-+#define POWER_ON_REASON_EC_PANIC "EC panic"
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index fff85bbf0ecd..754a9448c39d 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -1828,6 +1828,35 @@ int nvmem_cell_write(struct nvmem_cell *cell, void *buf, size_t len)
  
- #endif /* POWER_ON_REASON_H */
+ EXPORT_SYMBOL_GPL(nvmem_cell_write);
+ 
++/**
++ * nvmem_cell_get_size() - Retrieve the storage size of an NVMEM cell.
++ * @cell: Pointer to the NVMEM cell structure.
++ * @bytes: Optional pointer to store the cell size in bytes (can be NULL).
++ * @bits: Optional pointer to store the cell size in bits (can be NULL).
++ *
++ * This function allows consumers to retrieve the size of a specific NVMEM
++ * cell before performing read/write operations. It is useful for validating
++ * buffer sizes to prevent mismatched writes.
++ *
++ * Return: 0 on success or negative on failure.
++ */
++int nvmem_cell_get_size(struct nvmem_cell *cell, size_t *bytes, size_t *bits)
++{
++	struct nvmem_cell_entry *entry = cell->entry;
++
++	if (!entry->nvmem)
++		return -EINVAL;
++
++	if (bytes)
++		*bytes = entry->bytes;
++
++	if (bits)
++		*bits = entry->nbits;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvmem_cell_get_size);
++
+ static int nvmem_cell_read_common(struct device *dev, const char *cell_id,
+ 				  void *val, size_t count)
+ {
+diff --git a/include/linux/nvmem-consumer.h b/include/linux/nvmem-consumer.h
+index 34c0e58dfa26..bcb0e17e415d 100644
+--- a/include/linux/nvmem-consumer.h
++++ b/include/linux/nvmem-consumer.h
+@@ -56,6 +56,7 @@ void nvmem_cell_put(struct nvmem_cell *cell);
+ void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
+ void *nvmem_cell_read(struct nvmem_cell *cell, size_t *len);
+ int nvmem_cell_write(struct nvmem_cell *cell, void *buf, size_t len);
++int nvmem_cell_get_size(struct nvmem_cell *cell, size_t *bytes, size_t *bits);
+ int nvmem_cell_read_u8(struct device *dev, const char *cell_id, u8 *val);
+ int nvmem_cell_read_u16(struct device *dev, const char *cell_id, u16 *val);
+ int nvmem_cell_read_u32(struct device *dev, const char *cell_id, u32 *val);
+@@ -128,6 +129,12 @@ static inline int nvmem_cell_write(struct nvmem_cell *cell,
+ 	return -EOPNOTSUPP;
+ }
+ 
++static inline int nvmem_cell_get_size(struct nvmem_cell *cell, size_t *bytes,
++				      size_t *bits)
++{
++	return -EOPNOTSUPP;
++}
++
+ static inline int nvmem_cell_read_u8(struct device *dev,
+ 				     const char *cell_id, u8 *val)
+ {
 -- 
 2.39.5
 

@@ -1,149 +1,81 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129521F1506;
-	Thu, 24 Apr 2025 20:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3FE156C69;
+	Fri, 25 Apr 2025 02:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745525498; cv=none; b=MaQj+NO+zTru7SxjM6fzIgXEbHpjGnXRVtqUcbgvZwrNxrlu6VP3Su8ELN6Pld8aHgKdapGSBZbiQje1/aLOi1JcQddAoK6ZPji6FmQOs5FbOpgRG/bvtLBSJln6u4Z9IHh9wUOxLddxmqiBgiCFfHo58MJgx0aTNFqJWLxUDDc=
+	t=1745547655; cv=none; b=gWsqi+c8o/2fFGWPgCe7F0LHu1bnl3LpjXuMcZI/kVwJuEL2cR177RTn95SkOzqphtQpdR79ZGB387cXyWp5ew7cTX5EMA/E1SQFkNU5GR524LxDvC2HFCBOHzDgUTPtS6VY9JYbpFzk1xLZoa3LmML7wwjKxfCzLyQUcP3rdi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745525498; c=relaxed/simple;
-	bh=HCCurbCpdf2762GuvXifcOsixY7BzzcVytS+CUWVOyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hvoASzTcx4zmOtretvCTPXSCXmSD0vEl74APGp+uFqp50ITLfaRdgHCatOvIACDQl1wcPR06D5atbz5n+yxr2L21Zr4adSQe4alXmr+KuU2ibbr5zo9ammad9MxBebYmPZqxUorVtHKn3BjDQ46Cojd+HUi37F3PDhuS/f6AtdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MDQiMXwM; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1745547655; c=relaxed/simple;
+	bh=vjhWnE+yweRc5pNFfcwxO1w2ynyuzXYUEPFlulFeJ2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=flkCuuYkt0+22Y3/WaujFsr2tV9cLYP8Wsgsh7Cakbtxt7GBLW4TeDiCtSWTW1PX6F+SH2LZdfkuw7GSfvfyiDmDS+d3gUtjmmlsna0ULZTNU0r5rdzKj1vO1QUQ7Hc/WtBZqkSorTO/8ECEYAjpQZKJ9aG4y7C6hvzIkB6L9jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dFuKctuT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MDQiMXwM"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8F2A043A53;
-	Thu, 24 Apr 2025 20:11:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745525494;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=09PG+fxuKesOM/kP22ajuEbhOQfehjAeduUbezP82Mg=;
-	b=MDQiMXwM5Q6Bw/oa/uvytc0mvtbv7DY7eO7AgzCRzcWizRHKKKcSnyc0iJLbNVTw3Wsr6J
-	lTOqEIBpBUTVqeWYByUkK9Vr4B1fufwPqZl7YxYRoWAyaBP1xMe1FKuin1fkR2amiI8dF0
-	g4m6ihEA5Sz5uKfTe90sT+P+hHpzDS0N1w8Eup2LzDQrQMZHVyRc/xdFInUSbca9eev8lk
-	S91hJDIYFe8zBrsqAHK0miPfASgOMYTye6Z7W6eIE6MEXvKIMHHApCEBVFDrzlDwCSVoJ3
-	qsOh05OZ4XanGRLXUXv1Kzadf2o8Wr2tXbrVszd0YlKh6k3OKd9EvxoaBkoDbQ==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Anusha Srivatsa <asrivats@redhat.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Hui Pu <Hui.Pu@gehealthcare.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	imx@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dFuKctuT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C24A5C4CEEB;
+	Fri, 25 Apr 2025 02:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745547655;
+	bh=vjhWnE+yweRc5pNFfcwxO1w2ynyuzXYUEPFlulFeJ2I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dFuKctuTRC/wLg2WplGSQaP3gn0tPb1bIpva9sc7+v5tf5gi9XbehbR9D9Hyu+NG8
+	 3FGiJSvA7lbYEqpCNJJka2LngmB+muAaZwoCxKOmvUH1dGRd7Q0WhDAfbETuwzA91G
+	 Rb7zTo3fH+zlvnj6AjFBsZP4kvTppCOQE9jLwhmg4pPYX2BOOP7/F0vISy2SznbRGV
+	 YEBq5X/rw1b31LpFU6khV8CEnNagoBDz8apMe4zf6QI20rNXIPM9N4A7l50HlUaL/8
+	 1FZS8P9m+pSifbhUT4bt0OvBdLWjaukoFkYLXRlSl+DcXScZPDGk0mVgIgBTAlNBv9
+	 9jnG8QCTAVk2A==
+Date: Fri, 25 Apr 2025 02:20:50 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benson Leung <bleung@chromium.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH v2 34/34] drm/bridge: panel: convert to devm_drm_bridge_alloc() API
-Date: Thu, 24 Apr 2025 22:05:49 +0200
-Message-ID: <20250424-drm-bridge-convert-to-alloc-api-v2-34-8f91a404d86b@bootlin.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	Douglas Anderson <dianders@chromium.org>
+Subject: Re: (subset) [PATCH v2 0/8] arm64: mediatek: mt8186-corsola:
+ Consolidate and add new devices
+Message-ID: <aArxgrBkFvHwr_Gj@google.com>
+References: <20250421101248.426929-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.14.2
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtfeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtoffgsehtkeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudffiefgvdfftdffkeejjefhffduleejleeuieetieetgeehtefhjedtgeegieegnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhdphhgvlhhopegsohhothihrdhfrhhithiirdgsohigpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeelpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdru
- ggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250421101248.426929-1-wenst@chromium.org>
 
-This is the new API for allocating DRM bridges.
+On Mon, Apr 21, 2025 at 06:12:38PM +0800, Chen-Yu Tsai wrote:
+> This is v2 of my "component probe for Corsola devices" series.
+> 
+> Changes since v1:
+> - Reworded commit message for Elan I2C-HID binding change
+> - Dropped I2C address constraint from Elan I2C-HID binding completely
+> - Dropped enum from new compatible string entry in Elan I2C-HID binding
+> - Picked up Rob's ack on two binding changes
+> - Rebased onto next-20250417, resolving conflicts with "spherion
+>   component prober" changes
+> - Link to v1:
+>   https://lore.kernel.org/all/20250312104344.3084425-1-wenst@chromium.org/
+> 
+> [...]
 
-The devm lifetime management of this driver is peculiar. The underlying
-device for the panel_bridge is the panel, and the devm lifetime is tied the
-panel device (panel->dev). However the panel_bridge allocation is not
-performed by the panel driver, but rather by a separate entity (typically
-the previous bridge in the encoder chain).
+Applied to
 
-Thus when that separate entoty is destroyed, the panel_bridge is not
-removed automatically by devm, so it is rather done explicitly by calling
-drm_panel_bridge_remove(). This is the function that does devm_kfree() the
-panel_bridge in current code, so update it as well to put the bridge
-reference instead.
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/bridge/panel.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+[7/8] platform/chrome: of_hw_prober: Support trackpad probing on Corsola family
+      commit: 73d32c3e74e1bd679617b9b9c06d806dedd7c055
+[8/8] platform/chrome: of_hw_prober: Support touchscreen probing on Squirtle
+      commit: fb8bfb48a4d11efb9b3e492d7c5e9ae7478786ce
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 79b009ab9396048eac57ad47631a902e949d77c6..ddd1e91970d09b93aa64f50cd9155939a12a2c6f 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -287,15 +287,14 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
- 	if (!panel)
- 		return ERR_PTR(-EINVAL);
- 
--	panel_bridge = devm_kzalloc(panel->dev, sizeof(*panel_bridge),
--				    GFP_KERNEL);
--	if (!panel_bridge)
--		return ERR_PTR(-ENOMEM);
-+	panel_bridge = devm_drm_bridge_alloc(panel->dev, struct panel_bridge, bridge,
-+					     &panel_bridge_bridge_funcs);
-+	if (IS_ERR(panel_bridge))
-+		return (void *)panel_bridge;
- 
- 	panel_bridge->connector_type = connector_type;
- 	panel_bridge->panel = panel;
- 
--	panel_bridge->bridge.funcs = &panel_bridge_bridge_funcs;
- 	panel_bridge->bridge.of_node = panel->dev->of_node;
- 	panel_bridge->bridge.ops = DRM_BRIDGE_OP_MODES;
- 	panel_bridge->bridge.type = connector_type;
-@@ -327,7 +326,7 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
- 	panel_bridge = drm_bridge_to_panel_bridge(bridge);
- 
- 	drm_bridge_remove(bridge);
--	devm_kfree(panel_bridge->panel->dev, bridge);
-+	devm_drm_put_bridge(panel_bridge->panel->dev, bridge);
- }
- EXPORT_SYMBOL(drm_panel_bridge_remove);
- 
-
--- 
-2.49.0
-
+Thanks!

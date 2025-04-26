@@ -1,117 +1,67 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF5F1E834B
-	for <chrome-platform@lists.linux.dev>; Sat, 26 Apr 2025 02:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5F82AD0F;
+	Sat, 26 Apr 2025 14:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745635702; cv=none; b=KJsWo4SoryMjKatkGXXXNYjRhoLEJ9/41xQBhKoet7oUEjrWkr4SmckNjztoFdhIJmieX27d7po0lww/DoB9C2gRmaniLr3Xmxym9tLnOCT6Jovf8bOppqTkCEoVd686ojz1tM8siPBEDmrb+TcwE1aTTKNLxXVDIwguONJGij8=
+	t=1745677729; cv=none; b=RK9rGS9TzCkJ25IuIvaO8c6i1h6K5yXFeQtQvlDPHLRHgJrQaCwUzKigemOhWNEXTzxemUbUfhd/VXNCmjbCYLxWhZebDhNz4qz68MlIy7RPyq55jBqPdS8BzDN7BJi5FkeSukFoiHrD/t8313B6HitiKrAHchxFmQ6wvoe4m/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745635702; c=relaxed/simple;
-	bh=EMvMM+Lp6ZSUyF9Ng1oKtex7ibkM53UrOtVhDe2MqUU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BaAvo64QUJDzoz/CHlXUebh2u7yG7c0oBDqh24GlpEl5ZCsFTN/X7EEbrWIN4H2b6K6rW2OYpFqxKBVzXgrukz8xj9LvCIuu8Xd9IG5mXnhD6nYGJsplA/zPWsx5EYvEQOCxgF7g62G3rDV/S1MG//+WUz5R1lIVQIAgO07KCfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=P22w3lcJ; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1745677729; c=relaxed/simple;
+	bh=UoQOZFMYyvSlSxpL/oqMDkYMGe0Otfbzicnh0yYcnKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D/+4wHkMVQy0WFzEyimkGHE3ZbQws9UHrhdRdPko7OlCDHoFRJHaTLPotMecv7a5YWH8b4HYFh4o8CvcWjeVAG3snJ6OrT2KUla/+wx9kDLGIXS7hfQ28OW83v/9llBTDxyJ2d/a+26AF5KdeekEKqM7Y3JuKqtUGS/JrU79yRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oL4W5DTt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="P22w3lcJ"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7399838db7fso3087772b3a.0
-        for <chrome-platform@lists.linux.dev>; Fri, 25 Apr 2025 19:48:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1745635700; x=1746240500; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ClyhMFjoYUbJg9OMH9NTv9ViEJNVf/P1++kB07q8nRo=;
-        b=P22w3lcJfh3S3mrYMznGUBa8llELVFTxce4PgV5xhqmfNGhRMo3yR+s9u1Sm8G18FD
-         wu4MfdfCKHo8X2qupqolx9BdM1Ldx6tcIRg+hjbA46aFTHzR9TCaDx5vpJ5mMTX0NDt9
-         C7viivaMWqzpfl3qRaIPORr3w+MZEl0rCJtkQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745635700; x=1746240500;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ClyhMFjoYUbJg9OMH9NTv9ViEJNVf/P1++kB07q8nRo=;
-        b=re5oJyWk78Og/PSyd2/J7f8CTIoO1LW2gvr6eyf048pfHyGoi09ajhv7URCcQi06FV
-         EO0BdAzQ2nq2LFYxu8i5Z7fFjJKOKfwjEEs9D+N1vnKcyeJNvY3C6GqV5n6FIgSRXmeM
-         oFolDf6Vo7JLhiwf5NKRzqgyVHRbPpGDQAF6cY4oY4m+VLMf5x1KbL4TcWsTNvzECW3k
-         uXJ+sdrnXdF5lsqOgp0+UVgPB10osuFvL5rBakJq8UGblE5Ws+f8KYpSTdgAu+QZbe1s
-         5zGYTaV6JnQ2rTq2qnJHKYz9HDWT6MI8yz5OJmHTBvvemdg9UcOynAtFMPxrMjzXwj5x
-         2a5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWSUvOaoZkCoLqjp+d+90zfPFz4eQDgeESwLNv03JgG2nb77e8Zbs4yRge0nU21XcqX96HiX41TX/2jY2FMx78=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzT4IeIeX8WrzqwIwQINm82Cr8RDDObNMhl9eqFLkCHuVO7jz5I
-	6nKRZo0IxtL3tKupAKasLqVE4gr5zIPSyrM44iMo5cSFvbBKtDd6989WPWnb/Q==
-X-Gm-Gg: ASbGnctgSTa2KhykCSRKvL4nwDPt+mXf+2pc2+7vVtJ9I2ioOJ047j1v0Uqb7IFYaS/
-	ExvCP8RQ8NFziO9Uj55dN77BxUWCmK4090JsT/viLIaf989pWF2fD+HCLFyxRezCXShScmOI1cy
-	3ASU8P/U+WpvxE7BxABz7FGf20jlfs+rHl7j1W8XWO/J8uBA/tzGUMZVz5DAm34aFGG3ucniuQv
-	+WtOjZz1Wjcx01IZfTLfOBIrTNdK3q50JaIbZR4uGRqNdiDyLg5yPSECgAtBjjE2OfAuuAo7MUi
-	6IoxJyq0lB28Cpa2mdqJwuQAGvX7aLZ2z5nPHvbYN2RwfpmMu6jMSUvP3ZytNfVync9PWzpf+KI
-	yzyUhfx3Y7ndK/o6f+kfS+ZYWc3wTt5A0
-X-Google-Smtp-Source: AGHT+IG7QujE+QurTzz4S9vIj4SYcTnWkBOklhQ6nZ+0WBCMj6+VZ1oiPWchGl7oePibCwldroGjqg==
-X-Received: by 2002:a05:6a00:1947:b0:736:b400:b58f with SMTP id d2e1a72fcca58-73e2660902fmr14418002b3a.0.1745635700116;
-        Fri, 25 Apr 2025 19:48:20 -0700 (PDT)
-Received: from bleungmegatop.c.googlers.com.com (30.176.125.34.bc.googleusercontent.com. [34.125.176.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25accfc9sm4047535b3a.176.2025.04.25.19.48.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 19:48:19 -0700 (PDT)
-From: Benson Leung <bleung@chromium.org>
-To: abhishekpandit@chromium.org,
-	jthies@google.com,
-	akuchynski@chromium.org,
-	tzungbi@kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: sukoo@google.com,
-	bleung@google.com,
-	Benson Leung <bleung@chromium.org>
-Subject: [PATCH] platform/chrome: cros_ec_typec: Set Pin Assignment E in DP PORT VDO
-Date: Sat, 26 Apr 2025 02:48:10 +0000
-Message-ID: <20250426024810.3876884-1-bleung@chromium.org>
-X-Mailer: git-send-email 2.49.0.850.g28803427d3-goog
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oL4W5DTt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6E14C4CEE2;
+	Sat, 26 Apr 2025 14:28:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745677728;
+	bh=UoQOZFMYyvSlSxpL/oqMDkYMGe0Otfbzicnh0yYcnKc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oL4W5DTtgN1ZVOwm5+DQ4iO5SgamULGDCpt9vHxKgZMmsfdCd9jkMkgcBp01DWYnI
+	 BTdWd/Hcj5l2AXK5PrRkTJPA4ZMQWEryve67zpPhwspL9N9TxCXh/xmlEoD8siBOUQ
+	 76cWN2VmgqxqYytYHogs+HlQ+Fg/FQi2EG5cEe1h8CJ1NvxwarGFMPq/CnyJ3n3/b1
+	 b5y/sY8zRV1SE0bBsUh90lYMbXZm4RXAn2TWKiB7KnYDdOaiIaLC7Y6sJNCKcciXDp
+	 RF/ZifRL76RmwT3CeRImytWXAorjY+z4bT+uOk9C2G0nprZdbhZJJwQXXCVrcfZa1G
+	 gbUOi+UFLWNHQ==
+Date: Sat, 26 Apr 2025 15:28:43 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Gwendal Grignou <gwendal@chromium.org>
+Cc: tzungbi@kernel.org, chrome-platform@lists.linux.dev,
+ linux-iio@vger.kernel.org
+Subject: Re: [PATCH v4] iio: cros_ec_sensors: Flush when changing the FIFO
+ timeout
+Message-ID: <20250426152843.3c79473b@jic23-huawei>
+In-Reply-To: <20250423220506.2061021-1-gwendal@chromium.org>
+References: <20250423220506.2061021-1-gwendal@chromium.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Pin C and D are used on C-to-C cable applications including docks,
-and for USB-C adapters that convert from DP over USB-C to other
-video standards.
+On Wed, 23 Apr 2025 15:05:06 -0700
+Gwendal Grignou <gwendal@chromium.org> wrote:
 
-Pin Assignment E is intended to be used with adapter from USB-C to DP
-plugs or receptacles.
+> |hwfifo_timeout| is used by the EC firmware only when new samples are
+> available.
+> When the timeout changes, espcially when the new timeout is shorter than
+> the current one, send the samples waiting in the FIFO to the host.
+> Inline the call to transmit |hwfifo_timeout| value to the firmware.
+> 
+> Now flush when a sensor is suspended (ODR set to 0) as well.
+> 
+> Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
+LGTM
+Applied to the togreg branch of iio.git and pushed out as testing
+for 0-day to take a first swing at it.
 
-All Chromebook USB-C DFPs support DisplayPort Alternate Mode as the DP
-Source with support for all 3 pin assignments. Pin Assignment E is required
-in order to support if the user attaches a Pin E C-to-DP cable.
+Thanks,
 
-Without this, the displayport.c alt mode driver will error out of
-dp_altmode_probe with an -ENODEV, as it cannot find a compatible matching
-pin assignment between the DFP_D and UFP_D.
-
-Signed-off-by: Benson Leung <bleung@chromium.org>
----
- drivers/platform/chrome/cros_ec_typec.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index d2228720991f..7678e3d05fd3 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -22,8 +22,10 @@
- 
- #define DRV_NAME "cros-ec-typec"
- 
--#define DP_PORT_VDO	(DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D)) | \
--				DP_CAP_DFP_D | DP_CAP_RECEPTACLE)
-+#define DP_PORT_VDO	(DP_CAP_DFP_D | DP_CAP_RECEPTACLE | \
-+			 DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | \
-+						BIT(DP_PIN_ASSIGN_D) | \
-+						BIT(DP_PIN_ASSIGN_E)))
- 
- static void cros_typec_role_switch_quirk(struct fwnode_handle *fwnode)
- {
--- 
-2.49.0.850.g28803427d3-goog
-
+Jonathan

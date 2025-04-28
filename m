@@ -1,63 +1,63 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3079F2973CC
-	for <chrome-platform@lists.linux.dev>; Mon, 28 Apr 2025 19:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8A32951CE
+	for <chrome-platform@lists.linux.dev>; Mon, 28 Apr 2025 19:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745869139; cv=none; b=VPMXTHdEPZFu/jnIqeYz3XlmNX89xVq4KzY0kRpO916Ne2PDwNM7XQ7nvXDkz0A4ay3hYYQZABaRITt1PaytrX1omCdwzQrh/ZaJgiSqw5mTLAtfMfNE4b74ufkRUQ60/VkVA8pnC21+miRl6Kt9QN+c1esvhOySfk+LwvCL+xM=
+	t=1745869509; cv=none; b=CAVAb/GzNnWqEbDRNBEDShTEC7+XpbCNkqjLGz6XTq60Dsiss4rgPqtOKJo289bJptlGY2LytwwWho7+ozZK4zemEat6S1HmNVdBkpnNE7vG4khsZi1P/dTLa2xnScEGuxA7T2FzDXkRN9sYBdxWFKcHOUyLYgLvXVjC2uvTbUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745869139; c=relaxed/simple;
-	bh=13xUiVobxzRSH7gXywjwaNcP6SoEC7CZkLAaSA9kBcU=;
+	s=arc-20240116; t=1745869509; c=relaxed/simple;
+	bh=Ske+BDAj21huhvtbIRDfyBrEs+/jQGWomwPZgUuFL2U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HtBSpwhlyHZZ7x8Nv37S0GUcwju5FtjeLBq1EV653D6lafjTfvz0C1QC5BIqqqZzIVIxUYNaNpB6lFPbK13K6taAP7guCXhhjml+/eih6QqCYKRZP8AqnSn6oif7hwyCUdpfvxFe5aj19F8mmjGme2BJUCbZ4bga5NY+ebqASZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NoKLPCPD; arc=none smtp.client-ip=209.85.210.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=bSemBY8QGYtvLB4zoZCBu7MYDpDt5U84JeBYAuit1PtgxTZL0dK0TyZ6usFSkPSXNtSKEoDGTZjJmqnVkdhknMDB34EYNhzWZuxo2sVx5kjAHuGjlpK34OTUpggb48I+boLj13dbwIOvIpIKHkbfBWfeRBuZhc/gAJ8b3P6NIqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2yk3Rf4I; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NoKLPCPD"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-73972a54919so4409045b3a.3
-        for <chrome-platform@lists.linux.dev>; Mon, 28 Apr 2025 12:38:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2yk3Rf4I"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-af51596da56so4444082a12.0
+        for <chrome-platform@lists.linux.dev>; Mon, 28 Apr 2025 12:45:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745869137; x=1746473937; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1745869507; x=1746474307; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=14iGLLoPFCaZQPh6Psc3FLMwpAjwEZFNk7aZejXSCSk=;
-        b=NoKLPCPDV78uhh86HjIWLDjVnf+zS597LtOdXNoeFidWR9fpktPu1/N2Ocr7uE0RA4
-         kbMEImrisCwZC0UzrS/e6L8Fkcr38RT04bo5Vmewb8qDV92Wumy9zMb2Ri2iE9IRaqfE
-         Genu/MnVH3BYskXNJTyBKo5sHOw2l10nRxybn0xEkW2raXNY7Z3T2XZkkFnbQjD4f0cK
-         L5VTEnCGsPj5zogmSHclk0sAOL/05W5B09q8T3zOof1w5Lzq6khK+NqCgIRbKcx90ROP
-         lUCVbXhLt6e/2JRkvUzc3+BnFEYSWDJ8rfAJd3ENEVvMYBhLfH0arBoZqhmCWecaGk5L
-         9tgA==
+        bh=KaMu0L4wBURz9xq4JXnOvgxpR2Jhc7zGFIG2V5tCWLw=;
+        b=2yk3Rf4ISpD2Hq+8K0UnpogHjSvWLPo2+A5SpB8Ya8WMsmQ7sQSTE1VHmFz+egqIFk
+         lsxHppXmVJkR5NzMvrAkU8sWvoaYNrnl6G354HQcGEj+a/S9lcJsfgGujBzD+OBieCEW
+         pYmVCwm0BmIjgW8o+oa/v5t1lz1EKFJNe+ZXL3zVjx6OsD8eGIe5Wp6UpxlD/DRh1gjt
+         yWgPkIb05AXs+jBQWWxztYTW2xyU7r40jwBbmwKes/6oMc2JWm5j7UF+A3Iv6eQVUR6U
+         YOwLHW9Rzxchfc8j5ySCjwXAlXKdbg8kn95bobYrOOnsmhyOydiH9ikZC/ITdpVeTR0x
+         dsrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745869137; x=1746473937;
+        d=1e100.net; s=20230601; t=1745869507; x=1746474307;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=14iGLLoPFCaZQPh6Psc3FLMwpAjwEZFNk7aZejXSCSk=;
-        b=Alvwl+jbdHOMvTmoDXpgNi12qSE3Ncztb4UryrOBzzgzBa2t9wD83X5OuBP0+DZxes
-         cNjde66DJGSyeMEm4biE/IhDWXXWhTBcCE98dvhbcWvvmiw8NE4Lfn4ktaKjDU3gAe7h
-         MkKhbKdvKuhvQP3KVOhY1og6s2a4X9vosj1kKm/J4wZp7BAYGkt2bJGmGM1DQfqEXqrq
-         MMMw59OYV/s69y1vjN2o1o2CvAXCUpkj6TmLuXoyJgVvyOMhDurbNFeOBgrqXwknfTWz
-         zc7WmkhjhDddYVRf11rvpbI+gAppZosOjAq9le96EnDDtackgLKX/lXu5sZ1gudyIiq3
-         bkcw==
-X-Forwarded-Encrypted: i=1; AJvYcCWIdHYES9sQtUdnt01Z6lir4r7Twgvy1nl/qLPhH6nHB9BJkJr4aLbMB6rFdWk9+tg790zImpctzg8lVlzal5A=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxq8usVfd7D6+7CWb3yWhjnuW57cWpw6HSSJ63/g6Nz+oeGxYSV
-	II4ZGrNW0dsSXQHyRkD+4AlkGwubOL4NlEwXOt5Mymo1tvaG9sD2X4XCPDboFQ==
-X-Gm-Gg: ASbGncslAjSHrqvNygwfYT/NYH+CJbuYX5hhkYC1exwhWb4cRhuDB+AMumPw8BaYsfo
-	4E85Jh8CcpKkCOdZ9O7JGJJ4UkNbg8cZy2L7dXixvpEPJW37bGazKl7UPZbWPjcO4mfOYhpFxqx
-	AKwcXwO0XUp9lm2zi/EPialJm9k5ZTRp51Y3JTl/SbZqRU5rkk6osNQ/20c24kHExyfuHNzujyk
-	Fe+FGZQl/ABL6dcqxpBfjuksg0RLIqMQi/8PDkfkWhJ8L9QYqZFkk+1VHgmfctkQmYm1wvM6gXQ
-	dIZqw2bGVI6w2bo95aZ6ygijDuIT1R+bpiIGn/jqgOZUfSaFLyCcShfY84TP3bnz6ZOW2SUt8A=
+        bh=KaMu0L4wBURz9xq4JXnOvgxpR2Jhc7zGFIG2V5tCWLw=;
+        b=ifyqbZ/w9fQVRwvxaWBPvzMzbWBHtw4muvE6DrL5bho2/P9SqOx0PRAGAy1UW3hvKH
+         PHZGZMd0XBR34JyDU9EhbnCogn9rnvBm2PvoysGSYe246mS+uAYBUjfVt2ym2PvDWsUo
+         5EmSxrmjlyPf3SDpjvGITXKqFDRx5V9M1khM/l3iNX//4ngQgxIT2PXMhU1XzHTtKG4J
+         +X/oVilwwSejwXXnFu+ZnMT30tlA3JhsWYGkhA4KR2KUy7Zo7t2lMz7bWkeKlZ+9UscX
+         27+8IAPgRux3W6727W7ZUeywxOJ/AS1CL1TyZozAFJ6D9c1GG0EW3vKsKD2DQAgCUzAQ
+         mEuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQQnrLMskPDd0NN7+LxRdDdiXu/h3DUft6A0nF9XYhR3yJWKRTKfh2zQS76OZiDfOQPyxvjTp7kEPG/l2Jyi0=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+z0Gh7ADPBWymXI8zF8BlDg2IwfzA0IT/X8vT/gwshvCraQ8X
+	+7/XubiL1r72Y3USHSp4sR8InoJeGHqRs5yv7uQ/Oj4xNiyyqkfX3qHzoNQRRw==
+X-Gm-Gg: ASbGncsv1CoEeZqKnaNErQjlfgP0NcG7jbaQF2dmB+zt1Iv+DUOROPgxxXO57RB0LNj
+	06V5xvM9iIOaG409t6OaN8JduwkMfoUC43BmLBmNM0JRKZUiHcAJnn7EjeSvloecmHqJkxzNkqJ
+	hwjznc014yk44uUXfRdOAt9j/bHl+VRxcSsSm4KQAgijxyTuPOfMN7rCcI6Q1rcp2jtq8xCAXd5
+	q7pGQM77RXCoL89e69DQwg6Hu5r/bHl/TTlWztVpNs6B6uWRADRCJNyJXF7+WBiZ9opyWInFD0r
+	WPP0hXSG6Ii1K5P/I89Jc85fMEipeQAiSGMspBdLnO7zhyFiw9RhH6yjucQJ3m/MIprTp2Qp7Q=
 	=
-X-Google-Smtp-Source: AGHT+IHmlLzT3YLWMcB9dRwkEoEHVu8JunNQRTVgpY+NajhMftB1PbhiEiMvQy73a8wiTuoNqCPhhg==
-X-Received: by 2002:aa7:88cb:0:b0:739:50c0:b3fe with SMTP id d2e1a72fcca58-74027139a2cmr1699641b3a.8.1745869137003;
-        Mon, 28 Apr 2025 12:38:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG6R82DFa9jAy922lzUHN2EAVQRNR18xiowU6WDSy9TAXdGrX8+WhcNG0tMNBGpq3fQ1R7ExQ==
+X-Received: by 2002:a05:6a20:43a1:b0:1f5:75a9:526c with SMTP id adf61e73a8af0-2093c7e3860mr1003669637.13.1745869507413;
+        Mon, 28 Apr 2025 12:45:07 -0700 (PDT)
 Received: from google.com (28.67.125.34.bc.googleusercontent.com. [34.125.67.28])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25941e7bsm8721326b3a.52.2025.04.28.12.38.55
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25a9abf2sm8338322b3a.122.2025.04.28.12.45.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 12:38:55 -0700 (PDT)
-Date: Mon, 28 Apr 2025 19:38:51 +0000
+        Mon, 28 Apr 2025 12:45:06 -0700 (PDT)
+Date: Mon, 28 Apr 2025 19:45:01 +0000
 From: Benson Leung <bleung@google.com>
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -72,11 +72,11 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
 	linux-input@vger.kernel.org,
 	Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v2 3/8] dt-bindings: arm: mediatek: Add MT8186 Squirtle
- Chromebooks
-Message-ID: <aA_ZS8cNneR_fyDK@google.com>
+Subject: Re: [PATCH v2 8/8] platform/chrome: of_hw_prober: Support
+ touchscreen probing on Squirtle
+Message-ID: <aA_avWpDUMAvbRBu@google.com>
 References: <20250421101248.426929-1-wenst@chromium.org>
- <20250421101248.426929-4-wenst@chromium.org>
+ <20250421101248.426929-9-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -84,62 +84,89 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="XymM9xtRtIWUo1hO"
+	protocol="application/pgp-signature"; boundary="3yxgRYuYXTrM4tBx"
 Content-Disposition: inline
-In-Reply-To: <20250421101248.426929-4-wenst@chromium.org>
+In-Reply-To: <20250421101248.426929-9-wenst@chromium.org>
 
 
---XymM9xtRtIWUo1hO
+--3yxgRYuYXTrM4tBx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 21, 2025 at 06:12:41PM +0800, Chen-Yu Tsai wrote:
-> Add an entry for the MT8186 based Squirtle Chromebooks, also known as the
-> Acer Chromebook Spin 311 (R724T). The device is a 2-in-1 convertible.
+On Mon, Apr 21, 2025 at 06:12:46PM +0800, Chen-Yu Tsai wrote:
+> The MT8186 Squirtle Chromebook is built with one of two possible
+> touchscreens. Let the prober probe for them.
 >=20
 > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
 Reviewed-by: Benson Leung <bleung@chromium.org>
 
+
 > ---
-> Changes since v1:
-> - Added Rob's ack
-> ---
->  Documentation/devicetree/bindings/arm/mediatek.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/platform/chrome/chromeos_of_hw_prober.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 >=20
-> diff --git a/Documentation/devicetree/bindings/arm/mediatek.yaml b/Docume=
-ntation/devicetree/bindings/arm/mediatek.yaml
-> index 49ddc504c160..f0b4ccd81c4d 100644
-> --- a/Documentation/devicetree/bindings/arm/mediatek.yaml
-> +++ b/Documentation/devicetree/bindings/arm/mediatek.yaml
-> @@ -291,6 +291,10 @@ properties:
->            - const: google,steelix-sku196608
->            - const: google,steelix
->            - const: mediatek,mt8186
-> +      - description: Google Squirtle (Acer Chromebook Spin 311 (R724T)
-> +        items:
-> +          - const: google,squirtle
-> +          - const: mediatek,mt8186
->        - description: Google Starmie (ASUS Chromebook Enterprise CM30 (CM=
-3001))
->          items:
->            - const: google,starmie-sku0
+> diff --git a/drivers/platform/chrome/chromeos_of_hw_prober.c b/drivers/pl=
+atform/chrome/chromeos_of_hw_prober.c
+> index 10dbaede0541..f3cd612e5584 100644
+> --- a/drivers/platform/chrome/chromeos_of_hw_prober.c
+> +++ b/drivers/platform/chrome/chromeos_of_hw_prober.c
+> @@ -59,6 +59,7 @@ static int chromeos_i2c_component_prober(struct device =
+*dev, const void *_data)
+>  DEFINE_CHROMEOS_I2C_PROBE_DATA_DUMB_BY_TYPE(touchscreen);
+>  DEFINE_CHROMEOS_I2C_PROBE_DATA_DUMB_BY_TYPE(trackpad);
+> =20
+> +DEFINE_CHROMEOS_I2C_PROBE_CFG_SIMPLE_BY_TYPE(touchscreen);
+>  DEFINE_CHROMEOS_I2C_PROBE_CFG_SIMPLE_BY_TYPE(trackpad);
+> =20
+>  static const struct chromeos_i2c_probe_data chromeos_i2c_probe_hana_trac=
+kpad =3D {
+> @@ -76,6 +77,17 @@ static const struct chromeos_i2c_probe_data chromeos_i=
+2c_probe_hana_trackpad =3D {
+>  	},
+>  };
+> =20
+> +static const struct chromeos_i2c_probe_data chromeos_i2c_probe_squirtle_=
+touchscreen =3D {
+> +	.cfg =3D &chromeos_i2c_probe_simple_touchscreen_cfg,
+> +	.opts =3D &(const struct i2c_of_probe_simple_opts) {
+> +		.res_node_compatible =3D "elan,ekth6a12nay",
+> +		.supply_name =3D "vcc33",
+> +		.gpio_name =3D "reset",
+> +		.post_power_on_delay_ms =3D 10,
+> +		.post_gpio_config_delay_ms =3D 300,
+> +	},
+> +};
+> +
+>  static const struct hw_prober_entry hw_prober_platforms[] =3D {
+>  	{
+>  		.compatible =3D "google,hana",
+> @@ -93,6 +105,10 @@ static const struct hw_prober_entry hw_prober_platfor=
+ms[] =3D {
+>  		.compatible =3D "google,squirtle",
+>  		.prober =3D chromeos_i2c_component_prober,
+>  		.data =3D &chromeos_i2c_probe_dumb_trackpad,
+> +	}, {
+> +		.compatible =3D "google,squirtle",
+> +		.prober =3D chromeos_i2c_component_prober,
+> +		.data =3D &chromeos_i2c_probe_squirtle_touchscreen,
+>  	}, {
+>  		.compatible =3D "google,steelix",
+>  		.prober =3D chromeos_i2c_component_prober,
 > --=20
 > 2.49.0.805.g082f7c87e0-goog
 >=20
 
---XymM9xtRtIWUo1hO
+--3yxgRYuYXTrM4tBx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaA/ZSwAKCRBzbaomhzOw
-wmjGAP0Rjz88KZq9wxTkLmE2fLTGJpXJLEOGhasJsrHYmQgrDQEA+/raQJKGPQgA
-EgvDbveTPRWunILosNFF76r3ozB4zwo=
-=vSwx
+iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaA/avQAKCRBzbaomhzOw
+wuHsAP9k0n2/zZ8JMwMbW9PvC1L4S+rXwkDzn4vNgVA9gpUADgEAqqQGBGFcOCTo
+ivudInVAQKMFJJvenfbspzj/SwoyHA8=
+=MQA+
 -----END PGP SIGNATURE-----
 
---XymM9xtRtIWUo1hO--
+--3yxgRYuYXTrM4tBx--

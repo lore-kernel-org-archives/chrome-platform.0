@@ -1,58 +1,55 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A45B78F54
-	for <chrome-platform@lists.linux.dev>; Mon, 28 Apr 2025 15:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7258827E1B1
+	for <chrome-platform@lists.linux.dev>; Mon, 28 Apr 2025 16:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745855318; cv=none; b=mbMkVZfntxDgsTKcNUnuM/ePaCgjk+GtC4Z2r6TAZhz/vEpzsCYYud7RwipLBxAzr9h1Dx7ySHyRHWLkmIGIvY7RG3Fl4yZ/c/YaZE+pozputAieBKWWsFpA/GfqAFvy1kDxqhc1w0/ZadDFftI07Is3DnJtN0iYR8Gdc3N6gok=
+	t=1745857465; cv=none; b=Uevenj6B0suka6lO55erdPbFdQdsH+hAeyA9k5bU2JjdssLLJBwYs7XAiOcLblA5Vp41OPPcw/fQQxw6FrBKOIkHirWNFGOi3XR1ZbSS0o111UKAD6J0x7gpc/OwANIR2DIHd8MY2dpOvUAfLZeMBJhkJ84XWEx+F5X433/7z1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745855318; c=relaxed/simple;
-	bh=Oc2BsjsMwgLoD5XEewehoYbq0a/17WumRr5giysjpjI=;
+	s=arc-20240116; t=1745857465; c=relaxed/simple;
+	bh=aBET2R+cdNEs2JBLTJV2J6n/I6DLqblbM0N9jJcdptE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hq7AHm9aAWDGevVT8ShDY3j9G/Gsh8FKhkVpBsYsci2DUBpA/wY16TRWwsiyvOIGLtvCtPQTpafSJSd4a5IHBl/nuRaDW6vCYLy4iDEio/SsgZFxp9p/di8wcZE5Gu+W6FDjd2CGcY/frQXjCOhVXNJdcvQTfgQ4drX62EQ1wpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZHL2+Ws9; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=ta5TFD6c7rlv+hb+1T0FN43Mu/riMlePsgrHyAObS7EIyITwodAOuv2GPvqckCx+8ZMgqPtTCm3nvGRfIQkt5LHQuEvMp6Y51epx016CDoj5TUIPxfLH7xBZmiNnY6aI1QzNRwbXgL0NsuhgC+xOoZYWXwj197kD1IpyJwxfr1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cWlQ/9mf; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZHL2+Ws9"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4394a823036so48025015e9.0
-        for <chrome-platform@lists.linux.dev>; Mon, 28 Apr 2025 08:48:36 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cWlQ/9mf"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7053f85f059so45866837b3.2
+        for <chrome-platform@lists.linux.dev>; Mon, 28 Apr 2025 09:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745855315; x=1746460115; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1745857462; x=1746462262; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Oc2BsjsMwgLoD5XEewehoYbq0a/17WumRr5giysjpjI=;
-        b=ZHL2+Ws9zry9KRlxsTaLKa9Jfs9URK4YjldDwaZ6cgKzh7SeX/CSCK8X6H/LBUaP3J
-         uaBTjRprHTmRtJTwsmhZAskzBosW4DZdURqCv4l5YXRz0i3rYDt9tWvz0gUylb9AqK7r
-         2ayEN9Vk4jJYZTyIk0iHoLU4xuo45/lWIl8wl/IChY6hUr5OtBFSWWMX5hej05vmMpkk
-         8ie02kjmoTMVaz4uaW9nbMLdzigYUvJGYr/NYDIzOYxMsZsJImxsonMOwt/iAmPzChE7
-         u8yEm32hwJVj72nmPRlc08Mm1kMSjdQ8cJn9xs2u1ehIJrLIwEqCf41/U5KpsYdl9ya8
-         TAQA==
+        bh=9vEM8AjK36qQ7ZkludDbMcF49w6ZyxlSpknwM0aWu08=;
+        b=cWlQ/9mfZzPIYejy3cBg8jvpRS/fbjlDiPjHBiKhqhuNU9317uPVFI6/f3Epyjq9I7
+         sYTtShkknQxbyVdKycFAMlELvDDWgqaTEPoEzSdt5G4JBvgO+l59v6e2LUomZ+eGqvkp
+         GGHaYBTxpDH2bYngFV0LtCe3OLOylI64AtWgQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745855315; x=1746460115;
+        d=1e100.net; s=20230601; t=1745857462; x=1746462262;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Oc2BsjsMwgLoD5XEewehoYbq0a/17WumRr5giysjpjI=;
-        b=AmZvbWndoyiT72tzgEhm/E886qvGSEfxxsOvsFNB1Q3HXPfxIUj3YkYnNiKaWubVKH
-         KPUmVToS4YaoV5tmlRiUMUlpY+6Q084QwwrZ8E4yxjk+C1IbS2qh4XBmmUXN4LhVH4j6
-         BRloNBxivIXCxBQ2FFH1FxY+u28/GVeLOGUo5QB5xKAQb7w7F2sNMoiR4417FSOxxUbF
-         xwyCM5Lzc0CigrqbG47dFTFCBewtRhazpRvVZtcuZxvKLFKanxGOuLrBA1loxMNKastL
-         +gt9WtA/jPepfHWswP52X9oOxkkuJbgca+hGYpWVDQ72fK14Kt2Ca9FrCUDTPO+PrafO
-         bc5w==
-X-Forwarded-Encrypted: i=1; AJvYcCW6dWo4bQ6Pr3zo6gS+y75utgOcMk4M7y8T01qPXZ3ZzVTA0wIMX+gg12thmu+vQvql5YuDJMn1xnZbCquhJxU=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzs61bTiwairBwzHhXj4x7Kp3cIDDMs9aHxoV5qZcGvpeG7m6e6
-	izIcPZZ5vhx/Yb3MLKYWCUX4FwJjqDsrw6SRMFAdW4zHaErtmCpxGeq+2v/5BwdR1Jg1fcX26k+
-	3mAs03ckNgjedbTSzVmMLgwv7CIw6cTfbLd7q
-X-Gm-Gg: ASbGncs3UFzsU3KNSIZcsi/kCF4nlNG+iem8f37Fg6U7muDTRZnzq0EFrY155mto735
-	RGGhAZZAHkZNJump7g+Wv78JrRsFkq4ukaVWIztwaqanRuyp/tlsS4PvHzXvibDSTtLfWLiNjMK
-	n77LULO0pMZtVFKYNA4jA22jtHT4cxkyv0ALHMbVO1OA4WGmLDyGg=
-X-Google-Smtp-Source: AGHT+IEBIX0s48PYMYc7ZAlkpJ51AqlhXnnrtXNl3j1AB6qplVBQOPQcuk1wi9rMT4KwloL8RHijaKT7JBlAdq1V32g=
-X-Received: by 2002:a05:600c:3b0d:b0:43c:f332:7038 with SMTP id
- 5b1f17b1804b1-440a669994dmr95026445e9.21.1745855314637; Mon, 28 Apr 2025
- 08:48:34 -0700 (PDT)
+        bh=9vEM8AjK36qQ7ZkludDbMcF49w6ZyxlSpknwM0aWu08=;
+        b=uYCMKxTaSYG9qEmB06ppflROdEj/rG2Na/D81SN1X9p54dLBRsj7SXvD3eBVzsIKxE
+         qMr68Ay4DryWo3O2VIvTQUtoMJnf2/i4J0ia65ot4v9LhZwh12bsCSO+oUsz6bD/0W0k
+         sJxZlbn2l0U/YWqIZtvN3EPsH1nKkkOOfbHmbc9TgQbNzHp8resaWvyQjCK7ic7Vr32h
+         Zl7namC3fG2hOgB+uv5ku0qwNsK3iNFQsphjWFemhsm3C1KMioToS0GBKUa7lNJKHXaT
+         cYAB0dtiimgDFDFG4IBqvOgGhYj/DTisVV/lhuGcovelyE9e/3b/0al9g0FTTsDp2Xxp
+         ZH5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV4jjYvWjTLHqtR0icZyiCbKc9/XFGmVA4H8cCep2RvEcZIOBzdSh6P1HfC58YS9xIJoHaujeg/ksXqFFb3VMo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzD1N/aRT8XyhFpr2BytcXl4rDLT1LZ8jap9xCaI3J1V9tg7ONM
+	Dxk8qdTMoSti/CkCSw8C7g/Gnkrr7WWV+Am5Mn69T3yh3A57SlWMysSLlt5TR47ik1lL0SBwCrK
+	exi48aNEnFqzfs3dfOn3RFMrVf4T/OxxaRUzE
+X-Gm-Gg: ASbGnctsxm9ugr9L8N7YlrIdr5AjoFy3ufdf5eKqZQjA7XVKM00DL0BDaFhA8sJG8OL
+	VmInVrPII7SNGHuQXIm9+7bQaliwTIUbWua5TwcCrmJ+UcpIAbI1EUyHFgl1C+iX42IMNOtIKQn
+	NPmGklJco79BVT/4/jh1h3bA==
+X-Google-Smtp-Source: AGHT+IEhniT1NFmVEmjCJcZ/tyyHLtc8q6IQL+mdJBR1gMRGoa/2Ox7aQE8eMb4K8ZNe3XWShmP+9vlTRiq6Qvv+Pv4=
+X-Received: by 2002:a05:690c:7082:b0:705:5fde:1b82 with SMTP id
+ 00721157ae682-7089966442cmr6121787b3.13.1745857462449; Mon, 28 Apr 2025
+ 09:24:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -61,14 +58,14 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20250426024810.3876884-1-bleung@chromium.org>
 In-Reply-To: <20250426024810.3876884-1-bleung@chromium.org>
-From: Jameson Thies <jthies@google.com>
-Date: Mon, 28 Apr 2025 08:48:22 -0700
-X-Gm-Features: ATxdqUGLnoEyfsnKxMr20maG-7vwqQ4ey0dYeEd5XwxkmwS8PcuhP05zb5tlI_Y
-Message-ID: <CAMFSARdg=p71wWoUT4G8E87bLNvxQ-JhaLbeAL6D0aUfAs-jUg@mail.gmail.com>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Mon, 28 Apr 2025 09:24:08 -0700
+X-Gm-Features: ATxdqUHQarXuxCaiWX4uFxpbdmPmqgWPPrC_naZwTg8naWtVoPfxvgrCj4bzKVU
+Message-ID: <CANFp7mWQPy2z1dWtHSw1uzMnUCcRJfaqJvGayyjmEvVjnM3KXQ@mail.gmail.com>
 Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Set Pin Assignment E in
  DP PORT VDO
 To: Benson Leung <bleung@chromium.org>
-Cc: abhishekpandit@chromium.org, akuchynski@chromium.org, tzungbi@kernel.org, 
+Cc: jthies@google.com, akuchynski@chromium.org, tzungbi@kernel.org, 
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	sukoo@google.com, bleung@google.com
 Content-Type: text/plain; charset="UTF-8"
@@ -94,5 +91,33 @@ ed
 > pin assignment between the DFP_D and UFP_D.
 >
 > Signed-off-by: Benson Leung <bleung@chromium.org>
+> ---
+>  drivers/platform/chrome/cros_ec_typec.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
+hrome/cros_ec_typec.c
+> index d2228720991f..7678e3d05fd3 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -22,8 +22,10 @@
+>
+>  #define DRV_NAME "cros-ec-typec"
+>
+> -#define DP_PORT_VDO    (DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | BI=
+T(DP_PIN_ASSIGN_D)) | \
+> -                               DP_CAP_DFP_D | DP_CAP_RECEPTACLE)
+> +#define DP_PORT_VDO    (DP_CAP_DFP_D | DP_CAP_RECEPTACLE | \
+> +                        DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | \
+> +                                               BIT(DP_PIN_ASSIGN_D) | \
+> +                                               BIT(DP_PIN_ASSIGN_E)))
+>
+>  static void cros_typec_role_switch_quirk(struct fwnode_handle *fwnode)
+>  {
+> --
+> 2.49.0.850.g28803427d3-goog
+>
 
-Reviewed-by: Jameson Thies <jthies@google.com>
+Please add a Fixes: dbb3fc0ffa95788e00e50ffc6501eb0085d48231
+
+Reviewed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>

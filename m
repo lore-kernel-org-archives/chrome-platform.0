@@ -1,483 +1,176 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61C2225405
-	for <chrome-platform@lists.linux.dev>; Tue, 29 Apr 2025 21:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FF126982C
+	for <chrome-platform@lists.linux.dev>; Tue, 29 Apr 2025 21:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745961614; cv=none; b=nbt/5m7nIPWx3fLH46l/VwF3XinIi2dA977+4ygryD7ailLft4sIEEjYbawNGYlWb6TVtU4hw8rxkvNfjZUS172c/tGvjrMO7RmLVfMY8tHVI8DQtu410DZiMJNHKHLcKC8TsE648AtvVkTPf6vXn5ev5x2tbmQ1U4RXH1bjnDg=
+	t=1745963851; cv=none; b=tRrRKSPrD4Wmv0fjQzHOpL1GZVdZI0AE0IwhbbmiAIOZbyyB6aXithmJqizze7GJ1AliHidqy2LQFrmng1p4f4OkETigiTJwO7i6YXWFbkWpAV9KcUWe1I/lQvZzDtf15LE7aqxN1aAena2BriacwUf+ueZyCmS9T2rmR5e7CuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745961614; c=relaxed/simple;
-	bh=uJA16nsmFtrmgH1snHdvyCULE5oo8eqL1HO3uC+695Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FZuRczmDJdNjz8dKugvhOZLtIvKNa27Fh3Y0KHdXYZklWPUfvL+Wk+ZcEDS706FN7EwgNFxb7oZGD2B6vc9em7hyEqQNsDArpo7ykDBJH7XDzMDbs7PXjd2wVfayBpBWhsvOs6b/Te61y7vuZj1C8soV8NqFLhX1PL6JpRRP0t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ZJDA1SBs; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1745963851; c=relaxed/simple;
+	bh=1P+KqJCl+BT8ecP/xdKBgPfjI1+DmDlsxbMLuEAGIAo=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r4gzpH/f3IPrFM8Uxc2Kel7cX4h7iMAHDp23wt4uby2a6MD1cHNvKrVe/atwpEmcUtXL8IcaioJ21YLvoH8o1gIdCGrz9QDV5FVwebqqXg7FpL3KziFKAXEfs7Ac1n8ZzlffcufAKYFlRirUyHVGjPVW8Ah1FWmqmheDopX/WEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lvUmovce; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ZJDA1SBs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1745961609;
-	bh=uJA16nsmFtrmgH1snHdvyCULE5oo8eqL1HO3uC+695Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZJDA1SBsYujInhG3a+UhwE+aZSO+1/fjSu98FBc9DpBNS+a86poBblqBEd+wvFQsV
-	 /Q1FyE/cuc02yjK5VBZD/a/2/X8wc3XEtj4V1szHKTgle4OJ/sWZ7H3LcPKRphyV+V
-	 cr9PL54sq4D9emAwM5cBeG2swbPSisIbe1TzUV8I=
-Date: Tue, 29 Apr 2025 23:20:09 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: lschyi@chromium.org
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Sung-Chi Li <lschyi@google.com>
-Subject: Re: [PATCH 2/3] hwmon: (cros_ec) add PWM control over fans
-Message-ID: <0933ec48-9a4b-49d0-8670-50b6ff6433f5@t-8ch.de>
-References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
- <20250429-cros_ec_fan-v1-2-a8d9e3efbb1a@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lvUmovce"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6e8fce04655so70081196d6.3
+        for <chrome-platform@lists.linux.dev>; Tue, 29 Apr 2025 14:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1745963848; x=1746568648; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gq+kwZN/MyVZc1uW7z6nPFptfAEWXYUqK/icC7+T8p0=;
+        b=lvUmovce/kkKMBOaJAK/O8F5l54bLBVFfDnF51UPO+jKM41sRj7AmOCVHruSnpDf8X
+         Jw25y098ZH74UDTLieuETFQ7sF6uJBSJ9IG6qn/PVVR/1GiiKjqMBiXULWjFKbPHYcMP
+         RmOt7ODwgnwU6T8YWOxt6F5G1pTJjUFS9kR6o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745963848; x=1746568648;
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gq+kwZN/MyVZc1uW7z6nPFptfAEWXYUqK/icC7+T8p0=;
+        b=BJuFeH1tOwIEDsQ6f5EA7P920FzPEUKjxWnpdUQg0EwDoIsTZbzvPfJkhy9Qf/8Lkt
+         VAPjq9E2tD7Y/935yOOldFcwPWmEvHAPLPk5+VaE3xQrJlsGvga6qNh/CopPZPyu6LEq
+         tuTdl4qQgogmMmchCW3DaPyeKS9uBBXeJ3XQtbZnFA4k6bCqzS5x7wZB56FLAIWsA3O9
+         Zaf0/dR4GzJNOydDcoye3F97Cu9lp5QVtpNbmtUZUdMFgVwQK8PIbxfuGYSa0S5tgZcg
+         y08MNlDE1ZhiK7vJJuOfHpgvykCW+cUUsCMDYIUEvELxPYZrIBYyWf7HPdEjVqTzKnDG
+         2hjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRW3JkDoFptCUS2fcaxToBJ5rr2N4V7TERXGs5Ptsotnmlz19iiBXuE0u4h4NX6GRIHySz9e1jAk3pk2rKedc=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw5kGMKqjM3i2L9BRyPHuF3tu8YNK1/xbe4bo5zyzu/WBGjYJgP
+	gh9ZP71V1yKmCoDAYnNztKDinTpZADNhTMi56s2H5cz3QXPxtTRwD2ROHcM2r1M9FBoedMG7pVg
+	2zBPLAMjbW2rlsacfSlKjkMjASgrWMZ5ODfF8
+X-Gm-Gg: ASbGncsWcbsMOo5ZJxq+jKHAkzpu/T6n9+DnpF/jnr8t5lCPC2xboBY4SHsOcL0quhH
+	lqromtsjiwrdgo2GDAnVCKKGfDM9F4kL+o1tJUNvF5zf4gVLZ721yXyI5sUbYmjH/hHHFpmMPAM
+	UCAuYvG0odKF694nq96U7NHE4+FzjcV+W9DziEWOm0XKATOHQqzQ==
+X-Google-Smtp-Source: AGHT+IGFRFcmj203HgxtSiaafsTGGAnI40IQFnCG9K6ptPppPzLUX6brI2DPTkwS2p0VSLmxrTrYIiPhDp6xRk6AwAw=
+X-Received: by 2002:a05:6214:e8e:b0:6f2:d25e:8d17 with SMTP id
+ 6a1803df08f44-6f4fced985cmr17148876d6.21.1745963848451; Tue, 29 Apr 2025
+ 14:57:28 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 29 Apr 2025 14:57:27 -0700
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 29 Apr 2025 14:57:27 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250429-cros_ec_fan-v1-2-a8d9e3efbb1a@chromium.org>
+In-Reply-To: <npnpujjfonvzhf5c4upgajhx6hu5uqmerewmbqprvl7a3xrqgm@datubwgyucby>
+References: <20250416000208.3568635-1-swboyd@chromium.org> <20250416000208.3568635-7-swboyd@chromium.org>
+ <npnpujjfonvzhf5c4upgajhx6hu5uqmerewmbqprvl7a3xrqgm@datubwgyucby>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.12.dev8+g17a99a841c4b
+Date: Tue, 29 Apr 2025 14:57:27 -0700
+X-Gm-Features: ATxdqUHSfTHDCNbiMAyib_Rr1yPvdu5LV1ChItCTDCW7J5DkmOrjGVP9y9dJHm0
+Message-ID: <CAE-0n51eQns8ifUzc36FNSSQJ7WFd_8hZ3JnNcFvgrTrvqRhow@mail.gmail.com>
+Subject: Re: [PATCH 6/7] platform/chrome: cros_ec_typec: Add support for DP
+ altmode via drm_bridge
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, devicetree@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, linux-arm-msm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev, 
+	Pin-yen Lin <treapking@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>, 
+	Jameson Thies <jthies@google.com>, Andrei Kuchynski <akuchynski@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2025-04-29 16:14:22+0800, Sung-Chi Li via B4 Relay wrote:
-> From: Sung-Chi Li <lschyi@chromium.org>
-> 
-> Newer EC firmware supports controlling fans through host commands, so
-> adding corresponding implementations for controlling these fans in the
-> driver for other kernel services and userspace to control them.
-> 
-> The driver will first probe the supported host command versions (get and
-> set of fan PWM values, get and set of fan control mode) to see if the
-> connected EC fulfills the requirements of controlling the fan, then
-> exposes corresponding sysfs nodes for userspace to control the fan with
-> corresponding read and write implementations.
-> As EC will automatically change the fan mode to auto when the device is
-> suspended, the power management hooks are added as well to keep the fan
-> control mode and fan PWM value consistent during suspend and resume. As
-> we need to access the hwmon device in the power management hook, update
-> the driver by storing the hwmon device in the driver data as well.
-> 
-> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-> ---
->  Documentation/hwmon/cros_ec_hwmon.rst |   5 +-
->  drivers/hwmon/cros_ec_hwmon.c         | 237 +++++++++++++++++++++++++++++++++-
->  2 files changed, 237 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
-> index 47ecae983bdbef4bfcafc5dd2fff3de039f77f8e..5b802be120438732529c3d25b1afa8b4ee353305 100644
-> --- a/Documentation/hwmon/cros_ec_hwmon.rst
-> +++ b/Documentation/hwmon/cros_ec_hwmon.rst
-> @@ -23,4 +23,7 @@ ChromeOS embedded controller used in Chromebooks and other devices.
->  
->  The channel labels exposed via hwmon are retrieved from the EC itself.
->  
-> -Fan and temperature readings are supported.
-> +Fan and temperature readings are supported. PWM fan control is also supported if
-> +the EC also supports setting fan PWM values and fan mode. Note that EC will
-> +switch fan control mode back to auto when suspended. This driver will restore
-> +the fan state before suspended.
-> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-> index 9991c3fa020ac859cbbff29dfb669e53248df885..1139074d3eb003ee72bbe54a954647ced40f6d21 100644
-> --- a/drivers/hwmon/cros_ec_hwmon.c
-> +++ b/drivers/hwmon/cros_ec_hwmon.c
-> @@ -17,10 +17,17 @@
->  
->  #define DRV_NAME	"cros-ec-hwmon"
->  
-> +struct cros_ec_hwmon_platform_priv {
-> +	struct device *hwmon_dev;
-> +};
+Quoting Dmitry Baryshkov (2025-04-24 03:51:17)
+> > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+> > index 2cbe29f08064..27324cf0c0c6 100644
+> > --- a/drivers/platform/chrome/cros_ec_typec.c
+> > +++ b/drivers/platform/chrome/cros_ec_typec.c
+> > @@ -337,6 +340,9 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+> >       u32 port_num = 0;
+> >
+> >       nports = device_get_child_node_count(dev);
+> > +     /* Don't count any 'ports' child node */
+> > +     if (of_graph_is_present(dev->of_node))
+> > +             nports--;
+>
+> Should this be a separate commit?
+>
+> >       if (nports == 0) {
+> >               dev_err(dev, "No port entries found.\n");
+> >               return -ENODEV;
+> > @@ -350,6 +356,10 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+> >       /* DT uses "reg" to specify port number. */
+> >       port_prop = dev->of_node ? "reg" : "port-number";
+> >       device_for_each_child_node(dev, fwnode) {
+> > +             /* An OF graph isn't a connector */
+> > +             if (fwnode_name_eq(fwnode, "ports"))
+> > +                     continue;
+> > +
+>
+> ... together with this chunk.
 
-This indirection is unnecessary and only introduces a bunch of churn.
+I check for the of_graph being present below. It's all sorta related.
 
-> +
->  struct cros_ec_hwmon_priv {
->  	struct cros_ec_device *cros_ec;
->  	const char *temp_sensor_names[EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SENSOR_B_ENTRIES];
->  	u8 usable_fans;
-> +	bool fan_control_supported;
-> +	u8 manual_fans; /* bits to indicate whether the fan is set to manual */
-> +	u8 manual_fan_pwm_values[EC_FAN_SPEED_ENTRIES];
->  };
->  
->  static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
-> @@ -36,6 +43,51 @@ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index
->  	return 0;
->  }
->  
-> +static int cros_ec_hwmon_read_pwm_raw_value(struct cros_ec_device *cros_ec,
-> +					    u8 index, u8 *pwm_value)
-> +{
-> +	struct ec_params_pwm_get_fan_duty req = {
-> +		.fan_idx = index,
-> +	};
-> +	struct ec_response_pwm_get_fan_duty resp;
-> +	int ret = cros_ec_cmd(cros_ec, 0, EC_CMD_PWM_GET_FAN_DUTY, &req,
-> +			      sizeof(req), &resp, sizeof(resp));
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*pwm_value = (u8)(le32_to_cpu(resp.percent));
+>
+> >               if (fwnode_property_read_u32(fwnode, port_prop, &port_num)) {
+> >                       ret = -EINVAL;
+> >                       dev_err(dev, "No port-number for port, aborting.\n");
+> > @@ -417,6 +427,42 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+> >       return ret;
+> >  }
+> >
+> > +static int cros_typec_dp_bridge_attach(struct drm_bridge *bridge,
+> > +                                    enum drm_bridge_attach_flags flags)
+> > +{
+> > +     return flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR ? 0 : -EINVAL;
+> > +}
+> > +
+> > +static const struct drm_bridge_funcs cros_typec_dp_bridge_funcs = {
+> > +     .attach = cros_typec_dp_bridge_attach,
+> > +};
+> > +
+> > +static int cros_typec_init_dp_bridge(struct cros_typec_data *typec)
+> > +{
+> > +     struct device *dev = typec->dev;
+> > +     struct cros_typec_dp_bridge *dp_bridge;
+> > +     struct drm_bridge *bridge;
+> > +     struct device_node *np = dev->of_node;
+> > +
+> > +     /* Not capable of DP altmode switching. Ignore. */
+> > +     if (!of_graph_is_present(np))
+> > +             return 0;
+> > +
+> > +     dp_bridge = devm_kzalloc(dev, sizeof(*dp_bridge), GFP_KERNEL);
+> > +     if (!dp_bridge)
+> > +             return -ENOMEM;
+> > +     typec->dp_bridge = dp_bridge;
+> > +
+> > +     bridge = &dp_bridge->bridge;
+> > +     bridge->funcs = &cros_typec_dp_bridge_funcs;
+> > +     bridge->of_node = np;
+> > +     bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
+> > +     if (!device_property_read_bool(dev, "no-hpd"))
+> > +             bridge->ops |= DRM_BRIDGE_OP_HPD;
+> > +
+> > +     return devm_drm_bridge_add(dev, bridge);
+>
+> Could you please use aux-hpd-bridge instead?
 
-Weird choice to store a percentage in a u32.
+I can extend that to call some function when hpd changes. If I make a
+device node for the mux and the TCPCs then it may be possible to push
+everything into aux-hpd-bridge and use it for all three of them.
 
-> +	return 0;
-> +}
-> +
-> +static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec,
-> +					u8 index, u8 *pwm_value)
-> +{
-> +	int ret = cros_ec_hwmon_read_pwm_raw_value(cros_ec, index, pwm_value);
+>
+> BTW: what is the usecase for the no-hpd handling here?
+>
 
-The _raw_ function is unnecessary.
-
-> +
-> +	if (ret == 0)
-> +		*pwm_value = *pwm_value * 255 / 100;
-> +	return ret;
-> +}
-> +
-> +static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec,
-> +					 u8 index, u8 *control_method)
-> +{
-> +	struct ec_params_auto_fan_ctrl_v2 req = {
-> +		.fan_idx = index,
-> +		.cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
-> +	};
-> +	struct ec_response_auto_fan_control resp;
-> +	int ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
-> +			      sizeof(req), &resp, sizeof(resp));
-
-Keep &foo and sizeof(foo) together on the same line please.
-
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*control_method = (resp.is_auto) ? 2 : 1;
-
-No need for braces.
-
-> +	return 0;
-> +}
-> +
->  static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
->  {
->  	unsigned int offset;
-> @@ -76,6 +128,8 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
->  	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
->  	int ret = -EOPNOTSUPP;
->  	u16 speed;
-> +	u8 pwm_value;
-> +	u8 control_method;
-
-These lines were sorted.
-
->  	u8 temp;
->  
->  	if (type == hwmon_fan) {
-> @@ -92,6 +146,18 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
->  			if (ret == 0)
->  				*val = cros_ec_hwmon_is_error_fan(speed);
->  		}
-> +	} else if (type == hwmon_pwm) {
-> +		if (attr == hwmon_pwm_enable) {
-> +			ret = cros_ec_hwmon_read_pwm_enable(
-> +				priv->cros_ec, channel, &control_method);
-> +			if (ret == 0)
-> +				*val = control_method;
-> +		} else if (attr == hwmon_pwm_input) {
-> +			ret = cros_ec_hwmon_read_pwm_value(priv->cros_ec,
-> +							   channel, &pwm_value);
-> +			if (ret == 0)
-> +				*val = pwm_value;
-> +		}
->  	} else if (type == hwmon_temp) {
->  		if (attr == hwmon_temp_input) {
->  			ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
-> @@ -124,6 +190,97 @@ static int cros_ec_hwmon_read_string(struct device *dev, enum hwmon_sensor_types
->  	return -EOPNOTSUPP;
->  }
->  
-> +static int cros_ec_hwmon_write_pwm_value(struct cros_ec_device *cros_ec,
-> +					     u8 index, u8 val)
-> +{
-> +	struct ec_params_pwm_set_fan_duty_v1 req = {
-> +		.percent = val,
-> +		.fan_idx = index,
-> +	};
-> +	int ret = cros_ec_cmd(cros_ec, 1, EC_CMD_PWM_SET_FAN_DUTY, &req,
-> +			      sizeof(req), NULL, 0);
-
-Declare "int ret" above.
-
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +	return 0;
-> +}
-> +
-> +static int cros_ec_hwmon_set_pwm_raw_value(struct cros_ec_hwmon_priv *priv,
-> +					   u8 index, u8 val)
-> +{
-> +	int ret;
-> +
-> +	if (!(priv->manual_fans & BIT(index)))
-> +		return -ECANCELED;
-
-Weird error code.
-
-> +
-> +	ret = cros_ec_hwmon_write_pwm_value(priv->cros_ec, index, val);
-> +	if (ret == 0)
-> +		priv->manual_fan_pwm_values[index] = val;
-> +	return ret;
-> +}
-> +
-> +static int cros_ec_hwmon_set_pwm_value(struct cros_ec_hwmon_priv *priv,
-> +				       u8 index, u8 val)
-> +{
-> +	return cros_ec_hwmon_set_pwm_raw_value(priv, index,
-> +					       (((uint32_t)val) * 100 / 255));
-
-Use DIV_ROUND_CLOSEST() for division.
-
-> +}
-> +
-> +static int cros_ec_hwmon_write_pwm_enable(struct cros_ec_device *cros_ec,
-> +					  u8 index, u8 val)
-> +{
-> +	struct ec_params_auto_fan_ctrl_v2 req = {
-> +		.fan_idx = index,
-> +		.cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
-
-Swap the two lines above.
-
-> +	};
-> +	int ret;
-> +
-> +	/* No CROS EC supports no fan speed control */
-> +	if (val == 0)
-> +		return -EOPNOTSUPP;
-> +
-> +	req.set_auto = (val != 1) ? true : false;
-> +	ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
-> +			  sizeof(req), NULL, 0);
-
-Use a full 100 columns.
-
-> +	if (ret < 0)
-> +		return ret;
-> +	return 0;
-> +}
-> +
-> +static int cros_ec_hwmon_set_pwm_control_method(struct cros_ec_hwmon_priv *priv,
-> +						u8 index, u8 val)
-> +{
-> +	int ret = cros_ec_hwmon_write_pwm_enable(priv->cros_ec, index, val);
-> +
-> +	if (ret == 0) {
-> +		if (val == 1)
-> +			priv->manual_fans |= BIT(index);
-> +		else
-> +			priv->manual_fans &= ~BIT(index);
-> +	}
-> +	return ret;
-> +}
-> +
-> +static int cros_ec_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
-> +			       u32 attr, int channel, long val)
-> +{
-> +	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-> +
-> +	if (type == hwmon_pwm) {
-> +		switch (attr) {
-> +		case hwmon_pwm_input:
-> +			return cros_ec_hwmon_set_pwm_value(priv, channel, val);
-> +		case hwmon_pwm_enable:
-> +			return cros_ec_hwmon_set_pwm_control_method(
-> +				priv, channel, val);
-
-Given that these function directly implement the hwmon ABI the names
-should match:
-cros_ec_hwmon_write_pwm_input()
-cros_ec_hwmon_write_pwn_enable()
-
-Also 100 columns. And everywhere else.
-
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	}
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
->  static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
->  					u32 attr, int channel)
->  {
-> @@ -132,6 +289,9 @@ static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_type
->  	if (type == hwmon_fan) {
->  		if (priv->usable_fans & BIT(channel))
->  			return 0444;
-> +	} else if (type == hwmon_pwm && priv->fan_control_supported) {
-> +		if (priv->usable_fans & BIT(channel))
-
-Move the test for priv->fan_control_supported into the inner if().
-
-> +			return 0644;
->  	} else if (type == hwmon_temp) {
->  		if (priv->temp_sensor_names[channel])
->  			return 0444;
-> @@ -147,6 +307,11 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
->  			   HWMON_F_INPUT | HWMON_F_FAULT,
->  			   HWMON_F_INPUT | HWMON_F_FAULT,
->  			   HWMON_F_INPUT | HWMON_F_FAULT),
-> +	HWMON_CHANNEL_INFO(pwm,
-> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
->  	HWMON_CHANNEL_INFO(temp,
->  			   HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL,
->  			   HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL,
-> @@ -178,6 +343,7 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
->  static const struct hwmon_ops cros_ec_hwmon_ops = {
->  	.read = cros_ec_hwmon_read,
->  	.read_string = cros_ec_hwmon_read_string,
-> +	.write = cros_ec_hwmon_write,
->  	.is_visible = cros_ec_hwmon_is_visible,
->  };
->  
-> @@ -233,13 +399,35 @@ static void cros_ec_hwmon_probe_fans(struct cros_ec_hwmon_priv *priv)
->  	}
->  }
->  
-> +static void
-> +cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_hwmon_priv *priv)
-> +{
-
-Would look nicer by returning the result as bool.
-
-> +	int ret;
-> +
-> +	priv->fan_control_supported = false;
-> +
-> +	ret = cros_ec_get_cmd_versions(priv->cros_ec, EC_CMD_PWM_GET_FAN_DUTY);
-> +	if (ret < 0 || !(ret & EC_VER_MASK(0)))
-
-Given that these versions are used in multiple places, a #define would
-be good.
-
-> +		return;
-> +
-> +	ret = cros_ec_get_cmd_versions(priv->cros_ec, EC_CMD_PWM_SET_FAN_DUTY);
-> +	if (ret < 0 || !(ret & EC_VER_MASK(1)))
-> +		return;
-> +
-> +	ret = cros_ec_get_cmd_versions(priv->cros_ec, EC_CMD_THERMAL_AUTO_FAN_CTRL);
-> +	if (ret < 0 || !(ret & EC_VER_MASK(2)))
-> +		return;
-> +
-> +	priv->fan_control_supported = true;
-> +}
-> +
->  static int cros_ec_hwmon_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
->  	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
->  	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
-> +	struct cros_ec_hwmon_platform_priv *platform_priv;
->  	struct cros_ec_hwmon_priv *priv;
-> -	struct device *hwmon_dev;
->  	u8 thermal_version;
->  	int ret;
->  
-> @@ -251,6 +439,10 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
->  	if (thermal_version == 0)
->  		return -ENODEV;
->  
-> +	platform_priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!platform_priv)
-> +		return -ENOMEM;
-> +
->  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->  	if (!priv)
->  		return -ENOMEM;
-> @@ -259,11 +451,47 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
->  
->  	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
->  	cros_ec_hwmon_probe_fans(priv);
-> +	cros_ec_hwmon_probe_fan_control_supported(priv);
->  
-> -	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
-> -							 &cros_ec_hwmon_chip_info, NULL);
-> +	platform_priv->hwmon_dev = devm_hwmon_device_register_with_info(
-> +		dev, "cros_ec", priv, &cros_ec_hwmon_chip_info, NULL);
-> +	dev_set_drvdata(dev, platform_priv);
-
-platform_set_drvdata()/platform_get_drvdata()
-
-> -	return PTR_ERR_OR_ZERO(hwmon_dev);
-> +	return PTR_ERR_OR_ZERO(platform_priv->hwmon_dev);
-> +}
-> +
-> +static int cros_ec_hwmon_resume(struct platform_device *pdev)
-> +{
-> +	const struct cros_ec_hwmon_platform_priv *platform_priv =
-> +		dev_get_drvdata(&pdev->dev);
-> +	const struct cros_ec_hwmon_priv *priv =
-> +		dev_get_drvdata(platform_priv->hwmon_dev);
-> +	size_t i;
-> +	int ret;
-> +
-> +	if (!priv->fan_control_supported)
-> +		return 0;
-> +
-> +	/*
-> +	 * EC sets fan control to auto after suspended, restore settings to
-> +	 * before suspended.
-> +	 */
-> +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-> +		if (!(priv->manual_fans & BIT(i)))
-> +			continue;
-
-Given that we can read the actual state from the EC I'd prefer to read
-it back and store it during suspend() instead of storing it during write().
-
-> +
-> +		/*
-> +		 * Setting fan PWM value to EC will change the mode to manual
-> +		 * for that fan in EC as well, so we do not need to issue a
-> +		 * separate fan mode to manual call.
-> +		 */
-> +		ret = cros_ec_hwmon_write_pwm_value(
-> +			priv->cros_ec, i, priv->manual_fan_pwm_values[i]);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
->  }
->  
->  static const struct platform_device_id cros_ec_hwmon_id[] = {
-> @@ -274,6 +502,7 @@ static const struct platform_device_id cros_ec_hwmon_id[] = {
->  static struct platform_driver cros_ec_hwmon_driver = {
->  	.driver.name	= DRV_NAME,
->  	.probe		= cros_ec_hwmon_probe,
-> +	.resume		= cros_ec_hwmon_resume,
->  	.id_table	= cros_ec_hwmon_id,
->  };
->  module_platform_driver(cros_ec_hwmon_driver);
-> 
-> -- 
-> 2.49.0.901.g37484f566f-goog
-> 
-> 
+Looks like you figured it out. I want to capture the HPD state so I can
+then go read the EC mux to figure out which way the mux is pointing. On
+trogdor the EC doesn't tell us which typec port has HPD asserted so we
+snoop the HPD state from the drm_bridge, read the mux when HPD changes,
+and pick the right typec port while also injecting HPD into the state of
+the port. The no-hpd property is used on Trogdor to indicate that the
+bridge in the EC doesn't signal HPD properly, ensuring the previous
+bridge handles the HPD detection.

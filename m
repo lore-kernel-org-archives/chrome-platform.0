@@ -1,75 +1,71 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E9E267714
-	for <chrome-platform@lists.linux.dev>; Tue, 29 Apr 2025 20:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC8118FC80
+	for <chrome-platform@lists.linux.dev>; Tue, 29 Apr 2025 20:45:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745959102; cv=none; b=pczDOKc7e9HGaxlo0rIbroQnXhITwtOEsC4hI6QBgB0LZTgoqyKPOCGBCux9h9hTTqgaQry0TkY9UilZzkkqymRXB/W2E0GR5O9lKY4cTlp5D6DG5vpty9/25OIP0VFtiVNnjspqrlqaZVWbNoviuHLe3W3uJxbdXsrdtJJnF9Y=
+	t=1745959562; cv=none; b=oU9KCY8UXx8CWkZAprO4CUJ8C1VtYKlqf/Ku9z1avH/8l0YyLzf97zsy7hkv5zXfJlG3+9uvbRw7Rp0qpoGyetUakbiZ/WNrFFVkl2MCV5v2VsLNgiuAmWF4K/gVI3YbzukOP6HW13GmDADs8ItFG/TMBstEmNLZLQltttWWexA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745959102; c=relaxed/simple;
-	bh=/eWBP36b0R6vQ02TvTg1IX/OQuDQ0fjODeXqIrCufOQ=;
+	s=arc-20240116; t=1745959562; c=relaxed/simple;
+	bh=0d3Da3N8ZlAqzjT7Tmz22/qVhMH8FcXsMN1un2i+TfI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s2Yyz4fQ90UYNY2V0hbIO/CHLSFrJ1HBr96duq+93GIyATYm5Uwnhd5YIwg821gjJo149764Nbtj002Wz8mDKXt0YY5E2K2CvBeAIWffp74mgYI+ERxV1kQ3yu4+eTmKZY/bnFPFFBZo/dg211ZHVgmNv76LEzsa9L8Up03vVBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=F1KxhSkH; arc=none smtp.client-ip=159.69.126.157
+	 Content-Type:Content-Disposition:In-Reply-To; b=K6oP/Euuk84QZmrGXpwneSbDG9g0eFcM5m7UtKLM4Ai14PLZIUEgnR20zfFtGx4VTNX/jMZYwp9hoiYnCbyX5SKer2+YBf8838qBNMLq03v4VSGFlHuMYuSiiI/owxwYWaHAvbwZKF6vbmDHJdSD4+iA0kTVeLIawBcDbHXS3g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=SJ4clfS2; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="F1KxhSkH"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="SJ4clfS2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1745959097;
-	bh=/eWBP36b0R6vQ02TvTg1IX/OQuDQ0fjODeXqIrCufOQ=;
+	s=mail; t=1745959557;
+	bh=0d3Da3N8ZlAqzjT7Tmz22/qVhMH8FcXsMN1un2i+TfI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F1KxhSkHutUmilajknwg+FUaRBHlfgi8EAHlRtfKQGWf4PPdvz/xb+5FHc0rtJX5r
-	 BvZDkqwQjhQfiBo6mdBeRICLEyXGOTgDD5K5t9cNcrnuOQ6Gzqo/UupaO+GpKuHeSX
-	 kILIEEc3GwPenxaL5E7k3mDevKdS/D/jGQPld0x0=
-Date: Tue, 29 Apr 2025 22:38:16 +0200
+	b=SJ4clfS2AgzLkxhudmIaxZf7PrNwF499USl1sm0+CrzfYyuC4jqyj7POcR9DSuOva
+	 AtskzTlKcuBxVEHGkxCVzFkDl+yaT3TfdK3oswoIwrDJu202llsD/n3HWzC2mdYXWO
+	 tBQP7jzEQlf4pf5r52xpPRBrXktNihJGX14p8oVs=
+Date: Tue, 29 Apr 2025 22:45:56 +0200
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: lschyi@chromium.org
 Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Sebastian Reichel <sre@kernel.org>, 
-	chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2][next] power: supply: cros_charge-control: Avoid
- -Wflex-array-member-not-at-end warning
-Message-ID: <f920aa2d-b180-4532-bd29-d8740883617f@t-8ch.de>
-References: <aBEwnKtUOTYzS7C3@kspp>
+	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Sung-Chi Li <lschyi@google.com>
+Subject: Re: [PATCH 3/3] hwmon: (cros_ec) register fans into thermal
+ framework cooling devices
+Message-ID: <ec2f7e54-0582-475d-af91-42d9be65cd3e@t-8ch.de>
+References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
+ <20250429-cros_ec_fan-v1-3-a8d9e3efbb1a@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aBEwnKtUOTYzS7C3@kspp>
+In-Reply-To: <20250429-cros_ec_fan-v1-3-a8d9e3efbb1a@chromium.org>
 
-On 2025-04-29 14:03:40-0600, Gustavo A. R. Silva wrote:
-> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-> getting ready to enable it, globally.
+On 2025-04-29 16:14:23+0800, Sung-Chi Li via B4 Relay wrote:
+> From: Sung-Chi Li <lschyi@chromium.org>
 > 
-> Replace an on-stack definition of a flexible structure with a call
-> to utility function cros_ec_cmd().
+> Register fans connected under EC as thermal cooling devices as well, so
+> these fans can then work with the thermal framework.
 > 
-> So, with these changes, fix the following warning:
-> 
-> drivers/power/supply/cros_charge-control.c:57:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> During the driver probing phase, we will also try to register each fan
+> as a thermal cooling device based on previous probe result (whether the
+> there are fans connected on that channel, and whether EC supports fan
+> control). The basic get max state, get current state, and set current
+> state methods are then implemented as well.
 
-Thanks,
+There is also HWMON_C_REGISTER_TZ, however it depends on OF.
+But this patch looks very generic, so maybe it makes sense to implement
+it in the hwmon core.
 
-Acked-by: Thomas Weißschuh <linux@weissschuh.net>
-
+> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
 > ---
-> Changes in v2:
->  - Use utility function cros_ec_cmd() instead of DEFINE_RAW_FLEX(). (Thomas Weißschuh)
-> 
-> v1:
->  - Link: https://lore.kernel.org/linux-hardening/aBEmk6ixfrQ2XpTw@kspp/
-> 
->  drivers/power/supply/cros_charge-control.c | 23 +++++++---------------
->  1 file changed, 7 insertions(+), 16 deletions(-)
+>  Documentation/hwmon/cros_ec_hwmon.rst |  2 +
+>  drivers/hwmon/cros_ec_hwmon.c         | 72 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 74 insertions(+)
 
 <snip>

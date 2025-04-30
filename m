@@ -1,230 +1,138 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DD77FBA2;
-	Wed, 30 Apr 2025 08:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B2A2101A0
+	for <chrome-platform@lists.linux.dev>; Wed, 30 Apr 2025 08:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746001326; cv=none; b=czSw/hoGpaC+/pFPz0OXmwQ6lmBB6+hWS7RexOTMIF4sDIpQJjXDBVV0gse6lEKPSi9s+0vLhe+aLXwybHdzJMben3fXVK1rs9PLWGNAwWiXkyo6SfJROJQqSehXR8Jfym8vK4TKO46rHkZXr6LPqottqgVoxwDGK5uD+zQIAks=
+	t=1746003429; cv=none; b=NSudDfTPWXNIiNFO0BCGFpBdSdk4Yes6/Kb5O/jRSzEHyZOABZ7KPt8thz0Ym7LhvMKjcUiQliJHOQpDUWoydKvPEWlreOa/NPU9HKeIiP9ndZVPge3HYkuPIq6pSYSmyHuiSOt1bcRKPx7jpDOIjzjWVOEHyw4nSKxSTpP0yyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746001326; c=relaxed/simple;
-	bh=bkXUjUHUjfjkSgSAJnBnwipo9etTI7QDGXD4r4v6PA4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U79f8LTAx0ORRaR8ug5PL46alTEY6BAf1ymilVJHLP6pn4RVgiOIxyU7w1A+bWNXID37Ql0pV07NM6vt4VyyWHsyW37re4+qjoBsb+lfKOq7zlOyVcm4K07mLSQbJJ2i3DL0VJK7yTz+ay5pU2FrrswTczJ8TE+v4KeXm8DBels=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JAa4P8o/; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1746003429; c=relaxed/simple;
+	bh=HmpObSFeO5UPNf7n0OOoutsgQy3EA21CQ+IzvXSYVJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aUEBeUNL62LzNubMtiptR9jjpTFIdIonxmw3Ct9GT56NbcNOYVVxik2R9ODehKJBO3dUDoXprIqWag+zh3M8iTXaB4o/rvB6tTMB9LcDCh6PaXCuZrx35WWNduCkbnJ5siRRqC5OrT/WQatT/+ycbXybKCERjHtdLPHhqO0S4zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j2tsedHj; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JAa4P8o/"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F39494397A;
-	Wed, 30 Apr 2025 08:21:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746001320;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8S26NF1v3iypfP0XSKYqSPQIsQrNeQIbgRwNHSDOyE0=;
-	b=JAa4P8o/u+lfsicxaXUwTMETTwEqWM2BewUYcocpK5x3llu8h3r6gTCqmCkQG8nXuI4ign
-	jzvMo8LpkTRnnDdVdKW+ye5AepxO+30XVXD8Zr7FaRtg0UDTk8WISWzQEzaVB/0gXhU1nu
-	NVfoiMYz72aC6t1lc+Wdx9jUJA+6rrMA2LR+zOevmOH/s1ESREScUizIqRp6ys7W8HPpwJ
-	db0rliMFs22Ggw5CeV0/Zbrvwd6Wtvuzw/Sh2o+6kyc6p3qFButSz8tlO6Yvr+r3u3v1Uf
-	8iU1NtpDEBV4eXDE6gynksvcx5phnRe51EKABGpXkcojKxtGlTr+EyVBVWvc7Q==
-Message-ID: <efcf3798-9ac1-42a7-8a12-24d931cbf771@bootlin.com>
-Date: Wed, 30 Apr 2025 10:21:48 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j2tsedHj"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-39c0dfad22aso5425291f8f.2
+        for <chrome-platform@lists.linux.dev>; Wed, 30 Apr 2025 01:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746003425; x=1746608225; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vsX5iZ0Xf1hk18vldFSG+c7ZzQ/lrYQmQz9RDMkRt9Q=;
+        b=j2tsedHjDsLKWGXGimp0K4qVLGjlNLA/xs19LlIw1WM+t6H7E0ZOVxhq06fESqYHzH
+         ByLB3K0qyqyiAo3cIWJbrw/3PsgsfLxYIA7vqmQMYDVq7ZiYXBTCZoxfCM0bP4MxYccc
+         Hk6sA6p+7jBQ+OXULojXBhSiT+A6WNaNHbCumldSXPj6cXkQtunYenavhEVL9uyq1v83
+         C1nzYhuJf8LZxIFxSgm0LxS3fIIaKVYZWEnq3bJCTWPWOPLGadVulNsseJGc14EviyYw
+         HCFrv3zWXn8CA3fZ4BNvG/s53jn3G1J0v+px6Qw178ZMS8xNqrmqAQPzXI6wY92T9bMQ
+         ukBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746003425; x=1746608225;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vsX5iZ0Xf1hk18vldFSG+c7ZzQ/lrYQmQz9RDMkRt9Q=;
+        b=qREbXPCAFNGhEXvrTrTamEIcmf1LHvZiIb+EsglzGbdy2bMqQyEO/SYbAzxto8Z1rs
+         d8a4B5qykRpMvcPMD/QT/G7ptskjSGvnCFY+kGLMs5Ql4S/MzLHlEfVsxxc5XZWsR+ZY
+         gDjpk/ql1Ek+0kmZ8CJsa9RIpBxOJhMvOBGOFTKteCpwIA5iDi6uBgiS5q9PuT2Qkd/A
+         3NJH7rTDTv0xY2rXJ1vGtUSaL/valwGhC2OA8wpqYdGapnsN82L7tlR3OHrdVn0pP2gX
+         Nrlq+TNWf4qCnoUClH2cpxuvCUV7WhbI6uK1JZm5EI3F5+aMy+zEImJVyOSTe9k/4hSi
+         1qBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMN37igmx3HAqwYRskUPianD/hqX+bACjiwcjTzSPl3TpcITre2OfgtWXGUsEjqLsrDj9QKrwCr12WBXJF60A=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOKoCgU06Z8wniJDRjKBfdXN4F2O0kdhUeShIPDLRkQZXx78Sy
+	d5TJtpv/00H0aXLtV3cAt671OQnShseB1e+dL3ftP1dc5pKmfmzkDSgL8pAD8oI=
+X-Gm-Gg: ASbGnct+cxDoBt/Ifk5z7Mmpjajl/5eKn6S8jmiOuxCRdpo+hrLS73JFR4KRwtk8oml
+	pyqmAC96BbiYaltaHcgabAzT2Q/rvvuGiFJa5NDZ1Ik9WZZsBZB+OuwdW2vgIprJBoZS2yJaSnO
+	W1im9/2SozeXIOypesCy8MxnTcQbksFiPa49uMPvdM30Hphk66ljp0yoZROjhx0d/HIu/NXvSFj
+	HE0vUxWOL42juN1quSWg6nWgMCrI9n54G5YH05zPQK4j77JzNNyZibc3ZUlPT53oxnJUwCJCooh
+	6XHMj/LMzv++6xGxSF6yQQKH4oYHxkLgKaxerTgBMVYC99qJNMhS2aU9Y95QS87IZxtR1H/RyK9
+	K8/o=
+X-Google-Smtp-Source: AGHT+IFBjJKadcBgfxEfVMoyFdea06C48IeyCLSwft1QGBmLuLkmOrJI0pimONPp/u0K6tmc6/97nw==
+X-Received: by 2002:a5d:584f:0:b0:3a0:6ac1:93a1 with SMTP id ffacd0b85a97d-3a08f7997f9mr2181857f8f.7.1746003424853;
+        Wed, 30 Apr 2025 01:57:04 -0700 (PDT)
+Received: from mai.linaro.org (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073ca5225sm16654910f8f.33.2025.04.30.01.57.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 01:57:04 -0700 (PDT)
+Date: Wed, 30 Apr 2025 10:57:02 +0200
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Sebastian Reichel <sre@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v9 2/7] reboot: hw_protection_trigger: use standardized
+ numeric shutdown/reboot reasons instead of strings
+Message-ID: <aBHl3n0yWF53nmKY@mai.linaro.org>
+References: <20250422085717.2605520-1-o.rempel@pengutronix.de>
+ <20250422085717.2605520-3-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH v2 00/34] drm: convert all bridges to
- devm_drm_bridge_alloc()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski
- <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>,
- Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Christoph Fritz <chf.fritz@googlemail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Guenter Roeck <groeck@chromium.org>, Heiko Stuebner <heiko@sntech.de>,
- Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>,
- Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- Sui Jingfeng <sui.jingfeng@linux.dev>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Vitalii Mordan <mordan@ispras.ru>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan
- <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Xin Ji <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@ge.com>,
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Peter Senna Tschudin <peter.senna@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Herve Codina
- <herve.codina@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- Inki Dae <inki.dae@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Helge Deller <deller@gmx.de>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <174591887152.961603.7706063017853945511.b4-ty@bootlin.com>
- <sdiwpe7nnhud3fvkgijjbfyenlwpchbxgehyxmsy7c5loo257h@hkfcawkjrlhd>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <sdiwpe7nnhud3fvkgijjbfyenlwpchbxgehyxmsy7c5loo257h@hkfcawkjrlhd>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieeivdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefftdduueetheejledvkeetjeekudfhffduvdeugfevfeeifeehieffjeetfefgveenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepleekpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgp
- dhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <20250422085717.2605520-3-o.rempel@pengutronix.de>
 
-
-
-Le 29/04/2025 à 16:42, Dmitry Baryshkov a écrit :
-> On Tue, Apr 29, 2025 at 11:27:51AM +0200, Louis Chauvet wrote:
->>
->> On Thu, 24 Apr 2025 20:59:07 +0200, Luca Ceresoli wrote:
->>> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
->>> bridge, and the only one supported from now on. It is also necessary for
->>> implementing reference counting and thus needed to support removal of
->>> bridges from a still existing DRM pipeline without use-after-free.
->>>
->>> This series converts all DRM bridges to the new API.
->>>
->>> [...]
->>
->> Applied, thanks!
->>
+On Tue, Apr 22, 2025 at 10:57:12AM +0200, Oleksij Rempel wrote:
+> Prepares the kernel for the Power State Change Reason (PSCR) recorder,
+> which will store shutdown and reboot reasons in persistent storage.
 > 
-> [...]
+> Instead of using string-based reason descriptions, which are often too
+> large to fit within limited storage spaces (e.g., RTC clocks with only 8
+> bits of battery-backed storage), we introduce `enum psc_reason`. This
+> enumerates predefined reasons for power state changes, making it
+> efficient to store and retrieve shutdown causes.
 > 
->> [16/34] drm/msm/dp: convert to devm_drm_bridge_alloc() API
->>          commit: b2aabe5c6b65516d88214aba4b12ce2ca78bac6c
->> [17/34] drm/msm/dsi: convert to devm_drm_bridge_alloc() API
->>          commit: fffc8847743e45604c4478f554d628481b985556
->> [18/34] drm/msm/hdmi: convert to devm_drm_bridge_alloc() API
->>          commit: e11532be87e437648521a8ed5358c56df11933b4
+> Key changes:
+> - Introduced `enum psc_reason`, defining structured reasons for power state
+>   changes.
+> - Replaced string-based shutdown reasons with `psc_reason` identifiers.
+> - Implemented `get_psc_reason()` and `set_psc_reason()` for tracking the
+>   last shutdown cause.
+> - Added `psc_reason_to_str()` to map enum values to human-readable strings.
+> - Updated `hw_protection_trigger()` to use `psc_reason` instead of string
+>   parameters.
+> - Updated all consumers of `hw_protection_trigger()` to pass an appropriate
+>   `psc_reason` value instead of a string.
+> - All structured logs now go through a single `pr_emerg()` in
+>   `__hw_protection_trigger()`, providing consistent output:
+>     HARDWARE PROTECTION <action>: <reason-code> (<reason-string>)
 > 
-> Why? These drivers are explicitly handled outside of drm-misc. Please be
-> more careful next time.
-> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-Sorry, I was not aware that msm also have his own repository.
+Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-TBH, I was not aware that other repositories existed for drm (I should 
-have looked at MAINTAINERS, it is totally my fault). DIM and doc[1] only 
-list drm, drm-misc, drm-xe, drm-intel, so I just tough "intel is 
-special", not "drm is divided in many repositories".
+Thanks!
 
-Again, sorry, for the future series I will double-check and only commit 
-what I should.
+[ ... ]
 
-[1]:https://drm.pages.freedesktop.org/maintainer-tools/repositories/index.html
 
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog

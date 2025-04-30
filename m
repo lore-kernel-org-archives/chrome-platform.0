@@ -1,62 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175CE25A2AC;
-	Tue, 29 Apr 2025 22:04:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA582D023;
+	Wed, 30 Apr 2025 01:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745964258; cv=none; b=MbVPoLucNhsKgJdal3VcmvE6zqdpxZ9hnUV1FKQBt8LO01RYZTJTFs1efV5RqzJRxfsaQyqNqYmKvdC5ldRLnluNdqi5yleEqihJdDLQEcAOVpScYisflKGeGYXwz2EZ6iVyinoc8Pkyulwj1uZMvw2ETREF7p9mX19SCp+jy4M=
+	t=1745976498; cv=none; b=lvA6bq4EUOoD0DRu9V3v1i7tKXKBtkJYhIp3kYJ0Pq+Osf20wdwYha9RTygcoaGNU2keCsceyiUEPT3ASpWG40s/ov+7RMpcJFSgQz/rC9Ur4Z3kI+5uNxSEW3VlxylAJpqxhVT3/gGjviC7kKWzVCadBZGPeWdWQRkPGfa9ZN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745964258; c=relaxed/simple;
-	bh=LMuwr0xPyFA3XbFlwFbJlYUUXbpeiaqwUvjjZy5yf4o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NF02jriAmqXGasYoZLZqwZMk1WWl63d1SWe0qYeaUWqjzI9wyvhKlSBw64zM/zAcs/hFezNXqydx+G/S8eOjBeI9ZOs1iabgC/qFGo+1AXrO6zC1SMaIz6wVc0Kr5gfCNVc392fmSGzBbrVjb+WS9D0RMsFe8ABkE6REXV7gB0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66482C4CEE3;
-	Tue, 29 Apr 2025 22:04:17 +0000 (UTC)
-Received: by venus (Postfix, from userid 1000)
-	id 9C22D180D2B; Wed, 30 Apr 2025 00:04:15 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- Sebastian Reichel <sre@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-In-Reply-To: <aBEwnKtUOTYzS7C3@kspp>
-References: <aBEwnKtUOTYzS7C3@kspp>
-Subject: Re: [PATCH v2][next] power: supply: cros_charge-control: Avoid
- -Wflex-array-member-not-at-end warning
-Message-Id: <174596425561.12920.2070259425381880409.b4-ty@collabora.com>
-Date: Wed, 30 Apr 2025 00:04:15 +0200
+	s=arc-20240116; t=1745976498; c=relaxed/simple;
+	bh=ntH6lrczdAWMTRwtBoswHZd4LyjHIvQX6oZyBYCwWTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dm/ocwjfyGmId7RW3oV+XGoNKvUPkNR+HbKJbgg3yEUeXQiFKYQCtD5sHrJ7l1BZ+XU8rv50ZmpqFwsbFoGa6ZUqb2+pYfo/EmI9Wv/8j6Ftu02o+505PAXPaa4/YbptccmN1gnGsh5EitLlEXqQkq5sALzn8EnXBkjMwmuU5RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GpQ8sPk4; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GpQ8sPk4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D465C4CEE3;
+	Wed, 30 Apr 2025 01:28:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745976498;
+	bh=ntH6lrczdAWMTRwtBoswHZd4LyjHIvQX6oZyBYCwWTo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GpQ8sPk4qewrb0pDNixRVXn3RvWNLEFhT34fs+piE5Ar78/cSkyBIfy6pGyPug3st
+	 vpfQQ6W2Ot3VAjjHh8Ko91YtpeMXNr3MDeFhweMXBFrqT4veE3foNlQEc1FTcnE0NK
+	 XGvss9frrrxBD88UQ+Wewg/+oB6j+6AdNBQdgu2nxTuqTMwYB52+5iGV5QzrxZU2xI
+	 daHF+fvj1aFchcB6p5h+0lt/QVX3ZZ+RiJ1UnMXmvZ//HnAnfvF8Cvaql7Fb34uKJf
+	 HwWRZIMI+2iqjlZ1UvGAbNvrWQM4vd/MPnKeAuIR4eMEqMVMdhLs1c47yzUI5dMOzi
+	 dzC6+088zxCZQ==
+Date: Wed, 30 Apr 2025 01:28:14 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: lschyi@chromium.org
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, Sung-Chi Li <lschyi@google.com>
+Subject: Re: [PATCH 1/3] platform/chrome: update pwm fan control host commands
+Message-ID: <aBF8rsEfkFz4uArX@google.com>
+References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
+ <20250429-cros_ec_fan-v1-1-a8d9e3efbb1a@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250429-cros_ec_fan-v1-1-a8d9e3efbb1a@chromium.org>
 
-
-On Tue, 29 Apr 2025 14:03:40 -0600, Gustavo A. R. Silva wrote:
-> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-> getting ready to enable it, globally.
+On Tue, Apr 29, 2025 at 04:14:21PM +0800, Sung-Chi Li via B4 Relay wrote:
+> From: Sung-Chi Li <lschyi@chromium.org>
 > 
-> Replace an on-stack definition of a flexible structure with a call
-> to utility function cros_ec_cmd().
+> Update cros_ec_commands.h to include definitions for getting PWM fan
+> duty, getting and setting the fan control mode.
 > 
-> So, with these changes, fix the following warning:
-> 
-> [...]
+> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
 
-Applied, thanks!
-
-[1/1] power: supply: cros_charge-control: Avoid -Wflex-array-member-not-at-end warning
-      commit: d4d2dc1b590c7416e1cf5fb6750fff2fa841690b
-
-Best regards,
--- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
-
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>

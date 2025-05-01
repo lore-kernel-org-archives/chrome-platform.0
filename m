@@ -1,159 +1,135 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34550288DA;
-	Wed, 30 Apr 2025 16:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA717083A;
+	Thu,  1 May 2025 20:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746031349; cv=none; b=owYyY60lMAfRpF/2UKN5jeFT8UQhz+GTdWaiQqWqPocE0i47n200QPFftGMgs7YA0Tvvk4EwnX37g9Odsbo53papKklEw1sQsGMrzDUTkGxFI3oufH01GuzHRl2yabqeyRi0NqU2EgkPgcZjeNM7xn/Fu3YysVVogfNOcIxbGvc=
+	t=1746132912; cv=none; b=JU1XKe+m0JFBGvT1ATcZ+v7rnrr9xvqrHW3BAP+xg9DdJ+kMXmbpc9gJhnH4U5M2g4kjImZkjy+NPHiH4ibaHWnA0G6LSPCDcarPZv1+0JqPi3skgH+dwwqCw4CgqWShrcNmj+m/hKQqpXvpBoXDOiRXrnyzdutTN1UYAAEdrl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746031349; c=relaxed/simple;
-	bh=bpjn8puFQ4rZGChqXBtSZDUYu+Gnq25CP/ziHwcqLbg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K0/ndbeCsNA0dA7qfINGMKU+dha9ZrVXCalPZaqm+lK0whbjw27lZNW3chtWF3bVobzRa7tx/W+96U68pmtTSPDARnWU2vFE9GVRFgcuUSw7WttVf5yKpYtT71smWOjLNpb2O5mMl90MxC9nee9Sdtnvcp1YnV8qVnzTI5fxB5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=R78+NOp5; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1746132912; c=relaxed/simple;
+	bh=FriBKFsOeEfghRvWGcXxtLwZP0e0ITdbyjcC+Dlh9FU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pevQuXzVQabQIlhsoYieP6e9eGDJMSWhYYz91RDPcQFhbM7KQ+CuFy466hqHXzqKPIerGFxKbPqnYwC7r/xI212AbPbEY6Ru1r5A57FbBaDHA6HkUeOQfN6gpHKB3bnrnRXKqGi+x4vSLX1xpuk9WVryuv33DheOxsW0y23dfPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S9vFCXZf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="R78+NOp5"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4BA1E43B4C;
-	Wed, 30 Apr 2025 16:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746031343;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bpjn8puFQ4rZGChqXBtSZDUYu+Gnq25CP/ziHwcqLbg=;
-	b=R78+NOp5gZIYtuRu5VllzkmYwx7C4ExRP6oGMuj+y1Pous6ww+7Ql2UM7ZVR3eAlcgxjhe
-	EL8gclRNV+2dQKCHLAwdz+o8e56pdOmAiN7cV69NhlIZ1Qg0rsw+h7L9j1342ejfKdHVKD
-	uE60s+5+nsGoETsCeR1S1VmV/agvwj5nqxaJnNF7Lp4/7VVVRHJA5YBJi9V4npOFPIuj/Y
-	GYnhX6Vi++Zo8p3uGplK/jU12s6/vcqsRHpTUVKPOD8igRoMeiILoeJRB7IcyZ7wXP/otR
-	dWt4vNk84a/q5dbz7ZmTEiiyrfsjSALHZCtQKQ9krgHLd9WIsAwh58D1xVRdnQ==
-Date: Wed, 30 Apr 2025 18:42:14 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Anusha
- Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Adam Ford <aford173@gmail.com>, Adrien Grassein
- <adrien.grassein@gmail.com>, Aleksandr Mishin <amishin@t-argos.ru>, Andy
- Yan <andy.yan@rock-chips.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benson Leung
- <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
- Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Detlev Casanova
- <detlev.casanova@collabora.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
- Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
- Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
- Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>, Manikandan Muralidharan <manikandan.m@microchip.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
- <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
- <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
- Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
- <mordan@ispras.ru>
-Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-Message-ID: <20250430184214.0b53dc6b@booty>
-In-Reply-To: <CAD=FV=UBFhCGOUuwtCtdT75nCu_7EzM-SVY-=6Xh6UxUuxKCMw@mail.gmail.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
-	<20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
-	<CAD=FV=VmV5yb0HWWGTiKyyC8+WNPJpM7vE9PQGh5_=KPk6+HCg@mail.gmail.com>
-	<20250430123557.3d8b1de4@booty>
-	<CAD=FV=UBFhCGOUuwtCtdT75nCu_7EzM-SVY-=6Xh6UxUuxKCMw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S9vFCXZf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC1E5C4CEE3;
+	Thu,  1 May 2025 20:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746132912;
+	bh=FriBKFsOeEfghRvWGcXxtLwZP0e0ITdbyjcC+Dlh9FU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S9vFCXZfdwKftvAhivyDTdP19qtVtg1WQPfi7Kcjn/9bxydDRSO+q01BwKgeS6d0M
+	 1xwEJIojwNwYqS0dTbCy9Za3oUXK943fFuLHQpONkzCz57KjCGovmfu6yw878upo1o
+	 Gae5kvk5fmq+SdaehMbJMXAlv3GXSNXFWjaArdvySwulREpWE4CSGzHSJG5D7tB+0u
+	 6nujjphusgmbPeEix5vXxJn3IVk0ju/7UO/4J4Iq2t4uCy6/ppk+3Mm+QwVB1bVAow
+	 M7Lwd5Y/6F4bupa6Sqb/DtTSsLCaD881oAlCkX3GXDM3SpCzu9GTgris6HQ2RKF5Ps
+	 2vq9LKAgSXM1w==
+Received: by venus (Postfix, from userid 1000)
+	id A871A180F5C; Thu, 01 May 2025 22:55:09 +0200 (CEST)
+Date: Thu, 1 May 2025 22:55:09 +0200
+From: Sebastian Reichel <sre@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de, linux-kernel@vger.kernel.org, 
+	Liam Girdwood <lgirdwood@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org, 
+	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>, Guenter Roeck <groeck@chromium.org>, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, Andrew Morton <akpm@linux-foundation.org>, 
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v9 2/7] reboot: hw_protection_trigger: use standardized
+ numeric shutdown/reboot reasons instead of strings
+Message-ID: <pnvzk66ota2ebjnhjcfqhqsqepevl3f5khllqg7jd77zq562on@cm2rh72mvbzz>
+References: <20250422085717.2605520-1-o.rempel@pengutronix.de>
+ <20250422085717.2605520-3-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="naw5frhrqjonpf3i"
+Content-Disposition: inline
+In-Reply-To: <20250422085717.2605520-3-o.rempel@pengutronix.de>
+
+
+--naw5frhrqjonpf3i
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieejvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfetudeugfehheeliefhjeejuddvledtuddttdevledthfehgeeugfetheekgfffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepieekpdhrtghpthhtohepughirghnuggvrhhssegthhhrohhmihhumhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghru
- geskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Subject: Re: [PATCH v9 2/7] reboot: hw_protection_trigger: use standardized
+ numeric shutdown/reboot reasons instead of strings
+MIME-Version: 1.0
 
-Hello Doug,
+Hi,
 
-On Wed, 30 Apr 2025 08:51:52 -0700
-Doug Anderson <dianders@chromium.org> wrote:
+On Tue, Apr 22, 2025 at 10:57:12AM +0200, Oleksij Rempel wrote:
+> diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+> index 90629a756693..84448a4c7fd4 100644
+> --- a/drivers/regulator/core.c
+> +++ b/drivers/regulator/core.c
+> @@ -5263,26 +5263,23 @@ EXPORT_SYMBOL_GPL(regulator_bulk_free);
+>  static void regulator_handle_critical(struct regulator_dev *rdev,
+>  				      unsigned long event)
+>  {
+> -	const char *reason =3D NULL;
+> +	enum psc_reason pscr;
 
-> Hi,
->=20
-> On Wed, Apr 30, 2025 at 3:36=E2=80=AFAM Luca Ceresoli <luca.ceresoli@boot=
-lin.com> wrote:
-> >
-> > Hello Doug,
-> >
-> > On Mon, 28 Apr 2025 13:59:50 -0700
-> > Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > [...]
-> > =20
-> > > Reviewed-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
-> > > Tested-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640 =
-=20
-> >
-> > Thank you for your review!
-> >
-> > However I'll be sending v3 with some differences w.r.t. v2, in order to
-> > fix the 3 bugs reported by Andy Yan plus a similar one I spotted. The
-> > fix just is replacing PTR_ERR() with ERR_CAST() in the 4 cases where the
-> > involved function is returning a pointer instead of an int.
-> >
-> > Your review/test tags appear global to the whole patch, thus being the
-> > patch different I think I cannot include your tags in v3.
-> >
-> > Let me know if you think I should do differently.
-> >
-> > Sorry about that. =20
->=20
-> It's fine if you want to drop my tag. I didn't have time to review the
-> whole thing but I felt like I should at least review the drivers I'm
-> signed up as a reviewer for. That being said, I'm not counting tags or
-> anything so I'm not offended if they're dropped.
->=20
-> My understanding is that the hashtag at the end is at least a
-> semi-standard way to say that my tag only applies to a small part of
-> the patch, so it seems like it would be OK to carry it, though...
+enum psc_reason pscr =3D PSCR_UNKNOWN;
 
-Oh dear. I was so stupid. I had not seen the comment in your tag
-lines... :-|
+(or add a default clause to the switch)
 
-So it's fine, I'll keep your tags as the parade driver is not modified
-in v3.
+>  	if (!rdev->constraints->system_critical)
+>  		return;
+> =20
+>  	switch (event) {
+>  	case REGULATOR_EVENT_UNDER_VOLTAGE:
+> -		reason =3D "System critical regulator: voltage drop detected";
+> +		pscr =3D PSCR_UNDER_VOLTAGE;
+>  		break;
+>  	case REGULATOR_EVENT_OVER_CURRENT:
+> -		reason =3D "System critical regulator: over-current detected";
+> +		pscr =3D PSCR_OVER_CURRENT;
+>  		break;
+>  	case REGULATOR_EVENT_FAIL:
+> -		reason =3D "System critical regulator: unknown error";
+> +		pscr =3D PSCR_REGULATOR_FAILURE;
+>  	}
+> =20
+> -	if (!reason)
+> -		return;
+> -
+> -	hw_protection_trigger(reason,
+> +	hw_protection_trigger(pscr,
+>  			      rdev->constraints->uv_less_critical_window_ms);
+>  }
 
-Sorry about the noise.
+Greetings,
 
-Luca
+-- Sebastian
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--naw5frhrqjonpf3i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmgT36kACgkQ2O7X88g7
++prmIQ/+JKEXxXwdYHIW0jX1zJvf2PrCfXVs7awROca4BZAa0Xv/XWmtg7cV2yd9
+KdD39SMULbTuwj8F1I1+9xHMCLqsZApbAJQyfT1PzVaRDw6vl4Egxid0GJWUPngI
+TWCxUoAOfuOXXJGmgCM9Il4Xyd2DkSYeSh6EOcQ5PsyzEk+bJARJxVRkXXvgNH35
+2kIlspI8GhBAWVZrWCuPDBQTH7NL6l4T+39BClBSq/fS4JSQwtzznYKnriKCnbMP
+FkrkhcyqpyfZIpcbq/kL3eXecnXXwM+Dde+pvqmsRqD/2H8WVm99n0w27KnY+EJJ
+1svCP9evz2s/EPSnBAneg1/5V+0T3pRmh73aLLfa0NnWT6jPAMddJwjaZni06sB/
+4bdthL86t3sE5OOD1ZSOReafP7IT1JPC6RjduncF6p/Qx7bCXKeqPiGT/2roCx+1
+5zPvUNfRD7AKc7RYRrjMH4qqFcJe8b1KbdwhtXVxDC6DcTIQjTk8UannY+YARNS+
+0GOqgHgfUq8+oBMCDdhxzlXAyUlbqW8+lY1kY0TBWW/QhZlK1zpoMxq7Iw9ZP82w
+X5N+vwpU7OP6D5iMpPmRUnja6Xb9/F6Mx/VDZew+/NXsreGAo3zx+kUjKODppzXw
+W2J9MqnmiPu7jtxgOHNxkJXwtdj3N4idB9mcH8cResNlhoPY2Qs=
+=LA1C
+-----END PGP SIGNATURE-----
+
+--naw5frhrqjonpf3i--

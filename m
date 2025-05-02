@@ -1,153 +1,159 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9D0221295
-	for <chrome-platform@lists.linux.dev>; Thu,  1 May 2025 23:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746141664; cv=pass; b=qKPxLwdU05M1cq/bHoObSTiKqKWO1rpWqupnhhCGtzKHiuTi2EZTNiqz2OmAWhfPb76dJQbLbDKzJKmGaWRydBt6+fAYcg2tVdo+wlPnCBp9UwKPCNsk8ssWrhATSYG0j1jyB5NYH/kTn8q7TcJ7AOydq6acvxCZawGncRDf3Ro=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746141664; c=relaxed/simple;
-	bh=uW+bsOuKdxvM7b8YNXA5qBQmYFbmwZ8+SaFhCS1lotY=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209A719FA92
+	for <chrome-platform@lists.linux.dev>; Fri,  2 May 2025 05:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746163415; cv=none; b=dffctlNw080K9hlT6dykeC/0BkOgf1t5WZxkfrOek3NqzU64Umy83P9spXANJK/yDT4P3b15DIhvKfErHm9mejagi74kBA6ZJRvUZtGrdtI49zU5uFzXchEFdCqIUH+Hc6gBsQCdXj3eoByFGHywYDxjXsyE2ZrdKHFvKiOyofE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746163415; c=relaxed/simple;
+	bh=D99X97H0h0egYlqmZ2qyx2bGB/WuCPs4SWCP3Auk0hs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tTj8lfuYzsEqBajPw/mmzcxK589OJqyxQPuBICHCdOOPZusiaweflR6ZTuGq3IhBDuJDMrPgbiV4mjvRkzQp7pN/QGVhCUjrTw+NXBlrR06Nsc+4vU9tMnXEuNN/wBmO4YCQsShvqHpcqv9VyzKc5goUQcDq8O+w7DH1jZRyFR4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=JZTtcEPB; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="JZTtcEPB"
-ARC-Seal: i=1; a=rsa-sha256; t=1746141658; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=O+TVLAodYcBWlQ9HGX3cAV2Zuh9KdXk1PDyLygUHpoS1JNlFOvcReVeY086bZthqVyLI6J3xqIyOWZEFyO1MN/UARE7Bhtsy/V3PPgLiCAyIAi1TqJVUuWTwruhHagA9ptsy5QooyiEShepMnxRRb3eUogph+QKbg9Mqo7BU4hw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1746141658; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=qnPXZeTJSNYPr9STVQr9IHGeAwSe5nqN3NqW6dQCoqQ=; 
-	b=nTZc8qtRAl6REjDocdy/Xt68XylO6gj1Z5ThnDs9Sho3wFRZ81OjHKNsMYkVsOBpSixqi1sSZT+yGQD7+uWiCe79hbU9Ea3iXlxBosz2aNJbSCjsqgRPsD6FPG94j5wJdaQ4uCr0rhv9X1PlWjhphfkNBdLEPmwLIsXCeD3OXjU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1746141658;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=qnPXZeTJSNYPr9STVQr9IHGeAwSe5nqN3NqW6dQCoqQ=;
-	b=JZTtcEPB1DySe2yvEyTtafIZiWUIcDn862uZW8py1BTy6OXURw57Rh4WF4FnyozW
-	Kj3vgxqX2AgHHS745Gr5F4/8J8ACSBSbX3yFEZcRzXXVPLSY7TlhbWYvQ82mTiOOVUP
-	aO53cVaa1JsQl8hzlOUrq8YKyH2xYD2WA0+U3y+c=
-Received: by mx.zohomail.com with SMTPS id 1746141656431362.86708838265554;
-	Thu, 1 May 2025 16:20:56 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 7D923180CEF; Fri, 02 May 2025 01:20:50 +0200 (CEST)
-Date: Fri, 2 May 2025 01:20:50 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	kernel@pengutronix.de, linux-kernel@vger.kernel.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org, 
-	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>, Guenter Roeck <groeck@chromium.org>, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, Andrew Morton <akpm@linux-foundation.org>, 
+	 Content-Type:Content-Disposition:In-Reply-To; b=De9hgde2rOEgGGVQmBnQKUbBce6xp097lNcoNK60lDEUps6868zOuB5MayEeSdc+xrolXTzy2Nn6gIGgc12oV9ee8n8L6/9zYKjgUgcCQoqbAu6kBkALW/6BEFfmjUQHUq4PTiw49sZ47Lm1iK5X41nOkwBh/jJWSsAUOC9heP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uAirS-0004Qb-Gu; Fri, 02 May 2025 07:22:58 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uAirP-000he0-35;
+	Fri, 02 May 2025 07:22:55 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uAirP-00GTlC-2X;
+	Fri, 02 May 2025 07:22:55 +0200
+Date: Fri, 2 May 2025 07:22:55 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	chrome-platform@lists.linux.dev
 Subject: Re: [PATCH v9 3/7] power: reset: Introduce PSCR Recording Framework
  for Non-Volatile Storage
-Message-ID: <bumx6ma3kjanapwaf3oc3mdjnekatvc2cmavt6secfkaapgjpz@kouqjidbl47k>
+Message-ID: <aBRWrwY6YN0526SN@pengutronix.de>
 References: <20250422085717.2605520-1-o.rempel@pengutronix.de>
  <20250422085717.2605520-4-o.rempel@pengutronix.de>
+ <bumx6ma3kjanapwaf3oc3mdjnekatvc2cmavt6secfkaapgjpz@kouqjidbl47k>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vpofsupfti7jzmi7"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250422085717.2605520-4-o.rempel@pengutronix.de>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.2/246.120.57
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bumx6ma3kjanapwaf3oc3mdjnekatvc2cmavt6secfkaapgjpz@kouqjidbl47k>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
+Hi Sebastian,
 
---vpofsupfti7jzmi7
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v9 3/7] power: reset: Introduce PSCR Recording Framework
- for Non-Volatile Storage
-MIME-Version: 1.0
+Thanks for the feedback.
 
-Hi,
+On Fri, May 02, 2025 at 01:20:50AM +0200, Sebastian Reichel wrote:
+> Hi,
+> 
+> On Tue, Apr 22, 2025 at 10:57:13AM +0200, Oleksij Rempel wrote:
+> > This commit introduces the Power State Change Reasons Recording (PSCRR)
+> > framework. It provides a generic mechanism to store shutdown or reboot
+> > reasons, such as under-voltage, thermal events, or software-triggered
+> > actions, into non-volatile storage.
+> > 
+> > PSCRR is primarily intended for systems where software is able to detect
+> > a power event in time and store the reason—typically when backup power
+> > (e.g., capacitors) allows a short window before shutdown. This enables
+> > reliable postmortem diagnostics, even on devices where traditional storage
+> > like eMMC or NAND may not survive abrupt power loss.
+> > 
+> > In its current form, PSCRR focuses on software-reported reasons. However,
+> > the framework is also designed with future extensibility in mind and could
+> > serve as a central frontend for exposing hardware-reported reset reasons
+> > from sources such as PMICs, watchdogs, or SoC-specific registers.
+> > 
+> > This version does not yet integrate such hardware-based reporting.
+> 
+> This adds quite some complex code for a very specific problem while
+> mostly ignoring the common case of hardware reported reasons. I think
+> having at least one hardware-reported reasons (e.g. WDOG) is mandatory
+> to make sure the framework can really handle it.
 
-On Tue, Apr 22, 2025 at 10:57:13AM +0200, Oleksij Rempel wrote:
-> This commit introduces the Power State Change Reasons Recording (PSCRR)
-> framework. It provides a generic mechanism to store shutdown or reboot
-> reasons, such as under-voltage, thermal events, or software-triggered
-> actions, into non-volatile storage.
->=20
-> PSCRR is primarily intended for systems where software is able to detect
-> a power event in time and store the reason=E2=80=94typically when backup =
-power
-> (e.g., capacitors) allows a short window before shutdown. This enables
-> reliable postmortem diagnostics, even on devices where traditional storage
-> like eMMC or NAND may not survive abrupt power loss.
->=20
-> In its current form, PSCRR focuses on software-reported reasons. However,
-> the framework is also designed with future extensibility in mind and could
-> serve as a central frontend for exposing hardware-reported reset reasons
-> from sources such as PMICs, watchdogs, or SoC-specific registers.
->=20
-> This version does not yet integrate such hardware-based reporting.
+The initial purpose of the PSCRR framework is to record power state
+change reasons such as *undervoltage* or *regulator failures*, which can
+be detected and stored by software just before shutdown. Supporting
+hardware-reported reset reasons (like watchdog, PMIC, or SoC registers)
+is possible by design — the interface allows it — but it’s not something
+I consider mandatory for the initial version.
 
-This adds quite some complex code for a very specific problem while
-mostly ignoring the common case of hardware reported reasons. I think
-having at least one hardware-reported reasons (e.g. WDOG) is mandatory
-to make sure the framework can really handle it.
+I’d prefer to focus on solving one concrete problem at a time, and the
+current use case is already well-supported with software-side logic.
 
-I also see you extended power_on_reason.h and included it here, but
-don't actually use the defined strings at all. Also you create the
-new enum, but don't handle the existing reasons and just add the new
-codes you need instead of making sure things are properly in-sync :(
+> I also see you extended power_on_reason.h and included it here
 
-> [...]
+You're right — the `#include <linux/power/power_on_reason.h>` is no
+longer used directly in `pscrr.c` and will be removed in the next
+revision.
 
-> +struct pscrr_core {
-> +	struct mutex lock;
-> +	struct pscrr_backend *backend;
-> +	/* Kobject for sysfs */
-> +	struct kobject *kobj;
-> +	struct notifier_block reboot_nb;
-> +} g_pscrr =3D {
-> +	.lock =3D __MUTEX_INITIALIZER(g_pscrr.lock),
-> +};
+> but
+> don't actually use the defined strings at all. Also you create the
+> new enum, but don't handle the existing reasons and just add the new
+> codes you need instead of making sure things are properly in-sync :(
 
-Apart from the highlevel problems I have with this:
+Could you please clarify what exactly you mean here? The strings defined
+in `power_on_reason.h` are still used indirectly via
+`psc_reason_to_str()`, which is called in the reboot core and used by
+PSCRR for logging (e.g., in `pscrr_reboot_notifier()` and
+`pscrr_core_init()`). If your concern is about the enum values
+themselves or something else, I'd appreciate a bit more detail.
 
-g_pscrr can be static
+> > [...]
+> 
+> > +struct pscrr_core {
+> > +	struct mutex lock;
+> > +	struct pscrr_backend *backend;
+> > +	/* Kobject for sysfs */
+> > +	struct kobject *kobj;
+> > +	struct notifier_block reboot_nb;
+> > +} g_pscrr = {
+> > +	.lock = __MUTEX_INITIALIZER(g_pscrr.lock),
+> > +};
+> 
+> Apart from the highlevel problems I have with this:
+> 
+> g_pscrr can be static
+> 
+> -- Sebastian
 
--- Sebastian
+Best regards,  
+Oleksij
 
---vpofsupfti7jzmi7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmgUAcIACgkQ2O7X88g7
-+prEFA//cMaV+DNnS+CPOdI+6NkHvEUttYDcm7/2fUHnyTszy+VBdXxi202dw7iU
-O2azdHoIeBq3uckvA5cazOXGTK1UeRhbTDseLQFw0MT70Ln+aMpGq0X8gzKiCF+G
-DBbeZVlAoGXoq89x2YgwF001rbiP5yx+LMcKTg5ZT0Jq1ct+lEoHWoujA79ZTmZ7
-Qc7xWyY+Rh474BEAX/lV2uL78ULzasc0mDA+2EFyvl55fcvTz0L093FuIOkAxTGF
-jnHERboAqXPx5VSuXnE3BbrHbF8t2dI0cHcekpIgMyl5jM9T7BNzXpqXKBhUtZLU
-7/5sbdoXF70DapT0TeX3LtviZooNLeIM+Qi3a9SYceFdT+dt9BMHLvQmCzLoakRr
-172aHFGhnSxG82bWbcfMFXwlVjVjr+ugXNhY7Dck9qX6hGmZy1meLDi/3HYPpIQJ
-U3281eeJdcOpqcBtyPuv7hoiLSboX47CCaS4LeF0kYl7V9vjd72RtoHv77ZTxCvM
-oLSNx4+Rucb+KjiAiinuB/CN/0ZGkfOUlOoz0F4LM/8WRNUpffYFYZpkzDJ/kKqR
-90eIVYkohev+o86oTpqBGCp5U6WsoApsbxS1UpJN13oagHg2x+BnNEVoLPm9pwcJ
-sXOVmFq6DF9GW7D53oCuh/ylgfOnncb8V9oEDZz0u7mrpQGAQMY=
-=9Wdf
------END PGP SIGNATURE-----
-
---vpofsupfti7jzmi7--
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |

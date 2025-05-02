@@ -1,224 +1,210 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C712F2F
-	for <chrome-platform@lists.linux.dev>; Fri,  2 May 2025 05:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8601AF4D5;
+	Fri,  2 May 2025 05:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746163922; cv=none; b=OwrbJhx+fOwKnSdrUHhqDBFiJZq1SDtwBKU6zd/+4kz+U1pem5Sp1YuaNdti53QQnXQIblnhpB6ApV83J0MMyIVlgMLC6UTBur6jh2twr45mtPtU186SqO86iM+diE4h/I6c/N1ojYa7oH2Dp8iwc0An+48CcD77YqYGzbIK/Ws=
+	t=1746164094; cv=none; b=DT43s3W/wgGgniiZPabMnJcAEkuuHGF202XQo5SdWGvn6n4ynVf7Td7YdH10OnOOAFOfD+JnaVoxtgGcFcmto8Cf6nyNjBa8Ew8sHkL1Z6pqf7lX8ubN52hs3YcKWpkuzzXvkWNu8I5kBrinUeVG7mV6ZErrxHyn+MVLRLXbdK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746163922; c=relaxed/simple;
-	bh=usJVdZHK/QHhzFDHOhC3JAVS9UlWcT9i2Wt2pFBV7Ys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A6yDVPZXElfR1eANA2DQ+N8kedKaaKOnnFGN7/fyjDTlY2rR/ZMnaLIxJ3N5NmW+NJYy7JSEk5ZqExggLgknkl7aqGK7huZr8QO50YrIe9Xxa9xx3cASZqdv9okCy5ZEYre2vnSFItyH5wIYT8F4BDWd4UZc+l6t3m/6IAAGS1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l41MB2W3; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1746164094; c=relaxed/simple;
+	bh=I9TKtOfIz7e77mNMYQUfQHoe2lc+rT7bWls4rjgUVgg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=CwFgkZ3aYXdKtrXJDus+qyMO54QiRtoLKVhNzfWHTTSeDiUl91JpPkH7ESscffYTjAv/SmlUiZxmIHbmT3S6fYqGPIPucRzITCeprclftraCKCOdL032xgfSeJoEsbUdi4xDdiVYJFekNjZAALRh5zpWfFLmv5FwuDQ97R1z7ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ObpHU2j4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l41MB2W3"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-227c7e57da2so15412035ad.0
-        for <chrome-platform@lists.linux.dev>; Thu, 01 May 2025 22:31:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1746163919; x=1746768719; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=EuQJSqMieCdA49kvmDy4IyuB0LzUEBY1NlpAym9Qp94=;
-        b=l41MB2W3ZelfeXHZJR/J/NtegX4NYNsI7E+VfNYZ4RNkX5Q74gRmGWGcvX3HvJGzvo
-         HaiyjCdg6nTTEaQJhCgB4MBxulkEwzZRanzb0xnrxqCzOv8ITZ5xZWLDH1mdEx5sRq0a
-         uT7meiJc20gNT4Cf358tlkZHvZBnYZjHuxIsw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746163919; x=1746768719;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EuQJSqMieCdA49kvmDy4IyuB0LzUEBY1NlpAym9Qp94=;
-        b=VwVPnorePvWnwTr0YGVmMjX029TqcuoiNcKHXfo46raZ1vcaqocRXDoEi9SPaGQwIK
-         xJTRhWG+wfzqBHjiq8jchOV2r3p5jCqyKSEOOHhn2luHDQr87z6FGILHRKxX8xzLA2/j
-         j3qZsiC8nLAl6yMgUWfM8JCoBjVEkKSZ53av9lz8Vgyo6YVmN1EZfubI5zf9LqE5i9DE
-         4mP8+PDsHl1LvbxjOgXyQg6+QFFoO8fWTuOkZOcN3Qntm1T17sUWKuslBpdoGpmp0HQ8
-         FggR3i31x1Do24BRRGyZk1SQzXu/tfcQoVDpBLjvn+Ai60q+g4oZXOVEnJYoxpHsmgt/
-         5rcw==
-X-Forwarded-Encrypted: i=1; AJvYcCV5Jw6TlC10NrpEKwKtSbJrejUOhEdi8Oz8ipAtY/e2TSFEwMD+iP7FHI/1P9fY6Dr/42L+xOwLpCjVVftt1/4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOS8khNwjJGM0YGRMS1pQ5Sk+Fturc8Bdt+ItiR8a0f6pdNgEA
-	AR+j/ytCz2sIE2K7Jzuj9M5rCggBO8uePS9mK/T1a9yBEsRnIhLZ8E64l8qrKA==
-X-Gm-Gg: ASbGncuYpWENcEUM216jZ1Ov3sbrLEMJZF0aHugkFOBV4u7+V1oirb3z0uMRrySJTmT
-	sbT3Xe7y6cO/6J/F2y9DENsbyvJgE00q97YuuAjCAv0UvNGN14aTZDgRBfXkg7MP5vsWroO7XGG
-	asfAhNoVkkppEEmMQfCh6cyzUC+jbPfdTalArpulkbN66gno7anEu5XuASK4nyruqud2upsbiRh
-	oW3jw16e3F/1WKbANw/Zi8CxLy1jAoiDR9S7NI3XuIvauxLa4uso7/ccJneAJtOCAHEDht2s/uw
-	JlzOGWlT2TDSIQynysBPtnV4Agkf6LMuSw==
-X-Google-Smtp-Source: AGHT+IEg5hGIJsupBIjuos3OKynkR03wDTIHxLSn0l4PtdYPmXd+1wOHbVQYP7FSLZwrEVutzqN7vw==
-X-Received: by 2002:a17:903:11ce:b0:224:f12:3746 with SMTP id d9443c01a7336-22e10340bf2mr22776705ad.30.1746163919276;
-        Thu, 01 May 2025 22:31:59 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:e66e:6e73:436b:6b0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e10848fe9sm5845215ad.16.2025.05.01.22.31.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 May 2025 22:31:58 -0700 (PDT)
-Date: Fri, 2 May 2025 13:31:55 +0800
-From: Sung-Chi Li <lschyi@chromium.org>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/3] hwmon: (cros_ec) add PWM control over fans
-Message-ID: <f63hek7p5d74xrkcbm7wk5s3fc6mlgyjkiovpyprlro4blyckf@in5an2tk6twb>
-References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
- <20250429-cros_ec_fan-v1-2-a8d9e3efbb1a@chromium.org>
- <0933ec48-9a4b-49d0-8670-50b6ff6433f5@t-8ch.de>
- <aBHKepQx_drHfnp8@google.com>
- <0483bdf2-c1a2-4a8e-b0ee-b00cafdda557@t-8ch.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ObpHU2j4"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EA4DEC4CEEF;
+	Fri,  2 May 2025 05:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746164094;
+	bh=I9TKtOfIz7e77mNMYQUfQHoe2lc+rT7bWls4rjgUVgg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=ObpHU2j4GevXiDr1kEd7XGzJYtijRgbzLCx9ZgXB/sTp3RwZs/n/uM6MHfWcebR5g
+	 BUQFo4ubhPFL0w1mGPPjqVSo7icuHND0eGK3C4vtiR8G3Z98yELQQUpKGRsSkzuCwH
+	 AUpG/gLvjaAvwGzRd67ri5qCW9cddl9I0KvvbvXT8hFU49t8TyWVHwlazwuLbS5q9F
+	 GpNdMlxt2yzRYTulnexLesAgFRRieVXablY2fisoBhF3Lukkzd2OC7B4E6jIAoTeUc
+	 x4k1PueFKzKOKwXSg1TX6CnI9KWeFFnkq4wqRBrweQFkWczC3EIInTnUamzu2xRVPg
+	 F77VDj6pvbSGg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD2FAC3ABAC;
+	Fri,  2 May 2025 05:34:53 +0000 (UTC)
+From: Sung-Chi Li via B4 Relay <devnull+lschyi.chromium.org@kernel.org>
+Date: Fri, 02 May 2025 13:34:47 +0800
+Subject: [PATCH v2 3/3] hwmon: (cros_ec) register fans into thermal
+ framework cooling devices
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0483bdf2-c1a2-4a8e-b0ee-b00cafdda557@t-8ch.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250502-cros_ec_fan-v2-3-4d588504a01f@chromium.org>
+References: <20250502-cros_ec_fan-v2-0-4d588504a01f@chromium.org>
+In-Reply-To: <20250502-cros_ec_fan-v2-0-4d588504a01f@chromium.org>
+To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Sung-Chi Li <lschyi@google.com>, Sung-Chi Li <lschyi@chromium.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746164092; l=5119;
+ i=lschyi@chromium.org; s=20250429; h=from:subject:message-id;
+ bh=STzNXdU8ezymZTAK/gVnm4TwlGsm/I6wriR+2/nBIdg=;
+ b=MkGVoQLKYLejauV+to63+g0hFH/2Jo3xzuCpl0EsnSlvdhZkvvChqPjQ5dsOO1HbMBJ3IZ/lJ
+ jfif3UIb6OsDLP+AckGq7VavB7jiOndv01Rs3FYFF4IAQc+N6NFM7Yy
+X-Developer-Key: i=lschyi@chromium.org; a=ed25519;
+ pk=9gCZPRJmYyHDt6VN9FV2UreFcUr73JFrwYvmsltW9Y8=
+X-Endpoint-Received: by B4 Relay for lschyi@chromium.org/20250429 with
+ auth_id=392
+X-Original-From: Sung-Chi Li <lschyi@chromium.org>
+Reply-To: lschyi@chromium.org
 
-On Wed, Apr 30, 2025 at 04:48:15PM +0200, Thomas Weißschuh wrote:
-> On 2025-04-30 15:00:10+0800, Sung-Chi Li wrote:
-> > On Tue, Apr 29, 2025 at 11:20:09PM +0200, Thomas Weißschuh wrote:
-> > > On 2025-04-29 16:14:22+0800, Sung-Chi Li via B4 Relay wrote:
-> > > > From: Sung-Chi Li <lschyi@chromium.org>
-> > > > 
-> > > > Newer EC firmware supports controlling fans through host commands, so
-> > > > adding corresponding implementations for controlling these fans in the
-> > > > driver for other kernel services and userspace to control them.
-> > > > 
-> > > > The driver will first probe the supported host command versions (get and
-> > > > set of fan PWM values, get and set of fan control mode) to see if the
-> > > > connected EC fulfills the requirements of controlling the fan, then
-> > > > exposes corresponding sysfs nodes for userspace to control the fan with
-> > > > corresponding read and write implementations.
-> > > > As EC will automatically change the fan mode to auto when the device is
-> > > > suspended, the power management hooks are added as well to keep the fan
-> > > > control mode and fan PWM value consistent during suspend and resume. As
-> > > > we need to access the hwmon device in the power management hook, update
-> > > > the driver by storing the hwmon device in the driver data as well.
-> > > > 
-> > > > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-> > > > ---
-> > > >  Documentation/hwmon/cros_ec_hwmon.rst |   5 +-
-> > > >  drivers/hwmon/cros_ec_hwmon.c         | 237 +++++++++++++++++++++++++++++++++-
-> > > >  2 files changed, 237 insertions(+), 5 deletions(-)
-> 
-> <snip>
-> 
-> > > > +static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec,
-> > > > +					u8 index, u8 *pwm_value)
-> > > > +{
-> > > > +	int ret = cros_ec_hwmon_read_pwm_raw_value(cros_ec, index, pwm_value);
-> > > 
-> > > The _raw_ function is unnecessary.
-> > > 
-> > 
-> > This is to share with the `cros_ec_hwmon_cooling_get_cur_state`, and there is a
-> > unit conversion needed, so extract the same process into a _raw_ function.
-> 
-> What's the advantage of scaling the value for the cooling device?
-> The hwmon core thermal zone implementation also uses the hwmon values
-> directly.
-> 
+From: Sung-Chi Li <lschyi@chromium.org>
 
-After rethinking about this, I think using the same unit between hwmon and
-thermal cooling devices is easier. As a result, will remove the _raw_ functions,
-and update logics in the cooling device commit.
+Register fans connected under EC as thermal cooling devices as well, so
+these fans can then work with the thermal framework.
 
-> > > > +
-> > > > +	if (ret == 0)
-> > > > +		*pwm_value = *pwm_value * 255 / 100;
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec,
-> > > > +					 u8 index, u8 *control_method)
-> > > > +{
-> > > > +	struct ec_params_auto_fan_ctrl_v2 req = {
-> > > > +		.fan_idx = index,
-> > > > +		.cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
-> > > > +	};
-> > > > +	struct ec_response_auto_fan_control resp;
-> > > > +	int ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
-> > > > +			      sizeof(req), &resp, sizeof(resp));
-> > > 
-> > > Keep &foo and sizeof(foo) together on the same line please.
-> > > 
-> > 
-> > This is automatically formatted by clang-format. I will keep it like this in the
-> > v2 patch. If it is important for readablity, please share with me, and I will
-> > update that in the v2 patch.
-> 
-> It's not that important. But unfortunate that clang-format will make the
-> formatting worse.
-> 
+During the driver probing phase, we will also try to register each fan
+as a thermal cooling device based on previous probe result (whether the
+there are fans connected on that channel, and whether EC supports fan
+control). The basic get max state, get current state, and set current
+state methods are then implemented as well.
 
-Ok, I will keep them in the same row.
+Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+---
+ Documentation/hwmon/cros_ec_hwmon.rst |  2 ++
+ drivers/hwmon/cros_ec_hwmon.c         | 66 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 68 insertions(+)
 
-<snip>
+diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
+index 5b802be120438732529c3d25b1afa8b4ee353305..82c75bdaf912a116eaafa3149dc1252b3f7007d2 100644
+--- a/Documentation/hwmon/cros_ec_hwmon.rst
++++ b/Documentation/hwmon/cros_ec_hwmon.rst
+@@ -27,3 +27,5 @@ Fan and temperature readings are supported. PWM fan control is also supported if
+ the EC also supports setting fan PWM values and fan mode. Note that EC will
+ switch fan control mode back to auto when suspended. This driver will restore
+ the fan state before suspended.
++If a fan is controllable, this driver will register that fan as a cooling device
++in the thermal framework as well.
+diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+index c5e42e2a03a0c8c68d3f8afbb2bb45b93a58b955..abfcf44fb7505189124e78c651b0eb1e0533b4e8 100644
+--- a/drivers/hwmon/cros_ec_hwmon.c
++++ b/drivers/hwmon/cros_ec_hwmon.c
+@@ -13,6 +13,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/platform_data/cros_ec_commands.h>
+ #include <linux/platform_data/cros_ec_proto.h>
++#include <linux/thermal.h>
+ #include <linux/types.h>
+ #include <linux/units.h>
+ 
+@@ -27,6 +28,11 @@ struct cros_ec_hwmon_priv {
+ 	u8 manual_fan_pwm_values[EC_FAN_SPEED_ENTRIES];
+ };
+ 
++struct cros_ec_hwmon_cooling_priv {
++	struct cros_ec_hwmon_priv *hwmon_priv;
++	u8 index;
++};
++
+ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
+ {
+ 	int ret;
+@@ -300,6 +306,34 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
+ 	NULL
+ };
+ 
++static int
++cros_ec_hwmon_cooling_get_max_state(struct thermal_cooling_device *cdev,
++				    unsigned long *val)
++{
++	*val = 255;
++	return 0;
++}
++
++static int cros_ec_hwmon_cooling_get_cur_state(struct thermal_cooling_device *cdev,
++					       unsigned long *val)
++{
++	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
++	u8 read_val;
++	int ret = cros_ec_hwmon_read_pwm_value(priv->hwmon_priv->cros_ec, priv->index, &read_val);
++
++	if (ret == 0)
++		*val = read_val;
++	return ret;
++}
++
++static int cros_ec_hwmon_cooling_set_cur_state(struct thermal_cooling_device *cdev,
++					       unsigned long val)
++{
++	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
++
++	return cros_ec_hwmon_write_pwm_input(priv->hwmon_priv->cros_ec, priv->index, val);
++}
++
+ static const struct hwmon_ops cros_ec_hwmon_ops = {
+ 	.read = cros_ec_hwmon_read,
+ 	.read_string = cros_ec_hwmon_read_string,
+@@ -307,6 +341,12 @@ static const struct hwmon_ops cros_ec_hwmon_ops = {
+ 	.is_visible = cros_ec_hwmon_is_visible,
+ };
+ 
++static const struct thermal_cooling_device_ops cros_ec_thermal_cooling_ops = {
++	.get_max_state = cros_ec_hwmon_cooling_get_max_state,
++	.get_cur_state = cros_ec_hwmon_cooling_get_cur_state,
++	.set_cur_state = cros_ec_hwmon_cooling_set_cur_state,
++};
++
+ static const struct hwmon_chip_info cros_ec_hwmon_chip_info = {
+ 	.ops = &cros_ec_hwmon_ops,
+ 	.info = cros_ec_hwmon_info,
+@@ -374,6 +414,31 @@ static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cro
+ 	       is_cros_ec_cmd_fulfilled(cros_ec, EC_CMD_THERMAL_AUTO_FAN_CTRL, 2);
+ }
+ 
++static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
++						       struct cros_ec_hwmon_priv *priv)
++{
++	struct cros_ec_hwmon_cooling_priv *cpriv;
++	size_t i;
++
++	if (!priv->fan_control_supported)
++		return;
++
++	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
++		if (!(priv->usable_fans & BIT(i)))
++			continue;
++
++		cpriv = devm_kzalloc(dev, sizeof(*cpriv), GFP_KERNEL);
++		if (!cpriv)
++			return;
++
++		cpriv->hwmon_priv = priv;
++		cpriv->index = i;
++		devm_thermal_of_cooling_device_register(
++			dev, NULL, devm_kasprintf(dev, GFP_KERNEL, "cros-ec-fan%zu", i), cpriv,
++			&cros_ec_thermal_cooling_ops);
++	}
++}
++
+ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -402,6 +467,7 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+ 	cros_ec_hwmon_probe_fans(priv);
+ 	priv->fan_control_supported =
+ 		cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
++	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
+ 
+ 	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
+ 							 &cros_ec_hwmon_chip_info, NULL);
 
-> > > > +	};
-> > > > +	int ret;
-> > > > +
-> > > > +	/* No CROS EC supports no fan speed control */
-> > > > +	if (val == 0)
-> > > > +		return -EOPNOTSUPP;
-> > > > +
-> > > > +	req.set_auto = (val != 1) ? true : false;
-> > > > +	ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
-> > > > +			  sizeof(req), NULL, 0);
-> > > 
-> > > Use a full 100 columns.
-> > > 
-> > 
-> > Hmm, I found the style guide actually strongly prefer 80:
-> > https://www.kernel.org/doc/html/v6.14/process/coding-style.html#breaking-long-lines-and-strings
-> 
-> I don't think it is a strong recommendation anymore.
-> The hwmon core also doesn't seem to be religious about it.
-> 
+-- 
+2.49.0.906.g1f30a19c02-goog
 
-Ok, I will update the series with 100 columns.
 
-<snip>
-
-> > > > +static int cros_ec_hwmon_resume(struct platform_device *pdev)
-> > > > +{
-> > > > +	const struct cros_ec_hwmon_platform_priv *platform_priv =
-> > > > +		dev_get_drvdata(&pdev->dev);
-> > > > +	const struct cros_ec_hwmon_priv *priv =
-> > > > +		dev_get_drvdata(platform_priv->hwmon_dev);
-> > > > +	size_t i;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (!priv->fan_control_supported)
-> > > > +		return 0;
-> > > > +
-> > > > +	/*
-> > > > +	 * EC sets fan control to auto after suspended, restore settings to
-> > > > +	 * before suspended.
-> > > > +	 */
-> > > > +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-> > > > +		if (!(priv->manual_fans & BIT(i)))
-> > > > +			continue;
-> > > 
-> > > Given that we can read the actual state from the EC I'd prefer to read
-> > > it back and store it during suspend() instead of storing it during write().
-> > > 
-> > 
-> > Do you mean reading fan mode and fan PWM value during suspend, or we will keep
-> > updating `manual_fans` while write(), and do not cache the PWM value while
-> > write()? That involves whether we need to send a get fan mode for every write
-> > PWM value.
-> 
-> This one:
-> "reading fan mode and fan PWM value during suspend"
-> 
-
-Sounds good, update the logic to only caching values when suspending, and remove
-the behavior of caching values when writing. The write of PWM values is then
-changed to fetch the fan control method first.

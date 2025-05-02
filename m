@@ -1,159 +1,224 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209A719FA92
-	for <chrome-platform@lists.linux.dev>; Fri,  2 May 2025 05:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C712F2F
+	for <chrome-platform@lists.linux.dev>; Fri,  2 May 2025 05:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746163415; cv=none; b=dffctlNw080K9hlT6dykeC/0BkOgf1t5WZxkfrOek3NqzU64Umy83P9spXANJK/yDT4P3b15DIhvKfErHm9mejagi74kBA6ZJRvUZtGrdtI49zU5uFzXchEFdCqIUH+Hc6gBsQCdXj3eoByFGHywYDxjXsyE2ZrdKHFvKiOyofE=
+	t=1746163922; cv=none; b=OwrbJhx+fOwKnSdrUHhqDBFiJZq1SDtwBKU6zd/+4kz+U1pem5Sp1YuaNdti53QQnXQIblnhpB6ApV83J0MMyIVlgMLC6UTBur6jh2twr45mtPtU186SqO86iM+diE4h/I6c/N1ojYa7oH2Dp8iwc0An+48CcD77YqYGzbIK/Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746163415; c=relaxed/simple;
-	bh=D99X97H0h0egYlqmZ2qyx2bGB/WuCPs4SWCP3Auk0hs=;
+	s=arc-20240116; t=1746163922; c=relaxed/simple;
+	bh=usJVdZHK/QHhzFDHOhC3JAVS9UlWcT9i2Wt2pFBV7Ys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=De9hgde2rOEgGGVQmBnQKUbBce6xp097lNcoNK60lDEUps6868zOuB5MayEeSdc+xrolXTzy2Nn6gIGgc12oV9ee8n8L6/9zYKjgUgcCQoqbAu6kBkALW/6BEFfmjUQHUq4PTiw49sZ47Lm1iK5X41nOkwBh/jJWSsAUOC9heP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uAirS-0004Qb-Gu; Fri, 02 May 2025 07:22:58 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uAirP-000he0-35;
-	Fri, 02 May 2025 07:22:55 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1uAirP-00GTlC-2X;
-	Fri, 02 May 2025 07:22:55 +0200
-Date: Fri, 2 May 2025 07:22:55 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org,
-	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>,
-	Guenter Roeck <groeck@chromium.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v9 3/7] power: reset: Introduce PSCR Recording Framework
- for Non-Volatile Storage
-Message-ID: <aBRWrwY6YN0526SN@pengutronix.de>
-References: <20250422085717.2605520-1-o.rempel@pengutronix.de>
- <20250422085717.2605520-4-o.rempel@pengutronix.de>
- <bumx6ma3kjanapwaf3oc3mdjnekatvc2cmavt6secfkaapgjpz@kouqjidbl47k>
+	 Content-Type:Content-Disposition:In-Reply-To; b=A6yDVPZXElfR1eANA2DQ+N8kedKaaKOnnFGN7/fyjDTlY2rR/ZMnaLIxJ3N5NmW+NJYy7JSEk5ZqExggLgknkl7aqGK7huZr8QO50YrIe9Xxa9xx3cASZqdv9okCy5ZEYre2vnSFItyH5wIYT8F4BDWd4UZc+l6t3m/6IAAGS1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l41MB2W3; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l41MB2W3"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-227c7e57da2so15412035ad.0
+        for <chrome-platform@lists.linux.dev>; Thu, 01 May 2025 22:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1746163919; x=1746768719; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=EuQJSqMieCdA49kvmDy4IyuB0LzUEBY1NlpAym9Qp94=;
+        b=l41MB2W3ZelfeXHZJR/J/NtegX4NYNsI7E+VfNYZ4RNkX5Q74gRmGWGcvX3HvJGzvo
+         HaiyjCdg6nTTEaQJhCgB4MBxulkEwzZRanzb0xnrxqCzOv8ITZ5xZWLDH1mdEx5sRq0a
+         uT7meiJc20gNT4Cf358tlkZHvZBnYZjHuxIsw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746163919; x=1746768719;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EuQJSqMieCdA49kvmDy4IyuB0LzUEBY1NlpAym9Qp94=;
+        b=VwVPnorePvWnwTr0YGVmMjX029TqcuoiNcKHXfo46raZ1vcaqocRXDoEi9SPaGQwIK
+         xJTRhWG+wfzqBHjiq8jchOV2r3p5jCqyKSEOOHhn2luHDQr87z6FGILHRKxX8xzLA2/j
+         j3qZsiC8nLAl6yMgUWfM8JCoBjVEkKSZ53av9lz8Vgyo6YVmN1EZfubI5zf9LqE5i9DE
+         4mP8+PDsHl1LvbxjOgXyQg6+QFFoO8fWTuOkZOcN3Qntm1T17sUWKuslBpdoGpmp0HQ8
+         FggR3i31x1Do24BRRGyZk1SQzXu/tfcQoVDpBLjvn+Ai60q+g4oZXOVEnJYoxpHsmgt/
+         5rcw==
+X-Forwarded-Encrypted: i=1; AJvYcCV5Jw6TlC10NrpEKwKtSbJrejUOhEdi8Oz8ipAtY/e2TSFEwMD+iP7FHI/1P9fY6Dr/42L+xOwLpCjVVftt1/4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOS8khNwjJGM0YGRMS1pQ5Sk+Fturc8Bdt+ItiR8a0f6pdNgEA
+	AR+j/ytCz2sIE2K7Jzuj9M5rCggBO8uePS9mK/T1a9yBEsRnIhLZ8E64l8qrKA==
+X-Gm-Gg: ASbGncuYpWENcEUM216jZ1Ov3sbrLEMJZF0aHugkFOBV4u7+V1oirb3z0uMRrySJTmT
+	sbT3Xe7y6cO/6J/F2y9DENsbyvJgE00q97YuuAjCAv0UvNGN14aTZDgRBfXkg7MP5vsWroO7XGG
+	asfAhNoVkkppEEmMQfCh6cyzUC+jbPfdTalArpulkbN66gno7anEu5XuASK4nyruqud2upsbiRh
+	oW3jw16e3F/1WKbANw/Zi8CxLy1jAoiDR9S7NI3XuIvauxLa4uso7/ccJneAJtOCAHEDht2s/uw
+	JlzOGWlT2TDSIQynysBPtnV4Agkf6LMuSw==
+X-Google-Smtp-Source: AGHT+IEg5hGIJsupBIjuos3OKynkR03wDTIHxLSn0l4PtdYPmXd+1wOHbVQYP7FSLZwrEVutzqN7vw==
+X-Received: by 2002:a17:903:11ce:b0:224:f12:3746 with SMTP id d9443c01a7336-22e10340bf2mr22776705ad.30.1746163919276;
+        Thu, 01 May 2025 22:31:59 -0700 (PDT)
+Received: from google.com ([2401:fa00:1:10:e66e:6e73:436b:6b0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e10848fe9sm5845215ad.16.2025.05.01.22.31.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 May 2025 22:31:58 -0700 (PDT)
+Date: Fri, 2 May 2025 13:31:55 +0800
+From: Sung-Chi Li <lschyi@chromium.org>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/3] hwmon: (cros_ec) add PWM control over fans
+Message-ID: <f63hek7p5d74xrkcbm7wk5s3fc6mlgyjkiovpyprlro4blyckf@in5an2tk6twb>
+References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
+ <20250429-cros_ec_fan-v1-2-a8d9e3efbb1a@chromium.org>
+ <0933ec48-9a4b-49d0-8670-50b6ff6433f5@t-8ch.de>
+ <aBHKepQx_drHfnp8@google.com>
+ <0483bdf2-c1a2-4a8e-b0ee-b00cafdda557@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bumx6ma3kjanapwaf3oc3mdjnekatvc2cmavt6secfkaapgjpz@kouqjidbl47k>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+In-Reply-To: <0483bdf2-c1a2-4a8e-b0ee-b00cafdda557@t-8ch.de>
 
-Hi Sebastian,
-
-Thanks for the feedback.
-
-On Fri, May 02, 2025 at 01:20:50AM +0200, Sebastian Reichel wrote:
-> Hi,
+On Wed, Apr 30, 2025 at 04:48:15PM +0200, Thomas Wei�schuh wrote:
+> On 2025-04-30 15:00:10+0800, Sung-Chi Li wrote:
+> > On Tue, Apr 29, 2025 at 11:20:09PM +0200, Thomas Wei�schuh wrote:
+> > > On 2025-04-29 16:14:22+0800, Sung-Chi Li via B4 Relay wrote:
+> > > > From: Sung-Chi Li <lschyi@chromium.org>
+> > > > 
+> > > > Newer EC firmware supports controlling fans through host commands, so
+> > > > adding corresponding implementations for controlling these fans in the
+> > > > driver for other kernel services and userspace to control them.
+> > > > 
+> > > > The driver will first probe the supported host command versions (get and
+> > > > set of fan PWM values, get and set of fan control mode) to see if the
+> > > > connected EC fulfills the requirements of controlling the fan, then
+> > > > exposes corresponding sysfs nodes for userspace to control the fan with
+> > > > corresponding read and write implementations.
+> > > > As EC will automatically change the fan mode to auto when the device is
+> > > > suspended, the power management hooks are added as well to keep the fan
+> > > > control mode and fan PWM value consistent during suspend and resume. As
+> > > > we need to access the hwmon device in the power management hook, update
+> > > > the driver by storing the hwmon device in the driver data as well.
+> > > > 
+> > > > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+> > > > ---
+> > > >  Documentation/hwmon/cros_ec_hwmon.rst |   5 +-
+> > > >  drivers/hwmon/cros_ec_hwmon.c         | 237 +++++++++++++++++++++++++++++++++-
+> > > >  2 files changed, 237 insertions(+), 5 deletions(-)
 > 
-> On Tue, Apr 22, 2025 at 10:57:13AM +0200, Oleksij Rempel wrote:
-> > This commit introduces the Power State Change Reasons Recording (PSCRR)
-> > framework. It provides a generic mechanism to store shutdown or reboot
-> > reasons, such as under-voltage, thermal events, or software-triggered
-> > actions, into non-volatile storage.
+> <snip>
+> 
+> > > > +static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec,
+> > > > +					u8 index, u8 *pwm_value)
+> > > > +{
+> > > > +	int ret = cros_ec_hwmon_read_pwm_raw_value(cros_ec, index, pwm_value);
+> > > 
+> > > The _raw_ function is unnecessary.
+> > > 
 > > 
-> > PSCRR is primarily intended for systems where software is able to detect
-> > a power event in time and store the reason—typically when backup power
-> > (e.g., capacitors) allows a short window before shutdown. This enables
-> > reliable postmortem diagnostics, even on devices where traditional storage
-> > like eMMC or NAND may not survive abrupt power loss.
+> > This is to share with the `cros_ec_hwmon_cooling_get_cur_state`, and there is a
+> > unit conversion needed, so extract the same process into a _raw_ function.
+> 
+> What's the advantage of scaling the value for the cooling device?
+> The hwmon core thermal zone implementation also uses the hwmon values
+> directly.
+> 
+
+After rethinking about this, I think using the same unit between hwmon and
+thermal cooling devices is easier. As a result, will remove the _raw_ functions,
+and update logics in the cooling device commit.
+
+> > > > +
+> > > > +	if (ret == 0)
+> > > > +		*pwm_value = *pwm_value * 255 / 100;
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > > +static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec,
+> > > > +					 u8 index, u8 *control_method)
+> > > > +{
+> > > > +	struct ec_params_auto_fan_ctrl_v2 req = {
+> > > > +		.fan_idx = index,
+> > > > +		.cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
+> > > > +	};
+> > > > +	struct ec_response_auto_fan_control resp;
+> > > > +	int ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
+> > > > +			      sizeof(req), &resp, sizeof(resp));
+> > > 
+> > > Keep &foo and sizeof(foo) together on the same line please.
+> > > 
 > > 
-> > In its current form, PSCRR focuses on software-reported reasons. However,
-> > the framework is also designed with future extensibility in mind and could
-> > serve as a central frontend for exposing hardware-reported reset reasons
-> > from sources such as PMICs, watchdogs, or SoC-specific registers.
+> > This is automatically formatted by clang-format. I will keep it like this in the
+> > v2 patch. If it is important for readablity, please share with me, and I will
+> > update that in the v2 patch.
+> 
+> It's not that important. But unfortunate that clang-format will make the
+> formatting worse.
+> 
+
+Ok, I will keep them in the same row.
+
+<snip>
+
+> > > > +	};
+> > > > +	int ret;
+> > > > +
+> > > > +	/* No CROS EC supports no fan speed control */
+> > > > +	if (val == 0)
+> > > > +		return -EOPNOTSUPP;
+> > > > +
+> > > > +	req.set_auto = (val != 1) ? true : false;
+> > > > +	ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
+> > > > +			  sizeof(req), NULL, 0);
+> > > 
+> > > Use a full 100 columns.
+> > > 
 > > 
-> > This version does not yet integrate such hardware-based reporting.
+> > Hmm, I found the style guide actually strongly prefer 80:
+> > https://www.kernel.org/doc/html/v6.14/process/coding-style.html#breaking-long-lines-and-strings
 > 
-> This adds quite some complex code for a very specific problem while
-> mostly ignoring the common case of hardware reported reasons. I think
-> having at least one hardware-reported reasons (e.g. WDOG) is mandatory
-> to make sure the framework can really handle it.
-
-The initial purpose of the PSCRR framework is to record power state
-change reasons such as *undervoltage* or *regulator failures*, which can
-be detected and stored by software just before shutdown. Supporting
-hardware-reported reset reasons (like watchdog, PMIC, or SoC registers)
-is possible by design — the interface allows it — but it’s not something
-I consider mandatory for the initial version.
-
-I’d prefer to focus on solving one concrete problem at a time, and the
-current use case is already well-supported with software-side logic.
-
-> I also see you extended power_on_reason.h and included it here
-
-You're right — the `#include <linux/power/power_on_reason.h>` is no
-longer used directly in `pscrr.c` and will be removed in the next
-revision.
-
-> but
-> don't actually use the defined strings at all. Also you create the
-> new enum, but don't handle the existing reasons and just add the new
-> codes you need instead of making sure things are properly in-sync :(
-
-Could you please clarify what exactly you mean here? The strings defined
-in `power_on_reason.h` are still used indirectly via
-`psc_reason_to_str()`, which is called in the reboot core and used by
-PSCRR for logging (e.g., in `pscrr_reboot_notifier()` and
-`pscrr_core_init()`). If your concern is about the enum values
-themselves or something else, I'd appreciate a bit more detail.
-
-> > [...]
+> I don't think it is a strong recommendation anymore.
+> The hwmon core also doesn't seem to be religious about it.
 > 
-> > +struct pscrr_core {
-> > +	struct mutex lock;
-> > +	struct pscrr_backend *backend;
-> > +	/* Kobject for sysfs */
-> > +	struct kobject *kobj;
-> > +	struct notifier_block reboot_nb;
-> > +} g_pscrr = {
-> > +	.lock = __MUTEX_INITIALIZER(g_pscrr.lock),
-> > +};
-> 
-> Apart from the highlevel problems I have with this:
-> 
-> g_pscrr can be static
-> 
-> -- Sebastian
 
-Best regards,  
-Oleksij
+Ok, I will update the series with 100 columns.
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+<snip>
+
+> > > > +static int cros_ec_hwmon_resume(struct platform_device *pdev)
+> > > > +{
+> > > > +	const struct cros_ec_hwmon_platform_priv *platform_priv =
+> > > > +		dev_get_drvdata(&pdev->dev);
+> > > > +	const struct cros_ec_hwmon_priv *priv =
+> > > > +		dev_get_drvdata(platform_priv->hwmon_dev);
+> > > > +	size_t i;
+> > > > +	int ret;
+> > > > +
+> > > > +	if (!priv->fan_control_supported)
+> > > > +		return 0;
+> > > > +
+> > > > +	/*
+> > > > +	 * EC sets fan control to auto after suspended, restore settings to
+> > > > +	 * before suspended.
+> > > > +	 */
+> > > > +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
+> > > > +		if (!(priv->manual_fans & BIT(i)))
+> > > > +			continue;
+> > > 
+> > > Given that we can read the actual state from the EC I'd prefer to read
+> > > it back and store it during suspend() instead of storing it during write().
+> > > 
+> > 
+> > Do you mean reading fan mode and fan PWM value during suspend, or we will keep
+> > updating `manual_fans` while write(), and do not cache the PWM value while
+> > write()? That involves whether we need to send a get fan mode for every write
+> > PWM value.
+> 
+> This one:
+> "reading fan mode and fan PWM value during suspend"
+> 
+
+Sounds good, update the logic to only caching values when suspending, and remove
+the behavior of caching values when writing. The write of PWM values is then
+changed to fetch the fan control method first.

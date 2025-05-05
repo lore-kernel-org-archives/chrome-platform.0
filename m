@@ -1,241 +1,234 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2084.outbound.protection.outlook.com [40.107.237.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62A9A926
-	for <chrome-platform@lists.linux.dev>; Mon,  5 May 2025 02:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746413953; cv=none; b=G6pNvAxFFu9iGFHbVtP9IyZT+rHdmbuG4hRsSND+3B44jpfk5eHz73pfrG9DnvqvFKHjZR1OWfoPLJaN6juO5GzCwTiYILBVtekQs4cFW/cBKjGj/ddvdgoz1Yv4WpKAsGQzfP5LszRwLXtyY+1gODNRf8SUBpknvYXhpeEajHU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746413953; c=relaxed/simple;
-	bh=d1Zhoze0D/62CGWBox28gWgPxfbNb6CF8IymIUyGKvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMQo3BVBEHoW/jt5odjhMDg6Rt4jUY8fPMT3UUkQWprGhazshbkFUwZ4sBmTu48GzIOLNQCe0u6LYFbLZQsGt51TEcOlrBtRnsIqjPEbrKyAqdwNuyhVwG41P3WZt+kWGqi38Ro82OIql/vI0mMlfw5CtBGxXqH/Iv0YCPCI8dU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fjMI48Uj; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F05E78F26;
+	Mon,  5 May 2025 05:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.84
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746422435; cv=fail; b=cck4mj4/XYsfAAnLQYJMq2/Q6G68+FnrWJDMmE/x6SJcOQNq9RPP0w5fjXOhfVUi7hNn2IatLCW5YkmnAZCjTS1Pb3kCaFV00NvVAolDPpvnYar0N+xRZUxr01R11q9/74bVF6oyXrjTA6Jbh6+B05rcJ3UUV4inCGrzut026h4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746422435; c=relaxed/simple;
+	bh=lFyU5/hbSaPe8e1KyaR6ul1KyL5p7wm/aM1XucXISDI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=YI3i2wpaUkKT64ME43AMD6mI7up2klY/MnRhGssi6Y5+NPMwSQGKIJoaPvk6OIOA5HgPHmza0gYzHpVMZM3HObfAycWtwF3EeY2SCgUohFrfaidg0CpURql7gesGraqM1q4DKsksekyS8Klkh6/yfEFx5hYQrkisEUDiNoT3qpw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Voh9wS4C; arc=fail smtp.client-ip=40.107.237.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fjMI48Uj"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-af59c920d32so2558930a12.0
-        for <chrome-platform@lists.linux.dev>; Sun, 04 May 2025 19:59:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1746413950; x=1747018750; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ymtos8Nv3YWokwFqS1uDUEsEYH1a4tVaYiVJAE7YAbs=;
-        b=fjMI48UjrZOYFg6/ZvBt9YxnUWUZ2bEUcxXnFORF3JcJJIY6D0PWYDuGW0XBKGWkKU
-         vj9ajb3v0h2bqrTDlmFOkKBYWz0rb+VV6W8RbaGgib4I+bmqYMDCIHpMlNEs6YWj05Xh
-         Qaq7VOs9Ow+D4PpmAVJchKwDaE+n+YA+90tec=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746413950; x=1747018750;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ymtos8Nv3YWokwFqS1uDUEsEYH1a4tVaYiVJAE7YAbs=;
-        b=tCoN5uyym/qmjKiAHcIM9IQT/dTleg72kUo22+o3V9AeCsWTFnTJxEser6sMNOOvP7
-         7ykMYLb2OSMDPHl6/nQLexL6Mme+2OTsn+P2kVsMBWsixvTL5LXs+/ExAw6bXOJhM+9P
-         tMk43xUk4y8EqfuTUV5jK2h99DTULgycF2REQCqbYxZ9G1UDbUN5650Hz9NBOkJV03m3
-         C0i9a83UBcF+60e5t9E6HF/DjS+PyvO5sm+FRDCRFcBhf0NhrbQLKovyrmdl1X/Y0YJ+
-         IAijn4Txe76ApI4cKZtaNphToq+bkfBQ83jON6RXWv74lf+Q8D23Q3mR4jusnDb9W/5T
-         fEnA==
-X-Forwarded-Encrypted: i=1; AJvYcCXedD9ZVUaL2/ICUA9jkU9cYcsnq3xzj189uBgij6uHO8K58ZsC3Gek6xYA9VgdRhMGFENFdJ78hNEBZJ5piEE=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxPXYBxLuP7ehvAm5exvjXtSkFmlA1IeeRr/+56tdSUGqeA7lVk
-	TtKaTvoQrl8JaKSzeBcG2XzWwiPChwbuAAQRSDvGycsguYw7D51tryNWcExaUg==
-X-Gm-Gg: ASbGncu1snZ5iqMxJE1TaMnGcE8po/0Eve9CygXu3o4KofAM13j8/lJdQS9qos4WOnT
-	MNEXzbusA6daYmNGWj7ofnZ5N/WgJETdxiapVBgPiYD7bBeLIHbGXZnzVP2CCCtqvg41zU28eMp
-	tCa9z8g6prLX533C9SpOnc5SJq6mcU/IbXqJ+qEor/Frf5RqheamgkVA99qSoCLQhmGXtJJktK4
-	84PQh29YRRXc4p89sCOmMBfqvHT4EhSCS/T/1v/ClB167TxprhbegjY4xlRAbrzhfFHycD/ZnYN
-	Jlcrtzsz5WyjG9qG4OCx8PN7b42kGDD1g5U2IG2hurMW
-X-Google-Smtp-Source: AGHT+IGpzOWkSrdcO9TOyY0TMdEW8dx8hBfFucltiM2W4Gt20M+07RWuMYi0uDTOf6nqfMF7umSTvQ==
-X-Received: by 2002:a17:903:22c4:b0:220:d257:cdbd with SMTP id d9443c01a7336-22e1ea9a1d8mr99273415ad.48.1746413950037;
-        Sun, 04 May 2025 19:59:10 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:da1:c82f:c4ba:2f8f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e15228bb1sm43824165ad.166.2025.05.04.19.59.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 May 2025 19:59:09 -0700 (PDT)
-Date: Mon, 5 May 2025 10:59:06 +0800
-From: Sung-Chi Li <lschyi@chromium.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] hwmon: (cros_ec) add PWM control over fans
-Message-ID: <aBgpepY29tFUGVYm@google.com>
-References: <20250502-cros_ec_fan-v2-0-4d588504a01f@chromium.org>
- <20250502-cros_ec_fan-v2-2-4d588504a01f@chromium.org>
- <a89ee43f-79d9-405a-a099-7ce90fe6eb55@t-8ch.de>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Voh9wS4C"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Nd6M1F3tgcfAUsFhs+YRaAabELqsZhHXrKARwb37/a+AzqtoL65Bg1N3/lWGSgbfnrGcnrAT4l+Tr1KNNYG5iqe94wWqpEvm38MdI7RMIt1TH5IeGirUq/MSYOqIFsuIMVpUtjcWJt8ycPOCzZ57TRrYqNITXE5t3ZXNJnECzWrZmna7Z1pc4viYoILXNyKDX1PKwwIL0Zl4P9MuCj0d705UVS+Eahwcjc9cNm7GIx1BR1msOKu1vvFcg2V18uLmgaYc/jBLEsG5oq0rV12lxIncm9HvPW1+IQBvwIUoUZjWBFM7TtAcBq80DRVdsiXrfxWu5gzKTCoxeDZPUX9tjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lFyU5/hbSaPe8e1KyaR6ul1KyL5p7wm/aM1XucXISDI=;
+ b=ynzD1DSEAZKN89Ue5wzQOrerbHMk1Axie7hzT770W73zhlEFW55P/ftBKXyHRsCU6KZZ800AvnG/ZE3PHs55o3lhXpGfmsDP49hTs1VjEiB5up5agYLsgpz0vbQytjjVuUHwhRzaimILX0rj3rowokIFne3AC+4fBopZ3mw79iElfV43X2hggd3Yfl4EcTcCaAhYPkxjLL2M3x00OUZ2GIlwxTNCDaE5Ofbbet7WXKPg0MG7idvlegMl+M87YqUpy78shhhrwDv+HqSkjCnAz1h4O1EIUA0jOrzCytUebVf13vRVs+vqmFkqdotD6f/Cgwquc4MmmvFb1xMbbwll8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lFyU5/hbSaPe8e1KyaR6ul1KyL5p7wm/aM1XucXISDI=;
+ b=Voh9wS4C7u3zq/8geSu7473Qc5C0UBoRkQmPfon7ydOJOnvH4QQQYeJAUOHCGW6AK7ZkCQ+7fkhcvKyDNClmgDP3wFqEH2bEREsHLLm4lYBOzk38G9iEhNJdgGobvov0XRS/3AN86+HaSZb4T9QOCFSnFh8tKMS69BRfacu/SWGau+NG/iy+DrrB3kT93StZOTFMN7MXHdWl1QeFcCtsMm1WHcrdh2fUyZbNPB6MIAlXAAXErSNSZRfSAr6wLmigWJbIS3sOh0KeLl5EM8rOnW9MRaGH2LW5Q+OVAFTE9QlcGSB9hgLozRtOANT8PhXkUalGRrkK39yen8+Z/heI9Q==
+Received: from PH8PR11MB6609.namprd11.prod.outlook.com (2603:10b6:510:1cc::16)
+ by PH7PR11MB6881.namprd11.prod.outlook.com (2603:10b6:510:200::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Mon, 5 May
+ 2025 05:20:26 +0000
+Received: from PH8PR11MB6609.namprd11.prod.outlook.com
+ ([fe80::ebc1:5d63:a07c:60d]) by PH8PR11MB6609.namprd11.prod.outlook.com
+ ([fe80::ebc1:5d63:a07c:60d%4]) with mapi id 15.20.8699.022; Mon, 5 May 2025
+ 05:20:26 +0000
+From: <Manikandan.M@microchip.com>
+To: <luca.ceresoli@bootlin.com>
+CC: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+	<andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+	<Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+	<jernej.skrabec@gmail.com>, <jagan@amarulasolutions.com>,
+	<shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+	<festevam@gmail.com>, <dianders@chromium.org>, <chunkuang.hu@kernel.org>,
+	<krzk@kernel.org>, <asrivats@redhat.com>, <paulk@sys-base.io>,
+	<lumag@kernel.org>, <Hui.Pu@gehealthcare.com>,
+	<thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+	<asahi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<chrome-platform@lists.linux.dev>, <imx@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-amlogic@lists.infradead.org>, <linux-renesas-soc@vger.kernel.org>,
+	<platform-driver-x86@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <aford173@gmail.com>,
+	<adrien.grassein@gmail.com>, <amishin@t-argos.ru>, <andy.yan@rock-chips.com>,
+	<angelogioacchino.delregno@collabora.com>, <bleung@chromium.org>,
+	<biju.das.jz@bp.renesas.com>, <chf.fritz@googlemail.com>,
+	<cristian.ciocaltea@collabora.com>, <detlev.casanova@collabora.com>,
+	<Dharma.B@microchip.com>, <groeck@chromium.org>, <heiko@sntech.de>,
+	<jani.nikula@intel.com>, <j@jannau.net>, <jbrunet@baylibre.com>,
+	<jesseevg@gmail.com>, <khilman@baylibre.com>,
+	<kieran.bingham+renesas@ideasonboard.com>, <victor.liu@nxp.com>,
+	<martin.blumenstingl@googlemail.com>, <matthias.bgg@gmail.com>,
+	<p.zabel@pengutronix.de>, <ple@baylibre.com>, <fnkl.kernel@gmail.com>,
+	<sugar.zhang@rock-chips.com>, <sui.jingfeng@linux.dev>,
+	<tomi.valkeinen+renesas@ideasonboard.com>, <mordan@ispras.ru>
+Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
+ devm_kzalloc() to devm_drm_bridge_alloc() API
+Thread-Topic: [PATCH v2 01/34] drm: convert many bridge drivers from
+ devm_kzalloc() to devm_drm_bridge_alloc() API
+Thread-Index: AQHbtUsLjdQGawUhkE+yGegcji7RNrO7/beAgAAPQ4CAB4M/gA==
+Date: Mon, 5 May 2025 05:20:26 +0000
+Message-ID: <2667ea5c-ad57-4c1d-8074-b04677b02cb4@microchip.com>
+References:
+ <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+ <20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
+ <e90b9ef2-ace0-4b98-9d49-5a62e529cf8a@microchip.com>
+ <20250430123651.37be3e38@booty>
+In-Reply-To: <20250430123651.37be3e38@booty>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH8PR11MB6609:EE_|PH7PR11MB6881:EE_
+x-ms-office365-filtering-correlation-id: e5244c6b-b92f-4f4d-22b2-08dd8b948b1e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?Z2RIdjEzL2ZXR00rWUduc2E5Q1lLM1k0bXc5azJQUkFDSkdObEhHSWJmYzdM?=
+ =?utf-8?B?Z0p0b0ZGM1crcThNZm5pbjNvdWxVYXVVODcwbmtSYS90VFN0bWpBd2RLK2g0?=
+ =?utf-8?B?WGVJcFpCWXcrdGt4Z0hvdndhRXI1d2VpOThmQk9IOStBN2txUEJ3ckNDb0Jk?=
+ =?utf-8?B?cDZIdFRCKzF0ZS9wQ1BpWUNWWCtEVzlaVDZHeFdqRGczdkM5aDYrMFF6OEh2?=
+ =?utf-8?B?TXVVQW5NWVkyWWxGbEwzMERwL1U2alNwdGY2akwveVJCNEZ0UlM1S0tSWWt5?=
+ =?utf-8?B?MDFWYUhMZ1F3NHBPZTRjMVpENDFQbit4YU02L0JJYlhuS1FKN3RjWUtVY0h0?=
+ =?utf-8?B?N3dLaXVSMW9TT2hFUFd5ZUtQSTVUUFQzQU5iaDFXVk1KaW1yTjA4ckNQUW0z?=
+ =?utf-8?B?dGxGWFMzR1Q3T0NzOHhwQS9rZExMYytJREJTZFgyaTBmZVRKOTg0UGgxSkJv?=
+ =?utf-8?B?VHppOVFTdkRmRlplYjlHTVRWdjVvYlpTQmVYZXhTd1RSdElWVlJEb0llc0s1?=
+ =?utf-8?B?VFZwYVVGQ0ZPbU5TQUozbk5hdXhnditLVTZnbzQrengza1Z2ZkljZWNmeGdM?=
+ =?utf-8?B?Qm5Bcis2Ni82WXYyRkFVcEY4NFhvOE9xZ2phcWI4K05VdHlJS0ZRdnlpSUwy?=
+ =?utf-8?B?ZE15bDRLRzNmUVRvTUJuSDFhQTUxOEtGcU1Pc01qVmdQd0VzVWVEdHJNemZ1?=
+ =?utf-8?B?ZTF3UWNiQ1pIZk1STGM3R1ptTTN0SExTMWkvVHBqMk9vTXQxdEVhNWhIY0Qr?=
+ =?utf-8?B?a3VNWGQ5azJiclhWNkI2UXc2azlQK2hyWmdpTnNTQWcrcEw2OTErWnlBTmpv?=
+ =?utf-8?B?cHRra25VMS9GcmZWUUVqYzI5cjU5Tll0b1Zscjh0RERRNEZGRllMekdUM05B?=
+ =?utf-8?B?bTFzUjQyaHJzeVVnTVNRRzFGQzhTRkxQeXk0TGQzRUlLZ1dlSXpFYjRodVY3?=
+ =?utf-8?B?NkJwZm53RHdJaHVqTHcyUUsvRGw2a045ZzEyTndQaTlsUlN1cklFOEpWNGVw?=
+ =?utf-8?B?RTR2RUVyTkwxTC9IRVdETnV4WHk1WVNZSmxiZ3VtdlNEZlhmaEdWeloyUThm?=
+ =?utf-8?B?eEI0UE1BNzlRNmVuQkZ2T1Q1bENJdnZ6VG5zR2gzcVQrcjBYc1FHRXV5S3lN?=
+ =?utf-8?B?L0RXTkdiY21ZNDI4M0QvTW1BbEdrS1BQVUhiQmRzK2xXMHpqN2Y5cE1zZDlQ?=
+ =?utf-8?B?dXZLZi9NTU1GMXdmL2NDREdQK0JodS9IWmlCalVCNjZrTDlFSFZsQ0I4OTY4?=
+ =?utf-8?B?L0JXNFFCSlZVd0FNRm5vcElPYTVGeDU2UFhWRzg4ZWd0V3MvS0s5OUk3NVhF?=
+ =?utf-8?B?cHdUNm03VEVLdzJPdUZLL240dUlMSFZIN1lzWExDbXFsVW9YUVJPZ2tDZ0ZV?=
+ =?utf-8?B?Q0ljbG45RUxZS1dGVnVJT2NDUi8wWHF5TFM5eWsvMjBCNVQzZC9vNys3YzRp?=
+ =?utf-8?B?RmVZQWs4cG5RQnRZNjkzZFJDYjZGQ2Zobko5aVkyRVZLLzBPbk9YSkQ1SWg0?=
+ =?utf-8?B?UGpLMnZEa3NjU3BEQlU0WEdOa3ExdFRRZW1rODVIei9ObnlUcTAvU2hobVhV?=
+ =?utf-8?B?WG1FeE9NZitpQjU4ckNKbHlIQ053WVBIZWlRMVh0OGR5eFFxL3pDYVp1Mmd6?=
+ =?utf-8?B?d2lFU3ZpMWRBdE4rZTVneVhQV1Uxckk3Y0NzMXJhVU1DSDY4Y0hlWTR2N1Iy?=
+ =?utf-8?B?Q0ZvcDRWeDJpSHlOQk5udlFXWnd1T2NkbHVzY0RhMFcrcnNRQXhyN1A4SVg5?=
+ =?utf-8?B?a29BMVF0YUpCTGQ5a2ltMGliczlDT29wRHA2bmlFWVRrVVBHVmE1eDdUblV1?=
+ =?utf-8?B?QmV6RWIwcEtoU0NRbHQyOWlHam5OMytTMEl1UEt0VUl3ZXIrNGY1dWVuL1Bm?=
+ =?utf-8?B?NFN5dTVKdDRLOENIVXdSdTVnWDIvdUpqbDJNall1QWZ6YVRROFNSdzZSZ3lx?=
+ =?utf-8?Q?kY6vXAQiFI8=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB6609.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Z2FOb2JhNUplRkFqSTNCNXdNZ1NBK1FjOGcxelhzRU84ZTVaaEp0MnhQTUhP?=
+ =?utf-8?B?MFF3TTV3Nm5RTWNkUzJSdnJFYXVoeERwRlo1Q3lQNFkzb3hpcUFUVkRZWSt2?=
+ =?utf-8?B?TXBXUVRDREVaQkQ0ZlRpZVZ5emVXUEMxcitJVjc4WmRJQnM5SzJtNnRQbGUv?=
+ =?utf-8?B?KzY0YXhaSEdSUThnNC9yOGFZQllpOGFERU1UMnlIc1FzRkJsU3gxdkdTZ216?=
+ =?utf-8?B?VUtEMGRhTkNxSVpNUEJKR1pHSFA0RlVleHNaVlVkT08zeDkyNTA0amc3dzgw?=
+ =?utf-8?B?U1FLUGk3TURhY2lvMkl5NnVvSVkvS1NOL2NFK05PZEt0Nk1hRDRheEh1d2gy?=
+ =?utf-8?B?Q0xVMEZLeWEyVFdWQVprcjliakxyNS9VbjZtVXAyaWVDWmRvVjVIUjIvaXkw?=
+ =?utf-8?B?b0tRa2lOQi9NVlRCdms5TUNHcWJ0U1c0MnBLeXFMNzhXUmkyUDhzQUpKQUI5?=
+ =?utf-8?B?SGJxWGo3LzBDa0owYVh5a2pDM3c5eXJiZ21sTkN2VTlCcW9VZDdYd1djb0Yr?=
+ =?utf-8?B?aS9McXN3UTJkUi9SeG8veHZDQngzL05lTTUzYytTR2lMNE1MekUzZUpkc2FV?=
+ =?utf-8?B?M0VIdXFNRytEdEFDUU9aOHgxKytWUWtGMG10b0lHbEowUmVvK2dIb0ZlaDFY?=
+ =?utf-8?B?aW1CRTVMbit3cXVzZTR5cW12T1hZeDhHMkFTUURiVkFJUnl2OEJWeEJkZU1q?=
+ =?utf-8?B?WERCWko2YnhiK2VvZVExWVoyMUFpR200aVR1d090cE9hbTBYTTk5NlVIb2Yx?=
+ =?utf-8?B?S3N3VXVuQkNjVnMxdzhvRGgwZ21CZndod1R2MHdpY3M3TzVsYnRmUkZPYWF5?=
+ =?utf-8?B?cVZaWGI2U3ZhUFZiOHNOZm5PbGtTbTU2ZkUvTTh5dTdNbWhiTXhMMUFpdWZn?=
+ =?utf-8?B?cUNDSzQyT3ZjSGwwNjhEa2RqQzUxM1N6WkE3QW9ZVkY2bjhVVkttNWNtOUt6?=
+ =?utf-8?B?TjBQK2xMcGsvTWpNZnVYekpBTjMxVlk4UHFUMExqdW5nekN0ZFduQW9jTHRo?=
+ =?utf-8?B?NnV5UjBzR3QxOHBsUnRoTDdhTzdBdTZvNmJlM0drTXdCdm43cVVka0NQbktK?=
+ =?utf-8?B?T1JyRmxycEIzOTJWYkNMVFZPYVRja2hOeUNTem5GT0dWN0ZvMUZhL05Jdk9X?=
+ =?utf-8?B?c2Z6Wnd2bFgzSllJS2kzZ3cvTUJHSDJaTG5wdHF4ZTZjWFlPOHlhN0Z1ZGNJ?=
+ =?utf-8?B?aEdqbUlCYnYxVmgzcEUyOE1zTDUrNHp2OW9uOVdBL3F2UUxZTEQwaXpnbEor?=
+ =?utf-8?B?bzVIQ3NIT1pNSzV5QkFIQy9QL2xtMTJDZ05PaHVybzlqdWtPd2dkSTRhZGtX?=
+ =?utf-8?B?ZFZ6djNMOTR1Q1hBN0N5MitHbHowMHhpU2NYdlp2VnB4NnBBbXNLSVRSa0FH?=
+ =?utf-8?B?TXpGTlhrdVRFd2xqblI2UU9uR3lLUlVHcisxWmJzbWI3MWloc2UweFJGR2ly?=
+ =?utf-8?B?ZFdwRWJPRldOWEg5TFpBUkd2TlNEcWNzdE5CWjV4ZG82KzVFU2gwWU02dGdO?=
+ =?utf-8?B?ZjNra1NaVzFUR3pGOUdLZWtsZmZkL3RJWHpuNnhZaDg4bDd6UElhTk55Mm9n?=
+ =?utf-8?B?Wi9YbDBBeWcxRDRPRlQ5YkFRaEJadnVVUWJSdUhxVXRud3M1TVppSGRKcTdT?=
+ =?utf-8?B?RFY5bS9OSVhCZG5IR3F2WW1lTUFDRkRkaVQ0elY5Mk9zR2s0M1JPUC9zeHVG?=
+ =?utf-8?B?bmwrWXllaGRTNFFGSXFBZ0xIUUpMenpqMm1YNUFJckZEVmJFeHZnMjBSamJq?=
+ =?utf-8?B?TkR2T1hvdVZrbzZSWFpzL1c5L0tMZytoaEJOYUVtSkFDWi9NK1A0S25RcFF3?=
+ =?utf-8?B?cnY1MS8veERNN0xUWkEvb0Z6MWhNYjY2dnh0bFk2MDJ0aURuMW5iTjV0ZXB4?=
+ =?utf-8?B?WVNlVTJNRTBxTDA2YUxOaVNwc0Mwcy9nZ0o1M0NsZGNtMHFqMng1NVJ2VDRm?=
+ =?utf-8?B?czYrV2RONiswczdjRFRiS1dFbmpHNFYzS3F0RkRaN3hlZ2VvUkxTNmc2M2M2?=
+ =?utf-8?B?ZGZ6RzhzMGZKYUl3MWJ6Z2g3QncwS2c2c2lMRzFuRDJ2K3VCN3pXcVFxVmZB?=
+ =?utf-8?B?MjVrWHQ4TlpEWnBBTHVRZTU2c0haeUh0TXdqWjM1YVBWcVB1bmgzb2daQjFM?=
+ =?utf-8?Q?oiF/ndUGHHlvTaopmF17DoQSn?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DD30185DE7A2B042A47036B2FAD84825@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a89ee43f-79d9-405a-a099-7ce90fe6eb55@t-8ch.de>
+X-OriginatorOrg: microchip.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6609.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5244c6b-b92f-4f4d-22b2-08dd8b948b1e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2025 05:20:26.1836
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nB02kuitZXJDByt8gJuI5ymvR/VUZ/C0leAbZT1r+sycHCr+EHydxXZJ7on/aX0z1OfZ9Mcya7+6+IPxfVBT5kHpfDGZ5rsATWiTn7tARWY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6881
 
-On Sat, May 03, 2025 at 09:36:39AM +0200, Thomas Weißschuh wrote:
-> On 2025-05-02 13:34:46+0800, Sung-Chi Li via B4 Relay wrote:
-> > From: Sung-Chi Li <lschyi@chromium.org>
-> > 
-> > Newer EC firmware supports controlling fans through host commands, so
-> > adding corresponding implementations for controlling these fans in the
-> > driver for other kernel services and userspace to control them.
-> > 
-> > The driver will first probe the supported host command versions (get and
-> > set of fan PWM values, get and set of fan control mode) to see if the
-> > connected EC fulfills the requirements of controlling the fan, then
-> > exposes corresponding sysfs nodes for userspace to control the fan with
-> > corresponding read and write implementations.
-> > As EC will automatically change the fan mode to auto when the device is
-> > suspended, the power management hooks are added as well to keep the fan
-> > control mode and fan PWM value consistent during suspend and resume. As
-> > we need to access the hwmon device in the power management hook, update
-> > the driver by storing the hwmon device in the driver data as well.
-> > 
-> > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-> > ---
-> >  Documentation/hwmon/cros_ec_hwmon.rst |   5 +-
-> >  drivers/hwmon/cros_ec_hwmon.c         | 201 ++++++++++++++++++++++++++++++++++
-> >  2 files changed, 205 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
-> > index 47ecae983bdbef4bfcafc5dd2fff3de039f77f8e..5b802be120438732529c3d25b1afa8b4ee353305 100644
-> > --- a/Documentation/hwmon/cros_ec_hwmon.rst
-> > +++ b/Documentation/hwmon/cros_ec_hwmon.rst
-> > @@ -23,4 +23,7 @@ ChromeOS embedded controller used in Chromebooks and other devices.
-> >  
-> >  The channel labels exposed via hwmon are retrieved from the EC itself.
-> >  
-> > -Fan and temperature readings are supported.
-> > +Fan and temperature readings are supported. PWM fan control is also supported if
-> > +the EC also supports setting fan PWM values and fan mode. Note that EC will
-> > +switch fan control mode back to auto when suspended. This driver will restore
-> > +the fan state before suspended.
-> > diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-> > index 9991c3fa020ac859cbbff29dfb669e53248df885..c5e42e2a03a0c8c68d3f8afbb2bb45b93a58b955 100644
-> > --- a/drivers/hwmon/cros_ec_hwmon.c
-> > +++ b/drivers/hwmon/cros_ec_hwmon.c
-> > @@ -7,6 +7,7 @@
-> >  
-
-> > +static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec, u8 index, u8 *pwm_value)
-> > +{
-> > +	struct ec_params_pwm_get_fan_duty req = {
-> > +		.fan_idx = index,
-> > +	};
-> > +	struct ec_response_pwm_get_fan_duty resp;
-> > +	int ret = cros_ec_cmd(cros_ec, 0, EC_CMD_PWM_GET_FAN_DUTY, &req, sizeof(req),
-> > +			      &resp, sizeof(resp));
-> 
-> As mentioned before, please split the variable declaration and the
-> assignment.
-> 
-
-Oh sorry, because I saw we use `struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev)`
-in the declaration section, I thought it is ok to do so as well for the `ret`.
-
-Will update these assignments in the declaration section.
-
-> >  static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
-> >  {
-> >  	unsigned int offset;
-> > @@ -76,6 +114,8 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> >  	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-> >  	int ret = -EOPNOTSUPP;
-> >  	u16 speed;
-> > +	u8 control_method;
-> > +	u8 pwm_value;
-> 
-> Ordering.
-> 
-
-I thought you are talking about only the u8 variables, or do you mean the
-ordering should be applied with different types (and the declarations of
-different types are mixed)?
-
-> > @@ -233,6 +359,21 @@ static void cros_ec_hwmon_probe_fans(struct cros_ec_hwmon_priv *priv)
-> >  	}
-> >  }
-> >  
-> > +static inline bool is_cros_ec_cmd_fulfilled(struct cros_ec_device *cros_ec,
-> > +					    u16 cmd, u8 version)
-> > +{
-> > +	int ret = cros_ec_get_cmd_versions(cros_ec, cmd);
-> > +
-> > +	return ret >= 0 && (ret & EC_VER_MASK(version));
-> > +}
-> > +
-> > +static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cros_ec)
-> > +{
-> > +	return is_cros_ec_cmd_fulfilled(cros_ec, EC_CMD_PWM_GET_FAN_DUTY, 0) &&
-> 
-> As mentioned before, the hardcoded version constants are used in
-> multiple places. They should use a #define instead.
-> 
-
-Oh sorry, I thought you are talking about the process of `is_cros_ec_cmd_fulfilled`.
-Will make these versions in a #define respectively.
-
-> > +static int cros_ec_hwmon_resume(struct platform_device *pdev)
-> > +{
-> > +	const struct cros_ec_hwmon_priv *priv = platform_get_drvdata(pdev);
-> > +	size_t i;
-> > +
-> > +	if (!priv->fan_control_supported)
-> > +		return 0;
-> > +
-> > +	/* EC sets fan control to auto after suspended, restore to settings before suspended. */
-> > +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-> > +		if (!(priv->manual_fans & BIT(i)))
-> > +			continue;
-> > +
-> > +		/*
-> > +		 * Setting fan PWM value to EC will change the mode to manual for that fan in EC as
-> > +		 * well, so we do not need to issue a separate fan mode to manual call.
-> > +		 */
-> > +		cros_ec_hwmon_set_fan_pwm_val(priv->cros_ec, i, priv->manual_fan_pwm_values[i]);
-> 
-> Error handling?
-> 
-
-I removed the error checking in the v2 version because after second thought, I
-think even if we failed at the i th fan, we should do our best to restore these
-fan settings, thus continuing on the (i+1) th fan and so on rather than stop the
-process immediately. Is adding a warning log for the failure sufficient?
-
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static const struct platform_device_id cros_ec_hwmon_id[] = {
-> >  	{ DRV_NAME, 0 },
-> >  	{}
-> > @@ -274,6 +473,8 @@ static const struct platform_device_id cros_ec_hwmon_id[] = {
-> >  static struct platform_driver cros_ec_hwmon_driver = {
-> >  	.driver.name	= DRV_NAME,
-> >  	.probe		= cros_ec_hwmon_probe,
-> > +	.suspend	= cros_ec_hwmon_suspend,
-> > +	.resume		= cros_ec_hwmon_resume,
-> 
-> I think these should use pm_ptr() to so the functions can be optimized
-> away if !CONFIG_PM.
-> 
-
-Got it, and I think we should also set the `priv->fan_control_supported` to
-false as well if !CONFIG_PM. Will update in v3.
-
-> >  	.id_table	= cros_ec_hwmon_id,
-> >  };
-> >  module_platform_driver(cros_ec_hwmon_driver);
-> > 
-> > -- 
-> > 2.49.0.906.g1f30a19c02-goog
-> > 
-> > 
+T24gMzAvMDQvMjUgNDowNiBwbSwgTHVjYSBDZXJlc29saSB3cm90ZToNCj4gRVhURVJOQUwgRU1B
+SUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25v
+dyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPiBIZWxsbyBNYW5pa2FuZGFuLA0KPiANCj4gT24g
+V2VkLCAzMCBBcHIgMjAyNSAwOTo0MjoxNiArMDAwMA0KPiA8TWFuaWthbmRhbi5NQG1pY3JvY2hp
+cC5jb20+IHdyb3RlOg0KPiANCj4gWy4uLl0NCj4gDQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9icmlkZ2UvbWljcm9jaGlwLWx2ZHMuYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
+bWljcm9jaGlwLWx2ZHMuYw0KPj4+IGluZGV4IDFkNGFlMDA5N2RmODQ3ZDlmOTNjNzllZWNmZjBj
+NDU4N2FlMzMxYmEuLjlmNGZmODJiYzZiNDkwMTBmODcyN2RhM2IzNjdmNWE3NDRhMjhlZGMgMTAw
+NjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9taWNyb2NoaXAtbHZkcy5jDQo+
+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9taWNyb2NoaXAtbHZkcy5jDQo+Pj4gQEAg
+LTE1Nyw5ICsxNTcsMTAgQEAgc3RhdGljIGludCBtY2hwX2x2ZHNfcHJvYmUoc3RydWN0IHBsYXRm
+b3JtX2RldmljZSAqcGRldikNCj4+PiAgICAgICAgICAgaWYgKCFkZXYtPm9mX25vZGUpDQo+Pj4g
+ICAgICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9ERVY7DQo+Pj4NCj4+PiAtICAgICAgIGx2ZHMg
+PSBkZXZtX2t6YWxsb2MoJnBkZXYtPmRldiwgc2l6ZW9mKCpsdmRzKSwgR0ZQX0tFUk5FTCk7DQo+
+Pj4gLSAgICAgICBpZiAoIWx2ZHMpDQo+Pj4gLSAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVN
+Ow0KPj4+ICsgICAgICAgbHZkcyA9IGRldm1fZHJtX2JyaWRnZV9hbGxvYygmcGRldi0+ZGV2LCBz
+dHJ1Y3QgbWNocF9sdmRzLCBicmlkZ2UsDQo+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICZtY2hwX2x2ZHNfYnJpZGdlX2Z1bmNzKTsNCj4+PiArICAgICAgIGlmIChJU19F
+UlIobHZkcykpDQo+Pj4gKyAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGx2ZHMpOw0KPj4+
+DQo+Pj4gICAgICAgICAgIGx2ZHMtPmRldiA9IGRldjsNCj4+Pg0KPj4+IEBAIC0xOTIsNyArMTkz
+LDYgQEAgc3RhdGljIGludCBtY2hwX2x2ZHNfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAq
+cGRldikNCj4+Pg0KPj4+ICAgICAgICAgICBsdmRzLT5icmlkZ2Uub2Zfbm9kZSA9IGRldi0+b2Zf
+bm9kZTsNCj4+PiAgICAgICAgICAgbHZkcy0+YnJpZGdlLnR5cGUgPSBEUk1fTU9ERV9DT05ORUNU
+T1JfTFZEUzsNCj4+PiAtICAgICAgIGx2ZHMtPmJyaWRnZS5mdW5jcyA9ICZtY2hwX2x2ZHNfYnJp
+ZGdlX2Z1bmNzOw0KPj4+DQo+Pj4gICAgICAgICAgIGRldl9zZXRfZHJ2ZGF0YShkZXYsIGx2ZHMp
+Ow0KPj4+ICAgICAgICAgICByZXQgPSBkZXZtX3BtX3J1bnRpbWVfZW5hYmxlKGRldik7DQo+Pg0K
+Pj4gUmV2aWV3ZWQtYnk6IE1hbmlrYW5kYW4gTXVyYWxpZGhhcmFuIDxtYW5pa2FuZGFuLm1AbWlj
+cm9jaGlwLmNvbT4NCj4gDQo+IFRoYW5rcyBmb3IgcmV2aWV3aW5nIQ0KPiANCj4gSW4gdjMgdGhp
+cyBwYXRjaCB3aWxsIGJlIHNsaWdodGx5IGRpZmZlcmVudCBmcm9tIHYyLiBTZWUgdGhlIHJlcGx5
+IEkNCj4ganVzdCBzZW50IHRvIERvdWcgZm9yIHRoZSBkZXRhaWxzLg0KPiANCj4gSWYgeW91ciBS
+ZXZpZXdlZC1ieSB0YWcgcmVmZXJzIG9ubHkgdG8gdGhlIG1pY3JvY2hpcC1sdmRzIGRyaXZlciwg
+Zm9yDQo+IHdoaWNoIHRoZXJlIHdpbGwgYmUgbm8gY2hhbmdlIGluIHYzLCBJIHRoaW5rIGl0J3Mg
+Y29ycmVjdCB0byB0YWtlIHlvdXINCj4gdGFnIGFuZCBhZGQgYSBjb21tZW50IGxpa2U6DQo+IA0K
+PiAgIFJldmlld2VkLWJ5OiBNYW5pa2FuZGFuIE11cmFsaWRoYXJhbiA8bWFuaWthbmRhbi5tQG1p
+Y3JvY2hpcC5jb20+ICMgbWljcm9jaGlwLWx2ZHMuYw0KPiANCj4gQW55dGhpbmcgYWdhaW5zdCB0
+aGlzPw0KPiANCk5vLCBMdWNhLiBQbGVhc2UgcHJvY2VlZCB3aXRoIHRoZSBhYm92ZSBtZW50aW9u
+ZWQgdGFnICMgbWljcm9jaGlwLWx2ZHMuYw0KPiBCZXN0IHJlZ2FyZHMsDQo+IEx1Y2ENCj4gDQo+
+IC0tDQo+IEx1Y2EgQ2VyZXNvbGksIEJvb3RsaW4NCj4gRW1iZWRkZWQgTGludXggYW5kIEtlcm5l
+bCBlbmdpbmVlcmluZw0KPiBodHRwczovL2Jvb3RsaW4uY29tDQoNCi0tIA0KVGhhbmtzIGFuZCBS
+ZWdhcmRzLA0KTWFuaWthbmRhbiBNLg0KDQo=

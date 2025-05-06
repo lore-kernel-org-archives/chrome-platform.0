@@ -1,325 +1,185 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013068.outbound.protection.outlook.com [40.107.159.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298CB300371;
-	Tue,  6 May 2025 02:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746498210; cv=fail; b=EwfcSxxOlwC8EBe7Jo9Xswu21KULfDvH2NwSxaGbNum6xQNgtE4Docn8OoFfyecT8d0msLy4C3bqjLSXjS3AMrom3rEVEDC4kE295JNllXJgZoersSIcUxHcAB5n/J094KIDDeCnCKmcXWcmx49PrFT+YWQ4jsSXPApBouO9sZ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746498210; c=relaxed/simple;
-	bh=1z7D/zDbpqQBxeBFViBNQ7b+o8XvFvzYXtAoIneIvcY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Z+NZUjbRctpi2LwwnE3R1USfPDH/axwMZ9ugXdAXjSJ0iWvmP+vv78OUPVcsHkIYctWFYXAwSKhzUJ4qRb6Mv4TEnPAzm50iHU2/ygHren8x5I8imQYZDMIkoVHV+cc3mU9FApRbf/4cFtHnwIrxdLsIVETrLAHEeOGtrcckmro=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=MGa1Acnp; arc=fail smtp.client-ip=40.107.159.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352E02D4B65
+	for <chrome-platform@lists.linux.dev>; Tue,  6 May 2025 02:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746499784; cv=none; b=safXDw9dTMLZGr1Y4oJOb0TWUHKq36icHgfugHbQXRVqb8OZgRmvUWiaP2SSJ+930uZ9ZUvADbEcrHeAYf5PUkY6SNYJwG56INoOWtGx0NxU1txusGWffRTsBnXoexQ8lMq6ONbr/7xlHn0y5rTv3WvisvPOq2OvvqWyyJfC0FQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746499784; c=relaxed/simple;
+	bh=BVcS6y/RkytdfYbg6aiFphNw4k53SlFmqyW2ahlf+8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nCpuwj/+Urav5Mgs3y8dHsLQfLEXEBCuOWtmzXXep2Kb+5r2Vx4/reBF1WKuR4UYdM6A707oDNRGFCEqnzhJzBh6DUhn69MkrsdyX6aOOkjxw5lGa+KGGvAV2LhG6FQlIuHhTmmKO8JU8KDDxevRGl3EVgjXM07eTUGoMEHNwvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SdYqJgOQ; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="MGa1Acnp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XDaoqgEWgjyfSw/rB7H7hI7OvHydC/4EzkKF+wodstKmfWkTXWG6Vm5kSflbV9g17T0trNip9XJWcBmIbeGM2upOrwcsE3atnjWzzjbCPstL22XrhOViWRRaF6S/LoqUEIcZVUsWT3K/2uqiVssvdPODLAjG8jhVTDhlG0xZQKumLDg+5NBXpqIphe5dkeebgXYWTOe2p0ZjVJ9Kbd3SIUhV4FGb+7ZeiwK7kN4wQvjLYicUzagfUFy60OOgzaHEThG7U3T3GZ9/rLMvjL1nvEwKLr1ChJXRjs2Vbf5VrvBTSfFqcXTq5oHhWXMUFkb8wdr9A+bHBHGAlzZffX0DiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=63b9Aunr8opOU4+8ybjrFTZV2qklprm0iPPtYTehS40=;
- b=lK9mxmjFxUQplUjrg/1aTVxY8IlFdBP8CIQm3UExl8sXUT8Y4q2psH2NqdpDhIKHBXMiH226lkIbN/A8rI+q7ee89K1kT9P7dwfpYBirtdpLamYidpZVFxwswtXOiw3o9G89+1D9M7SnTHfv9Fnnct2nwTQ1YaKx0hJ1MuVxQsr4SjphQdD5I3u6HVmBThUaM19GzxgOAaDN8LbZX4N9U2nBAzbUvkzJlMTHFj4muMkmOUQV5DQgvXQqQTx0Yo1mdVRYkYmyUf69J8Ihww1qXdX2KqywaL+IFTUAmWbPRFHQ7y3Hq1BaHOODAK3PawE2FjrM6Ae8E2ooR+BeCSZjQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=63b9Aunr8opOU4+8ybjrFTZV2qklprm0iPPtYTehS40=;
- b=MGa1Acnpxa1YUxn0JeMOGaDDNSDAP0j9d80xA4kNPGtDKAIU3mwDAK0TEvjnJeVxdmuwFX/xXotQtQnPdbG/tC84vgou4D4tNReLww8slsnl+trg0U0ESgZxdOCd8fPlgaz1AjLRw2k2GLIZXEuYpCPuRkO2kJhZzrysDmLpRUtjUewIATn8EyT3LT3ncy49HBkSSizfjyM0qD/3TgHrTpKZYloWzGPcb+KdaVMs4Ek00EYgs3JM/NoLS13wk0rtcHNaryO3h213MkEmk9EMU9/g+CllnrPdvg8ncBu7B7UHspr1Jczqp8WlTYDnKJ8u4yS+3coViT/qId847oywRw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by PA4PR04MB9223.eurprd04.prod.outlook.com (2603:10a6:102:2a2::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Tue, 6 May
- 2025 02:23:23 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8699.026; Tue, 6 May 2025
- 02:23:22 +0000
-Message-ID: <f71d18d2-4271-4bb9-b54f-0e5a585778f3@nxp.com>
-Date: Tue, 6 May 2025 10:24:18 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 30/34] drm/bridge: imx8qxp-pixel-combiner: convert to
- devm_drm_bridge_alloc() API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa
- <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-30-8f91a404d86b@bootlin.com>
- <553d62ed-976a-4e17-9678-cdc3d40ce4a7@nxp.com>
- <20250430112944.1b39caab@booty>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20250430112944.1b39caab@booty>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR06CA0003.apcprd06.prod.outlook.com
- (2603:1096:4:186::14) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SdYqJgOQ"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-73bf5aa95e7so4871982b3a.1
+        for <chrome-platform@lists.linux.dev>; Mon, 05 May 2025 19:49:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1746499782; x=1747104582; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=q0+JSDpYT5BNX3k6gPTP+QpNOml9kj6YJgCfvY0JCRs=;
+        b=SdYqJgOQUE8sg3hIJ7vQwe3Y2cgACg+JabSw6dK4WHk+tm0Ny7IkRrg0UxIawctXP9
+         xeWDhgu0UPtJuLH6WgA6jDslyX/rk8dd2OKSYeXJ6dggc2oedjPOnrHNsqeqUO7aGtSE
+         65ljN9r9t65u6kSHWSzkcAiAQvb80e/JoXKjw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746499782; x=1747104582;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q0+JSDpYT5BNX3k6gPTP+QpNOml9kj6YJgCfvY0JCRs=;
+        b=kjLHa2bYG7EDhXBNwsvogQ/Y6FS7nJi41dY/JC5VegeGkwYudPZ19t3GAeu81gGBud
+         YpY2QhluUfsMrb/YOM+Fm+61nOPYE8u9RUa9m38QmA03k/pos/Gj7CzLKEkG57FNidet
+         2rBe2nFhXR2Pe0CMZzPwOdENEp8C+06ZTLvTkrtuoLFXZnREo3czBoHMNjv5a2FIEA+f
+         j+O6L74ANN5VczTU7sB3cqeNjS870BgnD3aCEBU0lm2qs9UjZzPJJJXxzh4nCR/Y2NZ3
+         TR44cOFsxG+fuXf+M5GhXEvj7W28iEzc5p5ed+WE5SLgb4SzebqAAMye5zsuHBN98oy8
+         KH+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVK08j2DxKQZWi1nNWGuClUIaA71io26/+W9065nGC18E/Q/XKZyymyoE41exIMdaksoTJeq6WttXQs2cchv0Q=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yycb478wRR3uHu6DDx1fQ3Wy25KTTKmahrPnu8HVAZfU+4mqtKs
+	nRgC7+Pj2c6F+0OWw0SnJC6btemPDA2BOm7WnNt6F5yMF8nE1RmALNNVPZ0vkQ==
+X-Gm-Gg: ASbGncsLWTEhfj9GOwRr+q8f2AoVQZP/hSdmGP4n5HTB0jIGFmOSFXIkFFF/R+cXYuO
+	R1W3Y1seJJcgOGrDyoqDH5FombQne2JGjF0q8ReQcGK/yYfFuQdlTVPqCfdOVclwYzFTq3KcEJC
+	VLxv8bK151CSwyho34myJtVsdvQ46BQ1OWaHf0hH0Be1BQhP6DJRe2Vwp+Ro6m9FB9NwXfWxgcW
+	g7oUqY3OjxWjatLWyqU9KCFQ4BFmm1vJwOtr9AJVkaaBxqZFT5f0DhAnYaoy1cnfn4pwsA7Byud
+	6C8JGEWO6XjXWd1ohRnFX/a1dZaz2SQ7pA==
+X-Google-Smtp-Source: AGHT+IEEZ1PfoCNd1C1LjNnH37ZRF5k8qCVtLcVSMSDNAUIZcoEsuzle0aPuWxV/v0FJ4LrYSFQ+Ew==
+X-Received: by 2002:a05:6a20:2d2b:b0:1f5:619a:8f75 with SMTP id adf61e73a8af0-20e96108b51mr15452923637.2.1746499782489;
+        Mon, 05 May 2025 19:49:42 -0700 (PDT)
+Received: from google.com ([2401:fa00:1:10:d4bd:e7e5:608:dbd7])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b1fb3c6b6d8sm6384494a12.69.2025.05.05.19.49.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 May 2025 19:49:42 -0700 (PDT)
+Date: Tue, 6 May 2025 10:49:37 +0800
+From: Sung-Chi Li <lschyi@chromium.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] hwmon: (cros_ec) register fans into thermal
+ framework cooling devices
+Message-ID: <aBl4wcX889otz_ms@google.com>
+References: <20250502-cros_ec_fan-v2-0-4d588504a01f@chromium.org>
+ <20250502-cros_ec_fan-v2-3-4d588504a01f@chromium.org>
+ <b2432c5c-2589-4cfe-821f-47e5128af2d0@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB9223:EE_
-X-MS-Office365-Filtering-Correlation-Id: e11c5380-bd1a-484a-07d4-08dd8c44f8eb
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?di9meTl0cmhuNno2azdPN2k0YkZ5STNyMk94OTRTT2grWTJWQjRGazEreG5x?=
- =?utf-8?B?aWx1RWVaUTU4Q2t5M0JpeXZGVVd1MTc3N2JuVkZlanByQ3RxRFZhWFdqQXBI?=
- =?utf-8?B?NmdQTy9hL0NRNmJPWEc3TDhSS2FHc0p2WFdJc3R4bURwTVZxV1VhVzhPUmFI?=
- =?utf-8?B?elBHTGJQaHVEVTBSdG1XMkVFSlhYYzlpU1V5UHAzWDBDM1VpbjlhQjdBK2ov?=
- =?utf-8?B?TmlRSkgvU0RaQWJMSktKV3JoaUsvSFQ1SDVpV0IyeW4yd3ErZmk1cWhyanlB?=
- =?utf-8?B?d1pEcE9SV0RNYm5vUEdYSXA4d0JDTzMrV1crelhSWi9ETnNERVpkWGN2ekk2?=
- =?utf-8?B?QlhpZ1NsUElDVlZLdGFLd3NMcVMwOXh1VWtPMk1mTkdHbnp6cmFFQ2xhVzFY?=
- =?utf-8?B?aFdrUjlEUzVCVG5oUU5UcWpPWU1YNHl5SWxBSjRZVkx2YzdEYmI2dWVaMGNj?=
- =?utf-8?B?b0I1VlRMWWMzWGFmV1h3OXNVYzMwQmZBL2FMS2Jtc0dUdVdaeEtxcS9aZWU4?=
- =?utf-8?B?N0FNUjVoSURzMFBjMG9reHE3bTFoZHBuclB5bVpZVGhHMG9CNFJWUGlNTE1T?=
- =?utf-8?B?aldDbWRPV0x2Vm8zOVh2R3F6TjR5bHB2VVJVZ3pWUFpVdXR4UVRlV0Fwb0p2?=
- =?utf-8?B?clRjYlplQVBMWktjdXFKUGZtSThZZFAwK0d3S0kwM20veTVkaFNXWElCdUNu?=
- =?utf-8?B?ZjIzbWNIWmY3eVVlRm1EajlWenNYVlFiTGkyQmw0bXJTc1BWZDFFN0hZWERy?=
- =?utf-8?B?bVNrWlI3Zk5NcVdKVEdqVDZPek8rTG5FSnE1NWdPWXdxRlJrVjA1WWRKQXlz?=
- =?utf-8?B?UmREaW5YSkFQaVU3bzc4dUt2YkhiVzZzT0Q0dEgydWhINjBYNXBtYXhFdHVF?=
- =?utf-8?B?RThRViswcHAxdDdvR3J5cVltNWdjS3FKL3pzYjRrOHBjNjZpVVlUaFVIYWVT?=
- =?utf-8?B?cElyb1hGR1ZMRGVZOElJOGd0eGw0QkYxU2pBT21IUDAyQ0J4STRDbFNxb3R0?=
- =?utf-8?B?VEVtWkM0ekYvNGtJbmpNWGt1OHNtSTQ1VGE3c1hWcnkycWJkVjI3TEVNYmcy?=
- =?utf-8?B?ejZJWWphR2pmUlZ0dFFUaTJ1NEUrbFE5WmlKQ0xqOG4yRS9hZW1yMDByZ0RG?=
- =?utf-8?B?cyt4eFA2a1BrbEkyc3VNSmFZUTFzMlBaamFwRnMzNFVKSVRhV3lLQlk2QUVL?=
- =?utf-8?B?MXVjZm92NDVYRnlCV1FtaFg3Zi93NHp0akZEL1oraUpCc3dtY200WGRsTGdM?=
- =?utf-8?B?cGxWQXgrKzl1MzNJVUVDYWlQMWFUOE9nZ29jcTVBVHI5cWdZOVQwT3lndE5Y?=
- =?utf-8?B?NUJabnFKUEFZRnJvOEdabCtxR0I4MWJwU0EyekZ0b25sSzFBVGNDUkZmTGRr?=
- =?utf-8?B?a292azYwQUgrUWRqZWloU1hNY0tIcjBTQzFLY0daR0w3T1poYktYQkJvZXNY?=
- =?utf-8?B?YkpIYjlSUEJObkNOYm5hVWYxSzZOTEtzWkdPTjliOEhXYlVIMHN3ZzhNeDNU?=
- =?utf-8?B?MFZ0b25mUTloV1VtUXA0ODZZOTZaZVA0U01xdytiYkNuNy9ZUTV2a3c1U2hy?=
- =?utf-8?B?RWRXTmhYTlpuVGdGT0lOZHMrMmFIbWluQ0hEWWx1ZUhjWVFrQmpRbVI2TFo0?=
- =?utf-8?B?U1dNVlJzUWNKYWJkN203M3dlYWNWMDUyOG40RGJHZGY0WDhSWUxvTHNoNUVP?=
- =?utf-8?B?Z0MybTBJTXNNOWh1YjAya3hWb0xDNUcvU2xjTVhYWHY2bUlWM1RqeXhka0ww?=
- =?utf-8?B?c3BORGw0VURXZ2IxMmtOajA4NGJGVDdwTndTSDV3VVdwOGNmRTBIeUp1Ny9N?=
- =?utf-8?B?eE9ZcEdjYmxXTjZYRGw4R3RhNVBuNndqeko1ajROWmVZOEdPbzdEN3ZvSzhF?=
- =?utf-8?B?eHFCeHBxOUFCb25qS2ZrcTZsRE5ndks0QWhCYkMraXoxeWRzN3BXUUg0WUJG?=
- =?utf-8?Q?6kyeynkRelI=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?QkdjUzBrYm4xZThrUXpMNk93WjJTTDFUUko3Si9rd1RMeXlNREFrdjJ6TXJp?=
- =?utf-8?B?U1hBL3lyZ1prNlh5M3pwd2l2SUVXVGplWmdDRnZhYWMySjBVeGxkOXNGOUJC?=
- =?utf-8?B?ckc5TjNpMzQ0Yi83MGNaeTFGZXlnR1cyLzM4K2dIZ3FRMkpTSk9BUjRXR2lQ?=
- =?utf-8?B?eElMdTIwRWpqcnpuNUdwci84L0w0OUhxNUJweWJxMDBrbEltcGt3U0FKUC9Y?=
- =?utf-8?B?ZlVzSU1uQm83RzBOeWFhUGZzR2V0QXZqQVBRVlJjMnFBalBWK21EWVA3STAy?=
- =?utf-8?B?UFcxZmpUeEt3cFhUNUd6QXFOZEVKZTE0bWl2QW5IR2kzOFMvcEowd1pRVDR6?=
- =?utf-8?B?NFhQdW1VZXoxV0VIdWRHaERDdjFMNEd3UjlrQ21BODNWbnJWTW04Z2pBajRY?=
- =?utf-8?B?Njk0QWRCd1RQZmoycHZDOUZiYzY2eWEraVpmanBXSjdEa21zempFVElmS2sr?=
- =?utf-8?B?K1N6QTlRcVgrR1Brc2VzRSt6MTNBWGRMamRKT0R4b0NIUlRhQi9ubVlBSjR4?=
- =?utf-8?B?Y29yaXY3cGV4VXQvcldqcy9ZT29BVDZIeXhmYWFVdy9WVXdqVXBzdXptNVBQ?=
- =?utf-8?B?RnRJaGdwc2tRRkhnSWtRTDlHSFk1WGVCN094WVY0TVA3cEFGWGg1VE9ZckEw?=
- =?utf-8?B?djhHeVo1eEE3Nk1aaHc4cWw0dDUzWExkbWtpclZMYmQxRG03YVVtVHJLN0pH?=
- =?utf-8?B?M0Q1N1NXeWFscmg5M3lqaENUWmVyalZEYUdyL2ZMMUxvWlNNaFJJRUw4Tjlk?=
- =?utf-8?B?S1FoSTdsOE80ZCtmb25kYm5JVHJiN1NDUm1WTFZoclpUTkh5Rk1zS21paXlP?=
- =?utf-8?B?cU1FUC9uMmFtNG9tVzFuOVRtaDR2cmpCL3pqclVQSW51S1JORHJrVjJCV2NU?=
- =?utf-8?B?Ung5RHZMU1ArbWR3K09yUWdDQTR0RFJpVTU3M3daM1BxVjBvaWlWMjRPYmpk?=
- =?utf-8?B?RHdnUE9DT25GUEFXNlEra3FSSnB3RHQvU3ZyL0gvZDV2ZVBLUmozMEtLQncy?=
- =?utf-8?B?ZDlPS2ZNOFZ3LysvSmU1VkwzcVV2MFhTNDV2am94eUN3WnVqRU53R01rbUtZ?=
- =?utf-8?B?amVxM2gvRzZPOVV1UGtrdXRDL3BTcUdrVlBRL0NnVWFVUXRxWWJ6YnFvQ3d1?=
- =?utf-8?B?bmtaWTUyU1FnbVpncVgxYWNRU2pib1JQc0thQkxFNGpWak9QdW9UdlgrTS84?=
- =?utf-8?B?T1Bsckd5T3lLN0lkWmsydVJ2blJCWS93bi9YSVU1WjdTMGxyeDVmQU94SjZV?=
- =?utf-8?B?bkxDMTN6cWlsMmVrc2VkejlZejZHZTRVV2tpVHJ6Mm5YR2Q1ejkzT3ZtR1pZ?=
- =?utf-8?B?M09OWmlzSWtUMWdPOTFoT1FTS2VENHd5TGlpcnF2OG5QZ2ErUk52TGsvT3F2?=
- =?utf-8?B?YWt5Y3luQmhqdWJ1WkxLZXZZVGRXdDJkOXArL1NsV29ENFJHWm14TkpqVHE5?=
- =?utf-8?B?YS90aTlyelloNFZmSHFEV3IvWVJVNThlTTZlRkZGOVRnWUtjOTZhRVZvbmVQ?=
- =?utf-8?B?cmNJWnp1VndUaGhqNTZEZUthRk9LdHBJYWFtd2RQL0V3TGN1MUNYY1NUSFhZ?=
- =?utf-8?B?cmdpZmxsN0Ywc2NjcXphZmd5cWg3SHpRL2h4dyt0LzRhcWxhOFFaNFIvbnQ5?=
- =?utf-8?B?V3lsc0NSYWpHRndWTWZiSXRCdmV0OUY0NWEvcTAyYjRlQXppNUhmdnFKQTNz?=
- =?utf-8?B?NU5IK25RbzRKNVZQVkQ1V2hzdzdUUlNHTU12dDZ1MERaY1RXNUFmVFA4a1No?=
- =?utf-8?B?aGdoOGd6STRkL2ZGYWVFWXJibzhNc2Y1WGNDRWFxcWh0QVBuK2lETmgvWmJ3?=
- =?utf-8?B?WjBjNGVxWWlwWVo0cDVQSThtM1kyR2dpd0xvMU14RlVzRElyVTN5WVBsSVVo?=
- =?utf-8?B?V2RqTDZJaWU4ZWgwNjY4YWF2cW02ZlpYYU1mYXBoQS9TbXNPdURma01FRmtP?=
- =?utf-8?B?anpncDNFVTE4dS8zOVVoOVBtQ0xraHVwWS9SWDZPZ1U5TEIvRWtoaHA1cWJE?=
- =?utf-8?B?aWdGaVFzall5bWJ4WDVWZ3dxUiszanltS29UL1lSMUNmNUtNeVc2MEVlL2hI?=
- =?utf-8?B?bGlKd0VFOThGUk9LT08xY2pJRTlscWp0a0twbHAwTTc4dHo2dXJKc05LQTZo?=
- =?utf-8?Q?TXPOCszcRt+Zb5Jz8Y/x0VPyS?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e11c5380-bd1a-484a-07d4-08dd8c44f8eb
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 02:23:21.9794
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uUp1VcJJNpJskboapS7NuaShR20VTVbnHdxV7uJ7Q1ku2ku9Jw63SRw3TL7rd6/mvfxcqQQBrbKtozT5Kmfabg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9223
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b2432c5c-2589-4cfe-821f-47e5128af2d0@t-8ch.de>
 
-On 04/30/2025, Luca Ceresoli wrote:
-> Hello Liu,
-
-Hi Luca,
-
+On Sat, May 03, 2025 at 09:27:18AM +0200, Thomas Weißschuh wrote:
+> On 2025-05-02 13:34:47+0800, Sung-Chi Li via B4 Relay wrote:
+> > From: Sung-Chi Li <lschyi@chromium.org>
+> > 
+> > Register fans connected under EC as thermal cooling devices as well, so
+> > these fans can then work with the thermal framework.
+> > 
+> > During the driver probing phase, we will also try to register each fan
+> > as a thermal cooling device based on previous probe result (whether the
+> > there are fans connected on that channel, and whether EC supports fan
+> > control). The basic get max state, get current state, and set current
+> > state methods are then implemented as well.
+> > 
+> > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+> > ---
+> >  Documentation/hwmon/cros_ec_hwmon.rst |  2 ++
+> >  drivers/hwmon/cros_ec_hwmon.c         | 66 +++++++++++++++++++++++++++++++++++
+> >  2 files changed, 68 insertions(+)
+> > 
+> > diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
+> > index 5b802be120438732529c3d25b1afa8b4ee353305..82c75bdaf912a116eaafa3149dc1252b3f7007d2 100644
+> > --- a/Documentation/hwmon/cros_ec_hwmon.rst
+> > +++ b/Documentation/hwmon/cros_ec_hwmon.rst
+> > @@ -27,3 +27,5 @@ Fan and temperature readings are supported. PWM fan control is also supported if
+> >  the EC also supports setting fan PWM values and fan mode. Note that EC will
+> >  switch fan control mode back to auto when suspended. This driver will restore
+> >  the fan state before suspended.
+> > +If a fan is controllable, this driver will register that fan as a cooling device
+> > +in the thermal framework as well.
+> > diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+> > index c5e42e2a03a0c8c68d3f8afbb2bb45b93a58b955..abfcf44fb7505189124e78c651b0eb1e0533b4e8 100644
+> > --- a/drivers/hwmon/cros_ec_hwmon.c
+> > +++ b/drivers/hwmon/cros_ec_hwmon.c
+> > @@ -13,6 +13,7 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/platform_data/cros_ec_commands.h>
+> >  #include <linux/platform_data/cros_ec_proto.h>
+> > +#include <linux/thermal.h>
 > 
-> On Tue, 29 Apr 2025 10:10:55 +0800
-> Liu Ying <victor.liu@nxp.com> wrote:
-> 
->> Hi,
->>
->> On 04/25/2025, Luca Ceresoli wrote:
->>> This is the new API for allocating DRM bridges.
->>>
->>> This driver embeds an array of channels in the main struct, and each
->>> channel embeds a drm_bridge. This prevents dynamic, refcount-based
->>> deallocation of the bridges.
->>>
->>> To make the new, dynamic bridge allocation possible:
->>>
->>>  * change the array of channels into an array of channel pointers
->>>  * allocate each channel using devm_drm_bridge_alloc()
->>>  * adapt the code wherever using the channels
->>>
->>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> [...]
-> 
->>> @@ -345,8 +351,8 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
->>>  free_child:
->>>  	of_node_put(child);
->>>  
->>> -	if (i == 1 && pc->ch[0].next_bridge)
->>> -		drm_bridge_remove(&pc->ch[0].bridge);
->>> +	if (i == 1 && pc->ch[0]->next_bridge)  
->>
->> Since this patch makes pc->ch[0] and pc->ch[1] be allocated separately,
->> pc->ch[0] could be NULL if channel0 is not available, hence a NULL pointer
->> dereference here...
-> 
-> See below for this.
-> 
->>> +		drm_bridge_remove(&pc->ch[0]->bridge);
->>>  
->>>  	pm_runtime_disable(dev);
->>>  	return ret;
->>> @@ -359,7 +365,7 @@ static void imx8qxp_pc_bridge_remove(struct platform_device *pdev)
->>>  	int i;
->>>  
->>>  	for (i = 0; i < 2; i++) {
->>> -		ch = &pc->ch[i];
->>> +		ch = pc->ch[i];
->>>  
->>>  		if (!ch->is_available)  
->>
->> ...and here too.
-> 
-> This is indeed a bug, I should have checked the pointer for being
-> non-NULL.
-> 
-> Looking at that more closely, I think the is_available flag can be
-> entirely removed now. The allocation itself (ch != NULL) now is
-> equivalent. Do you think my reasoning is correct?
-> 
-> Ouch! After writing the previous paragraph I realized you proposed this
-> a few lines below! OK, removing is_available. :)
-> 
-> [...]
-> 
->> On top of this patch series, this issue doesn't happen if I apply the below
->> change:
-> 
-> [...]
-> 
->> @@ -351,7 +349,7 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
->>  free_child:
->>         of_node_put(child);
->>  
->> -       if (i == 1 && pc->ch[0]->next_bridge)
->> +       if (i == 1 && pc->ch[0])
->>                 drm_bridge_remove(&pc->ch[0]->bridge);
-> 
-> Unrelated to this patch, but as I looked at it more in depth now, I'm
-> not sure this whole logic is robust, even in the original code.
-> 
-> The 'i == 1' check here seems to mean "if some error happened when
-> handling channel@1, that means channel@0 was successfully initialized,
-> so let's clean up channel 0".
-> 
-> However my understanding of the bindings is that device tree is allowed
-> to have the channel@1 node before the channel@0 node (or even channel@1
-> without channel@0, but that's less problematic here).
-> 
-> In such case (channel@1 before channel@0), this would happen:
-> 
->  1. alloc and init ch[1], all OK
->  2. alloc and init ch[0], an error happens
->     (e.g. of_graph_get_remote_node() fails)
-> 
-> So we'd reach the free_child: label, and we should call
-> drm_bridge_remove() for ch[1]->bridge, but there's no code to do that.
-> 
-> To be robust in such a case, I think both channels need to be checked
-> independently, as the status of one does not imply the status of the
-> other. E.g.:
-> 
->   for (i = 0; i < 2; i++)
->       if (pc->ch[i] && pc->ch[i]->next_bridge)
->           drm_bridge_remove(&pc->ch[i]->bridge);
-> 
-> (which is similar to what .remove() does after the changes discussed in
-> this thread, and which I have queued for v3)
-> 
-> What's your opinion? Do you think I missed anything?
-
-The pixel combiner DT node would be added in imx8-ss-dc{0,1}.dtsi, please
-see the case for imx8-ss-dc0.dtsi introduced by an in-flight patch[1].  As
-channel@{0,1} child nodes always exist(DT overlay cannot effectively delete
-any of them) and channel@0 always comes first, there is no problematic case.
-
-> 
-> Thanks for taking the time to dig into this!
-
-After looking into this patch and patch 31(though I've already provided my A-b)
-more closely, I think the imx8qxp_pc and imx8{qm,qxp}_ldb main structures
-should have the same life time with the embedded DRM bridges, because for
-example the clk_apb clock in struct imx8qxp_pc would be accessed by the
-imx8qxp_pc_bridge_mode_set DRM bridge callback.  But, IIUC, your patches extend
-the life time for the embedded channel/bridge structures only, but not for the
-main structures.  What do you think ?
-
-> 
-> Best regards,
-> Luca
+> Needs a dependency on CONFIG_THERMAL.
 > 
 
-[1] https://lore.kernel.org/dri-devel/20250414035028.1561475-17-victor.liu@nxp.com/
+I think adding the `if (!IS_ENABLED(CONFIG_THERMAL))` you suggested is
+sufficient, and turning on or off CONFIG_THERMAL both can compile, so I'll only
+add the guarding statement in the `cros_ec_hwmon_register_fan_cooling_devices`.
 
--- 
-Regards,
-Liu Ying
+> > +
+> > +	if (!priv->fan_control_supported)
+> > +		return;
+> > +
+> > +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
+> > +		if (!(priv->usable_fans & BIT(i)))
+> > +			continue;
+> > +
+> > +		cpriv = devm_kzalloc(dev, sizeof(*cpriv), GFP_KERNEL);
+> > +		if (!cpriv)
+> > +			return;
+> > +
+> > +		cpriv->hwmon_priv = priv;
+> > +		cpriv->index = i;
+> > +		devm_thermal_of_cooling_device_register(
+> > +			dev, NULL, devm_kasprintf(dev, GFP_KERNEL, "cros-ec-fan%zu", i), cpriv,
+> 
+> What happens for multiple/chained ECs? If both provide sensors the
+> thermal device names will collide.
+> 
+
+How about changing the "cros-ec-fan%zu" to "%s-fan%zu", which prefixes the
+`dev_name()`? Here is an example from a device: cros-ec-hwmon.12.auto-fan0.
+
+> Error handling for devm_kasprintf() is missing.
+> 
+
+Thank you for catching this, I will skip registering that device if the
+devm_kasprintf() fails.
+
+> > +			&cros_ec_thermal_cooling_ops);
+> 
+> Error handling for devm_thermal_of_cooling_device_register() is missing.
+> 
+
+I think we should continue registering other fans, so maybe we add a warning
+here if the registration fails?
+
+> > +	}
+> > +}
+> > +
+> >  static int cros_ec_hwmon_probe(struct platform_device *pdev)
+> >  {
+> >  	struct device *dev = &pdev->dev;
+> > @@ -402,6 +467,7 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+> >  	cros_ec_hwmon_probe_fans(priv);
+> >  	priv->fan_control_supported =
+> >  		cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
+> > +	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
+> >  
+> >  	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
+> >  							 &cros_ec_hwmon_chip_info, NULL);
+> > 
+> > -- 
+> > 2.49.0.906.g1f30a19c02-goog
+> > 
+> > 

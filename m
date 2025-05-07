@@ -1,348 +1,128 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D951D61BC;
-	Wed,  7 May 2025 07:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92182472A2;
+	Wed,  7 May 2025 09:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746601982; cv=none; b=ooRvFhkeFRV+B5/aV5OLdQ53PEWeNui/+EvB+hp8L0oJu3t7I7JS7DXDCbp7R5mIDuJtDPF8qp5LbBYoIDkrCYYz4N1fIBytqc+anlmlLLg31C6wSWskM4HXpYeJJ1F6dvdjKIrxpLUhOUIUnlAN0jI0E3dJW7AyWzVJ+0wELDA=
+	t=1746609358; cv=none; b=YdxeWNDvNC06IYGAikK3lRkDGP8f8HhFDr/YY/OahCBVzrCs/s7E4De2F5Z578zs0s/A38iIx8kVBSum85dmHU2sy/Q0t9M3wisVO1lyXWBhCG78+Izt5iCJRc4Rz7p0vhnBmi0A4wlWYUyA//sJnX/6xoUAiF4QhsVUazmGgVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746601982; c=relaxed/simple;
-	bh=7iju5gNoWvZ7SExVLh6ZjTch9Wq7tQuPkHPrnqnjy6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qxc5ZBA7Gs+H6GALaQ+JkPwKo77sU4dpbre46V8LjR7Q9akR9MpuJJxlbV6DCQNkhtgCQ3cJhkfy8C0JtaqL4iOeOUlDYaj70FYEP7teIg5tj+I7Zqj+iyk4SaaAo9ga7QqlIxL2MDc+Wb+wSI/Hfn6Z+zBr1kwYl+1g7EQdbdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fAKAXuZn; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1746609358; c=relaxed/simple;
+	bh=bOOav56FZimzUhF24N2AXUX+5EB9KykWAEnTyUrSAiQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pdFCCw1uPvevfHHqwDLPo/u0y1jj2Zmk9cm7X9WZuy8L6FseBZEZQwBRQh0berybD3/cUMu/MlgL5PQghjOVZS9S493KtqUcWx8K9QxCmJMPiX3mTYoWcupSxSwYlC4HMGwz7zaW45BETETq0LWqXtJ6jt3Yz+ZYk5hPJk/ZgCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eC38VwAx; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fAKAXuZn"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0550B438F2;
-	Wed,  7 May 2025 07:12:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746601970;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XYAyvJHL12oT6BGBWrmzXRLHiSyv5UkdfdbxyEq+wzE=;
-	b=fAKAXuZnSS3eGpzPhDcjGsacbbVKiGgoN1+hKvLf8W9LVvJ4q/yN8mvMPuPltCTDbXMASe
-	lHtfyjGut/XmC/xrpKXVchctm+xWS0nliJAHS7g61Md9sxN7YRtopQtlivvhd8mGnFfnK1
-	zLHPF0YGiRFpUlXubh1ep5E4ewLXUZtHVVNtabxb5GJkslE1cAx6oSWctsvQExum3J+p+E
-	G4ikcxIyCXqyCiM2jQxJjrh9Kx946k992iKwtXwwTIyGamjbbizyN66uuoDV6SDsxQtsCc
-	zjoWTyHHf75l2ZvLTS0zTK/WEP7psTFLBKbj64q26m1zvV+GCXrw3FgTUMGpzQ==
-Date: Wed, 7 May 2025 09:12:44 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
- Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
- Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 30/34] drm/bridge: imx8qxp-pixel-combiner: convert to
- devm_drm_bridge_alloc() API
-Message-ID: <20250507091244.32865a71@booty>
-In-Reply-To: <a1abf31a-7a4a-4f8d-bf48-6b826aa01197@nxp.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
-	<20250424-drm-bridge-convert-to-alloc-api-v2-30-8f91a404d86b@bootlin.com>
-	<553d62ed-976a-4e17-9678-cdc3d40ce4a7@nxp.com>
-	<20250430112944.1b39caab@booty>
-	<f71d18d2-4271-4bb9-b54f-0e5a585778f3@nxp.com>
-	<20250506224720.5cbcf3e1@booty>
-	<a1abf31a-7a4a-4f8d-bf48-6b826aa01197@nxp.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eC38VwAx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746609357; x=1778145357;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bOOav56FZimzUhF24N2AXUX+5EB9KykWAEnTyUrSAiQ=;
+  b=eC38VwAxbTRbBNSTzjfPVL+IU709Kda8Zh1y8CYHFTYVCuMcCvZAtisJ
+   AA2gX1zs4WnIaH0IfO2kC8WsxpNaMhKTtacWZZK46Vv++hQtB49ciFk7n
+   zAT4OEzkziQsQXkKcZuqmsMaTWOyqkzB75BjJWBoR6D5IAdpEwMjyVF9P
+   NXNyv4CqksNXPSKdZ5yO/ZASk5S/oAn1BAYHMTF5e0exChyK7f3X0wkxn
+   0KLpRf6BcPWRpRyPdCYRFWuf5CQqzDUPgLkS1n1S2RqoNzkzhXfTgugnA
+   5v4wczplPhQ13cNeRWVb6yIzFrwVHEeLtpus5ouvOXnhHF1pn20uBu0DC
+   w==;
+X-CSE-ConnectionGUID: 2T6NJj0dSqKvAIjzP/n42g==
+X-CSE-MsgGUID: 5yt274xCTiGZrtSGPUqQ5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="47426888"
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="47426888"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 02:15:56 -0700
+X-CSE-ConnectionGUID: iTH8TkjZQm2HDsMx/ybclw==
+X-CSE-MsgGUID: sO8jQgj7R8+sMnKf1/+BBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="140739232"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 07 May 2025 02:15:51 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCasX-0007U1-0K;
+	Wed, 07 May 2025 09:15:49 +0000
+Date: Wed, 7 May 2025 17:15:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>,
+	Sebastian Reichel <sre@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Oleksij Rempel <o.rempel@pengutronix.de>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v9 3/7] power: reset: Introduce PSCR Recording Framework
+ for Non-Volatile Storage
+Message-ID: <202505071649.g96zqzTU-lkp@intel.com>
+References: <20250422085717.2605520-4-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeeivdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdeljeejuddvudetffdtudelfedugfduledtueffuedufefgudegkeegtdeihedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefledprhgtphhtthhopehvihgtthhorhdrlhhiuhesnhigphdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhto
- hepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250422085717.2605520-4-o.rempel@pengutronix.de>
 
-Hello Liu,
+Hi Oleksij,
 
-On Wed, 7 May 2025 10:10:53 +0800
-Liu Ying <victor.liu@nxp.com> wrote:
+kernel test robot noticed the following build warnings:
 
-> On 05/07/2025, Luca Ceresoli wrote:
-> > Hello Liu,  
-> 
-> Hi Luca,
-> 
-> > 
-> > thanks for your further feedback.
-> > 
-> > On Tue, 6 May 2025 10:24:18 +0800
-> > Liu Ying <victor.liu@nxp.com> wrote:
-> >   
-> >> On 04/30/2025, Luca Ceresoli wrote:  
-> >>> Hello Liu,    
-> >>
-> >> Hi Luca,
-> >>  
-> >>>
-> >>> On Tue, 29 Apr 2025 10:10:55 +0800
-> >>> Liu Ying <victor.liu@nxp.com> wrote:
-> >>>     
-> >>>> Hi,
-> >>>>
-> >>>> On 04/25/2025, Luca Ceresoli wrote:    
-> >>>>> This is the new API for allocating DRM bridges.
-> >>>>>
-> >>>>> This driver embeds an array of channels in the main struct, and each
-> >>>>> channel embeds a drm_bridge. This prevents dynamic, refcount-based
-> >>>>> deallocation of the bridges.
-> >>>>>
-> >>>>> To make the new, dynamic bridge allocation possible:
-> >>>>>
-> >>>>>  * change the array of channels into an array of channel pointers
-> >>>>>  * allocate each channel using devm_drm_bridge_alloc()
-> >>>>>  * adapt the code wherever using the channels
-> >>>>>
-> >>>>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>    
-> >>>
-> >>> [...]
-> >>>     
-> >>>>> @@ -345,8 +351,8 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
-> >>>>>  free_child:
-> >>>>>  	of_node_put(child);
-> >>>>>  
-> >>>>> -	if (i == 1 && pc->ch[0].next_bridge)
-> >>>>> -		drm_bridge_remove(&pc->ch[0].bridge);
-> >>>>> +	if (i == 1 && pc->ch[0]->next_bridge)      
-> >>>>
-> >>>> Since this patch makes pc->ch[0] and pc->ch[1] be allocated separately,
-> >>>> pc->ch[0] could be NULL if channel0 is not available, hence a NULL pointer
-> >>>> dereference here...    
-> >>>
-> >>> See below for this.
-> >>>     
-> >>>>> +		drm_bridge_remove(&pc->ch[0]->bridge);
-> >>>>>  
-> >>>>>  	pm_runtime_disable(dev);
-> >>>>>  	return ret;
-> >>>>> @@ -359,7 +365,7 @@ static void imx8qxp_pc_bridge_remove(struct platform_device *pdev)
-> >>>>>  	int i;
-> >>>>>  
-> >>>>>  	for (i = 0; i < 2; i++) {
-> >>>>> -		ch = &pc->ch[i];
-> >>>>> +		ch = pc->ch[i];
-> >>>>>  
-> >>>>>  		if (!ch->is_available)      
-> >>>>
-> >>>> ...and here too.    
-> >>>
-> >>> This is indeed a bug, I should have checked the pointer for being
-> >>> non-NULL.
-> >>>
-> >>> Looking at that more closely, I think the is_available flag can be
-> >>> entirely removed now. The allocation itself (ch != NULL) now is
-> >>> equivalent. Do you think my reasoning is correct?
-> >>>
-> >>> Ouch! After writing the previous paragraph I realized you proposed this
-> >>> a few lines below! OK, removing is_available. :)
-> >>>
-> >>> [...]
-> >>>     
-> >>>> On top of this patch series, this issue doesn't happen if I apply the below
-> >>>> change:    
-> >>>
-> >>> [...]
-> >>>     
-> >>>> @@ -351,7 +349,7 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
-> >>>>  free_child:
-> >>>>         of_node_put(child);
-> >>>>  
-> >>>> -       if (i == 1 && pc->ch[0]->next_bridge)
-> >>>> +       if (i == 1 && pc->ch[0])
-> >>>>                 drm_bridge_remove(&pc->ch[0]->bridge);    
-> >>>
-> >>> Unrelated to this patch, but as I looked at it more in depth now, I'm
-> >>> not sure this whole logic is robust, even in the original code.
-> >>>
-> >>> The 'i == 1' check here seems to mean "if some error happened when
-> >>> handling channel@1, that means channel@0 was successfully initialized,
-> >>> so let's clean up channel 0".
-> >>>
-> >>> However my understanding of the bindings is that device tree is allowed
-> >>> to have the channel@1 node before the channel@0 node (or even channel@1
-> >>> without channel@0, but that's less problematic here).
-> >>>
-> >>> In such case (channel@1 before channel@0), this would happen:
-> >>>
-> >>>  1. alloc and init ch[1], all OK
-> >>>  2. alloc and init ch[0], an error happens
-> >>>     (e.g. of_graph_get_remote_node() fails)
-> >>>
-> >>> So we'd reach the free_child: label, and we should call
-> >>> drm_bridge_remove() for ch[1]->bridge, but there's no code to do that.
-> >>>
-> >>> To be robust in such a case, I think both channels need to be checked
-> >>> independently, as the status of one does not imply the status of the
-> >>> other. E.g.:
-> >>>
-> >>>   for (i = 0; i < 2; i++)
-> >>>       if (pc->ch[i] && pc->ch[i]->next_bridge)
-> >>>           drm_bridge_remove(&pc->ch[i]->bridge);
-> >>>
-> >>> (which is similar to what .remove() does after the changes discussed in
-> >>> this thread, and which I have queued for v3)
-> >>>
-> >>> What's your opinion? Do you think I missed anything?    
-> >>
-> >> The pixel combiner DT node would be added in imx8-ss-dc{0,1}.dtsi, please
-> >> see the case for imx8-ss-dc0.dtsi introduced by an in-flight patch[1].  As
-> >> channel@{0,1} child nodes always exist(DT overlay cannot effectively delete
-> >> any of them) and channel@0 always comes first, there is no problematic case.  
-> > 
-> > I'm not questioning what existing and future dts files (will) contain,
-> > and surely I don't see a good reason someone would write channel@1
-> > before channel@0.
-> > 
-> > My point is:
-> > 
-> >  - the bindings _allow_ channel1 before channel@0
-> >  - the error management code after the free_child label won't work
-> >    correctly if channel1 is before channel@0 in the device tree
-> > 
-> > IOW the driver is not robust against all legal device tree descriptions,
-> > and it could be easily made robust using the example code in my
-> > previous e-mail (quoted a few lines above).
-> > 
-> > If you agree about this I'll be happy to send a patch doing that change.
-> > If you think I'm wrong, I won't fight a battle. This topic is
-> > orthogonal to the change I'm introducing in this patch, and I can
-> > continue the conversion independently from this discussion.  
-> 
-> I don't think it is necessary to do that change for now.  When someone
-> really comes across this issue, we may make the error management code
-> robust.
-> 
-> >   
-> >>> Thanks for taking the time to dig into this!    
-> >>
-> >> After looking into this patch and patch 31(though I've already provided my A-b)
-> >> more closely, I think the imx8qxp_pc and imx8{qm,qxp}_ldb main structures
-> >> should have the same life time with the embedded DRM bridges, because for
-> >> example the clk_apb clock in struct imx8qxp_pc would be accessed by the
-> >> imx8qxp_pc_bridge_mode_set DRM bridge callback.  But, IIUC, your patches extend
-> >> the life time for the embedded channel/bridge structures only, but not for the
-> >> main structures.  What do you think ?  
-> > 
-> > I see you concern, but I'm sure the change I'm introducing is not
-> > creating the problem you are concerned about.
-> > 
-> > The key aspect is that my patch is merely changing the lifetime of the
-> > _allocation_ of the drm_bridge, not its usage. On drm_bridge_remove()
-> > the bridge is removed from its encoder chain and it is completely not
-> > reachable, both before and after my patch. With my patch it is not
-> > freed immediately, but it's just a piece of "wasted" memory that is
-> > still allocated until elsewhere in the kernel there are pointers to it,
-> > to avoid use-after-free.
-> > 
-> > With this explanation, do you think my patch is correct (after fixing
-> > the bug we already discussed of course)?  
-> 
-> I tend to say your patch is not correct because we'll eventually make sure
-> that removing a bridge module is safe when doing atomic commit,
+[auto build test WARNING on sre-power-supply/for-next]
+[also build test WARNING on broonie-regulator/for-next chrome-platform/for-next chrome-platform/for-firmware-next linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I think your sentence can be rephrased as "your patch is correct with
-the current code base where bridges are not (yet) removable, but there
-will be a problem when they start to actually be removable".
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/power-Extend-power_on_reason-h-for-upcoming-PSCRR-framework/20250422-170711
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20250422085717.2605520-4-o.rempel%40pengutronix.de
+patch subject: [PATCH v9 3/7] power: reset: Introduce PSCR Recording Framework for Non-Volatile Storage
+config: hexagon-randconfig-r113-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071649.g96zqzTU-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071649.g96zqzTU-lkp@intel.com/reproduce)
 
-Is my understanding correct? If it is, I agree on that sentence.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071649.g96zqzTU-lkp@intel.com/
 
-The work to have removable bridges is massive and non-trivial, so it
-will need to be tackled in steps. The grand plan [0] is:
+sparse warnings: (new ones prefixed by >>)
+>> drivers/power/reset/pscrr.c:81:3: sparse: sparse: symbol 'g_pscrr' was not declared. Should it be static?
 
- 1. add refcounting to DRM bridges (struct drm_bridge)
- 2. handle gracefully atomic updates during bridge removal
- 3. avoid DSI host drivers to have dangling pointers to DSI devices 
- 4. finish the hotplug bridge work, removing the "always-disconnected"
-    connector, moving code to the core and potentially removing the
-    hotplug-bridge itself (this needs to be clarified as points 1-3 are
-    developed)
+vim +/g_pscrr +81 drivers/power/reset/pscrr.c
 
-I am at step 1 right now. Removal during atomic updates is step 2,
-ideas about how to implement that are already being discussed [1],
-there's a practical plan proposed by Maxime with the goal of reaching
-removable bridges without breaking things along the path.
-
-[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
-[1] https://lore.kernel.org/all/20250106-vigorous-talented-viper-fa49d9@houat/
-
-> which means
-> the main structures should have the same life time with the DRM bridges.
-
-The word "lifetime" mean two things for bridges:
-
- * the time span during which memory is allocated for a struct
-   drm_bridge (along with the embedding struct)
- * the time span during which a DRM bridge is active/used/usable as
-   part of a card
-   - i.e. when it is part of an encoder chain
-   - i.e. when drm_bridge_funcs callbacks can be called
-   - i.e. from drm_bridge_add() to drm_bridge_remove()
-
-These two lifetimes used to be nearly the same. Now the "memory
-allocation lifetime" is extended, but the "bridge existence" is
-unchanged: drm_bridge_add() to drm_bridge_remove() are called in the
-same place and do the same things, so the bridge will stop being in any
-encoder chain at the exact same time. now we are just keeping a piece of
-memory allocated for a longer time.
-
-Seen in another way, the events used to be:
-
- * probe:
-   - allocate bridge
-   - drm_bridge_add()
-
- * remove
-   - drm_bridge_remove()
-   - now the bridge is not used, it's just some dead memory [*]
-   - kfree bridge (either in .remove() or just after by devm)
-
-Now it becomes:
-
- * probe:
-   - allocate bridge
-   - drm_bridge_add()
-
- * remove
-   - drm_bridge_remove()
-   - now the bridge is not used, it's just some dead memory [*]
-   - maybe some more time, possibly long, until the last put [*]
-   - kfree bridge (by devm)
-
-The duration of the [*] steps changes, but it's harmless because the
-bridge is not used at all. No change except for memory allocation.
-
-Luca
+    74	
+    75	struct pscrr_core {
+    76		struct mutex lock;
+    77		struct pscrr_backend *backend;
+    78		/* Kobject for sysfs */
+    79		struct kobject *kobj;
+    80		struct notifier_block reboot_nb;
+  > 81	} g_pscrr = {
+    82		.lock = __MUTEX_INITIALIZER(g_pscrr.lock),
+    83	};
+    84	
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

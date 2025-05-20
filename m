@@ -1,139 +1,175 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01D0264A97;
-	Tue, 20 May 2025 11:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E557266592
+	for <chrome-platform@lists.linux.dev>; Tue, 20 May 2025 16:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747741313; cv=none; b=EgxrXrCXVtOv37x/Nh3S88I9s32lsny9x4fqjuht7wYGrKFu4OGcSQaYGBR85tIW3NBxucXGV7QZTgMIytpfgNQZH73XDmVM4Auo0ro/CTkrEg1ffm+3zn9XOVKFqvTwrE/GiIoTn7lPPM2ZvqTwyRTDQj4gDgxja5QcCZhRFl4=
+	t=1747757108; cv=none; b=PQtTXwh9q1untK4A2djcMAVmUXSDv4H9nmtVG51KNtLi7ZfvvZCXZxU5tm8nqjm3DKA5yo2B2ODZrBbpMwU2Mb8ZvTYqv/VARjd+F61RbZbBVMzWVFVA+h6g699CxRkoTEpV07fD7BaQxRgCu2dt4SbfAAZjEQs7X5oIJBdqoVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747741313; c=relaxed/simple;
-	bh=UExusS9wGruu2jirSHupY+orQc1NwlzDHTp5gtaUL6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Aw5fk3qPcW42mzrTJ85VWH15Fb35AAa6p+ZjWXcz6zy7wdq/BZDEng5uoETLiweb+HvIUaMjHhY4kz/a0ADQ6E0cBbcqH9pdplkvYmP1vNzwsxQS3AWyYE/h5IuzjCETWYf7MV4geLbBB7dAWwYic2VRexmW5J9bJ/pAkMBNG+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=GzTXMwsi; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1747757108; c=relaxed/simple;
+	bh=cg5t4eGdtgZu3cXZP54MB4IR+ZBOuN5oWKa4yPo3uQw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HSoUQlfmu5tavX0EM11E5c4zx8oCUFbtxSEB4evF8INApi+Ur+pVzPYYdxQ0QxemS4sxkjPRlfsQz//nI75ey+6FRoKriGyE6YA2syQqpUrNSX5XVDcowq4SaYogMcBqd21ytfpu5Llxs/0rCWujchy7U9LxwPnlVua5EJejjr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ynSqPFTB; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="GzTXMwsi"
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K9UC8E021011;
-	Tue, 20 May 2025 13:41:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	UExusS9wGruu2jirSHupY+orQc1NwlzDHTp5gtaUL6E=; b=GzTXMwsiZejt1O8H
-	HSMOo4JJMYdWKi4XLUZACmweuNUHMXMcoKBaBK4izDYF74vuwBPhTZk6IexHobg/
-	qK9I73asI1F+eYDQZiyzxP43hKUrX/gpKv/++Q/63O4zRbJXsKcyIXJRe8YtHdoV
-	RPwyyY04Tk6DjBcJZpMMLx0wfWgVldqOE1FvIgNQm9RI5S0gb+O/faMVPHN8vYO7
-	xVKBfv+hc1nAbKmBD0/cmEDphgVskJ4VOESdBzuwEbJOODz1O+/U82sx8FwgyLMU
-	7hCq2HGWxCcmbZsgQoNFKYIKbh+ZOklyV2oLZ5i1xQm8eShnTM2y/drHpPFlUzAG
-	h0IOcQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46pht1w43t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 May 2025 13:41:16 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1C0F740049;
-	Tue, 20 May 2025 13:38:29 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4B551AE2BFA;
-	Tue, 20 May 2025 13:37:16 +0200 (CEST)
-Received: from [10.252.29.31] (10.252.29.31) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 20 May
- 2025 13:37:13 +0200
-Message-ID: <b1d3f93b-8206-481b-bd8a-d7c0953e0ea5@foss.st.com>
-Date: Tue, 20 May 2025 13:37:12 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ynSqPFTB"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7c559b3eb0bso385304885a.1
+        for <chrome-platform@lists.linux.dev>; Tue, 20 May 2025 09:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747757105; x=1748361905; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HO/nLRYCjfKcpLfeuNbV08YkbzqqQcf229Ms7HqssNo=;
+        b=ynSqPFTBoIS8B63dWkuA0JwNMhjTzRU0dzTERRFhKW6q6udnTqHFMaa5Ic2ISgyeZo
+         kLecbmNyS3/PmG0DOcR17XCVoPqjY6M2uac1lF+T4N9Cz+M+bX55I5lbJo94dAZ7/Cod
+         EXVncQM9xtULFk5UtysfIUfPso4uFk2m1iJZslVynAt1VUKRnS9UtpYMd5QMxKNMzg3e
+         DzIg3VZ9oCBdOBlTqW9AdPHq8Jwwm83NOz9WPXKnhXAtBuklbkxujuv0Q0PQNrIPSwFW
+         P77s+Yln4gn2+ROamdvGVWhQsC9HxfIeJFZ4xhK09kskjFsDhMNJ2qEtfYpjbDZY48Bl
+         tDiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747757105; x=1748361905;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HO/nLRYCjfKcpLfeuNbV08YkbzqqQcf229Ms7HqssNo=;
+        b=h8avcP57kIBZ/dsekt+3mVGw7P9323frM89t0xfuPJV2Oa+30JEnxrtQOv7ZrviRsD
+         LUsvgAtB0G1urhFoKsiWdKZNASzwY0FIGzEl8IobON1uR/vpmkChKM6SM5ynZcPi/mU1
+         A+9n29M98Sp6Ptx/sq/HJSHTv7AQkoSgqafKkmyGxbImt3JLQmvtfNmYCzF1InSTPb6Z
+         0ziB9dIQ6cRKAisHW+7cetcTAal1RiZIPWkP2mfhJGSjTfsq8Bm26LTxc3rCzsKYmJse
+         c2EBQfNDOC8MqJjkig5KUj6zFM2MrOpqsqnma1CzLeBQKDzIbiR9UI4JfMi2E/6cWMWd
+         omQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWTNPDvbVRXGUCrNv76Fe0gAcaYNPjdKQpZGrGPPADB1F/I8T5f9X9baBvPzM1yEtCPykHsDwVS5W8htx9kuY8=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4roM4IKTIjtAztRi5jHWfCe4HdJv0SNXPPN1sAjNVI8tfE47u
+	f5sBQBGq6zdOEZ3eTdp4EL6L5sWYhaSDRvXHSwwGTvAULe8aoyBritn93yP1jVNIqvNM03fLwX3
+	EQdkv0O46MnegfcY39LH+6C/VuzKXwSe6mxvDQei4
+X-Gm-Gg: ASbGnctQBsgjQj4X+hYg+C38fSLLCTF0l5W8eqjBWvNCu1egs9bLDyObukEktUmVaYe
+	wDbGytofFDzN44l5qhB4HI3N9XwKCpYMgi0NOy2kllpkor4b1Z5k8hYvTVi2uU+3jOsnLwgDFsB
+	00aZtwGfsFaKtmejThg06SKm/PDffTtWFXiPberp8aFlXMcOonjr0GO7WuzI8EkGJnJsYIsbKoR
+	vs=
+X-Google-Smtp-Source: AGHT+IEctazZU95TAdOM2Py70rzLbXXswnML189iWNcKKej+1E4sE5RLKNbUjCL/eh0PGvC9pd8HdYPKfxppky5e+CI=
+X-Received: by 2002:a05:620a:394e:b0:7c5:4088:e48c with SMTP id
+ af79cd13be357-7cd46731a86mr2518057385a.29.1747757104799; Tue, 20 May 2025
+ 09:05:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 15/22] drm/bridge: stm_lvds: convert to
- devm_drm_bridge_alloc() API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman
-	<jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jagan Teki
-	<jagan@amarulasolutions.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer
-	<s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk@kernel.org>
-CC: Anusha Srivatsa <asrivats@redhat.com>,
-        Paul Kocialkowski
-	<paulk@sys-base.io>,
-        Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
-	<Hui.Pu@gehealthcare.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        <dri-devel@lists.freedesktop.org>, <asahi@lists.linux.dev>,
-        <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
-        <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-samsung-soc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <freedreno@lists.freedesktop.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Yannick Fertre
-	<yannick.fertre@foss.st.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
- <20250509-drm-bridge-convert-to-alloc-api-v3-15-b8bc1f16d7aa@bootlin.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-15-b8bc1f16d7aa@bootlin.com>
+References: <20250520082435.2255639-1-tzungbi@kernel.org>
+In-Reply-To: <20250520082435.2255639-1-tzungbi@kernel.org>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Tue, 20 May 2025 09:04:53 -0700
+X-Gm-Features: AX0GCFs4NJkMHkJZuPMpivpKDaXRV49LM_WCCI_dDOeQOPacWqE-V5WduNyzJJk
+Message-ID: <CAGS_qxrcH0+mJTO4nJqXnk2Bh7oO_PEur=ytcxL8wxJNCu20Tw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/7] platform/chrome: Add Kunit tests for protocol
+ device drivers
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, brendan.higgins@linux.dev, davidgow@google.com, 
+	rmoar@google.com, rostedt@goodmis.org, mhiramat@kernel.org, naveen@kernel.org, 
+	anil.s.keshavamurthy@intel.com, davem@davemloft.net, 
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, linux-trace-kernel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-20_04,2025-05-16_03,2025-03-28_01
+Content-Transfer-Encoding: quoted-printable
 
-Hi Luca,
-
-On 5/9/25 15:53, Luca Ceresoli wrote:
-> This is the new API for allocating DRM bridges.
+On Tue, May 20, 2025 at 1:25=E2=80=AFAM 'Tzung-Bi Shih' via KUnit Developme=
+nt
+<kunit-dev@googlegroups.com> wrote:
 >
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> The protocol device drivers under drivers/platform/chrome/ are responsibl=
+e
+> to communicate to the ChromeOS EC (Embedded Controller).  They need to pa=
+ck
+> the data in a pre-defined format and check if the EC responds accordingly=
+.
 >
-> ---
+> The series adds some fundamental unit tests for the protocol.  It calls t=
+he
+> .cmd_xfer() and .pkt_xfer() callbacks (which are the most crucial parts f=
+or
+> the protocol), mocks the rest of the system, and checks if the interactio=
+ns
+> are all correct.
 >
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> ---
+> The series isn't ready for landing.  It's more like a PoC for the
+> binary-level function redirection and its use cases.
+>
+> The 1st patch adds ftrace stub which is originally from [1][2].  There is=
+ no
+> follow-up discussion about the ftrace stub.  As a result, the patch is st=
+ill
+> on the mailing list.
+>
+> The 2nd patch adds Kunit tests for cros_ec_i2c.  It relies on the ftrace =
+stub
+> for redirecting cros_ec_{un,}register().
+>
+> The 3rd patch uses static stub instead (if ftrace stub isn't really an op=
+tion).
+> However, I'm not a big fan to change the production code (i.e. adding the
+> prologue in cros_ec_{un,}register()) for testing.
+>
+> The 4th patch adds Kunit tests for cros_ec_spi.  It relies on the ftrace =
+stub
+> for redirecting cros_ec_{un,}register() again.
+>
+> The 5th patch calls .probe() directly instead of forcing the driver probe
+> needs to be synchronous.  In comparison with the 4th patch, I don't think
+> this is simpler.  I'd prefer to the way in the 4th patch.
+>
+> After talked to Masami about the work, he suggested to use Kprobes for
+> function redirection.  The 6th patch adds kprobes stub.
+>
+> The 7th patch uses kprobes stub instead for cros_ec_spi.
+>
+> Questions:
+> - Are we going to support ftrace stub so that tests can use it?
+>
+> - If ftrace stub isn't on the plate (e.g. due to too many dependencies), =
+how
+>   about the kprobes stub?  Is it something we could pursue?
 
-I went away from keyboard for some time.  Sorry for the delay :
+Quick comment,
+If I recall, the thought process was that we could consider it in the
+future if there was enough demand for it.
 
-Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+We have these drawbacks with the current ftrace stubs:
+* doesn't compile on all arches
+* silently doesn't work on inlined functions <=3D=3D scariest one to me
+* is more complicated and has more dependencies
 
+So it felt like the better move to go with static stubs which has none
+of those drawbacks (works on all arches, all functions, and is dead
+simple) as opposed to simultaneously introducing two ways to do the
+same thing.
 
-Regards,
-Raphaël
+You mention you don't like how static stubs requires modifying the
+code-under-test.
+Since it gets eliminated by the preprocessor unless you're compiling
+for KUnit, is the concern more so about how it conceptually feels
+wrong to do so?
+For the Android GKI kernel, they have (or had) KUnit enabled so there
+is potentially concern about real runtime cost there, not sure if you
+have something similar in mind.
 
+But stepping back, ftrace_stubs technically require modifying the code
+to make sure funcs are marked as `noinline`, which this patch series
+does not do.
+I've not looked at cros_ec_{un,}register() to check if they're at risk
+of inlining, but wanted to call that out, that ftrace stubs
+technically don't handle your usage pattern 100% properly.
+
+>
+> - (minor) I'm unsure if people would prefer 'kprobes stub' vs. 'kprobe st=
+ub'.
+>
+
+I'd personally vote for kprobe_stub.
+
+Daniel

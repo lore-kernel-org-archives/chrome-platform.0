@@ -1,69 +1,50 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04562594
-	for <chrome-platform@lists.linux.dev>; Tue, 20 May 2025 04:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D56264633;
+	Tue, 20 May 2025 08:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747713667; cv=none; b=vAPV+0YAUT20Y2zwjCCJ0uc1Oh79i8zu9T8UtYGiaySpiNEJLSq5PqwrOvwC+ikuuIGu3+AHE1hdpxvBm8aiJ94gY8Ix9f7MHAlGaBhnfZ0lxy5v8pyXEqDrI22uVzIocWKL2e4veY8AbmsJDfboo1/fYtFSYtZhZIip6RSyJV4=
+	t=1747729514; cv=none; b=Y7Rru2N6ditSC/7AFjXSqk80O0RfO61eipq0aRn/YzDTt155lDoX7nc8NtsCXK/kvADbaG62Qk9oDB9wCCroId1SkAJCmOJRk54aKGL2YVVBs+HhbzqwB+X4tCHiPpXcMISPiKJ8YwIyRbAqlfHF4kWqBoR1fnWLpqhwWSO6sDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747713667; c=relaxed/simple;
-	bh=lLWLIAhKZMwtGWkARu8NP9uMC4XW9FPXago8m/HItac=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O0IlVHkzYEG5sToBX4MtkSs2o4xMIWvv9niOdeKcccQZMvXM4nq+bHKW9Yptc9Ead+S4LIh77Aw63KveJeB5g54mbMWrTsTlzVXQ1RO1KOUVUkpnO4qutRpd+jRR5OR/BuN/gCOawx/6Lh8UCGpVIQ8DcHPDIZQhIa6OsM6zxUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gpOe0hE2; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1747729514; c=relaxed/simple;
+	bh=0fMlZnOwy6++HE+XUWcaI2oMFuGmWDyAVKhdYgPKuGo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ieqm5jTDoNb2q2W6Ud5u8Cp0vOnwuKt+AwTuvqcwhDv0GylgSlBsHspUS+CwRzqo8kJ4qndqSaNQ2NMspg8InyKiJFnSCLv01A1IZuK7xQqpTgDXm7dVQstoNE+osifNqMxitjYFfpVmALonNXp7hPxvDxURnPAvlW3ZAt3jP/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e902NndO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gpOe0hE2"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3081fe5987eso4342847a91.3
-        for <chrome-platform@lists.linux.dev>; Mon, 19 May 2025 21:01:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1747713665; x=1748318465; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HaoLaHC+j8wcJOMxwQ26DSCNDoC+SchHVCzNja1lEvQ=;
-        b=gpOe0hE2UAF2HJfkN3Svanxppeq+uyd7XSaIEJluZWrNCOL3gZJKxH/THw+ffSkLer
-         0Lw3lz7ikCeydumGOi+izN7YU5wH04yxQ+q7/lNxAt6fxoUoVxhf6NO7jPSyGRmNevyz
-         Wd8/7YipNQQ+a9bMYf4gELobKfPSNT0G71kw4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747713665; x=1748318465;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HaoLaHC+j8wcJOMxwQ26DSCNDoC+SchHVCzNja1lEvQ=;
-        b=UzWhujXZMIvakr0irLnkJV2Q5E4OQQG8PdbrIkXSlnQ0zt7C280Keplpr6qvOO4ig2
-         W+jqtqe0CXG1H1wnCjbKHOkMXvk2SEE/YLh0rYpd1P/EHobrC9rdPwXdb38RYuGNwiHm
-         hZZHVAaDxA1/HZXobN4tZ65aPVuquK8thEOJwkVrlI1eWLd/Kne9LS1Mqp2OT+mTjVAv
-         YdVFx69u32mtvV4XDZdHlxhPJOWc+aiSnEOQ7ErfIp2zEqsDf25Ztz4HGFErTsXROOSU
-         o5iqggejD0e3d9oH12qVS5IUYMYtaJ+4a23m3vHKgRj7dzzum9BVRL82exsh5KIwty0Z
-         E7bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQFuVG7enGq/qfk7QjaYswu//OQKdULZU7tSnpp+dQ/5ZEPWgi/1IK09RJvzq9XZohSbEKnj8Sw+aX8SB/djY=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBagXGHkiBOlMFvj8s/klfNkkQ0jczAr6vO6hUiY1rZ2gp0uIs
-	PjwtlAAbEgtbTIsKtnYUFKd+kkpTbF1oAPGOOsDqzvlwK0J7Ua3aAZg4n5eX2SQOF+IGb/uCMzQ
-	WLuo=
-X-Gm-Gg: ASbGncudZ+2pbt3ym6v+u1KS1RbAzs17LK2vSqa2yG/uqxg/J4Y0Q60KkNVo/lyG5UX
-	a+Mv8TD+TWDWIWinNpF75tmOfz5V/njMCm+JUGI8rIMPkms12lTDztYHQmF4pc5TbIdTo2tIXCm
-	qAI5ssDbCz6xtf8aAHMTE6xhlPyp8dPcpDRgQfCIGn+Zx6daQgalaTto61h53D6xbQJ3770jbkM
-	b+RJWzXBPA5QIzWKpibuGw1Sw3fTuB81LRa1IMRQuh1Mmi0qQFRf6Up7cVdIemPGrROxZzxcZ0b
-	Pi6XUzJ8osJNthlmnloe5ClAfcG5nFmdhbhxGbN4FRyp
-X-Google-Smtp-Source: AGHT+IF3RLCYnvT295SuTJuh8gisAuSxUejG8vRmLzIgjN1ZsbWKmSBStjaq4G0BFlcUkxdtsKRBvg==
-X-Received: by 2002:a17:90a:e7c4:b0:30e:7b3b:b901 with SMTP id 98e67ed59e1d1-30e8314dbe6mr25520218a91.18.1747713664692;
-        Mon, 19 May 2025 21:01:04 -0700 (PDT)
-Received: from localhost ([2620:15c:9d:2:316b:d917:c3ba:aa9c])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-b26eb0a4af6sm7004202a12.77.2025.05.19.21.01.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 May 2025 21:01:03 -0700 (PDT)
-From: Gwendal Grignou <gwendal@chromium.org>
-X-Google-Original-From: Gwendal Grignou <gwendal@google.com>
-To: jic23@kernel.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e902NndO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF113C4CEF0;
+	Tue, 20 May 2025 08:25:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747729514;
+	bh=0fMlZnOwy6++HE+XUWcaI2oMFuGmWDyAVKhdYgPKuGo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=e902NndOZUw6cSoa9nqPNUbRickIxHDAgazFGAo+CtnIJlX1mt3MOfdjNL7cnFnUX
+	 evSpAsYPVquCgkBxrWFiJF2kOuCMWbk9oRXeGTlGsw7BgoePE+gnC2DmsPmLKqrnT3
+	 zqHjuRsvsemq2uvVJYuVjnLiOK25BnUc5VQ+HVzGsvz2oPmJFbw29x8OWxg5EC4DDo
+	 Qnl6gLMAcNrfCm3rv7ipTendt6gOtfzsIDBozqwksi8fTEsWCILOoPJQhZZXTYx8W2
+	 LNvJhkq7SmKW7nVfNJyN2IkdoeKF70Kbl9TnGZBPi8VmCdfQ+Bspfrh/bGpmynR7bG
+	 evtqkUoUKkOVg==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org,
+	brendan.higgins@linux.dev,
+	davidgow@google.com
 Cc: tzungbi@kernel.org,
+	rmoar@google.com,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	naveen@kernel.org,
+	anil.s.keshavamurthy@intel.com,
+	davem@davemloft.net,
 	chrome-platform@lists.linux.dev,
-	linux-iio@vger.kernel.org,
-	Gwendal Grignou <gwendal@google.com>
-Subject: [PATCH] iio: cros_ec_sensors: add cros_ec_activity driver
-Date: Mon, 19 May 2025 21:01:00 -0700
-Message-ID: <20250520040101.3950845-1-gwendal@google.com>
-X-Mailer: git-send-email 2.49.0.1112.g889b7c5bd8-goog
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/7] platform/chrome: Add Kunit tests for protocol device drivers
+Date: Tue, 20 May 2025 08:24:27 +0000
+Message-ID: <20250520082435.2255639-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.49.0.1101.gccaa498523-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -72,515 +53,86 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ChromeOS EC can report activity information derived from the
-accelerometer:
-- reports on-body/off-body as a proximity event.
-- reports significant motion as an activity event.
+The protocol device drivers under drivers/platform/chrome/ are responsible
+to communicate to the ChromeOS EC (Embedded Controller).  They need to pack
+the data in a pre-defined format and check if the EC responds accordingly.
 
-This new sensor is a virtual sensor, included only when the EC firmware
-is compiled with the appropriate module.
+The series adds some fundamental unit tests for the protocol.  It calls the
+.cmd_xfer() and .pkt_xfer() callbacks (which are the most crucial parts for
+the protocol), mocks the rest of the system, and checks if the interactions
+are all correct.
 
-Signed-off-by: Gwendal Grignou <gwendal@google.com>
----
- drivers/iio/common/cros_ec_sensors/Kconfig    |  10 +
- drivers/iio/common/cros_ec_sensors/Makefile   |   1 +
- .../common/cros_ec_sensors/cros_ec_activity.c | 330 ++++++++++++++++++
- .../cros_ec_sensors/cros_ec_sensors_core.c    |  10 +
- .../linux/iio/common/cros_ec_sensors_core.h   |   1 +
- .../linux/platform_data/cros_ec_commands.h    |  36 +-
- 6 files changed, 382 insertions(+), 6 deletions(-)
- create mode 100644 drivers/iio/common/cros_ec_sensors/cros_ec_activity.c
+The series isn't ready for landing.  It's more like a PoC for the
+binary-level function redirection and its use cases.
 
-diff --git a/drivers/iio/common/cros_ec_sensors/Kconfig b/drivers/iio/common/cros_ec_sensors/Kconfig
-index fefad9572790..7ef925850a62 100644
---- a/drivers/iio/common/cros_ec_sensors/Kconfig
-+++ b/drivers/iio/common/cros_ec_sensors/Kconfig
-@@ -30,3 +30,13 @@ config IIO_CROS_EC_SENSORS_LID_ANGLE
- 	  convertible devices.
- 	  This module is loaded when the EC can calculate the angle between the base
- 	  and the lid.
-+
-+config IIO_CROS_EC_ACTIVITY
-+	tristate "ChromeOS EC Activity Sensors"
-+	depends on IIO_CROS_EC_SENSORS_CORE
-+	help
-+	  Module to handle activity events detections presented by the ChromeOS
-+	  EC Sensor hub.
-+	  Activities can be a proximity detector (on body/off body detection)
-+	  or an activity to trigger an event on significant motion.
-+	  Creates an IIO device to manage all activities.
-diff --git a/drivers/iio/common/cros_ec_sensors/Makefile b/drivers/iio/common/cros_ec_sensors/Makefile
-index e0a33ab66d21..a7849c52f3c8 100644
---- a/drivers/iio/common/cros_ec_sensors/Makefile
-+++ b/drivers/iio/common/cros_ec_sensors/Makefile
-@@ -3,6 +3,7 @@
- # Makefile for sensors seen through the ChromeOS EC sensor hub.
- #
- 
-+obj-$(CONFIG_IIO_CROS_EC_ACTIVITY) += cros_ec_activity.o
- obj-$(CONFIG_IIO_CROS_EC_SENSORS_CORE) += cros_ec_sensors_core.o
- obj-$(CONFIG_IIO_CROS_EC_SENSORS) += cros_ec_sensors.o
- obj-$(CONFIG_IIO_CROS_EC_SENSORS_LID_ANGLE) += cros_ec_lid_angle.o
-diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c b/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c
-new file mode 100644
-index 000000000000..01e4323abd36
---- /dev/null
-+++ b/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c
-@@ -0,0 +1,330 @@
-+// SPDX-License-Identifier: GPL-2.0
-+//
-+/*
-+ * cros_ec_sensors_activity - Driver for activities/gesture recognition.
-+ *
-+ * Copyright 2025 Google, Inc
-+ *
-+ * This driver uses the cros-ec interface to communicate with the Chrome OS
-+ * EC about activity data. Accelerometer access is presented through iio sysfs.
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/iio/common/cros_ec_sensors_core.h>
-+#include <linux/iio/events.h>
-+#include <linux/iio/iio.h>
-+#include <linux/iio/trigger_consumer.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/platform_data/cros_ec_commands.h>
-+#include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+
-+#define DRV_NAME "cros-ec-activity"
-+
-+/* state data for ec_sensors iio driver. */
-+struct cros_ec_sensors_state {
-+	/* Shared by all sensors */
-+	struct cros_ec_sensors_core_state core;
-+
-+	struct iio_chan_spec *channels;
-+
-+	int body_detection_channel_index;
-+	int sig_motion_channel_index;
-+};
-+
-+static const struct iio_event_spec cros_ec_activity_single_shot[] = {
-+	{
-+		.type = IIO_EV_TYPE_CHANGE,
-+		/* significant motion trigger when we get out of still. */
-+		.dir = IIO_EV_DIR_FALLING,
-+		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
-+	 },
-+};
-+
-+static const struct iio_event_spec cros_ec_body_detect_events[] = {
-+	{
-+		.type = IIO_EV_TYPE_CHANGE,
-+		.dir = IIO_EV_DIR_EITHER,
-+		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
-+	 },
-+};
-+
-+static int ec_sensors_read(struct iio_dev *indio_dev,
-+			   struct iio_chan_spec const *chan,
-+			   int *val, int *val2, long mask)
-+{
-+	struct cros_ec_sensors_state *st = iio_priv(indio_dev);
-+	int ret;
-+
-+	mutex_lock(&st->core.cmd_lock);
-+	if (chan->type == IIO_PROXIMITY &&
-+	    mask == IIO_CHAN_INFO_RAW) {
-+		st->core.param.cmd = MOTIONSENSE_CMD_GET_ACTIVITY;
-+		st->core.param.get_activity.activity =
-+			MOTIONSENSE_ACTIVITY_BODY_DETECTION;
-+		if (cros_ec_motion_send_host_cmd(&st->core, 0) !=
-+				EC_RES_SUCCESS) {
-+			ret = -EIO;
-+		} else {
-+			*val = st->core.resp->get_activity.state;
-+			ret = IIO_VAL_INT;
-+		}
-+	} else {
-+		ret = -EINVAL;
-+	}
-+	mutex_unlock(&st->core.cmd_lock);
-+	return ret;
-+}
-+
-+static int cros_ec_read_event_config(struct iio_dev *indio_dev,
-+				     const struct iio_chan_spec *chan,
-+				     enum iio_event_type type,
-+				     enum iio_event_direction dir)
-+{
-+	struct cros_ec_sensors_state *st = iio_priv(indio_dev);
-+	int ret;
-+
-+	if (chan->type != IIO_ACTIVITY && chan->type != IIO_PROXIMITY)
-+		return -EINVAL;
-+
-+	mutex_lock(&st->core.cmd_lock);
-+	st->core.param.cmd = MOTIONSENSE_CMD_LIST_ACTIVITIES;
-+	ret = cros_ec_motion_send_host_cmd(&st->core, 0);
-+	if (ret)
-+		goto done;
-+	switch (chan->type) {
-+	case IIO_PROXIMITY:
-+		ret = !!(st->core.resp->list_activities.enabled &
-+			 (1 << MOTIONSENSE_ACTIVITY_BODY_DETECTION));
-+		break;
-+	case IIO_ACTIVITY:
-+		if (chan->channel2 == IIO_MOD_STILL) {
-+			ret = !!(st->core.resp->list_activities.enabled &
-+				 (1 << MOTIONSENSE_ACTIVITY_SIG_MOTION));
-+		} else {
-+			dev_warn(&indio_dev->dev, "Unknown activity: %d\n",
-+				 chan->channel2);
-+			ret = -EINVAL;
-+		}
-+		break;
-+	default:
-+		dev_warn(&indio_dev->dev, "Unknown channel type: %d\n",
-+			 chan->type);
-+		ret = -EINVAL;
-+	}
-+done:
-+	mutex_unlock(&st->core.cmd_lock);
-+	return ret;
-+}
-+
-+static int cros_ec_write_event_config(struct iio_dev *indio_dev,
-+				      const struct iio_chan_spec *chan,
-+				      enum iio_event_type type,
-+				      enum iio_event_direction dir, int state)
-+{
-+	struct cros_ec_sensors_state *st = iio_priv(indio_dev);
-+	int ret;
-+
-+	if (chan->type != IIO_ACTIVITY && chan->type != IIO_PROXIMITY)
-+		return -EINVAL;
-+
-+	mutex_lock(&st->core.cmd_lock);
-+	st->core.param.cmd = MOTIONSENSE_CMD_SET_ACTIVITY;
-+	switch (chan->type) {
-+	case IIO_PROXIMITY:
-+		st->core.param.set_activity.activity =
-+			MOTIONSENSE_ACTIVITY_BODY_DETECTION;
-+		break;
-+	case IIO_ACTIVITY:
-+		if (chan->channel2 == IIO_MOD_STILL) {
-+			st->core.param.set_activity.activity =
-+				MOTIONSENSE_ACTIVITY_SIG_MOTION;
-+		} else {
-+			dev_warn(&indio_dev->dev, "Unknown activity: %d\n",
-+				 chan->channel2);
-+		}
-+		break;
-+	default:
-+		dev_warn(&indio_dev->dev, "Unknown channel type: %d\n",
-+			 chan->type);
-+	}
-+	st->core.param.set_activity.enable = state;
-+
-+	ret = cros_ec_motion_send_host_cmd(&st->core, 0);
-+
-+	mutex_unlock(&st->core.cmd_lock);
-+	return ret;
-+}
-+
-+static int cros_ec_activity_push_data(struct iio_dev *indio_dev,
-+				      s16 *data,
-+				      s64 timestamp)
-+{
-+	struct ec_response_activity_data *activity_data =
-+			(struct ec_response_activity_data *)data;
-+	enum motionsensor_activity activity = activity_data->activity;
-+	u8 state = activity_data->state;
-+	const struct cros_ec_sensors_state *st = iio_priv(indio_dev);
-+	const struct iio_chan_spec *chan;
-+	const struct iio_event_spec *event;
-+	enum iio_event_direction dir;
-+	int index;
-+	u64 ev;
-+
-+	switch (activity) {
-+	case MOTIONSENSE_ACTIVITY_BODY_DETECTION:
-+		index = st->body_detection_channel_index;
-+		dir = state ? IIO_EV_DIR_FALLING : IIO_EV_DIR_RISING;
-+		break;
-+	case MOTIONSENSE_ACTIVITY_SIG_MOTION:
-+		index = st->sig_motion_channel_index;
-+		dir = IIO_EV_DIR_FALLING;
-+		break;
-+	default:
-+		dev_warn(&indio_dev->dev, "Unknown activity: %d\n", activity);
-+		return 0;
-+	}
-+	chan = &st->channels[index];
-+	event = &chan->event_spec[0];
-+
-+	ev = IIO_UNMOD_EVENT_CODE(chan->type, index, event->type, dir);
-+	iio_push_event(indio_dev, ev, timestamp);
-+	return 0;
-+}
-+
-+static irqreturn_t cros_ec_activity_capture(int irq, void *p)
-+{
-+	struct iio_poll_func *pf = p;
-+	struct iio_dev *indio_dev = pf->indio_dev;
-+
-+	dev_warn(&indio_dev->dev, "%s: Not Expected\n", __func__);
-+	return IRQ_NONE;
-+}
-+
-+static const struct iio_info ec_sensors_info = {
-+	.read_raw = &ec_sensors_read,
-+	.read_event_config = cros_ec_read_event_config,
-+	.write_event_config = cros_ec_write_event_config,
-+};
-+
-+static int cros_ec_sensors_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct cros_ec_device *ec_device = dev_get_drvdata(dev->parent);
-+	struct iio_dev *indio_dev;
-+	struct cros_ec_sensors_state *st;
-+	struct iio_chan_spec *channel;
-+	unsigned long activities;
-+	int i, index, ret, nb_activities;
-+
-+	if (!ec_device) {
-+		dev_warn(&pdev->dev, "No CROS EC device found.\n");
-+		return -EINVAL;
-+	}
-+
-+	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*st));
-+	if (!indio_dev)
-+		return -ENOMEM;
-+
-+	ret = cros_ec_sensors_core_init(pdev, indio_dev, true,
-+					cros_ec_activity_capture);
-+	if (ret)
-+		return ret;
-+
-+	indio_dev->info = &ec_sensors_info;
-+	st = iio_priv(indio_dev);
-+	st->core.type = st->core.resp->info.type;
-+
-+	/*
-+	 * List all available activities
-+	 */
-+	st->core.param.cmd = MOTIONSENSE_CMD_LIST_ACTIVITIES;
-+	ret = cros_ec_motion_send_host_cmd(&st->core, 0);
-+	if (ret)
-+		return ret;
-+	activities = st->core.resp->list_activities.enabled |
-+		     st->core.resp->list_activities.disabled;
-+	nb_activities = hweight_long(activities) + 1;
-+
-+	if (!activities)
-+		return -ENODEV;
-+
-+	/* Allocate a channel per activity and one for timestamp */
-+	st->channels = devm_kcalloc(&pdev->dev, nb_activities,
-+				    sizeof(*st->channels), GFP_KERNEL);
-+	if (!st->channels)
-+		return -ENOMEM;
-+
-+	channel = &st->channels[0];
-+	index = 0;
-+	for_each_set_bit(i, &activities, BITS_PER_LONG) {
-+		channel->scan_index = index;
-+
-+		/* List all available activities */
-+		if (i == MOTIONSENSE_ACTIVITY_BODY_DETECTION) {
-+			channel->type = IIO_PROXIMITY;
-+			channel->info_mask_separate = BIT(IIO_CHAN_INFO_RAW);
-+			channel->modified = 0;
-+			channel->event_spec = cros_ec_body_detect_events;
-+			channel->num_event_specs =
-+				ARRAY_SIZE(cros_ec_body_detect_events);
-+			st->body_detection_channel_index = index;
-+		} else {
-+			channel->type = IIO_ACTIVITY;
-+			channel->modified = 1;
-+			channel->event_spec = cros_ec_activity_single_shot;
-+			channel->num_event_specs =
-+				ARRAY_SIZE(cros_ec_activity_single_shot);
-+			if (i == MOTIONSENSE_ACTIVITY_SIG_MOTION) {
-+				channel->channel2 = IIO_MOD_STILL;
-+				st->sig_motion_channel_index = index;
-+			} else {
-+				dev_warn(&pdev->dev,
-+					 "Unknown activity: %d\n", i);
-+				continue;
-+			}
-+		}
-+		channel->ext_info = cros_ec_sensors_limited_info;
-+		channel++;
-+		index++;
-+	}
-+
-+	/* Timestamp */
-+	channel->scan_index = index;
-+	channel->type = IIO_TIMESTAMP;
-+	channel->channel = -1;
-+	channel->scan_type.sign = 's';
-+	channel->scan_type.realbits = 64;
-+	channel->scan_type.storagebits = 64;
-+
-+	indio_dev->channels = st->channels;
-+	indio_dev->num_channels = index + 1;
-+
-+	st->core.read_ec_sensors_data = cros_ec_sensors_read_cmd;
-+
-+	return cros_ec_sensors_core_register(dev, indio_dev,
-+					     cros_ec_activity_push_data);
-+}
-+
-+static void cros_ec_sensors_remove(struct platform_device *pdev)
-+{
-+	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
-+
-+	iio_device_unregister(indio_dev);
-+}
-+
-+static struct platform_driver cros_ec_sensors_platform_driver = {
-+	.driver = {
-+		.name	= DRV_NAME,
-+	},
-+	.probe		= cros_ec_sensors_probe,
-+	.remove		= cros_ec_sensors_remove,
-+};
-+module_platform_driver(cros_ec_sensors_platform_driver);
-+
-+MODULE_DESCRIPTION("ChromeOS EC activity sensors driver");
-+MODULE_ALIAS("platform:" DRV_NAME);
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-index 64bada1e8678..1bd07ca3abfe 100644
---- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-+++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-@@ -489,6 +489,16 @@ const struct iio_chan_spec_ext_info cros_ec_sensors_ext_info[] = {
- };
- EXPORT_SYMBOL_GPL(cros_ec_sensors_ext_info);
- 
-+const struct iio_chan_spec_ext_info cros_ec_sensors_limited_info[] = {
-+	{
-+		.name = "id",
-+		.shared = IIO_SHARED_BY_ALL,
-+		.read = cros_ec_sensors_id
-+	},
-+	{ },
-+};
-+EXPORT_SYMBOL_GPL(cros_ec_sensors_limited_info);
-+
- /**
-  * cros_ec_sensors_idx_to_reg - convert index into offset in shared memory
-  * @st:		pointer to state information for device
-diff --git a/include/linux/iio/common/cros_ec_sensors_core.h b/include/linux/iio/common/cros_ec_sensors_core.h
-index e72167b96d27..bb966abcde53 100644
---- a/include/linux/iio/common/cros_ec_sensors_core.h
-+++ b/include/linux/iio/common/cros_ec_sensors_core.h
-@@ -126,5 +126,6 @@ extern const struct dev_pm_ops cros_ec_sensors_pm_ops;
- 
- /* List of extended channel specification for all sensors. */
- extern const struct iio_chan_spec_ext_info cros_ec_sensors_ext_info[];
-+extern const struct iio_chan_spec_ext_info cros_ec_sensors_limited_info[];
- 
- #endif  /* __CROS_EC_SENSORS_CORE_H */
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index ecf290a0c98f..0f6d53e7cb97 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -2388,6 +2388,12 @@ enum motionsense_command {
- 	 */
- 	MOTIONSENSE_CMD_SENSOR_SCALE = 18,
- 
-+	/*
-+	 * Activity management
-+	 * Retrieve current status of given activity.
-+	 */
-+	MOTIONSENSE_CMD_GET_ACTIVITY = 20,
-+
- 	/* Number of motionsense sub-commands. */
- 	MOTIONSENSE_NUM_CMDS
- };
-@@ -2447,6 +2453,11 @@ enum motionsensor_orientation {
- 	MOTIONSENSE_ORIENTATION_UNKNOWN = 4,
- };
- 
-+struct ec_response_activity_data {
-+	uint8_t activity; /* motionsensor_activity */
-+	uint8_t state;
-+} __ec_todo_packed;
-+
- struct ec_response_motion_sensor_data {
- 	/* Flags for each sensor. */
- 	uint8_t flags;
-@@ -2454,15 +2465,14 @@ struct ec_response_motion_sensor_data {
- 	uint8_t sensor_num;
- 	/* Each sensor is up to 3-axis. */
- 	union {
--		int16_t             data[3];
-+		int16_t                                  data[3];
- 		struct __ec_todo_packed {
--			uint16_t    reserved;
--			uint32_t    timestamp;
-+			uint16_t                         reserved;
-+			uint32_t                         timestamp;
- 		};
- 		struct __ec_todo_unpacked {
--			uint8_t     activity; /* motionsensor_activity */
--			uint8_t     state;
--			int16_t     add_info[2];
-+			struct ec_response_activity_data activity_data;
-+			int16_t                          add_info[2];
- 		};
- 	};
- } __ec_todo_packed;
-@@ -2494,6 +2504,7 @@ enum motionsensor_activity {
- 	MOTIONSENSE_ACTIVITY_SIG_MOTION = 1,
- 	MOTIONSENSE_ACTIVITY_DOUBLE_TAP = 2,
- 	MOTIONSENSE_ACTIVITY_ORIENTATION = 3,
-+	MOTIONSENSE_ACTIVITY_BODY_DETECTION = 4,
- };
- 
- struct ec_motion_sense_activity {
-@@ -2671,6 +2682,7 @@ struct ec_params_motion_sense {
- 			uint32_t max_data_vector;
- 		} fifo_read;
- 
-+		/* Used for MOTIONSENSE_CMD_SET_ACTIVITY */
- 		struct ec_motion_sense_activity set_activity;
- 
- 		/* Used for MOTIONSENSE_CMD_LID_ANGLE */
-@@ -2716,6 +2728,14 @@ struct ec_params_motion_sense {
- 			 */
- 			int16_t hys_degree;
- 		} tablet_mode_threshold;
-+
-+		/*
-+		 * Used for MOTIONSENSE_CMD_GET_ACTIVITY.
-+		 */
-+		struct __ec_todo_unpacked {
-+			uint8_t sensor_num;
-+			uint8_t activity;  /* enum motionsensor_activity */
-+		} get_activity;
- 	};
- } __ec_todo_packed;
- 
-@@ -2833,6 +2853,10 @@ struct ec_response_motion_sense {
- 			uint16_t hys_degree;
- 		} tablet_mode_threshold;
- 
-+		/* USED for MOTIONSENSE_CMD_GET_ACTIVITY. */
-+		struct __ec_todo_unpacked {
-+			uint8_t     state;
-+		} get_activity;
- 	};
- } __ec_todo_packed;
- 
+The 1st patch adds ftrace stub which is originally from [1][2].  There is no
+follow-up discussion about the ftrace stub.  As a result, the patch is still
+on the mailing list.
+
+The 2nd patch adds Kunit tests for cros_ec_i2c.  It relies on the ftrace stub
+for redirecting cros_ec_{un,}register().
+
+The 3rd patch uses static stub instead (if ftrace stub isn't really an option).
+However, I'm not a big fan to change the production code (i.e. adding the
+prologue in cros_ec_{un,}register()) for testing.
+
+The 4th patch adds Kunit tests for cros_ec_spi.  It relies on the ftrace stub
+for redirecting cros_ec_{un,}register() again.
+
+The 5th patch calls .probe() directly instead of forcing the driver probe
+needs to be synchronous.  In comparison with the 4th patch, I don't think
+this is simpler.  I'd prefer to the way in the 4th patch.
+
+After talked to Masami about the work, he suggested to use Kprobes for
+function redirection.  The 6th patch adds kprobes stub.
+
+The 7th patch uses kprobes stub instead for cros_ec_spi.
+
+Questions:
+- Are we going to support ftrace stub so that tests can use it?
+
+- If ftrace stub isn't on the plate (e.g. due to too many dependencies), how
+  about the kprobes stub?  Is it something we could pursue?
+
+- (minor) I'm unsure if people would prefer 'kprobes stub' vs. 'kprobe stub'.
+
+[1]: https://kunit.dev/mocking.html#binary-level-ftrace-et-al
+[2]: https://lore.kernel.org/linux-kselftest/20220318021314.3225240-3-davidgow@google.com/
+
+Daniel Latypov (1):
+  kunit: expose ftrace-based API for stubbing out functions during tests
+
+Tzung-Bi Shih (6):
+  platform/chrome: kunit: cros_ec_i2c: Add tests with ftrace stub
+  platform/chrome: kunit: cros_ec_i2c: Use static stub instead
+  platform/chrome: kunit: cros_ec_spi: Add tests with ftrace stub
+  platform/chrome: kunit: cros_ec_spi: Call .probe() directly
+  kunit: Expose 'kprobes stub' API to redirect functions
+  platform/chrome: kunit: cros_ec_spi: Use kprobes stub instead
+
+ drivers/platform/chrome/Kconfig            |  17 +
+ drivers/platform/chrome/Makefile           |   2 +
+ drivers/platform/chrome/cros_ec.c          |   6 +
+ drivers/platform/chrome/cros_ec_i2c_test.c | 479 +++++++++++++++++++++
+ drivers/platform/chrome/cros_ec_spi_test.c | 355 +++++++++++++++
+ include/kunit/ftrace_stub.h                |  84 ++++
+ include/kunit/kprobes_stub.h               |  19 +
+ kernel/trace/ftrace.c                      |   3 +
+ lib/kunit/Kconfig                          |  18 +
+ lib/kunit/Makefile                         |   8 +
+ lib/kunit/ftrace_stub.c                    | 139 ++++++
+ lib/kunit/kprobes_stub.c                   | 113 +++++
+ lib/kunit/kunit-example-test.c             |  27 +-
+ lib/kunit/stubs_example.kunitconfig        |  11 +
+ 14 files changed, 1280 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/platform/chrome/cros_ec_i2c_test.c
+ create mode 100644 drivers/platform/chrome/cros_ec_spi_test.c
+ create mode 100644 include/kunit/ftrace_stub.h
+ create mode 100644 include/kunit/kprobes_stub.h
+ create mode 100644 lib/kunit/ftrace_stub.c
+ create mode 100644 lib/kunit/kprobes_stub.c
+ create mode 100644 lib/kunit/stubs_example.kunitconfig
+
 -- 
-2.49.0.1112.g889b7c5bd8-goog
+2.49.0.1101.gccaa498523-goog
 

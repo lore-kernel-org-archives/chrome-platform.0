@@ -1,321 +1,219 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AD5199EAF;
-	Wed, 21 May 2025 07:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9567B1A239B;
+	Wed, 21 May 2025 14:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747811781; cv=none; b=sIV2IJB31+jL9z3lQPC0pzElDXVDAQr0Mrl5IGrRhSvRnWl33MTSGlJ8Eb40n+CXSEyMqZ6PL3XycehPDvK6D/NikW+eHidMWILnyoVXuGyN0kf+gzPFdFQA+S+iP8rGkri41LQwpGSQvR7Z5+cpogcQwdBRBDUTfUvvpoOnqQo=
+	t=1747837360; cv=none; b=Mp536ELrXPW6bANBtThrCXMBT75y2BssBa9IV53GcpNaer5pby3Psg0O9m5Td1TWwZYVkJ7i4tlPMT/10z6WE8NFty7JubiQq1r3GlyqsmAtOD/pAfXXwMer8ygjhtFenUuTD0YRaRZ7lNpJm+XCFDcb3BFAuAfCY58qeFLSG28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747811781; c=relaxed/simple;
-	bh=8imMHFUmM7MTaB83XAfNCalYk3NPAFCHsOUX4BjSl2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kNHpVNk+mz8vgVR1jl6tXlunRTdELDlvtkgBJ0AXwtatVA3APDAWE+pdyz1Z0prtF9oZ99ajR7C0VGO9JQenKet0mZpfxUT10VydyhCj6jqdsilW7uPCumITt5gPbE3iidOtfiChy3Zt+iFzrwH8DzTnBMG+Gv8zpNSI09q91vI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hp9xdowd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747837360; c=relaxed/simple;
+	bh=SBMc3kULvbN/i0mN07lWs8tAIHU7iwXg5MTlRdbwlWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Y4PVL61IK5ze/IWKC6aiKrsCraRlAhVcqHTwpwdwNobRtuExypKUWQ9O6VE6wEORKZ/64Ab/w4xTmYLInm6y3BNuCPDd+Qe4h9oKMpxit/Yofw9PHc3tnv1L0G+mfzAo/GThbopx2/lqPnXb3yyBcB4F9vt2LYOXWgA6rnKqrBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fYSLMVVs; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hp9xdowd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A4D9C4CEE4;
-	Wed, 21 May 2025 07:16:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747811781;
-	bh=8imMHFUmM7MTaB83XAfNCalYk3NPAFCHsOUX4BjSl2Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hp9xdowdHe1yR83P+GClxvwUSGsHwn+xrvcFGcpP7zaBEM438LhPSeB4QHSho2dfM
-	 Y5c3qbUFWrPc+W3f7cjBZfKXgynLSn8EPzu2+kWgZd8w+J/p1/w7SnbiIBSgiz0yT+
-	 3UIEDVHxNmUB9t7yqhM3I+Ds+jNweDYRyYzS6NKXjP7Fn+HcZYFsz9RO4Cum2HUT/1
-	 CuVySPoaUbEs9/lpFF15zpMCkGO5w+4bi1wHWyEJyVvCLjsAh8lF5h7vaLx8eRmNm4
-	 PRMy4zOju78Dv74bMG/NZFoKCj5aBz5nQQpel7lrdbm6MW9PLqcZtnXAUtC9f+9Fup
-	 lw+8xsGWagBHA==
-Date: Wed, 21 May 2025 07:16:18 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Gwendal Grignou <gwendal@chromium.org>
-Cc: jic23@kernel.org, chrome-platform@lists.linux.dev,
-	linux-iio@vger.kernel.org, Gwendal Grignou <gwendal@google.com>
-Subject: Re: [PATCH] iio: cros_ec_sensors: add cros_ec_activity driver
-Message-ID: <aC19wpJg1KAwv3Lo@google.com>
-References: <20250520040101.3950845-1-gwendal@google.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fYSLMVVs"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8FD7443B3F;
+	Wed, 21 May 2025 14:22:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747837350;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vyPpXbcuqSIPDBMFEqspo4iXigHvW7uXfydpRN7Xbhk=;
+	b=fYSLMVVsQYfpq0UfcQjtXHhEeq5bfCS6ZfFtSy9WALjrRzfOI1oCmQiRh9/p/2Tov1lqL6
+	6hd7ysvk/ltTNuZ3CAlJ8hxNJb1U4hh9oDe0vFEV7Qmtyyl2jnGS6vHAh+CJjT02k5hPnx
+	/8mrP78Ua2u8o332sEOuGFEL01a6KTHTgbKtJYOaO92+nm28+YzX+fKLT5azjlVWA6wd7P
+	QGZK2iH33WbGHOFi2Bk+4Ix+bA6ASPEQH4bi0kJlvRry4ViIVwFyHbkOYow1fiiPEcPty3
+	9UYIHe6MjbBN6AI7Wu+J/2jCVZHKny42qJOnl6aqWr/VeHDBSzrL8xxwzk+UAA==
+Date: Wed, 21 May 2025 16:22:16 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Liu Ying <victor.liu@nxp.com>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski
+ <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
+ <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ Louis Chauvet <louis.chauvet@bootlin.com>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, Kyungmin Park
+ <kyungmin.park@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>, Adam Ford
+ <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>,
+ Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Christoph Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>, Dharma Balasubiramani
+ <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
+ Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
+ Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
+ Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
+ <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
+ <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
+ Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
+ <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan
+ <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>, Xin Ji
+ <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@gehealthcare.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Peter Senna Tschudin
+ <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, Kuninori Morimoto
+ <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Michal Simek
+ <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+Message-ID: <20250521162216.79dd3290@booty>
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250520040101.3950845-1-gwendal@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdeffedtucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepheelfeevlefgkeekvdffveehudeihfdtjefhieehgfejveduieffgffhjeejleevnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdhkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeelhedprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhto
+ hepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Mon, May 19, 2025 at 09:01:00PM -0700, Gwendal Grignou wrote:
-> ChromeOS EC can report activity information derived from the
-> accelerometer:
-> - reports on-body/off-body as a proximity event.
-> - reports significant motion as an activity event.
+Hello Maxime, Shawn, Liu, all,
 
-s/^r/R/.
+On Fri, 09 May 2025 15:53:26 +0200
+Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
 
-> diff --git a/drivers/iio/common/cros_ec_sensors/Kconfig b/drivers/iio/common/cros_ec_sensors/Kconfig
-> [...]
-> +config IIO_CROS_EC_ACTIVITY
-> +	tristate "ChromeOS EC Activity Sensors"
-> +	depends on IIO_CROS_EC_SENSORS_CORE
-> +	help
-> +	  Module to handle activity events detections presented by the ChromeOS
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-I'm confused and wondering if there is a typo.  Which one:
-- activity event detections
-- activity events
-- activity detections
+> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
+> bridge, and the only one supported from now on. It is the first milestone
+> towards removal of bridges from a still existing DRM pipeline without
+> use-after-free.
 
-> +	  EC Sensor hub.
+I applied on drm-misc-next patches 3-17,20-21 as they match all the
+criteria:
+ - At least a Acked-by (or R-by maintainers)
+ - patch is for drm-misc
 
-s/S/s/?
+Being my very first commits to drm-misc, I tried to be careful, and
+double checked all the patches with Louis (thanks!).
 
-> +	  Activities can be a proximity detector (on body/off body detection)
-> +	  or an activity to trigger an event on significant motion.
+Here are the pending questions and plan for the remaining patches.
 
-s/an activity to trigger //?
+>       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API"
 
-> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c b/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c
-> [...]
-> +// SPDX-License-Identifier: GPL-2.0
-> +//
+This reverts the commit applied my mistake:
+https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09b43b025bce6d790d3c79f4518
 
-Drop the empty comment line.
+Neither the  original patch nor the revert has been reviewed/acked.
 
-> +/*
-> + * cros_ec_sensors_activity - Driver for activities/gesture recognition.
-> + *
-> + * Copyright 2025 Google, Inc
-> + *
-> + * This driver uses the cros-ec interface to communicate with the Chrome OS
+As the commit was a mistake, I'm applying the revert by the end of this
+week (i.e. on Friday) unless there are better instructions.
 
-s/Chrome OS/ChromeOS/.
+>       drm: convert many bridge drivers from devm_kzalloc() to devm_drm_bridge_alloc() API
 
-> +#include <linux/delay.h>
+This patch affects multiple drivers. Running get_maintainers.pl
+points at Shawn Guo's repository. After reviewing the MAINTAINERS file,
+this looks like due to the 'N:' line in:
 
-Drop it.  The driver doesn't use anything from the header.
+ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
+M:	Shawn Guo <shawnguo@kernel.org>
+M:	Sascha Hauer <s.hauer@pengutronix.de>
+R:	Pengutronix Kernel Team <kernel@pengutronix.de>
+...
+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
+N:	imx
+...
 
-> +#include <linux/device.h>
-> +#include <linux/iio/common/cros_ec_sensors_core.h>
-> +#include <linux/iio/events.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/iio/trigger_consumer.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
-> +#include <linux/platform_device.h>
+(https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAINTAINERS?ref_type=heads#L2511-2528)
 
-I guess the list may be copied from somewhere drivers.  Could you review
-again to make sure the driver needs to include them?
+Here 'imx' matches the 'drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c'
+file that is touched by the patch. That regexp appears overly generic to me.
 
-> +#include <linux/slab.h>
+Shawn, can it be fixed by making it less generic?
 
-Drop it.  The driver doesn't use anything from the header.
+If not, can we at least add a band-aid 'X:' entry for
+drivers/gpu/drm/bridge/imx?
 
-> +static const struct iio_event_spec cros_ec_activity_single_shot[] = {
-> +	{
-> +		.type = IIO_EV_TYPE_CHANGE,
-> +		/* significant motion trigger when we get out of still. */
-> +		.dir = IIO_EV_DIR_FALLING,
-> +		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
-> +	 },
+I think the other matching entry is the one to consider:
 
-Remove the extra space before "}".
+DRM DRIVERS FOR FREESCALE IMX BRIDGE
+M:	Liu Ying <victor.liu@nxp.com>
+L:	dri-devel@lists.freedesktop.org
+S:	Maintained
+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
+F:	drivers/gpu/drm/bridge/imx/
 
-> +static const struct iio_event_spec cros_ec_body_detect_events[] = {
-> +	{
-> +		.type = IIO_EV_TYPE_CHANGE,
-> +		.dir = IIO_EV_DIR_EITHER,
-> +		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
-> +	 },
+(https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAINTAINERS?ref_type=heads#L7940-7948)
 
-Remove the extra space before "}".
+However it does not list any trees. I _guess_ drm-misc applies here as
+a fallback as well as common sense.
 
-> +static int ec_sensors_read(struct iio_dev *indio_dev,
-> +			   struct iio_chan_spec const *chan,
-> +			   int *val, int *val2, long mask)
-> +{
-> +	struct cros_ec_sensors_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	mutex_lock(&st->core.cmd_lock);
-> +	if (chan->type == IIO_PROXIMITY &&
-> +	    mask == IIO_CHAN_INFO_RAW) {
-> +		st->core.param.cmd = MOTIONSENSE_CMD_GET_ACTIVITY;
-> +		st->core.param.get_activity.activity =
-> +			MOTIONSENSE_ACTIVITY_BODY_DETECTION;
-> +		if (cros_ec_motion_send_host_cmd(&st->core, 0) !=
-> +				EC_RES_SUCCESS) {
+Liu, should this entry have a 'T:' line for drm/misc?
 
-cros_ec_motion_send_host_cmd() returns 0 or negative errno like most other
-kernel APIs.  Even though EC_RES_SUCCESS is also 0, however, they aren't
-the same domain space (see also cros_ec_map_error()).  Don't use it.
+>       drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_alloc() API
 
-		if (cros_ec_motion_send_host_cmd(&st->core, 0))
+Not acked/reviewed, some discussion happened. I am resending it in v4,
+possibly with updates based on the discussion.
 
-> +static int cros_ec_read_event_config(struct iio_dev *indio_dev,
-> [...]
-> +	switch (chan->type) {
-> +	case IIO_PROXIMITY:
-> +		ret = !!(st->core.resp->list_activities.enabled &
-> +			 (1 << MOTIONSENSE_ACTIVITY_BODY_DETECTION));
-> +		break;
-> +	case IIO_ACTIVITY:
-> +		if (chan->channel2 == IIO_MOD_STILL) {
-> +			ret = !!(st->core.resp->list_activities.enabled &
-> +				 (1 << MOTIONSENSE_ACTIVITY_SIG_MOTION));
-> +		} else {
-> +			dev_warn(&indio_dev->dev, "Unknown activity: %d\n",
-> +				 chan->channel2);
-> +			ret = -EINVAL;
-> +		}
-> +		break;
-> +	default:
-> +		dev_warn(&indio_dev->dev, "Unknown channel type: %d\n",
-> +			 chan->type);
-> +		ret = -EINVAL;
+But it has the same issue discussed above, with get_maintiners.pl
+pointing at Shawn Guo's tree, so in the future I'm assuming this goes
+to drm-misc unless there are news about that.
 
-Curious about: wouldn't compiler or some checkers emit warnings about it
-lacks a `break`?
+>       drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
 
-> +static int cros_ec_write_event_config(struct iio_dev *indio_dev,
-> [...]
-> +	switch (chan->type) {
-> +	case IIO_PROXIMITY:
-> +		st->core.param.set_activity.activity =
-> +			MOTIONSENSE_ACTIVITY_BODY_DETECTION;
-> +		break;
-> +	case IIO_ACTIVITY:
-> +		if (chan->channel2 == IIO_MOD_STILL) {
-> +			st->core.param.set_activity.activity =
-> +				MOTIONSENSE_ACTIVITY_SIG_MOTION;
-> +		} else {
-> +			dev_warn(&indio_dev->dev, "Unknown activity: %d\n",
-> +				 chan->channel2);
-> +		}
-> +		break;
-> +	default:
-> +		dev_warn(&indio_dev->dev, "Unknown channel type: %d\n",
-> +			 chan->type);
+No feedback, resending in v4.
 
-Same here.
+>       drm/todo: add entry to remove devm_drm_put_bridge()
 
-> +static int cros_ec_sensors_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct cros_ec_device *ec_device = dev_get_drvdata(dev->parent);
-> +	struct iio_dev *indio_dev;
-> +	struct cros_ec_sensors_state *st;
-> +	struct iio_chan_spec *channel;
-> +	unsigned long activities;
-> +	int i, index, ret, nb_activities;
-> +
-> +	if (!ec_device) {
-> +		dev_warn(&pdev->dev, "No CROS EC device found.\n");
+This involves documentation maintained on another tree. Where should it
+be applied? There are two matching entries in MAINTAINERS:
 
-The function already has a local variable `dev` for `&pdev->dev`.  Use it.
+ * DRM DRIVERS -> the drm tree
+ * DRM DRIVERS AND MISC GPU PATCHES -> the drm-misc tree
 
-> +		return -EINVAL;
-> +	}
-> +
-> +	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*st));
+To me it looks like the second is obviously the closest match as we are
+dealing with DRM bridges, so I'm applying this as well on Friday unless
+there are better instructions.
 
-`dev`.
+Best regards,
+Luca
 
-> +	if (!indio_dev)
-> +		return -ENOMEM;
-> +
-> +	ret = cros_ec_sensors_core_init(pdev, indio_dev, true,
-> +					cros_ec_activity_capture);
-> +	if (ret)
-> +		return ret;
-> +
-> +	indio_dev->info = &ec_sensors_info;
-> +	st = iio_priv(indio_dev);
-> +	st->core.type = st->core.resp->info.type;
-> +
-> +	/*
-> +	 * List all available activities
-> +	 */
-> +	st->core.param.cmd = MOTIONSENSE_CMD_LIST_ACTIVITIES;
-> +	ret = cros_ec_motion_send_host_cmd(&st->core, 0);
-> +	if (ret)
-> +		return ret;
-> +	activities = st->core.resp->list_activities.enabled |
-> +		     st->core.resp->list_activities.disabled;
-> +	nb_activities = hweight_long(activities) + 1;
-
-Moving the line just right before the following devm_kcalloc() for
-`st->channels` makes more sense.
-
-> +
-> +	if (!activities)
-> +		return -ENODEV;
-> +
-> +	/* Allocate a channel per activity and one for timestamp */
-> +	st->channels = devm_kcalloc(&pdev->dev, nb_activities,
-> +				    sizeof(*st->channels), GFP_KERNEL);
-> +	if (!st->channels)
-> +		return -ENOMEM;
-> +
-> +	channel = &st->channels[0];
-> +	index = 0;
-> +	for_each_set_bit(i, &activities, BITS_PER_LONG) {
-> +		channel->scan_index = index;
-
-It seems the loop body doesn't use the `channel->scan_index`.  Move the
-assignment to the end of loop body when it's sure to occupy the index?
-
-		channel->scan_index = index++;
-
-> +
-> +		/* List all available activities */
-
-Drop the comment as it doesn't reflect what the following code does?
-
-> +		if (i == MOTIONSENSE_ACTIVITY_BODY_DETECTION) {
-> +			channel->type = IIO_PROXIMITY;
-> +			channel->info_mask_separate = BIT(IIO_CHAN_INFO_RAW);
-> +			channel->modified = 0;
-> +			channel->event_spec = cros_ec_body_detect_events;
-> +			channel->num_event_specs =
-> +				ARRAY_SIZE(cros_ec_body_detect_events);
-> +			st->body_detection_channel_index = index;
-> +		} else {
-> +			channel->type = IIO_ACTIVITY;
-> +			channel->modified = 1;
-> +			channel->event_spec = cros_ec_activity_single_shot;
-> +			channel->num_event_specs =
-> +				ARRAY_SIZE(cros_ec_activity_single_shot);
-> +			if (i == MOTIONSENSE_ACTIVITY_SIG_MOTION) {
-> +				channel->channel2 = IIO_MOD_STILL;
-> +				st->sig_motion_channel_index = index;
-> +			} else {
-> +				dev_warn(&pdev->dev,
-
-`dev`.
-
-> +					 "Unknown activity: %d\n", i);
-> +				continue;
-> +			}
-> +		}
-> +		channel->ext_info = cros_ec_sensors_limited_info;
-> +		channel++;
-> +		index++;
-> +	}
-> +
-> +	/* Timestamp */
-> +	channel->scan_index = index;
-> +	channel->type = IIO_TIMESTAMP;
-> +	channel->channel = -1;
-> +	channel->scan_type.sign = 's';
-> +	channel->scan_type.realbits = 64;
-> +	channel->scan_type.storagebits = 64;
-> +
-> +	indio_dev->channels = st->channels;
-> +	indio_dev->num_channels = index + 1;
-> +
-> +	st->core.read_ec_sensors_data = cros_ec_sensors_read_cmd;
-
-The statement here isn't intuitive.  Can it move somewhere above when setting
-the `st->core`?  E.g. right after the assignment for `st->core.type`.
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com

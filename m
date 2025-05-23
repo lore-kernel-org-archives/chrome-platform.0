@@ -1,69 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFB31FF1CF;
-	Fri, 23 May 2025 05:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E04122839A;
+	Fri, 23 May 2025 13:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747977281; cv=none; b=Zc0XsR8k9bLTHx7pbZRZ8RMdKd06qk0HLjI44fGzSzxrWZaZwzXzFVQUM3UFGb5n6H0JwAhLSnW9BAICF1AlbyOiAjNKXNEw3NYBi83NZS5ZiVN+so8bxunErbrh+Wr744fyQr51PhksnlqSUp1HxMktMO+hcsrwR+BBPmPS8Gw=
+	t=1748006601; cv=none; b=V/NbF3EKrzLAVnrC3Mn+NeJeWzPo3rTWNSVGwZKAgwrEEpgWmSRgWCXuWLRu1ucC/RsJMNYR5yOYmeGe/FkwlyginUGXaVTRAi4LLIQFJvr25ukhIBGj1BuhoJKJi8cfIGVlvSsPjFhF1+0XuK8fUghFWjpK+PsT15y98bwH/n4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747977281; c=relaxed/simple;
-	bh=CVemUjoSii7g5xGaLL4Hnvf0OKQ5kBV7Bvg7jSGaTC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sJAjBXybL1xY/ODsz3Qcflv6YRwNhTBnx0wHtGeuM/z3bHcmRuVvcIiDv8w/b5FIvx0U3ZlaaUJ3QR5OtO1bYmK3OSXqms+4O8JwZgPNIrcGtk/y+28QMrjJpEXsai/vLtT5yh49cRLgq2ZIMqWKoUVEeEKdQdhTXiWE2Tau2yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mXOmy7xP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748006601; c=relaxed/simple;
+	bh=LbgV/zeaYLO0BgljQMlUUXJzitcXLpFon8HqiN2dJbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dI63iHJ0YBmu8qn9oP+XD9WAbSu4q5D4QuD3ekRn/0kRokoISfl8P1K+J+8jcb0Fa+Rk0gputqLpOt1QcI/t80h6avMONj9z86I9jg1SwgzgoRR1W4Zx/dDaAzGHqPgZMhE5Zp/vBnDbyN3/YKgMwYIu8lyoCUe+EBlaM2wfJTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mZbEGMe2; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mXOmy7xP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07761C4CEE9;
-	Fri, 23 May 2025 05:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747977280;
-	bh=CVemUjoSii7g5xGaLL4Hnvf0OKQ5kBV7Bvg7jSGaTC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mXOmy7xP2YZu2JkVdf6JgcerCETmMU+SunaDPuZwI2Ivi1nXNlMyHgKsUE+J0a/e3
-	 ksBRGeomflxoTxnYuNIzzD0AhpHLtLnZi8nyyQiIksRjYSXtQTg/Rok2kN4QxOFqup
-	 bqBsU1wjAXTrwK9WOwPKUDaO+UMAlBPuTIll7d+yiRuPj+evv2ecVUk7PZxbslZNLm
-	 wG6bGG+6A/gw5ezikERidqQs0NxT742IujAokyhFGaCilKf6xqWiPhKTAooseOhxxQ
-	 jx7EVhLrzXMVCOETb6ryaVqoS4AaIkx1roZBP46yNPytTTrF/ZWNP7vgb5cIwt6SfB
-	 scRMJfU9G8QCQ==
-Date: Fri, 23 May 2025 05:14:37 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Gwendal Grignou <gwendal@chromium.org>
-Cc: jic23@kernel.org, chrome-platform@lists.linux.dev,
-	linux-iio@vger.kernel.org, Gwendal Grignou <gwendal@google.com>
-Subject: Re: [PATCH v3] iio: cros_ec_sensors: add cros_ec_activity driver
-Message-ID: <aDAEPcpWHps3l3Fc@google.com>
-References: <20250523031849.1479851-1-gwendal@google.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mZbEGMe2"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 80E3043E92;
+	Fri, 23 May 2025 13:23:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1748006596;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PdDU2oRP8k2jUeSve/BOd06ch34w47FFumvJv+pxA64=;
+	b=mZbEGMe25lkA6a1/A5PYNbESnCSL60bu6GbmptADGVwaEkiGNBcHGN8VrT72jRA/+HNkP4
+	O/QwRUKwwl3xkt4gQ3Mrs7lKrRaKRz4fTUwt/DbNDv7ugEEzoi1dGDejSURTrPhZAOKVZL
+	UYuYChVv7ASMlrgAyMynb3Hu9Ovs5zXPwNEjo60hL8sbBVmrDkv74b2ln1iasNoULv1Ksw
+	tA2Y1gP38lTQKZNvYVM6ebTePuQP8PIROVBEJmhCXewn1NVtuepbzztVtobDhFgEQBqe6V
+	8LOSAQYNXvNBh9HNPCzuX8wiU0bL+1nw3VrunFS4/yawaszCy5VqLmvRqmwd3g==
+Date: Fri, 23 May 2025 15:23:04 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Inki Dae <daeinki@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Liu Ying <victor.liu@nxp.com>, Anusha Srivatsa
+ <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, Dmitry
+ Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, Louis Chauvet
+ <louis.chauvet@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Seung-Woo Kim
+ <sw0312.kim@samsung.com>, Manikandan Muralidharan
+ <manikandan.m@microchip.com>, Adam Ford <aford173@gmail.com>, Adrien
+ Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin
+ <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung
+ <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
+ Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>, Dharma Balasubiramani
+ <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
+ Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
+ Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
+ Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
+ <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
+ <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
+ Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
+ <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan
+ <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>, Xin Ji
+ <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@gehealthcare.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Peter Senna Tschudin
+ <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, Kuninori Morimoto
+ <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Michal Simek
+ <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+Message-ID: <20250523152304.5c66e195@booty>
+In-Reply-To: <CAAQKjZPX3iQgNhEydDZXMyC9BRuep7kL-XYEsjnkCxSt_1UsQg@mail.gmail.com>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+	<20250521162216.79dd3290@booty>
+	<CAAQKjZPX3iQgNhEydDZXMyC9BRuep7kL-XYEsjnkCxSt_1UsQg@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250523031849.1479851-1-gwendal@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdekleeiucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvddtuedtfefgueehiefhjeeiffekudfhgfdtledvffekhfegteduieejveevteehnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepleehpdhrtghpthhtohepuggrvghinhhkihesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhin
+ hhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Thu, May 22, 2025 at 08:18:49PM -0700, Gwendal Grignou wrote:
-> ChromeOS EC can report activity information derived from the
-> accelerometer:
-> - Reports on-body/off-body as a proximity event.
-> - Reports significant motion as an activity event.
-> 
-> This new sensor is a virtual sensor, included only when the EC firmware
-> is compiled with the appropriate module.
-> 
-> Signed-off-by: Gwendal Grignou <gwendal@google.com>
+Hello Inki,
 
-Looks neat to me.  With removing a nit,
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+On Fri, 23 May 2025 00:11:24 +0900
+Inki Dae <daeinki@gmail.com> wrote:
 
-> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c b/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c
-> [...]
-> +static int cros_ec_write_event_config(struct iio_dev *indio_dev,
-> [...]
-> +	st->core.param.set_activity.enable = state;
-> +	if (ret == 0)
-> +		ret = cros_ec_motion_send_host_cmd(&st->core, 0);
+> Hello Luca Ceresoli,
+>=20
+> 2025=EB=85=84 5=EC=9B=94 21=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 11:23=
+, Luca Ceresoli <luca.ceresoli@bootlin.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:
+> >
+> > Hello Maxime, Shawn, Liu, all,
+> >
+> > On Fri, 09 May 2025 15:53:26 +0200
+> > Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> > =20
+> > > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize=
+ a DRM
+> > > bridge, and the only one supported from now on. It is the first miles=
+tone
+> > > towards removal of bridges from a still existing DRM pipeline without
+> > > use-after-free. =20
+> >
+> > I applied on drm-misc-next patches 3-17,20-21 as they match all the
+> > criteria:
+> >  - At least a Acked-by (or R-by maintainers)
+> >  - patch is for drm-misc
+> >
+> > Being my very first commits to drm-misc, I tried to be careful, and
+> > double checked all the patches with Louis (thanks!).
+> >
+> > Here are the pending questions and plan for the remaining patches.
+> > =20
+> > >       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API=
+" =20
+> >
+> > This reverts the commit applied my mistake:
+> > https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09=
+b43b025bce6d790d3c79f4518
+> >
+> > Neither the  original patch nor the revert has been reviewed/acked.
+> >
+> > As the commit was a mistake, I'm applying the revert by the end of this
+> > week (i.e. on Friday) unless there are better instructions. =20
+>=20
+> Really sorry for late. I was made aware of it later through a
+> colleague's remark. There is no need to proceed with the revert.
+> Acked-by : Inki Dae <inki.dae@samsung.com>
 
-The assignment of `set_activity.enable` should be in the if-branch too.
+Thanks for the feedback. As agreed with Maxime and approved by you, I'm
+leaving the commit as is, without reverting and reapplying. Your
+Acked-by is in the records anyway, so somehow reachable in case of need.
+
+Luca
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com

@@ -1,175 +1,587 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E04122839A;
-	Fri, 23 May 2025 13:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C1622A1CD
+	for <chrome-platform@lists.linux.dev>; Fri, 23 May 2025 17:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748006601; cv=none; b=V/NbF3EKrzLAVnrC3Mn+NeJeWzPo3rTWNSVGwZKAgwrEEpgWmSRgWCXuWLRu1ucC/RsJMNYR5yOYmeGe/FkwlyginUGXaVTRAi4LLIQFJvr25ukhIBGj1BuhoJKJi8cfIGVlvSsPjFhF1+0XuK8fUghFWjpK+PsT15y98bwH/n4=
+	t=1748021253; cv=none; b=lM6EGJy7jTRr3jNkSfG4S7XBroUqIDDFfjo131EZKVOdXZDV79iRvWXW5MS+JhvTXhXUFX1XZ3D2XN7Vu4KobHM9Cxgzx7LYOhVaYyY3k4yuielMvgyG/I31GEV/lUfrJR9wuPrJe+o7m+Vqn+CRONMYqc+yammzSL/tH08baKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748006601; c=relaxed/simple;
-	bh=LbgV/zeaYLO0BgljQMlUUXJzitcXLpFon8HqiN2dJbk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dI63iHJ0YBmu8qn9oP+XD9WAbSu4q5D4QuD3ekRn/0kRokoISfl8P1K+J+8jcb0Fa+Rk0gputqLpOt1QcI/t80h6avMONj9z86I9jg1SwgzgoRR1W4Zx/dDaAzGHqPgZMhE5Zp/vBnDbyN3/YKgMwYIu8lyoCUe+EBlaM2wfJTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mZbEGMe2; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1748021253; c=relaxed/simple;
+	bh=3PBtf5593esZj6mcSieMvlvIkBBZNkF9S2SDJqEhcWU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sg6ZRNEb2j1/Ss3xbyuobpbQKHRe477Q1tZy5ufcnHtbJVSHRjjMnTvaZDNxyYDC6mgKAfahTRVbXBzj7kw56b0FxltZygshoYwOHwikLs5G89qYoCAqSffTjBJM+mOqy6M9plhTr1R+YlKDF53YEcBM5kjyBHGqT3QIohK8duw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TF3P8ElM; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mZbEGMe2"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 80E3043E92;
-	Fri, 23 May 2025 13:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1748006596;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PdDU2oRP8k2jUeSve/BOd06ch34w47FFumvJv+pxA64=;
-	b=mZbEGMe25lkA6a1/A5PYNbESnCSL60bu6GbmptADGVwaEkiGNBcHGN8VrT72jRA/+HNkP4
-	O/QwRUKwwl3xkt4gQ3Mrs7lKrRaKRz4fTUwt/DbNDv7ugEEzoi1dGDejSURTrPhZAOKVZL
-	UYuYChVv7ASMlrgAyMynb3Hu9Ovs5zXPwNEjo60hL8sbBVmrDkv74b2ln1iasNoULv1Ksw
-	tA2Y1gP38lTQKZNvYVM6ebTePuQP8PIROVBEJmhCXewn1NVtuepbzztVtobDhFgEQBqe6V
-	8LOSAQYNXvNBh9HNPCzuX8wiU0bL+1nw3VrunFS4/yawaszCy5VqLmvRqmwd3g==
-Date: Fri, 23 May 2025 15:23:04 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Inki Dae <daeinki@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Liu Ying <victor.liu@nxp.com>, Anusha Srivatsa
- <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, Dmitry
- Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, Louis Chauvet
- <louis.chauvet@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Seung-Woo Kim
- <sw0312.kim@samsung.com>, Manikandan Muralidharan
- <manikandan.m@microchip.com>, Adam Ford <aford173@gmail.com>, Adrien
- Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin
- <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, AngeloGioacchino
- Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung
- <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
- Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Detlev Casanova
- <detlev.casanova@collabora.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
- Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
- Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
- Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
- <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
- <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
- Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
- <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan
- <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>, Xin Ji
- <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@gehealthcare.com>,
- Martyn Welch <martyn.welch@collabora.co.uk>, Peter Senna Tschudin
- <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, Kuninori Morimoto
- <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
- <yannick.fertre@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Michal Simek
- <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
- devm_drm_bridge_alloc()
-Message-ID: <20250523152304.5c66e195@booty>
-In-Reply-To: <CAAQKjZPX3iQgNhEydDZXMyC9BRuep7kL-XYEsjnkCxSt_1UsQg@mail.gmail.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
-	<20250521162216.79dd3290@booty>
-	<CAAQKjZPX3iQgNhEydDZXMyC9BRuep7kL-XYEsjnkCxSt_1UsQg@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TF3P8ElM"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-742c46611b6so253394b3a.1
+        for <chrome-platform@lists.linux.dev>; Fri, 23 May 2025 10:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1748021251; x=1748626051; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DnTXQkQ/IwiFsHg1bgS1cTl8yz6IZ2jeydS+8JNTTxQ=;
+        b=TF3P8ElM74a6SblSG5AfuFkXbO47L5r4sA1MM5KPvFKP06EOYKxgXP/bREqpTeAv7H
+         qJu7KYHalUKV5HOSULQz9SUXsj/6J6XSNyuHvqpGM0j5wsvnIUCdcY/V0XkTgozm+Uxu
+         uAunbJI4e9gloR+PVhtldLAvXsMgT8ff+vnSU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748021251; x=1748626051;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DnTXQkQ/IwiFsHg1bgS1cTl8yz6IZ2jeydS+8JNTTxQ=;
+        b=J32FSThiJggx7Tx5dSaLrqyen/vaU4DY0ta6o3JxRrIYy11eM133SWIQr/RlB1oRM/
+         LaWn9w5jZCGXEbVsXOpotJf2EFQEv9rPsuG8jFCABisY5nYCnsdq61X5d/dxzc0ld2uM
+         46f7NWf/G35B0uGFCSI6HF+3yrOUiClLh9CfPc7s4o9N4KwIEOcwTk2A7lq4RmHpr9Fw
+         0OoBX6+D4au5f42wDTtzFaMbuDYspp6OGLrl2dKG672GXmppKCJ1ZyCzj1YAOmUXDrpQ
+         MMZwLXPCw8TRQ1Ia1zJ1TT8WIWhKB5EkyyiH6PiX2EKmGMQvQ917ssWIjoQO/MtE+jpp
+         sPFA==
+X-Gm-Message-State: AOJu0YwjudZ7yWKGyrxTrSjam485V10+2Ai6ADvO2SU+tgM7dFhxhycZ
+	CreZfbfllNotcRzsTy8rK+yeu5noczGDrnxVKK3HImJ70svK7+zgIJJuQCze4/yCqA==
+X-Gm-Gg: ASbGncurBnhAsYKNBxmHgGpWSXkRUo8CHlYJmxjpqgyJEjklsxLclm9sKi0Sw0gFqOm
+	BE7BV8VgiFpdaHl3P5jp+zmUG6Xt0gy2GBYSHwc6GOZeT3Mhx5vl/5QADz9VQ12Q3HyzaJkMWVX
+	0mgOyUgEKR6Ka6HZK5fRCQ6vLdBoKDN4BPJCJSyieTRtdkobaNfz8PPPy0WXLglOFHomFJT4Bca
+	Ghnc9grOgZUVE7qpUG6I5ywcTVstnyoqZHo91wloNFZLTGHrp0L8EfB3WRid3JHpuIi754OVJ24
+	tJDqhRxh4lKI+0txc7Le81eS79+PS1alMr3wy4ZQX6DG
+X-Google-Smtp-Source: AGHT+IGrKji0Y4UatKZfhv7psyZEfvu8CHQogPPmuzRqO2Q85g4qbRpT3YG8+IR5tDQyxkh8oU9JnQ==
+X-Received: by 2002:a05:6a21:4592:b0:1f5:8e54:9f10 with SMTP id adf61e73a8af0-2188c374058mr163026637.34.1748021251087;
+        Fri, 23 May 2025 10:27:31 -0700 (PDT)
+Received: from localhost ([2620:15c:9d:2:c821:1bd0:93cd:80d7])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-742a9829ba8sm13088341b3a.110.2025.05.23.10.27.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 May 2025 10:27:30 -0700 (PDT)
+From: Gwendal Grignou <gwendal@chromium.org>
+X-Google-Original-From: Gwendal Grignou <gwendal@google.com>
+To: jic23@kernel.org,
+	tzungbi@kernel.org
+Cc: chrome-platform@lists.linux.dev,
+	linux-iio@vger.kernel.org,
+	Gwendal Grignou <gwendal@google.com>
+Subject: [PATCH v4] iio: cros_ec_sensors: add cros_ec_activity driver
+Date: Fri, 23 May 2025 10:27:27 -0700
+Message-ID: <20250523172727.2654957-1-gwendal@google.com>
+X-Mailer: git-send-email 2.49.0.1151.ga128411c76-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdekleeiucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvddtuedtfefgueehiefhjeeiffekudfhgfdtledvffekhfegteduieejveevteehnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepleehpdhrtghpthhtohepuggrvghinhhkihesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhin
- hhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-Hello Inki,
+ChromeOS EC can report activity information derived from the
+accelerometer:
+- Reports on-body/off-body as a proximity event.
+- Reports significant motion as an activity event.
 
-On Fri, 23 May 2025 00:11:24 +0900
-Inki Dae <daeinki@gmail.com> wrote:
+This new sensor is a virtual sensor, included only when the EC firmware
+is compiled with the appropriate module.
 
-> Hello Luca Ceresoli,
->=20
-> 2025=EB=85=84 5=EC=9B=94 21=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 11:23=
-, Luca Ceresoli <luca.ceresoli@bootlin.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
-=84=B1:
-> >
-> > Hello Maxime, Shawn, Liu, all,
-> >
-> > On Fri, 09 May 2025 15:53:26 +0200
-> > Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> > =20
-> > > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize=
- a DRM
-> > > bridge, and the only one supported from now on. It is the first miles=
-tone
-> > > towards removal of bridges from a still existing DRM pipeline without
-> > > use-after-free. =20
-> >
-> > I applied on drm-misc-next patches 3-17,20-21 as they match all the
-> > criteria:
-> >  - At least a Acked-by (or R-by maintainers)
-> >  - patch is for drm-misc
-> >
-> > Being my very first commits to drm-misc, I tried to be careful, and
-> > double checked all the patches with Louis (thanks!).
-> >
-> > Here are the pending questions and plan for the remaining patches.
-> > =20
-> > >       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API=
-" =20
-> >
-> > This reverts the commit applied my mistake:
-> > https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09=
-b43b025bce6d790d3c79f4518
-> >
-> > Neither the  original patch nor the revert has been reviewed/acked.
-> >
-> > As the commit was a mistake, I'm applying the revert by the end of this
-> > week (i.e. on Friday) unless there are better instructions. =20
->=20
-> Really sorry for late. I was made aware of it later through a
-> colleague's remark. There is no need to proceed with the revert.
-> Acked-by : Inki Dae <inki.dae@samsung.com>
+Signed-off-by: Gwendal Grignou <gwendal@google.com>
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+Changes in v2:
+- fix usage of cros_ec_motion_send_host_cmd
+- use dev instead of &pdev->dev
+- fix documentation errors.
+Changes in v3:
+- fix index increment at probe correctly
+- prevent sending command on invalid inputs in
+  cros_ec_write_event_config
+Changes in v4:
+- no need to continue setting command structure on error.
 
-Thanks for the feedback. As agreed with Maxime and approved by you, I'm
-leaving the commit as is, without reverting and reapplying. Your
-Acked-by is in the records anyway, so somehow reachable in case of need.
+ drivers/iio/common/cros_ec_sensors/Kconfig    |   9 +
+ drivers/iio/common/cros_ec_sensors/Makefile   |   1 +
+ .../common/cros_ec_sensors/cros_ec_activity.c | 322 ++++++++++++++++++
+ .../cros_ec_sensors/cros_ec_sensors_core.c    |  10 +
+ .../linux/iio/common/cros_ec_sensors_core.h   |   1 +
+ .../linux/platform_data/cros_ec_commands.h    |  36 +-
+ 6 files changed, 373 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/iio/common/cros_ec_sensors/cros_ec_activity.c
 
-Luca
+diff --git a/drivers/iio/common/cros_ec_sensors/Kconfig b/drivers/iio/common/cros_ec_sensors/Kconfig
+index fefad9572790..394e319c9c97 100644
+--- a/drivers/iio/common/cros_ec_sensors/Kconfig
++++ b/drivers/iio/common/cros_ec_sensors/Kconfig
+@@ -30,3 +30,12 @@ config IIO_CROS_EC_SENSORS_LID_ANGLE
+ 	  convertible devices.
+ 	  This module is loaded when the EC can calculate the angle between the base
+ 	  and the lid.
++
++config IIO_CROS_EC_ACTIVITY
++	tristate "ChromeOS EC Activity Sensors"
++	depends on IIO_CROS_EC_SENSORS_CORE
++	help
++	  Module to handle activity events presented by the ChromeOS EC sensor hub.
++	  Activities can be a proximity detector (on body/off body detection)
++	  or a significant motion detector.
++	  Creates an IIO device to manage all activities.
+diff --git a/drivers/iio/common/cros_ec_sensors/Makefile b/drivers/iio/common/cros_ec_sensors/Makefile
+index e0a33ab66d21..a7849c52f3c8 100644
+--- a/drivers/iio/common/cros_ec_sensors/Makefile
++++ b/drivers/iio/common/cros_ec_sensors/Makefile
+@@ -3,6 +3,7 @@
+ # Makefile for sensors seen through the ChromeOS EC sensor hub.
+ #
+ 
++obj-$(CONFIG_IIO_CROS_EC_ACTIVITY) += cros_ec_activity.o
+ obj-$(CONFIG_IIO_CROS_EC_SENSORS_CORE) += cros_ec_sensors_core.o
+ obj-$(CONFIG_IIO_CROS_EC_SENSORS) += cros_ec_sensors.o
+ obj-$(CONFIG_IIO_CROS_EC_SENSORS_LID_ANGLE) += cros_ec_lid_angle.o
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c b/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c
+new file mode 100644
+index 000000000000..620203f7aa63
+--- /dev/null
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c
+@@ -0,0 +1,322 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * cros_ec_activity - Driver for activities/gesture recognition.
++ *
++ * Copyright 2025 Google, Inc
++ *
++ * This driver uses the cros-ec interface to communicate with the ChromeOS
++ * EC about activity data. Accelerometer access is presented through iio sysfs.
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/platform_device.h>
++#include <linux/types.h>
++
++#include <linux/platform_data/cros_ec_commands.h>
++#include <linux/platform_data/cros_ec_proto.h>
++
++#include <linux/iio/common/cros_ec_sensors_core.h>
++#include <linux/iio/events.h>
++#include <linux/iio/iio.h>
++#include <linux/iio/trigger_consumer.h>
++
++#define DRV_NAME "cros-ec-activity"
++
++/* state data for ec_sensors iio driver. */
++struct cros_ec_sensors_state {
++	/* Shared by all sensors */
++	struct cros_ec_sensors_core_state core;
++
++	struct iio_chan_spec *channels;
++
++	int body_detection_channel_index;
++	int sig_motion_channel_index;
++};
++
++static const struct iio_event_spec cros_ec_activity_single_shot[] = {
++	{
++		.type = IIO_EV_TYPE_CHANGE,
++		/* significant motion trigger when we get out of still. */
++		.dir = IIO_EV_DIR_FALLING,
++		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
++	},
++};
++
++static const struct iio_event_spec cros_ec_body_detect_events[] = {
++	{
++		.type = IIO_EV_TYPE_CHANGE,
++		.dir = IIO_EV_DIR_EITHER,
++		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
++	},
++};
++
++static int ec_sensors_read(struct iio_dev *indio_dev,
++			   struct iio_chan_spec const *chan,
++			   int *val, int *val2, long mask)
++{
++	struct cros_ec_sensors_state *st = iio_priv(indio_dev);
++	int ret;
++
++	mutex_lock(&st->core.cmd_lock);
++	if (chan->type == IIO_PROXIMITY && mask == IIO_CHAN_INFO_RAW) {
++		st->core.param.cmd = MOTIONSENSE_CMD_GET_ACTIVITY;
++		st->core.param.get_activity.activity =
++			MOTIONSENSE_ACTIVITY_BODY_DETECTION;
++		ret = cros_ec_motion_send_host_cmd(&st->core, 0);
++		if (ret == 0) {
++			*val = st->core.resp->get_activity.state;
++			ret = IIO_VAL_INT;
++		}
++	} else {
++		ret = -EINVAL;
++	}
++	mutex_unlock(&st->core.cmd_lock);
++	return ret;
++}
++
++static int cros_ec_read_event_config(struct iio_dev *indio_dev,
++				     const struct iio_chan_spec *chan,
++				     enum iio_event_type type,
++				     enum iio_event_direction dir)
++{
++	struct cros_ec_sensors_state *st = iio_priv(indio_dev);
++	int ret;
++
++	if (chan->type != IIO_ACTIVITY && chan->type != IIO_PROXIMITY)
++		return -EINVAL;
++
++	mutex_lock(&st->core.cmd_lock);
++	st->core.param.cmd = MOTIONSENSE_CMD_LIST_ACTIVITIES;
++	ret = cros_ec_motion_send_host_cmd(&st->core, 0);
++	if (ret)
++		goto done;
++	switch (chan->type) {
++	case IIO_PROXIMITY:
++		ret = !!(st->core.resp->list_activities.enabled &
++			 (1 << MOTIONSENSE_ACTIVITY_BODY_DETECTION));
++		break;
++	case IIO_ACTIVITY:
++		if (chan->channel2 == IIO_MOD_STILL) {
++			ret = !!(st->core.resp->list_activities.enabled &
++				 (1 << MOTIONSENSE_ACTIVITY_SIG_MOTION));
++		} else {
++			dev_warn(&indio_dev->dev, "Unknown activity: %d\n",
++				 chan->channel2);
++			ret = -EINVAL;
++		}
++		break;
++	default:
++		dev_warn(&indio_dev->dev, "Unknown channel type: %d\n",
++			 chan->type);
++		ret = -EINVAL;
++	}
++done:
++	mutex_unlock(&st->core.cmd_lock);
++	return ret;
++}
++
++static int cros_ec_write_event_config(struct iio_dev *indio_dev,
++				      const struct iio_chan_spec *chan,
++				      enum iio_event_type type,
++				      enum iio_event_direction dir, int state)
++{
++	struct cros_ec_sensors_state *st = iio_priv(indio_dev);
++	int ret = 0;
++
++	mutex_lock(&st->core.cmd_lock);
++	st->core.param.cmd = MOTIONSENSE_CMD_SET_ACTIVITY;
++	switch (chan->type) {
++	case IIO_PROXIMITY:
++		st->core.param.set_activity.activity =
++			MOTIONSENSE_ACTIVITY_BODY_DETECTION;
++		break;
++	case IIO_ACTIVITY:
++		if (chan->channel2 == IIO_MOD_STILL) {
++			st->core.param.set_activity.activity =
++				MOTIONSENSE_ACTIVITY_SIG_MOTION;
++		} else {
++			dev_warn(&indio_dev->dev, "Unknown activity: %d\n",
++				 chan->channel2);
++			ret = -EINVAL;
++		}
++		break;
++	default:
++		dev_warn(&indio_dev->dev, "Unknown channel type: %d\n",
++			 chan->type);
++		ret = -EINVAL;
++	}
++	if (ret == 0) {
++		st->core.param.set_activity.enable = state;
++		ret = cros_ec_motion_send_host_cmd(&st->core, 0);
++	}
++
++	mutex_unlock(&st->core.cmd_lock);
++	return ret;
++}
++
++static int cros_ec_activity_push_data(struct iio_dev *indio_dev,
++				      s16 *data,
++				      s64 timestamp)
++{
++	struct ec_response_activity_data *activity_data =
++			(struct ec_response_activity_data *)data;
++	enum motionsensor_activity activity = activity_data->activity;
++	u8 state = activity_data->state;
++	const struct cros_ec_sensors_state *st = iio_priv(indio_dev);
++	const struct iio_chan_spec *chan;
++	const struct iio_event_spec *event;
++	enum iio_event_direction dir;
++	int index;
++	u64 ev;
++
++	switch (activity) {
++	case MOTIONSENSE_ACTIVITY_BODY_DETECTION:
++		index = st->body_detection_channel_index;
++		dir = state ? IIO_EV_DIR_FALLING : IIO_EV_DIR_RISING;
++		break;
++	case MOTIONSENSE_ACTIVITY_SIG_MOTION:
++		index = st->sig_motion_channel_index;
++		dir = IIO_EV_DIR_FALLING;
++		break;
++	default:
++		dev_warn(&indio_dev->dev, "Unknown activity: %d\n", activity);
++		return 0;
++	}
++	chan = &st->channels[index];
++	event = &chan->event_spec[0];
++
++	ev = IIO_UNMOD_EVENT_CODE(chan->type, index, event->type, dir);
++	iio_push_event(indio_dev, ev, timestamp);
++	return 0;
++}
++
++static irqreturn_t cros_ec_activity_capture(int irq, void *p)
++{
++	struct iio_poll_func *pf = p;
++	struct iio_dev *indio_dev = pf->indio_dev;
++
++	dev_warn(&indio_dev->dev, "%s: Not Expected\n", __func__);
++	return IRQ_NONE;
++}
++
++static const struct iio_info ec_sensors_info = {
++	.read_raw = &ec_sensors_read,
++	.read_event_config = cros_ec_read_event_config,
++	.write_event_config = cros_ec_write_event_config,
++};
++
++static int cros_ec_sensors_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct cros_ec_device *ec_device = dev_get_drvdata(dev->parent);
++	struct iio_dev *indio_dev;
++	struct cros_ec_sensors_state *st;
++	struct iio_chan_spec *channel;
++	unsigned long activities;
++	int i, index, ret, nb_activities;
++
++	if (!ec_device) {
++		dev_warn(dev, "No CROS EC device found.\n");
++		return -EINVAL;
++	}
++
++	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
++	if (!indio_dev)
++		return -ENOMEM;
++
++	ret = cros_ec_sensors_core_init(pdev, indio_dev, true,
++					cros_ec_activity_capture);
++	if (ret)
++		return ret;
++
++	indio_dev->info = &ec_sensors_info;
++	st = iio_priv(indio_dev);
++	st->core.type = st->core.resp->info.type;
++	st->core.read_ec_sensors_data = cros_ec_sensors_read_cmd;
++
++	/*
++	 * List all available activities
++	 */
++	st->core.param.cmd = MOTIONSENSE_CMD_LIST_ACTIVITIES;
++	ret = cros_ec_motion_send_host_cmd(&st->core, 0);
++	if (ret)
++		return ret;
++	activities = st->core.resp->list_activities.enabled |
++		     st->core.resp->list_activities.disabled;
++	if (!activities)
++		return -ENODEV;
++
++	/* Allocate a channel per activity and one for timestamp */
++	nb_activities = hweight_long(activities) + 1;
++	st->channels = devm_kcalloc(dev, nb_activities,
++				    sizeof(*st->channels), GFP_KERNEL);
++	if (!st->channels)
++		return -ENOMEM;
++
++	channel = &st->channels[0];
++	index = 0;
++	for_each_set_bit(i, &activities, BITS_PER_LONG) {
++		/* List all available triggers */
++		if (i == MOTIONSENSE_ACTIVITY_BODY_DETECTION) {
++			channel->type = IIO_PROXIMITY;
++			channel->info_mask_separate = BIT(IIO_CHAN_INFO_RAW);
++			channel->modified = 0;
++			channel->event_spec = cros_ec_body_detect_events;
++			channel->num_event_specs =
++				ARRAY_SIZE(cros_ec_body_detect_events);
++			st->body_detection_channel_index = index;
++		} else {
++			channel->type = IIO_ACTIVITY;
++			channel->modified = 1;
++			channel->event_spec = cros_ec_activity_single_shot;
++			channel->num_event_specs =
++				ARRAY_SIZE(cros_ec_activity_single_shot);
++			if (i == MOTIONSENSE_ACTIVITY_SIG_MOTION) {
++				channel->channel2 = IIO_MOD_STILL;
++				st->sig_motion_channel_index = index;
++			} else {
++				dev_warn(dev, "Unknown activity: %d\n", i);
++				continue;
++			}
++		}
++		channel->ext_info = cros_ec_sensors_limited_info;
++		channel->scan_index = index++;
++		channel++;
++	}
++
++	/* Timestamp */
++	channel->scan_index = index;
++	channel->type = IIO_TIMESTAMP;
++	channel->channel = -1;
++	channel->scan_type.sign = 's';
++	channel->scan_type.realbits = 64;
++	channel->scan_type.storagebits = 64;
++
++	indio_dev->channels = st->channels;
++	indio_dev->num_channels = index + 1;
++
++	return cros_ec_sensors_core_register(dev, indio_dev,
++					     cros_ec_activity_push_data);
++}
++
++static void cros_ec_sensors_remove(struct platform_device *pdev)
++{
++	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
++
++	iio_device_unregister(indio_dev);
++}
++
++static struct platform_driver cros_ec_sensors_platform_driver = {
++	.driver = {
++		.name	= DRV_NAME,
++	},
++	.probe		= cros_ec_sensors_probe,
++	.remove		= cros_ec_sensors_remove,
++};
++module_platform_driver(cros_ec_sensors_platform_driver);
++
++MODULE_DESCRIPTION("ChromeOS EC activity sensors driver");
++MODULE_ALIAS("platform:" DRV_NAME);
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+index 64bada1e8678..1bd07ca3abfe 100644
+--- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+@@ -489,6 +489,16 @@ const struct iio_chan_spec_ext_info cros_ec_sensors_ext_info[] = {
+ };
+ EXPORT_SYMBOL_GPL(cros_ec_sensors_ext_info);
+ 
++const struct iio_chan_spec_ext_info cros_ec_sensors_limited_info[] = {
++	{
++		.name = "id",
++		.shared = IIO_SHARED_BY_ALL,
++		.read = cros_ec_sensors_id
++	},
++	{ },
++};
++EXPORT_SYMBOL_GPL(cros_ec_sensors_limited_info);
++
+ /**
+  * cros_ec_sensors_idx_to_reg - convert index into offset in shared memory
+  * @st:		pointer to state information for device
+diff --git a/include/linux/iio/common/cros_ec_sensors_core.h b/include/linux/iio/common/cros_ec_sensors_core.h
+index e72167b96d27..bb966abcde53 100644
+--- a/include/linux/iio/common/cros_ec_sensors_core.h
++++ b/include/linux/iio/common/cros_ec_sensors_core.h
+@@ -126,5 +126,6 @@ extern const struct dev_pm_ops cros_ec_sensors_pm_ops;
+ 
+ /* List of extended channel specification for all sensors. */
+ extern const struct iio_chan_spec_ext_info cros_ec_sensors_ext_info[];
++extern const struct iio_chan_spec_ext_info cros_ec_sensors_limited_info[];
+ 
+ #endif  /* __CROS_EC_SENSORS_CORE_H */
+diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+index ecf290a0c98f..0f6d53e7cb97 100644
+--- a/include/linux/platform_data/cros_ec_commands.h
++++ b/include/linux/platform_data/cros_ec_commands.h
+@@ -2388,6 +2388,12 @@ enum motionsense_command {
+ 	 */
+ 	MOTIONSENSE_CMD_SENSOR_SCALE = 18,
+ 
++	/*
++	 * Activity management
++	 * Retrieve current status of given activity.
++	 */
++	MOTIONSENSE_CMD_GET_ACTIVITY = 20,
++
+ 	/* Number of motionsense sub-commands. */
+ 	MOTIONSENSE_NUM_CMDS
+ };
+@@ -2447,6 +2453,11 @@ enum motionsensor_orientation {
+ 	MOTIONSENSE_ORIENTATION_UNKNOWN = 4,
+ };
+ 
++struct ec_response_activity_data {
++	uint8_t activity; /* motionsensor_activity */
++	uint8_t state;
++} __ec_todo_packed;
++
+ struct ec_response_motion_sensor_data {
+ 	/* Flags for each sensor. */
+ 	uint8_t flags;
+@@ -2454,15 +2465,14 @@ struct ec_response_motion_sensor_data {
+ 	uint8_t sensor_num;
+ 	/* Each sensor is up to 3-axis. */
+ 	union {
+-		int16_t             data[3];
++		int16_t                                  data[3];
+ 		struct __ec_todo_packed {
+-			uint16_t    reserved;
+-			uint32_t    timestamp;
++			uint16_t                         reserved;
++			uint32_t                         timestamp;
+ 		};
+ 		struct __ec_todo_unpacked {
+-			uint8_t     activity; /* motionsensor_activity */
+-			uint8_t     state;
+-			int16_t     add_info[2];
++			struct ec_response_activity_data activity_data;
++			int16_t                          add_info[2];
+ 		};
+ 	};
+ } __ec_todo_packed;
+@@ -2494,6 +2504,7 @@ enum motionsensor_activity {
+ 	MOTIONSENSE_ACTIVITY_SIG_MOTION = 1,
+ 	MOTIONSENSE_ACTIVITY_DOUBLE_TAP = 2,
+ 	MOTIONSENSE_ACTIVITY_ORIENTATION = 3,
++	MOTIONSENSE_ACTIVITY_BODY_DETECTION = 4,
+ };
+ 
+ struct ec_motion_sense_activity {
+@@ -2671,6 +2682,7 @@ struct ec_params_motion_sense {
+ 			uint32_t max_data_vector;
+ 		} fifo_read;
+ 
++		/* Used for MOTIONSENSE_CMD_SET_ACTIVITY */
+ 		struct ec_motion_sense_activity set_activity;
+ 
+ 		/* Used for MOTIONSENSE_CMD_LID_ANGLE */
+@@ -2716,6 +2728,14 @@ struct ec_params_motion_sense {
+ 			 */
+ 			int16_t hys_degree;
+ 		} tablet_mode_threshold;
++
++		/*
++		 * Used for MOTIONSENSE_CMD_GET_ACTIVITY.
++		 */
++		struct __ec_todo_unpacked {
++			uint8_t sensor_num;
++			uint8_t activity;  /* enum motionsensor_activity */
++		} get_activity;
+ 	};
+ } __ec_todo_packed;
+ 
+@@ -2833,6 +2853,10 @@ struct ec_response_motion_sense {
+ 			uint16_t hys_degree;
+ 		} tablet_mode_threshold;
+ 
++		/* USED for MOTIONSENSE_CMD_GET_ACTIVITY. */
++		struct __ec_todo_unpacked {
++			uint8_t     state;
++		} get_activity;
+ 	};
+ } __ec_todo_packed;
+ 
+-- 
+2.49.0.1151.ga128411c76-goog
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com

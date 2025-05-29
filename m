@@ -1,74 +1,116 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from impout007.msg.chrl.nc.charter.net (impout007aa.msg.chrl.nc.charter.net [47.43.20.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAB61C54A2
-	for <chrome-platform@lists.linux.dev>; Wed, 28 May 2025 11:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDF523373B
+	for <chrome-platform@lists.linux.dev>; Thu, 29 May 2025 20:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.43.20.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748432811; cv=none; b=NDvQ2N0A1ZKr97txhXNp7J75fiLe6qziV6c/T0aJVimU5cpP/U7OeqWa59+HTlBuNyJy5l21FEZqUiRsDd+kxCY9YL6UtJ0QH0Y1+FhwPNj34227yVOsqA8QstliLpHV/J9O0pCh7aMqrKYGt2LGcZBJCCBbG2ETBD4vpR/RDsk=
+	t=1748550589; cv=none; b=jQ41k0gNWS19W37+s5lypCTnDqYaVRK1l7zPICB0DQZWadq/1oTSmlEzc1q0pE9MLO7IZ50WxCsDimVTkTFOW8rotfX2e2IKtfi5HvOOaU16TX4yRgOybALsDBqQhlf0DtK4HKPFrsXGhW06hKaX2K4Sa5D4KnEpYGpNc45Ed2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748432811; c=relaxed/simple;
-	bh=PDjgS5kxYJNN4P6hi3kNrFVLAcSYLUEUsuoFPTsbskk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:Content-Type:
-	 MIME-Version; b=OgQJ7pVn4KTQpD0OHJ3O+brc55HyNzqX1wx8QB4GkEfzpqaeUgVUAATVYN77TF1WsONKSL/N/zjPLE2iDm/0XVdJ8oPhDlAr9I2UjasjWWoSivW5uah5ccg7hD9WlnzTf+OoPu9SL8PFvbra8mftTWHNx90i5P7rqDgVgHNCLeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tlvince.com; spf=pass smtp.mailfrom=tlvince.com; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tlvince.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tlvince.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a36e090102so2461688f8f.2
-        for <chrome-platform@lists.linux.dev>; Wed, 28 May 2025 04:46:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748432808; x=1749037608;
-        h=mime-version:user-agent:content-transfer-encoding:in-reply-to:date
-         :cc:to:from:subject:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PDjgS5kxYJNN4P6hi3kNrFVLAcSYLUEUsuoFPTsbskk=;
-        b=FdnrY5YSwIONw6Vzk2LBO/ITEZ4TDDPAMjuSCf7tI8SWkiQ5p4+kUmRpeGH00pjoLe
-         QU+Vuwgz0UPyC3Hc3doK99QR2iL1y1obT7lTpzisvoJd1opg1uv7O1a9GHrZNbHUotHv
-         tdOFzOotpPW1xJ7GVBaL6M+bVUuZCHLUp5ZkY24PxH4nWw+sj40YtQTKla8kpyn8KV/q
-         d2DKsXtHMxJ0f0qbUe+9gfqG96vwI/rLsnNGzyxU/nn1b8AEUdSCFwwoK9yRJr5hLn+J
-         0PA63jb4dZGmPLKy8JneIpTDC527fA/adzhtJbppNHsUmG9uqo5e6uf7SgU5BqGRSnUY
-         m+9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV6M2kdZ0ixzAkaYk+Y8l6OI5fakEyDWaX6vV4lNaO14uaDaRAMPZ4V/LSyIgmKoW2/PatZFl/c5inBuEdUauo=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4Hb3xOv0AurbaeioaxcqedjrsdHUlJSS1W/iysxI/oOzVWZGQ
-	G1I/DgZCrVfXfnYUQkNS2wcKwgHrgX7QGIO8sBVAxdE4+7t4/CV+V/fD8S/RfyiPric=
-X-Gm-Gg: ASbGncscTOqVzUUSuGgR3cmQS526yD7k2Mwlt34/9HpQ8TnCCvp1zAPOcZnE04URfBd
-	00ilK30A5fe0pXoJxbrWPbTnpPirYcmzDL08RxB/w3jGh14Kosr2yEgdgxuk1mWQpH/OZ3jPT7L
-	BynymTbXU3TrsiQLBK5EtmMhhrqWNpJhsUsKsLZAjEcoq9DoO2ftriofj2whjfaSAdUf5z49IqN
-	rmI8k1jBurjFhnDiyeLHk4ag5qQ6DzLPdxNeBOgiYy4r8gPklDMwroPgunlYiDnVAjVNi/KmlhB
-	sjLbbhpn6yH2/tVG/+1pufn3KEsABmRZWupIFEY40tVylKmKQowyb7Tz5+8LwAlLdyupfb9ugkn
-	mp+S0KSC0ndfVbE/9f2xY3rwG1wps6OqMh1q8VQpj
-X-Google-Smtp-Source: AGHT+IFNOKh+Aesaq3PzVr1eR8i8unVWVFffnvHc9V8h7XsbOFLDWZoiM6TIwWG3GEwz2XEKjOlv+g==
-X-Received: by 2002:a05:6000:1a8f:b0:3a4:df80:7284 with SMTP id ffacd0b85a97d-3a4e9437a5emr2061450f8f.1.1748432807768;
-        Wed, 28 May 2025 04:46:47 -0700 (PDT)
-Received: from framework.filo.uk (lewi-26-b2-v4wan-163478-cust494.vm4.cable.virginm.net. [86.21.73.239])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4eac6e360sm1244603f8f.9.2025.05.28.04.46.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 04:46:47 -0700 (PDT)
-Message-ID: <751abc6bdfda6bd3b99aacf2362bb4c590258f95.camel@tlvince.com>
-Subject: Re: [PATCH] mfd: cros_ec: Separate charge-control probing from
- USB-PD
-From: Tom Vincent <linux@tlvince.com>
-To: linux@weissschuh.net
-Cc: bleung@chromium.org, chrome-platform@lists.linux.dev,
- groeck@chromium.org, 	lee@kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 28 May 2025 12:46:46 +0100
-In-Reply-To: <20250521-cros-ec-mfd-chctl-probe-v1-1-6ebfe3a6efa7@weissschuh.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1 
+	s=arc-20240116; t=1748550589; c=relaxed/simple;
+	bh=a6wPm6xw5NSUxgA7Uo+OBaMdvs/rWu4nSlCqzgQMCGg=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=rIvgEX8wqR47m39JvODItGDSC5U6kgU5015NmnKvSLNtCQ6osN0UjLMXZcC5BgX/9cVKUmiB1w3bj77uHPmkuEkdSZ7UVOBpvKZNA0dQEKlfB1i8xWR6r8b0rIppBTTe+PcYkyrIH3w2gjf8nneJ6qmtg+HAv6vQ/4hII/9+FiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=charter.net; spf=pass smtp.mailfrom=charter.net; dkim=pass (2048-bit key) header.d=charter.net header.i=@charter.net header.b=XoEGwUme; arc=none smtp.client-ip=47.43.20.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=charter.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=charter.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=charter.net header.i=@charter.net header.b="XoEGwUme"
+Received: from mail-ej1-f53.google.com ([209.85.218.53])
+	by cmsmtp with ESMTPA
+	id KjrDuS76HT6vgKjrDu6aaz; Thu, 29 May 2025 20:28:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=charter.net;
+	s=c20240129; t=1748550489;
+	bh=a6wPm6xw5NSUxgA7Uo+OBaMdvs/rWu4nSlCqzgQMCGg=;
+	h=From:Date:Subject:To:Cc;
+	b=XoEGwUmetcUcdN1ATwm0C3aWFapznNa1WaWdbRJMyFkg499/WJt9kGVl4wy1TTOET
+	 3RHtkXZ4k++ZrYB2yuG4cfJRRpSnXEubVimQEMBxlTvNBEr8PpvukXFh9knjC86PWJ
+	 BVL5LPgv/bsbLUpvlC2Lz7NYh+6f5cLPAsJBj8DOi8V7miMoyhBOfhqw0+NAl5Q8YK
+	 SZwV+vOOjK0MPFoAUbEQe5S4ZbDUzgzvsidAyQWBV83NRjaX2BHYGCN/pqvZyQEmti
+	 uKGGEB2wFc3DrqXIm4eI40kfnUqhyxgOgew4uPLw+z352ptpMP2gUHpuerYxiZC1P6
+	 K2CxdgJ5z72Zg==
+Authentication-Results: charter.net; auth=pass (PLAIN)
+ smtp.auth=mbe1@charter.net
+X-Authority-Analysis: v=2.4 cv=b9u04MGx c=1 sm=1 tr=0 ts=6838c359
+ a=xh+fAHEUOhwjonyMPiijzg==:117 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
+ a=7fxDRey0HOINWTMRK4kA:9 a=QEXdDO2ut3YA:10
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-acae7e7587dso195219466b.2
+        for <chrome-platform@lists.linux.dev>; Thu, 29 May 2025 13:28:07 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyD2C2TFmb52pYzZrU/sqRixmkqT8NOPzW1LZsLna9cNiFOUpUM
+	Om3thUdl0kTRoCPLF9B5GPp/tZQGKBwQ9bUMTZD9POtvGbAxIUg+OSWxCBjnU7i4N9n7Gjz1QrW
+	Hql2OYznThGlzerha13zWOi20LlAqjX4=
+X-Google-Smtp-Source: AGHT+IFYtsAfwBWNhAd04YQ4ysXD76OMLOOZuXZVwjSQ60Ob30wndzYQ48A/syG1+KXcHvt6xVWne24MArfMGUujDJA=
+X-Received: by 2002:a17:907:3f99:b0:adb:1b2b:fe29 with SMTP id
+ a640c23a62f3a-adb32266110mr72088166b.22.1748550486962; Thu, 29 May 2025
+ 13:28:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+From: michael evans <mbe1@charter.net>
+Date: Thu, 29 May 2025 16:27:55 -0400
+X-Gmail-Original-Message-ID: <CAF9oZ=6BVqCnUWH1ptUCZs4sQ2AX9Hb3aTjrS+pNrTRxUzDq6A@mail.gmail.com>
+X-Gm-Features: AX0GCFtNHqUCo9ynkwF-87kmAxucqR8MC_AiPUgzl5GMuQigVoiHiZTqmzpeWO4
+Message-ID: <CAF9oZ=6BVqCnUWH1ptUCZs4sQ2AX9Hb3aTjrS+pNrTRxUzDq6A@mail.gmail.com>
+Subject: Issue with cros_ec_sensors.c handling of sampling_frequency
+To: groeck@chromium.org
+Cc: chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-CMAE-Envelope: MS4xfJ8oDQs+kbvyensJIHnD+5zcq/PBOZkWb0Me+5bTu8mtPl9k0Zx53NTmNdX5Oi7huOdCiejOvCu0ciNa9wM0+c0MN7eylOmmvIF42H315ANmbdREl3E2
+ Zt57Bt/ZZYdRxv8qUl9KXbHe7qj4RBIb6ArlM6BjEDg3pA82fz3KcmZCOC6WFRTsFHNT6ZZ/TwXZkbHGRCjyrLH8KY2/+v/a6as=
 
-Hi Thomas,
+Hi,
 
-Applied this on top of v6.14.7 with a Framework AI 340, BIOS 3.03 and
-cros_charge_control and the knobs now work as expected.
+Not sure how to report this but figured I'd start here. Please let me
+know how to report this if this is not sufficient.
 
-Tested-by: Tom Vincent <linux@tlvince.com>
+When using the iio device (cros_ec_sensors) for an accelerometer
+(bmi160) on a volteer/eldrid chromebook I find the sensor does not
+report any samples until sampling_frequency even though the value read
+for the sampling_frequency shows a value of 12.500000. I spent some
+time looking thru the drivers and the EC code from chromium and think
+I see the problem, described below. (I sent this to the developers of
+iio-sensor-proxy as that is where I discovered the issue)
 
-Thanks,
-Tom
+In ec/motion_sense.c motion_sense_set_data_rate() is called when the
+host sets the odr (sampling_frequency) or when the power state
+changes, power up, return from sleep, etc. This causes the device odr
+to be set to a valid device value (on power up) rounded up, in this
+case it gets set to 12500 even though the host has not yet set it.
+This starts the device data acquisition and you can see it is running
+using ectool motionsense fifo_info et al. However, no samples are
+output. I believe this is because the above function checks the host
+sampling rate, i.e. 0 and sets oversampling_ratio to 0. This causes
+fifo_stage_unit() in motion_sense_fifo.c to drop it. Once the host
+sets the sampling_frequency oversampling_ratio will be set to a non
+zero value and samples will flow to the kfifo in cros_ec_sensor and to
+the char device, (motion_sense_set_data_rate is called from
+motion_sense_process when the host writes sampling_frequency).
+
+The issue seems to be that the sampling_frequency in
+/sys/buf/iio/iio:devicex is the hardware sampling rate, NOT the host
+configured sampling rate. There does not appear to be a way to see the
+host configured sampling rate but it does get set as side effect on
+writing sampling_frequency, at which point oversampling_ratio is non
+zero and away we go.
+
+This is done in EC code, not the kernel driver. The kernel driver just
+passes requests off to EC via MOTIONSENSE_CMD_SENSOR_ODR requests. It
+is possible to add a write to the odr in cros_ec_sensors_core_init
+(cros_ec_sensors_core.c) to get the device and host configured odr
+rates in agreement and this may be the solution.
+
+The diff of cros_ec_sensors_core.c is:
+
+357,362c357
+<
+<                 int odr_hi = 0, odr_lo = 0;
+<                 if ((cros_ec_sensors_core_read(state, NULL, &odr_hi,
+&odr_lo, IIO_CHAN_INFO_SAMP_FREQ)
+<                      >= 0) && ((odr_hi != 0) || (odr_lo != 0)))
+<                   cros_ec_sensors_core_write(state, NULL, odr_hi,
+odr_lo, IIO_CHAN_INFO_SAMP_FREQ);
+<         }
+---
+> }

@@ -1,675 +1,91 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947F22C3251
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Jun 2025 05:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A9D8462;
+	Thu,  5 Jun 2025 03:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749015703; cv=none; b=t7E55wcaobhBvgFnMwh45dLBSGfIrdel4KeHETK432EqmEHZgy9qse58nTfM5oBouCRc08v8LkOqzrUTbtuf1xaQp/bgU9m42OozvC/38wXjku/IdcALPFCsYN2knVA6HqLbHMhmI2GhomtKFqF1JKQk8AKFvtDxweBUSVZv1kg=
+	t=1749093221; cv=none; b=LdSo/2+qYluGk3qNYzn3IoxRVanTAD3FEUF1jKCEDuXv9TUCmL33F+V0b2i8cE+5L4Cupk+9+J72F7TxNSpSh4q6BlMn/WyYFZ9oq2PWX/QPy6aCmtLFDwXpozsuDmGuDxlnXnWmDnKbsYqkEoo/DiD2iNGoWBr2q35ygZ+AAbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749015703; c=relaxed/simple;
-	bh=wa8NI9XCwiiquLagLJTd0f5KqlSbPt2a8Tslxyqol8g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Yx2M6M16Y7EO53DpEb3saptBr1oNKu8ssaD+hur1QmvZAvFC7dAbVyu4ivWAGiL6Ul3xFyWRZ/YYDGtx6vyVmuVRpv6K41NaW3AwptCsTk5A0hxNIsNz3botKfmGb36DNaKIWcNz6p9ZigIODCeM8ylsITv6x2ZCeDpN0PMO3b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sKKTTq0Q; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1749093221; c=relaxed/simple;
+	bh=AOHNhwOqdNxFK1UcPWQGWhaA+2VPHL1baOaJFJ5R9SQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OdBbf2b5J7oRDo/xm9Gptoaz8/7/oLX+UYkbdXHiduuV+vuPKOt/gR5q4kX1InNsUnfhwuRS9lqaxalUZF0g3b/tMsZkqT1JD91cWJ3+4mUGSIKlQtWEGFEd3ZWkqn8vXjQXTZckiTSd8gk7ribuqVriO6eSIwLT7VWMXDf6kPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gRloyi+d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sKKTTq0Q"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-451dbe494d6so31201785e9.1
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Jun 2025 22:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1749015699; x=1749620499; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GeuKz/CGoHUQ9f2sjFofpzB2ID0YZiLZ4U3TJEfKeZY=;
-        b=sKKTTq0Q6+bwvksVQ37+9ngb49T5fu0xCUAiZiy5Q5KmGc8KvCvOwHNFpg9NXNsny6
-         T0I2FzY+hxeTevMGjxqwfPkkl8rpMFQW3B6y9W2HKDVV7HG7j3eSSldJOtVFYI+95di0
-         LoAUlG2vZ5GPYIsBhqg4b8bhGru3nBJmABcS6HAQgYAuV35ohcjPUivzfIQENV/WzmUJ
-         7VW7MWlNzLHvaGMKdmQG8pKJ0cb9cLG6BO3zfqZi+hT20mNm24adhOnLqg/v1iDNw6uf
-         +sj4oyHl4l8MNkEThPDr5qGowUfrsgl6cZPIdspp3CLeHNrCFFuy8Zg+uynYuNlQhRGc
-         oTww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749015699; x=1749620499;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GeuKz/CGoHUQ9f2sjFofpzB2ID0YZiLZ4U3TJEfKeZY=;
-        b=kb8ZlUHZb7FwPjRrvcoN+hAHd2XxoSTZoLSuT+PPUbobzD0BXLECM7cmMTWWsz4B3B
-         T79tKOe3j5ajSc0LLulEmmjc6Mxp3DgwQtIudRn1RMVdWrFM9iYhRmzlTnPyGG+QPMtU
-         Rn8x9ocZ0tRL8Kba4ryMz1o1W3OuA1pHdnjQQNZzLzrypJ1T8VkiB1Vj5a6Xd8TYSx1O
-         kHQ385/1EXjCMqlh6+cyqsVSChxUA9aSLw95KtkM+lLG7nxq1VDy4Zdsg8VwEAqV0KG6
-         yQQvX9wrqEcYUXPYmL1a9pI1Ar3BNsnVmHbg+OFUYtfS4/I3XdcOU2h53HrEehgxBixh
-         KGrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVfseWFHCko8z4YEBZb9RYNAWuaLmeab0UQAh95tRRUw7Ld5D93F15TQMcxaoKa6U/sbkSvZ9XL5w4sDlee+1I=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuyQMSpOlhpdEX0Gom43MeiTJp9GNAd/+o1EjT7/MJ9Eoh9N/E
-	mBmOAsEN654RE4UUI0VlVozca9BKQiZtz6qau/9UomeBn4EIVwoaWIMz7Mb6lU129R/jWR/p6bw
-	LSMye97hWs49/zJGyOiSwNmy7gZ2ndpL9M99dVG9Z
-X-Gm-Gg: ASbGnctG8M7SxcenUbxIT7A1vFaX8hnYVOToqDwU6wdxt6Oe2Z44NSL4T3SkChS4o5T
-	C8ZJrehBck/H8VLQBkSPHphmTR6yyjC/FzWCOOvgPRWEO297gRhq4ZZ/fAe+6FP2pAXAmKGbNxf
-	DimIVwsS21H0v/d4AYpl+GFidMNcFq4dqaU8S1paeeGPKD0bPcSeuRIW6Eb3w3t7HgjqMU6kOpy
-	T3u
-X-Google-Smtp-Source: AGHT+IFc7HJf2xxlQ66aJPQPfbG+NlPpfQN6Sx17zakP8OTXr4qQVa6P/85X7+ex6xFpskwzx15A8lS+oJmmveJP87Q=
-X-Received: by 2002:a05:600c:1c94:b0:450:30e4:bdf6 with SMTP id
- 5b1f17b1804b1-451f0b0cfc6mr8998815e9.19.1749015698595; Tue, 03 Jun 2025
- 22:41:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gRloyi+d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB772C4CEE4;
+	Thu,  5 Jun 2025 03:13:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749093220;
+	bh=AOHNhwOqdNxFK1UcPWQGWhaA+2VPHL1baOaJFJ5R9SQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gRloyi+dAVCZkdWUyAAczT9xLiSd17d2Di2GR3ieza5VaDMTww+xhDJrL+1BTf1HF
+	 q7xWzDtg3Vq4TwypKNR8bAx3o6srV+wLdB303FsF/YTbR9cnP6AlK+ggj5mQBBUir8
+	 ATUly/gNyqD6E7HAEKpDGHANvgPPtS503al5sYSdy3HiHWWjb5D5acpZZK3fo2Xvmx
+	 1HwsAY335uhI9qg7pPddTPEyAkCZtvHYLi4jlMcRuk0ykHivftK9omCVHQun8xo2mf
+	 hOIWdrVM1kBl/juSv+KNv3SJhYh1Ohwvx7Ye8EoQwUEF8t8stNH3iEWpTDpywpjqiS
+	 RTKstH7D0K/nA==
+Date: Thu, 5 Jun 2025 03:13:37 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Gwendal Grignou <gwendal@google.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-iio@vger.kernel.org
+Subject: Re: [PATCH v4] iio: cros_ec_sensors: add cros_ec_activity driver
+Message-ID: <aEELYUvKZ8FYLqPU@google.com>
+References: <20250523172727.2654957-1-gwendal@google.com>
+ <20250525144233.13df701f@jic23-huawei>
+ <CAMHSBOUb-HPqmW3CFspipNGQGzbYUV+oqVw-Cbw0Bk4Huwz-QQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250523172727.2654957-1-gwendal@google.com> <20250525144233.13df701f@jic23-huawei>
-In-Reply-To: <20250525144233.13df701f@jic23-huawei>
-From: Gwendal Grignou <gwendal@google.com>
-Date: Tue, 3 Jun 2025 22:41:25 -0700
-X-Gm-Features: AX0GCFtrn_ceo7qWkVfbiBKQvfr9SxVdfs9XDCViYHyzGG1e2bVDKdh1tO4cnsU
-Message-ID: <CAMHSBOUb-HPqmW3CFspipNGQGzbYUV+oqVw-Cbw0Bk4Huwz-QQ@mail.gmail.com>
-Subject: Re: [PATCH v4] iio: cros_ec_sensors: add cros_ec_activity driver
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Gwendal Grignou <gwendal@chromium.org>, tzungbi@kernel.org, 
-	chrome-platform@lists.linux.dev, linux-iio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMHSBOUb-HPqmW3CFspipNGQGzbYUV+oqVw-Cbw0Bk4Huwz-QQ@mail.gmail.com>
 
-Jonathan,
-
-Thanks for the thorough review. I just send a v5, much cleaner driver.
-
-Gwendal.
-
-On Sun, May 25, 2025 at 6:42=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
- wrote:
->
-> On Fri, 23 May 2025 10:27:27 -0700
-> Gwendal Grignou <gwendal@chromium.org> wrote:
->
-> Hi Gwendal,
->
-> > ChromeOS EC can report activity information derived from the
-> > accelerometer:
-> > - Reports on-body/off-body as a proximity event.
->
-> How do you do proximity from an accelerometer?
-It is a crude proximity detection: The accelerometer is set to ~50Hz
-and uses a low pass filter to check for vibration.
-It is not vibrating (sitting on a table), then it is in off-body mode.
-It is very conservative, erring on the side of on-body: if the table
-is in a train, the device may stay in on-body mode. See its
-implmentation here
-(https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/main=
-/common/body_detection.c).
-The sensor can be used to leave the device unlocked (see
-https://support.google.com/android/answer/9075927#zippy=3D%2Ckeep-your-phon=
-e-unlocked-when-its-on-you)
-or kick on the CPU fans earlier to keep the device cooler than when it
-is on a table.
-
->
-> > - Reports significant motion as an activity event.
->
-> This one might be from an accelerometer. In which case is there
-> any information on the algorithm?
-This one looks at a significant motion a few seconds apart. It can
-come directly from the accelerometer, see BMI160 datasheet
-(https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/=
-bst-bmi160-ds000.pdf)
-secion 2.6.2. Or it can be implemented in the firmware of the embedded
-controller/sensor hub.
-
->
+On Tue, Jun 03, 2025 at 10:41:25PM -0700, Gwendal Grignou wrote:
+> > > diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> [...]
+> > > @@ -2716,6 +2728,14 @@ struct ec_params_motion_sense {
+> > >                        */
+> > >                       int16_t hys_degree;
+> > >               } tablet_mode_threshold;
+> > > +
+> > > +             /*
+> > > +              * Used for MOTIONSENSE_CMD_GET_ACTIVITY.
 > >
-> > This new sensor is a virtual sensor, included only when the EC firmware
-> > is compiled with the appropriate module.
+> > Single line comment works fine here and fits with local style.
+> >                 /* Used for MOTIONSENSE_CMD_GET_ACTIVITY */
 > >
-> > Signed-off-by: Gwendal Grignou <gwendal@google.com>
-> > Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
->
->
-> Various comments inline.
->
-> Biggest question I have is what the significant motion detector
-> is based on. Do we know more about that as I'd prefer it associated
-> with an actual channel if possible?
-These 2 events are indeed currently generated today from the raw
-output of a single accelerometer. It does not have to be: we could
-further improve the algorithms by fusionning data from the
-accelerometer and the gyroscope. As such a virtual sensor is presented
-to the kernel by the sensor hub just for the activities.
+> > > +              */
+> > > +             struct __ec_todo_unpacked {
+> > > +                     uint8_t sensor_num;
+> > > +                     uint8_t activity;  /* enum motionsensor_activity */
+> > > +             } get_activity;
+> > >       };
+> > >  } __ec_todo_packed;
+> > >
+> > > @@ -2833,6 +2853,10 @@ struct ec_response_motion_sense {
+> > >                       uint16_t hys_degree;
+> > >               } tablet_mode_threshold;
+> > >
+> > > +             /* USED for MOTIONSENSE_CMD_GET_ACTIVITY. */
+> >
+> > Maybe no fullstop is more consistent with local style? Only a bit visible
+> > in this patch and I'm lazy  :)
+> It is a mix and match in this file. Full stop is supposed to be the
+> norm, but it was not always been the case. Remove full stop to blend
+> with other commands.
 
->
-> Also does it only surface as an event?  Is there an underlying
-> value to read.
-The on-body/off-body algorithm calculates a moving average of the
-samples variance and uses an internal threshold to decide the device
-state.
-The thresholds are model specific (depends on the sensors/device
-weight) and a set in the factory.
-Same with significant motion; threshold set in the factory based on
-experiments decides to trigger an event or not.
+It seems the full stop is still in v5.
 
->
->
-> > diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c b/dr=
-ivers/iio/common/cros_ec_sensors/cros_ec_activity.c
-> > new file mode 100644
-> > index 000000000000..620203f7aa63
-> > --- /dev/null
-> > +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_activity.c
-> > @@ -0,0 +1,322 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * cros_ec_activity - Driver for activities/gesture recognition.
-> > + *
-> > + * Copyright 2025 Google, Inc
-> > + *
-> > + * This driver uses the cros-ec interface to communicate with the Chro=
-meOS
-> > + * EC about activity data. Accelerometer access is presented through i=
-io sysfs.
->
-> Maybe update as this isn't returning accelerometer data .
-Removed.
->
-> > + */
->
-> > +
-> > +static int ec_sensors_read(struct iio_dev *indio_dev,
->
-> Given this only applies to this sensor, maybe needs a more specific name?
->
-> > +                        struct iio_chan_spec const *chan,
-> > +                        int *val, int *val2, long mask)
-> > +{
-> > +     struct cros_ec_sensors_state *st =3D iio_priv(indio_dev);
-> > +     int ret;
-> > +
-> > +     mutex_lock(&st->core.cmd_lock);
-> Include cleanup.h and use
->
->         guard(mutex)(&st->core.cmd_lock);
-> to simpilfy this.
-Done. It is indeed much cleaner. I will work on another patch to clean
-up the rest of the cros_ec drivers.
->
-> > +     if (chan->type =3D=3D IIO_PROXIMITY && mask =3D=3D IIO_CHAN_INFO_=
-RAW) {
-> > +             st->core.param.cmd =3D MOTIONSENSE_CMD_GET_ACTIVITY;
-> > +             st->core.param.get_activity.activity =3D
-> > +                     MOTIONSENSE_ACTIVITY_BODY_DETECTION;
-> > +             ret =3D cros_ec_motion_send_host_cmd(&st->core, 0);
-> > +             if (ret =3D=3D 0) {
-> > +                     *val =3D st->core.resp->get_activity.state;
-> > +                     ret =3D IIO_VAL_INT;
-> With guard magic, can handle error out path and return directly in good p=
-ath.
->                 if (ret)
->                         return ret;
->
->                 *val =3D ..
->
->                 return IIO_VAL_INT;
->
-> > +             }
-> > +     } else {
-> > +             ret =3D -EINVAL;
->
-> With guard() magic can just return here.
->
-> > +     }
-> > +     mutex_unlock(&st->core.cmd_lock);
-> > +     return ret;
-> > +}
-> > +
-> > +static int cros_ec_read_event_config(struct iio_dev *indio_dev,
-> > +                                  const struct iio_chan_spec *chan,
-> > +                                  enum iio_event_type type,
-> > +                                  enum iio_event_direction dir)
-> > +{
-> > +     struct cros_ec_sensors_state *st =3D iio_priv(indio_dev);
-> > +     int ret;
-> > +
-> > +     if (chan->type !=3D IIO_ACTIVITY && chan->type !=3D IIO_PROXIMITY=
-)
-> > +             return -EINVAL;
-> > +
-> > +     mutex_lock(&st->core.cmd_lock);
->
-> Similar to below. guard() will simplify this quite a bit.
->
-> > +     st->core.param.cmd =3D MOTIONSENSE_CMD_LIST_ACTIVITIES;
-> > +     ret =3D cros_ec_motion_send_host_cmd(&st->core, 0);
-> > +     if (ret)
-> > +             goto done;
->
-> Blank line here.
->
-> > +     switch (chan->type) {
-> > +     case IIO_PROXIMITY:
-> > +             ret =3D !!(st->core.resp->list_activities.enabled &
-> > +                      (1 << MOTIONSENSE_ACTIVITY_BODY_DETECTION));
-> > +             break;
-> > +     case IIO_ACTIVITY:
-> > +             if (chan->channel2 =3D=3D IIO_MOD_STILL) {
-> > +                     ret =3D !!(st->core.resp->list_activities.enabled=
- &
-> > +                              (1 << MOTIONSENSE_ACTIVITY_SIG_MOTION));
-> > +             } else {
-> > +                     dev_warn(&indio_dev->dev, "Unknown activity: %d\n=
-",
-> > +                              chan->channel2);
-> > +                     ret =3D -EINVAL;
->
-> Flip logic and direct returns etc.
->
-> > +             }
-> > +             break;
-> > +     default:
-> > +             dev_warn(&indio_dev->dev, "Unknown channel type: %d\n",
-> > +                      chan->type);
-> > +             ret =3D -EINVAL;
-> > +     }
-> > +done:
-> > +     mutex_unlock(&st->core.cmd_lock);
-> > +     return ret;
-> > +}
-> > +
-> > +static int cros_ec_write_event_config(struct iio_dev *indio_dev,
-> > +                                   const struct iio_chan_spec *chan,
-> > +                                   enum iio_event_type type,
-> > +                                   enum iio_event_direction dir, int s=
-tate)
-> > +{
-> > +     struct cros_ec_sensors_state *st =3D iio_priv(indio_dev);
-> > +     int ret =3D 0;
-> > +
-> > +     mutex_lock(&st->core.cmd_lock);
->
-> Guard and direct returns. (See below for more on this)
->
-> > +     st->core.param.cmd =3D MOTIONSENSE_CMD_SET_ACTIVITY;
-> > +     switch (chan->type) {
-> > +     case IIO_PROXIMITY:
-> > +             st->core.param.set_activity.activity =3D
-> > +                     MOTIONSENSE_ACTIVITY_BODY_DETECTION;
-> > +             break;
-> > +     case IIO_ACTIVITY:
-> > +             if (chan->channel2 =3D=3D IIO_MOD_STILL) {
-> > +                     st->core.param.set_activity.activity =3D
-> > +                             MOTIONSENSE_ACTIVITY_SIG_MOTION;
-> > +             } else {
-> flip logic so error is out of line and good path inline.  Then with
-> guard you an directly return for error path.
->
-> > +                     dev_warn(&indio_dev->dev, "Unknown activity: %d\n=
-",
-> > +                              chan->channel2);
-> > +                     ret =3D -EINVAL;
-> > +             }
-> > +             break;
-> > +     default:
-> > +             dev_warn(&indio_dev->dev, "Unknown channel type: %d\n",
-> > +                      chan->type);
-> > +             ret =3D -EINVAL;
->                 return -EINVAL; when using guard()
-> > +     }
-> > +     if (ret =3D=3D 0) {
->
-> Then we only get here if ret =3D=3D 0 so condition can go away.
->
-> > +             st->core.param.set_activity.enable =3D state;
-> > +             ret =3D cros_ec_motion_send_host_cmd(&st->core, 0);
-> > +     }
-> > +
-> > +     mutex_unlock(&st->core.cmd_lock);
-> > +     return ret;
-> > +}
-> > +
-> > +static int cros_ec_activity_push_data(struct iio_dev *indio_dev,
-> > +                                   s16 *data,
-> > +                                   s64 timestamp)
->
-> Can reduce wrap and have a parameters share a line.  Nice to stay under 8=
-0
-> but this is well below that.
-Done
->
-> > +{
-> > +     struct ec_response_activity_data *activity_data =3D
-> > +                     (struct ec_response_activity_data *)data;
-> > +     enum motionsensor_activity activity =3D activity_data->activity;
-> > +     u8 state =3D activity_data->state;
-> > +     const struct cros_ec_sensors_state *st =3D iio_priv(indio_dev);
-> > +     const struct iio_chan_spec *chan;
-> > +     const struct iio_event_spec *event;
-> > +     enum iio_event_direction dir;
-> > +     int index;
-> > +     u64 ev;
-> > +
-> > +     switch (activity) {
-> > +     case MOTIONSENSE_ACTIVITY_BODY_DETECTION:
-> > +             index =3D st->body_detection_channel_index;
-> > +             dir =3D state ? IIO_EV_DIR_FALLING : IIO_EV_DIR_RISING;
-> > +             break;
-> > +     case MOTIONSENSE_ACTIVITY_SIG_MOTION:
-> > +             index =3D st->sig_motion_channel_index;
-> > +             dir =3D IIO_EV_DIR_FALLING;
->
-> Falling stillness is I guess a detection of activity... As below though I=
-'d
-> like to know if we have any more info on what this is actually measuring?
-Since the activity name is "IIO_MOD_STILL", when the sensor detects a
-significant motion, we are out of still, so the condition is false,
-transitioning from true (1) to false (0), thus falling. Note the event
-is a one-off, it has to be retriggered, to prevent an avalanche of
-significant motion events.
->
-> > +             break;
-> > +     default:
-> > +             dev_warn(&indio_dev->dev, "Unknown activity: %d\n", activ=
-ity);
-> > +             return 0;
-> > +     }
-> > +     chan =3D &st->channels[index];
-> > +     event =3D &chan->event_spec[0];
->
-> I'd not have so many local variables. Pick some to put inline. Either
-> these two or ev.  Just in the interests of shorter code and little
-> cost to readability.
-Done, removed event.
->
-> > +
-> > +     ev =3D IIO_UNMOD_EVENT_CODE(chan->type, index, event->type, dir);
-> > +     iio_push_event(indio_dev, ev, timestamp);
->
-> Blank line here.
-> > +     return 0;
-> > +}
-> > +
-> > +static irqreturn_t cros_ec_activity_capture(int irq, void *p)
-> > +{
-> > +     struct iio_poll_func *pf =3D p;
-> > +     struct iio_dev *indio_dev =3D pf->indio_dev;
-> > +
-> > +     dev_warn(&indio_dev->dev, "%s: Not Expected\n", __func__);
->
-> Add a comment on why.
-Done.
->
-> > +     return IRQ_NONE;
-> > +}
->
-> > +static int cros_ec_sensors_probe(struct platform_device *pdev)
-> > +{
-> > +     struct device *dev =3D &pdev->dev;
-> > +     struct cros_ec_device *ec_device =3D dev_get_drvdata(dev->parent)=
-;
-> > +     struct iio_dev *indio_dev;
-> > +     struct cros_ec_sensors_state *st;
-> > +     struct iio_chan_spec *channel;
-> > +     unsigned long activities;
-> > +     int i, index, ret, nb_activities;
-> > +
-> > +     if (!ec_device) {
-> > +             dev_warn(dev, "No CROS EC device found.\n");
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     indio_dev =3D devm_iio_device_alloc(dev, sizeof(*st));
-> > +     if (!indio_dev)
-> > +             return -ENOMEM;
-> > +
-> > +     ret =3D cros_ec_sensors_core_init(pdev, indio_dev, true,
-> > +                                     cros_ec_activity_capture);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     indio_dev->info =3D &ec_sensors_info;
-> > +     st =3D iio_priv(indio_dev);
-> > +     st->core.type =3D st->core.resp->info.type;
-> > +     st->core.read_ec_sensors_data =3D cros_ec_sensors_read_cmd;
-> > +
-> > +     /*
-> > +      * List all available activities
->
-> Single line comment.  also, it's kind of obvious given the name
-> of the command so maybe don't bother with the comment at all?
-Removed.
->
->
-> > +      */
-> > +     st->core.param.cmd =3D MOTIONSENSE_CMD_LIST_ACTIVITIES;
-> > +     ret =3D cros_ec_motion_send_host_cmd(&st->core, 0);
-> > +     if (ret)
-> > +             return ret;
->
-> I'd put a blank line here to separate the error path out
-> from where we carry on to in the good case.
->
-> > +     activities =3D st->core.resp->list_activities.enabled |
-> > +                  st->core.resp->list_activities.disabled;
-> > +     if (!activities)
-> > +             return -ENODEV;
-> > +
-> > +     /* Allocate a channel per activity and one for timestamp */
-> > +     nb_activities =3D hweight_long(activities) + 1;
-> > +     st->channels =3D devm_kcalloc(dev, nb_activities,
-> > +                                 sizeof(*st->channels), GFP_KERNEL);
-> > +     if (!st->channels)
-> > +             return -ENOMEM;
-> > +
-> > +     channel =3D &st->channels[0];
-> > +     index =3D 0;
-> > +     for_each_set_bit(i, &activities, BITS_PER_LONG) {
-> > +             /* List all available triggers */
-> > +             if (i =3D=3D MOTIONSENSE_ACTIVITY_BODY_DETECTION) {
-> > +                     channel->type =3D IIO_PROXIMITY;
-> > +                     channel->info_mask_separate =3D BIT(IIO_CHAN_INFO=
-_RAW);
-> > +                     channel->modified =3D 0;
->
-> Not modified is the 'obvious' default so can probably drop that one.
->
-> > +                     channel->event_spec =3D cros_ec_body_detect_event=
-s;
-> > +                     channel->num_event_specs =3D
-> > +                             ARRAY_SIZE(cros_ec_body_detect_events);
-> > +                     st->body_detection_channel_index =3D index;
-> > +             } else {
-> > +                     channel->type =3D IIO_ACTIVITY;
->
-> This is getting a little creative.  Do we know anything about what the
-> underlying detection actually is?  Activity sensor are often some form
-> of magnitude sensor on a specific type of data.  I guess if we have no
-> idea what this then activity detection makes some sense.
-As written earlier, the event is triggered when a threshold is
-crossed. So contrary to other activity sensors like walking or
-swimming, there is no confidence level, it just happened that we are
-not still anymore.
+Just a side note: people manually synchronizes the header with [1] when
+needed.  I wouldn't bother with the details in the header as long as the
+struct content is the same with [1].  Fix it or leave it as is are both
+fine for me.
 
-For proximity, since the proximity API is used, the output is either
-far or near, there are no distances.
->
-> Is it only ever an event?
->
-> > +                     channel->modified =3D 1;
-> > +                     channel->event_spec =3D cros_ec_activity_single_s=
-hot;
-> > +                     channel->num_event_specs =3D
-> > +                             ARRAY_SIZE(cros_ec_activity_single_shot);
-> > +                     if (i =3D=3D MOTIONSENSE_ACTIVITY_SIG_MOTION) {
-> > +                             channel->channel2 =3D IIO_MOD_STILL;
-> > +                             st->sig_motion_channel_index =3D index;
-> > +                     } else {
-> > +                             dev_warn(dev, "Unknown activity: %d\n", i=
-);
-> > +                             continue;
-> > +                     }
-> > +             }
-> > +             channel->ext_info =3D cros_ec_sensors_limited_info;
-> > +             channel->scan_index =3D index++;
-> > +             channel++;
-> > +     }
-> > +
-> > +     /* Timestamp */
-> > +     channel->scan_index =3D index;
-> > +     channel->type =3D IIO_TIMESTAMP;
-> > +     channel->channel =3D -1;
-> > +     channel->scan_type.sign =3D 's';
-> > +     channel->scan_type.realbits =3D 64;
-> > +     channel->scan_type.storagebits =3D 64;
-> > +
-> > +     indio_dev->channels =3D st->channels;
-> > +     indio_dev->num_channels =3D index + 1;
-> > +
-> > +     return cros_ec_sensors_core_register(dev, indio_dev,
-> > +                                          cros_ec_activity_push_data);
-> > +}
-> > +
-> > +static void cros_ec_sensors_remove(struct platform_device *pdev)
-> > +{
-> > +     struct iio_dev *indio_dev =3D platform_get_drvdata(pdev);
-> > +
-> > +     iio_device_unregister(indio_dev);
->
-> Why?  The cros_ec_sensors_core_register() uses devm internally
-> to clean this up so I'd not expect to see a remove function at all
-> for one of these drivers
-Removed.
->
-> > +}
-> > +
-> > +static struct platform_driver cros_ec_sensors_platform_driver =3D {
-> > +     .driver =3D {
-> > +             .name   =3D DRV_NAME,
-> > +     },
-> > +     .probe          =3D cros_ec_sensors_probe,
-> > +     .remove         =3D cros_ec_sensors_remove,
-> > +};
-> > +module_platform_driver(cros_ec_sensors_platform_driver);
-> > +
-> > +MODULE_DESCRIPTION("ChromeOS EC activity sensors driver");
-> > +MODULE_ALIAS("platform:" DRV_NAME);
-> > +MODULE_LICENSE("GPL v2");
-> > diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c =
-b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> > index 64bada1e8678..1bd07ca3abfe 100644
-> > --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> > +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> > @@ -489,6 +489,16 @@ const struct iio_chan_spec_ext_info cros_ec_sensor=
-s_ext_info[] =3D {
-> >  };
-> >  EXPORT_SYMBOL_GPL(cros_ec_sensors_ext_info);
-> >
-> > +const struct iio_chan_spec_ext_info cros_ec_sensors_limcros_ec_sensors=
-_limited_info
-ited_info[] =3D {
-> > +     {
-> > +             .name =3D "id",
-> > +             .shared =3D IIO_SHARED_BY_ALL,
-> > +             .read =3D cros_ec_sensors_id
-> > +     },
-> > +     { },
->
-> No comma on terminating entries / sentinels like this.  We don't want
-> it to be easy to add things after them as that should never happen.
-Done for `cros_ec_sensors_ext_info` as well.
->
-> > +};
-> > +EXPORT_SYMBOL_GPL(cros_ec_sensors_limited_info);
-> > +
-> >  /**
-> >   * cros_ec_sensors_idx_to_reg - convert index into offset in shared me=
-mory
-> >   * @st:              pointer to state information for device
->
-> > diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/l=
-inux/platform_data/cros_ec_commands.h
-> > index ecf290a0c98f..0f6d53e7cb97 100644
-> > --- a/include/linux/platform_data/cros_ec_commands.h
-> > +++ b/include/linux/platform_data/cros_ec_commands.h
->
->
-> >  struct ec_response_motion_sensor_data {
-> >       /* Flags for each sensor. */
-> >       uint8_t flags;Each sensor is up to 3-axis.
-> > @@ -2454,15 +2465,14 @@ struct ec_response_motion_sensor_data {
-> >       uint8_t sensor_num;
-> >       /* Each sensor is up to 3-axis. */
-> >       union {
-> > -             int16_t             data[3];
-> > +             int16_t                                  data[3];
->
-> I dislike careful alignment like this because of the noise
-> it tends to add - this being a classic example.
-> I'd just not update the existing field and let one through that isn't
-> aligned.
-Done.
->
-> >               struct __ec_todo_packed {
-> > -                     uint16_t    reserved;
-> > -                     uint32_t    timestamp;
-> > +                     uint16_t                         reserved;
-> > +                     uint32_t                         timestamp;
-> >               };
-> >               struct __ec_todo_unpacked {
-> > -                     uint8_t     activity; /* motionsensor_activity */
-> > -                     uint8_t     state;
-> > -                     int16_t     add_info[2];
-> > +                     struct ec_response_activity_data activity_data;
-> > +                     int16_t                          add_info[2];
-> >               };
-> >       };
-> >  } __ec_todo_packed;
->
-> >
-> >  struct ec_motion_sense_activity {
-> > @@ -2671,6 +2682,7 @@ struct ec_params_motion_sense {
-> >                       uint32_t max_data_vector;
-> >               } fifo_read;
-> >
-> > +             /* Used for MOTIONSENSE_CMD_SET_ACTIVITY */
-> >               struct ec_motion_sense_activity set_activity;
-> >
-> >               /* Used for MOTIONSENSE_CMD_LID_ANGLE */
-> > @@ -2716,6 +2728,14 @@ struct ec_params_motion_sense {
-> >                        */
-> >                       int16_t hys_degree;
-> >               } tablet_mode_threshold;
-> > +
-> > +             /*
-> > +              * Used for MOTIONSENSE_CMD_GET_ACTIVITY.
->
-> Single line comment works fine here and fits with local style.
->                 /* Used for MOTIONSENSE_CMD_GET_ACTIVITY */
->
-> > +              */
-> > +             struct __ec_todo_unpacked {
-> > +                     uint8_t sensor_num;
-> > +                     uint8_t activity;  /* enum motionsensor_activity =
-*/
-> > +             } get_activity;
-> >       };
-> >  } __ec_todo_packed;
-> >
-> > @@ -2833,6 +2853,10 @@ struct ec_response_motion_sense {
-> >                       uint16_t hys_degree;
-> >               } tablet_mode_threshold;
-> >
-> > +             /* USED for MOTIONSENSE_CMD_GET_ACTIVITY. */
->
-> Maybe no fullstop is more consistent with local style? Only a bit visible
-> in this patch and I'm lazy  :)
-It is a mix and match in this file. Full stop is supposed to be the
-norm, but it was not always been the case. Remove full stop to blend
-with other commands.
-
->
-> > +             struct __ec_todo_unpacked {
-> > +                     uint8_t     state;
-> > +             } get_activity;
-> >       };
-> >  } __ec_todo_packed;
-> >
->
+[1]: https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/main/include/ec_commands.h

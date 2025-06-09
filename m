@@ -1,141 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D121A1F0E25;
-	Sat,  7 Jun 2025 16:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6322D1E51FE
+	for <chrome-platform@lists.linux.dev>; Mon,  9 Jun 2025 09:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749313803; cv=none; b=Pfb1dzRd3GMd+2A4Ndsekr7T+8UPTA0E23cZJQ0iD3Upxf45g6Wgsy001SWxJQTLu5hYYT33TUw8VMO00WYv1XBU6VUT6IsPPvG5jMSVTNq0tL4qi0Ekkgg5JDTIs8h+NRGgdPUStckUHGyNLshRqsG8VN9AFk9jlu5INyeK8Mo=
+	t=1749461996; cv=none; b=I54R3T+7gzxhr61o+OUWgT1u9vXOWDtCuJyxVHMjHih1wb4089xuijWk8MR5JIdYP6zSpWA/qxtv06JTXmeizo+MhryLy0Z9jtVGbKmpTkfeeCkvdSdd/4HG7oDMtwNOqLKd2WylQDqhoEB+vQv1k0l8Ko7swuNqZ7+qPjOJ3sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749313803; c=relaxed/simple;
-	bh=mdwuGqZdvgfHob0Ke5t0pInz+LjwXGrddpBQt7quttE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YHfJv8vjTEPVDajzxUbdzOb6bZ8ld9J6ykIgrq5TvrG/p3Gf/W3plt6OZkYt7iYkaCr2OlRj0alwVKaPxPPpx++twgFs1wmWG6YFWX3JFqQIWS+wJAowJavg/WNI0pMfpj0GvUQAPRoNfLocAMpf6cfML2vyrXyQKInuK+AwGlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SY7GU4AJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749461996; c=relaxed/simple;
+	bh=EfGgIkuaur2I5vqNhBQyEsrKXUnkdiiRff/Ou7A9Smk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gMJtaSzUgpE4bb79OgXNbir/ybPhAyxc2NY6XkfzQIXP2fgPzuV+Zgacl3ozw30JF9C7xWhAbKyeUuMmDMJKQljoGVOgj6KSIm/WJNrs4lBNEDgsv8ATaz7Fdv3dHvSNouDQujqj7UjxMSZEq5pItmn+t+IO3DFWlxcxBp0crNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DYax6Ykf; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SY7GU4AJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F0E2C4CEE4;
-	Sat,  7 Jun 2025 16:30:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749313803;
-	bh=mdwuGqZdvgfHob0Ke5t0pInz+LjwXGrddpBQt7quttE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SY7GU4AJfvsK+1j8n/dGDKwvhcPHOxcBtGjpyj3sl+HTI92tPc6EntDJJryP1iMYI
-	 lWKtAsrRUY2/FX4nlRwtWTBxwmhod2fp6iM5Pyv1+sbTcgh7Sv6q4jZ3b4sF/mQhvv
-	 lbOxyN5rQbyec5RcrbHV0d0y085SFrfrWKuUhCxVRh4aFEIsDOTNTFZ1eeCGWVQ+EP
-	 gN1pGaf0sbPeVkmFrnqcM7Im8vYLax4oyVOmZK0hMYyj4YJ1ageTcjZ1EFZzQtBAN+
-	 N2Y+ocHHwT4T4xy82i+ARisGpcJChWYnLSLO5mhuRHCGJI9coCu1zKKsgDU7DlPA1j
-	 s4lrTPaBAXr4A==
-Date: Sat, 7 Jun 2025 17:29:56 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Gwendal Grignou <gwendal@chromium.org>, chrome-platform@lists.linux.dev,
- linux-iio@vger.kernel.org, Gwendal Grignou <gwendal@google.com>
-Subject: Re: [PATCH v5] iio: cros_ec_sensors: add cros_ec_activity driver
-Message-ID: <20250607172956.573b1ed4@jic23-huawei>
-In-Reply-To: <aEE5K9DnEOcKZf8P@google.com>
-References: <20250604053903.1376465-1-gwendal@google.com>
-	<aEE5K9DnEOcKZf8P@google.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DYax6Ykf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1749461993;
+	bh=EfGgIkuaur2I5vqNhBQyEsrKXUnkdiiRff/Ou7A9Smk=;
+	h=From:Date:Subject:To:Cc:From;
+	b=DYax6Ykfp4NShJegEoPDQFgxw8UAI2qG8IQ07G34K2cfhnzcIVkuWXpPM3uj2pvm0
+	 LsbY9lgXojV00EepYA29CdvLPIA3IZTa5R0bwf5heLs/ZPs5LSyfJX/aY2MINcyQRA
+	 SW+qWBU617CIvE3nyh9D+GFp3upoiCksDqGu/X3s=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Mon, 09 Jun 2025 11:39:35 +0200
+Subject: [PATCH v2] mfd: cros_ec: Separate charge-control probing from
+ USB-PD
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250609-cros-ec-mfd-chctl-probe-v2-1-33b236a7b7bc@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIANarRmgC/4WNQQ6CMBBFr0Jm7RhapEZX3sOwKMPUNlFKOhU1h
+ LtbuYDL95L//gLCKbDAuVog8RwkxLGA3lVA3o43xjAUBl3rtm61QkpRkAkfbkDylO84pdgzmoM
+ 1jaUTKVNDWU+JXXhv5WtX2AfJMX22o1n97P/mrFCh4d5xYw07e7y8OIgI+affj5yhW9f1CykbJ
+ W3DAAAA
+X-Change-ID: 20250521-cros-ec-mfd-chctl-probe-64a63ac9c160
+To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Guenter Roeck <groeck@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Tom Vincent <linux@tlvince.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749461993; l=2534;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=EfGgIkuaur2I5vqNhBQyEsrKXUnkdiiRff/Ou7A9Smk=;
+ b=wsJn4sPhXWyjJ78TeS1erDeOTb4hTGTVHtLf+dxmvjC4niSJft/j7CsYZd35pn2/kJfcxVHm/
+ OMoEYxX3ep+CDKPQtgALPNH87wyDPmUCu9YrBe3iQ4YgyV6ozimapQQ
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Thu, 5 Jun 2025 06:28:59 +0000
-Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+The charge-control subsystem in the ChromeOS EC is not strictly tied to
+its USB-PD subsystem.
+Since commit 7613bc0d116a ("mfd: cros_ec: Don't load charger with UCSI")
+the presence of EC_FEATURE_UCSI_PPM would inhibit the probing of the
+charge-control driver.
+Furthermore recent versions of the EC firmware in Framework laptops
+hard-disable EC_FEATURE_USB_PD to avoid probing cros-usbpd-charger,
+which then also breaks cros-charge-control.
 
-> On Tue, Jun 03, 2025 at 10:39:03PM -0700, Gwendal Grignou wrote:
-> > ChromeOS EC can report activity information derived from the
-> > accelerometer:
-> > - Reports on-body/off-body as a proximity event.
-> > - Reports significant motion as an activity event.
-> > 
-> > This new sensor is a virtual sensor, included only when the EC firmware
-> > is compiled with the appropriate module.
-> > 
-> > Signed-off-by: Gwendal Grignou <gwendal@google.com>
-> > Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > ---
-> > [...]
-> > Changes in v5:
-> > - Use guard(mutex), simplify error path.
-> > - Use driver name as function prefix.
-> > - Remove cros_ec_sensors_remove function.
-> > - Remove identation of structure field.
-> > - Invert raw value to return 1m when far, 0m when close.  
-> 
-> As v5 changed a bit from v4, it'd be better to drop my R-b tag in v5.
-> 
-> Anyway, it overall looks good to me.  Only a few minor comments:
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> 
-> > +static int cros_ec_activity_read_event_config(struct iio_dev *indio_dev,
-> > +					      const struct iio_chan_spec *chan,
-> > +					      enum iio_event_type type,
-> > +					      enum iio_event_direction dir)
-> > +{
-> > +	struct cros_ec_sensors_state *st = iio_priv(indio_dev);
-> > +	int ret;
-> > +
-> > +	if (chan->type != IIO_ACTIVITY && chan->type != IIO_PROXIMITY)
-> > +		return -EINVAL;
-> > +
-> > +	guard(mutex)(&st->core.cmd_lock);
-> > +	st->core.param.cmd = MOTIONSENSE_CMD_LIST_ACTIVITIES;
-> > +	ret = cros_ec_motion_send_host_cmd(&st->core, 0);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	switch (chan->type) {
-> > +	case IIO_PROXIMITY:
-> > +		return !!(st->core.resp->list_activities.enabled &
-> > +			 (1 << MOTIONSENSE_ACTIVITY_BODY_DETECTION));
-> > +	case IIO_ACTIVITY:
-> > +		if (chan->channel2 == IIO_MOD_STILL) {
-> > +			return !!(st->core.resp->list_activities.enabled &
-> > +				 (1 << MOTIONSENSE_ACTIVITY_SIG_MOTION));
-> > +		} else {
-> > +			dev_warn(&indio_dev->dev, "Unknown activity: %d\n",
-> > +				 chan->channel2);
-> > +			return -EINVAL;
-> > +		}  
-> 
-> By referencing to cros_ec_activity_write_event_config(), maybe consider to
-> drop the " else {" and "}".
+Instead use the dedicated EC_FEATURE_CHARGER.
 
-Agreed. I tweaked this.
+Link: https://github.com/FrameworkComputer/EmbeddedController/commit/1d7bcf1d50137c8c01969eb65880bc83e424597e
+Fixes: 555b5fcdb844 ("mfd: cros_ec: Register charge control subdevice")
+Cc: stable@vger.kernel.org
+Tested-by: Tom Vincent <linux@tlvince.com>
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v2:
+- Rebase onto v6.16-rc1
+- Pick up tested-by from Tom
+- Also Cc stable@
+- Link to v1: https://lore.kernel.org/r/20250521-cros-ec-mfd-chctl-probe-v1-1-6ebfe3a6efa7@weissschuh.net
+---
+ drivers/mfd/cros_ec_dev.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-> 
-> > +static int cros_ec_activity_write_event_config(struct iio_dev *indio_dev,
-> > +					       const struct iio_chan_spec *chan,
-> > +					       enum iio_event_type type,
-> > +					       enum iio_event_direction dir,
-> > +					       int state)
-> > +{
-> > +	struct cros_ec_sensors_state *st = iio_priv(indio_dev);
-> > +  
-> 
-> By referencing to cros_ec_activity_read_event_config(), maybe consider to
-> exit the function earlier:
-> 	if (chan->type != IIO_ACTIVITY && chan->type != IIO_PROXIMITY)
-In this case we aren't really doing anything before the switch statement, unlike
-read where we read the data from the device.
+diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+index 9f84a52b48d6a8994d23edba999398684303ee64..dc80a272726bb16b58253418999021cd56dfd975 100644
+--- a/drivers/mfd/cros_ec_dev.c
++++ b/drivers/mfd/cros_ec_dev.c
+@@ -87,7 +87,6 @@ static const struct mfd_cell cros_ec_sensorhub_cells[] = {
+ };
+ 
+ static const struct mfd_cell cros_usbpd_charger_cells[] = {
+-	{ .name = "cros-charge-control", },
+ 	{ .name = "cros-usbpd-charger", },
+ 	{ .name = "cros-usbpd-logger", },
+ };
+@@ -112,6 +111,10 @@ static const struct mfd_cell cros_ec_ucsi_cells[] = {
+ 	{ .name = "cros_ec_ucsi", },
+ };
+ 
++static const struct mfd_cell cros_ec_charge_control_cells[] = {
++	{ .name = "cros-charge-control", },
++};
++
+ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 	{
+ 		.id		= EC_FEATURE_CEC,
+@@ -148,6 +151,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
+ 		.mfd_cells	= cros_ec_keyboard_leds_cells,
+ 		.num_cells	= ARRAY_SIZE(cros_ec_keyboard_leds_cells),
+ 	},
++	{
++		.id		= EC_FEATURE_CHARGER,
++		.mfd_cells	= cros_ec_charge_control_cells,
++		.num_cells	= ARRAY_SIZE(cros_ec_charge_control_cells),
++	},
+ };
+ 
+ static const struct mfd_cell cros_ec_platform_cells[] = {
 
-So I left this one alone.
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250521-cros-ec-mfd-chctl-probe-64a63ac9c160
 
-Needed another couple of tweaks.  Signature of this function now takes
-a bool state and the { }, fix was already present upstream.
-Also some mess in the Makefile due to tracing patch that it seems
-you don't have on your tree.
-
-Please check the result. Pushed out for now as testing but I'll rebase
-on rc1 sometime soon.
-
-Jonathan
-
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 

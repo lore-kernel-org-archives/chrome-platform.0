@@ -1,83 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D122376E1;
-	Tue, 10 Jun 2025 15:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DF11A23B0
+	for <chrome-platform@lists.linux.dev>; Tue, 10 Jun 2025 15:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749568251; cv=none; b=u531RLvczbeEos4iAp2yAzbOCS9I3MDdE5+R8B2VJmb8pRWAeixdE49gUtURYS29Mhscl277QkZSHVpNCMUycThj89WOZ8FcKqttMSMHd+gaP2dfmQOMjx7jbduBTtzP3ypHQxkZAyyVf8sMVNqBwrAsvv7/P1qFpKAGqFNL15g=
+	t=1749569949; cv=none; b=YOSX+zlvXZTlJdfZd5Bodtvh5WKOBTNX+jFfpc0OdqQ7bhejYSysGtqGPpTUBeEFqIyntoQXaY2SOELz8BDjvYmIuoIgPbB5niMcbcWAJt0DKzpG1kYqES5JbfqTe5RwM/+m5NykAbUXInYKIBn3PRswkJihe0aBK/bEyzeDRrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749568251; c=relaxed/simple;
-	bh=spvctm3ZTIwSylv/GDwnK6tu7BZA1j5E0lauFoZ/CKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eji6cHCkQey5GiITYLjvEJ/i/jgsG1xUcBnXdfneejc9h5C9qEjLjKH1yBc86ismSOjZm16PE4N1YxlHB5XJas1ejt3DuyQXVhQdbfmLJSL4tA9bEDW0SuZui5v7KOZ5iZqUsTrhrir9vuOnPATcG9fhWZPIz5K3dKzB9zqVR4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GYYK0Q29; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749569949; c=relaxed/simple;
+	bh=X3FMNaH+gMkSWc6mxlddlgItT1JWMkGhMkmmBWRVpzU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=c0J7A8Yd010H1ZOK8C+RmzUCK97bSNkoRP2y3qmP9R/8Sn1+ZZ89+UFUkKm2hASl2arcbPThOd/V8rBdwvuh+LvVe3ble4hGaPaUhcch3JffPnqqliL5e3WCP96PoLgr3mcI/KdYFcrFXs44KtGxO7DSr+jJAGnEdCR6vnGIIZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tmichalec.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W9ZTQj/J; arc=none smtp.client-ip=209.85.208.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tmichalec.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GYYK0Q29"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6545AC4CEED;
-	Tue, 10 Jun 2025 15:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749568251;
-	bh=spvctm3ZTIwSylv/GDwnK6tu7BZA1j5E0lauFoZ/CKU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GYYK0Q29SIbGCH2/EVWyzHZ3XixY4edz+YUHrlDy13SnnkcyklmjmOQVkvkO2XXgj
-	 90Y0lieVudBL+XIaWlkE19U/hU0A7C+nGRVLuWKUiMsXmUkJL8vcj4RWlFOaz4wyl/
-	 paR1/M4wLOb2mNvp4WktOnNMltUkOEQnuRzvC2i2yr7vVdVvzYuM4o/YdND3urAxvs
-	 2DStYnw9oRI1OQhSLbp48V4FyOu2eNbudeeeMrf4PqDD+GV8rxahHRwd6AbzDDXBkk
-	 MsHcn7WCwEhl/O9mgeZTqj0sp2wX1wzefd1tBZOXD2lwWII3QRYSfBvYgWpQJfS3jY
-	 F5ZMwlw/+ZXcA==
-Date: Tue, 10 Jun 2025 23:10:46 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Naoya Tezuka <naoyatezuka@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Kees Cook <kees@kernel.org>,
-	Tony Luck <tony.luck@intel.com>,
-	"Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] platform/chrome: chromeos_pstore: Add ecc_size module
- parameter
-Message-ID: <aEhK9knE1Fu_e_Sv@tzungbi-laptop>
-References: <20250610050458.4014083-1-naoyatezuka@chromium.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W9ZTQj/J"
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-6083f613f0eso227264a12.1
+        for <chrome-platform@lists.linux.dev>; Tue, 10 Jun 2025 08:39:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1749569946; x=1750174746; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=K83VDCEaogYq8o+q4q2QDKkSbCK5mXjp54sio/cApS0=;
+        b=W9ZTQj/JMw2ZgXVfJrNVFAdW8O7k43gE4mwlTLWt/jq/2Ex2tgWPZCfVS8orSfMQ9b
+         K4EtQc23fza6FJiicRxlE5quw6yl2DZIERLeUEJDKbnhGJXyjaRzWTxz1m4K1ZnCQuMy
+         xw+kU4Si/FCpFI+TsGwUDoHT4gQGlJQ6eozffssT3J40a98zVDXRfKkT0dWvZ6/FH+NG
+         4eYC5w7rz0MwVOy647bPoSYCj9Om9QAdhClIsdXnR3x4bLPQfvrCWAEtFLssuulBmjj6
+         bNsR10Y3khGUiC3Rl6DhfS0BbZONC0rvF9tl6w0PCaK8Tdo1SxjfOJU5diFPA1JrHc5Y
+         WcYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749569946; x=1750174746;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K83VDCEaogYq8o+q4q2QDKkSbCK5mXjp54sio/cApS0=;
+        b=oiszxX3qp2s41+HWp0x9qvjTW2eW3D/K8zP8CuE45uNsg44yHjzNlCO3PZlhQsj1kf
+         1mnFolEFBKEyqAn3fYPU6gOrUxaur7CjGOz6CqNpklYlyGT8alstm8IWTfUONQKPdxiL
+         v5s0Rhoafi4/mZxgHcrFzkxHC+KRrgC6NoTbkMMi1/q55a8ht13AlX4DfLtS48rRIn74
+         R3CbjNb5GljT+TQuPXZyLlUvMk/+WpvEQ4qg/HYV7lysevywwfel4Wpe4R4Av9YFDL6z
+         B7vOXsercOsfRuliZDJ4/XEhK8qTVsTt9/G8qht0thFurB954BIaRI2y/Zak9jdFYth0
+         6oYw==
+X-Forwarded-Encrypted: i=1; AJvYcCUa3zrVBX8ZmPe0OGuxAA9nCtN5eKsn9b0HBSavIwLrqF+jrlYWAf6J1DSsWf04m/7+hj7gvQsx++ORIZzYOvw=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRKQipBsRGkomPImzSLMKxaRPwCVN926lZusWdu5rHLix1YTsr
+	1WajCQQDXUqc/wGD3kAsta0+1dEGe/hD9hSNJRdPMvNWY9qsG65oZtn3LGdAhO+VczXZuqinou8
+	uv0ng+QSHZu9P/D/Sow==
+X-Google-Smtp-Source: AGHT+IF0ZTAD1f0oKGQJq37uOuJo1nDnMzixE4HUDx2a7KPwnJbsLI8iBEKebG9jVNmmils6F028/Z0NOTH4V24=
+X-Received: from eddn5.prod.google.com ([2002:a05:6402:5145:b0:607:fd2c:1f11])
+ (user=tmichalec job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:254b:b0:607:434d:bc2c with SMTP id 4fb4d7f45d1cf-6082dba7954mr2757439a12.23.1749569946760;
+ Tue, 10 Jun 2025 08:39:06 -0700 (PDT)
+Date: Tue, 10 Jun 2025 17:37:47 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250610050458.4014083-1-naoyatezuka@chromium.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.50.0.rc0.604.gd4ff7b7c86-goog
+Message-ID: <20250610153748.1858519-1-tmichalec@google.com>
+Subject: [PATCH] platform/chrome: cros_ec_typec: Defer probe on missing EC parent
+From: Tomasz Michalec <tmichalec@google.com>
+To: Benson Leung <bleung@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
+	Andrei Kuchynski <akuchynski@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>, Konrad Adamczyk <konrada@google.com>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	chromeos-krk-upstreaming@google.com, Tomasz Michalec <tmichalec@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 10, 2025 at 02:04:58PM +0900, Naoya Tezuka wrote:
-> On ChromiumOS devices, the ecc_size is set to 0 (check dmesg | grep ecc 
-> to see `ecc: 0`): this disables ECC for ramoops region, even when 
-> ramoops.ecc=1 is given to kernel command line parameter.
-> 
-> This patch introduces ecc_size module parameter to provide an method to 
-> turn on ECC for ramoops and set different values of ecc_size per devices.
+If cros_typec_probe is called before EC device is registered,
+cros_typec_probe will fail. It may happen when cros-ec-typec.ko is
+loaded before EC bus layer module (e.g. cros_ec_lpcs.ko,
+cros_ec_spi.ko).
 
-The doc [1] suggests to describe changes in imperative mood. If you have
-chance to send next version, please fix it.  Otherwise, it doesn't really
-bother me.
+Return -EPROBE_DEFER when cros_typec_probe doesn't get EC device, so
+the probe function can be called again after EC device is registered.
 
-[1]: https://docs.kernel.org/process/submitting-patches.html
+Signed-off-by: Tomasz Michalec <tmichalec@google.com>
+---
+ drivers/platform/chrome/cros_ec_typec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> @@ -9,6 +9,10 @@
->  #include <linux/platform_device.h>
->  #include <linux/pstore_ram.h>
->  
-> +static int ecc_size;
-> +module_param(ecc_size, int, 0444);
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 7678e3d05fd3..f437b594055c 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -1272,8 +1272,8 @@ static int cros_typec_probe(struct platform_device *pdev)
+ 
+ 	typec->ec = dev_get_drvdata(pdev->dev.parent);
+ 	if (!typec->ec) {
+-		dev_err(dev, "couldn't find parent EC device\n");
+-		return -ENODEV;
++		dev_warn(dev, "couldn't find parent EC device\n");
++		return -EPROBE_DEFER;
+ 	}
+ 
+ 	platform_set_drvdata(pdev, typec);
+-- 
+2.50.0.rc0.604.gd4ff7b7c86-goog
 
-Does it need to be world-readable? How about 0400?
-
-> @@ -117,6 +121,9 @@ static int __init chromeos_pstore_init(void)
->  {
->  	bool acpi_dev_found;
->  
-> +	if (ecc_size > 0)
-> +		chromeos_ramoops_data.ecc_info.ecc_size = ecc_size;
-
-It seems `ecc_size` doesn't have an upper bound.  Wondering what would
-be happened if it is a somehow large value.

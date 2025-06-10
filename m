@@ -1,126 +1,69 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6322D1E51FE
-	for <chrome-platform@lists.linux.dev>; Mon,  9 Jun 2025 09:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7CB29A0;
+	Tue, 10 Jun 2025 02:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749461996; cv=none; b=I54R3T+7gzxhr61o+OUWgT1u9vXOWDtCuJyxVHMjHih1wb4089xuijWk8MR5JIdYP6zSpWA/qxtv06JTXmeizo+MhryLy0Z9jtVGbKmpTkfeeCkvdSdd/4HG7oDMtwNOqLKd2WylQDqhoEB+vQv1k0l8Ko7swuNqZ7+qPjOJ3sw=
+	t=1749520950; cv=none; b=Oo7zPzUBHBVzhqcLUHlbI7ITF/Mzp3qMZ9quUukI6BR3XYAg2ON6eO6Wqi0hzj6G/XHu7r3+XZFFbYHJmk9s55B+4wFMfnGQLw1eA8C6m0BuUghhbqKQa5mMlwpe2MNeOIff0/1IPEIl/Se5P7852mgux0FDqn6SYeHgapcmDIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749461996; c=relaxed/simple;
-	bh=EfGgIkuaur2I5vqNhBQyEsrKXUnkdiiRff/Ou7A9Smk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gMJtaSzUgpE4bb79OgXNbir/ybPhAyxc2NY6XkfzQIXP2fgPzuV+Zgacl3ozw30JF9C7xWhAbKyeUuMmDMJKQljoGVOgj6KSIm/WJNrs4lBNEDgsv8ATaz7Fdv3dHvSNouDQujqj7UjxMSZEq5pItmn+t+IO3DFWlxcxBp0crNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DYax6Ykf; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1749520950; c=relaxed/simple;
+	bh=ttDJDhDpFtCMC0+vuZRTUO90BrueMuUcXX2mP6poPGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aLXXdBE8H0w1lXFbAPRWTnnhjAWqhxDBwLQhhmwKdmab6L4rvxXKcCIOQL9k5fo+bCieaPsIWghsjTAvTSB4RdSXiM/LbnHspfN7AndbJ9qcolFXTV7FU/Q+SdrkFoyJ6BHCRxBTmDZrjbNGr/Pp4pFNo29sydI4qWTKDxehY3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z379nVpM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DYax6Ykf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1749461993;
-	bh=EfGgIkuaur2I5vqNhBQyEsrKXUnkdiiRff/Ou7A9Smk=;
-	h=From:Date:Subject:To:Cc:From;
-	b=DYax6Ykfp4NShJegEoPDQFgxw8UAI2qG8IQ07G34K2cfhnzcIVkuWXpPM3uj2pvm0
-	 LsbY9lgXojV00EepYA29CdvLPIA3IZTa5R0bwf5heLs/ZPs5LSyfJX/aY2MINcyQRA
-	 SW+qWBU617CIvE3nyh9D+GFp3upoiCksDqGu/X3s=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 09 Jun 2025 11:39:35 +0200
-Subject: [PATCH v2] mfd: cros_ec: Separate charge-control probing from
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z379nVpM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC49AC4CEEB;
+	Tue, 10 Jun 2025 02:02:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749520950;
+	bh=ttDJDhDpFtCMC0+vuZRTUO90BrueMuUcXX2mP6poPGc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z379nVpMBO8Y5FQsPdUEPYOAAWPUiJTIxY5Ee2F8SawSdOzBZhzOvuk+1MJzqNaU5
+	 E6TLgmRBCssxuVkoGvRE2eF9encC2DnVZ2WMZQTLlWBuzRWC4kBqsN3wBGwBsFmO46
+	 FaEw4xHNgorgu+GbpNUorxbnfmDFYppQ0ST299sX/dnTz0c50W7wgbwUtO/9URewwl
+	 TN5H5puLg18W24XrW9ZmnHw18sro57ND6Go3xq83gyz8koGeL4AJQTPg6edfBF+FGN
+	 vuxd4Z1uwwuFq95PWpn9UG6jeXgq1Gla6GwOow94aUwf32gbCtWml/jPOGad2u/LuX
+	 uWXV9SURDxb1g==
+Date: Tue, 10 Jun 2025 02:02:26 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Tom Vincent <linux@tlvince.com>
+Subject: Re: [PATCH v2] mfd: cros_ec: Separate charge-control probing from
  USB-PD
+Message-ID: <aEeSMgomf0FP-NX2@google.com>
+References: <20250609-cros-ec-mfd-chctl-probe-v2-1-33b236a7b7bc@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250609-cros-ec-mfd-chctl-probe-v2-1-33b236a7b7bc@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIANarRmgC/4WNQQ6CMBBFr0Jm7RhapEZX3sOwKMPUNlFKOhU1h
- LtbuYDL95L//gLCKbDAuVog8RwkxLGA3lVA3o43xjAUBl3rtm61QkpRkAkfbkDylO84pdgzmoM
- 1jaUTKVNDWU+JXXhv5WtX2AfJMX22o1n97P/mrFCh4d5xYw07e7y8OIgI+affj5yhW9f1CykbJ
- W3DAAAA
-X-Change-ID: 20250521-cros-ec-mfd-chctl-probe-64a63ac9c160
-To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
- Guenter Roeck <groeck@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Tom Vincent <linux@tlvince.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749461993; l=2534;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=EfGgIkuaur2I5vqNhBQyEsrKXUnkdiiRff/Ou7A9Smk=;
- b=wsJn4sPhXWyjJ78TeS1erDeOTb4hTGTVHtLf+dxmvjC4niSJft/j7CsYZd35pn2/kJfcxVHm/
- OMoEYxX3ep+CDKPQtgALPNH87wyDPmUCu9YrBe3iQ4YgyV6ozimapQQ
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+In-Reply-To: <20250609-cros-ec-mfd-chctl-probe-v2-1-33b236a7b7bc@weissschuh.net>
 
-The charge-control subsystem in the ChromeOS EC is not strictly tied to
-its USB-PD subsystem.
-Since commit 7613bc0d116a ("mfd: cros_ec: Don't load charger with UCSI")
-the presence of EC_FEATURE_UCSI_PPM would inhibit the probing of the
-charge-control driver.
-Furthermore recent versions of the EC firmware in Framework laptops
-hard-disable EC_FEATURE_USB_PD to avoid probing cros-usbpd-charger,
-which then also breaks cros-charge-control.
+On Mon, Jun 09, 2025 at 11:39:35AM +0200, Thomas Weiﬂschuh wrote:
+> The charge-control subsystem in the ChromeOS EC is not strictly tied to
+> its USB-PD subsystem.
+> Since commit 7613bc0d116a ("mfd: cros_ec: Don't load charger with UCSI")
+> the presence of EC_FEATURE_UCSI_PPM would inhibit the probing of the
+> charge-control driver.
+> Furthermore recent versions of the EC firmware in Framework laptops
+> hard-disable EC_FEATURE_USB_PD to avoid probing cros-usbpd-charger,
+> which then also breaks cros-charge-control.
+> 
+> Instead use the dedicated EC_FEATURE_CHARGER.
+> 
+> Link: https://github.com/FrameworkComputer/EmbeddedController/commit/1d7bcf1d50137c8c01969eb65880bc83e424597e
+> Fixes: 555b5fcdb844 ("mfd: cros_ec: Register charge control subdevice")
+> Cc: stable@vger.kernel.org
+> Tested-by: Tom Vincent <linux@tlvince.com>
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
 
-Instead use the dedicated EC_FEATURE_CHARGER.
-
-Link: https://github.com/FrameworkComputer/EmbeddedController/commit/1d7bcf1d50137c8c01969eb65880bc83e424597e
-Fixes: 555b5fcdb844 ("mfd: cros_ec: Register charge control subdevice")
-Cc: stable@vger.kernel.org
-Tested-by: Tom Vincent <linux@tlvince.com>
-Signed-off-by: Thomas Wei√üschuh <linux@weissschuh.net>
----
-Changes in v2:
-- Rebase onto v6.16-rc1
-- Pick up tested-by from Tom
-- Also Cc stable@
-- Link to v1: https://lore.kernel.org/r/20250521-cros-ec-mfd-chctl-probe-v1-1-6ebfe3a6efa7@weissschuh.net
----
- drivers/mfd/cros_ec_dev.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index 9f84a52b48d6a8994d23edba999398684303ee64..dc80a272726bb16b58253418999021cd56dfd975 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -87,7 +87,6 @@ static const struct mfd_cell cros_ec_sensorhub_cells[] = {
- };
- 
- static const struct mfd_cell cros_usbpd_charger_cells[] = {
--	{ .name = "cros-charge-control", },
- 	{ .name = "cros-usbpd-charger", },
- 	{ .name = "cros-usbpd-logger", },
- };
-@@ -112,6 +111,10 @@ static const struct mfd_cell cros_ec_ucsi_cells[] = {
- 	{ .name = "cros_ec_ucsi", },
- };
- 
-+static const struct mfd_cell cros_ec_charge_control_cells[] = {
-+	{ .name = "cros-charge-control", },
-+};
-+
- static const struct cros_feature_to_cells cros_subdevices[] = {
- 	{
- 		.id		= EC_FEATURE_CEC,
-@@ -148,6 +151,11 @@ static const struct cros_feature_to_cells cros_subdevices[] = {
- 		.mfd_cells	= cros_ec_keyboard_leds_cells,
- 		.num_cells	= ARRAY_SIZE(cros_ec_keyboard_leds_cells),
- 	},
-+	{
-+		.id		= EC_FEATURE_CHARGER,
-+		.mfd_cells	= cros_ec_charge_control_cells,
-+		.num_cells	= ARRAY_SIZE(cros_ec_charge_control_cells),
-+	},
- };
- 
- static const struct mfd_cell cros_ec_platform_cells[] = {
-
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250521-cros-ec-mfd-chctl-probe-64a63ac9c160
-
-Best regards,
--- 
-Thomas Wei√üschuh <linux@weissschuh.net>
-
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

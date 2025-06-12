@@ -1,71 +1,70 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9D52DFA22
-	for <chrome-platform@lists.linux.dev>; Thu, 12 Jun 2025 22:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB172DFA31
+	for <chrome-platform@lists.linux.dev>; Thu, 12 Jun 2025 22:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749767906; cv=none; b=LO2YGkbf5rKAHJhQFiWoX27ioVEXAzAOF51hZaC8DWwJl7XxvGxE/yw+PwG4kp78KfyolNv/ITk19wXQWj0LH1yWZ0sig+j6DrOCBwDZiVj8Wz0F7IyBE8tWHl0Da6VPGgK5a0gpPG4+aWN0Jtu2tqSUYbh4LCms/SxyeLK5/w0=
+	t=1749767932; cv=none; b=Dz6umBTRkE4mkY7yh6OsOd23iqLBo36WAtYUF/W2t6QclWu1Em68kF1GpxdbesgXZn4F4fsVQwBjA0TnfzzyoFUPHfsB5sTM4gqnbWVYIK/NMi5GPvgAtRm5b5V77TarTnEHF3n/Ajxyud7ucmsipQisx9PIEvfpk/2MX8f2oqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749767906; c=relaxed/simple;
-	bh=sztdsTy4wa87P27KIh0T1takdVyve9oLKd7HhMANHuw=;
+	s=arc-20240116; t=1749767932; c=relaxed/simple;
+	bh=qeiCeGRpO0jQPrPrE/YnP8cb+uMMbCIjMfsirNjXYuU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tM1Gksv6VFNKOnHiH9cV3pd/6iXeT0KBBSQEWHxTBZMaNSp3vLcZIqaLn8FWkLd0PatwGzw703F2tkW4+KJS3K5LjWUSXs4lN/MdC0X1M77mzXtO+YMpE94Zl4RqUiQxK9nD8qky6mAT72y2lqryMAxf8AA7r+3W6zXcOetZbp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=m7+8PG6i; arc=none smtp.client-ip=209.85.214.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=dpKUkwcI9PG6w/CdlR7HCg5lJccjRDo4VSTJeVbzcO89qWDckoEHSRFdcquVF/epainwa4bLqm8vPeHlHgXlor70SnW+BVBb/06QIKTCChrjadxGkRqJArjMmyziHL6GZfnkhrCYdsEL8tDajSSqCDWcPMc9IGrkt/y+iWEzqiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dON3m1lD; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="m7+8PG6i"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-235ef62066eso19508785ad.3
-        for <chrome-platform@lists.linux.dev>; Thu, 12 Jun 2025 15:38:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dON3m1lD"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7376dd56f8fso1845231b3a.2
+        for <chrome-platform@lists.linux.dev>; Thu, 12 Jun 2025 15:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1749767904; x=1750372704; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1749767930; x=1750372730; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fda6FxdHT/voycTXa7lxHxxCOeerrK6XiPZedwQDUNg=;
-        b=m7+8PG6i3qkrfqVn8oIqG37UpK5EA5Thbz37B42+Z1K3qkjJkLhvw9YMs4dFycSdda
-         uBDfxpmclKNrsq64EUI4UXL3lnRJuJBdGTovZSm1x3sRr/xX/2Spe00tbh8uV5dyYE7g
-         xwhtT2Er29FRR4aDmEgRlornJVfhViCchDCL8=
+        bh=J6Fvf8WT5Rb3cjKjtjxn6WWzjAeKWIIgK6WQmx+5Ghs=;
+        b=dON3m1lDYauIPOAVtDVsEFWDwTL8N8IucpTq7eyjpZKtUWSvz96injn7DxCTA5XGT1
+         Iwn6Mx1r13u0Ib43eZE+AJY5AexbHR1HWopZMxDL1iPaJucmGvf4ZA44QVtavJpAbcP2
+         fEDDK6v2TOg+e149mbYwRj5LQSBXDzuOE6yiY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749767904; x=1750372704;
+        d=1e100.net; s=20230601; t=1749767930; x=1750372730;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fda6FxdHT/voycTXa7lxHxxCOeerrK6XiPZedwQDUNg=;
-        b=pMep5JDefGCW03a38yt6YYQPjTy7A3mTjk8wnIqZMKt15P37aJTyWr94ttnPwFSwCF
-         Gt5Q2Lprn/2KC+1/3ez4IxM5qWhc+CsG4Bnydo13Zib24LqDTzfc0GFwzqMNGoAZRa3t
-         M6GUXc/QmkI7Aylb9DE252MCsCK7Uvf6YRNBwGlMJiFNaRXWv8x8JWQF/Tg7ECCxzquO
-         XpCsRNIg1T/ZOESjg1Y19jOYg70MdKhoVCoU5whq5mb8n6u+Lxmcw9pxDsegK9AJ/3AZ
-         Ih3WhHVNHV2twRBuJ6DRCqqP9sqY1rN8msqSh5aYa+5JmHeGkxEt07EhdwZ9GSGNiWgv
-         LOBw==
-X-Forwarded-Encrypted: i=1; AJvYcCWW9+yRsWRUaK0yaw3qE0nUkbdvAPXBhMUorU4g/cw6/GaS/OdnX7FEFxnlNIURLkSdF/40x+1YuNGpw5FFTTk=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy0zlmhyizAe43tYYeMIIV1b9d3kpVfbYO96hSZ4mLZjxytOLOm
-	V7JCRaIRIp8j1KF8MJuCRvotHToxR7iwZYVA2BfMeUECgSmGN43wJ3bPGM5GWLZ0rdDHivyK2Hm
-	zI4A=
-X-Gm-Gg: ASbGncsTX6xd0NEQzbivqyS/EmgHx1TMmuTmbT29tTSwlnwQEeYEb/VMn9YzLJehWRz
-	onsWQoONAVyqZiNdBSl119DIxh4kF55JSwxBIKKO2cfRyqY37AKIdV0QO32KrXge33A1qm8JrhL
-	0FquE4l3XFke85aY+ZYGT3IAXlc4DufLjm7BI2y0MT3dnACSeUBJxqxygCcYYxo8sHzzL2OYn2D
-	kM/2KL+FwiokjkCIv0uloeR6tEsRKoae+NAgjHs2HWUt3AmUXgnSdj0Ol6QckmxzDsJ1k/Qaba5
-	1v/XWgcKgYFDKioAMiMNrRZ2Zs8IQbd9QsLP5wNHybCkWhxhCJqjr+c2VJtoplYZzKzkfYFPnVV
-	hbgsRr5zmCEvpMnjZ+Sj0XxES
-X-Google-Smtp-Source: AGHT+IHNrBQDYFUbwAQiVtbeP7J80oAQ5zRsvtDdeTdUWMr9CI9SHerDWzXPw5mfWEBomTlmMULilw==
-X-Received: by 2002:a17:903:b50:b0:234:ed31:fcb1 with SMTP id d9443c01a7336-2365d8c55e7mr9712975ad.20.1749767903699;
-        Thu, 12 Jun 2025 15:38:23 -0700 (PDT)
+        bh=J6Fvf8WT5Rb3cjKjtjxn6WWzjAeKWIIgK6WQmx+5Ghs=;
+        b=MXlEGwnbkn+Qi4CKOQ895tZiwFxuOLp5cBnN7PrdnJhAns1Y7JkefcWCDFWi3UANmu
+         tQUd42B537OhFrVHKyR4N6gW97ucElmWUg8qmr6P+hm1lUsCdt2FanhNTmPlFIGkGaqs
+         oja+fmkxN0VYPnSV5H5ORKNhANvqhwHxG30yYGQdzG3Jn9z3saSp9EVsuJ7YL3Hjt4wO
+         8pHMASASIKh3sie131MCT++V7KvprM4uvEzYlv/xtDoiV1ll7rhpHQ2oNID1l+hRm57g
+         H/7SeTROrYquEFQaDP4TVyfWjIfULn6k8vHVSpU68SjscbIaOsagAQPvGk3MDcZCl7dl
+         njkg==
+X-Forwarded-Encrypted: i=1; AJvYcCV4iymkizEjsKINeIG/8KdueeR9TO5OtDEpPj0Q93h1LQrwpO0LTLzrk274NgpLCjc6VTyAocC6NGFO8y9o9ZY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzeM9Dg/xoo29Gq29TJXwj+4vSTkeMT645/qrrS5fFWHXX9rF+w
+	J9oUyYFHPNKKNvvMe4M4XQlIAYS5hQdVAF8Df0GcMxfvFDJgYYQgldluVQ5VkkR/pA==
+X-Gm-Gg: ASbGncuc6sANP8SrjlpLG+EyL6gguV5t9TfLGfF9UroGTyvXRyhau1kEPfvDBXo62zN
+	QWfSsR2+ZM0/FNiXVc0rR0ITj1IRNSm8UWpHkVyb3s8Xxe2hmtzoSK2WGD3T0ieOgQQGRDE/Md2
+	IwcNQp7cpkoeBbUbA/6dgQWvxyVj8iuZifZoh5F0hDb6YtTo9fj4kNt/IXYRIWn27fHmppyXwlF
+	PgcV3QA4q02PKIl5L3IfU89PXKx+a4JknEZ2RkCfxXWFQN6/qv3qqE4rT5PfY6E2tmQ+wtKJrzl
+	n9q/UMtQ+8N6huLjzM8LJKPEKxwypZu85tkZ0kzXeuduX23Ole/ShQM67k7niIpT6kNjrqJ3HM1
+	JswgO7AWqe5PJ4/2Cpqewglof
+X-Google-Smtp-Source: AGHT+IHqiaEQ6mdHLqUXXWFR0M3wpvpZgv0dGpw+onPhdrgwOTLTvDPCn76ggFnz9nH3sFK3EQNJbQ==
+X-Received: by 2002:a05:6a00:124f:b0:73c:c11:b42e with SMTP id d2e1a72fcca58-7488f71e8d7mr1300715b3a.20.1749767930186;
+        Thu, 12 Jun 2025 15:38:50 -0700 (PDT)
 Received: from localhost ([2a00:79e0:2e14:7:9a04:ac66:831d:e4a6])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-b2fe164406esm301867a12.27.2025.06.12.15.38.22
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-74890082b10sm275617b3a.105.2025.06.12.15.38.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 15:38:22 -0700 (PDT)
-Date: Thu, 12 Jun 2025 15:38:21 -0700
+        Thu, 12 Jun 2025 15:38:49 -0700 (PDT)
+Date: Thu, 12 Jun 2025 15:38:47 -0700
 From: Brian Norris <briannorris@chromium.org>
 To: Michal Gorlas <michal.gorlas@9elements.com>
 Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
 	Julius Werner <jwerner@chromium.org>, marcello.bauer@9elements.com,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] firmware: coreboot: loader for Linux-owned SMI
- handler
-Message-ID: <aEtW3e7mwjTTvfO9@google.com>
+Subject: Re: [PATCH v1 3/3] firmware: coreboot: Linux-owned SMI handler to be
+ loaded by coreboot
+Message-ID: <aEtW98A2-AHYjySO@google.com>
 References: <cover.1749734094.git.michal.gorlas@9elements.com>
- <6cfb5bae79c153c54da298c396adb8a28b5e785a.1749734094.git.michal.gorlas@9elements.com>
+ <410d4d62b031d0e751e1933cf746540d5cb1682c.1749734094.git.michal.gorlas@9elements.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -74,125 +73,33 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6cfb5bae79c153c54da298c396adb8a28b5e785a.1749734094.git.michal.gorlas@9elements.com>
+In-Reply-To: <410d4d62b031d0e751e1933cf746540d5cb1682c.1749734094.git.michal.gorlas@9elements.com>
 
-On Thu, Jun 12, 2025 at 04:05:49PM +0200, Michal Gorlas wrote:
-> Places a blob with Linux-owned SMI handler in the lower 4GB of memory, calculates
-> entry points for the it and triggers SMI to coreboot's SMI handler
-> informing it where to look for Linux-owned SMI handler.
+On Thu, Jun 12, 2025 at 04:05:50PM +0200, Michal Gorlas wrote:
+> Compiled in similar fashion to the realmode trampolines for x86. Currently
+> supported are two SMIs: ACPI enable and disable. After being placed in SMRAM,
+> this handler takes over handling of the supported SMIs from coreboot.
 > 
 > Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
 > ---
->  drivers/firmware/google/Makefile    |   9 ++
->  drivers/firmware/google/mm_blob.S   |  20 +++
->  drivers/firmware/google/mm_loader.c | 186 ++++++++++++++++++++++++++++
-...
-> --- /dev/null
-> +++ b/drivers/firmware/google/mm_loader.c
-> @@ -0,0 +1,186 @@
-...
-> +static int register_entry_point(struct mm_info *data, uint32_t entry_point)
-> +{
-> +	u64 cmd;
-> +	u8 status;
-> +
-> +	cmd = data->register_mm_entry_command |
-> +	      (PAYLOAD_MM_REGISTER_ENTRY << 8);
-> +	status = trigger_smi(cmd, entry_point, 5);
-> +	pr_info(DRIVER_NAME ": %s: SMI returned %x\n", __func__, status);
+>  drivers/firmware/google/mm_handler/Makefile   |  51 ++
+>  .../firmware/google/mm_handler/handler.lds.S  |  46 ++
+>  .../firmware/google/mm_handler/mm_handler.S   | 510 ++++++++++++++++++
+>  .../firmware/google/mm_handler/mm_handler.h   |  21 +
+>  .../firmware/google/mm_handler/mm_header.S    |  19 +
+>  5 files changed, 647 insertions(+)
+>  create mode 100644 drivers/firmware/google/mm_handler/Makefile
+>  create mode 100644 drivers/firmware/google/mm_handler/handler.lds.S
+>  create mode 100644 drivers/firmware/google/mm_handler/mm_handler.S
+>  create mode 100644 drivers/firmware/google/mm_handler/mm_handler.h
+>  create mode 100644 drivers/firmware/google/mm_handler/mm_header.S
 
-Don't print this kind of debug stuff at INFO level. If you need it, use
-KERN_DEBUG.
+I'm not reviewing most of this patch right now (for one, I don't speak
+x86), but for starters, I think you need to add a .gitignore file in
+here somewhere. After building your code, I see these untracked files:
 
-Once this gets attached to a proper device/driver, you probably want
-dev_dbg(), if anything.
-
-> +
-> +	return status;
-> +}
-> +
-
-
-> +	/* At this point relocations are done and we can do some cool
-
-	/*
-	 * Multiline comment style is like this.
-	 * i.e., start with "/*" on its own line.
-	 * You got this right most of the time.
-	 */
-
-> +	 * pointer arithmetics to help coreboot determine correct entry
-> +	 * point based on offsets.
-> +	 */
-> +	entry32_offset = mm_header->mm_entry_32 - (unsigned long)shared_buffer;
-> +	entry64_offset = mm_header->mm_entry_64 - (unsigned long)shared_buffer;
-> +
-> +	mm_header->mm_entry_32 = entry32_offset;
-> +	mm_header->mm_entry_64 = entry64_offset;
-> +
-> +	return (unsigned long)shared_buffer;
-> +}
-> +
-> +static int __init mm_loader_init(void)
-> +{
-> +	u32 entry_point;
-> +
-> +	if (!mm_info)
-> +		return -ENOMEM;
-
-Hmm, so you have two modules, mm_info and mm_loader. mm_loader depends
-on mm_info, but doesn't actually express that dependency. Can you just
-merge mm_loader into mm_info or vice versa? Or at least, pass the
-necessary data directly between the two, not as some implicit ordering
-like this.
-
-> +
-> +	entry_point = place_handler();
-> +
-> +	if (register_entry_point(mm_info, entry_point)) {
-> +		pr_warn(DRIVER_NAME ": registering entry point for MM payload failed.\n");
-> +		kfree(mm_info);
-> +		mm_info = NULL;
-> +		free_pages((unsigned long)shared_buffer, get_order(blob_size));
-> +		return -1;
-> +	}
-> +
-> +	mdelay(100);
-
-Why the delay? At least use a comment to tell us. And if it's really
-needed, use msleep(), not mdelay(). scripts/checkpatch.pl should have
-warned you. And, please use scripts/checkpatch.pl if you aren't already
-;)
-
-> +
-> +	kfree(mm_info);
-> +	mm_info = NULL;
-
-This is odd and racy, having one module free data provided by another,
-where that other module might also free it. Hopefully this gets
-simplified if you manage to combine the modules, like I suggest.
-
-> +	free_pages((unsigned long)shared_buffer, get_order(blob_size));
-> +
-> +	return 0;
-> +}
-> +
-> +static void __exit mm_loader_exit(void)
-> +{
-> +	pr_info(DRIVER_NAME ": DONE\n");
-> +}
-
-Remove this function. We don't do prints like this.
+	drivers/firmware/google/mm_handler/handler.lds
+	drivers/firmware/google/mm_handler/handler.relocs
+	drivers/firmware/google/mm_handler/pasyms.h
 
 Brian
-
-> +
-> +module_init(mm_loader_init);
-> +module_exit(mm_loader_exit);
-> +
-> +MODULE_AUTHOR("Michal Gorlas <michal.gorlas@9elements.com>");
-> +MODULE_DESCRIPTION("MM Payload loader - installs Linux-owned SMI handler");
-> +MODULE_LICENSE("GPL v2");
-> -- 
-> 2.49.0
-> 

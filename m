@@ -1,115 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20B02DECB2;
-	Fri, 13 Jun 2025 12:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8335433D9;
+	Fri, 13 Jun 2025 13:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749816760; cv=none; b=FfsSPEOzJzTEEdozruz0vWEjJqmxRDkRaqKYLIS9og4avDJEP41zhLlFHJYyJSMmZ/SnaXTGgjavDN7TfW3r/8D05YyOUNp/nhc7tTawTVwMzYW6PcNJvjrBkAJFpO3q/puqWzkHJO4JjAySqxBSuxErjxHMkzGyBC46vGG+nJQ=
+	t=1749821666; cv=none; b=Wtt41loHIye2nmBTGTTnTbqBCGhjzvlhsV18LL/+GKYK9zViteEsF5QTnnTEMu+zVCUv5766WZA/AUlQbHu+PSoaQ0UACx+3XTStxlcSmVyDeNVD6M5DLREDj+BZm4oiinAKo6knLkbp5gU7h/ZI9yW1d7DPA16DRvrYdSG6+oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749816760; c=relaxed/simple;
-	bh=4knsc7FbAH7Q5O0jXH0nJt0AVmU/rcq+p8uTWlA4IDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iHinykSUmmund7cpXUBykHzZbALgQ/+QbL86gCIbCe5QRiKgPGgv1lxKF0Fy/QI0u5mG4zmi+yabvYgCH5OQd+o2iDI7n62SJqdVV6koelmzv2agooEmXz9LTnuuODKo8fnlmbbdkpzRrtMsrLuyNTlfZx7gGiaxgOXHwEZLA7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HMZMN8Xg; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749821666; c=relaxed/simple;
+	bh=uzy5GqfUsyqIep2S8drEsES47umffhUM1sHkUOvIGa0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fLkV8kzcyILF51IWxDywMARFgz01PEpV3in3TpIvFN/Of3ezwHUqKFMKulsuUU6KJzbuZVS0dVXZroneB7hzU7zpLLiVn3MVnpZW1Z9ndoviorbItmOQX6Mkobfn94oNVL3IFi+wMt2OaqS1PWgdVn8Zj6AzOl6qN7Ddsh9MhhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWT8AaSO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HMZMN8Xg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749816758; x=1781352758;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4knsc7FbAH7Q5O0jXH0nJt0AVmU/rcq+p8uTWlA4IDk=;
-  b=HMZMN8Xg0lpfUPQjlTCXhnKyEPJyxTaLnQk0OFYoYssekh0/Y3N3HoKw
-   oMf6W2IZFu6BG4jbpyniyjsvIcU6pifgyPYSGF4GR4B09Pb1cyNYj/W+n
-   yVfvvj0QvfUWQLjpnHlrkBWiKgSpVDhgTg8e9k/uIWLv31glV0ECcMq2i
-   m1jFM0W7w6hn835NGc02QRjglECyO453nvTQdhIp131uJnkLbrTQgpoNV
-   0lLJ9Jg0dvwT+ahbSBhbvcZ0D/rmdp2gPfGHmN6m9eZ+nNDODNKzFqEbf
-   Xk8QEkGzmycTzvv60IOLwYANctxK7cgr+PjQjWupAlMQZuZUrwDcKLy/U
-   A==;
-X-CSE-ConnectionGUID: NOVXBSpGR7WTIQj1b6mkgw==
-X-CSE-MsgGUID: OcFf8HBTRVeHrrmV/v/lMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="63383149"
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="63383149"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 05:12:32 -0700
-X-CSE-ConnectionGUID: zPaqIg7gTWW8AEgSuaJUUw==
-X-CSE-MsgGUID: 1qLkft/DSV+tezTu08XGoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="148184525"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Jun 2025 05:12:31 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uQ3Gm-000CZq-2q;
-	Fri, 13 Jun 2025 12:12:28 +0000
-Date: Fri, 13 Jun 2025 20:11:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Gorlas <michal.gorlas@9elements.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, marcello.bauer@9elements.com,
-	Michal Gorlas <michal.gorlas@9elements.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] firmware: coreboot: Linux-owned SMI handler to be
- loaded by coreboot
-Message-ID: <202506132239.FTTwSHeX-lkp@intel.com>
-References: <410d4d62b031d0e751e1933cf746540d5cb1682c.1749734094.git.michal.gorlas@9elements.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWT8AaSO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B383C4CEE3;
+	Fri, 13 Jun 2025 13:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749821666;
+	bh=uzy5GqfUsyqIep2S8drEsES47umffhUM1sHkUOvIGa0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=TWT8AaSOktG+1WNHC/Vt4obvRUA3JRup7wz0ojnQy+MR0YhCtxPm5IjK0WtUxldqy
+	 AY06pSm7yZWbcgQZoibXStHhKpUqvc2uPh7v2Gm5YKtDc5Yu9R9CpMKmjr+PhNQkUS
+	 FQH43G7+6+Fl5Tj7RPjAx7E8M6WVQ8vqytViipVzwzSKbimXWP+xJ6e2drt/RLg609
+	 sxIFB5YJ/tHueaUyFGb99kgw+tyfdkqM+xqTee0y4OG4w1LE6ppTK4EFK7rg/nhL0C
+	 4Y/S+Uj5Km1oyVVBQ4AORaEDrFkFPvpXdpZjDZ0vfpIaIiOOh1C+fW+74Bd5AAaym6
+	 HQDXoP88RC/HA==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20250521-cros-ec-mfd-chctl-probe-v1-1-6ebfe3a6efa7@weissschuh.net>
+References: <20250521-cros-ec-mfd-chctl-probe-v1-1-6ebfe3a6efa7@weissschuh.net>
+Subject: Re: (subset) [PATCH] mfd: cros_ec: Separate charge-control probing
+ from USB-PD
+Message-Id: <174982166492.895388.4152735458034344826.b4-ty@kernel.org>
+Date: Fri, 13 Jun 2025 14:34:24 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <410d4d62b031d0e751e1933cf746540d5cb1682c.1749734094.git.michal.gorlas@9elements.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-459a0
 
-Hi Michal,
+On Wed, 21 May 2025 16:42:51 +0200, Thomas Weißschuh wrote:
+> The charge-control subsystem in the ChromeOS EC is not strictly tied to
+> its USB-PD subsystem.
+> Since commit 7613bc0d116a ("mfd: cros_ec: Don't load charger with UCSI")
+> the presence of EC_FEATURE_UCSI_PPM would inhibit the probing of the
+> charge-control driver.
+> Furthermore recent versions of the EC firmware in Framework laptops
+> hard-disable EC_FEATURE_USB_PD to avoid probing cros-usbpd-charger,
+> which then also breaks cros-charge-control.
+> 
+> [...]
 
-kernel test robot noticed the following build errors:
+Applied, thanks!
 
-[auto build test ERROR on chrome-platform/for-next]
-[also build test ERROR on chrome-platform/for-firmware-next linus/master v6.16-rc1 next-20250613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[1/1] mfd: cros_ec: Separate charge-control probing from USB-PD
+      commit: 4752d35dd84ac911b041ef3a53c6d8a32003c26d
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Gorlas/firmware-coreboot-support-for-parsing-SMM-related-informations-from-coreboot-tables/20250612-221612
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/410d4d62b031d0e751e1933cf746540d5cb1682c.1749734094.git.michal.gorlas%409elements.com
-patch subject: [PATCH v1 3/3] firmware: coreboot: Linux-owned SMI handler to be loaded by coreboot
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250613/202506132239.FTTwSHeX-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506132239.FTTwSHeX-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506132239.FTTwSHeX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/firmware/google/mm_handler/mm_header.S:7:10: fatal error: asm/page_types.h: No such file or directory
-       7 | #include <asm/page_types.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
 --
->> drivers/firmware/google/mm_handler/mm_handler.S:11:10: fatal error: asm/pgtable_types.h: No such file or directory
-      11 | #include <asm/pgtable_types.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+Lee Jones [李琼斯]
 
-
-vim +7 drivers/firmware/google/mm_handler/mm_header.S
-
-   > 7	#include <asm/page_types.h>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki

@@ -1,60 +1,60 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E7C2E62D6
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 13:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10272EAD0E
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 13:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750080807; cv=none; b=gWPWeO9gfEuUldllJ/iWJxAFCcMAM8XdNX1haIfEr6ras+OfUy+9nnKT7tWGCX4xYLPOrriKkL2PkA07KDjN3PJqLEGO65Klz3N6dav1GXtNSor6biZXqOw6LXJmoLo5qnOxKYZV+Fl0cxnorUfhUnfNe+OUdU1fZCr2P5/A2zE=
+	t=1750080808; cv=none; b=KypWcY8k3TapPREkOQFTGf/tdJ7Peg5/Otccrf9yBYmgGHnDYxTyhvsZehGOGu+pThZ98eMHi74VF4q3kmZfk3/WvNeb43n3slMT3t/VHYJNxbDrdw4mCsiKz0RaYXmf+mHm9iIWG0Sj/qas6INP6Lg1d1c9+Do+1jOXzDWLIVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750080807; c=relaxed/simple;
-	bh=+scX2JYc7g6Ny57270FvHahCDuDgXd0MvSdrc6MN7nE=;
+	s=arc-20240116; t=1750080808; c=relaxed/simple;
+	bh=cMKsJUotDdosJ5GgRT61ngKqLnwH/Sc2vQwUb/JvwaQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bHPE5RrCOAir0nv5B4O3zkvSXujvJtOEuV7eAIyb0YVV9LOYSibH1g97diDwoTMU5IDeEh9CussNGOMibCOe5HTxUWnPen6U8UxhBec7f4g2j6To5E9Dy1dL/F1d+LwvwlYwo25dqzmz+TVqGZVdN6zMAG/lRNLr04ZqzH2Yvog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IRDIu5I0; arc=none smtp.client-ip=209.85.208.47
+	 MIME-Version; b=IgSMVOrXLbdEkfsiQND/f348gHi2DWU5WQ3gHhXueFxLynnyABajBVaRVZ+HjDhIEzWbp6rFrhg0QsDqPw2/kTyg1tzZjc4EjukEceTUiyNaSO4YKXhGF8FE5wgzwvM3tOgRgCQm46ieU61zZ+45A+YF+oTBRlyUZYEBXjHrju4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MNLCricU; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IRDIu5I0"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-601dfef6a8dso7536899a12.1
-        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 06:33:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MNLCricU"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6077d0b9bbeso8325255a12.3
+        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 06:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1750080804; x=1750685604; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1750080805; x=1750685605; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rPdVq+ZgSkdda1i1UwSKR/3OTMARvQfHUqZ/Ok6pdjM=;
-        b=IRDIu5I0pECgNce9YEv9L43TGIn6QoqQsVyAb0sSmqM+lFJPMd/yCeF/zL3Cs1S2Vx
-         fXuxDpvtMMD6SrXmLpZGCRxKpV0vog/QGixAVVnvjTnLt0XNb9KQbnqWpIjyhiKHGoPT
-         b2Z+h/3hpuqNnZkBJkXlgihkWF2dVCzwrtBao=
+        bh=Lc1xa9XGYazZdbig9CQp0aaqg5/Q33JTrH3v7YQaNmY=;
+        b=MNLCricUMIAz19/Rl9ruUKcmKuhgbCkUrGCtRKvnlilm1nDTTTWOeWlM6sDbKDz7qw
+         et17psVbjHSx3P5JFVxvbufdmeMNlB0KFwbmBOFcYRFrmmsTHcZQABlRh1AK9dtElLz2
+         5fE4FucjaNPAjEuYh0TOpw6rlS6EExzpXmH9E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750080804; x=1750685604;
+        d=1e100.net; s=20230601; t=1750080805; x=1750685605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rPdVq+ZgSkdda1i1UwSKR/3OTMARvQfHUqZ/Ok6pdjM=;
-        b=rSHHAU8zWogsAWXav/r6J9hBiU7PfY/U1f3bKmBPzZp+D82g1l0hy2x95V3DGWNsVh
-         0ukZHDrHMIPyMJ+lfd5rmqVoXue9f4E9/YZJ8UmWaf+/Z4qrSEEaJbKizxOJc68zl0vm
-         idCMzFqihC0F8uIHyHrwcZJUTgIeEBfswcuYrk7CxJmQGm6AMX9tcbdB4kDHI1Uye5QQ
-         o3wbfVNWZHkWwIrWfSZxQn5X1/QmLRQgTxfONS6tJACRZJ01xHSK7ae0I6eZ8a4DYsIG
-         i8o1EPKg/4N0k4rbHU52jD5vdSohcnaJ96aV04/MKOCJw6AnBCniL4OnDWb/PQudhztR
-         fmMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXzvVEQXm8/qKVe6nvVQ62F5gcWPdjSMw3yHbzh9Ltgb+UcPqOee7I1x7GtsbuQThbeE+d7tRZv0f3c+iz35js=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNTVAkUNC04s8siZx62gB/JlQT58A18QXJgr/doY+aVGiPOMBo
-	U1WPI6CFxE144pRTuzUmOziCzaEY0cE9xgsWi1qm7UuCSJPyHkmsz0h7TRDwx057kw==
-X-Gm-Gg: ASbGnctKsJDwWzX4IuIfiJ0Q0f67ls+GbMwp3mAAB6oH4bWWn6FvOrLFpH+BMNn5H2s
-	ez03FZZMupiwF06q9LofL8CCWKN62IoRKA7ntnIx7zSCg6IDxjRbyL1sSjZPlBdHjeX2ct9aRcC
-	jCRiN7ObJnCvPybrv02GJS8c/TzbQIcusWi9eqJjmOi/Q1E/ffijkDXBZJaDclL/6P+Scr6e+h5
-	NFyXAgMdlN3F6qeJMXfUo3qiZVc/6NXriizxw7Xygekank1BV/hKrkrkstbnK5gzRG0WtagxD85
-	M1RzqKWCeYyzhJcGbg0exY8qXIohmfaHi9vHTuGTu57wDfpShJnrNpKvQbUihUm3E/mLaLRp2Ch
-	9mCHyEbKKUmZ4V8aHmWytHdvNEajb52ZjrcbbOqqXJSxRA31l/s60ujmKig==
-X-Google-Smtp-Source: AGHT+IEw1MMStshySFu2Mw5NkUcbiGEAYvldonklBIuuR3wJfDRbJH4QZvobhuQJzCFy5gntWE9cAA==
-X-Received: by 2002:a05:6402:34d3:b0:607:2d8a:9b3e with SMTP id 4fb4d7f45d1cf-608d0835d29mr7714154a12.2.1750080803788;
-        Mon, 16 Jun 2025 06:33:23 -0700 (PDT)
+        bh=Lc1xa9XGYazZdbig9CQp0aaqg5/Q33JTrH3v7YQaNmY=;
+        b=Taib1FcFdoNW/m3BDWNRQVwEJ+6QfbUx7ihlBBx4xQlBsoUuUXSF4i3fCCHHHknNkO
+         KOPankxspISrsdgspfNcmoCD1P0SJg9B7uV45zaXm2kSm5NThQvjmCJLePLfxUSBxW75
+         djW8wZJ8nADQSPhxGh5/x3MRRAX2c4pkAr/ExKLt6S/6f9eEnM9Ce0xbOIU2etB+lTBq
+         K5rXjWoJ1d3eyf4sPHAyV28htjHHdTSDIl+L2KOmXQeMB4+FJGbynx9fO5K+kgPuIWBX
+         dwcjIokUwchAL1uv7VZ+34HmQPSTTOpCsP8NW7Nc/7/ojVeb1Voagvq2DqAey5Iiku6J
+         Vapg==
+X-Forwarded-Encrypted: i=1; AJvYcCXxrndjNuQl+5HNQcmBPXW1Qu39iucNFpfFqPRFK8HhsnB+y7h6Ns35n1LHUSb++1uy8wXqq1Q0mp4ms7pxNYA=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8//vyp5u7XtSRZuJUX89IwD2yHR+R9KRpElmbixHr5w/P5mlT
+	tpS5TZN3GABSJShF3W3LTATJ1Dw7NRye8tSgSuGgt3iikBQ/tg1dIW0JaEuPH5Kkew==
+X-Gm-Gg: ASbGncvWgyXcUGu8k2kMOtIdp5+n0V0i9pXMj23X0eqNKW+7APIrUclUcGQ4bPJfif2
+	Ysuv1tEa1HEe1zuhX16ZupFyvijbiY2jgAVcJrxPn/MZUu4anDNSRGsDMn2PQyhKT+uFJjgEvXB
+	FIedM/AK16Ei9Psq+zxq2rmoBG4p9feZr9AtJ5Y/oaeKItQLWYGUcOUP9fLNhmgX2nYlnBY7RyM
+	+sY5nZnzDwCT7+UWjsOuvrThiZVOaqLho8hD3JohwWDwA8QR5DpdqVGT7JVtzjH2L/A/CHDxvjQ
+	kBlxjSP1O349TlCGiIxRKe5jbVq63QOh3JsrTe3TZ00ha5sCEG8Ga255U7xQbOVTo6uRpe0mJDg
+	4j2ObEFerdI4aqK6HlyYdV1Jui8iYiiNNWkMJTd0lGUCfagVtiXL+TN8+ow==
+X-Google-Smtp-Source: AGHT+IHw6+ZqjUiGtijKP7659AHwRHhXUfja1QVHvIcjre79jMfTDQp7kopiYwQiEAC5sFmbVRn9HQ==
+X-Received: by 2002:a05:6402:268d:b0:607:2e6b:47b2 with SMTP id 4fb4d7f45d1cf-608d0979e84mr9154566a12.26.1750080805113;
+        Mon, 16 Jun 2025 06:33:25 -0700 (PDT)
 Received: from akuchynski.c.googlers.com.com (244.175.141.34.bc.googleusercontent.com. [34.141.175.244])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-608b4a94ce7sm6036664a12.58.2025.06.16.06.33.23
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-608b4a94ce7sm6036664a12.58.2025.06.16.06.33.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 06:33:23 -0700 (PDT)
+        Mon, 16 Jun 2025 06:33:24 -0700 (PDT)
 From: Andrei Kuchynski <akuchynski@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Dmitry Baryshkov <lumag@kernel.org>,
@@ -71,9 +71,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH 09/10] platform/chrome: cros_ec_typec: Propagate altmode entry result
-Date: Mon, 16 Jun 2025 13:31:46 +0000
-Message-ID: <20250616133147.1835939-10-akuchynski@chromium.org>
+Subject: [PATCH 10/10] platform/chrome: cros_ec_typec: Report USB4 mode entry status via callback
+Date: Mon, 16 Jun 2025 13:31:47 +0000
+Message-ID: <20250616133147.1835939-11-akuchynski@chromium.org>
 X-Mailer: git-send-email 2.50.0.rc1.591.g9c95f17f64-goog
 In-Reply-To: <20250616133147.1835939-1-akuchynski@chromium.org>
 References: <20250616133147.1835939-1-akuchynski@chromium.org>
@@ -85,148 +85,27 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the `cros_typec_configure_mux` function, which concludes the DP/TBT
-alternate mode entry, the error code should be reported back to the Type-C
-mode selection logic. This ensures a detailed result is conveyed to user
-space.
-To inform partner drivers about the result, the VDM mechanism is used. For
-DP altmode, the DP_CMD_STATUS_UPDATE message is utilized, as it is the
-final one in the mode entry sequence. For TBT mode, the
-TBT_CMD_STATUS_UPDATE message is sent.
+The Type-C mode selection logic requires feedback on the result of USB4
+mode entry attempt. Call the `typec_mode_selection_usb4_complete()`
+callback to provide this final success or failure status.
 
 Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_typec.c      |  9 ++++++
- drivers/platform/chrome/cros_typec_altmode.c | 32 ++++++++++++++++++--
- drivers/platform/chrome/cros_typec_altmode.h |  6 ++++
- include/linux/usb/typec_dp.h                 |  2 ++
- 4 files changed, 46 insertions(+), 3 deletions(-)
+ drivers/platform/chrome/cros_ec_typec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 3aed429fde03..a4f338771094 100644
+index a4f338771094..c5a7f42ffb5a 100644
 --- a/drivers/platform/chrome/cros_ec_typec.c
 +++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -610,6 +610,7 @@ static int cros_typec_enable_dp(struct cros_typec_data *typec,
- 	if (!ret)
- 		ret = typec_mux_set(port->mux, &port->state);
+@@ -698,6 +698,7 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
  
-+	dp_data.error = 0;
- 	if (!ret)
- 		ret = cros_typec_displayport_status_update(port->state.alt,
- 							   port->state.data);
-@@ -699,8 +700,16 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+ 	if (port->mux_flags & USB_PD_MUX_USB4_ENABLED) {
  		ret = cros_typec_enable_usb4(typec, port_num, pd_ctrl);
++		typec_mode_selection_usb4_complete(port->partner, ret);
  	} else if (port->mux_flags & USB_PD_MUX_TBT_COMPAT_ENABLED) {
  		ret = cros_typec_enable_tbt(typec, port_num, pd_ctrl);
-+		cros_typec_tbt_status_update(
-+			port->port_altmode[CROS_EC_ALTMODE_TBT], ret);
- 	} else if (port->mux_flags & USB_PD_MUX_DP_ENABLED) {
- 		ret = cros_typec_enable_dp(typec, port_num, pd_ctrl);
-+		if (ret) {
-+			struct typec_displayport_data dp_data = {.error = ret};
-+
-+			cros_typec_displayport_status_update(
-+				port->port_altmode[CROS_EC_ALTMODE_DP], &dp_data);
-+		}
- 	} else if (port->mux_flags & USB_PD_MUX_SAFE_MODE) {
- 		ret = cros_typec_usb_safe_state(port);
- 	} else if (port->mux_flags & USB_PD_MUX_USB_ENABLED) {
-diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
-index 557340b53af0..7ee295cf0c02 100644
---- a/drivers/platform/chrome/cros_typec_altmode.c
-+++ b/drivers/platform/chrome/cros_typec_altmode.c
-@@ -28,6 +28,7 @@ struct cros_typec_altmode_data {
- 
- 	u16 sid;
- 	u8 mode;
-+	int error;
- };
- 
- struct cros_typec_dp_data {
-@@ -295,9 +296,16 @@ int cros_typec_displayport_status_update(struct typec_altmode *altmode,
- 
- 	dp_data->data = *data;
- 	dp_data->pending_status_update = false;
--	adata->header |= VDO_CMDT(CMDT_RSP_ACK);
--	adata->vdo_data = &dp_data->data.status;
--	adata->vdo_size = 2;
-+	if (data->error) {
-+		adata->header |= VDO_CMDT(CMDT_RSP_NAK);
-+		adata->error = dp_data->data.error;
-+		adata->vdo_data = &adata->error;
-+		adata->vdo_size = 1;
-+	} else {
-+		adata->header |= VDO_CMDT(CMDT_RSP_ACK);
-+		adata->vdo_data = &dp_data->data.status;
-+		adata->vdo_size = 2;
-+	}
- 	schedule_work(&adata->work);
- 
- 	mutex_unlock(&adata->lock);
-@@ -370,4 +378,22 @@ cros_typec_register_thunderbolt(struct cros_typec_port *port,
- 
- 	return alt;
- }
-+
-+int cros_typec_tbt_status_update(struct typec_altmode *alt, int error)
-+{
-+	struct cros_typec_altmode_data *adata = typec_altmode_get_drvdata(alt);
-+
-+	mutex_lock(&adata->lock);
-+
-+	adata->header = VDO(adata->sid, 1, SVDM_VER_2_0, TBT_CMD_STATUS_UPDATE);
-+	adata->header |= VDO_CMDT(error ? CMDT_RSP_NAK : CMDT_RSP_ACK);
-+	adata->error = error;
-+	adata->vdo_data = &adata->error;
-+	adata->vdo_size = 1;
-+	schedule_work(&adata->work);
-+
-+	mutex_unlock(&adata->lock);
-+
-+	return 0;
-+}
- #endif
-diff --git a/drivers/platform/chrome/cros_typec_altmode.h b/drivers/platform/chrome/cros_typec_altmode.h
-index 3f2aa95d065a..848a2b194b34 100644
---- a/drivers/platform/chrome/cros_typec_altmode.h
-+++ b/drivers/platform/chrome/cros_typec_altmode.h
-@@ -39,6 +39,7 @@ static inline int cros_typec_displayport_status_update(struct typec_altmode *alt
- struct typec_altmode *
- cros_typec_register_thunderbolt(struct cros_typec_port *port,
- 				struct typec_altmode_desc *desc);
-+int cros_typec_tbt_status_update(struct typec_altmode *alt, int error);
- #else
- static inline struct typec_altmode *
- cros_typec_register_thunderbolt(struct cros_typec_port *port,
-@@ -46,6 +47,11 @@ cros_typec_register_thunderbolt(struct cros_typec_port *port,
- {
- 	return typec_port_register_altmode(port->port, desc);
- }
-+static inline int cros_typec_tbt_status_update(struct typec_altmode *alt,
-+					int error)
-+{
-+	return 0;
-+}
- #endif
- 
- #endif /* __CROS_TYPEC_ALTMODE_H__ */
-diff --git a/include/linux/usb/typec_dp.h b/include/linux/usb/typec_dp.h
-index f2da264d9c14..1679f7bb0c75 100644
---- a/include/linux/usb/typec_dp.h
-+++ b/include/linux/usb/typec_dp.h
-@@ -44,10 +44,12 @@ enum {
-  * commands: Status Update and Configure.
-  *
-  * @status will show for example the status of the HPD signal.
-+ * @error will contain the error code, if applicable.
-  */
- struct typec_displayport_data {
- 	u32 status;
- 	u32 conf;
-+	int error;
- };
- 
- enum {
+ 		cros_typec_tbt_status_update(
 -- 
 2.50.0.rc1.591.g9c95f17f64-goog
 

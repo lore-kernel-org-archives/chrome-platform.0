@@ -1,187 +1,212 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6EF19E96D
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 13:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861501B6D08
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 14:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750080893; cv=none; b=eJruNwTnYW2Y8xmWP34D85z0px7nFFyFBl354vZlHMtn/Zjs70IhZCyrjgrFRhGjSfKrUgRdnRPCcXx1N5hwDYW6cHYUcN8TW4tkStJtT+PkPvN6j/FcnBor46fK/u2jIZRLrXLFvCaX4IqMOeuj0PQ/ARZDoKjzm25ni9DdaV0=
+	t=1750082497; cv=none; b=gaSnrqE0dwSIy8cPKAzetS7frALPGxrrLfhm/SKma/Uwh6svYS/vpec8f1/3Oj3fHK1VYOqTQijzmUC3y624aQ6R32d/drt74U8DrWJyrJ2whK5pC5Rxwfgsi/3tL2quUusHrmyyQ/yieOjU7BcqBUdJEeHX/NwSIrH9rkZv8KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750080893; c=relaxed/simple;
-	bh=FMoAq8disiNRxpyZoPEjdZRccpHqtD+dH+rBSz6PpDA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TOZYzXVueVbluXeeAmoHZCwJyDsPTh1lQMlufoP8+T6SdNnJ6v7Od4xQF1LshEojrdSMLcVEqAnnLGqLJOgUS7ss6Wisegs8fWF4irXMqzd1K/BiVwkia4F8bZ7x57ZEC5YaxdotRjlFreILpwO8uK/PRjKauxAd31htuZdKUCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WyEGxcsI; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1750082497; c=relaxed/simple;
+	bh=CwNEm2c1yMybTDi2wpi4phfmWJ/6HSgbF3FZfUxeEzs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ZbyeUVCeZ6T1nubhkCAf/ueAQpTmKDngky33X/+qLeKod8oq1K5qkaEetVbMGVseMzyW12seYkmXhJkKLwCkOiQqbG9cJWEv8nGqHOLCmJ73WnCbxPBfiF70bPF+r3pn8HKIY1jyObqrmpIyI5vfLcleA2iEXU8E7t3M+fgcLEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=eYxO2TDz; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WyEGxcsI"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55G8lhQB005078
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 13:34:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hV7aIlrhOYnPhaE5YGpfNg5HcLb1KNXsaP+VsHA7MAI=; b=WyEGxcsITlhYNjOc
-	dq/yFfLO8UUwNsGXQF/lXCixUt7nrQQYAUihqVOX4nfcpXRfudiBAqlVcCskm2ZL
-	hsp1o6KqMCLDyyvyRLmP3w7ZQxKWmwiM3pg/ndRF9446nYcYs0WzsWG9sVJF639X
-	QylbWL4fUHrhsqhWRxXIdloPvCTdqBj5IraI6k2I0NsRQ1d8yQIQGFWBpZTA/Q62
-	LMPCmPbiQpnwL8Gslxg20JF3sK1Mlb92OJUq4ZlJLpQ7NO0ybZJIIOtRCg5+pkuI
-	OPIcm1lwfAUveLhHr5X9ImSIjzhZo1sUFQCxdQOtUFx8YR3zbGgqwcost8RbeH+Y
-	laHA5g==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ag230tc8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 13:34:49 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5750ca8b2so686086685a.0
-        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 06:34:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="eYxO2TDz"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso4470042f8f.1
+        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 07:01:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1750082494; x=1750687294; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kwz4cKrypUvsL9siOm1Ko5J6ezOUtjF4iLnGLibT5ys=;
+        b=eYxO2TDzF2I2YjqFP3QdCpEJTM++OPxyc4DwvDuyqm8HkRTbRmCcC39ZwfMjvD9pRO
+         t+IKwAGDHTXxfZFyRcH5r1chm0gyxOtMSBNHuO5DwScztIyPmanmdM3Nj3bGcqY6Pdo7
+         DPkiQH99EMA6o7xXRvb+AR97yn+75CupT3EMMBbqpdAJvhJHHxw4+C4VTu/bHwtbYx6z
+         todMGxEJ/HTmzqcqTHXj15SZRttQm8NGO/0zHGTMz/w3kqVEh1DC3UYNnCcTHY8IbXUH
+         bWK3mWPlWSKv02HUUQnQKgzPMzohpvtSRdWG+rXtvZoB/zaogOo9MZiRMqWCeLUm+LvF
+         kS/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750080889; x=1750685689;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hV7aIlrhOYnPhaE5YGpfNg5HcLb1KNXsaP+VsHA7MAI=;
-        b=gsl8sIxnpUjVl/+Y8tHKfyVArIl1wk97Y/fGZt6Ls+i0FF8uLD2UcZQjuxPuEFXuWv
-         7pLN+Z10ZX9rJREbRAf1AMZ30oRRhHKHbGVuX6RigPQ2GX43Sh7ZOCyY5+9e7aw+9Mjk
-         /+hhDuIu2vFpRBOrgrN0Eu5hK6AE6hr06deBQgPvS3UxUAzJpDDJId3pt4xCrVImWIs9
-         Q/kxt6JDErSx0LyI9R2WumblDO+b7Zx67u11QK+18A8zcs4KG2n8Qwm6c/6p5UisHSAk
-         kvj5WHVp3+PIJGz/rjOdAoIdOZeZcLs4S4ad4Sw8C93enPmo3FJ8RtaGanq7va9UW7zx
-         sjrg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYbybBnPU+AiQVgGv1tMxAmCqfCI8lHfiYkK8l8LDTVVOoyYfVcdnPvJYmf7rksLdxZo7AbU0zos4hhQMvdgA=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyddd8VlWHbS7KZB/QPn60qDbiKcMEVIXF9eQ+VL3gSbhAfVc/g
-	AlQ3vhNvDqtkeHHh2xQuNIGE/Lccc2h8VBq2a6tGHgyFqL3VniTc076c0fSt4C8eIN/xyPCL2oB
-	3h7AJz0ud497IyZzNFz8ekXML6pFYliVOCqz5mAhwe5fywvyp+bLMF21ew0aAD5jIMPPthjg=
-X-Gm-Gg: ASbGnctoAmIwjSxUEmC7WGoijdVzqfZyC9MXUw6IEyNDsJekSZ32MvNjnRsZHJU1S5t
-	XKPy6uQnzjCIBG8czQK0haXDRtsQ86jTPYGRUkgMNh8OwiLH1h5vW98PbxcBuZzHDxHUIm7GdMP
-	ds+OBHYIUeNdNvkhf/LJRQXWoRbWQ9G64r2WiF7uJK5PVMDmM5Ym2IOmznFmX/aJ4fE7DLQW/dq
-	xrjqaRZx2K1VppUFbMdoG5igWnD18eG7wd7tzRzqlLHs9DQTgM1ZnyLrqt4q0FenpzIC2Ct9GCS
-	d1G48WZsUlTlvGwLeO6W0KEonOPVVKLTagISy+u0sSh/CQdJRcbEX1bZQoPxpWIZsm/AwXIaXZ7
-	+FtF5lJHkaCPAUTI/k4/NSfPhZxX+qfJ5u8G/7Dt4MmsY3jSvVnICb+1GrkiQlpFDJal3FdkUS2
-	4=
-X-Received: by 2002:a05:620a:3199:b0:7c7:a602:66ee with SMTP id af79cd13be357-7d3c6c0844dmr1350301085a.10.1750080888580;
-        Mon, 16 Jun 2025 06:34:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHLTCIUcu5DAwal2m5FNrqtOq8DGSlR71nrO7McbfLy27qVYIS0Mcuos0H6+koDugco0fRfIg==
-X-Received: by 2002:a05:620a:3199:b0:7c7:a602:66ee with SMTP id af79cd13be357-7d3c6c0844dmr1350296785a.10.1750080888132;
-        Mon, 16 Jun 2025 06:34:48 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:a4:c3fb:c59f:e024:c669:a69b? (2001-14bb-a4-c3fb-c59f-e024-c669-a69b.rev.dnainternet.fi. [2001:14bb:a4:c3fb:c59f:e024:c669:a69b])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-32b331ce2dfsm15414821fa.105.2025.06.16.06.34.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jun 2025 06:34:47 -0700 (PDT)
-Message-ID: <34cb0398-a986-48e3-a15b-7bfda6081e21@oss.qualcomm.com>
-Date: Mon, 16 Jun 2025 16:34:45 +0300
+        d=1e100.net; s=20230601; t=1750082494; x=1750687294;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kwz4cKrypUvsL9siOm1Ko5J6ezOUtjF4iLnGLibT5ys=;
+        b=jDFwZzchTf0FOXVIiMYd2hhBXjeGcdlY1TY+B7e0bGoO0MHP1X5CeNRfms/VHNSdir
+         PLkvsecWw1OYXhR11I6BhdnPJWWBY2wBAnL6KFj4srtMIa9jvC/7eEoWW6bONnol60W4
+         fdTRBGGST7c70/lroNiulz8R89hqrIODQGQsyeI7JB5DrJ37nhub6QeIOPfOvYf805Ci
+         4A1w3g2Z+RlbAKsx79hUgTkaO8S+AQejVLNGGdpJfOeiOE55EMl7Pryf4c9wHAoU7qsg
+         9xoOEACcsVtGdjdXcfsO9BXAIZ83CarT0Ece2FDiAy/GTSOMGfPpnrIPGPq9YnW6D/As
+         bXfw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6Lbqdv/Sry7rn39Dg4vruLbAe3NhCgLP5z5MaD96fA5lWlHBmlKlnRZBga8Hd9qo0eH+ZJ2YsQkbkz0tIPKg=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwqbW/NHR4Q2z9qmsZA+JoYbDrlf6cc8UtjwDV6UgBp4Uc4UjZs
+	u/0T283UjB1TCnM9DNlHeNWwe+U/E2MX0ng28Y8U212XXwbyoKb3X4JxpOK8K8N2hQ==
+X-Gm-Gg: ASbGncs7rT+TIOrNolP21eySlz+hpVWbE8U0VzyHR39Di9WqyP3bs0EPwvVWXyAeTWg
+	i4eo09MRn+E6lljuEh/L4QU4z18lvVT8zeA2NeYvcLsBT0GRg+eBm2j1CVnkPpo6zXot/y2f9FK
+	+uXtcXnDPfR2P5KJz2S2HHw5wiwX6QvOy0Rwibcd4U4wrwE0kiQToK2UQAzTFig5xyzycCMISWL
+	1iNr5AX9QuRQEgAq/MyZOOfrZFKK0fXQQY6k5pEtuhIfe7KugY8awqF8D4ct0jdaiENqbmG+GWW
+	kzONzqzjLaZ1CD7ODs9gVRdi6N3ZmpE3Pcqzq+rOEu7+zJ2lvPDdQQ4s3cO1B7TyvAWjVLlDvLo
+	KTcuaBBGUAQBHjoQZ/hM9ZWKNMhWY4qkzw+E3HIwCvkmvEg==
+X-Google-Smtp-Source: AGHT+IHfNqlkW+hwIU+9YPGHmtVitHx2ir6qBfj0k/M5cOlwiKyZyZh97IqroGO2vE2tCevQa24dBA==
+X-Received: by 2002:a5d:64ee:0:b0:3a4:e1e1:7779 with SMTP id ffacd0b85a97d-3a5723a2be9mr7607298f8f.32.1750082492044;
+        Mon, 16 Jun 2025 07:01:32 -0700 (PDT)
+Received: from [10.93.128.132] (ip-078-094-000-050.um19.pools.vodafone-ip.de. [78.94.0.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a7e51esm11057004f8f.40.2025.06.16.07.01.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 07:01:31 -0700 (PDT)
+From: Michal Gorlas <michal.gorlas@9elements.com>
+Date: Mon, 16 Jun 2025 16:01:12 +0200
+Subject: [PATCH v2 1/3] firmware: coreboot: support for parsing SMM related
+ informations from coreboot tables
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] USB Type-C mode selection
-To: Andrei Kuchynski <akuchynski@chromium.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-        Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>,
-        Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Pooja Katiyar
- <pooja.katiyar@intel.com>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        RD Babiera <rdbabiera@google.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-References: <20250616133147.1835939-1-akuchynski@chromium.org>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20250616133147.1835939-1-akuchynski@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: yWHwmDtW-14GGpbt8wCi5YECHTo9Xvq5
-X-Authority-Analysis: v=2.4 cv=edY9f6EH c=1 sm=1 tr=0 ts=68501d79 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6IFa9wvqVegA:10 a=JmsPOU3ckOcHMdB6JcMA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDA4NSBTYWx0ZWRfX89Fnjg472Td8
- LrDx4+qccSaISBPbsTFKlqLovN1zM3BhCeT3zeUt3Z2biv7TxE2IfiyLxhIE9Ke+r0S8w09ElSj
- c9aP7sa4MWwhhH2nUMCB2jpGrRJfQ6wESbC1exHKAVonXD22a5wiEppdhLkqjRBlPg6GUieoDBR
- P3MKhM1sIxHuU8OKAwUIfwSw2d2KHKR3EpruMtEAti/802h49I75XeTW+mWAmsW2XUXOAqrBew+
- RGWti0l3Fi2dr1cgxU/T5jzUKBkkXMlpSqAqPDY0jdZ7Ro7PTgQe1XENZAS9hx5F9FekeQn5gEX
- xSWikSMtFjA0iYhMwEJgJHv9KhCsSciF9nhSgqIA0GghjkStrLqUcMM0ype2Sagl3x7ICS0x88b
- I6lDec+9Fs+mc314Hu9UxZz32xbPa5dh0M4CtRZrht6yK8h7BO5b1nqyS+AcPb2q/dgraUuw
-X-Proofpoint-GUID: yWHwmDtW-14GGpbt8wCi5YECHTo9Xvq5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-16_06,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0
- phishscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506160085
+Message-Id: <20250616-coreboot-payload-mm-v2-1-5d679b682e13@9elements.com>
+References: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
+In-Reply-To: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Brian Norris <briannorris@chromium.org>, 
+ Julius Werner <jwerner@chromium.org>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ Marcello Sylvester Bauer <marcello.bauer@9elements.com>, 
+ Michal Gorlas <michal.gorlas@9elements.com>
+X-Mailer: b4 0.14.2
 
-On 16/06/2025 16:31, Andrei Kuchynski wrote:
-> This patch series introduces a flexible mechanism for USB Type-C mode
-> selection, enabling into USB4 mode, Thunderbolt alternate mode, or
-> DisplayPort alternate mode.
-> Two new sysfs attributes are exposed to provide user control over mode
-> selection:
-> `altmode_priorities`: Allows users to define their preferred order for
-> attempting mode entry.
-> `mode_selection`: Initiates an automatic mode entry process based on the
-> configured priorities and reports the outcome.
-> The mode selection logic attempts to enter prioritized modes sequentially.
-> A mode is considered successfully negotiated only when its alternate mode
-> driver explicitly reports a positive status. Alternate mode drivers are
-> required to report their mode entry status (either successful or failed).
-> If an alt-mode driver does not report its status within a defined timeout
-> period, the system automatically proceeds to attempt entry into the next
-> preferred mode.
-> 
-> This series was tested on a ChromeOS Brya device running kernel 6.6, and on
-> an Android OS device with kernel 6.12.
+coreboot exposes (S)MM related data in the coreboot table. Extends existing interface
+with structure corresponding to (S)MM data, and adds COREBOOT_PAYLOAD_MM config used by
+follow-up patches.
 
-Both kernels are terribly old. Please run the tests on top of linux-next 
-or usb-next.
+Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
+---
+ drivers/firmware/google/Kconfig          | 12 +++++++
+ drivers/firmware/google/coreboot_table.h | 11 ++++++
+ drivers/firmware/google/mm_payload.h     | 58 ++++++++++++++++++++++++++++++++
+ 3 files changed, 81 insertions(+)
 
-> 
-> Andrei Kuchynski (10):
->    usb: typec: Add alt_mode_override field to port property
->    platform/chrome: cros_ec_typec: Set alt_mode_override flag
->    usb: typec: ucsi: Set alt_mode_override flag
->    usb: typec: Expose alternate mode priorities via sysfs
->    usb: typec: Implement automated alternate mode selection
->    Revert "usb: typec: displayport: Receive DP Status Update NAK request
->      exit dp altmode"
->    usb: typec: Report altmode entry status via callback
->    usb: typec: ucsi: displayport: Propagate DP altmode entry result
->    platform/chrome: cros_ec_typec: Propagate altmode entry result
->    platform/chrome: cros_ec_typec: Report USB4 mode entry status via
->      callback
-> 
->   Documentation/ABI/testing/sysfs-class-typec  |  34 ++
->   drivers/platform/chrome/cros_ec_typec.c      |  11 +
->   drivers/platform/chrome/cros_typec_altmode.c |  32 +-
->   drivers/platform/chrome/cros_typec_altmode.h |   6 +
->   drivers/usb/typec/Makefile                   |   2 +-
->   drivers/usb/typec/altmodes/displayport.c     |  17 +-
->   drivers/usb/typec/altmodes/thunderbolt.c     |   6 +
->   drivers/usb/typec/class.c                    |  95 +++-
->   drivers/usb/typec/class.h                    |  16 +
->   drivers/usb/typec/mode_selection.c           | 505 +++++++++++++++++++
->   drivers/usb/typec/mode_selection.h           |  42 ++
->   drivers/usb/typec/ucsi/displayport.c         |   4 +-
->   drivers/usb/typec/ucsi/ucsi.c                |   2 +
->   include/linux/usb/pd_vdo.h                   |   2 +
->   include/linux/usb/typec.h                    |   1 +
->   include/linux/usb/typec_altmode.h            |  12 +
->   include/linux/usb/typec_dp.h                 |   2 +
->   include/linux/usb/typec_tbt.h                |   3 +
->   18 files changed, 775 insertions(+), 17 deletions(-)
->   create mode 100644 drivers/usb/typec/mode_selection.c
->   create mode 100644 drivers/usb/typec/mode_selection.h
-> 
-
+diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
+index 41b78f5cb7351e512cbaeb6443634a4b97bf6255..ff443f0c4a9a990052d83903fb0f0b0795cc76bd 100644
+--- a/drivers/firmware/google/Kconfig
++++ b/drivers/firmware/google/Kconfig
+@@ -81,4 +81,16 @@ config GOOGLE_VPD
+ 	  This option enables the kernel to expose the content of Google VPD
+ 	  under /sys/firmware/vpd.
+ 
++config COREBOOT_PAYLOAD_MM
++	tristate "SMI handling in Linux (LinuxBootSMM)"
++	depends on X86 && GOOGLE_COREBOOT_TABLE
++	help
++	  Enables support for SMI handling by Linux-owned code.
++	  coreboot reserves region for payload-owned SMI handler, the Linux
++	  driver prepares its SMI handler outside of SMRAM, and lets coreboot
++	  know where the handler is placed by issuing an SMI. On this SMI, the
++	  handler is being placed in SMRAM and all supported SMIs from that point
++	  on are handled by Linux-owned SMI handler.
++	  If in doubt, say N.
++
+ endif # GOOGLE_FIRMWARE
+diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
+index bb6f0f7299b4670d0b1f91bd7a3c038cdb412f7b..8a7934e679903e39ce1d86b4aecbc2b4e89363fd 100644
+--- a/drivers/firmware/google/coreboot_table.h
++++ b/drivers/firmware/google/coreboot_table.h
+@@ -52,6 +52,16 @@ struct lb_cbmem_entry {
+ 	u32 id;
+ };
+ 
++/* Corresponds to LB_TAG_PLD_MM_INTERFACE_INFO */
++#define LB_TAG_PLD_MM_INTERFACE_INFO 0x3b
++struct lb_pld_mm_interface_info {
++	u32 tag;
++	u32 size;
++	u8 revision;
++	u8 requires_long_mode_call;
++	u8 register_mm_entry_command;
++};
++
+ /* Describes framebuffer setup by coreboot */
+ struct lb_framebuffer {
+ 	u32 tag;
+@@ -80,6 +90,7 @@ struct coreboot_device {
+ 		struct lb_cbmem_ref cbmem_ref;
+ 		struct lb_cbmem_entry cbmem_entry;
+ 		struct lb_framebuffer framebuffer;
++		struct lb_pld_mm_interface_info mm_info;
+ 		DECLARE_FLEX_ARRAY(u8, raw);
+ 	};
+ };
+diff --git a/drivers/firmware/google/mm_payload.h b/drivers/firmware/google/mm_payload.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..bb2f55c4f24096dfd526e281a937f100031d5315
+--- /dev/null
++++ b/drivers/firmware/google/mm_payload.h
+@@ -0,0 +1,58 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * mm_payload.h
++ *
++ * Internal header for MM payload driver.
++ *
++ * Copyright 2025 9elements gmbh
++ * Copyright 2025 Michal Gorlas <michal.gorlas@9elements.com>
++ */
++
++#ifndef __MM_PAYLOAD_H
++#define __MM_PAYLOAD_H
++
++#define PAYLOAD_MM_RET_SUCCESS 0
++#define PAYLOAD_MM_RET_FAILURE 1
++#define PAYLOAD_MM_REGISTER_ENTRY 2
++
++#define REALMODE_END_SIGNATURE	0x65a22c82
++
++struct mm_info {
++	u8 revision;
++	u8 requires_long_mode_call;
++	u8 register_mm_entry_command;
++};
++
++extern struct mm_info *mm_info;
++
++#ifndef __ASSEMBLY__
++
++#include <linux/types.h>
++
++/* This must match data at mm_handler/mm_header.S */
++struct mm_header {
++	u32	text_start;
++	u32	mm_entry_32;
++	u32	mm_entry_64;
++	u32	mm_signature;
++	u32	mm_blob_size;
++};
++
++extern struct mm_header *mm_header;
++extern unsigned char mm_blob_end[];
++
++extern unsigned char mm_blob[];
++extern unsigned char mm_relocs[];
++
++/*
++ * This has to be under 1MB (see tseg_region.c in coreboot source tree).
++ * The actual check for this is made in coreboot after we fill the header
++ * (see above) with the blob size.
++ */
++static inline size_t mm_payload_size_needed(void)
++{
++	return mm_blob_end - mm_blob;
++}
++
++#endif /* __ASSEMBLER__ */
++#endif /* __MM_PAYLOAD_H */
 
 -- 
-With best wishes
-Dmitry
+2.49.0
+

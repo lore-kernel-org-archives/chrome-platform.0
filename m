@@ -1,188 +1,142 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BDD17588
-	for <chrome-platform@lists.linux.dev>; Sat, 14 Jun 2025 12:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABC02BF010
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 13:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749905987; cv=none; b=DQ+SVh3IlKxIsbOu9AuUNGyzEXQTperJDW53Rezt7gG8QcKTcC6+uZDySfGUpDydnGxtPkdXtzDVwYnLd0d1SFcH9aSapsnLPlPVkYzDx1DB9nNaOyqfEZECSoHVSEnhMk3f8IiPutR3woSybfrmrknk15ShG7hBvCHmVHR0zcw=
+	t=1750080792; cv=none; b=OnZ1uv2qYh3/QnJvSRx3HJs3TYk5FXi1y1E8R5lWh7bHZQTHIfp9GL3Kgsz0Qup0A+Z7tN2AAw4smbckyaShxr5IhjWg6UFhvbC5gx6J5wNcZi/spVqqSE1VFGYm4x3uXqSBKdeXTjmEYTtFbZnqLSDgUQse3yVVV/Bjs0EnIkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749905987; c=relaxed/simple;
-	bh=Fa1v34NYwVPURsnllxM03C1WeGFbGnvhY/Z8Ver7IqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j3udiZaY06J/1olGKkVl1JnGpL/Yk7W1bcRb5Abkgf6ZxhxBRl0rdDjTx1xKOowoL25Yjw9B6NtpXolIbJVLSkeEjGh4bZvwg9uY5IgzPwF70vBLV0epjHmos7McMGnk1ZIMfTSriFoUKuFwzsFCMPhwiQ5yhMzL2qg1kd/4+Mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=Lt5uVH0r; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
+	s=arc-20240116; t=1750080792; c=relaxed/simple;
+	bh=YhWSDmrnOKoze3ApO91AUyBZ85d4Lcz4lg8oIS6fHeQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nh+uWzpbH3yl/N8Q40o3FvHEnvTj9imSjiG2BfB4W3h24m72ZYEDDY2d7PIRvabSwbVK6vW8OCSw0Nxb2Q+KdrRh8SvD3MRPslVcBcUvK41RlWszl7KshW3llYncr+iX/KjfEvGzOsFOBoONQ39mvPZIqANxlHHL/+Teuyi2o1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KBJHcPf5; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="Lt5uVH0r"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-450cfb79177so18165205e9.0
-        for <chrome-platform@lists.linux.dev>; Sat, 14 Jun 2025 05:59:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KBJHcPf5"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-607b59b447bso7946406a12.1
+        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 06:33:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1749905984; x=1750510784; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iPGeQJRJ+PPx0D4Yz/DGi/Ua0wsy2Tt7cdffwC5HRfY=;
-        b=Lt5uVH0rhTjLrNWBHyRrdlRoldSPoWl+Wdm7B600WrnTSM89wztXYnyNocTAyVqZ4t
-         v5lm2AxjX/QmnyVeD8J3AP1oO8+QKXFriqrAj+miMiEqp7goFFnsMkyfh/lXkYysya1a
-         QrraG1FOFhEYMTNIHdkDect4CrSaGh2qTDbkykEeJcx0Anm3Q+zFaMgradnKF7PB7ouA
-         7FXvrPlRjNUZtffn98Tu0+PAsRscGO01Gxw7Fhs3VcQyNA/utmaU2ihmAE73HniFuOw2
-         M/BeV8P/SxeC1rsrSycq+fUbkVPI3Zmd5gpeQAA1X6oTTZ3QSM4qQHBIasIzQoNgm3LG
-         U/pQ==
+        d=chromium.org; s=google; t=1750080789; x=1750685589; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R5YN2QkU5k06/pOxdUgeF6W/BLj5Q3PBTEndQTl0KDk=;
+        b=KBJHcPf5UF7yqRRLhvsCrHkyXoedv6D/KuNvBaMgZgrlqh2tM/Kz7et7IybyabZH7t
+         wpyR6z3vXxzFCaNO4HnIFygvq0fOsmsjCGlBu9cqKZHJgx9PSOuWG/7ePaVPQTX5Bih1
+         7Xa6w0G7V7LnIFhyddLblnUz8JDwKYgK2hTJw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749905984; x=1750510784;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iPGeQJRJ+PPx0D4Yz/DGi/Ua0wsy2Tt7cdffwC5HRfY=;
-        b=v1Ju/BH5FUFJkVlFBpmvSCXVuzeij3YeYCVhg1LTt+ltV8qFdzdYvEyV7WAubcRH8K
-         mhdU4fL/+7Z36ur63KpsGIADipo91io0vUcdf05oNfTPgoB7tm7NnRx/EE70k2FBG/mF
-         sWr0uxWAJp16hTZIzwOqqjBdRcWH+7icAGCy5QFeh8SGRizyFi/GvAHw6NM1vXf0rCwO
-         a+IAvNkSS6g2J526HUF+VSJUADvWfKApp/navOU9UgUPfuB4GsYznKiamIjJOH1nUGtb
-         TUHpUuVC5XPRNAWdOj4lGRQctUVmsLIRPKaIlrwrqIEkZztpUEiHfZnF3bS/ZGrMseAG
-         T7hA==
-X-Forwarded-Encrypted: i=1; AJvYcCXvbX0txWKP8NKJCgYqUqqAB0FZ7amxBS88NetLusSb8mksa9DUmPVHkRGsqCMul6wd5Xr/HKcRVzdi+/tFyv8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YziyeE2uTo2XsF5EqAWUZaHe1pmRKpS2v+HqWcI4UHN5KV0H+Nw
-	A7TdjxbBKWuQlHT4ty4WcDXp3R1YISVb2ms6OxZKuUED27c/SviZZJlJoVeGI6rzdg==
-X-Gm-Gg: ASbGncsaIV9sE0yzUvWop4r0v1RlZOgOmSSEYocZGAuhDds91Sve4hnWNw+VpFcKjKY
-	gSvUVhNtgCzcjxwDSoW/DAbKdLUGZl2GGSL0q6LO7bXRUEP39MHD3fZ5tMSI4pCvA056o2ZavY4
-	+2taXtVCI2iPbFYWJ1oYlTdNE86ml1oYFgW8YJRcqbcrtFk7T5EqxV0g3JTs/3/g4lZ9N4IEcrK
-	a6NaXofZM2zmBkWofDLifJYPaW9svpBgJUVUzVNje147bS4hsKzMimiP2+YwdxJTT+OiIh/4ehq
-	ukQl4ha3gABJKLc4U/h9roeSe5x0XYQEYQxaL2VKuME4vJkBP6jlVUKq
-X-Google-Smtp-Source: AGHT+IERuJs7MZQq1yqXmSu8CjkmDe4S5bwq1oMBXLwNuLiCByoIGRKoAxD/eCMk/Zei3ARi2ebwpw==
-X-Received: by 2002:a05:600c:4e16:b0:450:d00d:588b with SMTP id 5b1f17b1804b1-4533ca8b428mr27724305e9.9.1749905983726;
-        Sat, 14 Jun 2025 05:59:43 -0700 (PDT)
-Received: from cyber-t14sg4 ([2a02:908:1578:7a43::64fd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532e2522b1sm80971175e9.25.2025.06.14.05.59.43
+        d=1e100.net; s=20230601; t=1750080789; x=1750685589;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R5YN2QkU5k06/pOxdUgeF6W/BLj5Q3PBTEndQTl0KDk=;
+        b=vVd0NRZV+tXGpdOsqSEcx4t341s84ZszNAb9Y7zqyZStEZgl3RDKna7lTMKIUmIIYK
+         fqISdzj2VsR76ZjVxez7FS3OL58STqNDzTpyZd+7AYvFdEGckdvNJb0t6/Ei8cULUV8M
+         YlP4NC/MMuE+t0dd1PlAfO76M0jCQNffTSqU5HJTXw93p0ALH54Bs5V2jN7Tg4l7WOry
+         mRVcPuHIbwP/3y2lmJPS206MxNWWplppDxQDedazOoiq37Ys7GeQctRUR4mVLEYxmbWp
+         xtpq4YAPEInLxZr7udRDSe0KooB7FCrVBkBhMnzlaeQFkIvKKTOCm7SunZnylYFk+Qwb
+         4XWg==
+X-Forwarded-Encrypted: i=1; AJvYcCVdGD/c82WNRCiAcJdElDGN8fYJY1wnHvAgdoCrlOOwl86m5eGJXUh6evhci3Pza05TVM8bYlTDIXpXEH7IQMY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTtLQa2pC4+ATbU6/APVJF+jihP7YmZvCVlVkpZyVIOhc48/oS
+	0A/WJ3kFZ+7dcwdgupIN5+ZEZI99u8/Mago1W7UZs5zqkqAuHGtsALCrLiOBDNPq4g==
+X-Gm-Gg: ASbGnct7NNtlAYfMjZJHWlGDmfa7kPr/NZhwV9QHzMrEw5fyDteLZx4JxaVOAk+s3PH
+	NoctggsMTjrxuN29sX/+M+nW8sS1Jik/67W9gExynEJ+UPT5uf9CY26FcD/0GKXEo71No3iMCIJ
+	rJvyWbp67kE/VenFZr8Z6CQCpmf5bbbuzXut5LiSs/GZMni74eqotV+59t9qgnYM3CEyQ2CCel4
+	C/Cf5+BB5vmnPcCnm4q2zRZLGiDTOCavLHw0qr7vppa6Gnz2zH8fqpJybdMy4fQuq/MmVg4rhIH
+	hLrlQRUQgB4kmBk8XO5cdVR8c/N+UB540rXLoW1JBnj6ycEFTHbk+fO/FQPcLXvgEpUaWUbp65d
+	WkFWwus8eyYfcSJLFpIAwwQKLoAlSNCcvz0dA03RPonCCFkvd6habZPltwg==
+X-Google-Smtp-Source: AGHT+IExI1WmkrxVe9zE/JbZig55DtGz8Y0L71WuTd6No5iWi9+KVXEZJTRNCO03hIbCfTQ5SWPVVQ==
+X-Received: by 2002:a05:6402:440b:b0:601:6c34:5ed2 with SMTP id 4fb4d7f45d1cf-608d08346e4mr7846954a12.4.1750080788784;
+        Mon, 16 Jun 2025 06:33:08 -0700 (PDT)
+Received: from akuchynski.c.googlers.com.com (244.175.141.34.bc.googleusercontent.com. [34.141.175.244])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-608b4a94ce7sm6036664a12.58.2025.06.16.06.33.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Jun 2025 05:59:43 -0700 (PDT)
-Date: Sat, 14 Jun 2025 14:59:33 +0200
-From: Michal Gorlas <michal.gorlas@9elements.com>
-To: Brian Norris <briannorris@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
-	Julius Werner <jwerner@chromium.org>, marcello.bauer@9elements.com,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] firmware: coreboot: loader for Linux-owned SMI
- handler
-Message-ID: <aE1yNZ484DcWjR4h@cyber-t14sg4>
-References: <cover.1749734094.git.michal.gorlas@9elements.com>
- <6cfb5bae79c153c54da298c396adb8a28b5e785a.1749734094.git.michal.gorlas@9elements.com>
- <aEtW3e7mwjTTvfO9@google.com>
+        Mon, 16 Jun 2025 06:33:08 -0700 (PDT)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Badhri Jagan Sridharan <badhri@google.com>,
+	RD Babiera <rdbabiera@google.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Subject: [PATCH 00/10] USB Type-C mode selection
+Date: Mon, 16 Jun 2025 13:31:37 +0000
+Message-ID: <20250616133147.1835939-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.50.0.rc1.591.g9c95f17f64-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aEtW3e7mwjTTvfO9@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 12, 2025 at 03:38:21PM -0700, Brian Norris wrote:
-> > +static int register_entry_point(struct mm_info *data, uint32_t entry_point)
-> > +{
-> > +	u64 cmd;
-> > +	u8 status;
-> > +
-> > +	cmd = data->register_mm_entry_command |
-> > +	      (PAYLOAD_MM_REGISTER_ENTRY << 8);
-> > +	status = trigger_smi(cmd, entry_point, 5);
-> > +	pr_info(DRIVER_NAME ": %s: SMI returned %x\n", __func__, status);
-> 
-> Don't print this kind of debug stuff at INFO level. If you need it, use
-> KERN_DEBUG.
-> 
-> Once this gets attached to a proper device/driver, you probably want
-> dev_dbg(), if anything.
-> 
-...
-> 
-> 
-> > +	/* At this point relocations are done and we can do some cool
-> 
-> 	/*
-> 	 * Multiline comment style is like this.
-> 	 * i.e., start with "/*" on its own line.
-> 	 * You got this right most of the time.
-> 	 */
-> 
+This patch series introduces a flexible mechanism for USB Type-C mode
+selection, enabling into USB4 mode, Thunderbolt alternate mode, or
+DisplayPort alternate mode.
+Two new sysfs attributes are exposed to provide user control over mode
+selection:
+`altmode_priorities`: Allows users to define their preferred order for
+attempting mode entry.
+`mode_selection`: Initiates an automatic mode entry process based on the
+configured priorities and reports the outcome.
+The mode selection logic attempts to enter prioritized modes sequentially.
+A mode is considered successfully negotiated only when its alternate mode
+driver explicitly reports a positive status. Alternate mode drivers are
+required to report their mode entry status (either successful or failed).
+If an alt-mode driver does not report its status within a defined timeout
+period, the system automatically proceeds to attempt entry into the next
+preferred mode.
 
-Got it.
+This series was tested on a ChromeOS Brya device running kernel 6.6, and on
+an Android OS device with kernel 6.12.
 
-> > +	 * pointer arithmetics to help coreboot determine correct entry
-> > +	 * point based on offsets.
-> > +	 */
-> > +	entry32_offset = mm_header->mm_entry_32 - (unsigned long)shared_buffer;
-> > +	entry64_offset = mm_header->mm_entry_64 - (unsigned long)shared_buffer;
-> > +
-> > +	mm_header->mm_entry_32 = entry32_offset;
-> > +	mm_header->mm_entry_64 = entry64_offset;
-> > +
-> > +	return (unsigned long)shared_buffer;
-> > +}
-> > +
-> > +static int __init mm_loader_init(void)
-> > +{
-> > +	u32 entry_point;
-> > +
-> > +	if (!mm_info)
-> > +		return -ENOMEM;
-> 
-> Hmm, so you have two modules, mm_info and mm_loader. mm_loader depends
-> on mm_info, but doesn't actually express that dependency. Can you just
-> merge mm_loader into mm_info or vice versa? Or at least, pass the
-> necessary data directly between the two, not as some implicit ordering
-> like this.
-> 
+Andrei Kuchynski (10):
+  usb: typec: Add alt_mode_override field to port property
+  platform/chrome: cros_ec_typec: Set alt_mode_override flag
+  usb: typec: ucsi: Set alt_mode_override flag
+  usb: typec: Expose alternate mode priorities via sysfs
+  usb: typec: Implement automated alternate mode selection
+  Revert "usb: typec: displayport: Receive DP Status Update NAK request
+    exit dp altmode"
+  usb: typec: Report altmode entry status via callback
+  usb: typec: ucsi: displayport: Propagate DP altmode entry result
+  platform/chrome: cros_ec_typec: Propagate altmode entry result
+  platform/chrome: cros_ec_typec: Report USB4 mode entry status via
+    callback
 
-Yep, will do that. As long as there is only one cbtable entry (and I
-think this will stay like this), mm_info can be part of mm_loader.
+ Documentation/ABI/testing/sysfs-class-typec  |  34 ++
+ drivers/platform/chrome/cros_ec_typec.c      |  11 +
+ drivers/platform/chrome/cros_typec_altmode.c |  32 +-
+ drivers/platform/chrome/cros_typec_altmode.h |   6 +
+ drivers/usb/typec/Makefile                   |   2 +-
+ drivers/usb/typec/altmodes/displayport.c     |  17 +-
+ drivers/usb/typec/altmodes/thunderbolt.c     |   6 +
+ drivers/usb/typec/class.c                    |  95 +++-
+ drivers/usb/typec/class.h                    |  16 +
+ drivers/usb/typec/mode_selection.c           | 505 +++++++++++++++++++
+ drivers/usb/typec/mode_selection.h           |  42 ++
+ drivers/usb/typec/ucsi/displayport.c         |   4 +-
+ drivers/usb/typec/ucsi/ucsi.c                |   2 +
+ include/linux/usb/pd_vdo.h                   |   2 +
+ include/linux/usb/typec.h                    |   1 +
+ include/linux/usb/typec_altmode.h            |  12 +
+ include/linux/usb/typec_dp.h                 |   2 +
+ include/linux/usb/typec_tbt.h                |   3 +
+ 18 files changed, 775 insertions(+), 17 deletions(-)
+ create mode 100644 drivers/usb/typec/mode_selection.c
+ create mode 100644 drivers/usb/typec/mode_selection.h
 
-> > +
-> > +	entry_point = place_handler();
-> > +
-> > +	if (register_entry_point(mm_info, entry_point)) {
-> > +		pr_warn(DRIVER_NAME ": registering entry point for MM payload failed.\n");
-> > +		kfree(mm_info);
-> > +		mm_info = NULL;
-> > +		free_pages((unsigned long)shared_buffer, get_order(blob_size));
-> > +		return -1;
-> > +	}
-> > +
-> > +	mdelay(100);
-> 
-> Why the delay? At least use a comment to tell us. And if it's really
-> needed, use msleep(), not mdelay(). scripts/checkpatch.pl should have
-> warned you. And, please use scripts/checkpatch.pl if you aren't already
-> ;)
-> 
+-- 
+2.50.0.rc1.591.g9c95f17f64-goog
 
-Long story short, SMIs on real hardware like to take longer from time to
-time, and the delay was a "safeguard". It is probably not the proper way
-to handle it, but locking here was not helpful at all, lock was released
-regardless of CPU being still in SMM context (I assume due to SMIs being
-invisible to whatever runs in ring-0). Have to admit though, that 100ms
-is a consequence of trial and error. I would actually use some on advice
-how to handle this properly. scripts/checkpatch.pl was not complaining
-about it. It only gave me:
-
-WARNING: quoted string split across lines
-#57: FILE: drivers/firmware/google/mm_loader.c:57:
-+		     ".return_not_changed:"
-+		     "movq	%%rcx, %[status]\n\t"
-
-total: 0 errors, 1 warnings, 0 checks, 186 lines checked
-
-> > +
-> > +	kfree(mm_info);
-> > +	mm_info = NULL;
-> 
-> This is odd and racy, having one module free data provided by another,
-> where that other module might also free it. Hopefully this gets
-> simplified if you manage to combine the modules, like I suggest.
-> 
-
-Yep, got it.
-
-Best,
-Michal

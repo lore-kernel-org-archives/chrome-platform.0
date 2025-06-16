@@ -1,67 +1,67 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861501B6D08
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 14:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18791A4E9D
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 14:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750082497; cv=none; b=gaSnrqE0dwSIy8cPKAzetS7frALPGxrrLfhm/SKma/Uwh6svYS/vpec8f1/3Oj3fHK1VYOqTQijzmUC3y624aQ6R32d/drt74U8DrWJyrJ2whK5pC5Rxwfgsi/3tL2quUusHrmyyQ/yieOjU7BcqBUdJEeHX/NwSIrH9rkZv8KI=
+	t=1750082498; cv=none; b=nV61K8r2873FjsNBMN22GcnEzJA5qh9NWgViYumXw/Q+Ihe/ePvIGGJf3XaDAi0CuOAxYUkMEWlk7yRIulowC3b5sfQU10jzwQ2NtMHfO6TQ8am5vbadC48BFeLh1hhB9JqQZz1AyQ7+QUNn4miWxbnE0PPyNicGD7Af7AzNEkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750082497; c=relaxed/simple;
-	bh=CwNEm2c1yMybTDi2wpi4phfmWJ/6HSgbF3FZfUxeEzs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZbyeUVCeZ6T1nubhkCAf/ueAQpTmKDngky33X/+qLeKod8oq1K5qkaEetVbMGVseMzyW12seYkmXhJkKLwCkOiQqbG9cJWEv8nGqHOLCmJ73WnCbxPBfiF70bPF+r3pn8HKIY1jyObqrmpIyI5vfLcleA2iEXU8E7t3M+fgcLEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=eYxO2TDz; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1750082498; c=relaxed/simple;
+	bh=Gtx6sUxQErhezdQ0ZBdohRBHe8yymdzZfpR6qSMLmQY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VvZUredjIvMOkGAHsqu/ktwnU7Iw0atlNyZd1KOD30M43Qgpz7ExdKzz+o2x2RscZovcePwLEaDpRkA1ei5xiG9yJRbbGhCgIYVuTGQMj8FzCt/5csHan+vgN+of3OQWDxxwybRip4TwD2ywmJd32cImeGz5xTBJX/HN30zq84Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=QS6ult8p; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="eYxO2TDz"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a507e88b0aso4470042f8f.1
-        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 07:01:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="QS6ult8p"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-450ce3a2dd5so43837375e9.3
+        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 07:01:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1750082494; x=1750687294; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kwz4cKrypUvsL9siOm1Ko5J6ezOUtjF4iLnGLibT5ys=;
-        b=eYxO2TDzF2I2YjqFP3QdCpEJTM++OPxyc4DwvDuyqm8HkRTbRmCcC39ZwfMjvD9pRO
-         t+IKwAGDHTXxfZFyRcH5r1chm0gyxOtMSBNHuO5DwScztIyPmanmdM3Nj3bGcqY6Pdo7
-         DPkiQH99EMA6o7xXRvb+AR97yn+75CupT3EMMBbqpdAJvhJHHxw4+C4VTu/bHwtbYx6z
-         todMGxEJ/HTmzqcqTHXj15SZRttQm8NGO/0zHGTMz/w3kqVEh1DC3UYNnCcTHY8IbXUH
-         bWK3mWPlWSKv02HUUQnQKgzPMzohpvtSRdWG+rXtvZoB/zaogOo9MZiRMqWCeLUm+LvF
-         kS/w==
+        d=9elements.com; s=google; t=1750082493; x=1750687293; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dEPSwYHUllcVF4aRV6d13dYuoz2IZroq08Q5FVCs2wY=;
+        b=QS6ult8pFlwLqZmpplcHg39m7OyU7COKqu1+UT+wP5fNY0XhqiLIVopvqWQ6U/QX3N
+         Yvfq1ZmwTyBUFXHp9x138m7QYaYykZ8sD5YYgHPjH/lvRU3Oqd92nB1bLOC6AcsLk6D4
+         JU33VYT62qPITLDMJfmgcZxvhgldUYbVSryTmaj+Yg6CbxHdfp6bVBoeKrXkBFFQjF2l
+         zMaWEDCciXgnZZjxcKyI/v7oPgaiwGxQVWGEkuyRKtYmua/G4a2IJ3Iu4CT6JqGFg2Q/
+         uUAR18KHJu/wyBTu45MEU1pXzkHoAuBXnyC1wucyQL/bPooc1br9Ky9GlL3UjqMZColL
+         qiXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750082494; x=1750687294;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kwz4cKrypUvsL9siOm1Ko5J6ezOUtjF4iLnGLibT5ys=;
-        b=jDFwZzchTf0FOXVIiMYd2hhBXjeGcdlY1TY+B7e0bGoO0MHP1X5CeNRfms/VHNSdir
-         PLkvsecWw1OYXhR11I6BhdnPJWWBY2wBAnL6KFj4srtMIa9jvC/7eEoWW6bONnol60W4
-         fdTRBGGST7c70/lroNiulz8R89hqrIODQGQsyeI7JB5DrJ37nhub6QeIOPfOvYf805Ci
-         4A1w3g2Z+RlbAKsx79hUgTkaO8S+AQejVLNGGdpJfOeiOE55EMl7Pryf4c9wHAoU7qsg
-         9xoOEACcsVtGdjdXcfsO9BXAIZ83CarT0Ece2FDiAy/GTSOMGfPpnrIPGPq9YnW6D/As
-         bXfw==
-X-Forwarded-Encrypted: i=1; AJvYcCX6Lbqdv/Sry7rn39Dg4vruLbAe3NhCgLP5z5MaD96fA5lWlHBmlKlnRZBga8Hd9qo0eH+ZJ2YsQkbkz0tIPKg=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwqbW/NHR4Q2z9qmsZA+JoYbDrlf6cc8UtjwDV6UgBp4Uc4UjZs
-	u/0T283UjB1TCnM9DNlHeNWwe+U/E2MX0ng28Y8U212XXwbyoKb3X4JxpOK8K8N2hQ==
-X-Gm-Gg: ASbGncs7rT+TIOrNolP21eySlz+hpVWbE8U0VzyHR39Di9WqyP3bs0EPwvVWXyAeTWg
-	i4eo09MRn+E6lljuEh/L4QU4z18lvVT8zeA2NeYvcLsBT0GRg+eBm2j1CVnkPpo6zXot/y2f9FK
-	+uXtcXnDPfR2P5KJz2S2HHw5wiwX6QvOy0Rwibcd4U4wrwE0kiQToK2UQAzTFig5xyzycCMISWL
-	1iNr5AX9QuRQEgAq/MyZOOfrZFKK0fXQQY6k5pEtuhIfe7KugY8awqF8D4ct0jdaiENqbmG+GWW
-	kzONzqzjLaZ1CD7ODs9gVRdi6N3ZmpE3Pcqzq+rOEu7+zJ2lvPDdQQ4s3cO1B7TyvAWjVLlDvLo
-	KTcuaBBGUAQBHjoQZ/hM9ZWKNMhWY4qkzw+E3HIwCvkmvEg==
-X-Google-Smtp-Source: AGHT+IHfNqlkW+hwIU+9YPGHmtVitHx2ir6qBfj0k/M5cOlwiKyZyZh97IqroGO2vE2tCevQa24dBA==
-X-Received: by 2002:a5d:64ee:0:b0:3a4:e1e1:7779 with SMTP id ffacd0b85a97d-3a5723a2be9mr7607298f8f.32.1750082492044;
-        Mon, 16 Jun 2025 07:01:32 -0700 (PDT)
-Received: from [10.93.128.132] (ip-078-094-000-050.um19.pools.vodafone-ip.de. [78.94.0.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a7e51esm11057004f8f.40.2025.06.16.07.01.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20230601; t=1750082493; x=1750687293;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dEPSwYHUllcVF4aRV6d13dYuoz2IZroq08Q5FVCs2wY=;
+        b=VyNYOiyGVneWlPApoP4Z734BrROi2RM0Q4j3V2mpcwNNPfxJbfdLCzwCwXjn3ikmMK
+         zA0je1P/0JesexS62s+nGovr8eWsvdcO25xhB5rpZmO9lu6O04QY405x0tUPD9bCybe1
+         2zxnfjGvenjCZtuPmA83I/qKfARdgSdo/frTFjoBic5GM12sJtez0iepq6m9/4XeTLEl
+         5A4+gLk7W/zSP3qAy+oszqMh+6f5nAHOIJOf5GkwFEvc/LGi4gz1HZodkC3yjeunbEFd
+         IgzIWzVUyYN87+TCn6Z0sYNYFFQ2wMZF1jHZRbxyMp9o3JrMSdbEXFt+EjBNKwycyWA2
+         QYFw==
+X-Forwarded-Encrypted: i=1; AJvYcCXXmAkDbEekFcwF0eMc3Z4ts6qGr0DJH1PIVa74SFcHPs+BszAu7+lVz3NbW8itMfuTkDqbgGoRZm39OBfVIzM=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/f+xh9y+rTMyuEIUcCtXSgUklaV8G5FhVjnB8bUWk6f9B5vR7
+	M3LHcrWdaoBzopmYrtnHdxjZ7V4doxwxBmy9H3AFBTI52uRi/4sxnvrpIXS3OFE2p2W3z+E62nh
+	F6+0=
+X-Gm-Gg: ASbGnct1ZbnVztKhH3ZcTcJILPJh8e789o9gmHRsMC3WOi8vnoktLQe1L2bO1/iUOOG
+	2CPEGbRzz+CMfsAfYPCCUHLHpT23Ix6I8SUqdy2DQlrHaK9l878AoIM2D9Iv4T06KneehR6OHRv
+	AeWzHyylFMNqD0hp3d5HObE3yrqS/iFik1ElQGPLM/I+bqpyobWkvWnTItGrUetsKsKf1Vv1ouz
+	Pr5pvIoJSbIWWtSAdX3/g4eoXIiwcuNjtkB/55BdbgPpaJFdATvBd2HRcthOwBf3fUO4rj5tQTY
+	4xaA19qzuM56uJUfhORGhU5y8egF0HQXlfsRGgljdQTiQhyvNWiphOb2DVrHILlo9q37Wp1DXZs
+	s5D3Z4LIykBQ8gi/9Pvk4rtFmDqcyZh3qu7yFxwFjcmxvpA==
+X-Google-Smtp-Source: AGHT+IGHQyOwAUqFexF8zEmL4xFPsfu+VrWSUnxlqdmY15C170Uug2RcV1kxtPgOG+gygg4D+hT0ZA==
+X-Received: by 2002:a05:600c:1e1d:b0:442:ccfa:1461 with SMTP id 5b1f17b1804b1-4533ca6ace2mr95735965e9.13.1750082491142;
         Mon, 16 Jun 2025 07:01:31 -0700 (PDT)
+Received: from [10.93.128.132] (ip-078-094-000-050.um19.pools.vodafone-ip.de. [78.94.0.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a7e51esm11057004f8f.40.2025.06.16.07.01.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 07:01:30 -0700 (PDT)
 From: Michal Gorlas <michal.gorlas@9elements.com>
-Date: Mon, 16 Jun 2025 16:01:12 +0200
-Subject: [PATCH v2 1/3] firmware: coreboot: support for parsing SMM related
- informations from coreboot tables
+Subject: [PATCH v2 0/3] firmware: coreboot: Support for System Management
+ Interrupt (SMI) handling in coreboot payload (MM payload concept)
+Date: Mon, 16 Jun 2025 16:01:11 +0200
+Message-Id: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -70,9 +70,11 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250616-coreboot-payload-mm-v2-1-5d679b682e13@9elements.com>
-References: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
-In-Reply-To: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
+X-B4-Tracking: v=1; b=H4sIAKcjUGgC/x3NQQ6DIBCF4auYWReiSLV21Xs0XQCOSgKOGYhpY
+ 7x7ictv8f53QEL2mOBZHcC4++RpLVC3Ctxi1hmFH4tB1eped00rHDFaoiw28wtkRhGj6DqtrNV
+ KPbSBstwYJ/+9qu9P8cQURV4YzdVytCPLptdD3+p60HL2WUZf/oKciYNJrwEDRlxzko4inOcf9
+ JM//6gAAAA=
+X-Change-ID: 20250613-coreboot-payload-mm-6642bb42284a
 To: Tzung-Bi Shih <tzungbi@kernel.org>, 
  Brian Norris <briannorris@chromium.org>, 
  Julius Werner <jwerner@chromium.org>
@@ -81,132 +83,60 @@ Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
  Michal Gorlas <michal.gorlas@9elements.com>
 X-Mailer: b4 0.14.2
 
-coreboot exposes (S)MM related data in the coreboot table. Extends existing interface
-with structure corresponding to (S)MM data, and adds COREBOOT_PAYLOAD_MM config used by
-follow-up patches.
+Hi,
 
-Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
+This patchset adds support for MM payload when Linux is used as
+coreboot's payload. The main idea is to delegate higher-level SMM
+functions to the payload, limiting the coreboot's System Management
+Mode (SMM) related responsibilities to the minimum of basic SMM setup [1]. This is
+done by loading a blob with SMI handler to the shared buffer, from
+which it is copied to SMRAM [2].
+
+The MM payload is still in a Proof of Concept stage, and we are still
+working on getting the patches needed for coreboot upstreamed, but I would
+appreciate any feedback that you may have.
+
+Thanks,
+Michal
+
+[1]: https://github.com/9elements/LinuxBootSMM/wiki/Proposed-design#current-design-approach---mm-payload
+[2]: https://github.com/9elements/LinuxBootSMM/wiki/Proof-of-Concept-(PoC)
+
+Changes in v2:
+- merged mm_info into mm_loader
+- removed mm_loader_exit in favour of allocating memory with devm_*()
+- added forgotten "\n\t" in trigger_smi()
+- added gitignore in mm_handler/
+- added COREBOOT_PAYLOAD_MM dependency on x86
+- error handling for mm_info struct
+- error handling for shared_buffer
+- removed whitespace changes in coreboot_table.h
+- removed INFO level prints 
+
 ---
- drivers/firmware/google/Kconfig          | 12 +++++++
- drivers/firmware/google/coreboot_table.h | 11 ++++++
- drivers/firmware/google/mm_payload.h     | 58 ++++++++++++++++++++++++++++++++
- 3 files changed, 81 insertions(+)
+Michal Gorlas (3):
+      firmware: coreboot: support for parsing SMM related  informations from coreboot tables
+      firmware: coreboot: loader for Linux-owned SMI handler
+      firmware: coreboot: Linux-owned SMI handler to be loaded by coreboot
 
-diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-index 41b78f5cb7351e512cbaeb6443634a4b97bf6255..ff443f0c4a9a990052d83903fb0f0b0795cc76bd 100644
---- a/drivers/firmware/google/Kconfig
-+++ b/drivers/firmware/google/Kconfig
-@@ -81,4 +81,16 @@ config GOOGLE_VPD
- 	  This option enables the kernel to expose the content of Google VPD
- 	  under /sys/firmware/vpd.
- 
-+config COREBOOT_PAYLOAD_MM
-+	tristate "SMI handling in Linux (LinuxBootSMM)"
-+	depends on X86 && GOOGLE_COREBOOT_TABLE
-+	help
-+	  Enables support for SMI handling by Linux-owned code.
-+	  coreboot reserves region for payload-owned SMI handler, the Linux
-+	  driver prepares its SMI handler outside of SMRAM, and lets coreboot
-+	  know where the handler is placed by issuing an SMI. On this SMI, the
-+	  handler is being placed in SMRAM and all supported SMIs from that point
-+	  on are handled by Linux-owned SMI handler.
-+	  If in doubt, say N.
-+
- endif # GOOGLE_FIRMWARE
-diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
-index bb6f0f7299b4670d0b1f91bd7a3c038cdb412f7b..8a7934e679903e39ce1d86b4aecbc2b4e89363fd 100644
---- a/drivers/firmware/google/coreboot_table.h
-+++ b/drivers/firmware/google/coreboot_table.h
-@@ -52,6 +52,16 @@ struct lb_cbmem_entry {
- 	u32 id;
- };
- 
-+/* Corresponds to LB_TAG_PLD_MM_INTERFACE_INFO */
-+#define LB_TAG_PLD_MM_INTERFACE_INFO 0x3b
-+struct lb_pld_mm_interface_info {
-+	u32 tag;
-+	u32 size;
-+	u8 revision;
-+	u8 requires_long_mode_call;
-+	u8 register_mm_entry_command;
-+};
-+
- /* Describes framebuffer setup by coreboot */
- struct lb_framebuffer {
- 	u32 tag;
-@@ -80,6 +90,7 @@ struct coreboot_device {
- 		struct lb_cbmem_ref cbmem_ref;
- 		struct lb_cbmem_entry cbmem_entry;
- 		struct lb_framebuffer framebuffer;
-+		struct lb_pld_mm_interface_info mm_info;
- 		DECLARE_FLEX_ARRAY(u8, raw);
- 	};
- };
-diff --git a/drivers/firmware/google/mm_payload.h b/drivers/firmware/google/mm_payload.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..bb2f55c4f24096dfd526e281a937f100031d5315
---- /dev/null
-+++ b/drivers/firmware/google/mm_payload.h
-@@ -0,0 +1,58 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * mm_payload.h
-+ *
-+ * Internal header for MM payload driver.
-+ *
-+ * Copyright 2025 9elements gmbh
-+ * Copyright 2025 Michal Gorlas <michal.gorlas@9elements.com>
-+ */
-+
-+#ifndef __MM_PAYLOAD_H
-+#define __MM_PAYLOAD_H
-+
-+#define PAYLOAD_MM_RET_SUCCESS 0
-+#define PAYLOAD_MM_RET_FAILURE 1
-+#define PAYLOAD_MM_REGISTER_ENTRY 2
-+
-+#define REALMODE_END_SIGNATURE	0x65a22c82
-+
-+struct mm_info {
-+	u8 revision;
-+	u8 requires_long_mode_call;
-+	u8 register_mm_entry_command;
-+};
-+
-+extern struct mm_info *mm_info;
-+
-+#ifndef __ASSEMBLY__
-+
-+#include <linux/types.h>
-+
-+/* This must match data at mm_handler/mm_header.S */
-+struct mm_header {
-+	u32	text_start;
-+	u32	mm_entry_32;
-+	u32	mm_entry_64;
-+	u32	mm_signature;
-+	u32	mm_blob_size;
-+};
-+
-+extern struct mm_header *mm_header;
-+extern unsigned char mm_blob_end[];
-+
-+extern unsigned char mm_blob[];
-+extern unsigned char mm_relocs[];
-+
-+/*
-+ * This has to be under 1MB (see tseg_region.c in coreboot source tree).
-+ * The actual check for this is made in coreboot after we fill the header
-+ * (see above) with the blob size.
-+ */
-+static inline size_t mm_payload_size_needed(void)
-+{
-+	return mm_blob_end - mm_blob;
-+}
-+
-+#endif /* __ASSEMBLER__ */
-+#endif /* __MM_PAYLOAD_H */
+ drivers/firmware/google/Kconfig                  |  12 +
+ drivers/firmware/google/Makefile                 |  11 +
+ drivers/firmware/google/coreboot_table.h         |  11 +
+ drivers/firmware/google/mm_blob.S                |  20 +
+ drivers/firmware/google/mm_handler/.gitignore    |   4 +
+ drivers/firmware/google/mm_handler/Makefile      |  51 +++
+ drivers/firmware/google/mm_handler/handler.lds.S |  46 ++
+ drivers/firmware/google/mm_handler/mm_handler.S  | 510 +++++++++++++++++++++++
+ drivers/firmware/google/mm_handler/mm_handler.h  |  21 +
+ drivers/firmware/google/mm_handler/mm_header.S   |  19 +
+ drivers/firmware/google/mm_loader.c              | 215 ++++++++++
+ drivers/firmware/google/mm_payload.h             |  58 +++
+ 12 files changed, 978 insertions(+)
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250613-coreboot-payload-mm-6642bb42284a
 
+Best regards,
 -- 
-2.49.0
+Michal Gorlas <michal.gorlas@9elements.com>
 

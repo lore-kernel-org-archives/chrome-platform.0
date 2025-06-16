@@ -1,67 +1,67 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18791A4E9D
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 14:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71ADE1B4231
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 14:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750082498; cv=none; b=nV61K8r2873FjsNBMN22GcnEzJA5qh9NWgViYumXw/Q+Ihe/ePvIGGJf3XaDAi0CuOAxYUkMEWlk7yRIulowC3b5sfQU10jzwQ2NtMHfO6TQ8am5vbadC48BFeLh1hhB9JqQZz1AyQ7+QUNn4miWxbnE0PPyNicGD7Af7AzNEkU=
+	t=1750082498; cv=none; b=cZTLFMOSltNkP5HiJMuLObZ7yOM05mbocXjk9axqTAXyevEMDGOJtSuIJp5Nfdw9T4PZqTznWrrnr/oY3HPje2PgHdRqCUTRB48/bo5qS6lP/cPbM9Cp9/Uq+XWqxZ2RmKbBuV0xCamz+sbw4fnv/9HZVVknQGw08Zs/OBCuyes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750082498; c=relaxed/simple;
-	bh=Gtx6sUxQErhezdQ0ZBdohRBHe8yymdzZfpR6qSMLmQY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VvZUredjIvMOkGAHsqu/ktwnU7Iw0atlNyZd1KOD30M43Qgpz7ExdKzz+o2x2RscZovcePwLEaDpRkA1ei5xiG9yJRbbGhCgIYVuTGQMj8FzCt/5csHan+vgN+of3OQWDxxwybRip4TwD2ywmJd32cImeGz5xTBJX/HN30zq84Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=QS6ult8p; arc=none smtp.client-ip=209.85.128.54
+	bh=OhggePA2qD54ZdQYLz05ZiyKeW54A4tsVShnOXPiUAo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ENPl4rpiBN5ggUDTgP+Ci6slGvv8Ij741PlWl80cVP+UAGbfa9LcWjuZWKsEDnYeSpJPydikHV+TZp1ABu1EuG9LC+OoNkgrr/eFHbeOyPwWdebojttGykaqiO1Ma3j6Af8k/UsWmXj/uJiqMjIKb9JbsQKJpiGEDRVjGM9+Peg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=I43t0ByN; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="QS6ult8p"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-450ce3a2dd5so43837375e9.3
-        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 07:01:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="I43t0ByN"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a35c894313so5191023f8f.2
+        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 07:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1750082493; x=1750687293; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dEPSwYHUllcVF4aRV6d13dYuoz2IZroq08Q5FVCs2wY=;
-        b=QS6ult8pFlwLqZmpplcHg39m7OyU7COKqu1+UT+wP5fNY0XhqiLIVopvqWQ6U/QX3N
-         Yvfq1ZmwTyBUFXHp9x138m7QYaYykZ8sD5YYgHPjH/lvRU3Oqd92nB1bLOC6AcsLk6D4
-         JU33VYT62qPITLDMJfmgcZxvhgldUYbVSryTmaj+Yg6CbxHdfp6bVBoeKrXkBFFQjF2l
-         zMaWEDCciXgnZZjxcKyI/v7oPgaiwGxQVWGEkuyRKtYmua/G4a2IJ3Iu4CT6JqGFg2Q/
-         uUAR18KHJu/wyBTu45MEU1pXzkHoAuBXnyC1wucyQL/bPooc1br9Ky9GlL3UjqMZColL
-         qiXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750082493; x=1750687293;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=9elements.com; s=google; t=1750082495; x=1750687295; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dEPSwYHUllcVF4aRV6d13dYuoz2IZroq08Q5FVCs2wY=;
-        b=VyNYOiyGVneWlPApoP4Z734BrROi2RM0Q4j3V2mpcwNNPfxJbfdLCzwCwXjn3ikmMK
-         zA0je1P/0JesexS62s+nGovr8eWsvdcO25xhB5rpZmO9lu6O04QY405x0tUPD9bCybe1
-         2zxnfjGvenjCZtuPmA83I/qKfARdgSdo/frTFjoBic5GM12sJtez0iepq6m9/4XeTLEl
-         5A4+gLk7W/zSP3qAy+oszqMh+6f5nAHOIJOf5GkwFEvc/LGi4gz1HZodkC3yjeunbEFd
-         IgzIWzVUyYN87+TCn6Z0sYNYFFQ2wMZF1jHZRbxyMp9o3JrMSdbEXFt+EjBNKwycyWA2
-         QYFw==
-X-Forwarded-Encrypted: i=1; AJvYcCXXmAkDbEekFcwF0eMc3Z4ts6qGr0DJH1PIVa74SFcHPs+BszAu7+lVz3NbW8itMfuTkDqbgGoRZm39OBfVIzM=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/f+xh9y+rTMyuEIUcCtXSgUklaV8G5FhVjnB8bUWk6f9B5vR7
-	M3LHcrWdaoBzopmYrtnHdxjZ7V4doxwxBmy9H3AFBTI52uRi/4sxnvrpIXS3OFE2p2W3z+E62nh
-	F6+0=
-X-Gm-Gg: ASbGnct1ZbnVztKhH3ZcTcJILPJh8e789o9gmHRsMC3WOi8vnoktLQe1L2bO1/iUOOG
-	2CPEGbRzz+CMfsAfYPCCUHLHpT23Ix6I8SUqdy2DQlrHaK9l878AoIM2D9Iv4T06KneehR6OHRv
-	AeWzHyylFMNqD0hp3d5HObE3yrqS/iFik1ElQGPLM/I+bqpyobWkvWnTItGrUetsKsKf1Vv1ouz
-	Pr5pvIoJSbIWWtSAdX3/g4eoXIiwcuNjtkB/55BdbgPpaJFdATvBd2HRcthOwBf3fUO4rj5tQTY
-	4xaA19qzuM56uJUfhORGhU5y8egF0HQXlfsRGgljdQTiQhyvNWiphOb2DVrHILlo9q37Wp1DXZs
-	s5D3Z4LIykBQ8gi/9Pvk4rtFmDqcyZh3qu7yFxwFjcmxvpA==
-X-Google-Smtp-Source: AGHT+IGHQyOwAUqFexF8zEmL4xFPsfu+VrWSUnxlqdmY15C170Uug2RcV1kxtPgOG+gygg4D+hT0ZA==
-X-Received: by 2002:a05:600c:1e1d:b0:442:ccfa:1461 with SMTP id 5b1f17b1804b1-4533ca6ace2mr95735965e9.13.1750082491142;
-        Mon, 16 Jun 2025 07:01:31 -0700 (PDT)
+        bh=ZqHIgPku1G85131t+riL0hFm9G+EHIU6siJ5JIT1N8w=;
+        b=I43t0ByNDom31NAsIrVhLDdRmn25P1SxhSzEGbs7zEm8QdPN78D2gHdkp9A6NAgIWH
+         HIZRdgKt4RJ+9VaOLioFdK8ezn/BGP1B7nwrgzKlKzeHhZNlfxqPkigTyNQMp0/BPR69
+         Idm3MFJ5WMRkfWtLO6qiDTSoCTKN738ZOxicZdwt27gXBDqonY2MXqufwQQZrz5OYqb3
+         H/wghaIz0i//OEcZx8KX9lNJd1n+BKhXVo4G9mcId01WQ5F/wwUzOYhQ19CjhQznHT8/
+         iJlFwWUg3/patAohLkuk2aAtZbtdd8D775BnJDhe8yJV4TgBeCHsCCL+79AV1oTGo3CJ
+         39UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750082495; x=1750687295;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZqHIgPku1G85131t+riL0hFm9G+EHIU6siJ5JIT1N8w=;
+        b=a94dM/QMCBK5UbV/sR/NENSNZPutBbiiljX+1Hp63BiOeyd0+MiIMZ8jmdF3a5J2Rx
+         q4Lu0sPYxGFpzGZBxXQFdGIOKUc2iq51JESPxv3MECv+HC+4NBcc2IBfJQegjBHByBQ2
+         wRAjD9oJ4fINCGNhUIenGVjQHJQWITRaOxmrGhdhqXkoX+GtNdHvRCXVdZGs8fQYyO+R
+         8F3sRFDtCYPAUCVyJHkLvBKPG8rd3ua7e1lmc8PbyXR2GuovNMEKjBKxCXRQgmehhXJ9
+         XjjtoZPl+IU5/dx+WltSavRAycrbO/bLm76sgpE/ds/5eOYsHaunCjB9CPvA+GeoEFz2
+         ahqA==
+X-Forwarded-Encrypted: i=1; AJvYcCX5U8d6moxTJBiZL7ZA+fctxfE3FNUp6txsmgsFFoSR0Oy4NLwrFPQkbGbYqyPrHVQA3QpnkIsZ8OGQmjNhDRI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOUYxloqULqCA+hRL3UV/osGuj3G2oH3g0enTCBLTl5/Av+u/o
+	NrGInRJ/1zXht01T9uWTKZWbrFWFD+fP2qwKEcFq1P5eI3PmdUemFdVTpWDJ+E+0NA==
+X-Gm-Gg: ASbGnct4K6uA4TLLoFBPNLsvO6k096/+NJep48nzNnqUxeAW/aRxdEg3hAnuQLvIyGC
+	3gAQTp1m/gcwkzg6IripeWg2FQtDb5nUggqLvRqDYJlu1YTGy3douBFVxraWYP0vsQ7Uha2rcCl
+	RjN73HDKYLCezYWIX4VKr4elfiLtGkx/XNQXcYkr8rFBxJI9JUakftY3CMMWQ7ftFMrATnWB3hl
+	2GvF59gcZJwLuR1N6afCxr0F6NGni8xGOK6gpLoqT5EyigwcJeTOBFjDUucCT2yuJBZe/eOj2rD
+	zB4h3Fft+0QjfWUmPwhmnyao1hiuch/D9oS+OCCRUN3qJqRPAKjT0d5R203DCybg2UHGT1xJWSV
+	vF30IaDxdBgYcH6/0RskjcVnP4GkzYzjKEsM2huEB3GJ2sw==
+X-Google-Smtp-Source: AGHT+IEqzW6rWVyZvdSqgOpGvjP+J66yzSAmrNNffA5lK6o88XtZtTA1LzRJx5Y9U19X1fvqy4PYwg==
+X-Received: by 2002:a05:6000:4308:b0:3a4:d6ed:8e00 with SMTP id ffacd0b85a97d-3a572e6bc57mr8249307f8f.33.1750082494204;
+        Mon, 16 Jun 2025 07:01:34 -0700 (PDT)
 Received: from [10.93.128.132] (ip-078-094-000-050.um19.pools.vodafone-ip.de. [78.94.0.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a7e51esm11057004f8f.40.2025.06.16.07.01.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a7e51esm11057004f8f.40.2025.06.16.07.01.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 07:01:30 -0700 (PDT)
+        Mon, 16 Jun 2025 07:01:33 -0700 (PDT)
 From: Michal Gorlas <michal.gorlas@9elements.com>
-Subject: [PATCH v2 0/3] firmware: coreboot: Support for System Management
- Interrupt (SMI) handling in coreboot payload (MM payload concept)
-Date: Mon, 16 Jun 2025 16:01:11 +0200
-Message-Id: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
+Date: Mon, 16 Jun 2025 16:01:14 +0200
+Subject: [PATCH v2 3/3] firmware: coreboot: Linux-owned SMI handler to be
+ loaded by coreboot
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -70,11 +70,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKcjUGgC/x3NQQ6DIBCF4auYWReiSLV21Xs0XQCOSgKOGYhpY
- 7x7ictv8f53QEL2mOBZHcC4++RpLVC3Ctxi1hmFH4tB1eped00rHDFaoiw28wtkRhGj6DqtrNV
- KPbSBstwYJ/+9qu9P8cQURV4YzdVytCPLptdD3+p60HL2WUZf/oKciYNJrwEDRlxzko4inOcf9
- JM//6gAAAA=
-X-Change-ID: 20250613-coreboot-payload-mm-6642bb42284a
+Message-Id: <20250616-coreboot-payload-mm-v2-3-5d679b682e13@9elements.com>
+References: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
+In-Reply-To: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
 To: Tzung-Bi Shih <tzungbi@kernel.org>, 
  Brian Norris <briannorris@chromium.org>, 
  Julius Werner <jwerner@chromium.org>
@@ -83,60 +81,708 @@ Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
  Michal Gorlas <michal.gorlas@9elements.com>
 X-Mailer: b4 0.14.2
 
-Hi,
+Compiled in similar fashion to the realmode trampolines for x86. Currently
+supported are two SMIs: ACPI enable and disable. After being placed in SMRAM,
+this handler takes over handling of the supported SMIs from coreboot.
 
-This patchset adds support for MM payload when Linux is used as
-coreboot's payload. The main idea is to delegate higher-level SMM
-functions to the payload, limiting the coreboot's System Management
-Mode (SMM) related responsibilities to the minimum of basic SMM setup [1]. This is
-done by loading a blob with SMI handler to the shared buffer, from
-which it is copied to SMRAM [2].
-
-The MM payload is still in a Proof of Concept stage, and we are still
-working on getting the patches needed for coreboot upstreamed, but I would
-appreciate any feedback that you may have.
-
-Thanks,
-Michal
-
-[1]: https://github.com/9elements/LinuxBootSMM/wiki/Proposed-design#current-design-approach---mm-payload
-[2]: https://github.com/9elements/LinuxBootSMM/wiki/Proof-of-Concept-(PoC)
-
-Changes in v2:
-- merged mm_info into mm_loader
-- removed mm_loader_exit in favour of allocating memory with devm_*()
-- added forgotten "\n\t" in trigger_smi()
-- added gitignore in mm_handler/
-- added COREBOOT_PAYLOAD_MM dependency on x86
-- error handling for mm_info struct
-- error handling for shared_buffer
-- removed whitespace changes in coreboot_table.h
-- removed INFO level prints 
-
+Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
 ---
-Michal Gorlas (3):
-      firmware: coreboot: support for parsing SMM related  informations from coreboot tables
-      firmware: coreboot: loader for Linux-owned SMI handler
-      firmware: coreboot: Linux-owned SMI handler to be loaded by coreboot
-
- drivers/firmware/google/Kconfig                  |  12 +
- drivers/firmware/google/Makefile                 |  11 +
- drivers/firmware/google/coreboot_table.h         |  11 +
- drivers/firmware/google/mm_blob.S                |  20 +
  drivers/firmware/google/mm_handler/.gitignore    |   4 +
  drivers/firmware/google/mm_handler/Makefile      |  51 +++
  drivers/firmware/google/mm_handler/handler.lds.S |  46 ++
  drivers/firmware/google/mm_handler/mm_handler.S  | 510 +++++++++++++++++++++++
  drivers/firmware/google/mm_handler/mm_handler.h  |  21 +
  drivers/firmware/google/mm_handler/mm_header.S   |  19 +
- drivers/firmware/google/mm_loader.c              | 215 ++++++++++
- drivers/firmware/google/mm_payload.h             |  58 +++
- 12 files changed, 978 insertions(+)
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250613-coreboot-payload-mm-6642bb42284a
+ 6 files changed, 651 insertions(+)
 
-Best regards,
+diff --git a/drivers/firmware/google/mm_handler/.gitignore b/drivers/firmware/google/mm_handler/.gitignore
+new file mode 100644
+index 0000000000000000000000000000000000000000..662f71dca9ce9dceeaf526746a6f323044296439
+--- /dev/null
++++ b/drivers/firmware/google/mm_handler/.gitignore
+@@ -0,0 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0-only
++pasyms.h
++handler.lds
++handler.relocs
+diff --git a/drivers/firmware/google/mm_handler/Makefile b/drivers/firmware/google/mm_handler/Makefile
+new file mode 100644
+index 0000000000000000000000000000000000000000..c0069e88f51dc536878429c8e1504e9376932c04
+--- /dev/null
++++ b/drivers/firmware/google/mm_handler/Makefile
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: GPL-2.0
++
++## Based on realmode/rm/Makefile
++
++always-y := handler.bin handler.relocs
++
++handler-y			+= mm_header.o
++handler-y			+= mm_handler.o
++
++targets	+= $(handler-y)
++
++REALMODE_OBJS = $(addprefix $(obj)/,$(handler-y))
++
++sed-pasyms := -n -r -e 's/^([0-9a-fA-F]+) [ABCDGRSTVW] (.+)$$/pa_\2 = \2;/p'
++
++quiet_cmd_pasyms = PASYMS  $@
++      cmd_pasyms = $(NM) $(real-prereqs) | sed $(sed-pasyms) | sort | uniq > $@
++
++targets += pasyms.h
++$(obj)/pasyms.h: $(REALMODE_OBJS) FORCE
++	$(call if_changed,pasyms)
++
++targets += handler.lds
++$(obj)/handler.lds: $(obj)/pasyms.h
++
++LDFLAGS_handler.elf := -m elf_i386 --emit-relocs -T
++CPPFLAGS_handler.lds += -P -C -I$(objtree)/$(obj)
++
++targets += handler.elf
++$(obj)/handler.elf: $(obj)/handler.lds $(REALMODE_OBJS) FORCE
++	$(call if_changed,ld)
++
++OBJCOPYFLAGS_handler.bin := -O binary
++
++targets += handler.bin
++$(obj)/handler.bin: $(obj)/handler.elf $(obj)/handler.relocs FORCE
++	$(call if_changed,objcopy)
++
++quiet_cmd_relocs = RELOCS  $@
++      cmd_relocs = arch/x86/tools/relocs --realmode $< > $@
++
++targets += handler.relocs
++$(obj)/handler.relocs: $(obj)/handler.elf FORCE
++	$(call if_changed,relocs)
++
++# ---------------------------------------------------------------------------
++
++KBUILD_CFLAGS	:= $(REALMODE_CFLAGS) -D_SETUP -D_WAKEUP \
++		   -I$(srctree)/arch/x86/boot
++KBUILD_AFLAGS	:= $(KBUILD_CFLAGS) -D__ASSEMBLY__
++KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables
+diff --git a/drivers/firmware/google/mm_handler/handler.lds.S b/drivers/firmware/google/mm_handler/handler.lds.S
+new file mode 100644
+index 0000000000000000000000000000000000000000..c92c9f2fbd624d0d988be0bd0215f70c3e4284e0
+--- /dev/null
++++ b/drivers/firmware/google/mm_handler/handler.lds.S
+@@ -0,0 +1,46 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * blob.lds.S
++ *
++ * Linker script for the MM handler. Based on realmode.lds.S
++ */
++
++#include <asm/page_types.h>
++
++#undef i386
++
++OUTPUT_FORMAT("elf32-i386")
++OUTPUT_ARCH(i386)
++ENTRY(pa_text_start)
++
++SECTIONS
++{
++	. = 0;
++	.header : {
++		*(.header)
++	}
++
++	pa_text_start = .;
++	.text32 : {
++		*(.text32)
++		*(.text32.*)
++	}
++
++	.text64 : {
++		*(.text64)
++		*(.text64.*)
++	}
++
++	. = ALIGN(128);
++	.bss : {
++		*(.bss*)
++	}
++
++	/DISCARD/ : {
++		*(.data*)
++		*(.note*)
++		*(.debug*)
++	}
++
++#include "pasyms.h"
++}
+diff --git a/drivers/firmware/google/mm_handler/mm_handler.S b/drivers/firmware/google/mm_handler/mm_handler.S
+new file mode 100644
+index 0000000000000000000000000000000000000000..19322010a4231cbd7d9c0aac5605a56eac098789
+--- /dev/null
++++ b/drivers/firmware/google/mm_handler/mm_handler.S
+@@ -0,0 +1,510 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ *	Payload owned SMI handler that is placed in SMRAM (mm_loader.c) and called
++ *	by coreboot's SMI handler
++ *
++ *	Also the general comment in arch/x86/realmode/rm/trampoline_64.S is relevant
++ *	here as well.
++ */
++
++#include <linux/linkage.h>
++#include <asm/pgtable_types.h>
++#include <asm/page_types.h>
++#include <asm/msr.h>
++#include <asm/segment.h>
++#include <asm/processor-flags.h>
++#include <asm/realmode.h>
++
++#include "mm_handler.h"
++
++	.section ".text32","ax"
++	.code32
++	.balign 4
++SYM_CODE_START(mm_entry_32)
++	mov	$0x3f8, %dx
++	mov	$'L', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'u', %al
++	out	%al, (%dx)
++	mov	$'x', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'S', %al
++	out	%al, (%dx)
++	mov	$'M', %al
++	out	%al, (%dx)
++	mov	$'I', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'h', %al
++	out	%al, (%dx)
++	mov	$'a', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'d', %al
++	out	%al, (%dx)
++	mov	$'l', %al
++	out	%al, (%dx)
++	mov	$'e', %al
++	out	%al, (%dx)
++	mov	$'r', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'s', %al
++	out	%al, (%dx)
++	mov	$'t', %al
++	out	%al, (%dx)
++	mov	$'a', %al
++	out	%al, (%dx)
++	mov	$'r', %al
++	out	%al, (%dx)
++	mov	$'t', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'g', %al
++	out	%al, (%dx)
++	mov	$'\n', %al
++	out	%al, (%dx)
++
++	push	%esp
++	// ebx, esi, edi and ebp are going to be preserved
++	// (see comment in smm_stub.S if target is x86_64)
++	push	%ebx
++	push	%esi
++	push	%edi
++	push	%ebp
++	push	%eax
++
++	/*
++	 * Switch-case to jump to appropriate section for given functionality.
++	 * Macros are defined in mm_handler.h.
++	 * Short explaination of where does the magic n(%esp) came from.
++	 * Calling mm_entry_32 from coreboot pushes lb_entry_context
++	 * (see include/payload_mm_interface.h) to stack and
++	 * increments esp by 4, so now our stack looks like this:
++	 * | third arg |
++	 * | second arg |
++	 * | first arg |
++	 * | return address |
++	 * | stack pointer | <- esp
++	 * Then we push all the registers (see above) and hence our stack looks like this now:
++	 * | third arg |
++	 * | second arg |
++	 * | first arg |
++	 * | return address |
++	 * | esp |
++	 * | ebx |
++	 * | esi |
++	 * | edi |
++	 * | ebp |
++	 * | eax |
++	 * | stack pointer | <- esp
++	 * So, now to get the entry we need, we do (9 * 4)(%esp) to get third
++	 * argument (ACPI base address), (8 * 4)(%esp) to get second argument
++	 * (PM1_CNT byte), and (7 * 4) to get the command.
++	 */
++
++	cmpl $MM_ACPI_ENABLE, 28(%esp)
++	je acpi_enable32
++
++	cmpl $MM_ACPI_DISABLE, 28(%esp)
++	je acpi_disable32
++
++	cmpl $MM_STORE, 28(%esp)
++	je mm_store32
++
++	jmp restore_cb_state
++
++acpi_enable32:
++	mov	$0x3f8, %dx
++	mov	$'E', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'a', %al
++	out	%al, (%dx)
++	mov	$'b', %al
++	out	%al, (%dx)
++	mov	$'l', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'g', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'A', %al
++	out	%al, (%dx)
++	mov	$'C', %al
++	out	%al, (%dx)
++	mov	$'P', %al
++	out	%al, (%dx)
++	mov	$'I', %al
++	out	%al, (%dx)
++	mov	$'\n', %al
++	out	%al, (%dx)
++
++	// PM1_CNT & ~SCI_EN
++	mov	32(%esp), %ax
++	add	$MM_ACPI_ENABLE, %ax
++
++	// ACPI_BASE_ADDR
++	mov	36(%esp), %dx
++
++	out	%ax, %dx
++
++	jmp	restore_cb_state
++
++acpi_disable32:
++	mov	$0x3f8, %dx
++	mov	$'D', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'s', %al
++	out	%al, (%dx)
++	mov	$'a', %al
++	out	%al, (%dx)
++	mov	$'b', %al
++	out	%al, (%dx)
++	mov	$'l', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'g', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'A', %al
++	out	%al, (%dx)
++	mov	$'C', %al
++	out	%al, (%dx)
++	mov	$'P', %al
++	out	%al, (%dx)
++	mov	$'I', %al
++	out	%al, (%dx)
++	mov	$'\n', %al
++	out	%al, (%dx)
++
++	// PM1_CNT | SCI_EN
++	mov	32(%esp), %ax
++	add	$MM_ACPI_DISABLE, %ax
++
++	// ACPI_BASE_ADDR
++	mov	36(%esp), %dx
++
++	out	%ax, %dx
++
++	jmp	restore_cb_state
++
++mm_store32:
++	// Not implemented yet. Probably would be better to do that in C.
++
++restore_cb_state:
++	mov	$0x3f8, %dx
++	mov	$'M', %al
++	out	%al, (%dx)
++	mov	$'M', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'r', %al
++	out	%al, (%dx)
++	mov	$'e', %al
++	out	%al, (%dx)
++	mov	$'t', %al
++	out	%al, (%dx)
++	mov	$'u', %al
++	out	%al, (%dx)
++	mov	$'r', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'s', %al
++	out	%al, (%dx)
++	mov	$'\n', %al
++	out	%al, (%dx)
++
++	pop	%eax
++	pop	%ebp
++	pop	%edi
++	pop	%esi
++	pop	%ebx
++	pop	%esp
++
++	ret
++SYM_CODE_END(mm_entry_32)
++
++
++	.section ".text64","ax"
++	.code64
++	.balign 4
++SYM_CODE_START(mm_entry_64)
++	mov	$0x3f8, %dx
++	mov	$'L', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'u', %al
++	out	%al, (%dx)
++	mov	$'x', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'S', %al
++	out	%al, (%dx)
++	mov	$'M', %al
++	out	%al, (%dx)
++	mov	$'I', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'h', %al
++	out	%al, (%dx)
++	mov	$'a', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'d', %al
++	out	%al, (%dx)
++	mov	$'l', %al
++	out	%al, (%dx)
++	mov	$'e', %al
++	out	%al, (%dx)
++	mov	$'r', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'s', %al
++	out	%al, (%dx)
++	mov	$'t', %al
++	out	%al, (%dx)
++	mov	$'a', %al
++	out	%al, (%dx)
++	mov	$'r', %al
++	out	%al, (%dx)
++	mov	$'t', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'g', %al
++	out	%al, (%dx)
++	mov	$'\n', %al
++	out	%al, (%dx)
++
++	pushq	%rsp
++
++	pushq	%rbp
++	pushq	%rbx
++	pushq	%r12
++	pushq	%r13
++	pushq	%r14
++	pushq	%r15
++
++	movq	%cr3, %rax
++	pushq	%rax
++
++	movq	%cr4, %rbx
++	pushq	%rbx
++	or	$0x640, %rbx
++
++	movq	%rbx, %cr4
++
++	movq	%cr0, %rbx
++	pushq	%rbx
++	or	$0x22, %rbx
++
++	mov	%rbx, %cr0
++
++	movq	%rsp, %r12
++	andq	$~0xF, %rsp
++
++	subq	$0x200, %rsp
++	fxsave64 (%rsp)
++
++	/*
++	 * All the macros we compare (r)di to are defined in mm_handler.h
++	 * This differs a bit from what we do above, as ABI calling convention
++	 * is not the same for protected and long mode. First two elements of
++	 * the struct fits rdi. Command is in the first byte of the rdi,
++	 * so we can just read of di.
++	 */
++	cmp $MM_ACPI_DISABLE, %di
++	je acpi_disable
++
++	cmp $MM_ACPI_ENABLE, %di
++	je acpi_enable
++
++	cmp $MM_STORE, %di
++	je mm_store
++
++	jmp restore_cb_state64
++
++acpi_enable:
++	mov	$0x3f8, %dx
++	mov	$'E', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'a', %al
++	out	%al, (%dx)
++	mov	$'b', %al
++	out	%al, (%dx)
++	mov	$'l', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'g', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'A', %al
++	out	%al, (%dx)
++	mov	$'C', %al
++	out	%al, (%dx)
++	mov	$'P', %al
++	out	%al, (%dx)
++	mov	$'I', %al
++	out	%al, (%dx)
++	mov	$'\n', %al
++	out	%al, (%dx)
++
++	// Stash the command from rdi.
++	shr	$32, %rdi
++	// PM1_CNT & ~SCI_EN
++	mov	%di, %ax
++	add	$MM_ACPI_ENABLE, %ax
++	// si contains ACPI_BASE_ADDR
++	mov	%si, %dx
++
++	out	%ax, %dx
++
++	jmp	restore_cb_state64
++
++acpi_disable:
++	mov	$0x3f8, %dx
++	mov	$'D', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'s', %al
++	out	%al, (%dx)
++	mov	$'a', %al
++	out	%al, (%dx)
++	mov	$'b', %al
++	out	%al, (%dx)
++	mov	$'l', %al
++	out	%al, (%dx)
++	mov	$'i', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'g', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'A', %al
++	out	%al, (%dx)
++	mov	$'C', %al
++	out	%al, (%dx)
++	mov	$'P', %al
++	out	%al, (%dx)
++	mov	$'I', %al
++	out	%al, (%dx)
++	mov	$'\n', %al
++	out	%al, (%dx)
++
++	// Stash command
++	shr	$32, %rdi
++	// PM1_CNT | SCI_EN
++	mov	%di, %ax
++	add	$MM_ACPI_DISABLE, %ax
++	// si contains ACPI_BASE_ADDR
++	mov	%si, %dx
++
++	out	%ax, %dx
++
++	jmp	restore_cb_state64
++
++mm_store:
++	// see comment above in mm_store32
++
++restore_cb_state64:
++	mov	$0x3f8, %dx
++	mov	$'M', %al
++	out	%al, (%dx)
++	mov	$'M', %al
++	out	%al, (%dx)
++	mov	$'6', %al
++	out	%al, (%dx)
++	mov	$'4', %al
++	out	%al, (%dx)
++	mov	$' ', %al
++	out	%al, (%dx)
++	mov	$'r', %al
++	out	%al, (%dx)
++	mov	$'e', %al
++	out	%al, (%dx)
++	mov	$'t', %al
++	out	%al, (%dx)
++	mov	$'u', %al
++	out	%al, (%dx)
++	mov	$'r', %al
++	out	%al, (%dx)
++	mov	$'n', %al
++	out	%al, (%dx)
++	mov	$'s', %al
++	out	%al, (%dx)
++	mov	$'\n', %al
++	out	%al, (%dx)
++
++	fxrstor64 (%rsp)
++	addq	$0x200, %rsp
++	movq	%r12, %rsp
++
++	popq	%rbx
++	movq	%rbx, %cr0
++
++	popq	%rbx
++	movq	%rbx, %cr4
++
++	popq	%rax
++	movq	%rax, %cr3
++
++	popq	%r15
++	popq	%r14
++	popq	%r13
++	popq	%r12
++	popq	%rbx
++	popq	%rbp
++	popq	%rsp
++	ret
++SYM_CODE_END(mm_entry_64)
++
++	.bss
++	.balign	4
++SYM_DATA(mm_signature,		.space 4)
++SYM_DATA(mm_blob_size,		.space 2)
++SYM_DATA(mm_entry_32_offset,	.space 4)
++SYM_DATA(mm_entry_64_offset,	.space 4)
+diff --git a/drivers/firmware/google/mm_handler/mm_handler.h b/drivers/firmware/google/mm_handler/mm_handler.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..4f32f84371d5cff3fcf6c9d1c1c33a2d2b50118e
+--- /dev/null
++++ b/drivers/firmware/google/mm_handler/mm_handler.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Derived from arch/x86/include/realmode.h
++ */
++
++#ifndef _MM_HANDLER_H
++#define _MM_HANDLER_H
++
++#define REALMODE_END_SIGNATURE	0x65a22c82
++
++/*
++ * These macros correspond to the arguments
++ * passed by coreboot's SMI handler. Depending
++ * on which one is passed in rdi or esp + x, handler
++ * will jump to the appropriate section.
++ */
++#define MM_ACPI_ENABLE		1
++#define MM_ACPI_DISABLE		0
++#define MM_STORE		2
++
++#endif /* _MM_HANDLER_H */
+diff --git a/drivers/firmware/google/mm_handler/mm_header.S b/drivers/firmware/google/mm_handler/mm_header.S
+new file mode 100644
+index 0000000000000000000000000000000000000000..342cd60492f89f8bea8d7051650365d1eaad4c2e
+--- /dev/null
++++ b/drivers/firmware/google/mm_handler/mm_header.S
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * MM blob header; this should match mm_payload.h
++ */
++
++#include <linux/linkage.h>
++#include <asm/page_types.h>
++#include <asm/segment.h>
++
++	.section ".header", "a"
++
++	.balign	16
++SYM_DATA_START(mm_header)
++	.long	pa_text_start
++	.long	pa_mm_entry_32
++	.long	pa_mm_entry_64
++	.long	pa_mm_signature
++	.long	pa_mm_blob_size
++SYM_DATA_END(mm_header)
+
 -- 
-Michal Gorlas <michal.gorlas@9elements.com>
+2.49.0
 

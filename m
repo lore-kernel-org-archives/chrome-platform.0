@@ -1,112 +1,136 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B71288C9B
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 19:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F127483
+	for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 08:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750102987; cv=none; b=j4az5ZUFQTpyed651bwd9G8ZyQgcqyuSYr2D3KSgMdEol3c3tEILabW9hwJuooy0xvKgboyof6PtFfb8bXKEGdPhMQAHeMH/SlcjNWirQwOQ6FXVXnPXWGAmI+v07f7SqJWGZMwL3AaU57OYvd3rc0e+SW2QLwX+ScWNnA45/+Q=
+	t=1750150487; cv=none; b=SZdY9H+3kXIJ5iaKf0ykmrelnStRHBWbfjeXKRzlHH32AJGbQQ75KMlhF8eRxjMlDcg0iDYoH0tkilxJeR+rrqdtpi2f7Z3/qedjzldJx9a0tUe+eqA54GsHqeKALrtSM2+lrlY7unpcLmOSbxSwptMNtWF7+sdnQLMJbSHZvwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750102987; c=relaxed/simple;
-	bh=4GXtdJIt4heRHXVxGyZI7LVV8sINiu3XKNwn1Nmm8ac=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BxBw1P+8wTa5iCZWdFXeUBsR6bqceQSkfyoiVhm1gEKN4FKuJePDQlWoYkoWBkfZ1FeLum8bWsdlHHPrQwR7joi2SjdOd13cOKFGFYUAgt+RTjLi7dfgz7yC4VZHqAxzB7TQGv7epPguoPpdWTFExt+FdqeK2A1FSdhyB4ZlVn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FwLQ1+lZ; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1750150487; c=relaxed/simple;
+	bh=gi83ut+L/fFlrJRjwZ/UO/0sSnXEyFlsXE9bEeWJdEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eo3oU+3pFjiQI0LjhYu7BeVIhKzYs2DTwlTtCTQCTBC7P/ajQ17fcmQJF/E/uxFJd7HuLlHQfm79uZLNYkpnPcCfaDrkMXTzEyvam2EVhHKoUIfCpzfBZF9qGU0CMQOIHpVLXM6GHQRq/bj14U/UkRmU72VLeaC/1mt7U183pnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n9zRLv3F; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FwLQ1+lZ"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-747fc7506d4so4138991b3a.0
-        for <chrome-platform@lists.linux.dev>; Mon, 16 Jun 2025 12:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1750102985; x=1750707785; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wt5vEBoX/7CZPzuyH4aIpdA7WQr2k5uAvo+zHY/RWMw=;
-        b=FwLQ1+lZvb091Ct/A43xvIzFizEFisvBpPkrUgnBJMN4fAmwDHAFaRceN2yzE5LDV0
-         6T7TxMDkIsTyvpQxznA6mKXuOhpk8C8okHgbCrTeqDp1OuUvE0BkEHrr0lrbXUeWDCFi
-         +1kzh9xeLyxD9T9VjPCfERb5pujDfelMQ4kSU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750102985; x=1750707785;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wt5vEBoX/7CZPzuyH4aIpdA7WQr2k5uAvo+zHY/RWMw=;
-        b=ptGRXtmXndL9ZUSSx5SYGy7/HgyIYXImRFpWXTINQVcVulv19yY94FwuJPLm/1OqZf
-         KBruKRxnbFPfs1d0rmCp3h4sQ0+G1su5MHDIjHu/KrQQqMcyjwvPYrr4Y0L2VP1LvqFq
-         dVP2O2lY9E6OalQ3/mKUSpALgQAo4KX/lLmCSdoxIHBV7gA3I6wk6j9DQjjZpkRRZDti
-         jS+vUT9DiSh/aXSZcJUJMiFyEw63f4HEYh0u9+VgFO+ohEQuhc/46wFBxxWQMuaHaiPo
-         Bon4B1EBYrNkwXfXqeWgYDz18phfOazmXRPvNxuaxkbmzq+2PVEAEwU/31wvVMzntuqz
-         HH3w==
-X-Forwarded-Encrypted: i=1; AJvYcCW1jC83Ex2CT9ggaWTh5QM/Zi/wvhEUAREP80LrqqkJAL1xlui+dVu1DjiOS34sGsXGE+wdbcyoJJgkZBrfmKw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwM8qIU1RPbWElA9aSkA5jzkeDhZkxWlYX5Qz4iQWPc7TKYSsNb
-	KY9+sb+gMIGpn4QFtNNm9gDLIUFJ0L+O2g01f92pVZnU/t7uIaONihaMSyW3LTuZfI+/FPi+Jsa
-	WmMxflfoPFXI/Wd1tYVoNc24y8yfAoERTDfZrneqa
-X-Gm-Gg: ASbGncsHa+QZZ6NHcvNkmzzJYDtGEtLuhW3DzMIJpZc2vzVlO9hiBB/nzyrq8y9pYX0
-	aHs9Noom5yuUPKC1CzXnS9W0U8vNFJEdbLWl/J5PRyHfQvjbro+ZPZoQFIJoJ3CilEFchnDjvOG
-	d/o+mPCfQouoplHSCBdz3TGmmyk7DD+okbenG5W4JcRA==
-X-Google-Smtp-Source: AGHT+IHg3+dqJWa4H+fZqAabDzILCcABfw73ZiZnurFMysI5YMbqJFlOWJudAKNQbZsNaHnRlMJ68o95/n7AayxSldk=
-X-Received: by 2002:a05:6a00:3a04:b0:736:d297:164 with SMTP id
- d2e1a72fcca58-7489cf6aad9mr14779236b3a.1.1750102984856; Mon, 16 Jun 2025
- 12:43:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n9zRLv3F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750150486; x=1781686486;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gi83ut+L/fFlrJRjwZ/UO/0sSnXEyFlsXE9bEeWJdEg=;
+  b=n9zRLv3FFB2CUu3kj8Sz/yh0hBKYA0JW5vJ+Zahvm3F2MZLRk1fT1mZE
+   KoVZ9dcWQtOAarIXU8GS/0TW17ZagjlIjoE5FE+BshBf0pJayS8FnDTJb
+   LBW9uA4KS9i2/aXIlW6ThU46ARu0Lb2U7JGBFWUjkQ/yyjZZ9LHDBHA27
+   qYq49Q1cGHoIVN15DDDSRQ23ZwJq5nDOaxOy+KeDJ4nLy+iL9C55aWvPr
+   u21MOr4GFkLr/B9L5frkFL8cLr38g+QBuHFUCmSj46PL+xXZVlm5GFw1S
+   AwB0lN9gqvK38uJRagwz/uBcZTeF6BBKpYKfQn7LS2BqrvxpvOgJuxJx2
+   A==;
+X-CSE-ConnectionGUID: q3upHNr1RQSZaldarZUIEQ==
+X-CSE-MsgGUID: Yhen0DSlRSS2qzDDyD/5Ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="62968012"
+X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
+   d="scan'208";a="62968012"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 01:54:45 -0700
+X-CSE-ConnectionGUID: 9LOb3JqSSAif8ITz9rPKEQ==
+X-CSE-MsgGUID: ZxcRlcFARNGiRTsvANYcqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
+   d="scan'208";a="149081447"
+Received: from kuha.fi.intel.com ([10.237.72.152])
+  by fmviesa008.fm.intel.com with SMTP; 17 Jun 2025 01:54:40 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 17 Jun 2025 11:54:39 +0300
+Date: Tue, 17 Jun 2025 11:54:39 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Dmitry Baryshkov <lumag@kernel.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Badhri Jagan Sridharan <badhri@google.com>,
+	RD Babiera <rdbabiera@google.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 06/10] Revert "usb: typec: displayport: Receive DP Status
+ Update NAK request exit dp altmode"
+Message-ID: <aFEtT5JAaGQIs-vG@kuha.fi.intel.com>
+References: <20250616133147.1835939-1-akuchynski@chromium.org>
+ <20250616133147.1835939-7-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250616133147.1835939-1-akuchynski@chromium.org>
- <20250616133147.1835939-7-akuchynski@chromium.org> <2025061623-ammonium-outskirts-e89e@gregkh>
-In-Reply-To: <2025061623-ammonium-outskirts-e89e@gregkh>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Mon, 16 Jun 2025 21:42:53 +0200
-X-Gm-Features: AX0GCFtdGIjZUFsa_hlqAkw8MFj1EgMmaIch8V2HBLolVrJ7BiBJkQmysNKbhAw
-Message-ID: <CAMMMRMebxSLorxTRzre6MDEn0bdC3hrNVQzZyf0NH=TNUk+YGw@mail.gmail.com>
-Subject: Re: [PATCH 06/10] Revert "usb: typec: displayport: Receive DP Status
- Update NAK request exit dp altmode"
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, Pooja Katiyar <pooja.katiyar@intel.com>, 
-	Badhri Jagan Sridharan <badhri@google.com>, RD Babiera <rdbabiera@google.com>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250616133147.1835939-7-akuchynski@chromium.org>
 
-On Mon, Jun 16, 2025 at 4:15=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Jun 16, 2025 at 01:31:43PM +0000, Andrei Kuchynski wrote:
-> > This reverts commit b4b38ffb38c91afd4dc387608db26f6fc34ed40b.
-> >
-> > The commit introduced a deadlock with the cros_ec_typec driver.
-> > The deadlock occurs due to a recursive lock acquisition of
-> > `cros_typec_altmode_work::mutex`.
-> > The call chain is as follows:
-> > 1. cros_typec_altmode_work() acquires the mutex
-> > 2. typec_altmode_vdm() -> dp_altmode_vdm() ->
-> > 3. typec_altmode_exit() -> cros_typec_altmode_exit()
-> > 4. cros_typec_altmode_exit() attempts to acquire the mutex again
-> >
-> > This revert is considered safe as no other known driver sends back
-> > DP_CMD_STATUS_UPDATE command with the NAK flag.
-> >
-> > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> > ---
-> >  drivers/usb/typec/altmodes/displayport.c | 4 ----
-> >  1 file changed, 4 deletions(-)
->
-> Why isn't this being sent as a separate patch for 6.16-final?  And why
-> not put a fixes: line?
->
+Hi Andrei,
 
-Hi Greg,
+On Mon, Jun 16, 2025 at 01:31:43PM +0000, Andrei Kuchynski wrote:
+> This reverts commit b4b38ffb38c91afd4dc387608db26f6fc34ed40b.
+> 
+> The commit introduced a deadlock with the cros_ec_typec driver.
+> The deadlock occurs due to a recursive lock acquisition of
+> `cros_typec_altmode_work::mutex`.
+> The call chain is as follows: 
+> 1. cros_typec_altmode_work() acquires the mutex
+> 2. typec_altmode_vdm() -> dp_altmode_vdm() ->
+> 3. typec_altmode_exit() -> cros_typec_altmode_exit()
+> 4. cros_typec_altmode_exit() attempts to acquire the mutex again
+> 
+> This revert is considered safe as no other known driver sends back
+> DP_CMD_STATUS_UPDATE command with the NAK flag.
+> 
+> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> ---
+>  drivers/usb/typec/altmodes/displayport.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+> index b09b58d7311d..ac84a6d64c2f 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -393,10 +393,6 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
+>  		break;
+>  	case CMDT_RSP_NAK:
+>  		switch (cmd) {
+> -		case DP_CMD_STATUS_UPDATE:
+> -			if (typec_altmode_exit(alt))
+> -				dev_err(&dp->alt->dev, "Exit Mode Failed!\n");
+> -			break;
 
-The issue will emerge only after this series is applied, so 6.16
-remains secure as this code is not executable.
-I will submit it as a separate patch, with the relevant tags included.
+Commit b4b38ffb38c9 ("usb: typec: displayport: Receive DP Status
+Update NAK request exit dp altmode") addressed a very real problem
+with failure to execute data role swap. You are not really offering
+anything else for that issue here.
 
-Thanks,
-Andrei
+Is it not an option to just schedule the mode exit here instead to
+solve the problem?
+
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index b09b58d7311d..2abbe4de3216 100644
+--- a/drivers/usb/typec/altmodes/displayport.c
++++ b/drivers/usb/typec/altmodes/displayport.c
+@@ -394,8 +394,7 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
+        case CMDT_RSP_NAK:
+                switch (cmd) {
+                case DP_CMD_STATUS_UPDATE:
+-                       if (typec_altmode_exit(alt))
+-                               dev_err(&dp->alt->dev, "Exit Mode Failed!\n");
++                       dp->state = DP_STATE_EXIT;
+                        break;
+                case DP_CMD_CONFIGURE:
+                        dp->data.conf = 0;
+
+
+-- 
+heikki

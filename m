@@ -1,161 +1,172 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25790292918
-	for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 09:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE96C2E06F1
+	for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 09:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750153043; cv=none; b=l4kwvFrcvSELlSJ9gbmOu5SwCca09za0+BVgpEHfRpWFqQqkiKZIn4BJgW4ONb7kVbWBK5Q31rec9zM6T18NCs7SFaHOftoVdbycOvP7ma/mR5pswGzCXZthlDuH/X4PkcfgNoQ9Jnz81vAR2xMhKmhIOYBIw8ifoGxzq9RH77I=
+	t=1750153810; cv=none; b=r/JGXCWQZuqE3AqNzfsJcmuFz5bZakRsMDgV9Pgis8ba5QCic6U71s/+FFnOiNkIwDm77Rr3d1p6huE/cpT7AvVxvNjnUPJKYhXslSkPoRwmouX0vgTiI3RPoTpsx4W9ChSMCNLaouoSdXTWnuZAZETpXqriDU1ez3f01X0eVZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750153043; c=relaxed/simple;
-	bh=YHPHcbEtKx3e1/IQVsfntHxD7KeC7qvG/QgbnDsiHg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S7k/yHwXiKj7X+kxpLbe+yUZEci2p7oVbtjHh0EPttr1qFCpub0fJFG2x6wzKQS2enasnTfmYR9pKl0DMVuxbAIFgdlgvpR0a9lCrm32nlt63fpuCqMvGTJQ1CExU6KFukIB1rqB66aH1Q/gfwCuHgBNU7JjrATkAXzmT6tvmVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=awP+AaWX; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="awP+AaWX"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a54700a46eso3519776f8f.1
-        for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 02:37:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1750153039; x=1750757839; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xQLWgJwCNGpOjHI3jmeKcf+m7mG0t5rZQIDZcAxVNp4=;
-        b=awP+AaWX/kWNcutzxI9AOhvfwtELiXM4c2khBGxfJXbT0L2aGJhqR46MlqCHUeGYUs
-         4FJ1Ff3TTWiVVRcgs8UrsPBQkdfl9eoAFKY2KOOWhJ9eijryU2+v54Gb0bC+eOLNpTIm
-         ryi0sWRiYN1ufn9CQtcovkBMcKMmWri1DqQppKr0UI1/25d+9wv80m3NoFpcTyoxDjs4
-         c2hScNPww9Bvg/18XbXhmSl337UWq502wFLBFRB7DGPdfq+kOZclePo/mWU4mfUXL1cV
-         4ApDlGWADTTme1R5qK5EfONhssA8abR2OtANT0Xu6/tiU35CeqeLAXACxsRqfWwxJXTh
-         URRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750153039; x=1750757839;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xQLWgJwCNGpOjHI3jmeKcf+m7mG0t5rZQIDZcAxVNp4=;
-        b=DgLB/4JjS8DyM4vZULLGn3x2yX2WCVS99eripRz8kehISsVaaJEqGbjMWCHwdNL/0v
-         jYzzdDaerkLjnLfI+F9qsGUs+yoHxNd3hhG/4oTy9uaUMSGYh6yBxkyrEtsCj+G8OnUg
-         iFSPSPGNfcN9B0oxfWV19lB2hkW5MmMVACKf+XrTz2usFDE2BmMN6xlQ5nLVhGbhwcvQ
-         whSWlk8x6JnVbvYEmlaLURsvTwWIIoxnsM08YyNykfT2RPVBOlku+3Xpgt+ImZ36bCIG
-         Zk9oZSdj6hvXrSgjoQXeUJm8KejgonKsNLN2dg4raeAS54V8PUeouDI8SkNJS3BJolVc
-         05Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCVz6U1cieqTBZvu/EmIseU2Bt/hJLgIMnE33D/0bdRQM4F6obXhBjIxBl3AyVfR8fkBr6e33mXd1A+LOfN0qb0=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3yf54iQCecbuyV8GzK847nCc30zZLxi4J7kl7Hzrk0xFxeKUv
-	FVEnhQUkHNkRfk3LMZFNY7iO7vrCmompKygeDdHMhtG6pYQqaAIb0oR+YJ5OoIfzXA==
-X-Gm-Gg: ASbGncuXuCuhhFO69LlKnbK8+CuVFjx9z7Xqbr6jZCcjgpLGWc5eJeFoo9Q9/7UAamZ
-	S1D5DvR0P19YNcB7W8qYypFWHA6yxD0W2XnP87Kpxk8vPYIQyo5pVjIXmIRcd4U1PLqTWlBdMlw
-	DgBlKw5otyIIcrAPJhE3XNUONr9ZCIiN2n1mWhxszDivhmMrkXP4Vg0cVpjhlyC/5AhSsgrT6WA
-	fu80W9Wem8IbWm73iSr6m0Ww4IHx+e7y1Nh1rRQfbln2W2iUMdaOQHe/rmnBJAnSYCxhn9hlbO6
-	wvkvBqqGxSFd0i/GBhpdN6qxpxA0T0lWJi4LYIv9X/qYNVyloRHh0lxpQWCKxZ6TvYR/NmDH2q6
-	gtsT8H5PDuMFPAySa1zIXk3GoYepxs5VZx+7rvC8lBg==
-X-Google-Smtp-Source: AGHT+IFVAOAbd/qgKSVKbDicAB2PnOt83B6zNjx9qBCLEy9aEwwB0HmDR3fUYBp5jRLGG5xc8Apugw==
-X-Received: by 2002:a05:6000:26c4:b0:3a3:652d:1638 with SMTP id ffacd0b85a97d-3a572e585a1mr9727634f8f.48.1750153039313;
-        Tue, 17 Jun 2025 02:37:19 -0700 (PDT)
-Received: from cyber-t14sg4 (ip-078-094-000-050.um19.pools.vodafone-ip.de. [78.94.0.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a57b2bfc69sm7492985f8f.76.2025.06.17.02.37.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 02:37:18 -0700 (PDT)
-Date: Tue, 17 Jun 2025 11:37:17 +0200
-From: Michal Gorlas <michal.gorlas@9elements.com>
-To: Brian Norris <briannorris@chromium.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
-	Julius Werner <jwerner@chromium.org>, marcello.bauer@9elements.com,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/3] firmware: coreboot: support for parsing SMM
- related informations from coreboot tables
-Message-ID: <aFE3TVxqpt4-lmYP@cyber-t14sg4>
-References: <cover.1749734094.git.michal.gorlas@9elements.com>
- <815080fae73a4e879bae4851367ac7c0ad2cd551.1749734094.git.michal.gorlas@9elements.com>
- <aEtWtBKfNhDT1bF9@google.com>
- <aE1wvuamXqVTzpny@cyber-t14sg4>
- <aFBfcg7E38ywGD5W@google.com>
+	s=arc-20240116; t=1750153810; c=relaxed/simple;
+	bh=penylcrZjRjoRlt2DxZgzg5QOoQPPyQfH7KISVKYXtg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=lRBeCvSFbC6+WXXUptswrWfGTo9uMYLPGP6G1wqaOf2lhaKVD8sif2xJzzMpZHz0Jw2HK5F+tP5045a3BAGjJQfklkzBcSwcASAvOrkQsTYqAIc5DKMhTJ57IXN8DPld9AimGImFLJdKhxnp1G1B+4zUCTEWHUcjRoJcSBoq00E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uRSwt-0005fI-0H; Tue, 17 Jun 2025 11:49:47 +0200
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uRSws-003x59-1O;
+	Tue, 17 Jun 2025 11:49:46 +0200
+Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1uRSws-00FBhl-11;
+	Tue, 17 Jun 2025 11:49:46 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Sebastian Reichel <sre@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH v10 7/7] Documentation: Add sysfs documentation for PSCRR reboot reason tracking
+Date: Tue, 17 Jun 2025 11:49:45 +0200
+Message-Id: <20250617094945.3619360-8-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250617094945.3619360-1-o.rempel@pengutronix.de>
+References: <20250617094945.3619360-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFBfcg7E38ywGD5W@google.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-On Mon, Jun 16, 2025 at 11:16:18AM -0700, Brian Norris wrote:
-> On Sat, Jun 14, 2025 at 02:53:18PM +0200, Michal Gorlas wrote:
-> > On Thu, Jun 12, 2025 at 03:37:40PM -0700, Brian Norris wrote:
-> > > > @@ -112,8 +122,8 @@ void coreboot_driver_unregister(struct coreboot_driver *driver);
-> > > >   * boilerplate.  Each module may only use this macro once, and
-> > > >   * calling it replaces module_init() and module_exit()
-> > > >   */
-> > > > -#define module_coreboot_driver(__coreboot_driver) \
-> > > > +#define module_coreboot_driver(__coreboot_driver)                  \
-> > > >  	module_driver(__coreboot_driver, coreboot_driver_register, \
-> > > > -			coreboot_driver_unregister)
-> > > > +		      coreboot_driver_unregister)
-> > > 
-> > > You're making arbitrary whitespace changes in this hunk. Try to avoid
-> > > that, please.
-> > > 
-> > 
-> > Sure, will do. It came from a style warning when running
-> > scripts/checkpatch.pl. I thought it could be useful to fix it on the
-> > same go.
-> 
-> That's odd, I don't see any such warning. Anyway, typically I'd expect
-> such things not to be lumped together under the "separate your changes"
-> guidance of Documentation/process/submitting-patches.rst (if they're
-> worth changing at all), although that may not be a hard and fast rule.
+Add documentation for the Power State Change Reason Recorder (PSCRR)
+sysfs interface, which allows tracking of system shutdown and reboot
+reasons. The documentation provides details on available sysfs entries
+under `/sys/kernel/pscrr/`, explaining their functionality, example usage,
+and how they interact with different backend storage options (e.g., NVMEM).
 
-My bad, the whitespace were not a consequence of checkpatch.pl
-complaints, but rather running clang-format on coreboot_table.h
-on a clean tree:
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+---
+changes v8:
+- Simplify and clarify example sysfs value comments
+- Add note that not all values are meaningful on every system
+changes v7:
+- document expected values
+---
+ .../ABI/testing/sysfs-kernel-reboot-pscrr     | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
 
- * $ clang-format -i drivers/firmware/google/coreboot_table.h
- * $ git diff
- * diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
- * index bb6f0f7299b4..3d933c657535 100644
- * --- a/drivers/firmware/google/coreboot_table.h
- * +++ b/drivers/firmware/google/coreboot_table.h
- * @@ -61,15 +61,15 @@ struct lb_framebuffer {
- *         u32 x_resolution;
- *         u32 y_resolution;
- *         u32 bytes_per_line;
- * -       u8  bits_per_pixel;
- * -       u8  red_mask_pos;
- * -       u8  red_mask_size;
- * -       u8  green_mask_pos;
- * -       u8  green_mask_size;
- * -       u8  blue_mask_pos;
- * -       u8  blue_mask_size;
- * -       u8  reserved_mask_pos;
- * -       u8  reserved_mask_size;
- * +       u8 bits_per_pixel;
- * +       u8 red_mask_pos;
- * +       u8 red_mask_size;
- * +       u8 green_mask_pos;
- * +       u8 green_mask_size;
- * +       u8 blue_mask_pos;
- * +       u8 blue_mask_size;
- * +       u8 reserved_mask_pos;
- * +       u8 reserved_mask_size;
- *  };
- * 
- *  /* A device, additionally with information from coreboot. */
- * @@ -112,8 +112,8 @@ void coreboot_driver_unregister(struct coreboot_driver *driver);
- *   * boilerplate.  Each module may only use this macro once, and
- *   * calling it replaces module_init() and module_exit()
- *   */
- * -#define module_coreboot_driver(__coreboot_driver) \
- * +#define module_coreboot_driver(__coreboot_driver)                  \
- *         module_driver(__coreboot_driver, coreboot_driver_register, \
- * -                       coreboot_driver_unregister)
- * +                     coreboot_driver_unregister)
- * 
- *  #endif /* __COREBOOT_TABLE_H */
+diff --git a/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+new file mode 100644
+index 000000000000..96369422ed6e
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
+@@ -0,0 +1,74 @@
++What:		/sys/kernel/pscrr/reason
++Date:		April 2025
++KernelVersion:  6.16
++Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
++Description:
++		This file provides access to the current power state
++		change reason. If supported, the reason may be stored
++		persistently in an NVMEM cell or another backend.
++
++		Reading this file returns an integer representing the
++		current shutdown or reboot cause.
++
++		Writing an integer value to this file sets the reason
++		to be stored for system analysis on next reboot.
++
++		Example usage:
++		  Read:
++			$ cat /sys/kernel/pscrr/reason
++			1   # (Example: Under-voltage shutdown)
++
++		  Write:
++			$ echo 4 > /sys/kernel/pscrr/reason
++			# Sets the reason to 4 (Example: Over-temperature shutdown)
++
++		Note:
++		  Not all systems support all reason values. Hardware or
++		  configuration may limit which reasons are applicable.
++
++		Values are defined in:
++		  - include/linux/reboot.h (enum psc_reason)
++
++		Supported Values:
++		  (from include/linux/reboot.h)
++
++		+-------+---------------------------+--------------------------+
++		| Value | Symbol                    | Description              |
++		+-------+---------------------------+--------------------------+
++		| 0     | PSCR_UNKNOWN              | Unknown or unspecified   |
++		|       |                           | power state change reason|
++		+-------+---------------------------+--------------------------+
++		| 1     | PSCR_UNDER_VOLTAGE        | Supply voltage dropped   |
++		|       |                           | below safe threshold     |
++		+-------+---------------------------+--------------------------+
++		| 2     | PSCR_OVER_CURRENT         | Excessive current draw or|
++		|       |                           | potential short circuit  |
++		+-------+---------------------------+--------------------------+
++		| 3     | PSCR_REGULATOR_FAILURE    | Voltage regulator failure|
++		|       |                           | preventing stable supply |
++		+-------+---------------------------+--------------------------+
++		| 4     | PSCR_OVER_TEMPERATURE     | Unsafe system temperature|
++		|       |                           | detected by sensors      |
++		+-------+---------------------------+--------------------------+
++		| 5     | PSCR_EC_PANIC             | Reboot triggered by EC   |
++		|       |                           | (Embedded Controller)    |
++		+-------+---------------------------+--------------------------+
++
++What:		/sys/kernel/pscrr/reason_boot
++Date:		April 2025
++KernelVersion:  6.16
++Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
++Description:
++		This file provides the last recorded power state change
++		reason from before the current boot. If a supported backend
++		is configured (e.g., NVMEM), the value is retained across
++		reboots.
++
++		Example usage:
++		  Read:
++			$ cat /sys/kernel/pscrr/reason_boot
++			4   # (Example: Over-temperature shutdown)
++
++		Supported values:
++		  Same as /sys/kernel/pscrr/reason (see above).
++
+-- 
+2.39.5
 
-Anyway, I am not sure if it is even worth changing, its rather cosmetic. I
-removed these changes in v2. 
-
-Best,
-Michal

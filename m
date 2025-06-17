@@ -1,55 +1,55 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55AE2DE1E1
-	for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 12:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045C828BA9C
+	for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 12:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750163899; cv=none; b=hRnSuZqyS14nOTR21PLb8/gIOkzhrD9infjbqpwKTR2qxcrrx3QH/Hitp6Qj/e7vfQtidxCkwyqGa6ciR9WKsk7sIhASyw2qcFNzEmPzfpVUaSvcr5xt3TbrAHf5WoH0/xZLoklub9xTAGL+5V+PElSyiZZCtpOLHuiAawzUmVw=
+	t=1750164885; cv=none; b=WwyZQ6Cdp30Ce+2s7FbIlW3RK5LRgs3kakOD6rNV7LabNSO1GX4+3ZWlwICCweq6HPwfkKFlOzouKp6tI7EhTm+Roao49CwhW3DLCAGhm2Ph5yguY5AsIPegCdUPBvhiC0i7PVf0FHzhvwTmwyYPeTGp1WsXdNIJSfFnh363fZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750163899; c=relaxed/simple;
-	bh=govOO8Sb0lfvYc8/pNG+JSTBvpGt8Xu8LaXV/aZgDiQ=;
+	s=arc-20240116; t=1750164885; c=relaxed/simple;
+	bh=FxzlxQZZ8ErMBigR9fc+Rjf5JKpOe1VdKISwtp/3ATE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QfupDrw39uM1Z6ELSVoFE3U+FpYUCVM6k9b/JqaqbiE9cprv/E1QuuEIiDSQU7xCLiy+C48jE0SMxt8NnVj7xp6Nm1tc0QXb7kq2Yz0ws0h4mrT7dszJFKrY9ep+ubmxsLb4Y+PikBs1+u9IOj5QV5WsoHEwVIzGJ7VmiU3fUnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=m8fumMdh; arc=none smtp.client-ip=209.85.210.172
+	 To:Cc:Content-Type; b=nMda+mrH/gCx6JjBgGjmOIpSfkpnq5y2o129VpiUfI3wB1zYytT9dKBpbFfXij9OizyexrFt8TWzCi65jx2AJ2M736ntoS/jMG7CGjhPnBUk3CSj3mgFg+JdkvQIbfl3mIXxHHBWplFIMWzhIV5I49UlvTtT3pP+F5yqBwHpSTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=U7MLRlnE; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="m8fumMdh"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7487d2b524eso2849790b3a.0
-        for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 05:38:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="U7MLRlnE"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742c3d06de3so6561749b3a.0
+        for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 05:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1750163896; x=1750768696; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1750164883; x=1750769683; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MoyRF7Ucv2ZJei5c5Z3iiwvEOE6mahrV6OPr5N+nC6I=;
-        b=m8fumMdhk7Y/byKK5AYFkOx7y+MDaaTS6+NBKzDyPJE/LkFted2EzQ5tDCcmXdEb6K
-         35k96PHQRYuKs3bJndQup+w4FHATPa75E2HB667hnZHdO8as8Kgwy7R6j7JbavKit0g7
-         hLcqVKbUL/WEHJv9V/oqzREMG72+nmnxWB470=
+        bh=KIz/FMRtgwsTC+HYTMdCl4f60+W4V34OeVftKEDL+z8=;
+        b=U7MLRlnEXXpocfYfvhMtajlSQihblzlxnCR6x5osFott8o143GoDwvVQFf8aSjeK5M
+         sAhIMRQuwAMPZHvAhAQRoHNtpV7jsuoPTgpscVExWtxT60RoYb0pI6TAyG7QkM27hMv/
+         nApZGnGcYCRmvyEfgxPNrxxFem9LNCFVcoIH4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750163896; x=1750768696;
+        d=1e100.net; s=20230601; t=1750164883; x=1750769683;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MoyRF7Ucv2ZJei5c5Z3iiwvEOE6mahrV6OPr5N+nC6I=;
-        b=K1blfIuCtqKUxqBS5N8LQB4NR58sYUREq3JuiXlW3jJk2O+90Ra+JL3awjxx7mghcA
-         Tpvv8cEPAp2zGNWJYWjNPAhh3DNpiIAR7AR74DchgDajWpmF4DesloFXVji8a4+9OVBz
-         UGGFqYEJwP+oPJluZ4TIUW9NIqKJGRwrYMMeNbardyZsClTeYCDzC4IH6aL1wp+Gi+/E
-         9CiwKjybdeJQ8UUL/1c5M1STVkGroBCjJsCa9toNgwGt3ys/m/hXyViFb/RFyrV9nLob
-         t66pivrOArbRzObGh9gS2Nh6LGYDaS58+rmvezKuBso+YGApC47bDQ+WGWPAqV6S26Cj
-         IrSg==
-X-Forwarded-Encrypted: i=1; AJvYcCWGJfvRHmhKs9HtDM9wocq75DwMMIHtIIGlnGa6WMn8hkTMQE0EbeBS61QkCr1YqvEjn4OfdXuNQddpTMgLq+c=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkreRx4lQuMgcVZ6wc+aMFfVjMHcaUHrEY0AlJQ/VsZvD8F9i8
-	zjiExpGSa4ClKoRDlzrMkOGGrgdkk3on6dihYw5/dajNZmVvTgyIFUtTKbYSZr87OBNpt8c6jmM
-	NxELOBuzw6KMYhLYUeSt1ACTAU/6kDOF//JQyclcF
-X-Gm-Gg: ASbGncvpUUQByvBi3bWaY5614R5hfipuv3joHtWlL5BBP4wIQ6xBfLC8E6xSY7tfW8t
-	vOf4DLzzZ1MXK9RhD4ZPjNqW8xNobq9SlvDR2JJIYxnYISPIdfwFHDQUJii2WmOopYUlWLgskCG
-	v91uBUF+HbTeBxoKHpoiPILMBdx6ovLfuPzwngsN8PIuF/13tk66deTEtLMoTt+X8k4l0t
-X-Google-Smtp-Source: AGHT+IGcwG7VCe2N0MX7DXoVynUbfy3BR2JdgAsClrObhggJXBjxy4eU/Z1empHJ7zy1mJYExj1FaQj/LqBg4z9XrUI=
-X-Received: by 2002:a05:6a00:1255:b0:748:33f3:8da3 with SMTP id
- d2e1a72fcca58-7489d0335f6mr17213221b3a.19.1750163896212; Tue, 17 Jun 2025
- 05:38:16 -0700 (PDT)
+        bh=KIz/FMRtgwsTC+HYTMdCl4f60+W4V34OeVftKEDL+z8=;
+        b=T9YeN7Qa1rL55PflSDhNwM095fKgVbIe9ThPUh2QH1WQCX7HNPIL6LF9rlf91YOCcA
+         x7KvlJszpZ2AtMxsu2I7RqaqgArmm1y/FBEJdUV/fHrOnywCBnyw7+wGtEDZj4b5Iugk
+         jhx4G82YeUI0ZCX5XLZYtfWXvOO2Tmww7f6g0KMvVxs1JS8iFcUCzPSMPdzyka+c7fM6
+         ebODUfjpQOywwTeDDgs7MMrE+jtMQrN1UnRxyBEsqgqFK94NfsOiJhd/KaWhvxhkWP4l
+         QpvV0ANcrazWJneuvFssl4z2Sk2fyS/b5jvmOOUKuCVnKyh26zknPf96ztwQCjzIy+QA
+         Movg==
+X-Forwarded-Encrypted: i=1; AJvYcCVViPvmHmZgYH7Mk/JExu4ud0PntlB0eSAuro1NcGF3GPPdG03LMQCtFvOZHdiYjPwIYJIoXgI/jOd0zsfzh0k=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDKqu0Ko42WWPYWGNo9577pQPoowgtQu/BoyzU1yJGDtRySTQK
+	ZPpx68zUA2wKAih4AoV53uZHBwdwWsVTFsrhn4qbhax4R5MAcM0Vm1CnVjMqA5J83hvUXEvlZ8Z
+	4bGF4VOkqcWKDNZxlXP+mnpoM29VMXNYNFB0uNyZq
+X-Gm-Gg: ASbGnctNJYZ3GZ0n1lHdzjmVpuRF9QPHQmjJd9k4/OF47bx6SSHRnhi4K927RNSbQIm
+	XFI7yBC64GGFfQEhIL5YFH6ik+5BPS99EJGHBtfrSCjjBzsjE8w+bIB+Xcl/vp5UhIC1dryQPDY
+	4llwVrHtv4gpa09K7T7Y5BI9sy78fmvO1si3Ps2VWLwjjTwpyzFBk3I/fFVBHAuy2kkIdZ
+X-Google-Smtp-Source: AGHT+IFNOIUYi+5hHdN381jMozlhdv8TZWEs3iifK29iavCfU0mKB9p4IykhjV/IvnnwJXRpXtMdEPE9xxaRduPeRhY=
+X-Received: by 2002:a05:6a00:a86:b0:73e:598:7e5b with SMTP id
+ d2e1a72fcca58-7489cfc27edmr16829475b3a.1.1750164883054; Tue, 17 Jun 2025
+ 05:54:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -57,13 +57,14 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20250616133147.1835939-1-akuchynski@chromium.org>
- <20250616133147.1835939-5-akuchynski@chromium.org> <aFE6dnxet4_sm8b1@kuha.fi.intel.com>
-In-Reply-To: <aFE6dnxet4_sm8b1@kuha.fi.intel.com>
+ <20250616133147.1835939-7-akuchynski@chromium.org> <aFEtT5JAaGQIs-vG@kuha.fi.intel.com>
+In-Reply-To: <aFEtT5JAaGQIs-vG@kuha.fi.intel.com>
 From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Tue, 17 Jun 2025 14:38:04 +0200
-X-Gm-Features: AX0GCFtqlvORHJFZLdz5McnL-6vzhJjXiWQ9EAC7tyWfPgFhCZapQvWuwd4Rmxk
-Message-ID: <CAMMMRMdwUyxdMy42tA_ccYo77nf=6C+KgokDLHBLEYDa5aOHQw@mail.gmail.com>
-Subject: Re: [PATCH 04/10] usb: typec: Expose alternate mode priorities via sysfs
+Date: Tue, 17 Jun 2025 14:54:29 +0200
+X-Gm-Features: AX0GCFsTu0UqkokKiq4xWkmUWDTeZ6ZnpJ0o1xk-NKRJ9vpe9u9k_-Fhg2uUkHU
+Message-ID: <CAMMMRMctfOabMK3Rwfk_i+P0XsLECg5yOfhYO+9yqp-SFZrVEQ@mail.gmail.com>
+Subject: Re: [PATCH 06/10] Revert "usb: typec: displayport: Receive DP Status
+ Update NAK request exit dp altmode"
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc: Dmitry Baryshkov <lumag@kernel.org>, Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
 	Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>, 
@@ -74,98 +75,80 @@ Cc: Dmitry Baryshkov <lumag@kernel.org>, Abhishek Pandit-Subedi <abhishekpandit@
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 17, 2025 at 11:50=E2=80=AFAM Heikki Krogerus
+On Tue, Jun 17, 2025 at 10:54=E2=80=AFAM Heikki Krogerus
 <heikki.krogerus@linux.intel.com> wrote:
 >
-> On Mon, Jun 16, 2025 at 01:31:41PM +0000, Andrei Kuchynski wrote:
-> > This sysfs attribute specifies the preferred order for enabling
-> > DisplayPort alt-mode, Thunderbolt alt-mode, and USB4 mode.
+> Hi Andrei,
+>
+> On Mon, Jun 16, 2025 at 01:31:43PM +0000, Andrei Kuchynski wrote:
+> > This reverts commit b4b38ffb38c91afd4dc387608db26f6fc34ed40b.
+> >
+> > The commit introduced a deadlock with the cros_ec_typec driver.
+> > The deadlock occurs due to a recursive lock acquisition of
+> > `cros_typec_altmode_work::mutex`.
+> > The call chain is as follows:
+> > 1. cros_typec_altmode_work() acquires the mutex
+> > 2. typec_altmode_vdm() -> dp_altmode_vdm() ->
+> > 3. typec_altmode_exit() -> cros_typec_altmode_exit()
+> > 4. cros_typec_altmode_exit() attempts to acquire the mutex again
+> >
+> > This revert is considered safe as no other known driver sends back
+> > DP_CMD_STATUS_UPDATE command with the NAK flag.
 > >
 > > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 > > ---
-> >  Documentation/ABI/testing/sysfs-class-typec | 17 ++++
-> >  drivers/usb/typec/Makefile                  |  2 +-
-> >  drivers/usb/typec/class.c                   | 26 ++++++
-> >  drivers/usb/typec/class.h                   |  2 +
-> >  drivers/usb/typec/mode_selection.c          | 93 +++++++++++++++++++++
-> >  drivers/usb/typec/mode_selection.h          |  5 ++
-> >  include/linux/usb/typec_altmode.h           |  7 ++
-> >  7 files changed, 151 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/usb/typec/mode_selection.c
-> >  create mode 100644 drivers/usb/typec/mode_selection.h
+> >  drivers/usb/typec/altmodes/displayport.c | 4 ----
+> >  1 file changed, 4 deletions(-)
 > >
-> > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentatio=
-n/ABI/testing/sysfs-class-typec
-> > index 38e101c17a00..46eee82042ab 100644
-> > --- a/Documentation/ABI/testing/sysfs-class-typec
-> > +++ b/Documentation/ABI/testing/sysfs-class-typec
-> > @@ -162,6 +162,23 @@ Description:     Lists the supported USB Modes. Th=
-e default USB mode that is used
-> >               - usb3 (USB 3.2)
-> >               - usb4 (USB4)
-> >
-> > +What:                /sys/class/typec/<port>/altmode_priorities
-> > +Date:                June 2025
-> > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
-> > +Description: Lists the alternate modes supported by the port and their
-> > +             priorities. The priority setting determines the order in =
-which
-> > +             Displayport alt-mode, Thunderbolt alt-mode and USB4 mode =
-will be
-> > +             activated, indicating the preferred selection sequence. A=
- value of -1
-> > +             disables automatic entry into a specific mode, while lowe=
-r numbers
-> > +             indicate higher priority. The default priorities can be m=
-odified by
-> > +             assigning new values. Modes without explicitly set values=
- default to -1,
-> > +             effectively disabling them.
-> > +
-> > +             Example values:
-> > +             - "USB4=3D0 TBT=3D1 DP=3D2"
-> > +             - "USB4=3D-1 TBT=3D0"
-> > +             - "DP=3D-1 USB4=3D-1 TBT=3D-1"
+> > diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typ=
+ec/altmodes/displayport.c
+> > index b09b58d7311d..ac84a6d64c2f 100644
+> > --- a/drivers/usb/typec/altmodes/displayport.c
+> > +++ b/drivers/usb/typec/altmodes/displayport.c
+> > @@ -393,10 +393,6 @@ static int dp_altmode_vdm(struct typec_altmode *al=
+t,
+> >               break;
+> >       case CMDT_RSP_NAK:
+> >               switch (cmd) {
+> > -             case DP_CMD_STATUS_UPDATE:
+> > -                     if (typec_altmode_exit(alt))
+> > -                             dev_err(&dp->alt->dev, "Exit Mode Failed!=
+\n");
+> > -                     break;
 >
-> No. If you want to disable entry to a mode by default, then you
-> deactivate that mode, so -1 is not needed. USB4 is also not an alt
-> mode, so this at the very least should be named differently.
->
-> But I'm not sure this is the correct way to handle the modes in
-> general. Can you please explain what exactly is the use case you are
-> thinking?
+> Commit b4b38ffb38c9 ("usb: typec: displayport: Receive DP Status
+> Update NAK request exit dp altmode") addressed a very real problem
+> with failure to execute data role swap. You are not really offering
+> anything else for that issue here.
 
-Hi Heikki,
-
-This implements the mode selection logic within the kernel, replacing
-its userspace counterpart. Implementing this in the kernel offers
-advantages, making the process both more robust and far easier to
-manage.
-This eliminates the need for user space to verify port, partner, or
-cable capabilities, and to control the mode entry process. User space
-doesn't even need to know if USB4 mode is supported by the port or
-partner; unsupported modes are automatically skipped.
-User space's role is now limited to high-level tasks like security,
-with the kernel managing technical implementation. Mode selection and
-activation can occur without user space intervention at all if no
-special rules apply and the default policy (USB4 -> TBT -> DP) is
-acceptable.
+Thanks, I see the problem now. Reverting the patch is not feasible.
 
 >
-> If you just need to prevent for example USB4 entry by default, then
-> you write usb3 (or usb2) to the usb_capability. The alt modes you can
-> deactivate by default, no?
->
-> I can appreciate the convenience that you get from a single file like
-> that, but it does not really give much room to move if for example the
-> user space needs to behave differently in case of failures to enter a
-> specific mode compared to successful entries.
->
+> Is it not an option to just schedule the mode exit here instead to
+> solve the problem?
 
-You are right, this patch series is proposed for its convenience. It
-offers a more convenient method for users to enable or activate any
-mode, without altering existing methods. Users can decide whether they
-prioritize more control or an easier mode selection method.
+Of course, that's an option. Alternatively, maybe I could resolve the
+deadlock within the `cros_ec_typec` driver. Regardless, this seems like
+a separate patch.
 
-Thanks,
-Andrei
+>
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec=
+/altmodes/displayport.c
+> index b09b58d7311d..2abbe4de3216 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -394,8 +394,7 @@ static int dp_altmode_vdm(struct typec_altmode *alt,
+>         case CMDT_RSP_NAK:
+>                 switch (cmd) {
+>                 case DP_CMD_STATUS_UPDATE:
+> -                       if (typec_altmode_exit(alt))
+> -                               dev_err(&dp->alt->dev, "Exit Mode Failed!=
+\n");
+> +                       dp->state =3D DP_STATE_EXIT;
+>                         break;
+>                 case DP_CMD_CONFIGURE:
+>                         dp->data.conf =3D 0;
+>
+>
+> --
+> heikki

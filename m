@@ -1,284 +1,155 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FF915746E
-	for <chrome-platform@lists.linux.dev>; Wed, 18 Jun 2025 02:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1F92747B
+	for <chrome-platform@lists.linux.dev>; Wed, 18 Jun 2025 07:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750214853; cv=none; b=iTZMYEeG1HviI/b9CLORhsYtrU0ikDTVkXeWMBtRVkoTtaDlfXcvMFWIHidD50WYqyHKidqPLGP4OehPlBaEuobr16y4XpS003ME0EibivsCxqTozUYeiImyjRPchxIM8YHewbqGEO5fYeHaDyj6q2MB4b5JxR4xlIRwP+jNu0o=
+	t=1750231606; cv=none; b=oPaXqq3jRXYhIoKDKL+4wCDS5yLCB/S0+6O8pd8sgoL9Zgj56x+bxCjuB0U5VrJaG12ZdLVs6O0417t2+3MkaCGXu3ITjWdHptFJdwQ5e09U/Ogjy/wOne3LiDZelKaXXlDz63tNMUoL6RuuAnw6+bdVKaWVOaMGEsxEahI0dow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750214853; c=relaxed/simple;
-	bh=jCZ/BUww0rKENDBnn51d/Uu6YAnR1LQ5TqwAeYr+dKg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GEQO6ZDxI7GpHMvo20Qw5yNtqaPrYP00fRXUZ1GddoGQnofpco1p37Zedi+uDOii9XF854XblChF9M3R2dJev8zxJBnCTRo5JjAVBrQs8OF2EZTXkUaO0J46sDK/EzC3nhrmW63C94wS5tMkPHl9+EMd2FFXateYaYicssMVez4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IukAjF42; arc=none smtp.client-ip=209.85.128.178
+	s=arc-20240116; t=1750231606; c=relaxed/simple;
+	bh=+KzNV4oOOMx38wmOYSChoYo8E3X2rejrMJIv37ZNqsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Atsd/JycKsrLM6M8X3d1VOJz0FQQ4JDOXHNcXSWKCrltsruBC+zjB7gCIRIR39f1izF3jKlfJYrLRRKfBcTxjttnLfUqVicsmYo0eRUQyzJ5gyTiBh59FUNcZKW6l+8HRR19Zmklhaf9M3E3B5sdpriHzL1dA6mN1/uXxmXEmAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aQCJeITC; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IukAjF42"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70e77831d68so63814727b3.2
-        for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 19:47:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aQCJeITC"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b26f7d2c1f1so7041205a12.0
+        for <chrome-platform@lists.linux.dev>; Wed, 18 Jun 2025 00:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1750214851; x=1750819651; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=92ZdJDVkCT0H76bbfryowkjJ/EF/rp1FL4eApFHkX/8=;
-        b=IukAjF42jSPAwQIK767WwoBl+fLSxDmWqsyYjoyQdfx4JrIBMmuBVOcXsniXl288Rj
-         /rHJEaGaTcP9oiv60jwTqaS3YjWKFjiCXvgwDlKxr84IwMnKLTSP+PQUDSCwBRYeYkiX
-         SOleIQPz9XN98sOQGRelvy9FND3C346yUufPQ=
+        d=chromium.org; s=google; t=1750231602; x=1750836402; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hM1UhMnYVhQUG4NEkfTsgeOJp+Ekml0puj+o8yaatbQ=;
+        b=aQCJeITCqOwoBJJP/QqSZZfleRoNu3KAw+W0fyB7TVnxZoZ8mORh8pzeCS8RHso2aE
+         YER0zW7h9c6ZU9Fb7Z+owInikhrEp2cX97ZRb51QQlZXZtHlWz+NYaEowuvzicpQjMlR
+         2qj7irPsV0+By/g9kHsH8rtxGY9wVJpLrXIXA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750214851; x=1750819651;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=92ZdJDVkCT0H76bbfryowkjJ/EF/rp1FL4eApFHkX/8=;
-        b=rFaRONAOojVSb63iNv6BW/ISBS2cRCmJRJQLQDRDJ5kkKh0N+dz4bIkZZ4datxZaNd
-         AGfb09F9tAGqBDYDUwV1IuEtkzN00y9dJNIaiOLyiWbRPcX7EsqUzWarfvTtphS6qj6A
-         JbdDbl57mGW0J8mHDkkOr7BZOSvPuKh73kPU5HW7zBabuUgK4T5jxqZUUf3gdgq0ikU2
-         Bb8ktUngQsaOoZyuYS+OLGQ0Xe+ywVICJrsv7qYC08kg+gB5FrPUa+VcUqStd2Fr4TjS
-         VtIi5nLBzqxrbRxHuQEOvlz8NJxG7iSH+4tslyATNPqj9Z2n8AO/iBOW1ESkiJInM257
-         eTMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWgBWr3lH2B/zSCK/55nJHrcAxBq3l1IXQYdXMg2pCABPn6u+sBMdyWZ5e7MAAIzBwrrSila4o6m6Z/ZwyWLX8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGGecYp05wwvEXfHJN4zwcRbwLMmmj+9hwwif/JQkH90v8AvmU
-	K/ADWrgzOTVclA9UDC3aZQfihPy3/iFCAXrCT5yTX5Lm0GW4SLUmNKqZDkbB0Qggx50+r9XZKyY
-	lTJpCCdBKKYstzDwV8FGsFmTVeDq6k/CDwiN80x96
-X-Gm-Gg: ASbGncte7LWWyr4aYRh/LGihJq56RTpJOj8lTahqnCEw6Nf8b8rZMa7+C0987yJRrVd
-	02LJF/Al5oaKX4begal5RvoqFE0ZHuiCm2sP46p3AicbvM6b7sSyCrDnF97tJ+6HXVpuIo8TTX0
-	+05SrAqUETIaeRLjf3EDhvIYeu0EHOt+rKY2wJ9U2+afc=
-X-Google-Smtp-Source: AGHT+IFJrp4GvzEGvutTnULgQhYHJ1qRoCAlXG+/cMpR+wgU3Pio2fs+vfORraWjOd4sfv2ZJRUUZV11zt1wZw0WIhg=
-X-Received: by 2002:a05:690c:88d:b0:702:52af:7168 with SMTP id
- 00721157ae682-7117536cfb0mr241558337b3.2.1750214850949; Tue, 17 Jun 2025
- 19:47:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750231602; x=1750836402;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hM1UhMnYVhQUG4NEkfTsgeOJp+Ekml0puj+o8yaatbQ=;
+        b=gum2+9vSQYeEni4pzOmP3/Ftpj1Iywr/uVAa2Oz2jcTplA2CwalbGlTJValAjvcMwj
+         jVr+HX6KVNWtHO4EW4OdrDMHBw6zrjsC4XXVVIo7NBGs9OWJcB92T09vVZ3QgMhYVAFN
+         ImaebsWMtMgPErZaMWTK7evoOmdQWWb4zpIrHwAnAdTWIx/VI6Apr0YstTZsM9nzTGCQ
+         BBj2M5fHZbsvBt7BYF9HfuK+uh2VnHLLru5XBYHYcPPa6P5lYsm3qZTyFzZ0UDMWKJ8V
+         +QlNl1hnsss07VnYIn+hVmVU3l1qG6y7Yx6T5BzWNnDZleg5ly73ljlYCHYcNmIJrhTU
+         O6jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXLQZqog1MzBGN4Kc4NcubHSn92aXFVSbqhtZQDNhVmF1l/m9s985dlp4E0MAaMecFbFFhklxDK4Yspt0DW/eY=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyg2l/Hq4fYUow+b4jcMzyCcnME74XuM+Oa2EM7oGLFc1KtIdMZ
+	YiCCrNAg2/So8US9VjY+qs1UamQ4bzYZozU+tFulHSKgLA4ZLUfFY2TAbw5Z6iYw+w==
+X-Gm-Gg: ASbGncv9O+2ZT/mzNlQ/A5GSUUz1HTaFhB/M+sMJnmNFMPkdvnnh0mEYSbvNhswQifc
+	+IVKtfNPKXjxE+TRVhrSEX0dVlqpQLfpyKzCOpvRQHMz/NapCiTnANcBOVqAda6C1mZmmpCEiNR
+	6UYWhR+z5g19RjAFGK0FBvhKY6dJb5Td6bHn4sIlK/rV7GAtmVEbbewnk/v5BVDaA6eNoul8FfI
+	fp7S8Xbh4YBjD2angwj/8QUth6a1AZlOLCvRxP4tMZF+BeTfsTKdCt5zzDaEZJLzA5NISWn0C+2
+	FZ+RYLSrK5HBfXY0b3olheQBAyKc6eUgkSiy9XG93aMiIyk8TBqXeMrZCNJhQEARLUY=
+X-Google-Smtp-Source: AGHT+IGmlF2R53aG5doFh6Ww/jme75FfKP3jQE6NmFAaZ7BCSPsq9zGRmtfVZXCsvQQaCwhcGykC3g==
+X-Received: by 2002:a17:90b:38c5:b0:311:da03:3437 with SMTP id 98e67ed59e1d1-313f1d05d1bmr23596610a91.27.1750231602456;
+        Wed, 18 Jun 2025 00:26:42 -0700 (PDT)
+Received: from google.com ([2401:fa00:1:10:50f9:5771:52a9:eef9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2369ebca745sm13850295ad.100.2025.06.18.00.26.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 00:26:42 -0700 (PDT)
+Date: Wed, 18 Jun 2025 15:26:38 +0800
+From: Sung-Chi Li <lschyi@chromium.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] hwmon: (cros_ec) add PWM control over fans
+Message-ID: <aFJqLkkdI86V3fM9@google.com>
+References: <20250512-cros_ec_fan-v3-0-a9f2b255f0cd@chromium.org>
+ <20250512-cros_ec_fan-v3-2-a9f2b255f0cd@chromium.org>
+ <ca2c10be-3dc4-45e1-b7fc-f8db29a1b6a0@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250616133147.1835939-1-akuchynski@chromium.org>
- <20250616133147.1835939-5-akuchynski@chromium.org> <aFE6dnxet4_sm8b1@kuha.fi.intel.com>
- <CAMMMRMdwUyxdMy42tA_ccYo77nf=6C+KgokDLHBLEYDa5aOHQw@mail.gmail.com> <2025061727-crinkle-drew-4a0d@gregkh>
-In-Reply-To: <2025061727-crinkle-drew-4a0d@gregkh>
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date: Tue, 17 Jun 2025 19:47:18 -0700
-X-Gm-Features: Ac12FXxyVwEZPHJ1mDXjUJj8ue8p4FyMxmQ-V9m2YaISFg8MRc0tx6hp0ZoKfo0
-Message-ID: <CANFp7mVWo4GhiYqfLcD_wFV34WMkmXncMTOnmMfnKH4vm2X8Hg@mail.gmail.com>
-Subject: Re: [PATCH 04/10] usb: typec: Expose alternate mode priorities via sysfs
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrei Kuchynski <akuchynski@chromium.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
-	Pooja Katiyar <pooja.katiyar@intel.com>, Badhri Jagan Sridharan <badhri@google.com>, 
-	RD Babiera <rdbabiera@google.com>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ca2c10be-3dc4-45e1-b7fc-f8db29a1b6a0@t-8ch.de>
 
-On Tue, Jun 17, 2025 at 6:28=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Jun 17, 2025 at 02:38:04PM +0200, Andrei Kuchynski wrote:
-> > On Tue, Jun 17, 2025 at 11:50=E2=80=AFAM Heikki Krogerus
-> > <heikki.krogerus@linux.intel.com> wrote:
-> > >
-> > > On Mon, Jun 16, 2025 at 01:31:41PM +0000, Andrei Kuchynski wrote:
-> > > > This sysfs attribute specifies the preferred order for enabling
-> > > > DisplayPort alt-mode, Thunderbolt alt-mode, and USB4 mode.
-> > > >
-> > > > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> > > > ---
-> > > >  Documentation/ABI/testing/sysfs-class-typec | 17 ++++
-> > > >  drivers/usb/typec/Makefile                  |  2 +-
-> > > >  drivers/usb/typec/class.c                   | 26 ++++++
-> > > >  drivers/usb/typec/class.h                   |  2 +
-> > > >  drivers/usb/typec/mode_selection.c          | 93 +++++++++++++++++=
-++++
-> > > >  drivers/usb/typec/mode_selection.h          |  5 ++
-> > > >  include/linux/usb/typec_altmode.h           |  7 ++
-> > > >  7 files changed, 151 insertions(+), 1 deletion(-)
-> > > >  create mode 100644 drivers/usb/typec/mode_selection.c
-> > > >  create mode 100644 drivers/usb/typec/mode_selection.h
-> > > >
-> > > > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Document=
-ation/ABI/testing/sysfs-class-typec
-> > > > index 38e101c17a00..46eee82042ab 100644
-> > > > --- a/Documentation/ABI/testing/sysfs-class-typec
-> > > > +++ b/Documentation/ABI/testing/sysfs-class-typec
-> > > > @@ -162,6 +162,23 @@ Description:     Lists the supported USB Modes=
-. The default USB mode that is used
-> > > >               - usb3 (USB 3.2)
-> > > >               - usb4 (USB4)
-> > > >
-> > > > +What:                /sys/class/typec/<port>/altmode_priorities
-> > > > +Date:                June 2025
-> > > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
-> > > > +Description: Lists the alternate modes supported by the port and t=
-heir
-> > > > +             priorities. The priority setting determines the order=
- in which
-> > > > +             Displayport alt-mode, Thunderbolt alt-mode and USB4 m=
-ode will be
-> > > > +             activated, indicating the preferred selection sequenc=
-e. A value of -1
-> > > > +             disables automatic entry into a specific mode, while =
-lower numbers
-> > > > +             indicate higher priority. The default priorities can =
-be modified by
-> > > > +             assigning new values. Modes without explicitly set va=
-lues default to -1,
-> > > > +             effectively disabling them.
-> > > > +
-> > > > +             Example values:
-> > > > +             - "USB4=3D0 TBT=3D1 DP=3D2"
-> > > > +             - "USB4=3D-1 TBT=3D0"
-> > > > +             - "DP=3D-1 USB4=3D-1 TBT=3D-1"
-> > >
-> > > No. If you want to disable entry to a mode by default, then you
-> > > deactivate that mode, so -1 is not needed. USB4 is also not an alt
-> > > mode, so this at the very least should be named differently.
+On Mon, May 12, 2025 at 09:30:39AM +0200, Thomas Weißschuh wrote:
 
-USB4 should be called an alt-mode though based on its behavior and I
-think the spec makes a mistake not doing so. It's mutually exclusive
-with alternate modes, it modifies the functionality of the data lanes
-and it's not a new data mode (just a tunneling protocol). But that's
-an aside for this patch...
+Sorry for the late reply, I missed mails for this series.
 
-> > >
-> > > But I'm not sure this is the correct way to handle the modes in
-> > > general. Can you please explain what exactly is the use case you are
-> > > thinking?
-> >
-> > Hi Heikki,
-> >
-> > This implements the mode selection logic within the kernel, replacing
-> > its userspace counterpart. Implementing this in the kernel offers
-> > advantages, making the process both more robust and far easier to
-> > manage.
-> > This eliminates the need for user space to verify port, partner, or
-> > cable capabilities, and to control the mode entry process. User space
-> > doesn't even need to know if USB4 mode is supported by the port or
-> > partner; unsupported modes are automatically skipped.
->
-> But that's all things that userspace can do, so it should be doing it.
-> You need to justify why userspace can NOT do something in order to move
-> that logic into the kernel.
+> On 2025-05-12 15:11:56+0800, Sung-Chi Li via B4 Relay wrote:
+> > From: Sung-Chi Li <lschyi@chromium.org>
+> >  static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
+> >  {
+> >  	unsigned int offset;
+> > @@ -73,7 +117,9 @@ static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
+> >  static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+> >  			      u32 attr, int channel, long *val)
+> >  {
+> > +	u8 control_method;
+> >  	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+> > +	u8 pwm_value;
+> >  	int ret = -EOPNOTSUPP;
+> >  	u16 speed;
+> >  	u8 temp;
+> 
+> Ordering again.
+> 
+> This should be:
+> 
+> struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+> int ret = -EOPNOTSUPP;
+> u8 control_method;
+> u8 pwm_value;
+> u16 speed;
+> u8 temp;
+> 
+> or:
+> 
+> struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+> u8 control_method, pwm_value, temp;
+> int ret = -EOPNOTSUPP;
+> u16 speed;
+> 
+> <snip>
+> 
 
-Userspace "can" do it but it is not doing it today. There is no
-userspace alt-mode manager (that I'm aware of) that's writing to
-/sys/class/typec (typecd in ChromeOS only reads and does mode
-entry/exit via a sideband mechanism) and boltd (userspace thunderbolt
-manager; https://github.com/gicmo/bolt) only deals with tunnels and
-not mode entry directly.
+Would you mind to share the sorting logic, so I do not bother you with checking
+these styling issue? Initially, I thought the sorting is based on the variable
+name, but after seeing your example (which I am appreciated), I am not sure how
+the sorting works. Is it sorted along with the variable types (
+"u8 control_method", "u16 speed", etc)? If that is the case, why "u16 speed" is
+in the middle of the u8 group variables?
 
-I think the inclusion of TBT and USB4 in the kernel makes this change
-necessary and the existing way of doing it is not widely used yet.
+> > +static inline bool is_cros_ec_cmd_fulfilled(struct cros_ec_device *cros_ec,
+> > +					    u16 cmd, u8 version)
+> 
+> "fulfilled" -> "available" or "present"
+> 
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = cros_ec_get_cmd_versions(cros_ec, cmd);
+> > +	return ret >= 0 && (ret & EC_VER_MASK(version));
+> > +}
+> > +
+> > +static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cros_ec)
+> > +{
+> > +	if (!IS_ENABLED(CONFIG_PM))
+> > +		return false;
+> 
+> Why? This should generally work fine without CONFIG_PM.
+> Only the suspend/resume callbacks are unnecessary in that case.
+> 
 
->
-> > User space's role is now limited to high-level tasks like security,
-> > with the kernel managing technical implementation. Mode selection and
-> > activation can occur without user space intervention at all if no
-> > special rules apply and the default policy (USB4 -> TBT -> DP) is
-> > acceptable.
->
-> What is wrong with "userspace intervention"?  Is the current api broken
-> somehow?
+I treat fan control should include restoring the fan setting after resume, so
+I think if no CONFIG_PM, the fan control is not complete. I am good with
+removing this check, and if you have any thoughts after this explanation, please
+share with me, otherwise I will remove it in the next series.
 
-There were some previous discussions on this:
-https://lore.kernel.org/linux-usb/ZyjW0CMXgGIt-usC@kuha.fi.intel.com/
-https://lore.kernel.org/chrome-platform/CAA8EJpqiF_0bgYT8boFa4UPJWcxgw89mmf=
-bdMVKeAP-xnFOP4g@mail.gmail.com/
-
-Some background:
-* The Type-C port driver will add a partner alt-mode to the altmode bus.
-* An altmode driver will probe and attach if available on the system.
-    * Currently, the probe function of these altmode drivers always
-enter the given mode. The expectation is that if a system allows mode
-override, it should always be done by the alt mode driver. This
-doesn't scale beyond one alt-mode driver =E2=80=93 between DP and TBT, whic=
-h
-altmode driver should win entry? Prior to TBT driver being added in
-December and USB4 support circa similar time frame, DP was always the
-default choice if override was supported.
-    * Userspace could make this decision but then what about USB4? The
-current APIs don't expose USB4 information in the same way and the
-auto-enter behavior is different (it doesn't enter).
-
-In a lot of existing designs, mode entry is entirely handled by the
-firmware and no mode selection is possible from the kernel. This is
-covered by patch 3 of this series (alt_mode_override) flag. Windows
-designs usually fall into this category as they use PD controllers
-implementing UCSI (and usually a very old UCSI version 1.2).
-
-A few designs allow overriding the current mode:
-* Chromebooks with cros_ec_ucsi which support Thunderbolt will allow
-override of the alternate mode (via UCSI set_new_cam) and USB mode
-(via UCSI Set_USB). They will enter DPAM instead of TBT by default if
-possible.
-* Chromebooks with the cros_ec_typec driver which support Thunderbolt
-will require the OS to make the mode entry decision (no mode entry by
-default on attach).
-* Pixel phone TCPM currently requires mode entry from the kernel as
-there's no userspace mode selection component.
-* Potentially some Windows designs that implement AltMode override via
-UCSI (ucsi_acpi). These should behave similarly to cros_ec_ucsi but
-will likely automatically enter TBT mode.
-
-In these cases, the kernel is a better place to make alternate mode decisio=
-ns:
-* Quicker than having a userspace implementation (and more consistent
-during boot).
-* Works consistently across drivers and accounts for both overridable
-and non-overridable systems.
-
-The main thing userspace should really be doing with mode entry is
-setting policy around what modes they want to enter instead of doing
-low level checking of compatibility and sequencing of mode entry
-operations. And the main policy we're trying to enforce on ChromeOS is
-to not enter TBT by default (based on our security posture described
-at https://www.chromium.org/chromium-os/developer-library/reference/securit=
-y/usb4/).
-
-Given that Thunderbolt altmode driver support and USB4 support was
-only added around December of last year, I don't imagine there are
-many userspace usages yet and we should fix these API issues before
-they become too widely used. I think mode sequencing belongs in the
-kernel and not userspace.
-
-
->
-> > > If you just need to prevent for example USB4 entry by default, then
-> > > you write usb3 (or usb2) to the usb_capability. The alt modes you can
-> > > deactivate by default, no?
-> > >
-> > > I can appreciate the convenience that you get from a single file like
-> > > that, but it does not really give much room to move if for example th=
-e
-> > > user space needs to behave differently in case of failures to enter a
-> > > specific mode compared to successful entries.
-> > >
-> >
-> > You are right, this patch series is proposed for its convenience. It
-> > offers a more convenient method for users to enable or activate any
-> > mode, without altering existing methods. Users can decide whether they
-> > prioritize more control or an easier mode selection method.
->
-> So now you are going to maintain 2 different ways to do this for the
-> next 40+ years?  How are you going to test this over time to make sure
-> nothing breaks/changes?
-
-While the current sysfs apis for altmode + usb are useful for testing,
-they aren't as useful for normal user use-cases. Deprecating or moving
-this control to debugfs and only exposing the
-mode_selection/mode_priority fields would be my choice going forward.
-The mode selection work currently does go through the same typec APIs
-as the sysfs entries so we gain test coverage of driver behavior using
-either API. If we need to retain the old APIs, I think we'll need to
-add some Kunit tests to make sure behavior is consistent across the
-two ways of doing things.
-
->
-> thanks,
->
-> greg k-h

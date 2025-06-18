@@ -1,166 +1,284 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62651254849;
-	Tue, 17 Jun 2025 20:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FF915746E
+	for <chrome-platform@lists.linux.dev>; Wed, 18 Jun 2025 02:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750192955; cv=none; b=mhhztWH1K5JCYkomQEMaGxUASUxd6FOwtItRa9aabQ4xO8BOMXZ6ZVylO2cUat4WuqcDy4J/9RdVwrROfSq9/iahgUTi3Og+FaaoMOCeWHJyBoq449K3imnPzmu3jp3FeFqAvyRpN9pYowvIc/wHwKL6axQd7LB/m06U5rZ1oIc=
+	t=1750214853; cv=none; b=iTZMYEeG1HviI/b9CLORhsYtrU0ikDTVkXeWMBtRVkoTtaDlfXcvMFWIHidD50WYqyHKidqPLGP4OehPlBaEuobr16y4XpS003ME0EibivsCxqTozUYeiImyjRPchxIM8YHewbqGEO5fYeHaDyj6q2MB4b5JxR4xlIRwP+jNu0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750192955; c=relaxed/simple;
-	bh=q1SGR7cquCfqIcHgDM+KF+k+8AQGKd0ZfPTWkoXLe20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YrqmSdgBVS71fmSSzfrrWnn5YDNdgB03wAK/m8ArFE2tSdQ/SPynRTEZF5qN4BpedaOZop+L6Zg2zijRn6kIcP3AC4U8pSmoy6HF1nXivlQUYDiVzOTgh89bM+HYofdk3Z4FPWzVrvG72aTp92RwHrcOzGjo2tbVUDAQdhA1jXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8vS5rjj; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750214853; c=relaxed/simple;
+	bh=jCZ/BUww0rKENDBnn51d/Uu6YAnR1LQ5TqwAeYr+dKg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GEQO6ZDxI7GpHMvo20Qw5yNtqaPrYP00fRXUZ1GddoGQnofpco1p37Zedi+uDOii9XF854XblChF9M3R2dJev8zxJBnCTRo5JjAVBrQs8OF2EZTXkUaO0J46sDK/EzC3nhrmW63C94wS5tMkPHl9+EMd2FFXateYaYicssMVez4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IukAjF42; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8vS5rjj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750192954; x=1781728954;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q1SGR7cquCfqIcHgDM+KF+k+8AQGKd0ZfPTWkoXLe20=;
-  b=g8vS5rjj264+D8tbMXPv5SB7P9CKplc4HPM9clC2RpYpA+n8dJXwEipt
-   /kYvOe9OjgWWpXVZ3dKmMRrwC0U7O0MHzC68+MunvlMgaqxmCLKY5W4/4
-   0xz26rSAQVepTVazr7mAvH4k3NIrZmMv7Ih9oAcquUqjB+JmpfkPDbt/Y
-   uZ1PfPH7E+Ev/D2hEPwinvKdxWm2sCKVUj0k4Gp5Ztk8LIzlw6zipHqLP
-   s9NFDbWKLlwk3WajS+yEvRFbz+YxC9lCmmS0IclvRinzVGX5GFnFh7luk
-   1OGx2IrWhTTkJ9oZN/5zBeHRfwLOdjlk/W/Jo8jc5PJpCeSx5vcO7Tk/w
-   w==;
-X-CSE-ConnectionGUID: BG1cxqprTYmYiHm8l21RIQ==
-X-CSE-MsgGUID: S+pHQP5nRju5LPXurCfiPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52092272"
-X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
-   d="scan'208";a="52092272"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 13:42:33 -0700
-X-CSE-ConnectionGUID: kCU4Wz79RNqXXf+CqVELjg==
-X-CSE-MsgGUID: +3KcfnBIQ8mKBIY2uYtsig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
-   d="scan'208";a="149315947"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Jun 2025 13:42:27 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uRd8T-000I4w-25;
-	Tue, 17 Jun 2025 20:42:25 +0000
-Date: Wed, 18 Jun 2025 04:41:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
-	Sebastian Reichel <sre@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org,
-	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
-	Guenter Roeck <groeck@chromium.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v10 2/7] reboot: hw_protection_trigger: use standardized
- numeric shutdown/reboot reasons instead of strings
-Message-ID: <202506180402.ly0g2TQe-lkp@intel.com>
-References: <20250617094945.3619360-3-o.rempel@pengutronix.de>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IukAjF42"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70e77831d68so63814727b3.2
+        for <chrome-platform@lists.linux.dev>; Tue, 17 Jun 2025 19:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1750214851; x=1750819651; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=92ZdJDVkCT0H76bbfryowkjJ/EF/rp1FL4eApFHkX/8=;
+        b=IukAjF42jSPAwQIK767WwoBl+fLSxDmWqsyYjoyQdfx4JrIBMmuBVOcXsniXl288Rj
+         /rHJEaGaTcP9oiv60jwTqaS3YjWKFjiCXvgwDlKxr84IwMnKLTSP+PQUDSCwBRYeYkiX
+         SOleIQPz9XN98sOQGRelvy9FND3C346yUufPQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750214851; x=1750819651;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=92ZdJDVkCT0H76bbfryowkjJ/EF/rp1FL4eApFHkX/8=;
+        b=rFaRONAOojVSb63iNv6BW/ISBS2cRCmJRJQLQDRDJ5kkKh0N+dz4bIkZZ4datxZaNd
+         AGfb09F9tAGqBDYDUwV1IuEtkzN00y9dJNIaiOLyiWbRPcX7EsqUzWarfvTtphS6qj6A
+         JbdDbl57mGW0J8mHDkkOr7BZOSvPuKh73kPU5HW7zBabuUgK4T5jxqZUUf3gdgq0ikU2
+         Bb8ktUngQsaOoZyuYS+OLGQ0Xe+ywVICJrsv7qYC08kg+gB5FrPUa+VcUqStd2Fr4TjS
+         VtIi5nLBzqxrbRxHuQEOvlz8NJxG7iSH+4tslyATNPqj9Z2n8AO/iBOW1ESkiJInM257
+         eTMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWgBWr3lH2B/zSCK/55nJHrcAxBq3l1IXQYdXMg2pCABPn6u+sBMdyWZ5e7MAAIzBwrrSila4o6m6Z/ZwyWLX8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGGecYp05wwvEXfHJN4zwcRbwLMmmj+9hwwif/JQkH90v8AvmU
+	K/ADWrgzOTVclA9UDC3aZQfihPy3/iFCAXrCT5yTX5Lm0GW4SLUmNKqZDkbB0Qggx50+r9XZKyY
+	lTJpCCdBKKYstzDwV8FGsFmTVeDq6k/CDwiN80x96
+X-Gm-Gg: ASbGncte7LWWyr4aYRh/LGihJq56RTpJOj8lTahqnCEw6Nf8b8rZMa7+C0987yJRrVd
+	02LJF/Al5oaKX4begal5RvoqFE0ZHuiCm2sP46p3AicbvM6b7sSyCrDnF97tJ+6HXVpuIo8TTX0
+	+05SrAqUETIaeRLjf3EDhvIYeu0EHOt+rKY2wJ9U2+afc=
+X-Google-Smtp-Source: AGHT+IFJrp4GvzEGvutTnULgQhYHJ1qRoCAlXG+/cMpR+wgU3Pio2fs+vfORraWjOd4sfv2ZJRUUZV11zt1wZw0WIhg=
+X-Received: by 2002:a05:690c:88d:b0:702:52af:7168 with SMTP id
+ 00721157ae682-7117536cfb0mr241558337b3.2.1750214850949; Tue, 17 Jun 2025
+ 19:47:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250617094945.3619360-3-o.rempel@pengutronix.de>
+References: <20250616133147.1835939-1-akuchynski@chromium.org>
+ <20250616133147.1835939-5-akuchynski@chromium.org> <aFE6dnxet4_sm8b1@kuha.fi.intel.com>
+ <CAMMMRMdwUyxdMy42tA_ccYo77nf=6C+KgokDLHBLEYDa5aOHQw@mail.gmail.com> <2025061727-crinkle-drew-4a0d@gregkh>
+In-Reply-To: <2025061727-crinkle-drew-4a0d@gregkh>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Tue, 17 Jun 2025 19:47:18 -0700
+X-Gm-Features: Ac12FXxyVwEZPHJ1mDXjUJj8ue8p4FyMxmQ-V9m2YaISFg8MRc0tx6hp0ZoKfo0
+Message-ID: <CANFp7mVWo4GhiYqfLcD_wFV34WMkmXncMTOnmMfnKH4vm2X8Hg@mail.gmail.com>
+Subject: Re: [PATCH 04/10] usb: typec: Expose alternate mode priorities via sysfs
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andrei Kuchynski <akuchynski@chromium.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	Pooja Katiyar <pooja.katiyar@intel.com>, Badhri Jagan Sridharan <badhri@google.com>, 
+	RD Babiera <rdbabiera@google.com>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Oleksij,
+On Tue, Jun 17, 2025 at 6:28=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Jun 17, 2025 at 02:38:04PM +0200, Andrei Kuchynski wrote:
+> > On Tue, Jun 17, 2025 at 11:50=E2=80=AFAM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> > >
+> > > On Mon, Jun 16, 2025 at 01:31:41PM +0000, Andrei Kuchynski wrote:
+> > > > This sysfs attribute specifies the preferred order for enabling
+> > > > DisplayPort alt-mode, Thunderbolt alt-mode, and USB4 mode.
+> > > >
+> > > > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> > > > ---
+> > > >  Documentation/ABI/testing/sysfs-class-typec | 17 ++++
+> > > >  drivers/usb/typec/Makefile                  |  2 +-
+> > > >  drivers/usb/typec/class.c                   | 26 ++++++
+> > > >  drivers/usb/typec/class.h                   |  2 +
+> > > >  drivers/usb/typec/mode_selection.c          | 93 +++++++++++++++++=
+++++
+> > > >  drivers/usb/typec/mode_selection.h          |  5 ++
+> > > >  include/linux/usb/typec_altmode.h           |  7 ++
+> > > >  7 files changed, 151 insertions(+), 1 deletion(-)
+> > > >  create mode 100644 drivers/usb/typec/mode_selection.c
+> > > >  create mode 100644 drivers/usb/typec/mode_selection.h
+> > > >
+> > > > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Document=
+ation/ABI/testing/sysfs-class-typec
+> > > > index 38e101c17a00..46eee82042ab 100644
+> > > > --- a/Documentation/ABI/testing/sysfs-class-typec
+> > > > +++ b/Documentation/ABI/testing/sysfs-class-typec
+> > > > @@ -162,6 +162,23 @@ Description:     Lists the supported USB Modes=
+. The default USB mode that is used
+> > > >               - usb3 (USB 3.2)
+> > > >               - usb4 (USB4)
+> > > >
+> > > > +What:                /sys/class/typec/<port>/altmode_priorities
+> > > > +Date:                June 2025
+> > > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
+> > > > +Description: Lists the alternate modes supported by the port and t=
+heir
+> > > > +             priorities. The priority setting determines the order=
+ in which
+> > > > +             Displayport alt-mode, Thunderbolt alt-mode and USB4 m=
+ode will be
+> > > > +             activated, indicating the preferred selection sequenc=
+e. A value of -1
+> > > > +             disables automatic entry into a specific mode, while =
+lower numbers
+> > > > +             indicate higher priority. The default priorities can =
+be modified by
+> > > > +             assigning new values. Modes without explicitly set va=
+lues default to -1,
+> > > > +             effectively disabling them.
+> > > > +
+> > > > +             Example values:
+> > > > +             - "USB4=3D0 TBT=3D1 DP=3D2"
+> > > > +             - "USB4=3D-1 TBT=3D0"
+> > > > +             - "DP=3D-1 USB4=3D-1 TBT=3D-1"
+> > >
+> > > No. If you want to disable entry to a mode by default, then you
+> > > deactivate that mode, so -1 is not needed. USB4 is also not an alt
+> > > mode, so this at the very least should be named differently.
 
-kernel test robot noticed the following build warnings:
+USB4 should be called an alt-mode though based on its behavior and I
+think the spec makes a mistake not doing so. It's mutually exclusive
+with alternate modes, it modifies the functionality of the data lanes
+and it's not a new data mode (just a tunneling protocol). But that's
+an aside for this patch...
 
-[auto build test WARNING on sre-power-supply/for-next]
-[also build test WARNING on broonie-regulator/for-next chrome-platform/for-next chrome-platform/for-firmware-next linus/master v6.16-rc2 next-20250617]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > >
+> > > But I'm not sure this is the correct way to handle the modes in
+> > > general. Can you please explain what exactly is the use case you are
+> > > thinking?
+> >
+> > Hi Heikki,
+> >
+> > This implements the mode selection logic within the kernel, replacing
+> > its userspace counterpart. Implementing this in the kernel offers
+> > advantages, making the process both more robust and far easier to
+> > manage.
+> > This eliminates the need for user space to verify port, partner, or
+> > cable capabilities, and to control the mode entry process. User space
+> > doesn't even need to know if USB4 mode is supported by the port or
+> > partner; unsupported modes are automatically skipped.
+>
+> But that's all things that userspace can do, so it should be doing it.
+> You need to justify why userspace can NOT do something in order to move
+> that logic into the kernel.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/power-Extend-power_on_reason-h-for-upcoming-PSCRR-framework/20250617-175433
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20250617094945.3619360-3-o.rempel%40pengutronix.de
-patch subject: [PATCH v10 2/7] reboot: hw_protection_trigger: use standardized numeric shutdown/reboot reasons instead of strings
-config: hexagon-randconfig-001-20250618 (https://download.01.org/0day-ci/archive/20250618/202506180402.ly0g2TQe-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506180402.ly0g2TQe-lkp@intel.com/reproduce)
+Userspace "can" do it but it is not doing it today. There is no
+userspace alt-mode manager (that I'm aware of) that's writing to
+/sys/class/typec (typecd in ChromeOS only reads and does mode
+entry/exit via a sideband mechanism) and boltd (userspace thunderbolt
+manager; https://github.com/gicmo/bolt) only deals with tunnels and
+not mode entry directly.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506180402.ly0g2TQe-lkp@intel.com/
+I think the inclusion of TBT and USB4 in the kernel makes this change
+necessary and the existing way of doing it is not widely used yet.
 
-All warnings (new ones prefixed by >>):
+>
+> > User space's role is now limited to high-level tasks like security,
+> > with the kernel managing technical implementation. Mode selection and
+> > activation can occur without user space intervention at all if no
+> > special rules apply and the default policy (USB4 -> TBT -> DP) is
+> > acceptable.
+>
+> What is wrong with "userspace intervention"?  Is the current api broken
+> somehow?
 
->> drivers/regulator/core.c:5280:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-    5280 |         default:
-         |         ^
-   drivers/regulator/core.c:5280:2: note: insert '__attribute__((fallthrough));' to silence this warning
-    5280 |         default:
-         |         ^
-         |         __attribute__((fallthrough)); 
-   drivers/regulator/core.c:5280:2: note: insert 'break;' to avoid fall-through
-    5280 |         default:
-         |         ^
-         |         break; 
-   1 warning generated.
+There were some previous discussions on this:
+https://lore.kernel.org/linux-usb/ZyjW0CMXgGIt-usC@kuha.fi.intel.com/
+https://lore.kernel.org/chrome-platform/CAA8EJpqiF_0bgYT8boFa4UPJWcxgw89mmf=
+bdMVKeAP-xnFOP4g@mail.gmail.com/
+
+Some background:
+* The Type-C port driver will add a partner alt-mode to the altmode bus.
+* An altmode driver will probe and attach if available on the system.
+    * Currently, the probe function of these altmode drivers always
+enter the given mode. The expectation is that if a system allows mode
+override, it should always be done by the alt mode driver. This
+doesn't scale beyond one alt-mode driver =E2=80=93 between DP and TBT, whic=
+h
+altmode driver should win entry? Prior to TBT driver being added in
+December and USB4 support circa similar time frame, DP was always the
+default choice if override was supported.
+    * Userspace could make this decision but then what about USB4? The
+current APIs don't expose USB4 information in the same way and the
+auto-enter behavior is different (it doesn't enter).
+
+In a lot of existing designs, mode entry is entirely handled by the
+firmware and no mode selection is possible from the kernel. This is
+covered by patch 3 of this series (alt_mode_override) flag. Windows
+designs usually fall into this category as they use PD controllers
+implementing UCSI (and usually a very old UCSI version 1.2).
+
+A few designs allow overriding the current mode:
+* Chromebooks with cros_ec_ucsi which support Thunderbolt will allow
+override of the alternate mode (via UCSI set_new_cam) and USB mode
+(via UCSI Set_USB). They will enter DPAM instead of TBT by default if
+possible.
+* Chromebooks with the cros_ec_typec driver which support Thunderbolt
+will require the OS to make the mode entry decision (no mode entry by
+default on attach).
+* Pixel phone TCPM currently requires mode entry from the kernel as
+there's no userspace mode selection component.
+* Potentially some Windows designs that implement AltMode override via
+UCSI (ucsi_acpi). These should behave similarly to cros_ec_ucsi but
+will likely automatically enter TBT mode.
+
+In these cases, the kernel is a better place to make alternate mode decisio=
+ns:
+* Quicker than having a userspace implementation (and more consistent
+during boot).
+* Works consistently across drivers and accounts for both overridable
+and non-overridable systems.
+
+The main thing userspace should really be doing with mode entry is
+setting policy around what modes they want to enter instead of doing
+low level checking of compatibility and sequencing of mode entry
+operations. And the main policy we're trying to enforce on ChromeOS is
+to not enter TBT by default (based on our security posture described
+at https://www.chromium.org/chromium-os/developer-library/reference/securit=
+y/usb4/).
+
+Given that Thunderbolt altmode driver support and USB4 support was
+only added around December of last year, I don't imagine there are
+many userspace usages yet and we should fix these API issues before
+they become too widely used. I think mode sequencing belongs in the
+kernel and not userspace.
 
 
-vim +5280 drivers/regulator/core.c
+>
+> > > If you just need to prevent for example USB4 entry by default, then
+> > > you write usb3 (or usb2) to the usb_capability. The alt modes you can
+> > > deactivate by default, no?
+> > >
+> > > I can appreciate the convenience that you get from a single file like
+> > > that, but it does not really give much room to move if for example th=
+e
+> > > user space needs to behave differently in case of failures to enter a
+> > > specific mode compared to successful entries.
+> > >
+> >
+> > You are right, this patch series is proposed for its convenience. It
+> > offers a more convenient method for users to enable or activate any
+> > mode, without altering existing methods. Users can decide whether they
+> > prioritize more control or an easier mode selection method.
+>
+> So now you are going to maintain 2 different ways to do this for the
+> next 40+ years?  How are you going to test this over time to make sure
+> nothing breaks/changes?
 
-  5253	
-  5254	/**
-  5255	 * regulator_handle_critical - Handle events for system-critical regulators.
-  5256	 * @rdev: The regulator device.
-  5257	 * @event: The event being handled.
-  5258	 *
-  5259	 * This function handles critical events such as under-voltage, over-current,
-  5260	 * and unknown errors for regulators deemed system-critical. On detecting such
-  5261	 * events, it triggers a hardware protection shutdown with a defined timeout.
-  5262	 */
-  5263	static void regulator_handle_critical(struct regulator_dev *rdev,
-  5264					      unsigned long event)
-  5265	{
-  5266		enum psc_reason pscr;
-  5267	
-  5268		if (!rdev->constraints->system_critical)
-  5269			return;
-  5270	
-  5271		switch (event) {
-  5272		case REGULATOR_EVENT_UNDER_VOLTAGE:
-  5273			pscr = PSCR_UNDER_VOLTAGE;
-  5274			break;
-  5275		case REGULATOR_EVENT_OVER_CURRENT:
-  5276			pscr = PSCR_OVER_CURRENT;
-  5277			break;
-  5278		case REGULATOR_EVENT_FAIL:
-  5279			pscr = PSCR_REGULATOR_FAILURE;
-> 5280		default:
-  5281			pscr = PSCR_UNKNOWN;
-  5282		}
-  5283	
-  5284		hw_protection_trigger(pscr,
-  5285				      rdev->constraints->uv_less_critical_window_ms);
-  5286	}
-  5287	
+While the current sysfs apis for altmode + usb are useful for testing,
+they aren't as useful for normal user use-cases. Deprecating or moving
+this control to debugfs and only exposing the
+mode_selection/mode_priority fields would be my choice going forward.
+The mode selection work currently does go through the same typec APIs
+as the sysfs entries so we gain test coverage of driver behavior using
+either API. If we need to retain the old APIs, I think we'll need to
+add some Kunit tests to make sure behavior is consistent across the
+two ways of doing things.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> thanks,
+>
+> greg k-h

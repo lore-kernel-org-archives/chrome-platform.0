@@ -1,224 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5C222576E;
-	Fri, 20 Jun 2025 06:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750402157; cv=none; b=S0+XkaD3LP/FGa39oGJkUxGyxELEKuJ9JMrWz7CtjSaMhHmrnL36aIe1qWLfxoip63RgbtS0pLZAnWzYs9jpuDQOJ7rR0HWnbcPAIcaU4ZfxW/5cUzc7lb3uokVT//P1ca6SmdRX6C7Ft8ONuphACmLqr+pyCt8tOADIC4CvtXw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750402157; c=relaxed/simple;
-	bh=BEkffVQT+dv7o7JSwK7QKog6snh6NOxNxBOGgfcXDok=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uSCTbPb/qDGR9fQVJZcyf5h3CL5d2A7vhuV4VrsM9DXP+tAWSUsQlWygwjxS16HwbuBxxIEk5S1j51VDwwc0fpPiWp9r7DkMQQSpreciBSKVEsYVP3OSzypLTdL1Sv8AWaWSWU5+SfE1b7B+OjUR0CRknIICHQKJc9j1rz9InX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ceKJbs2Y; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2D02D8DBD
+	for <chrome-platform@lists.linux.dev>; Fri, 20 Jun 2025 15:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.56.87.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750434989; cv=pass; b=PJWOKZhcvXz4wtp7SvaZr94HFZ2cdAk8YMZKrJLpA+3gZpz3dhu53zAjOYKx2XA/+p0Rm//OfcSMSZz4c/Vpce3TQeES0FG1HIzswaV2T8ngAR3ewT6GqyV2dWz7/FQWgjqQXpsESV25g21KmxNxr51WXltYznwYGvQgAbcCURg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750434989; c=relaxed/simple;
+	bh=5xnwn57hToUPm8QF6wQM7Wxtz/nSB0bNz8XLEqhjj0o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r+5Cq7CYusg4UgXj+yoYiioe+GX7IACsBLLKCAJJLlIVjJD/X3SQ35Le8mU6hGAgx75x0Cxl5J6HOhv4FRKbwAZY6hN4U5UUXdq6Adhm7yuuYqD+OFwG63aNKd1RhNPqclPf5fTUtGaZTi3Qu/QsdsnT+xc3C6mhCij/Harvq+o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it; spf=pass smtp.mailfrom=valla.it; dkim=pass (1024-bit key) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b=HGzRvcWB; dkim=pass (1024-bit key) header.d=valla.it header.i=@valla.it header.b=Ai0PM/MS; arc=pass smtp.client-ip=185.56.87.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valla.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ceKJbs2Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AE4A5C4CEF0;
-	Fri, 20 Jun 2025 06:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750402155;
-	bh=BEkffVQT+dv7o7JSwK7QKog6snh6NOxNxBOGgfcXDok=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ceKJbs2YD7+RLH8J1KKpOpJbdEJWuHJWkoKDuXNVC3UJLXJFqbe8IPbwHGF+yd0di
-	 /RaZLN17kfAN1eUBZ/yqyqNpqpTNFnn7IlWLRg69x+k9rNHlh7XpsMTcvuoCNi+kje
-	 kf5QsySvHvnWJd1YQ8Bbmyh+nA2STxYkRLYbWjcHHxcqJfq7P+F08ubqJGgLmQfnnq
-	 +VTbSVzTgDmZiVH9C16H69VwIP+Rajeclf4+HMeS0L3936C0ZcpiGIm69i3+LsZFOG
-	 iyMD8pGsI1WmomHO+EwV6Tz2aMEdxABubGkxmczvwhDdY8+nmqolzpD0FQ6GCKLZ1g
-	 bsvxiKlyz945A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2FBFC71155;
-	Fri, 20 Jun 2025 06:49:15 +0000 (UTC)
-From: Sung-Chi Li via B4 Relay <devnull+lschyi.chromium.org@kernel.org>
-Date: Fri, 20 Jun 2025 14:49:14 +0800
-Subject: [PATCH v5 3/3] hwmon: (cros_ec) register fans into thermal
- framework cooling devices
+	dkim=pass (1024-bit key) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="HGzRvcWB";
+	dkim=pass (1024-bit key) header.d=valla.it header.i=@valla.it header.b="Ai0PM/MS"
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=instance-europe-west4-nlqb.prod.antispam.mailspamprotection.com; s=arckey; t=1750434986;
+	 b=XtizEsYoFKSc+PT7SjMQkTCWfkyX77eo1d8wo0Hap7s9qACdWiIy88BlI14j2j4x9KfMW7VvOx
+	  0BO100I6BZ4Exc3zdHSXb1OxlSzHbFvm+sutMfRJiuP1JSwLnQE/9wzDEK15JyjweZMxYnlT6V
+	  xfmHOadj8i6vSMEOKPCSRMFzAOAu1BaT1O+x4/CpLhh5G7yrjs3vMr8iWjF3/V7Zvz+LB8fdt3
+	  6jABYATvpIpY/S+AH5SUQ3RgAiYiItbB58iSMwkcZYhtVjCVyJ7MqEAwwcY6/Nxl+NcvYOdec/
+	  23H/5mF6OZOh0xOiNwv6T+P3+FN87XL4VLaMRwkLZmrWDA==;
+ARC-Authentication-Results: i=1; instance-europe-west4-nlqb.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=instance-europe-west4-nlqb.prod.antispam.mailspamprotection.com; s=arckey; t=1750434986;
+	bh=5xnwn57hToUPm8QF6wQM7Wxtz/nSB0bNz8XLEqhjj0o=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	  Message-ID:Date:Subject:Cc:To:From:DKIM-Signature:DKIM-Signature;
+	b=xl4UOPc0rA+QFfDhMJhoOPFlXgHWzcdIYssaNePP5ickGj7PPJ07uLh0aHRhtUMxnjJ6kcP0Md
+	  cErRBJ8T8uQjtQZV8NnunrNvSyrOV06wSY9O5KYfkrlZEAka0Wk3uqqJ8DVP+JxmdpFuIrpKzO
+	  sDz7Cy2/7K8j3BnjKJlzuoUfqGDD8QCazXG+mK+QMNWgjkwkAIauMrKk2xnvUF0mlKXtpqa37c
+	  DIZUOWh6TQ0idx6bYL9k3bZcL41jQmqmAqPjyyQXNl9UcAxTDaohTdYGORm2HowrAwHndyCPTA
+	  FdnBndldz0pckA7hsVbW1jDDVAMaPXZrj+edhmKK5I3zrA==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+	:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Reply-To:List-Unsubscribe;
+	bh=3LVEzoRSold9GVypbu5ltp+xX0GVkhV3+mynLXoiQZA=; b=HGzRvcWBsElK0S8E+7VJepq7Q9
+	2exYgdrhyfMnR9l1o7W3RFezag4sp25bH+xiaY7dwD2WY3n9YT4Xmzua0N2r0JbNSLS5vzkEim9PY
+	vcYTgfWH7n0exTeBj+0HzIdpblvAcvPJtEodRU0CXGu5OP4LGtEkj8oTaznWhqbOz4cg=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
+	by instance-europe-west4-nlqb.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.1)
+	(envelope-from <francesco@valla.it>)
+	id 1uSe6J-00000009pLe-0jqg
+	for chrome-platform@lists.linux.dev;
+	Fri, 20 Jun 2025 15:56:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+	s=default; h=Date:Subject:Cc:To:From:list-help:list-unsubscribe:
+	list-subscribe:list-post:list-owner:list-archive;
+	bh=3LVEzoRSold9GVypbu5ltp+xX0GVkhV3+mynLXoiQZA=; b=Ai0PM/MSA3RrtHq/pVxozvFBb1
+	eYVoaJKyULwWR+OuPDhBoQCzgNUu84c0SH9K0+RYSSZOUheO9JMqU/Ajm6YFQeJGKiVD7OFwd+sSb
+	ImY9RfmBPzb730BHd6NwTaOM6tWfPejdC2ZQfMLBmdJhiPvYQs6j0qO+q2GmeZE/q8Kk=;
+Received: from [82.60.196.243] (port=62607 helo=fedora-2.fritz.box)
+	by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.1)
+	(envelope-from <francesco@valla.it>)
+	id 1uSe5y-00000000DoG-1ZGg;
+	Fri, 20 Jun 2025 15:56:02 +0000
+From: Francesco Valla <francesco@valla.it>
+To: Sebastian Reichel <sre@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+ linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ linux-pm@vger.kernel.org, =?UTF-8?B?U8O4cmVu?= Andersen <san@skov.dk>,
+ Guenter Roeck <groeck@chromium.org>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>, chrome-platform@lists.linux.dev
+Subject:
+ Re: [PATCH v11 6/7] power: reset: add PSCR NVMEM Driver for Recording Power
+ State Change Reasons
+Date: Fri, 20 Jun 2025 17:56:01 +0200
+Message-ID: <3135893.lGaqSPkdTl@fedora-2.fritz.box>
+In-Reply-To: <20250618120255.3141862-7-o.rempel@pengutronix.de>
+References:
+ <20250618120255.3141862-1-o.rempel@pengutronix.de>
+ <20250618120255.3141862-7-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250620-cros_ec_fan-v5-3-5979ea1abb31@chromium.org>
-References: <20250620-cros_ec_fan-v5-0-5979ea1abb31@chromium.org>
-In-Reply-To: <20250620-cros_ec_fan-v5-0-5979ea1abb31@chromium.org>
-To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- Sung-Chi Li <lschyi@google.com>, Sung-Chi Li <lschyi@chromium.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750402154; l=5577;
- i=lschyi@chromium.org; s=20250429; h=from:subject:message-id;
- bh=KPNY8JaV/QeHp/C+finyouQ2u8z+FuTEAFYw/TlqxZI=;
- b=LzNgaYb9DGqCAHr5PWnfQgKBLVZzwz9hBJRJCZOQoQYcoIFC4oMFUl0x0isJUUrhM0mZpnR1r
- ZraMYeZmu47DCaiKdVp7OZ3tKgtacCAV14gDj7btF7nRTgvjNgKVEne
-X-Developer-Key: i=lschyi@chromium.org; a=ed25519;
- pk=9gCZPRJmYyHDt6VN9FV2UreFcUr73JFrwYvmsltW9Y8=
-X-Endpoint-Received: by B4 Relay for lschyi@chromium.org/20250429 with
- auth_id=392
-X-Original-From: Sung-Chi Li <lschyi@chromium.org>
-Reply-To: lschyi@chromium.org
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: 96f58b8ea06b3ed6f813aebc86b9b924
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1uSe6J-00000009pLe-0jqg-feedback@antispam.mailspamprotection.com
+Authentication-Results: instance-europe-west4-nlqb.prod.antispam.mailspamprotection.com;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
 
-From: Sung-Chi Li <lschyi@chromium.org>
+Hi Oleksij,
 
-Register fans connected under EC as thermal cooling devices as well, so
-these fans can then work with the thermal framework.
+On Wednesday, 18 June 2025 at 14:02:54 Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> This driver utilizes the Power State Change Reasons Recording (PSCRR)
+> framework to store specific power state change information, such as
+> shutdown or reboot reasons, into a designated non-volatile memory
+> (NVMEM) cell.
+> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+> changes v6:
+> - rename pscr_reason to psc_reason
+> changes v5:
+> - avoid a build against NVMEM=m
+> changes v4:
+> - remove devicetree dependencies
+> ---
+>  drivers/power/reset/Kconfig       |  22 +++
+>  drivers/power/reset/Makefile      |   1 +
+>  drivers/power/reset/pscrr-nvmem.c | 254 ++++++++++++++++++++++++++++++
+>  3 files changed, 277 insertions(+)
+>  create mode 100644 drivers/power/reset/pscrr-nvmem.c
+> 
 
-During the driver probing phase, we will also try to register each fan
-as a thermal cooling device based on previous probe result (whether the
-there are fans connected on that channel, and whether EC supports fan
-control). The basic get max state, get current state, and set current
-state methods are then implemented as well.
+Tested-by: Francesco Valla <francesco@valla.it>
 
-Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-Acked-by: Thomas Weißschuh <linux@weissschuh.net>
----
- Documentation/hwmon/cros_ec_hwmon.rst |  2 +
- drivers/hwmon/cros_ec_hwmon.c         | 85 +++++++++++++++++++++++++++++++++++
- 2 files changed, 87 insertions(+)
+I tested this on a i.MX93 FRDM using the on-board EEPROM as storage and
+a single-byte cell. Unfortunately, the on-board RTC does not have a
+scratchpad.
 
-diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
-index 355557a08c9a54b4c177bafde3743e7dc02218be..6db812708325f7abb6d319af3312b4079e6923c6 100644
---- a/Documentation/hwmon/cros_ec_hwmon.rst
-+++ b/Documentation/hwmon/cros_ec_hwmon.rst
-@@ -27,3 +27,5 @@ Fan and temperature readings are supported. PWM fan control is also supported if
- the EC also supports setting fan PWM values and fan mode. Note that EC will
- switch fan control mode back to auto when suspended. This driver will restore
- the fan state to what they were before suspended when resumed.
-+If a fan is controllable, this driver will register that fan as a cooling device
-+in the thermal framework as well.
-diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-index e26590e6e3b5894678791696a41820120bde6cd5..38469703dc012b4ae02b0dc41d717df7264050f3 100644
---- a/drivers/hwmon/cros_ec_hwmon.c
-+++ b/drivers/hwmon/cros_ec_hwmon.c
-@@ -13,6 +13,7 @@
- #include <linux/platform_device.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/thermal.h>
- #include <linux/types.h>
- #include <linux/units.h>
- 
-@@ -31,6 +32,11 @@ struct cros_ec_hwmon_priv {
- 	u8 manual_fan_pwm[EC_FAN_SPEED_ENTRIES];
- };
- 
-+struct cros_ec_hwmon_cooling_priv {
-+	struct cros_ec_hwmon_priv *hwmon_priv;
-+	u8 index;
-+};
-+
- static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
- {
- 	int ret;
-@@ -306,6 +312,42 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
- 	NULL
- };
- 
-+static int cros_ec_hwmon_cooling_get_max_state(struct thermal_cooling_device *cdev,
-+					       unsigned long *val)
-+{
-+	*val = 255;
-+	return 0;
-+}
-+
-+static int cros_ec_hwmon_cooling_get_cur_state(struct thermal_cooling_device *cdev,
-+					       unsigned long *val)
-+{
-+	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-+	u8 read_val;
-+	int ret;
-+
-+	ret = cros_ec_hwmon_read_pwm_value(priv->hwmon_priv->cros_ec, priv->index, &read_val);
-+	if (ret)
-+		return ret;
-+
-+	*val = read_val;
-+	return 0;
-+}
-+
-+static int cros_ec_hwmon_cooling_set_cur_state(struct thermal_cooling_device *cdev,
-+					       unsigned long val)
-+{
-+	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-+
-+	return cros_ec_hwmon_write_pwm_input(priv->hwmon_priv->cros_ec, priv->index, val);
-+}
-+
-+static const struct thermal_cooling_device_ops cros_ec_thermal_cooling_ops = {
-+	.get_max_state = cros_ec_hwmon_cooling_get_max_state,
-+	.get_cur_state = cros_ec_hwmon_cooling_get_cur_state,
-+	.set_cur_state = cros_ec_hwmon_cooling_set_cur_state,
-+};
-+
- static const struct hwmon_ops cros_ec_hwmon_ops = {
- 	.read = cros_ec_hwmon_read,
- 	.read_string = cros_ec_hwmon_read_string,
-@@ -381,6 +423,48 @@ static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cro
- 	       is_cros_ec_cmd_available(cros_ec, EC_CMD_THERMAL_AUTO_FAN_CTRL, CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION);
- }
- 
-+static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
-+						       struct cros_ec_hwmon_priv *priv)
-+{
-+	struct cros_ec_hwmon_cooling_priv *cpriv;
-+	struct thermal_cooling_device *cdev;
-+	const char *type;
-+	size_t i;
-+
-+	if (!IS_ENABLED(CONFIG_THERMAL))
-+		return;
-+
-+	if (!priv->fan_control_supported)
-+		return;
-+
-+	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-+		if (!(priv->usable_fans & BIT(i)))
-+			continue;
-+
-+		cpriv = devm_kzalloc(dev, sizeof(*cpriv), GFP_KERNEL);
-+		if (!cpriv) {
-+			dev_warn(dev, "no memory for registering fan %zu as a cooling device\n", i);
-+			continue;
-+		}
-+
-+		type = devm_kasprintf(dev, GFP_KERNEL, "%s-fan%zu", dev_name(dev), i);
-+		if (!type) {
-+			dev_warn(dev, "no memory to compose cooling device type for fan %zu\n", i);
-+			continue;
-+		}
-+
-+		cpriv->hwmon_priv = priv;
-+		cpriv->index = i;
-+		cdev = devm_thermal_of_cooling_device_register(dev, NULL, type, cpriv,
-+							       &cros_ec_thermal_cooling_ops);
-+		if (IS_ERR(cdev)) {
-+			dev_warn(dev, "failed to register fan %zu as a cooling device: %pe\n", i,
-+				 cdev);
-+			continue;
-+		}
-+	}
-+}
-+
- static int cros_ec_hwmon_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -408,6 +492,7 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
- 	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
- 	cros_ec_hwmon_probe_fans(priv);
- 	priv->fan_control_supported = cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
-+	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
- 
- 	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
- 							 &cros_ec_hwmon_chip_info, NULL);
+PSCR was set in two different ways during subsequent tests:
 
--- 
-2.50.0.rc2.701.gf1e915cc24-goog
+ - manually from userspace
+ - simulating a over-temperature condition through the emul_temp sysfs
+
+In both cases, it was re-read correctly after reboot.
+
+This will be very useful to detect and debug anomalous shutdowns or
+reboots on the field.
+
+Thank you!
+
+Regards,
+Francesco
 
 

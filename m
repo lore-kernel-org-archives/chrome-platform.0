@@ -1,191 +1,67 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0791361FF2
-	for <chrome-platform@lists.linux.dev>; Fri, 20 Jun 2025 02:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D8E30E826
+	for <chrome-platform@lists.linux.dev>; Fri, 20 Jun 2025 04:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750387862; cv=none; b=LOjzUCwcLbnD80FFMgkSXy0t8yaRvEPkXMqlaqcmGhOWJ5AoauJb18Nn0hnD9bkeDYLahkUNLfJg5jQr9Pof2EpPWAZRexqiNjzDjOsGOuMkkOzz4+gxeIUlMrCD+r9dzc7Z7NTOaWM6Fo383fZQQAeGGVL0UNgBFzXKCezCIlM=
+	t=1750394955; cv=none; b=c+A3GC3v3QBjNXVE/8aPiKgTAwoCKw0EO+jBRQVJOLHK/JWLttJUOkzs9UIIiH+Hn8fAFclARHvDMToi2+Kb/H/vVT8t23g+1trcJ9AqlQ8/rhKeoVHBmcdPQPjIF8BBPFYlLoxc4f371qf0YRQqTMVJh5xaadGRPFT7ZNXvtTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750387862; c=relaxed/simple;
-	bh=/QKDlRcwhqIDqN1ZyOADY7Kn32bkkQMXiTnisdbzINo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MtNDyk8w3Fe15Os32yNupXbv7LPW5uA9ptRfeL9+QTtMgzWgUsMThD9/lgPyp9sqjtv7PGnlovy1C0/dW5e9ih8DZVXRK4pvzTjj8cp4p+66+hnq8nmLpp/WBFRNM9UlKqUhAr0QmrLq+4eDodRZqrok32VLg283rzxK8dcNPYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dBlPDnTC; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1750394955; c=relaxed/simple;
+	bh=+qrsRH9dpVOHqQiKwg0LLbbsFyD3rE/aWfEqcpw1tRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lBqYdwZJJjlu17kHzg96G+J+/+SDOrqxJaR4XSCG5Zz7t1kPp0u4ZXV6glhbEhsqlKd0rQosFn8Tf6NUx93dk3r2Jbkq1pDw9Ml9dTJWZ4fMTM/fc8QNbSYz/OFtmZ8mtfV5I62bXMWIRtgLOiqyEM8pyrDbnqrJQWREEGPxgSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=jwMiFpmp; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dBlPDnTC"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-32b5226e6beso13559021fa.2
-        for <chrome-platform@lists.linux.dev>; Thu, 19 Jun 2025 19:50:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1750387858; x=1750992658; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/Tx2CbH4A/3SzNrGWHEPoaDpuPtPaErEYy8KTPvOJ9E=;
-        b=dBlPDnTC2YvmKBZE5RLIhmn3lQS4yERhRo5LDj2d7eAbsh0oiY3MoP5ZpT0cT1xG9z
-         wXs5CCvgVkcd9YykRTI1ORBegAmnHVyRv7T7hjHZLVQ13dRLNL10XIgRR4xQug+PenWM
-         zvzgvZ/PrYu4p3TdRvuhuL60PiQPi05spO214=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750387858; x=1750992658;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/Tx2CbH4A/3SzNrGWHEPoaDpuPtPaErEYy8KTPvOJ9E=;
-        b=VyGomtmdy0J2SmLaqRVtKBnhF9EeMnwDyfIi8TVHsjpq2wBWNWOIupKuJAeFrvzrtO
-         8vRBODfW0Sczh7QXVsvmnTTNEiqEaLGjFfOQPzjSIHP6e3uDxAW5EeX3J+heLO0LY50i
-         i/DlsQfjJTKyUFGo8bcPVPiuKI5wJs/tE2BdL2sgLOqknAVUc4u5Sk8NEY9viUgZc1Dv
-         ykguWCoqwaGXODERFslGZi38ZkS7+BIluoVzWP44AtPM9NZIMa+FVBHjww+cDKFE2Klb
-         BgZvz+SCGAjRBQZKo1KLcRV+TCIotnoET8oBg50+uASFBr7VVfYvbLDdVDUP5MgVFoQ6
-         RIdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXpT6L72lrvKIlF79c1E9wZnVb8BQ9Gl69W+BXiOo2pRIWSwBt432whVuquM7+wmd8LCGBqIMsyDK0GdlpRSR0=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxly+ayQg3HuPYUAxfhlR3EzUyz/O2EG5h2pnmNDWQCRD7g7Kx8
-	hSbkLluRqZBXzdQXuDcQ5eiou0Q6dEVd/BKN+HWZVa187tm/IpQBoLnqHDZ3bKDovrL4Gfw6k2e
-	pUnBSRAi2VImDCUlfdyI+/B1597uoVyJsOSMgPXYr
-X-Gm-Gg: ASbGncs1Cgy/eVnkJXaa2E0g6IayxaAZSef7soPSYXv9p/YiSy2g1/zyaGr3LvwQAt6
-	L6lOWrfOqRqylIqGD2Zr+iu8V5HFow4bLK+Bq9OtflqHCSLXkMZpi0deHvcA+JXu28rUxottf15
-	VxAwv3bICBZN9t630ESgxDkVFyo84kEfn9SaodUZ/UtwyNqeb7h8+sLQuBq4RvK5n1k7MtNKWbU
-	A==
-X-Google-Smtp-Source: AGHT+IEpFd0jknn6dJ7uHw9T9Pf5V4mOpm5v3zlNZwNkWSElZnOusIQCIAw38tA7L/6endmHtCrfM0YwX0tD4KBIaVU=
-X-Received: by 2002:a2e:bc05:0:b0:32b:9c54:4ca1 with SMTP id
- 38308e7fff4ca-32b9c544dfcmr1378961fa.39.1750387858055; Thu, 19 Jun 2025
- 19:50:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="jwMiFpmp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1750394951;
+	bh=+qrsRH9dpVOHqQiKwg0LLbbsFyD3rE/aWfEqcpw1tRY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jwMiFpmpuYh5xtd/P5C8AALfCAEFEvua2QOxvGvbcqzdKD2KSDfGuD7TkiJLaj3oz
+	 FzrWLUfMfjtoDYHsznAdRFxUmiwT6LT8ZzCH7WkteRWuNh/CU1yni9FJTd9qtcnCLz
+	 n3IhVvZoBoNxHuz2FbSOnyh5MDuuIXiK9kMftf7c=
+Date: Fri, 20 Jun 2025 06:49:09 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: lschyi@chromium.org
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Sung-Chi Li <lschyi@google.com>
+Subject: Re: [PATCH v4 1/3] platform/chrome: update pwm fan control host
+ commands
+Message-ID: <945a7849-05e8-430f-9181-f8a68864247a@t-8ch.de>
+References: <20250619-cros_ec_fan-v4-0-ca11548ce449@chromium.org>
+ <20250619-cros_ec_fan-v4-1-ca11548ce449@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250610050458.4014083-1-naoyatezuka@chromium.org> <aEhK9knE1Fu_e_Sv@tzungbi-laptop>
-In-Reply-To: <aEhK9knE1Fu_e_Sv@tzungbi-laptop>
-From: Naoya Tezuka <naoyatezuka@chromium.org>
-Date: Fri, 20 Jun 2025 11:50:46 +0900
-X-Gm-Features: AX0GCFvTeEJqMqZJLqsl51gLxelWMSzurbKwmLCMjIMUg2mxZgtwpD35rT1g5Ho
-Message-ID: <CAFe8q1Xp3c-o7DdNcmdwRDcntnEjD5sqVQEj06ouugLK6KO66A@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: chromeos_pstore: Add ecc_size module parameter
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Kees Cook <kees@kernel.org>, 
-	Tony Luck <tony.luck@intel.com>, "Guilherme G . Piccoli" <gpiccoli@igalia.com>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250619-cros_ec_fan-v4-1-ca11548ce449@chromium.org>
 
-Hi Tzung-Bi and others,
+On 2025-06-19 15:42:54+0800, Sung-Chi Li via B4 Relay wrote:
+> From: Sung-Chi Li <lschyi@chromium.org>
+> 
+> Update cros_ec_commands.h to include definitions for getting PWM fan
+> duty, getting and setting the fan control mode.
+> 
+> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
 
-Thank you so much for taking time and valuable feedback on my patch.
+Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
 
-On Wed, Jun 11, 2025 at 12:10=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org>=
- wrote:
-> The doc [1] suggests to describe changes in imperative mood. If you have
-> chance to send next version, please fix it.  Otherwise, it doesn't really
-> bother me.
+Also this was Acked in v1 by Tzung-Bi. Please preserve already given
+tags to easy the load on reviewers and maintainers.
 
-Thank you for pointing out the convention. I'll fix the commit message to f=
-ollow
-this in the next version (v3).
+> ---
+>  include/linux/platform_data/cros_ec_commands.h | 29 +++++++++++++++++++++++++-
+>  1 file changed, 28 insertions(+), 1 deletion(-)
 
-> > @@ -9,6 +9,10 @@
-> >  #include <linux/platform_device.h>
-> >  #include <linux/pstore_ram.h>
-> >
-> > +static int ecc_size;
-> > +module_param(ecc_size, int, 0444);
->
-> Does it need to be world-readable? How about 0400?
-
-Good point, there is no need for it to be world-readable. I'll change
-the permission
-to 0400 as you suggested in the next version.
-
-
-> > @@ -117,6 +121,9 @@ static int __init chromeos_pstore_init(void)
-> >  {
-> >       bool acpi_dev_found;
-> >
-> > +     if (ecc_size > 0)
-> > +             chromeos_ramoops_data.ecc_info.ecc_size =3D ecc_size;
->
-> It seems `ecc_size` doesn't have an upper bound.  Wondering what would
-> be happened if it is a somehow large value.
-
-I have investigated this, and you are right to be concerned. Providing a la=
-rge
-value for `ecc_size` can indeed lead to a kernel panic.
-The panic occurs within the Reed-Solomon library, specifically from a BUG_O=
-N
-check in `decode_rs()` [1] when the ECC parameters are invalid. Here
-is the crash
-log I observed (edited for simplicity):
-
-[    2.395351] kernel BUG at lib/reed_solomon/decode_rs.c:43!
-[    2.395355] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-[    2.395358] CPU: 3 PID: 1 Comm: swapper/0 Tainted: G        W
-  5.15.178-24446-gf4364e2b1c85-dirty #1
-f18df54893409d10705efc03f3f58f5431f53e8b
-[    2.395361] Hardware name: Google Kindred/Kindred, BIOS
-Google_Kindred.12672.534.0 01/19/2023
-[    2.395362] RIP: 0010:decode_rs8+0xee0/0xef0
-[    2.395378] Call Trace:
-[    2.395379]  <TASK>
-[    2.395380]  ? __die_body+0xac/0xb0
-[    2.395383]  ? die+0x2f/0x50
-[    2.395385]  ? do_trap+0x9e/0x170
-[    2.395386]  ? decode_rs8+0xee0/0xef0
-[    2.395388]  ? decode_rs8+0xee0/0xef0
-[    2.395390]  ? handle_invalid_op+0x69/0x80
-[    2.395391]  ? decode_rs8+0xee0/0xef0
-[    2.395392]  ? exc_invalid_op+0x3b/0x50
-[    2.395395]  ? asm_exc_invalid_op+0x16/0x20
-[    2.395397]  ? decode_rs8+0xee0/0xef0
-[    2.395399]  ? down_trylock+0x27/0x40
-[    2.395401]  ? console_trylock+0x46/0xd0
-[    2.395404]  persistent_ram_save_old+0xfd/0x1b0
-[    2.395407]  persistent_ram_new+0x385/0x720
-[    2.395410]  ramoops_init_prz+0x8e/0x120
-[    2.395412]  ramoops_probe+0x25e/0x460
-[    2.395414]  ? acpi_dev_pm_attach+0x27/0x110
-[    2.395416]  platform_probe+0x6b/0xa0
-[    2.395419]  really_probe+0xd5/0x340
-[    2.395421]  __driver_probe_device+0x78/0xc0
-[    2.395423]  driver_probe_device+0x28/0x180
-[    2.395425]  __device_attach_driver+0x11b/0x130
-[    2.395427]  ? deferred_probe_work_func+0xc0/0xc0
-[    2.395429]  bus_for_each_drv+0x9d/0xe0
-[    2.395430]  __device_attach+0xec/0x1a0
-[    2.395432]  bus_probe_device+0x32/0xa0
-[    2.395434]  device_add+0x281/0x3b0
-[    2.395436]  platform_device_add+0x15e/0x200
-[    2.395438]  ? chromeos_privacy_screen_driver_init+0x20/0x20
-[    2.395441]  do_one_initcall+0x10e/0x2d0
-[    2.395445]  ? strlen+0x10/0x20
-[    2.395447]  ? parse_args+0x11f/0x3a0
-[    2.395450]  do_initcall_level+0x80/0xe0
-[    2.395453]  do_initcalls+0x50/0x80
-[    2.395455]  kernel_init_freeable+0xee/0x160
-[    2.395456]  ? rest_init+0xd0/0xd0
-[    2.395458]  kernel_init+0x1a/0x110
-[    2.395460]  ret_from_fork+0x1f/0x30
-[    2.395463]  </TASK>
-[    2.395463] Modules linked in:
-[    2.396278] gsmi: Log Shutdown Reason 0x03
-[    2.397390] ---[ end trace 52a9249d98b7a130 ]---
-
-Since this validation issue exists in the pstore/ram core rather than
-being specific to this driver, I believe the best approach is to address
-it in a separate, new patch. My proposed fix is to add a check in
-`ram_set_ecc_info()` [2] to validate the ECC parameters against the
-requirements of the Reed-Solomon library, and return -EINVAL if the check
-fails.
-I will prepare and send this new patch for review, and add you to CC.
-
-Thank you again for your guidance.
-
-Best,
-Naoya Tezuka
-
-
-[1] https://elixir.bootlin.com/linux/v6.15.1/source/lib/reed_solomon/decode=
-_rs.c#L43
-[2] https://elixir.bootlin.com/linux/v6.15/source/fs/pstore/ram_core.c#L188
+<snip>

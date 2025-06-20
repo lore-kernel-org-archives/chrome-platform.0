@@ -1,223 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BE7248868;
-	Thu, 19 Jun 2025 07:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0791361FF2
+	for <chrome-platform@lists.linux.dev>; Fri, 20 Jun 2025 02:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750318977; cv=none; b=b1hbZueK0BW6DteIijaTwQNEHhD77YAkf3rxq7/hNHmR/qTqW1L+Gcd84yMivp1+rwrJWmp2QqCrzRQWNJEUeYpj051l4vXeuswqtwJ+h/A/c8KMToTA9CaSLSDJc26lNGAtaGnw395dPtzDT/BxZeNn7Gvp7V+NHO8w65p7Rag=
+	t=1750387862; cv=none; b=LOjzUCwcLbnD80FFMgkSXy0t8yaRvEPkXMqlaqcmGhOWJ5AoauJb18Nn0hnD9bkeDYLahkUNLfJg5jQr9Pof2EpPWAZRexqiNjzDjOsGOuMkkOzz4+gxeIUlMrCD+r9dzc7Z7NTOaWM6Fo383fZQQAeGGVL0UNgBFzXKCezCIlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750318977; c=relaxed/simple;
-	bh=RikCrKLnCHgGPRI5B8T21KzfkjhIAbjsuwYMRU52dRA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WwA2Ed+Ctex/PMAVySb+0HwTjQiCoCV47JGdYxRGcQnP2zJmYes+HP7aW4HpdnWnkD1LOaWGyI81OuxoMM0/I8f+lKyRWbkT67/54OS1sfkgJSK6HFVDabPggjtl5AI+B8HJH0c7VhsbViWKrq4RD0SrJeLorsN3SAJhrrVbKbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FMNFZ1nU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750387862; c=relaxed/simple;
+	bh=/QKDlRcwhqIDqN1ZyOADY7Kn32bkkQMXiTnisdbzINo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MtNDyk8w3Fe15Os32yNupXbv7LPW5uA9ptRfeL9+QTtMgzWgUsMThD9/lgPyp9sqjtv7PGnlovy1C0/dW5e9ih8DZVXRK4pvzTjj8cp4p+66+hnq8nmLpp/WBFRNM9UlKqUhAr0QmrLq+4eDodRZqrok32VLg283rzxK8dcNPYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dBlPDnTC; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FMNFZ1nU"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5505DC4CEF0;
-	Thu, 19 Jun 2025 07:42:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750318977;
-	bh=RikCrKLnCHgGPRI5B8T21KzfkjhIAbjsuwYMRU52dRA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FMNFZ1nUawzVMsnxuAV8ZvSLCdcu6V/8dqwWDMNXcZ8307//KT+H9Jh96rABj7OKA
-	 Ysd5TiqF4xmP2sxZdMC38/ZG5x4lqrjStLb+h+3svSfJXCtcuWcLu0awC6v7EfI2JD
-	 m0oUHZL0zskinZOrW1roH4IBkcB85Dn0EPHgu93HsJan7fVMlC4DfHACHaJdGgZSq0
-	 MYy/+96SYmgKOuTlxa1dXL7pJeykeLxw0CHYUPC4WUOjjc1fTBBi/oiq1CpnV3ekH7
-	 ydwx5Jslr00WDLHFDWgz9OAX08/1YgTzY7RiKomz76eWThraxI6O81aPnZCRt8sXtf
-	 RT7MpY5upztrw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D00C761AE;
-	Thu, 19 Jun 2025 07:42:57 +0000 (UTC)
-From: Sung-Chi Li via B4 Relay <devnull+lschyi.chromium.org@kernel.org>
-Date: Thu, 19 Jun 2025 15:42:56 +0800
-Subject: [PATCH v4 3/3] hwmon: (cros_ec) register fans into thermal
- framework cooling devices
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dBlPDnTC"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-32b5226e6beso13559021fa.2
+        for <chrome-platform@lists.linux.dev>; Thu, 19 Jun 2025 19:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1750387858; x=1750992658; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/Tx2CbH4A/3SzNrGWHEPoaDpuPtPaErEYy8KTPvOJ9E=;
+        b=dBlPDnTC2YvmKBZE5RLIhmn3lQS4yERhRo5LDj2d7eAbsh0oiY3MoP5ZpT0cT1xG9z
+         wXs5CCvgVkcd9YykRTI1ORBegAmnHVyRv7T7hjHZLVQ13dRLNL10XIgRR4xQug+PenWM
+         zvzgvZ/PrYu4p3TdRvuhuL60PiQPi05spO214=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750387858; x=1750992658;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/Tx2CbH4A/3SzNrGWHEPoaDpuPtPaErEYy8KTPvOJ9E=;
+        b=VyGomtmdy0J2SmLaqRVtKBnhF9EeMnwDyfIi8TVHsjpq2wBWNWOIupKuJAeFrvzrtO
+         8vRBODfW0Sczh7QXVsvmnTTNEiqEaLGjFfOQPzjSIHP6e3uDxAW5EeX3J+heLO0LY50i
+         i/DlsQfjJTKyUFGo8bcPVPiuKI5wJs/tE2BdL2sgLOqknAVUc4u5Sk8NEY9viUgZc1Dv
+         ykguWCoqwaGXODERFslGZi38ZkS7+BIluoVzWP44AtPM9NZIMa+FVBHjww+cDKFE2Klb
+         BgZvz+SCGAjRBQZKo1KLcRV+TCIotnoET8oBg50+uASFBr7VVfYvbLDdVDUP5MgVFoQ6
+         RIdw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpT6L72lrvKIlF79c1E9wZnVb8BQ9Gl69W+BXiOo2pRIWSwBt432whVuquM7+wmd8LCGBqIMsyDK0GdlpRSR0=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxly+ayQg3HuPYUAxfhlR3EzUyz/O2EG5h2pnmNDWQCRD7g7Kx8
+	hSbkLluRqZBXzdQXuDcQ5eiou0Q6dEVd/BKN+HWZVa187tm/IpQBoLnqHDZ3bKDovrL4Gfw6k2e
+	pUnBSRAi2VImDCUlfdyI+/B1597uoVyJsOSMgPXYr
+X-Gm-Gg: ASbGncs1Cgy/eVnkJXaa2E0g6IayxaAZSef7soPSYXv9p/YiSy2g1/zyaGr3LvwQAt6
+	L6lOWrfOqRqylIqGD2Zr+iu8V5HFow4bLK+Bq9OtflqHCSLXkMZpi0deHvcA+JXu28rUxottf15
+	VxAwv3bICBZN9t630ESgxDkVFyo84kEfn9SaodUZ/UtwyNqeb7h8+sLQuBq4RvK5n1k7MtNKWbU
+	A==
+X-Google-Smtp-Source: AGHT+IEpFd0jknn6dJ7uHw9T9Pf5V4mOpm5v3zlNZwNkWSElZnOusIQCIAw38tA7L/6endmHtCrfM0YwX0tD4KBIaVU=
+X-Received: by 2002:a2e:bc05:0:b0:32b:9c54:4ca1 with SMTP id
+ 38308e7fff4ca-32b9c544dfcmr1378961fa.39.1750387858055; Thu, 19 Jun 2025
+ 19:50:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250619-cros_ec_fan-v4-3-ca11548ce449@chromium.org>
-References: <20250619-cros_ec_fan-v4-0-ca11548ce449@chromium.org>
-In-Reply-To: <20250619-cros_ec_fan-v4-0-ca11548ce449@chromium.org>
-To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- Sung-Chi Li <lschyi@google.com>, Sung-Chi Li <lschyi@chromium.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750318976; l=5521;
- i=lschyi@chromium.org; s=20250429; h=from:subject:message-id;
- bh=dGrNQjFZmAqqQuLX31fi6rvA+UA6e5udimOyMjEIouo=;
- b=0dwadgCMsVUj2zNX3LAZTyaW6PXKOphWxSH6/DPNS5uCEwqeWx63ZWVIgvgYoHCvDsHjphEi1
- L4uaCbewRHCA9AiGKf2p1+FNA5FaKMC2pN+rrjROQ6BHBtWACsiXCfq
-X-Developer-Key: i=lschyi@chromium.org; a=ed25519;
- pk=9gCZPRJmYyHDt6VN9FV2UreFcUr73JFrwYvmsltW9Y8=
-X-Endpoint-Received: by B4 Relay for lschyi@chromium.org/20250429 with
- auth_id=392
-X-Original-From: Sung-Chi Li <lschyi@chromium.org>
-Reply-To: lschyi@chromium.org
+References: <20250610050458.4014083-1-naoyatezuka@chromium.org> <aEhK9knE1Fu_e_Sv@tzungbi-laptop>
+In-Reply-To: <aEhK9knE1Fu_e_Sv@tzungbi-laptop>
+From: Naoya Tezuka <naoyatezuka@chromium.org>
+Date: Fri, 20 Jun 2025 11:50:46 +0900
+X-Gm-Features: AX0GCFvTeEJqMqZJLqsl51gLxelWMSzurbKwmLCMjIMUg2mxZgtwpD35rT1g5Ho
+Message-ID: <CAFe8q1Xp3c-o7DdNcmdwRDcntnEjD5sqVQEj06ouugLK6KO66A@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/chrome: chromeos_pstore: Add ecc_size module parameter
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Kees Cook <kees@kernel.org>, 
+	Tony Luck <tony.luck@intel.com>, "Guilherme G . Piccoli" <gpiccoli@igalia.com>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Sung-Chi Li <lschyi@chromium.org>
+Hi Tzung-Bi and others,
 
-Register fans connected under EC as thermal cooling devices as well, so
-these fans can then work with the thermal framework.
+Thank you so much for taking time and valuable feedback on my patch.
 
-During the driver probing phase, we will also try to register each fan
-as a thermal cooling device based on previous probe result (whether the
-there are fans connected on that channel, and whether EC supports fan
-control). The basic get max state, get current state, and set current
-state methods are then implemented as well.
+On Wed, Jun 11, 2025 at 12:10=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org>=
+ wrote:
+> The doc [1] suggests to describe changes in imperative mood. If you have
+> chance to send next version, please fix it.  Otherwise, it doesn't really
+> bother me.
 
-Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
----
- Documentation/hwmon/cros_ec_hwmon.rst |  2 +
- drivers/hwmon/cros_ec_hwmon.c         | 85 +++++++++++++++++++++++++++++++++++
- 2 files changed, 87 insertions(+)
+Thank you for pointing out the convention. I'll fix the commit message to f=
+ollow
+this in the next version (v3).
 
-diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
-index 355557a08c9a54b4c177bafde3743e7dc02218be..6db812708325f7abb6d319af3312b4079e6923c6 100644
---- a/Documentation/hwmon/cros_ec_hwmon.rst
-+++ b/Documentation/hwmon/cros_ec_hwmon.rst
-@@ -27,3 +27,5 @@ Fan and temperature readings are supported. PWM fan control is also supported if
- the EC also supports setting fan PWM values and fan mode. Note that EC will
- switch fan control mode back to auto when suspended. This driver will restore
- the fan state to what they were before suspended when resumed.
-+If a fan is controllable, this driver will register that fan as a cooling device
-+in the thermal framework as well.
-diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-index c0c4ffa6f85419edf5dacd730192e7f1c28e2e5c..572b194e51fb1a05fa5151abb0826d1c8ba2948d 100644
---- a/drivers/hwmon/cros_ec_hwmon.c
-+++ b/drivers/hwmon/cros_ec_hwmon.c
-@@ -13,6 +13,7 @@
- #include <linux/platform_device.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/thermal.h>
- #include <linux/types.h>
- #include <linux/units.h>
- 
-@@ -31,6 +32,11 @@ struct cros_ec_hwmon_priv {
- 	u8 manual_fan_pwm[EC_FAN_SPEED_ENTRIES];
- };
- 
-+struct cros_ec_hwmon_cooling_priv {
-+	struct cros_ec_hwmon_priv *hwmon_priv;
-+	u8 index;
-+};
-+
- static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
- {
- 	int ret;
-@@ -306,6 +312,42 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
- 	NULL
- };
- 
-+static int cros_ec_hwmon_cooling_get_max_state(struct thermal_cooling_device *cdev,
-+					       unsigned long *val)
-+{
-+	*val = 255;
-+	return 0;
-+}
-+
-+static int cros_ec_hwmon_cooling_get_cur_state(struct thermal_cooling_device *cdev,
-+					       unsigned long *val)
-+{
-+	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-+	u8 read_val;
-+	int ret;
-+
-+	ret = cros_ec_hwmon_read_pwm_value(priv->hwmon_priv->cros_ec, priv->index, &read_val);
-+	if (ret)
-+		return ret;
-+
-+	*val = read_val;
-+	return ret;
-+}
-+
-+static int cros_ec_hwmon_cooling_set_cur_state(struct thermal_cooling_device *cdev,
-+					       unsigned long val)
-+{
-+	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-+
-+	return cros_ec_hwmon_write_pwm_input(priv->hwmon_priv->cros_ec, priv->index, val);
-+}
-+
-+static const struct thermal_cooling_device_ops cros_ec_thermal_cooling_ops = {
-+	.get_max_state = cros_ec_hwmon_cooling_get_max_state,
-+	.get_cur_state = cros_ec_hwmon_cooling_get_cur_state,
-+	.set_cur_state = cros_ec_hwmon_cooling_set_cur_state,
-+};
-+
- static const struct hwmon_ops cros_ec_hwmon_ops = {
- 	.read = cros_ec_hwmon_read,
- 	.read_string = cros_ec_hwmon_read_string,
-@@ -381,6 +423,48 @@ static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cro
- 	       is_cros_ec_cmd_available(cros_ec, EC_CMD_THERMAL_AUTO_FAN_CTRL, CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION);
- }
- 
-+static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
-+						       struct cros_ec_hwmon_priv *priv)
-+{
-+	struct cros_ec_hwmon_cooling_priv *cpriv;
-+	struct thermal_cooling_device *cdev;
-+	char *type;
-+	size_t i;
-+
-+	if (!IS_ENABLED(CONFIG_THERMAL))
-+		return;
-+
-+	if (!priv->fan_control_supported)
-+		return;
-+
-+	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-+		if (!(priv->usable_fans & BIT(i)))
-+			continue;
-+
-+		cpriv = devm_kzalloc(dev, sizeof(*cpriv), GFP_KERNEL);
-+		if (!cpriv) {
-+			dev_warn(dev, "no memory for registering fan %zu as a cooling device\n", i);
-+			continue;
-+		}
-+
-+		type = devm_kasprintf(dev, GFP_KERNEL, "%s-fan%zu", dev_name(dev), i);
-+		if (!type) {
-+			dev_warn(dev, "no memory to compose cooling device type for fan %zu\n", i);
-+			continue;
-+		}
-+
-+		cpriv->hwmon_priv = priv;
-+		cpriv->index = i;
-+		cdev = devm_thermal_of_cooling_device_register(dev, NULL, type, cpriv,
-+							       &cros_ec_thermal_cooling_ops);
-+		if (IS_ERR(cdev)) {
-+			dev_warn(dev, "failed to register fan %zu as a cooling device: %pe\n", i,
-+				 cdev);
-+			continue;
-+		}
-+	}
-+}
-+
- static int cros_ec_hwmon_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -408,6 +492,7 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
- 	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
- 	cros_ec_hwmon_probe_fans(priv);
- 	priv->fan_control_supported = cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
-+	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
- 
- 	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
- 							 &cros_ec_hwmon_chip_info, NULL);
+> > @@ -9,6 +9,10 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/pstore_ram.h>
+> >
+> > +static int ecc_size;
+> > +module_param(ecc_size, int, 0444);
+>
+> Does it need to be world-readable? How about 0400?
 
--- 
-2.50.0.rc2.701.gf1e915cc24-goog
+Good point, there is no need for it to be world-readable. I'll change
+the permission
+to 0400 as you suggested in the next version.
 
 
+> > @@ -117,6 +121,9 @@ static int __init chromeos_pstore_init(void)
+> >  {
+> >       bool acpi_dev_found;
+> >
+> > +     if (ecc_size > 0)
+> > +             chromeos_ramoops_data.ecc_info.ecc_size =3D ecc_size;
+>
+> It seems `ecc_size` doesn't have an upper bound.  Wondering what would
+> be happened if it is a somehow large value.
+
+I have investigated this, and you are right to be concerned. Providing a la=
+rge
+value for `ecc_size` can indeed lead to a kernel panic.
+The panic occurs within the Reed-Solomon library, specifically from a BUG_O=
+N
+check in `decode_rs()` [1] when the ECC parameters are invalid. Here
+is the crash
+log I observed (edited for simplicity):
+
+[    2.395351] kernel BUG at lib/reed_solomon/decode_rs.c:43!
+[    2.395355] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+[    2.395358] CPU: 3 PID: 1 Comm: swapper/0 Tainted: G        W
+  5.15.178-24446-gf4364e2b1c85-dirty #1
+f18df54893409d10705efc03f3f58f5431f53e8b
+[    2.395361] Hardware name: Google Kindred/Kindred, BIOS
+Google_Kindred.12672.534.0 01/19/2023
+[    2.395362] RIP: 0010:decode_rs8+0xee0/0xef0
+[    2.395378] Call Trace:
+[    2.395379]  <TASK>
+[    2.395380]  ? __die_body+0xac/0xb0
+[    2.395383]  ? die+0x2f/0x50
+[    2.395385]  ? do_trap+0x9e/0x170
+[    2.395386]  ? decode_rs8+0xee0/0xef0
+[    2.395388]  ? decode_rs8+0xee0/0xef0
+[    2.395390]  ? handle_invalid_op+0x69/0x80
+[    2.395391]  ? decode_rs8+0xee0/0xef0
+[    2.395392]  ? exc_invalid_op+0x3b/0x50
+[    2.395395]  ? asm_exc_invalid_op+0x16/0x20
+[    2.395397]  ? decode_rs8+0xee0/0xef0
+[    2.395399]  ? down_trylock+0x27/0x40
+[    2.395401]  ? console_trylock+0x46/0xd0
+[    2.395404]  persistent_ram_save_old+0xfd/0x1b0
+[    2.395407]  persistent_ram_new+0x385/0x720
+[    2.395410]  ramoops_init_prz+0x8e/0x120
+[    2.395412]  ramoops_probe+0x25e/0x460
+[    2.395414]  ? acpi_dev_pm_attach+0x27/0x110
+[    2.395416]  platform_probe+0x6b/0xa0
+[    2.395419]  really_probe+0xd5/0x340
+[    2.395421]  __driver_probe_device+0x78/0xc0
+[    2.395423]  driver_probe_device+0x28/0x180
+[    2.395425]  __device_attach_driver+0x11b/0x130
+[    2.395427]  ? deferred_probe_work_func+0xc0/0xc0
+[    2.395429]  bus_for_each_drv+0x9d/0xe0
+[    2.395430]  __device_attach+0xec/0x1a0
+[    2.395432]  bus_probe_device+0x32/0xa0
+[    2.395434]  device_add+0x281/0x3b0
+[    2.395436]  platform_device_add+0x15e/0x200
+[    2.395438]  ? chromeos_privacy_screen_driver_init+0x20/0x20
+[    2.395441]  do_one_initcall+0x10e/0x2d0
+[    2.395445]  ? strlen+0x10/0x20
+[    2.395447]  ? parse_args+0x11f/0x3a0
+[    2.395450]  do_initcall_level+0x80/0xe0
+[    2.395453]  do_initcalls+0x50/0x80
+[    2.395455]  kernel_init_freeable+0xee/0x160
+[    2.395456]  ? rest_init+0xd0/0xd0
+[    2.395458]  kernel_init+0x1a/0x110
+[    2.395460]  ret_from_fork+0x1f/0x30
+[    2.395463]  </TASK>
+[    2.395463] Modules linked in:
+[    2.396278] gsmi: Log Shutdown Reason 0x03
+[    2.397390] ---[ end trace 52a9249d98b7a130 ]---
+
+Since this validation issue exists in the pstore/ram core rather than
+being specific to this driver, I believe the best approach is to address
+it in a separate, new patch. My proposed fix is to add a check in
+`ram_set_ecc_info()` [2] to validate the ECC parameters against the
+requirements of the Reed-Solomon library, and return -EINVAL if the check
+fails.
+I will prepare and send this new patch for review, and add you to CC.
+
+Thank you again for your guidance.
+
+Best,
+Naoya Tezuka
+
+
+[1] https://elixir.bootlin.com/linux/v6.15.1/source/lib/reed_solomon/decode=
+_rs.c#L43
+[2] https://elixir.bootlin.com/linux/v6.15/source/fs/pstore/ram_core.c#L188

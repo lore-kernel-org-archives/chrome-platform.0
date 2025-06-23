@@ -1,69 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AF717B50F;
-	Mon, 23 Jun 2025 02:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7003819CCEC
+	for <chrome-platform@lists.linux.dev>; Mon, 23 Jun 2025 09:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750646477; cv=none; b=XGUcMjTkJWxkhVeAXO+adVwfY9O+l+/GUU0385cUjy7m8TCx9i6q0F2ffQXwWHZymflCM64X7sNkVoRw8o50RTGtZIe5o/xpxj2e3if6+yMMWw471dvFyc8cJecuM41i4l4y+XwI8iV7jvqK01R/+8QhXCMbE0FO4k82DKmyCAU=
+	t=1750671458; cv=none; b=qudtP93BQDmwFNsH/9tEYB4JzEGt4TYpzGGxroRyGuRFYfhWGjkmNGLXaS3PvKUJf3A/PKauVViiXWJ0oraRhwP7q3myw5GLygQG1bHaskqs8+Za+Qw4GY9O+MbFdjovs3O8FPvINDiy94ufvJXpaRHrDolOGxqGav4OnoYYt1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750646477; c=relaxed/simple;
-	bh=F/p19n4jLKY8qfhLjIcgmFNnjbr3UiWnWeJt74VC6PI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lrQg6LHAU2W4JBnyo55kBUqqxL4TVeyfRaaQSIRjOWKOzg9cQf7cCg5eKVOWHA2fVh2UpwD4/DgG/Z+Vv2/rGPzot9S8HmgFVQU4vvgsq8j6KdwqnX0R/ei1CCWHrPYU7Cqt83mrzcXjpsR7e3yN8Yxh+bPN/pGbzrzM7Fgy1mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfZILZnc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750671458; c=relaxed/simple;
+	bh=SwoRLQ+iuWPKqGVWX7YPE161XfI39ceasvYcyMBIjx4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ufyRAHDdtJvsK8MEViVx8AUjbMMWPqZBjqJ8rW70mS7HulgiBqW4KsHdqorP2au41YXlgXUheKA8O0IBDa5NtF8OSX3VvZC3bQT3Q97xqjCLBPfE2xWAZkdo9FQ7v3GgGXtFmZmM5YPZlQPeX/WMbcUe07EUocnRXBgk7ESPKss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eg5JeYzi; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfZILZnc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BF59C4CEE3;
-	Mon, 23 Jun 2025 02:41:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750646476;
-	bh=F/p19n4jLKY8qfhLjIcgmFNnjbr3UiWnWeJt74VC6PI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kfZILZncFTKlZIdxlCjsl0YN9JvbigUvsYNv6bOo87ZPA9P9kP3O5RT7itsy4n8uT
-	 PlfxcGmM+Nrto6R+9CFnmd4lP/F7pDeuLSl4VKA334ZamtWFTREvFDvdaC7EqKxpNf
-	 USqVCykkddNystBC9+WXPo2btItAL4vjR6iqoLNauvtzyplD9fCPIlb7mAul+/Yoq2
-	 vXXxTLiJ8+sBv2zWkS1KFUsNT00e+r1OQMAt98mm7e8RPwOu6AvSCktkIv2y3618OG
-	 lErr67GtP506lnPLP3UQL5LP1XJqjG9VRWX6+Zi0QNHXGp7xpdWELnZOUQRnK6542y
-	 JyMasNFfenWew==
-Date: Mon, 23 Jun 2025 02:41:13 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Naoya Tezuka <naoyatezuka@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Kees Cook <kees@kernel.org>,
-	Tony Luck <tony.luck@intel.com>,
-	"Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3] platform/chrome: chromeos_pstore: Add ecc_size module
- parameter
-Message-ID: <aFi-yZ0Y_pxKLRe_@google.com>
-References: <20250620062822.1018798-1-naoyatezuka@chromium.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eg5JeYzi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1750671454;
+	bh=SwoRLQ+iuWPKqGVWX7YPE161XfI39ceasvYcyMBIjx4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=eg5JeYziaxU8gpuHcQwT2T8BRQsgn6EzUbazcS9qgbmZwsIcXFP1H40vWmcqVt1Pl
+	 5GoqgyPbgCatv6icJmlMG1KSgnaNVGzdbfT/U3jGtEieuvN9VIiTuCfChbpCGVHoVp
+	 L5AkIMFPjtCiEyVyZXvReDh9scMKB/iGFHRESnWNPZy37kow8TIdDhH+fltdtgiuug
+	 gh1QqwaWuImV5FIv10z0Z4W7US4N6RvyCjmT99xVsRaerGtZ6Mwd4dCDi58La7mxWF
+	 9pLGqVsNh6fh72Un8Hq77janpuYIiFYAtye04UeSea9OQYw3Fu0xvsV0V8nLtmY/5o
+	 hC8cAKTr0C4fQ==
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D755F17E05BD;
+	Mon, 23 Jun 2025 11:37:33 +0200 (CEST)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ matthias.bgg@gmail.com, bleung@chromium.org, tzungbi@kernel.org, 
+ Laura Nao <laura.nao@collabora.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ chrome-platform@lists.linux.dev, nfraprado@collabora.com, 
+ kernel@collabora.com
+In-Reply-To: <20250318102259.189289-1-laura.nao@collabora.com>
+References: <20250318102259.189289-1-laura.nao@collabora.com>
+Subject: Re: (subset) [PATCH 0/2] Use ChromeOS DT hardware prober with
+ MT8192 Spherion trackpads
+Message-Id: <175067145378.62389.7783242126407636871.b4-ty@collabora.com>
+Date: Mon, 23 Jun 2025 11:37:33 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250620062822.1018798-1-naoyatezuka@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Fri, Jun 20, 2025 at 03:28:22PM +0900, Naoya Tezuka wrote:
-> On ChromiumOS devices, the `ecc_size` is set to 0 (check dmesg | grep ecc 
-> to see `ecc: 0`): this disables ECC for ramoops region, even when 
-> `ramoops.ecc=1` is given to kernel command line parameter.
+On Tue, 18 Mar 2025 11:22:57 +0100, Laura Nao wrote:
+> This series marks the trackpads for the Google Spherion variants as
+> "fail-needs-probe" and makes them compatibile with the ChromeOS DT hardware
+> prober.
 > 
-> Introduce `ecc_size` module parameter to provide an method to turn on ECC
-> for ramoops and set different values of ecc_size per devices.
+> Laura Nao (2):
+>   platform/chrome: Add support for Google Spherion in HW prober
+>   arm64: dts: mediatek: mt8192-asurada-spherion: Mark trackpads as
+>     fail-needs-probe
 > 
 > [...]
 
-Applied to
+Applied to v6.16-next/dts64, thanks!
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+[2/2] arm64: dts: mediatek: mt8192-asurada-spherion: Mark trackpads as fail-needs-probe
+      commit: 6cf6156bc71b5234c1dfce5a1a57c0229448ae40
 
-[1/1] platform/chrome: chromeos_pstore: Add ecc_size module parameter
-      commit: 545daf90910ec83e167cf3fbcc31fcf5467432b8
+Cheers,
+Angelo
 
-Thanks!
+

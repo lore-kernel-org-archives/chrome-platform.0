@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0279256D;
-	Tue, 24 Jun 2025 02:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B29372617
+	for <chrome-platform@lists.linux.dev>; Tue, 24 Jun 2025 02:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750731768; cv=none; b=srPCY39EYHZxAlnZ5N78PkZURfmnxNuBbc1hGQxSlngVMW1pdF3dWUAmU5fLT94CEJyzYaJY8yqYT8Jsro0Tk2DZdTPr02fbO5kmp2r9hllGvw35xOleUMvXE25bqZFfglKcyuZ6WzZQrNOLeswCLUf9yiC+UYfBFmBIsSzve90=
+	t=1750733924; cv=none; b=uKAk/U1Ty59D1LEt67FjRGnK54HyA97ltWCRgE2Hv1h8ZSj3hMg+HAA0FB7fa4yqO7sAkKdoc1k3BwBzCZ6qacQ92WkVmwcQdlvReSPqRtGfFczBETAOcERcStMFmVDlhKSqRLNzQMjPcXe6HVMhYkBpRq1mvZ/fyTmacDgLfEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750731768; c=relaxed/simple;
-	bh=Uq5KS+DF6ePdWsZM3dnaMWOWOkcvyotI6KJ4U3VBdfw=;
+	s=arc-20240116; t=1750733924; c=relaxed/simple;
+	bh=ckE9y9j0j9uTW6rHdzmhUbhKjcBfLO3QDfxv+apNYU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r3pMAb8o1UegBpWn1jnT/TzMq3fcPKrUxwCvh6Syt6+qjA7lSu3+qwlZIzq6Oib8MFmuHOX7tw0S87IbhUYnb9SzeYza2MKBrKhsbinRVOiyrIJFzY/9k8F6tm6HLQdoYxGrKU1Trt+IMy8VkLfAwiRV3YsOE58rsCzxxKsKxJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0920kgu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WzUjmJL5tSqJJO82ojEwGNmQg1NVW08z8FUpLgGCdLHyswny21za6kVFI+TUytTF8cTxHfGyZWlXVodCoL9SoSdmYszq6UVHlwvR3o79aZNkFRahzaQrmyA8YtSHAQwg3zGeFCxbfLTYX2VIFeTXunsw76JoATGcJzQcSat1HWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VYBnX8VH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0920kgu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82133C4CEEA;
-	Tue, 24 Jun 2025 02:22:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VYBnX8VH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 336F5C4CEEA;
+	Tue, 24 Jun 2025 02:58:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750731766;
-	bh=Uq5KS+DF6ePdWsZM3dnaMWOWOkcvyotI6KJ4U3VBdfw=;
+	s=k20201202; t=1750733923;
+	bh=ckE9y9j0j9uTW6rHdzmhUbhKjcBfLO3QDfxv+apNYU8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j0920kgu8PadzIyF6TRuAgF3WaG07pre7AszcE9w6rx0e+c4Ltaa2e5EnGaIVlpFR
-	 MHlefF0Ia0UfHA3D2TuaWPSXpn7Dt/H49OFXlw9cxKJjbLMaSgGO8VDOj9sI1XQRo/
-	 VOBZDihIFM1fVqMk4kQHo6V2In5xS5kYHzFIZz7ufXsWC8vm/Oe7PxUHAjFWxzYuvZ
-	 9yuK1UUN1wTZ8fKiJpBqND6+VHfmT+3E8PSweLN39qXv3DZgXzN0hixDJV9FDB9s7K
-	 NsuJnHM0fgWRlt+uMd89scrlyK4mhJjiyae9sHmzkzWmWZ1cGLBzcw+Y+Nx5ULdlfd
-	 tlPRID6XJ8qJQ==
-Date: Tue, 24 Jun 2025 02:22:43 +0000
+	b=VYBnX8VHMub9HdVzxbldzIvBxK2OY9xKWVhK7zfJzSPy48APrR3uEgWbXapRYOH5W
+	 Jz8/RtWN4MP/o9Fd7gaPLD7ynpgasqIuoY2Kg6m0+6aBQ0/8ZoJNsDrQXUh56UO3IB
+	 UXmLhlyTR6Kv3Be/EdP9ubGZSfdDl3XBpE69FOKZxqegJz5BcsF7UInaJvYo0nAhhZ
+	 clbtnghGQ+itpYokra7ua4yrW3lN+guZ8McUCKnqt2OxKKu/tipGtSjLWsDEms2X30
+	 NX1CoWhnRH++tAH5dG5HJltjaembwmeNAjaL1kvkygL9HPq7PKiIfiKzN27YUFCIlH
+	 1uC09bGSeToTQ==
+Date: Tue, 24 Jun 2025 02:58:41 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Gwendal Grignou <gwendal@chromium.org>
-Cc: jic23@kernel.org, chrome-platform@lists.linux.dev,
-	linux-iio@vger.kernel.org, Gwendal Grignou <gwendal@google.com>
-Subject: Re: [PATCH] iio: cros_ec_activity: Fix function casting error
-Message-ID: <aFoL86kzENM2jMqi@google.com>
-References: <20250623185153.222714-1-gwendal@google.com>
+Cc: chrome-platform@lists.linux.dev, Gwendal Grignou <gwendal@google.com>
+Subject: Re: [PATCH] platform: chromeos: sensorhub: retries when a sensor is
+ not ready
+Message-ID: <aFoUYVnVwAF-YL-3@google.com>
+References: <20250623210518.306740-1-gwendal@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -42,12 +42,10 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250623185153.222714-1-gwendal@google.com>
+In-Reply-To: <20250623210518.306740-1-gwendal@google.com>
 
-On Mon, Jun 23, 2025 at 11:51:52AM -0700, Gwendal Grignou wrote:
-> .write_event_configwrite_event_config expects |state| to be an int not a
-> bool:
+On Mon, Jun 23, 2025 at 02:05:18PM -0700, Gwendal Grignou wrote:
+>  drivers/platform/chrome/cros_ec_sensorhub.c | 23 +++++++++++++++++----
 
-No, `state` is a bool since commit b4b42f28a0df
-("iio: fix write_event_config signature").
-
+Please take `git log --oneline ...cros_ec_sensorhub.c` as examples for what
+patch prefixes it could use next time.

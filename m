@@ -1,111 +1,123 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1010275844
-	for <chrome-platform@lists.linux.dev>; Thu, 26 Jun 2025 11:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CB920487E
+	for <chrome-platform@lists.linux.dev>; Thu, 26 Jun 2025 16:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750938111; cv=none; b=RTLGbl8AsqROKFdXKNR6xv3FQl1i4+ykxEjQcf/2hVez9OCVJbBGS3premuGrCkxuPVgDpeM6Ok5pKtCHGD7jMGAaqUmOR50M6Bny2OZJD8cYVNHCJf6F6Vx0VT24wSl5WB+BvlB8LFgro83Kb3y5MGlEEXBDtzsLYm+QeC+3pA=
+	t=1750955005; cv=none; b=SqsfrMmURDju3z6IJ0ay+aPC74bQ30/+k/q3dHB+GLFcCWa72P8VH3Wjs8YzPvSYzk4iPscyG28URfm33qO/sDAgoW5Pt8hwbp44d7olayrAHaqFP9eUJ6dgSsjRafFKvCyXmQvr4tromxmVYDiVUCGemu1oTYelN1Ek0AcOacY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750938111; c=relaxed/simple;
-	bh=ZplEWNBtHcZ4mdOLvvIwXC2Hmv5WMUfJ3rsoc8VVJnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ukQ2Wc12tJPMkToYKlC+Q3icfNcX/mH2Wrogf3uc9A/A5wfJwasAQ8WKsKXc8ZhGkBDKNdaDLqsoi7kkJRz35FDjRk+e1L7GDyjvyJE4OQQefanV1VIXO2ixiYoi0I0/Fd6KJWhiW6L8hfv22Mbbfp0voMuIX+SdtOh5ozu4Xog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=Wt/rksOq; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
+	s=arc-20240116; t=1750955005; c=relaxed/simple;
+	bh=oHxJu3J1I3/pWQoPXHgh9afJCpFm5sCTLU1HKlRrQY8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=srBQqSMr9D0v0mDKRITlSv+7X1c4D6EDv9lrAosRgZUOVR4s8HLOTDjCyWIFpJbh5wQSNgGjQe26Vo9F0ECbh2eFwRDM8sqUw41l66aWz+C7q6Nt8/5SF1fkgn6RwPQqoMgu4NbgiO0DH3AU29KDGG5nQ3aHVuiNHxQlE0/I+1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uiz8zdeh; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="Wt/rksOq"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-451d6ade159so6349305e9.1
-        for <chrome-platform@lists.linux.dev>; Thu, 26 Jun 2025 04:41:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uiz8zdeh"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7d41b04bf6fso122149785a.0
+        for <chrome-platform@lists.linux.dev>; Thu, 26 Jun 2025 09:23:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1750938108; x=1751542908; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ltL0CUXeRmuJ4RejWH7RMJozlI0dKlYGqD8O8bc/Ck=;
-        b=Wt/rksOqRGl8h3IRTonu8Gn/OQoNsj6Mm96H6UjIm6HAkPWz2OGz3S3TNf6ht0V7hZ
-         m7dL+KBEzpT9K+3q9WIEsJh0bp4aRuT0+5sL8PBD9f5qnqGb8SqWgkrqUeml2hGm0kh6
-         puB4aPkfFHDSLTDOX4fn+qLNQA31J+im6nG/YKfcCi1j+WeKYHOK2AHgLNnz6RHNhCrr
-         Yb5NM46vyqRW0sHGpuTkSm7LmIz0BUlo3wZYBMbFbW6vaWFwmtQXvcjoxBDWcuJFWE5F
-         w0f5qTAOxezVVYxsT/36qVVoAHvG8L3k8rJxpxdFGgi5aq16FJz+OnwytAdBnApkWdvx
-         MoVQ==
+        d=gmail.com; s=20230601; t=1750955002; x=1751559802; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I6Y+w9GjzC4NkgAs20WBoFAeBxQI03y6T8/aweQBwbw=;
+        b=Uiz8zdehuwNmul3cfRIG/RgYKgH479BMjtbe/aLdJszwJL93mE2XgI1k+ujwsaT6y+
+         KfQWbwGl98Y0DupY4V7Hxqmew2PLh+xJ4s9AEb7bPjJ6zyYL5tpUJF6BzbFOh9TwLmah
+         IdU6DbRBvEX++D2AYsJ4p8s9CV8ADLfC2mp/t59S7pTZJf2vxUTLJjMj/pb9m/jcNsAw
+         Sn7qwnq2n4C38lYILPhg5f3ZkRcRrGqyI51bfWvHlU0Bem+FlFVjIngsJOkqIplluKft
+         IhHhUBwr2h1rqnhSJCUHpapsyyfpUg6CQzDlwnKCLlPCS2JNGqDparP1d8/SuRAO8dz3
+         PgWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750938108; x=1751542908;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5ltL0CUXeRmuJ4RejWH7RMJozlI0dKlYGqD8O8bc/Ck=;
-        b=grEisdxIp6d28WmfHwhufHhZsnnPdp51w/LQOuAXaWKQft9cRo5VQrtAe4GlsEKIQB
-         AfBKH1sEPaFbJ5JochFVQfmsZj9FYY2f8lhxFzzC0vaJb06DuWpUa8yS+6UBtO9ErqOG
-         u5O2H9ZRphB7yQCOiuRcq/Ov986tQb9pTiHOzhIpyB+TwNQVo39OTJAnY4uNeGh158Cx
-         SSprx0VYDCZIUVe6pjVIjeuUHEnreY/WuM8ErDBGIUSi7Jz/1rIQSTgcL1W9jc+LCazL
-         M0NwHHOdXK+U85VsK3iGuAyUtAi47fvEabx+jyRI9pnVyOWK8Nm4/zYqgIouLcCpz6Gq
-         fTXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhpyqWme7Z4coGbsO50s6pnFodiIz0y3Bzrp7eJa5vuzUjrVjbT+FVVoWZg8v5gQKd2caaYuBphNY1GgR6nqE=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLm04MaFjZdmNTnddUfS/1z3/Mv9KDrbHuu7d7IVVzH+ATT/pZ
-	soqW+6I7qoL/+D45hqTN/60KPoONhCi3feqpZyZTnq8EYeKsoN69Ivw9q/wJ+3EOyQ==
-X-Gm-Gg: ASbGncvu7wPE0LsKYUCrtyPeP/5weXasf84AAt8V93pYy4tAdiB7mIhp/J/LP7R1VG1
-	aA5HNcbMdW6N2cJzJUNZs7SVkr9ovRLwX+ciWBUp6xsoXqFQhSWE5HG/n22G3JccrBboijBKf2l
-	MU7fDGwZA4SEImUNdX+d7JkplZdDjw7HBk91CLrGrSGdKTvajgj3lBX99kKoXQgv9wwjAxPoT5r
-	DvTj9qzLxEJRz3ETRZA3evR6tzfl9ppFiF9qsVC4Re7Z7gkA10eOOlZU44xJl6j/hAQTw5/iLTX
-	Qt6+iEuw3ASbpJJ38VbXV8AkumXqn3Tp8mGPfp5j1/4TL1LrIHr94BOKsHa3Qnd2BHSNHge7rwi
-	fsRSEq9hhMQElE5yqF+UVauR8+xvCm8V450iTgdDOww==
-X-Google-Smtp-Source: AGHT+IGQ3HVge8+n1amo8NkGCsTCJQTSNRnL9rshARj8zSdPIXUqTQ6P8JU+3XgaHRsYlz9jWszwXw==
-X-Received: by 2002:a05:600c:1f0e:b0:43c:f70a:2af0 with SMTP id 5b1f17b1804b1-45381b0af78mr71483905e9.16.1750938107787;
-        Thu, 26 Jun 2025 04:41:47 -0700 (PDT)
-Received: from cyber-t14sg4 (ip-078-094-000-050.um19.pools.vodafone-ip.de. [78.94.0.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e805eeffsm7146276f8f.34.2025.06.26.04.41.47
+        d=1e100.net; s=20230601; t=1750955002; x=1751559802;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I6Y+w9GjzC4NkgAs20WBoFAeBxQI03y6T8/aweQBwbw=;
+        b=kraVlNA7h7STbqTSvPkdXFFKjEeg0AVDcdPDsiPM1CEUURQMx7jRQzpC2eyAFYPh1u
+         wBVOvZFhrB6G8xgZe9JJ4N8Jk9Etgug1ibc3Vj0mbUVHUULdJAGO102gXIrnCuY0ZvwD
+         ImOw+CU5iyABgtA3T2yp42cJc3VnCaoVK3uD/w1NXNlpO7xisKD/dZ5bmRyfFkcF/BNH
+         lwCoy79H/M9DMC4SvUo7CYQViQD4u1tvdrOqN4HnOIjBvP9FFtk0G9bs7yzOj6J2vmic
+         A4kVsF7jZiJWgMv3zV/S80ejBoql6wHQePxt8wUH6KTYR2OcJTtDgf/uBoFKx8TD6y/G
+         fTkw==
+X-Forwarded-Encrypted: i=1; AJvYcCUvL83hQiBY3gjL5uI1QaadNjbttX2S2MVzYSpts8Apwixs5VI7CTXNkoBXagO4xx8Qpm0ugbjJsBI5RJf/NPs=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwAcZELB/d/cwEvYv0j9/EJ2Z5IxvI1/1b3qrXjaBnnRudKhaqN
+	fHVN/J5tbDvPYgvWkGTmMUuDn8k0G/aZXGowJe21xH9iCwFOKJ1lrEOUMRQ0ag==
+X-Gm-Gg: ASbGncuPC92zSy/fiKAnT6ph1bW/iAp39FbOMUeaf2kBr9NzW4fJyj3ZxRQhfarbu60
+	OUCsBkJXOkiKcERCfN957w+YRKU5ltway6Vpz++mss+mnkCVF5EQOo4Ha9zT4QnB08QEG93SmP/
+	lvQD24IMKndFwN162iKD9nHEm/tZ+5E179HzIjLmH34SHalyK8y4qj9uRTgpP623QSglyiswylu
+	RkOyhiXv7fFddwc/2iXu0vKYhBEIf6pAeiBBbxS5PnosCNG3Hr6NCf/qYds2bV/yiHSvktFq/eA
+	LJlpPpKjkqpq6SKrLHmgtuhFqyQRfedm2gt/LaM4RIk704FxnN2/
+X-Google-Smtp-Source: AGHT+IE9zACx0AwFT+GrnMgI0SPYW6doa2YuHjYHKD247V4V7t/kTCVYjshQS8JriKsTpIkZKmNrJw==
+X-Received: by 2002:a05:620a:c47:b0:7cd:4c58:7589 with SMTP id af79cd13be357-7d44398ff0bmr18414685a.56.1750955001887;
+        Thu, 26 Jun 2025 09:23:21 -0700 (PDT)
+Received: from fushigibana ([2601:405:4a00:186f::50e])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d44317e671sm20310285a.41.2025.06.26.09.23.20
+        for <chrome-platform@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 04:41:47 -0700 (PDT)
-Date: Thu, 26 Jun 2025 13:41:45 +0200
-From: Michal Gorlas <michal.gorlas@9elements.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>, linux-kernel@vger.kernel.org,
+        Thu, 26 Jun 2025 09:23:21 -0700 (PDT)
+Received: from pnariyoshi (uid 1000)
+	(envelope-from pedro.nariyoshi@gmail.com)
+	id c5deb
+	by fushigibana (DragonFly Mail Agent v0.14 on fushigibana);
+	Thu, 26 Jun 2025 12:23:20 -0400
+From: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-media@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
-	Marcello Sylvester Bauer <marcello.bauer@9elements.com>
-Subject: Re: [PATCH v2 2/3] firmware: coreboot: loader for Linux-owned SMI
- handler
-Message-ID: <aF0x-d-uBbMQxrxO@cyber-t14sg4>
-References: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
- <20250616-coreboot-payload-mm-v2-2-5d679b682e13@9elements.com>
- <aFuQHqSd9kT87tsF@google.com>
- <aFvq49ODR3XfcwZJ@cyber-t14sg4>
+	linux-kernel@vger.kernel.org
+Cc: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
+Subject: [PATCH] Add Fizz board variants, so driver can detect them
+Date: Thu, 26 Jun 2025 12:21:29 -0400
+Message-ID: <20250626162235.445407-2-pedro.nariyoshi@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFvq49ODR3XfcwZJ@cyber-t14sg4>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 25, 2025 at 02:26:11PM +0200, Michal Gorlas wrote:
-> > > +
-> > > +	/*
-> > > +	 * Gives SMI some time in case it takes longer than expected.
-> > > +	 * Only useful on real hardware (tested on RaptorLake), not needed on emulation.
-> > > +	 */
-> > > +	mdelay(100);
-> > 
-> > This looks weird. Are there some ways for Linux to be aware of the SMI has
-> > completed?
-> 
-> Not in a straight forward fashion. On Intel SoCs we could read MSR_SMI_COUNT
-> [1] before and after sending an SMI, and wait till it increments. I am
-> not aware about any unified way that works for AMD SoCs. However, so far
-> none of the AMD boards supported by coreboot was tested with MM payload,
-> so to make it Intel-only in v3 is not a bad idea.
-> 
-> [1]: https://elixir.bootlin.com/linux/v6.16-rc3/source/arch/x86/include/asm/msr-index.h#L880
+I recently reflashed a Chromebox (Wukong variant of the Fizz board) with
+coreboot and I noticed that the cec driver refused to load with a bit of
+tinkering, I realized that the dmi_match_table was expecting the product
+name to be Fizz, but `dmidecode` reports `Wukong` as the product name. I
+am not sure if this is the best approach, but adding this patch lets me
+load the driver and it works properly.
 
-As a follow-up here, making COREBOOT_PAYLOAD_MM dependent on !SMP
-resolves the need of acknowledging SMI completion. If SMI takes longer,
-Linux is just stalled until SMI handler gives the CPU back to the caller.
-I think for this case it could be the way, LinuxBoot is by default
-compiled without SMP support anyways when used as coreboot's payload [1],
-[2].
+I am open to suggestions for alternative solutions and I hope I did't
+break any rules (this is my first kernel patch).
 
-[1]: https://github.com/coreboot/coreboot/blob/main/payloads/external/LinuxBoot/x86_64/defconfig
-[2]: https://github.com/coreboot/coreboot/blob/main/payloads/external/LinuxBoot/i386/defconfig
+Signed-off-by: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 419b9a7abcce..a26473c3cd84 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -302,8 +302,15 @@ static const char *const port_ab_conns[] = { "Port A", "Port B", NULL };
+ static const char *const port_d_conns[] = { "Port D", NULL };
+ 
+ static const struct cec_dmi_match cec_dmi_match_table[] = {
+-	/* Google Fizz */
++	/* Google Fizz and variants*/
+ 	{ "Google", "Fizz", "0000:00:02.0", port_b_conns },
++	{ "Google", "Bleemo", "0000:00:02.0", port_b_conns },
++	{ "Google", "Excelsior", "0000:00:02.0", port_b_conns },
++	{ "Google", "Jax", "0000:00:02.0", port_b_conns },
++	{ "Google", "Kench", "0000:00:02.0", port_b_conns },
++	{ "Google", "Sion", "0000:00:02.0", port_b_conns },
++	{ "Google", "Teemo", "0000:00:02.0", port_b_conns },
++	{ "Google", "Wukong", "0000:00:02.0", port_b_conns },
+ 	/* Google Brask */
+ 	{ "Google", "Brask", "0000:00:02.0", port_b_conns },
+ 	/* Google Moli */
+-- 
+2.49.0
+

@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50E13C01;
-	Fri, 27 Jun 2025 02:33:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FE5184540;
+	Fri, 27 Jun 2025 02:49:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750991610; cv=none; b=ZJlaMzjZjpC7+34c0iFMdR04maOTF+NiShoL0awth/m9FTeXvfdVOo5VfutmRy8n0kxv2yXQVZtKKj0CpnkC2HQtUHZrv4vuaj2htTAfGPxW+qxEaf8lxJf587iAv/rPLTWL0nLRmBUbsLJvjPEQwTpoX1UPpz5pUXF9qEKNFbo=
+	t=1750992564; cv=none; b=TlmA2bKhvx0ewjfNLi6+Xf/oNVh55llz0vaRKag6M5vIBI3kmqSwLtahnYs1i669Ng60LExyz/QgI4dwaL8I+zi+5gzREo9WpbFZXCu7+6L7MBigTQeunmpAUGMbao8XEWn+Hp/3YUtY1Gm5RN3yiXEdxsYPfKzPjb9/fq/GdKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750991610; c=relaxed/simple;
-	bh=gHGYNPYhShRWmQvxWAaMeepdnoomSGWX9jaXgQSZmJs=;
+	s=arc-20240116; t=1750992564; c=relaxed/simple;
+	bh=+UCtVlBLAXOI2ORddkR4UDa9jYX18LCIvBb6RX6rVeU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MgPEp80b6ReK4Z8yAURjcWPUea+pQNKx5aTxW5VsIIoc3m8TXfZ4HbE2yoBCj/djiEnA7FaHLmYtPQmQ1gM4J5rH5NMMJhgkl6Z3VhGKB3+2UdoOFFGDAZowfYx/4cVAsb5shHt8pJs/z4QWHxm0N0Zl86pWrCdbBg5xng6nhrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aTQURb/B; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ude+jCWyPBZoDLQAcqdIru59tP87/mWC+Gv+RMO7+GS/dDtxhcJRKrdlf4WNKqKCnGeKSe6fEKg0W8isvyIUyNhyTPjzDFH/HC9I4nTnAVySyug02Ngm5epu3a6LzkSxBcoN8d2JjVPxWfx4K2tgkN4SyfTTUSLF4cywY8YS9Kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLBpD1Qn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aTQURb/B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD0B9C4CEEB;
-	Fri, 27 Jun 2025 02:33:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLBpD1Qn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60E7AC4CEEB;
+	Fri, 27 Jun 2025 02:49:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750991609;
-	bh=gHGYNPYhShRWmQvxWAaMeepdnoomSGWX9jaXgQSZmJs=;
+	s=k20201202; t=1750992564;
+	bh=+UCtVlBLAXOI2ORddkR4UDa9jYX18LCIvBb6RX6rVeU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aTQURb/BIhrvPTITPp6EYH0nis5OTl6TL7fC58Q4Dq0e+fb4VcVR64w1EE5iA7jG5
-	 nHSyhUm8QBSIvVyNbtdm3BoEhoXNqs7Da+E9Gnt9OJzm5YCw4K9zFmYs8nLqzsjats
-	 nUJpa01hBVsnG//tBuNvb+Yo3SvLe4SRZKcIx7h8QnBVMDEvqD1sLdVpAFJ8Ub/XEB
-	 Fow3756xPDoVqMCOlzLxKIoMl5vqa+05aCYdvYF3aB9Kip//KMgPtEvRd0kQcjIGhV
-	 Nz4/e1tQ9tMwO5TTwng+dfDZeGYVab/NgZEXqxlaknAFngA7HYMegFIzpaBIxd1BMh
-	 yeCHzf9gpAdlg==
-Date: Fri, 27 Jun 2025 02:33:26 +0000
+	b=kLBpD1QnBw1ALAIJfkczn08T6ijgUZ4PAER9Rnxhny0mwatX1hYBZEC2q9rJngAc6
+	 F/0uRtJofaxCo7wQDkicnRfdJ46qJLR4SHePsJH7lCamf7gL4MwilpJjtPmW4rx5hr
+	 O07PvjaZn/beK/9x8eWNVD7po47qgZaIwJsEeKpfZCUYDnPtATdflri06RxrkBNkTV
+	 Onc0pH/28dNuGwzy+AqrinvtAJIPmI63f+MCH7dStgiVOd2pfRCDVu1mXFM0X2MclA
+	 nWUTWzkZxweqxx/P3VbmjBjkh3onYNO4rT1SZom2Vu+3d/pDIK5eIUjNJ7bQMaD4SG
+	 naHzoPqxiZt/A==
+Date: Fri, 27 Jun 2025 02:49:21 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Michal Gorlas <michal.gorlas@9elements.com>
 Cc: Brian Norris <briannorris@chromium.org>,
@@ -35,11 +35,12 @@ Cc: Brian Norris <briannorris@chromium.org>,
 	Marcello Sylvester Bauer <marcello.bauer@9elements.com>
 Subject: Re: [PATCH v2 2/3] firmware: coreboot: loader for Linux-owned SMI
  handler
-Message-ID: <aF4C9rPD1xWc0MrP@google.com>
+Message-ID: <aF4GsTGNSHQKn7Ms@google.com>
 References: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
  <20250616-coreboot-payload-mm-v2-2-5d679b682e13@9elements.com>
  <aFuQHqSd9kT87tsF@google.com>
  <aFvq49ODR3XfcwZJ@cyber-t14sg4>
+ <aF0x-d-uBbMQxrxO@cyber-t14sg4>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -48,66 +49,40 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aFvq49ODR3XfcwZJ@cyber-t14sg4>
+In-Reply-To: <aF0x-d-uBbMQxrxO@cyber-t14sg4>
 
-On Wed, Jun 25, 2025 at 02:26:11PM +0200, Michal Gorlas wrote:
-> On Wed, Jun 25, 2025 at 05:58:54AM +0000, Tzung-Bi Shih wrote:
-> > > +obj-$(CONFIG_COREBOOT_PAYLOAD_MM)		+= payload-mm.o
-> > > +
-> > > +$(obj)/mm_blob.o: $(obj)/mm_handler/handler.bin
-> > > +
-> > > +$(obj)/mm_handler/handler.bin: FORCE
-> > > +	$(Q)$(MAKE) $(build)=$(obj)/mm_handler $@
+On Thu, Jun 26, 2025 at 01:41:45PM +0200, Michal Gorlas wrote:
+> On Wed, Jun 25, 2025 at 02:26:11PM +0200, Michal Gorlas wrote:
+> > > > +
+> > > > +	/*
+> > > > +	 * Gives SMI some time in case it takes longer than expected.
+> > > > +	 * Only useful on real hardware (tested on RaptorLake), not needed on emulation.
+> > > > +	 */
+> > > > +	mdelay(100);
+> > > 
+> > > This looks weird. Are there some ways for Linux to be aware of the SMI has
+> > > completed?
 > > 
-> > mm_handler/ isn't visible to this patch. Separate them into the following
-> > patch of series?
+> > Not in a straight forward fashion. On Intel SoCs we could read MSR_SMI_COUNT
+> > [1] before and after sending an SMI, and wait till it increments. I am
+> > not aware about any unified way that works for AMD SoCs. However, so far
+> > none of the AMD boards supported by coreboot was tested with MM payload,
+> > so to make it Intel-only in v3 is not a bad idea.
 > > 
-> > > diff --git a/drivers/firmware/google/mm_blob.S b/drivers/firmware/google/mm_blob.S
-> > > [...]
-> > > +SYM_DATA_START(mm_blob)
-> > > +	.incbin	"drivers/firmware/google/mm_handler/handler.bin"
-> > > +SYM_DATA_END_LABEL(mm_blob, SYM_L_GLOBAL, mm_blob_end)
-> > > +
-> > > +SYM_DATA_START(mm_relocs)
-> > > +	.incbin	"drivers/firmware/google/mm_handler/handler.relocs"
-> > > +SYM_DATA_END(mm_relocs)
-> > 
-> > mm_handler/ isn't visible to this patch. Separate them into the following
-> > patch of series?
-> > 
+> > [1]: https://elixir.bootlin.com/linux/v6.16-rc3/source/arch/x86/include/asm/msr-index.h#L880
 > 
-> Would it make sense then to merge patch 2/3 and 3/3 into one? mm_loader
-> depends on mm_blob, and mm_blob depends on mm_handler/ being visible.
-> I wanted to split these initially as the 3rd patch is already terrible
-> to read because of all the assembly code in mm_handler/. But if it makes
-> sense to have them as one patch, I'll do that.
-
-Yes, please merge them if that makes sense. Otherwise, you could still
-separate them via providing a "nop" mm_handler (e.g. just returns success)
-in the 2nd patch and implement the handler details in the 3rd patch.
-
-> > > +static int trigger_smi(u64 cmd, u64 arg, u64 retry)
-> > > +{
-> > > +	u64 status;
-> > > [...]
-> > > +
-> > > +	if (status == cmd || status == PAYLOAD_MM_RET_FAILURE)
-> > > +		status = PAYLOAD_MM_RET_FAILURE;
-> > > +	else
-> > > +		status = PAYLOAD_MM_RET_SUCCESS;
-> > 
-> > No. Please use -errno in the kernel.
-> > 
+> As a follow-up here, making COREBOOT_PAYLOAD_MM dependent on !SMP
+> resolves the need of acknowledging SMI completion. If SMI takes longer,
+> Linux is just stalled until SMI handler gives the CPU back to the caller.
+> I think for this case it could be the way, LinuxBoot is by default
+> compiled without SMP support anyways when used as coreboot's payload [1],
+> [2].
 > 
-> In which line here exactly? In the conditional statement I explicitly
-> check for RAX (and hence status) being 1. Not sure if status == EPERM
-> would make any sense here. I guess you meant specifically 
-> status = PAYLOAD_MM_RET_FAILURE? Then what would be appropriate -errno?
-> I think it could be -EREMOTEIO or -EIO, since the APMC SMI which
-> trigger_smi does is an I/O write. But I am not sure if that's the
-> appropriate errno.
+> [1]: https://github.com/coreboot/coreboot/blob/main/payloads/external/LinuxBoot/x86_64/defconfig
+> [2]: https://github.com/coreboot/coreboot/blob/main/payloads/external/LinuxBoot/i386/defconfig
 
-Let trigger_smi() return 0 on success; or, -errno. Eliminate the 2 macros
-(PAYLOAD_MM_RET_*).
+To make sure I understand: do you mean the trigger_smi() becomes a blocking
+call without a timeout?
 
--EIO makes sense.
+I may misunderstand: depends on !SMP which also means it can't use on most
+modern architectures.

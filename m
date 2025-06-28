@@ -1,142 +1,129 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC9521B9D9
-	for <chrome-platform@lists.linux.dev>; Fri, 27 Jun 2025 11:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701482586EE
+	for <chrome-platform@lists.linux.dev>; Sat, 28 Jun 2025 18:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751024465; cv=none; b=cVXVhakfT7chi1Q7CH2QochOqEpMzI334AGLKenbUKSO0wCz3m/EAOI/2TUNzpwVTquy2gGa3pK/ekQ/S82Z/pACOVVTKWpFK3bAl0MuINyTIbdkOGOc/4KUiR2YfnmC6Av8ZKbEJUjFerARuXb4Nc4+QtcSuYrKBo+dsFKK4NM=
+	t=1751134541; cv=none; b=STCZ96lrxTwPUNX8CxNl/VPROtkj9o+M7YnyRa9See03zN6Oij3k0OG5y1sYVKUZ0y0XuAVYbeMC68fmuTdhiDchqC8C788CjJFFDeh6RTSCxil4o/pCVNdSfJ4tY/LmIp5xLLa1+E1T9Xkeb3sleQU79+7BnCbwTC3ZxxCbT4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751024465; c=relaxed/simple;
-	bh=fl5PplXrSvYrXkPFIRlB9i9CTn2b94Avf8dhkd9p2/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jOtkpzAR7c7DfM//eFp4t1ZmdSPvlqeThzBkW/sPpU1ydXE7ZDR+iiatvm8D0v+ea7quFnDUZXOfE1sVroAfudarLklTlea5HQCZW3ZLUW/RWF57yGsNCwQORUb5RbxavurNoEfSz/iHDTeLp4D9d4/8+9XdXFmaLzJwEid26rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=a+6G6/1w; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
+	s=arc-20240116; t=1751134541; c=relaxed/simple;
+	bh=E4plUyCSI3k6l2mc6OVyIDEg2o/aLZqtXrmCeA+EOe8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ljrJN8iGGELZGCXVQ5DDyHpe38zTl6yedBEZZ1W4j5TzVjmpwWFKG+fSNLatBTMeSDXmCLAYNrTi4B25SihDm3AnteFw1xYg9xtyZNB3iWJR2N4wWEgaMTwaEUbCepsp4013UXuhigG/DJb9Mtc+9ehmRhqabi7ZZ+VBCqo2vuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeVTTwFY; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="a+6G6/1w"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-451dbe494d6so19542675e9.1
-        for <chrome-platform@lists.linux.dev>; Fri, 27 Jun 2025 04:41:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeVTTwFY"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6fd1b2a57a0so28589046d6.1
+        for <chrome-platform@lists.linux.dev>; Sat, 28 Jun 2025 11:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1751024462; x=1751629262; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+f+ZsWg0Gmymqmi+4OUAMPiH1U0HhSSc/DH6fljnhAA=;
-        b=a+6G6/1wbhZ3TbqcTNxnUifM4sl5j8h6nG5wPn+RH+Fp0llSicO9lSIkFoUa2083IX
-         e7BiSDRqxapM2/nL1WM+nKYXOwcyUQHVtEJT9MfvCW7gT9HALAW7k9E6Bt5h+jB6/Hoo
-         lZ+xZ4AOuoWGIIQRcB1Era3FML2aWIwDzu5W9rOaiG7q2G/y+JeBckfEIMsSfoB4Z8UC
-         Qty5C9scYF9wm02Ib9Ds9tKbsLke0E7ehO4rgYpi6CWNT5OC/Oz9JMGcNwNKqDRKP4OQ
-         LrrAn9/2nD1LBvY6vrYpjReW3/UUdnLUImuHMy+m2UP/RNwK84Fhlkj1jQhSnUnR5Cod
-         v+TQ==
+        d=gmail.com; s=20230601; t=1751134536; x=1751739336; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3iwNAdFnvuqB0Dm2t3yhmssxKeJwx9Ii5rUOi2V7+AQ=;
+        b=VeVTTwFYJ1jaaQTQJLPnmgwr++n+Hk/s7Xk7QuRLVg5izwrFEjtoyAIp159Pxxw0xG
+         t6eN/yBvqraCw9B8llxrfXN491xSFyYjdT+kKC6Q0m35x03NInnx/msqEhImPVrjBUAt
+         Frta0rWJNH1yv2GVfuSO7LqidibmVPzWT8scbzIYrTMA4okyCqdkn8gt6Lgt0wrdYgez
+         UK6+vkl0HBK4OGQ9wvXKMx1V22jMYSdAz7JavjYGVpwBSipiP7VUNKo5zqgnt5aYTVzr
+         fFB1aPi/ky01lRKewL3QLLBN7ZgQeBsQJJ9GZs8u8RsGwcg9DePn6tqe8vLMop0xMKBb
+         KRPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751024462; x=1751629262;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+f+ZsWg0Gmymqmi+4OUAMPiH1U0HhSSc/DH6fljnhAA=;
-        b=seNv028AnEt0AaA6RMHnN3oGfbrjvFBqckaZ3s0oM0geKnEYVPsQwFjnjupZpg6Po6
-         lazhVviQEa6DhRI4LFQM4DgIy/JKbGwlIajuA3Bzrr8LRdtDCZjQGNA5ChbNbK1ovvWo
-         eGpSOPt1DHHj6tApt6l1Tjn45cuQ4QFknR9GbZTtQwoVDd1PXmYyZQbR4z5xRQliPVYA
-         p8672EDzxHrcn2zLwqc5atINn6ret7tPEtFEvYghfHrGsuryXDCnUPtp/PdfGWufKLO0
-         bKn1IrV5OHwEWPjRyrqHjhumWOuBYeN/vyGE+aXT0RU2oc2IPgdV6UccK7Kkq/++Um8/
-         EmIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWgn7r/Y5hKwXjHLilh5ncnFq02gTZ9c5YVPT5pTDs1PPUcq1AgODrSpTjFJAn4mvTOQD87chnibMtebKZcJCQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaiuXR8S6kh+Wf+Mp0ginBijyr3icEhu7/DZI75PFHYXFuJ+Sv
-	vNGbJTCSpvYmfVJfJMaFD9DV1LraHmmgghyeYxXm4doMIG0EWGDsZcA7j426yJPj4Q==
-X-Gm-Gg: ASbGncuFDC1HrSMwrd+quYMgP9mW96b9tWthVMKWk4LQgNCMt8cSEJAhhczyxito/sS
-	j1yraNs6XJxGQwZ7/hqjMPt59M9YoRJwfY8GQiVMbSeEVn1K8NtpBUeBLi2WutvCcP1NkttVCh+
-	OfL7izj0Ac0j7b4S+JGQJBa3tESWS1opKxSAEcopDrPAAJjK1kFr8LQrcf8zojtKgMGPUDiumhf
-	Hygbry8gIOM9UTkvHrRfRTfVSIIFa0J6Xo0pIVWK1MlIzVrcAIKl30yY5NxDQCHLUuu28HG77LF
-	oj+7WyvtKlWoyvjt2GmtfC4xXUDR/ZqgUsba+bfPxcSkPUIzo7x7drdcW+tQPiOI4fdMzh3RRGJ
-	MLuTtj1nwRWy66as1BTvvSAhCe8ECwakucF5jORR4Kg==
-X-Google-Smtp-Source: AGHT+IE5U0WFB3xmAQyJW31NBkdohL+E1I8yjzg0yul66CSK8NPf4uCADLUurvYUtJNKZDRdAmrH0g==
-X-Received: by 2002:a05:600c:a40e:b0:43c:fe5e:f03b with SMTP id 5b1f17b1804b1-4538f8836bcmr21511545e9.30.1751024461841;
-        Fri, 27 Jun 2025 04:41:01 -0700 (PDT)
-Received: from cyber-t14sg4 (ip-078-094-000-050.um19.pools.vodafone-ip.de. [78.94.0.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a390d3fsm49139535e9.1.2025.06.27.04.41.01
+        d=1e100.net; s=20230601; t=1751134536; x=1751739336;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3iwNAdFnvuqB0Dm2t3yhmssxKeJwx9Ii5rUOi2V7+AQ=;
+        b=DmDuyPaGKTAEzrKazutU1zOmSSqIu71n4axmnr6UepITENTeW19oGTl6BmniDEjM6y
+         3HI8PEJ19PQ/HSnSR3uHkY0n6f+3G2jqXJuJUcgcd+NuAhJ4edXWKYQZYCndZdqUyNfu
+         GpzFC+HiQ0A13YmIvISrN9qZqFIxuGqee6p87mRaFH9j6slQIDY3vKiChmEfptYJW+ko
+         CBlgxG5p3LQVjSOs0UtF6MWKkXQ7CngFdyDGVWxdZhtLvZk3WOdiqlQn3p5l1fdOmApu
+         JDL6HlgMuAA9XRPE/eUhRua3DHL3MkqTHkRzeanjoBImm8MIypdUYTavNUYLqKci5FPO
+         XMRw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/AXVbpexU/oqKtknL+EHdxTOMujM8ksDp+uocfwONZiDfpDndljff+StzwC+lpAmSuGETDszVyd8v1M00SxQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywxgnkq2aorLzHggvXv0jg+TbqpODLYJGvMgF/SL6wldQB82F1A
+	mOqU251JA7A4DYK1Tdrjrh4jBllfCuuzuzbX79FM1RBiGuEpMLDCdiMWkpsKig==
+X-Gm-Gg: ASbGncvPC4iD65zdGxV1LR442zeZA6JbY5mZvZaT/lIvkWtfiLCh4PHwDObPqqoW77L
+	+lEyzWB5jSNq+/XGPQyu2VjSQplc9a4NbDZ5Z2qQz917stGIq+kHLIeXB49tTZQZ8KwEuJfIBAh
+	nZIaJWF99eOqQAjlrrF+m9nMpovD4BqLnRq0UNc4KeTyv2lyVkB2yQ1tn5Ao/6TP1uIc+YGGZir
+	6iXNCp+VHCd2CKlrZyxkuEg08jKGoz/Eu+rLyreQBKc1il6ijtbFLyecVXHS+xbq3Bc+DA0ACzb
+	lZ1azSP6YAY2RpiwmG5Gp3DtTu2L7+sgzV0C0r77XhV5Y2e9mwUz
+X-Google-Smtp-Source: AGHT+IFT9kgIoKGKayFfluhf0Ok4oPV7tBtPpLjbQW6DZ52MHbabScaVf1BJD+RsC+tfTb5+8lApbg==
+X-Received: by 2002:a05:6214:490a:b0:6fa:be7e:c0be with SMTP id 6a1803df08f44-700036ae7c2mr135067566d6.34.1751134535980;
+        Sat, 28 Jun 2025 11:15:35 -0700 (PDT)
+Received: from fushigibana ([2601:405:4a00:186f::cc2])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd7718dd53sm40117486d6.16.2025.06.28.11.15.35
+        for <chrome-platform@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 04:41:01 -0700 (PDT)
-Date: Fri, 27 Jun 2025 13:40:29 +0200
-From: Michal Gorlas <michal.gorlas@9elements.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>, linux-kernel@vger.kernel.org,
+        Sat, 28 Jun 2025 11:15:35 -0700 (PDT)
+Received: from pnariyoshi (uid 1000)
+	(envelope-from pedro.nariyoshi@gmail.com)
+	id c5f94
+	by fushigibana (DragonFly Mail Agent v0.14 on fushigibana);
+	Sat, 28 Jun 2025 14:15:34 -0400
+From: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-media@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
-	Marcello Sylvester Bauer <marcello.bauer@9elements.com>
-Subject: Re: [PATCH v2 2/3] firmware: coreboot: loader for Linux-owned SMI
- handler
-Message-ID: <aF6DLQfKq-bpEmnr@cyber-t14sg4>
-References: <20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com>
- <20250616-coreboot-payload-mm-v2-2-5d679b682e13@9elements.com>
- <aFuQHqSd9kT87tsF@google.com>
- <aFvq49ODR3XfcwZJ@cyber-t14sg4>
- <aF0x-d-uBbMQxrxO@cyber-t14sg4>
- <aF4GsTGNSHQKn7Ms@google.com>
+	linux-kernel@vger.kernel.org,
+	Mr Chromebox <mrchromebox@gmail.com>
+Cc: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
+Subject: [PATCH] media: cros-ec-cec: Add Fizz board variants, so driver can detect them
+Date: Sat, 28 Jun 2025 14:14:35 -0400
+Message-ID: <20250628181530.873795-1-pedro.nariyoshi@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aF4GsTGNSHQKn7Ms@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 27, 2025 at 02:49:21AM +0000, Tzung-Bi Shih wrote:
-> On Thu, Jun 26, 2025 at 01:41:45PM +0200, Michal Gorlas wrote:
-> > On Wed, Jun 25, 2025 at 02:26:11PM +0200, Michal Gorlas wrote:
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Gives SMI some time in case it takes longer than expected.
-> > > > > +	 * Only useful on real hardware (tested on RaptorLake), not needed on emulation.
-> > > > > +	 */
-> > > > > +	mdelay(100);
-> > > > 
-> > > > This looks weird. Are there some ways for Linux to be aware of the SMI has
-> > > > completed?
-> > > 
-> > > Not in a straight forward fashion. On Intel SoCs we could read MSR_SMI_COUNT
-> > > [1] before and after sending an SMI, and wait till it increments. I am
-> > > not aware about any unified way that works for AMD SoCs. However, so far
-> > > none of the AMD boards supported by coreboot was tested with MM payload,
-> > > so to make it Intel-only in v3 is not a bad idea.
-> > > 
-> > > [1]: https://elixir.bootlin.com/linux/v6.16-rc3/source/arch/x86/include/asm/msr-index.h#L880
-> > 
-> > As a follow-up here, making COREBOOT_PAYLOAD_MM dependent on !SMP
-> > resolves the need of acknowledging SMI completion. If SMI takes longer,
-> > Linux is just stalled until SMI handler gives the CPU back to the caller.
-> > I think for this case it could be the way, LinuxBoot is by default
-> > compiled without SMP support anyways when used as coreboot's payload [1],
-> > [2].
-> > 
-> > [1]: https://github.com/coreboot/coreboot/blob/main/payloads/external/LinuxBoot/x86_64/defconfig
-> > [2]: https://github.com/coreboot/coreboot/blob/main/payloads/external/LinuxBoot/i386/defconfig
-> 
-> To make sure I understand: do you mean the trigger_smi() becomes a blocking
-> call without a timeout?
+I recently reflashed a Chromebox (Wukong variant of the Fizz board) with
+coreboot and I noticed that the cec driver refused to load with a bit of
+tinkering, I realized that the dmi_match_table was expecting the product
+name to be Fizz, but `dmidecode` reports `Wukong` as the product name. I
+am not sure if this is the best approach, but adding this patch lets me
+load the driver and it works properly.
 
-Short answer: potentially yes. Longer answer:
+Alternatively, we could instead match the DMI_PRODUCT_FAMILY, instead of
+DMI_SYS_VENDOR and DMI_PRODUCT_NAME. In my board at least, that says
+"Google_Fizz".
 
- "mov	%[apmc_port], %%dx\n\t"
- "outb	%%al, %%dx\n\t"
+I am open to suggestions for alternative solutions and I hope I did't
+break any rules (this is my first kernel patch). (And sorry for the
+previous submissions with errors in the subject line)
 
-in trigger_smi() will switch CPU context to SMM, meaning, current state
-is saved and CPU starts executing whatever instructions are under the
-address stored under SMBASE register. At this point, Linux has no control
-over that CPU, which can cause chaos, particulary on real hardware.
-I am not an expert on how the scheduler is implemented, but I can imagine
-it will assign next not-blocked CPU to execute the instructions coming
-after trigger_smi(), while SMI is still being handled on other CPU.
+Signed-off-by: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-> 
-> I may misunderstand: depends on !SMP which also means it can't use on most
-> modern architectures.
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 419b9a7abcce..a26473c3cd84 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -302,8 +302,15 @@ static const char *const port_ab_conns[] = { "Port A", "Port B", NULL };
+ static const char *const port_d_conns[] = { "Port D", NULL };
+ 
+ static const struct cec_dmi_match cec_dmi_match_table[] = {
+-	/* Google Fizz */
++	/* Google Fizz and variants*/
+ 	{ "Google", "Fizz", "0000:00:02.0", port_b_conns },
++	{ "Google", "Bleemo", "0000:00:02.0", port_b_conns },
++	{ "Google", "Excelsior", "0000:00:02.0", port_b_conns },
++	{ "Google", "Jax", "0000:00:02.0", port_b_conns },
++	{ "Google", "Kench", "0000:00:02.0", port_b_conns },
++	{ "Google", "Sion", "0000:00:02.0", port_b_conns },
++	{ "Google", "Teemo", "0000:00:02.0", port_b_conns },
++	{ "Google", "Wukong", "0000:00:02.0", port_b_conns },
+ 	/* Google Brask */
+ 	{ "Google", "Brask", "0000:00:02.0", port_b_conns },
+ 	/* Google Moli */
+-- 
+2.49.0
 
-Not necessarily. This driver is useful only if Linux is used to be
-coreboot payload (aka LinuxBoot). As far as I know there is no real need
-to have SMP enabled there, sole responsibility of the LinuxBoot is to
-bring-up remaining hardware (similar to Driver Execution Environment (DXE)
-responsibilities when booting with UEFI), and kexec to the OS kernel,
-which is likely built with SMP.

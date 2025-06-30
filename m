@@ -1,102 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5C3199BC;
-	Mon, 30 Jun 2025 06:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48B4256C7D
+	for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 10:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751265171; cv=none; b=vBkpKZTpvk4kS4Wa1VD2M7Fk3/ggo+b3T0Ntj+ZXcNSgiOsYLiA3VcRNVSb4L0ELFQ/z9Y3E9iN3OVx5DTIV0z65BmkCagkye7k4znda/NZ5JM8wFXZWNlPwc0QuLPYBxhdwft3A3AdGyJRJ54TOtSz92yIa+ff1CpKeJAwrqyw=
+	t=1751278351; cv=none; b=JewBpzIQWNzUeEAu6EuVJoG7pD9fFk0/z0k6FPUB37hUGL9nmo2j1SOBVml93Oz8GBZ3kZxYq1wZ8+s0jZEq/v327UBsluGvrY/zMuT7ASnCZ+S0vtZB8lcIAikZuH3jnATHUyjUhpzNvRT9S14bCEuDhWsIoOk9n9/9Kb6VO48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751265171; c=relaxed/simple;
-	bh=oVz3AzjXDB8tx63q2FWoAV/IMnwv+4nVU/gA7S9FJV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SUcvpo0//E9wyEJPeCNa3An9uuNk0cZDfCEcgLm/Z7V1kQ6rCKLGsny6WXs1avbuie1BnddT2pOYx73F2jpu/phJHE+TLCVRjhrL4X6RjVbyy3H1Z3T5vdBRqa52wZIyacVhgWGrAzepGVYWpCT+8jqxFmCNgO2xEebLD4SzMRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZLz1HTXQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751278351; c=relaxed/simple;
+	bh=MIPpdlBA+KiSQT0j9EKjsyMLybXln93qbbOkBRiJmGs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NPYc5J7th0f00EjkFaR4qWGyM417lF5tyLidCr65z9i7yEUDR65873v88h4vlLAwPfgchv8ym9z9iIrXWo93QtcXet917Jf2zH2kskkFBOH+f0blp6IyKngwuyodpryfx6lviFfDXbCpe9Dz3kDFJBlLXRTcMTVVVQXjnLa9nko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTKmyAQm; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZLz1HTXQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB3B8C4CEE3;
-	Mon, 30 Jun 2025 06:32:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751265171;
-	bh=oVz3AzjXDB8tx63q2FWoAV/IMnwv+4nVU/gA7S9FJV8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZLz1HTXQud2+C4Hc8dNqU5HzhsH4f4F5U8M6c43VE9hhsG1JJgaEFw3dlM5HYekdC
-	 Lh0ZvkXpQTh3+3L/ZDGT7jiyS60+Vzm9SiJaDyJqovJ7TECijpZWTJHFnFQTGy6gTk
-	 e18hf5xwbMX6UOnQM3yTWcCQqnGq68Qwm1TH2XDPLDYCP21ypPcwPiKp1B/0iGIbBw
-	 hAITNfBhdwIsji6aPVMDQW1r7YUVTPgogLpCT+uUplA0emaN0fFm2PKtSA/sznG3pR
-	 v/IlwNjXEufz2RMsBK3c/kjcnnVNoHZ0AQoEqkkUicIKt6H6qTVQPtx0XvtzJ80mNd
-	 EHcz0r6KJ+xYQ==
-Date: Mon, 30 Jun 2025 06:32:46 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Daniel Latypov <dlatypov@google.com>
-Cc: bleung@chromium.org, brendan.higgins@linux.dev, davidgow@google.com,
-	rmoar@google.com, rostedt@goodmis.org, mhiramat@kernel.org,
-	naveen@kernel.org, anil.s.keshavamurthy@intel.com,
-	davem@davemloft.net, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/7] platform/chrome: Add Kunit tests for protocol
- device drivers
-Message-ID: <aGIvjrrSRPJQpNy7@google.com>
-References: <20250520082435.2255639-1-tzungbi@kernel.org>
- <CAGS_qxrcH0+mJTO4nJqXnk2Bh7oO_PEur=ytcxL8wxJNCu20Tw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTKmyAQm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751278349; x=1782814349;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MIPpdlBA+KiSQT0j9EKjsyMLybXln93qbbOkBRiJmGs=;
+  b=VTKmyAQm1sKmVn8Y0JsdeyVeTcME4VwVaAWW/sW95p02IFn25LliWIde
+   BGW3e8NFj7wW2SctvElpkNBAcuK4ngKIjCRIbgESL4Rb5MbxrNqs9Wnso
+   U0KjYoYSHzevYZE+6soFFgascn0IPzUVxyFpbZCEs3Q4yMLYD896Bnq3V
+   E0kGFhJh4SMh0qdjq3X+XPAVNzF+HI7g0ijyk0yMKKeivGdSxoiZxt3gX
+   rckTJ5k6vwn3Osssz1qi+eC5JidhFf4YEE+OMeIPvpMJ63GTfB0Irye/t
+   LSzRg7Jp1CCODISOitiPIFocTQoQCI9mDqB8jGhZ7lBlTn1ZBzIF/L4BM
+   w==;
+X-CSE-ConnectionGUID: gFDZVQ9fTxSlzF9Uu0x0Cw==
+X-CSE-MsgGUID: UUdtKZ7VTbSFlb4LNjpVMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="64852281"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="64852281"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 03:12:29 -0700
+X-CSE-ConnectionGUID: rksgmMnHSV6KRUI1kp0AHA==
+X-CSE-MsgGUID: 4w+3nGLHR4atCuOGlGCr2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="153723902"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Jun 2025 03:12:28 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 23B3F3AB; Mon, 30 Jun 2025 13:12:26 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] platform/chrome: chromeos_laptop - Remove duplicate check
+Date: Mon, 30 Jun 2025 13:12:25 +0300
+Message-ID: <20250630101225.1855431-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGS_qxrcH0+mJTO4nJqXnk2Bh7oO_PEur=ytcxL8wxJNCu20Tw@mail.gmail.com>
 
-On Tue, May 20, 2025 at 09:04:53AM -0700, Daniel Latypov wrote:
-> On Tue, May 20, 2025 at 1:25 AM 'Tzung-Bi Shih' via KUnit Development
-> <kunit-dev@googlegroups.com> wrote:
-> > [...]
-> > Questions:
-> > - Are we going to support ftrace stub so that tests can use it?
-> >
-> > - If ftrace stub isn't on the plate (e.g. due to too many dependencies), how
-> >   about the kprobes stub?  Is it something we could pursue?
-> 
-> Quick comment,
-> If I recall, the thought process was that we could consider it in the
-> future if there was enough demand for it.
+fwnode_remove_software_node() is aware of invalid input,
+no need to perform checks in the caller.
 
-Sorry for the late reply. I was doing some more experiments and stuck by
-some else.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/platform/chrome/chromeos_laptop.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> We have these drawbacks with the current ftrace stubs:
-> * doesn't compile on all arches
-> * silently doesn't work on inlined functions <== scariest one to me
+diff --git a/drivers/platform/chrome/chromeos_laptop.c b/drivers/platform/chrome/chromeos_laptop.c
+index 69d366df3e26..dbf256071549 100644
+--- a/drivers/platform/chrome/chromeos_laptop.c
++++ b/drivers/platform/chrome/chromeos_laptop.c
+@@ -780,8 +780,7 @@ chromeos_laptop_prepare_i2c_peripherals(struct chromeos_laptop *cros_laptop,
+ 	while (--i >= 0) {
+ 		i2c_dev = &i2c_peripherals[i];
+ 		info = &i2c_dev->board_info;
+-		if (!IS_ERR_OR_NULL(info->fwnode))
+-			fwnode_remove_software_node(info->fwnode);
++		fwnode_remove_software_node(info->fwnode);
+ 	}
+ 	kfree(i2c_peripherals);
+ 	return error;
+-- 
+2.47.2
 
-I see. I did some experiments and realized that kprobe stubs also share
-the same concern. Thus I'm wondering if there is a way that kprobe stub
-detects the redirection may fail, at least it can skip the test case
-(e.g. register_kprobe() returns -ENOENT when it can't find the symbol
-via kprobe_lookup_name()). But it seems no way if the target function
-is partially inlined.
-
-> You mention you don't like how static stubs requires modifying the
-> code-under-test.
-> Since it gets eliminated by the preprocessor unless you're compiling
-> for KUnit, is the concern more so about how it conceptually feels
-> wrong to do so?
-> For the Android GKI kernel, they have (or had) KUnit enabled so there
-> is potentially concern about real runtime cost there, not sure if you
-> have something similar in mind.
-
-Not exactly. Ideally, I think we shouldn't modify the CUT. I'm wondering
-if there is a way to not change the CUT but also break the external
-dependencies.
-
-> But stepping back, ftrace_stubs technically require modifying the code
-> to make sure funcs are marked as `noinline`, which this patch series
-> does not do.
-> I've not looked at cros_ec_{un,}register() to check if they're at risk
-> of inlining, but wanted to call that out, that ftrace stubs
-> technically don't handle your usage pattern 100% properly.
-
-True. They could be partially inlined even though they are exported symbols.

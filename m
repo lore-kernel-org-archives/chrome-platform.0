@@ -1,212 +1,156 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01295289E3D
-	for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 13:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9548928BAAD
+	for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 14:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751289219; cv=none; b=YfDmOeaIqGfmq0B5a4ifSWHr3RpyUNzeLz5d5b/V0HQ5wu3tzrmFcNU6Lc+QMbsAs8icdvFyT2eqi+DYADht+l4D5UkE3Saz2LNoRi8rLvFNIcMjnJjtdiFvaEqUiP9lA3/j3jah7BR1+7UUniH5SueUFp0VCRqyzsthcb/wfLU=
+	t=1751292771; cv=none; b=bRcWsB0o4Zj+5YF3z6bNCHTBbO7rO/IOahrwKRoRziz7HVZJFupD5byYtGUey9K7LE2HzwX1mZ1PhbhtChf/7NyUutKe6JO4/MtM+lf+jFzglFzWEezETTrG7Ww77HRtsN3RWUGjl/mGm8W+4xnDwUsPmFL70x1GjLa6WbvJ8tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751289219; c=relaxed/simple;
-	bh=ticg8F/QpgM6uZ+Xc7lwFuLN1jw7UH52pw2WrhaQ6Oo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iuQ8UMJDkIDI6g/+M6pHBzbabwLo7ioJXBY0Abb7vFcAKzyBB/5L5sSxNBbCkRRG8Qxrk6tXpSTU+/RU8WBSE2PRcqPD3qhQZPVpxUC8uRdgIQbWcK216bI5qNrzDXWMLpJdzypzm2swLRY6ek639vMBT/M+JiVOVGuiMMokcss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HgMns/KH; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751292771; c=relaxed/simple;
+	bh=bMHPCmwSf/0UHN/+Dbhn0oR0tIkPxlobark4ljmFKMs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PFAvBq2TRxR4AzBHjMcG9ygmtA2IYVQieNWvUq66RF/Up71vTiWslJlsSAB4JDbumF7jVR6kEvIRid8sSbfXIsHFCCYyhOLAW1ckhURJHV9WZazqIiv3CP8BLEnFSgLgBM2OuIM9wKrMwnm5ZDvqv2B5S+nCz2w4B/u+Z1VijWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TL1iYq/b; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HgMns/KH"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-607ec30df2bso9133660a12.1
-        for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 06:13:37 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TL1iYq/b"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ae361e8ec32so530443766b.3
+        for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 07:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751289216; x=1751894016; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fswOJF6o7qkEIMaZT5o1n79zw+u/hsqnIJovmiTNbVw=;
-        b=HgMns/KHEx2YXtvrHwiFMztRS1kW8mJAcdxoi3aGN3FCE42A5ze6euCG30FZYatbu0
-         pxIxrSEZUOC/OTHcJNqmKQnjKZJ0tfwYOWU5gEKKZYs0gnMGrvn21dPZz0KYpTh9kMzl
-         2u5Z1hEXHCZrT9zguKzflzN4pWwSGR94wSxF++/RqOyvXaE+sOfXrrlI7NQU0NmWP+R/
-         pXSUjR6YJZl6a9DKpU67yGT7rdS6oM+yAJAu/BytkO9UQOTcXdTKDFBvSJLTTcYJJNDv
-         fwfDX/Edh6qKgcfOhyPEejq8WRYzWc8VXp8bziK1WOQlcHdshxoXwknILJWcfMXewm+r
-         tMWA==
+        d=chromium.org; s=google; t=1751292768; x=1751897568; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PPXqzMTVNtWkrqY32SDEDi5ZNrPEzXx3OZ7fxqg/7GU=;
+        b=TL1iYq/b7xQN0Ganra53hvE61YpRP8VZyTDHY3TOO6POy7Au0bmj5XxOUfhwpSvQSM
+         p9LrT64RFrAnU1HLgj8HU4Pct3zEhrZUeTpzluqPk/VSdfo3FCnrWnzdU8564xBptLjH
+         Ji/YkVDNjXIAEzUTiV/Z1V6CQvwPafornbMCA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751289216; x=1751894016;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fswOJF6o7qkEIMaZT5o1n79zw+u/hsqnIJovmiTNbVw=;
-        b=V805vqd84dHWqVyHw6GMpFy3QyI5Ju5T3sA5QYRL5znoxNhU96M7cNxv+AvfbFDpIx
-         ZVEQG088V0bI2OT4ZSlflP+dlPJUJT/dYxafNRk4y0uUApJeXAB5Z/yWuYHaYdQ8oaoC
-         WtVz815U25z6JCjyAZzSiamn1vUS4zfqGvcV8W+7IBj59voAsu+SQuYmH25F9dC7GPwi
-         tqp3T6ggUk/r9070RL7VKXlzMUHOFoRvYh0voTJn8Wy8wEskNbZVduMGL9jHKF1YAE6P
-         rBwwS0gb3Pot78+2CNiaoC+eYp13TxxUZ4Pt0+Il+r+tjSr3PKq3iq6G/0u+n7oTPjo/
-         nPxA==
-X-Forwarded-Encrypted: i=1; AJvYcCVmlnA3kxggSVRjwYpo0AW5/wLrh78eQuElTOChj8Ez3wQFvl2xqjINI4r76XQmT+EAEzlbG5xMQIOjIWUldXQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxydfppAahkutxJVfGBvKoqDSlVBssBOmN55oShhWmDRGh35u5d
-	X6VcaNPHceHzU0iOnr2zw98lBaeLDWtQ1PDT/vXK6Pe+B1xp6rDbZXGbErJMbvKlo9bu9GYeBUQ
-	pzwIuEXbaPRDOY0CMD3ebOwdKml+y0fA=
-X-Gm-Gg: ASbGncuOGE+A5m1Va5Izt+TA83HKUuMBibGPpvhUC/Er7mTYOb3sDSGLkpUg4f+IS10
-	DyEeupPCaa+7S747ezze2EBmCJBhTRSiITR6yeiBS+t4QhVh49HJ6tw6gl7QLVi5PpY18wBMDi5
-	oZDR7g/a58QyvzhbgBmoLE8mCMkJM5oumHEoBPf89S1pE=
-X-Google-Smtp-Source: AGHT+IE/CC3UTiSZbneeJ7xdPR3D+CONWMBjZY1fQXWksoJ1Ise2YdpYc11zDtz5TdPhrowIOpBFW+ey/+B2c8Fx1NU=
-X-Received: by 2002:a17:907:3e27:b0:ae0:b34d:907 with SMTP id
- a640c23a62f3a-ae35012229amr1126361566b.44.1751289215905; Mon, 30 Jun 2025
- 06:13:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751292768; x=1751897568;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PPXqzMTVNtWkrqY32SDEDi5ZNrPEzXx3OZ7fxqg/7GU=;
+        b=mFhdJf93/U2UgvmmcWM56dAAn3cFfv3cn9ZX1xKHc00Dki9tqOpMPaCW3yIuJrW9fN
+         i/4o2/wpGKxOe4xbiNlDV1ddQhZTFLEmGeH9QlmmoP4D2szobnjbKcknZ3AyDM5CYQD+
+         ZNxGQGjypfnx7hViI1mp1ChzyB0UBfU+aS/Dq2ylexJa5xZ/XmA5JWtE2SM6kS5Gbleo
+         7lr/F6zvjYhmnzVGOaGdrgutDbQi/g3/pTqqyGtHPLSrxPC9LKco8eiJvlCaXogE03A+
+         6YEz/Tq5Sq9Iy8fTQhGlYDYjIurSrUrRiwaR4gh/rDTvVQD5VLO3zQUXZsCtxE2gbzi5
+         focw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7npyi81VllttEoFGRnbleAREMuHLO+918d2Fb+OOsc3qWNorsjQyqu7TpqVG/qD0+nPY9FZXshE730n4DilU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXqkUPKDTyqMuPpXjWKG95GwRTy27/Mx2nb+q30saOqxww4i4b
+	xXNk9UItjwbm2oSlyRiOtujL33Rnq/1FBob07zulCNKS+37mIR5d1reEcyj0Fm1eig==
+X-Gm-Gg: ASbGncsvtKBflXVdu0nXFOtrtTDEwIEDCUd48aA5QhJmzqQ2fqeKhpdrs/tgtmD1N4O
+	8EnFUd/Cb3rSE6AwovjdYYyqkSGAnEWAmiPuOv4sGlRjxbudicQ2Cceas9gxAI42qOMr0McJONO
+	nnqhatVDQg8e8hsdUj1lOljCJl2/Qdd3WYBXqo/nTrDActtwYZM2ZTXsDWan1FOvbvyqoiatmyy
+	J8XbORux8hMX5eXRvG+yvUhoMywq25vwkzeKOd4hYMpsrsHSrLk41hNiktE/8OWgAwt4HsztiMs
+	h0ED2KHXoghNMe42HSO5YEJ1zXGNncisCH4jExBb+CiHE9kdY6HpXcpfS6LqUQOH6++c0HCXCqF
+	RN+hQ9TWfgBgpyHrQ3z61eR7D1+wDiUM1+c1bvoas6h7soab3oJlW
+X-Google-Smtp-Source: AGHT+IGkDKPhreTeoMJMMTTbgIYsyB6qEooZPSD7ypLq50eF8X4N1KuKONp/TfysPQPg9BZXo77t8Q==
+X-Received: by 2002:a17:907:94cc:b0:ae0:a245:2fef with SMTP id a640c23a62f3a-ae34fdbed8emr1390270066b.20.1751292767830;
+        Mon, 30 Jun 2025 07:12:47 -0700 (PDT)
+Received: from akuchynski.c.googlers.com.com (72.144.91.34.bc.googleusercontent.com. [34.91.144.72])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae35363b416sm670643866b.28.2025.06.30.07.12.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jun 2025 07:12:46 -0700 (PDT)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: Guenter Roeck <groeck@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	"Christian A. Ehrhardt" <lk@c--e.de>,
+	linux-kernel@vger.kernel.org,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Subject: [PATCH v2 00/10] USB Type-C mode selection
+Date: Mon, 30 Jun 2025 14:12:29 +0000
+Message-ID: <20250630141239.3174390-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250628181530.873795-1-pedro.nariyoshi@gmail.com>
- <c8b65585-18bb-435c-9667-b202fb768299@jjverkuil.nl> <CAHPgyW5s8HB5op9z8cMPJPJ-9=e4Ufp6R3U3jABOxXD0Rzt06g@mail.gmail.com>
-In-Reply-To: <CAHPgyW5s8HB5op9z8cMPJPJ-9=e4Ufp6R3U3jABOxXD0Rzt06g@mail.gmail.com>
-From: "Mr. Chromebox" <mrchromebox@gmail.com>
-Date: Mon, 30 Jun 2025 08:13:23 -0500
-X-Gm-Features: Ac12FXxBe-NEPpyJu-_Iu88iVvt-iIfxyFjpehXXJ6E0qwyuiKPHOgUZMjqEmNo
-Message-ID: <CAFTm+6CQ+EkMyt35bLzb0+GcHaCiCk8XFP5-dSwev90on4GT=A@mail.gmail.com>
-Subject: Re: [PATCH] media: cros-ec-cec: Add Fizz board variants, so driver
- can detect them
-To: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
-Cc: hans@jjverkuil.nl, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-media@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> (Sorry to those re-receiving this message, my email client added HTML tag=
-s to the links and I didn't notice until too late)
+This patch series introduces a flexible mechanism for USB Type-C mode
+selection, enabling into USB4 mode, Thunderbolt alternate mode, or
+DisplayPort alternate mode.
+Two new sysfs attributes are exposed to provide user control over mode
+selection:
+`mode_priorities`: Allows users to define their preferred order for
+attempting mode entry.
+`mode_selection`: Initiates an automatic mode entry process based on the
+configured priorities and reports the outcome.
+The mode selection logic attempts to enter prioritized modes sequentially.
+A mode is considered successfully negotiated only when its alternate mode
+driver explicitly reports a positive status. Alternate mode drivers are
+required to report their mode entry status (either successful or failed).
+If the driver does not report its status within a defined timeout period,
+the system automatically proceeds to attempt entry into the next preferred
+mode.
 
-same apologies from me
+This series was tested on a ChromeOS Brya device running kernel 6.6, and on
+an Android OS device with kernel 6.15.
 
-On Mon, Jun 30, 2025 at 7:52=E2=80=AFAM Pedro Nariyoshi
-<pedro.nariyoshi@gmail.com> wrote:
->
-> (Sorry to those re-receiving this message, my email client added HTML tag=
-s to the links and I didn't notice until too late)
->
-> Hello Hans,
-> I don't particularly have a preference on what we match against. I went i=
-n this direction because I felt it was less disruptive to add elements to a=
- table, than rewrite the matching function and the table (especially withou=
-t the hardware to validate the changes on). I started looking at devices ba=
-sed on the same board on the chromium developer list (searching for "Fizz")=
-:
->
-> https://www.chromium.org/chromium-os/developer-library/reference/developm=
-ent/developer-information-for-chrome-os-devices/
->
-> This list gave me Kench, Sion, Teemo and Wukong. Then I looked at the sup=
-ported list for the coreboot implementation I am using:
->
-> https://github.com/MrChromebox/scripts/blob/main/functions.sh
->
-> The remaining boards seem to be rare variants of these devices (google me=
-et hardware, i7 variants of the same board, etc). This gave me the rest of =
-the boards I have added. Although, I now realize, I should have just gone t=
-o the source of coreboot:
->
-> https://github.com/coreboot/coreboot/blob/main/src/mainboard/google/fizz/=
-mainboard.c#L184-L194
->
-> This made me realize I am missing Karma (an acer all-in-one) and Endeavor=
- (another google meet variant). I could add these two missing boards, but I=
- think it'd be helpful to have someone from Google chime in as to whether i=
-t'd make sense to change the matching scheme instead. Depending on what the=
-y think, I'd be open to rewrite the patch whichever way it is decided.
-> Regards,
->
-> Pedro Nariyoshi
->
-> On Mon, Jun 30, 2025 at 2:25=E2=80=AFAM <hans@jjverkuil.nl> wrote:
->>
->> Hi Pedro,
->>
->> On 28/06/2025 20:14, Pedro Nariyoshi wrote:
->> > I recently reflashed a Chromebox (Wukong variant of the Fizz board) wi=
-th
->> > coreboot and I noticed that the cec driver refused to load with a bit =
-of
->> > tinkering, I realized that the dmi_match_table was expecting the produ=
-ct
->> > name to be Fizz, but `dmidecode` reports `Wukong` as the product name.=
- I
->> > am not sure if this is the best approach, but adding this patch lets m=
-e
->> > load the driver and it works properly.
->> >
->> > Alternatively, we could instead match the DMI_PRODUCT_FAMILY, instead =
-of
->> > DMI_SYS_VENDOR and DMI_PRODUCT_NAME. In my board at least, that says
->> > "Google_Fizz".
->> >
->> > I am open to suggestions for alternative solutions and I hope I did't
->> > break any rules (this is my first kernel patch). (And sorry for the
->> > previous submissions with errors in the subject line)
->> >
->> > Signed-off-by: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
->>
->> Thank you for your patch, but I would like to have someone from Google
->> review this as well.
->>
->> The number of entries keeps increasing, so perhaps switching to
->> DMI_PRODUCT_FAMILY would make sense. But I have no insight in how this
->> is done internally at Google.
+Changes in v2:
+- The `altmode_priorities` attribute has been renamed to `mode_priorities`.
+Consequently, USB4 is no longer referred to as an alternate mode in the
+code, comments, or documentation.
+- Mode priorities are now set as a mode sequence, eliminating the need for
+explicit numeric values, which simplifies configuration.
+- The `mode_priorities` attribute no longer supports disabling modes.
+Instead, this is now handled by using the `active` attribute of the port's
+alt-mode and the `usb_capability` attribute.
+- Changed `typec_mode_selection_reset` behavior. The function returns
+EINPROGRESS if the entry process cannot be terminated immediately.
+- Patch 6 from v1, which addressed a deadlock, has been removed as the fix
+was already merged separately -
+https://lore.kernel.org/r/20250624133246.3936737-1-akuchynski@chromium.org.
+- `typec_svid_to_altmode` macro has been replaced with an inline function.
+- Attempts to enter a specific mode are now limited when the operation
+consistently returns an EBUSY error.
 
-DMI_PRODUCT_FAMILY is the baseboard/reference board name (Fizz, Puff,
-Brask, etc). The individual boards/retail products each have their own
-codename as well, which Google sets as the ChromeOS HWID in their
-custom coreboot firmware. With upstream coreboot firmware, the
-individual board names are used for the DMI_PRODUCT_NAME as the HWID
-doesn't exist there, which is why the existing matching works with
-Google's firmware but not mine.
+Andrei Kuchynski (10):
+  usb: typec: Add alt_mode_override field to port property
+  platform/chrome: cros_ec_typec: Set alt_mode_override flag
+  usb: typec: ucsi: Set alt_mode_override flag
+  usb: typec: Expose mode priorities via sysfs
+  usb: typec: Implement automated mode selection
+  usb: typec: Report altmode entry status via callback
+  usb: typec: ucsi: displayport: Propagate DP altmode entry result
+  platform/chrome: cros_ec_typec: Propagate altmode entry result
+  platform/chrome: cros_ec_typec: Report USB4 entry status via callback
+  platform/chrome: cros_ec_typec: Add default_usb_mode_set support
 
-I highly recommend switching to use the DMI_PRODUCT_FAMILY instead, as
-it's deterministic and a simpler match. Using it along with
-DMI_SYS_VENDOR is fine.
+ Documentation/ABI/testing/sysfs-class-typec  |  33 ++
+ drivers/platform/chrome/cros_ec_typec.c      |  17 +
+ drivers/platform/chrome/cros_typec_altmode.c |  32 +-
+ drivers/platform/chrome/cros_typec_altmode.h |   6 +
+ drivers/usb/typec/Makefile                   |   2 +-
+ drivers/usb/typec/altmodes/displayport.c     |  17 +-
+ drivers/usb/typec/altmodes/thunderbolt.c     |   8 +
+ drivers/usb/typec/class.c                    |  94 +++-
+ drivers/usb/typec/class.h                    |  16 +
+ drivers/usb/typec/mode_selection.c           | 529 +++++++++++++++++++
+ drivers/usb/typec/mode_selection.h           |  49 ++
+ drivers/usb/typec/ucsi/displayport.c         |  10 +-
+ drivers/usb/typec/ucsi/ucsi.c                |   2 +
+ include/linux/usb/pd_vdo.h                   |   2 +
+ include/linux/usb/typec.h                    |   1 +
+ include/linux/usb/typec_altmode.h            |  12 +
+ include/linux/usb/typec_dp.h                 |   2 +
+ include/linux/usb/typec_tbt.h                |   3 +
+ 18 files changed, 820 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/usb/typec/mode_selection.c
+ create mode 100644 drivers/usb/typec/mode_selection.h
 
->> One question for Pedro: where did you get all the other code names
->> from? Based on the commit message you have the Wukong variant, but how
->> did you find all the other variants?
+-- 
+2.50.0.727.gbf7dc18ff4-goog
 
-they're available from many sources online, including my website
-(mrchromebox.tech) and the coreboot source code
-
->> Regards,
->>
->>         Hans
->>
-
-regards,
-Matt
-
->> > ---
->> >  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 9 ++++++++-
->> >  1 file changed, 8 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/driver=
-s/media/cec/platform/cros-ec/cros-ec-cec.c
->> > index 419b9a7abcce..a26473c3cd84 100644
->> > --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
->> > +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
->> > @@ -302,8 +302,15 @@ static const char *const port_ab_conns[] =3D { "P=
-ort A", "Port B", NULL };
->> >  static const char *const port_d_conns[] =3D { "Port D", NULL };
->> >
->> >  static const struct cec_dmi_match cec_dmi_match_table[] =3D {
->> > -     /* Google Fizz */
->> > +     /* Google Fizz and variants*/
->> >       { "Google", "Fizz", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Bleemo", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Excelsior", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Jax", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Kench", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Sion", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Teemo", "0000:00:02.0", port_b_conns },
->> > +     { "Google", "Wukong", "0000:00:02.0", port_b_conns },
->> >       /* Google Brask */
->> >       { "Google", "Brask", "0000:00:02.0", port_b_conns },
->> >       /* Google Moli */
->>

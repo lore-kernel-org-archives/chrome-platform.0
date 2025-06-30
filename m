@@ -1,60 +1,60 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C1628C01F
-	for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 14:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638B728C2B2
+	for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 14:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751292773; cv=none; b=MMN2Aaz83M6fbxgB3Jr+Y5FBqsNSNVcuO7LxgAYlJXIfi7cY74keV88EZSHSnDvD/jxR1x5uerDypSs4a9GTnqFe+2cSwbgWE3C5Jm62HKD2wvEEo4zuN3OtaY+UT1tr6ASkPi8WeN/W/nCJ90Gh80BSDvz9JIxN0jznO0jz1jM=
+	t=1751292776; cv=none; b=k8OsmbN9I1IXGbG11KcO4EVScwKQO4JsrdMzGumeHFf2d2fHhHB3M8JHJQ+GAHe8ClKZ7gKTBvAClLBMbxmHhlnC/elu0qx/nc1TpYFr2TPcaeURLqEZqBgnVfQrwR5MZ7uN9RQow4A5uh+fM7SJbogi0RkGicxjCgPEsYiz544=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751292773; c=relaxed/simple;
-	bh=UbU7avGhiW9Nh0EyyPRGSkHu5w0s9/pYfAxGAYTBVT4=;
+	s=arc-20240116; t=1751292776; c=relaxed/simple;
+	bh=LNKB7M4XGZD1wvMm18MmkB/SXjyMDrkXYtnipJUgGD4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WwZP8xlydtUiWsX/ltH1B0lK0tDYBPHqsCf8UlEKLm1EYbRu4tKVTNTyHXcwrM1KS265B2cP6LfHvYoIZlCvXLvLls1qZg0BPsEGzmzP+6QpX35RCHtkuFv9eQVTMLE/SwySBVW4MSMn0AdhLb25sdeRS20koZA+mPFZ8arjNds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dJo6QESZ; arc=none smtp.client-ip=209.85.218.53
+	 MIME-Version; b=uzn10QiTy1bHbC4cheepXeA2HZYpJDTaFpnD/DgvzlFZD1YEZj6nvKnQy38SW5n9ev2Sovctc7YbAYLwZ2TLSeVLk4xK54LfMvz0unagT5P3UnkhexzeKTaLU8k09bpK4YN514pz8yWIXZaSzsQhxPGKB7yvVOGKJWhZhD/GiVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Pf4ICjwo; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dJo6QESZ"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ae0dd7ac1f5so758457666b.2
-        for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 07:12:51 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Pf4ICjwo"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6099d89a19cso4380032a12.2
+        for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 07:12:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1751292770; x=1751897570; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1751292773; x=1751897573; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3faCGZIUGXYM8A0hkVX0sik8je51spanXR3H0h+FTl8=;
-        b=dJo6QESZdwbMFBJRkK/BVMO8jCXMYJ33CdMWXjm9KtBhulAGAbPev9Zzs3LrtxhQ6q
-         Z8uxI0JK6W8B7bCyC+aX+n0dpAAO2tyPdkNR/U3Iq8K2Dy3YguIVlGAX/dinCsBPKj5/
-         ZtnRHS8XrnBHSJ3ieUNjPCFRhhbnrMxggv0NI=
+        bh=7KBYhaaZ6zyK1v99fMMJLyWKmWrudMkEEsbHwWdxmU4=;
+        b=Pf4ICjwospurmyItUr3HioR9QL4S/6FQyC3pvmVbaMZk3U0bJw4tBoD1iwKxneaUcx
+         P1vcB8Vy8poBnWloZd8beRUy4ocDswoVv+VUL13B8A+bMCzWRkg4/3vg+b8NJ/oH6Nik
+         m5qICZM9TBZAFodZ0hmiDDxZ7yySLO3Nno9zA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751292770; x=1751897570;
+        d=1e100.net; s=20230601; t=1751292773; x=1751897573;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3faCGZIUGXYM8A0hkVX0sik8je51spanXR3H0h+FTl8=;
-        b=tkx4gSa7abrWuTQ+aXSlNow34uz7va6Wiyrcny322nyyaFT38PSA8i3cb53v2spXK/
-         bhi7XwQjgCpap9BbbVLuupFzp1x5VAac3HH/exXONwmL1ZW5AMqWRv8GClFyb17mCKKC
-         ZD7MB5J3Cenp/pZFci6KWczcpNG39dkiVDTVnYUKX8d4O9K1EL4lz8JxphXKE7Rd3AH3
-         ZWIx/JZ7KsXuKDnkYqTZ/NzGQ8uN7cbaxtl/eKQNGMRGnlt0BlpxALRiNGrFaae6Rzqg
-         IkyTCin6rYkXhFtZ4QAUCauX3c61/ez2XiAQDaRFbaaHNfjvBgsjdtFiZ4NoV9kK8Goe
-         7xhw==
-X-Forwarded-Encrypted: i=1; AJvYcCUOWUW4/WFKcCOXE1BQy3OJusR+8KOSrQyi2FKdcl7F2Q6C8EREwCttuL0SBYHRQSfNfnjRwBiRYnCBG2oAT5Q=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4yoCaZlqYLcAUkoCUkuFOD++oZlr6CBYf0PSrYaQc9wzxaMAI
-	j8kz0q2r4GZrccZ/4ackyKeB9RcNmSHnGCJiYJQ1VUGR2vyOGMmbXE0+mqcYqlFCLw==
-X-Gm-Gg: ASbGncu5ZgQXx8DaQdEmC9nC6oU9Fk/8IcU+QsdUDiQrgASo6wjga5BZJOTp9EiQOZM
-	bwyvneqvRX1tc7wYqR6ZM9DBmmHkUga71IEK/uNA1hmRWHOOS67ppchSaFqGakwZFZJTuvAPqi5
-	tMT3N2Y6IW5WkCFrZOKZb8lghMQhveMWwa2h6DMCUJ42qn36W92pl6EGPvgfZbVd8WKn7UZZM/o
-	qFkKmFixTfi6hu1fOgnIOp1B6FZEnm33pSUPJRbOHv8pQRSLvC3oikj5QTwXFtrVCiVmvhWvAnj
-	7KmAnH1FXOKf/f2tSlNBk5ZYLv61ICckPzgRi6mljKS5YENaPL31ycVbjFx5jCUS3WGNq+3m63l
-	86PKeMAgWM/3/BEtFlEn7KzOR8FNxtvG95MPoxKbS6XQ+DL8eFuuq
-X-Google-Smtp-Source: AGHT+IGivi6cPTyaSHpxq+HEAQH9kp3ktVpVCImG4H7wtjZGGZZw4e2kZfR98cB5DDtCwjdDtwQmUw==
-X-Received: by 2002:a17:907:3f1f:b0:ae3:6a82:e6a2 with SMTP id a640c23a62f3a-ae36a82f7b0mr1096335266b.29.1751292770281;
-        Mon, 30 Jun 2025 07:12:50 -0700 (PDT)
+        bh=7KBYhaaZ6zyK1v99fMMJLyWKmWrudMkEEsbHwWdxmU4=;
+        b=Zzl60nDsLYa99JglCNo68gTKZdic6MLfS9ztRkcJ9vLDK0zYc0v+zg4qOakInbxtYx
+         hjo3kB7eKbIW5SksSLd0M6dsncIWt77EvW+WbqMHFECZ+T/SfXVmZU8CiVMjHCiqrggu
+         EVWgwOLL58h4VGd2cTfFcry5L/HbSIFs1gsOpZUZQC6jWUFymRXSkKSfFJ0TmwvRVr7Z
+         U6bLusNxB6h6Z8/oiTWAo+PivlYT6lzd+EUcEASODHNh4LpLz07cpbag2DLg1ddiJgeA
+         JVVJ/PxmrdA+yJvLZJ7LrrzfdEi5zuh/rqpApB1BdzOsJ75yKuAl+7M4t+SYZbEm37Zb
+         3myw==
+X-Forwarded-Encrypted: i=1; AJvYcCWH+NmTahw0sgVR6MSRIPldK1KewfyNFXeT+OZbncqhp1SIjyXQErSFKDb+NxHkVdtrXwreV1RMV0zTkf7eln8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHlTkfZpXyIvBJS+EeBsj7WDON7rVjJt6L6iIaQ7D+Wu9BsjJp
+	50cJjuNexROhier3G1KYsTeX13Jh6jr0Ed7sySrRe1lRPt6yFPNKSgu9SskW5l65+g==
+X-Gm-Gg: ASbGncvsRMEgzKdm3aoimwRCx/Q9NlKkVeMGVm/oPXrRYdXN+VdmQp0II3jX72wZ+CZ
+	k40Z0Ii4JyC9o3rdmbTjKWgjuIYwQH+5ssREultavNQfdW5xFLrta1fa2ZSBIexPLTytNpyGc9D
+	PwbEYOLrfiUl5QHQOmlvTuAy5bhR8D3CyXf1Ousy0jsAb40lM3doS5Q8t5cdwsaGgDcNQipB0NU
+	x5lFBNpNs2A9HZGJkzskirMohPJL6vvaP9p1+uN/IGU7nXo+p0WSd50GlN3L+MGxR92wtfhh3t0
+	p6twN5WlvPtdpmFrOG90qug62lYrOB/eOEnILMt7R3JTPEJlRbwKpM7zzlkNvC9Fxv7SalYLZ95
+	YrN1GVNgswsDfpUGqmfYtLdakRCp2sRN8qjJuEH9fLK7tFdO9m3Dg
+X-Google-Smtp-Source: AGHT+IHGJggqCDNtOOZaIaGa+EEv/ilhZRgs8ngdME1C5KWNG1YEyP/nwbdR5Tfg1rSmkUT0/Gm90g==
+X-Received: by 2002:a17:907:2954:b0:ae0:ded9:7f31 with SMTP id a640c23a62f3a-ae34fd88f19mr862849766b.20.1751292772639;
+        Mon, 30 Jun 2025 07:12:52 -0700 (PDT)
 Received: from akuchynski.c.googlers.com.com (72.144.91.34.bc.googleusercontent.com. [34.91.144.72])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae35363b416sm670643866b.28.2025.06.30.07.12.48
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae35363b416sm670643866b.28.2025.06.30.07.12.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 07:12:48 -0700 (PDT)
+        Mon, 30 Jun 2025 07:12:51 -0700 (PDT)
 From: Andrei Kuchynski <akuchynski@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
@@ -69,9 +69,9 @@ Cc: Guenter Roeck <groeck@chromium.org>,
 	"Christian A. Ehrhardt" <lk@c--e.de>,
 	linux-kernel@vger.kernel.org,
 	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH v2 01/10] usb: typec: Add alt_mode_override field to port property
-Date: Mon, 30 Jun 2025 14:12:30 +0000
-Message-ID: <20250630141239.3174390-2-akuchynski@chromium.org>
+Subject: [PATCH v2 02/10] platform/chrome: cros_ec_typec: Set alt_mode_override flag
+Date: Mon, 30 Jun 2025 14:12:31 +0000
+Message-ID: <20250630141239.3174390-3-akuchynski@chromium.org>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
 In-Reply-To: <20250630141239.3174390-1-akuchynski@chromium.org>
 References: <20250630141239.3174390-1-akuchynski@chromium.org>
@@ -83,74 +83,27 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This new field in the port properties dictates whether the Platform Policy
-Manager (PPM) allows the OS Policy Manager (OPM) to change the currently
-active, negotiated alternate mode.
+This flag specifies that the Embedded Controller (EC) must receive explicit
+approval from the Application Processor (AP) before initiating Type-C
+alternate modes or USB4 mode.
 
 Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 ---
- drivers/usb/typec/class.c | 14 +++++++++++---
- drivers/usb/typec/class.h |  2 ++
- include/linux/usb/typec.h |  1 +
- 3 files changed, 14 insertions(+), 3 deletions(-)
+ drivers/platform/chrome/cros_ec_typec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 67a533e35150..a72325ff099a 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -459,9 +459,16 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
- 	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 7678e3d05fd3..3aed429fde03 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -408,6 +408,7 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
  
- 	if (attr == &dev_attr_active.attr)
--		if (!is_typec_port(adev->dev.parent) &&
--		    (!adev->ops || !adev->ops->activate))
--			return 0444;
-+		if (!is_typec_port(adev->dev.parent)) {
-+			struct typec_partner *partner =
-+				to_typec_partner(adev->dev.parent);
-+			struct typec_port *port =
-+				to_typec_port(partner->dev.parent);
-+
-+			if (!port->alt_mode_override || !adev->ops ||
-+				!adev->ops->activate)
-+				return 0444;
-+		}
+ 		cap->driver_data = cros_port;
+ 		cap->ops = &cros_typec_usb_mode_ops;
++		cap->alt_mode_override = typec->ap_driven_altmode;
  
- 	return attr->mode;
- }
-@@ -2681,6 +2688,7 @@ struct typec_port *typec_register_port(struct device *parent,
- 	}
- 
- 	port->pd = cap->pd;
-+	port->alt_mode_override = cap->alt_mode_override;
- 
- 	ret = device_add(&port->dev);
- 	if (ret) {
-diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
-index db2fe96c48ff..f05d9201c233 100644
---- a/drivers/usb/typec/class.h
-+++ b/drivers/usb/typec/class.h
-@@ -80,6 +80,8 @@ struct typec_port {
- 	 */
- 	struct device			*usb2_dev;
- 	struct device			*usb3_dev;
-+
-+	bool				alt_mode_override;
- };
- 
- #define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
-diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
-index 252af3f77039..6e09e68788dd 100644
---- a/include/linux/usb/typec.h
-+++ b/include/linux/usb/typec.h
-@@ -304,6 +304,7 @@ struct typec_capability {
- 	enum typec_accessory	accessory[TYPEC_MAX_ACCESSORY];
- 	unsigned int		orientation_aware:1;
- 	u8			usb_capability;
-+	bool			alt_mode_override;
- 
- 	struct fwnode_handle	*fwnode;
- 	void			*driver_data;
+ 		cros_port->port = typec_register_port(dev, cap);
+ 		if (IS_ERR(cros_port->port)) {
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 

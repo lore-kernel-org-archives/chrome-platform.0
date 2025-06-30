@@ -1,840 +1,722 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CB923BF9E
-	for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 11:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47862E41E
+	for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 12:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751284795; cv=none; b=Wfu7i1Banvgvcwx/igNmh16Na2QRQo9fyOFlRrVxxltcXLHSOqkNzKq3topiKkaylMt5hmZrUYekSTvYZkG+N076b0067H45SnlAcG7TSP/Wji5bnhFs+7NUZN09iYYf+87MpnbNg9e0xI4xr8suCZFVWDwOZoERccO98eCEfIo=
+	t=1751285362; cv=none; b=AkgOMZrYLa7UagKI1WtzLlHJ2Y91ng59aTjFPTejkOxO4Y72jV+JRlQnOmZaqJJ3oQ6N2PLhjzO5RqPNtnxFkms+zd7Hh+oWmlFkQNV4E3yU6ikdvaUnC4jWnVXMhHlJqUBby2W5yD8SbanAR2ONrTn3HfLe9/Ry7RsI1l3DkxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751284795; c=relaxed/simple;
-	bh=L/bvXjd+PogfFSOOCIblhRctj4Y9AmE5aVDJhzELWSI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LC0l6G4J4hFu0Gr+886AEu9+UBCp5UtgGpZYhJjGjCjQmPIZpDY+T3anmAwiG12qZ88/ycsL8UCQwNDeeOfDAN5F4QT2OPHesAmocD7GgKv6s3BnDmXGEFXg2TKm6nCwTVAoSOt6m8nAstcaw6pE2aA7Umth5IfzIxWv4UQ/L0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Px0JxCQg; arc=none smtp.client-ip=209.85.128.171
+	s=arc-20240116; t=1751285362; c=relaxed/simple;
+	bh=25okYcwAlhgHcA5tnelFnMbTJxDayl8SEwO9iVonQoo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=iurucdf2OcXhG2a/q2fAqy2B8CQsi2TN/LstP/UtAXcqtkI20C/Oq0wT3KnCwhfBy+cGjwDXwrkjr2ZZp3cfO6+rIWaACZJnXjwjPlSSU/HbUB6OTZHmuR7WzG1jQ/d/6GaNVsrFEjjo9VdG48ZTKkkPwNbMGkd5UrcgWWWj+Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mC6XQUeA; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Px0JxCQg"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7115e32802bso19892947b3.1
-        for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 04:59:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mC6XQUeA"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-45320bfc18dso21906325e9.1
+        for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 05:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751284792; x=1751889592; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SySw9I1Cwh0zXJN2fuAlhnYjDfoYHhnLV6ZOfnAZqoo=;
-        b=Px0JxCQgW7WO4xkfUpyVIaq2BSFBkWb7b2thiLgeI6Tc4Z7t2tULQ7sHY3dwjpt/iw
-         UtaP8CiU8ZMHG2mM4DOuztYrMl6L3lvFEGQ9dxF1ABgepE9FYik9jFSFMeJZ1EPO2zVo
-         6U2ZSQr3HFO0UZi/2e2JAAcLykMWeDWXexqPLXbgZS2GBBzjh9+ScIUqFprazcRA9zzP
-         iqMQeFng0S8bBHVhpP17OBChLij4sPde1XhgmDHOldP+MlIntRQcmbeoZYyJ7jy6tdFQ
-         M1r3agHuPoVxZ1tbT5+zl1j4kB/oDgVAJntJtG6mXL7qE4RDmBWt3riDJWjZvml2EGfP
-         Quwg==
+        d=google.com; s=20230601; t=1751285358; x=1751890158; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmkAhN3nzSEY3wnWWzDwiMDod5//4QnND2vc5RH4OaY=;
+        b=mC6XQUeAhif9mqWynNeDwIDXgpu7PaExyfDVREROifdKRDmioy2d5L79R9hK+ilCX0
+         CQV2L8D9bj6lLWuKcferBHTQjGD4buRaedZFHSGrM0JWn5Gppb7XLcljXrf6cA6jqbMF
+         4Y0IO4UA1z26SwfYIy0WYuCevwEuZTjYCXvD1rP613RFh4CRjeLaZoebVI7DMPW/Er4O
+         htNfjdEP/31/0G+SjoRb+EYGJFaK/LzqQ/tJzFTCJztQiRgJ8k0RyrM6c+A9ewWMbdxE
+         SCrkrFzFeyM5uQZHoYnkEfCf5yqygdBUtzI+3b8VON1hLvfrj5ulwNZcnKvRXDowdOai
+         ckCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751284792; x=1751889592;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SySw9I1Cwh0zXJN2fuAlhnYjDfoYHhnLV6ZOfnAZqoo=;
-        b=d9MSAR0wzvH6EmQ6tGMjrpFhdr1I/W5ErKgf43muNUxoTuQIwDodg1ym29hgBWZker
-         RV57e372PMkvVxvoNLOB6L9iMtB0qBmr6Hqbbpx1lt3shlH2Ftz2IpQhZyhbELmnqQud
-         NVCacxI+KvOE/5GEKyPIkOlfHILcD5+ScMdWMDfq+Tu6t0Hld6zmAzmMMOm9gAvqqRfS
-         aaS20YanmHmVtck8YQBY4ydrqUbQUdqlELhPW1RZtgb7i3DfUHEDcHtMY7Nr/vfaV5RT
-         d3K55xNPtfzDaD9kzRb6lb9FHtIcT8NZDPnSAzkrDPKV3U0CNRfWHu3EtSvGndaCdhPZ
-         VbyA==
-X-Forwarded-Encrypted: i=1; AJvYcCVOc8TKR/W5aheQMthwjQfNGV2sFgzmUCVYfGph9FpOSFFgjSYTHi0VCB8WuwAPxpeAgs9g1tvgF45v3XNvmWc=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywf+OjC3mVe1znEq3DYQ9dLnS5PGMvssvwGD+ykYaMDfiK8TjXR
-	FzkhM/OUl/y1tMUFnMZTzu80qn7jEY7DIVJfYjOMF3X9rYmrkGoo4wYEtBaufEHkZftJE2Daz4j
-	Mippvqlmj50QyQbX13hm3VPuTbsffEhcmFiVZVOhm
-X-Gm-Gg: ASbGncvJygWlrNjusTnnL/w4G22WrJBIqgs5AEetqP2gnDEO8PLWqFGcbutMD5aLIsN
-	bB41P/EPT8n4yUIaFSOSnE+hOIi8pujpkWUEDcpFB2IL/HztHR1s6r1A7ntu0RQ/jeQEpICW6dv
-	gf9LDe4Y6juPdBX48HLVN0ckCRqTl1g9e2CKh5/O+n6sRzW9W3VR8ONMg=
-X-Google-Smtp-Source: AGHT+IHupkCStW54TGZ8wTgpYDFJufQBZjdJExfg4i7fBrNNjvu+yl7ap7XB+b/mRWTAtAlOonRMmTfXd//odBaZ2lc=
-X-Received: by 2002:a05:690c:6881:b0:708:f6d:b79f with SMTP id
- 00721157ae682-7151719b26fmr173745717b3.29.1751284792081; Mon, 30 Jun 2025
- 04:59:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751285358; x=1751890158;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmkAhN3nzSEY3wnWWzDwiMDod5//4QnND2vc5RH4OaY=;
+        b=LXUGYWSPlBFqI8B+VPBzU2tgBVgsR2rHHd7CsGx311OrOA1pkwAQcPorlivXSqqp0c
+         4dbCEfQE+mcL6M1LQy+G8ShoDyTc0UhZXUpwMIbQLkEMIImt3EyyPxTEAnPONA9q77XA
+         Xj7pad+CoANzPBx2TPGYxaGI0Gm6rjimN0shsjkyKcWcLlKce+aQj3j+fYPXmDCvk+31
+         kiO2DGuu3HjxFh/xuAiLKwP0Xa5J5WNnFzmi0eapPxHHpoD8RAUMvV24XOxwta106vaC
+         nRTEHgMSWF/GoEOQAfe3rf21etoX3oNIA6YQ9PrQzZlRimTS/N8rm0gaBHejygxoZvKp
+         iCEQ==
+X-Gm-Message-State: AOJu0Yy7Vj6gmRsfMOyD80DK+jnmQWPQ9U+NemQNzTXyonV8pP0HiTF/
+	828NpSDK+LANEyBVhS4nABEHMaFKnC0odik5hkp2BLhG4kyoPoXMe04e4rIGLSxKxaGNcdbU8L4
+	YfXAHdg==
+X-Google-Smtp-Source: AGHT+IGt9+YE0JJasUZ61Lh1IkAjJChcS3g0Ypi5j9EOHBNbGLFM0b7Q+qWTbHBtBaeXb/RWMphkRcq2qZ4=
+X-Received: from wmbfa23.prod.google.com ([2002:a05:600c:5197:b0:453:b96:8ef9])
+ (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:5306:b0:442:f4a3:a2c0
+ with SMTP id 5b1f17b1804b1-4538f308f2amr122312255e9.13.1751285358321; Mon, 30
+ Jun 2025 05:09:18 -0700 (PDT)
+Date: Mon, 30 Jun 2025 12:09:16 +0000
+In-Reply-To: <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250624110028.409318-1-dawidn@google.com> <aF5N5jrRUlj3SUGS@google.com>
-In-Reply-To: <aF5N5jrRUlj3SUGS@google.com>
-From: =?UTF-8?Q?Dawid_Nied=C5=BAwiecki?= <dawidn@google.com>
-Date: Mon, 30 Jun 2025 13:59:39 +0200
-X-Gm-Features: Ac12FXyvdcpwXxziXUsF17NccO267-yaAn-YzttYWbj4I7Ob8EDh87gPqqyULWo
-Message-ID: <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: Add ChromeOS EC USB driver
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com, 
-	=?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Mime-Version: 1.0
+References: <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
+X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
+Message-ID: <20250630120916.2058484-1-dawidn@google.com>
+Subject: [PATCH v2] platform/chrome: Add ChromeOS EC USB driver
+From: Dawid Niedzwiecki <dawidn@google.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	chromeos-krk-upstreaming@google.com, 
+	"=?UTF-8?q?=C5=81ukasz=20Bartosik?=" <ukaszb@chromium.org>, Dawid Niedzwiecki <dawidn@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Please see inline comments.
+Use USB to talk to the ChromeOS EC. The protocol is defined by the EC
+and is fairly simple, with a length byte, checksum, command byte and
+version byte in the header.
+
+Use vendor defined usb interface with in/out endpoints to transfer
+requests and responses. Also use one interrupt in endpoint which signals
+readiness of response and pending events on the EC side.
+
+Signed-off-by: Dawid Niedzwiecki <dawidn@google.com>
+---
+V1 -> V2:
+- Initialize work before potential cancel_work_sync call
+- Return errors in .post_reset and .resume callbacks
+- Inline expected_response_size function
+- Use "imperative mood" in the commit message
+- Use u8 instead of uin8_t
+- Use 100 columns
+- Add some blank line
+- Move some code and functions
+- Adjust function and variables names
+- Some additional formatting
+
+ drivers/platform/chrome/Kconfig       |  11 +
+ drivers/platform/chrome/Makefile      |   1 +
+ drivers/platform/chrome/cros_ec_usb.c | 582 ++++++++++++++++++++++++++
+ 3 files changed, 594 insertions(+)
+ create mode 100644 drivers/platform/chrome/cros_ec_usb.c
+
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index 10941ac37305..07f50816e333 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -316,6 +316,17 @@ config CROS_TYPEC_SWITCH
+ 	  To compile this driver as a module, choose M here: the module will be
+ 	  called cros_typec_switch.
+ 
++config CROS_EC_USB
++	tristate "ChromeOS Embedded Controller (USB)"
++	depends on CROS_EC && USB
++	help
++	  If you say Y here, you get support for talking to the ChromeOS EC
++	  through a USB. The driver uses vendor defined interface and is capable
++	  of signaling events from EC.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called cros_ec_usb.
++
+ source "drivers/platform/chrome/wilco_ec/Kconfig"
+ 
+ # Kunit test cases
+diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+index b981a1bb5bd8..444383e8912d 100644
+--- a/drivers/platform/chrome/Makefile
++++ b/drivers/platform/chrome/Makefile
+@@ -38,6 +38,7 @@ obj-$(CONFIG_CROS_EC_SYSFS)		+= cros_ec_sysfs.o
+ obj-$(CONFIG_CROS_HPS_I2C)		+= cros_hps_i2c.o
+ obj-$(CONFIG_CROS_USBPD_LOGGER)		+= cros_usbpd_logger.o
+ obj-$(CONFIG_CROS_USBPD_NOTIFY)		+= cros_usbpd_notify.o
++obj-$(CONFIG_CROS_EC_USB)		+= cros_ec_usb.o
+ 
+ obj-$(CONFIG_WILCO_EC)			+= wilco_ec/
+ 
+diff --git a/drivers/platform/chrome/cros_ec_usb.c b/drivers/platform/chrome/cros_ec_usb.c
+new file mode 100644
+index 000000000000..63e19eef5e16
+--- /dev/null
++++ b/drivers/platform/chrome/cros_ec_usb.c
+@@ -0,0 +1,582 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * USB interface for ChromeOS Embedded Controller
++ *
++ * Copyright (C) 2025 Google LLC.
++ */
++
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/kref.h>
++#include <linux/list.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/uaccess.h>
++#include <linux/usb.h>
++
++#include <linux/platform_data/cros_ec_commands.h>
++#include <linux/platform_data/cros_ec_proto.h>
++#include <linux/platform_device.h>
++
++#include "cros_ec.h"
++
++#define USB_VENDOR_ID_GOOGLE 0x18d1
++
++#define USB_SUBCLASS_GOOGLE_EC_HOST_CMD 0x5a
++#define USB_PROTOCOL_GOOGLE_EC_HOST_CMD 0x00
++
++#define RESPONSE_TIMEOUT_MS 200
++#define BULK_TRANSFER_TIMEOUT_MS 100
++
++enum cros_ec_usb_int_type {
++	INT_TYPE_EVENT_OCCURED = 0,
++	INT_TYPE_RESPONSE_READY = 1,
++};
++
++struct cros_ec_usb {
++	/* the usb device for this device */
++	struct usb_device *udev;
++	/* the interface for this device */
++	struct usb_interface *interface;
++	/* Cros EC device structure */
++	struct cros_ec_device *ec_dev;
++
++	/* the buffer to receive data from bulk ep */
++	u8 *bulk_in_buffer;
++	/* the buffer to receive data from int ep */
++	u8 *int_in_buffer;
++	/* the urb to receive data from int ep */
++	struct urb *int_in_urb;
++	/* the size of the receive buffer from bulk ep */
++	size_t bulk_in_size;
++	/* the size of the receive buffer from int ep */
++	size_t int_in_size;
++
++	/* the pipe of the bulk in ep */
++	unsigned int bulk_in_pipe;
++	/* the pipe of the bulk out ep */
++	unsigned int bulk_out_pipe;
++	/* the pipe of the int in ep */
++	unsigned int int_in_pipe;
++	/* the interval of the int in ep */
++	u8 int_in_interval;
++
++	/* Response ready on EC side */
++	bool resp_ready;
++	/* EC has been registered */
++	bool registered;
++	/* EC is disconnected */
++	bool disconnected;
++	/* synchronize I/O with disconnect */
++	struct mutex io_mutex;
++	/* Work to handle EC events */
++	struct work_struct work_ec_evt;
++	/* Wait queue to signal the response is ready on EC side */
++	wait_queue_head_t resp_ready_wait;
++};
++
++struct int_msg {
++	u8 int_type;
++} __packed;
++
++struct registered_ec {
++	struct list_head node;
++	u16 idProduct;
++	struct cros_ec_usb *ec_usb;
++};
++
++static LIST_HEAD(registered_list);
++static DEFINE_MUTEX(registered_list_mutex);
++
++static int cros_ec_usb_register(u16 idProduct, struct cros_ec_usb *ec_usb)
++{
++	struct registered_ec *ec;
++
++	ec = kmalloc(sizeof(*ec), GFP_KERNEL);
++	if (!ec)
++		return -ENOMEM;
++
++	ec->ec_usb = ec_usb;
++	ec->idProduct = idProduct;
++	mutex_lock(&registered_list_mutex);
++	list_add(&ec->node, &registered_list);
++	mutex_unlock(&registered_list_mutex);
++
++	return 0;
++}
++
++static struct cros_ec_usb *cros_ec_usb_get_registered(u16 idProduct)
++{
++	struct registered_ec *ec;
++	struct cros_ec_usb *ret = NULL;
++
++	mutex_lock(&registered_list_mutex);
++	list_for_each_entry(ec, &registered_list, node) {
++		if (ec->idProduct == idProduct) {
++			ret = ec->ec_usb;
++			break;
++		}
++	}
++	mutex_unlock(&registered_list_mutex);
++	return ret;
++}
++
++static void cros_ec_int_callback(struct urb *urb);
++
++static int submit_int_urb(struct cros_ec_device *ec_dev)
++{
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++	struct usb_device *usb_dev = interface_to_usbdev(ec_usb->interface);
++
++	/* Submit the INT URB. */
++	usb_fill_int_urb(ec_usb->int_in_urb, usb_dev, ec_usb->int_in_pipe, ec_usb->int_in_buffer,
++			 ec_usb->int_in_size, cros_ec_int_callback, ec_usb,
++			 ec_usb->int_in_interval);
++
++	return usb_submit_urb(ec_usb->int_in_urb, GFP_KERNEL);
++}
++
++static void cros_ec_int_callback(struct urb *urb)
++{
++	struct cros_ec_usb *ec_usb = urb->context;
++	struct cros_ec_device *ec_dev = ec_usb->ec_dev;
++	int ret;
++
++	switch (urb->status) {
++	case 0:
++		break;
++	case -ECONNRESET:
++	case -ENOENT:
++	case -ESHUTDOWN:
++		/* Expected errors. */
++		return;
++	default:
++		dev_dbg(ec_dev->dev, "Unexpected int urb error: %d\n", urb->status);
++		goto resubmit;
++	}
++
++	if (urb->actual_length >= sizeof(struct int_msg)) {
++		struct int_msg *int_msg = (struct int_msg *)ec_usb->int_in_buffer;
++		enum cros_ec_usb_int_type int_type = (enum cros_ec_usb_int_type)int_msg->int_type;
++
++		switch (int_type) {
++		case INT_TYPE_EVENT_OCCURED:
++			if (ec_usb->registered) {
++				ec_dev->last_event_time = cros_ec_get_time_ns();
++				schedule_work(&ec_usb->work_ec_evt);
++			}
++			break;
++		case INT_TYPE_RESPONSE_READY:
++			ec_usb->resp_ready = true;
++			wake_up(&ec_usb->resp_ready_wait);
++			break;
++		default:
++			dev_err(ec_dev->dev, "Unrecognized event: %d\n", int_type);
++		}
++	} else {
++		dev_err(ec_dev->dev, "Incorrect int transfer len: %d\n", urb->actual_length);
++	}
++
++resubmit:
++	/* Resubmit the INT URB. */
++	ret = submit_int_urb(ec_dev);
++	if (ret)
++		dev_err(ec_dev->dev, "Failed to resumbit int urb: %d", ret);
++}
++
++static int do_cros_ec_pkt_xfer_usb(struct cros_ec_device *ec_dev,
++				   struct cros_ec_command *ec_msg)
++{
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++	struct ec_host_response *host_response;
++	int req_size, ret, actual_length, expected_resp_size, resp_size;
++	const int header_size = sizeof(*host_response);
++	const int max_resp_size = header_size + ec_msg->insize;
++	const int bulk_in_size = umin(ec_usb->bulk_in_size, ec_dev->din_size);
++	u8 sum = 0;
++
++	mutex_lock(&ec_usb->io_mutex);
++	if (ec_usb->disconnected) {
++		mutex_unlock(&ec_usb->io_mutex);
++		ret = -ENODEV;
++		return ret;
++	}
++
++	if (max_resp_size > ec_dev->din_size) {
++		dev_err(ec_dev->dev, "Potential response too big: %d\n", max_resp_size);
++		ret = -EINVAL;
++		goto exit;
++	}
++
++	req_size = cros_ec_prepare_tx(ec_dev, ec_msg);
++	if (req_size < 0) {
++		dev_err(ec_dev->dev, "Failed to prepare msg %d\n", req_size);
++		ret = req_size;
++		goto exit;
++	}
++	dev_dbg(ec_dev->dev, "Prepared len=%d\n", req_size);
++
++	ec_usb->resp_ready = false;
++	/*
++	 * Buffers dout and din are allocated with devm_kzalloc which means it is suitable
++	 * for DMA and we can use by usb functions.
++	 */
++	ret = usb_bulk_msg(ec_usb->udev, ec_usb->bulk_out_pipe, ec_dev->dout, req_size, NULL,
++			   BULK_TRANSFER_TIMEOUT_MS);
++	if (ret) {
++		dev_err(ec_dev->dev, "Failed to send request: %d\n", ret);
++		goto exit;
++	}
++
++	/*
++	 * Wait till EC signals response ready event via INT endpoint,
++	 * before polling a response with a bulk transfer.
++	 */
++	if (!wait_event_timeout(ec_usb->resp_ready_wait, ec_usb->resp_ready,
++				msecs_to_jiffies(RESPONSE_TIMEOUT_MS))) {
++		dev_err(ec_dev->dev, "Timed out waiting for response\n");
++		ret = -ETIMEDOUT;
++		goto exit;
++	}
++
++	/* Get first part of response that contains a header. */
++	ret = usb_bulk_msg(ec_usb->udev, ec_usb->bulk_in_pipe, ec_dev->din, bulk_in_size,
++			   &actual_length, BULK_TRANSFER_TIMEOUT_MS);
++	if (ret) {
++		dev_err(ec_dev->dev, "Failed to get response: %d\n", ret);
++		goto exit;
++	}
++
++	/* Verify number of received bytes. */
++	if (actual_length < header_size) {
++		dev_err(ec_dev->dev, "Received too little bytes: %d\n", actual_length);
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	host_response = (struct ec_host_response *)ec_dev->din;
++	if (host_response->struct_version != 3 || host_response->reserved != 0) {
++		dev_err(ec_dev->dev, "Received invalid header\n");
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	expected_resp_size = header_size + host_response->data_len;
++	if (expected_resp_size > max_resp_size || actual_length > expected_resp_size) {
++		dev_err(ec_dev->dev, "Incorrect number of expected bytes: %d\n",
++			expected_resp_size);
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	/* Get the rest of the response if needed. */
++	resp_size = actual_length;
++	if (resp_size < expected_resp_size) {
++		ret = usb_bulk_msg(ec_usb->udev, ec_usb->bulk_in_pipe, ec_dev->din + resp_size,
++				   expected_resp_size - resp_size, &actual_length,
++				   BULK_TRANSFER_TIMEOUT_MS);
++		if (ret) {
++			dev_err(ec_dev->dev, "Failed to get second part of response: %d\n", ret);
++			goto exit;
++		}
++		resp_size += actual_length;
++	}
++
++	/* Check if number of received of bytes is correct. */
++	if (resp_size != expected_resp_size) {
++		dev_err(ec_dev->dev, "Received incorrect number of bytes: %d, expected: %d\n",
++			resp_size, expected_resp_size);
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	/* Validate checksum */
++	for (int i = 0; i < expected_resp_size; i++)
++		sum += ec_dev->din[i];
++
++	if (sum) {
++		dev_err(ec_dev->dev, "Bad packet checksum calculated %x\n", sum);
++		ret = -EBADMSG;
++		goto exit;
++	}
++
++	ec_msg->result = host_response->result;
++	memcpy(ec_msg->data, ec_dev->din + header_size, host_response->data_len);
++	ret = host_response->data_len;
++
++	if (ec_msg->command == EC_CMD_REBOOT_EC)
++		msleep(EC_REBOOT_DELAY_MS);
++
++exit:
++	mutex_unlock(&ec_usb->io_mutex);
++	if (ret < 0) {
++		/* Try to reset EC in case of error to restore default state. */
++		usb_reset_device(ec_usb->udev);
++	}
++
++	return ret;
++}
++
++static void usb_evt_handler(struct work_struct *work)
++{
++	struct cros_ec_usb *ec_usb = container_of(work, struct cros_ec_usb, work_ec_evt);
++
++	cros_ec_irq_thread(0, ec_usb->ec_dev);
++}
++
++static void cros_ec_usb_delete(struct cros_ec_usb *ec_usb)
++{
++	usb_kill_urb(ec_usb->int_in_urb);
++	cancel_work_sync(&ec_usb->work_ec_evt);
++
++	usb_free_urb(ec_usb->int_in_urb);
++	usb_put_intf(ec_usb->interface);
++	usb_put_dev(ec_usb->udev);
++	kfree(ec_usb->int_in_buffer);
++	kfree(ec_usb->bulk_in_buffer);
++}
++
++static int cros_ec_usb_probe(struct usb_interface *intf, const struct usb_device_id *id)
++{
++	struct usb_device *usb_dev = interface_to_usbdev(intf);
++	struct usb_endpoint_descriptor *bulk_in, *bulk_out, *int_in;
++	struct device *if_dev = &intf->dev;
++	struct cros_ec_device *ec_dev;
++	const u16 idProduct = usb_dev->descriptor.idProduct;
++	struct cros_ec_usb *ec_usb = cros_ec_usb_get_registered(idProduct);
++	const bool is_registered = !!ec_usb;
++	int ret;
++
++	/*
++	 * Do not register the same EC device twice. The probing is performed every reboot, sysjump,
++	 * crash etc. Recreating the /dev/cros_X file every time would force all application to
++	 * reopen the file, which is not a case for other cros_ec_x divers. Instead, keep
++	 * the cros_ec_device and cros_ec_usb structures constant and replace USB related structures
++	 * for the same EC that is reprobed.
++	 *
++	 * The driver doesn't support handling two devices with the same idProduct, but it will
++	 * never be a real usecase.
++	 */
++	if (!is_registered) {
++		ec_usb = kzalloc(sizeof(*ec_usb), GFP_KERNEL);
++		if (!ec_usb)
++			return -ENOMEM;
++
++		INIT_WORK(&ec_usb->work_ec_evt, usb_evt_handler);
++
++		ec_dev = kzalloc(sizeof(*ec_dev), GFP_KERNEL);
++		if (!ec_dev) {
++			ret = -ENOMEM;
++			goto error;
++		}
++
++		ec_usb->ec_dev = ec_dev;
++		mutex_init(&ec_usb->io_mutex);
++		init_waitqueue_head(&ec_usb->resp_ready_wait);
++
++		ec_dev->priv = ec_usb;
++		/* EC uses int endpoint to signal events. */
++		ec_dev->irq = 0;
++		ec_dev->cmd_xfer = NULL;
++		ec_dev->pkt_xfer = do_cros_ec_pkt_xfer_usb;
++		ec_dev->din_size = sizeof(struct ec_host_response) +
++				   sizeof(struct ec_response_get_protocol_info);
++		ec_dev->dout_size = sizeof(struct ec_host_request) +
++				    sizeof(struct ec_params_rwsig_action);
++	} else {
++		ec_dev = ec_usb->ec_dev;
++
++		/*
++		 * We need to allocate dout and din buffers, because cros_ec_register
++		 * won't be called. These buffers were freed once previous usb device was
++		 * disconnected. Use buffer sizes from the last query.
++		 * The EC_HOST_EVENT_INTERFACE_READY event will be triggered at the end
++		 * of a boot, which calls cros_ec_query_all function, that reallocates
++		 * buffers.
++		 */
++		ec_dev->din = devm_kzalloc(ec_dev->dev, ec_dev->din_size, GFP_KERNEL);
++		if (!ec_dev->din) {
++			ret = -ENOMEM;
++			dev_err(if_dev, "Failed to allocate din buffer\n");
++			goto error;
++		}
++		ec_dev->dout = devm_kzalloc(ec_dev->dev, ec_dev->dout_size, GFP_KERNEL);
++		if (!ec_dev->dout) {
++			ret = -ENOMEM;
++			dev_err(if_dev, "Failed to allocate dout buffer\n");
++			goto error;
++		}
++	}
++
++	ec_dev->dev = if_dev;
++	ec_dev->phys_name = dev_name(if_dev);
++	usb_set_intfdata(intf, ec_dev);
++	/* Allow EC to do remote wake-up - host sends SET_FEATURE(remote wake-up) before suspend. */
++	device_init_wakeup(&usb_dev->dev, true);
++
++	ec_usb->udev = usb_get_dev(usb_dev);
++	ec_usb->interface = usb_get_intf(intf);
++
++	/* Use first bulk-in/out endpoints + int-in endpoint */
++	ret = usb_find_common_endpoints(intf->cur_altsetting, &bulk_in, &bulk_out, &int_in, NULL);
++	if (ret) {
++		dev_err(if_dev,
++			"Could not find bulk-in, bulk-out or int-in endpoint\n");
++		goto error;
++	}
++	/* Bulk endpoints have to be capable of sending headers in one transfer. */
++	if ((usb_endpoint_maxp(bulk_out) < sizeof(struct ec_host_request)) ||
++	    (usb_endpoint_maxp(bulk_in) < sizeof(struct ec_host_response)) ||
++	    (usb_endpoint_maxp(int_in)) < sizeof(struct int_msg)) {
++		ret = -ENOSPC;
++		dev_err(if_dev, "Incorrect max packet size\n");
++		goto error;
++	}
++
++	ec_usb->bulk_out_pipe = usb_sndbulkpipe(ec_usb->udev, bulk_out->bEndpointAddress);
++	ec_usb->bulk_in_size = usb_endpoint_maxp(bulk_in);
++	ec_usb->bulk_in_pipe = usb_rcvbulkpipe(ec_usb->udev, bulk_in->bEndpointAddress);
++	ec_usb->bulk_in_buffer = kmalloc(ec_usb->bulk_in_size, GFP_KERNEL);
++	if (!ec_usb->bulk_in_buffer) {
++		dev_err(if_dev, "Failed to allocate bulk in buffer\n");
++		ret = -ENOMEM;
++		goto error;
++	}
++
++	ec_usb->int_in_size = usb_endpoint_maxp(int_in);
++	ec_usb->int_in_pipe = usb_rcvintpipe(ec_usb->udev, int_in->bEndpointAddress);
++	ec_usb->int_in_interval = int_in->bInterval;
++	ec_usb->int_in_buffer = kmalloc(ec_usb->int_in_size, GFP_KERNEL);
++	if (!ec_usb->int_in_buffer) {
++		dev_err(if_dev, "Failed to allocate int in buffer\n");
++		ret = -ENOMEM;
++		goto error;
++	}
++	ec_usb->int_in_urb = usb_alloc_urb(0, GFP_KERNEL);
++	if (!ec_usb->int_in_urb) {
++		dev_err(if_dev, "Failed to allocate int in urb\n");
++		ret = -ENOMEM;
++		goto error;
++	}
++
++	/* Use URB for the int endpoint. */
++	ret = submit_int_urb(ec_dev);
++	if (ret) {
++		dev_err(if_dev, "Failed to sumbit int urb: %d\n", ret);
++		goto error;
++	}
++
++	mutex_lock(&ec_usb->io_mutex);
++	ec_usb->disconnected = false;
++	mutex_unlock(&ec_usb->io_mutex);
++
++	if (!is_registered) {
++		ret = cros_ec_register(ec_dev);
++		if (ret) {
++			dev_err(if_dev, "Cannot register EC\n");
++			goto error;
++		}
++		ret = cros_ec_usb_register(idProduct, ec_usb);
++		if (ret) {
++			cros_ec_unregister(ec_dev);
++			goto error;
++		}
++		ec_usb->registered = true;
++	}
++
++	/* Handle potential events that haven't been handled before registration */
++	schedule_work(&ec_usb->work_ec_evt);
++
++	return 0;
++
++error:
++	/* Free allocated memory */
++	cros_ec_usb_delete(ec_usb);
++
++	return ret;
++}
++
++static void cros_ec_usb_disconnect(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++
++	/* prevent more I/O from starting */
++	mutex_lock(&ec_usb->io_mutex);
++	ec_usb->disconnected = true;
++	mutex_unlock(&ec_usb->io_mutex);
++
++	cros_ec_usb_delete(ec_usb);
++}
++
++static int cros_ec_usb_suspend(struct usb_interface *intf, pm_message_t message)
++{
++	return 0;
++}
++
++static int cros_ec_usb_resume(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	int err;
++
++	/* URB is killed during suspend. */
++	err = submit_int_urb(ec_dev);
++	if (err)
++		dev_err(ec_dev->dev, "Failed to sumbit int urb after resume: %d\n", err);
++
++	return err;
++}
++
++static int cros_ec_usb_pre_reset(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++
++	/* Do not start any new operations. */
++	mutex_lock(&ec_usb->io_mutex);
++
++	usb_kill_urb(ec_usb->int_in_urb);
++
++	return 0;
++}
++
++static int cros_ec_usb_post_reset(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++	int err;
++
++	err = submit_int_urb(ec_dev);
++	if (err)
++		dev_err(ec_dev->dev, "Failed to sumbit int urb after reset: %d\n", err);
++
++	mutex_unlock(&ec_usb->io_mutex);
++
++	return err;
++}
++
++static const struct usb_device_id cros_ec_usb_id_table[] = {
++	{ USB_VENDOR_AND_INTERFACE_INFO(USB_VENDOR_ID_GOOGLE,
++					USB_CLASS_VENDOR_SPEC,
++					USB_SUBCLASS_GOOGLE_EC_HOST_CMD,
++					USB_PROTOCOL_GOOGLE_EC_HOST_CMD) },
++	{} /* Terminating entry */
++};
++MODULE_DEVICE_TABLE(usb, cros_ec_usb_id_table);
++
++static struct usb_driver cros_ec_usb = {
++	.name = "cros-ec-usb",
++	.probe = cros_ec_usb_probe,
++	.disconnect = cros_ec_usb_disconnect,
++	.suspend = cros_ec_usb_suspend,
++	.resume = cros_ec_usb_resume,
++	.pre_reset = cros_ec_usb_pre_reset,
++	.post_reset = cros_ec_usb_post_reset,
++	.id_table = cros_ec_usb_id_table,
++	/* Do not autosuspend EC */
++	.supports_autosuspend = 0,
++};
++module_usb_driver(cros_ec_usb);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("ChromeOS EC USB HC driver");
+-- 
+2.50.0.727.gbf7dc18ff4-goog
 
-On Fri, Jun 27, 2025 at 9:53=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> On Tue, Jun 24, 2025 at 11:00:28AM +0000, Dawid Niedzwiecki wrote:
-> > This uses USB to talk to the ChromeOS EC. The protocol
-> > is defined by the EC and is fairly simple, with a length byte,
-> > checksum, command byte and version byte in the header.
-> >
-> > The driver uses vendor defined usb interface with in/out
-> > endpoints to transfer requests and responses. The driver also
-> > uses one interrupt in endpoint which signals readiness of response
-> > and pending events on the EC side.
->
-> s/This//;s/The driver// and modify the rest of sentences accordingly.
-> Not a hard requirement but [1]("imperative mood").
->
-> [1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.ht=
-ml
->
-
-Will do.
-
-> Some part of code is not easy to read to me. I'd suggest to consider to:
-> - Use shorter local variable names.
-> - Don't wrap lines whenever it's still under 100-cols.
-> - Put more relevant pieces of code closer.
-> - Insert blank lines for separating logic blocks.
-> - Drop redundant comments if the code is clear.
-> It doesn't need to be overkill as long as that makes sense.
->
-> > diff --git a/drivers/platform/chrome/cros_ec_usb.c b/drivers/platform/c=
-hrome/cros_ec_usb.c
-> > [...]
-> > +#include "cros_ec.h"
-> > +
-> > +/* Google */
->
-> Drop this comment which makes less sense.
->
-
-Will do.
-
-> > [...]
-> > +/* table of devices that work with this driver */
->
-> Drop the comment.
->
-
-Will do.
-
-> > +static const struct usb_device_id cros_ec_usb_table[] =3D {
-> > +     { USB_VENDOR_AND_INTERFACE_INFO(USB_VENDOR_ID_GOOGLE,
-> > +                                     USB_CLASS_VENDOR_SPEC,
-> > +                                     USB_SUBCLASS_GOOGLE_EC_HOST_CMD,
-> > +                                     USB_PROTOCOL_GOOGLE_EC_HOST_CMD) =
-},
-> > +     {} /* Terminating entry */
->
-> Drop the comment which is a very clear intent.
->
-
-Will do.
-
-> > +};
-> > +MODULE_DEVICE_TABLE(usb, cros_ec_usb_table);
->
-> I'd prefer to move the device_id definition just right before the struct
-> usb_driver.
->
-> > +/* Structure to hold all of our device specific stuff */
->
-> Drop the comment.
->
-
-Will do.
-
-> > +struct cros_ec_usb {
->
-> For readability, insert some blank lines in the struct.
->
-> > +     /* the usb device for this device */
-> > +     struct usb_device *udev;
-> > +     /* the interface for this device */
-> > +     struct usb_interface *interface;
-> > +     /* Cros EC device structure */
-> > +     struct cros_ec_device *ec_dev;
->
-> Maybe insert a blank line here.
->
-
-Will do.
-
-> > +     /* the buffer to receive data from bulk ep */
-> > +     u8 *bulk_in_buffer;
-> > +     /* the buffer to receive data from int ep */
-> > +     u8 *int_in_buffer;
-> > +     /* the urb to receive data from int ep */
-> > +     struct urb *int_in_urb;
-> > +     /* the size of the receive buffer from bulk ep */
-> > +     size_t bulk_in_size;
-> > +     /* the size of the receive buffer from int ep */
-> > +     size_t int_in_size;
->
-> Maybe insert a blank line here.
->
-
-Will do.
-
-> > +     /* the pipe of the bulk in ep */
-> > +     unsigned int bulk_in_pipe;
-> > +     /* the pipe of the bulk out ep */
-> > +     unsigned int bulk_out_pipe;
-> > +     /* the pipe of the int in ep */
-> > +     unsigned int int_in_pipe;
-> > +     /* the interval of the int in ep */
-> > +     uint8_t int_in_interval;
->
-> Maybe insert a blank line here.
->
-
-Will do.
-
-> `./scripts/checkpatch.pl --strict` complains about:
-> CHECK: Prefer kernel type 'u8' over 'uint8_t'
->
-
-I'll change that.
-
-> > [...]
-> > +struct int_msg {
-> > +     uint8_t int_type;
-> > +} __packed;
->
-> `./scripts/checkpatch.pl --strict` complains about:
-> CHECK: Prefer kernel type 'u8' over 'uint8_t'
->
-
-I'll change that.
-
-> > +static void cros_ec_int_callback(struct urb *urb);
->
-> Move just right before submit_int_urb() to make the intent more clear?
->
-
-Make sense.
-
-> > +static int expected_response_size(const struct ec_host_response *host_=
-response)
-> > +{
-> > +     /* Check host request version */
-> > +     if (host_response->struct_version !=3D 3)
-> > +             return 0;
-> > +
-> > +     /* Reserved byte should be 0 */
-> > +     if (host_response->reserved)
-> > +             return 0;
-> > +
-> > +     return sizeof(*host_response) + host_response->data_len;
-> > +}
->
-> Wondering if the function really helps readability. Maybe just inline to
-> do_cros_ec_pkt_xfer_usb()?
->
-
-Make sense.
-
-> > +static int cros_ec_usb_register(u16 idProduct, struct cros_ec_usb *ec_=
-usb)
-> > +{
-> > +     struct registered_ec *ec;
-> > +
-> > +     ec =3D kzalloc(sizeof(*ec), GFP_KERNEL);
->
-> kmalloc() should be sufficient. The member fields are going to be overrid=
-den
-> anyway.
->
-
-Make sense.
-
-> > +static int submit_int_urb(struct cros_ec_device *ec_dev)
-> > +{
-> > +     struct cros_ec_usb *ec_usb =3D ec_dev->priv;
-> > +     struct usb_device *usb_dev =3D interface_to_usbdev(ec_usb->interf=
-ace);
-> > +     int ret;
-> > +
-> > +     /* Submit the INT URB. */
-> > +     usb_fill_int_urb(ec_usb->int_in_urb, usb_dev, ec_usb->int_in_pipe=
-,
-> > +                      ec_usb->int_in_buffer, ec_usb->int_in_size,
-> > +                      cros_ec_int_callback, ec_usb, ec_usb->int_in_int=
-erval);
-> > +     ret =3D usb_submit_urb(ec_usb->int_in_urb, GFP_KERNEL);
-> > +
-> > +     return ret;
->
-> Eliminate the `ret`. Just return usb_submit_urb(...).
->
-
-Will do.
-
-> > +static void cros_ec_int_callback(struct urb *urb)
-> > +{
-> > +     struct cros_ec_usb *ec_usb =3D urb->context;
-> > +     struct cros_ec_device *ec_dev =3D ec_usb->ec_dev;
-> > +     int ret;
-> > +
-> > [...]
-> > +     if (urb->actual_length >=3D sizeof(struct int_msg)) {
-> > +             struct int_msg *int_msg =3D
-> > +                     (struct int_msg *)ec_usb->int_in_buffer;
-> > +             enum cros_ec_usb_int_type int_type =3D
-> > +                     (enum cros_ec_usb_int_type)int_msg->int_type;
->
-> Maybe insert a blank line here.
->
-
-Will do.
-
-> > +             switch (int_type) {
-> > +             case INT_TYPE_EVENT_OCCURED:
-> > +                     if (ec_usb->registered) {
-> > +                             ec_dev->last_event_time =3D cros_ec_get_t=
-ime_ns();
-> > +                             schedule_work(&ec_usb->work_ec_evt);
-> > +                     }
-> > +                     break;
-> > +             case INT_TYPE_RESPONSE_READY:
-> > +                     ec_usb->resp_ready =3D true;
-> > +                     wake_up(&ec_usb->resp_ready_wait);
-> > +                     break;
->
-> I'm wondering who fills the `int_type` (i.e. 0 and 1) here? EC? If so, wh=
-y
-> aren't they in cros_ec_command.h?
->
-
-Yes, EC fills the int_type since it is the IN (from device to host)
-interrupt transfer.
-It is not in the cros_ec_command.h file, because it is a part of the
-USB Host Command specification. Not related to EC itself or any
-command.
-
-> > +             default:
-> > +                     dev_err(ec_dev->dev, "Unrecognized event: %d\n",
-> > +                             int_type);
-> > +             }
-> > +     } else {
-> > +             dev_err(ec_dev->dev, "Incorrect int transfer len: %d\n",
-> > +                     urb->actual_length);
-> > +     }
->
-> So in either cases, all of them need to resubmit the URB? Doesn't some of
-> them just need to return?
->
-
-Yes, we do always need to resubmit URB, otherwise the interface will
-be dysfunctional once any error happen
-
-> > +
-> > +resubmit:
-> > +     /* Resubmit the INT URB. */
-> > +     ret =3D submit_int_urb(ec_dev);
-> > +     if (ret)
-> > +             dev_err(ec_dev->dev, "Failed to resumbit int urb: %d", re=
-t);
-> > +}
-> > +
-> > +static int do_cros_ec_pkt_xfer_usb(struct cros_ec_device *ec_dev,
-> > +                                struct cros_ec_command *ec_msg)
-> > +{
-> > +     struct cros_ec_usb *ec_usb =3D ec_dev->priv;
-> > +     struct ec_host_response *host_response;
-> > +     int req_size, ret, actual_length, expected_resp_size, resp_size;
-> > +     const int header_size =3D sizeof(*host_response);
-> > +     const int max_resp_size =3D header_size + ec_msg->insize;
-> > +     const int bulk_in_size =3D umin(ec_usb->bulk_in_size, ec_dev->din=
-_size);
-> > +     uint8_t sum =3D 0;
->
-> `./scripts/checkpatch.pl --strict` complains about:
-> CHECK: Prefer kernel type 'u8' over 'uint8_t'
->
-
-I'll change that
-
-> > [...]
-> > +     /* Get first part of response that contains a header. */
-> > +     ret =3D usb_bulk_msg(ec_usb->udev, ec_usb->bulk_in_pipe, ec_dev->=
-din,
-> > +                        bulk_in_size, &actual_length,
-> > +                        BULK_TRANSFER_TIMEOUT_MS);
-> > +     if (ret) {
-> > +             dev_err(ec_dev->dev, "Failed to get response: %d\n", ret)=
-;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     /* Verify number of received bytes. */
-> > +     if (actual_length < header_size) {
-> > +             dev_err(ec_dev->dev, "Received too little bytes: %d\n",
-> > +                     actual_length);
->
-> Is it possible that the `actual_length < header_size` just because it nee=
-ds
-> to further read? I.e. need a read loop for waiting EOF or
-> `actual_length >=3D header_size`?
->
-
-No, we assume that the EP size is at least header size, so the entire
-header has to be sent at once.
-
-> > +             ret =3D -ENOSPC;
-> > +             goto exit;
-> > +     }
-> > +     expected_resp_size =3D
-> > +             expected_response_size((struct ec_host_response *)ec_dev-=
->din);
-> > +     if ((expected_resp_size > max_resp_size) || (expected_resp_size =
-=3D=3D 0) ||
-> > +         (actual_length > expected_resp_size)) {
-> > +             dev_err(ec_dev->dev, "Incorrect number of expected bytes:=
- %d\n",
-> > +                     expected_resp_size);
-> > +             ret =3D -ENOSPC;
-> > +             goto exit;
-> > +     }
->
-> Maybe insert a blank line here.
->
-
-Will do.
-
-> > +     resp_size =3D actual_length;
->
-> Move next to the following line of the comment.
->
-
-Will do.
-
-> > +     /* Get the rest of the response if needed. */
-> > +     if (resp_size < expected_resp_size) {
-> > +             ret =3D usb_bulk_msg(ec_usb->udev, ec_usb->bulk_in_pipe,
-> > +                                ec_dev->din + resp_size,
-> > +                                expected_resp_size - resp_size,
-> > +                                &actual_length, BULK_TRANSFER_TIMEOUT_=
-MS);
-> > +             if (ret) {
-> > +                     dev_err(ec_dev->dev,
-> > +                             "Failed to get second part of response: %=
-d\n",
-> > +                             ret);
-> > +                     goto exit;
-> > +             }
-> > +             resp_size +=3D actual_length;
->
-> Same here: doesn't it need a read loop for waiting EOF or
-> `resp_size >=3D expected_resp_size`?
->
-
-No, we know exactly how many bytes are expected.
-The usb_bulk_msg returns before receiving expected bytes only if there
-was a not max size transfer detected.
-
-> > +     }
-> > +
-> > +     /* Check if number of received of bytes is correct. */
-> > +     if (resp_size !=3D expected_resp_size) {
-> > +             dev_err(ec_dev->dev,
-> > +                     "Received incorrect number of bytes: %d, expected=
-: %d\n",
-> > +                     resp_size, expected_resp_size);
-> > +             ret =3D -ENOSPC;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     /* Validate checksum */
-> > +     host_response =3D (struct ec_host_response *)ec_dev->din;
-> > +     for (int i =3D 0; i < sizeof(*host_response) + host_response->dat=
-a_len;
->                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
-^^^
-> I.e. expected_resp_size.
->
-
-I'll change that.
-
-> > +          i++) {
-> > +             sum +=3D ec_dev->din[i];
-> > +     }
->
-> Drop the {} pair.
->
-
-Will do.
-
-> > +     if (sum) {
-> > +             dev_err(ec_dev->dev, "Bad packet checksum calculated %x\n=
-",
-> > +                     sum);
-> > +             ret =3D -EBADMSG;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     ec_msg->result =3D host_response->result;
-> > +     memcpy(ec_msg->data, ec_dev->din + sizeof(*host_response),
->
-> header_size =3D=3D sizeof(*host_response). Either drop `header_size` or u=
-se it.
->
-
-Make sense.
-
-> > +/**
-> > + * usb_evt_handler - USB to AP event handler
-> > + * @work: Work struct
-> > + */
->
-> Maybe drop the comment?
->
-
-Will do.
-
-> > +static int cros_ec_usb_probe(struct usb_interface *intf,
-> > +                          const struct usb_device_id *id)
-> > +{
-> > +     struct usb_device *usb_dev =3D interface_to_usbdev(intf);
-> > +     struct usb_endpoint_descriptor *bulk_in, *bulk_out, *int_in;
-> > +     struct device *if_dev =3D &intf->dev;
-> > +     struct cros_ec_device *ec_dev;
-> > +     const u16 idProduct =3D usb_dev->descriptor.idProduct;
-> > +     struct cros_ec_usb *ec_usb =3D cros_ec_usb_get_registered(idProdu=
-ct);
-> > +     const bool is_registered =3D ec_usb !=3D NULL;
->
-> Or !!ec_usb.
->
-
-I'll change that.
-
-> > +     int retval;
-> > +
-> > +     /*
-> > +      * Do not register the same EC device twice. The probing is perfo=
-rmed every
-> > +      * reboot, sysjump, crash etc. Recreating the /dev/cros_X file ev=
-ery time
-> > +      * would force all application to reopen the file, which is not a=
- case for
-> > +      * other cros_ec_x divers. Instead, keep the cros_ec_device and c=
-ros_ec_usb
-> > +      * structures constant and replace USB related structures for the=
- same EC
-> > +      * that is reprobed.
-> > +      *
-> > +      * The driver doesn't support handling two devices with the same =
-idProduct,
-> > +      * but it will never be a real usecase.
-> > +      */
->
-> I don't quite understand why does it need to memorize the registered ECs.
-> Supposedly, the probe function is only called few times during booting, a=
-nd
-> gets success once. Hot-plugs?
->
-
-The probe is called every time the EC device boots from the beginning
-- sysjumps, crashes, reboots etc. It succeeds the first time.
-Once the /dev/cros_X file is created, we need the possibility to
-access the same EC device, with the same, previously created file.
-The only way to do that is to reused the already created
-cros_ec_device structure.
-
-> > +     if (!is_registered)
-> > +             ec_usb =3D kzalloc(sizeof(*ec_usb), GFP_KERNEL);
-> > +
-> > +     if (!ec_usb)
-> > +             return -ENOMEM;
-> > +
-> > +     if (!is_registered) {
-> > +             mutex_init(&ec_usb->io_mutex);
-> > +             ec_dev =3D kzalloc(sizeof(*ec_dev), GFP_KERNEL);
-> > +             if (!ec_dev) {
-> > +                     retval =3D -ENOMEM;
-> > +                     goto error;
-> > +             }
-> > +             ec_usb->ec_dev =3D ec_dev;
-> > +     } else {
-> > +             ec_dev =3D ec_usb->ec_dev;
-> > +     }
->
-> The `!ec_usb` check is only needed after kzalloc(). Thus, the code block
-> could be simplified to:
->
->         if (!is_registered) {
->                 ec_usb =3D kzalloc(...);
->                 if (!ec_usb)
->                         return -ENOMEM
->
->                 ec_dev =3D kzalloc(...);
->
->                 /* initialized ec_usb and ec_dev */
->                 mutex_init(...);
->                 ec_usb->...
->         }
->         ec_dev =3D ec_usb->ec_dev;
->
-
-Make sense.
-
-> > +
-> > +     ec_usb->udev =3D usb_get_dev(usb_dev);
-> > +     ec_usb->interface =3D usb_get_intf(intf);
->
-> Maybe insert a blank line here.
->
-
-Will do.
-
-> > +     /* Use first bulk-in/out endpoints + int-in endpoint */
-> > +     retval =3D usb_find_common_endpoints(intf->cur_altsetting, &bulk_=
-in,
-> > +                                        &bulk_out, &int_in, NULL);
-> > +     if (retval) {
-> > +             dev_err(if_dev,
-> > +                     "Could not find bulk-in, bulk-out or int-in endpo=
-int\n");
-> > +             goto error;
-> > +     }
->
-> Maybe insert a blank line here.
->
-
-Will do.
-
-> > +     /* Bulk endpoints have to be capable of sending headers in one tr=
-ansfer. */
-> > +     if ((usb_endpoint_maxp(bulk_out) < sizeof(struct ec_host_request)=
-) ||
-> > +         (usb_endpoint_maxp(bulk_in) < sizeof(struct ec_host_response)=
-) ||
-> > +         (usb_endpoint_maxp(int_in)) < sizeof(struct int_msg)) {
-> > +             retval =3D -ENOSPC;
-> > +             dev_err(if_dev, "Incorrect max packet size\n");
-> > +             goto error;
-> > +     }
->
-> Maybe insert a blank line here.
->
-
-Will do.
-
-> > +     ec_usb->bulk_out_pipe =3D
-> > +             usb_sndbulkpipe(ec_usb->udev, bulk_out->bEndpointAddress)=
-;
-> > +     ec_usb->bulk_in_size =3D usb_endpoint_maxp(bulk_in);
-> > +     ec_usb->bulk_in_pipe =3D
-> > +             usb_rcvbulkpipe(ec_usb->udev, bulk_in->bEndpointAddress);
-> > +     ec_usb->bulk_in_buffer =3D kmalloc(ec_usb->bulk_in_size, GFP_KERN=
-EL);
-> > +     if (!ec_usb->bulk_in_buffer) {
-> > +             dev_err(if_dev, "Failed to allocate bulk in buffer\n");
-> > +             retval =3D -ENOMEM;
-> > +             goto error;
-> > +     }
->
-> Maybe insert a blank line here.
->
-
-Wll do.
-
-> > +     ec_usb->int_in_size =3D usb_endpoint_maxp(int_in);
-> > +     ec_usb->int_in_pipe =3D
-> > +             usb_rcvintpipe(ec_usb->udev, int_in->bEndpointAddress);
-> > +     ec_usb->int_in_interval =3D int_in->bInterval;
-> > +     ec_usb->int_in_buffer =3D kmalloc(ec_usb->int_in_size, GFP_KERNEL=
-);
-> > +     if (!ec_usb->int_in_buffer) {
-> > +             dev_err(if_dev, "Failed to allocate int in buffer\n");
-> > +             retval =3D -ENOMEM;
-> > +             goto error;
-> > +     }
-> > +     ec_usb->int_in_urb =3D usb_alloc_urb(0, GFP_KERNEL);
-> > +     if (!ec_usb->int_in_urb) {
-> > +             dev_err(if_dev, "Failed to allocate int in urb\n");
-> > +             retval =3D -ENOMEM;
-> > +             goto error;
-> > +     }
-> > +
-> > +     ec_dev->dev =3D if_dev;
-> > +     ec_dev->phys_name =3D dev_name(if_dev);
-> > +     if (!is_registered) {
-> > +             ec_dev->priv =3D ec_usb;
-> > +             /* EC uses int endpoint to signal events. */
-> > +             ec_dev->irq =3D 0;
-> > +             ec_dev->cmd_xfer =3D NULL;
-> > +             ec_dev->pkt_xfer =3D do_cros_ec_pkt_xfer_usb;
-> > +             ec_dev->din_size =3D sizeof(struct ec_host_response) +
-> > +                             sizeof(struct ec_response_get_protocol_in=
-fo);
-> > +             ec_dev->dout_size =3D sizeof(struct ec_host_request) +
-> > +                             sizeof(struct ec_params_rwsig_action);
-> > +             INIT_WORK(&ec_usb->work_ec_evt, usb_evt_handler);
-> > +             init_waitqueue_head(&ec_usb->resp_ready_wait);
-> > +     } else {
-> > +             /*
-> > +              * We need to allocate dout and din buffers, because cros=
-_ec_register
-> > +              * won't be called. These buffers were freed once previou=
-s usb device was
-> > +              * disconnected. Use buffer sizes from the last query.
-> > +              * The EC_HOST_EVENT_INTERFACE_READY event will be trigge=
-red at the end
-> > +              * of a boot, which calls cros_ec_query_all function, tha=
-t reallocates
-> > +              * buffers.
-> > +              */
-> > +             ec_dev->din =3D devm_kzalloc(ec_dev->dev, ec_dev->din_siz=
-e, GFP_KERNEL);
-> > +             if (!ec_dev->din) {
-> > +                     retval =3D -ENOMEM;
-> > +                     dev_err(if_dev, "Failed to allocate din buffer\n"=
-);
-> > +                     goto error;
-> > +             }
-> > +             ec_dev->dout =3D devm_kzalloc(ec_dev->dev, ec_dev->dout_s=
-ize, GFP_KERNEL);
-> > +             if (!ec_dev->dout) {
-> > +                     retval =3D -ENOMEM;
-> > +                     dev_err(if_dev, "Failed to allocate dout buffer\n=
-");
-> > +                     goto error;
-> > +             }
-> > +     }
->
-> This whole block for initializing `ec_dev` can be done earlier. See anoth=
-er
-> `!is_registered` above.
->
-
-Make sense to keep the code needed in !is_registered case together if
-it is possible. I'll change that.
-
-> > +
-> > +     /* Needed by ec register function */
->
-> Drop the comment.
->
-
-Will do.
-
-> > +     usb_set_intfdata(intf, ec_dev);
->
-> This also can be done earlier when `ec_dev` is determined.
->
-
-Will do.
-
-> > +
-> > +     mutex_lock(&ec_usb->io_mutex);
-> > +     ec_usb->disconnected =3D false;
-> > +     mutex_unlock(&ec_usb->io_mutex);
->
-> Wondering if it really needs to acquire the lock? Probe functions usually
-> don't need to as there is no possible concurrent paths yet.
->
-
-That would be true for the first probing. Following probings can
-happen when an ec device is already registered and
-xfer function can be called during probing so I think it is more safe
-to synchronize access to the disconnect variable.
-
-> > [...]
-> > +error:
-> > +     /* Free allocated memory */
-> > +     cros_ec_usb_delete(ec_usb);
->
-> Be careful to make sure whether cancel_work_sync() works even if
-> `&ec_usb->work_ec_evt` is uninitialized.
->
-
-Good catch! cancel_work_sync() can not be used before the work_ec_evt init
-
-> > +static void cros_ec_usb_disconnect(struct usb_interface *intf)
-> > +{
-> > +     struct cros_ec_device *ec_dev =3D usb_get_intfdata(intf);
-> > +     struct cros_ec_usb *ec_usb =3D ec_dev->priv;
-> > +
-> > +     /* prevent more I/O from starting */
-> > +     mutex_lock(&ec_usb->io_mutex);
-> > +     ec_usb->disconnected =3D true;
-> > +     mutex_unlock(&ec_usb->io_mutex);
-> > +
-> > +     cros_ec_usb_delete(ec_usb);
-> > +
-> > +     dev_info(&intf->dev, "Disconnected\n");
->
-> This is the only dev_info() in the various callbacks. Consider to drop
-> it if it might not very useful.
->
-
-I'll remove that, kernel default logs are sufficient.
-
-> > +static int cros_ec_usb_resume(struct usb_interface *intf)
-> > +{
-> > +     struct cros_ec_device *ec_dev =3D usb_get_intfdata(intf);
-> > +     int err;
-> > +
-> > +     /* URB is killed during suspend. */
-> > +     err =3D submit_int_urb(ec_dev);
-> > +     if (err) {
-> > +             dev_err(ec_dev->dev,
-> > +                     "Failed to sumbit int urb after resume: %d\n", er=
-r);
-> > +     }
-> > +
-> > +     return 0;
->
-> Doesn't it need to return `err`?
->
-
-It needs, I'll change that.
-
-> > +static int cros_ec_usb_post_reset(struct usb_interface *intf)
-> > +{
-> > +     struct cros_ec_device *ec_dev =3D usb_get_intfdata(intf);
-> > +     struct cros_ec_usb *ec_usb =3D ec_dev->priv;
-> > +     int err;
-> > +
-> > +     err =3D submit_int_urb(ec_dev);
-> > +     if (err) {
-> > +             dev_err(ec_dev->dev,
-> > +                     "Failed to sumbit int urb after reset: %d\n", err=
-);
-> > +     }
-> > +     mutex_unlock(&ec_usb->io_mutex);
-> > +
-> > +     return 0;
->
-> Doesn't it need to return `err`?
->
-
-It needs, I'll change that.
-
-> > +static struct usb_driver cros_ec_usb =3D {
-> > +     .name =3D "cros-ec-usb",
-> > +     .probe =3D cros_ec_usb_probe,
-> > +     .disconnect =3D cros_ec_usb_disconnect,
-> > +     .suspend =3D cros_ec_usb_suspend,
-> > +     .resume =3D cros_ec_usb_resume,
-> > +     .pre_reset =3D cros_ec_usb_pre_reset,
-> > +     .post_reset =3D cros_ec_usb_post_reset,
-> > +     .id_table =3D cros_ec_usb_table,
-> > +     /* Do not autosuspend EC */
-> > +     .supports_autosuspend =3D 0,
-> > +};
->
-> Most .X callbacks are named cros_ec_usb_X. Only the .id_table is differen=
-t.
-> To be neat, I'd suggest to use `cros_ec_usb_id_table`.
-
-Make sense.

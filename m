@@ -1,64 +1,61 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47862E41E
-	for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 12:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2CA272E7E
+	for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 12:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751285362; cv=none; b=AkgOMZrYLa7UagKI1WtzLlHJ2Y91ng59aTjFPTejkOxO4Y72jV+JRlQnOmZaqJJ3oQ6N2PLhjzO5RqPNtnxFkms+zd7Hh+oWmlFkQNV4E3yU6ikdvaUnC4jWnVXMhHlJqUBby2W5yD8SbanAR2ONrTn3HfLe9/Ry7RsI1l3DkxU=
+	t=1751286122; cv=none; b=Fmnn3N06rAQN1iS2ab+Z7S0//b7u4Lhpe8Gbymqxv/gyzUqUGUQMVzJxxcXXpgKIVIEyXopvcbR3Ninhl9oSDainHUHz30EJtPIxOc4tqloCCUzszMjoV9urSb4Zk/uS8gtHnuB4DIfxWDTVRLqJ6LYlKkdfyEpXKQdCLc2E4eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751285362; c=relaxed/simple;
+	s=arc-20240116; t=1751286122; c=relaxed/simple;
 	bh=25okYcwAlhgHcA5tnelFnMbTJxDayl8SEwO9iVonQoo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iurucdf2OcXhG2a/q2fAqy2B8CQsi2TN/LstP/UtAXcqtkI20C/Oq0wT3KnCwhfBy+cGjwDXwrkjr2ZZp3cfO6+rIWaACZJnXjwjPlSSU/HbUB6OTZHmuR7WzG1jQ/d/6GaNVsrFEjjo9VdG48ZTKkkPwNbMGkd5UrcgWWWj+Us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mC6XQUeA; arc=none smtp.client-ip=209.85.128.74
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=LOchOMPPX2l8H9Lijl7vzZ1Z4O7O8TBfTdmHkUuVUOr5BEXN/wtCe8GWQi9lIQIoWzQwuqgUYxoB83to2zfZXmYKFAuz2mjQ8bb47Z9czO5QTR0/1nMGcyqs9K2GrsnfwcuswXTD+CiL0PeuDC0QJCD8KbOaiZ3el30SXLiYQ9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W26njI2I; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mC6XQUeA"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-45320bfc18dso21906325e9.1
-        for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 05:09:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W26njI2I"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-452ff9e054eso20231045e9.2
+        for <chrome-platform@lists.linux.dev>; Mon, 30 Jun 2025 05:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751285358; x=1751890158; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
+        d=google.com; s=20230601; t=1751286117; x=1751890917; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
         bh=YmkAhN3nzSEY3wnWWzDwiMDod5//4QnND2vc5RH4OaY=;
-        b=mC6XQUeAhif9mqWynNeDwIDXgpu7PaExyfDVREROifdKRDmioy2d5L79R9hK+ilCX0
-         CQV2L8D9bj6lLWuKcferBHTQjGD4buRaedZFHSGrM0JWn5Gppb7XLcljXrf6cA6jqbMF
-         4Y0IO4UA1z26SwfYIy0WYuCevwEuZTjYCXvD1rP613RFh4CRjeLaZoebVI7DMPW/Er4O
-         htNfjdEP/31/0G+SjoRb+EYGJFaK/LzqQ/tJzFTCJztQiRgJ8k0RyrM6c+A9ewWMbdxE
-         SCrkrFzFeyM5uQZHoYnkEfCf5yqygdBUtzI+3b8VON1hLvfrj5ulwNZcnKvRXDowdOai
-         ckCg==
+        b=W26njI2IBad+qIUXjeoLYSdMJkZ1ei4z80ixZ320hKg6dJ22l/vPQx4xp76yOY2HuZ
+         VixvYw7blFmQhmjDBUrx6kSbdDVkdNPgAe2p9qmXn4pJ4JDrwrymCiIRSDGuJPmEBX7q
+         St/FJdeOlR+JNovjMkcMJnHm1JQ8rwXxq8Vl2o4eLBzd7AFrJE3LIHyfk9WBRPogw3Ph
+         PKVL6uL40bkA2Jh88SjMZuCGlMAed5Uda53eGVi0fO8eduRjPVJQtsDVl8TMlyvWj13D
+         FHjtPb4k/UXFIBwB/lxMlbA8aqrQ5y788Xn6mXbqoU48HgvTXTx3ALlN8AXtT4HX8f+V
+         RUsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751285358; x=1751890158;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        d=1e100.net; s=20230601; t=1751286117; x=1751890917;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
         bh=YmkAhN3nzSEY3wnWWzDwiMDod5//4QnND2vc5RH4OaY=;
-        b=LXUGYWSPlBFqI8B+VPBzU2tgBVgsR2rHHd7CsGx311OrOA1pkwAQcPorlivXSqqp0c
-         4dbCEfQE+mcL6M1LQy+G8ShoDyTc0UhZXUpwMIbQLkEMIImt3EyyPxTEAnPONA9q77XA
-         Xj7pad+CoANzPBx2TPGYxaGI0Gm6rjimN0shsjkyKcWcLlKce+aQj3j+fYPXmDCvk+31
-         kiO2DGuu3HjxFh/xuAiLKwP0Xa5J5WNnFzmi0eapPxHHpoD8RAUMvV24XOxwta106vaC
-         nRTEHgMSWF/GoEOQAfe3rf21etoX3oNIA6YQ9PrQzZlRimTS/N8rm0gaBHejygxoZvKp
-         iCEQ==
-X-Gm-Message-State: AOJu0Yy7Vj6gmRsfMOyD80DK+jnmQWPQ9U+NemQNzTXyonV8pP0HiTF/
-	828NpSDK+LANEyBVhS4nABEHMaFKnC0odik5hkp2BLhG4kyoPoXMe04e4rIGLSxKxaGNcdbU8L4
-	YfXAHdg==
-X-Google-Smtp-Source: AGHT+IGt9+YE0JJasUZ61Lh1IkAjJChcS3g0Ypi5j9EOHBNbGLFM0b7Q+qWTbHBtBaeXb/RWMphkRcq2qZ4=
-X-Received: from wmbfa23.prod.google.com ([2002:a05:600c:5197:b0:453:b96:8ef9])
- (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:5306:b0:442:f4a3:a2c0
- with SMTP id 5b1f17b1804b1-4538f308f2amr122312255e9.13.1751285358321; Mon, 30
- Jun 2025 05:09:18 -0700 (PDT)
-Date: Mon, 30 Jun 2025 12:09:16 +0000
-In-Reply-To: <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
+        b=DJ9INNZqolZRAUroc+5pE+O8osCh2SetdFtahdzySppQ1QbDz6DfKvXMmlLOsDe2Ea
+         ufIX9zyrq9kQwFEW66Jj5NT6xne+0Qcli+kkr2gfYt+7lULfNqG7/MXx/1uruPDWNRcR
+         JRBBdq86muO+nQLyPT+IOA2EUsdJSb3AqnmmAbplIkGgTJH5MX5fEePpnWE6BCrkTmLq
+         myz2xMvlpczDF9KLU9YMXVTYnGx2R0GuMW7Ws4cXBBJ1n34tnW/EwyFA38IQ9DWlfxpi
+         HBlNnsMxMCwpG/+JBrK5OyJkUr+vFvMeWpx4NPYfhKhQ/Wxc3l+/R6hx+cSXQpxpoMZj
+         wWwQ==
+X-Gm-Message-State: AOJu0Yz/be95dxhpm4n9eXaNyyNpbGecc/edoOuFZoP4OYp9sype75vv
+	9N+ts8rCxxRX+gtRl9TSMcappxvM8UeRRDVgkG7Eg2ICDRVZYP0vVlgUpcHEElEl4hwoKvu21HG
+	jkVjp4A==
+X-Google-Smtp-Source: AGHT+IGFqApX31XGZTBogUDYyQFVW9l9n6BXvLZhhCjmg6O8/AthGZlBEmlMjCBf5KGK8VcSuEFNR/sEM/k=
+X-Received: from wmbgy25.prod.google.com ([2002:a05:600c:8819:b0:453:f66:5f37])
+ (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:198d:b0:453:b44:eb71
+ with SMTP id 5b1f17b1804b1-4538f2148b1mr116763985e9.19.1751286116854; Mon, 30
+ Jun 2025 05:21:56 -0700 (PDT)
+Date: Mon, 30 Jun 2025 12:21:55 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-Message-ID: <20250630120916.2058484-1-dawidn@google.com>
+Message-ID: <20250630122155.2060589-1-dawidn@google.com>
 Subject: [PATCH v2] platform/chrome: Add ChromeOS EC USB driver
 From: Dawid Niedzwiecki <dawidn@google.com>
 To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>

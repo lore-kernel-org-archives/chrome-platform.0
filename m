@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F348227381E;
-	Tue,  1 Jul 2025 12:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56D01C6B4;
+	Wed,  2 Jul 2025 03:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751372418; cv=none; b=lD+i0uvlSrRgTpYtsC4WErYKymTvZRf8X47Pm04Lxgj33jGjlBD0JkSz3GMfprkWVoueoXXLPZ+B8nTtAsdIXEqFsDwGdu3m1eNyKXKh8xOTMjv9Q+CUq4A7I4nLbT1rds7f2TMLqXazsbkGORmSM1NLhDuAaoeNck9xD6Dc+b0=
+	t=1751428687; cv=none; b=BrKaR5Lo3GkpfIxDvntmAllhvhF/dAgtI9+jNFnGb3jUTuqJrbGzYsSeRvJlSqQdA8DEhTBSmxiPteZTMqwwG/tY9mUNCugOhtBc0lmJUB7qJoW59uQs575cOrDwNazqsK8G/hURKLsEspGFSH/gipcMFc+piILyOGjf2F51mmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751372418; c=relaxed/simple;
-	bh=0WOvPMu1XqES/onds8PjGHDXOKh6epjdI3Hxbgaf7X8=;
+	s=arc-20240116; t=1751428687; c=relaxed/simple;
+	bh=w2dfqLUduE1K0tzjQWf6mTcs+MvqxhPTIhPYmuODJXo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OH+wKVw6cDnomnCXxDvcQ4bYkjGcsPAfvMPHaF/zeN3+iMmzl2Ul7dQbvmtvv08bGVhW4SfPeLd+/+4AJlU7o8MkokoDJOjyXPJn9Byo7PJ55L6wLgUW2cXYGcNf8U6vwu6Qo2A2zKtPz9T53YGBpEZlT7diOHyXRAF0R7FxLZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OoUQMvg8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=RzJCTsPBluee13pwk+rkTsqd4x6rnuToKTHSi2Up8rMT4lmXaxX1454QtoPgK3wlD8KNgQgpMtJJoiWdTZ/fxfx28f4gO2HEuhgbco7n0eJLU5heydzo48e9+q7YnLaTBZ1o9I7bGSe8FWyPHSYJTAD6pwpFo8M0gu5oajXLE5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BeMgVi2/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OoUQMvg8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 948E6C4CEF1;
-	Tue,  1 Jul 2025 12:20:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BeMgVi2/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B68C4CEEF;
+	Wed,  2 Jul 2025 03:58:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751372417;
-	bh=0WOvPMu1XqES/onds8PjGHDXOKh6epjdI3Hxbgaf7X8=;
+	s=k20201202; t=1751428686;
+	bh=w2dfqLUduE1K0tzjQWf6mTcs+MvqxhPTIhPYmuODJXo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OoUQMvg8bm2iNTnLq8GecvcuKJPvNhlMucnbAWYE7rOlhbgsf1I+ZI1apgCDa62Tm
-	 uFkjw7i+WoI61+nVEe49o99umhCKxGI1lIjJnTTUTO+jqeXhKu5NpPbu605u6HreGk
-	 0NY62NuiRkg7MDiNu37e22Eg/SQ1iD1xAWAF0ZqFeO6GIY35AQJSkXwmn+2riIu5xb
-	 ehOEtRK1EYw23vgWyMkWwvx/0CA7qotRIWQNeh0Ha0nzUkq/ioQhn7Is7Xera3jBPM
-	 08a1OyzHZhC/3q3msCHWws70R3Wtd+RxwzszkHHqvlQgYr2p+ZiNRwq+npcT1KP0Z3
-	 YGU/C4lr3r83A==
-Date: Tue, 1 Jul 2025 12:20:13 +0000
+	b=BeMgVi2/lPqbzjgKLEoGx42J082sAksCfmSnOszZYoztWaretvEIpY27FFoA16INS
+	 fu647AtLzup1BkBD/kb6Q29r8GWpfa/JataNh8mcuBZObqPFnOs0dbxlkGeMFWUxW9
+	 dBthWztZBRTXx5NzwUsX4nlkrVYz7/h1aSmvoC8EdmdobXWgRLJLjzD4u3/au8/bUv
+	 z2nxXc3XlXDv1JHY7yNDvfXpXt4fr3wM6VN9xip1S83300xwvskIEIKsDWX6YSu+Oy
+	 /HQEIO5s/YNs2orrbssXPI/+z4Kab9v+5REycyCndRxYW4OlVsVAcycwDsnUrEo+X1
+	 bnPAZlZN31aVw==
+Date: Wed, 2 Jul 2025 03:58:03 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Daniel Latypov <dlatypov@google.com>
-Cc: bleung@chromium.org, brendan.higgins@linux.dev, davidgow@google.com,
-	rmoar@google.com, rostedt@goodmis.org, mhiramat@kernel.org,
-	naveen@kernel.org, anil.s.keshavamurthy@intel.com,
-	davem@davemloft.net, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/7] platform/chrome: Add Kunit tests for protocol
- device drivers
-Message-ID: <aGPSfaC1AohSV3_H@google.com>
-References: <20250520082435.2255639-1-tzungbi@kernel.org>
- <CAGS_qxrcH0+mJTO4nJqXnk2Bh7oO_PEur=ytcxL8wxJNCu20Tw@mail.gmail.com>
- <aGIvjrrSRPJQpNy7@google.com>
- <CAGS_qxpqQ1Z5QOxmXoXQyFBygdfW+1R=g9f=bbJo54Ex8LA7Kw@mail.gmail.com>
+To: Dawid =?utf-8?Q?Nied=C5=BAwiecki?= <dawidn@google.com>
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Subject: Re: [PATCH] platform/chrome: Add ChromeOS EC USB driver
+Message-ID: <aGSuS81Psqm_Ie4N@google.com>
+References: <20250624110028.409318-1-dawidn@google.com>
+ <aF5N5jrRUlj3SUGS@google.com>
+ <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
+ <aGOiu-sXFj1EUQAB@google.com>
+ <CAJ_BA_CZWvC2=i8riNe5LReLKzPXK1vPwymiG2dzLEntda7TRg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -51,69 +48,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGS_qxpqQ1Z5QOxmXoXQyFBygdfW+1R=g9f=bbJo54Ex8LA7Kw@mail.gmail.com>
+In-Reply-To: <CAJ_BA_CZWvC2=i8riNe5LReLKzPXK1vPwymiG2dzLEntda7TRg@mail.gmail.com>
 
-On Tue, Jul 01, 2025 at 02:22:40PM +0900, Daniel Latypov wrote:
-> On Mon, Jun 30, 2025 at 3:32 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> > On Tue, May 20, 2025 at 09:04:53AM -0700, Daniel Latypov wrote:
-> > > You mention you don't like how static stubs requires modifying the
-> > > code-under-test.
-> > > Since it gets eliminated by the preprocessor unless you're compiling
-> > > for KUnit, is the concern more so about how it conceptually feels
-> > > wrong to do so?
-> > > For the Android GKI kernel, they have (or had) KUnit enabled so there
-> > > is potentially concern about real runtime cost there, not sure if you
-> > > have something similar in mind.
+On Tue, Jul 01, 2025 at 12:29:51PM +0200, Dawid Niedźwiecki wrote:
+> >What are the shortcomings if it re-creates /dev/cros_X everytime?
+> 
+> In that case, to avoid memory leakage, you would need to free the
+> cros_ec_device structure every disconnect.
+> An application with an opened cros_ec file would try to access the
+> freed resources (use-after-free) via the char driver [1], e.g.
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/chrome/cros_ec_chardev.c#n345
+> 
+> It would also require additional work from the userspace application
+> e.g. reopen the cros_ec file every time there was a communication
+> problem. I think recovering an already created file sounds like a
+> better idea.
+> 
+> > Isn't it also a way for userland programs to be aware of the EC device crashes?
+> 
+> No. First of all, we don't know a reason for the disconnect / reprobe,
+> so it is not always a crash. Also we signal that there is a problem
+> with the connection by returning -ENODEV when an EC device is
+> disconnected.
+> There are dedicated commands to check reboot reason, and detect
+> potential crashes.
+> 
+> > Why other cros_ec_X drivers doesn't need the mechanism?
+> 
+> It is a very USB specific problem. USB host/hub detects a new device
+> on the bus and starts probing procedure.
+> It is not a case for other drivers, e.g. SPI probes only once, at the
+> beginning of the boot, based on ACPI entry, there is no hardware
+> detection that a device is alive after reboot.
+> Additionally, the USB related structures are new every probe, so we
+> need to replace those.
+
+Please don't top-posting [2]. The discussion thread is somehow messed.
+
+[2]: https://docs.kernel.org/process/submitting-patches.html#use-trimmed-interleaved-replies-in-email-discussions
+
+> On Tue, Jul 1, 2025 at 10:56 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 > >
-> > Not exactly. Ideally, I think we shouldn't modify the CUT. I'm wondering
-> > if there is a way to not change the CUT but also break the external
-> > dependencies.
+> > On Mon, Jun 30, 2025 at 01:59:39PM +0200, Dawid Niedźwiecki wrote:
+> > > On Fri, Jun 27, 2025 at 9:53 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> > > > On Tue, Jun 24, 2025 at 11:00:28AM +0000, Dawid Niedzwiecki wrote:
+> > > > > +     /*
+> > > > > +      * Do not register the same EC device twice. The probing is performed every
+> > > > > +      * reboot, sysjump, crash etc. Recreating the /dev/cros_X file every time
+> > > > > +      * would force all application to reopen the file, which is not a case for
+> > > > > +      * other cros_ec_x divers. Instead, keep the cros_ec_device and cros_ec_usb
+> > > > > +      * structures constant and replace USB related structures for the same EC
+> > > > > +      * that is reprobed.
+> > > > > +      *
+> > > > > +      * The driver doesn't support handling two devices with the same idProduct,
+> > > > > +      * but it will never be a real usecase.
+> > > > > +      */
+> > > >
+> > > > I don't quite understand why does it need to memorize the registered ECs.
+> > > > Supposedly, the probe function is only called few times during booting, and
+> > > > gets success once. Hot-plugs?
+> > > >
+> > >
+> > > The probe is called every time the EC device boots from the beginning
+> > > - sysjumps, crashes, reboots etc. It succeeds the first time.
+> > > Once the /dev/cros_X file is created, we need the possibility to
+> > > access the same EC device, with the same, previously created file.
+> > > The only way to do that is to reused the already created
+> > > cros_ec_device structure.
 > >
-> > > But stepping back, ftrace_stubs technically require modifying the code
-> > > to make sure funcs are marked as `noinline`, which this patch series
-> > > does not do.
-> ...
-> > They could be partially inlined even though they are exported symbols.
-> 
-> So to summarize, right now we're stuck with having to modify the code.
-> (Unless someone can come up with something really clever, but not too clever)
-> 
-> To make it concrete, the current approach would look like:
-> 
-> int func(char* arg1, int arg2) {
->   KUNIT_STATIC_STUB_REDIRECT(func, arg1, arg2);
->   ... // unchanged
-> }
-> 
-> vs an ftrace/kprobe approach that needs a conditional `noinline`
-> 
-> KUNIT_STUBBABLE int func(char* arg1, int arg2) {
->   ... // unchanged
-> }
-> 
-> The latter is definitely simpler and less burdensome.
-> But I don't know if it's simpler enough to warrant a second
-> implementation existing for me personally.
+> > What are the shortcomings if it re-creates /dev/cros_X everytime? Isn't it
+> > also a way for userland programs to be aware of the EC device crashes?
+> >
+> > Why other cros_ec_X drivers doesn't need the mechanism?
 
-Instead of KUNIT_STUBBABLE macros, I was thinking of:
+Copied your reply here:
 
-diff --git a/Makefile b/Makefile
-index 35e6e5240c61..40319083f58b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -979,6 +979,10 @@ ifdef CONFIG_DEBUG_SECTION_MISMATCH
- KBUILD_CFLAGS += -fno-inline-functions-called-once
- endif
- 
-+ifdef CONFIG_KUNIT_KPROBE_STUBS
-+KBUILD_CFLAGS += -fno-inline
-+endif
-+
- # `rustc`'s `-Zfunction-sections` applies to data too (as of 1.59.0).
- ifdef CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
- KBUILD_CFLAGS_KERNEL += -ffunction-sections -fdata-sections
+> >What are the shortcomings if it re-creates /dev/cros_X everytime?
+> 
+> In that case, to avoid memory leakage, you would need to free the
+> cros_ec_device structure every disconnect.
+> An application with an opened cros_ec file would try to access the
+> freed resources (use-after-free) via the char driver [1], e.g.
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/chrome/cros_ec_chardev.c#n345
+> 
+> It would also require additional work from the userspace application
+> e.g. reopen the cros_ec file every time there was a communication
+> problem. I think recovering an already created file sounds like a
+> better idea.
 
+They doesn't look like shortcomings to me. The corresponding destructor
+callbacks have to be called when a device is removed anyway.
 
-I don't know what are most people's usages. I always run KUnit tests in qemu
-or at least in some real devices that I less care about the performance.
-Thus, turning inline off globally in such environments is totally acceptable.
+Instead, re-using the same inode for the userland interface however
+*silently* swapping the underlying devices makes less sense to me.
+
+> > Isn't it also a way for userland programs to be aware of the EC device crashes?
+> 
+> No. First of all, we don't know a reason for the disconnect / reprobe,
+> so it is not always a crash. Also we signal that there is a problem
+> with the connection by returning -ENODEV when an EC device is
+> disconnected.
+> There are dedicated commands to check reboot reason, and detect
+> potential crashes.
+
+My point here is: to let userland programs be aware of the underlying
+device has been removed.
+
+What are the reasons for disconnect and reprobe? From your previous message
+and code comment, are they "reboot, sysjump, crash"? Would it happen
+frequently after AP boot?
+
+Note: we are talking about a EC-like device here. For a real EC either reboot
+or crash, the AP will be reset.
+
+> > Why other cros_ec_X drivers doesn't need the mechanism?
+> 
+> It is a very USB specific problem. USB host/hub detects a new device
+> on the bus and starts probing procedure.
+> It is not a case for other drivers, e.g. SPI probes only once, at the
+> beginning of the boot, based on ACPI entry, there is no hardware
+> detection that a device is alive after reboot.
+
+No, I don't think so. I think all EC-like devices share the same concern
+regardless of the transport medium (e.g. SCP over RPMSG, ISH over ISHTP).

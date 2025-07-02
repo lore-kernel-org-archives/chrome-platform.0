@@ -1,175 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56D01C6B4;
-	Wed,  2 Jul 2025 03:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673EC224AED;
+	Wed,  2 Jul 2025 06:52:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751428687; cv=none; b=BrKaR5Lo3GkpfIxDvntmAllhvhF/dAgtI9+jNFnGb3jUTuqJrbGzYsSeRvJlSqQdA8DEhTBSmxiPteZTMqwwG/tY9mUNCugOhtBc0lmJUB7qJoW59uQs575cOrDwNazqsK8G/hURKLsEspGFSH/gipcMFc+piILyOGjf2F51mmY=
+	t=1751439131; cv=none; b=WUVXToHYiwPSA/LvxZjDL1BdlT56GR6I9l37k8rvi5txEYAVfO1RWEPPv8O5bUPEtpi+xZZS7FEvwPS5O4KuKLB8yajaHzwMx8LMYNVqgo77DkHx3WuD+fjq0SLWhlSVZm7QeS9XTjAp/qlsvsoBF1JHEDEr0sWZRf++GK3TJUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751428687; c=relaxed/simple;
-	bh=w2dfqLUduE1K0tzjQWf6mTcs+MvqxhPTIhPYmuODJXo=;
+	s=arc-20240116; t=1751439131; c=relaxed/simple;
+	bh=ik/1Wr1Ja/jZ66BxBiH1Qx3ZKgeQvNYazUJ5cj0M7SA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RzJCTsPBluee13pwk+rkTsqd4x6rnuToKTHSi2Up8rMT4lmXaxX1454QtoPgK3wlD8KNgQgpMtJJoiWdTZ/fxfx28f4gO2HEuhgbco7n0eJLU5heydzo48e9+q7YnLaTBZ1o9I7bGSe8FWyPHSYJTAD6pwpFo8M0gu5oajXLE5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BeMgVi2/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ArNntGalOF1+f8MK9X8CHspNV2bZJeRhgHihF214tl5Z/Ejj+mnUWPMVMhoLw5ajsTrzvuKRYq54dld1vniMdT6hZBBU+6PrzIlmFsAvIAAo9CcYCS4YPMfDow3KlLz/8wxZgR9f8aQtLUqggphh2rF/L7xpKu4Q1QbZ09NJPuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XRvJ7Awg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BeMgVi2/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B68C4CEEF;
-	Wed,  2 Jul 2025 03:58:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XRvJ7Awg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753AEC4CEF3;
+	Wed,  2 Jul 2025 06:52:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751428686;
-	bh=w2dfqLUduE1K0tzjQWf6mTcs+MvqxhPTIhPYmuODJXo=;
+	s=k20201202; t=1751439130;
+	bh=ik/1Wr1Ja/jZ66BxBiH1Qx3ZKgeQvNYazUJ5cj0M7SA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BeMgVi2/lPqbzjgKLEoGx42J082sAksCfmSnOszZYoztWaretvEIpY27FFoA16INS
-	 fu647AtLzup1BkBD/kb6Q29r8GWpfa/JataNh8mcuBZObqPFnOs0dbxlkGeMFWUxW9
-	 dBthWztZBRTXx5NzwUsX4nlkrVYz7/h1aSmvoC8EdmdobXWgRLJLjzD4u3/au8/bUv
-	 z2nxXc3XlXDv1JHY7yNDvfXpXt4fr3wM6VN9xip1S83300xwvskIEIKsDWX6YSu+Oy
-	 /HQEIO5s/YNs2orrbssXPI/+z4Kab9v+5REycyCndRxYW4OlVsVAcycwDsnUrEo+X1
-	 bnPAZlZN31aVw==
-Date: Wed, 2 Jul 2025 03:58:03 +0000
+	b=XRvJ7AwgKC0epo76Dj/0OXk9f4FTZhaZabOkJFjvADuy0c5Bi9yY74/BhOdBFzOCp
+	 CSkpV3BUaAZgBMM8oFoFO4Eg/56kJubnEE6ATDmTn/r/SewRaqg8E+62oSD9XKoQ/6
+	 uCq49FDXG1mZnhTiBzYVjVii1ScxfD3dZXGK8Et9vabsDM1WeowAD26TnV6YZSJ6L5
+	 524BkMYSoWVLlHZP2ErepjlgR7Xe6FLkvmZzGZJ32VpLZcI0jpMr9Paqcs1CdqdBS9
+	 vdpYSlTeR5M36Nx0kuVxoGnHK4bSLm8kA/mooidlf/8EQKP6/4uAVh953IEiUvAp3m
+	 /YjySPeZ0AT3w==
+Date: Wed, 2 Jul 2025 06:52:07 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Dawid =?utf-8?Q?Nied=C5=BAwiecki?= <dawidn@google.com>
-Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Subject: Re: [PATCH] platform/chrome: Add ChromeOS EC USB driver
-Message-ID: <aGSuS81Psqm_Ie4N@google.com>
-References: <20250624110028.409318-1-dawidn@google.com>
- <aF5N5jrRUlj3SUGS@google.com>
- <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
- <aGOiu-sXFj1EUQAB@google.com>
- <CAJ_BA_CZWvC2=i8riNe5LReLKzPXK1vPwymiG2dzLEntda7TRg@mail.gmail.com>
+To: Pedro Nariyoshi <pedro.nariyoshi@gmail.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-media@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mr Chromebox <mrchromebox@gmail.com>
+Subject: Re: [PATCH] media: cros-ec-cec: Add Fizz board variants, so driver
+ can detect them
+Message-ID: <aGTXF-FQoJx3bMYB@google.com>
+References: <20250628181530.873795-1-pedro.nariyoshi@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ_BA_CZWvC2=i8riNe5LReLKzPXK1vPwymiG2dzLEntda7TRg@mail.gmail.com>
+In-Reply-To: <20250628181530.873795-1-pedro.nariyoshi@gmail.com>
 
-On Tue, Jul 01, 2025 at 12:29:51PM +0200, Dawid Niedźwiecki wrote:
-> >What are the shortcomings if it re-creates /dev/cros_X everytime?
+On Sat, Jun 28, 2025 at 02:14:35PM -0400, Pedro Nariyoshi wrote:
+> I recently reflashed a Chromebox (Wukong variant of the Fizz board) with
+> coreboot and I noticed that the cec driver refused to load with a bit of
+> tinkering, I realized that the dmi_match_table was expecting the product
+> name to be Fizz, but `dmidecode` reports `Wukong` as the product name. I
+> am not sure if this is the best approach, but adding this patch lets me
+> load the driver and it works properly.
 > 
-> In that case, to avoid memory leakage, you would need to free the
-> cros_ec_device structure every disconnect.
-> An application with an opened cros_ec file would try to access the
-> freed resources (use-after-free) via the char driver [1], e.g.
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/chrome/cros_ec_chardev.c#n345
-> 
-> It would also require additional work from the userspace application
-> e.g. reopen the cros_ec file every time there was a communication
-> problem. I think recovering an already created file sounds like a
-> better idea.
-> 
-> > Isn't it also a way for userland programs to be aware of the EC device crashes?
-> 
-> No. First of all, we don't know a reason for the disconnect / reprobe,
-> so it is not always a crash. Also we signal that there is a problem
-> with the connection by returning -ENODEV when an EC device is
-> disconnected.
-> There are dedicated commands to check reboot reason, and detect
-> potential crashes.
-> 
-> > Why other cros_ec_X drivers doesn't need the mechanism?
-> 
-> It is a very USB specific problem. USB host/hub detects a new device
-> on the bus and starts probing procedure.
-> It is not a case for other drivers, e.g. SPI probes only once, at the
-> beginning of the boot, based on ACPI entry, there is no hardware
-> detection that a device is alive after reboot.
-> Additionally, the USB related structures are new every probe, so we
-> need to replace those.
+> Alternatively, we could instead match the DMI_PRODUCT_FAMILY, instead of
+> DMI_SYS_VENDOR and DMI_PRODUCT_NAME. In my board at least, that says
+> "Google_Fizz".
 
-Please don't top-posting [2]. The discussion thread is somehow messed.
+Yes, please extend the table of `struct cec_dmi_match` and support
+DMI_PRODUCT_FAMILY match in cros_ec_cec_find_hdmi_dev().
 
-[2]: https://docs.kernel.org/process/submitting-patches.html#use-trimmed-interleaved-replies-in-email-discussions
+> I am open to suggestions for alternative solutions and I hope I did't
+> break any rules (this is my first kernel patch). (And sorry for the
+> previous submissions with errors in the subject line)
 
-> On Tue, Jul 1, 2025 at 10:56 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> >
-> > On Mon, Jun 30, 2025 at 01:59:39PM +0200, Dawid Niedźwiecki wrote:
-> > > On Fri, Jun 27, 2025 at 9:53 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> > > > On Tue, Jun 24, 2025 at 11:00:28AM +0000, Dawid Niedzwiecki wrote:
-> > > > > +     /*
-> > > > > +      * Do not register the same EC device twice. The probing is performed every
-> > > > > +      * reboot, sysjump, crash etc. Recreating the /dev/cros_X file every time
-> > > > > +      * would force all application to reopen the file, which is not a case for
-> > > > > +      * other cros_ec_x divers. Instead, keep the cros_ec_device and cros_ec_usb
-> > > > > +      * structures constant and replace USB related structures for the same EC
-> > > > > +      * that is reprobed.
-> > > > > +      *
-> > > > > +      * The driver doesn't support handling two devices with the same idProduct,
-> > > > > +      * but it will never be a real usecase.
-> > > > > +      */
-> > > >
-> > > > I don't quite understand why does it need to memorize the registered ECs.
-> > > > Supposedly, the probe function is only called few times during booting, and
-> > > > gets success once. Hot-plugs?
-> > > >
-> > >
-> > > The probe is called every time the EC device boots from the beginning
-> > > - sysjumps, crashes, reboots etc. It succeeds the first time.
-> > > Once the /dev/cros_X file is created, we need the possibility to
-> > > access the same EC device, with the same, previously created file.
-> > > The only way to do that is to reused the already created
-> > > cros_ec_device structure.
-> >
-> > What are the shortcomings if it re-creates /dev/cros_X everytime? Isn't it
-> > also a way for userland programs to be aware of the EC device crashes?
-> >
-> > Why other cros_ec_X drivers doesn't need the mechanism?
-
-Copied your reply here:
-
-> >What are the shortcomings if it re-creates /dev/cros_X everytime?
-> 
-> In that case, to avoid memory leakage, you would need to free the
-> cros_ec_device structure every disconnect.
-> An application with an opened cros_ec file would try to access the
-> freed resources (use-after-free) via the char driver [1], e.g.
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/chrome/cros_ec_chardev.c#n345
-> 
-> It would also require additional work from the userspace application
-> e.g. reopen the cros_ec file every time there was a communication
-> problem. I think recovering an already created file sounds like a
-> better idea.
-
-They doesn't look like shortcomings to me. The corresponding destructor
-callbacks have to be called when a device is removed anyway.
-
-Instead, re-using the same inode for the userland interface however
-*silently* swapping the underlying devices makes less sense to me.
-
-> > Isn't it also a way for userland programs to be aware of the EC device crashes?
-> 
-> No. First of all, we don't know a reason for the disconnect / reprobe,
-> so it is not always a crash. Also we signal that there is a problem
-> with the connection by returning -ENODEV when an EC device is
-> disconnected.
-> There are dedicated commands to check reboot reason, and detect
-> potential crashes.
-
-My point here is: to let userland programs be aware of the underlying
-device has been removed.
-
-What are the reasons for disconnect and reprobe? From your previous message
-and code comment, are they "reboot, sysjump, crash"? Would it happen
-frequently after AP boot?
-
-Note: we are talking about a EC-like device here. For a real EC either reboot
-or crash, the AP will be reset.
-
-> > Why other cros_ec_X drivers doesn't need the mechanism?
-> 
-> It is a very USB specific problem. USB host/hub detects a new device
-> on the bus and starts probing procedure.
-> It is not a case for other drivers, e.g. SPI probes only once, at the
-> beginning of the boot, based on ACPI entry, there is no hardware
-> detection that a device is alive after reboot.
-
-No, I don't think so. I think all EC-like devices share the same concern
-regardless of the transport medium (e.g. SCP over RPMSG, ISH over ISHTP).
+Thank you for your patch. You could consider to move most of the additional
+information after "---" in your patch (so that they won't be part of the
+commit message).

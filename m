@@ -1,121 +1,246 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1FE2620E4;
-	Thu,  3 Jul 2025 11:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BCC275103;
+	Thu,  3 Jul 2025 11:52:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751542664; cv=none; b=PHmMFSdVdrfiBmojJ5kcJod76aoy7sXKIpQ8d3ZMfCIiV/hRtdtZKeQZyRsuaTbMoG+JSaL+44ORsGRAJP4k2D9pSQ0Fve45TFDZ2ZJbaCcxC0hvu0Nan2yi7PRFUaxDAMM2S/fLTvAzbCLtXGJ3vp9UrMPhbkKClaPSCD7UiMc=
+	t=1751543526; cv=none; b=kt9Gk6pJCc6xBdQ0K0LGawXivGyewvSmPk6rhkn7q11GAGwSqfj/tV9A0tfTPaKl1pgWhDP/DLE4P5Zfe1bjjZrsw2SzLRFS3oVFrJ3UmssckNd97EOyIp07KZTyzHrS6OYF4BVvOaJleqxYIToGkH9mCbFqaWM/hqMNrw8IiGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751542664; c=relaxed/simple;
-	bh=uRR7PVJBnOulCRdECwCySqV8cmACYmPxijoJvk6TQH4=;
+	s=arc-20240116; t=1751543526; c=relaxed/simple;
+	bh=Vv6+kBLr3hxtY9doOydjFbegzeNyEOmfpZyR6PoSEk0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a0O1D1+yWO+TBvKkM4654fzWnmYqoyPc9ku4oV6/m4e9IgPu6i93buhmswux3fuCW1UIidfe2Ohlj2Tf0Lg2FM0C1mIVfxLgL/4CotxpZZOZSrcraoSuXDAvoK2Fjshe82IkV2jZ+OZXMbVh1UHUMYdst8SWdLciFQ/DYohCxeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hWHumouA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tVV6VkEjPlx+FfCNtNnm0DL0mq2m2U6zicaXkvSn29dTHZimkAxJUj95SIBIRY1A1bq2zyrVxGk0sXLKI15cKJHA0TQjtXlSbWPDeq1DB2qnzmToTPJ+CG/ukJnHd1t/9f5E8ReiGbDoofHkvJ74x/tuCIucSstVgUsGUp5N/to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=c83DTY/h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hWHumouA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9A1C4CEE3;
-	Thu,  3 Jul 2025 11:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751542664;
-	bh=uRR7PVJBnOulCRdECwCySqV8cmACYmPxijoJvk6TQH4=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="c83DTY/h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC9FC4CEE3;
+	Thu,  3 Jul 2025 11:52:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1751543525;
+	bh=Vv6+kBLr3hxtY9doOydjFbegzeNyEOmfpZyR6PoSEk0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hWHumouAkU++FuaNOLE0xjB/643dhpSzlvWcHXO0LxLH47vD4t0R+AaSZpe4eX9H9
-	 T16VKASNqFbmiQdevYGnhJ32iGeaLLRamiXPJxtMCHSS/z57+bfrXS3mTFdRfi0Ejl
-	 rm8ZHGEbAuJcI0q4wz/vai6fB23hpaXgbVAiqAa9E2Agk0vCYJfiiJYJJV3c/YrrqR
-	 oRrfiYCzeKP2bXvs2ntUzhbC1UgIfCkZD7K1shTLNtw0ATdK2Z3zich56rIpplfrrb
-	 CCDz+Eez/RvtRJM1qYFWVcbB/qqoJbmu7PnSvthqLq0Q6pSyTxjEQsSueN0dMWx4UZ
-	 UWR7/tL1yg7bQ==
-Date: Thu, 3 Jul 2025 11:37:41 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Dawid =?utf-8?Q?Nied=C5=BAwiecki?= <dawidn@google.com>
-Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Subject: Re: [PATCH] platform/chrome: Add ChromeOS EC USB driver
-Message-ID: <aGZrhe8Ku7eEIRqm@google.com>
-References: <20250624110028.409318-1-dawidn@google.com>
- <aF5N5jrRUlj3SUGS@google.com>
- <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
- <aGOiu-sXFj1EUQAB@google.com>
- <CAJ_BA_CZWvC2=i8riNe5LReLKzPXK1vPwymiG2dzLEntda7TRg@mail.gmail.com>
- <aGSuS81Psqm_Ie4N@google.com>
- <CAJ_BA_BQOQe61r9t9rL=UiOqpHwOoTSbQcZNe=CrCcjMha_YQg@mail.gmail.com>
+	b=c83DTY/hbeQ2hzqMApRka191Pd6ZGzw9n9j7O9IN2nsxuzPPo6J54EGauvJBZGWi6
+	 AmFNKCcKAI3KKDHdNiCA/rQfh1wRKnP0bLddEBcHdgufZ39i4Cdh0qSH7m67Ns4Dct
+	 d3GeD7PcleNh1VfbXibRwOhdAh6TNrT4xJa8aJG4=
+Date: Thu, 3 Jul 2025 13:52:02 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: bleung@chromium.org, chrome-platform@lists.linux.dev, dawidn@google.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/2] platform/chrome: cros_ec_chardev: Fix UAF of ec_dev
+Message-ID: <2025070320-gathering-smitten-8909@gregkh>
+References: <20250703113509.2511758-1-tzungbi@kernel.org>
+ <20250703113509.2511758-3-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ_BA_BQOQe61r9t9rL=UiOqpHwOoTSbQcZNe=CrCcjMha_YQg@mail.gmail.com>
+In-Reply-To: <20250703113509.2511758-3-tzungbi@kernel.org>
 
-On Wed, Jul 02, 2025 at 09:43:40AM +0200, Dawid Niedźwiecki wrote:
-> > They doesn't look like shortcomings to me. The corresponding destructor
-> > callbacks have to be called when a device is removed anyway.
-> >
+On Thu, Jul 03, 2025 at 11:35:09AM +0000, Tzung-Bi Shih wrote:
+> The lifecycle of misc device and `ec_dev` are independent. It is
+> possible that the `ec_dev` is used after free.
 > 
-> Yes, anything related to USB communication itself has to be freed, but
-> freeing the cros_ec_device structure and calling the cros_ec_unregister
-> function can crash the system if any of a userland application has the
-> original file cros_ec open and tries to send a command. The chardev driver
-> is not aware that the device has been removed and will try to access the
-> removed structures.
+> The following script shows the concept:
+> : import fcntl
+> : import os
+> : import struct
+> : import time
+> :
+> : EC_CMD_HELLO = 0x1
+> :
+> : fd = os.open('/dev/cros_fp', os.O_RDONLY)
+> : s = struct.pack('IIIIII', 0, EC_CMD_HELLO, 4, 4, 0, 0)
+> : fcntl.ioctl(fd, 0xc014ec00, s)
+> :
+> : time.sleep(1)
+> : open('/sys/bus/spi/drivers/cros-ec-spi/unbind', 'w').write('spi10.0')
+> : time.sleep(1)
+> : open('/sys/bus/spi/drivers/cros-ec-spi/bind', 'w').write('spi10.0')
+> :
+> : time.sleep(3)
+> : fcntl.ioctl(fd, 0xc014ec00, s)     <--- The UAF happens here.
+> :
+> : os.close(fd)
 
-We have seen a similar crash before but I didn't come out with a solution
-at that time. Could you please try [3]?
+As you have to be root to do this, it's not that big of a deal :)
 
-[3]: https://patchwork.kernel.org/project/chrome-platform/cover/20250703113509.2511758-1-tzungbi@kernel.org/
+But yes, one that people have been talking about and discussing generic
+ways of solving for years now, you have seen the plumbers talks about
+it, right?
 
-> > Instead, re-using the same inode for the userland interface however
-> > *silently* swapping the underlying devices makes less sense to me.
-> >
 > 
-> We are sure it is the same EC device, so why do you think accessing the
-> same inode makes less sense? It is a case for specific interface, that reboot
-> causes reprobing, which is not a case for other interfaces. I believe
-> it should be
-> transparent for the cros_ec device user, what interface type is used
-> e.g. if it is
-> SPI, you can reboot the EC device and wait until it responds to a next command,
-> but if it is USB, you would need to reopen the cros_ec file after reboot.
-
-Did some experiments and I understand the difference now. It probably depends
-on the bus implementation.
-
-1) SCP over RPMSG
-# ectool --name=cros_scp reboot_ec
-# dmesg
-cros-ec-rpmsg 10500000.scp.cros-ec-rpmsg.13.-1: rpmsg send timeout
-mtk-scp 10500000.scp: SCP watchdog timeout! 0x0
-remoteproc remoteproc0: crash detected in scp: type watchdog
-...
-cros-ec-rpmsg 10500000.scp.cros-ec-rpmsg.13.-1: Chrome EC device registered
-
-2) FP over SPI
-# ectool --name=cros_fp reboot_ec
-# dmesg
-cros-ec-spi spi-PRP0001:01: EC failed to respond in time
-
-Anyway, I see your point about the EC over USB gets re-probe once it reboots,
-sysjumps, crashes, firmware updates, and etc.
-
-Given that:
-- The crash you encountered is a common issue for all cros_ec_X drivers.
-- I prefer to keep cros_ec_X drivers simple and similar rather than have
-  something special (e.g. the memorized `struct cros_ec_device` in current
-  cros_ec_usb) for fixing the crash.
-Could you give [3] a try to see if it fixes the crash and also call
-cros_ec_register()/cros_ec_unregister() everytime in the probe/disconnect?
-
-> > No, I don't think so. I think all EC-like devices share the same concern
-> > regardless of the transport medium (e.g. SCP over RPMSG, ISH over ISHTP).
+> Set `ec_dev` to NULL to let the misc device know the underlying
+> protocol device is gone.
 > 
-> Yes, you can run a userland program that opens a cros_ec file and constantly
-> sends commands e.g. ectool stress, and then manually unbind the ec
-> device, but I believe it can cause some crashes/memory leakage. I don't think
-> all drivers are adjusted to hot-plugging.
+> Fixes: eda2e30c6684 ("mfd / platform: cros_ec: Miscellaneous character device to talk with the EC")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+>  drivers/platform/chrome/cros_ec_chardev.c | 65 +++++++++++++++++++----
+>  1 file changed, 56 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
+> index 5c858d30dd52..87c800c30f31 100644
+> --- a/drivers/platform/chrome/cros_ec_chardev.c
+> +++ b/drivers/platform/chrome/cros_ec_chardev.c
+> @@ -11,11 +11,14 @@
+>   */
+>  
+>  #include <linux/init.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/device.h>
+>  #include <linux/fs.h>
+> +#include <linux/list.h>
+>  #include <linux/miscdevice.h>
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> +#include <linux/mutex.h>
+>  #include <linux/notifier.h>
+>  #include <linux/platform_data/cros_ec_chardev.h>
+>  #include <linux/platform_data/cros_ec_commands.h>
+> @@ -31,7 +34,14 @@
+>  /* Arbitrary bounded size for the event queue */
+>  #define CROS_MAX_EVENT_LEN	PAGE_SIZE
+>  
+> +/* This protects 'chardev_list' */
+> +static DEFINE_MUTEX(chardev_lock);
+> +static LIST_HEAD(chardev_list);
 
-Yes, we have seen a similar crash before. See comment above.
+Having a static list of chardevices feels very odd and driver-specific,
+right
+
+> +
+>  struct chardev_priv {
+> +	struct list_head list;
+> +	/* This protects 'ec_dev' */
+> +	struct mutex lock;
+
+Protects it from what?
+
+You now have two locks in play, one for the structure itself, and one
+for the list.  Yet how do they interact as the list is a list of the
+objects which have their own lock?
+
+Are you _SURE_ you need two locks here?  If so, you need to document
+these really well.
+
+>  	struct cros_ec_dev *ec_dev;
+>  	struct notifier_block notifier;
+>  	wait_queue_head_t wait_event;
+> @@ -176,9 +186,14 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
+>  	if (ret) {
+>  		dev_err(ec_dev->dev, "failed to register event notifier\n");
+>  		kfree(priv);
+> +		return ret;
+>  	}
+>  
+> -	return ret;
+> +	mutex_init(&priv->lock);
+> +	INIT_LIST_HEAD(&priv->list);
+> +	scoped_guard(mutex, &chardev_lock)
+> +		list_add_tail(&priv->list, &chardev_list);
+> +	return 0;
+>  }
+>  
+>  static __poll_t cros_ec_chardev_poll(struct file *filp, poll_table *wait)
+> @@ -199,7 +214,6 @@ static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
+>  	char msg[sizeof(struct ec_response_get_version) +
+>  		 sizeof(CROS_EC_DEV_VERSION)];
+>  	struct chardev_priv *priv = filp->private_data;
+> -	struct cros_ec_dev *ec_dev = priv->ec_dev;
+>  	size_t count;
+>  	int ret;
+>  
+> @@ -233,7 +247,12 @@ static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
+>  	if (*offset != 0)
+>  		return 0;
+>  
+> -	ret = ec_get_version(ec_dev, msg, sizeof(msg));
+> +	scoped_guard(mutex, &priv->lock) {
+> +		if (!priv->ec_dev)
+> +			return -ENODEV;
+> +	}
+> +
+> +	ret = ec_get_version(priv->ec_dev, msg, sizeof(msg));
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -249,11 +268,15 @@ static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
+>  static int cros_ec_chardev_release(struct inode *inode, struct file *filp)
+>  {
+>  	struct chardev_priv *priv = filp->private_data;
+> -	struct cros_ec_dev *ec_dev = priv->ec_dev;
+>  	struct ec_event *event, *e;
+>  
+> -	blocking_notifier_chain_unregister(&ec_dev->ec_dev->event_notifier,
+> -					   &priv->notifier);
+> +	scoped_guard(mutex, &priv->lock) {
+> +		if (priv->ec_dev)
+> +			blocking_notifier_chain_unregister(&priv->ec_dev->ec_dev->event_notifier,
+> +							   &priv->notifier);
+> +	}
+> +	scoped_guard(mutex, &chardev_lock)
+> +		list_del(&priv->list);
+>  
+>  	list_for_each_entry_safe(event, e, &priv->events, node) {
+>  		list_del(&event->node);
+> @@ -341,16 +364,20 @@ static long cros_ec_chardev_ioctl(struct file *filp, unsigned int cmd,
+>  				   unsigned long arg)
+>  {
+>  	struct chardev_priv *priv = filp->private_data;
+> -	struct cros_ec_dev *ec = priv->ec_dev;
+>  
+>  	if (_IOC_TYPE(cmd) != CROS_EC_DEV_IOC)
+>  		return -ENOTTY;
+>  
+> +	scoped_guard(mutex, &priv->lock) {
+> +		if (!priv->ec_dev)
+> +			return -ENODEV;
+> +	}
+
+What prevents ec_dev from changing now, after you have just checked it?
+This feels very wrong as:
+
+> +
+>  	switch (cmd) {
+>  	case CROS_EC_DEV_IOCXCMD:
+> -		return cros_ec_chardev_ioctl_xcmd(ec, (void __user *)arg);
+> +		return cros_ec_chardev_ioctl_xcmd(priv->ec_dev, (void __user *)arg);
+
+Look, it could have gone away here, right?  If not, how?
+
+>  	case CROS_EC_DEV_IOCRDMEM:
+> -		return cros_ec_chardev_ioctl_readmem(ec, (void __user *)arg);
+> +		return cros_ec_chardev_ioctl_readmem(priv->ec_dev, (void __user *)arg);
+>  	case CROS_EC_DEV_IOCEVENTMASK:
+>  		priv->event_mask = arg;
+>  		return 0;
+> @@ -394,8 +421,28 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
+>  static void cros_ec_chardev_remove(struct platform_device *pdev)
+>  {
+>  	struct miscdevice *misc = dev_get_drvdata(&pdev->dev);
+> +	struct chardev_priv *priv;
+>  
+> +	/*
+> +	 * Must deregister the misc device first so that the following
+> +	 * open fops get handled correctly.
+> +	 *
+> +	 * misc device is serialized by `misc_mtx`.
+> +	 * 1) If misc_deregister() gets the lock earlier than misc_open(),
+> +	 *    the open fops won't be called as the corresponding misc
+> +	 *    device is already destroyed.
+> +	 * 2) If misc_open() gets the lock earlier than misc_deregister(),
+> +	 *    the following code block resets the `ec_dev` to prevent
+> +	 *    the rest of fops from accessing the obsolete `ec_dev`.
+
+What "following code block"?  What will reset the structure?
+
+totally confused,
+
+greg k-h

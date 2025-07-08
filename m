@@ -1,82 +1,92 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8271B28A72A;
-	Mon,  7 Jul 2025 09:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D006226D17
+	for <chrome-platform@lists.linux.dev>; Tue,  8 Jul 2025 08:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751881046; cv=none; b=XC0CY3jL/NmMX7anWmjGsHn9w9LvuD2YBn0pHIvHQ6O9Ousaz+45j1MlAkF8tDOiZr8almVosJYsqKeqCGG0YYTJsCY5KljUXtNq6wklZb8TEIamXg0bSjel5LHu6kJipp78fTu4V8DKo3wpSSerELFuwwekGjqcu7eWCCEZ6M0=
+	t=1751961764; cv=none; b=NoEgjvkSIzQnAUECrLKntquzY+oAyEE7Qs0dt62wr4lBa+9cnJzXdt5THEH1Fx15XmjppwxqfBLhDoy+9RolVINUvZG97l+aIDuTR0U1zl9XUUhm/QMXSCh74/AEyxnaF/SAIEQbbzmiROB5+u18i271opSMM7d9M/PMcy3idh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751881046; c=relaxed/simple;
-	bh=+HST+oI1csepHuidMdAGM1zRVBg04v+JMM5to57Ig68=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=POzPOhWDe7Rw+GMIK2IbIv/g8VdeECLWJt0uZtjx/yAJNJEwMrjBAgy/rIq56onTaKr8pHISb2vWGNKnnfAWmE9O0Mrj1XEUVXM1R299bjVDkvmm4IY+MiXbgSsOUwur4Cj5XMhWD01JlCdOkBK0Adn7q9i2UdZfTtDNPKUKLPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Z1P6IgIo; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1751961764; c=relaxed/simple;
+	bh=2LmZnjlc1FtcFaQYTclGimNqcpjzvN9TeFU8L3IXCSQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DfxM1ROrZlTybYCe540rSzD0RN/aXqPCVVd+6ANALA3n+ynMABtX/ocLpThaDCMBWMucE43BeJxdmeQYyQYonJyKV7uPt5bbDZUIM3Y8FBFWgOLoHGf9jn8t/jp8g78e1rlFORegsLPr597KBQdE12bQmrpJ5Ov8y+3ZWSxbLzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHdmVIEv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z1P6IgIo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1751881042;
-	bh=+HST+oI1csepHuidMdAGM1zRVBg04v+JMM5to57Ig68=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Z1P6IgIo/+1evlnaLwfZqWS+jqcAJed+atKLO6Ei1hkuFdreiBTqnfQ1dAIlnIJst
-	 IYMc6ANZ7W7EWKqOh2xRv+HpkoqDDLKRNQN6lT68oFAwnVIsDf415vVBe6S/FIhyrs
-	 lBD4CbtluH+YkKDhmnTNiI7mOepa+PCKysVGEYsjli5quGyQ4mgFvel4pR14jKOGxy
-	 ot0v8H8oUlb8NwwFvtPGjKKtGlzlF3DxhqdyJYla/0NFsVSMOPKazgRgoaBUqX7fZB
-	 AuxKOCS6NE7+e9qBwIcaDU8YgaDe10YOndP0u9KML9TyNIdfyh9Jc8+LZu8uSfF/Dd
-	 Cpdyd1E97ArjQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5E45717E07C9;
-	Mon,  7 Jul 2025 11:37:21 +0200 (CEST)
-Message-ID: <d79e0e46-87ae-4d9d-ba67-41e3055c809c@collabora.com>
-Date: Mon, 7 Jul 2025 11:37:20 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHdmVIEv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 423D1C4CEED;
+	Tue,  8 Jul 2025 08:02:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751961763;
+	bh=2LmZnjlc1FtcFaQYTclGimNqcpjzvN9TeFU8L3IXCSQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=MHdmVIEvCaqmkaE8WQUj0RbyIy5gJE8DqvQQXG2md2kQPzSBE11I/A/XVeWcEmdrf
+	 2L0YazFFThKy9YhSQN50NM0aIJTl2wbrAVDJuIDI+XONYsb1aslABDc91VTSCtrw8m
+	 23drX1wjSOwBLFI/loG203L4GEc5cWJJsvMX2GF0pqDaHV3vC1YlpIWimjymsla700
+	 WuSqD3ZGyAUUgYdb/ChXoUOuft/qJQdrVIxJWODGNGVSfuuECPLavOFc387MjwqnEC
+	 ZXBnBqX3abNr5YC/lqOuEPiG9NCRQFc/Vu8IgDigKuUTGr3bWIQku+W3MPRYon4bEs
+	 RpUwXYkNnVAkQ==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org
+Cc: chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org,
+	dawidn@google.com,
+	gregkh@linuxfoundation.org
+Subject: [PATCH v2 0/6] platform/chrome: cros_ec_chardev: Fix a possible UAF
+Date: Tue,  8 Jul 2025 08:00:28 +0000
+Message-ID: <20250708080034.3425427-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: Use of_reserved_mem_region_to_resource() for
- "memory-region"
-To: "Rob Herring (Arm)" <robh@kernel.org>,
- Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Benson Leung <bleung@chromium.org>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>
-Cc: chrome-platform@lists.linux.dev, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-References: <20250703183523.2075276-1-robh@kernel.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250703183523.2075276-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Il 03/07/25 20:35, Rob Herring (Arm) ha scritto:
-> Use the newly added of_reserved_mem_region_to_resource() function to
-> handle "memory-region" properties.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+This is a follow-up series of [1].  It tries to fix a possible UAF in the
+fops of cros_ec_chardev after the underlying protocol device has gone by
+using kref in struct cros_ec_device.
 
-For MediaTek:
+The 1st patch is a cleanup.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+The 2nd patch removes the dependencies of fops to struct cros_ec_dev.  Thus,
+it doesn't need to hold a reference to struct cros_ec_dev.
 
+The 3rd patch returns an error when trying to send commands through an
+underlying protocol device which either hasn't been registered or has gone.
+
+The 4th patch introduces a new helper cros_ec_device_alloc() for allocating
+struct cros_ec_device properly (including to initialize the kref).
+
+The 5th patch lets the fops hold the kref when the file is opening.
+
+The 6th patch starts to manage struct cros_ec_device's lifecycle by the kref.
+
+[1] https://patchwork.kernel.org/project/chrome-platform/patch/20250703113509.2511758-3-tzungbi@kernel.org/
+
+Tzung-Bi Shih (6):
+  platform/chrome: cros_ec_chardev: Remove redundant struct field
+  platform/chrome: cros_ec_chardev: Decouple fops from struct
+    cros_ec_dev
+  platform/chrome: Disallow sending commands through unregistered ec_dev
+  platform/chrome: Introduce cros_ec_device_alloc()
+  platform/chrome: cros_ec_chardev: Hold refcount of struct
+    cros_ec_device
+  platform/chrome: Manage struct cros_ec_device lifecycle by its
+    refcount
+
+ drivers/platform/chrome/cros_ec.c           | 13 +++-
+ drivers/platform/chrome/cros_ec_chardev.c   | 74 ++++++++++-----------
+ drivers/platform/chrome/cros_ec_i2c.c       |  4 +-
+ drivers/platform/chrome/cros_ec_ishtp.c     |  9 ++-
+ drivers/platform/chrome/cros_ec_lpc.c       | 11 +--
+ drivers/platform/chrome/cros_ec_proto.c     | 53 +++++++++++++++
+ drivers/platform/chrome/cros_ec_rpmsg.c     | 20 ++++--
+ drivers/platform/chrome/cros_ec_spi.c       | 10 +--
+ drivers/platform/chrome/cros_ec_uart.c      | 17 +++--
+ include/linux/platform_data/cros_ec_proto.h |  9 +++
+ 10 files changed, 153 insertions(+), 67 deletions(-)
+
+-- 
+2.50.0.727.gbf7dc18ff4-goog
 

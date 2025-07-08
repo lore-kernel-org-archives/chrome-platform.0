@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D006226D17
-	for <chrome-platform@lists.linux.dev>; Tue,  8 Jul 2025 08:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C4929B233
+	for <chrome-platform@lists.linux.dev>; Tue,  8 Jul 2025 08:02:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751961764; cv=none; b=NoEgjvkSIzQnAUECrLKntquzY+oAyEE7Qs0dt62wr4lBa+9cnJzXdt5THEH1Fx15XmjppwxqfBLhDoy+9RolVINUvZG97l+aIDuTR0U1zl9XUUhm/QMXSCh74/AEyxnaF/SAIEQbbzmiROB5+u18i271opSMM7d9M/PMcy3idh4=
+	t=1751961764; cv=none; b=WSCEMFGZMrXUShfyvPo2UUU0Kx0Tj8yzB/8CqnHmiazjLki221IcBpnIEWATk3A3BRcRCrH1HFAqmtcUKj/FOBwv3uYZM3j8Pzfvam8ir8vz4jMWSssnK8+A48JueUVT272aW4Hh/QugYl2S8jMJdnvEvsmJRnxyns56x0nYj2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1751961764; c=relaxed/simple;
-	bh=2LmZnjlc1FtcFaQYTclGimNqcpjzvN9TeFU8L3IXCSQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DfxM1ROrZlTybYCe540rSzD0RN/aXqPCVVd+6ANALA3n+ynMABtX/ocLpThaDCMBWMucE43BeJxdmeQYyQYonJyKV7uPt5bbDZUIM3Y8FBFWgOLoHGf9jn8t/jp8g78e1rlFORegsLPr597KBQdE12bQmrpJ5Ov8y+3ZWSxbLzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHdmVIEv; arc=none smtp.client-ip=10.30.226.201
+	bh=9vDcTRUJc4ermo/2Ss7CgWu3jNogkTUF/bCKpkZwUKo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tIQyAKkVyxiwfJIeAAIV+EzuyTLPcpGK/iGGLtFndSUnqPyEcmBHGPW8d3cYUoipF2FZHyn/OGE6v9bA/mAb22On3ZGLTmdWcdTLQNE5spFDRnCp22+9NHRKF0MaZCd8FLituzgUWO03dVoUTEQzJLvqWEKciUhGz1zblAp87H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLrxHRad; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHdmVIEv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 423D1C4CEED;
-	Tue,  8 Jul 2025 08:02:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLrxHRad"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8266BC4CEF5;
+	Tue,  8 Jul 2025 08:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751961763;
-	bh=2LmZnjlc1FtcFaQYTclGimNqcpjzvN9TeFU8L3IXCSQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=MHdmVIEvCaqmkaE8WQUj0RbyIy5gJE8DqvQQXG2md2kQPzSBE11I/A/XVeWcEmdrf
-	 2L0YazFFThKy9YhSQN50NM0aIJTl2wbrAVDJuIDI+XONYsb1aslABDc91VTSCtrw8m
-	 23drX1wjSOwBLFI/loG203L4GEc5cWJJsvMX2GF0pqDaHV3vC1YlpIWimjymsla700
-	 WuSqD3ZGyAUUgYdb/ChXoUOuft/qJQdrVIxJWODGNGVSfuuECPLavOFc387MjwqnEC
-	 ZXBnBqX3abNr5YC/lqOuEPiG9NCRQFc/Vu8IgDigKuUTGr3bWIQku+W3MPRYon4bEs
-	 RpUwXYkNnVAkQ==
+	s=k20201202; t=1751961764;
+	bh=9vDcTRUJc4ermo/2Ss7CgWu3jNogkTUF/bCKpkZwUKo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=PLrxHRads3dZmEA6zBKGVd44VUbAq+6GEbRUtRvpK6PWN7cEGVERKyPZXprC+va53
+	 zD6w4cPxMg+j8+felAQuG7Jv150hr6NlvpRKmXBhFsa2nT2qJGFgCBAF2lEdKPxqVG
+	 pQm6o1jU8KaE97Z77odOBafdeHIfWIg0ypzT7XJNBBkE9lDiGWw6R8C90GhR4VQ0xX
+	 pH4vONoILCpHw/XsvKOb0jq7E2fZQcPxqF+O9JMQyoESv9NnrTS/lLey/+sbaE4Yxk
+	 tQH0CvhEVF5YNaEfShPDKmvAr1TRdmHGwxSyfpmT7fJoUh7KxCjXsISZjc0NLlPp20
+	 +J8+Whyx8Ck5g==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: bleung@chromium.org
 Cc: chrome-platform@lists.linux.dev,
 	tzungbi@kernel.org,
 	dawidn@google.com,
 	gregkh@linuxfoundation.org
-Subject: [PATCH v2 0/6] platform/chrome: cros_ec_chardev: Fix a possible UAF
-Date: Tue,  8 Jul 2025 08:00:28 +0000
-Message-ID: <20250708080034.3425427-1-tzungbi@kernel.org>
+Subject: [PATCH v2 1/6] platform/chrome: cros_ec_chardev: Remove redundant struct field
+Date: Tue,  8 Jul 2025 08:00:29 +0000
+Message-ID: <20250708080034.3425427-2-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
+In-Reply-To: <20250708080034.3425427-1-tzungbi@kernel.org>
+References: <20250708080034.3425427-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -43,50 +46,73 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is a follow-up series of [1].  It tries to fix a possible UAF in the
-fops of cros_ec_chardev after the underlying protocol device has gone by
-using kref in struct cros_ec_device.
+`ec_dev` in the `struct chardev_data` is unused. Remove the field
+and the whole struct as well.
 
-The 1st patch is a cleanup.
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+No changes since v1 (https://patchwork.kernel.org/project/chrome-platform/patch/20250703113509.2511758-2-tzungbi@kernel.org/).
 
-The 2nd patch removes the dependencies of fops to struct cros_ec_dev.  Thus,
-it doesn't need to hold a reference to struct cros_ec_dev.
+ drivers/platform/chrome/cros_ec_chardev.c | 28 +++++++++--------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
-The 3rd patch returns an error when trying to send commands through an
-underlying protocol device which either hasn't been registered or has gone.
-
-The 4th patch introduces a new helper cros_ec_device_alloc() for allocating
-struct cros_ec_device properly (including to initialize the kref).
-
-The 5th patch lets the fops hold the kref when the file is opening.
-
-The 6th patch starts to manage struct cros_ec_device's lifecycle by the kref.
-
-[1] https://patchwork.kernel.org/project/chrome-platform/patch/20250703113509.2511758-3-tzungbi@kernel.org/
-
-Tzung-Bi Shih (6):
-  platform/chrome: cros_ec_chardev: Remove redundant struct field
-  platform/chrome: cros_ec_chardev: Decouple fops from struct
-    cros_ec_dev
-  platform/chrome: Disallow sending commands through unregistered ec_dev
-  platform/chrome: Introduce cros_ec_device_alloc()
-  platform/chrome: cros_ec_chardev: Hold refcount of struct
-    cros_ec_device
-  platform/chrome: Manage struct cros_ec_device lifecycle by its
-    refcount
-
- drivers/platform/chrome/cros_ec.c           | 13 +++-
- drivers/platform/chrome/cros_ec_chardev.c   | 74 ++++++++++-----------
- drivers/platform/chrome/cros_ec_i2c.c       |  4 +-
- drivers/platform/chrome/cros_ec_ishtp.c     |  9 ++-
- drivers/platform/chrome/cros_ec_lpc.c       | 11 +--
- drivers/platform/chrome/cros_ec_proto.c     | 53 +++++++++++++++
- drivers/platform/chrome/cros_ec_rpmsg.c     | 20 ++++--
- drivers/platform/chrome/cros_ec_spi.c       | 10 +--
- drivers/platform/chrome/cros_ec_uart.c      | 17 +++--
- include/linux/platform_data/cros_ec_proto.h |  9 +++
- 10 files changed, 153 insertions(+), 67 deletions(-)
-
+diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
+index 21a484385fc5..5c858d30dd52 100644
+--- a/drivers/platform/chrome/cros_ec_chardev.c
++++ b/drivers/platform/chrome/cros_ec_chardev.c
+@@ -31,11 +31,6 @@
+ /* Arbitrary bounded size for the event queue */
+ #define CROS_MAX_EVENT_LEN	PAGE_SIZE
+ 
+-struct chardev_data {
+-	struct cros_ec_dev *ec_dev;
+-	struct miscdevice misc;
+-};
+-
+ struct chardev_priv {
+ 	struct cros_ec_dev *ec_dev;
+ 	struct notifier_block notifier;
+@@ -379,29 +374,28 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
+ {
+ 	struct cros_ec_dev *ec_dev = dev_get_drvdata(pdev->dev.parent);
+ 	struct cros_ec_platform *ec_platform = dev_get_platdata(ec_dev->dev);
+-	struct chardev_data *data;
++	struct miscdevice *misc;
+ 
+ 	/* Create a char device: we want to create it anew */
+-	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+-	if (!data)
++	misc = devm_kzalloc(&pdev->dev, sizeof(*misc), GFP_KERNEL);
++	if (!misc)
+ 		return -ENOMEM;
+ 
+-	data->ec_dev = ec_dev;
+-	data->misc.minor = MISC_DYNAMIC_MINOR;
+-	data->misc.fops = &chardev_fops;
+-	data->misc.name = ec_platform->ec_name;
+-	data->misc.parent = pdev->dev.parent;
++	misc->minor = MISC_DYNAMIC_MINOR;
++	misc->fops = &chardev_fops;
++	misc->name = ec_platform->ec_name;
++	misc->parent = pdev->dev.parent;
+ 
+-	dev_set_drvdata(&pdev->dev, data);
++	dev_set_drvdata(&pdev->dev, misc);
+ 
+-	return misc_register(&data->misc);
++	return misc_register(misc);
+ }
+ 
+ static void cros_ec_chardev_remove(struct platform_device *pdev)
+ {
+-	struct chardev_data *data = dev_get_drvdata(&pdev->dev);
++	struct miscdevice *misc = dev_get_drvdata(&pdev->dev);
+ 
+-	misc_deregister(&data->misc);
++	misc_deregister(misc);
+ }
+ 
+ static const struct platform_device_id cros_ec_chardev_id[] = {
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 

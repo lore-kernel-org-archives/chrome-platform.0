@@ -1,85 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF4C29B233
-	for <chrome-platform@lists.linux.dev>; Tue,  8 Jul 2025 08:02:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7667A24291A;
+	Wed,  9 Jul 2025 09:16:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751961770; cv=none; b=HX7EkREwZTH53ghc51dzEyAwDLmM/M5nmUyEfdMnAENTvnrRtWtVWpLJLwl9VCwwdtafXDNxVrxPFY/QbhoDluTuXnaJVZQDWv32KP6db3b5ZuKygH8hd3253Qbe3GIdX79HRomMl+S+Ft+zoMZciOvB4/qo1R2bIrS2YopVCrU=
+	t=1752052611; cv=none; b=DtdVkAoJSenuDFHRX2WRzZBWzTweeJENmpqsMpgI09WyVaEaUSny2rckmlRipg0x9igiZakB2clJ791pXUNPZn5VMwJF4bQT9U81fv2f9RxiNJ7G7PZU7YQBnMnb00nzDuD+sVozRuGanuIUuTwYBqkXRjvYh2f0bAU/4oy1sH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751961770; c=relaxed/simple;
-	bh=TADtv2VNHhtmpIB3xP9WktxXmhgnGcgQw9tfw8l8XYM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lrhNPv4V5/LxF+TMT1dWF4T0zILeb73rtUcVN1SWfCmDrCW6e6olcMpvnqbHOyOf/lltqQu1q+bVtt4+EW+o20cw6q2yuJ75+3NBG5RtmkNtr747D8Atr+i3xgQvdf0dK4rAmo5HJDg2UmgFi1iq/RayyzsDA5YKhRC7SZlmzzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q98cbW6h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752052611; c=relaxed/simple;
+	bh=tpV7YA9mLr/NTkE5w9xEZCWQh4cVbdwc4D1eG5LV2XI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mlCYIRlbG3jXHrbYSvmezMOxN/D04OgV+vx1AaE4NoFYkTc3pRgPkEatpCw4BkgyDZfik56eEIRbKDboCGUTGd/FyikemQKMqEHacguHxd3LTnTiZAW6aQFMYLxUJwRXCvn1fKWAPSQSzwLAnVgqRe1hqTNZOz7j27V6BQ7PCgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gnzsc+UG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q98cbW6h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBA78C4CEED;
-	Tue,  8 Jul 2025 08:02:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gnzsc+UG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB457C4CEF5;
+	Wed,  9 Jul 2025 09:16:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751961770;
-	bh=TADtv2VNHhtmpIB3xP9WktxXmhgnGcgQw9tfw8l8XYM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Q98cbW6htJIVTJZ5NbyI9N39zoyxbmct8nuuL+T/UgPV2yUCbi+o36exWEHr0ftPp
-	 cSRM9zSBKOy3AVhraHeB4A89NnsMscNNmkIQSfUo7cYyYovr48vnfUctSOwAvwByI+
-	 ozQ/jAGRyPLRh3GZTO+3VkEs0jPaNniCoGXCwQsAlm6gDbLkRY2Hsq0pll2/BQGFwR
-	 XeIRr7x8sw/AcjnyafcdwrCcr42dwlXL0Z2ulMchcYqjwqiiTFmkAt5DGXsLJXKOr/
-	 YrgjecppTionzsfYAIH9Sjg9jN8WSueYns4ZoNAb2YPZTTiLty/1QGbf+Rjd+iIm0A
-	 E04iIxpaNyq4Q==
+	s=k20201202; t=1752052611;
+	bh=tpV7YA9mLr/NTkE5w9xEZCWQh4cVbdwc4D1eG5LV2XI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gnzsc+UGSLuVdhJDd0Dqrd/QyyDKn/Cyha//l16jZA/FugUCs/qvDEUauXgZf9MLB
+	 4ycq8B8oGkEXgsE4EtmLfdp8pOdXhhOtwhthnBs4HDKI4Ku3C5uUuIeLmjSBdlKYhC
+	 kWHWzUPOuuV2WSGE0vhM1+4CniiTgF6Lz7bOkeRg33r+xFIccN344HZrrFIDWfvMDE
+	 C6QWFp47Sprn2bsZTI2PGlMCmeeZMyCnSSYNxWmr+WLukBmg0/a9ld2rZ1yXCwA37T
+	 7ZKfFNL0Oy7xarwSw+F7UiySC+SkUA5Vo4QyYDW6p5Fjd+DkM+kWwU1mty2+oXjgz+
+	 6HADPpYsmAlxg==
+Date: Wed, 9 Jul 2025 09:16:47 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org
-Cc: chrome-platform@lists.linux.dev,
-	tzungbi@kernel.org,
-	dawidn@google.com,
-	gregkh@linuxfoundation.org
-Subject: [PATCH v2 6/6] platform/chrome: Manage struct cros_ec_device lifecycle by its refcount
-Date: Tue,  8 Jul 2025 08:00:34 +0000
-Message-ID: <20250708080034.3425427-7-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-In-Reply-To: <20250708080034.3425427-1-tzungbi@kernel.org>
-References: <20250708080034.3425427-1-tzungbi@kernel.org>
+To: Dawid =?utf-8?Q?Nied=C5=BAwiecki?= <dawidn@google.com>
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Subject: Re: [PATCH] platform/chrome: Add ChromeOS EC USB driver
+Message-ID: <aG4zf8rGnmt5xVtG@google.com>
+References: <20250624110028.409318-1-dawidn@google.com>
+ <aF5N5jrRUlj3SUGS@google.com>
+ <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
+ <aGOiu-sXFj1EUQAB@google.com>
+ <CAJ_BA_CZWvC2=i8riNe5LReLKzPXK1vPwymiG2dzLEntda7TRg@mail.gmail.com>
+ <aGSuS81Psqm_Ie4N@google.com>
+ <CAJ_BA_BQOQe61r9t9rL=UiOqpHwOoTSbQcZNe=CrCcjMha_YQg@mail.gmail.com>
+ <aGZrhe8Ku7eEIRqm@google.com>
+ <CAJ_BA_AMaz0GWxOHJYws95h3fRdErghqUXPBkhrB1_eYegOJ0A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ_BA_AMaz0GWxOHJYws95h3fRdErghqUXPBkhrB1_eYegOJ0A@mail.gmail.com>
 
-Stop delegating the memory to dev-managed.  Use its own refcount for
-managing the lifecycle.
+On Fri, Jul 04, 2025 at 11:03:01AM +0200, Dawid Niedźwiecki wrote:
+> > Given that:
+> > - The crash you encountered is a common issue for all cros_ec_X drivers.
+> > - I prefer to keep cros_ec_X drivers simple and similar rather than have
+> >   something special (e.g. the memorized `struct cros_ec_device` in current
+> >   cros_ec_usb) for fixing the crash.
+> > Could you give [3] a try to see if it fixes the crash and also call
+> > cros_ec_register()/cros_ec_unregister() everytime in the probe/disconnect?
+> 
+> I agree that the drivers should be simple and similar as much as possible.
+> But to be precise, I think, it should behave in a similar way as much
+> as possible
+> (e.g. reboot EC device doesn't cause re-registering), not be implemented in the
+> same way. That's why I believe the current implementation of the drivers follows
+> the already present drivers in a better way.
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-New patch in the v2 series.
+FWIW: It depends on the bus details.  If you find my previous message, SCP
+over RPMSG also re-registers everytime after the firmware reboot.
 
- drivers/platform/chrome/cros_ec_proto.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+One challenge for current version: it makes the driver more complicated than
+others.  E.g. what would be happening if some friend drivers try to access
+`ec_dev` while the `cros_ec_usb_probe` is writing to `ec_usb` at a time?
+It tries to manage the device's lifecycle one level upper than USB (don't
+know what it should call, "session"?).
 
-diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index f23d0522da96..097ef1fb3658 100644
---- a/drivers/platform/chrome/cros_ec_proto.c
-+++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -1166,7 +1166,7 @@ EXPORT_SYMBOL_GPL(cros_ec_get_cmd_versions);
-  */
- struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
- {
--	struct cros_ec_device *ec_dev = devm_kzalloc(dev, sizeof(*ec_dev), GFP_KERNEL);
-+	struct cros_ec_device *ec_dev = kzalloc(sizeof(*ec_dev), GFP_KERNEL);
- 
- 	if (ec_dev) {
- 		ec_dev->dev = dev;
-@@ -1190,7 +1190,9 @@ EXPORT_SYMBOL_GPL(cros_ec_device_get);
- 
- static void cros_ec_device_release(struct kref *kref)
- {
--	/* Do nothing as the cros_ec_device is still dev-managed. */
-+	struct cros_ec_device *ec_dev = container_of(kref, struct cros_ec_device, kref);
-+
-+	kfree(ec_dev);
- }
- 
- /**
--- 
-2.50.0.727.gbf7dc18ff4-goog
-
+Another challenge: it doesn't call cros_ec_unregister() in its driver removal
+entry.  What would be happening if someone re-inserts the module multiple
+times?

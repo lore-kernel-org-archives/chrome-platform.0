@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA2B1FF7D7;
-	Thu, 10 Jul 2025 04:06:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE3420458A;
+	Thu, 10 Jul 2025 04:06:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752120371; cv=none; b=kyORaNoQYC6b6iHVbFpCXuN08KMxLbkyzLyDtn/kSUHuuFThUgOEEqM/VkVeKP+6ocOORAoQIUNqD9gJ0SMiUQumw/7yh48sDde0ju4AFGXhpAIQi3r9AjPzSToisxD3MLslXWUvvUXTYKLddVrDXwq5JTLAiqd7Mf8X/vb/cNw=
+	t=1752120400; cv=none; b=ZhEaIWemFX/uGFkuKISSqbTx1ec5SRKNIJuPEzv7o4pI8MnXTAlv+baWOIugKASzsNUQ1hZtOe7CPgwbfq9xM7WIPyQ4IrVu6O9wdBIzgiA1GL6JC4iEeINQa3S3LNxm+yELlcY9iKgYyoMEQZ+nSIyrgi0UEYPi9T7kyWi2aUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752120371; c=relaxed/simple;
-	bh=GEhee/W5etJB8teEXCNTcbCNe+k0RHsoo/kkwHxnJEs=;
+	s=arc-20240116; t=1752120400; c=relaxed/simple;
+	bh=L4KNzQ/jTQT+ToNu6S5D9d2wnT5UUWfZbYwv35F07z0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m341eEH/5UVFkmY1t4IuFsnmjVu0CTWz91ombSiWaT97OmEifdOifdTlIeu5O3z8m9oCcdko+hQxfnAyyeREadPssqxHYQw54g3ftJ84Of5MScyut37sGEbV2LZrZHRMDkgOEyVFUv1tgzm9pDLl3EXfqaXIrIyUCvtyO0MKNuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VbOA29bm; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ux5LDTMMfSH5Ln99sh7MKkeGKnssm/g5jlUmnqTldMc5rEIc7xiyxdj6Lv+7WQhg9f2BCZUQ+9+Z3ag3Xt1ugSWU5Pl6gXjNHolMtP5yxpchfagMnPPA3ejFjndevUexE3B9HB+TraiLFIjL1sbJC2lm1DQaKqo8rIMTT/j6Qb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z06xMXiP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbOA29bm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51AF0C4CEE3;
-	Thu, 10 Jul 2025 04:06:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z06xMXiP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE70C4CEE3;
+	Thu, 10 Jul 2025 04:06:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752120370;
-	bh=GEhee/W5etJB8teEXCNTcbCNe+k0RHsoo/kkwHxnJEs=;
+	s=k20201202; t=1752120399;
+	bh=L4KNzQ/jTQT+ToNu6S5D9d2wnT5UUWfZbYwv35F07z0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VbOA29bmp+1DN2LQHs6d8TP1Lf6mDcMFMuSe5mysTbN3DjgqW6/vW3hv1Lm91XVcr
-	 xO8uzXwjq+O/IhAzGnZF82YWTMW3DHcY/rWCf6lDvWIbOTRvKGtTJBGfPSOKVGTVxH
-	 /vzaKh8tqmX9W1QyFV0nuHcoPLHtsa7VaIH/WOK3C50SNXYURX6aPL0xBqOakWzT4X
-	 d5CtD8OEO0uJ2iXOPU81qlItsevu4ad/ts3OgSGyrr+QPAXu/ZIksH67sKJRFCjAr1
-	 J+VX4QP2Wq6jyqEra/tZ22AblNsxIa2ekS4RuNL7462+BlBHZMZbgPvD4I4uzz+xn+
-	 MShIQAqPspjtw==
-Date: Thu, 10 Jul 2025 04:06:07 +0000
+	b=Z06xMXiPUEH/RrjsCrUy2bRVVPC2U4stPb9XzLxomiwAgOAO9x8uVEal0rB0yujjW
+	 eAexI0uyYC58kOLnyuMKzeYlFYDf5HeP4yRPTVAX0ts5nOH5yVAYcKYwgxPZwclqPE
+	 7KWtqH/jkYhw1lOttA9/DfzFCRACBG8P7YBVkDGEWqy4qRHWkf6z6UZPjvYSTK3+4k
+	 YTj/2et2KO00kALaZqrtwa1pkUW9sRIQOHERxRbSmG0vqIPHAzhONaeoQ2yGfGFeky
+	 d1NFd6VuJ0lFFtVH8bRJ3AT7lIELxF0jTp6il3l77N4xC/IgV2FXf9Yn2EdzqpTMzh
+	 4Hj43zqWACbtw==
+Date: Thu, 10 Jul 2025 04:06:35 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Radu Vele <raduvele@google.com>
 Cc: Benson Leung <bleung@chromium.org>,
@@ -34,9 +34,10 @@ Cc: Benson Leung <bleung@chromium.org>,
 	Jameson Thies <jthies@google.com>,
 	Andrei Kuchynski <akuchynski@chromium.org>,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] platform/chrome: cros_ec_typec: Add role swap ops
-Message-ID: <aG88L7QXa5IU7zPE@google.com>
+Subject: Re: [PATCH v1 2/2] platform/chrome: cros_ec_typec: Add lock per-port
+Message-ID: <aG88SyVAdO0txGMi@google.com>
 References: <20250709132232.2475172-1-raduvele@google.com>
+ <20250709132232.2475172-2-raduvele@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -45,73 +46,51 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250709132232.2475172-1-raduvele@google.com>
+In-Reply-To: <20250709132232.2475172-2-raduvele@google.com>
 
-On Wed, Jul 09, 2025 at 01:22:31PM +0000, Radu Vele wrote:
-> +static int cros_typec_perform_role_swap(struct typec_port *tc_port, int target_role, u8 swap_type)
-> +{
-> [...]
-> +	switch (swap_type) {
-> +	case USB_PD_CTRL_SWAP_DATA:
-> +		role = (resp.role & PD_CTRL_RESP_ROLE_DATA) ? TYPEC_HOST :
-> +						TYPEC_DEVICE;
-> +		break;
-> +	case USB_PD_CTRL_SWAP_POWER:
-> +		role = (resp.role & PD_CTRL_RESP_ROLE_POWER) ? TYPEC_SOURCE :
-> +						TYPEC_SINK;
-> +		break;
-> +	default:
-> +		dev_warn(data->dev, "Unsupported role swap type %d", swap_type);
+On Wed, Jul 09, 2025 at 01:22:32PM +0000, Radu Vele wrote:
+> @@ -8,6 +8,7 @@
+>  
+>  #include <linux/acpi.h>
+>  #include <linux/module.h>
+> +#include <linux/mutex.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_data/cros_ec_commands.h>
+>  #include <linux/platform_data/cros_usbpd_notify.h>
 
-Append a newline at the end of message?
+Please consider to include linux/cleanup.h and use guard() to simplify the
+patch.
 
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	if (role == target_role)
-> +		return 0;
-> +
-> +	req.swap = swap_type;
-> +	ret = cros_ec_cmd(data->ec, data->pd_ctrl_ver, EC_CMD_USB_PD_CONTROL,
-> +				&req, sizeof(req), &resp, sizeof(resp));
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	switch (swap_type) {
-> +	case USB_PD_CTRL_SWAP_DATA:
-> +		typec_set_data_role(tc_port, resp.role & PD_CTRL_RESP_ROLE_DATA ?
-> +									TYPEC_HOST :
-> +									TYPEC_DEVICE);
+> @@ -54,8 +55,11 @@ static int cros_typec_enter_usb_mode(struct typec_port *tc_port, enum usb_mode m
+>  		.mode_to_enter = CROS_EC_ALTMODE_USB4
+>  	};
+>  
+> -	return cros_ec_cmd(port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL,
+> +	mutex_lock(&port->lock);
+> +	int ret = cros_ec_cmd(port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL,
+>  			  &req, sizeof(req), NULL, 0);
+> +	mutex_unlock(&port->lock);
+> +	return ret;
 
-To improve the readability a bit, how about re-use `role` variable here:
+E.g.:
+        guard(mutex)(&port->lock);
+        return cros_ec_cmd(...);
 
-        role = resp.role & ... ? ... : ...;
+>  static int cros_typec_perform_role_swap(struct typec_port *tc_port, int target_role, u8 swap_type)
+> @@ -70,6 +74,8 @@ static int cros_typec_perform_role_swap(struct typec_port *tc_port, int target_r
+>  	if (!data->pd_ctrl_ver)
+>  		return -EOPNOTSUPP;
+>  
+> +	mutex_lock(&port->lock);
 
-Also I'm wondering doesn't it need to assert
-(resp.role & ... ? ... : ...) == target_role here?  Otherwise, could it just
-use `target_role` as the parameter for typec_set_data_role()?
+It can drop all the following diff hunks in the function if using:
+        guard(mutex)(&port->lock);
 
+> @@ -1232,6 +1248,7 @@ static int cros_typec_port_update(struct cros_typec_data *typec, int port_num)
+>  		return -EINVAL;
+>  	}
+>  
+> +	mutex_lock(&typec->ports[port_num]->lock);
 
-> +		break;
-> +	case USB_PD_CTRL_SWAP_POWER:
-> +		typec_set_pwr_role(tc_port, resp.role & PD_CTRL_RESP_ROLE_POWER ?
-> +									TYPEC_SOURCE :
-> +									TYPEC_SINK);
-
-Similar here.
-
-> +		break;
-> +	}
-
-It already checks in previous code block.  Not sure if some checkers would
-find the swtich-case block doesn't have a default clause.  How about still
-add a default case, and have a comment to remind that should never execute?
-
->  static const struct typec_operations cros_typec_usb_mode_ops = {
-> -	.enter_usb_mode = cros_typec_enter_usb_mode
-> +	.enter_usb_mode = cros_typec_enter_usb_mode,
-> +	.dr_set = cros_typec_dr_swap,
-> +	.pr_set = cros_typec_pr_swap
-
-Leave a comma "," at the end of line?
+It can drop all the following diff hunks in the function if using:
+        guard(mutex)(&typec->ports[port_num]->lock);

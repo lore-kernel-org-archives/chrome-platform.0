@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD001991C9;
-	Fri, 11 Jul 2025 04:11:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296141A3155;
+	Fri, 11 Jul 2025 04:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752207073; cv=none; b=uOs95p1C1Oze2V06c7oV1q76pI2y7UC6qj1HC41geSaUKFhlEZ+4ooklx4T+NaFu02wiaYY2E2MZFI6QtM55ZotDYJJPDJdMWwaQb52d9OgA9s0kpnKPrO29jUXyQaniUmBWiKON8+uRWn4xd20mV8UEPxQuG9CrchcxJNT4iWQ=
+	t=1752207121; cv=none; b=fbgl43W1auysSZDhE4Sd/IxBudlZPaQWRhPG3GGIlghCvh02nXJnEVUrK6AIH1iyYEu1gNMGVqRVCLidCt5dTLQsedYigQdnn3PONFi8PRE+KWMCVffkfJjce6JqIWXf6QaGWg9ArQu/BKEcR4NyerLd+k+xLARtvDl2nxkqHdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752207073; c=relaxed/simple;
-	bh=Rnl7xU9bY0O/MPpuuywEFh9UQKQjWtrcMdb/YCLb/YQ=;
+	s=arc-20240116; t=1752207121; c=relaxed/simple;
+	bh=KuLnRKLGioWUQByLwtaHFKMHDwatqsfOvmbgjMqtctA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ID8ZRcCqOfdILINK3E5vosuYlUIof2F8jAxTSp8++NKv08Dtw514uEbSm74/NuWNRqKAhtD0e2G5RM4KqOWzUOiPCxfguRWYZfwNvn9fl/hPB1ayvST9Gx/YBDs/zl7p7K5iiyKsmOrWVUwGLXYqKRWATBaOgWnSLMDUXAtGYEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UgV30nfi; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=dgyhcRNNsalIfuuEY3Samqbx2xFRuxdE+5m+PPLB1W+EcYEHJejbhZ/UaJhF7RON8cEM1wOd+nYqUACkOtzJmcP44VtiQ3uLTfWD2SdficAvw1BtyQKseE8XrGe1wPEMpR6gKsFw7qCY5pPRBO85Gr88NUACAt8hUWyWGPZBqH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkRBkV/9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UgV30nfi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB813C4CEEF;
-	Fri, 11 Jul 2025 04:11:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkRBkV/9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DA3AC4CEEF;
+	Fri, 11 Jul 2025 04:11:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752207073;
-	bh=Rnl7xU9bY0O/MPpuuywEFh9UQKQjWtrcMdb/YCLb/YQ=;
+	s=k20201202; t=1752207120;
+	bh=KuLnRKLGioWUQByLwtaHFKMHDwatqsfOvmbgjMqtctA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UgV30nfiV46FqX1HvGKcrcD82ba8T8h8GdzWIiFVNc9Eq5cQnFyv5PXU+ZBYQocut
-	 WJ8eRkphp/zlJcdXE+39A69XDEviCyXpLg5p5yMNWDA+ORCegrKvL6+erMAtj9Mn1O
-	 16I6GKVJjU0w09VIo0d8FBDbC7tSnkpmcOUlPctjMJs67kJq2EvKB2VZavypExq4Dq
-	 tnRXxlYc8DKESp4Agq/jwveKGwEGeIvokJk7pM2EkPtnSQYcb9+fDxgIfkDEbwAUYa
-	 aY+n8rfqa0oSe/kF6TNq7UsnJB7sbzlIxO05b4K5G6O5IJviVrJboBw69aiCuneepU
-	 IeMebvS3On0nA==
-Date: Fri, 11 Jul 2025 04:11:09 +0000
+	b=KkRBkV/9HmId+PjSORfEv/uoK2D4l2gtUmhgmle5/A7werYDLF/exW3HN9yO4c3Aj
+	 eSTu7tfG9/ROGOQcQXR/nF+qWS2POdJocC1kBZcKwDgU1O/809S9pTiHw73deSO1uY
+	 jhbIXhsSE0OYg6VKelI9BlMSdXnL/tvR6z69KXbqefFMCJxTL7PdwnWoKriBWa/nWf
+	 FjQiv30MYaw0CAxbDWKr44jkTqEut/C00jinBGSoIWYZENOpZ0N/l57bI4ERHZUQxi
+	 1H04fhr5HfgzDM5OMMtopK8NqrC8291BGwAeJpRUx8kwzq8kjUfQJWEE14cIgAhhLN
+	 jVBKcXhRHHa0w==
+Date: Fri, 11 Jul 2025 04:11:57 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Radu Vele <raduvele@google.com>
 Cc: Benson Leung <bleung@chromium.org>,
@@ -34,10 +34,10 @@ Cc: Benson Leung <bleung@chromium.org>,
 	Jameson Thies <jthies@google.com>,
 	Andrei Kuchynski <akuchynski@chromium.org>,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 1/2] platform/chrome: cros_ec_typec: Add role
- swap ops
-Message-ID: <aHCO3ZqIFYJu2YTn@google.com>
+Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Add lock per-port
+Message-ID: <aHCPDXonAevxkMho@google.com>
 References: <20250711003502.857536-1-raduvele@google.com>
+ <20250711003502.857536-2-raduvele@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -46,20 +46,13 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250711003502.857536-1-raduvele@google.com>
+In-Reply-To: <20250711003502.857536-2-raduvele@google.com>
 
-On Fri, Jul 11, 2025 at 12:35:01AM +0000, Radu Vele wrote:
-> Add the pr_set and dr_set typec_operations to registered typec ports.
-> This enables sysfs to control power and data role when the port is
-> capable of doing so.
-> 
-> [...]
+On Fri, Jul 11, 2025 at 12:35:02AM +0000, Radu Vele wrote:
+> Add a lock associated to each port to protect port data against
+> concurrent access. Concurrency may result from sysfs commands
+> and ec events.
 
-Applied to
-
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-
-[1/2] platform/chrome: cros_ec_typec: Add role swap ops
-      commit: ab229c2b72c35739e8ffb70af11190ff40f38701
-
-Thanks!
+I realized the critical sections are way too large.  What exactly data the
+lock tries to protect?  Is the race possibility introduced by any previous
+commits?  Please provide more context.

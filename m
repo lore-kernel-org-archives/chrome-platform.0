@@ -1,106 +1,99 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F9A21CC5D
-	for <chrome-platform@lists.linux.dev>; Fri, 11 Jul 2025 16:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A5A22F767
+	for <chrome-platform@lists.linux.dev>; Mon, 14 Jul 2025 08:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752249619; cv=none; b=hnfhWA6Jy+A3Yhsd8JQRXlvwRwlqq8O5jEXM5zrludTxOKYP0X1gsQQSLGZVUvbUZQI8rMl8o9C4KFQMPfKjhT0xJ2VvStk6QbAIzPVkJ+lUTfMHWmGYnKiDE+WaX3mMsVjmUCuIwu0lNZcKuFYiMQh0h4nV6EqKzk2OXW63oLI=
+	t=1752481938; cv=none; b=d0mOs58UNfM5UnwGMqxTD2UJv3UP+m/nP30CQHMljfWuFkPqQDzvnrzgdemSIi9resow43dCu7o53mQ6azu+X2cld8n9fXeAkq72iqjBd/Q48bxbnATwpQfkeQFOo4YlWlHUeiv8THSBZa15x6kH5+j1vhxVmRDBoSw5MewsAak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752249619; c=relaxed/simple;
-	bh=ilXSp1dPDBPZtY0cNIzwyHE0LKQ/bY1ESho4fUW0cyQ=;
+	s=arc-20240116; t=1752481938; c=relaxed/simple;
+	bh=Go7IxiOZ0sAIGTwsDe7Eg9RsaCUI0tpzXc8tbaNuhbE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iq01Uu1HsWE9BdsusMs7yqDdaGCgRH4caSCm6bhe3rGMcwaB/+4MQzPVb/N7EUHKvFiYIcU1/1QrKQy0HS0knCb89s+4UeouGmVGhLRTSwRcZGYRHrvB0kwyj4l1WNfebOMVIk8g431mRRCem7UzN5hDGohHm9BsgwOI30lVi/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aBtlJ5DY; arc=none smtp.client-ip=209.85.128.174
+	 To:Cc:Content-Type; b=dhYQeXbLgqOmo4YOZByh+HvPtsH2LNWYxBW0SLfzcIT8GgkGSOa849cnxbkv/VmAMMSwA6sFygWE0/QUeOBcYtRtiMvite9vdyMEwHTvpPcNFAqEJ/VJ+Lwc7NkalwppLCi4yVBfQkkRr+rI7IRIwUcl5zD4RZaLbLM5z0N9PI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iFzVa705; arc=none smtp.client-ip=209.85.221.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aBtlJ5DY"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-70f147b5a52so17260637b3.3
-        for <chrome-platform@lists.linux.dev>; Fri, 11 Jul 2025 09:00:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iFzVa705"
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-528ce9731dbso1649407e0c.0
+        for <chrome-platform@lists.linux.dev>; Mon, 14 Jul 2025 01:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1752249616; x=1752854416; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XCB6CevJ1bK/c1vVbFc4dLpz9PDilKCAUnF2cmyMuTI=;
-        b=aBtlJ5DYGP3DcX6v0tYHYOmjiTsmNG3DWjnvSV+XjCJQyygpeEW7+r+OrX6+Wao5/V
-         agiTOdJzapv10QlazPcaxf9jzGIM6dNUN2KdwMAycLD2Zj7jgwAKqIsv/BgNigDD40LR
-         sf8VAes6Kg3CHB2D0/73sFcid4e9BS8oSuW7oL2oCJ1FBBKu7Mbodh5nAA857qK1HF9P
-         Dy7xxUx+axhPqGZqOloqnUDprzncSGXOE4k8STqD7M9wI5dwC7314MpI2E71bpdl0hJJ
-         x3BcCb2YYxeq0dsIhiloWFdIH5+1QEGydLMif7yDp7Y3VEn/YyWbR8ISaQRkT/SSb2Xu
-         0+GA==
+        d=google.com; s=20230601; t=1752481935; x=1753086735; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k0M6siWvZJnp6SHGUTLYeoItEe86brhosUCvwv3Sj6g=;
+        b=iFzVa7050o+Wx6+vtjXYy40SZqroF+9JdWDjCOspjfJscpapGpXwcm0HwVmV/L8iAK
+         kCwAbr0zY8bhFuxF796hkWVfyQf9+4oNsYNVNyJwH7EvnN/S1oh/j+ZroJfbtkqgqzS2
+         8Y8tqWxIRoZsRUwriBW/yoJqOTAyCFp8KonbmX1x2Jkbu1uNdO5XnwrlSKhKbtJIglYK
+         J1FaNFtaeMTrEKZh33tH1vQiQq7/B/pFcRCecH/gbbZ284/le2vvX7GxnXDh7Qrmhvuh
+         65jpK7cVteA8pwDl7j8XY+MKGXasx0Hks3dDzG7mHJiWKA6glSUG4LuhPLI5GnsO9F+h
+         5+Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752249616; x=1752854416;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XCB6CevJ1bK/c1vVbFc4dLpz9PDilKCAUnF2cmyMuTI=;
-        b=qn7Up5sioIfsR08c4Wq4iw8aqZjpLYDubF2BPcqxkwEdZYelDgPVCN401FDsIvfNur
-         A5sCMsHlunOKNfKUMF87gOsJCWLyZxN7Jw7XWCZjz68LBPOgCmqdKDqRjVvwN49I9H5X
-         RqET9jVZfGHUfK3Il7prH+RbNL+I0UtufCxrBSkLPFwVA7Q6nfdZs24hpWofKnzqMfFy
-         29p4uKIZBDrGXEbvHLPzl4jodJCPfxJCSzGHwKoSilAtUHzmN3kBy+id43DOkqFR434O
-         Xh3KQXfI/oewWuzakg6pPTXtTXi0Fik/fGXkZHXrPboMyQvbofLTpvr8LwnZsbtlcD/D
-         B1Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCWcIhklEk5wrLmsTDynw4tmhz+13Fe1Q9Y3OBR4SDkC5/kfGTHnx0oyuFruwqf06C6sfkF3I5B0ZOrM4BSHYTk=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzpb4aBxrlnS7BC430KEsW+TYjBUSNv1KF4L2+2xsjWg0g7kkVH
-	h2ORrMsQtVdsVTDi2Jbkky/mCuFv89nb4Q865zRpkngMLWIffaNgdSNIMPFAmx9SqO1dGX4O1bR
-	pWF/O8cpcVO/HVzhz+cfeEO7Hc5gKlxLJvwTxx459
-X-Gm-Gg: ASbGncsF0WAKgeuCwkaerbIDRplpLzeX8pd+znmIzP7lIgcha1sl7rXevLFwtTwp3su
-	jBsxwiHA3dM5U9rUFeaGP2N48JI73i4iWh5Sufvw1Tm0H4q3lLEe07VNk7srqrvCekJaOt/hEpf
-	oMziLBz8zPb94li/LFrTN1CHdmzpfv5DToQ/Ev5ExWB7u4ixHXWT2gWwbeR6GqxfECEM5YWLZiw
-	pAOEQze
-X-Google-Smtp-Source: AGHT+IFfR/cNNJjg4+RIPxVvQVW40HsZqZMjcC9Rp74qm/udkO1oyGvobFpgvO5YmPcZPMOvEQXWO1WB1r67pOQA9M0=
-X-Received: by 2002:a05:690c:7092:b0:710:e4c4:a938 with SMTP id
- 00721157ae682-717d5e367a4mr64185537b3.38.1752249616214; Fri, 11 Jul 2025
- 09:00:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752481935; x=1753086735;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k0M6siWvZJnp6SHGUTLYeoItEe86brhosUCvwv3Sj6g=;
+        b=F/9SWvk6CZLP7NzacUuDEmNmGH7Yp1K5pU/cKR6/cI91499pYJ5KCnLK/b1SoNra2c
+         JQPIGrsQU1CHpyY/jhr4GsojSItkTArP/vIRYu9AKSudmcA3fAMl6MIwNUGe/l/y7RsJ
+         Z+7mYt6XEfSxZ+y31Z038AOhJXO90+yu5Z445dmpKcIcdjlbFzEK5Q3sTo/HefJCoLSZ
+         RZy9z6ud2e1VAG0E3TEU74wz7XaEHnIEmX61UHhUpnNM4VrOyB23jEf/u6LHqEdissPP
+         N0HXvLweJbj1MJDk1ET8zean5++Ae7FlauWcsDsvULF66Ln3bg8kYqiKmd38F3TMfUK1
+         cicA==
+X-Forwarded-Encrypted: i=1; AJvYcCWuWCcCXB3A3P1rV3rBJI2wQzljjWHevT0vDvd9JLShm/sqIrLVt2o9/1to05jkLtSiRIkUxEWMP8mWLHvuZHk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtpMX7ZPeI2a3FjtT0PoCUep/FvLad5p296zRVeQGECdBHbltq
+	AdvklykbG2D+Nbaw9Oi6IGWbLIMJF7agzQLn0ZhhSKW/k7DebqhnMyd0SGgKVEoRLj5jS5o2QnG
+	G2XxwTJLJ5ja+PUwkq3NnPXV7yUu7nFw+4OdjYmXE
+X-Gm-Gg: ASbGncv2RIaUxHNRa7W+c0GTc3LEA/pjJLJXe45nk5+tDFWSOw3Jt1NoufIj9th84pd
+	vsWxUQaZDZiQfKoYww3ZjWV1TwxiXLNoKtqfsPtQqI4QHGmKSHSwAKGlflB1EEf5/a6Qfu8JRu2
+	4zEd4jMLO59ncGKUssYeBADOxTvAmJiYaQTNEZYRIJdfCFxpvp+BZwSP2elsbul9H/F8bds1fpK
+	L7026mlYOV7tjm/8bQp1yLtxrZ1nZvcqlD7Rw==
+X-Google-Smtp-Source: AGHT+IGclyUn0o5DxCYmV+W1r6lMYYeWyJ2l3l3YKph27RKIvJiE9F17q7jK7UBpfFkKyhlun6BZzlofd+c8jNIzjXI=
+X-Received: by 2002:a05:6122:4b86:b0:534:7570:b68 with SMTP id
+ 71dfb90a1353d-535f4558182mr6039352e0c.0.1752481934473; Mon, 14 Jul 2025
+ 01:32:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250624110028.409318-1-dawidn@google.com> <aF5N5jrRUlj3SUGS@google.com>
- <CAJ_BA_CppC58kc-Uv49PSmWFcCih-ySuGDuRcO5-AWQQqcqWVQ@mail.gmail.com>
- <aGOiu-sXFj1EUQAB@google.com> <CAJ_BA_CZWvC2=i8riNe5LReLKzPXK1vPwymiG2dzLEntda7TRg@mail.gmail.com>
- <aGSuS81Psqm_Ie4N@google.com> <CAJ_BA_BQOQe61r9t9rL=UiOqpHwOoTSbQcZNe=CrCcjMha_YQg@mail.gmail.com>
- <aGZrhe8Ku7eEIRqm@google.com> <CAJ_BA_AMaz0GWxOHJYws95h3fRdErghqUXPBkhrB1_eYegOJ0A@mail.gmail.com>
- <aG4zf8rGnmt5xVtG@google.com>
-In-Reply-To: <aG4zf8rGnmt5xVtG@google.com>
-From: =?UTF-8?Q?Dawid_Nied=C5=BAwiecki?= <dawidn@google.com>
-Date: Fri, 11 Jul 2025 18:00:04 +0200
-X-Gm-Features: Ac12FXwc_XLYukHrauxzKnmHKi0DZp27r9JC4VLYNd_vnFbqd6Py-pnUP9LBjK0
-Message-ID: <CAJ_BA_BmPXrMqP1VxAAGDoWHffsU2pjnuYRO3MhCb=VRq-hS+Q@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: Add ChromeOS EC USB driver
+References: <20250711003502.857536-1-raduvele@google.com> <20250711003502.857536-2-raduvele@google.com>
+ <aHCPDXonAevxkMho@google.com>
+In-Reply-To: <aHCPDXonAevxkMho@google.com>
+From: Radu Vele <raduvele@google.com>
+Date: Mon, 14 Jul 2025 10:32:03 +0200
+X-Gm-Features: Ac12FXwKEEUbGRgte43q8kv8Q9D0mBi3-qbFkUsMFkQsG4LANLOGjwjdka7KiXE
+Message-ID: <CACKy9TJHtA5K2YqdNdnMuTvOsz4OCkRds4Hbj8aZdK5VXpMgWw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Add lock per-port
 To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, chromeos-krk-upstreaming@google.com, 
-	=?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
+	Andrei Kuchynski <akuchynski@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Resending due to HTML incident
+On Fri, Jul 11, 2025 at 6:12=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Fri, Jul 11, 2025 at 12:35:02AM +0000, Radu Vele wrote:
+> > Add a lock associated to each port to protect port data against
+> > concurrent access. Concurrency may result from sysfs commands
+> > and ec events.
+>
+> I realized the critical sections are way too large.  What exactly data th=
+e
+> lock tries to protect?  Is the race possibility introduced by any previou=
+s
+> commits?  Please provide more context.
 
->FWIW: It depends on the bus details.  If you find my previous message, SCP
->over RPMSG also re-registers everytime after the firmware reboot.
-
-You are right. But I'm not sure if it is a good approach. My understanding is
-that the HAL/API should behave the same way, regardless of what interface
-is behind.
-
->One challenge for current version: it makes the driver more complicated than
->others.  E.g. what would be happening if some friend drivers try to access
->`ec_dev` while the `cros_ec_usb_probe` is writing to `ec_usb` at a time?
->It tries to manage the device's lifecycle one level upper than USB (don't
->know what it should call, "session"?).
-
-Yes, the more complicated driver is for sure not a good thing.
-In that case, it shouldn't cause anything wrong. The disconnect field is set to
-false once everything is ready. Before that, there are no transfers handled.
-
->Another challenge: it doesn't call cros_ec_unregister() in its driver removal
->entry.  What would be happening if someone re-inserts the module multiple
->times?
-
-That's the same case as reboot/sysjump. We would get the probe callback,
-the driver would notice (by Product ID) that this EC device has been already
-registered and would replace the USB related structures in the cros_ec_usb
-structure and the same cros_X  file would start working again.
+With the implementation of the role swap operations from the previous
+commit (and also enter usb mode from another recent commit) we
+introduce the possibility of concurrent access to the cros_ec_typec port
+data from the userspace (e.g. trigger a power role swap from sysfs) vs
+from EC events (e.g. partner triggered a role swap that we accept).
+This is the main reason to propose a per-port lock. This way we ensure
+we protect the state of each port in the cros_ec_typec driver.

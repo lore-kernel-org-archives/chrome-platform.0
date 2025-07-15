@@ -1,58 +1,45 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5DC1E47A8
-	for <chrome-platform@lists.linux.dev>; Mon, 14 Jul 2025 10:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D29C2D29CF;
+	Tue, 15 Jul 2025 06:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752488291; cv=none; b=oSVBjdmH9TdCY+gfRqWhmuOEO2OKzoLvcP+KhSKt4MdGaevi40JwLyfgdgMrDPtoe+8LRU6JlPxscx6TXG9JWq6kAc9hss6Nvj3fQpYpY7n5zHy7WGyR5HVnSCqATpJHWsGvH3XfC3rUQSPZcOkJZDjiakRoVkhK5bHhdLiuDnQ=
+	t=1752559678; cv=none; b=kePCFjcH+UoUyQVbFcmN1TQKrOjWyMPvDZzJZKUSBZ4HuX+16lMa0AZN9M4kW4wkVejY6hgufzPiWzrGKTCXbxBA2q8EzzySSCrkeRzGFceeKsIwXA9rnwwmhrwuqwjajOS0sSFNzB72PbCIfCqLz7mIjr9y0Pi4Traabc3RHjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752488291; c=relaxed/simple;
-	bh=aeszjQw2c9arLj1BbbOYpfg53cIWR3hrpjFv96howeM=;
+	s=arc-20240116; t=1752559678; c=relaxed/simple;
+	bh=fHlR8wwEWimYVGcD2Z6AA7c8VByjB9K9B/y2PypuOsc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rZp/nE5mFA1nsEEi7C1YjGpRqN3ON65NKNXB+a6RWxeJoyuV9lkkgbgfLc4F3d7GS5CU5511aSj/qzuoIhz9WY4I0m9ZB3MSD/bMXjjBQS3VatsWypwCY5gSBI0uR9qJEi8EdYC9kgQB2E/FShNip46Uy54MJjEIXe35X1GCkG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1ubGFp-0006xk-La; Mon, 14 Jul 2025 12:17:49 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1ubGFo-008Oei-1j;
-	Mon, 14 Jul 2025 12:17:48 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1ubGFo-0007P4-1M;
-	Mon, 14 Jul 2025 12:17:48 +0200
-Date: Mon, 14 Jul 2025 12:17:48 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Sebastian Reichel <sre@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org,
-	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>,
-	Guenter Roeck <groeck@chromium.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v11 0/7] Introduction of PSCR Framework and Related
- Components
-Message-ID: <aHTZTFxfS6Bn4yhz@pengutronix.de>
-References: <20250618120255.3141862-1-o.rempel@pengutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rYOi/1ROwOtZlKVF4nsyVj8MGb93njlrud11XlAr7Y9FdaPQRxiGnEAfKmk/+3LJpfHhEBQGMTlRpaPC5k6XC9zfLQalszRnkXhN1LXQmobtgQV4xwY3P1cobzg+poAr6QYs/f8Fr4BLQhVOPI/r6s/EyY2CD7imn1rLIAGtBrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vIOLx+tY; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vIOLx+tY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8730C4CEE3;
+	Tue, 15 Jul 2025 06:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752559677;
+	bh=fHlR8wwEWimYVGcD2Z6AA7c8VByjB9K9B/y2PypuOsc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vIOLx+tYrxMaIeAz+EOm+/U3nHCr9y2tRl54wQBWAWCoY0KKVP/y/3QPGkn8vih3I
+	 xEYqXSVLYOnCz5yOAkZI+h00MDbDv2wh1n8OmT7cW/FkO8K2aszEy3GVypU+xoY+hb
+	 kGEtUNDZOA1ytXkitx2eMVOJ/4+/KeHU2CsxzmorwbrSNb3dsqYPzP2UqfRLMxn0Nc
+	 L3CsgdPlDqF2wmP318DKuV7351j36oZB1fk80P9rAqEPYTVkHP7nK0URPF0degWjjy
+	 HF3aGhW4fRX47VAaa9XDwMjtWy2KqOtGIrS74fuoKgXt0mOoarJkFZyyK7lQiw249X
+	 Mqwf24HfY7TzA==
+Date: Tue, 15 Jul 2025 06:07:54 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Radu Vele <raduvele@google.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Add lock per-port
+Message-ID: <aHXwOtrFpn-yRFvs@google.com>
+References: <20250711003502.857536-1-raduvele@google.com>
+ <20250711003502.857536-2-raduvele@google.com>
+ <aHCPDXonAevxkMho@google.com>
+ <CACKy9TJHtA5K2YqdNdnMuTvOsz4OCkRds4Hbj8aZdK5VXpMgWw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -62,145 +49,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250618120255.3141862-1-o.rempel@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
+In-Reply-To: <CACKy9TJHtA5K2YqdNdnMuTvOsz4OCkRds4Hbj8aZdK5VXpMgWw@mail.gmail.com>
 
-Hi Greg,
+On Mon, Jul 14, 2025 at 10:32:03AM +0200, Radu Vele wrote:
+> On Fri, Jul 11, 2025 at 6:12 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> >
+> > On Fri, Jul 11, 2025 at 12:35:02AM +0000, Radu Vele wrote:
+> > > Add a lock associated to each port to protect port data against
+> > > concurrent access. Concurrency may result from sysfs commands
+> > > and ec events.
+> >
+> > I realized the critical sections are way too large.  What exactly data the
+> > lock tries to protect?  Is the race possibility introduced by any previous
+> > commits?  Please provide more context.
+> 
+> With the implementation of the role swap operations from the previous
+> commit (and also enter usb mode from another recent commit) we
+> introduce the possibility of concurrent access to the cros_ec_typec port
+> data from the userspace (e.g. trigger a power role swap from sysfs) vs
+> from EC events (e.g. partner triggered a role swap that we accept).
+> This is the main reason to propose a per-port lock. This way we ensure
+> we protect the state of each port in the cros_ec_typec driver.
 
-this patch series doesn’t belong to any single existing subsystem. It
-spans drivers like power/reset/, touches nvmem, regulator, and adds new
-interfaces.
+To make sure I understand, did you mean the lock tries to prevent from
+sending multiple commands to EC at a time?  If yes, does it still need
+if the underlying ec_dev is guranteed that [1]?
 
-Since there's no clear maintainer fit and the code is self-contained,
-I’d like to ask you to pick it up.
+[1] https://elixir.bootlin.com/linux/v6.15/source/drivers/platform/chrome/cros_ec_proto.c#L661
 
-The latest version is v11 and has addressed all review comments.
+By taking the following hunk the patch adds as an example:
 
-Thanks!
-Oleksij
+@@ -54,6 +56,7 @@  static int cros_typec_enter_usb_mode(struct typec_port *tc_port, enum usb_mode m
+ 		.mode_to_enter = CROS_EC_ALTMODE_USB4
+ 	};
+ 
++	guard(mutex)(&port->lock);
+ 	return cros_ec_cmd(port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL,
+ 			  &req, sizeof(req), NULL, 0);
 
-On Wed, Jun 18, 2025 at 02:02:48PM +0200, Oleksij Rempel wrote:
-> changes v11:
-> - add missing break reported by kernel test robot <lkp@intel.com>
-> 
-> changes v10:
-> - add some add Reviewed-by tags
-> - regulator_handle_critical: set pscr = PSCR_UNKNOWN for default case
-> - make g_pscrr static
-> 
-> changes v9:
-> - Remove redundant pr_crit() messages before hw_protection_trigger()
-> - Replace psc_reason_to_str() switch with static const string array
-> - Mark psc_last_reason as static
-> 
-> changes v8:
-> - Use DEFINE_GUARD() and guard(g_pscrr) for scoped locking of the global
->   pscrr_core struct
-> - Replace manual mutex_lock/unlock with automatic cleanup-based guard()
->   usage
-> - Centralize backend and locking state in struct pscrr_core
-> - Prepare for future multi-backend support with clean encapsulation
-> - Improve sysfs documentation:
->   * Added full enum psc_reason value table
->   * Simplified example comments, removed redundant "may differ" phrasing
->   * Added note that not all values are supported on all systems
->   * Linked value definitions to include/linux/reboot.h
->   * Added clear read/write usage examples for sysfs entries
-> 
-> changes v7:
-> - document expected values in sysfs documentation
-> - make write support optional
-> 
-> changes v6:
-> - add sysfs documentation
-> - rebase against latest hw_protection_reboot changes:
->   https://web.git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?h=mm-nonmm-unstable&id=212dd3f6e57f6af8ed3caa23b93adc29334f9652
-> - push core part of the reset reason the kernel/reboot.c
-> 
-> changes v5:
-> - fix compile with NVMEM=n and potential issues with NVMEM=m
-> 
-> changes v4:
-> - fix compile with CONFIG_PSCRR=n
-> 
-> changes v3
-> - rework to remove devicetree dependencies
-> - extend NVMEM to search devices and cells by names.
-> 
-> changes v2:
-> - rename the framework from PSCR to PSCRR (last R is for Recorder)
-> - extend power on reason header and use it to show detected reason on
->   system start and in sysfs.
-> - remove "unknow" reason
-> - rebase on top of v6.8-rc1
-> - yaml fixes
-> - zero reason state on boot
-> 
-> Hello all,
-> 
-> This patch series introduces the Power State Change Reasons Recording
-> (PSCRR) framework and its related components into the kernel. The PSCR
-> framework is designed for systems where traditional methods of storing
-> power state change reasons, like PMICs or watchdogs, are inadequate. It
-> provides a structured way to store reasons for system shutdowns and
-> reboots, such as under-voltage or software-triggered events, in
-> non-volatile hardware storage.
-> 
-> These changes are critical for systems requiring detailed postmortem
-> analysis and where immediate power-down scenarios limit traditional
-> storage options. The framework also assists bootloaders and early-stage
-> system components in making informed recovery decisions.
-> 
-> 
-> 
-> Oleksij Rempel (7):
->   power: Extend power_on_reason.h for upcoming PSCRR framework
->   reboot: hw_protection_trigger: use standardized numeric
->     shutdown/reboot reasons instead of strings
->   power: reset: Introduce PSCR Recording Framework for Non-Volatile
->     Storage
->   nvmem: provide consumer access to cell size metrics
->   nvmem: add support for device and sysfs-based cell lookups
->   power: reset: add PSCR NVMEM Driver for Recording Power State Change
->     Reasons
->   Documentation: Add sysfs documentation for PSCRR reboot reason
->     tracking
-> 
->  .../ABI/testing/sysfs-kernel-reboot-pscrr     |  74 ++++
->  drivers/nvmem/core.c                          | 134 ++++++
->  drivers/platform/chrome/cros_ec_lpc.c         |   2 +-
->  drivers/power/reset/Kconfig                   |  47 ++
->  drivers/power/reset/Makefile                  |   2 +
->  drivers/power/reset/pscrr-nvmem.c             | 254 +++++++++++
->  drivers/power/reset/pscrr.c                   | 405 ++++++++++++++++++
->  drivers/regulator/core.c                      |  16 +-
->  drivers/regulator/irq_helpers.c               |   9 +-
->  drivers/thermal/thermal_core.c                |   3 +-
->  include/linux/nvmem-consumer.h                |  25 ++
->  include/linux/power/power_on_reason.h         |   4 +
->  include/linux/pscrr.h                         |  58 +++
->  include/linux/reboot.h                        |  77 +++-
->  kernel/reboot.c                               |  85 +++-
->  15 files changed, 1173 insertions(+), 22 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-kernel-reboot-pscrr
->  create mode 100644 drivers/power/reset/pscrr-nvmem.c
->  create mode 100644 drivers/power/reset/pscrr.c
->  create mode 100644 include/linux/pscrr.h
-> 
-> --
-> 2.39.5
-> 
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+It seems the lock doesn't protect any data but the command transfer.

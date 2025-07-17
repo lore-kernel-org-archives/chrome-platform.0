@@ -1,110 +1,121 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2602E62AB
-	for <chrome-platform@lists.linux.dev>; Wed, 16 Jul 2025 23:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8793117E0;
+	Thu, 17 Jul 2025 07:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752710363; cv=none; b=oi517OHtFujVG+WdBzpRZLAE9AYN0+a7CuRbeZQKjX/4I/alL6tv1I8Q1m5J+XdCX8FlysyEW3O1hephaR+AJ/VeakzO3HVlhK1eCcrZGtXEnD2rOKRqOYjeSeb6O69gdB0r2CqJ4RHCSQXea7D+Li6XLp3R/bHZnmMW4RZVbxo=
+	t=1752738369; cv=none; b=unVLQRALKA96GfRwrDP+ldmGBkvGPICEayBb1q9FF+de1dzjeAGsgvpUF09wQRnQUAcU4kItWYI5DdRlTEHUGvqwD5hWXewOLbnSNkOmf8RQCCawgPLPLzAIS7eK1BliZ8SUDmhesNF5P2XIsQZ6X3DKLAf3sDU+uv2GVJlLK3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752710363; c=relaxed/simple;
-	bh=6y9a+l/XQaojXIrKW+ab5aq9WDMMK73JMWW7yPE85V4=;
+	s=arc-20240116; t=1752738369; c=relaxed/simple;
+	bh=FXtHecgjkslmm6Te8ddh6F4hjWk/SLneIUCHaBDGU6o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BiTfPQCyihNIVIMTWEEz+70YbTU/Rtgoesy/23iNM49IgdLCSVoNAQvPsa9FpoqxhEUU4UdlU/ozPyFtqE7zxYV2VQZmvjyCkkGQ7Kzz2AeW46JDuo2gSW+9R1q9OIO5QA0+4ApZMkQ/GgftcBO++zWXH+Skt0KNHKAWu8j07Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UY9dL1Vp; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=IQ+plixlnY4YiqytumhTXK0stynqAc+PqvTQbem9rFZNpTneYxAkf0SyVL+Vlc9ZHBV0ltvw+tfiYrETPt0T0ZJGF4Ih92TFDf1/Lv+0ZSlSgJxsgLlFD0WBdWpVHgEuMxrjuxYvHw9fH3YohQPmwYswfP1AayBXbqH4JFk2Sm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WqYvVgxY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UY9dL1Vp"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-311ef4fb43dso324016a91.3
-        for <chrome-platform@lists.linux.dev>; Wed, 16 Jul 2025 16:59:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752710361; x=1753315161; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2S5eMLw9uQ0ySw8KP/ZOHT+KFFuQg4GIcgB7Vydc+Sc=;
-        b=UY9dL1Vpsm29DRfyZ18DMR1wXqMhh6C6k191V0TrW3LkyLcfTYkKVN8iKoknk+dt/O
-         gmXT9/sVKXRATiD0i7mnM7gGs+85wV+sGehMF2tApUgM8ItII0kbansRc5RytSUPnls/
-         sMV9LwBe+1FYced2XiMLUetRV5kbZTSbjWv+klxZOa4EqR0h8OILnStqW5NJ5ueK6zck
-         ndQVJPwkGLfp8wCZXDbkLZNRVF3T/ox22GVJFTFEKep165fp0Kbw0wXG0cafUyOQ6MbX
-         UBmXdpVIRBywzAUeSmphwaSAnNqf+JMSmNdBKlRxvc824eL/clBdnPb/mjsl+2je6HLu
-         SHMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752710361; x=1753315161;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2S5eMLw9uQ0ySw8KP/ZOHT+KFFuQg4GIcgB7Vydc+Sc=;
-        b=dAd4SKf2OAoIY3IjAcFEYHgna0BfpKF9skPPIV/F9t9ZFu7dJhHyMoKQsI64jWl/FS
-         cekOc42kkNbTrtbJeSj7EFp+qkk72NP2Bjx/w6wt+JAmTosRsQa54Gvqp2yk3w985JUD
-         3QMW4aHhWJNM5cgCHuh/OpA5gO4uzeWcLrYnzho+Iu4DhQkFuTg+a9WZTnYrWaa0Devk
-         vZF4KQiuUoAVhxttw6HlIRXWhz51bZDC4lQbs6aKvkZU8/bXTH21hzpA9AIGzF17sNtb
-         ZntcM8pyq7MyDvWHj/h36/Qo8hbf4JzHwdj6doi+AYW3WgPxdCIWfTjjwe3Bl8fBWRV2
-         J6dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUhV/Yh0CR84ScZYaUK58FioKm7DZ1YZQ2H/VWe8WNg39jIZK0IaovLw53VIa+XxABNRvfRKJk8ocZh1z37zM0=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxMbMAeH9eUXEndfoufFpjwEhEFML271VvPceeafnmbdK3xn+Hr
-	O4X4m6SMM9dy4klnXI7WJRep368MaiwGnFUqXQiwCeultzfGtuja0jfP
-X-Gm-Gg: ASbGncsY9hZOKb+eN9KAh+psqGLUjdtSQ4DG9Dt2l5Is596iT6hdQlLDlReyx6ueame
-	Vzw6Vz5/MAwTfwaNH2QuhjyNo1MATdbukKmlnAtR4e+54zFrv4vfmxlMZ4qnmckGuTc1rSaVCp4
-	PUqfmW7YznSfKYai4VO0+v1CqRFVczL9szdEA4Xr/Lbaj+hLbT4zknmEPlvYvzgnH3DGQqJ05po
-	oNBvNpmujKFuiVZA2IM8XxNxEWSTLgpHEtytXgSBE9CpJlwM6yc2rf+QnJ2kkCalO+ryJsvoKD3
-	Z+Wtt4ESoEYJ+xUsWFleXgujUhVjuTZT3koEAyu9lDluIKsH7uaGA8hr5LoJZFV6lQYOfoaVWM6
-	aL0tHYkmPELAI8684JCiq/jTbo03wPLM1LqIR3qzZUdTAcA==
-X-Google-Smtp-Source: AGHT+IGEqNh9D03iPQ8quMHgQIGgMrUR2i8dWb9uWRCCr4HyrV7qhDcogx0sw9ePeqLApgKSm8l4MA==
-X-Received: by 2002:a17:90b:3909:b0:311:e305:4e97 with SMTP id 98e67ed59e1d1-31c9f4a6b52mr5533427a91.19.1752710360663;
-        Wed, 16 Jul 2025 16:59:20 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f1e684csm2164598a91.12.2025.07.16.16.59.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 16:59:20 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 16 Jul 2025 16:59:19 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Sung-Chi Li <lschyi@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	Sung-Chi Li <lschyi@google.com>
-Subject: Re: [PATCH v5 2/3] hwmon: (cros_ec) add PWM control over fans
-Message-ID: <d6286473-31a1-4f16-9c2f-8a39534c22bb@roeck-us.net>
-References: <20250620-cros_ec_fan-v5-0-5979ea1abb31@chromium.org>
- <20250620-cros_ec_fan-v5-2-5979ea1abb31@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WqYvVgxY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 034A0C4CEEB;
+	Thu, 17 Jul 2025 07:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752738369;
+	bh=FXtHecgjkslmm6Te8ddh6F4hjWk/SLneIUCHaBDGU6o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WqYvVgxYf0CLHH0IU1OSBjcaH7/z34DorzYCGw/a5sAlf/STLj6pLuS9JInNx61e1
+	 huhWwlsyhhQLGceJvGLrbOJHkjliGJCy8+joA4G6ea+m1TY69wElL7Ayk+WZ5OP/kH
+	 rdqupTLvhhrWL6nUVTHhvxqOWYT+YqXRtfYytkRdNwK5I4m2rmo7YqHheEIn0FAmlE
+	 TQ8WzjuG/dcLAdaL3DZj0IOzTDshfmrnEmdU6qtf7GesWwnz795csQYxTrSgo71tk3
+	 /s2veG//qMjOxccYufs4IQBBLO/a4IMwzC33T712jqr3Z7b3b3Tfp8Ed1SOyoMXEhU
+	 iusnz3xG18mIQ==
+Date: Thu, 17 Jul 2025 07:46:06 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Radu Vele <raduvele@google.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Add lock per-port
+Message-ID: <aHiqPuBm8Znmph61@google.com>
+References: <20250711003502.857536-1-raduvele@google.com>
+ <20250711003502.857536-2-raduvele@google.com>
+ <aHCPDXonAevxkMho@google.com>
+ <CACKy9TJHtA5K2YqdNdnMuTvOsz4OCkRds4Hbj8aZdK5VXpMgWw@mail.gmail.com>
+ <aHXwOtrFpn-yRFvs@google.com>
+ <CACKy9TJvkx0Bi69pO187dxs8EUt3foc0seNYjn=vK4WCuTHYxQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250620-cros_ec_fan-v5-2-5979ea1abb31@chromium.org>
+In-Reply-To: <CACKy9TJvkx0Bi69pO187dxs8EUt3foc0seNYjn=vK4WCuTHYxQ@mail.gmail.com>
 
-On Fri, Jun 20, 2025 at 02:49:13PM +0800, Sung-Chi Li wrote:
-> From: Sung-Chi Li <lschyi@chromium.org>
+On Wed, Jul 16, 2025 at 01:39:53PM +0200, Radu Vele wrote:
+> On Tue, Jul 15, 2025 at 8:07 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> >
+> > On Mon, Jul 14, 2025 at 10:32:03AM +0200, Radu Vele wrote:
+> > > On Fri, Jul 11, 2025 at 6:12 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> > > >
+> > > > On Fri, Jul 11, 2025 at 12:35:02AM +0000, Radu Vele wrote:
+> > > > > Add a lock associated to each port to protect port data against
+> > > > > concurrent access. Concurrency may result from sysfs commands
+> > > > > and ec events.
+> > > >
+> > > > I realized the critical sections are way too large.  What exactly data the
+> > > > lock tries to protect?  Is the race possibility introduced by any previous
+> > > > commits?  Please provide more context.
+> > >
+> > > With the implementation of the role swap operations from the previous
+> > > commit (and also enter usb mode from another recent commit) we
+> > > introduce the possibility of concurrent access to the cros_ec_typec port
+> > > data from the userspace (e.g. trigger a power role swap from sysfs) vs
+> > > from EC events (e.g. partner triggered a role swap that we accept).
+> > > This is the main reason to propose a per-port lock. This way we ensure
+> > > we protect the state of each port in the cros_ec_typec driver.
+> >
+> > To make sure I understand, did you mean the lock tries to prevent from
+> > sending multiple commands to EC at a time?  If yes, does it still need
+> > if the underlying ec_dev is guranteed that [1]?
 > 
-> Newer EC firmware supports controlling fans through host commands, so
-> adding corresponding implementations for controlling these fans in the
-> driver for other kernel services and userspace to control them.
+> Not really, as I noticed that both the ec and Type-C connector class
+> use their own mutexes.
 > 
-> The driver will first probe the supported host command versions (get and
-> set of fan PWM values, get and set of fan control mode) to see if the
-> connected EC fulfills the requirements of controlling the fan, then
-> exposes corresponding sysfs nodes for userspace to control the fan with
-> corresponding read and write implementations.
-> As EC will automatically change the fan mode to auto when the device is
-> suspended, the power management hooks are added as well to keep the fan
-> control mode and fan PWM value consistent during suspend and resume. As
-> we need to access the hwmon device in the power management hook, update
-> the driver by storing the hwmon device in the driver data as well.
-> 
-> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-> Acked-by: Thomas Wei�schuh <linux@weissschuh.net>
+> My intention with the mutexes is to avoid race conditions in the case
+> when a role swap is in progress but at the same time there is a
+> `cros_port_update` that modifies the state of the port. Another
+> example I have in mind is when the port is being unregistered and
+> a role swap is issued.
 
-Please run checkpatch --strict on your patches and fix what it reports.
+The critical section is too large to understand which fields in the data
+structure it tries to protect.  Please review again whether the lock is
+needed or not and shrink the critical section if possible.
 
-Guenter
+If taking the changes in cros_typec_perform_role_swap() as another example:
+
+    static int cros_typec_perform_role_swap(...)
+    {
+        ...
+        struct ec_params_usb_pd_control req;
+
+        guard(mutex)(&port->lock);
+
+        req...
+        cros_ec_cmd(...)
+
+        req...
+        cros_ec_cmd(...)
+
+        switch (...) {
+
+            typec_set_data_role...
+
+            typec_set_pwr_role...
+        }
+    }
+
+The `req` and `cros_ec_cmd` obviously don't need to protect.  Does
+typec_set_data_role() and typec_set_pwr_role() need to protect from
+concurrent calling?

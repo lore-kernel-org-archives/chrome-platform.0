@@ -1,121 +1,437 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8793117E0;
-	Thu, 17 Jul 2025 07:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD8ED517;
+	Fri, 18 Jul 2025 07:08:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752738369; cv=none; b=unVLQRALKA96GfRwrDP+ldmGBkvGPICEayBb1q9FF+de1dzjeAGsgvpUF09wQRnQUAcU4kItWYI5DdRlTEHUGvqwD5hWXewOLbnSNkOmf8RQCCawgPLPLzAIS7eK1BliZ8SUDmhesNF5P2XIsQZ6X3DKLAf3sDU+uv2GVJlLK3o=
+	t=1752822522; cv=none; b=JtJkqupz05KXjd8UpJ6i0s8UUOtN5BEh+Tp8FjbHKaZ5NAOI+H7TQSgbYMB1UhdQooNYMJuwIp1JYqVzZy8Hhr3CjBBH3RyBZ5zNoBL2I8RSmV5qnzRLvzzyC/G60atrrdPveEpH48LwJLC5EexDixYh8eIkPUdJaJXT5H/HpOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752738369; c=relaxed/simple;
-	bh=FXtHecgjkslmm6Te8ddh6F4hjWk/SLneIUCHaBDGU6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IQ+plixlnY4YiqytumhTXK0stynqAc+PqvTQbem9rFZNpTneYxAkf0SyVL+Vlc9ZHBV0ltvw+tfiYrETPt0T0ZJGF4Ih92TFDf1/Lv+0ZSlSgJxsgLlFD0WBdWpVHgEuMxrjuxYvHw9fH3YohQPmwYswfP1AayBXbqH4JFk2Sm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WqYvVgxY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752822522; c=relaxed/simple;
+	bh=e6vsPtKPGIR08YlsKt01sNXsX47gKEXnCvnQAXib/7E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=MeZd6iHLkZuzdpJXkCiWQzOUJ2f1fqgu8taaXF8CJThUxdjva++ze0++7Xc70yV49D1OkA2Zqu+ioQndM9X/GbPMvC1ROby0bLvqMeaOoZTOEZqrxEASrGiBYq6Aw5U2yZfG5ieU1MJFAfUGTdR05XBYem4j216Wuy+6HZThwSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXjzZvAW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WqYvVgxY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 034A0C4CEEB;
-	Thu, 17 Jul 2025 07:46:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SXjzZvAW"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8F607C4CEED;
+	Fri, 18 Jul 2025 07:08:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752738369;
-	bh=FXtHecgjkslmm6Te8ddh6F4hjWk/SLneIUCHaBDGU6o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WqYvVgxYf0CLHH0IU1OSBjcaH7/z34DorzYCGw/a5sAlf/STLj6pLuS9JInNx61e1
-	 huhWwlsyhhQLGceJvGLrbOJHkjliGJCy8+joA4G6ea+m1TY69wElL7Ayk+WZ5OP/kH
-	 rdqupTLvhhrWL6nUVTHhvxqOWYT+YqXRtfYytkRdNwK5I4m2rmo7YqHheEIn0FAmlE
-	 TQ8WzjuG/dcLAdaL3DZj0IOzTDshfmrnEmdU6qtf7GesWwnz795csQYxTrSgo71tk3
-	 /s2veG//qMjOxccYufs4IQBBLO/a4IMwzC33T712jqr3Z7b3b3Tfp8Ed1SOyoMXEhU
-	 iusnz3xG18mIQ==
-Date: Thu, 17 Jul 2025 07:46:06 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Radu Vele <raduvele@google.com>
-Cc: Benson Leung <bleung@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] platform/chrome: cros_ec_typec: Add lock per-port
-Message-ID: <aHiqPuBm8Znmph61@google.com>
-References: <20250711003502.857536-1-raduvele@google.com>
- <20250711003502.857536-2-raduvele@google.com>
- <aHCPDXonAevxkMho@google.com>
- <CACKy9TJHtA5K2YqdNdnMuTvOsz4OCkRds4Hbj8aZdK5VXpMgWw@mail.gmail.com>
- <aHXwOtrFpn-yRFvs@google.com>
- <CACKy9TJvkx0Bi69pO187dxs8EUt3foc0seNYjn=vK4WCuTHYxQ@mail.gmail.com>
+	s=k20201202; t=1752822521;
+	bh=e6vsPtKPGIR08YlsKt01sNXsX47gKEXnCvnQAXib/7E=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=SXjzZvAWjUH+i+zgXhhKj+IAwKSPt1XxTidcuU8ezh5PhZN2HR2g505rWvvRRCUm+
+	 ONWjhy+7qBlVh03J8Un7v+pP5+5XjHnCHloRfc3aA8PWWofjxoN9sMRut9u1/ftWQK
+	 903eCbnXg070rpmVviU9lUcsnmcwtKoX+0mbehYmX3RYJ9bDWSl69xPsvyitelxYg5
+	 U+rDpaLi9o1lWrpnEQNB7IoQiKxJ52bQMCxKDk6mUmKAH+HdLd5K1pqmdJN2nHuO7j
+	 FHwDwTDjWUE4QCv3xUYz7nBNYJH0El/vN0tHuZTZdev2XGdQ76MdEt9w44skDgtp4k
+	 59AE8nl8Uur0A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D695C83F1A;
+	Fri, 18 Jul 2025 07:08:41 +0000 (UTC)
+From: Sung-Chi Li via B4 Relay <devnull+lschyi.chromium.org@kernel.org>
+Date: Fri, 18 Jul 2025 15:08:29 +0800
+Subject: [PATCH v6 1/2] hwmon: (cros_ec) add PWM control over fans
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACKy9TJvkx0Bi69pO187dxs8EUt3foc0seNYjn=vK4WCuTHYxQ@mail.gmail.com>
+Message-Id: <20250718-cros_ec_fan-v6-1-8df018396b56@chromium.org>
+References: <20250718-cros_ec_fan-v6-0-8df018396b56@chromium.org>
+In-Reply-To: <20250718-cros_ec_fan-v6-0-8df018396b56@chromium.org>
+To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Sung-Chi Li <lschyi@google.com>, Sung-Chi Li <lschyi@chromium.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752822520; l=12761;
+ i=lschyi@chromium.org; s=20250429; h=from:subject:message-id;
+ bh=OmmP52T1r7K+pXtuecyN+P2iNAxPVoOhZsetIfAYTSs=;
+ b=f+9OsZFOVu2DE7Rg+r5sO8TZT484j9PoO/DTEpWXe1xiC9gRTonCVEOW7JP0cYqsVasTdp/so
+ JDNyE0T3IjVBMYGyRrJ0t/ShJ21VbVLjRzUfJPbbY5dzh6hBJqYhTaO
+X-Developer-Key: i=lschyi@chromium.org; a=ed25519;
+ pk=9gCZPRJmYyHDt6VN9FV2UreFcUr73JFrwYvmsltW9Y8=
+X-Endpoint-Received: by B4 Relay for lschyi@chromium.org/20250429 with
+ auth_id=392
+X-Original-From: Sung-Chi Li <lschyi@chromium.org>
+Reply-To: lschyi@chromium.org
 
-On Wed, Jul 16, 2025 at 01:39:53PM +0200, Radu Vele wrote:
-> On Tue, Jul 15, 2025 at 8:07 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> >
-> > On Mon, Jul 14, 2025 at 10:32:03AM +0200, Radu Vele wrote:
-> > > On Fri, Jul 11, 2025 at 6:12 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> > > >
-> > > > On Fri, Jul 11, 2025 at 12:35:02AM +0000, Radu Vele wrote:
-> > > > > Add a lock associated to each port to protect port data against
-> > > > > concurrent access. Concurrency may result from sysfs commands
-> > > > > and ec events.
-> > > >
-> > > > I realized the critical sections are way too large.  What exactly data the
-> > > > lock tries to protect?  Is the race possibility introduced by any previous
-> > > > commits?  Please provide more context.
-> > >
-> > > With the implementation of the role swap operations from the previous
-> > > commit (and also enter usb mode from another recent commit) we
-> > > introduce the possibility of concurrent access to the cros_ec_typec port
-> > > data from the userspace (e.g. trigger a power role swap from sysfs) vs
-> > > from EC events (e.g. partner triggered a role swap that we accept).
-> > > This is the main reason to propose a per-port lock. This way we ensure
-> > > we protect the state of each port in the cros_ec_typec driver.
-> >
-> > To make sure I understand, did you mean the lock tries to prevent from
-> > sending multiple commands to EC at a time?  If yes, does it still need
-> > if the underlying ec_dev is guranteed that [1]?
-> 
-> Not really, as I noticed that both the ec and Type-C connector class
-> use their own mutexes.
-> 
-> My intention with the mutexes is to avoid race conditions in the case
-> when a role swap is in progress but at the same time there is a
-> `cros_port_update` that modifies the state of the port. Another
-> example I have in mind is when the port is being unregistered and
-> a role swap is issued.
+From: Sung-Chi Li <lschyi@chromium.org>
 
-The critical section is too large to understand which fields in the data
-structure it tries to protect.  Please review again whether the lock is
-needed or not and shrink the critical section if possible.
+Newer EC firmware supports controlling fans through host commands, so
+adding corresponding implementations for controlling these fans in the
+driver for other kernel services and userspace to control them.
 
-If taking the changes in cros_typec_perform_role_swap() as another example:
+The driver will first probe the supported host command versions (get and
+set of fan PWM values, get and set of fan control mode) to see if the
+connected EC fulfills the requirements of controlling the fan, then
+exposes corresponding sysfs nodes for userspace to control the fan with
+corresponding read and write implementations.
+As EC will automatically change the fan mode to auto when the device is
+suspended, the power management hooks are added as well to keep the fan
+control mode and fan PWM value consistent during suspend and resume. As
+we need to access the hwmon device in the power management hook, update
+the driver by storing the hwmon device in the driver data as well.
 
-    static int cros_typec_perform_role_swap(...)
-    {
-        ...
-        struct ec_params_usb_pd_control req;
+Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+Acked-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ Documentation/hwmon/cros_ec_hwmon.rst |   5 +-
+ drivers/hwmon/cros_ec_hwmon.c         | 230 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 234 insertions(+), 1 deletion(-)
 
-        guard(mutex)(&port->lock);
+diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
+index 47ecae983bdbef4bfcafc5dd2fff3de039f77f8e..355557a08c9a54b4c177bafde3743e7dc02218be 100644
+--- a/Documentation/hwmon/cros_ec_hwmon.rst
++++ b/Documentation/hwmon/cros_ec_hwmon.rst
+@@ -23,4 +23,7 @@ ChromeOS embedded controller used in Chromebooks and other devices.
+ 
+ The channel labels exposed via hwmon are retrieved from the EC itself.
+ 
+-Fan and temperature readings are supported.
++Fan and temperature readings are supported. PWM fan control is also supported if
++the EC also supports setting fan PWM values and fan mode. Note that EC will
++switch fan control mode back to auto when suspended. This driver will restore
++the fan state to what they were before suspended when resumed.
+diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+index 9991c3fa020ac859cbbff29dfb669e53248df885..9eddc554ddefde42f70c09689b64ad9e636a3020 100644
+--- a/drivers/hwmon/cros_ec_hwmon.c
++++ b/drivers/hwmon/cros_ec_hwmon.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/device.h>
+ #include <linux/hwmon.h>
++#include <linux/math.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+@@ -17,10 +18,17 @@
+ 
+ #define DRV_NAME	"cros-ec-hwmon"
+ 
++#define CROS_EC_HWMON_PWM_GET_FAN_DUTY_CMD_VERSION	0
++#define CROS_EC_HWMON_PWM_SET_FAN_DUTY_CMD_VERSION	1
++#define CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION	2
++
+ struct cros_ec_hwmon_priv {
+ 	struct cros_ec_device *cros_ec;
+ 	const char *temp_sensor_names[EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SENSOR_B_ENTRIES];
+ 	u8 usable_fans;
++	bool fan_control_supported;
++	u8 manual_fans; /* bits to indicate whether the fan is set to manual */
++	u8 manual_fan_pwm[EC_FAN_SPEED_ENTRIES];
+ };
+ 
+ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
+@@ -36,6 +44,42 @@ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index
+ 	return 0;
+ }
+ 
++static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec, u8 index, u8 *pwm_value)
++{
++	struct ec_params_pwm_get_fan_duty req = {
++		.fan_idx = index,
++	};
++	struct ec_response_pwm_get_fan_duty resp;
++	int ret;
++
++	ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_PWM_GET_FAN_DUTY_CMD_VERSION,
++			  EC_CMD_PWM_GET_FAN_DUTY, &req, sizeof(req), &resp, sizeof(resp));
++	if (ret < 0)
++		return ret;
++
++	*pwm_value = (u8)DIV_ROUND_CLOSEST(le32_to_cpu(resp.percent) * 255, 100);
++	return 0;
++}
++
++static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec, u8 index,
++					 u8 *control_method)
++{
++	struct ec_params_auto_fan_ctrl_v2 req = {
++		.cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
++		.fan_idx = index,
++	};
++	struct ec_response_auto_fan_control resp;
++	int ret;
++
++	ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION,
++			  EC_CMD_THERMAL_AUTO_FAN_CTRL, &req, sizeof(req), &resp, sizeof(resp));
++	if (ret < 0)
++		return ret;
++
++	*control_method = resp.is_auto ? 2 : 1;
++	return 0;
++}
++
+ static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
+ {
+ 	unsigned int offset;
+@@ -75,6 +119,8 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+ {
+ 	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+ 	int ret = -EOPNOTSUPP;
++	u8 control_method;
++	u8 pwm_value;
+ 	u16 speed;
+ 	u8 temp;
+ 
+@@ -92,6 +138,17 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+ 			if (ret == 0)
+ 				*val = cros_ec_hwmon_is_error_fan(speed);
+ 		}
++	} else if (type == hwmon_pwm) {
++		if (attr == hwmon_pwm_enable) {
++			ret = cros_ec_hwmon_read_pwm_enable(priv->cros_ec, channel,
++							    &control_method);
++			if (ret == 0)
++				*val = control_method;
++		} else if (attr == hwmon_pwm_input) {
++			ret = cros_ec_hwmon_read_pwm_value(priv->cros_ec, channel, &pwm_value);
++			if (ret == 0)
++				*val = pwm_value;
++		}
+ 	} else if (type == hwmon_temp) {
+ 		if (attr == hwmon_temp_input) {
+ 			ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
+@@ -124,6 +181,74 @@ static int cros_ec_hwmon_read_string(struct device *dev, enum hwmon_sensor_types
+ 	return -EOPNOTSUPP;
+ }
+ 
++static int cros_ec_hwmon_set_fan_pwm_val(struct cros_ec_device *cros_ec, u8 index, u8 val)
++{
++	struct ec_params_pwm_set_fan_duty_v1 req = {
++		.fan_idx = index,
++		.percent = DIV_ROUND_CLOSEST((uint32_t)val * 100, 255),
++	};
++	int ret;
++
++	ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_PWM_SET_FAN_DUTY_CMD_VERSION,
++			  EC_CMD_PWM_SET_FAN_DUTY, &req, sizeof(req), NULL, 0);
++	if (ret < 0)
++		return ret;
++	return 0;
++}
++
++static int cros_ec_hwmon_write_pwm_input(struct cros_ec_device *cros_ec, u8 index, u8 val)
++{
++	u8 control_method;
++	int ret;
++
++	ret = cros_ec_hwmon_read_pwm_enable(cros_ec, index, &control_method);
++	if (ret)
++		return ret;
++	if (control_method != 1)
++		return -EOPNOTSUPP;
++
++	return cros_ec_hwmon_set_fan_pwm_val(cros_ec, index, val);
++}
++
++static int cros_ec_hwmon_write_pwm_enable(struct cros_ec_device *cros_ec, u8 index, u8 val)
++{
++	struct ec_params_auto_fan_ctrl_v2 req = {
++		.fan_idx = index,
++		.cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
++	};
++	int ret;
++
++	/* No CrOS EC supports no fan speed control */
++	if (val == 0)
++		return -EOPNOTSUPP;
++
++	req.set_auto = (val != 1) ? true : false;
++	ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION,
++			  EC_CMD_THERMAL_AUTO_FAN_CTRL, &req, sizeof(req), NULL, 0);
++	if (ret < 0)
++		return ret;
++	return 0;
++}
++
++static int cros_ec_hwmon_write(struct device *dev, enum hwmon_sensor_types type, u32 attr,
++			       int channel, long val)
++{
++	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
++
++	if (type == hwmon_pwm) {
++		switch (attr) {
++		case hwmon_pwm_input:
++			return cros_ec_hwmon_write_pwm_input(priv->cros_ec, channel, val);
++		case hwmon_pwm_enable:
++			return cros_ec_hwmon_write_pwm_enable(priv->cros_ec, channel, val);
++		default:
++			return -EOPNOTSUPP;
++		}
++	}
++
++	return -EOPNOTSUPP;
++}
++
+ static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
+ 					u32 attr, int channel)
+ {
+@@ -132,6 +257,9 @@ static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_type
+ 	if (type == hwmon_fan) {
+ 		if (priv->usable_fans & BIT(channel))
+ 			return 0444;
++	} else if (type == hwmon_pwm) {
++		if (priv->fan_control_supported && priv->usable_fans & BIT(channel))
++			return 0644;
+ 	} else if (type == hwmon_temp) {
+ 		if (priv->temp_sensor_names[channel])
+ 			return 0444;
+@@ -147,6 +275,11 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
+ 			   HWMON_F_INPUT | HWMON_F_FAULT,
+ 			   HWMON_F_INPUT | HWMON_F_FAULT,
+ 			   HWMON_F_INPUT | HWMON_F_FAULT),
++	HWMON_CHANNEL_INFO(pwm,
++			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
++			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
++			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
++			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
+ 	HWMON_CHANNEL_INFO(temp,
+ 			   HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL,
+ 			   HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL,
+@@ -178,6 +311,7 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
+ static const struct hwmon_ops cros_ec_hwmon_ops = {
+ 	.read = cros_ec_hwmon_read,
+ 	.read_string = cros_ec_hwmon_read_string,
++	.write = cros_ec_hwmon_write,
+ 	.is_visible = cros_ec_hwmon_is_visible,
+ };
+ 
+@@ -233,6 +367,25 @@ static void cros_ec_hwmon_probe_fans(struct cros_ec_hwmon_priv *priv)
+ 	}
+ }
+ 
++static inline bool is_cros_ec_cmd_available(struct cros_ec_device *cros_ec,
++					    u16 cmd, u8 version)
++{
++	int ret;
++
++	ret = cros_ec_get_cmd_versions(cros_ec, cmd);
++	return ret >= 0 && (ret & EC_VER_MASK(version));
++}
++
++static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cros_ec)
++{
++	return is_cros_ec_cmd_available(cros_ec, EC_CMD_PWM_GET_FAN_DUTY,
++					CROS_EC_HWMON_PWM_GET_FAN_DUTY_CMD_VERSION) &&
++	       is_cros_ec_cmd_available(cros_ec, EC_CMD_PWM_SET_FAN_DUTY,
++					CROS_EC_HWMON_PWM_SET_FAN_DUTY_CMD_VERSION) &&
++	       is_cros_ec_cmd_available(cros_ec, EC_CMD_THERMAL_AUTO_FAN_CTRL,
++					CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION);
++}
++
+ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -259,13 +412,88 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+ 
+ 	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
+ 	cros_ec_hwmon_probe_fans(priv);
++	priv->fan_control_supported = cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
+ 
+ 	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
+ 							 &cros_ec_hwmon_chip_info, NULL);
++	platform_set_drvdata(pdev, priv);
+ 
+ 	return PTR_ERR_OR_ZERO(hwmon_dev);
+ }
+ 
++static int cros_ec_hwmon_suspend(struct platform_device *pdev, pm_message_t state)
++{
++	struct cros_ec_hwmon_priv *priv = platform_get_drvdata(pdev);
++	u8 control_method;
++	size_t i;
++	int ret;
++
++	if (!priv->fan_control_supported)
++		return 0;
++
++	/* EC sets fan control to auto after suspended, store settings before suspending. */
++	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
++		if (!(priv->usable_fans & BIT(i)))
++			continue;
++
++		ret = cros_ec_hwmon_read_pwm_enable(priv->cros_ec, i, &control_method);
++		if (ret) {
++			dev_warn(&pdev->dev, "failed to get mode setting for fan %zu: %d\n", i,
++				 ret);
++			continue;
++		}
++
++		if (control_method != 1) {
++			priv->manual_fans &= ~BIT(i);
++			continue;
++		} else {
++			priv->manual_fans |= BIT(i);
++		}
++
++		ret = cros_ec_hwmon_read_pwm_value(priv->cros_ec, i, &priv->manual_fan_pwm[i]);
++		/*
++		 * If storing the value failed, invalidate the stored mode value by setting it
++		 * to auto control. EC will automatically switch to auto mode for that fan after
++		 * suspended.
++		 */
++		if (ret) {
++			dev_warn(&pdev->dev, "failed to get PWM setting for fan %zu: %pe\n", i,
++				 ERR_PTR(ret));
++			priv->manual_fans &= ~BIT(i);
++			continue;
++		}
++	}
++
++	return 0;
++}
++
++static int cros_ec_hwmon_resume(struct platform_device *pdev)
++{
++	const struct cros_ec_hwmon_priv *priv = platform_get_drvdata(pdev);
++	size_t i;
++	int ret;
++
++	if (!priv->fan_control_supported)
++		return 0;
++
++	/* EC sets fan control to auto after suspend, restore to settings before suspend. */
++	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
++		if (!(priv->manual_fans & BIT(i)))
++			continue;
++
++		/*
++		 * Setting fan PWM value to EC will change the mode to manual for that fan in EC as
++		 * well, so we do not need to issue a separate fan mode to manual call.
++		 */
++		ret = cros_ec_hwmon_set_fan_pwm_val(priv->cros_ec, i, priv->manual_fan_pwm[i]);
++		if (ret)
++			dev_warn(&pdev->dev, "failed to restore settings for fan %zu: %pe\n", i,
++				 ERR_PTR(ret));
++	}
++
++	return 0;
++}
++
+ static const struct platform_device_id cros_ec_hwmon_id[] = {
+ 	{ DRV_NAME, 0 },
+ 	{}
+@@ -274,6 +502,8 @@ static const struct platform_device_id cros_ec_hwmon_id[] = {
+ static struct platform_driver cros_ec_hwmon_driver = {
+ 	.driver.name	= DRV_NAME,
+ 	.probe		= cros_ec_hwmon_probe,
++	.suspend	= pm_ptr(cros_ec_hwmon_suspend),
++	.resume		= pm_ptr(cros_ec_hwmon_resume),
+ 	.id_table	= cros_ec_hwmon_id,
+ };
+ module_platform_driver(cros_ec_hwmon_driver);
 
-        req...
-        cros_ec_cmd(...)
+-- 
+2.50.0.727.gbf7dc18ff4-goog
 
-        req...
-        cros_ec_cmd(...)
 
-        switch (...) {
-
-            typec_set_data_role...
-
-            typec_set_pwr_role...
-        }
-    }
-
-The `req` and `cros_ec_cmd` obviously don't need to protect.  Does
-typec_set_data_role() and typec_set_pwr_role() need to protect from
-concurrent calling?

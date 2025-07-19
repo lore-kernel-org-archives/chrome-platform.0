@@ -1,65 +1,65 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A482E7629
-	for <chrome-platform@lists.linux.dev>; Fri, 18 Jul 2025 17:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6852B9A9
+	for <chrome-platform@lists.linux.dev>; Sat, 19 Jul 2025 04:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752860300; cv=none; b=eRCpkEhX731uGrk7ucxYkU9hl2iCnbZc4VutXflpvN2hdvWxVZMitFX9ivcN3FbyNU9LivMzDzbiFkLvjvzbvgF89NM+o0O4va8x+f4vPRSuFMg+cVz/xgi0FW2YrnU6DR+taQjRSR2auXYXcqpeHbgqn5hrizU4CfdLYfhyNVw=
+	t=1752900334; cv=none; b=Jl5173TLv+RBDEVlMdowH45r3bmTtkspkY9V9zoZnVFdiRUW+ntGdO82grPed9+BZrrGtnG71X65/gyWCc+tbj3C2jmaHUEnf6PSmx8H5i4wx8pJxYL0jEU0ur6zmdU9EdI3KNLiTY+WLl9n+cktRlf3+aP4T8dbrEtrM6Z1XpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752860300; c=relaxed/simple;
-	bh=BBrByI1Mib4r2lHIK2Xlx/roasq9l2jl/ntYEFcA3TI=;
+	s=arc-20240116; t=1752900334; c=relaxed/simple;
+	bh=91BZLZBnHol3G5D2pQNEOuhB92MjBsnbv9dL7ro7hKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tDotqp2MbbhSWNygK7DPyO2jDB9G4PU19KGNBWxhf+qDDxbl9l9gbnKdN9kcSCYVUgTQN2u7R3K1/3Hsrz0+8C612K60TB368lyGTH/VQApxHYfGeg4+BsuNLvB1KVpvxHNBF3ZPn0oRbZ/n/UMmnDi1sTOhZhL7d9Rhv0+E3Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SArCBtkN; arc=none smtp.client-ip=209.85.210.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=VsvNN/V5PYAmK5bhBbYyzI7XaVbeFudtzu6uI586SKDxojDES8gswDXbfo81zWvlgS7yzyyuUHw08XLke70H7p96aisVqWW7WSd/KCDe774cGSL5ujTrP006auGYYnZyIVmGt3Be3XmeK0SAmHI0tR7FHO+LlA5/DLdC7ySS4nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWBnvdBE; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SArCBtkN"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-73972a54919so2455527b3a.3
-        for <chrome-platform@lists.linux.dev>; Fri, 18 Jul 2025 10:38:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWBnvdBE"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-311bd8ce7e4so2361917a91.3
+        for <chrome-platform@lists.linux.dev>; Fri, 18 Jul 2025 21:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752860298; x=1753465098; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1752900331; x=1753505131; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GRxtHwjL+3PAWWyF1a/7oZRVkK0KVn9KJJvGvId1t8Y=;
-        b=SArCBtkN6byNNaOq+A3yzMRW7vFYA9WNKOMP6wZRYFw+nIPyiNERGhUygkQIJxrp+2
-         uQGV6klFB1IcX78iBLwxz/udqXB7YjV7z56hzwlMiMYWuCtLrlrNrpEolG0m1aIFSWoh
-         QnNbm8AqaaahtSITy5ylVZ4mT84+Y7irraKXPafyOReWwlvpDHFEt0jd98svmDRuGnVk
-         OHeVYLtT9Aqsw0GEKgNVHNqas9xPs8CwenGOlqcPqPuXtJTujYIM/9jilSh7FXXvE9Qg
-         fA4bZbreDmdSzCWPnR9/RFQzr97GAtEkz8s2zyVON6QsBbWsrZkZd5h6SMZuv4n0VqfK
-         qtSA==
+        bh=VDSwmwyHdOHdY5y6kv9+AKkxnfvOoBedcBRoJCdOkHI=;
+        b=MWBnvdBEkRFWnrimC6VLNz8ukSAMKvJYWIc7/z9HR+yUEKI8Is4/ZkBkhQtcLFUUXH
+         2n93mJ6Shju1qpY5Fv7UoeMAcX19XkYg5imnDx+m/cOH1cCj/uzcajorlQM9jgkKlm7O
+         JBswDMFnPcEnVRBjyKL7Qf+pH2zH/C1a9ff3YiFZLIp55NIv6xTIsjc4ZtuZU3yOtal1
+         UfylQHWLcAB1YQx1JYdFs8IWBd1TFxaBBc2ElNRl7GjiCOe1FQO0PlzG8wHElHMQJf8U
+         lbbn4g9jJCc9PjaQsS4PbR3lF9/uNB+5Oa9f0hvIYbU/m9ilfHJlAO58ceQxkEl83xXP
+         /UCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752860298; x=1753465098;
+        d=1e100.net; s=20230601; t=1752900331; x=1753505131;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GRxtHwjL+3PAWWyF1a/7oZRVkK0KVn9KJJvGvId1t8Y=;
-        b=fb6sQtHGHRpZWIrj52xc5UwHXOsFH7forHrgMY/jBNXkG95e9pzY42oA7pWgXbz8Jx
-         No/Ax6INVf6iope1lwaIH8jGJbcw0ZK0IFZ4MgrkmxNvZd4kt8NoIoqUpnDIhoP/VmDK
-         8GDzynY0ldcCmD+/XmjBjl36OsZxbBWCgb6NkEQiJ1hezFEijECG723k3XW9upFkXhGo
-         +g4gtc6K1u2ffiyBHBXTKsIKyJsxVyIQlxRiLmjVdtddR6a4gm9fHcS5lARo+YQshurf
-         f3Fc2sk4V2HxmUeLOWXOBktoVd4iGXFUebOWCKepbCdyv5sNzbfjSqbyedxeTe+ids9H
-         HbbA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1iPIRMUrHJkF/H/1/BCA+dh0GrDGXoDiudz+qgCyg5p5U/ozSET+SwkOPV0XUx3Wv5d6P5A8+ARYz2KyCxl0=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9zoT599jlAucBMZ/oWzkLVZHGFErdIs5tigyVbUmmKannNHZP
-	O0kl2idSi16OTlw7GJnffmNhjX66ipEaI+ATMhoAEKNLJCHsvHDfmLc7
-X-Gm-Gg: ASbGncs0XR+NwYz6no0DNmpVQbiF1wmi1UX7TUzpSu53vfga8D2wff01yoLCjBDGGlJ
-	7Mpx73YlKS4q/hRBW7FtRaygZI5gUnDwv/XQj5A8YTzKR7Nzt24AC6THr5tgXrjjJsqRwl9/mFS
-	KwrNYM2hVpfgCHbO+/YJxtI0YRCbwZxTQv/7rm4T4pnbsMX9t1eHkAybVGan5M+s2oL1BcTb+VX
-	qEJPaMkKDLXc9wy9V+QGbksX1fxXerfrY9OfzmDIgEoHLY6W/01uHoTh+CM8gtiD+RcHDOVsQ8R
-	zcKZmuINyLvHRuVNBOLaGOIMuGudQsuYKhL9ZtXU6z8Jw9stuY61KBrfiTe8Mvm+12ytS8akME8
-	O2iWUvmSIHKPg2wqso7Cy5NdFXUfpltgWcZqDIjg3Rj1Luw==
-X-Google-Smtp-Source: AGHT+IG9jQJTtmQTkXncQ44ZMFFbqIjAxuSaimpVAcOwrGjlk1NlmL1dUL+MD/xaksVSZRO06M5YnQ==
-X-Received: by 2002:a17:90b:2685:b0:311:df4b:4b7a with SMTP id 98e67ed59e1d1-31c9f4b50d3mr17386475a91.29.1752860297736;
-        Fri, 18 Jul 2025 10:38:17 -0700 (PDT)
+        bh=VDSwmwyHdOHdY5y6kv9+AKkxnfvOoBedcBRoJCdOkHI=;
+        b=rdG2Nm4MPPk4iMtRCZAgPYnnBFawqa6HaFWfuuWfUoqr13XSrRhmsLtzfgX/R0m8f8
+         rcdKYjM2i1cFBHtJAJ9lnUFrhe00obnXw20RkZ75/tu5HG2MnhvYI5guDbqnPd9hNvNY
+         WR9bvIDDdhf35n8yA9dRgNzJ0CX/GB/d+l1nRFQknvVm1OjAHVfPKf8PZh2AQ44aGg17
+         MCQTEab0uK3oRf/xPx+6PCTbFa+h2Qy3cuaXDxed6JEnWwUzGgCphQ4adFBj1LzEAcrR
+         U9pXX0lBzQL6G8DhOPxya8DKsBkttENnZPC79iJu0wyJRCczi4EfndKOOP7aUp9jXaE6
+         or0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVdIPmXdQmKWlvdT0nvjFNJUe3I45RG6vu/D/94PgAvyBIJmy6GcOZ2RdtqLLR5CPj638PofcX2zHkM42fLQps=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxi+4UYdmivD7tJe7rpa5qKnxlvxep5DRx31KAgP17j2bxW5gzz
+	U317tvrbbc0felmrOGZj2yqGjIwChfItMHysG61rDjF0NCN8nsBvJh+/
+X-Gm-Gg: ASbGnctuodefVwXLRBYQWwjXRd53oANhgVz6k2Xm2IchNne+cFe5zUCizTSopgre0Fu
+	8kFz1q309cLUM+S3DTkI0gyycA1zEghh0INYXwbDM6Li2kzZtUQ59Unilz+f+wJUj0YlGtWgGoB
+	8gmDsLseb1jf4Bvkt/D8WGoJs3+62ACktHF+ssMtOOf93jgpvUHfrcv8SKwHsyeQHbY4xyr3Fyu
+	lR92DqLfXdaaKsm3NzOy3MlANNu4pGgHfM2rJXZ6SWBfMpn/wZD7OaY9nM7r4Gux0AH0c/Z3GfA
+	gRSBVN+Z+RKE7VnoEwh/OslTf752TEaxfgHvIoWVMWy02QjDWwt5Tlm2wulnDAB72pSGsI/xawr
+	3RscqbVEhDipFi9c2iHaaXl3aqgubDpBkHGo=
+X-Google-Smtp-Source: AGHT+IH80ZxQCk9Ldxy2HcCZ94uxkc5cXHP4oMobg8T6kOM+VRAaXBoHX6GyCi79GvkHwqNKchitfQ==
+X-Received: by 2002:a17:90b:1810:b0:313:271a:af56 with SMTP id 98e67ed59e1d1-31cc2608a57mr6627758a91.30.1752900331477;
+        Fri, 18 Jul 2025 21:45:31 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31cb5c5da0csm3228067a91.25.2025.07.18.10.38.16
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31c9f1e61f3sm5956304a91.15.2025.07.18.21.45.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 10:38:16 -0700 (PDT)
+        Fri, 18 Jul 2025 21:45:30 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 18 Jul 2025 10:38:15 -0700
+Date: Fri, 18 Jul 2025 21:45:29 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Sung-Chi Li <lschyi@chromium.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
@@ -69,11 +69,10 @@ Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
 	Sung-Chi Li <lschyi@google.com>
-Subject: Re: [PATCH v6 2/2] hwmon: (cros_ec) register fans into thermal
- framework cooling devices
-Message-ID: <357c26e4-8ec4-4d52-873f-300eb20aa356@roeck-us.net>
+Subject: Re: [PATCH v6 1/2] hwmon: (cros_ec) add PWM control over fans
+Message-ID: <8869b525-c32d-4a8c-8e1c-b2718896dd2a@roeck-us.net>
 References: <20250718-cros_ec_fan-v6-0-8df018396b56@chromium.org>
- <20250718-cros_ec_fan-v6-2-8df018396b56@chromium.org>
+ <20250718-cros_ec_fan-v6-1-8df018396b56@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -83,24 +82,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250718-cros_ec_fan-v6-2-8df018396b56@chromium.org>
+In-Reply-To: <20250718-cros_ec_fan-v6-1-8df018396b56@chromium.org>
 
-On Fri, Jul 18, 2025 at 03:08:30PM +0800, Sung-Chi Li wrote:
+On Fri, Jul 18, 2025 at 03:08:29PM +0800, Sung-Chi Li wrote:
 > From: Sung-Chi Li <lschyi@chromium.org>
 > 
-> Register fans connected under EC as thermal cooling devices as well, so
-> these fans can then work with the thermal framework.
+> Newer EC firmware supports controlling fans through host commands, so
+> adding corresponding implementations for controlling these fans in the
+> driver for other kernel services and userspace to control them.
 > 
-> During the driver probing phase, we will also try to register each fan
-> as a thermal cooling device based on previous probe result (whether the
-> there are fans connected on that channel, and whether EC supports fan
-> control). The basic get max state, get current state, and set current
-> state methods are then implemented as well.
+> The driver will first probe the supported host command versions (get and
+> set of fan PWM values, get and set of fan control mode) to see if the
+> connected EC fulfills the requirements of controlling the fan, then
+> exposes corresponding sysfs nodes for userspace to control the fan with
+> corresponding read and write implementations.
+> As EC will automatically change the fan mode to auto when the device is
+> suspended, the power management hooks are added as well to keep the fan
+> control mode and fan PWM value consistent during suspend and resume. As
+> we need to access the hwmon device in the power management hook, update
+> the driver by storing the hwmon device in the driver data as well.
 > 
 > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
 > Acked-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> +
+...
 
-Applied.
+> +static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec, u8 index,
+> +					 u8 *control_method)
+> +{
+> +	struct ec_params_auto_fan_ctrl_v2 req = {
 
-Thanks,
+ec_params_auto_fan_ctrl_v2 isn't declared anywhere. Looks like some patch
+is missing, and I don't immediately see it. Dropping the series.
+
 Guenter

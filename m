@@ -1,79 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CF522D786;
-	Tue, 22 Jul 2025 12:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8DF2EA737
+	for <chrome-platform@lists.linux.dev>; Tue, 22 Jul 2025 13:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753185944; cv=none; b=OpPZROZfgWSSkxLyfLvf3vzTFaaYkqJshijemAoscKyv+n4ClxC11+PshUVYabgUi+QaK+aVZKfoOSlm/GiU01KamKvpibi/N0J5/hv7voFDjOOIssfTcBo9yR04dNajOPOnzcRibK7mphlHtQhpYjn1bfw4FpbLqGUcmifJJSs=
+	t=1753190913; cv=none; b=csjNsXKcPSQaZ3fT9wJZWAsaLDSuDnlc55io/EudN5GIOtrMAk2I3epin9/u62xQMmn2aLpwOmEvzv48iDOSv3P8h1wF5wxZhUiIqzk7CuW2a/hWn7cQrl4nOUDq3YGrZuQY/ZXopnb121HNnLTkXWGbc5Q38U+jyKYzUyap/rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753185944; c=relaxed/simple;
-	bh=WOXF/xJkKnwjqYSkGaByd+W5fwkF3TFkg37atWq1MFQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yy+eLWCcm7rq4Eq+fSX+t9KKkARKLm+ivmFRThPkH40NRMLoOfkszJojH7e/5SjfiVZvLNbTfH6EI1cmBa6eqenOZvuPxxmgL9va7fLu0SeRXaJ41dFOCTxLPl1dgcKl879smGvZ5nWaChv8/iXrO8ZKlDX/R3kijQCWsyJjp2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XMLX5o1H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753190913; c=relaxed/simple;
+	bh=lZfuCpsNtCDFtD2mIkqfNGc6k19kTKUYwNokWS/5tAM=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=KEtzQsv9Jz9NjoOEJEjUbENYnD7ps1NKOA96xzaxnbPS2XoEFfjdt4juZtJo32mNDCCiWfi+H7mxgdiP2TqGwc60mubwbWuTGew8YHZPmvAhLOCa3qEEnhtDXL0laoJxzPZFiAu6W0YHVaIvo1VdFHuxYKOatpJkX3UaP+nC4BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tmichalec.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W12V/RRr; arc=none smtp.client-ip=209.85.208.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tmichalec.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XMLX5o1H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEEE3C4CEF4;
-	Tue, 22 Jul 2025 12:05:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753185943;
-	bh=WOXF/xJkKnwjqYSkGaByd+W5fwkF3TFkg37atWq1MFQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=XMLX5o1H3iVkTCOY2CQjhqf9zgHytB8P/lq2rcxBrEQIkt7jEbhy+eGwXcbFHp3ar
-	 FObe90p4TE2Z8akWXs7f9bZ3cqjiiVc2N+hI2zmUvJBxT4sCw5/C/BN28DPf85czt2
-	 VJe0x9mHNgJbe3OA1B59lj1uLZOOPGZV/ge6/4QiAoAxT3CI82/vjRd02rK8Lnwwkl
-	 8KkhheRRtJDpX0z+Ytf38BAKTQ38f+yGB34UGatmivrPINawPYuNB4aplt5BjQL6Ro
-	 SJW6VELquadlI/Obpb7IV3jlr/EA2g3UPUzXc3u4NrBRTwK0Ia2oiewA54NtsD8KO6
-	 hPL5T18fVD8fg==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org
-Cc: tzungbi@kernel.org,
-	gregkh@linuxfoundation.org,
-	chrome-platform@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] platform/chrome: cros_ec: Unregister notifier in cros_ec_unregister()
-Date: Tue, 22 Jul 2025 12:05:13 +0000
-Message-ID: <20250722120513.234031-1-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W12V/RRr"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-607c239c7f0so5182302a12.3
+        for <chrome-platform@lists.linux.dev>; Tue, 22 Jul 2025 06:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753190910; x=1753795710; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=y2ZdCOMadLYtwQ17YQBl/MkVa95WXMm29CGtxSF5vMk=;
+        b=W12V/RRrEDfHFvK0yiLuDxZeF7RQq5rbMsshiBgr+3EsGQjZCeFFJGEvALfVVxeGBf
+         B5qNXM5I0iuBi2uPBfXa/ED6fTDJeP3p4R2B5yTeMRbjpWXiK7aevKCXDKx7Bbbga0Dk
+         pCQIO6u9faWYyOy20dyQQADigY8Y91oHoLPRcYnY/e57NEOMkDQHzr9w4wQoiHCO+G/5
+         HFbPcYz7Yvw6bjE2ffEEYzBl++WAYhPQFr51IMxAZbxOMudsGo4UTOJ2fjrPmWQQZLsk
+         pwO394/t5AZFi4r/HSq0zudXcZKxYK6o0/2p6nghEL1TP9GW/oRsT6sM4SawgUfg2nf5
+         pvIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753190910; x=1753795710;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=y2ZdCOMadLYtwQ17YQBl/MkVa95WXMm29CGtxSF5vMk=;
+        b=gXRdIFrJJuF9ONsJFw4jYxmpxPMuxHZ8Auc7OqccsMXST6eaRKyo+7C1h6/sO51hZ2
+         CTwT04PWbvY31kG2ndPVeZHY9JMdSChKu0PcAieALzFHcOb4LTQd08nFYHP6St+axDmv
+         rWvUNwh57S6OJuZXcpJ9qvD3yQBgg4Yt+qA+2PlunNsBCkMo8/4RN8fh9IsRkdweO3DG
+         EZ/VxvjA+VtWp1s0DVpbm3ncWFziGPky1FhCyjdT76o4PaDUa3gaoqsV+oFVLXD2+ZcR
+         Al19dq/Hi7nErLnAD6YoVGr6EwYXuSDbkrgPVTd/avC8NFGLvdI4cnwAOufU+XxWIFOj
+         Oh5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXmRT8j04KPkNMp5Hg2wOKO57x7/ZzQsN/auGwSm6weY7ldTWGi7DCquI+DVPVF2z/PKUx3H3vMMLHEovDfDCA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzIlwJ6RnSzx25psLzkBxJZmLvdEdYcGsBGSMVqZJRkWOmDaV2
+	5zks6cQWXc/+EkpQdvXCbniEAnDt3KNMbss442NPFfs4wsoGNsMSjABQSnoEAwAkz7JL88pMwm2
+	i8MVqUksSiSNiI1Gv1Q==
+X-Google-Smtp-Source: AGHT+IHhABfNDI6aFdSjh37rLs3eT9u7XfYoSpwrqg3BaY2FdWTG8XAloBBVS7kg58Tqg+LF5DEduLfWGJgT9C8=
+X-Received: from edys5.prod.google.com ([2002:a05:6402:17c5:b0:607:3229:efd5])
+ (user=tmichalec job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:270b:b0:612:c928:ead0 with SMTP id 4fb4d7f45d1cf-612c9292d12mr15692866a12.19.1753190910362;
+ Tue, 22 Jul 2025 06:28:30 -0700 (PDT)
+Date: Tue, 22 Jul 2025 15:28:26 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
+Message-ID: <20250722132826.707087-1-tmichalec@google.com>
+Subject: [PATCH] platform/chrome: cros_ec_typec: Check ec platform device pointer
+From: Tomasz Michalec <tmichalec@google.com>
+To: Benson Leung <bleung@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
+	Andrei Kuchynski <akuchynski@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>, Konrad Adamczyk <konrada@google.com>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	chromeos-krk-upstreaming@google.com, Tomasz Michalec <tmichalec@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The blocking notifier is registered in cros_ec_register(); however, it
-isn't unregistered in cros_ec_unregister().
+It is possible that parent device for cros_ec_typec device is already
+available, but ec pointer in parent driver data isn't populated yet. It
+may happen when cros_typec_probe is running in parallel with
+cros_ec_register. This leads to NULL pointer dereference when
+cros_typec_probe tries to get driver data from typec->ec->ec->dev.
 
-Fix it.
+Check if typec->ec->ec is set before using it in cros_typec_probe.
 
-Fixes: 42cd0ab476e2 ("platform/chrome: cros_ec: Query EC protocol version if EC transitions between RO/RW")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Tomasz Michalec <tmichalec@google.com>
 ---
-This is separated from a series (https://lore.kernel.org/chrome-platform/20250721044456.2736300-3-tzungbi@kernel.org/).
+ drivers/platform/chrome/cros_ec_typec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-While I'm still figuring out/testing the series, it'd be better to send the
-fix earlier (to catch up the upcoming merge window for example).
-
- drivers/platform/chrome/cros_ec.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-index 110771a8645e..fd58781a2fb7 100644
---- a/drivers/platform/chrome/cros_ec.c
-+++ b/drivers/platform/chrome/cros_ec.c
-@@ -318,6 +318,9 @@ EXPORT_SYMBOL(cros_ec_register);
-  */
- void cros_ec_unregister(struct cros_ec_device *ec_dev)
- {
-+	if (ec_dev->mkbp_event_supported)
-+		blocking_notifier_chain_unregister(&ec_dev->event_notifier,
-+						   &ec_dev->notifier_ready);
- 	platform_device_unregister(ec_dev->pd);
- 	platform_device_unregister(ec_dev->ec);
- 	mutex_destroy(&ec_dev->lock);
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 7678e3d05fd3..1ef181614d4a 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -1271,7 +1271,7 @@ static int cros_typec_probe(struct platform_device *pdev)
+ 	typec->dev = dev;
+ 
+ 	typec->ec = dev_get_drvdata(pdev->dev.parent);
+-	if (!typec->ec) {
++	if (!typec->ec || !typec->ec->ec) {
+ 		dev_err(dev, "couldn't find parent EC device\n");
+ 		return -ENODEV;
+ 	}
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 

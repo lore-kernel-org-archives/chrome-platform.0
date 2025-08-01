@@ -1,124 +1,245 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB65C1F4261
-	for <chrome-platform@lists.linux.dev>; Thu, 31 Jul 2025 16:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE90D2AE72
+	for <chrome-platform@lists.linux.dev>; Fri,  1 Aug 2025 07:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753978185; cv=none; b=ml6NBTGwWrbL/1u01P6z+dbrxGKEj6BtWCdQOaXQCRq9BUxlOjhg4n0ElpIQF5gbJdH7eBJzAIC+uBbGmpFT+BtcNezuPrXxumq21E+cXoPZb9Z/aQYP5wHVFoZLEqnQMuyzYF1YcQvUNhg9Bm1xlDE2KE0UyQqX5WG6NtHQItM=
+	t=1754033160; cv=none; b=Q00B8B1S2dOb6zMsh616YMHAJ/fye819aILO2hf0EQr+uQoDkZAzElMfskFlugkeFhVc+CqC1KjmtXzMKn+bwDpoZuL0ADdZAzZdb93V1vVu6JTt779rLpu/RAMaJLEqIP4LQpvHdEXp9+GE+1BnUmtliLD/sJtmxm4DMmeHKM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753978185; c=relaxed/simple;
-	bh=UUbVgaWG1FBSW2udf9aTCPmOnPAnABB3Ya1UbXyvUfU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UmtiylH9aoSoNU0LlePW2RhqHzfQE5bdqMLfVIAABxgRr2uUNMLHi4FHx0mYG7TkFXdJ8qMQ69Frnh6NVcrPgbz/iqTyG0SkzHEwaENIONRJeniCfc353L4I5yuL8u4ZDIZ9k6c4fEW2OK1EKLLVA1g1dGeDjfu9Aty5cO9URM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DwHLK5k0; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1754033160; c=relaxed/simple;
+	bh=7PiiKDsEXWHf4AEFk62GK8aanigmQQ5YqDbpDky5qA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e+xNo2nujwyrqv0/wxHNkVltj5CT30txYwfbvVFk1QCyYbTF4PYsxrpVRqgU0aM+0Qtsxtel1t+HbUZxLm4c4OZAWem4L2TPZCFCv63Dpw9/DBZCET/tVVXIhDmq0Duoe4e/sKjfiiQcPC0HEq3aKgosX4Gb8h05PvoGce11BLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LAfMG8dC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DwHLK5k0"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-313154270bbso648093a91.2
-        for <chrome-platform@lists.linux.dev>; Thu, 31 Jul 2025 09:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753978183; x=1754582983; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v8c1vs297OuDQhw1rF/WqVEVYzpa4jaap14+9/4mG/U=;
-        b=DwHLK5k0CUOSMXeoEbHAMBd7s0ydG8NbSIiOA+KvoBEALE+KEYjcckj7ZHxuKrvxbi
-         1D6p+NE79i6oQFANwvoRrmcFfRtzcBS2hEyn7erYr41Jvp3F4FC0/Ekn6tuE4BVU5vnT
-         qg9PnucN2ZC6XqgeerhOMNOQZ8AGILnI+SWVo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753978183; x=1754582983;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v8c1vs297OuDQhw1rF/WqVEVYzpa4jaap14+9/4mG/U=;
-        b=WI8pmfaWzPUsDkrBlU8EQnYggH5KHhksBlevGxPgwig5/DSbTCYo4ceDICX68AdV7C
-         9gnKmQ6HlS/xz5a+qyhNdArLru4Q3b9YW6EfI2OjR1Edn9n+JG2e5RfLRoReG1vRxtNp
-         O+r+kv5597LmF4q4Xmqh1sIh7PeVzLoUwjSjlmmAL0gOeGhHvTKREm9ihWRu69N9MUEi
-         LXDMfJDQNFKN6MtDVnFaqIZXD67yAvCbc8xpXka2BYq2y7fvJ2JU12eRTNRrV1ClEnbI
-         /27bppGvtIi2KElXchjHvRc66ZOdmwhDIVKXIfRdTdZuIaIAMjMhv55git4NH11/yp5w
-         if7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVuov1wGTsMDNzCfsD3pT9OBsFGBM7b/r5tjeK+V/LnsdafvnHe+SwrzPfjUZ/BlPMsVA4aSDAyg40ZnvxS0Aw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvAokLZP015egpujyn1BIdtw013OiQyLZz7LytTIuYpueovuEU
-	NBaapUw5/annhRKiuVo+D1CCm1r3uKlTvDnbGoJ8HF44CP/W1CdatQZob1vHeAiyJ30y08Ri74d
-	vzaqf05uOt+soQgSmmZA7/3VvIdtxmdh4eaFNF+FB
-X-Gm-Gg: ASbGncuxK3PnWGXFmLgEtwOx+w7i/CPUszmxTgsxRfJg3aQy7GaaSWTUwR4HvsGLh8e
-	3YW5yvniLTf09J1YS9qWFUMErD2YctLDSCi4sWIheQshzAmjR8Ua8YJrxxX50/oWuMaT28DjB6Y
-	dQsJAhvObdFSpHnNjtAFmqElVrCBt3YH6+v47ohXlyhhIaWLkmlmamXR3kFcpCupGo9JGvucWDN
-	L3VaEzNj3FqDUu822YGG62Ru8tHRmGiKQ==
-X-Google-Smtp-Source: AGHT+IH+w2hB9w50GxzxGlBRwTPS/DAt66aQNsJJcSJh0eSSExp3OpaWYiihvtaGYVhasRRauJvVuomLJpIbicNxMs8=
-X-Received: by 2002:a17:90b:3d07:b0:31f:1a3e:fe31 with SMTP id
- 98e67ed59e1d1-31f5dde8755mr12579873a91.11.1753978182602; Thu, 31 Jul 2025
- 09:09:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LAfMG8dC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EF99C4CEE7;
+	Fri,  1 Aug 2025 07:25:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754033159;
+	bh=7PiiKDsEXWHf4AEFk62GK8aanigmQQ5YqDbpDky5qA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LAfMG8dCt4wYVjkqdXLIIm9t84Ts6ZC+0Pk9CRCwlMJXieEjDN3O/QppXF0DYemyI
+	 XrahC2PU0Ua5TyVGl2T4zhAOu8RIEtDHEVaXwF9kvb4LKFR/g8WDptPPe6wYkr7BlK
+	 t9VcdqzYFEB6+y75M2C329wNQAJjelFZphq6Gr2dY8iYWpDLLsC3KMQHupBq+x/4z+
+	 UmwYceeroxI3xfhML6cRncxRNnDehc9p7kccQltJzCbIIv6M+gA2bVfXKnzsPHSdIh
+	 NQ0dGkYe7ktvevPpUWkcdeKfu8nKeP7sWzKURh/luksuq3COUHwsKoCQYMJLkRBqwc
+	 uFqAaNJv1jksg==
+Date: Fri, 1 Aug 2025 07:25:55 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: bleung@chromium.org, dawidn@google.com, chrome-platform@lists.linux.dev,
+	mhiramat@kernel.org
+Subject: Re: [PATCH v3 5/8] platform/chrome: Introduce cros_ec_device_alloc()
+Message-ID: <aIxsA3-y75nE01U_@google.com>
+References: <20250721044456.2736300-1-tzungbi@kernel.org>
+ <20250721044456.2736300-6-tzungbi@kernel.org>
+ <2025072114-unifier-screen-1594@gregkh>
+ <aIIDz_qtbRjZB8Sg@google.com>
+ <2025072428-marathon-anemia-c9f6@gregkh>
+ <aII10fnhJRDeGSHI@google.com>
+ <2025072537-sanction-overload-8acd@gregkh>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250630141239.3174390-1-akuchynski@chromium.org>
- <20250630141239.3174390-6-akuchynski@chromium.org> <2025070143-safeness-prewashed-6e9f@gregkh>
- <CAMMMRMeKyi56Pha-X86BaQwcHGCx-xu5F67HCGZg=Yhxuk==OQ@mail.gmail.com> <CAMMMRMf_qc342=azkU-ceg=f-db2Z9NiONOu1_oRk8tmRL4RGg@mail.gmail.com>
-In-Reply-To: <CAMMMRMf_qc342=azkU-ceg=f-db2Z9NiONOu1_oRk8tmRL4RGg@mail.gmail.com>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Thu, 31 Jul 2025 18:09:30 +0200
-X-Gm-Features: Ac12FXx94P8Xkhok4AYIXJ8K2qdSo2AVg2OAPp7s8VPn2NpKyCMBWlD2bnynfvo
-Message-ID: <CAMMMRMeYG-bvYSiE7K8AutorvyoiXypHXv_1z62Rvh_JNazd9g@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] usb: typec: Implement automated mode selection
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
-	Dmitry Baryshkov <lumag@kernel.org>, "Christian A. Ehrhardt" <lk@c--e.de>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025072537-sanction-overload-8acd@gregkh>
 
-On Thu, Jul 24, 2025 at 10:39=E2=80=AFAM Andrei Kuchynski
-<akuchynski@chromium.org> wrote:
->
-> Proposed sysfs entries for V3:
->
-> - portN/portN.M/priority, RW.
-> This attribute assigns a unique priority to each mode. If a user
-> attempts to input a value that is already in use, the existing mode at
-> that priority will have its priority incremented by one to accommodate
-> the new input. Users cannot disable a mode via this entry; disabling
-> is handled by `active` for altmodes and `usb_capability` for USB4 mode
->
-> - portN/mode_priorities, RO.
-> Provides a prioritized list of all available modes for the port,
-> formatted as a space-separated string (e.g., "USB4 TBT DP").
->
-> - portN-partner/mode_selection, RW.
-> Write: 1/0 to trigger or cancel mode selection.
-> Read:  Provides a prioritized list of all available modes for the
-> partner. Modes currently in progress are indicated by parentheses
-> (e.g., "USB4 (TBT) DP"). Active modes are enclosed in brackets
-> (e.g., "USB4 [TBT] DP").
->
-> - portN-partner.M/entry_result, RO.
-> Represents a mode state for this altmode, e.g. "none", "active",
-> "in progress", "cable error", "timeout".
->
-> - portN/usb4_priority, RW.
-> - portN-partner/usb4_entry_result, RO.
-> USB4 mode, not being part of `typec_altmode_group`, introduces
-> additional attributes with the same meaning as alternate modes
-> attributes.
->
-> Please let me know if you have any questions, require further
-> clarification on these proposed sysfs entries, or have objections to
-> them.
+On Fri, Jul 25, 2025 at 06:58:23AM +0200, Greg KH wrote:
+> On Thu, Jul 24, 2025 at 01:32:01PM +0000, Tzung-Bi Shih wrote:
+> > On Thu, Jul 24, 2025 at 12:36:18PM +0200, Greg KH wrote:
+> > > NEVER attempt to increment/decrement refcounts on open/release.  That
+> > > way lies madness and should not be needed at all, the underlying
+> > > infrastructure should keep things working properly here, right?
+> > [...]
+> You are attempting to have one reference count for one object that has
+> different lifecycles.  That doesn't work well, if at all.  See the
+> numerous talks at the Linux Plumbers conference over the past few years
+> about why this is a "bad idea" and for ideas on how to redesign it to
+> fix the issue.
+> 
+> Hint, 2 objects, different reference counts :)
 
-Regarding the sysfs attributes, Heikki, do you have any suggestions or
-disagreements? Please let me know your thoughts.
+Referenced the talk [1] and its related works and hope I understand it
+correctly.
 
-Additionally, for consistency, it would be beneficial to use names
-"DisplayPort" and "Thunderbolt3" since they are already recognized
-within the kernel. Using these full names rather than "DP" and "TBT"
-would be preferable
+[1] https://lpc.events/event/17/contributions/1627/
 
-Thanks,
-Andrei
+Summarize the proposed fix and I hope it makes sense:
+
+Introduce a new helper: ref_proxy for managing "weak" references to the
+object that may be gone at any time.  `ref` is the target pointer (i.e.
+the resource) which could be released asynchronously (from the resource
+consumers' point of view).  The struct ref_proxy_struct is for resource
+providers and is only freed on dropping the final reference.
+
+  +struct ref_proxy_struct {
+  +       struct srcu_struct srcu;
+  +       void __rcu *ref;
+  +       struct kref kref;
+  +};
+  +
+  +struct ref_proxy_struct *ref_proxy_struct_alloc(void *ref)
+  +{
+  +       struct ref_proxy_struct *rp;
+  +
+  +       rp = kzalloc(sizeof(*rp), GFP_KERNEL);
+  +       if (!rp)
+  +               return NULL;
+  +
+  +       init_srcu_struct(&rp->srcu);
+  +       rcu_assign_pointer(rp->ref, ref);
+  +       synchronize_srcu(&rp->srcu);
+  +       kref_init(&rp->kref);
+  +
+  +       return rp;
+  +}
+  +EXPORT_SYMBOL(ref_proxy_struct_alloc);
+  +
+  +static void ref_proxy_struct_release(struct kref *kref)
+  +{
+  +       struct ref_proxy_struct *rp = container_of(kref, struct ref_proxy_struct, kref);
+  +
+  +       cleanup_srcu_struct(&rp->srcu);
+  +       kfree(rp);
+  +}
+  +
+  +void ref_proxy_struct_free(struct ref_proxy_struct *rp)
+  +{
+  +       rcu_assign_pointer(rp->ref, NULL);
+  +       synchronize_srcu(&rp->srcu);
+  +       kref_put(&rp->kref, ref_proxy_struct_release);
+  +}
+  +EXPORT_SYMBOL(ref_proxy_struct_free);
+
+The struct ref_proxy is for resource consumers.  It holds a reference to
+the ref_proxy_struct during its lifetime.
+
+  +struct ref_proxy {
+  +       struct ref_proxy_struct *rp;
+  +       int idx;
+  +};
+  +
+  +struct ref_proxy *ref_proxy_alloc(struct ref_proxy_struct *rp)
+  +{
+  +       struct ref_proxy *proxy;
+  +
+  +       proxy = kzalloc(sizeof(*proxy), GFP_KERNEL);
+  +       if (!proxy)
+  +               return NULL;
+  +
+  +       proxy->rp = rp;
+  +       kref_get(&rp->kref);
+  +
+  +       return proxy;
+  +}
+  +EXPORT_SYMBOL(ref_proxy_alloc);
+  +
+  +void ref_proxy_free(struct ref_proxy *proxy)
+  +{
+  +       struct ref_proxy_struct *rp = proxy->rp;
+  +
+  +       kref_put(&rp->kref, ref_proxy_struct_release);
+  +       kfree(proxy);
+  +}
+  +EXPORT_SYMBOL(ref_proxy_free);
+
+When a resource consumer needs to reference the resource, it gets the
+pointer via ref_proxy_get() which entering a RCU critical section and
+puts the pointer via ref_proxy_put() which leaving the critical section
+afterward.
+
+  +void *ref_proxy_get(struct ref_proxy *proxy)
+  +{
+  +       struct ref_proxy_struct *rp = proxy->rp;
+  +       void *ref;
+  +
+  +       proxy->idx = srcu_read_lock(&rp->srcu);
+  +
+  +       ref = rcu_dereference(rp->ref);
+  +       if (!ref)
+  +               srcu_read_unlock(&rp->srcu, proxy->idx);
+  +
+  +       return ref;
+  +}
+  +EXPORT_SYMBOL(ref_proxy_get);
+  +
+  +void ref_proxy_put(struct ref_proxy *proxy)
+  +{
+  +       struct ref_proxy_struct *rp = proxy->rp;
+  +
+  +       srcu_read_unlock(&rp->srcu, proxy->idx);
+  +}
+  +EXPORT_SYMBOL(ref_proxy_put);
+
+The resource provider (e.g. cros_ec_spi) should provide a ref_proxy on
+probing and free the ref_proxy on removing.
+
+  @@ -770,0 +772,4 @@ static int cros_ec_spi_probe(struct spi_device *spi)
+  +       ec_dev->ref_proxy = ref_proxy_struct_alloc(ec_dev);
+  +       if (!ec_dev->ref_proxy)
+  +               return -ENOMEM;
+  +
+
+   static void cros_ec_spi_remove(struct spi_device *spi)
+   {
+          struct cros_ec_device *ec_dev = spi_get_drvdata(spi);
+  
+  +       ref_proxy_struct_free(ec_dev->ref_proxy);
+          cros_ec_unregister(ec_dev);
+   }
+
+The resource consumer (e.g. cros_ec_chardev) should create an instance of
+ref_proxy and tie to its local lifecycle.  It should get the pointer before
+accessing.  It indicates the resource is no longer available if the
+returning pointer is NULL.
+
+  @@ -166,7 +187,10 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
+          if (!priv)
+                  return -ENOMEM;
+  
+  -       priv->ec_dev = ec_dev;
+  +       priv->ec_dev_proxy = ref_proxy_alloc(ec_dev->ref_proxy);
+  +       if (!priv->ec_dev_proxy)
+  +               return -ENOMEM;
+  +
+          priv->cmd_offset = ec->cmd_offset;
+          filp->private_data = priv;
+          INIT_LIST_HEAD(&priv->events);
+
+  @@ -251,11 +276,16 @@ static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
+   static int cros_ec_chardev_release(struct inode *inode, struct file *filp)
+   {
+          struct chardev_priv *priv = filp->private_data;
+  -       struct cros_ec_device *ec_dev = priv->ec_dev;
+  +       struct cros_ec_device *ec_dev;
+          struct ec_event *event, *e;
+  
+  -       blocking_notifier_chain_unregister(&ec_dev->event_notifier,
+  -                                          &priv->notifier);
+  +       ec_dev = ref_proxy_get(priv->ec_dev_proxy);
+  +       if (ec_dev) {
+  +               blocking_notifier_chain_unregister(&ec_dev->event_notifier,
+  +                                                  &priv->notifier);
+  +               ref_proxy_put(priv->ec_dev_proxy);
+  +       }
+  +       ref_proxy_free(priv->ec_dev_proxy);
+
+  @@ -64,7 +66,11 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
+          msg->command = EC_CMD_GET_VERSION + priv->cmd_offset;
+          msg->insize = sizeof(*resp);
+
+  -       ret = cros_ec_cmd_xfer_status(priv->ec_dev, msg);
+  +       ec_dev = ref_proxy_get(priv->ec_dev_proxy);
+  +       if (!ec_dev)
+  +               return -ENODEV;
+  +       ret = cros_ec_cmd_xfer_status(ec_dev, msg);
+  +       ref_proxy_put(priv->ec_dev_proxy);
+          if (ret < 0) {
+                  snprintf(str, maxlen,
+                           "Unknown EC version, returned error: %d\n",

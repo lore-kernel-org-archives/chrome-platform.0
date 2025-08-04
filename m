@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B438E1C84B8;
-	Mon,  4 Aug 2025 00:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83501D63DF;
+	Mon,  4 Aug 2025 00:33:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754267592; cv=none; b=geNgox4TJlXAh8kNMkfBwGiWLdFOQwoM+wQwWBvIQrE470jygnk8ar1Hz5W9+WGhRIE+UOlEsbYILKTBbD/ZFn2z/yJP+jw3nsBg7cA+iE6prAIUNsue79Q+jyzJqfP3HG2j4vwS/BizX9zpVTStaJ7ExUIK89vkd/URUMLwDBk=
+	t=1754267635; cv=none; b=JVdiy/zXAiAYOWMv0YpYrPHewHGIqOw4moqqzM57DGMDG7FfOJCWUkhOjk9PJtOXe2eTIthuB71HRdIhFFHAwnkfrI8s2I2OS/0mMxZxf1zYDXn4697JmxdJGFuoZa3UoqkjIYSSP8fvlybNX3MgjtBjHFzPe5RcuhTwueD/HDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754267592; c=relaxed/simple;
-	bh=zcedYNa5zL016K3XMpbB9rAfhfDmoOYDSvzyv/PdQYU=;
+	s=arc-20240116; t=1754267635; c=relaxed/simple;
+	bh=pALXcYUmK9PRm+sRhajC+PKSusVlWUKECYYISei1oNI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=enEDl92XSVP46aub5t1W6duCNalgKnotZoSTXsI921p6J4iw4vaO0G1g63t7AQx+moRXIlqmrseRk5/as+fjRJHmNtidd04DJAHNXv44tHFQbALOnfyZO5DBoYE3PCtpuQDg3+BA27Bw0DeTshlwaOjA3CueNMnbphOIbLTatAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uc4rfgh2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ZXFPAzXENQYo4a2e0iaK/SzlJ28H9fLWcGgHl3OAjKnpFIw2WHQdUE1mH0LZzZ06Da7B3hrygaQJQ3Q6K7hOddJTFy00OaX6RufRhYxnNgHHrr3zuR2yi7ZvTjS/cgXVck0KLZOFSGV3V6xfkbuagiFAQM9Mw0DD6lahBiFU2cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kj/bemiv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uc4rfgh2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38424C4CEEB;
-	Mon,  4 Aug 2025 00:33:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kj/bemiv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA2FC4CEEB;
+	Mon,  4 Aug 2025 00:33:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754267592;
-	bh=zcedYNa5zL016K3XMpbB9rAfhfDmoOYDSvzyv/PdQYU=;
+	s=k20201202; t=1754267635;
+	bh=pALXcYUmK9PRm+sRhajC+PKSusVlWUKECYYISei1oNI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uc4rfgh2Ukbt5AfQRPlp25ptXrzCb0hRumzliUsnvWEA3nnxgOwF3gMBBTBj/6qLh
-	 s30Hs//iJ6H+EsxMnqxJDLjJfSEdGmsagjeF27rmhGsxxA0pLIdJFHet4pjN5AQ7Gc
-	 jiFj4mrkCwRnluN63vokEHdwdXTu+MAH0lGP8TuZ0cGa8rinSjVtiYI/3pCk2sjefr
-	 joC99ktmuu3hEcyRDV0hGlegReYmYeXx3QJh1xdWHkY+Lq/uVE8IvAxQjxC9tY5Xq7
-	 413VtIUp4VyYlEMjnotXANXF7lunMcbbAOdAPya3N1tYZircr+wi3HpnjVDvsVRzuX
-	 TRxORB0fz/8qQ==
+	b=kj/bemivzoIGE5W1e5/KiFcxZjR8vUVwRwf4IL+TkpIGt6Y0FcrUc20GkurgmtBPq
+	 Rk6K6SOzkB7lXyxe2di4wtYzBX0fRrl/TEDIudEyxsY4obbs6YZkXuVHzvjX4MauH8
+	 f+Qr4Xf6Bcz+UtaEGe/jWXJHpwg19KCdpxYLkzLIanKCGVtvbhp12wBVwAiaojmfZz
+	 GCMYjK0RGwSgawOczskp/8++lZ4urWp9g+6UxpuEvgsDRSnP8MO12F0SRzpOBcvRg2
+	 eb9PcOKodb0AFq07MmS0HBx4PBxdKaitCrY2Tq0ArRml+5ki8O0Y/Im3qJqkLBk8cq
+	 xIGoARkgslxPw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Gwendal Grignou <gwendal@chromium.org>,
-	Gwendal Grignou <gwendal@google.com>,
+Cc: Tomasz Michalec <tmichalec@google.com>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	bleung@chromium.org,
+	jthies@google.com,
+	akuchynski@chromium.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 47/69] platform/chrome: cros_ec_sensorhub: Retries when a sensor is not ready
-Date: Sun,  3 Aug 2025 20:30:57 -0400
-Message-Id: <20250804003119.3620476-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 63/69] platform/chrome: cros_ec_typec: Defer probe on missing EC parent
+Date: Sun,  3 Aug 2025 20:31:13 -0400
+Message-Id: <20250804003119.3620476-63-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250804003119.3620476-1-sashal@kernel.org>
 References: <20250804003119.3620476-1-sashal@kernel.org>
@@ -52,21 +54,21 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.41
 Content-Transfer-Encoding: 8bit
 
-From: Gwendal Grignou <gwendal@chromium.org>
+From: Tomasz Michalec <tmichalec@google.com>
 
-[ Upstream commit 981d7f91aeda17424b29f033249f4fa7cd2a7556 ]
+[ Upstream commit 8866f4e557eba43e991f99711515217a95f62d2e ]
 
-When the EC/ISH starts, it can take a while for all the sensors to be up
-and running or declared broken.
+If cros_typec_probe is called before EC device is registered,
+cros_typec_probe will fail. It may happen when cros-ec-typec.ko is
+loaded before EC bus layer module (e.g. cros_ec_lpcs.ko,
+cros_ec_spi.ko).
 
-If the sensor stack return -EBUSY when checking for sensor information,
-retry up to 50 times.
-It has been observed 100ms wait time is enough to have valid sensors
-ready. It can take more time in case a sensor is really broken and is
-not coming up.
+Return -EPROBE_DEFER when cros_typec_probe doesn't get EC device, so
+the probe function can be called again after EC device is registered.
 
-Signed-off-by: Gwendal Grignou <gwendal@google.com>
-Link: https://lore.kernel.org/r/20250623210518.306740-1-gwendal@google.com
+Signed-off-by: Tomasz Michalec <tmichalec@google.com>
+Reviewed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Link: https://lore.kernel.org/r/20250610153748.1858519-1-tmichalec@google.com
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -78,107 +80,65 @@ LLM Generated explanations, may be completely bogus:
 This commit should be backported to stable kernel trees for the
 following reasons:
 
-1. **Fixes a real user-impacting bug**: The commit addresses a race
-   condition where the ChromeOS EC sensor hub fails to initialize
-   sensors properly during EC/ISH startup. Without this fix, sensors may
-   appear as broken or unavailable to userspace when they are actually
-   just slow to initialize.
+1. **Fixes a real user-facing bug**: The commit addresses a module
+   loading race condition where `cros_ec_typec.ko` can fail to probe if
+   loaded before the EC bus layer modules (`cros_ec_lpcs.ko`,
+   `cros_ec_spi.ko`). This causes the Type-C functionality to completely
+   fail on affected systems.
 
-2. **Small and contained fix**: The change is minimal - it only adds:
-   - A retry loop around `cros_ec_cmd_xfer_status()` for -EBUSY errors
-   - A 5-6ms delay between retries
-   - A maximum of 50 retries (approximately 250-300ms total timeout)
-   - A warning message when retries were needed
+2. **Small and contained fix**: The change is minimal - only 2 lines of
+   actual code changes:
+   - Changes `dev_err()` to `dev_warn()` (cosmetic improvement)
+   - Changes return value from `-ENODEV` to `-EPROBE_DEFER`
 
-3. **Clear bug fix pattern**: The EC returning -EBUSY (EC_RES_BUSY) is
-   documented behavior indicating "Up but too busy. Should retry". The
-   original code didn't handle this case, leading to sensors being
-   skipped during initialization.
+3. **Follows established kernel patterns**: The fix uses the standard
+   `-EPROBE_DEFER` mechanism which is the proper way to handle driver
+   dependencies in the Linux kernel. The driver already uses
+   `-EPROBE_DEFER` in another location (line 1289) for a similar EC
+   device check.
 
-4. **Low regression risk**:
-   - The retry logic only triggers on -EBUSY errors, not affecting the
-     normal path
-   - The change is isolated to sensor initialization during probe
-   - Similar retry patterns exist in other parts of the cros_ec
-     subsystem (e.g., commit 11799564fc7e)
-   - The dev_warn to dev_err change is appropriate as sensor
-     initialization failure is an error condition
+4. **No architectural changes**: This is a simple probe deferral fix
+   that doesn't introduce new features or change any existing
+   functionality. It merely allows the driver to retry probing later
+   when dependencies are satisfied.
 
-5. **Hardware-specific timing issue**: This fixes a timing-dependent
-   hardware initialization issue that can manifest differently across
-   different EC/ISH firmware versions and boot conditions, making it
-   important for stable operation across various Chromebook models.
+5. **Minimal regression risk**: Returning `-EPROBE_DEFER` instead of
+   `-ENODEV` is a safe change that only affects the probe retry
+   behavior. The driver will still fail eventually if the EC device
+   never appears.
 
-6. **No architectural changes**: The commit doesn't introduce new
-   features or change any interfaces - it simply makes the existing
-   sensor initialization more robust by handling a known EC busy state.
+6. **Fixes a regression**: Looking at commit ffebd9053272
+   ("platform/chrome: cros_ec_typec: Check for EC device"), the check
+   for parent EC device was added to handle older Chromebooks. However,
+   it inadvertently broke systems where module loading order could vary,
+   creating a race condition.
 
-The commit follows established patterns in the cros_ec subsystem for
-handling EC_RES_BUSY responses and is a straightforward reliability
-improvement that should be included in stable kernels to ensure
-consistent sensor availability on ChromeOS devices.
+7. **Similar pattern in the subsystem**: Other Chrome platform drivers
+   already use `-EPROBE_DEFER` for similar dependency handling (as seen
+   in commit 13aba1e532f0).
 
- drivers/platform/chrome/cros_ec_sensorhub.c | 23 +++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+The fix properly handles the asynchronous nature of driver loading in
+modern Linux systems where module loading order is not guaranteed,
+making it an important fix for system reliability.
 
-diff --git a/drivers/platform/chrome/cros_ec_sensorhub.c b/drivers/platform/chrome/cros_ec_sensorhub.c
-index 50cdae67fa32..9bad8f72680e 100644
---- a/drivers/platform/chrome/cros_ec_sensorhub.c
-+++ b/drivers/platform/chrome/cros_ec_sensorhub.c
-@@ -8,6 +8,7 @@
+ drivers/platform/chrome/cros_ec_typec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index f1324466efac..ca665b901010 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -1226,8 +1226,8 @@ static int cros_typec_probe(struct platform_device *pdev)
  
- #include <linux/init.h>
- #include <linux/device.h>
-+#include <linux/delay.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_data/cros_ec_commands.h>
-@@ -18,6 +19,7 @@
- #include <linux/types.h>
+ 	typec->ec = dev_get_drvdata(pdev->dev.parent);
+ 	if (!typec->ec) {
+-		dev_err(dev, "couldn't find parent EC device\n");
+-		return -ENODEV;
++		dev_warn(dev, "couldn't find parent EC device\n");
++		return -EPROBE_DEFER;
+ 	}
  
- #define DRV_NAME		"cros-ec-sensorhub"
-+#define CROS_EC_CMD_INFO_RETRIES 50
- 
- static void cros_ec_sensorhub_free_sensor(void *arg)
- {
-@@ -53,7 +55,7 @@ static int cros_ec_sensorhub_register(struct device *dev,
- 	int sensor_type[MOTIONSENSE_TYPE_MAX] = { 0 };
- 	struct cros_ec_command *msg = sensorhub->msg;
- 	struct cros_ec_dev *ec = sensorhub->ec;
--	int ret, i;
-+	int ret, i, retries;
- 	char *name;
- 
- 
-@@ -65,12 +67,25 @@ static int cros_ec_sensorhub_register(struct device *dev,
- 		sensorhub->params->cmd = MOTIONSENSE_CMD_INFO;
- 		sensorhub->params->info.sensor_num = i;
- 
--		ret = cros_ec_cmd_xfer_status(ec->ec_dev, msg);
-+		retries = CROS_EC_CMD_INFO_RETRIES;
-+		do {
-+			ret = cros_ec_cmd_xfer_status(ec->ec_dev, msg);
-+			if (ret == -EBUSY) {
-+				/* The EC is still busy initializing sensors. */
-+				usleep_range(5000, 6000);
-+				retries--;
-+			}
-+		} while (ret == -EBUSY && retries);
-+
- 		if (ret < 0) {
--			dev_warn(dev, "no info for EC sensor %d : %d/%d\n",
--				 i, ret, msg->result);
-+			dev_err(dev, "no info for EC sensor %d : %d/%d\n",
-+				i, ret, msg->result);
- 			continue;
- 		}
-+		if (retries < CROS_EC_CMD_INFO_RETRIES) {
-+			dev_warn(dev, "%d retries needed to bring up sensor %d\n",
-+				 CROS_EC_CMD_INFO_RETRIES - retries, i);
-+		}
- 
- 		switch (sensorhub->resp->info.type) {
- 		case MOTIONSENSE_TYPE_ACCEL:
+ 	platform_set_drvdata(pdev, typec);
 -- 
 2.39.5
 

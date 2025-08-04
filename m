@@ -1,106 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C69B14F70
-	for <chrome-platform@lists.linux.dev>; Fri,  1 Aug 2025 08:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2525712DDA1;
+	Mon,  4 Aug 2025 00:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754038206; cv=none; b=so5gDe56E8DLUU4OsSeQZlHmM3cdzH/Hu5n4UKaxg1dT3qyPxgEqeTKUcgLCC80iXBxbc6/UD4N70KkhrEFuEmIK+TkHZAwxFARXIBusFQzN59RBNyUVB2MPNy5bWkQDMH+TERMdRulJIk0uJmWLrHiRIBpqhSF3fNIArTEFCxs=
+	t=1754267084; cv=none; b=aPVXqRZG4VvQ5jb0zg1Nwu9Ky50ChS1NdeQcmfZw7ho7vkP9lewcclIjGlcWQbJD9kSgkzRx/EteJerOOB8I9iYEbXLhvYkuKctB2G3JisYreYzHCGihPI9cgFHk9KApBlVwqGtK85BNVN8Wz/Ji43uE9r6hUNNV1IFfX8dXVL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754038206; c=relaxed/simple;
-	bh=NX0fh48UqKbXVvlmTjdDU0l9HQmcecA4liNgOzUzOZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tfGFPnRe20BG7L3eBxuM8znuMLvYEWf9D9ZSLLQMWVyBDnR6/5GWwIeGiT726zAL4bSIvjWGhus49E6w+K2J5yfVvbxShJ/wfJ4NqD+PWOOJrITn+6QWZ4oLpsmwy95mJj1JtcY38Shec674wu4kD/HaV57EdeywaKO7WuSAv44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Yd7RYfyv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754267084; c=relaxed/simple;
+	bh=tV8mOr2kNygU7VxJZSE6t/MNb+JDz0pMHgh4pTga0Ms=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=aThfm21uajXGjCoxS+jGeHMUGet1FnAaiJTRClAhDj5kYvK3gjIC46nF5X5yVt4fibgcVQHrHlqeDvgN2iky9WPUF4j89hJFJLT4/jD6f+wfh1LT4j9gD461qaA8jGPCW/QmotTsx/gh/wLrqnHYxIdluPRDaqnEqKmE+mQtbfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nzwqRDkH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Yd7RYfyv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55881C4CEE7;
-	Fri,  1 Aug 2025 08:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1754038205;
-	bh=NX0fh48UqKbXVvlmTjdDU0l9HQmcecA4liNgOzUzOZA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yd7RYfyvO4bWltNGbMtcBgC5+gPUUv8HSK+pKn+mvL5FzM2Li3FlV83o8mlJWkutQ
-	 HxcKbO3trB/6Q9T5IP+8GDGEDNq/ISMET43sI5NDSJoRvbr7hextVn32jxMXaYYveE
-	 9xoXc+g2HDx2MF3glP9TisIRWAB3vUnbmPFye1lo=
-Date: Fri, 1 Aug 2025 09:50:01 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: bleung@chromium.org, dawidn@google.com, chrome-platform@lists.linux.dev,
-	mhiramat@kernel.org
-Subject: Re: [PATCH v3 5/8] platform/chrome: Introduce cros_ec_device_alloc()
-Message-ID: <2025080159-grandma-overpass-bc1e@gregkh>
-References: <20250721044456.2736300-1-tzungbi@kernel.org>
- <20250721044456.2736300-6-tzungbi@kernel.org>
- <2025072114-unifier-screen-1594@gregkh>
- <aIIDz_qtbRjZB8Sg@google.com>
- <2025072428-marathon-anemia-c9f6@gregkh>
- <aII10fnhJRDeGSHI@google.com>
- <2025072537-sanction-overload-8acd@gregkh>
- <aIxsA3-y75nE01U_@google.com>
- <2025080101-iron-yelp-82c5@gregkh>
- <aIx9vDcqdX8WBTmh@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nzwqRDkH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FA4C4CEF0;
+	Mon,  4 Aug 2025 00:24:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754267084;
+	bh=tV8mOr2kNygU7VxJZSE6t/MNb+JDz0pMHgh4pTga0Ms=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nzwqRDkH+uHQamETtw+eJd8AwZ4TyxE3P9A0K6YciHavY7tOl+gI+nF9SyTVQe+A/
+	 cookXtrqBAbbWgX0Rue2skTJMuhzQJhWWbVwjIatzSAVT9atK1I86C90M5767klCZe
+	 S5xUDdeunWRrgngr66Aq/8pWg1RkLmUlMsOadqWS8dZhRiqU1yUFV3dyLx186oIDmu
+	 +P/nfJZcGeVubQskfcon3W7CwaRXtejlXFoGebShIDvqjVOfQETk9pCX2/CrhMcai7
+	 lyv29Y87A1q/xNjagYaWm3qxYYtdWB+kYHmKgZrL0zk0+HoPKATQvM9J2mR+NjVClK
+	 nDleagGyMMMMg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Jameson Thies <jthies@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	abhishekpandit@chromium.org,
+	ukaszb@chromium.org,
+	akuchynski@chromium.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.16 20/85] usb: typec: ucsi: Add poll_cci operation to cros_ec_ucsi
+Date: Sun,  3 Aug 2025 20:22:29 -0400
+Message-Id: <20250804002335.3613254-20-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250804002335.3613254-1-sashal@kernel.org>
+References: <20250804002335.3613254-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aIx9vDcqdX8WBTmh@google.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.16
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 01, 2025 at 08:41:32AM +0000, Tzung-Bi Shih wrote:
-> On Fri, Aug 01, 2025 at 10:22:18AM +0200, Greg KH wrote:
-> > On Fri, Aug 01, 2025 at 07:25:55AM +0000, Tzung-Bi Shih wrote:
-> > > On Fri, Jul 25, 2025 at 06:58:23AM +0200, Greg KH wrote:
-> > > > On Thu, Jul 24, 2025 at 01:32:01PM +0000, Tzung-Bi Shih wrote:
-> > > > > On Thu, Jul 24, 2025 at 12:36:18PM +0200, Greg KH wrote:
-> > > > > > NEVER attempt to increment/decrement refcounts on open/release.  That
-> > > > > > way lies madness and should not be needed at all, the underlying
-> > > > > > infrastructure should keep things working properly here, right?
-> > > > > [...]
-> > > > You are attempting to have one reference count for one object that has
-> > > > different lifecycles.  That doesn't work well, if at all.  See the
-> > > > numerous talks at the Linux Plumbers conference over the past few years
-> > > > about why this is a "bad idea" and for ideas on how to redesign it to
-> > > > fix the issue.
-> > > > 
-> > > > Hint, 2 objects, different reference counts :)
-> > > 
-> > > Referenced the talk [1] and its related works and hope I understand it
-> > > correctly.
-> > > 
-> > > [1] https://lpc.events/event/17/contributions/1627/
-> > > 
-> > > Summarize the proposed fix and I hope it makes sense:
-> > > 
-> > > Introduce a new helper: ref_proxy for managing "weak" references to the
-> > > object that may be gone at any time.  `ref` is the target pointer (i.e.
-> > > the resource) which could be released asynchronously (from the resource
-> > > consumers' point of view).  The struct ref_proxy_struct is for resource
-> > > providers and is only freed on dropping the final reference.
-> > 
-> > <snip>
-> > 
-> > Nice!  At a quick glance, this does look like what we need (and if it
-> > helps, matches what was just done in the Rust kernel apis, right?)
-> 
-> Thanks for the review.  I'd need to check.  I wasn't aware of what was just
-> done in the Rust kernel APIs.
+From: Jameson Thies <jthies@google.com>
 
-Take a look at that, if there's any way it can align up with what the
-rust code does, if possible, that would be good as we all are going to
-be crossing between the two different languages a lot :)
+[ Upstream commit 300386d117a98961fc1d612d1f1a61997d731b8a ]
 
-> > Want to turn this into something real and submit it for review after you
-> > test it out with your driver to see if it does work?
-> 
-> Have tested on the draft version and it works.  Will consolidate the patches
-> and send them for further reviews.
+cros_ec_ucsi fails to allocate a UCSI instance in it's probe function
+because it does not define all operations checked by ucsi_create.
+Update cros_ec_ucsi operations to use the same function for read_cci
+and poll_cci.
 
-Great!  No rush, we can't do anything until after -rc1 is out.
+Signed-off-by: Jameson Thies <jthies@google.com>
+Reviewed-by: Benson Leung <bleung@chromium.org>
+Link: https://lore.kernel.org/r/20250711202033.2201305-1-jthies@google.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-thanks,
+LLM Generated explanations, may be completely bogus:
 
-greg k-h
+Now I understand the timeline:
+1. The cros_ec_ucsi driver was added on 2024-12-31
+2. The poll_cci requirement was added on 2025-02-17 (after the
+   cros_ec_ucsi driver was already in the kernel)
+3. This broke the cros_ec_ucsi driver because it didn't have the
+   poll_cci operation defined
+
+**Backport Status: YES**
+
+This commit fixes a regression where the cros_ec_ucsi driver fails to
+allocate a UCSI instance during probe because it lacks the poll_cci
+operation that became mandatory in commit 976e7e9bdc77 ("acpi: typec:
+ucsi: Introduce a ->poll_cci method").
+
+The commit meets all criteria for stable backporting:
+
+1. **Fixes a real bug**: The driver completely fails to probe without
+   this fix, preventing ChromeOS EC-based UCSI devices from working at
+   all. The error occurs in ucsi_create() at
+   drivers/usb/typec/ucsi/ucsi.c:1933 where it checks for the presence
+   of all required operations including poll_cci.
+
+2. **Small and contained change**: The fix is minimal - it only adds one
+   line to the operations structure (`.poll_cci = cros_ucsi_read_cci,`),
+   reusing the existing read_cci implementation which is appropriate for
+   this driver.
+
+3. **No side effects**: The change simply allows the driver to pass the
+   operations validation check. Using the same function for both
+   read_cci and poll_cci is the correct approach for drivers that don't
+   have the ACPI-specific sync issues that prompted the poll_cci split.
+
+4. **Fixes a regression**: This is fixing a regression introduced by
+   commit 976e7e9bdc77, which itself was marked for stable. Any stable
+   kernel that includes 976e7e9bdc77 but not this fix will have a broken
+   cros_ec_ucsi driver.
+
+5. **Clear fix relationship**: The commit message clearly identifies the
+   problem (ucsi_create fails due to missing operation) and the solution
+   is straightforward.
+
+This should be backported to any stable kernel that includes both:
+- commit f1a2241778d9 ("usb: typec: ucsi: Implement ChromeOS UCSI
+  driver")
+- commit 976e7e9bdc77 ("acpi: typec: ucsi: Introduce a ->poll_cci
+  method")
+
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+index 4ec1c6d22310..eed2a7d0ebc6 100644
+--- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
++++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+@@ -137,6 +137,7 @@ static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd, u32 *cci,
+ static const struct ucsi_operations cros_ucsi_ops = {
+ 	.read_version = cros_ucsi_read_version,
+ 	.read_cci = cros_ucsi_read_cci,
++	.poll_cci = cros_ucsi_read_cci,
+ 	.read_message_in = cros_ucsi_read_message_in,
+ 	.async_control = cros_ucsi_async_control,
+ 	.sync_control = cros_ucsi_sync_control,
+-- 
+2.39.5
+

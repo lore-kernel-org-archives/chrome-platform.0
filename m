@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578E01E47B7;
-	Mon,  4 Aug 2025 00:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1610C15A8;
+	Mon,  4 Aug 2025 00:38:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754267786; cv=none; b=e4AZG8h6cp9X/ZD1AL8fdpJWkTRgy+oJaxSnzuYngDaAiUkZx78vBb0pL5xnmnafVQjl4wlCRCZyK389VKjw3cA6xxZprkQMdv7RJxzXRjQ5YFgq/8w28lHJIVGYAC9zJ7FN9iLLyG2mAuQie1hxz5RmYhUgEVfSUp21jSAprGQ=
+	t=1754267914; cv=none; b=DgMfRnCmP+ZHRZh3RRNuOjb81+AZ4RxPOcEKKhWy/S2TWsSnh4NafOsIv6EnVFbuciMUFh6le9T45cTPzTuabJKabp/2/P0E732olwqrb8Gpef+KVSwWeIzbf+jwcpZ51hsiT/rHwncJ2MZNbUoJuoxwEBV0lwiL6CNUPYdkTl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754267786; c=relaxed/simple;
-	bh=9sljXV/Uv3jJlmtyAPR8z7AKf/I6WudGmWTboi1XuSo=;
+	s=arc-20240116; t=1754267914; c=relaxed/simple;
+	bh=YSgRZfLYBT+VSq/aRUxQxv1Xk8OAz4Aj8t/Cphnk6Ws=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tNNAppA1KAm/sLj9V+Dxyrqlb8k4DpN+7EcbgHC0mZOZUys0ykK3mXTO9Uf6YG4owGaqC8H8wG8Ly4BFNJluTLNkvQJ8E1XoMUIOJ5HrIgk3aOZR6xq8Yup8GfCmSYqXvmmKRv8tcnghcXy8PeBlgdvuPnNCBQSb5Eznp/FgHfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JsBHer5d; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=NxEvoNtI0D0R4gCwfAPzJexpr2JCFBQhuVs6tVa+iqWOr4G+sfRv76hEpCXia8YjbwO2Wu6Q1J77AExorrgEPrNZxUkoRJ3Z0cY4Z3hRYpagTBlYTT7+7YoXabS8wazdc96njsPyHbVXksoA66QN9yaCqA6R0qyMUfm2+R02tLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K0WZFpJm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JsBHer5d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB1AC4AF09;
-	Mon,  4 Aug 2025 00:36:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K0WZFpJm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5054DC4CEEB;
+	Mon,  4 Aug 2025 00:38:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754267786;
-	bh=9sljXV/Uv3jJlmtyAPR8z7AKf/I6WudGmWTboi1XuSo=;
+	s=k20201202; t=1754267913;
+	bh=YSgRZfLYBT+VSq/aRUxQxv1Xk8OAz4Aj8t/Cphnk6Ws=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JsBHer5di5L4u04pU9mFr6UC0CYPouFv6b3ccI0aC53cdz8e5UjqG2navhKZGByPv
-	 nnZrCwAbZkPuwgSlDqVQtqAWloKp84xo9vjTBHFSbJbD2waWRyY6PYsFvW5Bfks7lZ
-	 /wTFCxFG/e+5M/XfMcyM/3JZvB3SORqm+IFgL84xiXWmpA03t0rtVrnZ9VM8j73rbf
-	 16M4KxIuijQXAf6RPCRWXPNiAtsCaOLuVj8wZG4gMY83K7+emPnOYw8ScZ7GYMM26E
-	 r32mStnppPZ0WBgy8EpwwxM6Cw1S5xB6hJqBEH4JQJ3ViAGkzFZsg7QDtGPLx3q+8x
-	 LE2H8PdMwWAAA==
+	b=K0WZFpJmhNTk+OBBXFXU+hKy0dWmvMHabbgi/tL9UkARikHecLNT80NNYa/pRmF/a
+	 lzq92yid+0GGqrhwMUu2hOgRmnR7Q/0y71/XV2uST7FGxGyPNMrO+aunacjgsPoErf
+	 acAtHDnSF0UVJKsU3UfnKepaVea1h4ht86pfpYcTHitF8ZmXBePCoJRte3s2wNcL0a
+	 ALyTmqIIVeffRPuASgSfSmMRGos34nil40XZkpw4neET4KklUKX3CJVan64VwUuJP0
+	 IALoGUScQJMIafAaskyUIHDN3fLzAUV3ocu1unFr6Ox+n/MaGYwL7HfxXeHkZ3/82t
+	 BLGkLs75ann+Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -37,12 +37,12 @@ Cc: Tomasz Michalec <tmichalec@google.com>,
 	jthies@google.com,
 	akuchynski@chromium.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 53/59] platform/chrome: cros_ec_typec: Defer probe on missing EC parent
-Date: Sun,  3 Aug 2025 20:34:07 -0400
-Message-Id: <20250804003413.3622950-53-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 46/51] platform/chrome: cros_ec_typec: Defer probe on missing EC parent
+Date: Sun,  3 Aug 2025 20:36:38 -0400
+Message-Id: <20250804003643.3625204-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250804003413.3622950-1-sashal@kernel.org>
-References: <20250804003413.3622950-1-sashal@kernel.org>
+In-Reply-To: <20250804003643.3625204-1-sashal@kernel.org>
+References: <20250804003643.3625204-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.101
+X-stable-base: Linux 6.1.147
 Content-Transfer-Encoding: 8bit
 
 From: Tomasz Michalec <tmichalec@google.com>
@@ -125,10 +125,10 @@ making it an important fix for system reliability.
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 66fdc6fa73ec..76807ceb313a 100644
+index 51b98f6c7b39..748efa73378c 100644
 --- a/drivers/platform/chrome/cros_ec_typec.c
 +++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -1179,8 +1179,8 @@ static int cros_typec_probe(struct platform_device *pdev)
+@@ -1194,8 +1194,8 @@ static int cros_typec_probe(struct platform_device *pdev)
  
  	typec->ec = dev_get_drvdata(pdev->dev.parent);
  	if (!typec->ec) {

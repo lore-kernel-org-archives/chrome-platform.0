@@ -1,1208 +1,716 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788421F4615
-	for <chrome-platform@lists.linux.dev>; Mon,  4 Aug 2025 14:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82D121A44C
+	for <chrome-platform@lists.linux.dev>; Mon,  4 Aug 2025 18:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754319039; cv=none; b=Beqejky8cdfrcZt+Qe88sVVMZt756X2pij3lg2AxIgbhXxUciTuViLvA3tocbmLr7rvih1BPagUJh44wxAkiqzl84yRMXdEBlShMNLfh71l/mUxv5vHHKRFvc/GF7K10hYieS0tfR6HpTHYLbZsNycANIKXQfmeexTXtsvmL46w=
+	t=1754331562; cv=none; b=kYA5b426wRhnjsuKq0Jf2X2P7C8RuEO2E9a8gbCcbroGshvnMqZzB07IfengxYGCexUiiLhqzP0AZy/CyQJjNeJanmduq61i3jAInVXvHSTlhTg0e4vbpCMLK+WHD29xaxvTUUwk8ha+TP6B/ZK4zsgQlAcwtegvmWhOWxpFI0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754319039; c=relaxed/simple;
-	bh=LnQxqH3lDeK67eetD5otmqjLXLITzdqMOJidSn8o2kU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=iVBF04heimQud5MZFUJgXkgHyvKxs76eYFwt28eXiLk9sVwWVv5m8ql25EPd9YCd+kLJGYMjJ1Q2BczhY84pI32V/rRhGYlM8S6UrKeptirAHC1ECfzizLG682AHdhsG5decAE4LMjeDgPJrimZ26h/LXkbYGNM8i3E89P8vsLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=UL3IQfSh; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
+	s=arc-20240116; t=1754331562; c=relaxed/simple;
+	bh=Bv6uGVhfKoAlW9liM870ZrWtVsRIf9gK3E8pGBxTzH8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Z4ver1IIeMRECyiIJA7h/TsdghKe4HUAuAC7wvkiQNIOOMXYc82A9HxOWcmFEcQHQK3mKakNPp1n9gWDH2C0e+DLJ2+36iLiYyWJgkrtaeNzA47xMS2DlduyewiOIrMThFIK/y0rTld8is57hB1NUEE8F2qGIFLEDX+2pLtdAXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KN9N1yZD; arc=none smtp.client-ip=209.85.208.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="UL3IQfSh"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-af967835d0aso178983866b.0
-        for <chrome-platform@lists.linux.dev>; Mon, 04 Aug 2025 07:50:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KN9N1yZD"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-61525af8a0bso3547221a12.2
+        for <chrome-platform@lists.linux.dev>; Mon, 04 Aug 2025 11:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1754319034; x=1754923834; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VjmP8ZmFhoD131nEzDejtjld6bY4exY6+PsLnaQyfHo=;
-        b=UL3IQfShrKKgJ+PYEGFhAAZe58kfI0Xy9HwVblTg7NjatNkROgz/YltCTbEoBUGBhw
-         AwOSr3JQ7E/0Ivvl46vh3A9Wjx+9Oodx6CO6DLlrOeKuW3seIp/UUA1v5hEE0EZ9z1UG
-         P1OnQ+1Q7F/HUAIdIYpYQn4J57TCeyhDsHa+vbsy2e/XRYlIBH2mcy6wEkv8AkDRfr5B
-         F5x7/wOsS736+EcJJERD8ZgeI/X6vLf9ncw83WmFn63VIaFyFz62zt6fLJd1z3NoHxEn
-         dA4EdS4pamq3OZXS4m+K4InAKKGfm75w8J8d9ntUG/J9bvij5zABdNoIe67wj25UDVx9
-         E4bg==
+        d=google.com; s=20230601; t=1754331557; x=1754936357; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Dg/io7lQjj0VT9IkwjU/WYyX4qNNJR2aHupMBoZby1A=;
+        b=KN9N1yZDVwhaxKEfHyQ0CPw7pg1Nm01FS51a/YbdasrROZofMkLRqMlwN4glQI0zM9
+         E1G10+oBW/Tc9eG7BDvLBtmHTRfR7GJ/SymlP0+n5dZ1kgN3V9xl/JPknRWxmY/g/8Md
+         kbXBC/RWCEuHDn9Cw0OO83ScArFfwCWWVBB/dRMPNwUhcyyzZmmNCcDoXILAsc/OnOsx
+         ernnOY5hOYslf1zGSBAEtauzb4G23tAf7bYaUn3MJL8T/UEwrJuvDAWu5MTwv2DX2LP9
+         yuWHzn4gbEIW2AvEOPqLh55rpp8egwCHokvBQtBdQEXjtPxZKx76YoKPmQpUPs6w99lF
+         luCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754319034; x=1754923834;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VjmP8ZmFhoD131nEzDejtjld6bY4exY6+PsLnaQyfHo=;
-        b=Jg/lalmv16wA9cXfF/BiQDRPfV4ATkMcoar87CUGmJXB1rSLjeECVuQ6BBskFDRC+8
-         AE/bGUz2+OtCBclIsAbXS367KLchT8bgZBPE4ViFgO9k+1Oq23pSsEpzcYwvV5QRQ2nA
-         CpAvcgivZn4J5soToS3v5W9BWVxTPZFA+ri1krw823eNd7oUbPksh6L0P9TZbyoABdrp
-         Y5A5oxZftPOKoW0W0qPR2IjhkzYEphfLOytopskk+v62mqqlk3OKU6UmilpM/d9NDQLF
-         u5PtyGf1C5m/DjchcYrCWzMIBXmi28iwvaSmxWcoVJNI2n3Igun7zmbcDfPIoJ5a4up7
-         yOoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVWi9Jkwi4a8YOgQOpzIna2BStAxYDzXYk3WFkYzN5HpMqTkUedAbyMtXDZAdry+l80wOMN+sTS17vYUV/m0OA=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzu+D0R3i19HJrrCtFb5R9cNMRdSuuu4s0pk7piZKZ/qaGBvZNf
-	ENHyo7TKpdcG6F3/jCwfXBzry0K0EOvCW1xnm3ikH2+N1o8CYGcyX+Fv1GEoycwZ4w==
-X-Gm-Gg: ASbGncsd0EZoy2WTAb8kgrvRDDSJL6I3NLNqknPBdF1QeIpm3kFsx3Ixq1Jp5Vqtq2C
-	VISvvRnx8MgF341hjCvpRAkxO2jz/4NiqnelhCtJqmHenZlYnzjUn49IQm3Km71pN2vYZSOc8Oh
-	OIuR5Z9o02tO07bfOzrJeZmHM3lYldfGYB7l5Kwsn4X8+esXh5e6gobceZKs295FGpNLCWG7gbs
-	Hm4R7j0LwtlfIc7k2sNgvoc6VmCSVEkK2MC5gxEUqjzWGRRrpYVUunhKaeSrLpxcWbrj7o3RiWI
-	ehrnG751jJsEiuTfYLKpdu7N+b1hwI4uH5+/MeKLOstejy2lkCx+fJ2qBQlJVYG1vrIvmoaF6Eg
-	n9ZGXKkNv2MjuKxbwwER3befkiSca
-X-Google-Smtp-Source: AGHT+IHiGibN8H6hkzgUlMVGPcif0Yy4NcuUi+ikT+H6XAgBl1j7ouwKKo2Y7j83YjDLicot+L0TyQ==
-X-Received: by 2002:a17:907:7f05:b0:ad8:9257:573a with SMTP id a640c23a62f3a-af93ffcc3bbmr1040440866b.5.1754319033494;
-        Mon, 04 Aug 2025 07:50:33 -0700 (PDT)
-Received: from [192.168.28.4] ([2a02:908:1578:7a43::f08])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a1e8306sm750094466b.83.2025.08.04.07.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 07:50:33 -0700 (PDT)
-From: Michal Gorlas <michal.gorlas@9elements.com>
-Date: Mon, 04 Aug 2025 16:50:12 +0200
-Subject: [PATCH v3] firmware: coreboot: Linux-owned SMI handler and its
- loader
+        d=1e100.net; s=20230601; t=1754331557; x=1754936357;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Dg/io7lQjj0VT9IkwjU/WYyX4qNNJR2aHupMBoZby1A=;
+        b=pD3/DXo4fdxk3LiIe1GtkN0FdItGcV02Smu3IGDYAmpuGGL5qF2deJJU9BF5t/o43e
+         KBh3rEOkggkynP+7Ht4r3s4YhGR/Eom/c9/QmbxnKQg0MT9bIMBlUs1ye0Zt0mnBxuzK
+         0VaofZtdjvllhXT5cOgJrW0wC0h4TaaEP5Iol2zwMHBM5JMt3hhtJxrMH4LHVqA7o3RF
+         vVHbqXEqg9W9edTVZG1QTXkGd9RSaZf5nZWDl6Zy5xS1HLE7YBKgRQBbpMoj+bJM4iN9
+         cww5kKvRtaNxGZmLCq1Pxvq5tF2tBLmdkv9YdmdqfGplPRTWxuqyd02F6Ma1ZfWHjSCB
+         VJwA==
+X-Gm-Message-State: AOJu0Ywkw3nsKLmYOoFCRWcM+3FGBz+UjIvauPsZHsz0eqnTnn40ISJT
+	rnQVNHBq07dRAewXuOaBoCYkZiIRGOvKVJPBQfpnMGhY1vJhxwyJUsiISPxAc6lsZzdMiKp7EbY
+	3/c/q3Q==
+X-Google-Smtp-Source: AGHT+IHJdZ4aeI1M2bAoJ3e7oqGih2JLSvALkjz8ZsSqotJi+vqg00sV+GJroLlbfqOQz7jVQIlGfcUgSWI=
+X-Received: from edbee41.prod.google.com ([2002:a05:6402:2929:b0:612:b6ad:ba00])
+ (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:278d:b0:615:a201:df41
+ with SMTP id 4fb4d7f45d1cf-615e6f53121mr9510186a12.22.1754331557026; Mon, 04
+ Aug 2025 11:19:17 -0700 (PDT)
+Date: Mon,  4 Aug 2025 18:19:16 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250804-coreboot-payload-mm-v3-1-7bb7fda9e4d9@9elements.com>
-X-B4-Tracking: v=1; b=H4sIAKPIkGgC/22OwQqDMBAFf0VyboLGGGtP/Y/iIeqqAePKJkhF/
- PdGoZfS4xzevNmZB7Lg2SPZGcFqvcU5Qn5LWDuaeQBuu8hMprJIdZbzFgkaxMAXs01oOu4c11r
- JplFS3pVhcbkQ9PZ9WV915J7Q8TASmMvV4gokslJVZa7SSonBBuFs/JvEgDQZ/6xgAgdz8KJFd
- ypH6wPSdnWu8hR/k/TfpFXylBedLqtG3yVk+Y+yPo7jAzCTQg39AAAA
-X-Change-ID: 20250613-coreboot-payload-mm-6642bb42284a
-To: Tzung-Bi Shih <tzungbi@kernel.org>, 
- Brian Norris <briannorris@chromium.org>, 
- Julius Werner <jwerner@chromium.org>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- Marcello Sylvester Bauer <marcello.bauer@9elements.com>, 
- Michal Gorlas <michal.gorlas@9elements.com>
-X-Mailer: b4 0.14.2
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.50.1.565.gc32cd1483b-goog
+Message-ID: <20250804181916.36560-1-dawidn@google.com>
+Subject: [PATCH v3] platform/chrome: Add ChromeOS EC USB driver
+From: Dawid Niedzwiecki <dawidn@google.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	chromeos-krk-upstreaming@google.com, 
+	"=?UTF-8?q?=C5=81ukasz=20Bartosik?=" <ukaszb@chromium.org>, Dawid Niedzwiecki <dawidn@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-coreboot exposes System Management Mode (SMM) related data in the
-coreboot table. Extend exisiting interface with structure corresponding
-to SMM data, and add COREBOOT_PAYLOAD_MM config.
-Load Linux-owned SMI handler:
- - Place Linux-owned SMI handler in arbitrary location in the lower 4GB of
-   memory.
- - Inform coreboot about the location of Linux-owned SMI handler via an
-   SMI, coreboot copy the handler to SMRAM and redirects upcoming SMIs
-   to it.
+Use USB to talk to the ChromeOS EC. The protocol is defined by the EC
+and is fairly simple, with a length byte, checksum, command byte and
+version byte in the header.
 
-Linux-owned SMI is compiled in a similar fashion to the realmode
-trampolines for x86. Currently supported are two SMIs: ACPI enable and
-disable.
+Use vendor defined usb interface with in/out endpoints to transfer
+requests and responses. Also use one interrupt in endpoint which signals
+readiness of response and pending events on the EC side.
 
-Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
+Signed-off-by: Dawid Niedzwiecki <dawidn@google.com>
 ---
-Hi,
+V2 -> V3:
+- Fix getting USB PID
+- Use a proper device pointer in the devm_kzalloc call
+- Improve feeing memory
 
-This patchset adds support for Management Mode (MM) payload when Linux is used as
-coreboot's payload. The main idea is to delegate higher-level SMM
-functions to the payload, limiting the coreboot's System Management
-Mode (SMM) related responsibilities to the minimum of basic SMM setup [1]. This is
-done by loading a blob with SMI handler to the shared buffer, from
-which it is copied to SMRAM [2].
+ drivers/platform/chrome/Kconfig       |  11 +
+ drivers/platform/chrome/Makefile      |   1 +
+ drivers/platform/chrome/cros_ec_usb.c | 586 ++++++++++++++++++++++++++
+ 3 files changed, 598 insertions(+)
+ create mode 100644 drivers/platform/chrome/cros_ec_usb.c
 
-The MM payload is still in a Proof of Concept stage, and we are still
-working on getting the patches needed for coreboot upstreamed, but I would
-appreciate any feedback that you may have.
-
-Thanks,
-Michal
-
-[1]: https://github.com/9elements/LinuxBootSMM/wiki/Proposed-design#current-design-approach---mm-payload
-[2]: https://github.com/9elements/LinuxBootSMM/wiki/Proof-of-Concept-(PoC)
-
-Changes in v3:
-- merged patches into one
-- rephrased commit messages to use imperative mode 
-- replaced -1 and PAYLOAD_MM_RET_FAILURE with -errno
-- removed delay in favour of making driver !SMP dependent
-- removed get_mm_info() in favour of conditional check in
-  mm_loader_probe
-- added driver specific struct accessed via dev_get_drvdata()
-- Link to v2: https://lore.kernel.org/r/20250616-coreboot-payload-mm-v2-0-5d679b682e13@9elements.com
-
-Changes in v2:
-- merged mm_info into mm_loader
-- removed mm_loader_exit in favour of allocating memory with devm_*()
-- added forgotten "\n\t" in trigger_smi()
-- added gitignore in mm_handler/
-- added COREBOOT_PAYLOAD_MM dependency on x86
-- error handling for mm_info struct
-- error handling for shared_buffer
-- removed whitespace changes in coreboot_table.h
-- removed INFO level prints
-- Link to v1: https://lore.kernel.org/r/cover.1749734094.git.michal.gorlas@9elements.com
----
- drivers/firmware/google/Kconfig                  |  12 +
- drivers/firmware/google/Makefile                 |  11 +
- drivers/firmware/google/coreboot_table.h         |  11 +
- drivers/firmware/google/mm_blob.S                |  20 +
- drivers/firmware/google/mm_handler/.gitignore    |   4 +
- drivers/firmware/google/mm_handler/Makefile      |  51 +++
- drivers/firmware/google/mm_handler/handler.lds.S |  46 ++
- drivers/firmware/google/mm_handler/mm_handler.S  | 510 +++++++++++++++++++++++
- drivers/firmware/google/mm_handler/mm_handler.h  |  21 +
- drivers/firmware/google/mm_handler/mm_header.S   |  19 +
- drivers/firmware/google/mm_loader.c              | 202 +++++++++
- drivers/firmware/google/mm_payload.h             |  48 +++
- 12 files changed, 955 insertions(+)
-
-diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-index 41b78f5cb7351e512cbaeb6443634a4b97bf6255..5c3346d276d246f2233ff91a32b13449266fc2ca 100644
---- a/drivers/firmware/google/Kconfig
-+++ b/drivers/firmware/google/Kconfig
-@@ -81,4 +81,16 @@ config GOOGLE_VPD
- 	  This option enables the kernel to expose the content of Google VPD
- 	  under /sys/firmware/vpd.
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index 2281d6dacc9b..e77f06f13fc4 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -316,6 +316,17 @@ config CROS_TYPEC_SWITCH
+ 	  To compile this driver as a module, choose M here: the module will be
+ 	  called cros_typec_switch.
  
-+config COREBOOT_PAYLOAD_MM
-+	tristate "SMI handling in Linux (LinuxBootSMM)"
-+	depends on X86 && GOOGLE_COREBOOT_TABLE && !SMP
++config CROS_EC_USB
++	tristate "ChromeOS Embedded Controller (USB)"
++	depends on CROS_EC && USB
 +	help
-+	  Enables support for SMI handling by Linux-owned code.
-+	  coreboot reserves region for payload-owned SMI handler, the Linux
-+	  driver prepares its SMI handler outside of SMRAM, and lets coreboot
-+	  know where the handler is placed by issuing an SMI. On this SMI, the
-+	  handler is being placed in SMRAM and all supported SMIs from that point
-+	  on are handled by Linux-owned SMI handler.
-+	  If in doubt, say N.
++	  If you say Y here, you get support for talking to the ChromeOS EC
++	  through a USB. The driver uses vendor defined interface and is capable
++	  of signaling events from EC.
 +
- endif # GOOGLE_FIRMWARE
-diff --git a/drivers/firmware/google/Makefile b/drivers/firmware/google/Makefile
-index 8151e323cc434673b0fe56f1df1cec2fb7873295..893e6a9e4ea018997db819ef53fcbb8e8bccc15d 100644
---- a/drivers/firmware/google/Makefile
-+++ b/drivers/firmware/google/Makefile
-@@ -12,3 +12,14 @@ obj-$(CONFIG_GOOGLE_CBMEM)		+= cbmem.o
++	  To compile this driver as a module, choose M here: the
++	  module will be called cros_ec_usb.
++
+ source "drivers/platform/chrome/wilco_ec/Kconfig"
  
- vpd-sysfs-y := vpd.o vpd_decode.o
- obj-$(CONFIG_GOOGLE_VPD)		+= vpd-sysfs.o
-+
-+# LinuxBootSMM related.
-+subdir-$(CONFIG_COREBOOT_PAYLOAD_MM)		+= mm_handler
-+
-+$(obj)/mm_handler/handler.bin: FORCE
-+	$(Q)$(MAKE) $(build)=$(obj)/mm_handler $@
-+
-+$(obj)/mm_blob.o: $(obj)/mm_handler/handler.bin
-+
-+payload-mm-$(CONFIG_COREBOOT_PAYLOAD_MM)	:= mm_loader.o mm_blob.o
-+obj-$(CONFIG_COREBOOT_PAYLOAD_MM)		+= payload-mm.o
-diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
-index bb6f0f7299b4670d0b1f91bd7a3c038cdb412f7b..8a7934e679903e39ce1d86b4aecbc2b4e89363fd 100644
---- a/drivers/firmware/google/coreboot_table.h
-+++ b/drivers/firmware/google/coreboot_table.h
-@@ -52,6 +52,16 @@ struct lb_cbmem_entry {
- 	u32 id;
- };
+ # Kunit test cases
+diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+index b981a1bb5bd8..444383e8912d 100644
+--- a/drivers/platform/chrome/Makefile
++++ b/drivers/platform/chrome/Makefile
+@@ -38,6 +38,7 @@ obj-$(CONFIG_CROS_EC_SYSFS)		+= cros_ec_sysfs.o
+ obj-$(CONFIG_CROS_HPS_I2C)		+= cros_hps_i2c.o
+ obj-$(CONFIG_CROS_USBPD_LOGGER)		+= cros_usbpd_logger.o
+ obj-$(CONFIG_CROS_USBPD_NOTIFY)		+= cros_usbpd_notify.o
++obj-$(CONFIG_CROS_EC_USB)		+= cros_ec_usb.o
  
-+/* Corresponds to LB_TAG_PLD_MM_INTERFACE_INFO */
-+#define LB_TAG_PLD_MM_INTERFACE_INFO 0x3b
-+struct lb_pld_mm_interface_info {
-+	u32 tag;
-+	u32 size;
-+	u8 revision;
-+	u8 requires_long_mode_call;
-+	u8 register_mm_entry_command;
-+};
-+
- /* Describes framebuffer setup by coreboot */
- struct lb_framebuffer {
- 	u32 tag;
-@@ -80,6 +90,7 @@ struct coreboot_device {
- 		struct lb_cbmem_ref cbmem_ref;
- 		struct lb_cbmem_entry cbmem_entry;
- 		struct lb_framebuffer framebuffer;
-+		struct lb_pld_mm_interface_info mm_info;
- 		DECLARE_FLEX_ARRAY(u8, raw);
- 	};
- };
-diff --git a/drivers/firmware/google/mm_blob.S b/drivers/firmware/google/mm_blob.S
+ obj-$(CONFIG_WILCO_EC)			+= wilco_ec/
+ 
+diff --git a/drivers/platform/chrome/cros_ec_usb.c b/drivers/platform/chrome/cros_ec_usb.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..d45ff661d74ab85fbb283704df7ceeee475dcbc5
+index 000000000000..30e50d5877b6
 --- /dev/null
-+++ b/drivers/firmware/google/mm_blob.S
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Derived from rmpiggy.S.
-+ *
-+ * Wrapper script for the MM payload binary as a transport object
-+ * before copying to SMRAM memory.
-+ */
-+#include <linux/linkage.h>
-+#include <asm/page_types.h>
-+
-+	.section ".data","aw"
-+
-+	.balign PAGE_SIZE
-+
-+SYM_DATA_START(mm_blob)
-+	.incbin	"drivers/firmware/google/mm_handler/handler.bin"
-+SYM_DATA_END_LABEL(mm_blob, SYM_L_GLOBAL, mm_blob_end)
-+
-+SYM_DATA_START(mm_relocs)
-+	.incbin	"drivers/firmware/google/mm_handler/handler.relocs"
-+SYM_DATA_END(mm_relocs)
-diff --git a/drivers/firmware/google/mm_handler/.gitignore b/drivers/firmware/google/mm_handler/.gitignore
-new file mode 100644
-index 0000000000000000000000000000000000000000..662f71dca9ce9dceeaf526746a6f323044296439
---- /dev/null
-+++ b/drivers/firmware/google/mm_handler/.gitignore
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+pasyms.h
-+handler.lds
-+handler.relocs
-diff --git a/drivers/firmware/google/mm_handler/Makefile b/drivers/firmware/google/mm_handler/Makefile
-new file mode 100644
-index 0000000000000000000000000000000000000000..c0069e88f51dc536878429c8e1504e9376932c04
---- /dev/null
-+++ b/drivers/firmware/google/mm_handler/Makefile
-@@ -0,0 +1,51 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+## Based on realmode/rm/Makefile
-+
-+always-y := handler.bin handler.relocs
-+
-+handler-y			+= mm_header.o
-+handler-y			+= mm_handler.o
-+
-+targets	+= $(handler-y)
-+
-+REALMODE_OBJS = $(addprefix $(obj)/,$(handler-y))
-+
-+sed-pasyms := -n -r -e 's/^([0-9a-fA-F]+) [ABCDGRSTVW] (.+)$$/pa_\2 = \2;/p'
-+
-+quiet_cmd_pasyms = PASYMS  $@
-+      cmd_pasyms = $(NM) $(real-prereqs) | sed $(sed-pasyms) | sort | uniq > $@
-+
-+targets += pasyms.h
-+$(obj)/pasyms.h: $(REALMODE_OBJS) FORCE
-+	$(call if_changed,pasyms)
-+
-+targets += handler.lds
-+$(obj)/handler.lds: $(obj)/pasyms.h
-+
-+LDFLAGS_handler.elf := -m elf_i386 --emit-relocs -T
-+CPPFLAGS_handler.lds += -P -C -I$(objtree)/$(obj)
-+
-+targets += handler.elf
-+$(obj)/handler.elf: $(obj)/handler.lds $(REALMODE_OBJS) FORCE
-+	$(call if_changed,ld)
-+
-+OBJCOPYFLAGS_handler.bin := -O binary
-+
-+targets += handler.bin
-+$(obj)/handler.bin: $(obj)/handler.elf $(obj)/handler.relocs FORCE
-+	$(call if_changed,objcopy)
-+
-+quiet_cmd_relocs = RELOCS  $@
-+      cmd_relocs = arch/x86/tools/relocs --realmode $< > $@
-+
-+targets += handler.relocs
-+$(obj)/handler.relocs: $(obj)/handler.elf FORCE
-+	$(call if_changed,relocs)
-+
-+# ---------------------------------------------------------------------------
-+
-+KBUILD_CFLAGS	:= $(REALMODE_CFLAGS) -D_SETUP -D_WAKEUP \
-+		   -I$(srctree)/arch/x86/boot
-+KBUILD_AFLAGS	:= $(KBUILD_CFLAGS) -D__ASSEMBLY__
-+KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables
-diff --git a/drivers/firmware/google/mm_handler/handler.lds.S b/drivers/firmware/google/mm_handler/handler.lds.S
-new file mode 100644
-index 0000000000000000000000000000000000000000..c92c9f2fbd624d0d988be0bd0215f70c3e4284e0
---- /dev/null
-+++ b/drivers/firmware/google/mm_handler/handler.lds.S
-@@ -0,0 +1,46 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * blob.lds.S
-+ *
-+ * Linker script for the MM handler. Based on realmode.lds.S
-+ */
-+
-+#include <asm/page_types.h>
-+
-+#undef i386
-+
-+OUTPUT_FORMAT("elf32-i386")
-+OUTPUT_ARCH(i386)
-+ENTRY(pa_text_start)
-+
-+SECTIONS
-+{
-+	. = 0;
-+	.header : {
-+		*(.header)
-+	}
-+
-+	pa_text_start = .;
-+	.text32 : {
-+		*(.text32)
-+		*(.text32.*)
-+	}
-+
-+	.text64 : {
-+		*(.text64)
-+		*(.text64.*)
-+	}
-+
-+	. = ALIGN(128);
-+	.bss : {
-+		*(.bss*)
-+	}
-+
-+	/DISCARD/ : {
-+		*(.data*)
-+		*(.note*)
-+		*(.debug*)
-+	}
-+
-+#include "pasyms.h"
-+}
-diff --git a/drivers/firmware/google/mm_handler/mm_handler.S b/drivers/firmware/google/mm_handler/mm_handler.S
-new file mode 100644
-index 0000000000000000000000000000000000000000..19322010a4231cbd7d9c0aac5605a56eac098789
---- /dev/null
-+++ b/drivers/firmware/google/mm_handler/mm_handler.S
-@@ -0,0 +1,510 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ *	Payload owned SMI handler that is placed in SMRAM (mm_loader.c) and called
-+ *	by coreboot's SMI handler
-+ *
-+ *	Also the general comment in arch/x86/realmode/rm/trampoline_64.S is relevant
-+ *	here as well.
-+ */
-+
-+#include <linux/linkage.h>
-+#include <asm/pgtable_types.h>
-+#include <asm/page_types.h>
-+#include <asm/msr.h>
-+#include <asm/segment.h>
-+#include <asm/processor-flags.h>
-+#include <asm/realmode.h>
-+
-+#include "mm_handler.h"
-+
-+	.section ".text32","ax"
-+	.code32
-+	.balign 4
-+SYM_CODE_START(mm_entry_32)
-+	mov	$0x3f8, %dx
-+	mov	$'L', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'u', %al
-+	out	%al, (%dx)
-+	mov	$'x', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'S', %al
-+	out	%al, (%dx)
-+	mov	$'M', %al
-+	out	%al, (%dx)
-+	mov	$'I', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'h', %al
-+	out	%al, (%dx)
-+	mov	$'a', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'d', %al
-+	out	%al, (%dx)
-+	mov	$'l', %al
-+	out	%al, (%dx)
-+	mov	$'e', %al
-+	out	%al, (%dx)
-+	mov	$'r', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'s', %al
-+	out	%al, (%dx)
-+	mov	$'t', %al
-+	out	%al, (%dx)
-+	mov	$'a', %al
-+	out	%al, (%dx)
-+	mov	$'r', %al
-+	out	%al, (%dx)
-+	mov	$'t', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'g', %al
-+	out	%al, (%dx)
-+	mov	$'\n', %al
-+	out	%al, (%dx)
-+
-+	push	%esp
-+	// ebx, esi, edi and ebp are going to be preserved
-+	// (see comment in smm_stub.S if target is x86_64)
-+	push	%ebx
-+	push	%esi
-+	push	%edi
-+	push	%ebp
-+	push	%eax
-+
-+	/*
-+	 * Switch-case to jump to appropriate section for given functionality.
-+	 * Macros are defined in mm_handler.h.
-+	 * Short explaination of where does the magic n(%esp) came from.
-+	 * Calling mm_entry_32 from coreboot pushes lb_entry_context
-+	 * (see include/payload_mm_interface.h) to stack and
-+	 * increments esp by 4, so now our stack looks like this:
-+	 * | third arg |
-+	 * | second arg |
-+	 * | first arg |
-+	 * | return address |
-+	 * | stack pointer | <- esp
-+	 * Then we push all the registers (see above) and hence our stack looks like this now:
-+	 * | third arg |
-+	 * | second arg |
-+	 * | first arg |
-+	 * | return address |
-+	 * | esp |
-+	 * | ebx |
-+	 * | esi |
-+	 * | edi |
-+	 * | ebp |
-+	 * | eax |
-+	 * | stack pointer | <- esp
-+	 * So, now to get the entry we need, we do (9 * 4)(%esp) to get third
-+	 * argument (ACPI base address), (8 * 4)(%esp) to get second argument
-+	 * (PM1_CNT byte), and (7 * 4) to get the command.
-+	 */
-+
-+	cmpl $MM_ACPI_ENABLE, 28(%esp)
-+	je acpi_enable32
-+
-+	cmpl $MM_ACPI_DISABLE, 28(%esp)
-+	je acpi_disable32
-+
-+	cmpl $MM_STORE, 28(%esp)
-+	je mm_store32
-+
-+	jmp restore_cb_state
-+
-+acpi_enable32:
-+	mov	$0x3f8, %dx
-+	mov	$'E', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'a', %al
-+	out	%al, (%dx)
-+	mov	$'b', %al
-+	out	%al, (%dx)
-+	mov	$'l', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'g', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'A', %al
-+	out	%al, (%dx)
-+	mov	$'C', %al
-+	out	%al, (%dx)
-+	mov	$'P', %al
-+	out	%al, (%dx)
-+	mov	$'I', %al
-+	out	%al, (%dx)
-+	mov	$'\n', %al
-+	out	%al, (%dx)
-+
-+	// PM1_CNT & ~SCI_EN
-+	mov	32(%esp), %ax
-+	add	$MM_ACPI_ENABLE, %ax
-+
-+	// ACPI_BASE_ADDR
-+	mov	36(%esp), %dx
-+
-+	out	%ax, %dx
-+
-+	jmp	restore_cb_state
-+
-+acpi_disable32:
-+	mov	$0x3f8, %dx
-+	mov	$'D', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'s', %al
-+	out	%al, (%dx)
-+	mov	$'a', %al
-+	out	%al, (%dx)
-+	mov	$'b', %al
-+	out	%al, (%dx)
-+	mov	$'l', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'g', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'A', %al
-+	out	%al, (%dx)
-+	mov	$'C', %al
-+	out	%al, (%dx)
-+	mov	$'P', %al
-+	out	%al, (%dx)
-+	mov	$'I', %al
-+	out	%al, (%dx)
-+	mov	$'\n', %al
-+	out	%al, (%dx)
-+
-+	// PM1_CNT | SCI_EN
-+	mov	32(%esp), %ax
-+	add	$MM_ACPI_DISABLE, %ax
-+
-+	// ACPI_BASE_ADDR
-+	mov	36(%esp), %dx
-+
-+	out	%ax, %dx
-+
-+	jmp	restore_cb_state
-+
-+mm_store32:
-+	// Not implemented yet. Probably would be better to do that in C.
-+
-+restore_cb_state:
-+	mov	$0x3f8, %dx
-+	mov	$'M', %al
-+	out	%al, (%dx)
-+	mov	$'M', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'r', %al
-+	out	%al, (%dx)
-+	mov	$'e', %al
-+	out	%al, (%dx)
-+	mov	$'t', %al
-+	out	%al, (%dx)
-+	mov	$'u', %al
-+	out	%al, (%dx)
-+	mov	$'r', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'s', %al
-+	out	%al, (%dx)
-+	mov	$'\n', %al
-+	out	%al, (%dx)
-+
-+	pop	%eax
-+	pop	%ebp
-+	pop	%edi
-+	pop	%esi
-+	pop	%ebx
-+	pop	%esp
-+
-+	ret
-+SYM_CODE_END(mm_entry_32)
-+
-+
-+	.section ".text64","ax"
-+	.code64
-+	.balign 4
-+SYM_CODE_START(mm_entry_64)
-+	mov	$0x3f8, %dx
-+	mov	$'L', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'u', %al
-+	out	%al, (%dx)
-+	mov	$'x', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'S', %al
-+	out	%al, (%dx)
-+	mov	$'M', %al
-+	out	%al, (%dx)
-+	mov	$'I', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'h', %al
-+	out	%al, (%dx)
-+	mov	$'a', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'d', %al
-+	out	%al, (%dx)
-+	mov	$'l', %al
-+	out	%al, (%dx)
-+	mov	$'e', %al
-+	out	%al, (%dx)
-+	mov	$'r', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'s', %al
-+	out	%al, (%dx)
-+	mov	$'t', %al
-+	out	%al, (%dx)
-+	mov	$'a', %al
-+	out	%al, (%dx)
-+	mov	$'r', %al
-+	out	%al, (%dx)
-+	mov	$'t', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'g', %al
-+	out	%al, (%dx)
-+	mov	$'\n', %al
-+	out	%al, (%dx)
-+
-+	pushq	%rsp
-+
-+	pushq	%rbp
-+	pushq	%rbx
-+	pushq	%r12
-+	pushq	%r13
-+	pushq	%r14
-+	pushq	%r15
-+
-+	movq	%cr3, %rax
-+	pushq	%rax
-+
-+	movq	%cr4, %rbx
-+	pushq	%rbx
-+	or	$0x640, %rbx
-+
-+	movq	%rbx, %cr4
-+
-+	movq	%cr0, %rbx
-+	pushq	%rbx
-+	or	$0x22, %rbx
-+
-+	mov	%rbx, %cr0
-+
-+	movq	%rsp, %r12
-+	andq	$~0xF, %rsp
-+
-+	subq	$0x200, %rsp
-+	fxsave64 (%rsp)
-+
-+	/*
-+	 * All the macros we compare (r)di to are defined in mm_handler.h
-+	 * This differs a bit from what we do above, as ABI calling convention
-+	 * is not the same for protected and long mode. First two elements of
-+	 * the struct fits rdi. Command is in the first byte of the rdi,
-+	 * so we can just read of di.
-+	 */
-+	cmp $MM_ACPI_DISABLE, %di
-+	je acpi_disable
-+
-+	cmp $MM_ACPI_ENABLE, %di
-+	je acpi_enable
-+
-+	cmp $MM_STORE, %di
-+	je mm_store
-+
-+	jmp restore_cb_state64
-+
-+acpi_enable:
-+	mov	$0x3f8, %dx
-+	mov	$'E', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'a', %al
-+	out	%al, (%dx)
-+	mov	$'b', %al
-+	out	%al, (%dx)
-+	mov	$'l', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'g', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'A', %al
-+	out	%al, (%dx)
-+	mov	$'C', %al
-+	out	%al, (%dx)
-+	mov	$'P', %al
-+	out	%al, (%dx)
-+	mov	$'I', %al
-+	out	%al, (%dx)
-+	mov	$'\n', %al
-+	out	%al, (%dx)
-+
-+	// Stash the command from rdi.
-+	shr	$32, %rdi
-+	// PM1_CNT & ~SCI_EN
-+	mov	%di, %ax
-+	add	$MM_ACPI_ENABLE, %ax
-+	// si contains ACPI_BASE_ADDR
-+	mov	%si, %dx
-+
-+	out	%ax, %dx
-+
-+	jmp	restore_cb_state64
-+
-+acpi_disable:
-+	mov	$0x3f8, %dx
-+	mov	$'D', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'s', %al
-+	out	%al, (%dx)
-+	mov	$'a', %al
-+	out	%al, (%dx)
-+	mov	$'b', %al
-+	out	%al, (%dx)
-+	mov	$'l', %al
-+	out	%al, (%dx)
-+	mov	$'i', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'g', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'A', %al
-+	out	%al, (%dx)
-+	mov	$'C', %al
-+	out	%al, (%dx)
-+	mov	$'P', %al
-+	out	%al, (%dx)
-+	mov	$'I', %al
-+	out	%al, (%dx)
-+	mov	$'\n', %al
-+	out	%al, (%dx)
-+
-+	// Stash command
-+	shr	$32, %rdi
-+	// PM1_CNT | SCI_EN
-+	mov	%di, %ax
-+	add	$MM_ACPI_DISABLE, %ax
-+	// si contains ACPI_BASE_ADDR
-+	mov	%si, %dx
-+
-+	out	%ax, %dx
-+
-+	jmp	restore_cb_state64
-+
-+mm_store:
-+	// see comment above in mm_store32
-+
-+restore_cb_state64:
-+	mov	$0x3f8, %dx
-+	mov	$'M', %al
-+	out	%al, (%dx)
-+	mov	$'M', %al
-+	out	%al, (%dx)
-+	mov	$'6', %al
-+	out	%al, (%dx)
-+	mov	$'4', %al
-+	out	%al, (%dx)
-+	mov	$' ', %al
-+	out	%al, (%dx)
-+	mov	$'r', %al
-+	out	%al, (%dx)
-+	mov	$'e', %al
-+	out	%al, (%dx)
-+	mov	$'t', %al
-+	out	%al, (%dx)
-+	mov	$'u', %al
-+	out	%al, (%dx)
-+	mov	$'r', %al
-+	out	%al, (%dx)
-+	mov	$'n', %al
-+	out	%al, (%dx)
-+	mov	$'s', %al
-+	out	%al, (%dx)
-+	mov	$'\n', %al
-+	out	%al, (%dx)
-+
-+	fxrstor64 (%rsp)
-+	addq	$0x200, %rsp
-+	movq	%r12, %rsp
-+
-+	popq	%rbx
-+	movq	%rbx, %cr0
-+
-+	popq	%rbx
-+	movq	%rbx, %cr4
-+
-+	popq	%rax
-+	movq	%rax, %cr3
-+
-+	popq	%r15
-+	popq	%r14
-+	popq	%r13
-+	popq	%r12
-+	popq	%rbx
-+	popq	%rbp
-+	popq	%rsp
-+	ret
-+SYM_CODE_END(mm_entry_64)
-+
-+	.bss
-+	.balign	4
-+SYM_DATA(mm_signature,		.space 4)
-+SYM_DATA(mm_blob_size,		.space 2)
-+SYM_DATA(mm_entry_32_offset,	.space 4)
-+SYM_DATA(mm_entry_64_offset,	.space 4)
-diff --git a/drivers/firmware/google/mm_handler/mm_handler.h b/drivers/firmware/google/mm_handler/mm_handler.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..4f32f84371d5cff3fcf6c9d1c1c33a2d2b50118e
---- /dev/null
-+++ b/drivers/firmware/google/mm_handler/mm_handler.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Derived from arch/x86/include/realmode.h
-+ */
-+
-+#ifndef _MM_HANDLER_H
-+#define _MM_HANDLER_H
-+
-+#define REALMODE_END_SIGNATURE	0x65a22c82
-+
-+/*
-+ * These macros correspond to the arguments
-+ * passed by coreboot's SMI handler. Depending
-+ * on which one is passed in rdi or esp + x, handler
-+ * will jump to the appropriate section.
-+ */
-+#define MM_ACPI_ENABLE		1
-+#define MM_ACPI_DISABLE		0
-+#define MM_STORE		2
-+
-+#endif /* _MM_HANDLER_H */
-diff --git a/drivers/firmware/google/mm_handler/mm_header.S b/drivers/firmware/google/mm_handler/mm_header.S
-new file mode 100644
-index 0000000000000000000000000000000000000000..342cd60492f89f8bea8d7051650365d1eaad4c2e
---- /dev/null
-+++ b/drivers/firmware/google/mm_handler/mm_header.S
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * MM blob header; this should match mm_payload.h
-+ */
-+
-+#include <linux/linkage.h>
-+#include <asm/page_types.h>
-+#include <asm/segment.h>
-+
-+	.section ".header", "a"
-+
-+	.balign	16
-+SYM_DATA_START(mm_header)
-+	.long	pa_text_start
-+	.long	pa_mm_entry_32
-+	.long	pa_mm_entry_64
-+	.long	pa_mm_signature
-+	.long	pa_mm_blob_size
-+SYM_DATA_END(mm_header)
-diff --git a/drivers/firmware/google/mm_loader.c b/drivers/firmware/google/mm_loader.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..327009a297ee13cda467442a7d508acf4806e7b2
---- /dev/null
-+++ b/drivers/firmware/google/mm_loader.c
-@@ -0,0 +1,202 @@
++++ b/drivers/platform/chrome/cros_ec_usb.c
+@@ -0,0 +1,586 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Driver for installing Linux-owned SMI handler
++ * USB interface for ChromeOS Embedded Controller
 + *
-+ * Copyright (c) 2025 9elements GmbH
-+ *
-+ * Author: Michal Gorlas <michal.gorlas@9elements.com>
++ * Copyright (C) 2025 Google LLC.
 + */
 +
-+#include <linux/device.h>
-+#include <linux/gfp.h>
-+#include <linux/init.h>
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/kref.h>
++#include <linux/list.h>
 +#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/uaccess.h>
++#include <linux/usb.h>
 +
-+#include "coreboot_table.h"
-+#include "mm_payload.h"
++#include <linux/platform_data/cros_ec_commands.h>
++#include <linux/platform_data/cros_ec_proto.h>
++#include <linux/platform_device.h>
 +
-+struct mm_payload {
-+	struct lb_pld_mm_interface_info *mm_cbtable_info;
-+	struct mm_header *mm_header;
-+	void *shared_buffer;
++#include "cros_ec.h"
++
++#define USB_VENDOR_ID_GOOGLE 0x18d1
++
++#define USB_SUBCLASS_GOOGLE_EC_HOST_CMD 0x5a
++#define USB_PROTOCOL_GOOGLE_EC_HOST_CMD 0x00
++
++#define RESPONSE_TIMEOUT_MS 200
++#define BULK_TRANSFER_TIMEOUT_MS 100
++
++enum cros_ec_usb_int_type {
++	INT_TYPE_EVENT_OCCURED = 0,
++	INT_TYPE_RESPONSE_READY = 1,
 +};
 +
-+/*
-+ * This is x86_64 specific, assuming that we want this to also work on i386,
-+ * we either need to have "trigger_smi32" bounded by preprocessor guards(?)
-+ * or mm_loader32 and then mm_loader$(BITS) in Makefile(?).
-+ */
-+static int trigger_smi(u64 cmd, u64 arg, u64 retry)
++struct cros_ec_usb {
++	/* the usb device for this device */
++	struct usb_device *udev;
++	/* the interface for this device */
++	struct usb_interface *interface;
++	/* Cros EC device structure */
++	struct cros_ec_device *ec_dev;
++
++	/* the buffer to receive data from bulk ep */
++	u8 *bulk_in_buffer;
++	/* the buffer to receive data from int ep */
++	u8 *int_in_buffer;
++	/* the urb to receive data from int ep */
++	struct urb *int_in_urb;
++	/* the size of the receive buffer from bulk ep */
++	size_t bulk_in_size;
++	/* the size of the receive buffer from int ep */
++	size_t int_in_size;
++
++	/* the pipe of the bulk in ep */
++	unsigned int bulk_in_pipe;
++	/* the pipe of the bulk out ep */
++	unsigned int bulk_out_pipe;
++	/* the pipe of the int in ep */
++	unsigned int int_in_pipe;
++	/* the interval of the int in ep */
++	u8 int_in_interval;
++
++	/* Response ready on EC side */
++	bool resp_ready;
++	/* EC has been registered */
++	bool registered;
++	/* EC is disconnected */
++	bool disconnected;
++	/* synchronize I/O with disconnect */
++	struct mutex io_mutex;
++	/* Work to handle EC events */
++	struct work_struct work_ec_evt;
++	/* Wait queue to signal the response is ready on EC side */
++	wait_queue_head_t resp_ready_wait;
++};
++
++struct int_msg {
++	u8 int_type;
++} __packed;
++
++struct registered_ec {
++	struct list_head node;
++	u16 idProduct;
++	struct cros_ec_usb *ec_usb;
++};
++
++static LIST_HEAD(registered_list);
++static DEFINE_MUTEX(registered_list_mutex);
++
++static int cros_ec_usb_register(u16 idProduct, struct cros_ec_usb *ec_usb)
 +{
-+	u64 status;
-+	u16 apmc_port = 0xb2;
++	struct registered_ec *ec;
 +
-+	asm volatile("movq	%[cmd], %%rax\n\t"
-+		     "movq	%%rax, %%rcx\n\t"
-+		     "movq	%[arg], %%rbx\n\t"
-+		     "movq	%[retry], %%r8\n\t"
-+		     ".trigger:\n\t"
-+		     "mov	%[apmc_port], %%dx\n\t"
-+		     "outb	%%al, %%dx\n\t"
-+		     "cmpq	%%rcx, %%rax\n\t"
-+		     "jne	.return_changed\n\t"
-+		     "pushq	%%rcx\n\t"
-+		     "movq	$10000, %%rcx\n\t"
-+		     "rep	nop\n\t"
-+		     "popq	%%rcx\n\t"
-+		     "cmpq	$0, %%r8\n\t"
-+		     "je	.return_not_changed\n\t"
-+		     "decq	%%r8\n\t"
-+		     "jmp	.trigger\n\t"
-+		     ".return_changed:\n\t"
-+		     "movq	%%rax, %[status]\n\t"
-+		     "jmp	.end\n\t"
-+		     ".return_not_changed:\n\t"
-+		     "movq	%%rcx, %[status]\n\t"
-+		     ".end:\n\t"
-+		     : [status] "=r"(status)
-+		     : [cmd] "r"(cmd), [arg] "r"(arg), [retry] "r"(retry),
-+		       [apmc_port] "r"(apmc_port)
-+		     : "%rax", "%rbx", "%rdx", "%rcx", "%r8");
-+
-+	if (status == cmd || status == 1)
-+		status = -EIO;
-+	else
-+		status = 0;
-+
-+	return status;
-+}
-+
-+static int register_entry_point(struct device *dev, uint32_t entry_point)
-+{
-+	struct mm_payload *priv = dev_get_drvdata(dev);
-+	u64 cmd;
-+	u8 status;
-+
-+	cmd = priv->mm_cbtable_info->register_mm_entry_command |
-+	      (PAYLOAD_MM_REGISTER_ENTRY << 8);
-+	status = trigger_smi(cmd, entry_point, 5);
-+	dev_dbg(dev, ": %s: SMI returned %x\n", __func__, status);
-+
-+	return status;
-+}
-+
-+static u32 place_handler(struct device *dev)
-+{
-+	/*
-+	 * The handler (aka MM blob) has to be placed in low 4GB of the memory.
-+	 * This is because we can not assume that coreboot will be in long mode
-+	 * while trying to copy the blob to SMRAM. Even if so, (can be checked by
-+	 * reading cb_data->mm_info.requires_long_mode_call), it would make our life
-+	 * way too complicated (e.g. no need for shared page table).
-+	 */
-+	struct mm_payload *info = dev_get_drvdata(dev);
-+	size_t entry32_offset;
-+	size_t entry64_offset;
-+	size_t blob_size;
-+
-+	u16 real_mode_seg;
-+	u32 count;
-+	unsigned long phys_base;
-+	const u32 *rel;
-+	u16 *seg;
-+	u32 *ptr;
-+
-+	blob_size = mm_payload_size_needed();
-+	info->shared_buffer = (void *)devm_get_free_pages(dev, GFP_DMA32, get_order(blob_size));
-+	if (!info->shared_buffer)
++	ec = kmalloc(sizeof(*ec), GFP_KERNEL);
++	if (!ec)
 +		return -ENOMEM;
 +
-+	memcpy(info->shared_buffer, mm_blob, blob_size);
-+	wbinvd();
-+
-+	/*
-+	 * Based on arch/x86/realmode/init.c
-+	 * The sole purpose of doing relocations is to be able to calculate the offsets
-+	 * for entry points. While the absolute addresses are not valid anymore after the
-+	 * blob is copied to SMRAM, the distances between sections stay the same, so we
-+	 * can still calculate the correct entry point based on coreboot's bitness.
-+	 */
-+	phys_base = __pa(info->shared_buffer);
-+	real_mode_seg = phys_base >> 4;
-+	rel = (u32 *)mm_relocs;
-+
-+	/* 16-bit segment relocations. */
-+	count = *rel++;
-+	while (count--) {
-+		seg = (u16 *)(info->shared_buffer + *rel++);
-+		*seg = real_mode_seg;
-+	}
-+
-+	/* 32-bit linear relocations. */
-+	count = *rel++;
-+	while (count--) {
-+		ptr = (u32 *)(info->shared_buffer + *rel++);
-+		*ptr += phys_base;
-+	}
-+
-+	info->mm_header = (struct mm_header *)info->shared_buffer;
-+
-+	info->mm_header->mm_signature = REALMODE_END_SIGNATURE;
-+	info->mm_header->mm_blob_size = mm_payload_size_needed();
-+
-+	/*
-+	 * At this point relocations are done and we can do some cool
-+	 * pointer arithmetics to help coreboot determine correct entry
-+	 * point based on offsets.
-+	 */
-+	entry32_offset = info->mm_header->mm_entry_32 - (unsigned long)info->shared_buffer;
-+	entry64_offset = info->mm_header->mm_entry_64 - (unsigned long)info->shared_buffer;
-+
-+	info->mm_header->mm_entry_32 = entry32_offset;
-+	info->mm_header->mm_entry_64 = entry64_offset;
-+
-+	return (unsigned long)info->shared_buffer;
-+}
-+
-+static int mm_loader_probe(struct coreboot_device *dev)
-+{
-+	struct mm_payload *priv;
-+
-+	priv = devm_kzalloc(&dev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(&dev->dev, priv);
-+
-+	u32 entry_point;
-+
-+	priv->mm_cbtable_info = &dev->mm_info;
-+	if (priv->mm_cbtable_info->tag != LB_TAG_PLD_MM_INTERFACE_INFO)
-+		return -ENXIO;
-+
-+	entry_point = place_handler(&dev->dev);
-+
-+	if (register_entry_point(&dev->dev, entry_point)) {
-+		dev_warn(&dev->dev, ": registering entry point for MM payload failed.\n");
-+		return -EOPNOTSUPP;
-+	}
++	ec->ec_usb = ec_usb;
++	ec->idProduct = idProduct;
++	mutex_lock(&registered_list_mutex);
++	list_add(&ec->node, &registered_list);
++	mutex_unlock(&registered_list_mutex);
 +
 +	return 0;
 +}
 +
-+static const struct coreboot_device_id mm_loader_ids[] = {
-+	{ .tag = LB_TAG_PLD_MM_INTERFACE_INFO },
-+	{ /* sentinel */ }
-+};
-+
-+MODULE_DEVICE_TABLE(coreboot, mm_loader_ids);
-+
-+static struct coreboot_driver mm_loader = {
-+	.probe = mm_loader_probe,
-+	.drv = {
-+		.name = "mm_loader",
-+	},
-+	.id_table = mm_loader_ids,
-+};
-+
-+module_coreboot_driver(mm_loader);
-+
-+MODULE_AUTHOR("Michal Gorlas <michal.gorlas@9elements.com>");
-+MODULE_DESCRIPTION("MM Payload loader - installs Linux-owned SMI handler");
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/firmware/google/mm_payload.h b/drivers/firmware/google/mm_payload.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..8fe99443afce75ac8897f1804520866efe8bb683
---- /dev/null
-+++ b/drivers/firmware/google/mm_payload.h
-@@ -0,0 +1,48 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * mm_payload.h
-+ *
-+ * Internal header for MM payload driver.
-+ *
-+ * Copyright 2025 9elements gmbh
-+ * Copyright 2025 Michal Gorlas <michal.gorlas@9elements.com>
-+ */
-+
-+#ifndef __MM_PAYLOAD_H
-+#define __MM_PAYLOAD_H
-+
-+#define PAYLOAD_MM_REGISTER_ENTRY 2
-+
-+#define REALMODE_END_SIGNATURE	0x65a22c82
-+
-+#ifndef __ASSEMBLY__
-+
-+#include <linux/types.h>
-+
-+/* This must match data at mm_handler/mm_header.S */
-+struct mm_header {
-+	u32	text_start;
-+	u32	mm_entry_32;
-+	u32	mm_entry_64;
-+	u32	mm_signature;
-+	u32	mm_blob_size;
-+};
-+
-+extern struct mm_header *mm_header;
-+extern unsigned char mm_blob_end[];
-+
-+extern unsigned char mm_blob[];
-+extern unsigned char mm_relocs[];
-+
-+/*
-+ * This has to be under 1MB (see tseg_region.c in coreboot source tree).
-+ * The actual check for this is made in coreboot after we fill the header
-+ * (see above) with the blob size.
-+ */
-+static inline size_t mm_payload_size_needed(void)
++static struct cros_ec_usb *cros_ec_usb_get_registered(u16 idProduct)
 +{
-+	return mm_blob_end - mm_blob;
++	struct registered_ec *ec;
++	struct cros_ec_usb *ret = NULL;
++
++	mutex_lock(&registered_list_mutex);
++	list_for_each_entry(ec, &registered_list, node) {
++		if (ec->idProduct == idProduct) {
++			ret = ec->ec_usb;
++			break;
++		}
++	}
++	mutex_unlock(&registered_list_mutex);
++	return ret;
 +}
 +
-+#endif /* __ASSEMBLER__ */
-+#endif /* __MM_PAYLOAD_H */
-
----
-base-commit: 981d7f91aeda17424b29f033249f4fa7cd2a7556
-change-id: 20250613-coreboot-payload-mm-6642bb42284a
-
-Best regards,
++static void cros_ec_int_callback(struct urb *urb);
++
++static int submit_int_urb(struct cros_ec_device *ec_dev)
++{
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++	struct usb_device *usb_dev = interface_to_usbdev(ec_usb->interface);
++
++	/* Submit the INT URB. */
++	usb_fill_int_urb(ec_usb->int_in_urb, usb_dev, ec_usb->int_in_pipe, ec_usb->int_in_buffer,
++			 ec_usb->int_in_size, cros_ec_int_callback, ec_usb,
++			 ec_usb->int_in_interval);
++
++	return usb_submit_urb(ec_usb->int_in_urb, GFP_KERNEL);
++}
++
++static void cros_ec_int_callback(struct urb *urb)
++{
++	struct cros_ec_usb *ec_usb = urb->context;
++	struct cros_ec_device *ec_dev = ec_usb->ec_dev;
++	int ret;
++
++	switch (urb->status) {
++	case 0:
++		break;
++	case -ECONNRESET:
++	case -ENOENT:
++	case -ESHUTDOWN:
++		/* Expected errors. */
++		return;
++	default:
++		dev_dbg(ec_dev->dev, "Unexpected int urb error: %d\n", urb->status);
++		goto resubmit;
++	}
++
++	if (urb->actual_length >= sizeof(struct int_msg)) {
++		struct int_msg *int_msg = (struct int_msg *)ec_usb->int_in_buffer;
++		enum cros_ec_usb_int_type int_type = (enum cros_ec_usb_int_type)int_msg->int_type;
++
++		switch (int_type) {
++		case INT_TYPE_EVENT_OCCURED:
++			if (ec_usb->registered) {
++				ec_dev->last_event_time = cros_ec_get_time_ns();
++				schedule_work(&ec_usb->work_ec_evt);
++			}
++			break;
++		case INT_TYPE_RESPONSE_READY:
++			ec_usb->resp_ready = true;
++			wake_up(&ec_usb->resp_ready_wait);
++			break;
++		default:
++			dev_err(ec_dev->dev, "Unrecognized event: %d\n", int_type);
++		}
++	} else {
++		dev_err(ec_dev->dev, "Incorrect int transfer len: %d\n", urb->actual_length);
++	}
++
++resubmit:
++	/* Resubmit the INT URB. */
++	ret = submit_int_urb(ec_dev);
++	if (ret)
++		dev_err(ec_dev->dev, "Failed to resumbit int urb: %d", ret);
++}
++
++static int do_cros_ec_pkt_xfer_usb(struct cros_ec_device *ec_dev,
++				   struct cros_ec_command *ec_msg)
++{
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++	struct ec_host_response *host_response;
++	int req_size, ret, actual_length, expected_resp_size, resp_size;
++	const int header_size = sizeof(*host_response);
++	const int max_resp_size = header_size + ec_msg->insize;
++	const int bulk_in_size = umin(ec_usb->bulk_in_size, ec_dev->din_size);
++	u8 sum = 0;
++
++	mutex_lock(&ec_usb->io_mutex);
++	if (ec_usb->disconnected) {
++		mutex_unlock(&ec_usb->io_mutex);
++		ret = -ENODEV;
++		return ret;
++	}
++
++	if (max_resp_size > ec_dev->din_size) {
++		dev_err(ec_dev->dev, "Potential response too big: %d\n", max_resp_size);
++		ret = -EINVAL;
++		goto exit;
++	}
++
++	req_size = cros_ec_prepare_tx(ec_dev, ec_msg);
++	if (req_size < 0) {
++		dev_err(ec_dev->dev, "Failed to prepare msg %d\n", req_size);
++		ret = req_size;
++		goto exit;
++	}
++	dev_dbg(ec_dev->dev, "Prepared len=%d\n", req_size);
++
++	ec_usb->resp_ready = false;
++	/*
++	 * Buffers dout and din are allocated with devm_kzalloc which means it is suitable
++	 * for DMA and we can use by usb functions.
++	 */
++	ret = usb_bulk_msg(ec_usb->udev, ec_usb->bulk_out_pipe, ec_dev->dout, req_size, NULL,
++			   BULK_TRANSFER_TIMEOUT_MS);
++	if (ret) {
++		dev_err(ec_dev->dev, "Failed to send request: %d\n", ret);
++		goto exit;
++	}
++
++	/*
++	 * Wait till EC signals response ready event via INT endpoint,
++	 * before polling a response with a bulk transfer.
++	 */
++	if (!wait_event_timeout(ec_usb->resp_ready_wait, ec_usb->resp_ready,
++				msecs_to_jiffies(RESPONSE_TIMEOUT_MS))) {
++		dev_err(ec_dev->dev, "Timed out waiting for response\n");
++		ret = -ETIMEDOUT;
++		goto exit;
++	}
++
++	/* Get first part of response that contains a header. */
++	ret = usb_bulk_msg(ec_usb->udev, ec_usb->bulk_in_pipe, ec_dev->din, bulk_in_size,
++			   &actual_length, BULK_TRANSFER_TIMEOUT_MS);
++	if (ret) {
++		dev_err(ec_dev->dev, "Failed to get response: %d\n", ret);
++		goto exit;
++	}
++
++	/* Verify number of received bytes. */
++	if (actual_length < header_size) {
++		dev_err(ec_dev->dev, "Received too little bytes: %d\n", actual_length);
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	host_response = (struct ec_host_response *)ec_dev->din;
++	if (host_response->struct_version != 3 || host_response->reserved != 0) {
++		dev_err(ec_dev->dev, "Received invalid header\n");
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	expected_resp_size = header_size + host_response->data_len;
++	if (expected_resp_size > max_resp_size || actual_length > expected_resp_size) {
++		dev_err(ec_dev->dev, "Incorrect number of expected bytes: %d\n",
++			expected_resp_size);
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	/* Get the rest of the response if needed. */
++	resp_size = actual_length;
++	if (resp_size < expected_resp_size) {
++		ret = usb_bulk_msg(ec_usb->udev, ec_usb->bulk_in_pipe, ec_dev->din + resp_size,
++				   expected_resp_size - resp_size, &actual_length,
++				   BULK_TRANSFER_TIMEOUT_MS);
++		if (ret) {
++			dev_err(ec_dev->dev, "Failed to get second part of response: %d\n", ret);
++			goto exit;
++		}
++		resp_size += actual_length;
++	}
++
++	/* Check if number of received of bytes is correct. */
++	if (resp_size != expected_resp_size) {
++		dev_err(ec_dev->dev, "Received incorrect number of bytes: %d, expected: %d\n",
++			resp_size, expected_resp_size);
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	/* Validate checksum */
++	for (int i = 0; i < expected_resp_size; i++)
++		sum += ec_dev->din[i];
++
++	if (sum) {
++		dev_err(ec_dev->dev, "Bad packet checksum calculated %x\n", sum);
++		ret = -EBADMSG;
++		goto exit;
++	}
++
++	ec_msg->result = host_response->result;
++	memcpy(ec_msg->data, ec_dev->din + header_size, host_response->data_len);
++	ret = host_response->data_len;
++
++	if (ec_msg->command == EC_CMD_REBOOT_EC)
++		msleep(EC_REBOOT_DELAY_MS);
++
++exit:
++	mutex_unlock(&ec_usb->io_mutex);
++	if (ret < 0) {
++		/* Try to reset EC in case of error to restore default state. */
++		usb_reset_device(ec_usb->udev);
++	}
++
++	return ret;
++}
++
++static void usb_evt_handler(struct work_struct *work)
++{
++	struct cros_ec_usb *ec_usb = container_of(work, struct cros_ec_usb, work_ec_evt);
++
++	cros_ec_irq_thread(0, ec_usb->ec_dev);
++}
++
++static void cros_ec_usb_delete(struct cros_ec_usb *ec_usb)
++{
++	usb_kill_urb(ec_usb->int_in_urb);
++	cancel_work_sync(&ec_usb->work_ec_evt);
++
++	usb_free_urb(ec_usb->int_in_urb);
++	usb_put_intf(ec_usb->interface);
++	usb_put_dev(ec_usb->udev);
++	kfree(ec_usb->int_in_buffer);
++	kfree(ec_usb->bulk_in_buffer);
++}
++
++static int cros_ec_usb_probe(struct usb_interface *intf, const struct usb_device_id *id)
++{
++	struct usb_device *usb_dev = interface_to_usbdev(intf);
++	struct usb_endpoint_descriptor *bulk_in, *bulk_out, *int_in;
++	struct device *if_dev = &intf->dev;
++	struct cros_ec_device *ec_dev;
++	const u16 idProduct = le16_to_cpu(usb_dev->descriptor.idProduct);
++	struct cros_ec_usb *ec_usb = cros_ec_usb_get_registered(idProduct);
++	const bool is_registered = !!ec_usb;
++	int ret;
++
++	/*
++	 * Do not register the same EC device twice. The probing is performed every reboot, sysjump,
++	 * crash etc. Recreating the /dev/cros_X file every time would force all application to
++	 * reopen the file, which is not a case for other cros_ec_x divers. Instead, keep
++	 * the cros_ec_device and cros_ec_usb structures constant and replace USB related structures
++	 * for the same EC that is reprobed.
++	 *
++	 * The driver doesn't support handling two devices with the same idProduct, but it will
++	 * never be a real usecase.
++	 */
++	if (!is_registered) {
++		ec_usb = kzalloc(sizeof(*ec_usb), GFP_KERNEL);
++		if (!ec_usb)
++			return -ENOMEM;
++
++		ec_dev = kzalloc(sizeof(*ec_dev), GFP_KERNEL);
++		if (!ec_dev) {
++			kfree(ec_usb);
++			return -ENOMEM;
++		}
++
++		ec_usb->ec_dev = ec_dev;
++		INIT_WORK(&ec_usb->work_ec_evt, usb_evt_handler);
++		mutex_init(&ec_usb->io_mutex);
++		init_waitqueue_head(&ec_usb->resp_ready_wait);
++
++		ec_dev->priv = ec_usb;
++		/* EC uses int endpoint to signal events. */
++		ec_dev->irq = 0;
++		ec_dev->cmd_xfer = NULL;
++		ec_dev->pkt_xfer = do_cros_ec_pkt_xfer_usb;
++		ec_dev->din_size = sizeof(struct ec_host_response) +
++				   sizeof(struct ec_response_get_protocol_info);
++		ec_dev->dout_size = sizeof(struct ec_host_request) +
++				    sizeof(struct ec_params_rwsig_action);
++	} else {
++		ec_dev = ec_usb->ec_dev;
++
++		/*
++		 * We need to allocate dout and din buffers, because cros_ec_register
++		 * won't be called. These buffers were freed once previous usb device was
++		 * disconnected. Use buffer sizes from the last query.
++		 * The EC_HOST_EVENT_INTERFACE_READY event will be triggered at the end
++		 * of a boot, which calls cros_ec_query_all function, that reallocates
++		 * buffers.
++		 */
++		ec_dev->din = devm_kzalloc(if_dev, ec_dev->din_size, GFP_KERNEL);
++		if (!ec_dev->din) {
++			ret = -ENOMEM;
++			dev_err(if_dev, "Failed to allocate din buffer\n");
++			goto error;
++		}
++		ec_dev->dout = devm_kzalloc(if_dev, ec_dev->dout_size, GFP_KERNEL);
++		if (!ec_dev->dout) {
++			ret = -ENOMEM;
++			dev_err(if_dev, "Failed to allocate dout buffer\n");
++			goto error;
++		}
++	}
++
++	ec_dev->dev = if_dev;
++	ec_dev->phys_name = dev_name(if_dev);
++	usb_set_intfdata(intf, ec_dev);
++	/* Allow EC to do remote wake-up - host sends SET_FEATURE(remote wake-up) before suspend. */
++	device_init_wakeup(&usb_dev->dev, true);
++
++	ec_usb->udev = usb_get_dev(usb_dev);
++	ec_usb->interface = usb_get_intf(intf);
++
++	/* Use first bulk-in/out endpoints + int-in endpoint */
++	ret = usb_find_common_endpoints(intf->cur_altsetting, &bulk_in, &bulk_out, &int_in, NULL);
++	if (ret) {
++		dev_err(if_dev,
++			"Could not find bulk-in, bulk-out or int-in endpoint\n");
++		goto error;
++	}
++	/* Bulk endpoints have to be capable of sending headers in one transfer. */
++	if ((usb_endpoint_maxp(bulk_out) < sizeof(struct ec_host_request)) ||
++	    (usb_endpoint_maxp(bulk_in) < sizeof(struct ec_host_response)) ||
++	    (usb_endpoint_maxp(int_in)) < sizeof(struct int_msg)) {
++		ret = -ENOSPC;
++		dev_err(if_dev, "Incorrect max packet size\n");
++		goto error;
++	}
++
++	ec_usb->bulk_out_pipe = usb_sndbulkpipe(ec_usb->udev, bulk_out->bEndpointAddress);
++	ec_usb->bulk_in_size = usb_endpoint_maxp(bulk_in);
++	ec_usb->bulk_in_pipe = usb_rcvbulkpipe(ec_usb->udev, bulk_in->bEndpointAddress);
++	ec_usb->bulk_in_buffer = kmalloc(ec_usb->bulk_in_size, GFP_KERNEL);
++	if (!ec_usb->bulk_in_buffer) {
++		dev_err(if_dev, "Failed to allocate bulk in buffer\n");
++		ret = -ENOMEM;
++		goto error;
++	}
++
++	ec_usb->int_in_size = usb_endpoint_maxp(int_in);
++	ec_usb->int_in_pipe = usb_rcvintpipe(ec_usb->udev, int_in->bEndpointAddress);
++	ec_usb->int_in_interval = int_in->bInterval;
++	ec_usb->int_in_buffer = kmalloc(ec_usb->int_in_size, GFP_KERNEL);
++	if (!ec_usb->int_in_buffer) {
++		dev_err(if_dev, "Failed to allocate int in buffer\n");
++		ret = -ENOMEM;
++		goto error;
++	}
++	ec_usb->int_in_urb = usb_alloc_urb(0, GFP_KERNEL);
++	if (!ec_usb->int_in_urb) {
++		dev_err(if_dev, "Failed to allocate int in urb\n");
++		ret = -ENOMEM;
++		goto error;
++	}
++
++	/* Use URB for the int endpoint. */
++	ret = submit_int_urb(ec_dev);
++	if (ret) {
++		dev_err(if_dev, "Failed to sumbit int urb: %d\n", ret);
++		goto error;
++	}
++
++	mutex_lock(&ec_usb->io_mutex);
++	ec_usb->disconnected = false;
++	mutex_unlock(&ec_usb->io_mutex);
++
++	if (!is_registered) {
++		ret = cros_ec_register(ec_dev);
++		if (ret) {
++			dev_err(if_dev, "Cannot register EC\n");
++			goto error;
++		}
++		ret = cros_ec_usb_register(idProduct, ec_usb);
++		if (ret) {
++			cros_ec_unregister(ec_dev);
++			goto error;
++		}
++		ec_usb->registered = true;
++	}
++
++	/* Handle potential events that haven't been handled before registration */
++	schedule_work(&ec_usb->work_ec_evt);
++
++	return 0;
++
++error:
++	/* Free allocated memory */
++	cros_ec_usb_delete(ec_usb);
++	if (!is_registered) {
++		/* Free constant structures only if it is a first registration. */
++		kfree(ec_dev);
++		kfree(ec_usb);
++	}
++
++	return ret;
++}
++
++static void cros_ec_usb_disconnect(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++
++	/* prevent more I/O from starting */
++	mutex_lock(&ec_usb->io_mutex);
++	ec_usb->disconnected = true;
++	mutex_unlock(&ec_usb->io_mutex);
++
++	cros_ec_usb_delete(ec_usb);
++}
++
++static int cros_ec_usb_suspend(struct usb_interface *intf, pm_message_t message)
++{
++	return 0;
++}
++
++static int cros_ec_usb_resume(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	int err;
++
++	/* URB is killed during suspend. */
++	err = submit_int_urb(ec_dev);
++	if (err)
++		dev_err(ec_dev->dev, "Failed to sumbit int urb after resume: %d\n", err);
++
++	return err;
++}
++
++static int cros_ec_usb_pre_reset(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++
++	/* Do not start any new operations. */
++	mutex_lock(&ec_usb->io_mutex);
++
++	usb_kill_urb(ec_usb->int_in_urb);
++
++	return 0;
++}
++
++static int cros_ec_usb_post_reset(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++	int err;
++
++	err = submit_int_urb(ec_dev);
++	if (err)
++		dev_err(ec_dev->dev, "Failed to sumbit int urb after reset: %d\n", err);
++
++	mutex_unlock(&ec_usb->io_mutex);
++
++	return err;
++}
++
++static const struct usb_device_id cros_ec_usb_id_table[] = {
++	{ USB_VENDOR_AND_INTERFACE_INFO(USB_VENDOR_ID_GOOGLE,
++					USB_CLASS_VENDOR_SPEC,
++					USB_SUBCLASS_GOOGLE_EC_HOST_CMD,
++					USB_PROTOCOL_GOOGLE_EC_HOST_CMD) },
++	{} /* Terminating entry */
++};
++MODULE_DEVICE_TABLE(usb, cros_ec_usb_id_table);
++
++static struct usb_driver cros_ec_usb = {
++	.name = "cros-ec-usb",
++	.probe = cros_ec_usb_probe,
++	.disconnect = cros_ec_usb_disconnect,
++	.suspend = cros_ec_usb_suspend,
++	.resume = cros_ec_usb_resume,
++	.pre_reset = cros_ec_usb_pre_reset,
++	.post_reset = cros_ec_usb_post_reset,
++	.id_table = cros_ec_usb_id_table,
++	/* Do not autosuspend EC */
++	.supports_autosuspend = 0,
++};
++module_usb_driver(cros_ec_usb);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("ChromeOS EC USB HC driver");
 -- 
-Michal Gorlas <michal.gorlas@9elements.com>
+2.50.1.565.gc32cd1483b-goog
 

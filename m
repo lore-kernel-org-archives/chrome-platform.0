@@ -1,103 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6AA82EB5A7;
-	Tue, 12 Aug 2025 14:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DEE2D0620
+	for <chrome-platform@lists.linux.dev>; Tue, 12 Aug 2025 20:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755009347; cv=none; b=EXho/2vcBSzIApZ2269TTptsW4vEscw0fvdtg7Y8bi5zfy0TGk767T8h1Xpw31UZO38+66+aCCdBwZi6ELJgqhJBg22N10CVPTR+TK6HVixPTXXWzBGT3NtOPtc/IPaer3ojtOy9mb5HxFungS36CCwpNMKZPWqmjX3uGYfZVE4=
+	t=1755030853; cv=none; b=py1n37451BlAEUiufRhBoeboEIpqrlC8w19edaFFpX4tWt+g3YEjXqX+EraJIFDcX+shfSOoRf1URtQRqBRyBbRtiXHDisGaFHRGDNvOVC087dgqDTY41iP7JhPCxaozbfP1sCwzk0ZSAQXVm7ahlSUxG766agsX3fYnftH4BGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755009347; c=relaxed/simple;
-	bh=RUaz2F7M+J8suIFZqnO0eXnGJrhkRbwORESw+0/OzrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=apCcqDiyShzXufYGSe+x9i0m+6CEh4xXtT6/CbExYpMkRMndnhnEizJibwyhjDejUoD+JhLyXYE6IgYzZdWiu+k8drEjEmp+8HyzyqPC9U4RiDta++tiMGVoNVaylkjuOxEUiPLyPMM0axugmLartHm4TUyXXJicafkRTJefy1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSX2XH+P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755030853; c=relaxed/simple;
+	bh=sc5Szj9DaKl32962dz6jW5WEWwuoiEYfcZH2OgxoK/4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ic9AD1t8vN41LK1ZyVnceHY/SsSN4R2w425GWtRD8p95ueJV9Q8skkWcQulQgIhlu5zejnTXJW2tvH+4H4nu9pQuTd2Jm/qqB1dT9XV4pGKoWoFZbHGUJSIUiEu2T1qLcgEs9ukc5Ttk9J2TFPe1FY9a0T2j8cS26+saNrsnIms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KoF5ut4t; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSX2XH+P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0892C4CEF0;
-	Tue, 12 Aug 2025 14:35:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755009346;
-	bh=RUaz2F7M+J8suIFZqnO0eXnGJrhkRbwORESw+0/OzrA=;
-	h=Date:From:To:Cc:Subject:From;
-	b=RSX2XH+P10pKNs0r8n92lYyeDmpMNovIKyedzkNNNFy05oyRj/Ri1NTZyQv6V9SmI
-	 0fWwaDTNRwFdfTh3X9NdnmhTBwhhrzBF8fctIZ45I+hdiVcMB/oPTrLOiVIqBMRvbb
-	 0oIpVX5RgYPKjfEh0haxl9sgFRQVVQwWpcQUt5HD/tl5QTaNjuC3itOOf17yWWXkvK
-	 jGwqTV9FXj0/8Rg8Z4Q+PlfSnczIMnWP/kWIj2UhpDvd8T7SjLoug8PFdwyi6AXj0W
-	 f2QTEJj2YW/Z6AkByTNzszY+HsKDkn/K962FPFldePiAWprcyMxfv6e5XtydRoGlhN
-	 7Hwp8D+EdrxkQ==
-Date: Tue, 12 Aug 2025 23:35:41 +0900
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH][next] pwm: cros-ec: Avoid -Wflex-array-member-not-at-end
- warnings
-Message-ID: <aJtRPZpc-Lv-C6zD@kspp>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KoF5ut4t"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-717b580ff2aso58945467b3.0
+        for <chrome-platform@lists.linux.dev>; Tue, 12 Aug 2025 13:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755030850; x=1755635650; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CesmGPtKuDUWY4MQccWH2mnWQ8QDSsrtS7Gzevtd68w=;
+        b=KoF5ut4tO+bTtW7yJNCOJ0lZj+cJVeUAZ8DQUM9M6hXNJk9KhUmEKGfT1lMPLdeMUd
+         0kDjSp+y4FtCpbR/tPblPgua9v49+LmX3wxhJeZNXqqzGc9WJ31dVqc71qXC85qinB8Y
+         nZszsW5ZvbTin4wjuajEyHeDYe0gHAjbMjrb0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755030850; x=1755635650;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CesmGPtKuDUWY4MQccWH2mnWQ8QDSsrtS7Gzevtd68w=;
+        b=uMSw/jcLr0VJ1Futw8VeeAEjePyn8JLCmA7xBuISvuXfcflkVwSk45g88xtgSFd90r
+         dVIDMdaqej8gUlu37qKtR3Fp8rgIxs9Q1nDAUY49e34QxHwCc9PSaYtBh7qD7mYv/DmT
+         OLD+f9swMsaSM0y15rKWww5HWhzsY9b2qELec4wzZz91/U1vDy1nGcGEyZ/fIIUvB0QD
+         v9OVJIPxMULALTuo2piJtA815/eFJfbs7Ng9Tp2OFSmKVD4KgVAT2Gc8pSJXoMNylES+
+         gfkiMSes/naZ+L49hU0u3x4VAD6z6Q3l/mqkMHf0gLd5HnJRea8wasa1wlmRE694+zdK
+         MXPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGYmwW47a0whNEEagwqgIRLn+B114SJH9Cb5RdPZ2p5AX+2jlc++ZxSiSQgj/Oaby2GuwIxU/9+A+Y1MsFsg4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6vpeneeIOlj32XD7dYWzOyyAsrzyNvA5kf9LWdluYn0lk6fmc
+	v8sioWak5QXU7YQLs6nW8uqZZ3bHJjlB1q/2gzO/Bd0qXC+njb6Qk99GqDi1/sjm6GC1b3K4ZVi
+	vadfX4dJTdnRPUafqhCytOMJKlrlvXi+vR/NsBxYE
+X-Gm-Gg: ASbGnctu/YtQQ7SB45PgHsGSEagzTyGcaEuEfxUElrYX+KBJQSIy1AGfCxL7+5ISwi0
+	yRoXAJpaToq5E7Zb7KzyaX+9HIP87Vv16u6m4CsAFq0LIw/cVxVIvPb3+YcoBAxA6HOBshF2Jc4
+	lqOyIgRjFOtd2jgan6D1iiFsgPWrmF/ElZB6mWQdxJBJgtTZAazcwB0tCXaSNLdep/tJzSj4EJ4
+	BM5vOA=
+X-Google-Smtp-Source: AGHT+IEerpIXF67J3Ps9rtYB7F6lok4NcCvujccjf6KzzrBDAggAVaGU8Y6kayvIYrX4gW3PQuZjQojWFbC0ahif9Zo=
+X-Received: by 2002:a05:690c:688c:b0:71c:1d31:e693 with SMTP id
+ 00721157ae682-71d4e52955cmr7726027b3.24.1755030850150; Tue, 12 Aug 2025
+ 13:34:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250804090340.3062182-1-akuchynski@chromium.org>
+ <20250804090340.3062182-5-akuchynski@chromium.org> <aJn9ZSy3w4zW4Xvq@kuha.fi.intel.com>
+ <CANFp7mVUFZyF8z0dN-Mo7ntPOXh06ZD0RH5GyvJJymOXrhSD1g@mail.gmail.com> <aJsoS3EXgoLP-f-E@kuha.fi.intel.com>
+In-Reply-To: <aJsoS3EXgoLP-f-E@kuha.fi.intel.com>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Tue, 12 Aug 2025 13:33:58 -0700
+X-Gm-Features: Ac12FXzX_w_wK4vvlBMCy61zeWwZCbfhZWbGwyjBDcHuxh7vMIEodeZCUXnKDwU
+Message-ID: <CANFp7mW92PgjSWyJq7Bz6ZLJ8ZgnsCRw2kAYAjKX3yymKW9hBA@mail.gmail.com>
+Subject: Re: [PATCH v3 04/10] usb: typec: Expose mode priorities via sysfs
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Andrei Kuchynski <akuchynski@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
+	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--Wflex-array-member-not-at-end was introduced in GCC-14, and we are
-getting ready to enable it, globally.
+On Tue, Aug 12, 2025 at 4:41=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> Hi Abhishek,
+>
+> On Mon, Aug 11, 2025 at 11:22:38AM -0700, Abhishek Pandit-Subedi wrote:
+> > On Mon, Aug 11, 2025 at 7:25=E2=80=AFAM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> > >
+> > > Hi Andrei,
+> > >
+> > > On Mon, Aug 04, 2025 at 09:03:33AM +0000, Andrei Kuchynski wrote:
+> > > > This patch introduces new sysfs attributes to allow users to config=
+ure
+> > > > and view Type-C mode priorities.
+> > > >
+> > > > `priority`, `usb4_priority` attributes allow users to assign a nume=
+ric
+> > > > priority to DisplayPort alt-mode, Thunderbolt alt-mode, and USB4 mo=
+de.
+> > > >
+> > > > `mode_priorities` - read-only attribute that displays an ordered li=
+st
+> > > > of all modes based on their configured priorities.
+> > > >
+> > > > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> > > > ---
+> > > >  Documentation/ABI/testing/sysfs-class-typec |  33 +++++
+> > > >  drivers/usb/typec/Makefile                  |   2 +-
+> > > >  drivers/usb/typec/class.c                   | 103 +++++++++++++++-
+> > > >  drivers/usb/typec/class.h                   |   1 +
+> > > >  drivers/usb/typec/mode_selection.c          | 130 ++++++++++++++++=
+++++
+> > > >  drivers/usb/typec/mode_selection.h          |  23 ++++
+> > > >  include/linux/usb/typec_altmode.h           |   7 ++
+> > > >  7 files changed, 295 insertions(+), 4 deletions(-)
+> > > >  create mode 100644 drivers/usb/typec/mode_selection.c
+> > > >  create mode 100644 drivers/usb/typec/mode_selection.h
+> > > >
+> > > > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Document=
+ation/ABI/testing/sysfs-class-typec
+> > > > index 38e101c17a00..575dd94f33ab 100644
+> > > > --- a/Documentation/ABI/testing/sysfs-class-typec
+> > > > +++ b/Documentation/ABI/testing/sysfs-class-typec
+> > > > @@ -162,6 +162,39 @@ Description:     Lists the supported USB Modes=
+. The default USB mode that is used
+> > > >               - usb3 (USB 3.2)
+> > > >               - usb4 (USB4)
+> > > >
+> > > > +             What:           /sys/class/typec/<port>/<alt-mode>/pr=
+iority
+> > > > +Date:                July 2025
+> > > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
+> > > > +Description:
+> > > > +             Displays and allows setting the priority for a specif=
+ic alt-mode.
+> > > > +             When read, it shows the current integer priority valu=
+e. Lower numerical
+> > > > +             values indicate higher priority (0 is the highest pri=
+ority).
+> > > > +             If the new value is already in use by another mode, t=
+he priority of the
+> > > > +             conflicting mode and any subsequent modes will be inc=
+remented until they
+> > > > +             are all unique.
+> > > > +             This attribute is visible only if the kernel supports=
+ mode selection.
+> > > > +
+> > > > +             What:           /sys/class/typec/<port>/usb4_priority
+> > > > +Date:                July 2025
+> > > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
+> > > > +Description:
+> > > > +             Displays and allows setting the priority for USB4 mod=
+e. Its behavior and
+> > > > +             priority numbering scheme are identical to the genera=
+l alt-mode
+> > > > +             "priority" attributes.
+> > >
+> > > I'm not sure those above two file make any sense.
+> > >
+> > > > +What:                /sys/class/typec/<port>/mode_priorities
+> > > > +Date:                July 2025
+> > > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
+> > > > +Description: This read-only file lists the modes supported by the =
+port,
+> > > > +             ordered by their activation priority. It reflects the=
+ preferred sequence
+> > > > +             the kernel will attempt to activate modes (DisplayPor=
+t alt-mode,
+> > > > +             Thunderbolt alt-mode, USB4 mode).
+> > > > +             This attribute is visible only if the kernel supports=
+ mode selection.
+> > > > +
+> > > > +             Example values:
+> > > > +             - "USB4 Thunderbolt3 DisplayPort"
+> > > > +             - "DisplayPort": the port only supports Displayport a=
+lt-mode
+> > >
+> > > Why not just use this one instead so that you write the highest
+> > > priority mode to it?
+> >
+> > Feedback from Greg on
+> > https://lore.kernel.org/linux-usb/2025070159-judgingly-baggage-042a@gre=
+gkh/:
+> >
+> > "quote":
+> > Multiple value sysfs files are generally frowned apon.  sysfs files tha=
+t
+> > also have to be manually parsed in the kernel are also frowned apon.
+> > Are you _SURE_ there is no other way that you could possibly do this?
+> >
+> > The reason we originally suggested a single "mode priorities" was
+> > because we weren't sure what to do about USB4. Otherwise, it makes
+> > sense to push a priority field to each alt_mode sysfs group and keep
+> > it internally ordered. This is where I really wish we just treated
+> > USB4 as an alternate mode :)
+>
+> I'm probable forgetting something, but I'm pretty sure I already told
+> you guys that I agree, it should be an alt mode. So why not just
+> register a special alt mode for it?
 
-Use the new TRAILING_OVERLAP() helper to fix the following warnings:
+We interpreted this a bit differently (as just rename it):
+https://patchwork.kernel.org/project/linux-usb/patch/20250616133147.1835939=
+-5-akuchynski@chromium.org/#26431992
 
-drivers/pwm/pwm-cros-ec.c:53:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-drivers/pwm/pwm-cros-ec.c:87:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+Thanks for the clarification here. In that case, we'll get rid of
+`usb_priorities` and `usb_results` and just add a new alternate mode
+for USB4. The vendor ids list on usb.org
+(https://www.usb.org/sites/default/files/vendor_ids072325_1.pdf) shows
+0xff00 for USB4 so that's what we'll use. So the attributes should be:
+.active (similar to other modes), .mode =3D 1 (unused really), .svid =3D
+0xff00, .vdo =3D <usb eudo> (if supported).
 
-This helper creates a union between a flexible-array member (FAM)
-and a set of members that would otherwise follow it. This overlays
-the trailing members onto the FAM while preserving the original
-memory layout.
+>
+> Sorry if I missed something.
+>
+> > As such, our current API recommendation looks like the following:
+> >
+> > * On each port, we lay out priorities for all supported alternate modes=
+ + USB4.
+>
+> This first part I understand.
+>
+> > * We expose a file to trigger the mode selection task. Reading from it
+> > gives you the current status of mode selection (single value).
+> > * Detailed results from mode entry are pushed to the mode sysfs group
+> > (via entry_results). Converting these to UEVENT is fine but a more
+> > persistent value in debugfs would be useful for debugging.
+>
+> This second part I would really like to handle separately, after we
+> have a solution for the first part.
 
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/pwm/pwm-cros-ec.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Ack. We'll reduce the series so it's easier to review for mode_priorities f=
+irst.
 
-diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-index 189301dc395e..67cfa17f58e0 100644
---- a/drivers/pwm/pwm-cros-ec.c
-+++ b/drivers/pwm/pwm-cros-ec.c
-@@ -49,10 +49,9 @@ static int cros_ec_pwm_set_duty(struct cros_ec_pwm_device *ec_pwm, u8 index,
- 				u16 duty)
- {
- 	struct cros_ec_device *ec = ec_pwm->ec;
--	struct {
--		struct cros_ec_command msg;
-+	TRAILING_OVERLAP(struct cros_ec_command, msg, data,
- 		struct ec_params_pwm_set_duty params;
--	} __packed buf;
-+	) __packed buf;
- 	struct ec_params_pwm_set_duty *params = &buf.params;
- 	struct cros_ec_command *msg = &buf.msg;
- 	int ret;
-@@ -83,13 +82,12 @@ static int cros_ec_pwm_set_duty(struct cros_ec_pwm_device *ec_pwm, u8 index,
- 
- static int cros_ec_pwm_get_duty(struct cros_ec_device *ec, bool use_pwm_type, u8 index)
- {
--	struct {
--		struct cros_ec_command msg;
-+	TRAILING_OVERLAP(struct cros_ec_command, msg, data,
- 		union {
- 			struct ec_params_pwm_get_duty params;
- 			struct ec_response_pwm_get_duty resp;
- 		};
--	} __packed buf;
-+	) __packed buf;
- 	struct ec_params_pwm_get_duty *params = &buf.params;
- 	struct ec_response_pwm_get_duty *resp = &buf.resp;
- 	struct cros_ec_command *msg = &buf.msg;
--- 
-2.43.0
-
+>
+> thanks,
+>
+> --
+> heikki

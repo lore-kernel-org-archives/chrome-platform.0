@@ -1,238 +1,164 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013067.outbound.protection.outlook.com [52.101.127.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DEE2D0620
-	for <chrome-platform@lists.linux.dev>; Tue, 12 Aug 2025 20:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755030853; cv=none; b=py1n37451BlAEUiufRhBoeboEIpqrlC8w19edaFFpX4tWt+g3YEjXqX+EraJIFDcX+shfSOoRf1URtQRqBRyBbRtiXHDisGaFHRGDNvOVC087dgqDTY41iP7JhPCxaozbfP1sCwzk0ZSAQXVm7ahlSUxG766agsX3fYnftH4BGE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755030853; c=relaxed/simple;
-	bh=sc5Szj9DaKl32962dz6jW5WEWwuoiEYfcZH2OgxoK/4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ic9AD1t8vN41LK1ZyVnceHY/SsSN4R2w425GWtRD8p95ueJV9Q8skkWcQulQgIhlu5zejnTXJW2tvH+4H4nu9pQuTd2Jm/qqB1dT9XV4pGKoWoFZbHGUJSIUiEu2T1qLcgEs9ukc5Ttk9J2TFPe1FY9a0T2j8cS26+saNrsnIms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KoF5ut4t; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F49A4A04
+	for <chrome-platform@lists.linux.dev>; Wed, 13 Aug 2025 09:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755078555; cv=fail; b=qyTImGqiP3NXaCgSN5MLK8Kt0PgB09OeHX0cvesYsnYn7zltQuCU9zj/ebVXyAPJcD92094RDUDocNB97Ypc5KOdjb6u5rMDLwIlP1qdBGqx0SV2SRqHUCjq6Tgu2Kz/6Ve84cwdC5n7wIMR/4lTg0dX/aVD19ZE8pnNcmGSBbo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755078555; c=relaxed/simple;
+	bh=T840att5qOtKzTuZFPBlhKVKgu6IDbh2fe42/EAqZqc=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=CRf1eK8p6+mgWY4uRkXL4qP3eh86gu5hJcY/jL/SHlPDWCh35Uhgloa5lZoiOO52TYv/dy1apmoWjlB3nADnW6oFaCHNjTgKWt4nvxyz4HsIFV/kdP4u93s7si9PoAVO6JTTeoBmfiOecwG25n+bA6hu3k7bZ+L/hvUOw75y0MQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=qzI4TOp7; arc=fail smtp.client-ip=52.101.127.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KoF5ut4t"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-717b580ff2aso58945467b3.0
-        for <chrome-platform@lists.linux.dev>; Tue, 12 Aug 2025 13:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1755030850; x=1755635650; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CesmGPtKuDUWY4MQccWH2mnWQ8QDSsrtS7Gzevtd68w=;
-        b=KoF5ut4tO+bTtW7yJNCOJ0lZj+cJVeUAZ8DQUM9M6hXNJk9KhUmEKGfT1lMPLdeMUd
-         0kDjSp+y4FtCpbR/tPblPgua9v49+LmX3wxhJeZNXqqzGc9WJ31dVqc71qXC85qinB8Y
-         nZszsW5ZvbTin4wjuajEyHeDYe0gHAjbMjrb0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755030850; x=1755635650;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CesmGPtKuDUWY4MQccWH2mnWQ8QDSsrtS7Gzevtd68w=;
-        b=uMSw/jcLr0VJ1Futw8VeeAEjePyn8JLCmA7xBuISvuXfcflkVwSk45g88xtgSFd90r
-         dVIDMdaqej8gUlu37qKtR3Fp8rgIxs9Q1nDAUY49e34QxHwCc9PSaYtBh7qD7mYv/DmT
-         OLD+f9swMsaSM0y15rKWww5HWhzsY9b2qELec4wzZz91/U1vDy1nGcGEyZ/fIIUvB0QD
-         v9OVJIPxMULALTuo2piJtA815/eFJfbs7Ng9Tp2OFSmKVD4KgVAT2Gc8pSJXoMNylES+
-         gfkiMSes/naZ+L49hU0u3x4VAD6z6Q3l/mqkMHf0gLd5HnJRea8wasa1wlmRE694+zdK
-         MXPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGYmwW47a0whNEEagwqgIRLn+B114SJH9Cb5RdPZ2p5AX+2jlc++ZxSiSQgj/Oaby2GuwIxU/9+A+Y1MsFsg4=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6vpeneeIOlj32XD7dYWzOyyAsrzyNvA5kf9LWdluYn0lk6fmc
-	v8sioWak5QXU7YQLs6nW8uqZZ3bHJjlB1q/2gzO/Bd0qXC+njb6Qk99GqDi1/sjm6GC1b3K4ZVi
-	vadfX4dJTdnRPUafqhCytOMJKlrlvXi+vR/NsBxYE
-X-Gm-Gg: ASbGnctu/YtQQ7SB45PgHsGSEagzTyGcaEuEfxUElrYX+KBJQSIy1AGfCxL7+5ISwi0
-	yRoXAJpaToq5E7Zb7KzyaX+9HIP87Vv16u6m4CsAFq0LIw/cVxVIvPb3+YcoBAxA6HOBshF2Jc4
-	lqOyIgRjFOtd2jgan6D1iiFsgPWrmF/ElZB6mWQdxJBJgtTZAazcwB0tCXaSNLdep/tJzSj4EJ4
-	BM5vOA=
-X-Google-Smtp-Source: AGHT+IEerpIXF67J3Ps9rtYB7F6lok4NcCvujccjf6KzzrBDAggAVaGU8Y6kayvIYrX4gW3PQuZjQojWFbC0ahif9Zo=
-X-Received: by 2002:a05:690c:688c:b0:71c:1d31:e693 with SMTP id
- 00721157ae682-71d4e52955cmr7726027b3.24.1755030850150; Tue, 12 Aug 2025
- 13:34:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="qzI4TOp7"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IP0dFjjJW7LLfGxXBg5iJN6Tm3rawWbUgT/enVIzxQb9okKdH6fa+tnrVmG1rzKXT9WRKin7AuuolVvVutHINb6Ua8XIJrqaBej/3OXOb//1YXAHuw7WS4kqp/2L/6jJDZ2OIXyudpbOnLUMRPd8/trRG+kCdCAZFt4WEyhlj7Bi3OAhr9W3lJuy6c1z2rsFFmuOh5LmapU1e6r2hIAnx69PlYQvFjMZXqBuQE1Js1DsnUzNbcJDm2WuIt6QsFyCiJ8T8JcOk0jdj5btEY9crbWcJ0KoTjas1GcnA9pYPKl/POhzH7GvH47nkW5K5xl+EcanIVBK5vz0CzX1M+YCtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YEWXhajUaGzh4Sa04fH3luBUbGD5xLITVm1fQ4exe3M=;
+ b=eRT3Xg7vG1+sQOYajOL8WYk0fiMzxuQKlkGrJ+LHQvzhbN4coxRosr7MdnnGNNTJy+K1EbUOezDxVhA1F4B2iuvhf3VG0lXNkFl3YBJRv4kmjr/nAXGVsPKQNVzN5/5iEmV5r3rubqSfXI11Fdj9OW+rAstijORUA08FTswQTxk6pJeBQh0sgmOq56CeLejAs+Q1tbOYsVTHzTVdZ1PvyNjruVbXitFfKEaKKQXt42kfNK9kKO2Ow2HZhF4nxFpxOw0slc7jTgRazT6Exk+Ql3yIJLoaeI/QpJN352v++dV4Tr8uDaCKynH781Ddks1+16rzUc06t4Y13VrJ0aV9Xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YEWXhajUaGzh4Sa04fH3luBUbGD5xLITVm1fQ4exe3M=;
+ b=qzI4TOp79IW/c8CYLxIKgtLLuPON8VcXxiQ7LRFTvovzrJZFvA6/fGayb95Zv0cyC9tyHnB68VP3ygXRHJE4qH+/xR25mrplMVpOF1Oy09WgNa4QrYWKlw8sjBdHGnoBr7fEPOIG+65v+1rNxI68qNzWWs9KT0KzgggPAwXo0hLJ4piRcS2vgkIxmlY6lXTA8EqYGjMwzloQBFJUaQY/kr9+RH6FydkHwg1ltseA4XfXwxp5OY11DKHEEEl9ACl4HUwEzSthevn3MSDCfAmD+wIGzq23ba6DUmxGNIaN5VwlUN4SK/hxbD2wlh9R9EyFzfKrkzYGH7E/L5IyRda9Bw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
+ by SEZPR06MB6927.apcprd06.prod.outlook.com (2603:1096:101:1ed::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Wed, 13 Aug
+ 2025 09:49:09 +0000
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::5c0a:2748:6a72:99b6]) by SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::5c0a:2748:6a72:99b6%5]) with mapi id 15.20.9031.014; Wed, 13 Aug 2025
+ 09:49:09 +0000
+From: Liao Yuanhong <liaoyuanhong@vivo.com>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	chrome-platform@lists.linux.dev (open list:CHROME HARDWARE PLATFORM SUPPORT),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Liao Yuanhong <liaoyuanhong@vivo.com>
+Subject: [PATCH] platform/chrome: wilco_ec: Remove redundant semicolons
+Date: Wed, 13 Aug 2025 17:48:55 +0800
+Message-Id: <20250813094858.557742-1-liaoyuanhong@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0018.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:263::9) To SEZPR06MB5576.apcprd06.prod.outlook.com
+ (2603:1096:101:c9::14)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250804090340.3062182-1-akuchynski@chromium.org>
- <20250804090340.3062182-5-akuchynski@chromium.org> <aJn9ZSy3w4zW4Xvq@kuha.fi.intel.com>
- <CANFp7mVUFZyF8z0dN-Mo7ntPOXh06ZD0RH5GyvJJymOXrhSD1g@mail.gmail.com> <aJsoS3EXgoLP-f-E@kuha.fi.intel.com>
-In-Reply-To: <aJsoS3EXgoLP-f-E@kuha.fi.intel.com>
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date: Tue, 12 Aug 2025 13:33:58 -0700
-X-Gm-Features: Ac12FXzX_w_wK4vvlBMCy61zeWwZCbfhZWbGwyjBDcHuxh7vMIEodeZCUXnKDwU
-Message-ID: <CANFp7mW92PgjSWyJq7Bz6ZLJ8ZgnsCRw2kAYAjKX3yymKW9hBA@mail.gmail.com>
-Subject: Re: [PATCH v3 04/10] usb: typec: Expose mode priorities via sysfs
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Andrei Kuchynski <akuchynski@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
-	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|SEZPR06MB6927:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9cd6def5-a2d5-4fc8-9093-08ddda4ea673
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?L8bG70xhAt4RCm05KbfR/34dAliSLDcNeERUfVhWm2MWSSrWzykcAjLp6vod?=
+ =?us-ascii?Q?q26AL2LJGO/wwMuq/IZk1ZV7Gnad4wdGwjoLKqMusCbasoigApCoMrVXxt8d?=
+ =?us-ascii?Q?946PVeNCzaokEqVY/KrMNLqqX3lsR68lkmPZk+8oDaqzJWoH4oeb/85k8E7/?=
+ =?us-ascii?Q?lbe720woIHBTenqTRrYh7w/G36GqEcVt7F/vlhiE85KFGL0bVaY3MczHi20m?=
+ =?us-ascii?Q?fsxCeuJl99/gecbcwKzi5Fsii2pT78hHGgfglByGEvQnH6M9dZPp9VbfOSCz?=
+ =?us-ascii?Q?yiStyJs5rl3p8ZfXjSn1Fb7iHadDvIvVPUkHXkmOL4DmNdDe+WPkfWJMR46c?=
+ =?us-ascii?Q?H1IWdpZLd7eG5ewe2EhjXeMC2NTZluTTsPyk9S1AluPApkcW+aZmYWWS06Co?=
+ =?us-ascii?Q?P4rHxy/q11K9j/E1iaQEvbLPuftJa8j9Z7sEzOYkvH46qMWeoK7RIYjehJwa?=
+ =?us-ascii?Q?6iFcbwnw6f9V4QOd/z7HZXQo92AIsxg5HdCsR/YmD3juxJlQFWcM6Q0po9Qk?=
+ =?us-ascii?Q?/oW92Mhh8kiPe/nnhw5cieZakAXEndkae82U9437A4MxHY26tPi9z0JiYFmM?=
+ =?us-ascii?Q?PXzvq9bDSTmTG1RmX6mHqLwrIQJDg2w7pbZoD67zH29Ofcdaxs3xw75JF+JI?=
+ =?us-ascii?Q?1ye0G5bhp9AoZf73OLeA1Fm1MICOHxcgRJkZUBOyJUlqGHzbtQQ1YG0p1APy?=
+ =?us-ascii?Q?yJT7pVZbvEZZxzYQ5Q+rfZquGTUBIad/OYuGbMu2Wm+B9b/ydc6yR5frXi2Q?=
+ =?us-ascii?Q?7HwFN/cJnSwqicgqxYN2as749YxsKCAwNtx97CzFTxa8jOmEt5Nc0q1TrYiy?=
+ =?us-ascii?Q?XWSvsiYc5DP39AJQWHR3S4Dq4678YE0PicMtfFetD1xMlSvCH4UoaFgYE3zr?=
+ =?us-ascii?Q?yV4Sq3GGTsaCDvSHik2HLtbfzwCS/NdtBKsQkcgPSNQVRU9/MZQbk7Vzamys?=
+ =?us-ascii?Q?b69l+wxl+gsNIcRe8oZ1SP5vxcJCFDSo8qke4mJq79EbZEQIeR8dJAjaT428?=
+ =?us-ascii?Q?0yJTgdbrhj3L5/5hyZlrcOfou/5bTX9SAOZzYFgw8SwussMuFgnyv6Be6y7k?=
+ =?us-ascii?Q?+VuKiw5GaVY/mvB9koxrpQZEq5KxRZI5sHIJ+yAJdTl7W30iv/cIPywLwRO3?=
+ =?us-ascii?Q?Pq4ZFx6EvybBhReKGpSn1o+esJZxqix/eMflIDpZkIwT98WkA2FiJjH264FG?=
+ =?us-ascii?Q?ocsEdGjtr72edKn4Eb8wnXnEnarF/OEYi+9PCdh8mGwTO3lu98Z5rgQxZy7p?=
+ =?us-ascii?Q?HOKXEtK/rMZjwcv59uIF75wiJXoRA1Y8Y/zFSd6uSojydCX8LtrROwiUXs54?=
+ =?us-ascii?Q?yhiOy0gd5HoqNwnC/DwQ3+m/0kzxPfB5qDkACREgXq1eZTp4srgDphC3yGgu?=
+ =?us-ascii?Q?BigeeybDvvSmhRNJhXdL1/tV/19d6VhMGmCNoY98G7NjLuw4wGjTipaImXbB?=
+ =?us-ascii?Q?ckWXK7klb5FRZ+LAx3KC3YF1+AXzPkPeCnrKN8gQV+aaqHGL5dt5gw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5576.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Eqs6ueAXBw+Yt9egyXqjO6WyJExbiJj3X/HHmquOL9xlAU21/DfBcb1O4jJO?=
+ =?us-ascii?Q?OlwOvNKooYWH1/zZ8hMw9PSd/8bTETED6pR02D0QBLBGx2mldeHKXV3CWixa?=
+ =?us-ascii?Q?Ny9diMtrd4NMYMZ9v8mvYaBjKwjDEUnMnvXznIxJ2acBR1jWBoXB+8XkL0Y8?=
+ =?us-ascii?Q?NWDdHW2ioenpMu2ydeR7Ae0Nr95qT1HeQHwMnZfkU43fCzZSzeBvFOFQBjSw?=
+ =?us-ascii?Q?bd4r4305k/kyvbrF8smPpKX/9SZHyS93adN8oMFjev0VBGDALWezw8Q/Lcmb?=
+ =?us-ascii?Q?B/4dm4pQeMTJ/4Xweh6XpoWd1S5CZaCgY7I2+1PUBnVjG04FczqYKnaOInwe?=
+ =?us-ascii?Q?rMgXqWhriLOh7179GzbftPQPsS1k25vtntWZya2G3P99+sBzcWtuCi8eRP9h?=
+ =?us-ascii?Q?g0xcU5trtvZNsST7sUDXLMHTrv0jP3WIg5utzqBn5RsrXkU/07gJMZw3dq+3?=
+ =?us-ascii?Q?gjKOCOt9wT+x8v2WonTwjqH6VFUnlXAq1wY1BhIhhHmM/d+1qbQyBfnNgdvp?=
+ =?us-ascii?Q?QrC28/BBJnXx5zxm9RJWj5c6PzlzhH17FiUbzO06LcJr0qUy0TmDDeIJuXEA?=
+ =?us-ascii?Q?qhb7sGDOjGoTggrOY78m+Oioy0D+kersJ4G0BRLLlL23J+N3XNUvXsFSdG4J?=
+ =?us-ascii?Q?mPKHoQrgPl3Y27R7ypXc7SzC/WyJZAlLoeIRvsSQYYbl5GXQOo4iYVExBges?=
+ =?us-ascii?Q?EtkUth8gWVmvFG1mHo+uZ1GhaRNHsHHLX3KwVDSYEYSxENss/b255E027BYj?=
+ =?us-ascii?Q?OvuQeJqbj9LTKEzFqh1+RIASHpieMiskVAd9LuSg1uprupl6t+FiJLW+8oNe?=
+ =?us-ascii?Q?Rq5eyPs8atzqeaQpW7Ovdh6UzL/guhE0tI0vZQN99eCEcmfMx2EM/e9cavtk?=
+ =?us-ascii?Q?SFOhknz5ldXSUWqhUMZ5AhMpEHitAEw3mi1W2sKD5vnF4v6xBgRJhvHK+03s?=
+ =?us-ascii?Q?ZOEvnLSIDk2hY8fILHC/yzQ/CA06L1ZbMvr/KcFPjxkjYmV19X4J+LikYkbQ?=
+ =?us-ascii?Q?TnpytczuJ8ERzqUkI/sMy1N7KRWLGh3Asu/dJBgn9BTSKEiHvut4w4Dv29T6?=
+ =?us-ascii?Q?SHubF83uol/5PBZTmM5hPpe2NAr6SI8GG9oU2sgInRkxzdppmQVZIlw8k/5I?=
+ =?us-ascii?Q?2RX4ZBW/7EPk+Yc9HerpGwxzXLpUFuqQWMgQlTgXiwZMMqm2FWFQYlJsiAk/?=
+ =?us-ascii?Q?MZ4Lgq3PytMrTx/vYrq/vAlO3oSZi8DSJqEzr0fiH+53fwoddfLs6kjmIfbq?=
+ =?us-ascii?Q?Q/gfNzoJ1t1SYYAlKrXfasBcHNmlX17rVXPSprmYIAG4A5m2a+yVrke7Z4h8?=
+ =?us-ascii?Q?GXvK1WVL1E9eDYTuBZwpE7fy2Iin0PYUWFF9adaEbtDkPvEtQJCwFNQmnA5l?=
+ =?us-ascii?Q?svOYSn+2YJCEg/KAnK20p+Tlxb+d8yoeQQphRqF38gDlnUOulJcqt0W6bbi0?=
+ =?us-ascii?Q?8/c2kGInTHLsAojkmrLgQ6o4P0m0JYNsTO2AF3PKIooRZMLclhYhG97mLK/f?=
+ =?us-ascii?Q?OSS6P9dBGam8aQ1v/in+IFTbLRC/zTOCc+aNqmcAGquk0aZ0hhuimAi6L98C?=
+ =?us-ascii?Q?k+7EWmpdObY3jj+Rqrdf3gFHMRiZKa00Noc3+jFG?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9cd6def5-a2d5-4fc8-9093-08ddda4ea673
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 09:49:09.3445
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KAZuwq7ZO93m7YSLuOMXb+kSKn84qjTpiSJdVgCUF4nOBX5bviWPpbocdhtxgOI06m5LhBr5l427gyIT1YhJvA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6927
 
-On Tue, Aug 12, 2025 at 4:41=E2=80=AFAM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> Hi Abhishek,
->
-> On Mon, Aug 11, 2025 at 11:22:38AM -0700, Abhishek Pandit-Subedi wrote:
-> > On Mon, Aug 11, 2025 at 7:25=E2=80=AFAM Heikki Krogerus
-> > <heikki.krogerus@linux.intel.com> wrote:
-> > >
-> > > Hi Andrei,
-> > >
-> > > On Mon, Aug 04, 2025 at 09:03:33AM +0000, Andrei Kuchynski wrote:
-> > > > This patch introduces new sysfs attributes to allow users to config=
-ure
-> > > > and view Type-C mode priorities.
-> > > >
-> > > > `priority`, `usb4_priority` attributes allow users to assign a nume=
-ric
-> > > > priority to DisplayPort alt-mode, Thunderbolt alt-mode, and USB4 mo=
-de.
-> > > >
-> > > > `mode_priorities` - read-only attribute that displays an ordered li=
-st
-> > > > of all modes based on their configured priorities.
-> > > >
-> > > > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> > > > ---
-> > > >  Documentation/ABI/testing/sysfs-class-typec |  33 +++++
-> > > >  drivers/usb/typec/Makefile                  |   2 +-
-> > > >  drivers/usb/typec/class.c                   | 103 +++++++++++++++-
-> > > >  drivers/usb/typec/class.h                   |   1 +
-> > > >  drivers/usb/typec/mode_selection.c          | 130 ++++++++++++++++=
-++++
-> > > >  drivers/usb/typec/mode_selection.h          |  23 ++++
-> > > >  include/linux/usb/typec_altmode.h           |   7 ++
-> > > >  7 files changed, 295 insertions(+), 4 deletions(-)
-> > > >  create mode 100644 drivers/usb/typec/mode_selection.c
-> > > >  create mode 100644 drivers/usb/typec/mode_selection.h
-> > > >
-> > > > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Document=
-ation/ABI/testing/sysfs-class-typec
-> > > > index 38e101c17a00..575dd94f33ab 100644
-> > > > --- a/Documentation/ABI/testing/sysfs-class-typec
-> > > > +++ b/Documentation/ABI/testing/sysfs-class-typec
-> > > > @@ -162,6 +162,39 @@ Description:     Lists the supported USB Modes=
-. The default USB mode that is used
-> > > >               - usb3 (USB 3.2)
-> > > >               - usb4 (USB4)
-> > > >
-> > > > +             What:           /sys/class/typec/<port>/<alt-mode>/pr=
-iority
-> > > > +Date:                July 2025
-> > > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
-> > > > +Description:
-> > > > +             Displays and allows setting the priority for a specif=
-ic alt-mode.
-> > > > +             When read, it shows the current integer priority valu=
-e. Lower numerical
-> > > > +             values indicate higher priority (0 is the highest pri=
-ority).
-> > > > +             If the new value is already in use by another mode, t=
-he priority of the
-> > > > +             conflicting mode and any subsequent modes will be inc=
-remented until they
-> > > > +             are all unique.
-> > > > +             This attribute is visible only if the kernel supports=
- mode selection.
-> > > > +
-> > > > +             What:           /sys/class/typec/<port>/usb4_priority
-> > > > +Date:                July 2025
-> > > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
-> > > > +Description:
-> > > > +             Displays and allows setting the priority for USB4 mod=
-e. Its behavior and
-> > > > +             priority numbering scheme are identical to the genera=
-l alt-mode
-> > > > +             "priority" attributes.
-> > >
-> > > I'm not sure those above two file make any sense.
-> > >
-> > > > +What:                /sys/class/typec/<port>/mode_priorities
-> > > > +Date:                July 2025
-> > > > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
-> > > > +Description: This read-only file lists the modes supported by the =
-port,
-> > > > +             ordered by their activation priority. It reflects the=
- preferred sequence
-> > > > +             the kernel will attempt to activate modes (DisplayPor=
-t alt-mode,
-> > > > +             Thunderbolt alt-mode, USB4 mode).
-> > > > +             This attribute is visible only if the kernel supports=
- mode selection.
-> > > > +
-> > > > +             Example values:
-> > > > +             - "USB4 Thunderbolt3 DisplayPort"
-> > > > +             - "DisplayPort": the port only supports Displayport a=
-lt-mode
-> > >
-> > > Why not just use this one instead so that you write the highest
-> > > priority mode to it?
-> >
-> > Feedback from Greg on
-> > https://lore.kernel.org/linux-usb/2025070159-judgingly-baggage-042a@gre=
-gkh/:
-> >
-> > "quote":
-> > Multiple value sysfs files are generally frowned apon.  sysfs files tha=
-t
-> > also have to be manually parsed in the kernel are also frowned apon.
-> > Are you _SURE_ there is no other way that you could possibly do this?
-> >
-> > The reason we originally suggested a single "mode priorities" was
-> > because we weren't sure what to do about USB4. Otherwise, it makes
-> > sense to push a priority field to each alt_mode sysfs group and keep
-> > it internally ordered. This is where I really wish we just treated
-> > USB4 as an alternate mode :)
->
-> I'm probable forgetting something, but I'm pretty sure I already told
-> you guys that I agree, it should be an alt mode. So why not just
-> register a special alt mode for it?
+Remove unnecessary semicolons.
 
-We interpreted this a bit differently (as just rename it):
-https://patchwork.kernel.org/project/linux-usb/patch/20250616133147.1835939=
--5-akuchynski@chromium.org/#26431992
+Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
+---
+ drivers/platform/chrome/wilco_ec/telemetry.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for the clarification here. In that case, we'll get rid of
-`usb_priorities` and `usb_results` and just add a new alternate mode
-for USB4. The vendor ids list on usb.org
-(https://www.usb.org/sites/default/files/vendor_ids072325_1.pdf) shows
-0xff00 for USB4 so that's what we'll use. So the attributes should be:
-.active (similar to other modes), .mode =3D 1 (unused really), .svid =3D
-0xff00, .vdo =3D <usb eudo> (if supported).
+diff --git a/drivers/platform/chrome/wilco_ec/telemetry.c b/drivers/platform/chrome/wilco_ec/telemetry.c
+index 7d8ae2cbf72f..b18043e31ae4 100644
+--- a/drivers/platform/chrome/wilco_ec/telemetry.c
++++ b/drivers/platform/chrome/wilco_ec/telemetry.c
+@@ -388,7 +388,7 @@ static int telem_device_probe(struct platform_device *pdev)
+ 	dev_set_name(&dev_data->dev, TELEM_DEV_NAME_FMT, minor);
+ 	device_initialize(&dev_data->dev);
+ 
+-	/* Initialize the character device and add it to userspace */;
++	/* Initialize the character device and add it to userspace */
+ 	cdev_init(&dev_data->cdev, &telem_fops);
+ 	error = cdev_device_add(&dev_data->cdev, &dev_data->dev);
+ 	if (error) {
+-- 
+2.34.1
 
->
-> Sorry if I missed something.
->
-> > As such, our current API recommendation looks like the following:
-> >
-> > * On each port, we lay out priorities for all supported alternate modes=
- + USB4.
->
-> This first part I understand.
->
-> > * We expose a file to trigger the mode selection task. Reading from it
-> > gives you the current status of mode selection (single value).
-> > * Detailed results from mode entry are pushed to the mode sysfs group
-> > (via entry_results). Converting these to UEVENT is fine but a more
-> > persistent value in debugfs would be useful for debugging.
->
-> This second part I would really like to handle separately, after we
-> have a solution for the first part.
-
-Ack. We'll reduce the series so it's easier to review for mode_priorities f=
-irst.
-
->
-> thanks,
->
-> --
-> heikki

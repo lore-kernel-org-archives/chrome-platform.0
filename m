@@ -1,289 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A512EF644;
-	Thu, 14 Aug 2025 09:13:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26627280024
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Aug 2025 09:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755162787; cv=none; b=ZfJcmlsr3/31hnQmtk4wyUiAVEtYUOz/EflTnOztDtLMtTPMIGQXTyDYllZJzraddwF9Z4M7qY+NlkLct4MjfsUaRFiT0NULToTATDRO/Pg4BcqdGb6Y67UHiQBwennv9cHf9iuCCrkOvZwcARMHgxmyl5KmMPrizQkPKDWSeKE=
+	t=1755163473; cv=none; b=jeFtuTi0SFdEWOmwy0ZwQvejvTIxwO4PdEhCbrjjU6TVfcAqAFavtXoYz+ibHuW55cVP6pZCxjBH0ogriI7stVqisfdw1eAebxqraCl1cvSbXuC729bBnXL1/OAtY9XKec9ydVP9fcm2uJSs5mVWF2+5NPi6V11P5GyGTUqEXoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755162787; c=relaxed/simple;
-	bh=TBXf9TlITbl7kntH3GIMV20rolg0uvfkE9lfCdNPb+4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eqLIUbsmW+987Gsy6BYAKbpJa9q4QTDNS4OEiDigTxZG6uDfYtSkrBv6LZAfv303J9lwBugSX3G22MwKATexp/ztHgufRqQD0mcW3Z5Wgk9oyZn0/r+/brYpvGv+xazUg/CYS7w5IKPsvmiR/dYdD2V4863OJZhmqAvfHYLwwKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VN23y8pb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755163473; c=relaxed/simple;
+	bh=es8C2fk1+jaHuHBVh/mMoO9yPYI5kHDPOEGFjnMQLa4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rKpoZcpcnW/C2nV1R2HWi++HRsy3TtKLndzoMsIs2TYL/UNvMnu+x4FtSawG9jG0682UfKs23IvAcEMIcsR4DghR1JQRW96SBSJokvDEYgVPsW0t9+D2avwNEok9rMhgXwYvyV0MlWY/ZvuNA2Zb47HURrBxdwOelNKFG553oqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hNZlI4Gb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VN23y8pb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B21CC4CEFA;
-	Thu, 14 Aug 2025 09:13:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hNZlI4Gb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6217C4CEED;
+	Thu, 14 Aug 2025 09:24:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755162786;
-	bh=TBXf9TlITbl7kntH3GIMV20rolg0uvfkE9lfCdNPb+4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VN23y8pbqqlmt6tFYwlOJ1z1eGvrjZE/jLEjPRXQau6t4UzWNeTwseKrPdi72GaTX
-	 9fBABkCYry94P3y5AQzqeFT+qDeooYGretDmUClN8UxQWfUvl0Ro805EM8EVMmQDwO
-	 2jP9MH/QGK2bSdItJjtJbZjKvWIDnv4spp41+fUGFILXSYpagZMUt5yAvjbPrY1h3Z
-	 GlJa+IEzPPy5ekgvUYtzbBkCF8DkHvCPymkP0QUSKk091+4EplYAlQFati/EAIr9Ag
-	 1Are5J8+c22UXAZO/rR5WJb42ps4Z6o/tyKW6EIxQQxFtxYulxAdYtBdd7zMbQ1rPA
-	 L1MKgI6WSDJ+w==
+	s=k20201202; t=1755163472;
+	bh=es8C2fk1+jaHuHBVh/mMoO9yPYI5kHDPOEGFjnMQLa4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hNZlI4GbVq3vITxTy+Ollo7yrvpQntyTUTJkZvWSnwfGrlbTMA/idaeg0mDKM/kdR
+	 /NPD1QTapbEGU8ukeEfLWJ/7qSi3A2yfq2r1kUx8fjfEdA8ykKm8feiIK7Y29HT2+m
+	 1mLOx5ndlJlQOzEt9q9D9oSNgiKziGHrIijXc6Tkcy3sOShJLtEhHpzfE215tJx8rv
+	 vARqu+z9iB2ZGQ6blQnzjYl3WEX4pNiKAqLe5q75VU43hR5Yc7AfpoIYB6K9AJHFQK
+	 q6HvMPnrzU4LJ1WX8rKhpNLfgrcCro/7UgmxD5/qxghfd73Py2OYj+51YPB0LbgXYq
+	 RsGSFKwyNHbvg==
+Date: Thu, 14 Aug 2025 09:24:29 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org
-Cc: tzungbi@kernel.org,
-	dawidn@google.com,
-	chrome-platform@lists.linux.dev,
-	akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] platform/chrome: cros_ec_chardev: Consume cros_ec_device via ref_proxy
-Date: Thu, 14 Aug 2025 09:10:20 +0000
-Message-ID: <20250814091020.1302888-4-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.51.0.rc1.163.g2494970778-goog
-In-Reply-To: <20250814091020.1302888-1-tzungbi@kernel.org>
-References: <20250814091020.1302888-1-tzungbi@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: bleung@chromium.org, dawidn@google.com, chrome-platform@lists.linux.dev,
+	mhiramat@kernel.org
+Subject: Re: [PATCH v3 5/8] platform/chrome: Introduce cros_ec_device_alloc()
+Message-ID: <aJ2rTW3HbRab87cw@google.com>
+References: <20250721044456.2736300-6-tzungbi@kernel.org>
+ <2025072114-unifier-screen-1594@gregkh>
+ <aIIDz_qtbRjZB8Sg@google.com>
+ <2025072428-marathon-anemia-c9f6@gregkh>
+ <aII10fnhJRDeGSHI@google.com>
+ <2025072537-sanction-overload-8acd@gregkh>
+ <aIxsA3-y75nE01U_@google.com>
+ <2025080101-iron-yelp-82c5@gregkh>
+ <aIx9vDcqdX8WBTmh@google.com>
+ <2025080159-grandma-overpass-bc1e@gregkh>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025080159-grandma-overpass-bc1e@gregkh>
 
-The cros_ec_chardev driver provides a character device interface to the
-ChromeOS EC.  A file handle to this device can remain open in userspace
-even if the underlying EC device is removed.
+On Fri, Aug 01, 2025 at 09:50:01AM +0100, Greg KH wrote:
+> On Fri, Aug 01, 2025 at 08:41:32AM +0000, Tzung-Bi Shih wrote:
+> > On Fri, Aug 01, 2025 at 10:22:18AM +0200, Greg KH wrote:
+> > > On Fri, Aug 01, 2025 at 07:25:55AM +0000, Tzung-Bi Shih wrote:
+> > > > On Fri, Jul 25, 2025 at 06:58:23AM +0200, Greg KH wrote:
+<snip>
+> > > 
+> > > Nice!  At a quick glance, this does look like what we need (and if it
+> > > helps, matches what was just done in the Rust kernel apis, right?)
+> > 
+> > Thanks for the review.  I'd need to check.  I wasn't aware of what was just
+> > done in the Rust kernel APIs.
+> 
+> Take a look at that, if there's any way it can align up with what the
+> rust code does, if possible, that would be good as we all are going to
+> be crossing between the two different languages a lot :)
 
-This creates a classic use-after-free vulnerability.  Any file operation
-(ioctl, release, etc.) on the open handle after the EC device has gone
-would access a stale pointer, leading to a system crash.
+I'd still need some time to find and look at the relevant Rust code (language
+and overall status of Rust kernel API-wise).  I guess they should spread in
+rust/kernel/device.rs and rust/kernel/devres.rs?
 
-To prevent this, leverage the ref_proxy library and convert
-cros_ec_chardev to a resource consumer of cros_ec_device.
+> 
+> > > Want to turn this into something real and submit it for review after you
+> > > test it out with your driver to see if it does work?
+> > 
+> > Have tested on the draft version and it works.  Will consolidate the patches
+> > and send them for further reviews.
+> 
+> Great!  No rush, we can't do anything until after -rc1 is out.
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- drivers/platform/chrome/cros_ec_chardev.c | 125 +++++++++++++++-------
- 1 file changed, 85 insertions(+), 40 deletions(-)
+While I'm still finding and looking at the Rust part, sent a version [1] for
+review first.
 
-diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-index c9d80ad5b57e..f4aa70c8b6d4 100644
---- a/drivers/platform/chrome/cros_ec_chardev.c
-+++ b/drivers/platform/chrome/cros_ec_chardev.c
-@@ -22,6 +22,7 @@
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_device.h>
- #include <linux/poll.h>
-+#include <linux/ref_proxy.h>
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <linux/uaccess.h>
-@@ -32,7 +33,7 @@
- #define CROS_MAX_EVENT_LEN	PAGE_SIZE
- 
- struct chardev_priv {
--	struct cros_ec_device *ec_dev;
-+	struct ref_proxy *ec_dev_proxy;
- 	struct notifier_block notifier;
- 	wait_queue_head_t wait_event;
- 	unsigned long event_mask;
-@@ -55,6 +56,7 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
- 	};
- 	struct ec_response_get_version *resp;
- 	struct cros_ec_command *msg;
-+	struct cros_ec_device __rcu *ec_dev;
- 	int ret;
- 
- 	msg = kzalloc(sizeof(*msg) + sizeof(*resp), GFP_KERNEL);
-@@ -64,12 +66,19 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
- 	msg->command = EC_CMD_GET_VERSION + priv->cmd_offset;
- 	msg->insize = sizeof(*resp);
- 
--	ret = cros_ec_cmd_xfer_status(priv->ec_dev, msg);
--	if (ret < 0) {
--		snprintf(str, maxlen,
--			 "Unknown EC version, returned error: %d\n",
--			 msg->result);
--		goto exit;
-+	REF_PROXY_GET(priv->ec_dev_proxy, ec_dev) {
-+		if (!ec_dev) {
-+			ret = -ENODEV;
-+			goto exit;
-+		}
-+
-+		ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-+		if (ret < 0) {
-+			snprintf(str, maxlen,
-+				 "Unknown EC version, returned error: %d\n",
-+				 msg->result);
-+			goto exit;
-+		}
- 	}
- 
- 	resp = (struct ec_response_get_version *)msg->data;
-@@ -92,22 +101,30 @@ static int cros_ec_chardev_mkbp_event(struct notifier_block *nb,
- {
- 	struct chardev_priv *priv = container_of(nb, struct chardev_priv,
- 						 notifier);
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device __rcu *ec_dev;
- 	struct ec_event *event;
--	unsigned long event_bit = 1 << ec_dev->event_data.event_type;
--	int total_size = sizeof(*event) + ec_dev->event_size;
-+	unsigned long event_bit;
-+	int total_size;
-+
-+	REF_PROXY_GET(priv->ec_dev_proxy, ec_dev) {
-+		if (!ec_dev)
-+			return NOTIFY_DONE;
- 
--	if (!(event_bit & priv->event_mask) ||
--	    (priv->event_len + total_size) > CROS_MAX_EVENT_LEN)
--		return NOTIFY_DONE;
-+		event_bit = 1 << ec_dev->event_data.event_type;
-+		total_size = sizeof(*event) + ec_dev->event_size;
- 
--	event = kzalloc(total_size, GFP_KERNEL);
--	if (!event)
--		return NOTIFY_DONE;
-+		if (!(event_bit & priv->event_mask) ||
-+		    (priv->event_len + total_size) > CROS_MAX_EVENT_LEN)
-+			return NOTIFY_DONE;
- 
--	event->size = ec_dev->event_size;
--	event->event_type = ec_dev->event_data.event_type;
--	memcpy(event->data, &ec_dev->event_data.data, ec_dev->event_size);
-+		event = kzalloc(total_size, GFP_KERNEL);
-+		if (!event)
-+			return NOTIFY_DONE;
-+
-+		event->size = ec_dev->event_size;
-+		event->event_type = ec_dev->event_data.event_type;
-+		memcpy(event->data, &ec_dev->event_data.data, ec_dev->event_size);
-+	}
- 
- 	spin_lock(&priv->wait_event.lock);
- 	list_add_tail(&event->node, &priv->events);
-@@ -166,7 +183,12 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	priv->ec_dev = ec_dev;
-+	priv->ec_dev_proxy = ref_proxy_alloc(ec_dev->ref_proxy_provider);
-+	if (!priv->ec_dev_proxy) {
-+		ret = -ENOMEM;
-+		goto err;
-+	}
-+
- 	priv->cmd_offset = ec->cmd_offset;
- 	filp->private_data = priv;
- 	INIT_LIST_HEAD(&priv->events);
-@@ -178,9 +200,14 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 					       &priv->notifier);
- 	if (ret) {
- 		dev_err(ec_dev->dev, "failed to register event notifier\n");
--		kfree(priv);
-+		goto err;
- 	}
- 
-+	return 0;
-+err:
-+	if (priv->ec_dev_proxy)
-+		ref_proxy_free(priv->ec_dev_proxy);
-+	kfree(priv);
- 	return ret;
- }
- 
-@@ -251,11 +278,16 @@ static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
- static int cros_ec_chardev_release(struct inode *inode, struct file *filp)
- {
- 	struct chardev_priv *priv = filp->private_data;
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device __rcu *ec_dev;
- 	struct ec_event *event, *e;
- 
--	blocking_notifier_chain_unregister(&ec_dev->event_notifier,
--					   &priv->notifier);
-+	REF_PROXY_GET(priv->ec_dev_proxy, ec_dev) {
-+		if (ec_dev)
-+			blocking_notifier_chain_unregister(
-+					&ec_dev->event_notifier,
-+					&priv->notifier);
-+	}
-+	ref_proxy_free(priv->ec_dev_proxy);
- 
- 	list_for_each_entry_safe(event, e, &priv->events, node) {
- 		list_del(&event->node);
-@@ -273,6 +305,7 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- {
- 	struct cros_ec_command *s_cmd;
- 	struct cros_ec_command u_cmd;
-+	struct cros_ec_device __rcu *ec_dev;
- 	long ret;
- 
- 	if (copy_from_user(&u_cmd, arg, sizeof(u_cmd)))
-@@ -299,10 +332,17 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- 	}
- 
- 	s_cmd->command += priv->cmd_offset;
--	ret = cros_ec_cmd_xfer(priv->ec_dev, s_cmd);
--	/* Only copy data to userland if data was received. */
--	if (ret < 0)
--		goto exit;
-+	REF_PROXY_GET(priv->ec_dev_proxy, ec_dev) {
-+		if (!ec_dev) {
-+			ret = -ENODEV;
-+			goto exit;
-+		}
-+
-+		ret = cros_ec_cmd_xfer(ec_dev, s_cmd);
-+		/* Only copy data to userland if data was received. */
-+		if (ret < 0)
-+			goto exit;
-+	}
- 
- 	if (copy_to_user(arg, s_cmd, sizeof(*s_cmd) + s_cmd->insize))
- 		ret = -EFAULT;
-@@ -313,24 +353,29 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- 
- static long cros_ec_chardev_ioctl_readmem(struct chardev_priv *priv, void __user *arg)
- {
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device __rcu *ec_dev;
- 	struct cros_ec_readmem s_mem = { };
- 	long num;
- 
--	/* Not every platform supports direct reads */
--	if (!ec_dev->cmd_readmem)
--		return -ENOTTY;
-+	REF_PROXY_GET(priv->ec_dev_proxy, ec_dev) {
-+		if (!ec_dev)
-+			return -ENODEV;
- 
--	if (copy_from_user(&s_mem, arg, sizeof(s_mem)))
--		return -EFAULT;
-+		/* Not every platform supports direct reads */
-+		if (!ec_dev->cmd_readmem)
-+			return -ENOTTY;
- 
--	if (s_mem.bytes > sizeof(s_mem.buffer))
--		return -EINVAL;
-+		if (copy_from_user(&s_mem, arg, sizeof(s_mem)))
-+			return -EFAULT;
- 
--	num = ec_dev->cmd_readmem(ec_dev, s_mem.offset, s_mem.bytes,
--				  s_mem.buffer);
--	if (num <= 0)
--		return num;
-+		if (s_mem.bytes > sizeof(s_mem.buffer))
-+			return -EINVAL;
-+
-+		num = ec_dev->cmd_readmem(ec_dev, s_mem.offset, s_mem.bytes,
-+					  s_mem.buffer);
-+		if (num <= 0)
-+			return num;
-+	}
- 
- 	if (copy_to_user((void __user *)arg, &s_mem, sizeof(s_mem)))
- 		return -EFAULT;
--- 
-2.51.0.rc1.163.g2494970778-goog
-
+[1] https://lore.kernel.org/chrome-platform/20250814091020.1302888-1-tzungbi@kernel.org/

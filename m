@@ -1,156 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21DB3212546;
-	Thu, 14 Aug 2025 14:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516B7235044
+	for <chrome-platform@lists.linux.dev>; Thu, 14 Aug 2025 18:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755180541; cv=none; b=XuRPFmjA6qFr8OGMzIBYewP390wIVnCEjdS20+QhtFixuO92BbPlC9slqPxJ6rBANcMNCCQcoJCjQgQQpBWqLk0fK/jGMLDnFHpJjy5kn1vBGpQ8i9pQgH5b/iiIwGcSqAPy4i7uuLc+0cgd7Dka5SojbSivuDl7kbRO3naxYRw=
+	t=1755197104; cv=none; b=ZTW1p5jz45Ywe63m1cPJE7F5vFaEFnkXJ7XEzQRN9cOqa49RcWQI+DWN0te1oh5aSyzpz2sCZdXOwGzbgA/GnCy/XTdMNVWZvVtvlWRqZo9uwQeiko46x3R627OzRdKX1+VylsAAHqkYlHIrBtxuJve4B/LNqryVWfJNc1bH00E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755180541; c=relaxed/simple;
-	bh=KoWgzximSrrSXOKG05+Ln2RZTFfG6mhzQE07XNVMxr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=di1B6zQsccKFZ+zsY5qKl8Fwu2dYJ//OYNXT23ix573oDHw35r7O1wVOMINcwlVfhkwIgSIKVntpG3sBjsGzCV63sOFNSs71/W1e+xZMcKwjwUwBn7WIhl6KoU/rXDo4TQHYbYC4siSFyGqP6w0Le1NMSyzH0PwIAXODuwBP9l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Taw12qG1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755197104; c=relaxed/simple;
+	bh=9P7e+IQ8LG/P0atlVUdJXVTqMbr9yIy6QOCAwSCjxNM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lBU7ZP+WhK42DDM59XeVfeoqza8YpRHgIZdowYM8LlkMLLbrTTdlKvo4DmBnomWtXG9vxMsAvNjSBJgoENCKya+5ugrTLJHtO5r7RxMe//9cpe12ZlWRmKN/YE9cdCvPEUgcwSt8FzeU5ZGhBWNj+m5WHFSmEdUk91xhh/qKGPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nLCVv0nZ; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Taw12qG1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 163A3C4CEED;
-	Thu, 14 Aug 2025 14:08:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755180540;
-	bh=KoWgzximSrrSXOKG05+Ln2RZTFfG6mhzQE07XNVMxr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Taw12qG1musZlOg9O2MJdjAn+r2utRcPjMH9lo2Gx4scEDioXCFvdglOn+buWsSPO
-	 TWP8z/lZXaJeXSLJC+lzFQTe36YJbtPkFHqcpH1VytyXBVTfSRwJPGvJI4hIPlG6rr
-	 NmRsu9HjlOgmYHNTVCVdIa5TIIorSHLjuGSyYZZRadR2B6XRYjd4KusYoiYLxLIdN0
-	 qxfTVIF5mWJFwebr0eKSbDWX2pTwnhPm5zadc8yZwF0HlCSs03x/fl6xnVEd/e8bBg
-	 BHTtd2DePzkEG2QRrZQZejExx/HxUBICpPqwMod3zylWJ2YBwevKDI+AeVqgeYnZcz
-	 O2fvFiAJfd12w==
-Date: Thu, 14 Aug 2025 16:08:57 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] pwm: cros-ec: Avoid -Wflex-array-member-not-at-end
- warnings
-Message-ID: <mlvple4tcnvu35a2liva5wxhafshc634fu46kwyrepn75wvuec@udshn3ja6lvc>
-References: <aJtRPZpc-Lv-C6zD@kspp>
- <2pgdxifg2zmyhvemm7a2qntprsz5nhh3ustrrlg2vvcqffwj6c@22enjpgycjbt>
- <4b9eea66-f004-4b5f-bf48-4c32205cc8ee@embeddedor.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nLCVv0nZ"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-afcb732eee6so232544366b.0
+        for <chrome-platform@lists.linux.dev>; Thu, 14 Aug 2025 11:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1755197101; x=1755801901; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1qBBuA2TErOLVDapmymnO1MTH+fFI4U6eOj26qi4Hg4=;
+        b=nLCVv0nZ1I9fwDxErsNTf6g1u5iaY5KrycFOE224lhpKV8rBu7i9veh9vTrg/uskhC
+         HsnKmyhxw7VcxbRyqRU0HQAEbiYqMzctglYsFnXVm4xujYJbYx3s63U7YW8+LCeiPCP/
+         wX4s/zCFvwQXpTkelVsOmj/4wFTSCbk8HC83M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755197101; x=1755801901;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1qBBuA2TErOLVDapmymnO1MTH+fFI4U6eOj26qi4Hg4=;
+        b=k4+y1AGUdTBwetMfpAsjlCunDoT31g56Bl46XVptiRntLhPiFbQO5m089fAIWdMTrK
+         zb6BxE1eAQX58tteqdtcCdV8ipulCdARwKdfGIuFLACAga9q1yPCX+43lby1aKZhk/m8
+         Ez3hOB0u9PPUPjxLFm0FhbA/Irecqj7fDJHBKo1WjgbWdc6Z5ZwrrZyPUupJoYz1IFfA
+         vCscfa/W+bwSn+cpL5TjpENyAycrqB6/P8K/27VBEPvyfpgCFqZyIe3widhxuK01KA9Q
+         fnixYVlTusL/i/oDaJ8HPaFRl16vGJtbY4OMK2jjAEbXfJbOD/dmmc4LSQh9WkMUqllA
+         dTmg==
+X-Forwarded-Encrypted: i=1; AJvYcCVmaQZ9FTPFPzB8Qe42GT6j4KmIIg8w/hEP8DeasuZN9csU4v6WceU2SGO1y7pB8DpABlXF6AiXxqEKhnl9ryo=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7ZWprthrmFBRrwB+FdBAS5dNhb6yD5MrUO5wJd5c+TekROOZV
+	kakqVeJLMOluD5HT/VFBQ3+MFqxul/njhKSqNn1ye7TpbWC1EpKfUnr9QlQ9Hh8F7Q==
+X-Gm-Gg: ASbGncsTA/Y56MMZW0S9MppXHCd2fh4DOlQTQjAreAHaWhg5X4YfHlsOEiGArDF1igs
+	WqlXGVh/mY2tOVm04KuzqCowH3FYkn/5d2LF7j8Jf+hpHdVMgMb3g57mRFuOTD1DV8732dQM313
+	VS8wNV7YWipDxxbfJ75xX1xKCRWNZYrfWB13ljrIXrSkv6X5C+hjlfn1qteAId4HYMJ0xhwwgZT
+	P4tYHw4xDc6vcOxiiIbxqyEyD8ozEigFXRPOgCuysGBTrWd7dW0KmG50/i/ClcgBRGgCUO3v9GD
+	dgeGohnY7131RZV3jcgHBk7XbJQbCst5LwOkRAaHngRqEAoAorqvGgkQHnJkz73MCJ1kpZHM6la
+	Xmc269BwvOYv9TjnQaa0xN5bGdBCxl0NUIYVcafCC4t1OjwsuBe5/VkVi7iSkkwy9YiasAvkOhM
+	tCiWCaRnvn19kQDzIf4jF+8ow=
+X-Google-Smtp-Source: AGHT+IHefuGAAIAMEMqANOVYlKEH5+LAdTor4fxHNBiEz6a78unbBVFdrI8XeGRL3W3ATolBgKIenA==
+X-Received: by 2002:a17:907:1b0e:b0:af9:6f04:8dd0 with SMTP id a640c23a62f3a-afcb992ca27mr396658866b.55.1755197100634;
+        Thu, 14 Aug 2025 11:45:00 -0700 (PDT)
+Received: from akuchynski.c.googlers.com.com (37.247.91.34.bc.googleusercontent.com. [34.91.247.37])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c0f4sm2614772466b.106.2025.08.14.11.44.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 11:45:00 -0700 (PDT)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: Guenter Roeck <groeck@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	"Christian A. Ehrhardt" <lk@c--e.de>,
+	Venkat Jayaraman <venkat.jayaraman@intel.com>,
+	linux-kernel@vger.kernel.org,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Subject: [PATCH v1 0/5] USB Type-C alternate mode priorities
+Date: Thu, 14 Aug 2025 18:44:50 +0000
+Message-ID: <20250814184455.723170-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.51.0.rc1.163.g2494970778-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fuq2btbbfpvvuy3v"
-Content-Disposition: inline
-In-Reply-To: <4b9eea66-f004-4b5f-bf48-4c32205cc8ee@embeddedor.com>
+Content-Transfer-Encoding: 8bit
 
+This patch series introduces a mechanism for setting USB Type-C alternate
+mode priorities. It allows the user to specify their preferred order for
+mode selection, such as USB4, Thunderbolt, or DisplayPort.
 
---fuq2btbbfpvvuy3v
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH][next] pwm: cros-ec: Avoid -Wflex-array-member-not-at-end
- warnings
-MIME-Version: 1.0
+A new sysfs attribute named 'priority' is exposed to provide user-space
+control over the mode selection process.
 
-On Thu, Aug 14, 2025 at 08:48:23PM +0900, Gustavo A. R. Silva wrote:
->=20
-> > diff --git a/include/linux/stddef.h b/include/linux/stddef.h
-> > index dab49e2ec8c0..8ca9df87a523 100644
-> > --- a/include/linux/stddef.h
-> > +++ b/include/linux/stddef.h
-> > @@ -108,7 +108,7 @@ enum {
-> >   	union {									\
-> >   		TYPE NAME;							\
-> >   		struct {							\
-> > -			unsigned char __offset_to_##FAM[offsetof(TYPE, FAM)];	\
-> > +			unsigned char __offset_to_##FAM[sizeof(TYPE)];		\
-> >   			MEMBERS							\
-> >   		};								\
-> >   	}
-> >=20
-> > which only leaves one usage of FAM in the name of the padding struct
-> > member. I'm sure someone is able to come up with something nice here to
-> > get rid of FAM completely or point out what I'm missing.
->=20
-> Flexible structures (structs that contain a FAM) may have trailing paddin=
-g.
-> Under that scenario sizeof(TYPE) causes the overlay between FAM and MEMBE=
-RS
-> to be misaligned.
+This series was tested on a Android OS device running kernel 6.16.
 
-That sounds wrong to me; are you sure? In that case allocating space for
-such a struct using
+Andrei Kuchynski (5):
+  usb: typec: Add alt_mode_override field to port property
+  platform/chrome: cros_ec_typec: Set alt_mode_override flag
+  usb: typec: ucsi: Set alt_mode_override flag
+  usb: typec: Implement alternate mode priority handling
+  usb: typec: Expose alternate mode priority via sysfs
 
-	struct mystruct {
-		unsigned short len;
-		unsigned int array[];
-	};
+ Documentation/ABI/testing/sysfs-class-typec |  12 ++
+ drivers/platform/chrome/cros_ec_typec.c     |   1 +
+ drivers/usb/typec/Makefile                  |   2 +-
+ drivers/usb/typec/class.c                   |  61 +++++++++-
+ drivers/usb/typec/class.h                   |   3 +
+ drivers/usb/typec/mode_selection.c          | 127 ++++++++++++++++++++
+ drivers/usb/typec/mode_selection.h          |   8 ++
+ drivers/usb/typec/ucsi/ucsi.c               |   2 +
+ include/linux/usb/typec.h                   |   1 +
+ include/linux/usb/typec_altmode.h           |   9 ++
+ 10 files changed, 221 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/usb/typec/mode_selection.c
+ create mode 100644 drivers/usb/typec/mode_selection.h
 
-	s =3D malloc(sizeof(struct mystruct) + n * sizeof(unsigned int));
+-- 
+2.51.0.rc0.215.g125493bb4a-goog
 
-wouldn't do the right thing.=20
-
-I found in the net (e.g.
-https://rgambord.github.io/c99-doc/sections/6/7/2/1/index.html):
-
-	In most situations, the flexible array member is ignored. In
-	particular, the size of the structure is as if the flexible
-	array member were omitted except that it may have more trailing
-	padding than the omission would imply.
-
-So I'd claim that sizeof does work here as intended.
-
-gcc here also behaves fine:
-
-	uwe@taurus:~$ cat test.c
-	#include <stdio.h>
-
-	struct mystruct {
-		unsigned short len;
-		unsigned int array[];
-	};
-
-	struct mystruct2 {
-		unsigned short len;
-	};
-
-	int main()
-	{
-		printf("sizeof(struct mystruct) =3D %zu\n", sizeof(struct mystruct));
-		printf("sizeof(struct mystruct2) =3D %zu\n", sizeof(struct mystruct2));
-		return 0;
-	}
-
-	uwe@taurus:~$ make test
-	cc    -c -o test.o test.c
-	cc   test.o   -o test
-
-	uwe@taurus:~$ ./test
-	sizeof(struct mystruct) =3D 4
-	sizeof(struct mystruct2) =3D 2
-
-Best regards
-Uwe
-
---fuq2btbbfpvvuy3v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmid7fYACgkQj4D7WH0S
-/k5blAgAh5+IokY92+K/+9z3K4qgh2F2Qwfe9kLJkliHAtW0BjPXsSmvDfrl6liX
-GHh7M26217I9OMG75Bhpl8C+jpzN6EMtRsAD/zFcdDDl/JACrm7yO56/FcVN1rER
-vjf+3ExMbV/ZMhRKY+Rsp3LCAbkkuywX6g2Lr7lDWmu4L/RyEGi1lSXVYSgMGvpi
-npJhS+qEtbbHXT2eUQCR/e3aQHHA/PUSPvvXsJ7u5fVDCQzTz6gluHY0zrtXl5su
-jXZ4C0ux6veyfj7S7m0ayFZRRdavN2SOhBVcWSIwNewhGFjQZCAuFBZ6ht9TzwyF
-nL6IkD2TrBgj6T2mtyWwmt8eHuM4tg==
-=CpNn
------END PGP SIGNATURE-----
-
---fuq2btbbfpvvuy3v--

@@ -1,84 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644832E8885;
-	Thu, 14 Aug 2025 10:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50BBA31813A;
+	Thu, 14 Aug 2025 10:27:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755165938; cv=none; b=WdIXTS/YDfS90nfx5hLe0YHGONOp+sJTj77PzbcGOCBEUEgTb3wA8NRUKek+6sYX14JD7CxsrGp7KLWdxxbsWEbbQ1f7A2O9hNdH845D+87VzBcIsk7yDPaLsWGtlmZqn0+csueO1fFRZmV/1ZBIddF+FniPVaVreC9tsJe47Eo=
+	t=1755167259; cv=none; b=ctzgNYACCXDnM4LfM3gtyrA8k9pXKXYBxZtz8Rv9y7vOYk1PN97n0qm6R78+0qgMn3+OnAcqjy4wzPI8MZf3MuuJlTYE12tVPwd6imiKAmshZi280ACTA6uEKOlTVpP9C745zUg3L7F7fzgtxFoSr0iQa/x88s9UpyffabnZGtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755165938; c=relaxed/simple;
-	bh=+eyfGjmkdthPdkmZF3lw8nM7Kgf8w5vEKUJs/7iEZMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dd7wPz2MM2kFIZA2IUkX2eUl0kYsxm7ezb1J68Ug1hOkpM/pBtfSXYPfXhzo43ZLkwMkwYEE4hApbLzS/Hnz1CvGtneCZL6FntRBp6n1vG/IgOUMMRyZWtIovr4mtPPcLD31+rbqu47zZNzAihtkNakIQ1wv5BXWz179hXtMFtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ylhMlRm7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755167259; c=relaxed/simple;
+	bh=hsBkwJF3St3qBKx1WqP2VR8h+hSlYAmg1c+OKwcJqBU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=o14SOkLQ/OmLqnuzzGHmGg6xasDbjA6ahDlH1LdcL8k0UC9fjWasbJvXvonNYBO7SJdztBI9Lx2xjQEM9aVNErXpdfQ8oHzcXI3Rab0WQ0gOYm7RAS4rwgpvBuKT9pGlgGlMZF/QLgD8EqeLGfDvtdossZqJNIuFMYfVq35fQ7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jZ7sH8Mx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ylhMlRm7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BAB1C4CEED;
-	Thu, 14 Aug 2025 10:05:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1755165935;
-	bh=+eyfGjmkdthPdkmZF3lw8nM7Kgf8w5vEKUJs/7iEZMc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ylhMlRm7pzaB8mHfXezd2MOr+cWLjE9h8aqcj/iNewoQc+hXGSbjVc6c9Y1Rv627n
-	 C2+JtYNkBG1kBEeQpALdyVmNwPUkF9kknvaFoXpebQNHT+HCAGVS4NpvYLp0KNwOkJ
-	 /3DDAqotRkNuTVSOxCrohDQCqOCr2FzH1uEyCLg0=
-Date: Thu, 14 Aug 2025 12:05:32 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: bleung@chromium.org, dawidn@google.com, chrome-platform@lists.linux.dev,
-	akpm@linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] lib: Add ref_proxy module
-Message-ID: <2025081410-salsa-alabaster-9294@gregkh>
-References: <20250814091020.1302888-1-tzungbi@kernel.org>
- <20250814091020.1302888-2-tzungbi@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jZ7sH8Mx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53153C4CEED;
+	Thu, 14 Aug 2025 10:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755167255;
+	bh=hsBkwJF3St3qBKx1WqP2VR8h+hSlYAmg1c+OKwcJqBU=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=jZ7sH8MxJex8dTNCa14QLQdrdmH0DiyLkQtMHrFseRrzd6UCT3Y05K2oe+JM+zSDI
+	 LmEsMvglXXg8sweg/i/lYtucYenE/p2p3Yv4e1nKnxtnjvFBffz44LUVhfm9z395hh
+	 rv47Bd9zfrwxp5isB/5Xs2/I0Ff1ThTiSAXWsaJ/OLBblQ5a5KVOAshmeveOxFUg6D
+	 GoNCb6kNZoZheiLWGWSQaRO0VUppUTJqpvjisd2UGr3PgIIJBGI7mBlAV2u2c54qzi
+	 64qJJNROmBuB7dRenpQ/MJBDkvoEkusNE36z8a8j/ZhetIqaCz9nMH8ej15NcC5zR4
+	 BL5xnHQIuvpSg==
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250814091020.1302888-2-tzungbi@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 14 Aug 2025 12:27:32 +0200
+Message-Id: <DC22V4IMAJ1Q.3HJUK21LRN5D5@kernel.org>
+Subject: Re: [PATCH 1/3] lib: Add ref_proxy module
+Cc: "Tzung-Bi Shih" <tzungbi@kernel.org>, <bleung@chromium.org>,
+ <dawidn@google.com>, <chrome-platform@lists.linux.dev>,
+ <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>
+To: "Greg KH" <gregkh@linuxfoundation.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250814091020.1302888-1-tzungbi@kernel.org>
+ <20250814091020.1302888-2-tzungbi@kernel.org>
+ <2025081410-salsa-alabaster-9294@gregkh>
+In-Reply-To: <2025081410-salsa-alabaster-9294@gregkh>
 
-On Thu, Aug 14, 2025 at 09:10:18AM +0000, Tzung-Bi Shih wrote:
-> Some resources can be removed asynchronously, for example, resources
-> provided by a hot-pluggable device like USB.  When holding a reference
-> to such a resource, it's possible for the resource to be removed and
-> its memory freed, leading to use-after-free errors on subsequent access.
-> 
-> Introduce the ref_proxy library to establish weak references to such
-> resources.  It allows a resource consumer to safely attempt to access a
-> resource that might be freed at any time by the resource provider.
-> 
-> The implementation uses a provider/consumer model built on Sleepable
-> RCU (SRCU) to guarantee safe memory access:
-> 
->  - A resource provider allocates a struct ref_proxy_provider and
->    initializes it with a pointer to the resource.
-> 
->  - A resource consumer that wants to access the resource allocates a
->    struct ref_proxy handle which holds a reference to the provider.
-> 
->  - To access the resource, the consumer uses ref_proxy_get().  This
->    function enters an SRCU read-side critical section and returns the
->    pointer to the resource.  If the provider has already freed the
->    resource, it returns NULL.  After use, the consumer calls
->    ref_proxy_put() to exit the SRCU critical section.  The
->    REF_PROXY_GET() is a convenient helper for doing that.
-> 
->  - When the provider needs to remove the resource, it calls
->    ref_proxy_provider_free().  This function sets the internal resource
->    pointer to NULL and then calls synchronize_srcu() to wait for all
->    current readers to finish before the resource can be completely torn
->    down.
+On Thu Aug 14, 2025 at 12:05 PM CEST, Greg KH wrote:
+> I've added Danilo here, as hopefully this is doing much the same thing
+> that his rust code does, but I think it's using different names?
 
-I've added Danilo here, as hopefully this is doing much the same thing
-that his rust code does, but I think it's using different names?
-Danilo, any ideas if this matches up with what we have in the driver
-core rust code now, and would it help out with the drm drivers as well?
+It does exactly the same thing as we do in Rust with Devres [1] and
+Revocable [2].
 
-thanks,
+The only difference is that this uses SRCU whereas the Rust stuff uses RCU.
 
-greg k-h
+One reason Rust is using RCU rather than SRCU is that in almost all cases
+we can avoid the need for synchronization at all, by having a proof through=
+ the
+type system that we're accessing the resource from a context where we can
+guarantee that the device is bound, i.e. we have the guarantee that it can'=
+t be
+unbound concurrently.
+
+While for the few cases we hit where we can't proove that the device is bou=
+nd
+anyways, we don't need a sleepable context and rather keep the critical sec=
+tion
+short in order to not delay device unbind too much.
+
+> Danilo, any ideas if this matches up with what we have in the driver
+> core rust code now, and would it help out with the drm drivers as well?
+
+As mentioned it matches almost exactly. However, I don't think it'd be wort=
+h
+building abstractions for it in Rust and use those instead, we can do it wi=
+th
+less code and in a more ideomatic way in Rust right away.
+
+However, *both* this and the Rust Revocable suffer from the same problem, w=
+hich
+I have on my list to solve. That is, we have a synchronize_{srcu,rcu}() cal=
+l for
+every devres node being dropped on driver unbind. Where, instead, we want d=
+evres
+to provide two callbacks; the first one where we revoke the resource (in C =
+this
+would be the call to rcu_assign_pointer(rpp->ref, NULL)), subsequently call
+synchronize_{srcu,rcu}() exactly *once* and then have the second callback t=
+o
+free / drop all the resources.
+
+I'll also reply to the patch itself.
+
+[1] https://rust.docs.kernel.org/kernel/devres/struct.Devres.html
+[2] https://rust.docs.kernel.org/kernel/revocable/struct.Revocable.html

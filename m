@@ -1,280 +1,137 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543C1318123;
-	Thu, 14 Aug 2025 10:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01808145B3F;
+	Thu, 14 Aug 2025 11:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755168959; cv=none; b=M+IHrcAbz3wd3x/HWg4ZqBLIs/Ia6DGsY5AgbGSWFkFCuE6PhPzdI1mrL6CwPRiufef7jIVvwR4iwVCtq2dsb0Bz2UMfXa2Sm6yJItBLiFVN+cTYpGxO4Mti923hmugBVu7HT7NuG2r3ViETRAr3+bmiFfF+/FC/rUoWEGivKnE=
+	t=1755169732; cv=none; b=cmBF8WcUHGUlTKmW+S7fmplzNcKnAG3ml0lNwQIn9Olli43tOCpCboX+C7b2hRvOv1TRlvwHZyKGi9hWf4EYb/D60iEzBuH0kFaaTgMxKhKG+gxvsjO1cNz4E4PkdIXVEeWFyJwnsJSP/R9Aey2CA3fSxKcfNVLC8oxHbAlM9KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755168959; c=relaxed/simple;
-	bh=OEIR6o3ChxKvnRJSRPXYFNUGeRIDtYaQdUPWwcQIsVA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=CupXLk150QKBYWZx65xODG21ehGmrcVsJBeiPfzZbVtLMAji3lfAHMSrgbGaDWPYywtLSS+ojV7XTDNxI9+ChWT5kcleACJHAAklJ6/HKaiKFp0I0OLM12VU1VnAU2CQFrYB67+5+6Iw9ZMhehRA5OqRmzvaO1cRYf9vmtv3unI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQz9SC6k; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755169732; c=relaxed/simple;
+	bh=NcM/DeAVlXKmPkl7bBlwD0/QB2aiGZ25NX4zY8t3JZ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pRSvR+921/hb6pk3i8dKDolwZSdgVPXTcWCB65g5q8sOpskRyApaj+8re41Ae1sKSlU5SfXEcSWJPrFoofDjS5gKKUQTs3XupDbmk8rz3QBj3Xs0QPr8NMjOyXkciuaRXOE42XBvXlnTr8TxYYaP5lal5Do07WwTyHQeQkDgtAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NwIlOaYM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQz9SC6k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6998EC4CEED;
-	Thu, 14 Aug 2025 10:55:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NwIlOaYM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17270C4CEED;
+	Thu, 14 Aug 2025 11:08:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755168958;
-	bh=OEIR6o3ChxKvnRJSRPXYFNUGeRIDtYaQdUPWwcQIsVA=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=pQz9SC6kOjWd7DBR/js5i8ADSB6ioVxpqKdE7jctE57CBWt+3pbh6c0jgT0LUSu+o
-	 uiH/LAwN2eQLpWMzLEFfE8SEOecKOw019//1xZ3EC9gUFHb3+uuj66K85BFsbucYnI
-	 /4nA8pe7HcAIK81DnEzAO7qk0YtAc8PeyK+Aq0DDYtjD/ckyMbJlmdhsp5mR9SKk+v
-	 zREmtGo50O3/wiiB4KBRy3mRhVolropRpr0f1lPnm2uQWt2mVCu6+aDHALdCLJwgys
-	 OuGp+PIFYi0em1FD+kI9i0/44YrPYkClEOmedTTvWNPnIgnfuJ1sdr8CwxHyKQAKWl
-	 aM7dx86IL3V+g==
+	s=k20201202; t=1755169731;
+	bh=NcM/DeAVlXKmPkl7bBlwD0/QB2aiGZ25NX4zY8t3JZ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NwIlOaYMCnbeBsS0fBLSHuuDnB/pqFV4dluw0+qSzHzUhq+lYiZn73OHbU8mnOnFn
+	 hB/r5LcpDdMM3f58g9MJYgITW2nFGieiM9esO9Pd41l5NalsUBpoMbsD4WZqugaLiY
+	 mMYfxqLQhL4SM3xQs64YIYw3xr/5rjn4Z4x7asoxXuf1I9nqK4i7ZC2NwFMdBb8dLf
+	 TI/xIJtSN8Xc3Fpb3C4mmeddLZq+Q/R7S1JdP1R8pg8sP+9jveJzHb5uCAOVce0djK
+	 LbYNTxSpqTxSrcjay48DoGWF5HMxlLm8OPtupmsgRl3JjoSbgRI/Tq2pqXe6d33/dS
+	 P3yDSmUkVhUpg==
+Date: Thu, 14 Aug 2025 13:08:48 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] pwm: cros-ec: Avoid -Wflex-array-member-not-at-end
+ warnings
+Message-ID: <2pgdxifg2zmyhvemm7a2qntprsz5nhh3ustrrlg2vvcqffwj6c@22enjpgycjbt>
+References: <aJtRPZpc-Lv-C6zD@kspp>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vfjd7sxzjdmqmwth"
+Content-Disposition: inline
+In-Reply-To: <aJtRPZpc-Lv-C6zD@kspp>
+
+
+--vfjd7sxzjdmqmwth
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 14 Aug 2025 12:55:55 +0200
-Message-Id: <DC23GUWD2MYC.1RXVDA2RN7WH3@kernel.org>
-Subject: Re: [PATCH 1/3] lib: Add ref_proxy module
-Cc: <bleung@chromium.org>, <dawidn@google.com>,
- <chrome-platform@lists.linux.dev>, <akpm@linux-foundation.org>,
- <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>
-To: "Tzung-Bi Shih" <tzungbi@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250814091020.1302888-1-tzungbi@kernel.org>
- <20250814091020.1302888-2-tzungbi@kernel.org>
-In-Reply-To: <20250814091020.1302888-2-tzungbi@kernel.org>
+Subject: Re: [PATCH][next] pwm: cros-ec: Avoid -Wflex-array-member-not-at-end
+ warnings
+MIME-Version: 1.0
 
-On Thu Aug 14, 2025 at 11:10 AM CEST, Tzung-Bi Shih wrote:
-> Some resources can be removed asynchronously, for example, resources
-> provided by a hot-pluggable device like USB.  When holding a reference
-> to such a resource, it's possible for the resource to be removed and
-> its memory freed, leading to use-after-free errors on subsequent access.
->
-> Introduce the ref_proxy library to establish weak references to such
-> resources.  It allows a resource consumer to safely attempt to access a
-> resource that might be freed at any time by the resource provider.
->
-> The implementation uses a provider/consumer model built on Sleepable
-> RCU (SRCU) to guarantee safe memory access:
->
->  - A resource provider allocates a struct ref_proxy_provider and
->    initializes it with a pointer to the resource.
->
->  - A resource consumer that wants to access the resource allocates a
->    struct ref_proxy handle which holds a reference to the provider.
->
->  - To access the resource, the consumer uses ref_proxy_get().  This
->    function enters an SRCU read-side critical section and returns the
->    pointer to the resource.  If the provider has already freed the
->    resource, it returns NULL.  After use, the consumer calls
->    ref_proxy_put() to exit the SRCU critical section.  The
->    REF_PROXY_GET() is a convenient helper for doing that.
->
->  - When the provider needs to remove the resource, it calls
->    ref_proxy_provider_free().  This function sets the internal resource
->    pointer to NULL and then calls synchronize_srcu() to wait for all
->    current readers to finish before the resource can be completely torn
->    down.
+Hello,
 
-As mentioned in a sub-thread [1], this is pretty much what we already do in=
- Rust
-with Revocable [2].
-
-The Rust struct Devres [3] is built on Revocable, such that a device resour=
-ce is
-only accessible for drivers as long as the device is actually bound to the
-driver. Once the device is unbound the resource is "revoked" and drivers ar=
-e
-prevented from subsequent accesses.
-
-I think it's be good to have a common naming scheme for this, hence I propo=
-se to
-name this struct revocable instead.
-
-Besides that, I'm not exactly sure I understand why we need two structs for=
- this.
-struct ref_proxy seems unnecessary. I think we should remove it and rename
-struct ref_proxy_provider to struct revocable. Or do I miss anything?
-
-I think it would also be nice to have some more high level documentation on=
- how
-it works and how it interacts with devres in the source file, which should =
-be
-referenced in Documentation/.
-
-[1] https://lore.kernel.org/lkml/DC22V4IMAJ1Q.3HJUK21LRN5D5@kernel.org/
-[2] https://rust.docs.kernel.org/kernel/revocable/struct.Revocable.html
-[3] https://rust.docs.kernel.org/kernel/devres/struct.Devres.html
-
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+On Tue, Aug 12, 2025 at 11:35:41PM +0900, Gustavo A. R. Silva wrote:
+> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+> getting ready to enable it, globally.
+>=20
+> Use the new TRAILING_OVERLAP() helper to fix the following warnings:
+>=20
+> drivers/pwm/pwm-cros-ec.c:53:40: warning: structure containing a flexible=
+ array member is not at the end of another structure [-Wflex-array-member-n=
+ot-at-end]
+> drivers/pwm/pwm-cros-ec.c:87:40: warning: structure containing a flexible=
+ array member is not at the end of another structure [-Wflex-array-member-n=
+ot-at-end]
+>=20
+> This helper creates a union between a flexible-array member (FAM)
+> and a set of members that would otherwise follow it. This overlays
+> the trailing members onto the FAM while preserving the original
+> memory layout.
+>=20
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 > ---
->  include/linux/ref_proxy.h |  37 ++++++++
->  lib/Kconfig               |   3 +
->  lib/Makefile              |   1 +
->  lib/ref_proxy.c           | 184 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 225 insertions(+)
->  create mode 100644 include/linux/ref_proxy.h
->  create mode 100644 lib/ref_proxy.c
+>  drivers/pwm/pwm-cros-ec.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
+> index 189301dc395e..67cfa17f58e0 100644
+> --- a/drivers/pwm/pwm-cros-ec.c
+> +++ b/drivers/pwm/pwm-cros-ec.c
+> @@ -49,10 +49,9 @@ static int cros_ec_pwm_set_duty(struct cros_ec_pwm_dev=
+ice *ec_pwm, u8 index,
+>  				u16 duty)
+>  {
+>  	struct cros_ec_device *ec =3D ec_pwm->ec;
+> -	struct {
+> -		struct cros_ec_command msg;
+> +	TRAILING_OVERLAP(struct cros_ec_command, msg, data,
 
-I think we should name this revocable and move it to drivers/base/.
+It's a bit ugly to have to pass the name of the flexible array member.
 
-> diff --git a/lib/ref_proxy.c b/lib/ref_proxy.c
-> new file mode 100644
-> index 000000000000..49940bea651c
-> --- /dev/null
-> +++ b/lib/ref_proxy.c
-> @@ -0,0 +1,184 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/device.h>
-> +#include <linux/kref.h>
-> +#include <linux/ref_proxy.h>
-> +#include <linux/slab.h>
-> +#include <linux/srcu.h>
-> +
-> +/**
-> + * struct ref_proxy_provider - A handle for resource provider.
-> + * @srcu: The SRCU to protect the resource.
-> + * @ref:  The pointer of resource.  It can point to anything.
-> + * @kref: The refcount for this handle.
-> + */
-> +struct ref_proxy_provider {
-> +	struct srcu_struct srcu;
-> +	void __rcu *ref;
-> +	struct kref kref;
-> +};
-> +
-> +/**
-> + * struct ref_proxy - A handle for resource consumer.
-> + * @rpp: The pointer of resource provider.
-> + * @idx: The index for the RCU critical section.
-> + */
-> +struct ref_proxy {
-> +	struct ref_proxy_provider *rpp;
-> +	int idx;
-> +};
-> +
-> +/**
-> + * ref_proxy_provider_alloc() - Allocate struct ref_proxy_provider.
-> + * @ref: The pointer of resource.
+I think the following would work:
 
-We should call the pointer res if it's the pointer to the resource.
+diff --git a/include/linux/stddef.h b/include/linux/stddef.h
+index dab49e2ec8c0..8ca9df87a523 100644
+--- a/include/linux/stddef.h
++++ b/include/linux/stddef.h
+@@ -108,7 +108,7 @@ enum {
+ 	union {									\
+ 		TYPE NAME;							\
+ 		struct {							\
+-			unsigned char __offset_to_##FAM[offsetof(TYPE, FAM)];	\
++			unsigned char __offset_to_##FAM[sizeof(TYPE)];		\
+ 			MEMBERS							\
+ 		};								\
+ 	}
 
-> + *
-> + * This holds an initial refcount to the struct.
-> + *
-> + * Return: The pointer of struct ref_proxy_provider.  NULL on errors.
-> + */
-> +struct ref_proxy_provider *ref_proxy_provider_alloc(void *ref)
+which only leaves one usage of FAM in the name of the padding struct
+member. I'm sure someone is able to come up with something nice here to
+get rid of FAM completely or point out what I'm missing.
 
-The ref_proxy_provider owns the resource now, so when the ref_proxy_provide=
-r
-gets revoked (through the devres callback) the resource must be released, r=
-ight?
-Where is this done? Who is responsible to do so? Shouldn't this function ta=
-ke a
-release callback that is called once the ref_proxy_provider is revoked?
+Best regards
+Uwe
 
-> +{
-> +	struct ref_proxy_provider *rpp;
-> +
-> +	rpp =3D kzalloc(sizeof(*rpp), GFP_KERNEL);
-> +	if (!rpp)
-> +		return NULL;
-> +
-> +	init_srcu_struct(&rpp->srcu);
-> +	rcu_assign_pointer(rpp->ref, ref);
-> +	synchronize_srcu(&rpp->srcu);
-> +	kref_init(&rpp->kref);
-> +
-> +	return rpp;
-> +}
-> +EXPORT_SYMBOL(ref_proxy_provider_alloc);
-> +
-> +static void ref_proxy_provider_release(struct kref *kref)
-> +{
-> +	struct ref_proxy_provider *rpp =3D container_of(kref,
-> +			struct ref_proxy_provider, kref);
-> +
-> +	cleanup_srcu_struct(&rpp->srcu);
+--vfjd7sxzjdmqmwth
+Content-Type: application/pgp-signature; name="signature.asc"
 
-As mentioned above, why aren't we releasing the resource here?
+-----BEGIN PGP SIGNATURE-----
 
-> +	kfree(rpp);
-> +}
-> +
-> +/**
-> + * ref_proxy_provider_free() - Free struct ref_proxy_provider.
-> + * @rpp: The pointer of resource provider.
-> + *
-> + * This sets the resource `(struct ref_proxy_provider *)->ref` to NULL t=
-o
-> + * indicate the resource has gone.
-> + *
-> + * This drops the refcount to the resource provider.  If it is the final
-> + * reference, ref_proxy_provider_release() will be called to free the st=
-ruct.
-> + */
-> +void ref_proxy_provider_free(struct ref_proxy_provider *rpp)
-> +{
-> +	rcu_assign_pointer(rpp->ref, NULL);
-> +	synchronize_srcu(&rpp->srcu);
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmidw70ACgkQj4D7WH0S
+/k5ieAf/TUUo4o0zI26SLZTp8nM6qwiZ9GhAA1lOoSO1+aUR/7VkqYJ7yO/fsdMH
+eAjsyTZixz4uh7p0c+nGpPS4wjpGry7l579dXbYkt6gVU3np/kXR93OUJDdYNbkU
+pkAhBvgWCRLbhuytiwDm1OJjlbTqu1piDh1/r3wgdud+cnva7caeQCVqfeHtRPQz
+X+ww6vwxHzAR2pTzGdLrBIZYt5yZhqUdOXidMETxqGdO3Z17zeUt15fzVyN/6h80
+UZOl1VXw9+T2v1v8+Wp48YMBIblWoGKf/qNmDFzpQyzS1tIsXpy+GEaK6tjrODuG
+xmdLAxw+LR1V8wthsULHBwBasbgfHg==
+=hwjq
+-----END PGP SIGNATURE-----
 
-This is called for *every* resource that has been registered with the
-ref_proxy_provider for a certain device when it is unbound.
-
-We have the same problem in Rust, and I have a task on my list to address t=
-his.
-Please see my reply in the sub-thread.
-
-> +	kref_put(&rpp->kref, ref_proxy_provider_release);
-> +}
-> +EXPORT_SYMBOL(ref_proxy_provider_free);
-
-<snip>
-
-> +/**
-> + * ref_proxy_get() - Get the resource.
-> + * @proxy: The pointer of struct ref_proxy.
-> + *
-> + * This tries to de-reference to the resource and enters a RCU critical
-> + * section.
-> + *
-> + * Return: The pointer to the resource.  NULL if the resource has gone.
-> + */
-> +void __rcu *ref_proxy_get(struct ref_proxy *proxy)
-
-We should call this try_access() rather than get().
-
-> +{
-> +	struct ref_proxy_provider *rpp =3D proxy->rpp;
-> +
-> +	proxy->idx =3D srcu_read_lock(&rpp->srcu);
-> +	return rcu_dereference(rpp->ref);
-> +}
-> +EXPORT_SYMBOL(ref_proxy_get);
-> +
-> +/**
-> + * ref_proxy_put() - Put the resource.
-> + * @proxy: The pointer of struct ref_proxy.
-> + *
-> + * Call this function to indicate the resource is no longer used.  It ex=
-its
-> + * the RCU critical section.
-> + */
-> +void ref_proxy_put(struct ref_proxy *proxy)
-
-I think this should rather be something like release() instead. We're not
-dropping a reference count, but releasing a lock.
-
-> +{
-> +	struct ref_proxy_provider *rpp =3D proxy->rpp;
-> +
-> +	srcu_read_unlock(&rpp->srcu, proxy->idx);
-> +}
-> +EXPORT_SYMBOL(ref_proxy_put);
-> --=20
-> 2.51.0.rc1.163.g2494970778-goog
-
+--vfjd7sxzjdmqmwth--

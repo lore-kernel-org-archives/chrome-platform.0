@@ -1,42 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7FE26A1D0;
-	Fri, 15 Aug 2025 05:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E86E3019BD;
+	Fri, 15 Aug 2025 13:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755236180; cv=none; b=deaFZBuA+Wm/UDeBSkqksoVR2VOCjm5nTWTFrt/c2vJhtHtEG3bVJLdXG3paJUk2wvxwepH1114lkdPndGEceD126wxzrCl2b0632Fbsb9yrl/YmUtqs5RLFuO9szPZYDfYu0UkrjBH9Y5EjZ+m2qQZ8dExurqW9t1ij68y5Pjo=
+	t=1755265081; cv=none; b=E/mRX1Stk9WGwlOdh4Utbbz0n3VU46eKjt/zmd5/ZHvwAlrSw4QIR+V2HCKeQZ869K1wLnJBNvLsZQAPX0myNQ6Kyji/tHs7PP2sMmzh0CzAgLkaArm9O+vkjwyx3705deQdI0qCMcsD9opQSgWQ2TWF0L6IPGDxY/j/BM7N5SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755236180; c=relaxed/simple;
-	bh=VczQSDc1Si/YxRFdmkWr80lFlzyH1yI4TPitDkCbbVU=;
+	s=arc-20240116; t=1755265081; c=relaxed/simple;
+	bh=m8hv0RZV9Mr6fM2+lzlOFczAMuNvVzSER5/ae08maD0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FdY00Gx90hzuQ5nWR2nlsvVSy8Uw4lgYtqwJztt88ggDWY1wfeEQ6d0FjtwjReu3hErYlD3EGtOohyunYjLpVfpug1aK5nV7X7aLs+VGAjKM8FGWFW7Cjyzyt5eAQmSu/fsuZgpitL4qO6b8dLVjKXgrJaXjecaGci8MEZ+hey4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KY7QO2ug; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jXFBX+2cdq9jQe/EvglX+ofuKaHUI6IiHl/k+lAOyqpLLGIurqyyejGbJP4/1+G10XO9bYVkBrXjJk1GMFSAJlS9I3rrdpp6NPBc5AJC2yZThaQfmZO/nCtniRomxFoacq42RZRCDewd1lEZxhG0i3/EKw6NS8mXBLHX7joRRuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NdDc8q3o; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KY7QO2ug"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62702C4CEEB;
-	Fri, 15 Aug 2025 05:36:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755236179;
-	bh=VczQSDc1Si/YxRFdmkWr80lFlzyH1yI4TPitDkCbbVU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KY7QO2ugfCDbIlNQKWJeiDfrdUVEOJh6CYvQQFnIpkM2N085QmZPYtaU7KrWBIPTD
-	 3fd8nLIRQAiDo7xD/mTio0M6hTUjyz/VqKdt2EaSPLb2qBYRU82rp5XVzpRc7Tkskz
-	 eWJXrrr6fjaGK/PPn5IzbU1SAad2jKMqge4us2KY+DXJFQg9vkO/NMywQn+VpIHq0K
-	 6Rq+4Ze6UT5kOklaCd5EiJKeoWa32H9eOvAxD5CUJ0cU9nhQLUImbGJDn1MoPAxRky
-	 UKebBogfSmGJUW/6Z67TnCT+WeZOTazWV1/3uJWCSHo8U7baAhmeC/UwRAtlLiRW1J
-	 aYpkPpvk0ZxUg==
-Date: Fri, 15 Aug 2025 05:36:16 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: bleung@chromium.org, dawidn@google.com, chrome-platform@lists.linux.dev,
-	akpm@linux-foundation.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] lib: Add ref_proxy module
-Message-ID: <aJ7HUJ0boqYndbtD@google.com>
-References: <20250814091020.1302888-1-tzungbi@kernel.org>
- <20250814091020.1302888-2-tzungbi@kernel.org>
- <DC23GUWD2MYC.1RXVDA2RN7WH3@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NdDc8q3o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755265080; x=1786801080;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m8hv0RZV9Mr6fM2+lzlOFczAMuNvVzSER5/ae08maD0=;
+  b=NdDc8q3oy0eDiQMQc+y+ltkU4P47OJNj4fvoTm47t9SVDK+cOvy6w4a7
+   cx3Pe/sAUuEs60YYyhpja8JKJiYWCp6OOf11VOdXlAsQQVl4GnDIdteKx
+   YO6do5OzD58pmasdzvqnGHoNsvrmNE1+QzXEwwpMrTMG8fRZtNFiHsK+D
+   6HA4wnTgxx1J6cqwTmPSYJyUcLzWHYLlzxwksPHok4SIj9kK3cGz+WBPo
+   dSFFGTeEp6OZSPFE/D56Wevx1pPx/FRhcIj4uOYdf9Rmq9PNb34kLRGDj
+   mZgGeNjICfhzKDi2tAf5vA/m8LbUAtYgOk1ADraXP8JGNLaVdGwkjTaWe
+   Q==;
+X-CSE-ConnectionGUID: 5IqPYUXhSVe0ZhZuZrrOHw==
+X-CSE-MsgGUID: hdo33j7aTm6ywObyPV49yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57446400"
+X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
+   d="scan'208";a="57446400"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2025 06:37:56 -0700
+X-CSE-ConnectionGUID: IT/YsOgCQruB9ihR5M9s8g==
+X-CSE-MsgGUID: nCHOfA5MQUqHXyHV6YakUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; 
+   d="scan'208";a="204196499"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 15 Aug 2025 06:37:53 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1umuco-000BzQ-2i;
+	Fri, 15 Aug 2025 13:37:45 +0000
+Date: Fri, 15 Aug 2025 21:37:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, bleung@chromium.org
+Cc: oe-kbuild-all@lists.linux.dev, tzungbi@kernel.org, dawidn@google.com,
+	chrome-platform@lists.linux.dev, akpm@linux-foundation.org,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] platform/chrome: Protect cros_ec_device lifecycle
+ with ref_proxy
+Message-ID: <202508152116.hQq8Sw2Y-lkp@intel.com>
+References: <20250814091020.1302888-3-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -45,55 +65,60 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DC23GUWD2MYC.1RXVDA2RN7WH3@kernel.org>
+In-Reply-To: <20250814091020.1302888-3-tzungbi@kernel.org>
 
-On Thu, Aug 14, 2025 at 12:55:55PM +0200, Danilo Krummrich wrote:
-> On Thu Aug 14, 2025 at 11:10 AM CEST, Tzung-Bi Shih wrote:
-> As mentioned in a sub-thread [1], this is pretty much what we already do in Rust
-> with Revocable [2].
-> 
-> The Rust struct Devres [3] is built on Revocable, such that a device resource is
-> only accessible for drivers as long as the device is actually bound to the
-> driver. Once the device is unbound the resource is "revoked" and drivers are
-> prevented from subsequent accesses.
-> 
-> I think it's be good to have a common naming scheme for this, hence I propose to
-> name this struct revocable instead.
+Hi Tzung-Bi,
 
-Sure, will address all review comments and fix in the next version.
+kernel test robot noticed the following build warnings:
 
-> Besides that, I'm not exactly sure I understand why we need two structs for this.
-> struct ref_proxy seems unnecessary. I think we should remove it and rename
-> struct ref_proxy_provider to struct revocable. Or do I miss anything?
+[auto build test WARNING on chrome-platform/for-next]
+[also build test WARNING on chrome-platform/for-firmware-next akpm-mm/mm-nonmm-unstable akpm-mm/mm-everything linus/master v6.17-rc1 next-20250815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-srcu_read_lock() returns an index [4].  The struct ref_proxy is necessary
-for tracking the index for leaving the critical section.
+url:    https://github.com/intel-lab-lkp/linux/commits/Tzung-Bi-Shih/lib-Add-ref_proxy-module/20250814-172126
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250814091020.1302888-3-tzungbi%40kernel.org
+patch subject: [PATCH 2/3] platform/chrome: Protect cros_ec_device lifecycle with ref_proxy
+config: sparc64-randconfig-r113-20250815 (https://download.01.org/0day-ci/archive/20250815/202508152116.hQq8Sw2Y-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce: (https://download.01.org/0day-ci/archive/20250815/202508152116.hQq8Sw2Y-lkp@intel.com/reproduce)
 
-[4] https://elixir.bootlin.com/linux/v6.16/source/kernel/rcu/srcutree.c#L750
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508152116.hQq8Sw2Y-lkp@intel.com/
 
-> > + *
-> > + * This holds an initial refcount to the struct.
-> > + *
-> > + * Return: The pointer of struct ref_proxy_provider.  NULL on errors.
-> > + */
-> > +struct ref_proxy_provider *ref_proxy_provider_alloc(void *ref)
-> 
-> The ref_proxy_provider owns the resource now, so when the ref_proxy_provider
-> gets revoked (through the devres callback) the resource must be released, right?
-> Where is this done? Who is responsible to do so? Shouldn't this function take a
-> release callback that is called once the ref_proxy_provider is revoked?
+sparse warnings: (new ones prefixed by >>)
+>> lib/ref_proxy.c:167:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __rcu * @@     got void * @@
+   lib/ref_proxy.c:167:16: sparse:     expected void [noderef] __rcu *
+   lib/ref_proxy.c:167:16: sparse:     got void *
+   lib/ref_proxy.c: note: in included file (through include/linux/notifier.h, include/linux/memory_hotplug.h, include/linux/mmzone.h, ...):
+   include/linux/srcu.h:373:9: sparse: sparse: context imbalance in 'ref_proxy_put' - unexpected unlock
 
-Thank you, that's a valuable suggestion.  While both approaches are valid,
-the current implementation is based on a clear separation of ownership.
+vim +167 lib/ref_proxy.c
 
-The design is that struct ref_proxy_provider doesn't own the resource.
-Instead, the resource provider (e.g., cros_ec_spi) is responsible for the
-full lifecycle:
-* It owns and ultimately releases the resource (e.g., [5]).
-* It calls ref_proxy_provider_alloc() to expose the resource.
-* It calls ref_proxy_provider_free() to revoke access to the resource.
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  152  
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  153  /**
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  154   * ref_proxy_get() - Get the resource.
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  155   * @proxy: The pointer of struct ref_proxy.
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  156   *
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  157   * This tries to de-reference to the resource and enters a RCU critical
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  158   * section.
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  159   *
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  160   * Return: The pointer to the resource.  NULL if the resource has gone.
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  161   */
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  162  void __rcu *ref_proxy_get(struct ref_proxy *proxy)
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  163  {
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  164  	struct ref_proxy_provider *rpp = proxy->rpp;
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  165  
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  166  	proxy->idx = srcu_read_lock(&rpp->srcu);
+f2304a9508b177 Tzung-Bi Shih 2025-08-14 @167  	return rcu_dereference(rpp->ref);
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  168  }
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  169  EXPORT_SYMBOL(ref_proxy_get);
+f2304a9508b177 Tzung-Bi Shih 2025-08-14  170  
 
-By doing so, the resource provider doesn't need to create a bunch of
-void (*release)(void *) callbacks (if multiple resources are exposing).
-
-[5] https://elixir.bootlin.com/linux/v6.16/source/drivers/platform/chrome/cros_ec_spi.c#L752
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

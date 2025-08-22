@@ -1,218 +1,348 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9671813DBA0
-	for <chrome-platform@lists.linux.dev>; Thu, 21 Aug 2025 14:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECE82EA49B
+	for <chrome-platform@lists.linux.dev>; Fri, 22 Aug 2025 07:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755787501; cv=none; b=bZlcqlYzSS2WysJ0l628VpBgXBYG/2uNvAw4PKDLhm/pItjBm4ykTS7TIkPMA+UJOgPKnQ8cghSQ7gAvupNDKYau19qv71N3kQSnzUVz6o7/wzAIaWGbkM1fjdxVFCy6o/FYRnennIl3MhZDgkxcF0ee8ORuKvVkLIgG8qyM8KU=
+	t=1755849457; cv=none; b=KBQsdWUzTGH4/1IxigZ4ZmrLkGsMA0UYUpIwNLug036dHwmUMbK+qFSTt2QOg1MUopm+z12cFiJq74Wovlbo+Yo34VgJr5pXpGumZU15UoKMwWUAcJBzr5OKLQY3D/kZt7K/shtvsHLCSkDOoh0oC5vJD0mRafCMATR9lYj0t9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755787501; c=relaxed/simple;
-	bh=B6IU72EL2hHWaSuLNQtE0wgSiba/GI0RK8DJ5KCF+FE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KWp66QojtUhphW43ku4EdWgflMLFtVuFYM8SK5vQfAtX2SzbywJSRPwJTjmdyubTNxSR65i4L8TFbdqtoH86U+nJuqHuHQuMDyPD6/dnh4oM+BhaFwgWq62p2FgZhIFDcE524zSFK9CVoZa1Jqmxe0oaDQzoOTyYXKmMUOni894=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CkmBV07F; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1755849457; c=relaxed/simple;
+	bh=x0j2EQXRqyvt7rxVFdqIAdXw7ahQ63q4FEnvUznWpfY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BlZQ2YVvHURAARwZ6PSMJCiqAn4omJM4cZV7cIMZhH6deGLYrmC0kbmS9qDgMkF2pr0bdBxxeBuqXdjewm4Hus/JGDuLkIT5uuw58Y8NfGvr6P/GuWs65ZHVGH+fHE/GlfYRZo4uAMvAVWWpLcUlPykduVOxswQYTgfMdTaovPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N1tBG9pS; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CkmBV07F"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b4716fa7706so709881a12.0
-        for <chrome-platform@lists.linux.dev>; Thu, 21 Aug 2025 07:44:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N1tBG9pS"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6188b72d690so258289a12.2
+        for <chrome-platform@lists.linux.dev>; Fri, 22 Aug 2025 00:57:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1755787499; x=1756392299; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C3ZBzNW2iTlfEoA9OPDFh9ySUGnRcfIGtdtT6mqdubA=;
-        b=CkmBV07FCPdGCwcBvGXRA6PEKcZZRCi9SbSlF8u+7vD67+3oxnSs2BclvIF66Ef0hT
-         I4gZO7jQ4WEaVVPVbQ+p537HfyTsUZCAE63jqj7z50UuKPTqdsyxCvnndedRtNKZBJer
-         TcjG2vlpe5cA/kJa3NtS6F4Wv1QvaixTlXXdg=
+        d=linaro.org; s=google; t=1755849453; x=1756454253; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gXvOq0WDJymydEahTOESPI/du0vd8E1f2zWurTAGrWI=;
+        b=N1tBG9pSB+dmJluE02dvX0heg+qKN1B217Fulwq5tx85WUgsj5MqqobhcAhBy57rGy
+         P0TkfFPVsCYXPAEezmFrroj55jpDZR48CdlV4vtpAl5BH7C7RaeA7a+AQy7mF1bhrea8
+         JNlIcNDOnbys+0ipjH6AEIA0/rtnObA0fYQ+6ruOHZBuJwa7Iv5rUJTnmvFn7XsNuyg7
+         TvgwxIyv47dv5JOEIAsYfCbd5/emUQALvGlpLAuRWGTHlhIlYpaYoDIfmt0Pc+d295vc
+         WnWZQo9uDl+wua3hZdlE+da9NTcBk+z2as+g/yeUQXS1TVtycK3MGCDJWt4Xcx42rV8K
+         FaTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755787499; x=1756392299;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C3ZBzNW2iTlfEoA9OPDFh9ySUGnRcfIGtdtT6mqdubA=;
-        b=Di13LQjyQ/uQUWKr8vNB6ooNLKyInSZ9GcG30gA5vbF2lisXMRhg0oxo5+c4xO5ZAv
-         tdWzJdgEnVTKLBlMB+D9ihiURgxdQvJncSTcQzkgOMgrPJ8xsQ0VuZcqOWgmaIlbTZJo
-         35S4u+BDvuavRy0fo1ydIjrfWRlfpqqf5tTU7ViWTGAlcbsOlJ+xWebCYCjBwZ/fQJ9C
-         MBWoGDkQecKgZe8kas+vKxuywxc+SGV4aPxWDivkYy6gF9btAa+MA/kE9/W0ZoVY1VcX
-         C/lF1CJGu3V3AVldZcF5INmitV9ctNRzeRsM9Z/TRiRLk8NJNftMR96A5KNoOyYa7Nid
-         dIhg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4uKLDYHtjjaYFH2NPBNwBDGJEgguQKyxoL6ZvWeiHudYSXaER/m9ADNTd66G5eMbywtkKebA2KOB1MabM+68=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwleVmdb9d/+YH9BlBbpdKdFz7ZZ2/EADHtSgS7GBlDblDH3iT
-	u+tW6VpP458+w0eeZcCAyrPnRxRJkfQG8MDgWADcM2NQaCBYeeFX5f4/NJGc3LPYHjL5+iIdGwD
-	uEhscBJLy6eW2FN011TANNOop2VkX/tkOdaBYLqJO
-X-Gm-Gg: ASbGncvN0/m05ffUMiP5Wa7QJCQ1p5oau9pxZqw/nhxNpQI/T1oe7yDLuIN3DXH0SMH
-	uEXBAR6Zst7myUkS3oC7W1Kdo9iRKx5w7cJltOpL65+4NtvKCzhFVomheu47H9IX5Gm/NvXOlkl
-	D1DgRvBB5C8dczGdKlwfwCS9zZxdq/7dLNLjaaA7ERHV74JbthJVB75etORojlBIco/UW5aheze
-	qgRg7hze/x7vYC0fSg3fQ+VqXJCwaI0
-X-Google-Smtp-Source: AGHT+IG6la090boFC0adFQ5R5iuoZ3O2i10q0RcjDij42X5nvHVjdaGi0WKBdDiWmyhYk3G4cOpQhrpyGK1XbyMp1IY=
-X-Received: by 2002:a17:902:c946:b0:246:61e:b562 with SMTP id
- d9443c01a7336-246061ebb49mr31764835ad.59.1755787498861; Thu, 21 Aug 2025
- 07:44:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755849453; x=1756454253;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gXvOq0WDJymydEahTOESPI/du0vd8E1f2zWurTAGrWI=;
+        b=mDxpBxlu9eNWRkKOQcMRn3faT8aTu0fVeO6qNRfI/pJc3MT2+o9bpZqZVYkmfOtLZi
+         iroL9MrbYi658aqZfltuEjT5EWtHjWz4Pk5lKBDrA6DDn3CWQqHLYcLCHRADrfRKNdo1
+         Dq0YIB/r7sZT9UBIEWEy7m8WMXGK3K5+Nk02BiAAcjIru+bSlkaMkTeMRkzTz/1omjf7
+         Ulg77XQ5+OHohh7AFXV/TGLctdOl5HGb8vrKj7+DRC8520Av7gHYY+uCgZ64ppod9UE9
+         NZBi3nrFzITqyC971UbHOxmReSiOFtHabfEd1cegGGyAfawIVzfVjPIWdFSPRVWfh4AI
+         6oHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXK+lLkVzXi4inPiuRVuupYhVNQIFYkC7p+ZbmEaESZivvxbbkNwrsrwu7JqyTmAtTDN+9L386tcJYedRd4Duo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXW4u5yhuL2QBtVuKAdxChsTdc5v9DtlSfvcaNiTWGp7VdQPbO
+	cd+IqNnjPIB6D7UE/gDHLSZg+8kRDAcOYnOxxxBl+9G2lvUYV2TAJZpWQyTv7/tzEyE=
+X-Gm-Gg: ASbGncsl820Lo9HjvebdGI+qWBHlpZLLm1A7cD85PN+HnEehAOeoqNn9baZQ8AL2/kU
+	lprF9fytWTdKVT4WJnDppgRSXA4fXlNG60AgqEaiAn36tTUQTmedh4CNEpWLKzYTWpfAcPH8gbF
+	c9T2F3Dk3lz+iqHhWXJxFP1liJTdZc+ebKpExrast9ADT/xVZSovNVnlSEFTqv3C3awYl94+mPi
+	VnUCGoHq0SsWtorRRxAUKdZ8jTWsmM5whF6wCUEZoq2t8TwdV8P6ObbUsdJfQ/vvNE1FaEx5St9
+	55SJLM5PV5+jQyzO4qGy+hY9Y0WaoW6EHkRGfFQKqLzR9flyGzLL/NwVsWwt+6jiE9fEXtcW+ua
+	ir9rsIjtC0UTHZRidjY7Fs+V3f7TsUbqLPA==
+X-Google-Smtp-Source: AGHT+IHAfwxJieXRqNAC4E/jPz9pCyUBG2KPd9gNolTqqry4bihuNop6WHp+vaYNcJgpxRXSZfhW6w==
+X-Received: by 2002:a05:6402:2714:b0:61a:34c2:58c2 with SMTP id 4fb4d7f45d1cf-61c1b3c8aa9mr786406a12.2.1755849452760;
+        Fri, 22 Aug 2025 00:57:32 -0700 (PDT)
+Received: from kuoka.. ([178.197.219.123])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61c25709d66sm197196a12.22.2025.08.22.00.57.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Aug 2025 00:57:31 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Michael Walle <mwalle@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jean Delvare <jdelvare@suse.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Lee Jones <lee@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Cheng-Yi Chiang <cychiang@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Tinghan Shen <tinghan.shen@mediatek.com>,
+	devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-watchdog@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Mathew McBride <matt@traverse.com.au>
+Subject: [PATCH v2] dt-bindings: mfd: Move embedded controllers to own directory
+Date: Fri, 22 Aug 2025 09:57:13 +0200
+Message-ID: <20250822075712.27314-2-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250814184455.723170-1-akuchynski@chromium.org>
- <20250814184455.723170-6-akuchynski@chromium.org> <aKbMeSCHf-ZhbcvT@kuha.fi.intel.com>
-In-Reply-To: <aKbMeSCHf-ZhbcvT@kuha.fi.intel.com>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Thu, 21 Aug 2025 16:44:45 +0200
-X-Gm-Features: Ac12FXz6CpwUI9KCMT5e9L3vISv4bbNnmCuQHgIVlGc9lVaESXs2xstG0gJQrRA
-Message-ID: <CAMMMRMd4Gw+yC+4wB=_ZRChuE1=TEZXePYZa5PoqmLSiGDJCRQ@mail.gmail.com>
-Subject: Re: [PATCH v1 5/5] usb: typec: Expose alternate mode priority via sysfs
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
-	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11465; i=krzysztof.kozlowski@linaro.org;
+ h=from:subject; bh=x0j2EQXRqyvt7rxVFdqIAdXw7ahQ63q4FEnvUznWpfY=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoqCLYC7FUAFD9qCGlqJnlBxpbt50g8PbOa+l9M
+ NreIM7mVGCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaKgi2AAKCRDBN2bmhouD
+ 17nZD/0WwWQbLXAduO94hhdip6gvnEFCKdZQRALnWyof1QUZFB9t8NgXrPsWvOUtfGM+9UJd/cw
+ PoGktP7MAH4fUgWw64i0ZEp+gbYqfT5EQYbW5yJX+k974ImWaS10DMuCeJbuIFzO45vRbivrgwJ
+ L8H6pNDJq9yzx2PWuh60O59CNcOJ/dtCDi1sd2X+HZsGvgAzBpecjMA5/1fQDOC4BAm+DoRKpdG
+ 0tbnoO1lDeyPwJ0JC2eCV1BlqMf5jdK+mGuwjwmivYYztUdEoL5dr/F8z/Aliw962+J3NHvcvbC
+ xbpPa/fFAz38dADypYTaIydz/WlHz9EfuIqkZKA/S8pVLzW2HIBoZ/En4i9OZbkrIC1YRnurI8i
+ 66aEasQAtZSnlDGxtBfdyEDd4Ph7VOFL7xKlAdLuGvak6P6eBEx+lBPWV5o7oQvf3HMqmmisBWf
+ XFFuSUEkYassRF46J7si7c6thwg8u6/B6qEIO7egCiW2WjPjkBm651TafCF/IjySIoPMY0eg4CL
+ v0C+kqxM7AenLSpDOxy1wMw5K6faJLKRjBUpQm3IkgaD84LS0qANc02VWvfPMzoxY2YpYe9Sq95
+ cEoj/vK9qke/JFDIztGSpT8Q06VaR/Y1RFRq2TtpR9XfReWS94nMp8z1A09h3D/dX/jFzlljNdI OBEr0pNkAcS8t3A==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 21, 2025 at 9:36=E2=80=AFAM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> Hi Andrei,
->
-> On Thu, Aug 14, 2025 at 06:44:55PM +0000, Andrei Kuchynski wrote:
-> > This patch introduces a priority sysfs attribute to the USB Type-C
-> > alternate mode port interface. This new attribute allows user-space to
-> > configure the numeric priority of alternate modes managing their prefer=
-red
-> > order of operation.
-> >
-> > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> > ---
-> >  Documentation/ABI/testing/sysfs-class-typec | 12 ++++++
-> >  drivers/usb/typec/class.c                   | 47 ++++++++++++++++++++-
-> >  2 files changed, 58 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentatio=
-n/ABI/testing/sysfs-class-typec
-> > index 38e101c17a00..001202d651fa 100644
-> > --- a/Documentation/ABI/testing/sysfs-class-typec
-> > +++ b/Documentation/ABI/testing/sysfs-class-typec
-> > @@ -162,6 +162,18 @@ Description:     Lists the supported USB Modes. Th=
-e default USB mode that is used
-> >               - usb3 (USB 3.2)
-> >               - usb4 (USB4)
-> >
-> > +             What:           /sys/class/typec/<port>/<alt-mode>/priori=
-ty
-> > +Date:                July 2025
-> > +Contact:     Andrei Kuchynski <akuchynski@chromium.org>
-> > +Description:
-> > +             Displays and allows setting the priority for a specific a=
-lt-mode.
-> > +             When read, it shows the current integer priority value. L=
-ower numerical
-> > +             values indicate higher priority (0 is the highest priorit=
-y).
-> > +             If the new value is already in use by another mode, the p=
-riority of the
-> > +             conflicting mode and any subsequent modes will be increme=
-nted until they
-> > +             are all unique.
-> > +             This attribute is visible only if the kernel supports mod=
-e selection.
->
-> I was expecting this to be already used in this series.
->
-> IMO this file should be the only thing the user space needs to use by
-> default at least.
->
+Move ChromeOS Embedded Controller, Gateworks System Controller and
+Kontron sl28cpld Board Management Controller to new subdirectory
+"embedded-controller" matching their purpose.  MFD is coming from Linux
+and does not really fit the actual purpose of this hardware.
 
-No more entries for mode priorities.
-What about the trigger of the process?
-I'm going to introduce a mode_selection binary sysfs attribute in
-the next series. Writing 1 to this attribute will activate the
-mode selection process. Writing 0 will cancel the process and
-exit the currently active mode.
+Rename Gateworks GSC filename to match compatible, as preferred for
+bindings.
 
-> > @@ -469,6 +500,15 @@ static umode_t typec_altmode_attr_is_visible(struc=
-t kobject *kobj,
-> >                               !adev->ops->activate)
-> >                               return 0444;
-> >               }
-> > +     } else if (attr =3D=3D &dev_attr_priority.attr) {
-> > +             if (is_typec_port(adev->dev.parent))  {
-> > +                     struct typec_port *port =3D to_typec_port(adev->d=
-ev.parent);
-> > +
-> > +                     if (!port->alt_mode_override)
-> > +                             return 0;
-> > +             } else
-> > +                     return 0;
-> > +     }
->
-> If we have the local port variable, this should be enough:
->
->                 if (!is_typec_port(adev->dev.parent) || !port->alt_mode_o=
-verride)
->                         return 0;
->
+Acked-by: Michael Walle <mwalle@kernel.org> # for sl28cpld
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
 
-typec_altmode2port is really powerful. Thank you again for this hint!
+Cc: Mathew McBride <matt@traverse.com.au>
 
-> >       return attr->mode;
-> >  }
-> > @@ -2029,6 +2069,7 @@ static void typec_release(struct device *dev)
-> >       typec_mux_put(port->mux);
-> >       typec_retimer_put(port->retimer);
-> >       kfree(port->cap);
-> > +     typec_mode_selection_destroy(port);
-> >       kfree(port);
-> >  }
-> >
-> > @@ -2496,6 +2537,8 @@ typec_port_register_altmode(struct typec_port *po=
-rt,
-> >               to_altmode(adev)->retimer =3D retimer;
-> >       }
-> >
-> > +     typec_mode_set_priority(adev, -1);
->
-> This really should not be necessary. Why can't we set the priority
-> based on the order the drives registers the altmodes for the port?
->
+Lee,
+Can you take it via MFD?
 
-Setting priorities based on the order of registration is a good
-idea. This simplifies the logic by making the default_priorities
-unnecessary.
-I will modify the initialization to call
+Changes in v2:
+1. Correct remaining paths in other schemas ($ref and descriptions)
+---
+ .../bindings/{mfd => embedded-controller}/google,cros-ec.yaml | 2 +-
+ .../gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml}    | 2 +-
+ .../{mfd => embedded-controller}/kontron,sl28cpld.yaml        | 2 +-
+ .../devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml       | 2 +-
+ .../devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml     | 2 +-
+ .../bindings/interrupt-controller/kontron,sl28cpld-intc.yaml  | 2 +-
+ Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml | 2 +-
+ .../devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml         | 2 +-
+ Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml     | 4 ++--
+ .../devicetree/bindings/sound/google,cros-ec-codec.yaml       | 2 +-
+ .../devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml    | 2 +-
+ MAINTAINERS                                                   | 4 ++--
+ 12 files changed, 14 insertions(+), 14 deletions(-)
+ rename Documentation/devicetree/bindings/{mfd => embedded-controller}/google,cros-ec.yaml (99%)
+ rename Documentation/devicetree/bindings/{mfd/gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml} (98%)
+ rename Documentation/devicetree/bindings/{mfd => embedded-controller}/kontron,sl28cpld.yaml (97%)
 
-          typec_mode_set_priority(adev, 0);
+diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml
+similarity index 99%
+rename from Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+rename to Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml
+index 50f457090066..3ab5737c9a8f 100644
+--- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
++++ b/Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
++$id: http://devicetree.org/schemas/embedded-controller/google,cros-ec.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: ChromeOS Embedded Controller
+diff --git a/Documentation/devicetree/bindings/mfd/gateworks-gsc.yaml b/Documentation/devicetree/bindings/embedded-controller/gw,gsc.yaml
+similarity index 98%
+rename from Documentation/devicetree/bindings/mfd/gateworks-gsc.yaml
+rename to Documentation/devicetree/bindings/embedded-controller/gw,gsc.yaml
+index dc379f3ebf24..82d4b2dadbae 100644
+--- a/Documentation/devicetree/bindings/mfd/gateworks-gsc.yaml
++++ b/Documentation/devicetree/bindings/embedded-controller/gw,gsc.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/mfd/gateworks-gsc.yaml#
++$id: http://devicetree.org/schemas/embedded-controller/gw,gsc.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Gateworks System Controller
+diff --git a/Documentation/devicetree/bindings/mfd/kontron,sl28cpld.yaml b/Documentation/devicetree/bindings/embedded-controller/kontron,sl28cpld.yaml
+similarity index 97%
+rename from Documentation/devicetree/bindings/mfd/kontron,sl28cpld.yaml
+rename to Documentation/devicetree/bindings/embedded-controller/kontron,sl28cpld.yaml
+index 37207a97e06c..0b752f3baaa9 100644
+--- a/Documentation/devicetree/bindings/mfd/kontron,sl28cpld.yaml
++++ b/Documentation/devicetree/bindings/embedded-controller/kontron,sl28cpld.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/mfd/kontron,sl28cpld.yaml#
++$id: http://devicetree.org/schemas/embedded-controller/kontron,sl28cpld.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Kontron's sl28cpld board management controller
+diff --git a/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml b/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
+index b032471831e7..02663d67eac7 100644
+--- a/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
+@@ -11,7 +11,7 @@ maintainers:
+ 
+ description: |
+   This module is part of the sl28cpld multi-function device. For more
+-  details see ../mfd/kontron,sl28cpld.yaml.
++  details see ../embedded-controller/kontron,sl28cpld.yaml.
+ 
+   There are three flavors of the GPIO controller, one full featured
+   input/output with interrupt support (kontron,sl28cpld-gpio), one
+diff --git a/Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml
+index 010333cb25c0..5803a1770cad 100644
+--- a/Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml
++++ b/Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml
+@@ -11,7 +11,7 @@ maintainers:
+ 
+ description: |
+   This module is part of the sl28cpld multi-function device. For more
+-  details see ../mfd/kontron,sl28cpld.yaml.
++  details see ../embedded-controller/kontron,sl28cpld.yaml.
+ 
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml
+index e8dfa6507f64..87df07beda59 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml
+@@ -11,7 +11,7 @@ maintainers:
+ 
+ description: |
+   This module is part of the sl28cpld multi-function device. For more
+-  details see ../mfd/kontron,sl28cpld.yaml.
++  details see ../embedded-controller/kontron,sl28cpld.yaml.
+ 
+   The following interrupts are available. All types and levels are fixed
+   and handled by the board management controller.
+diff --git a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
+index f7bc84b05a87..8f5a468cfb91 100644
+--- a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
+@@ -14,7 +14,7 @@ description: |
+   Google's ChromeOS EC PWM is a simple PWM attached to the Embedded Controller
+   (EC) and controlled via a host-command interface.
+   An EC PWM node should be only found as a sub-node of the EC node (see
+-  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml).
++  Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml).
+ 
+ allOf:
+   - $ref: pwm.yaml#
+diff --git a/Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml b/Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml
+index 981cfec53f37..19a9d2e15a96 100644
+--- a/Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml
+@@ -11,7 +11,7 @@ maintainers:
+ 
+ description: |
+   This module is part of the sl28cpld multi-function device. For more
+-  details see ../mfd/kontron,sl28cpld.yaml.
++  details see ../embedded-controller/kontron,sl28cpld.yaml.
+ 
+   The controller supports one PWM channel and supports only four distinct
+   frequencies (250Hz, 500Hz, 1kHz, 2kHz).
+diff --git a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+index adc6b3f36fde..179c98b33b4d 100644
+--- a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
++++ b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+@@ -58,7 +58,7 @@ properties:
+     maxItems: 1
+ 
+   cros-ec-rpmsg:
+-    $ref: /schemas/mfd/google,cros-ec.yaml
++    $ref: /schemas/embedded-controller/google,cros-ec.yaml
+     description:
+       This subnode represents the rpmsg device. The properties
+       of this node are defined by the individual bindings for
+@@ -126,7 +126,7 @@ patternProperties:
+         maxItems: 1
+ 
+       cros-ec-rpmsg:
+-        $ref: /schemas/mfd/google,cros-ec.yaml
++        $ref: /schemas/embedded-controller/google,cros-ec.yaml
+         description:
+           This subnode represents the rpmsg device. The properties
+           of this node are defined by the individual bindings for
+diff --git a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
+index 1434f4433738..dd51e8c5b8c2 100644
+--- a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
++++ b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
+@@ -15,7 +15,7 @@ description: |
+   Embedded Controller (EC) and is controlled via a host-command
+   interface.  An EC codec node should only be found inside the "codecs"
+   subnode of a cros-ec node.
+-  (see Documentation/devicetree/bindings/mfd/google,cros-ec.yaml).
++  (see Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml).
+ 
+ allOf:
+   - $ref: dai-common.yaml#
+diff --git a/Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml b/Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml
+index 179272f74de5..872a8471ef65 100644
+--- a/Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml
+@@ -11,7 +11,7 @@ maintainers:
+ 
+ description: |
+   This module is part of the sl28cpld multi-function device. For more
+-  details see ../mfd/kontron,sl28cpld.yaml.
++  details see ../embedded-controller/kontron,sl28cpld.yaml.
+ 
+ allOf:
+   - $ref: watchdog.yaml#
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7969d09dff17..f3e4c1aa656e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10129,7 +10129,7 @@ F:	drivers/media/i2c/gc2145.c
+ GATEWORKS SYSTEM CONTROLLER (GSC) DRIVER
+ M:	Tim Harvey <tharvey@gateworks.com>
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/mfd/gateworks-gsc.yaml
++F:	Documentation/devicetree/bindings/embedded-controller/gw,gsc.yaml
+ F:	Documentation/hwmon/gsc-hwmon.rst
+ F:	drivers/hwmon/gsc-hwmon.c
+ F:	drivers/mfd/gateworks-gsc.c
+@@ -23177,10 +23177,10 @@ F:	drivers/usb/misc/sisusbvga/
+ SL28 CPLD MFD DRIVER
+ M:	Michael Walle <mwalle@kernel.org>
+ S:	Maintained
++F:	Documentation/devicetree/bindings/embedded-controller/kontron,sl28cpld.yaml
+ F:	Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
+ F:	Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml
+ F:	Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml
+-F:	Documentation/devicetree/bindings/mfd/kontron,sl28cpld.yaml
+ F:	Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml
+ F:	Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml
+ F:	drivers/gpio/gpio-sl28cpld.c
+-- 
+2.48.1
 
-With this change, the later a mode is registered, the higher its
-priority will be. For the cros_ec_typec driver, this produces the
-same default sequence: USB4 TBT DP.
-
-Thanks,
-
-Andrei
-
-
-
-> >       return adev;
-> >  }
-> >  EXPORT_SYMBOL_GPL(typec_port_register_altmode);
-> > @@ -2645,6 +2688,8 @@ struct typec_port *typec_register_port(struct dev=
-ice *parent,
-> >       port->con.attach =3D typec_partner_attach;
-> >       port->con.deattach =3D typec_partner_deattach;
-> >
-> > +     INIT_LIST_HEAD(&port->mode_list);
-> > +
-> >       if (cap->usb_capability & USB_CAPABILITY_USB4)
-> >               port->usb_mode =3D USB_MODE_USB4;
-> >       else if (cap->usb_capability & USB_CAPABILITY_USB3)
->
-> thanks,
->
-> --
-> heikki

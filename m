@@ -1,196 +1,144 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB75A301035
-	for <chrome-platform@lists.linux.dev>; Mon, 25 Aug 2025 14:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B025826D4DD;
+	Tue, 26 Aug 2025 23:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756133899; cv=none; b=qbE/Kvgfup1VmA82NLJQGezDnOUfiPCfaCkRvM96uxXT5U8JEBw3Qd4mnIwDOBifSlgsS94riLb9QEpWwzFqgVKuc4LbvDT0b2Cf2kJw1Y6S4b44aZQ7xpWsdJue8ELR1wfuAWtOGNXj4mYnuZmmzOFF9zDQD5paW3p0mQalRiU=
+	t=1756252245; cv=none; b=Q7CW4RzwrX91TF9kjJq8eEbkStdgcxrxMjfv3fjVf50SYC4A9D/+D3t6zKwhjtrtlnxp2cN9fU6Zn1EqSzIj+uPtb/8EsvbVKL/2OtYP4+6BwCk4JASUr53pFpxEcBB6UOsGOyYACTNwGzu7+tGq71DMUV0/ZnLflq4u5co0uyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756133899; c=relaxed/simple;
-	bh=XF1HMt7dKr2pKHf61hV+dMVYlJL1q20sHlne9+/cMD8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n/HDDU+2WdPuLsx9LcTsGqFEUrRyocamMIyqa2USbRYX7hNBOqB/CiEeVO7Ed9Oqj0wOLvPYe7WN36h9kSURMRPImkx1cqmZgG0JELF1F/LYuZzJbPvfejXlImgpIYYHbJSoxcpqf49CBGxCr9DSIYmrT4clnruzpDDONlue/Hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AoKzbRiM; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1756252245; c=relaxed/simple;
+	bh=07Ku4luLp6tCckZKvoGpBvBDQ0Ywwcemo2l4BS/xWs0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OJaeeNxkprsmccTyyeJIBp56PiKBH6On4kyqx08MY6TqZFwpiv05fpaIs1AyEb19Qzr1lg0nEVI4oCTpMKM87lBoHdWjK3Nvdj+2MwqkaKsB86WhRIZz41T/IZYpY5DRAkV84REITSw9Epsvl7S/GwcAbYDQq5Bch4k/a5kkuQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ku2eS2aL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AoKzbRiM"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb73621fcso601563466b.0
-        for <chrome-platform@lists.linux.dev>; Mon, 25 Aug 2025 07:58:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1756133895; x=1756738695; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q03fJibhKtDh3Ep473H06zamAbGTx2QJY+Jsovc71/Q=;
-        b=AoKzbRiMzQMVlMfPc4Rjeiyx9Qj9Wmf/hsyXqjMYpGAY8xk7P7SqNx98eb2kjU3xNp
-         63j4f1R6JjVGA4qCcwpdz0W4D0H8mEXGQgIn37Vrd2CrLDPbUfV5qzA5NOqGqvXiaC+G
-         IF/0t6v/dwg1a1tgJRQBnLqnuFjDKT+ucmvow=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756133895; x=1756738695;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q03fJibhKtDh3Ep473H06zamAbGTx2QJY+Jsovc71/Q=;
-        b=Lta9QJxh5M8lIvdMmQy7ixr4ED+aZtDUAAOexrRxcbHPrxf+xaRkl5R431IFvw7tvO
-         3QyTQ94cMy41guYswmQ5r+beU5PGi67slSINzazb7MwMAMZ1z/JHXKBmiV1U744YjHTa
-         t6fp6xNZQc7FypyodjcW9SvtfZ7k4q87yI+2dVV/J9IvHGeWGQ9l8O1ddSgJM6PiTVoD
-         Us5tJ+uCzF0o6Fw0CIjpaz6tnLQKQe023TLo1AeMVsC3JW785krQDR5nJECWN5uXuwaE
-         HbSzcygIHQYlaUGyTE4xDf4aTEFg2UYQD3gnY2Yy9Y/DsNsVgl10gjmTBg7hn56d6OvK
-         N7zg==
-X-Forwarded-Encrypted: i=1; AJvYcCWgV+wNQa9B1l27exG8jQfyPZ26SMo2fhD9kta++02gyFEb3P4oD2Kn0H4Ef3kpm0jAjXfmBOvi1wFc2F/cKYc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZEnWZ0qqyawiMHsqyRbPY5kOBoUz6ecRiubA5iFhR9b43UwgO
-	Mk51hO6zjrknt41zxiMBKtPKqkSL+WBObPDeXkJq0i0M7HxjfO/MmKywpAxFPWzRNQ==
-X-Gm-Gg: ASbGncvTp5gillR2Vn4+eYbE0TKN0Yz0fJoKYQkSBQyUlSURO4uHAGlR3RaScUrtavu
-	s5iMgyMz5Oe+/ckpd6FKPMuBnnm7lO4Bym9yoGfspr0Hzl4FfSE+wUhp77nBf3EOG9hBI33O9Z3
-	f8e84gx+uVWK0Mx6ZOZbwkYboRUkDxXWXyk7MkQhgtuA0JgNDN98D0tF+ostvJFyl5f+KYy8APk
-	fGpNRHAqWE3Djyr+fnbeBaQSyCBpDgIAa9QwthQth2swvcHEhTCbbA4+Ef1NfZbH/bZkOqqri/8
-	ZxeGYWyTUUtWoSyMgz/8liQ5Kl3ei5lIGdFfzGRHzvvajnJZM5QNJuBauQz9VPeY9vwdDN3ch6I
-	nfjw46oYVRaQCrMbMYNyxHV/WQnAGcepBQkSTyhPcg9ZIrvww13QqBkTB8SQuC88QQMttlKjDi2
-	lEtnRgc7LyOC1b0pW46f82xhlXw7aGuINBwA==
-X-Google-Smtp-Source: AGHT+IFQk16CgrOBqQfmn0Kw8YzFpuW8oHF6Fa5HEls+UObeDgxxUHP9Lle73RVTSHFp8RT//Y03tg==
-X-Received: by 2002:a17:907:9611:b0:afd:be7d:725 with SMTP id a640c23a62f3a-afe296e8771mr1244313266b.61.1756133895202;
-        Mon, 25 Aug 2025 07:58:15 -0700 (PDT)
-Received: from akuchynski.c.googlers.com.com (168.23.91.34.bc.googleusercontent.com. [34.91.23.168])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe8d03f981sm117294166b.60.2025.08.25.07.58.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 07:58:14 -0700 (PDT)
-From: Andrei Kuchynski <akuchynski@chromium.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	"Christian A. Ehrhardt" <lk@c--e.de>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>,
-	linux-kernel@vger.kernel.org,
-	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH v2 5/5] usb: typec: Expose alternate mode priority via sysfs
-Date: Mon, 25 Aug 2025 14:57:50 +0000
-Message-ID: <20250825145750.58820-6-akuchynski@chromium.org>
-X-Mailer: git-send-email 2.51.0.rc2.233.g662b1ed5c5-goog
-In-Reply-To: <20250825145750.58820-1-akuchynski@chromium.org>
-References: <20250825145750.58820-1-akuchynski@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ku2eS2aL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D91F3C4CEF1;
+	Tue, 26 Aug 2025 23:50:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756252245;
+	bh=07Ku4luLp6tCckZKvoGpBvBDQ0Ywwcemo2l4BS/xWs0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ku2eS2aLuk2BO85gltgp9fViBt3A7nXYGIzz3ko+3i02BU56tWHBUt7SqU2nURtEN
+	 XBBLjuym5594eRddN8//2A0hIq9YGE3uJyHGblP1kjOj68phQ1DzZczKcjxA+BYH7m
+	 beuxjpqZ1t3NkKzgfPTOjhOisGGViCwrEjzxf5/EchC01qkp/d/r0yRVVVq5e9D4ra
+	 9iyKZSacjOMQZjnsjMUDUS7FZcVzPkmSyZlv8uUTxMLQ55Ro7lB9BFk8KSd1dsWumX
+	 ZZ+S+nCkt7tGurJCOCifKfd1hsdFyeaBfVGIOUwIwszL5KLRmkt2m3Rz7ePoD+ElMf
+	 wfPZvM216LTww==
+Date: Tue, 26 Aug 2025 18:50:43 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	linux-watchdog@vger.kernel.org,
+	Mathew McBride <matt@traverse.com.au>,
+	linux-arm-kernel@lists.infradead.org,
+	Michael Walle <mwalle@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Nikita Travkin <nikita@trvn.ru>,
+	Guenter Roeck <groeck@chromium.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-mediatek@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-sound@vger.kernel.org,
+	Cheng-Yi Chiang <cychiang@chromium.org>,
+	linux-hwmon@vger.kernel.org, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Pengyu Luo <mitltlatltl@gmail.com>, linux-gpio@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>,
+	linux-pwm@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Tinghan Shen <tinghan.shen@mediatek.com>
+Subject: Re: [PATCH v3] dt-bindings: mfd: Move embedded controllers to own
+ directory
+Message-ID: <175625224288.764159.13881647192010727208.robh@kernel.org>
+References: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
 
-This patch introduces a priority sysfs attribute to the USB Type-C
-alternate mode port interface. This new attribute allows user-space to
-configure the numeric priority of alternate modes managing their preferred
-order of operation.
 
-Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
----
- Documentation/ABI/testing/sysfs-class-typec | 11 +++++++
- drivers/usb/typec/class.c                   | 32 ++++++++++++++++++++-
- 2 files changed, 42 insertions(+), 1 deletion(-)
+On Mon, 25 Aug 2025 10:12:02 +0200, Krzysztof Kozlowski wrote:
+> Move several embedded controller bindings (like ChromeOS EC, Gateworks
+> System Controller and Kontron sl28cpld Board Management) to new
+> subdirectory "embedded-controller" matching their purpose.
+> 
+> An embedded controller (EC) is a discrete component that contains a
+> microcontroller (i.e. a small CPU running a small firmware without
+> operating system) mounted into a larger computer system running
+> a fully fledged operating system that needs to utilize the embedded
+> controller as part of its operation.
+> 
+> So far the EC bindings were split between "mfd" and "platform"
+> directory.  MFD name comes from Linux, not hardware, and "platform" is a
+> bit too generic.
+> 
+> Rename Gateworks GSC and Huawei Gaokun filenames to match compatible, as
+> preferred for bindings.
+> 
+> Acked-by: Michael Walle <mwalle@kernel.org> # for sl28cpld
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+> 
+> Lee,
+> Can you take it via MFD?
+> There is a patch on the lists touching kontron,sl28cpld.
+> 
+> Changes in v3:
+> 1. Move more files from "platform" directory.
+> 2. Grow commit msg, based on feedback from Linus.
+> 3. Add Rb (patch changed, though).
+> 
+> Changes in v2:
+> 1. Correct remaining paths in other schemas ($ref and descriptions).
+> 2. Add Ack.
+> 
+> Cc: Mathew McBride <matt@traverse.com.au>
+> ---
+>  .../{platform => embedded-controller}/acer,aspire1-ec.yaml  | 2 +-
+>  .../{mfd => embedded-controller}/google,cros-ec.yaml        | 2 +-
+>  .../gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml}  | 2 +-
+>  .../huawei,gaokun3-ec.yaml}                                 | 2 +-
+>  .../{mfd => embedded-controller}/kontron,sl28cpld.yaml      | 2 +-
+>  .../lenovo,yoga-c630-ec.yaml                                | 2 +-
+>  .../microsoft,surface-sam.yaml                              | 2 +-
+>  .../devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml     | 2 +-
+>  .../devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml   | 2 +-
+>  .../interrupt-controller/kontron,sl28cpld-intc.yaml         | 2 +-
+>  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml         | 2 +-
+>  .../devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml       | 2 +-
+>  Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml   | 4 ++--
+>  .../devicetree/bindings/sound/google,cros-ec-codec.yaml     | 2 +-
+>  .../devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml  | 2 +-
+>  MAINTAINERS                                                 | 6 +++---
+>  16 files changed, 19 insertions(+), 19 deletions(-)
+>  rename Documentation/devicetree/bindings/{platform => embedded-controller}/acer,aspire1-ec.yaml (94%)
+>  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/google,cros-ec.yaml (99%)
+>  rename Documentation/devicetree/bindings/{mfd/gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml} (98%)
+>  rename Documentation/devicetree/bindings/{platform/huawei,gaokun-ec.yaml => embedded-controller/huawei,gaokun3-ec.yaml} (97%)
+>  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/kontron,sl28cpld.yaml (97%)
+>  rename Documentation/devicetree/bindings/{platform => embedded-controller}/lenovo,yoga-c630-ec.yaml (95%)
+>  rename Documentation/devicetree/bindings/{platform => embedded-controller}/microsoft,surface-sam.yaml (92%)
+> 
 
-diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-index 38e101c17a00..dab3e4e727b6 100644
---- a/Documentation/ABI/testing/sysfs-class-typec
-+++ b/Documentation/ABI/testing/sysfs-class-typec
-@@ -162,6 +162,17 @@ Description:	Lists the supported USB Modes. The default USB mode that is used
- 		- usb3 (USB 3.2)
- 		- usb4 (USB4)
- 
-+		What:		/sys/class/typec/<port>/<alt-mode>/priority
-+Date:		July 2025
-+Contact:	Andrei Kuchynski <akuchynski@chromium.org>
-+Description:
-+		Displays and allows setting the priority for a specific alt-mode.
-+		When read, it shows the current integer priority value. Lower numerical
-+		values indicate higher priority (0 is the highest priority).
-+		If the new value is already in use by another mode, the priority of the
-+		conflicting mode and any subsequent modes will be incremented until they
-+		are all unique.
-+
- USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
- 
- What:		/sys/class/typec/<port>-partner/accessory_mode
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 9f86605ce125..aaab2e1e98b4 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -19,6 +19,7 @@
- #include "bus.h"
- #include "class.h"
- #include "pd.h"
-+#include "mode_selection.h"
- 
- static DEFINE_IDA(typec_index_ida);
- 
-@@ -445,11 +446,34 @@ svid_show(struct device *dev, struct device_attribute *attr, char *buf)
- }
- static DEVICE_ATTR_RO(svid);
- 
-+static ssize_t priority_store(struct device *dev,
-+			       struct device_attribute *attr,
-+			       const char *buf, size_t size)
-+{
-+	unsigned int val;
-+	int err = kstrtouint(buf, 10, &val);
-+
-+	if (!err) {
-+		typec_mode_set_priority(to_typec_altmode(dev), val);
-+		return size;
-+	}
-+
-+	return err;
-+}
-+
-+static ssize_t priority_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
-+{
-+	return sprintf(buf, "%u\n", to_typec_altmode(dev)->priority);
-+}
-+static DEVICE_ATTR_RW(priority);
-+
- static struct attribute *typec_altmode_attrs[] = {
- 	&dev_attr_active.attr,
- 	&dev_attr_mode.attr,
- 	&dev_attr_svid.attr,
- 	&dev_attr_vdo.attr,
-+	&dev_attr_priority.attr,
- 	NULL
- };
- 
-@@ -459,11 +483,15 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
- 	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
- 	struct typec_port *port = typec_altmode2port(adev);
- 
--	if (attr == &dev_attr_active.attr)
-+	if (attr == &dev_attr_active.attr) {
- 		if (!is_typec_port(adev->dev.parent)) {
- 			if (!port->mode_control || !adev->ops || !adev->ops->activate)
- 				return 0444;
- 		}
-+	} else if (attr == &dev_attr_priority.attr) {
-+		if (!is_typec_port(adev->dev.parent) || !port->mode_control)
-+			return 0;
-+	}
- 
- 	return attr->mode;
- }
-@@ -2491,6 +2519,8 @@ typec_port_register_altmode(struct typec_port *port,
- 		to_altmode(adev)->retimer = retimer;
- 	}
- 
-+	typec_mode_set_priority(adev, 0);
-+
- 	return adev;
- }
- EXPORT_SYMBOL_GPL(typec_port_register_altmode);
--- 
-2.51.0.rc2.233.g662b1ed5c5-goog
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 

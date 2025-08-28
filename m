@@ -1,144 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B025826D4DD;
-	Tue, 26 Aug 2025 23:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BDA1E47C5;
+	Thu, 28 Aug 2025 08:36:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756252245; cv=none; b=Q7CW4RzwrX91TF9kjJq8eEbkStdgcxrxMjfv3fjVf50SYC4A9D/+D3t6zKwhjtrtlnxp2cN9fU6Zn1EqSzIj+uPtb/8EsvbVKL/2OtYP4+6BwCk4JASUr53pFpxEcBB6UOsGOyYACTNwGzu7+tGq71DMUV0/ZnLflq4u5co0uyc=
+	t=1756370181; cv=none; b=HEmml2HyBoGXi7h+IeoOWnsiJwDRcLLJq1V2AUWoO7z1++E4p0SA/UMQfRQ6jo6BX3FuDJSNiB6fRZJP4Sab/3W7ZvSQdGkt1Ry1LUmzJ4I3NdL8ait+iB3XFgkOGC1v97l07e63eEQ3MovgA6r9KMQcwzgrRWDKxoNrsq/OPi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756252245; c=relaxed/simple;
-	bh=07Ku4luLp6tCckZKvoGpBvBDQ0Ywwcemo2l4BS/xWs0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OJaeeNxkprsmccTyyeJIBp56PiKBH6On4kyqx08MY6TqZFwpiv05fpaIs1AyEb19Qzr1lg0nEVI4oCTpMKM87lBoHdWjK3Nvdj+2MwqkaKsB86WhRIZz41T/IZYpY5DRAkV84REITSw9Epsvl7S/GwcAbYDQq5Bch4k/a5kkuQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ku2eS2aL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756370181; c=relaxed/simple;
+	bh=7ZAAcxyHx+pgUA7PYtgrFdWy1bB9tScFDnnps51MMmE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K0G6BQ2tkk0MiQXMw9yVcj93kPciOt0OyIjXZCslgzJzZiOmKuhYGZj4xgravuFZKKnKEv8YbJcdlB5TEhztzLethWP1Hc+riNSNGLlL95YVQN8h3HBy2YJX4iT9uSBkI3ojRQCxXE9UUKWS9RSD7/eN3xGsv6vJk4F9MzGELnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=acksNDrO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ku2eS2aL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D91F3C4CEF1;
-	Tue, 26 Aug 2025 23:50:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="acksNDrO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17F13C4CEEB;
+	Thu, 28 Aug 2025 08:36:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756252245;
-	bh=07Ku4luLp6tCckZKvoGpBvBDQ0Ywwcemo2l4BS/xWs0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ku2eS2aLuk2BO85gltgp9fViBt3A7nXYGIzz3ko+3i02BU56tWHBUt7SqU2nURtEN
-	 XBBLjuym5594eRddN8//2A0hIq9YGE3uJyHGblP1kjOj68phQ1DzZczKcjxA+BYH7m
-	 beuxjpqZ1t3NkKzgfPTOjhOisGGViCwrEjzxf5/EchC01qkp/d/r0yRVVVq5e9D4ra
-	 9iyKZSacjOMQZjnsjMUDUS7FZcVzPkmSyZlv8uUTxMLQ55Ro7lB9BFk8KSd1dsWumX
-	 ZZ+S+nCkt7tGurJCOCifKfd1hsdFyeaBfVGIOUwIwszL5KLRmkt2m3Rz7ePoD+ElMf
-	 wfPZvM216LTww==
-Date: Tue, 26 Aug 2025 18:50:43 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	linux-watchdog@vger.kernel.org,
-	Mathew McBride <matt@traverse.com.au>,
-	linux-arm-kernel@lists.infradead.org,
-	Michael Walle <mwalle@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Nikita Travkin <nikita@trvn.ru>,
-	Guenter Roeck <groeck@chromium.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-mediatek@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	linux-sound@vger.kernel.org,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	linux-hwmon@vger.kernel.org, Tzung-Bi Shih <tzungbi@kernel.org>,
-	Pengyu Luo <mitltlatltl@gmail.com>, linux-gpio@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>,
-	linux-pwm@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Tinghan Shen <tinghan.shen@mediatek.com>
-Subject: Re: [PATCH v3] dt-bindings: mfd: Move embedded controllers to own
- directory
-Message-ID: <175625224288.764159.13881647192010727208.robh@kernel.org>
-References: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
+	s=k20201202; t=1756370181;
+	bh=7ZAAcxyHx+pgUA7PYtgrFdWy1bB9tScFDnnps51MMmE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=acksNDrOCZ5mYiTfQZBsEC/xFige0fUcOwR2YQPju0SI8qe/xa5t4bUw9a8RWvdaG
+	 UD/fYaAZkDpXxN3/ns4S5fqB6V9vqH9onDDYBhq8V358HEjNLcO5pXC+oGn0T7WRnx
+	 b6qslOKdQ6IBm2Fqkl25FltOwkrCmFVjaBHc8KltaHYmSXA09Cxfs61GA+VcwGGVQu
+	 dhUo3R8KnRydhOA6s13FSHmEDd7UmRQE1SXoP2uoefzaqajj4RVgbQKHUBjaHN0C+C
+	 CwY9FQ2U0jBA8gDX3NarqSXhjbrIadW2/ncH4xZx9Vw3gMzzLeMOBMG/gLY51SV2I3
+	 yLlvD1HR2vdIA==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Benson Leung <bleung@chromium.org>
+Cc: tzungbi@kernel.org,
+	linux-input@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH 0/5] platform/chrome: Fix a race when probing drivers
+Date: Thu, 28 Aug 2025 08:35:56 +0000
+Message-ID: <20250828083601.856083-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.51.0.268.g9569e192d0-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
 
+A race is observed when cros_ec_lpc and cros-ec-keyb are all built as
+modules.  cros_ec_lpc is cros-ec-keyb's parent.  However, they can be
+probed at the same time.
 
-On Mon, 25 Aug 2025 10:12:02 +0200, Krzysztof Kozlowski wrote:
-> Move several embedded controller bindings (like ChromeOS EC, Gateworks
-> System Controller and Kontron sl28cpld Board Management) to new
-> subdirectory "embedded-controller" matching their purpose.
-> 
-> An embedded controller (EC) is a discrete component that contains a
-> microcontroller (i.e. a small CPU running a small firmware without
-> operating system) mounted into a larger computer system running
-> a fully fledged operating system that needs to utilize the embedded
-> controller as part of its operation.
-> 
-> So far the EC bindings were split between "mfd" and "platform"
-> directory.  MFD name comes from Linux, not hardware, and "platform" is a
-> bit too generic.
-> 
-> Rename Gateworks GSC and Huawei Gaokun filenames to match compatible, as
-> preferred for bindings.
-> 
-> Acked-by: Michael Walle <mwalle@kernel.org> # for sl28cpld
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> 
-> Lee,
-> Can you take it via MFD?
-> There is a patch on the lists touching kontron,sl28cpld.
-> 
-> Changes in v3:
-> 1. Move more files from "platform" directory.
-> 2. Grow commit msg, based on feedback from Linus.
-> 3. Add Rb (patch changed, though).
-> 
-> Changes in v2:
-> 1. Correct remaining paths in other schemas ($ref and descriptions).
-> 2. Add Ack.
-> 
-> Cc: Mathew McBride <matt@traverse.com.au>
-> ---
->  .../{platform => embedded-controller}/acer,aspire1-ec.yaml  | 2 +-
->  .../{mfd => embedded-controller}/google,cros-ec.yaml        | 2 +-
->  .../gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml}  | 2 +-
->  .../huawei,gaokun3-ec.yaml}                                 | 2 +-
->  .../{mfd => embedded-controller}/kontron,sl28cpld.yaml      | 2 +-
->  .../lenovo,yoga-c630-ec.yaml                                | 2 +-
->  .../microsoft,surface-sam.yaml                              | 2 +-
->  .../devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml     | 2 +-
->  .../devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml   | 2 +-
->  .../interrupt-controller/kontron,sl28cpld-intc.yaml         | 2 +-
->  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml         | 2 +-
->  .../devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml       | 2 +-
->  Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml   | 4 ++--
->  .../devicetree/bindings/sound/google,cros-ec-codec.yaml     | 2 +-
->  .../devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml  | 2 +-
->  MAINTAINERS                                                 | 6 +++---
->  16 files changed, 19 insertions(+), 19 deletions(-)
->  rename Documentation/devicetree/bindings/{platform => embedded-controller}/acer,aspire1-ec.yaml (94%)
->  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/google,cros-ec.yaml (99%)
->  rename Documentation/devicetree/bindings/{mfd/gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml} (98%)
->  rename Documentation/devicetree/bindings/{platform/huawei,gaokun-ec.yaml => embedded-controller/huawei,gaokun3-ec.yaml} (97%)
->  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/kontron,sl28cpld.yaml (97%)
->  rename Documentation/devicetree/bindings/{platform => embedded-controller}/lenovo,yoga-c630-ec.yaml (95%)
->  rename Documentation/devicetree/bindings/{platform => embedded-controller}/microsoft,surface-sam.yaml (92%)
-> 
+Example:
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
++ -----------------------------------------------------------------+
+| Some init process (e.g. udevd) | deferred_probe_work_func worker |
++ -----------------------------------------------------------------+
+| Probe cros-ec-keyb.            |                                 |
+| - Decide to defer[1].          |                                 |
+|                                | A device bound to a driver[2].  |
+| Probe cros_ec_lpc.             |                                 |
+| - Init the struct[3].          |                                 |
+|                                | Retry cros-ec-keyb from the     |
+|                                | deferred list[4].               |
+|                                | - Won't defer again as [3].     |
+|                                | - Access uninitialized data in  |
+|                                |   the struct.                   |
+| - Register the device.         |                                 |
++ -----------------------------------------------------------------+
+
+[1] https://elixir.bootlin.com/linux/v6.16/source/drivers/input/keyboard/cros_ec_keyb.c#L707
+[2] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L405
+[3] https://elixir.bootlin.com/linux/v6.16/source/drivers/platform/chrome/cros_ec_lpc.c#L644
+[4] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L418
+
+Note that the device link[5] can't help as in the observed environment,
+the devices are already added via device_add()[6].
+
+[5] https://www.kernel.org/doc/html/latest/driver-api/device_link.html#usage
+[6] https://elixir.bootlin.com/linux/v6.16/source/drivers/acpi/acpi_platform.c#L177
+
+The series fixes the issue by ensuring the struct is ready for accessing
+before continuing to probe cros-ec-keyb.
+
+The 1st - 3rd patches are preparatory steps to allow the per-device lock
+can be used even if the struct cros_ec_device is unregistered.
+
+The 4th patch introduces a new flag `registered` and use the lock for
+protecting the flag.
+
+The 5th patch defers probe if the struct cros_ec_device is not ready yet.
+
+Tzung-Bi Shih (5):
+  platform/chrome: Centralize cros_ec_device allocation
+  platform/chrome: Centralize common cros_ec_device initialization
+  platform/chrome: cros_ec: Separate initialization from
+    cros_ec_register()
+  platform/chrome: cros_ec: Add a flag to track registration state
+  Input: cros_ec_keyb - Defer probe until parent EC device is registered
+
+ drivers/input/keyboard/cros_ec_keyb.c       |  6 ++
+ drivers/platform/chrome/cros_ec.c           | 85 ++++++++++++++-------
+ drivers/platform/chrome/cros_ec.h           |  3 +
+ drivers/platform/chrome/cros_ec_i2c.c       |  9 +--
+ drivers/platform/chrome/cros_ec_ishtp.c     |  6 +-
+ drivers/platform/chrome/cros_ec_lpc.c       |  6 +-
+ drivers/platform/chrome/cros_ec_proto.c     | 15 ++++
+ drivers/platform/chrome/cros_ec_rpmsg.c     |  6 +-
+ drivers/platform/chrome/cros_ec_spi.c       |  7 +-
+ drivers/platform/chrome/cros_ec_uart.c      |  6 +-
+ include/linux/platform_data/cros_ec_proto.h | 18 ++++-
+ 11 files changed, 103 insertions(+), 64 deletions(-)
+
+-- 
+2.51.0.268.g9569e192d0-goog
 

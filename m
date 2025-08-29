@@ -1,108 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFEE2BB13;
-	Thu, 28 Aug 2025 08:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76BD2D24AE
+	for <chrome-platform@lists.linux.dev>; Fri, 29 Aug 2025 11:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756370477; cv=none; b=gMNWP+e+o2a5DpljYnyL3M82eL8SMoc05pcNi8SMBErByaT6oC5gUCidL/fhk1uAdXqQCh2JWBmLNBnh5+j1z2O4i4PbMQBUsdxaSizlM++snr+HcqwLxfUk4d84SdsVqhMSc0BEL6EcX19OPfAaizGf/IkihP5vNybYcZvbmsI=
+	t=1756466944; cv=none; b=r8u22hL81DXYsre9m3JuXD2rdVYpaDccsT/EeMMJcOFPGjw9hcoiJfp+JnCHNI5pibrgpSjnfjmJIntC78ZaP1gjgEHIy1t5ndcqz8hABDys5xxNfbfc36XWmcP/VpKgez33Q7pVrMqOxmqzGatgOvaUHcyC3KTjEpEHtb9SESA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756370477; c=relaxed/simple;
-	bh=3Tr7ht9RaQ1mmZzlO0RWE9wqu1IpyyKJ3Q2xB3+M7QM=;
+	s=arc-20240116; t=1756466944; c=relaxed/simple;
+	bh=i+imFVcKQoTRvA94JW8BwscPfzjUHIJPFezkYRwAAUg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sKfVGegQvWqRGjdTM0q4Np7JNPp7xx8oHsEjnEZAWg6txIP2LVC8AWl5+UUYaa4AGSVRTMm7VYeSipBwguuEld0/s7/Nn3AbBNpSv1VcZoA8C9NkEoVbCgJaMqaxgPMbBQQaXOpKAVRbemIUILDkowdMAz6qCMxoIAudhbYXruY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+HJy0Ew; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZHjvjb1ZiO8Bvu9ph1Mtx2jeUTdRjpd4oMjVM3aAdQQ/K2xFHVe73ZfM2O3dkBSU8OCMahCpaxaoIzk6Y1GbGJC/oUCY6hXCBoj1yE5uS8lLh2yIXDkG6cSuKKWzw2KVLHtjPFNobIUukEhrXYYEVzduHeHWfcDiZURy3UbA7rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TEUKSYlH; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+HJy0Ew"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17307C4CEEB;
-	Thu, 28 Aug 2025 08:41:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756370476;
-	bh=3Tr7ht9RaQ1mmZzlO0RWE9wqu1IpyyKJ3Q2xB3+M7QM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i+HJy0Ew6hxAO2ybuI1qit4HkoBlZ+7pblW6gIadxFLxIlQlYDAJ55feMih3YrlkG
-	 U/OQWKmE/4fIKVNQMqQzwFvDc3o/1U7xVm6gSEdDeCI5Z9IunyRsh7TlxXEIlRwDBU
-	 tKeZ1J3RpTChQ3ALGyv/P+B5yQea2XBiaxUz745RBIt9UJxfNT0OPIwEEmcvgoZ1JO
-	 BxDiW8gmo2zQlj6iqsRWaEwTjnAX+ojxq9lDBHc2d/9//CpdDzqXwjxd9Cfe9yAPzE
-	 /Yj45O64u0VGI9XSt2XEMa2C7ZoHxNLnyQY9zT+LQU5UQ6McM9rQtRxUj2hTcNzLhc
-	 7VcwBTal4Mo4Q==
-Date: Thu, 28 Aug 2025 10:41:10 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Pengyu Luo <mitltlatltl@gmail.com>,
-	Michael Walle <mwalle@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jean Delvare <jdelvare@suse.com>,
-	Thomas Gleixner <tglx@linutronix.de>, Lee Jones <lee@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Nikita Travkin <nikita@trvn.ru>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tinghan Shen <tinghan.shen@mediatek.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	Mathew McBride <matt@traverse.com.au>
-Subject: Re: [PATCH v3] dt-bindings: mfd: Move embedded controllers to own
- directory
-Message-ID: <aLAWJn4yKukvaIro@finisterre.sirena.org.uk>
-References: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TEUKSYlH"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45a1b0c52f3so11782385e9.3
+        for <chrome-platform@lists.linux.dev>; Fri, 29 Aug 2025 04:29:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756466941; x=1757071741; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IECroD+5xRBd7kOVpD/heIMCG2GWKaw/GtnaUMuAQGg=;
+        b=TEUKSYlH5Se1EngTFWa82ol+QMW9ih1NYLKQOG7Cl9/yTL3KavbQ+qHxtTwZShLpFE
+         B8iLaKiiVIhGIJ2glLtr6+qf1jugxukqv1wUHB0YOGPIbCM07WqbGfCSS64tEPUmp0Qa
+         jllZMYOCeHR6+hFwhAfhLqgJijPs2tfAwQliJ00ETjT1rbVE+dcCKK+PJ+L6McCqzJtc
+         slSxQi3RWPutfTl2e3FaFs4VNnybvvbtkLtyL8lkLyea179yTVdY7hJvWNjA+ISBlQ/j
+         qsBR1er5RLblsHbSwpNccFVlSjHmQoTLoU7UB1bA+VkPrEe5DGCV9+r1KpGlKbJz5ZD/
+         zi0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756466941; x=1757071741;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IECroD+5xRBd7kOVpD/heIMCG2GWKaw/GtnaUMuAQGg=;
+        b=ZxC77goPB6kc0qigX51ezsTr8sAD4289KQG52Lt9YB3h/SrDPw8zcRYpIkEF+3W4iV
+         wNpk0eIV7qQmuWrV2qnh1OFlMn3hg5faBlMPADjfgF/NqygVHkm2a2MxT5PdcxKJWwk5
+         CGrCYK8cGiuyRIa75qKmd/c7cxE+Sk+FgGSfyKst+FiICQJvT0VdWHx8OaZTasWdRCsT
+         v/natip7H2m/BpUHZ0wNpKjv20HK3hMDZKXA9ob3Q26ZoP3t9xld69S2al3lHfD4682d
+         48DW/n7Elb04EcWaV8bPTTjgbvb1mRbx03vLqV67C+pW23LKqWtoxU1gnjoHQnaUWbVx
+         6O4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXw7Md3wbhDNG55jETlSfUA3n+pAKwG96odZRLYFle4Jky9HgaKrCEObKzSJyjp6TN6hv4qleAhQuzhEyRwS4g=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKrv61MQLByl++Tt0ffcUWjP6Rd5JtM4h6sQhzbE5Z9Rk+bqpo
+	Ub041/3CrODrBUPd6bnHXRs2myc/jlmuXU0I65Ut7kJNLJ0U2tPAHwO8
+X-Gm-Gg: ASbGnctQ/5JKG05h/QhQzNd/r4iuypK8lUrAE4nrXn5sJ5Q585E8mpl469igHsTwkau
+	2kx7ZDJXftvtxxEvvt4LQwlYoyOUcLd+enc/eHB4jdNNpU385I09vgq/1jLpcvyeNK9SPVMuOkL
+	wJwWTJBrkRe/adTOI9IxsCwnmnckGts5fiQLOVWmoBm0kVKk5vFB0+0f2ujt/cX+XaDf5Lguy5J
+	Ffo2z1/MsIkYz0INqe2CGSKXEsufihXapnJnrBwWmkcUF8MMRw0uSI54AvwUkNMXz0eX8UUuj2t
+	qMTu8UUVJwUUOak+iqzUWgRhLFFBxf4kX4sqjzsGD5t1bBtrPlVRgiQT4ECZDTmVzYaPlvi3Opb
+	0gMdwjcq4pxKDtTA7TovQ3psFKKl1yOMXnvNiYXC3sekqfsPU+K3akfll
+X-Google-Smtp-Source: AGHT+IH7WrEizvpVr5WdiWE4chzzJhxdmZ89DQpCDiCqgUKg5HgaNojfO1SAIwyFEC6teL6gWWKCdQ==
+X-Received: by 2002:a05:600c:3b15:b0:458:c059:7db1 with SMTP id 5b1f17b1804b1-45b517d4580mr259667095e9.30.1756466940997;
+        Fri, 29 Aug 2025 04:29:00 -0700 (PDT)
+Received: from google.com (brn-rj-tbond06.sa.cz. [185.94.55.135])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cf276d5e5fsm3098209f8f.27.2025.08.29.04.28.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Aug 2025 04:29:00 -0700 (PDT)
+Date: Fri, 29 Aug 2025 11:28:55 +0000
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-input@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 0/5] platform/chrome: Fix a race when probing drivers
+Message-ID: <sqgfgwmbpxvaszyxt4mymne6dvhzjvuifogsqjdu6j3tm436ph@x7chldp3dfpr>
+References: <20250828083601.856083-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ok3vOuHD1C4RwPWT"
-Content-Disposition: inline
-In-Reply-To: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
-X-Cookie: Filmed before a live audience.
-
-
---ok3vOuHD1C4RwPWT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250828083601.856083-1-tzungbi@kernel.org>
 
-On Mon, Aug 25, 2025 at 10:12:02AM +0200, Krzysztof Kozlowski wrote:
+Hi Tzung-Bi,
 
-> Move several embedded controller bindings (like ChromeOS EC, Gateworks
-> System Controller and Kontron sl28cpld Board Management) to new
-> subdirectory "embedded-controller" matching their purpose.
+On Thu, Aug 28, 2025 at 08:35:56AM +0000, Tzung-Bi Shih wrote:
+> A race is observed when cros_ec_lpc and cros-ec-keyb are all built as
+> modules.  cros_ec_lpc is cros-ec-keyb's parent.  However, they can be
+> probed at the same time.
+> 
+> Example:
+> 
+> + -----------------------------------------------------------------+
+> | Some init process (e.g. udevd) | deferred_probe_work_func worker |
+> + -----------------------------------------------------------------+
+> | Probe cros-ec-keyb.            |                                 |
+> | - Decide to defer[1].          |                                 |
+> |                                | A device bound to a driver[2].  |
+> | Probe cros_ec_lpc.             |                                 |
+> | - Init the struct[3].          |                                 |
+> |                                | Retry cros-ec-keyb from the     |
+> |                                | deferred list[4].               |
+> |                                | - Won't defer again as [3].     |
+> |                                | - Access uninitialized data in  |
+> |                                |   the struct.                   |
+> | - Register the device.         |                                 |
+> + -----------------------------------------------------------------+
+> 
+> [1] https://elixir.bootlin.com/linux/v6.16/source/drivers/input/keyboard/cros_ec_keyb.c#L707
+> [2] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L405
+> [3] https://elixir.bootlin.com/linux/v6.16/source/drivers/platform/chrome/cros_ec_lpc.c#L644
+> [4] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L418
+> 
+> Note that the device link[5] can't help as in the observed environment,
+> the devices are already added via device_add()[6].
+> 
+> [5] https://www.kernel.org/doc/html/latest/driver-api/device_link.html#usage
+> [6] https://elixir.bootlin.com/linux/v6.16/source/drivers/acpi/acpi_platform.c#L177
+> 
+> The series fixes the issue by ensuring the struct is ready for accessing
+> before continuing to probe cros-ec-keyb.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Why is the keyboard platform device instantiated before the transport
+(cros_ec_lpc) is done initializing? I think this is the root of the
+issue...
 
---ok3vOuHD1C4RwPWT
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiwFiYACgkQJNaLcl1U
-h9CEPwf+J550xIwuw8AaUZo+9pOj1PHT+041UckMzvPlutaXGGQ0l4+E8dgv/+F5
-axHPEuZztWIxiajWwLHso4HcDQbXtz7U1ALEbjoR8G7/JPWMxQpS0eO5N1bRmUOj
-rc6R/jGPW+GoVTTmHjq0++Xh2GRWNt6QnW4HzGnn0RwHwxsRYmk1Yr6y2j94fhNP
-QiAb/bFASf2nQ7bV1md6JI9BUwyrwJgqBI0/pXB7fzptET77UeuwX+D3S3Pl/zll
-mFnmPDlfcdfIRP3D4HydviJc9WBRhkXmcnRa51abojkg2IcABSiTgbW4juQomD9G
-7CJMLCouGZOv5SS74saYf09DXOJltw==
-=G0XQ
------END PGP SIGNATURE-----
-
---ok3vOuHD1C4RwPWT--
+-- 
+Dmitry

@@ -1,128 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA5123D7C4;
-	Tue,  2 Sep 2025 15:20:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C4E2D1F5E;
+	Wed,  3 Sep 2025 07:35:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756826452; cv=none; b=theXT/1Y9lsMbKIdUcBOFsGiK6pEhlM0YxKpcgetTiJW0Ovr/Z5G1oTiPJVLeI9cHYps+wa1KZfR1ebVgjsePoEgHOQP/Vr9JtPD5aMfvq97FfWmwVzXknAgYlvoFOLzhc1OcNYtGvY1XEghdHxe/1xacqgASQf6khNg5CexZ4U=
+	t=1756884912; cv=none; b=EQr0+zlVTpwtPp3hCr1FpiPtKzh3WhdEBHi7Ivl+BJIaQaPZUtMMhVj7cJKOLNWKXn5axSgPwhp7dZ2pDf2/A7lVo+G4nEewdERr7G8Wz9LTePeAxwibvvTsyVUKEmWZrJ0FwGIZMwb8oXZvG2WdXklxTLB6u/TYy+DAZTUce0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756826452; c=relaxed/simple;
-	bh=PgnpS+OJ+OH80B0RKl39e2pHarXjAdJZp7WT5DCSVcU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nKhA5fQEUm+XAEyeiy4bSVYEKewUguKiQAORaNu69+6KJW2Py7Qbgg+NKUntBvxCYPjOhLWatWPztGIJIw1p+Bm9OSx4Jjk8xawycZrLBl0S0fhuNJtBrL8cGdevB8eq7h4PJpYqBGJtQniW+8qwJZuqpTOQ/FFH+dEpF+vaAg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2Rup3PT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756884912; c=relaxed/simple;
+	bh=8C3xjebS5A1uXK6PAJoBtn+sEHJWk+k90S1IcWEwjIA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Sta/TAg2uHOFatbp/dOwx29n2sQ6MRF//OFA17n/Mnz0MlapieCq21GSL33bkwzFEUIM4ktebNiJh7MyOp2K7VA41PKDec1Mb+a11Kc69BJw7afiUWxqN7ilS77OzqdQGYS7991rtCp4QivFGlu/W9kpqFIaOvdCil27+Son2CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M73gP3w1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2Rup3PT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 991B9C4CEED;
-	Tue,  2 Sep 2025 15:20:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M73gP3w1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC3CC4CEF1;
+	Wed,  3 Sep 2025 07:35:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756826451;
-	bh=PgnpS+OJ+OH80B0RKl39e2pHarXjAdJZp7WT5DCSVcU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q2Rup3PTliTol+0fzWRBDpCRhts7KHhL2QASNisikZ4XIMfu3INaRFmqz2v7TwpAd
-	 e8JEhL6HcgifGBcBHa2mz8+8dj3exN59qmN9HEPNCwqojBqXBs8ZvlC+Rj0vsWi/Eg
-	 a68NQBn0ql05cXZu+ayVXgnt/twOLZDM5JHr960wRqLeDSu1wvMNn+eVBCQaz+B1wq
-	 C0MF814H1j8X/HLTzo2vBDTD1ojE0M+e4RGPCYefs9cfk77EkOwBnk25uOeNVk7u8N
-	 z6T1Jq5uFg/FAZA9p0XoFHz4DLCzPDSlWSUlCh47zJsSGOLREUIXImF3KRNsNWvBAo
-	 64uoXcVgwHAEA==
-Message-ID: <63e43445-ef5f-49b2-85c1-f85d95426d5d@kernel.org>
-Date: Tue, 2 Sep 2025 17:20:41 +0200
+	s=k20201202; t=1756884911;
+	bh=8C3xjebS5A1uXK6PAJoBtn+sEHJWk+k90S1IcWEwjIA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=M73gP3w1W942MyxGPW01eX6vsT8OmQh3y23c5PTiaE+RaIv38yilqSRlEaMYQKisS
+	 YPdKyJmmD9bnCNvETJSIsXUAZGH52h91XwQkJJQrcgFxmDXzLKckKLQXZALgPEo+OQ
+	 nAng21hE2oG2216hOXxbcdI0y9pEaDwXOqhWlNC+GD4JrOm2eFbNv3iSS+QTkv040m
+	 6SASxWlOltZNjIwKIOuxAXYvVYg430sLqYlXJ7OFX2KySajblgm3sxfhB/wkncPO9z
+	 hdDQmpHAQ0ivmz2DeRoTJuEBxcWr8c0knan/GO3i1Xm5opx5zj19pjPkra2g4EnXYv
+	 N0/Naf28FshuA==
+From: Lee Jones <lee@kernel.org>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Guenter Roeck <groeck@chromium.org>, Tim Harvey <tharvey@gateworks.com>, 
+ Pengyu Luo <mitltlatltl@gmail.com>, Michael Walle <mwalle@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jean Delvare <jdelvare@suse.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Lee Jones <lee@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Nikita Travkin <nikita@trvn.ru>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Tinghan Shen <tinghan.shen@mediatek.com>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Mathew McBride <matt@traverse.com.au>
+In-Reply-To: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
+References: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
+Subject: Re: (subset) [PATCH v3] dt-bindings: mfd: Move embedded
+ controllers to own directory
+Message-Id: <175688490483.2489808.1034690962892116559.b4-ty@kernel.org>
+Date: Wed, 03 Sep 2025 08:35:04 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH v2] dt-bindings: mfd: Move embedded controllers
- to own directory
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Tim Harvey <tharvey@gateworks.com>,
- Michael Walle <mwalle@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Jean Delvare <jdelvare@suse.com>,
- Thomas Gleixner <tglx@linutronix.de>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Tinghan Shen <tinghan.shen@mediatek.com>, devicetree@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Mathew McBride <matt@traverse.com.au>
-References: <20250822075712.27314-2-krzysztof.kozlowski@linaro.org>
- <175682479961.2401991.17056649550187344851.b4-ty@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <175682479961.2401991.17056649550187344851.b4-ty@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-c81fc
 
-On 02/09/2025 16:53, Lee Jones wrote:
->> [...]
+On Mon, 25 Aug 2025 10:12:02 +0200, Krzysztof Kozlowski wrote:
+> Move several embedded controller bindings (like ChromeOS EC, Gateworks
+> System Controller and Kontron sl28cpld Board Management) to new
+> subdirectory "embedded-controller" matching their purpose.
 > 
-> Applied, thanks!
+> An embedded controller (EC) is a discrete component that contains a
+> microcontroller (i.e. a small CPU running a small firmware without
+> operating system) mounted into a larger computer system running
+> a fully fledged operating system that needs to utilize the embedded
+> controller as part of its operation.
 > 
-> [1/1] dt-bindings: mfd: Move embedded controllers to own directory
->       commit: 152afab28f7659a4292c9f7d3324eaeb49a55b8b
+> [...]
 
+Applied, thanks!
 
-There was a v3 here:
+[1/1] dt-bindings: mfd: Move embedded controllers to own directory
+      commit: e19df0d928a7d4a6dda919bb486e1ac2251f384f
 
-https://lore.kernel.org/r/20250825081201.9775-2-krzysztof.kozlowski@linaro.org/
+--
+Lee Jones [李琼斯]
 
-Best regards,
-Krzysztof

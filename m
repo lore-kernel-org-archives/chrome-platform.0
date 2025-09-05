@@ -1,195 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57B025C81B
-	for <chrome-platform@lists.linux.dev>; Fri,  5 Sep 2025 10:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2713451C4
+	for <chrome-platform@lists.linux.dev>; Fri,  5 Sep 2025 11:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757068477; cv=none; b=kECHmWRqrh6wzY+EwrpNraqFfIKYvyz7x/xNVzbO0bjNr+qNlrwHkTNbsOczi7tcA/gTmLpHEcaW+8OlprwoHcTfE8bnpr/m1A0hR8LYhfkvNM9ZodIKH0ukZFU1dgcxOwfA53aoF5rp08HZBaOvImfYqa5rF+hmffK0mbXpIQ4=
+	t=1757073215; cv=none; b=TI3abX++4/SJe83x8Vk9f8e8FxhGRm6lH5k74rQ2VMb/Wht+OYbIKRca5aRPQuk3G9yVW1QnqSCQKlho3NaBlGmxJdLW68b2MQI+TjcMFZx4pAho4MubpR6Q56qj+qZH46YMBwQ5IijTyEZ6Hk9EHNl5rXf3ENBS9zrpN+d/Iw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757068477; c=relaxed/simple;
-	bh=krtE/M/T6FVFzWIDNJaaKaN0GxdmejHYr6+16ZgJbhY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bv/OjcZfNdxICrpprHYkXSUTYf4BK7yYCskP9MNi5vOxPZoXfwzz4qTmeonLma52uEjhkqvRY3BIMorrxUlzdld4xYgOdAFjRw9ggIqMMkkbCw7bzhWxE2npEjgKpMfxJ3BQedpF7XleLC0IwSKP99H/um9zg83N4QZ49lXFa1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RSdGNeyd; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1757073215; c=relaxed/simple;
+	bh=tXTx0khqBmsWWU+P4PnW2zGkwrJJZK3FQK11Bvgu8Fk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RawkQAvjuhQSHnKtc1bvw8wOwPco42fGJFLaR+9yJ6LYoxrQG7eqnmWF+tyBLti/a78iA69ZtrA4HSWG6RevdXwDg0eZEYnjQOWq1izBE4nx2+1ueCFSBQ4RH8I6qVULIX2Eq3sJlGWQYCFGuekqeU1TNiT8A2yFhBu8qlarb00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ecZ86WIZ; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RSdGNeyd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757068475; x=1788604475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=krtE/M/T6FVFzWIDNJaaKaN0GxdmejHYr6+16ZgJbhY=;
-  b=RSdGNeyd7ysM2SwvX03PqB88rNVXNogVFJ2yFKpFEXtOg8R5WUvF3t9e
-   hqrScNVf8TYmv5yMD/E9V6phptfML7agcaXbLZLmknnxPzUHT/EaW+tTw
-   DpZ4FdqhsU0DpYJ4LmJTYLYGY5AItvGsvXA9mAv4PW02jZk+ZnYq2hIDd
-   /Q1q4afwI4Y0eGJRxXNQcH1aO37KrvCd60ZljG8XVzxHAV9JO+QSSxToE
-   sMx/sxXRj+9LUnGgr51OY5xtDW0cCgMrJKI+veIcf9WOyiV8IWzcFvv3M
-   8rzUu1IN8Ifbqg0H+jt0e/aG0R/pTUAoLYK7tIVfPAxjv/MGLcxLmDN7S
-   A==;
-X-CSE-ConnectionGUID: 7cBwKguxTtGIHOTa81JO6Q==
-X-CSE-MsgGUID: S4w/zG4LRpqHSCAqjUZU6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="59117542"
-X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
-   d="scan'208";a="59117542"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 03:34:35 -0700
-X-CSE-ConnectionGUID: DLpmhFP+R0etZ+/rrGqiCQ==
-X-CSE-MsgGUID: wZoZ8lZsRc+CMgkOiw4CSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
-   d="scan'208";a="172575102"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by fmviesa009.fm.intel.com with SMTP; 05 Sep 2025 03:34:30 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 05 Sep 2025 13:34:29 +0300
-Date: Fri, 5 Sep 2025 13:34:29 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	"Christian A. Ehrhardt" <lk@c--e.de>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] usb: typec: Expose alternate mode priority via
- sysfs
-Message-ID: <aLq8tUogl67VptRC@kuha.fi.intel.com>
-References: <20250825145750.58820-1-akuchynski@chromium.org>
- <20250825145750.58820-6-akuchynski@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ecZ86WIZ"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b4c29d2ea05so2251367a12.0
+        for <chrome-platform@lists.linux.dev>; Fri, 05 Sep 2025 04:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1757073213; x=1757678013; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F41JthKB4C65sSuKjAh9iAVTRgSsULVhOOzeHvyaTPE=;
+        b=ecZ86WIZ03Rx13Lqv3tXHKGV2CZUIW2sKUcJJleZXi2yvFT3+XWrQhsCi3+dv35Wl3
+         +5zQ/ixrIrgtiW+YwhzhiZngIJGcL0sq1tHcS4Kdi0b1vFf/uTKXODgpfxNjXbrM9CC3
+         Tydm/TzA+CjJjS2CtflzjQkDTzVlsJ3wrID3c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757073213; x=1757678013;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F41JthKB4C65sSuKjAh9iAVTRgSsULVhOOzeHvyaTPE=;
+        b=gHblPSKMboz+a7sxbJdkTjqGeo/inWF1kET3jIu2+1U8CtWjlE7JeXz454rQc9LQoi
+         tHARd0TqRQDvM0UP8/BNIbLgOi5lBXCNN59L66G8kRZB1TsnzsJrNCfKGfCAgLKbCN68
+         45D8OhCOEz8LTdEHrOQV2n8jrTu4KQ/LYZJE7/sRMG2gpXNg3n0HtM1tPBLs+lRjNr2s
+         NwfpoclUclskyEexA3ie3IGy85SZLPuS/6sH1frp9ZStfw1XlGlNbrMC68GfIbhdt/U/
+         oTLNoVL6/PbsTv3auZp1JGb0RIPLRD1CXWmY1Y3uD0EsnO76iJvVVBMafFaCui5jIM5M
+         ezKA==
+X-Forwarded-Encrypted: i=1; AJvYcCVW8KigT9HfBBnOFu7Wu58e54s/lBX8DBouzrSwYQ1FerRTPrePoBaHH3UreqVVMyEo8i38cw6sNz7XSejvrag=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3JowhyO3e6icrF/3kkKr11k97qIp8qQqNHGj0l6gGi5+xUBoJ
+	yPmR+x9L2wXAGHAoAaSbVspIDccC5AnjEfj206nYr08gDPu8/K9FtNp8yRO89sFbFWdXzJCDm8j
+	eFMd6LVRZ6MVtV1utgQlIqsBMrbeyDv78eecmqeTmTZCrhu2DxGk=
+X-Gm-Gg: ASbGncua5jEXoYfoS5UhYTxBrk58YlvH2Sz2gbHzKgVmni4sAl2f+jJXH6nFZ+JCp/G
+	3GO3UQg/2d5dSyBMsJ+rWCAcGM54anKSLTq4xZSK0VJ1WibF5GUbRMZyBoqy1Rp5R5uXX9moTBY
+	jepRMjGngfbFUTrCU7LLmyxW7gGvItDPOXUoZcFuZ5vNJSlAqc0zLYxkjHzO/vCCmw1HzIQp0Jm
+	ALovqS2xQjxUWhbF2dLOTrVPvnMI3w0EA==
+X-Google-Smtp-Source: AGHT+IEN1O0V/duOoV36FoG7uqX93rMwXWpvjMiuL+p5CH98oeicc+oRQqsaUN3czxuXHbTlA0O+Sji4kT9kRYHU9gw=
+X-Received: by 2002:a17:90b:1c08:b0:32b:6959:9a84 with SMTP id
+ 98e67ed59e1d1-32bbe1040a1mr3955599a91.11.1757073213062; Fri, 05 Sep 2025
+ 04:53:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825145750.58820-6-akuchynski@chromium.org>
+References: <20250825145750.58820-1-akuchynski@chromium.org>
+ <20250825145750.58820-2-akuchynski@chromium.org> <aLq0FCAq-LiB139t@kuha.fi.intel.com>
+In-Reply-To: <aLq0FCAq-LiB139t@kuha.fi.intel.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Fri, 5 Sep 2025 13:53:20 +0200
+X-Gm-Features: Ac12FXwtlyscSNNgxTecVI02owwO8UoR1t0SvM0NbByNpcnkqJWSEDXQoTY3or8
+Message-ID: <CAMMMRMeq2-kGZeZUi_UwcUjr_TORYcncgJEqAG5+jX2Hbs-ULA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] usb: typec: Add alt_mode_override field to port property
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
+	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 25, 2025 at 02:57:50PM +0000, Andrei Kuchynski wrote:
-> This patch introduces a priority sysfs attribute to the USB Type-C
-> alternate mode port interface. This new attribute allows user-space to
-> configure the numeric priority of alternate modes managing their preferred
-> order of operation.
-> 
-> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> ---
->  Documentation/ABI/testing/sysfs-class-typec | 11 +++++++
->  drivers/usb/typec/class.c                   | 32 ++++++++++++++++++++-
+On Fri, Sep 5, 2025 at 11:57=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> On Mon, Aug 25, 2025 at 02:57:46PM +0000, Andrei Kuchynski wrote:
+> > This new field in the port properties dictates whether the Platform Pol=
+icy
+> > Manager (PPM) allows the OS Policy Manager (OPM) to change the currentl=
+y
+> > active, negotiated alternate mode.
+> >
+> > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> > ---
+> >  drivers/usb/typec/class.c | 9 ++++++---
+> >  drivers/usb/typec/class.h | 2 ++
+> >  include/linux/usb/typec.h | 1 +
+> >  3 files changed, 9 insertions(+), 3 deletions(-)
+>
+> This is okay by me, but you forgot to document the file.
+>
+> thanks,
 
-Maybe patch 4/5 could be squashed into this patch, and I'm wondering
-would it make sense to just keep the typec_mode_set_priority() in this
-file (drivers/usb/typec/class.c).
+Hi Heikki,
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+I missed it.
+Thanks!
 
->  2 files changed, 42 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-> index 38e101c17a00..dab3e4e727b6 100644
-> --- a/Documentation/ABI/testing/sysfs-class-typec
-> +++ b/Documentation/ABI/testing/sysfs-class-typec
-> @@ -162,6 +162,17 @@ Description:	Lists the supported USB Modes. The default USB mode that is used
->  		- usb3 (USB 3.2)
->  		- usb4 (USB4)
->  
-> +		What:		/sys/class/typec/<port>/<alt-mode>/priority
-> +Date:		July 2025
-> +Contact:	Andrei Kuchynski <akuchynski@chromium.org>
-> +Description:
-> +		Displays and allows setting the priority for a specific alt-mode.
-> +		When read, it shows the current integer priority value. Lower numerical
-> +		values indicate higher priority (0 is the highest priority).
-> +		If the new value is already in use by another mode, the priority of the
-> +		conflicting mode and any subsequent modes will be incremented until they
-> +		are all unique.
-> +
->  USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
->  
->  What:		/sys/class/typec/<port>-partner/accessory_mode
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 9f86605ce125..aaab2e1e98b4 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -19,6 +19,7 @@
->  #include "bus.h"
->  #include "class.h"
->  #include "pd.h"
-> +#include "mode_selection.h"
->  
->  static DEFINE_IDA(typec_index_ida);
->  
-> @@ -445,11 +446,34 @@ svid_show(struct device *dev, struct device_attribute *attr, char *buf)
->  }
->  static DEVICE_ATTR_RO(svid);
->  
-> +static ssize_t priority_store(struct device *dev,
-> +			       struct device_attribute *attr,
-> +			       const char *buf, size_t size)
-> +{
-> +	unsigned int val;
-> +	int err = kstrtouint(buf, 10, &val);
-> +
-> +	if (!err) {
-> +		typec_mode_set_priority(to_typec_altmode(dev), val);
-> +		return size;
-> +	}
-> +
-> +	return err;
-> +}
-> +
-> +static ssize_t priority_show(struct device *dev,
-> +			      struct device_attribute *attr, char *buf)
-> +{
-> +	return sprintf(buf, "%u\n", to_typec_altmode(dev)->priority);
-> +}
-> +static DEVICE_ATTR_RW(priority);
-> +
->  static struct attribute *typec_altmode_attrs[] = {
->  	&dev_attr_active.attr,
->  	&dev_attr_mode.attr,
->  	&dev_attr_svid.attr,
->  	&dev_attr_vdo.attr,
-> +	&dev_attr_priority.attr,
->  	NULL
->  };
->  
-> @@ -459,11 +483,15 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
->  	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
->  	struct typec_port *port = typec_altmode2port(adev);
->  
-> -	if (attr == &dev_attr_active.attr)
-> +	if (attr == &dev_attr_active.attr) {
->  		if (!is_typec_port(adev->dev.parent)) {
->  			if (!port->mode_control || !adev->ops || !adev->ops->activate)
->  				return 0444;
->  		}
-> +	} else if (attr == &dev_attr_priority.attr) {
-> +		if (!is_typec_port(adev->dev.parent) || !port->mode_control)
-> +			return 0;
-> +	}
->  
->  	return attr->mode;
->  }
-> @@ -2491,6 +2519,8 @@ typec_port_register_altmode(struct typec_port *port,
->  		to_altmode(adev)->retimer = retimer;
->  	}
->  
-> +	typec_mode_set_priority(adev, 0);
-> +
->  	return adev;
->  }
->  EXPORT_SYMBOL_GPL(typec_port_register_altmode);
-> -- 
-> 2.51.0.rc2.233.g662b1ed5c5-goog
-> 
 
--- 
-heikki
+Andrei

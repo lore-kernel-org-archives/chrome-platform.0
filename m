@@ -1,56 +1,56 @@
 Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B2234A32F
-	for <chrome-platform@lists.linux.dev>; Fri,  5 Sep 2025 11:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0413634AB0F
+	for <chrome-platform@lists.linux.dev>; Fri,  5 Sep 2025 12:22:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757073557; cv=none; b=Db60RTtSdodqBW7WnwI8Kqv5Y5QvzJhRd6ObyUCS/s0awQmQCf/UzyxyQYlzIQiw+bxHkOnc27sMlQKytQa9pOt/R+d+0pdsHhFSNt3rmWSF8BRa8lcXV3AlOfv5R8GhbtkhZ95l8kEiKGY5XsJyEZLTORdd2PHUF1ObI/jktEY=
+	t=1757074975; cv=none; b=USGimlTl84Z/i3NGWB9RTkhm9nxnqEOX78G0WKNlwacHLjTEUcsZwb1aM3r1oCu7reGL6JXkYOt/3hbYJfIFxzLCwuTFH4JEU+TBlGaEIz2JelE9dCRFOQ8QTXkg9oR4U9/lnXEzX6qbkxAlp4rJgl97GfBwGE+pAxgV/1n1Ws8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757073557; c=relaxed/simple;
-	bh=eWu1w45THUrcqTubbaxwPPUPaMOnGOxHWGZC6vrwq6E=;
+	s=arc-20240116; t=1757074975; c=relaxed/simple;
+	bh=f88gDGGRbMwX7i/jLItg/xSlOYP4VRiz0z3DVlv7lp8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k/0i2wpC1r2MFc68C0L77u3kzIFqBRYENg02bAW6KUwa6MW0Oafmn7+zV141SxaqAyNZghacyPEmxAm8VVoOCZ5DA65/ViAKRtPu6OklP4prXW1QjbLbvcVXMfwQgUPngUFr5dbo0Q60Jb3AudDbVn+bFMfCs9SUhze0NkR+bt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=e9fjoVqp; arc=none smtp.client-ip=209.85.216.53
+	 To:Cc:Content-Type; b=DTLNxVT4XtSJGiO+F+GmYoOhbD2eLlxd2GnZakejw5DTb8rw1rCgGdD7CEo+EmzOC+EQoWC3RbwRVt++EtobGdX+j454kUm+P3Cn3h6261EbljCd5LiMO5l4+5ZsmKaS4wPOD8aBunRs5/Rx38BIunFoYCNav8GD1RAGV4HxNdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=O9qNfaTg; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e9fjoVqp"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-32b5d3e1762so1605844a91.3
-        for <chrome-platform@lists.linux.dev>; Fri, 05 Sep 2025 04:59:14 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O9qNfaTg"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-32bae4bcd63so817378a91.2
+        for <chrome-platform@lists.linux.dev>; Fri, 05 Sep 2025 05:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1757073554; x=1757678354; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1757074973; x=1757679773; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LhISDapWI+OKjnURRW7M0Vh6J8Ihioz0/IeDCwCINSI=;
-        b=e9fjoVqpBEbsE1/FeH6LtCVeDp5OPZAU7COd2FnmBfm1FwS7NGCJtHy8mtO7/xJ0fb
-         fO2G/3m95/Fta8D9K1mcti4CVLv6BbUbd+EnN/rTk8bT33vtEfzjyA4u7K4HqA4zkzlk
-         cOYr+8K7lWQwXevRBRRdVZGQ+AW2bNqKAS8k8=
+        bh=T6lxWl4V7y/wDq+LroI79aYAazd8UwfuBLrDZ9Wkh6o=;
+        b=O9qNfaTgjmw/c3lJlCxt+c0WZ20lbYByEGdEajAAg1C9tFGvjdneVYX/yxXnS3SBpp
+         foPh4vqR1ZK+KkRZwdSq9mYZj8flEj5JNG+/6iDlUsySjKG7vRNHlIdvDPGnpxUpmNIj
+         zS/arfQXoZwY0SW437ZZcm93iWNbbXflHdgqU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757073554; x=1757678354;
+        d=1e100.net; s=20230601; t=1757074973; x=1757679773;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LhISDapWI+OKjnURRW7M0Vh6J8Ihioz0/IeDCwCINSI=;
-        b=D5t9TQLDBUn3d4JnNbqiM9CxzajOY1xdH9fDm15VwHAMGncGPkQGhJEd8xIyhmN55P
-         IPGWnnp8SNB3ZlSrHcas+64kI7Wub8sSaTEy+Z+9eyMkxcsBBggZHVnL9iX1G9C+kzHz
-         v2w7pcqLf0XvTtgRQjQlelF9zwtyDJ9obN18gkocvDGVZw68zP8B29cJ1caRepgK5kAx
-         EX9wQNjXpG/FbNOtlC9sYMz9VSTw/zE7sXz/PrOW5U9RtRvd/O2OHPTgot11B2xBgnLv
-         gdUztsYnqTn7PdQdbRN0Fjc2cO9RRpHN9BZBiYnJ8VDK0vqaeGex7cMJ7TkQqTHEkxyZ
-         4/Og==
-X-Forwarded-Encrypted: i=1; AJvYcCV6jWmmhr5uIz40zH21l/BYqOECB+Mg2/8n6V4NcpdtGoAeEQkCYPeuB3+ZEjahu5ILvBIUwKQSl2L6yYym4p0=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4Hhuy2xkvxqXsjUiTTsIQ+OHi4jMLpeOgPEZhaCjaamdACmln
-	RhzaPnwHLL9bPiKn4KxLhrQ6faQ8myJkN9mUY7tNfDUk9n/N5pFScsygTU+xgAYP862Kynn7vIQ
-	QBgAstlviKE2ZLVS12RHLwDN8fOIyqrLxHs/gu1oM
-X-Gm-Gg: ASbGncsSerYhkSl08Y95KdUicPlaqvhBtQUEyVm6SJc8jLKrrRV4A7qSx5/fHSQRUDp
-	dGeScpkvSKFQwR4lyH6tRLTzze2vvRR3eRZwL4HXUFwb5adZVGqUgIZ8urxTGrbff+Zp6Qjhetw
-	ONxxqhIUUzDWYP9udx1IE4dzx3D03jQhKYKaiWKzriP05UjJMDXIJur9B0Qe4WjuDvJkwmDXjB+
-	mrH/ykK1MLBEZTLQztP+aiN6LGy8rFJYw==
-X-Google-Smtp-Source: AGHT+IFNtnOhcXO5r4wnyrBsxPjARdpyn400H+T0JTuNzh/jY8gXOZS7qb54ju5ejnnjPlgi5xp/6ms+Lj0fR6CAnH8=
-X-Received: by 2002:a17:90b:268a:b0:32b:b514:3935 with SMTP id
- 98e67ed59e1d1-32bb5143ecfmr4921834a91.16.1757073554292; Fri, 05 Sep 2025
- 04:59:14 -0700 (PDT)
+        bh=T6lxWl4V7y/wDq+LroI79aYAazd8UwfuBLrDZ9Wkh6o=;
+        b=TSRJST0Eoa0r/7fDPuAEWP8cyJewT/deZOow6o+e1hanLIn13y6DeCkXvALo9YL2HQ
+         0bljqU4T2EGHF0PSgjRoef1Wgth70WOdMz/AlTg/qTaKUXx0gctYDRN3bQmaDKmYoHww
+         i8NAYlKorZLgwYMagErZaq+wXaGCnwdBWLBRcmi7grZMELdNPXT79i/bVUGeNsltsk0w
+         aki7NyL8K0cvYMf7S029drtp4MI+tx1+tPQBEiKKz2pd2fOYzQhKrc1/1xmmuCdBONNw
+         5jWNd5bl+lS4JH520AGVgLummNLUo5CtOnYMjTAfmbAtFReuFI9R5jBrZWJ5Kdgc9vvb
+         CzwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX/WOf6n7/KgXtVqDkcYGpZ+4t5eP1lw+9oLkIF6s+n39OMjVjzASsGeUbEwrnLq/1fRFdD+5sTfqyjNLMyjSI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFDJCwDnqSNfhOiqHuwow10A+NnumiyEg2VHihiIfk1r6Be1PR
+	UTh/HXXuF4UCtM/PVOM23M/ElDYdnmcdNePUjzyvuSR6OrqDbMdGJgz5IQnMP5+BYH3BoqL6lYH
+	ND2i7zlYr29MRcRC5qPcl5s30gAL+0PFUZlHbLOY0
+X-Gm-Gg: ASbGncsMpG9bNfbF/96sSIiJ1jvg3TRQI146eMMbEdrxAfK2CdKgVoUaEjtBphRmSy4
+	3cCiD4n5lzplqVD9zTm2FaLx6h8JnllMnOwQX8dJQOMkw1/FGMfGDJq0H/0kwzU2co4AXQN7EDO
+	IlzicYua1JNSPEwb+tOZvwDJfdokquSoc/ovrojzdvfN/sUUhcyGDW6EGgo1h8oWKuBe4S3Xfm6
+	LXp8ODdWIk+FnT4dUykS1fasMn2sbaqmWx6VPMu8oP6
+X-Google-Smtp-Source: AGHT+IGUt0+NPYxAOfpcTKsdIZgMD/2aTOnjQauBXAsedoGoDooyWb+qeKpbfOZSEHR/boIOsnXxSpzklV+PIcXMqPQ=
+X-Received: by 2002:a17:90b:3f8f:b0:32b:be39:7804 with SMTP id
+ 98e67ed59e1d1-32bbe3978aemr3553401a91.8.1757074973067; Fri, 05 Sep 2025
+ 05:22:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -58,13 +58,13 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20250825145750.58820-1-akuchynski@chromium.org>
- <20250825145750.58820-5-akuchynski@chromium.org> <aLq6oNcA_yoMZyrf@kuha.fi.intel.com>
-In-Reply-To: <aLq6oNcA_yoMZyrf@kuha.fi.intel.com>
+ <20250825145750.58820-6-akuchynski@chromium.org> <aLq8tUogl67VptRC@kuha.fi.intel.com>
+In-Reply-To: <aLq8tUogl67VptRC@kuha.fi.intel.com>
 From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Fri, 5 Sep 2025 13:59:02 +0200
-X-Gm-Features: Ac12FXzKIlpnIFvZ07xg53BwKH3RD7_AIIZJnlGh0sZcQrFiqTbCi9PW-RPEnOE
-Message-ID: <CAMMMRMcOUdo1eSoHv9+M9zR=8WPjKZ9Q0Af3OTQrH78==kqWgQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] usb: typec: Implement alternate mode priority handling
+Date: Fri, 5 Sep 2025 14:22:39 +0200
+X-Gm-Features: Ac12FXyeappBWW9ObA85nA1cNYhj4olXtKb4gTth6JkKRBs9zpklMmd4xbjPsrc
+Message-ID: <CAMMMRMf1g+EwYfRmygCYiJGJd_XEeHrt-jrQaqKk1_SPyoRhXg@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] usb: typec: Expose alternate mode priority via sysfs
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
 	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
@@ -75,109 +75,35 @@ Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 5, 2025 at 12:25=E2=80=AFPM Heikki Krogerus
+On Fri, Sep 5, 2025 at 12:34=E2=80=AFPM Heikki Krogerus
 <heikki.krogerus@linux.intel.com> wrote:
 >
-> On Mon, Aug 25, 2025 at 02:57:49PM +0000, Andrei Kuchynski wrote:
-> > This patch introduces APIs to manage the priority of USB Type-C alterna=
-te
-> > modes. These APIs allow for setting and retrieving a priority number fo=
-r
-> > each mode. If a new priority value conflicts with an existing mode's
-> > priority, the priorities of the conflicting mode and all subsequent mod=
-es
-> > are automatically incremented to ensure uniqueness.
+> On Mon, Aug 25, 2025 at 02:57:50PM +0000, Andrei Kuchynski wrote:
+> > This patch introduces a priority sysfs attribute to the USB Type-C
+> > alternate mode port interface. This new attribute allows user-space to
+> > configure the numeric priority of alternate modes managing their prefer=
+red
+> > order of operation.
 > >
 > > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 > > ---
-> >  drivers/usb/typec/Makefile         |  2 +-
-> >  drivers/usb/typec/mode_selection.c | 38 ++++++++++++++++++++++++++++++
-> >  drivers/usb/typec/mode_selection.h |  6 +++++
-> >  include/linux/usb/typec_altmode.h  |  1 +
-> >  4 files changed, 46 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/usb/typec/mode_selection.c
-> >  create mode 100644 drivers/usb/typec/mode_selection.h
-> >
-> > diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
-> > index 7a368fea61bc..8a6a1c663eb6 100644
-> > --- a/drivers/usb/typec/Makefile
-> > +++ b/drivers/usb/typec/Makefile
-> > @@ -1,6 +1,6 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >  obj-$(CONFIG_TYPEC)          +=3D typec.o
-> > -typec-y                              :=3D class.o mux.o bus.o pd.o ret=
-imer.o
-> > +typec-y                              :=3D class.o mux.o bus.o pd.o ret=
-imer.o mode_selection.o
-> >  typec-$(CONFIG_ACPI)         +=3D port-mapper.o
-> >  obj-$(CONFIG_TYPEC)          +=3D altmodes/
-> >  obj-$(CONFIG_TYPEC_TCPM)     +=3D tcpm/
-> > diff --git a/drivers/usb/typec/mode_selection.c b/drivers/usb/typec/mod=
-e_selection.c
-> > new file mode 100644
-> > index 000000000000..2179bf25f5d4
-> > --- /dev/null
-> > +++ b/drivers/usb/typec/mode_selection.c
-> > @@ -0,0 +1,38 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright 2025 Google LLC.
-> > + */
-> > +
-> > +#include "mode_selection.h"
-> > +#include "class.h"
-> > +#include "bus.h"
-> > +
-> > +static int increment_duplicated_priority(struct device *dev, void *dat=
-a)
-> > +{
-> > +     struct typec_altmode **alt_target =3D (struct typec_altmode **)da=
-ta;
-> > +
-> > +     if (is_typec_altmode(dev)) {
-> > +             struct typec_altmode *alt =3D to_typec_altmode(dev);
-> > +
-> > +             if (alt !=3D *alt_target && alt->priority =3D=3D (*alt_ta=
-rget)->priority) {
-> > +                     alt->priority++;
-> > +                     *alt_target =3D alt;
-> > +                     return 1;
+> >  Documentation/ABI/testing/sysfs-class-typec | 11 +++++++
+> >  drivers/usb/typec/class.c                   | 32 ++++++++++++++++++++-
 >
-> Couldn't you just always return 0?
+> Maybe patch 4/5 could be squashed into this patch, and I'm wondering
+> would it make sense to just keep the typec_mode_set_priority() in this
+> file (drivers/usb/typec/class.c).
 >
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>
+> --
+> heikki
 
-Priority values for each mode are consistently unique, eliminating the need
-for further processing if a duplicate is found.
+You're right, mode_selection.c is quite empty now. However, in the next
+series, it will be the only user of the priority variable. So I'd prefer to
+keep it there, if you don=E2=80=99t mind.
+I think putting it in class.c would create a mess.
 
-> > +             }
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +void typec_mode_set_priority(struct typec_altmode *alt,
-> > +             const unsigned int priority)
-> > +{
-> > +     struct typec_port *port =3D to_typec_port(alt->dev.parent);
-> > +     int res =3D 1;
-> > +
-> > +     alt->priority =3D priority;
-> > +
-> > +     while (res)
-> > +             res =3D device_for_each_child(&port->dev, &alt,
-> > +                             increment_duplicated_priority);
->
-> Then this could be:
->
->         device_for_each_child(&port->dev, &alt, increment_duplicated_prio=
-rity);
->
-> right?
->
+Thank you for the review!
 
-Unfortunately, the child's list is not in prioritized order. When a
-duplicated value is found, the cycle should start for the whole list again.
-I definitely need a loop here.
-
-Thanks,
 Andrei

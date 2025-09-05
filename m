@@ -1,43 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828BA1E487;
-	Fri,  5 Sep 2025 08:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFE028E5F3
+	for <chrome-platform@lists.linux.dev>; Fri,  5 Sep 2025 09:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757061494; cv=none; b=nE0xntPBt3UuFvmLwt5ijvgYoo95GhHE5fIK8hAxAcr+rljm53yW3rhtpxnUiyPgamCWmZqlu/9/RYIQ650Qpf3u3iZ80jBNbdXUWQ8P6MkqI/oB7FmLejZ8IC3jHD6DhdLc3C52XOOtjBGlQw/pKTx5cZDsuSjJu9nqEpEdILM=
+	t=1757066268; cv=none; b=bwq2cnMI9nqcl3vQx5Yn681asFwaU7QfJNFW8pqNskwBdP6JxZ2k5sRUVdOyOu3oguABKMD5pw5Y1K5vHps/ImRz8kVI9kkvQCELVcIGigg7M3bNr3MUJPHT6si1R3eZxFDJQ+ywMYwwngbLqzx1z+hxVjDFAgVowvYwdLa4xvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757061494; c=relaxed/simple;
-	bh=kVJcCIgesGiuVScQFp+2Alk9JjzRYcuW99Y4IEbJ3Ds=;
+	s=arc-20240116; t=1757066268; c=relaxed/simple;
+	bh=8q8nnACbLJ2cv9OUfaS30eEGHF3yr2aXfrpwZpdTxko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EwYH6KxNePVTfrSTj/N6Zi4sFr4pp1pGiKDo3V/+Ohs/cUvLAfhuNv5g9YZztO7VRA3kwqzXe9FAbYQtxg2D8PSEvE1Jurgu43J+8sgPmAyqvvInJc9yYDvLxJVrpkdVnRDT9hxSqxVWIeTH14y8KYileDfV/PaKHp3RByPqVsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tRlxbGKL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=t3h4a7FrsORq9RVY9aqZjVk06kAiaDanXLZYsPOpsQ1uVvGOE50VBZV5M1+EOteyIQQUuUlDnLU8RvVtXndsQQixiFH7pMZr/1cX8cuo0dM577VBUbwh/JxvbW1dXK84RRNrBtR7wzTnGaKxWFdOl0ZcBQ2REHFw9MK8KrhLoTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cbBysEbq; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tRlxbGKL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406ABC4CEF1;
-	Fri,  5 Sep 2025 08:38:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757061494;
-	bh=kVJcCIgesGiuVScQFp+2Alk9JjzRYcuW99Y4IEbJ3Ds=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tRlxbGKLRR6fntuRfcvXSrUC0dNEASjnzCz8iQ1snWVKU/45oWQ9qqPZDtHWZ8AQF
-	 SR75bKEezu50VZ5Tn2Rkpqj0wmWfq7J+KG/sYtNTscoyGSazfB3ef9G5XkZDWB2pWm
-	 OWnvUyr+LlYPJyjI2mUpRRMJr/O9gDsxXDocCUUJIoWxYC++x/cLXQpn/pNIHcCdJi
-	 ZOq/GwObb48NDs3g48qwr0TGROwPizkvggxMVOewdvHHjfv8CWVTWv3UIwafejba57
-	 mLR6u4Fiq/k+papej0D16ubJhJt2DnigrMOxjzTpKBZWO0IjUz1tAdUrWcpuinxdJy
-	 IKlymmpk/Ip5g==
-Date: Fri, 5 Sep 2025 08:38:10 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Benson Leung <bleung@chromium.org>, linux-input@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 0/5] platform/chrome: Fix a race when probing drivers
-Message-ID: <aLqhcu-zjpyeYMly@google.com>
-References: <20250828083601.856083-1-tzungbi@kernel.org>
- <sqgfgwmbpxvaszyxt4mymne6dvhzjvuifogsqjdu6j3tm436ph@x7chldp3dfpr>
- <aLGhLCc9UQWwBz47@tzungbi-laptop>
- <aLbutygmfjV4AuhZ@tzungbi-laptop>
- <4gtrvxpo6zqk54uvavrox7hszszdpvdubz4w6iaks72zq3jjsw@b6cfvi5ysj2u>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cbBysEbq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757066266; x=1788602266;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8q8nnACbLJ2cv9OUfaS30eEGHF3yr2aXfrpwZpdTxko=;
+  b=cbBysEbq+p6NxfzEB/Pu+DXZU2x6QQwdQMGcTyYwC7ZmEfvenp3RCl0D
+   vbB6/M79+AvIL5D5Ag3i19CzsNEaj152pv3+5SGTDga7XWwQsJicABj3N
+   RdwG5+bhOyxh3JGtX0RCDhM/uxQv85oxG4TF74WcjBf3TlF0fdlf8vrZm
+   kLEbrw1gRRYwW5wfP6rnNJT0pMw6oGuL5DEFkQj/7ZxY3JX2FbiiOedE9
+   QL8f8wnt08yuYgg0tlkrOeBamHbOn/cnYwxkj2NyOZUkJE6pZcZ6yMolR
+   l36RbUpBjvVXD457unJ7dfNeGX6sBYMPsWizY73vx87aAn1uq4764NtUC
+   g==;
+X-CSE-ConnectionGUID: oQtFUP4FT2q8zPtCp4Ue9w==
+X-CSE-MsgGUID: wppfQJnfRLmA5yGsYQy8Zw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="69674220"
+X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
+   d="scan'208";a="69674220"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 02:57:45 -0700
+X-CSE-ConnectionGUID: 6PjwMeliRNKQnt9UZ2URIA==
+X-CSE-MsgGUID: MS9w3seGQie4fm37vdOTBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
+   d="scan'208";a="176454114"
+Received: from kuha.fi.intel.com ([10.237.72.152])
+  by fmviesa005.fm.intel.com with SMTP; 05 Sep 2025 02:57:41 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 05 Sep 2025 12:57:40 +0300
+Date: Fri, 5 Sep 2025 12:57:40 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Guenter Roeck <groeck@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	"Christian A. Ehrhardt" <lk@c--e.de>,
+	Venkat Jayaraman <venkat.jayaraman@intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] usb: typec: Add alt_mode_override field to port
+ property
+Message-ID: <aLq0FCAq-LiB139t@kuha.fi.intel.com>
+References: <20250825145750.58820-1-akuchynski@chromium.org>
+ <20250825145750.58820-2-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -46,107 +71,81 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4gtrvxpo6zqk54uvavrox7hszszdpvdubz4w6iaks72zq3jjsw@b6cfvi5ysj2u>
+In-Reply-To: <20250825145750.58820-2-akuchynski@chromium.org>
 
-On Thu, Sep 04, 2025 at 07:06:23AM -0700, Dmitry Torokhov wrote:
-> On Tue, Sep 02, 2025 at 09:18:47PM +0800, Tzung-Bi Shih wrote:
-> > On Fri, Aug 29, 2025 at 08:50:01PM +0800, Tzung-Bi Shih wrote:
-> > > On Fri, Aug 29, 2025 at 11:28:55AM +0000, Dmitry Torokhov wrote:
-> > > > On Thu, Aug 28, 2025 at 08:35:56AM +0000, Tzung-Bi Shih wrote:
-> > > > > A race is observed when cros_ec_lpc and cros-ec-keyb are all built as
-> > > > > modules.  cros_ec_lpc is cros-ec-keyb's parent.  However, they can be
-> > > > > probed at the same time.
-> > > > > 
-> > > > > Example:
-> > > > > 
-> > > > > + -----------------------------------------------------------------+
-> > > > > | Some init process (e.g. udevd) | deferred_probe_work_func worker |
-> > > > > + -----------------------------------------------------------------+
-> > > > > | Probe cros-ec-keyb.            |                                 |
-> > > > > | - Decide to defer[1].          |                                 |
-> > > > > |                                | A device bound to a driver[2].  |
-> > > > > | Probe cros_ec_lpc.             |                                 |
-> > > > > | - Init the struct[3].          |                                 |
-> > > > > |                                | Retry cros-ec-keyb from the     |
-> > > > > |                                | deferred list[4].               |
-> > > > > |                                | - Won't defer again as [3].     |
-> > > > > |                                | - Access uninitialized data in  |
-> > > > > |                                |   the struct.                   |
-> > > > > | - Register the device.         |                                 |
-> > > > > + -----------------------------------------------------------------+
-> > > > > 
-> > > > > [1] https://elixir.bootlin.com/linux/v6.16/source/drivers/input/keyboard/cros_ec_keyb.c#L707
-> > > > > [2] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L405
-> > > > > [3] https://elixir.bootlin.com/linux/v6.16/source/drivers/platform/chrome/cros_ec_lpc.c#L644
-> > > > > [4] https://elixir.bootlin.com/linux/v6.16/source/drivers/base/dd.c#L418
-> > > > > 
-> > > > > Note that the device link[5] can't help as in the observed environment,
-> > > > > the devices are already added via device_add()[6].
-> > > > > 
-> > > > > [5] https://www.kernel.org/doc/html/latest/driver-api/device_link.html#usage
-> > > > > [6] https://elixir.bootlin.com/linux/v6.16/source/drivers/acpi/acpi_platform.c#L177
-> > > > > 
-> > > > > The series fixes the issue by ensuring the struct is ready for accessing
-> > > > > before continuing to probe cros-ec-keyb.
-> > > > 
-> > > > Why is the keyboard platform device instantiated before the transport
-> > > > (cros_ec_lpc) is done initializing? I think this is the root of the
-> > > > issue...
-> > > 
-> > > I may misunderstand but it seems to me:
-> > > 
-> > > - The ACPI bus enumerated and instantiated the platform devices[6] first.
-> > > 
-> > > - The keyboard platform device was probed when `cros_ec_keyb_driver`
-> > >   registered.  It deferred as its parent's drvdata was NULL[1].
-> > > 
-> > > - The transport platform device was probed when `cros_ec_lpc_driver`
-> > >   registered.  It set the drvdata[3].
-> > > 
-> > > - The keyboard platform device was probed again from retrying the deferred
-> > >   list, by another thread `deferred_probe_work_func`.  The parent's drvdata
-> > >   wasn't NULL and cros_ec_register() for the transport device weren't
-> > >   finished.  The race happened.
-> > 
-> > Hi Dmitry,
-> > 
-> > Does it make sense to you?
+On Mon, Aug 25, 2025 at 02:57:46PM +0000, Andrei Kuchynski wrote:
+> This new field in the port properties dictates whether the Platform Policy
+> Manager (PPM) allows the OS Policy Manager (OPM) to change the currently
+> active, negotiated alternate mode.
 > 
-> I'll have to research how MFD mixes up statically described and
-> DT-described platform devices and makes sure that children are not
-> probed before the parent is ready - I think we need to make cros_ec
-> behave the same way.
+> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> ---
+>  drivers/usb/typec/class.c | 9 ++++++---
+>  drivers/usb/typec/class.h | 2 ++
+>  include/linux/usb/typec.h | 1 +
+>  3 files changed, 9 insertions(+), 3 deletions(-)
 
-I may misunderstand but FWIW:
+This is okay by me, but you forgot to document the file.
 
-I failed to find relevant code in MFD [7] that guarantees the probe order.
-Also, I'm curious about wouldn't code at [7] results in duplicate platform
-devices?  E.g., 1 populated from OF; 1 created by MFD.
+thanks,
 
-Note: current cros_ec_dev.c doesn't use `of_compatible` in struct mfd_cell.
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 67a533e35150..9f86605ce125 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -457,11 +457,13 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
+>  					     struct attribute *attr, int n)
+>  {
+>  	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
+> +	struct typec_port *port = typec_altmode2port(adev);
+>  
+>  	if (attr == &dev_attr_active.attr)
+> -		if (!is_typec_port(adev->dev.parent) &&
+> -		    (!adev->ops || !adev->ops->activate))
+> -			return 0444;
+> +		if (!is_typec_port(adev->dev.parent)) {
+> +			if (!port->mode_control || !adev->ops || !adev->ops->activate)
+> +				return 0444;
+> +		}
+>  
+>  	return attr->mode;
+>  }
+> @@ -2681,6 +2683,7 @@ struct typec_port *typec_register_port(struct device *parent,
+>  	}
+>  
+>  	port->pd = cap->pd;
+> +	port->mode_control = !cap->no_mode_control;
+>  
+>  	ret = device_add(&port->dev);
+>  	if (ret) {
+> diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+> index db2fe96c48ff..c53a04b9dc75 100644
+> --- a/drivers/usb/typec/class.h
+> +++ b/drivers/usb/typec/class.h
+> @@ -80,6 +80,8 @@ struct typec_port {
+>  	 */
+>  	struct device			*usb2_dev;
+>  	struct device			*usb3_dev;
+> +
+> +	bool				mode_control;
+>  };
+>  
+>  #define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
+> diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+> index 252af3f77039..cbc94282e45e 100644
+> --- a/include/linux/usb/typec.h
+> +++ b/include/linux/usb/typec.h
+> @@ -304,6 +304,7 @@ struct typec_capability {
+>  	enum typec_accessory	accessory[TYPEC_MAX_ACCESSORY];
+>  	unsigned int		orientation_aware:1;
+>  	u8			usb_capability;
+> +	bool			no_mode_control;
+>  
+>  	struct fwnode_handle	*fwnode;
+>  	void			*driver_data;
+> -- 
+> 2.51.0.rc2.233.g662b1ed5c5-goog
+> 
 
-If we're looking at how cros_ec_dev.c guarantees the order:
-
-- The transport platfrom device is probed first.  It calls cros_ec_register().
-- In cros_ec_register(), it registers the MFD device "cros-ec-dev".  And the
-  children devices are added via mfd_add_devices().
-
-
-Back to the issue we observed:
-
-- The platform devices are created when it scans the tree in ACPI[6].  We
-  probably have no way to prevent the devices from adding unless specifying
-  `enumeration_by_parent`[8].
-
-- When some of them are modules, the driver registrations are tied to the
-  module insertion.  They can be arrived by anytime unless we use something
-  similar to soft dependency[9].  A Kconfig dependency will also
-  be needed to prevent cros_ec_lpcs=m but cros_ec_keyb=y.  However,
-  cros_ec_keyb would need to specify 2 possible dependencies "cros_ec_lpcs"
-  and "cros_ec_spi"[10].  I'm not sure what would be happening if a system
-  has no cros_ec_spi module at all.
-
-[7] https://elixir.bootlin.com/linux/v6.16/source/drivers/mfd/mfd-core.c#L184
-[8] https://elixir.bootlin.com/linux/v6.16/source/drivers/acpi/scan.c#L2204
-[9] https://elixir.bootlin.com/linux/v6.16/source/include/linux/module.h#L176
-[10] https://elixir.bootlin.com/linux/v6.16/source/drivers/input/keyboard/Kconfig#L743
+-- 
+heikki

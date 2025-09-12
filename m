@@ -1,205 +1,714 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446F42C0275
-	for <chrome-platform@lists.linux.dev>; Fri, 12 Sep 2025 06:48:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3912BCF6A
+	for <chrome-platform@lists.linux.dev>; Fri, 12 Sep 2025 06:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757659690; cv=none; b=l2WO9g+IdUeINqkNb0lT2OrIEGi0CEopyhDJP0YF3MOTVssSL0FvNp0PW8+xUtBUoalrhOkpqg3i9xPuOi2Xt9sTMeqqIqRsh9Z280aWy4tnBhs3ChGkWXQj4gLMh1/uwrpKZgbRP+u4DZpnXEkLPgz0tIoEqpFEldc/nkCzALk=
+	t=1757659869; cv=none; b=J1zCut+WY1ueBwBkyzMjyPtkqyUlbcNA/+n8I4UBM6nSyBJEwqim59jvCTGcS0b+D9WV7e3s8K1hnSHLEQaE8a8AbydZj4jkfRv4brMpQ2/6MsfKq3ygKb+gEJ+qyWV1ng5XQoXQL6LRZhk0CmJOP0uJc8d1bdFEXkGAEQQ92PM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757659690; c=relaxed/simple;
-	bh=UT/bION2zNpmXwBRk6uc/9Eat1ApMNYCZlITkT1NplQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NLgyKVv/bjpprUQF45SqdD6LvNcrQ9DnJjmFfl/pHD3szaCjkrTCQc6hAZwocC94vH/sIHqMRNP3bDsShJ40YNx4jRT1q7Woc08JWqZ5BawV3gSig/9hsh4PSa9K+g1GMMVZD99Hen0q2nPPNk7NWkCTFaVK94Qmf5+Vy9Y3au8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Pl0VSasy; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1757659869; c=relaxed/simple;
+	bh=Ze5dXaXoaUJ0o0ohczOS0xUsVf+MMuR7GdtB3dIiZaU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=GwPqMi7A2JX0es5RpCh/bqomj4XQV9/wPdqcBbHygcXWrCj2WWmOwq8QhLyDezHz3QLJGB6UhYRU1Ew/5j1g89Sle5o3p7i7MI0oVttmZGnVs5VtOp22i5gL5LAhVsyG+Y/53/goYKtWLXbLACbd7wCgC5Stlgog/i63mverSVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=he/WaTsN; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dawidn.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Pl0VSasy"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b04271cfc3eso188922366b.3
-        for <chrome-platform@lists.linux.dev>; Thu, 11 Sep 2025 23:48:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="he/WaTsN"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-45df609b181so11796295e9.2
+        for <chrome-platform@lists.linux.dev>; Thu, 11 Sep 2025 23:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1757659687; x=1758264487; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a0Xtud0TdVZ+DWagzGFvFsKpmqRiYDQ9VDWpfm1enwI=;
-        b=Pl0VSasyanPOHhvopZ2VNzosh5J2vi6BhKi1VLlJcEUJPHjBRbBWYl+wW7MKkgQWGI
-         Xv8EDDnR4UH4JKamkyg9tKG8vIbJv8vt8O3iBsp2YOi7xD2QLJiL5gMX+x5ANfq98LvG
-         niotmF+S6sMM1uKT+nhD4IX57F/U61a3SDaZM=
+        d=google.com; s=20230601; t=1757659865; x=1758264665; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GBOiWIn1nuqyoLJ1tfXCxWvdhz6iGA4/enLEs/plB9A=;
+        b=he/WaTsNL9ruEByAmRRxmjae8MxIBxsyPLiza+cjU9hIcyWESI045ZSt5E/NvWI7/P
+         PHWz7gbLt+4sFTF5R43pTb845Ga34fqPOmH+8gUx1+Wr6Kvtrct3iuddDoy7h+V2zwwZ
+         96H4jJrVKORx0SmDDZ9sy6yRAFQ29lixjXRGSh1OHAKHLAHC/uvMXUjZTG6KjAboKs3P
+         S+FXYHal8v8EQXZ8GwV5jkm316V5eR9qvLHl5WVaVMcc5v7xS7DjQdFHjY0ozSoWXGLR
+         juBtFuAbgFu7shOYdzlrGKLykmoM6/pVsQcfLdvJMfMPZBeOnOIu3y31px/m23o4/1ma
+         72yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757659687; x=1758264487;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a0Xtud0TdVZ+DWagzGFvFsKpmqRiYDQ9VDWpfm1enwI=;
-        b=c6doyJ8YiV/tEusEE8wyRdH66U5R98QU2VsDb2TmkmopJJLv4h10L0AyJKItER8SlR
-         lNqqOGNUV42gK+6hhvXj0b8I7ELK8cPvKboqdcYopLgWMDBA5B4kAM0H0pH++cNrwbSU
-         RCOxjb2bFKvAaQv3SzO5/Erfpue/9HHxzL8h4v+m03fx64vt4CCRlMncAb0oI3IQGQVI
-         i1brKVLqgKcjMDwAlcpWpxfQk4MhnPPz/hcOuPCLLHms1QHX6+3NUu4nfx3d7JVkzYTb
-         B5LlgWB3O18fWbgFUXWhDAtBB9lih7rSiAv7pDkl2rUurUZRNPZv/bQovfVkGDmiyB9K
-         26zQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUNMh813P5OKJoVecM2T1wCRM8cGQjdla7LoeWrpJCZiFiGMlsiJcWN5huJ+Y7RfXxZvz2TkC8Q2AuvXMUTY4Y=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFEri9syZgxD90xY9jbIlanxp8luesWxBft/Ss9TaAnZOyZK8D
-	Ewc+RjyNvm99OAnBvMoWkWvSBSzHwrEuIPvHlLwDYoFponO04VJWtVfoUdtnWXrZiw==
-X-Gm-Gg: ASbGncsAjTwWj5nXVbWfIqYKKRnk/qsTFSfNl6HHanLLGAH4r+6kpSKw0OAm99/gv4l
-	k6p6a1+QRW/NXoryXPXQnFh1uuSLJU46mrhPHbU2TrLpUjBYnA8+lekpIJHxvmeeOC6YKpH19Wx
-	8j/Skyh/XYQmZePTMtl+XjjgkFdgicOO15oR7VqlkIy204XC/IWDOROtxnzvn+HitAzdxCFfODb
-	xNBa4zmsPPcnscpbW12/Q19MhMWwTrEIUShMAHbucUWuYmitS4qaqDUfOEzUfT/gaEFSmFE6Oc2
-	fSczHLm7HQiTL9mF5ZPZG4UOMCHbs4koLaGPFrs6rCUQ/XhVb5o4L8zpBeHwkOibF8NgMMMUUnJ
-	h1Q6MHTWRGGUqFEreP5iLogeHRYOPdW+kVSH1R01jbKCEoKOph61bXOmh7P+LXSCDN4+HUxclFN
-	4+YOlXkMr43WYaj3TPjeG4EYTCbhfhEXjPz/cB
-X-Google-Smtp-Source: AGHT+IFJXwxQzhGtmgTg6Wyltw4l/rkxAEpJ7pN6ZY/j+zLPCSWzQ8LLU+wbeQfpDvkIAniXPe0jLQ==
-X-Received: by 2002:a17:907:9623:b0:b04:708e:7348 with SMTP id a640c23a62f3a-b07c37e0e05mr181292666b.30.1757659686414;
-        Thu, 11 Sep 2025 23:48:06 -0700 (PDT)
-Received: from akuchynski.c.googlers.com.com (240.225.32.34.bc.googleusercontent.com. [34.32.225.240])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b3128a1esm295465366b.29.2025.09.11.23.48.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 23:48:06 -0700 (PDT)
-From: Andrei Kuchynski <akuchynski@chromium.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH v4 4/4] usb: typec: Expose alternate mode priority via sysfs
-Date: Fri, 12 Sep 2025 06:47:51 +0000
-Message-ID: <20250912064751.1987850-5-akuchynski@chromium.org>
-X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
-In-Reply-To: <20250912064751.1987850-1-akuchynski@chromium.org>
-References: <20250912064751.1987850-1-akuchynski@chromium.org>
+        d=1e100.net; s=20230601; t=1757659865; x=1758264665;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GBOiWIn1nuqyoLJ1tfXCxWvdhz6iGA4/enLEs/plB9A=;
+        b=umQ2/U1Q5uT6E30KkExGbemrW5E0d+f+rEgWw5R0Z9QQz1ipHXR/7aA/pkXymOHI9p
+         MFkyxSsYkmeuEQFZnProvP1nER5iPKbL6kJYcuDOeLEaBm8GCenA8AUfEIs6UaSPqtTy
+         WXHaeVNyBy5WdMzKvIiasm+E4xddATebaDQMhbDwAtskV2q3jCFfx2TQW3miYyafzOol
+         oK/xn6zG/f7pL4bDvQjEQK0XeBtcsURD7HDpF41VNvLNeRBbO5XXmhAMqrdf+kMHzV2q
+         sqvQ5Jm7ZHeBqwOuAC6VuQt5EMW2VfmzlMgyKvgXvkmagpihflAJeaCoZIHD7kc9MhsD
+         k5Jw==
+X-Gm-Message-State: AOJu0Yw5l2MxaSXqKiAi7ZxlvP9TH8IymseuCV6nSLaqomI9p5G9RBzm
+	HgVTvIJ04icUVeTGvyyovJA7Y+eAVmjxguGs5FYFQzvPaS9MbDFIVYNtAFOn2LSElau7OkBGEWN
+	gdI3lWQ==
+X-Google-Smtp-Source: AGHT+IGmHqd8nXuXhx/CfxqhNUjjHC/zcCaf/A056G+Dp6UUUOHNfj5JiSPIi3gWlV3KboXwmlQ5lUXss5w=
+X-Received: from wmo18.prod.google.com ([2002:a05:600c:2312:b0:45d:ddaa:f34b])
+ (user=dawidn job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:350d:b0:45b:9912:9f1e
+ with SMTP id 5b1f17b1804b1-45f211c9c3bmr15813125e9.3.1757659865450; Thu, 11
+ Sep 2025 23:51:05 -0700 (PDT)
+Date: Fri, 12 Sep 2025 06:51:04 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
+Message-ID: <20250912065104.260344-1-dawidn@google.com>
+Subject: [PATCH v6] platform/chrome: Add ChromeOS EC USB driver
+From: Dawid Niedzwiecki <dawidn@google.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	chromeos-krk-upstreaming@google.com, 
+	"=?UTF-8?q?=C5=81ukasz=20Bartosik?=" <ukaszb@chromium.org>, Dawid Niedzwiecki <dawidn@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-This patch introduces a priority sysfs attribute to the USB Type-C
-alternate mode port interface. This new attribute allows user-space to
-configure the numeric priority of alternate modes managing their preferred
-order of operation.
+Use USB to talk to the ChromeOS EC. The protocol is defined by the EC
+and is fairly simple, with a length byte, checksum, command byte and
+version byte in the header.
 
-Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+Use vendor defined usb interface with in/out endpoints to transfer
+requests and responses. Also use one interrupt in endpoint which signals
+readiness of response and pending events on the EC side.
+
+Signed-off-by: Dawid Niedzwiecki <dawidn@google.com>
 ---
- Documentation/ABI/testing/sysfs-class-typec | 11 ++++++
- drivers/usb/typec/class.c                   | 37 ++++++++++++++++++++-
- 2 files changed, 47 insertions(+), 1 deletion(-)
+V5 -> V6:
+- Fix typo sumbit -> submit
 
-diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-index 38e101c17a00..0f6e6adb71c4 100644
---- a/Documentation/ABI/testing/sysfs-class-typec
-+++ b/Documentation/ABI/testing/sysfs-class-typec
-@@ -162,6 +162,17 @@ Description:	Lists the supported USB Modes. The default USB mode that is used
- 		- usb3 (USB 3.2)
- 		- usb4 (USB4)
+ drivers/platform/chrome/Kconfig       |  11 +
+ drivers/platform/chrome/Makefile      |   1 +
+ drivers/platform/chrome/cros_ec_usb.c | 586 ++++++++++++++++++++++++++
+ 3 files changed, 598 insertions(+)
+ create mode 100644 drivers/platform/chrome/cros_ec_usb.c
+
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index 2281d6dacc9b..e77f06f13fc4 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -316,6 +316,17 @@ config CROS_TYPEC_SWITCH
+ 	  To compile this driver as a module, choose M here: the module will be
+ 	  called cros_typec_switch.
  
-+		What:		/sys/class/typec/<port>/<alt-mode>/priority
-+Date:		July 2025
-+Contact:	Andrei Kuchynski <akuchynski@chromium.org>
-+Description:
-+		Displays and allows setting the priority for a specific alternate mode.
-+		The priority is an integer in the range 0-255. A lower numerical value
-+		indicates a higher priority (0 is the highest).
-+		If the new value is already in use by another mode, the priority of the
-+		conflicting mode and any subsequent modes will be incremented until they
-+		are all unique.
++config CROS_EC_USB
++	tristate "ChromeOS Embedded Controller (USB)"
++	depends on CROS_EC && USB
++	help
++	  If you say Y here, you get support for talking to the ChromeOS EC
++	  through a USB. The driver uses vendor defined interface and is capable
++	  of signaling events from EC.
 +
- USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
++	  To compile this driver as a module, choose M here: the
++	  module will be called cros_ec_usb.
++
+ source "drivers/platform/chrome/wilco_ec/Kconfig"
  
- What:		/sys/class/typec/<port>-partner/accessory_mode
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 9f86605ce125..6191f7def91c 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -19,6 +19,7 @@
- #include "bus.h"
- #include "class.h"
- #include "pd.h"
-+#include "mode_selection.h"
+ # Kunit test cases
+diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+index b981a1bb5bd8..444383e8912d 100644
+--- a/drivers/platform/chrome/Makefile
++++ b/drivers/platform/chrome/Makefile
+@@ -38,6 +38,7 @@ obj-$(CONFIG_CROS_EC_SYSFS)		+= cros_ec_sysfs.o
+ obj-$(CONFIG_CROS_HPS_I2C)		+= cros_hps_i2c.o
+ obj-$(CONFIG_CROS_USBPD_LOGGER)		+= cros_usbpd_logger.o
+ obj-$(CONFIG_CROS_USBPD_NOTIFY)		+= cros_usbpd_notify.o
++obj-$(CONFIG_CROS_EC_USB)		+= cros_ec_usb.o
  
- static DEFINE_IDA(typec_index_ida);
+ obj-$(CONFIG_WILCO_EC)			+= wilco_ec/
  
-@@ -445,11 +446,34 @@ svid_show(struct device *dev, struct device_attribute *attr, char *buf)
- }
- static DEVICE_ATTR_RO(svid);
- 
-+static ssize_t priority_store(struct device *dev,
-+			       struct device_attribute *attr,
-+			       const char *buf, size_t size)
+diff --git a/drivers/platform/chrome/cros_ec_usb.c b/drivers/platform/chrome/cros_ec_usb.c
+new file mode 100644
+index 000000000000..44fc73d44c3a
+--- /dev/null
++++ b/drivers/platform/chrome/cros_ec_usb.c
+@@ -0,0 +1,586 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * USB interface for ChromeOS Embedded Controller
++ *
++ * Copyright (C) 2025 Google LLC.
++ */
++
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/kref.h>
++#include <linux/list.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/uaccess.h>
++#include <linux/usb.h>
++
++#include <linux/platform_data/cros_ec_commands.h>
++#include <linux/platform_data/cros_ec_proto.h>
++#include <linux/platform_device.h>
++
++#include "cros_ec.h"
++
++#define USB_VENDOR_ID_GOOGLE 0x18d1
++
++#define USB_SUBCLASS_GOOGLE_EC_HOST_CMD 0x5a
++#define USB_PROTOCOL_GOOGLE_EC_HOST_CMD 0x00
++
++#define RESPONSE_TIMEOUT_MS 200
++#define BULK_TRANSFER_TIMEOUT_MS 100
++
++enum cros_ec_usb_int_type {
++	INT_TYPE_EVENT_OCCURRED = 0,
++	INT_TYPE_RESPONSE_READY = 1,
++};
++
++struct cros_ec_usb {
++	/* the usb device for this device */
++	struct usb_device *udev;
++	/* the interface for this device */
++	struct usb_interface *interface;
++	/* Cros EC device structure */
++	struct cros_ec_device *ec_dev;
++
++	/* the buffer to receive data from bulk ep */
++	u8 *bulk_in_buffer;
++	/* the buffer to receive data from int ep */
++	u8 *int_in_buffer;
++	/* the urb to receive data from int ep */
++	struct urb *int_in_urb;
++	/* the size of the receive buffer from bulk ep */
++	size_t bulk_in_size;
++	/* the size of the receive buffer from int ep */
++	size_t int_in_size;
++
++	/* the pipe of the bulk in ep */
++	unsigned int bulk_in_pipe;
++	/* the pipe of the bulk out ep */
++	unsigned int bulk_out_pipe;
++	/* the pipe of the int in ep */
++	unsigned int int_in_pipe;
++	/* the interval of the int in ep */
++	u8 int_in_interval;
++
++	/* Response ready on EC side */
++	bool resp_ready;
++	/* EC has been registered */
++	bool registered;
++	/* EC is disconnected */
++	bool disconnected;
++	/* synchronize I/O with disconnect */
++	struct mutex io_mutex;
++	/* Work to handle EC events */
++	struct work_struct work_ec_evt;
++	/* Wait queue to signal the response is ready on EC side */
++	wait_queue_head_t resp_ready_wait;
++};
++
++struct int_msg {
++	u8 int_type;
++} __packed;
++
++struct registered_ec {
++	struct list_head node;
++	u16 idProduct;
++	struct cros_ec_usb *ec_usb;
++};
++
++static LIST_HEAD(registered_list);
++static DEFINE_MUTEX(registered_list_mutex);
++
++static int cros_ec_usb_register(u16 idProduct, struct cros_ec_usb *ec_usb)
 +{
-+	u8 val;
-+	int err = kstrtou8(buf, 10, &val);
++	struct registered_ec *ec;
 +
-+	if (!err)
-+		err = typec_mode_set_priority(to_typec_altmode(dev), val);
++	ec = kmalloc(sizeof(*ec), GFP_KERNEL);
++	if (!ec)
++		return -ENOMEM;
 +
-+	if (!err)
-+		return size;
++	ec->ec_usb = ec_usb;
++	ec->idProduct = idProduct;
++	mutex_lock(&registered_list_mutex);
++	list_add(&ec->node, &registered_list);
++	mutex_unlock(&registered_list_mutex);
++
++	return 0;
++}
++
++static struct cros_ec_usb *cros_ec_usb_get_registered(u16 idProduct)
++{
++	struct registered_ec *ec;
++	struct cros_ec_usb *ret = NULL;
++
++	mutex_lock(&registered_list_mutex);
++	list_for_each_entry(ec, &registered_list, node) {
++		if (ec->idProduct == idProduct) {
++			ret = ec->ec_usb;
++			break;
++		}
++	}
++	mutex_unlock(&registered_list_mutex);
++	return ret;
++}
++
++static void cros_ec_int_callback(struct urb *urb);
++
++static int submit_int_urb(struct cros_ec_device *ec_dev, gfp_t mem_flags)
++{
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++	struct usb_device *usb_dev = interface_to_usbdev(ec_usb->interface);
++
++	/* Submit the INT URB. */
++	usb_fill_int_urb(ec_usb->int_in_urb, usb_dev, ec_usb->int_in_pipe, ec_usb->int_in_buffer,
++			 ec_usb->int_in_size, cros_ec_int_callback, ec_usb,
++			 ec_usb->int_in_interval);
++
++	return usb_submit_urb(ec_usb->int_in_urb, mem_flags);
++}
++
++static void cros_ec_int_callback(struct urb *urb)
++{
++	struct cros_ec_usb *ec_usb = urb->context;
++	struct cros_ec_device *ec_dev = ec_usb->ec_dev;
++	int ret;
++
++	switch (urb->status) {
++	case 0:
++		break;
++	case -ECONNRESET:
++	case -ENOENT:
++	case -ESHUTDOWN:
++		/* Expected errors. */
++		return;
++	default:
++		dev_dbg(ec_dev->dev, "Unexpected int urb error: %d\n", urb->status);
++		goto resubmit;
++	}
++
++	if (urb->actual_length >= sizeof(struct int_msg)) {
++		struct int_msg *int_msg = (struct int_msg *)ec_usb->int_in_buffer;
++		enum cros_ec_usb_int_type int_type = (enum cros_ec_usb_int_type)int_msg->int_type;
++
++		switch (int_type) {
++		case INT_TYPE_EVENT_OCCURRED:
++			if (ec_usb->registered) {
++				ec_dev->last_event_time = cros_ec_get_time_ns();
++				schedule_work(&ec_usb->work_ec_evt);
++			}
++			break;
++		case INT_TYPE_RESPONSE_READY:
++			ec_usb->resp_ready = true;
++			wake_up(&ec_usb->resp_ready_wait);
++			break;
++		default:
++			dev_err(ec_dev->dev, "Unrecognized event: %d\n", int_type);
++		}
++	} else {
++		dev_err(ec_dev->dev, "Incorrect int transfer len: %d\n", urb->actual_length);
++	}
++
++resubmit:
++	/* Resubmit the INT URB. */
++	ret = submit_int_urb(ec_dev, GFP_ATOMIC);
++	if (ret)
++		dev_err(ec_dev->dev, "Failed to resubmit int urb: %d", ret);
++}
++
++static int do_cros_ec_pkt_xfer_usb(struct cros_ec_device *ec_dev,
++				   struct cros_ec_command *ec_msg)
++{
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++	struct ec_host_response *host_response;
++	int req_size, ret, actual_length, expected_resp_size, resp_size;
++	const int header_size = sizeof(*host_response);
++	const int max_resp_size = header_size + ec_msg->insize;
++	const int bulk_in_size = umin(ec_usb->bulk_in_size, ec_dev->din_size);
++	u8 sum = 0;
++
++	mutex_lock(&ec_usb->io_mutex);
++	if (ec_usb->disconnected) {
++		mutex_unlock(&ec_usb->io_mutex);
++		ret = -ENODEV;
++		return ret;
++	}
++
++	if (max_resp_size > ec_dev->din_size) {
++		dev_err(ec_dev->dev, "Potential response too big: %d\n", max_resp_size);
++		ret = -EINVAL;
++		goto exit;
++	}
++
++	req_size = cros_ec_prepare_tx(ec_dev, ec_msg);
++	if (req_size < 0) {
++		dev_err(ec_dev->dev, "Failed to prepare msg %d\n", req_size);
++		ret = req_size;
++		goto exit;
++	}
++	dev_dbg(ec_dev->dev, "Prepared len=%d\n", req_size);
++
++	ec_usb->resp_ready = false;
++	/*
++	 * Buffers dout and din are allocated with devm_kzalloc which means it is suitable
++	 * for DMA and we can use by usb functions.
++	 */
++	ret = usb_bulk_msg(ec_usb->udev, ec_usb->bulk_out_pipe, ec_dev->dout, req_size, NULL,
++			   BULK_TRANSFER_TIMEOUT_MS);
++	if (ret) {
++		dev_err(ec_dev->dev, "Failed to send request: %d\n", ret);
++		goto exit;
++	}
++
++	/*
++	 * Wait till EC signals response ready event via INT endpoint,
++	 * before polling a response with a bulk transfer.
++	 */
++	if (!wait_event_timeout(ec_usb->resp_ready_wait, ec_usb->resp_ready,
++				msecs_to_jiffies(RESPONSE_TIMEOUT_MS))) {
++		dev_err(ec_dev->dev, "Timed out waiting for response\n");
++		ret = -ETIMEDOUT;
++		goto exit;
++	}
++
++	/* Get first part of response that contains a header. */
++	ret = usb_bulk_msg(ec_usb->udev, ec_usb->bulk_in_pipe, ec_dev->din, bulk_in_size,
++			   &actual_length, BULK_TRANSFER_TIMEOUT_MS);
++	if (ret) {
++		dev_err(ec_dev->dev, "Failed to get response: %d\n", ret);
++		goto exit;
++	}
++
++	/* Verify number of received bytes. */
++	if (actual_length < header_size) {
++		dev_err(ec_dev->dev, "Received too little bytes: %d\n", actual_length);
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	host_response = (struct ec_host_response *)ec_dev->din;
++	if (host_response->struct_version != 3 || host_response->reserved != 0) {
++		dev_err(ec_dev->dev, "Received invalid header\n");
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	expected_resp_size = header_size + host_response->data_len;
++	if (expected_resp_size > max_resp_size || actual_length > expected_resp_size) {
++		dev_err(ec_dev->dev, "Incorrect number of expected bytes: %d\n",
++			expected_resp_size);
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	/* Get the rest of the response if needed. */
++	resp_size = actual_length;
++	if (resp_size < expected_resp_size) {
++		ret = usb_bulk_msg(ec_usb->udev, ec_usb->bulk_in_pipe, ec_dev->din + resp_size,
++				   expected_resp_size - resp_size, &actual_length,
++				   BULK_TRANSFER_TIMEOUT_MS);
++		if (ret) {
++			dev_err(ec_dev->dev, "Failed to get second part of response: %d\n", ret);
++			goto exit;
++		}
++		resp_size += actual_length;
++	}
++
++	/* Check if number of received of bytes is correct. */
++	if (resp_size != expected_resp_size) {
++		dev_err(ec_dev->dev, "Received incorrect number of bytes: %d, expected: %d\n",
++			resp_size, expected_resp_size);
++		ret = -ENOSPC;
++		goto exit;
++	}
++
++	/* Validate checksum */
++	for (int i = 0; i < expected_resp_size; i++)
++		sum += ec_dev->din[i];
++
++	if (sum) {
++		dev_err(ec_dev->dev, "Bad packet checksum calculated %x\n", sum);
++		ret = -EBADMSG;
++		goto exit;
++	}
++
++	ec_msg->result = host_response->result;
++	memcpy(ec_msg->data, ec_dev->din + header_size, host_response->data_len);
++	ret = host_response->data_len;
++
++	if (ec_msg->command == EC_CMD_REBOOT_EC)
++		msleep(EC_REBOOT_DELAY_MS);
++
++exit:
++	mutex_unlock(&ec_usb->io_mutex);
++	if (ret < 0) {
++		/* Try to reset EC in case of error to restore default state. */
++		usb_reset_device(ec_usb->udev);
++	}
++
++	return ret;
++}
++
++static void usb_evt_handler(struct work_struct *work)
++{
++	struct cros_ec_usb *ec_usb = container_of(work, struct cros_ec_usb, work_ec_evt);
++
++	cros_ec_irq_thread(0, ec_usb->ec_dev);
++}
++
++static void cros_ec_usb_delete(struct cros_ec_usb *ec_usb)
++{
++	usb_kill_urb(ec_usb->int_in_urb);
++	cancel_work_sync(&ec_usb->work_ec_evt);
++
++	usb_free_urb(ec_usb->int_in_urb);
++	usb_put_intf(ec_usb->interface);
++	usb_put_dev(ec_usb->udev);
++	kfree(ec_usb->int_in_buffer);
++	kfree(ec_usb->bulk_in_buffer);
++}
++
++static int cros_ec_usb_probe(struct usb_interface *intf, const struct usb_device_id *id)
++{
++	struct usb_device *usb_dev = interface_to_usbdev(intf);
++	struct usb_endpoint_descriptor *bulk_in, *bulk_out, *int_in;
++	struct device *if_dev = &intf->dev;
++	struct cros_ec_device *ec_dev;
++	const u16 idProduct = le16_to_cpu(usb_dev->descriptor.idProduct);
++	struct cros_ec_usb *ec_usb = cros_ec_usb_get_registered(idProduct);
++	const bool is_registered = !!ec_usb;
++	int ret;
++
++	/*
++	 * Do not register the same EC device twice. The probing is performed every reboot, sysjump,
++	 * crash etc. Recreating the /dev/cros_X file every time would force all application to
++	 * reopen the file, which is not a case for other cros_ec_x divers. Instead, keep
++	 * the cros_ec_device and cros_ec_usb structures constant and replace USB related structures
++	 * for the same EC that is reprobed.
++	 *
++	 * The driver doesn't support handling two devices with the same idProduct, but it will
++	 * never be a real usecase.
++	 */
++	if (!is_registered) {
++		ec_usb = kzalloc(sizeof(*ec_usb), GFP_KERNEL);
++		if (!ec_usb)
++			return -ENOMEM;
++
++		ec_dev = kzalloc(sizeof(*ec_dev), GFP_KERNEL);
++		if (!ec_dev) {
++			kfree(ec_usb);
++			return -ENOMEM;
++		}
++
++		ec_usb->ec_dev = ec_dev;
++		INIT_WORK(&ec_usb->work_ec_evt, usb_evt_handler);
++		mutex_init(&ec_usb->io_mutex);
++		init_waitqueue_head(&ec_usb->resp_ready_wait);
++
++		ec_dev->priv = ec_usb;
++		/* EC uses int endpoint to signal events. */
++		ec_dev->irq = 0;
++		ec_dev->cmd_xfer = NULL;
++		ec_dev->pkt_xfer = do_cros_ec_pkt_xfer_usb;
++		ec_dev->din_size = sizeof(struct ec_host_response) +
++				   sizeof(struct ec_response_get_protocol_info);
++		ec_dev->dout_size = sizeof(struct ec_host_request) +
++				    sizeof(struct ec_params_rwsig_action);
++	} else {
++		ec_dev = ec_usb->ec_dev;
++
++		/*
++		 * We need to allocate dout and din buffers, because cros_ec_register
++		 * won't be called. These buffers were freed once previous usb device was
++		 * disconnected. Use buffer sizes from the last query.
++		 * The EC_HOST_EVENT_INTERFACE_READY event will be triggered at the end
++		 * of a boot, which calls cros_ec_query_all function, that reallocates
++		 * buffers.
++		 */
++		ec_dev->din = devm_kzalloc(if_dev, ec_dev->din_size, GFP_KERNEL);
++		if (!ec_dev->din) {
++			ret = -ENOMEM;
++			dev_err(if_dev, "Failed to allocate din buffer\n");
++			goto error;
++		}
++		ec_dev->dout = devm_kzalloc(if_dev, ec_dev->dout_size, GFP_KERNEL);
++		if (!ec_dev->dout) {
++			ret = -ENOMEM;
++			dev_err(if_dev, "Failed to allocate dout buffer\n");
++			goto error;
++		}
++	}
++
++	ec_dev->dev = if_dev;
++	ec_dev->phys_name = dev_name(if_dev);
++	usb_set_intfdata(intf, ec_dev);
++	/* Allow EC to do remote wake-up - host sends SET_FEATURE(remote wake-up) before suspend. */
++	device_init_wakeup(&usb_dev->dev, true);
++
++	ec_usb->udev = usb_get_dev(usb_dev);
++	ec_usb->interface = usb_get_intf(intf);
++
++	/* Use first bulk-in/out endpoints + int-in endpoint */
++	ret = usb_find_common_endpoints(intf->cur_altsetting, &bulk_in, &bulk_out, &int_in, NULL);
++	if (ret) {
++		dev_err(if_dev,
++			"Could not find bulk-in, bulk-out or int-in endpoint\n");
++		goto error;
++	}
++	/* Bulk endpoints have to be capable of sending headers in one transfer. */
++	if ((usb_endpoint_maxp(bulk_out) < sizeof(struct ec_host_request)) ||
++	    (usb_endpoint_maxp(bulk_in) < sizeof(struct ec_host_response)) ||
++	    (usb_endpoint_maxp(int_in)) < sizeof(struct int_msg)) {
++		ret = -ENOSPC;
++		dev_err(if_dev, "Incorrect max packet size\n");
++		goto error;
++	}
++
++	ec_usb->bulk_out_pipe = usb_sndbulkpipe(ec_usb->udev, bulk_out->bEndpointAddress);
++	ec_usb->bulk_in_size = usb_endpoint_maxp(bulk_in);
++	ec_usb->bulk_in_pipe = usb_rcvbulkpipe(ec_usb->udev, bulk_in->bEndpointAddress);
++	ec_usb->bulk_in_buffer = kmalloc(ec_usb->bulk_in_size, GFP_KERNEL);
++	if (!ec_usb->bulk_in_buffer) {
++		dev_err(if_dev, "Failed to allocate bulk in buffer\n");
++		ret = -ENOMEM;
++		goto error;
++	}
++
++	ec_usb->int_in_size = usb_endpoint_maxp(int_in);
++	ec_usb->int_in_pipe = usb_rcvintpipe(ec_usb->udev, int_in->bEndpointAddress);
++	ec_usb->int_in_interval = int_in->bInterval;
++	ec_usb->int_in_buffer = kmalloc(ec_usb->int_in_size, GFP_KERNEL);
++	if (!ec_usb->int_in_buffer) {
++		dev_err(if_dev, "Failed to allocate int in buffer\n");
++		ret = -ENOMEM;
++		goto error;
++	}
++	ec_usb->int_in_urb = usb_alloc_urb(0, GFP_KERNEL);
++	if (!ec_usb->int_in_urb) {
++		dev_err(if_dev, "Failed to allocate int in urb\n");
++		ret = -ENOMEM;
++		goto error;
++	}
++
++	/* Use URB for the int endpoint. */
++	ret = submit_int_urb(ec_dev, GFP_KERNEL);
++	if (ret) {
++		dev_err(if_dev, "Failed to submit int urb: %d\n", ret);
++		goto error;
++	}
++
++	mutex_lock(&ec_usb->io_mutex);
++	ec_usb->disconnected = false;
++	mutex_unlock(&ec_usb->io_mutex);
++
++	if (!is_registered) {
++		ret = cros_ec_register(ec_dev);
++		if (ret) {
++			dev_err(if_dev, "Cannot register EC\n");
++			goto error;
++		}
++		ret = cros_ec_usb_register(idProduct, ec_usb);
++		if (ret) {
++			cros_ec_unregister(ec_dev);
++			goto error;
++		}
++		ec_usb->registered = true;
++	}
++
++	/* Handle potential events that haven't been handled before registration */
++	schedule_work(&ec_usb->work_ec_evt);
++
++	return 0;
++
++error:
++	/* Free allocated memory */
++	cros_ec_usb_delete(ec_usb);
++	if (!is_registered) {
++		/* Free constant structures only if it is a first registration. */
++		kfree(ec_dev);
++		kfree(ec_usb);
++	}
++
++	return ret;
++}
++
++static void cros_ec_usb_disconnect(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++
++	/* prevent more I/O from starting */
++	mutex_lock(&ec_usb->io_mutex);
++	ec_usb->disconnected = true;
++	mutex_unlock(&ec_usb->io_mutex);
++
++	cros_ec_usb_delete(ec_usb);
++}
++
++static int cros_ec_usb_suspend(struct usb_interface *intf, pm_message_t message)
++{
++	return 0;
++}
++
++static int cros_ec_usb_resume(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	int err;
++
++	/* URB is killed during suspend. */
++	err = submit_int_urb(ec_dev, GFP_KERNEL);
++	if (err)
++		dev_err(ec_dev->dev, "Failed to submit int urb after resume: %d\n", err);
++
 +	return err;
 +}
 +
-+static ssize_t priority_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
++static int cros_ec_usb_pre_reset(struct usb_interface *intf)
 +{
-+	return sysfs_emit(buf, "%u\n", to_typec_altmode(dev)->priority);
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++
++	/* Do not start any new operations. */
++	mutex_lock(&ec_usb->io_mutex);
++
++	usb_kill_urb(ec_usb->int_in_urb);
++
++	return 0;
 +}
-+static DEVICE_ATTR_RW(priority);
 +
- static struct attribute *typec_altmode_attrs[] = {
- 	&dev_attr_active.attr,
- 	&dev_attr_mode.attr,
- 	&dev_attr_svid.attr,
- 	&dev_attr_vdo.attr,
-+	&dev_attr_priority.attr,
- 	NULL
- };
- 
-@@ -459,11 +483,15 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
- 	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
- 	struct typec_port *port = typec_altmode2port(adev);
- 
--	if (attr == &dev_attr_active.attr)
-+	if (attr == &dev_attr_active.attr) {
- 		if (!is_typec_port(adev->dev.parent)) {
- 			if (!port->mode_control || !adev->ops || !adev->ops->activate)
- 				return 0444;
- 		}
-+	} else if (attr == &dev_attr_priority.attr) {
-+		if (!is_typec_port(adev->dev.parent) || !port->mode_control)
-+			return 0;
-+	}
- 
- 	return attr->mode;
- }
-@@ -2471,6 +2499,7 @@ typec_port_register_altmode(struct typec_port *port,
- 	struct typec_altmode *adev;
- 	struct typec_mux *mux;
- 	struct typec_retimer *retimer;
-+	int ret;
- 
- 	mux = typec_mux_get(&port->dev);
- 	if (IS_ERR(mux))
-@@ -2489,6 +2518,12 @@ typec_port_register_altmode(struct typec_port *port,
- 	} else {
- 		to_altmode(adev)->mux = mux;
- 		to_altmode(adev)->retimer = retimer;
++static int cros_ec_usb_post_reset(struct usb_interface *intf)
++{
++	struct cros_ec_device *ec_dev = usb_get_intfdata(intf);
++	struct cros_ec_usb *ec_usb = ec_dev->priv;
++	int err;
 +
-+		ret = typec_mode_set_priority(adev, 0);
-+		if (ret) {
-+			typec_unregister_altmode(adev);
-+			return ERR_PTR(ret);
-+		}
- 	}
- 
- 	return adev;
++	err = submit_int_urb(ec_dev, GFP_KERNEL);
++	if (err)
++		dev_err(ec_dev->dev, "Failed to submit int urb after reset: %d\n", err);
++
++	mutex_unlock(&ec_usb->io_mutex);
++
++	return err;
++}
++
++static const struct usb_device_id cros_ec_usb_id_table[] = {
++	{ USB_VENDOR_AND_INTERFACE_INFO(USB_VENDOR_ID_GOOGLE,
++					USB_CLASS_VENDOR_SPEC,
++					USB_SUBCLASS_GOOGLE_EC_HOST_CMD,
++					USB_PROTOCOL_GOOGLE_EC_HOST_CMD) },
++	{} /* Terminating entry */
++};
++MODULE_DEVICE_TABLE(usb, cros_ec_usb_id_table);
++
++static struct usb_driver cros_ec_usb = {
++	.name = "cros-ec-usb",
++	.probe = cros_ec_usb_probe,
++	.disconnect = cros_ec_usb_disconnect,
++	.suspend = cros_ec_usb_suspend,
++	.resume = cros_ec_usb_resume,
++	.pre_reset = cros_ec_usb_pre_reset,
++	.post_reset = cros_ec_usb_post_reset,
++	.id_table = cros_ec_usb_id_table,
++	/* Do not autosuspend EC */
++	.supports_autosuspend = 0,
++};
++module_usb_driver(cros_ec_usb);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("ChromeOS EC USB HC driver");
 -- 
 2.51.0.384.g4c02a37b29-goog
 

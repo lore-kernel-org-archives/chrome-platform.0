@@ -1,109 +1,96 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B302418024
-	for <chrome-platform@lists.linux.dev>; Sat, 13 Sep 2025 16:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF1A1E5B78
+	for <chrome-platform@lists.linux.dev>; Sun, 14 Sep 2025 01:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757780267; cv=none; b=oVfWh11b55uGJJ32kiElb03zHOR6KLt2jmiDVZ3ZYwjoGEz7+quvrbX2g4ju/j+1eW8wzmrzofCUGUXiCJGGzfcNe95G/i5v9QvBfwZ9xCxx2iVUpI5uY0xSd0iHkjm9GPohnw21cepC1sDYA17FSHr6eMNf8sds8uWAlDTU844=
+	t=1757811985; cv=none; b=NhvNlDmdXvtKzu3Zncgf59M7OgeFkEOGVFR+L8fjGEDJVIok4rGetyC43f68svYkNWYQJROqSdIUysNjAeiYOW0DKwi9TFeDfHBc3rIGvzuUgKYkko2dI+g8aDmQ086KXOBTZrUsi1bsNAyLi2jxwdsZKaexAHuUXQgwwBxJjHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757780267; c=relaxed/simple;
-	bh=zlxQWlkD1ONTYqI34/X3jQ4cO7pVTeDGFdZZ5vZv0no=;
+	s=arc-20240116; t=1757811985; c=relaxed/simple;
+	bh=ktRIj1BWMRAgHuTHhmcHnZIEjgDrBOtlqKH+mBToSIc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gE72GFJ/1kn23twU54qh3TFXeqli/2wW9kRTHEHM0xYKzMdODKunPs+zzGw8+W1ykQboyzIuns68iiRITIPzhUKXMsOmmWLs8SFYAHGZ0txTK5V+/ynMmvtwdQ2s8v/v7GP7x5u+zZrUr13eE/q3xaS0C1uTe2hCJ9DPOEd9D0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wNMSHU64; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=liecfn4hxr42ma1FCqastQwyrzvqj85RVNmTeICwMdxYTI17iUweZuld7noxmN5Stvty8E68mF3UKn1Sp53HPuzBTlV2SKC8FBPwkYltXbFk1pkVx3mI6xDvXaFIQRU8yl8WK/F6P/hvPBqbINOnvPcEb9h+Tnl/9E0EqImI6Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OiQcOnbi; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wNMSHU64"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 39A44A8F;
-	Sat, 13 Sep 2025 18:16:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757780187;
-	bh=zlxQWlkD1ONTYqI34/X3jQ4cO7pVTeDGFdZZ5vZv0no=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wNMSHU64CpeuCvvCv5wDHMMqvq8YnZtlhBlNDH7umSdVM03pjKJNkLiEmGmKbXR0f
-	 hozTd4PfMVTC/NZ3VHtRdX/IlVKIyJYhOc5bf1V1Q0amA6V1gQeFKIb0bRnzW5Tx1c
-	 5fLgSOxIQniI8v9oHeQCem2VmNM3pICUx+SRyhVs=
-Date: Sat, 13 Sep 2025 19:17:17 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
-Message-ID: <20250913161717.GE4842@pendragon.ideasonboard.com>
-References: <20250912132656.GC31682@pendragon.ideasonboard.com>
- <2025091209-curfew-safari-f6e0@gregkh>
- <CAMRc=MfdoB50o=3Q2p94o+f7S2Bzr=TAtWWQcDrC5Wf3Q5nqAA@mail.gmail.com>
- <20250912135916.GF31682@pendragon.ideasonboard.com>
- <2025091220-private-verse-d979@gregkh>
- <20250912142646.GI31682@pendragon.ideasonboard.com>
- <2025091237-cortex-carnage-5c34@gregkh>
- <CAMRc=Mf76m51VKktGc2K1uT4eacDqhsroRxG2RgtRyhQrhx0WA@mail.gmail.com>
- <20250912145416.GL31682@pendragon.ideasonboard.com>
- <1dc06657-e136-45c2-8012-9199194bfc9b@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OiQcOnbi"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-26060bcc5c8so9469855ad.1
+        for <chrome-platform@lists.linux.dev>; Sat, 13 Sep 2025 18:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757811983; x=1758416783; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YJIU8Q2R9kdfT4ukS71DR6sEqvnpBsLUAFZdleMjmYc=;
+        b=OiQcOnbiXGpiO3cbyW7OEOKPTUR6uOlGPRX9LMk99MDiqcbnjG4muDDJQIknCSaDLi
+         HpQp7veIUfz5a2pHRTXNFN3mxhuPW7vE+p6vt/LtZOd3imKojFomjK0yceQ9xIRxa1zh
+         W3cjygp4YIYdfqn9tmRJsnc4PJA14Ba+y+a/R4HeJb3dVFugAapueIFh8e/EtoaZdgzT
+         mh92gd6zLBN0ESjycAyKRlO6lyLmZLW8uhGZtcuO7RNFyUQGkbN7XP19AaR2TGDJAAU/
+         wOtw9WgvcGElYY4RgVBAkPrnxgV8iePKdxEzMHIpvHLXtYulkxo0P4de2/HhXszks4UG
+         dzww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757811983; x=1758416783;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YJIU8Q2R9kdfT4ukS71DR6sEqvnpBsLUAFZdleMjmYc=;
+        b=FhtU6nV3PS6A25wIENRHOXeMfQR5jOTSqhGKi6SBgC3heOSqL5x8yBLOSW6+wcuapg
+         lmMKKTdd5Lcy41N3jFqdLpDfUqc5C4HQXmCJnxcYFYV25HcJIU8+PDzG+3IS3foRidRl
+         YTk9gX9e2t72mV9usaHTSho+7fwLQmUZnTPG4R3trnOW0rC4CtEEJLlHh8nDYjroBrge
+         5zGQkEs5NGJDKgMsd1zJdgCgRprZOjbFM/9yiUKDQUz6oYw1A4qe/mdNvJk3HZbuXfjH
+         9SyXnzGvavmqWk75dRXatnfwHKcb7SANkuP/dg1D81NVDIF+Rz4PcZDSM5PY96KVdHqT
+         6Huw==
+X-Forwarded-Encrypted: i=1; AJvYcCU7c0DjlhQG42tkty1TJRXrIM8jzbUF939CclNAUKkT/zQcHbLytabBSeCG+TXtW1LUq67lIddpaWp4Tljt/T4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1/je0vCEcNdw1SPd+cePbRRLhbWZ7stf/fz8t3Iko1y0KXoWr
+	gDqpA6YwfHjt9YWfKJZ42mTaf8AZXetJP7j+gLqO0olUPbXyxpEItqvT
+X-Gm-Gg: ASbGncsRudoWEyax2aLqFP5lTP0s8o4waX1Zih3MYLoU9uSBN+4KMofmta55rfa8Y9e
+	I4SiM+spaucp+bcaWJbPFRenU0YXjW6KbHv/U+BGD43RX7ebiqsuw7kEZR6puu+idzsZZPdirU3
+	8qcHbVFNP7W/n1R1TM3FAhMSiebDEzJ/AHKiAfgHervDtYL8l3EseT3PjQr4XPjvtQgmSCikef+
+	QdW8R7DAyrUihRqIgExhslq5Jcl7b1Bol8Dw2OCtuLMyfc/pyFCKgl4tA6asf8ClfhUtrINa7ns
+	uKiZc6aZ8+YdjJJMW7i5LUs57uXpq+Kxr5eYPchp0yO5wLiq5kR9nHadl/Vleusu8uANGHuh1hf
+	AUcd+JNkOmzwZZOEFVPCp1kLekZdnm2pi
+X-Google-Smtp-Source: AGHT+IGFFpvSpJArs1iawlJwQfacD/sqeThJpnPi1hhTHReWI0+qiuV9oOalWTxS1gOfFGdm+7/JVA==
+X-Received: by 2002:a17:903:240e:b0:261:1210:7b81 with SMTP id d9443c01a7336-2611210844dmr44826625ad.44.1757811983295;
+        Sat, 13 Sep 2025 18:06:23 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:81bf:abc:6590:f690])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3b306192sm90174085ad.143.2025.09.13.18.06.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Sep 2025 18:06:22 -0700 (PDT)
+Date: Sat, 13 Sep 2025 18:06:20 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-input@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 5/5] Input: cros_ec_keyb - Defer probe until parent EC
+ device is registered
+Message-ID: <473egrw7dn2xbe3likrfekyvh6z4uingywp3w5wjqcwo334fqb@j3ffdzv3723w>
+References: <20250828083601.856083-1-tzungbi@kernel.org>
+ <20250828083601.856083-6-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1dc06657-e136-45c2-8012-9199194bfc9b@kernel.org>
+In-Reply-To: <20250828083601.856083-6-tzungbi@kernel.org>
 
-On Fri, Sep 12, 2025 at 06:22:48PM +0200, Danilo Krummrich wrote:
-> On 9/12/25 4:54 PM, Laurent Pinchart wrote:
-> > On Fri, Sep 12, 2025 at 04:44:56PM +0200, Bartosz Golaszewski wrote:
-> >> On Fri, Sep 12, 2025 at 4:40 PM Greg Kroah-Hartman wrote:
-> >>> Either way, I think this patch series stands on its own, it doesn't
-> >>> require cdev to implement it, drivers can use it to wrap a cdev if they
-> >>> want to.  We have other structures that want to do this type of thing
-> >>> today as is proof with the rust implementation for the devm api.
-> >>
-> >> Yeah, I'm not against this going upstream. If more development is
-> >> needed for this to be usable in other parts of the kernel, that can be
-> >> done gradually. Literally no subsystem ever was perfect on day 1.
-> > 
-> > To be clear, I'm not against the API being merged for the use cases that
-> > would benefit from it, but I don't want to see drivers using it to
-> > protect from the cdev/unregistration race.
+On Thu, Aug 28, 2025 at 08:36:01AM +0000, Tzung-Bi Shih wrote:
+> The `cros_ec_keyb` driver can be probed before the cros_ec_device has
+> completed the registration.  This creates a race condition where
+> `cros_ec_keyb` might access uninitialized data.
 > 
-> I mean, revocable is really a synchronization primitive in the end that
-> "revokes" access to some resource in a race free way.
+> Fix this by calling `cros_ec_device_registered()` to check the parent's
+> status.  If the device is not yet ready, return -EPROBE_DEFER to ensure
+> the probe is retried later.
 > 
-> So, technically, it probably belongs into lib/.
-> 
-> I think the reason it ended up in drivers/base/ is that one common use case is
-> to revoke a device resource from a driver when the device is unbound from this
-> driver; or in other words devres is an obvious user.
-> 
-> So, I think that any other API (cdev, devres, etc.) should  be built on top of it.
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-No issue with that. I'm sure there are people who have better knowledge
-than me when it comes to implementing the low-level primitive in the
-most efficient way. What I have lots of experience with is the impact of
-API design on drivers, and the API misuse (including through cargo-cult
-programming) this can generate. Let's design the API towards drivers
-correctly.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-> This is also what we do in Rust, Revocable is just a common synchronization
-> primitive and the (only) user it has is currently Devres building on top of it.
+Thanks.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Dmitry

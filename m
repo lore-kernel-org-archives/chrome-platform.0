@@ -1,179 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D07189BB6;
-	Mon, 15 Sep 2025 09:36:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611BE21FF26
+	for <chrome-platform@lists.linux.dev>; Tue, 16 Sep 2025 09:24:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757929004; cv=none; b=b66hlf9Tk8mRG6zugsRZHq3ruapgmHvbH4IQP2Nh39lhViMaAhGRYNZMliUrCDjsziQjoPA1nPUm6Rb1UQV5LnVpN61TZ3gSpfmqX63BQiWAnIHvLFyZK4cQcvN6dgE0OMqtBcmsFTvGAoalvyE7CBSqcLkKrv7lpt2v3RfwBO0=
+	t=1758014676; cv=none; b=six7JeL4ixMznz/gPwZGL7RlMgZmrOJGaSLMJsIyCfn2KVr+KDX5lG1jaZCcjnezGdkXhk5Ysye1GJihck/ankR+Qw0GUngl89kcW9XC8wqpBFp8vzoQ/Ug3AxREa2iBwNQDUr2TVsEaVW8ABx2ueVwtMjYQONONC8b30t/lIx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757929004; c=relaxed/simple;
-	bh=o8egUwKVNRfMUymwpa7mC1b1hnq1Hnwp9A7gj+Gh8/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b+NeGXgcSOzrX/D6EsbmrQFHotVROrehVl2yHcUU9CVNJkyArK+czwLumBW0rF2MalStqcOXsmHtQo3yJ/F31VxTz4lQlmzNSIdA47wECHwmVklEiGZqdSeDEu9mUSFgq+ztqfbQJSY8HAjkGzfRxBOxZqR7iw5icpd//HYvbis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=doMe+Eas; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758014676; c=relaxed/simple;
+	bh=Ngrjx2eG2hVF2WZBcGGEhh9NX15Q4San1SUfshxaRlA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RoB+DMfBCaYj1TxzIyDmimVn8RNEzBMCWErQqZprpyyxGFg3qyazcu8rzps6x5Go3r1XWRxZT2ZfT4rva7wLmwhA8+C68EVoRroIdatoEBalFaREUQSZly+Hq8Uoyy0/9SX3U1Je/HqVFHWkP0Vo2wdzSTNfGnonJpAGVWa5h3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UGa2ZIRp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="doMe+Eas"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17955C4CEF1;
-	Mon, 15 Sep 2025 09:36:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UGa2ZIRp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEEC4C4CEF7;
+	Tue, 16 Sep 2025 09:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757929003;
-	bh=o8egUwKVNRfMUymwpa7mC1b1hnq1Hnwp9A7gj+Gh8/U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=doMe+EasFFNVISoxJn9HwkU1XAMZRD4FDdbsW5F9iJZOzBBFcrjoGaV2dpbeUqM8f
-	 qWvud8qEXsot2NxsCJMoil0sQ2HfIxkVWA15f8tfK6zhT3IX7A1pEcFnaKaI72Fyk3
-	 h0PA9Uk9JEfeLZkPHPnPq2Z6OleYUP9HlvpigwchdYBtMqWtrkxheAyG8T41D5KZq5
-	 5qI7qHlZHPlaXoxoq/0+6POCZqUmf71VFDy2xstQUvX2Zrn6lKyQSHqzi4IihS03Aa
-	 GKbqW824PjHUDrc64I1HxkUgJ/fWsfU2YDVlZMYAQQ/7k0ZEfP0iM0Gs7QWS/TcjQ1
-	 8pyk7KtJUlAnA==
-Date: Mon, 15 Sep 2025 11:36:40 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-pwm@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] pwm: cros-ec: Avoid -Wflex-array-member-not-at-end
- warnings
-Message-ID: <pw6lpxztxeg2sjwk5mheqlv4scl3zzhhpegnawf5umap6rxe4y@yckkngbinoy2>
-References: <aJtRPZpc-Lv-C6zD@kspp>
- <2pgdxifg2zmyhvemm7a2qntprsz5nhh3ustrrlg2vvcqffwj6c@22enjpgycjbt>
- <4b9eea66-f004-4b5f-bf48-4c32205cc8ee@embeddedor.com>
- <mlvple4tcnvu35a2liva5wxhafshc634fu46kwyrepn75wvuec@udshn3ja6lvc>
+	s=k20201202; t=1758014675;
+	bh=Ngrjx2eG2hVF2WZBcGGEhh9NX15Q4San1SUfshxaRlA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UGa2ZIRpsk1qnM2vM2khu7XGteW3KoD6vV3cEkdC+lHito5C/WIEV+Yvn9csVzJP8
+	 FC0FyEhKHdyBCeO/XhmUi3urEWjyxcK4ASgtD5PWs71QUh47WqIOdSPObY1rSNWwQH
+	 1UTzz5oRsnnT0tFrtA+PY9qqRldyJXED84JTWEe5PVDpH8JQcVEZKHeSPq71OdMNDm
+	 IuAIt7GqxvxwAdrEBq3iFosJLLAoxflHlceE/cjaaRj5zBOChaDGDsZDfwrP9fCgMX
+	 mxGi1RKWiGdppduHWCLPFLdDUeXVVprFCkdqTQh3tjKaCt9pRYSOS2/1de0tj73E9/
+	 5D2GCsCOgvNZQ==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Cc: tmichalec@google.com,
+	tzungbi@kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] platform/chrome: cros_ec_typec: Defer probe until EC device is registered
+Date: Tue, 16 Sep 2025 09:24:14 +0000
+Message-ID: <20250916092415.1707444-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q3lzyo2zdayjdgtj"
-Content-Disposition: inline
-In-Reply-To: <mlvple4tcnvu35a2liva5wxhafshc634fu46kwyrepn75wvuec@udshn3ja6lvc>
+Content-Transfer-Encoding: 8bit
 
+Similar to 48633acccf38 ("Input: cros_ec_keyb - Defer probe until parent
+EC device is registered"), use `cros_ec_device_registered()` to check
+parent's status.  If the device is not yet ready, return -EPROBE_DEFER
+to ensure the probe is retried later.
 
---q3lzyo2zdayjdgtj
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH][next] pwm: cros-ec: Avoid -Wflex-array-member-not-at-end
- warnings
-MIME-Version: 1.0
+This technically reverts:
+- 731a4702b668 ("platform/chrome: cros_ec_typec: Check ec platform
+  device pointer").
+- 7464ff8bf2d7 ("platform/chrome: cros_ec_typec: Check for EC driver").
 
-Hello,
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+ drivers/platform/chrome/cros_ec_typec.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-On Thu, Aug 14, 2025 at 04:08:57PM +0200, Uwe Kleine-K=F6nig wrote:
-> On Thu, Aug 14, 2025 at 08:48:23PM +0900, Gustavo A. R. Silva wrote:
-> >=20
-> > > diff --git a/include/linux/stddef.h b/include/linux/stddef.h
-> > > index dab49e2ec8c0..8ca9df87a523 100644
-> > > --- a/include/linux/stddef.h
-> > > +++ b/include/linux/stddef.h
-> > > @@ -108,7 +108,7 @@ enum {
-> > >   	union {									\
-> > >   		TYPE NAME;							\
-> > >   		struct {							\
-> > > -			unsigned char __offset_to_##FAM[offsetof(TYPE, FAM)];	\
-> > > +			unsigned char __offset_to_##FAM[sizeof(TYPE)];		\
-> > >   			MEMBERS							\
-> > >   		};								\
-> > >   	}
-> > >=20
-> > > which only leaves one usage of FAM in the name of the padding struct
-> > > member. I'm sure someone is able to come up with something nice here =
-to
-> > > get rid of FAM completely or point out what I'm missing.
-> >=20
-> > Flexible structures (structs that contain a FAM) may have trailing padd=
-ing.
-> > Under that scenario sizeof(TYPE) causes the overlay between FAM and MEM=
-BERS
-> > to be misaligned.
->=20
-> That sounds wrong to me; are you sure? In that case allocating space for
-> such a struct using
->=20
-> 	struct mystruct {
-> 		unsigned short len;
-> 		unsigned int array[];
-> 	};
->=20
-> 	s =3D malloc(sizeof(struct mystruct) + n * sizeof(unsigned int));
->=20
-> wouldn't do the right thing.=20
->=20
-> I found in the net (e.g.
-> https://rgambord.github.io/c99-doc/sections/6/7/2/1/index.html):
->=20
-> 	In most situations, the flexible array member is ignored. In
-> 	particular, the size of the structure is as if the flexible
-> 	array member were omitted except that it may have more trailing
-> 	padding than the omission would imply.
->=20
-> So I'd claim that sizeof does work here as intended.
->=20
-> gcc here also behaves fine:
->=20
-> 	uwe@taurus:~$ cat test.c
-> 	#include <stdio.h>
->=20
-> 	struct mystruct {
-> 		unsigned short len;
-> 		unsigned int array[];
-> 	};
->=20
-> 	struct mystruct2 {
-> 		unsigned short len;
-> 	};
->=20
-> 	int main()
-> 	{
-> 		printf("sizeof(struct mystruct) =3D %zu\n", sizeof(struct mystruct));
-> 		printf("sizeof(struct mystruct2) =3D %zu\n", sizeof(struct mystruct2));
-> 		return 0;
-> 	}
->=20
-> 	uwe@taurus:~$ make test
-> 	cc    -c -o test.o test.c
-> 	cc   test.o   -o test
->=20
-> 	uwe@taurus:~$ ./test
-> 	sizeof(struct mystruct) =3D 4
-> 	sizeof(struct mystruct2) =3D 2
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index b712bcff6fb2..17379e8b13b3 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -1341,7 +1341,7 @@ MODULE_DEVICE_TABLE(of, cros_typec_of_match);
+ 
+ static int cros_typec_probe(struct platform_device *pdev)
+ {
+-	struct cros_ec_dev *ec_dev = NULL;
++	struct cros_ec_dev *ec_dev;
+ 	struct device *dev = &pdev->dev;
+ 	struct cros_typec_data *typec;
+ 	struct ec_response_usb_pd_ports resp;
+@@ -1354,10 +1354,14 @@ static int cros_typec_probe(struct platform_device *pdev)
+ 	typec->dev = dev;
+ 
+ 	typec->ec = dev_get_drvdata(pdev->dev.parent);
+-	if (!typec->ec || !typec->ec->ec) {
+-		dev_warn(dev, "couldn't find parent EC device\n");
++	if (!typec->ec)
++		return -EPROBE_DEFER;
++	/*
++	 * Even if the cros_ec_device pointer is available, still need to check
++	 * if the device is fully registered before using it.
++	 */
++	if (!cros_ec_device_registered(typec->ec))
+ 		return -EPROBE_DEFER;
+-	}
+ 
+ 	platform_set_drvdata(pdev, typec);
+ 
+@@ -1368,9 +1372,6 @@ static int cros_typec_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ec_dev = dev_get_drvdata(&typec->ec->ec->dev);
+-	if (!ec_dev)
+-		return -EPROBE_DEFER;
+-
+ 	typec->typec_cmd_supported = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_CMD);
+ 	typec->needs_mux_ack = cros_ec_check_features(ec_dev, EC_FEATURE_TYPEC_MUX_REQUIRE_AP_ACK);
+ 	typec->ap_driven_altmode = cros_ec_check_features(
+-- 
+2.51.0.384.g4c02a37b29-goog
 
-My claim is wrong, while sizeof() never gives a value that is too small,
-it might be too big. E.g. for
-
-	struct mystruct {
-		unsigned short a;
-		unsigned char b;
-		unsigned char c[];
-	};
-
-there is sizeof(mystruct) =3D 4, but c starts at offset 3.
-
-Anyhow, I applied the original patch now to
-
-https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-=
-next
-
-; the discussion here was somewhat orthogonal anyhow.
-
-Best regards
-Uwe
-
---q3lzyo2zdayjdgtj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjH3iYACgkQj4D7WH0S
-/k6/BAf/ZxOgLU/eXjlpr8Wkqx/8RBOPj6AKUELAGmT737Gz1YQ8MC1JGtImGaqk
-xyvLDBepUgDwpn06RX1mjJ7Q9gd3rCT+IgqTKCOP+cHYZM6kQJNyQT+K7t++7i1Q
-8rEsGlJiqy34iLjn5xUwydFwbjKikSeR4h3ty8yqEjfMkgK1224DPtKc0bPPI768
-jJsKh7zjhJrPtThaS4GCVi4L9GPU2qjCups50MCPWpeP0obC3vA+t4J3JUdS2wWh
-hu+S/OBbTYrsWJPUPC39IyVInucEZYgTQ3JVJQ7vy0vYfCIk194Z3qhsuwyi/+Zq
-KwzFIo0PRa0iMrL7VFjqVjQ0Rwgx6g==
-=ZEL1
------END PGP SIGNATURE-----
-
---q3lzyo2zdayjdgtj--

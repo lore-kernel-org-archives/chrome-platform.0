@@ -1,255 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010033.outbound.protection.outlook.com [40.93.198.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229AA2FBE09
-	for <chrome-platform@lists.linux.dev>; Mon, 22 Sep 2025 13:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758549013; cv=none; b=G7I7BwfuHYJyMw8Scg09uB2fdtO5UscsWBA8aNuM81TS6r4VPDyifeuv+0MsEQMe7gkn8FpDq3NhWDfC0ELyqo/n+qaGrGDhBAqHUDHR8pDIFjlSRG0ZtTgqquvhmfluADcmUpoyYWgAF4N5it+cwKNYJaENnjEIdPkbgLsays0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758549013; c=relaxed/simple;
-	bh=3WQaf8MM7dSVfiwqg/RdOI0oISsPzRsJCN3K1R3ANRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GzLmZoMHNOqnvp3VLRzNth/R4GkVU1pZyr9mGrvn5m6cPPT/a05l7JoVt62iftWHCdyQVHV/yT8Mcz+MFxo3/0M5lbfdD2a5wjOGEk3xozLO1jAAo5p+7HyKWmFHyMgk3AZjTh6hea9ZpazPzTx7dyTnPCeBLNCyBCdH/52AnpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ups/rq+G; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0246C2DEA86
+	for <chrome-platform@lists.linux.dev>; Mon, 22 Sep 2025 15:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758553849; cv=fail; b=ux3rPF7OasoZ9jIhzC6Li9PzcLMZU9MUZdEn8BKOQ4lLTJjFT7ayBxMezRIi85D1xTFlwza9RV5TNeSjNdLs9tQdqFA2hj3fw91c/tbMq6xm1XcXRFYqZBcih6551hx3BLuTjok7g/Ili124ucWK5H23WbncQK3z7phd6Ob4ZgA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758553849; c=relaxed/simple;
+	bh=nq4GLb1rnezQdC9hUrPXdl6ocxlSLMpLkfM7tPf1D7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=DvLfX2cFBzOCPLhS43R8Ea+qB2WwKjn+vQ8RvwtvRzPObjG0JNnMa6K9SLlGFvRZpuWpoyHY1aftXZGiTLRytFSUbbHnWBxSeVng/SB9VJEACFwcoUyQ8rA/XxdXBxnIaioJ5WJg18el1ksLqV5fJyiXgnqpwv6an2cEEhVmXIU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YERSFbBd; arc=fail smtp.client-ip=40.93.198.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ups/rq+G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758549011; x=1790085011;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=3WQaf8MM7dSVfiwqg/RdOI0oISsPzRsJCN3K1R3ANRo=;
-  b=Ups/rq+Gn3tMallL9ED8BgneVDFudi9UC+Dhd40O2YKiM0rPtNnR4TDv
-   IIpu5vTMkAHVRI6e6ES2hfeiTDQHNWPjKdLU63KDyFBMpHScYYmxfd2V0
-   DNNKxODxwiHomhhgSb+nsBiNNhe8w4EidNnVh33yExdMXmEGHBVuvj/zb
-   NsGHYmv28JxK1mLL2Ch9FfKGHX6P8UnXRwOq1cqL+XjZZnXQ4YoxV5qr5
-   U19Jm+BwphgBWMVbad+FvGgpmMqJerAU80IBpBplFA16ANf0Dm3arlyhB
-   /NaAyOXLkhiP0h7zWUyrqNlpKN7/LcpOx+GZfbTD2fWHwYv6OzXJiGR84
-   Q==;
-X-CSE-ConnectionGUID: CqLe+ZMZQly8qzxiiCf5dw==
-X-CSE-MsgGUID: fDH+vXEtTLiFfWORFj3xnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60751433"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60751433"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 06:50:10 -0700
-X-CSE-ConnectionGUID: gu/Por9PSPyiHlpSZ6q3UA==
-X-CSE-MsgGUID: O3/sSyogTH2c2TESNc5AiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,285,1751266800"; 
-   d="scan'208";a="176554086"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by orviesa008.jf.intel.com with SMTP; 22 Sep 2025 06:50:07 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 22 Sep 2025 16:50:05 +0300
-Date: Mon, 22 Sep 2025 16:50:05 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: Andrei Kuchynski <akuchynski@chromium.org>,
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YERSFbBd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iGw1xXdMIFHeJLilVk1b3pzGhNfKAw6nc/bgLCBpKfuX8HwDK0ZfXkWfeIO6vZ8oZG/k+aFgSvyjAN2cjGxGDtwJ5SOXvT/3alKSH8EdfUcB87PiSslD6owkX2GDq9SomgsfRCqqSm6QsZ/v3C5b9OnSElA33feIex6Sf3trvosPvYNwC21XYcsk7jHj0XyOAWa7PLdansFQPz5nMAFh8I4SKSapVvKZQG97fvkKU51hyb82emEmDF/oMr5c0ONEACGg7CRAP8x243np4FSPFfOtglKMjXQtQTKy1C3PhVrsqKatdvLhUEYGdBBRv0CXfZQMsWLrhc4n42O5EJkZQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nq4GLb1rnezQdC9hUrPXdl6ocxlSLMpLkfM7tPf1D7Q=;
+ b=KLqmqF9uQVkutiKAMk6JtTz9qdKYGSp75kG/Iv9GWd6FRUo0bmkMANapwcmG7bvhsUwIzgpQZ+IzvO9N5D1Eh8O2ZLoXsNIVHZyauJJ77CuFn0ITOBNQzHBYHjqsVl7eVl/X7r4ytioQCkABDZbn5i1DLFihJkdZhZZLPzZCk29OPrsY4m2gYfdkjZLw3Cp1j/0lFsGAE2tUn9903LGtV5rZzNjI2YVrWm6TXd+2FsIw2Ytq8OScbjXa9ZzkwECdZdLqcUq5pa5qN47LRa+87NvNzVYCsV/EVRuS+WYMAlhPEI9bT1GWwisoBzB0+BNBGFztC5a8zN2wfvm5aYqYJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nq4GLb1rnezQdC9hUrPXdl6ocxlSLMpLkfM7tPf1D7Q=;
+ b=YERSFbBdQRf9iEoV7cYHts7LA+Fp85ZU7Vh60kLP/RB2ToisUPqZhDGValh+dBztZnFCImG+GgEhEbmO/RT0gz2QNEuUhLSlLnnAoof3WRvSY7LzMHiuS284bnWscm5mU3fwZiBnogZ/nIkBBIFVXd+uXTs9X4Eevx5obpjaH88kQWGeHCCwuycWw+yvla9Rx2YjR9612vWgWeMksTjsId1x8ATFiXfNoQgHASpXJR1jHSO59sh2Kzk6dT4EHrIDHXG0hh2xEJQfP96LhcvSXiVSVMNhLfwh4oY9dYsPmPdtq5i08jYH6ojWINMEC6NJDUTbFGcLld5wBe9Rs2TP6Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+ by SA3PR12MB9106.namprd12.prod.outlook.com (2603:10b6:806:37e::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
+ 2025 15:10:44 +0000
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
+ 15:10:42 +0000
+Date: Mon, 22 Sep 2025 12:10:40 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
 	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/5] USB Type-C alternate mode selection
-Message-ID: <aNFUDZQD5UiCtHW9@kuha.fi.intel.com>
-References: <20250909123028.2127449-1-akuchynski@chromium.org>
- <aMliLCWFKy5Esl0-@kuha.fi.intel.com>
- <CANFp7mXvpNXr=01nQR54d+Z+vSiiwiDLB+3B+1eR6Ks7b37gtg@mail.gmail.com>
- <aMqpe68m3rhDYsCt@kuha.fi.intel.com>
- <CANFp7mWk_TuA6Gxbtc8OmB7eq_vT8wUg=xkPJsxLCBTrQwOd6A@mail.gmail.com>
- <aM1DmJQz2PnEA6G_@kuha.fi.intel.com>
- <CANFp7mUDVPLja2QANYhJ2t6W9yPE7-qV8E2HTPHcJEYgOb8s2Q@mail.gmail.com>
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v3 0/5] platform/chrome: Fix a possible UAF via revocable
+Message-ID: <20250922151040.GA2546062@nvidia.com>
+References: <20250912081718.3827390-1-tzungbi@kernel.org>
+ <2033c6cd-4112-4c8a-a9ef-2ab34f3504b8@kernel.org>
+ <CACMJSeuKH+WKOXLNU92dMssqhK02xG3z=cT0VeXYM+ZGuPCB9g@mail.gmail.com>
+ <aMQW2jUFlx7Iu9U5@tzungbi-laptop>
+ <20250912132656.GC31682@pendragon.ideasonboard.com>
+ <2025091209-curfew-safari-f6e0@gregkh>
+ <CAMRc=MfdoB50o=3Q2p94o+f7S2Bzr=TAtWWQcDrC5Wf3Q5nqAA@mail.gmail.com>
+ <20250912135916.GF31682@pendragon.ideasonboard.com>
+ <2025091220-private-verse-d979@gregkh>
+ <20250912142646.GI31682@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250912142646.GI31682@pendragon.ideasonboard.com>
+X-ClientProxiedBy: SN7P222CA0027.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:124::30) To PH7PR12MB5757.namprd12.prod.outlook.com
+ (2603:10b6:510:1d0::13)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANFp7mUDVPLja2QANYhJ2t6W9yPE7-qV8E2HTPHcJEYgOb8s2Q@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|SA3PR12MB9106:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f98da75-d3e0-4547-9594-08ddf9ea3249
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ihxZg/AVSIw4t6/+oo8xPJOvKNGf/7A8FGCEgBX3DzLJ8GC2sxW0JWrYUSEJ?=
+ =?us-ascii?Q?Q2LDFXyFhHuG1lDxqlvb5kI3siOE/tf+tNepjSbaAUi6X6QeyvcIKR0p5Q5t?=
+ =?us-ascii?Q?OMXHB8gtxHIG7NZ2glRwHLu+jJkiOiHsOpJv38AbYMQT9N4Atui12ApvwuRZ?=
+ =?us-ascii?Q?mTjxwyNa6wWuQUcRE0QXbzgfgxkkoLgG9HgkusH63BUEarIIoItcatjNmWNQ?=
+ =?us-ascii?Q?0viZpBrvRqJhl4h1+FzprjljxNdgiNy4HH8uE6tuqiiIYL+gXou82C3dOFn2?=
+ =?us-ascii?Q?A+GEFqZKjF1ri87xwpsGgnL6bVI6wi69/bKVsnAEphrCIDwqCKKwWgG24oI0?=
+ =?us-ascii?Q?v/iY3/a5iDIEmu4Emm/pSiiWyuJ4HN2jrKjmdTOhTCKNCARr1jr5pq5OjWxR?=
+ =?us-ascii?Q?m8OZV9s+FXoKE3mWMZzzSmkVzdEDOXgyAHvfG3L+W1WEUPEyjNmNzTcigMwx?=
+ =?us-ascii?Q?RIhfgOy9xIlKtXPmIhemuVklF+uNBr28txVYtfD15HLvvawp0orNYhiASBGb?=
+ =?us-ascii?Q?cRhcpYVaX5wa311tXcdkskSLUgLkjcgTuA6/xfIhYo3PhHRx1L9nq9lcG7un?=
+ =?us-ascii?Q?Nlbj4dCUcbs57nD7M4qGoDCWeZSjR5k/iHh38/5us4mPeJZM01fB04wsD5wt?=
+ =?us-ascii?Q?1Awjp/1nd9tnj1gmKRNJCi156RqjHHrvbd0zgvKDtxAOScd9zYywbla7T2Yh?=
+ =?us-ascii?Q?mh/lGnfB8bEbJqXDQZSm5654cNP3ac29Y5Dz0g5LKEds38UDJj7Ap06HldTl?=
+ =?us-ascii?Q?XZZjxiASfJGzDpfyvznwDXD9nkWXI6Mq0jc+yvQSiSV8sSVCfwvMQaKb14JZ?=
+ =?us-ascii?Q?0xz8j3V5fkqI8wsXF0UB4SHmUl0/5WQAClfogp/vtn+MJ2mfNMLJs1hCMgSk?=
+ =?us-ascii?Q?FuayVLO8d9yfV8CqAXNDigtD/xXIhFWf6/WvxCdgrKE4DSDigA12M/30Cld1?=
+ =?us-ascii?Q?6hjzjnZgL8iJtY9Q3FL+waehzNg89ytih5TL2LVCvMieezXVrHRq7/93PXeo?=
+ =?us-ascii?Q?Ws8FRZSHFHV7isApm63hzG3xQ8oYmATum7o/6R3jc7L7xqlTYe5FqBnTuUX5?=
+ =?us-ascii?Q?+pgetbPR50dvqSsyvFJzXY6SoK2Ad6mGKBh8Tn2JqIbJUMQ9nt8Ng9aKksUI?=
+ =?us-ascii?Q?btmwiN2JkCbBUUTNn4MQ66me8FXL14PSq5cUjs9m0Wo655mlmMyMSht2ELsT?=
+ =?us-ascii?Q?W+WXO9Ar6W9gHAgF50wZR0RDWl3/Rp9nKL12lKeNzrk1TKYt95fbl2wRnx7e?=
+ =?us-ascii?Q?/fXaYtSSxrnct1baIrCui21HNCjhqhUX4xD7lyXRwm+0veRNRECTrsEXDGqX?=
+ =?us-ascii?Q?2aypOzEeOvQ2Rlt+YhtD0/Z0TNviJtebir6oceqrW/ajuMp4gSuUu8P/ZWri?=
+ =?us-ascii?Q?WlS3WCuXZrydGI/GSp7hLKJ4FlFbdUd8CCguBDnAVX80mDCgeakb3UzbSF6S?=
+ =?us-ascii?Q?R+DyPJBqk/o=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?lmkMEL3qKkql+gcdz8QL+Jy5gX59UNkUtIoqn+DgCMBHEhUnSl9Gv4n1NXDo?=
+ =?us-ascii?Q?Bl8nuB9OHNHwz9lu6jJB3fMkdPalu7eRqHUnqMiAxpY6wqCp/9j6ffWZdGr2?=
+ =?us-ascii?Q?EtvCxCPS3+PvYnPIsMVf39K6Kwf12tAicblAqOjP0jzw2+7+geNUUMkH6QPX?=
+ =?us-ascii?Q?7LOPfFOT65GL1myrQGtUOoOwxaxdz3a0hbhE/zT6N59bO6gktRu1Bbw90LzU?=
+ =?us-ascii?Q?gcoSV8yETTI+9+9HffI8bFK4aUybBqc5WtdPI5Kn6/EAWmipXSYTzcyArn/o?=
+ =?us-ascii?Q?m3p9IlEkQ5rROPOnCuMKpvzhtgS92RkDNnjTeHNm6B4BAjgSxOHmt8kE8YHo?=
+ =?us-ascii?Q?c2Ynko/8niNGpp08T/n83OfdMRJFgoA05FT7xADJdU+C9770WmACN+40A76P?=
+ =?us-ascii?Q?zXuurWj2sKztHLByIMo4NqigS6jQJ+zq+jGc99PtXiFPn+SyaYcpJZfzwmxC?=
+ =?us-ascii?Q?gvMWijvkwTrkjf9TzYnslMdHjY2StXh9tjkPspCzyD58bJ5gAXTVsJTAYMbe?=
+ =?us-ascii?Q?w4vrRCavOBWgm1JS+jF2O8kndWyMDnUlPr+5wmM1UpYt/HgI3pBrg5OwO7hy?=
+ =?us-ascii?Q?a6JyHr8IF49hgbKL35ByVrdsaETovIiYAMTRfcByYREWW8Z38xJbd8tbnyA2?=
+ =?us-ascii?Q?f69+vl070oCUGxIAIUZ9u96HYkglLq6aXOZQFosmwwxT/FRzz+8SdSaixdEb?=
+ =?us-ascii?Q?yEc3k4UoICygBllRYtHWLKMBrjnW2O4MYed92bc5FyRbqFi3il61LvAlXVzm?=
+ =?us-ascii?Q?e86IMOWRUuPKvH3qW2zZlMQWNkUMyiy6n0jVH+GAaBzPPDjmSZqSd8ipsnxi?=
+ =?us-ascii?Q?+0YGM9wtCeLRaX89i23KumTWbqxju/CAZozpzXg6aR3G2EM6iXg6dy2oQoke?=
+ =?us-ascii?Q?T8sf/1vw+whJeKfvx2Z6q9FRWpmtHWwc3laIRlViCVRlKF3a3JPUv2AJXBR6?=
+ =?us-ascii?Q?QZ1d73tSi6qkkH3AeRvKNWNuAT4uGWg15MCCxWbDfqRmYRgEOXi5sCiVF52Y?=
+ =?us-ascii?Q?lo58nIuuYy3cDuvC8KVMNeBCS9sNjFBZEP6TBJqfM2N3DyT/78Ugyj0bjUj8?=
+ =?us-ascii?Q?Sr110ismngZ9sHSPRr8Q+aHPculLzrFP8OCMZ43lLNOCHlP9jpRa7ElwCL94?=
+ =?us-ascii?Q?sGZKHWZ+0ytJTB5AhXxfXjVlKcIg7MQpfAlJ6xW1nUgAJqrriG88z55FKwyU?=
+ =?us-ascii?Q?Z3OxK/TZb6eJiDnKir7uZPJCGFk3w8L7CDvT5y+3FNdc9BRdwnlRnzIpFHVa?=
+ =?us-ascii?Q?sjh5Q0LfhNZcqw/9qm9bT/rVimWLjO8Etm01+KGgOV6u2XihbUfmvf/Uq1PS?=
+ =?us-ascii?Q?exO4jYXlM5kz8wwYzOfy4IxZzSFkPTCmfK2RaCvtbf1ik0FtcOn0WTPjfgzf?=
+ =?us-ascii?Q?cRcWMSP1ppypr+eMtKfIDPiCx5GlcBdyiupSWU7ArgFr9ph2b/aBSNeJl1Mi?=
+ =?us-ascii?Q?8zgOZSiP/Y+ikWrlr+x9YhRT+gysZb9PR1HX2F2TSmcDEc5VDB8GcD6wrn7a?=
+ =?us-ascii?Q?QsUtUjtLq6lSmREnGF5VDBVv4UsQMm1dY3tUbNQQ1bX+Rj28Leqpp/qjfFsg?=
+ =?us-ascii?Q?UShzFYlX25X6DGjpwNquv5K8keT8aD1bLCq7ABru?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f98da75-d3e0-4547-9594-08ddf9ea3249
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 15:10:41.9910
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WOVha/mA2z1nx2h+yKYvWc9pnl72iR90PYL5a0fOhutq0qQptfoLQznGk02si/Hy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9106
 
-On Fri, Sep 19, 2025 at 09:58:05AM -0700, Abhishek Pandit-Subedi wrote:
-> On Fri, Sep 19, 2025 at 4:50 AM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > On Wed, Sep 17, 2025 at 10:51:11AM -0700, Abhishek Pandit-Subedi wrote:
-> > > On Wed, Sep 17, 2025 at 5:28 AM Heikki Krogerus
-> > > <heikki.krogerus@linux.intel.com> wrote:
-> > > >
-> > > > On Tue, Sep 16, 2025 at 09:47:44AM -0700, Abhishek Pandit-Subedi wrote:
-> > > > > On Tue, Sep 16, 2025 at 6:12 AM Heikki Krogerus
-> > > > > <heikki.krogerus@linux.intel.com> wrote:
-> > > > > >
-> > > > > > On Tue, Sep 09, 2025 at 12:30:23PM +0000, Andrei Kuchynski wrote:
-> > > > > > > This patch series introduces a flexible mechanism for USB Type-C mode
-> > > > > > > selection, enabling into USB4 mode, Thunderbolt alternate mode, or
-> > > > > > > DisplayPort alternate mode.
-> > > > > > >
-> > > > > > > New sysfs `mode_selection` attribute is exposed to provide user control
-> > > > > > > over mode selection. It triggers an alternate mode negotiation.
-> > > > > > > The mode selection logic attempts to enter prioritized modes sequentially.
-> > > > > > > A mode is considered successfully negotiated only when its alternate mode
-> > > > > > > driver explicitly reports a positive status. Alternate mode drivers are
-> > > > > > > required to report their mode entry status (either successful or failed).
-> > > > > > > If the driver does not report its status within a defined timeout period,
-> > > > > > > the system automatically proceeds to attempt entry into the next preferred
-> > > > > > > mode.
-> > > > > >
-> > > > > > I'm still struggling to understand what is the benefit from this - why
-> > > > > > would you want the user space to explicitly start the entry process
-> > > > > > like this? Instead why would you not just take full control over the
-> > > > > > alt modes in user space by enabling the them one by one in what ever
-> > > > > > order you want?
-> > > > >
-> > > > > I think after the many patch iterations we went through upstreaming,
-> > > > > we may have lost the point a little bit wrt/ the mode selection task.
-> > > > > We talked about this on the very first iteration of this patchset
-> > > > > here: https://lore.kernel.org/linux-usb/CANFp7mVWo4GhiYqfLcD_wFV34WMkmXncMTOnmMfnKH4vm2X8Hg@mail.gmail.com/
-> > > > >
-> > > > > The motivation behind it was to allow the kernel driver to own mode
-> > > > > selection entirely and not need user space intervention. The current
-> > > > > alt-mode drivers attempt to own the mode entry process and this fails
-> > > > > when you have two or more altmode drivers loaded (i.e. displayport,
-> > > > > thunderbolt). The original goal of the mode selection task was to move
-> > > > > the mode entry decision away from the alt-mode driver and to the port
-> > > > > driver instead.
-> > > > >
-> > > > > What's missing in the current patch series to show this is probably
-> > > > > actually calling mode_selection once all partner modes are added :)
-> > > > > Andrei should be adding that to this patch series in the next patch
-> > > > > version.
-> > > > >
-> > > > > Adding the mode_selection sysfs trigger is for another reason: to
-> > > > > re-run mode selection after priorities have been changed in userspace
-> > > > > and there is no partner hotplug. We specifically have some security
-> > > > > policies around PCI tunnels that result in the following need:
-> > > > > * When we enable pci tunneling, we PREFER tbt over dp and would like
-> > > > > to select the preferred mode. When we disable it, we PREFER dp over
-> > > > > TBT and would like to select the preferred mode.
-> > > > > * When users are logged out, we always prefer DP over TBT.
-> > > > > * When the system is locked, we prefer DP over TBT for new connections
-> > > > > (but existing connections can be left as TBT). When we unlock, we want
-> > > > > to enter the most preferred mode (TBT > DP).
-> > > > >
-> > > > > While this is do-able with the alt-mode active sysfs field, we would
-> > > > > basically be re-creating the priority selection done in the kernel in
-> > > > > user space again. Hence why we want to expose the mode selection
-> > > > > trigger as done here.
-> > > >
-> > > > But this would be a step backwards. You want to keep the kernel in
-> > > > control of the mode selection, which is fine, but then you have these
-> > > > special cases where you have to give some of the control to the user
-> > > > space. So instead of taking complete control of the mode selection in
-> > > > user space, you want to create this partial control method of
-> > > > supporting your special cases while still leaving "most" of the
-> > > > control to kernel.
-> > > >
-> > > > I don't believe this will work in all cases. I'm fine with the
-> > > > priority as a way to tell the kernel the preferred entry order, but if
-> > > > the user space needs to take control of the actual mode selection, it
-> > > > has to take full control of it instead of like this, partially. This
-> > > > just looks incredibly fragile.
-> > > >
-> > > > So I'm still not convinced that there is any use for this. Either the
-> > > > user space takes over the mode selection completely with the active
-> > > > attribute files, or just leaves the selection completely to the kernel.
-> > > >
-> > >
-> > > That's a fair stance to take. We CAN do our special cases via the
-> > > "active" sysfs node. I've had a bit more time to think about the
-> > > problem we are solving and I'd like to elaborate a little.
-> > >
-> > > When we designed this mode selection task, there were two motivating factors:
-> > > * The existing typec_displayport and typec_thunderbolt modules will
-> > > both automatically try to enter a mode when probing and that does not
-> > > work well. You want a deterministic entry order.
-> > > * There is no generic typec daemon for userspace on Linux and there
-> > > isn't always a need for one (i.e. UCSI systems). The kernel has the
-> > > most information about what any given system needs and should be able
-> > > to handle mode entry timing better.
-> > >
-> > > For those motivating factors, I think an in-kernel mode selection as
-> > > designed in this series still makes sense. Let the kernel do the mode
-> > > selection, inform userspace when it is completed and userspace can
-> > > simply set priorities + report success/failure/errors.
-> > > One other change we will probably want to make is to turn the partner
-> > > altmode Kconfig options to boolean and roll it into the typec module.
-> > > Alt-mode module loading breaks mode selection ordering because you
-> > > can't be guaranteed the partner altmodes are loaded on the system when
-> > > you do partner altmode enumeration.
-> > >
-> > > Heikki, can you confirm we are on the same page up till this point at
-> > > least? The net effect here is we are moving partner altmodes
-> > > individually entering modes to centralizing mode entry in the typec
-> > > class itself.
-> >
-> > I think we are on the same page, but I don't think you can incorporate
-> > the entry of the modes into the class itself (you should not do that).
-> > You can't even make it a problem for the altmodes - I don't believe we
-> > can make it work in the long term.
-> 
-> It probably needs to be a port driver decision. UCSI based systems
-> will mostly expect that a mode has already been entered after a
-> partner connects (and reports the SUPPORTED_CAM_CHANGED bit in
-> Connector Status Change) but with UCSI 3.0, some systems could
-> potentially make this decision in kernel (via sending SET_NEW_CAM
-> <connector> 0xff 0 which would prevent the PPM/LPM from entering any
-> modes automatically). Even with cros_ec_typec, only devices supporting
-> TBT/USB4 will need a mode selection decision in the port driver (since
-> others just auto-enter DP).
-> 
-> >
-> > Here multiple modes need to be handled as a set, so the set itself
-> > needs to have an object that represents it. The altmodes will be part
-> > of these "sets", but they remain independent of any particular set.
-> > So the "set" defines the order in which the modes are entered instead
-> > of the class, or any individual altmode.
-> >
-> > I don't think there is any other way to make sure that the altmodes
-> > continue to work as well independently as part of these "sets".
-> >
-> > If you guys think that this makes sense, let me know. There are a
-> > number of ways we could implement this.
-> 
-> The idea you've described here of sets sounds like what this patch
-> series hopes to implement. The set is just all the partner altmodes
-> which the port supports and the ordering is the port priority for
-> those altmodes.
-> 
-> >
-> > > Also, with respect to dropping the mode_selection sysfs node and
-> > > simply using the `active` fields to override:
-> > > * How can we ensure that user space does not race with the kernel mode entry?
-> > > * Should we delay exposing "number_of_alternate_modes" until after
-> > > mode selection is done? Should we keep the mode_selection sysfs (or a
-> > > similarly named file) as a read-only indicator of current status?
-> >
-> > Races are definitely a concern. But I don't think that is a problem if
-> > we go ahead with the above idea of separating the mode relationships
-> > and entry into those "mode sets".
-> 
-> Is the idea to give userspace the ability to create a set and try to
-> enter atomically? Who decides what constitutes a set?
+On Fri, Sep 12, 2025 at 05:26:46PM +0300, Laurent Pinchart wrote:
+> Not quite, I would like to see the enter/exit (aka revocable scope if my
+> understanding is correct) being pushed to char_dev.c, as Dan did in [1].
+> I'm fine having to add an extra function call in the .remove() path of
+> drivers, but I'm not fine with having to mark revocable sections
+> manually in drivers. That part belongs to cdev.
 
-It's really up to what we want, and how we you guys want to implement
-it. If the mode selection was a device (associated with each port (or
-partner) for example), then maybe the "set" could be a driver attached
-to it. Maybe :)
++1 I've open coded something here many times.
 
-I'm just asking that we isolate the feature, because I think it can be
-separated in this case. I think isolating it should give some
-flexibility on things like where the control is in the end, but more
-importantly, that should minimise the impact to the existing bits and
-pieces, maybe allow the feature to be selectable, etc. etc.
+The implementation challenge is performance..
 
-thanks,
+The big ask would be to make file_operations replaceable without
+races. I can't see a way to do that at the struct file level without
+slowing down everything.
 
--- 
-heikki
+Dan's idea to provide a wrapper file_operations that then effectively
+calls another set of file_operations under a synchornization is more
+reasonable, but the performance cost is now a percpu ref and another
+indirect function call for every file operation. It also relies on the
+inode which some cdev users end up replacing.
+
+Open coding the lock in the subsystems avoids the indirect function
+call, flexible inode, and subsystems can choose their locking
+preference (rwsem, srcu, percpu).
+
+As was said later in this thread, it would be a real shame to see
+people implement revocable in drivers instead of rely on subsystems to
+have sane unregistration semantics where the subsystem guarentees that
+no driver callbacks are running after unregister. You never need
+driver revocable in a world like that.
+
+Jason

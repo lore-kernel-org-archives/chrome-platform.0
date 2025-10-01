@@ -1,111 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C953948CFC;
-	Wed,  1 Oct 2025 14:23:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B592D780C;
+	Wed,  1 Oct 2025 18:42:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759328596; cv=none; b=geN7I6k18IaRb9VIM2OyHKpEyEoifnyN9Ool55x/XGWTSXNOaShp6weKp9g197mM4ngiANCdA4devZid/4frr0973u7Y8RerHAt/5T5YrCEQOHBV+rJRSnCORBRysC/EEfk1iWMxLl0Jpnufo9u9FYDuSxGqfWnAdWhU0YeiLIA=
+	t=1759344164; cv=none; b=gyL30dKz3fCalAPuRnbYmToH7LEEP2KoMgrVZ9dhUtIErBAfGBDWtuumqO0oYcM94NCVGQkaFAXpkU2sdrRItcvkVtLACN7XLJ33tV2bIgX7VdzttMl2U0w2I2YjUEhwCeTShLOmjU4cxilXQAo5mFTnwxpXAwzjhOld4dfe1cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759328596; c=relaxed/simple;
-	bh=v0msVvEXki4VSloaosqyyuTSkXQRWNLTLuPCaVMUF/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WqNLLQft7Av+vILxZVqMIuMkwkJofJIvlPO7sbi4BUd0vlNcBFGHVFUj9QYHtDEuG0J6LdWOZaHyQeJroPzDFUo+XgRf1uEBDbf3TvIvWqO+rvjwp42byWfs2mZVRgIIGZjkqOTfePjLSXLMGnFUZWnPxDE/8SEU/bbLzPM3cKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4YGdh45; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759344164; c=relaxed/simple;
+	bh=4V2vH7skNLp00PtuwfVvvZp3jGfJOcj5MJpfxbvbOwE=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=rjmziWfuEagFN7MhwtLCvS8APqbdU+Jey4P5uw7DIMWX74c1Fl+GWhBQc123QfH0tOvA04/R9fCJGfOxgZbhNOXfu/82ptLPMYgUdcVWsqUH5gXkrUneWblsY7QEHGv+zNGYBisLGHEXJU04CO0KiwmUxgnFW/K2QW42PifOKUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VqjdZgEs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4YGdh45"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB505C4CEF1;
-	Wed,  1 Oct 2025 14:23:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VqjdZgEs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B156FC4CEF1;
+	Wed,  1 Oct 2025 18:42:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759328596;
-	bh=v0msVvEXki4VSloaosqyyuTSkXQRWNLTLuPCaVMUF/Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N4YGdh456cOH25wO9qXrkQEjFfV2/qeA8B1ANtaQnKDNix5zdJNZbVa80eajpkYCt
-	 tmXvA9kVkUwNxpF07chYBwnFs3m6J30H3cw202gtsgp3hLAKloQ+jiTV4C6iMqdg/a
-	 UJp0seAQgxiBSNk7PF5OXq1TnGthwb2byQ6PmDn4XlScq0vZi4GaSEicHxKfE4kWBW
-	 Phumzk+ewjWWtM34T+7PqrSfstwjOwM0xLqSpc3v3+fuOs4U014R5hoL7dODbudPJc
-	 odXG6yLEaiSmlzNVuKZEuhzPVDDCV0VE2RM7u9TzwryZJsuHeVjrqXv7ta9wqUkjB4
-	 HTmOG5tXuTjCg==
-Date: Wed, 1 Oct 2025 22:23:09 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: dan.j.williams@intel.com
-Cc: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Dawid Niedzwiecki <dawidn@google.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v4 5/7] revocable: Add fops replacement
-Message-ID: <aN05TFvhPPj5voUD@tzungbi-laptop>
-References: <20250923075302.591026-1-tzungbi@kernel.org>
- <20250923075302.591026-6-tzungbi@kernel.org>
- <68d45a76a36ad_1c79100a6@dwillia2-mobl4.notmuch>
+	s=k20201202; t=1759344164;
+	bh=4V2vH7skNLp00PtuwfVvvZp3jGfJOcj5MJpfxbvbOwE=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=VqjdZgEso/xeuYa/v94n+AASV+/o+ErzNPMIeboVF0qROHwAoXj+w9s6Fw+MXAcuz
+	 H7eEcVNptwBnUe2K+RYwbJ6aVHkBxIzm5/P14HoXf+Q9UcC+YQuFQn0TPR3MAtnuMK
+	 ujA8cd5gZmbAxH1rx9QO3sqr4IFLUjM6KsicAsLDx1HMQ0kZgZ3V1WKFjaqHb/5/M5
+	 upXWKCsKwvwJvhW+N6c7mFzUuCitNSopfj+iBTJx08eJEwJjiI8dv09O/nUqyS4pcq
+	 DHLp04dsQyg1rws/EBvSurWg00OnCDln03Tw2D0BYwE8DR14YVESe2SdnKrUq5IBW7
+	 cs43yRB32b0+w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70DC539D0C3F;
+	Wed,  1 Oct 2025 18:42:38 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform updates for v6.18
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <aNncAJHyW430v7ny@tzungbi-laptop>
+References: <aNncAJHyW430v7ny@tzungbi-laptop>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <aNncAJHyW430v7ny@tzungbi-laptop>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v6.18
+X-PR-Tracked-Commit-Id: 48633acccf38d706d7b368400647bb9db9caf1ae
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 57cf7a603b6d2524edffaa3068d9aa7a41641d93
+Message-Id: <175934415694.2574344.15363866492485519207.pr-tracker-bot@kernel.org>
+Date: Wed, 01 Oct 2025 18:42:36 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, bleung@chromium.org, chrome-platform@lists.linux.dev, tzungbi@kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <68d45a76a36ad_1c79100a6@dwillia2-mobl4.notmuch>
 
-On Wed, Sep 24, 2025 at 01:54:14PM -0700, dan.j.williams@intel.com wrote:
-> Tzung-Bi Shih wrote:
-> > +int revocable_replace_fops(struct file *filp, struct revocable_provider *rp,
-> > +			   const struct revocable_operations *rops)
-> > +{
-> > +	struct fops_replacement *fr;
-> > +
-> > +	fr = kzalloc(sizeof(*fr), GFP_KERNEL);
-> > +	if (!fr)
-> > +		return -ENOMEM;
-> > +
-> > +	fr->filp = filp;
-> > +	fr->rops = rops;
-> > +	fr->orig_fops = filp->f_op;
-> > +	fr->rev = revocable_alloc(rp);
-> > +	if (!fr->rev)
-> > +		return -ENOMEM;
-> > +	memcpy(&fr->fops, filp->f_op, sizeof(struct file_operations));
-> > +	scoped_guard(mutex, &fops_replacement_mutex)
-> > +		list_add(&fr->list, &fops_replacement_list);
-> 
-> This list grows for every active instance? Unless I am misreading, that
-> looks like a scaling burden that the simple approach below does not
-> have.
+The pull request you sent on Mon, 29 Sep 2025 09:08:16 +0800:
 
-Correct, unless we want to embed the context (e.g. struct fops_replacement)
-into struct file.  FWIW: the issue also listed as a known issue after "---".
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v6.18
 
-> > +	fr->fops.release = revocable_fr_release;
-> > +
-> > +	if (filp->f_op->read)
-> > +		fr->fops.read = revocable_fr_read;
-> > +	if (filp->f_op->poll)
-> > +		fr->fops.poll = revocable_fr_poll;
-> > +	if (filp->f_op->unlocked_ioctl)
-> > +		fr->fops.unlocked_ioctl = revocable_fr_unlocked_ioctl;
-> > +
-> > +	filp->f_op = &fr->fops;
-> > +	return 0;
-> > +}
-> 
-> This facility is protecting the wrong resource, and I argue hides bugs
-> in drivers that think they need this. That matches the conclusion I came
-> to with my "managed_fops" attempt.
-> 
-> The resource that is being revoked is the device's attachment to its
-> driver. Whether that is dev_get_drvdata() or some other device-to-data
-> lookup, that is the resource that gets removed, not the fops themselves.
-> The only resource race with fops is whether the code text section
-> remains available while the fops are registered, but that lifetime scope
-> is not at a per-device instance scope.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/57cf7a603b6d2524edffaa3068d9aa7a41641d93
 
-revocable_replace_fops() doesn't protect any resources.  It replaces the
-fops to revocable wrappers and recovers the fops when the file is releasing.
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

@@ -1,90 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE58233722;
-	Thu,  2 Oct 2025 16:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA13A55
+	for <chrome-platform@lists.linux.dev>; Thu,  2 Oct 2025 19:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759421265; cv=none; b=TgoRKxXRwLHEIlU1o3n85t/IDQRgtzmMn1IihOwPgfRPKjVrk/1M2H1z/dlr2449qtXMI+1nuLPysrsaVooMEkgN7Qby8qsa0yi6HK6NzkvA4O59h1eSXYvh2gXbwpxzdPZhNneZWOpakXKMwAzwyd4UuSkiAY2ZY6Qa1cT58tE=
+	t=1759433454; cv=none; b=XB8h+IGxwnRRGa6KM8vl9psTry/CGM740BvrNt1nDt7tSE1RVyNV/jtT126JPubwGo7EtlNxtGfasU6Ob3Ayy3gZjpvaw292Tl2BS1LHPP99Fo6cVhwePQaTuFy6ZX+x6VQR+WfOSHNuFKTw0tDldhI4M16U0iekHhCAd7mDeMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759421265; c=relaxed/simple;
-	bh=7HS3xDv56hiDsg1+8hgJy4KB2sJ7ucY4QIiLu0ewozc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XV8xF4I+u1+3+bWxbIH8O0NMpS86rf9+Wz4PtzHoG7fSS7E2JhMccu3OD2crnv95MoK/JLUMQydQA/D/Rv7vOhllsl33WVthyZE/jfXjXOLv3dPykrkNjdBLwogic5qUIvFtHvFLHhFx4zHxJRPN3EzXZefaTk2Ry3eBpeCjHsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RaW0TUJG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759433454; c=relaxed/simple;
+	bh=RavlUV38xKbCURMIaXHAVGr9bhvD+BobklBpey5pr9E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XpLNsqqivKgSNj4SbmkjxS8Za/eJ2w+zpGSWNbaQJSFKoKcTbDdJcIW2pvVUELyAiP6xWPn+3LenhL5JekuL4Wagn5niEKZns+c3lSJXnIyJywOcNeMiLJEiRfbzdrg6h4UZVyPWnM70vSK+AMj90m2Nmh6P9GMo2RZB4b3edzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uqCv8Te5; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RaW0TUJG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F105BC4CEF4;
-	Thu,  2 Oct 2025 16:07:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759421265;
-	bh=7HS3xDv56hiDsg1+8hgJy4KB2sJ7ucY4QIiLu0ewozc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RaW0TUJGjtHO6268lGs5FWYM8bDaIXCSLtQU3OQTBfqWK+Bu/YI965Qk/RH77hHhC
-	 BZsET7tPw7jl0bEU18wN/up2OTJtKc8M2jv+0DQ32MJVxsx7TbDp8cojcNESMwRea2
-	 wcWcGGd3edXKE63RYLTUcZgyToeCQMB8m7VYypsofwxaE4Qrf7lsUc7Pe1U09/7/1U
-	 XuNwJi/gtguk59RGBUE+pGb1v41/s8SByzuXvUWx5BxBrwPAqn5CsKfwIcqlqAY3UA
-	 GmlBRjcaxB4L2oV1HxeXgJ8n5mEa2dXUcaLqVEH4cFz1dCJlF9FNiFYiLeCwr49tWe
-	 +f1IhhhmHeFWQ==
-Date: Thu, 2 Oct 2025 09:07:44 -0700
-From: Kees Cook <kees@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Sebastian Reichel <sre@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org,
-	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
-	Guenter Roeck <groeck@chromium.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: RFC: Selecting an NVMEM cell for Power State Change Reason
- (PSCR) recording
-Message-ID: <202510020904.1E48B7EB@keescook>
-References: <20250618120255.3141862-1-o.rempel@pengutronix.de>
- <aN5pSWBFRZlNRv3U@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uqCv8Te5"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3ecdf2b1751so979292f8f.0
+        for <chrome-platform@lists.linux.dev>; Thu, 02 Oct 2025 12:30:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1759433451; x=1760038251; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RavlUV38xKbCURMIaXHAVGr9bhvD+BobklBpey5pr9E=;
+        b=uqCv8Te5Vo9PfNrgBJFC4aMacZ8LS950wB9xXCLMRA3/6qeC7OWuDScL8fLx7EELTI
+         9E/L2O3IHY3CHL5YqKPYTbS9/XIngb5WeR+sAww1Jw9p4sDgOAJ94T5IF340vJoPOC+S
+         oKJ6iL61433Wjjn0NVz3sxqIWe8U6i+QAueBa9kdzH5bnB9mhInvDJ6FpJJiSTsoe9EM
+         /nVGOxJo1DN+tXWuR0c4HIiz2XSTPrULm05Q1LBHcTcsnxFIvrSoAyilQT2k8CLEZs19
+         LcTVk7UvK1QKjD4egfJVOqHVwHAln2x0uLQo5780Vw/MU/c0exBPfu9BuIWLA4lPaw6X
+         3WWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759433451; x=1760038251;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RavlUV38xKbCURMIaXHAVGr9bhvD+BobklBpey5pr9E=;
+        b=AdC50nmvGJzqBK95wRf+lefygLz4f8m5926VSDzwOoWGAVunPujNE1q7XehoHfLtea
+         O3UOaDmXVA5FF7s5uPMFaLEvso0GhjArF+AgAu2SWS0rGAUvYPKFOAoSe5+qfbh0df7W
+         JUU21luFvkgW3tz+79gQmL2Mg+wj7gvnB4vdf3BSrfdhVJUt03awoURxMJ0+n+GNgPPO
+         C8mvnpeA4XKtZK4xhp2PxCwasZOq+gWEk9/NZdTUnvgo/3GOdM0o/z6UDBfqQFM37eFF
+         zqb9tyUnRQVOz9z7s20TF8d8QOVwuWWAJmMdr8HE7zk5PfYcLcnU/N5Su6Zy8H4k98Em
+         dqcA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdg1iM87QXDnYnQWiKnOjFijc+sJRFLz6UHV2G+UMYYRl6hczvRgxAgLIztbXb+Wx6F7ffwmbHZka89Gnj5QI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyTQrHdlMt4Se4P8MHHNrPpCR8WNBkTj6YWJTwjuGt9OwrqE2jO
+	I8xUFz/VdsLuINscfQ7OQl4ZLkrrGsCRR/tRlDETDKKYceLU5YSy0CsYU3GM3kIqLR9o8VxeZm7
+	BZN82Wj5D84L/I+oZQrELhOcVsxa3T2ASSwciSYDM
+X-Gm-Gg: ASbGnctwk/aw7hyyGaJdKE4z6DHx0PXIfs2dUtDoZT3ksPzHuj90oXBdfeUkufBpiqP
+	4oy9m8a0glI0eZfEXINagyTy5Cj4NgUZYZ3Xt1ioo+BJ6Z9tU1CJ8eF4y4ut/bvi2BnT8f7FEnv
+	bD7Cero5hhmyl6v5O4HKEd9Zj0rXC+OaaqJOtU/HCd/fEW4F7jnQuXkBIFXMR2ietSX73T+EplJ
+	i8aGcCQ9yVKY5uYu22NwIzAwy3qOMmyAIm/DrsFqlxlA8d0sXt54sRbCVUleww6TKS5J/paCYIP
+	LqA=
+X-Google-Smtp-Source: AGHT+IFCU6uBe4gWMYCNHz3kAgXiO/K7bY0HyJGwPrChQwZ9JM6yW0mxGVSnRHqeL/KB4jYDo6HP8b5r3lGA+u45RuI=
+X-Received: by 2002:a05:6000:4024:b0:3ee:1368:a8e9 with SMTP id
+ ffacd0b85a97d-42567135148mr286275f8f.17.1759433450604; Thu, 02 Oct 2025
+ 12:30:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aN5pSWBFRZlNRv3U@pengutronix.de>
+References: <20250926-topic-tbt_header_bit_fix-v1-1-122238af5c82@oss.qualcomm.com>
+ <aN5fpicXs-JwKvQo@tzungbi-laptop>
+In-Reply-To: <aN5fpicXs-JwKvQo@tzungbi-laptop>
+From: Jameson Thies <jthies@google.com>
+Date: Thu, 2 Oct 2025 12:30:39 -0700
+X-Gm-Features: AS18NWCP5sKgHNdu12Azk2AdvFWe9eB4GL8mTduwvhesRx7j7Vpkw8n9TtAOPbs
+Message-ID: <CAMFSARdM6CmUwfntnbG3THsOFC33KyZnR1RVLXmYwFJum+5K=A@mail.gmail.com>
+Subject: Re: [PATCH RFC] usb: typec: thunderbolt: Fix Thunderbolt adapter type
+ bitfield values
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benson Leung <bleung@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Andrei Kuchynski <akuchynski@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 02, 2025 at 02:00:09PM +0200, Oleksij Rempel wrote:
-> I'm seeking consensus on a minimal, upstream-acceptable way to identify the
-> single NVMEM cell used to persist a Power State Change Reason (PSCR). Typical
-> targets are battery-backed RTC scratchpads or small EEPROM. The aim is to have
-> a tiny breadcrumb available before userspace, across full power cuts, and
-> shared by bootloader/kernel/userspace.
-> [...]
-> * pstore integration (not tried): a backend that uses a nominated NVMEM cell if
->   such a nomination is acceptable.
-
-Several years ago I wanted to have tighter integration between pstore
-and nvdimm code. The thread is here, for reference:
-https://lore.kernel.org/lkml/CAGXu5jLtmb3qinZnX3rScUJLUFdf+pRDVPjy=CS4KUtW9tLHtw@mail.gmail.com/
-
-I'm not sure it it'll be a useful as background, but I thought I'd
-mention it. :)
-
--Kees
-
--- 
-Kees Cook
+Hi Konrad,
+thanks for raising this. Yes, it looks like this works around the
+current faulty definitions in typec_tbt.h. Where
+pd_ctrl->control_flags is assigned in our EC firmware, the
+USB_PD_CTRL_TBT_LEGACY_ADAPTER correctly gets set to 1 for TBT2 legacy
+adapters. So the data.device_mode assignment you are updating here is
+currently correct even though the macro is incorrect. Your patch LGTM.

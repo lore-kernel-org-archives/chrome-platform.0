@@ -1,47 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE7625BEF1;
-	Thu,  2 Oct 2025 11:19:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10642253F05;
+	Thu,  2 Oct 2025 11:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759403949; cv=none; b=sUb29amLy5bf1akF6AlUzZwU6FXtwUw0e/wJixd4RfilCaXDDkMHg4KhTrBM4kfm3DVdHxSumTtFWamRtNh2cf4+Ov+UG/OPi90vati9b2+VCZ+WpC/7Nm16m+tTtB+FS4tl6N6eA0ekh4WaC2AxcPX9Lms5ynWmsdGoH20oFS8=
+	t=1759404749; cv=none; b=bwrbd2fsM99W6uCbrUIDnMBLB7IM/tzd1Mb+tejEXqY+yS7ZBjbSusqx4Tj03jbssAe4SYZWqe7Qfzt7w5CNyE7sK+RX0UTXqf3EMobuajEv5+wGxJ9JCIXLI6P7osVbpzLtaDM2sqm1qP7l3u3L+a20zlJJwBbkFyKe8iDD6E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759403949; c=relaxed/simple;
-	bh=JLPcxN3JtTl6gmq6LR2qB4Za7xEDYPFiEZZwgoMPYB0=;
+	s=arc-20240116; t=1759404749; c=relaxed/simple;
+	bh=8QI03bAskpC9PpVYF72IFBOR8W41EVSRT2KB8TPgtEw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nWfNQBoJs7dI7Iebn7Mu3vO4PV+YeJEQml6CNvXBx0/I3lg3/dCIYEa2arOnGny+yDrmbM4Hi5T0WK5+RcQHPaqcAu6LbSDUDnJ2+jtDAydCWeYRQIZbVXYtVdA8kd1GSLgh6vZYkFlpIPtURiPS/F1zpRIyUEDBOdXEWeR9P3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IsWFaxKs; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cPHJcD63F/1RZ1PNtRrKv0fNA0OA9UJU9SzDStCrVVLvDJJ8AF+PoTKa8saqhOvypM+olXZojvWY2+/cjdLmccNOBkaLm/Gi3oFW3QQJlApKgZoGexbfXc3ywWkhluMLnHBxjb6SKpVjMi5YeWfqk9MATMFpD0cG1Eooj3lRwAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYZgQ48f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IsWFaxKs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF92EC4CEF4;
-	Thu,  2 Oct 2025 11:19:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYZgQ48f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72FAFC4CEF4;
+	Thu,  2 Oct 2025 11:32:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759403946;
-	bh=JLPcxN3JtTl6gmq6LR2qB4Za7xEDYPFiEZZwgoMPYB0=;
+	s=k20201202; t=1759404748;
+	bh=8QI03bAskpC9PpVYF72IFBOR8W41EVSRT2KB8TPgtEw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IsWFaxKslgnbEkrAgyxUeZZQpwYcra18Rm8vC6uvNUPX43Dw6Ov5IxntaySi1DtdC
-	 eC8AmxXNXZnGq/1KXEDMN9IXcIb8dlgQswiiSciEq+9pGKEvQGofhJ7hH2mlBkBYgT
-	 yFVA9B9C3UYs355Bb8mFazKmx9WDiRvCEPQvGMgPghFhwttEt+K7R/J0ZOQCPOePkg
-	 JElK6D3StBS1Ztxj4qoijZTl+Z0g4yiGVy4ENVpTo5tNZJP4FwkfyJfynOznMgSzR7
-	 X2Akkfhmc9jwdPeilvOS5tmH9lya5hrXNIbMP/yOFPHi9tniz8R8Rx34Vx9OW97OYg
-	 HHDdi4FOp6PQw==
-Date: Thu, 2 Oct 2025 19:19:02 +0800
+	b=LYZgQ48fA/o3rIsmFazJTJnLBCBIqDa4D87m0URs0CmVNDVP+Bh3qExsSr1SadelV
+	 fC3VwLR+z/GGeKDeTAQJHs6Snm3Kq4xyR1yYzYTuFSYm1b8aiGrtGuKr6TfFgB2Vi7
+	 Wtux6ICwgAGriIYW7HDRDOJdlFB5hoSoDWns2XUizFCzyoQFYG89s3ZisiY6B+dDi+
+	 xR9A3ja3XxG0aXlQLfM5mL/Pcy6Hxqy0qWCFrMQeeBlsFQqRaix6bDanpeIHv+OXYv
+	 wqxbsKsySyRmTjCwoHwcRcYP4St0Zgqyv7svP3RF5abK7khYY+w3Qn03u1BlalJIPp
+	 69RdaZIbZtrbw==
+Date: Thu, 2 Oct 2025 19:32:24 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Benson Leung <bleung@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH RFC] usb: typec: thunderbolt: Fix Thunderbolt adapter
- type bitfield values
-Message-ID: <aN5fpicXs-JwKvQo@tzungbi-laptop>
-References: <20250926-topic-tbt_header_bit_fix-v1-1-122238af5c82@oss.qualcomm.com>
+To: Jameson Thies <jthies@google.com>
+Cc: akuchynski@chromium.org, bleung@chromium.org,
+	abhishekpandit@chromium.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] platform/chrome: cros_usbpd_notify: defer probe when
+ parent EC driver isn't ready
+Message-ID: <aN5iyOsHILi40AIp@tzungbi-laptop>
+References: <20250926202234.3064386-1-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -50,27 +44,26 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250926-topic-tbt_header_bit_fix-v1-1-122238af5c82@oss.qualcomm.com>
+In-Reply-To: <20250926202234.3064386-1-jthies@google.com>
 
-On Fri, Sep 26, 2025 at 02:32:57PM +0200, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> The value has been amended with the release of the USB Type-C
-> Specification v2.1, reportedly as an erratum.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
-> I bundled a change to the CrOS EC driver based on the assumption that
-> it worked around the faulty definition. I see the Intel PMC mux driver
-> also checks for this bit, but it seems like that driver assumes that
-> the value is in-spec (i.e. it may be buggy as of right now).
-> 
-> Adding the respective maintainers to make sure everyone can see this.
+On Fri, Sep 26, 2025 at 08:22:34PM +0000, Jameson Thies wrote:
+> @@ -15,6 +16,7 @@
+>  #define DRV_NAME "cros-usbpd-notify"
+>  #define DRV_NAME_PLAT_ACPI "cros-usbpd-notify-acpi"
+>  #define ACPI_DRV_NAME "GOOG0003"
+> +#define CREC_DRV_NAME "GOOG0004"
 
-I have no context to review the patch.  However, the prefix of patch title
-should be "platform/chrome: cros_ec_typec:".
+What does CREC stand for?
 
+> @@ -114,8 +117,18 @@ static int cros_usbpd_notify_probe_acpi(struct platform_device *pdev)
+>  		/*
+>  		 * We continue even for older devices which don't have the
+>  		 * correct device heirarchy, namely, GOOG0003 is a child
+> -		 * of GOOG0004.
+> +		 * of GOOG0004. If GOOG0003 is a child of GOOG0004 and we
+> +		 * can't get a pointer to the Chrome EC device, defer the
+> +		 * probe function.
+>  		 */
+> +		parent_fwnode = fwnode_call_ptr_op(dev->fwnode, get_parent);
 
-Hi CHROMEOS EC USB TYPE-C maintainers,
-
-Does the patch make sense to you?
+Does it make more sense to use fwnode_get_parent()?

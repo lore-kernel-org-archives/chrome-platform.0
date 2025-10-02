@@ -1,88 +1,86 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA13A55
-	for <chrome-platform@lists.linux.dev>; Thu,  2 Oct 2025 19:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D45284894
+	for <chrome-platform@lists.linux.dev>; Thu,  2 Oct 2025 19:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759433454; cv=none; b=XB8h+IGxwnRRGa6KM8vl9psTry/CGM740BvrNt1nDt7tSE1RVyNV/jtT126JPubwGo7EtlNxtGfasU6Ob3Ayy3gZjpvaw292Tl2BS1LHPP99Fo6cVhwePQaTuFy6ZX+x6VQR+WfOSHNuFKTw0tDldhI4M16U0iekHhCAd7mDeMw=
+	t=1759434144; cv=none; b=VldrFc36X6ag0TWmFaaq/A/8JvBLeZ6VFiNqadY72MyZtC3terR+Nc9dWhJdeYizl77qgBl9Ks9E7Zl8LTJNg2eTfZgbiqX+8uXKvq5SZQumet9nESFIBAHNjI4RbBR1FlUZpKNdUIEFvxpgKX+Xv7cnWXFGy6KbB9tElHmUb0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759433454; c=relaxed/simple;
-	bh=RavlUV38xKbCURMIaXHAVGr9bhvD+BobklBpey5pr9E=;
+	s=arc-20240116; t=1759434144; c=relaxed/simple;
+	bh=Q/IteUfsdc9uXa9k4p1PZg6c341HQK2Ae1qCvKmOoEE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XpLNsqqivKgSNj4SbmkjxS8Za/eJ2w+zpGSWNbaQJSFKoKcTbDdJcIW2pvVUELyAiP6xWPn+3LenhL5JekuL4Wagn5niEKZns+c3lSJXnIyJywOcNeMiLJEiRfbzdrg6h4UZVyPWnM70vSK+AMj90m2Nmh6P9GMo2RZB4b3edzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uqCv8Te5; arc=none smtp.client-ip=209.85.221.45
+	 To:Cc:Content-Type; b=FODx5S3pxAEC3bvY87gQMgN08ItHJbnQ2XQcQ4ZQ15XhsB3GLeh5toAX67kXGa0nyhMfeNC1qtwC2AZ8huVr1dY8a+j9YxFAoZMz/psRokA4ccJjyjrGXuF43XM7gSOmA8B6swVeJpqdnZaHXKOJPz2B5DfrYZP9CoqLHeZWxW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0DGhIs8Q; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uqCv8Te5"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3ecdf2b1751so979292f8f.0
-        for <chrome-platform@lists.linux.dev>; Thu, 02 Oct 2025 12:30:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0DGhIs8Q"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46e430494ccso8332125e9.1
+        for <chrome-platform@lists.linux.dev>; Thu, 02 Oct 2025 12:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759433451; x=1760038251; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1759434141; x=1760038941; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RavlUV38xKbCURMIaXHAVGr9bhvD+BobklBpey5pr9E=;
-        b=uqCv8Te5Vo9PfNrgBJFC4aMacZ8LS950wB9xXCLMRA3/6qeC7OWuDScL8fLx7EELTI
-         9E/L2O3IHY3CHL5YqKPYTbS9/XIngb5WeR+sAww1Jw9p4sDgOAJ94T5IF340vJoPOC+S
-         oKJ6iL61433Wjjn0NVz3sxqIWe8U6i+QAueBa9kdzH5bnB9mhInvDJ6FpJJiSTsoe9EM
-         /nVGOxJo1DN+tXWuR0c4HIiz2XSTPrULm05Q1LBHcTcsnxFIvrSoAyilQT2k8CLEZs19
-         LcTVk7UvK1QKjD4egfJVOqHVwHAln2x0uLQo5780Vw/MU/c0exBPfu9BuIWLA4lPaw6X
-         3WWw==
+        bh=Q/IteUfsdc9uXa9k4p1PZg6c341HQK2Ae1qCvKmOoEE=;
+        b=0DGhIs8Qu9CrPdmXYtEODnaLudzxMCTxemEYR0CCJvCSOTeWIt2ucjjSFvFTYnrGKa
+         GbWn/OwfZJY28B/m2EE+5sxQHD5ZxZGCuKwtcWu8y/wiu8dxIWKQOeWd+QJRKHvvsaf7
+         b0GD4CLHdU3abyrsM5GT7Rmb0rSARR3SrG+pKIPP4mX2Dz86PAqsMx64uWT8jotYnXaL
+         JtHf9jXOZAnBJguspy+O9sBFakzCxmpw+S8JfuZqB/jBE/q3ZoX41EQyV5uYhYJsW337
+         nV1qjzAUfF8dXCk3Yt+Mvo1FYNJpI/HnPFam/Hq4WMz0w2m+wJm4eolwuGv8mtv8mKF9
+         GbRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759433451; x=1760038251;
+        d=1e100.net; s=20230601; t=1759434141; x=1760038941;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RavlUV38xKbCURMIaXHAVGr9bhvD+BobklBpey5pr9E=;
-        b=AdC50nmvGJzqBK95wRf+lefygLz4f8m5926VSDzwOoWGAVunPujNE1q7XehoHfLtea
-         O3UOaDmXVA5FF7s5uPMFaLEvso0GhjArF+AgAu2SWS0rGAUvYPKFOAoSe5+qfbh0df7W
-         JUU21luFvkgW3tz+79gQmL2Mg+wj7gvnB4vdf3BSrfdhVJUt03awoURxMJ0+n+GNgPPO
-         C8mvnpeA4XKtZK4xhp2PxCwasZOq+gWEk9/NZdTUnvgo/3GOdM0o/z6UDBfqQFM37eFF
-         zqb9tyUnRQVOz9z7s20TF8d8QOVwuWWAJmMdr8HE7zk5PfYcLcnU/N5Su6Zy8H4k98Em
-         dqcA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdg1iM87QXDnYnQWiKnOjFijc+sJRFLz6UHV2G+UMYYRl6hczvRgxAgLIztbXb+Wx6F7ffwmbHZka89Gnj5QI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyTQrHdlMt4Se4P8MHHNrPpCR8WNBkTj6YWJTwjuGt9OwrqE2jO
-	I8xUFz/VdsLuINscfQ7OQl4ZLkrrGsCRR/tRlDETDKKYceLU5YSy0CsYU3GM3kIqLR9o8VxeZm7
-	BZN82Wj5D84L/I+oZQrELhOcVsxa3T2ASSwciSYDM
-X-Gm-Gg: ASbGnctwk/aw7hyyGaJdKE4z6DHx0PXIfs2dUtDoZT3ksPzHuj90oXBdfeUkufBpiqP
-	4oy9m8a0glI0eZfEXINagyTy5Cj4NgUZYZ3Xt1ioo+BJ6Z9tU1CJ8eF4y4ut/bvi2BnT8f7FEnv
-	bD7Cero5hhmyl6v5O4HKEd9Zj0rXC+OaaqJOtU/HCd/fEW4F7jnQuXkBIFXMR2ietSX73T+EplJ
-	i8aGcCQ9yVKY5uYu22NwIzAwy3qOMmyAIm/DrsFqlxlA8d0sXt54sRbCVUleww6TKS5J/paCYIP
-	LqA=
-X-Google-Smtp-Source: AGHT+IFCU6uBe4gWMYCNHz3kAgXiO/K7bY0HyJGwPrChQwZ9JM6yW0mxGVSnRHqeL/KB4jYDo6HP8b5r3lGA+u45RuI=
-X-Received: by 2002:a05:6000:4024:b0:3ee:1368:a8e9 with SMTP id
- ffacd0b85a97d-42567135148mr286275f8f.17.1759433450604; Thu, 02 Oct 2025
- 12:30:50 -0700 (PDT)
+        bh=Q/IteUfsdc9uXa9k4p1PZg6c341HQK2Ae1qCvKmOoEE=;
+        b=o3NsLLKgj4HGkAeFAUSIlb+ju5AyRx6J64EaiQFL2z7iImIA/BbaoFmlnfAkBhN5q4
+         qkCjOoXiLu2qvDWmWbUTSpNZNuZqtVbypuIEiJhHwtQTwBSZUDjOkv68BQDdq3EZplA7
+         7r1G/Oub6ifR5X440YtvG3J2DQ1ApRVB8YRvkX2svH4kXzkzLcyBMt7waN+EVwFWgXU2
+         SJPDMcpUbf3AAs3Gxj4Krn2ez3sY14m0j4ridmR3faud54MLtXyBzPr2s30kWpDjI2Gv
+         OJpBOEzDBWvDt1yHNJmhhwbCGKN9gLB2Ro9xtl9vBstQGJeuoDxMkhv5QnowvGVG0/I9
+         vw6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXEtrSb1VX78FN5pKWVqhb/qoCrvDFtnCRhytMUvct4ESGh2cKYTtsn9qhCd8lPpiCFg/2twQH+714it1xTtIs=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw09LOmzZcwpKsZIBrNe4NVbJM0iUIUvRCyD7HGjyZMxEijLaY5
+	VdLf5t1qtRLk5aN47cKKW7MSB8Kuc2MMmkdP1ZTE/kprIYfnZGT3uPIzToP2igIkC2XjnUjoVsc
+	naUKBlVpKDQDtFXygsxbpfcxaEuMOwbcIKgNJ167C
+X-Gm-Gg: ASbGncvW5WVvSCWHejObEhEZV5RBZxRYtpOv5lgCHnyMnM559NteBD+R5bzODiJFmVs
+	lUAtuwsDsdTV3bZlwzlp5jLbpmDOHwpLlYcRkNjyallrKn/ELQU4g4pUG2uoqaF6J25NVMQmDNd
+	G2c8hIEO6bRaF+BKY7dWtSHT/RzG+RfWVqiidap7aObCIScFSMNqN1ZsMijWvXfrMNzJT8kelWk
+	7s8LPgDLwJK0zb00H6vjIphkH2ml4II1we/LL29g8afqPTz0iHL6aFFZq4RsAHicus7
+X-Google-Smtp-Source: AGHT+IGAzqI9zShvLUg4thsYZhAmQ3tJF1bhTlEa520l2RtxLRAkBSidqGUNoP4V3f1Wg0ZKuzlvehV00EMnag8jrAY=
+X-Received: by 2002:a05:6000:4027:b0:3d1:c805:81e with SMTP id
+ ffacd0b85a97d-4256713628amr300032f8f.4.1759434140951; Thu, 02 Oct 2025
+ 12:42:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250926-topic-tbt_header_bit_fix-v1-1-122238af5c82@oss.qualcomm.com>
- <aN5fpicXs-JwKvQo@tzungbi-laptop>
-In-Reply-To: <aN5fpicXs-JwKvQo@tzungbi-laptop>
+References: <20250926202234.3064386-1-jthies@google.com> <aN5iyOsHILi40AIp@tzungbi-laptop>
+In-Reply-To: <aN5iyOsHILi40AIp@tzungbi-laptop>
 From: Jameson Thies <jthies@google.com>
-Date: Thu, 2 Oct 2025 12:30:39 -0700
-X-Gm-Features: AS18NWCP5sKgHNdu12Azk2AdvFWe9eB4GL8mTduwvhesRx7j7Vpkw8n9TtAOPbs
-Message-ID: <CAMFSARdM6CmUwfntnbG3THsOFC33KyZnR1RVLXmYwFJum+5K=A@mail.gmail.com>
-Subject: Re: [PATCH RFC] usb: typec: thunderbolt: Fix Thunderbolt adapter type
- bitfield values
+Date: Thu, 2 Oct 2025 12:42:09 -0700
+X-Gm-Features: AS18NWB79j0oFxpI_7gQo4UjXbQOPDnxSZuY-zTqaDlZ-r3GhEI_kvhpY4NRVUY
+Message-ID: <CAMFSAReHEt7nUZvsnB5pyPTaddSVSdtiiX-RLpY4MfKq3qfX1Q@mail.gmail.com>
+Subject: Re: [PATCH v1] platform/chrome: cros_usbpd_notify: defer probe when
+ parent EC driver isn't ready
 To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Konrad Dybcio <konradybcio@kernel.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benson Leung <bleung@chromium.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Andrei Kuchynski <akuchynski@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: akuchynski@chromium.org, bleung@chromium.org, abhishekpandit@chromium.org, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Konrad,
-thanks for raising this. Yes, it looks like this works around the
-current faulty definitions in typec_tbt.h. Where
-pd_ctrl->control_flags is assigned in our EC firmware, the
-USB_PD_CTRL_TBT_LEGACY_ADAPTER correctly gets set to 1 for TBT2 legacy
-adapters. So the data.device_mode assignment you are updating here is
-currently correct even though the macro is incorrect. Your patch LGTM.
+> > +#define CREC_DRV_NAME "GOOG0004"
+>
+> What does CREC stand for?
+
+CrOS EC. "CREC" is the device name used in the ACPI definition for GOOG0004.
+
+>
+> Does it make more sense to use fwnode_get_parent()?
+
+I was initially planning to use fwnode_get_parent(), but calling that
+from cros_usbpd_notify.c would require an ABI update to build for
+android.

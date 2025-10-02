@@ -1,69 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10642253F05;
-	Thu,  2 Oct 2025 11:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB81719F13F
+	for <chrome-platform@lists.linux.dev>; Thu,  2 Oct 2025 12:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759404749; cv=none; b=bwrbd2fsM99W6uCbrUIDnMBLB7IM/tzd1Mb+tejEXqY+yS7ZBjbSusqx4Tj03jbssAe4SYZWqe7Qfzt7w5CNyE7sK+RX0UTXqf3EMobuajEv5+wGxJ9JCIXLI6P7osVbpzLtaDM2sqm1qP7l3u3L+a20zlJJwBbkFyKe8iDD6E4=
+	t=1759406443; cv=none; b=t+d5PqLKlERzN3mPohOD7rtjwO7tHpmPgJvLp2DnZcFyq8T1yoBJ1vDfDHytms0hZfTO2FJrmwSwV9mZUGWLBX3gc3sBjTcFjGfzxkZ5RtSnNL3e3ip3aXgGJNFudoT3ObfC02p/SiXYaM6kUaKz82Q3bT8xiftvKWhVn3edDL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759404749; c=relaxed/simple;
-	bh=8QI03bAskpC9PpVYF72IFBOR8W41EVSRT2KB8TPgtEw=;
+	s=arc-20240116; t=1759406443; c=relaxed/simple;
+	bh=zlFrpOe0HrWRYD2Vb3aRVlnCqzPgkaXM7sG+IHktRWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cPHJcD63F/1RZ1PNtRrKv0fNA0OA9UJU9SzDStCrVVLvDJJ8AF+PoTKa8saqhOvypM+olXZojvWY2+/cjdLmccNOBkaLm/Gi3oFW3QQJlApKgZoGexbfXc3ywWkhluMLnHBxjb6SKpVjMi5YeWfqk9MATMFpD0cG1Eooj3lRwAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYZgQ48f; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYZgQ48f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72FAFC4CEF4;
-	Thu,  2 Oct 2025 11:32:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759404748;
-	bh=8QI03bAskpC9PpVYF72IFBOR8W41EVSRT2KB8TPgtEw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LYZgQ48fA/o3rIsmFazJTJnLBCBIqDa4D87m0URs0CmVNDVP+Bh3qExsSr1SadelV
-	 fC3VwLR+z/GGeKDeTAQJHs6Snm3Kq4xyR1yYzYTuFSYm1b8aiGrtGuKr6TfFgB2Vi7
-	 Wtux6ICwgAGriIYW7HDRDOJdlFB5hoSoDWns2XUizFCzyoQFYG89s3ZisiY6B+dDi+
-	 xR9A3ja3XxG0aXlQLfM5mL/Pcy6Hxqy0qWCFrMQeeBlsFQqRaix6bDanpeIHv+OXYv
-	 wqxbsKsySyRmTjCwoHwcRcYP4St0Zgqyv7svP3RF5abK7khYY+w3Qn03u1BlalJIPp
-	 69RdaZIbZtrbw==
-Date: Thu, 2 Oct 2025 19:32:24 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jameson Thies <jthies@google.com>
-Cc: akuchynski@chromium.org, bleung@chromium.org,
-	abhishekpandit@chromium.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] platform/chrome: cros_usbpd_notify: defer probe when
- parent EC driver isn't ready
-Message-ID: <aN5iyOsHILi40AIp@tzungbi-laptop>
-References: <20250926202234.3064386-1-jthies@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FI8t/+MbiBJuJBjYpMDGRaEH07E9m+bYzNAgG8qZD9lrT69LEDzAKgQIy5Z97putKA82Y9d+ZN7nNptgpXUJLvh+GkEwC2mGK6TMF2924qkSg4tMyyIgHCl8Ia+B86l9Nu7Gzm6eQun179NB7gjcjk53JXlz1dcBoe75jg1hOl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1v4Hyl-00083q-Gr; Thu, 02 Oct 2025 14:00:11 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1v4Hyj-001ZsI-0p;
+	Thu, 02 Oct 2025 14:00:09 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1v4Hyj-008S1y-0P;
+	Thu, 02 Oct 2025 14:00:09 +0200
+Date: Thu, 2 Oct 2025 14:00:09 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Sebastian Reichel <sre@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: RFC: Selecting an NVMEM cell for Power State Change Reason (PSCR)
+ recording
+Message-ID: <aN5pSWBFRZlNRv3U@pengutronix.de>
+References: <20250618120255.3141862-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250926202234.3064386-1-jthies@google.com>
+In-Reply-To: <20250618120255.3141862-1-o.rempel@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: chrome-platform@lists.linux.dev
 
-On Fri, Sep 26, 2025 at 08:22:34PM +0000, Jameson Thies wrote:
-> @@ -15,6 +16,7 @@
->  #define DRV_NAME "cros-usbpd-notify"
->  #define DRV_NAME_PLAT_ACPI "cros-usbpd-notify-acpi"
->  #define ACPI_DRV_NAME "GOOG0003"
-> +#define CREC_DRV_NAME "GOOG0004"
+Hi all,
 
-What does CREC stand for?
+I'm seeking consensus on a minimal, upstream-acceptable way to identify the
+single NVMEM cell used to persist a Power State Change Reason (PSCR). Typical
+targets are battery-backed RTC scratchpads or small EEPROM. The aim is to have
+a tiny breadcrumb available before userspace, across full power cuts, and
+shared by bootloader/kernel/userspace.
 
-> @@ -114,8 +117,18 @@ static int cros_usbpd_notify_probe_acpi(struct platform_device *pdev)
->  		/*
->  		 * We continue even for older devices which don't have the
->  		 * correct device heirarchy, namely, GOOG0003 is a child
-> -		 * of GOOG0004.
-> +		 * of GOOG0004. If GOOG0003 is a child of GOOG0004 and we
-> +		 * can't get a pointer to the Chrome EC device, defer the
-> +		 * probe function.
->  		 */
-> +		parent_fwnode = fwnode_call_ptr_op(dev->fwnode, get_parent);
+DT vs Userspace vs ACPI
 
-Does it make more sense to use fwnode_get_parent()?
+* DeviceTree (preferred): Describing where the storage lives under a real
+  NVMEM provider (RTC/EEPROM) is early, robust, and OS-agnostic.
+
+* Userspace (fallback): Possible via module/cmdline/sysfs, but leaves an
+  early-boot window unconfigured and reduces usefulness for embedded devices.
+
+* ACPI: No existing shared mechanism for this use case at present (not
+  proposing an ACPI path right now).
+
+What implementations were tried
+
+* A PSCR consumer node in DT -> NACKed as not a HW node.
+
+* Kernel/module parameters or sysfs selection -> tried earlier, but rejected
+  for new designs and cannot guarantee early availability.
+
+* Name-based lookups in NVMEM -> considered fragile and not scalable.
+
+Other options which came in question (seeking guidance)
+
+* cell-level `compatible` on a fixed-cell child (analogous to `mac-base`) to
+  nominate the PSCR cell under the existing NVMEM provider. DT remains purely
+  descriptive (location/size); encoding is documented outside DT and shared
+  across components.
+
+* `/chosen` phandle pointing to the nominated fixed-cell (simple to discover;
+  unsure about policy concerns).
+
+* pstore integration (not tried): a backend that uses a nominated NVMEM cell if
+  such a nomination is acceptable.
+
+* nvmem-layout usage (not tried): provider-side markup of the region to
+  indicate it carries PSCR, if that pattern is acceptable for this purpose.
+
+* Open to any established precedent for nominating a specific NVMEM cell for a
+  system role without introducing software/virtual DT nodes.
+
+Ask
+
+* Is a cell-level `compatible` on a `fixed-cell` child an acceptable way to
+  nominate the PSCR cell?
+
+* If not, is a `/chosen` phandle acceptable here, or is there a preferred
+  alternative?
+
+Thanks for guidance - once the selection mechanism is agreed, I can respin the
+PSCR series accordingly.
+
+Latest patch version: https://lore.kernel.org/all/aHTZTFxfS6Bn4yhz@pengutronix.de/
+
+Best Regards,
+Oleksij
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |

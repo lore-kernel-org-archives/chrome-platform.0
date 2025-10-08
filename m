@@ -1,197 +1,135 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A943B227B9F
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Oct 2025 19:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715AF25D528
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Oct 2025 10:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759866227; cv=none; b=ZGtc/XZwaSKdHHk2ZjtyHPOjOC99KJdYdcbSGmwqOItepKt0mV2nFr4RamzkBd/2DqjrfOoC8xK9R5ylRzOqJxvCw9t88c+3mzJwpZ8AnJC2Ci6TyUOJqfb35wETkW+Z9ZCgmwvHq723bNB0JdHcpQmYvdJmPVL3+/qIaf1T4tg=
+	t=1759920103; cv=none; b=sTH8olySTZzFXPxgJkVd12o9g5v4OD5MAJLIg9LiAcumY8Ej2igGmj/ZonEgFupx/NwbyQ6z24cntUtqFaofSg59TFn6ypRPzmZrl6y5Ds9vSUR8w5dy+HrYsK0n4mPNuxpEs+7LaCoKBzyaZa+MaqiHtOGy8m1lYAukGlOmW7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759866227; c=relaxed/simple;
-	bh=xZMyj1txn9yNEkPj4jndX7PoAnwBnvLHxpXeVdkrCq0=;
+	s=arc-20240116; t=1759920103; c=relaxed/simple;
+	bh=N7kccmBEIRyE/cBZNjVeUwqAdkOgSbKp3zdpY3l3mJE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fkkF74nSNeRkRI4wi6vING/RtJzyOZC/9Zn4v8ZXvG5FNqLsMwv/ocPjiGYdt8mfV7WOpoaE+UdG7afEC28htfFxD+ZS4BLfWsgNTa8Ffuqsw8Y1Z3x1dXElg01e+X7raUY29Udqov/0VWWQDUuZ7bPy5VEChXRH+wj0o8LB8FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Luv3jbWn; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mrbi736Iop0b2BLPsW7rA2uSLux10ZZLHZafUndZzk1+d7oZk720lDz6mFfu3a6Ggxswzaw0626cVRppz8GXt4wiy+TMwK1jQ2Rx2DWSn6Vgxr4w7I/cWe0pIL61c5oNIUPaRJ/pcP1Q+x418Iluq7ht+/4PIVIJ7jPiflSPZtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kOhueycn; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Luv3jbWn"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b49c1c130c9so4362598a12.0
-        for <chrome-platform@lists.linux.dev>; Tue, 07 Oct 2025 12:43:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759866225; x=1760471025; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tPY6o7kS39nLiixzOv3LoRY6a9yECDfRcVUGAGn0FOs=;
-        b=Luv3jbWnVm9smuA6Hog+KtELhLUOdA6qpXiLLDnIhlXDzIs2i19Kc/9iEslZpYsIV0
-         909Y51UmvXexTnzRGq619XOG34G2ma2sFyQetm6z5fhog7CgesWiW51acL0NUlz1SBcX
-         YO1mjbPIvvjvBhjQj/azEOed+YaAz6zfh2DJuPSl9U8B94HjvgdHps/NhRPJd/hQL7oX
-         L1L4q0yx3adkvpqbgXks0iaoIByIE8EKAqyp5Izph7Cj3NeWYbUA3vujr/YTcYPPkBee
-         XWQ5uWNm9wgcjbj5ddJBSpfeTAnURlkNDw6WjcXnvYjU5tSD7JVZYAqLw8AzhY+Is8FH
-         4c/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759866225; x=1760471025;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tPY6o7kS39nLiixzOv3LoRY6a9yECDfRcVUGAGn0FOs=;
-        b=uDwI+xXE03o2R8NugjMcQax6R+A9zncbf248yoF1gs1XBCKCrDTldwGcNvOSvb3krI
-         VkMnEnrBVQ0W/YUn/WvtnjKHQrQQUooionE9lHQOn8biH2uCznFyMQklLeAhYBPErKkt
-         DBg9R97AD4WlYtrBimx/dnjH7ctpOWSM48uOO6eTNXwwKmMJ8wJxcXv1mClrVKIhs2Zy
-         NyY3bqEF0D8KWqolweA+p9OMLQM7Klb2ZdtTLvJr0F7lXN4HXTuN0QQkqZPtL5jr3YrO
-         SfNY92qIPXSEoTaqNEAfm3azKuj7EMHo2sxPNZo/aly67CnI1u8Ib9wBElnOuQSq3cRT
-         Zxsw==
-X-Forwarded-Encrypted: i=1; AJvYcCXL/Fa3BGusZ87d0YOIVSePEhmCQ+8GFLjl5k3MCMsRnX8++pTrxjYl9a+CzCVNts2wyFHRsXYELZjahxr6QW8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YysoGZC7fe9LqaJDx36wHaGoX1Y7s1SCgcqsc5Q23FLv9ElbKih
-	K/apU6seDM32UKBCT1cgQqMG5f1ik/bRnuA+EF9p3PBkgWe091ibGzfxKt89xLTpSw==
-X-Gm-Gg: ASbGncv1LhdNcOSM2QqzSYAoIGXAIBGVebd2aLKpd3IGdvGu1aQAhUhVTATQxfSFNpS
-	FUbSQ3E6CcF5RZCBBvu/6kZAz18S3QwwTj7kvrUzVu4Li2+/htoEJo3jVeMaheVuR4GTLiMoW7p
-	dFa9DTmkUyNW2lp9hIM9TGqvpuutPJ6BI8lUqevNsS9r7NiHxkereUx5H82nM/elNIlZ42PMzLS
-	mg5xKabKgJUhTBCouJualmdL+SCPCLARcnHsVWlRGuQzRdJ+IEbvilVVNDm0AN4hzt0lQq+jD02
-	vBZ5XnaiYHKETVapbZkY0KPTkDOGLpEOWFL2ZfnT5J76zpuZ9M+O+EBbJ52UyCCTWVVING9oTjR
-	OFpQILWy/J7TFDdmy8xQrH69ELJBKK02EYmXvzqw4D2S0yfl3lG1qsvnDuCs4RIlycuHZQsD2ff
-	Gm3t9zzUCVoVvkpVuHG+Ei
-X-Google-Smtp-Source: AGHT+IE5SIvyP4eUf3ipqqD5UvRzEUwKrkkptQOc7fcVjGhgP5yFTG0+Dw+sZtrUtx3Ml6RCP26bLg==
-X-Received: by 2002:a17:902:d60d:b0:269:8407:5ae3 with SMTP id d9443c01a7336-290272f8283mr11547605ad.54.1759866224509;
-        Tue, 07 Oct 2025 12:43:44 -0700 (PDT)
-Received: from google.com (232.92.83.34.bc.googleusercontent.com. [34.83.92.232])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1b93f1sm173669135ad.71.2025.10.07.12.43.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 12:43:43 -0700 (PDT)
-Date: Tue, 7 Oct 2025 19:43:40 +0000
-From: Benson Leung <bleung@google.com>
-To: Jameson Thies <jthies@google.com>
-Cc: akuchynski@chromium.org, abhishekpandit@chromium.org,
-	krzk+dt@kernel.org, robh@kernel.org, bleung@chromium.org,
-	heikki.krogerus@linux.intel.com, ukaszb@chromium.org,
-	tzungbi@kernel.org, devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is
- defined in OF or ACPI
-Message-ID: <aOVtbDOl1w4RXEfi@google.com>
-References: <20251001193346.1724998-1-jthies@google.com>
- <20251001193346.1724998-4-jthies@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kOhueycn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759920102; x=1791456102;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N7kccmBEIRyE/cBZNjVeUwqAdkOgSbKp3zdpY3l3mJE=;
+  b=kOhueycnmRB7d7ATZjd+4D+XL+uPhX5pkD75A/Q8AYkEF085WFFKG3wn
+   eDwgN+Vhq5B76+gGqhyGsVPUl9GDzrBbNl5xV7BxYodDDr4oRw0O1SCZB
+   EsZbmQ1rcZW+FoY+e1X2gWWIbwYs6fFjw9og1T1U13Ly3LGQCpD9vHB/J
+   XtvSCIisEPnb3VIptewh7bvzHjVboD/Xs1R0DEaUuMIDVPlDxxgOp4ePl
+   MMTeWWCTF5A0rb/i59wuzkCDRhg8l4zNW8+3b6re3wbtBXk2Rw03psFGL
+   riHoxFfPICCpwWs6iIJ/CHaW6hEvDbCU6w5GIx5yvzW79dmqg1OQ0v27z
+   Q==;
+X-CSE-ConnectionGUID: J2YTja95RBeEq08SVilFFg==
+X-CSE-MsgGUID: sNubnAOPRj2SAODAHsggEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11575"; a="72369482"
+X-IronPort-AV: E=Sophos;i="6.19,323,1754982000"; 
+   d="scan'208";a="72369482"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2025 03:41:32 -0700
+X-CSE-ConnectionGUID: X6h6d2RKRKWaq6RvYmjFbA==
+X-CSE-MsgGUID: lffald/wQP+9tvvIOiENcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,323,1754982000"; 
+   d="scan'208";a="180000565"
+Received: from iherna2-mobl4.amr.corp.intel.com (HELO kuha.fi.intel.com) ([10.124.220.169])
+  by orviesa009.jf.intel.com with SMTP; 08 Oct 2025 03:41:26 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 08 Oct 2025 13:41:24 +0300
+Date: Wed, 8 Oct 2025 13:41:24 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH RFC] usb: typec: thunderbolt: Fix Thunderbolt adapter
+ type bitfield values
+Message-ID: <aOY_1KhqJO2opqk2@kuha.fi.intel.com>
+References: <20250926-topic-tbt_header_bit_fix-v1-1-122238af5c82@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="AVuZMM5ghkB0dxRG"
-Content-Disposition: inline
-In-Reply-To: <20251001193346.1724998-4-jthies@google.com>
-
-
---AVuZMM5ghkB0dxRG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250926-topic-tbt_header_bit_fix-v1-1-122238af5c82@oss.qualcomm.com>
 
-On Wed, Oct 01, 2025 at 07:33:43PM +0000, Jameson Thies wrote:
-> On devices with a UCSI PPM in the EC, check for cros_ec_ucsi to be
-> defined in the OF device tree or an ACPI node. If it is defined by
-> either OF or ACPI, it does not need to be added as a subdevice of
-> cros_ec_dev.
->=20
-> Signed-off-by: Jameson Thies <jthies@google.com>
+On Fri, Sep 26, 2025 at 02:32:57PM +0200, Konrad Dybcio wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> The value has been amended with the release of the USB Type-C
+> Specification v2.1, reportedly as an erratum.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Reviewed-by: Benson Leung <bleung@chromium.org>
+Makes sense to me. FWIW:
 
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
->  drivers/mfd/cros_ec_dev.c | 40 ++++++++++++++++++++++++++++++++++-----
->  1 file changed, 35 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> index dc80a272726b..b0523f6541d2 100644
-> --- a/drivers/mfd/cros_ec_dev.c
-> +++ b/drivers/mfd/cros_ec_dev.c
-> @@ -5,6 +5,7 @@
->   * Copyright (C) 2014 Google, Inc.
->   */
-> =20
-> +#include <linux/acpi.h>
->  #include <linux/dmi.h>
->  #include <linux/kconfig.h>
->  #include <linux/mfd/core.h>
-> @@ -131,11 +132,6 @@ static const struct cros_feature_to_cells cros_subde=
-vices[] =3D {
->  		.mfd_cells	=3D cros_ec_rtc_cells,
->  		.num_cells	=3D ARRAY_SIZE(cros_ec_rtc_cells),
->  	},
-> -	{
-> -		.id		=3D EC_FEATURE_UCSI_PPM,
-> -		.mfd_cells	=3D cros_ec_ucsi_cells,
-> -		.num_cells	=3D ARRAY_SIZE(cros_ec_ucsi_cells),
-> -	},
->  	{
->  		.id		=3D EC_FEATURE_HANG_DETECT,
->  		.mfd_cells	=3D cros_ec_wdt_cells,
-> @@ -177,6 +173,16 @@ static const struct mfd_cell cros_ec_vbc_cells[] =3D=
- {
->  	{ .name =3D "cros-ec-vbc", }
->  };
-> =20
-> +static int ucsi_acpi_match(struct device *dev, const void *data)
-> +{
-> +	struct acpi_device_id ucsi_acpi_device_ids[] =3D {
-> +		{ "GOOG0021", 0 },
-> +		{"", 0},
-> +	};
-> +	return !!acpi_match_device(ucsi_acpi_device_ids, dev);
-> +}
-> +
-> +
->  static void cros_ec_class_release(struct device *dev)
->  {
->  	kfree(to_cros_ec_dev(dev));
-> @@ -264,6 +270,30 @@ static int ec_device_probe(struct platform_device *p=
-dev)
->  		}
->  	}
-> =20
-> +	/*
-> +	 * FW nodes can load cros_ec_ucsi, but early PDC devices did not define
-> +	 * the required nodes. On PDC systems without FW nodes for cros_ec_ucsi,
-> +	 * the driver should be added as an mfd subdevice.
-> +	 */
-> +	if (cros_ec_check_features(ec, EC_FEATURE_USB_PD) &&
-> +	    cros_ec_check_features(ec, EC_FEATURE_UCSI_PPM)) {
-> +		struct device *acpi_dev =3D device_find_child(ec->ec_dev->dev,
-> +							    NULL,
-> +							    ucsi_acpi_match);
-> +
-> +		if (!!acpi_dev) {
-> +			put_device(acpi_dev);
-> +		} else if (!of_find_compatible_node(NULL, NULL,
-> +						    "google,cros-ec-ucsi")) {
-> +			retval =3D mfd_add_hotplug_devices(
-> +				ec->dev, cros_ec_ucsi_cells,
-> +				ARRAY_SIZE(cros_ec_ucsi_cells));
-> +			if (retval)
-> +				dev_warn(ec->dev,
-> +				    "failed to add cros_ec_ucsi: %d\n", retval);
-> +		}
-> +	}
-> +
->  	/*
->  	 * UCSI provides power supply information so we don't need to separately
->  	 * load the cros_usbpd_charger driver.
-> --=20
-> 2.51.0.618.g983fd99d29-goog
->=20
+> I bundled a change to the CrOS EC driver based on the assumption that
+> it worked around the faulty definition. I see the Intel PMC mux driver
+> also checks for this bit, but it seems like that driver assumes that
+> the value is in-spec (i.e. it may be buggy as of right now).
+> 
+> Adding the respective maintainers to make sure everyone can see this.
+> ---
+>  drivers/platform/chrome/cros_ec_typec.c | 2 +-
+>  include/linux/usb/typec_tbt.h           | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+> index b712bcff6fb2674ec79286159090df6d79b32e9a..d80f3de1b87c362a2825bd19f826c5be077583aa 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -585,7 +585,7 @@ static int cros_typec_enable_tbt(struct cros_typec_data *typec,
+>  	data.device_mode = TBT_MODE;
+>  
+>  	if (pd_ctrl->control_flags & USB_PD_CTRL_TBT_LEGACY_ADAPTER)
+> -		data.device_mode = TBT_SET_ADAPTER(TBT_ADAPTER_TBT3);
+> +		data.device_mode = TBT_SET_ADAPTER(TBT_ADAPTER_LEGACY);
+>  
+>  	/* Cable Discover Mode VDO */
+>  	data.cable_mode = TBT_MODE;
+> diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
+> index 55dcea12082c80defeb6f199ad333279b58adcd7..6bf208c9dd5037f162678bc0be5be7ae1ca0deca 100644
+> --- a/include/linux/usb/typec_tbt.h
+> +++ b/include/linux/usb/typec_tbt.h
+> @@ -27,8 +27,8 @@ struct typec_thunderbolt_data {
+>  /* TBT3 Device Discover Mode VDO bits */
+>  #define TBT_MODE			BIT(0)
+>  #define TBT_ADAPTER(_vdo_)		FIELD_GET(BIT(16), _vdo_)
+> -#define   TBT_ADAPTER_LEGACY		0
+> -#define   TBT_ADAPTER_TBT3		1
+> +#define   TBT_ADAPTER_TBT3		0
+> +#define   TBT_ADAPTER_LEGACY		1
+>  #define TBT_INTEL_SPECIFIC_B0		BIT(26)
+>  #define TBT_VENDOR_SPECIFIC_B0		BIT(30)
+>  #define TBT_VENDOR_SPECIFIC_B1		BIT(31)
+> 
+> ---
+> base-commit: 8e2755d7779a95dd61d8997ebce33ff8b1efd3fb
+> change-id: 20250926-topic-tbt_header_bit_fix-17aeb524df4a
+> 
+> Best regards,
+> -- 
+> Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
---AVuZMM5ghkB0dxRG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaOVtawAKCRBzbaomhzOw
-wmRYAQC++OoC5q1mBE/1huCJjMRFkqmQs/g8WPoS9w/QsoyC0gD8DywFVX8m6bXV
-rSfJcTnDduy80Nfk8IhLCFhVH1L3cAY=
-=Cikw
------END PGP SIGNATURE-----
-
---AVuZMM5ghkB0dxRG--
+-- 
+heikki

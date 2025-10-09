@@ -1,63 +1,69 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCA3134AB
-	for <chrome-platform@lists.linux.dev>; Thu,  9 Oct 2025 01:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D45335966
+	for <chrome-platform@lists.linux.dev>; Thu,  9 Oct 2025 01:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759971800; cv=none; b=dUWPivo1fQBSP8FGiJrTaSDw07NwTFawu0V/iWthYQbMHJLUyqNkYU6qxFQ5t3SrFff3tKWm/KPHJl8bZVxRYwB8kR9uJA73eKQEX+hk9casUo4jJ5bxNR0F+jaui1PhLxugXJNa06AmVWTS8zm303C3ncSFJJV533Wa65VDADo=
+	t=1759971801; cv=none; b=gwVzdOM7XIdjouzumoeH4nQBZC/FnAT1ilghZ02WT8xlOY80qWvKe+AY9W9/bw+xFLNkqYI2hmQVfzblVwm9xSZegwJh2g7oZyaPlAwiYjQpwuH1Dl1Xk2E5L7k2veQKHjxO+n15yTSSoDe7fth6aDjPXFeqPK7Cx7VMvTPOMZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759971800; c=relaxed/simple;
-	bh=UVEbaZKRJ1LV6jOrWQZHeNwiTFK7Bny9uchXuSQMfiI=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=LxQBXAwDYtQyxolPHDc0rDL9ax4R3KMZWXHcwuRGB9gmEbUVXm9NOeuRdyvy8J1DDLTgJDHw1V7i7zpN6yvHW6Yo5ZOtDN7y46RfgnJK7/rE1/VeUCLDgn3lW7wuXuhEdt/ElI9ofIzk1xybqIu7QWKkR4Pi3WF6ApOWLOTnSSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CDXJfsGr; arc=none smtp.client-ip=209.85.216.74
+	s=arc-20240116; t=1759971801; c=relaxed/simple;
+	bh=FdWz06FUR8AR1uAl3wTfj9n2BioEbn7zOnkyos3KuZY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=WxrQ1foflFiiTJobtCSW62qc9IMrpIO+Y3c0zsvqUP5m0Mp4Mbd1w24HfD/cjUzYeSpWU3YLsIVrMSEIhSOG1z0k2gMbBnxZgtVmyIz4jyHpmKGQQvhtRmlLd8QN6NQvK/7gF+OIlYX45k767w8Rk2F+62lbvNaiy3riSD1pRbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PQSb/hnK; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CDXJfsGr"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-32eddb7e714so709299a91.1
-        for <chrome-platform@lists.linux.dev>; Wed, 08 Oct 2025 18:03:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PQSb/hnK"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-28eb14e3cafso12156815ad.1
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Oct 2025 18:03:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759971798; x=1760576598; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=g+jfxdpog7qXbji4SutVkM+hfLqi/HKH+DHfYf9r2Ww=;
-        b=CDXJfsGrn4vJBdBPR9marS0h7H3NIMXGRr2OxxXcftnopelqkP3IwrixiPR66CCCwl
-         oOeFYK8mpF7glDwU+8W2NKEalSWQpc3lKsP9uOR5nWaa66jMgQcS2Iw85WD8MRLPygR2
-         +4UkWCP//k/eB0KWw59dsCetmjdtUhuGgUk+Tz8Y5J66oN9NVXHNf3QIJDi9IhHiBFzk
-         GtzWNgRSH3uFAp1dxlJNGLnVz/IAa3P3+NPzcE237A7A9L61jESF6ogXsoaeJDxOUzCE
-         t/wSqPEUltj4UebappSi7U9EdyDiOM6BDgWbky1aY+tHTF9AokH64r5IiWR/jT+vcL1/
-         D+Dw==
+        d=google.com; s=20230601; t=1759971799; x=1760576599; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9PK081DUWtNx4HfeEFM5F2Wg1a6MRRDecC9Tgqx96lM=;
+        b=PQSb/hnKlPaE528FJkjm8jWxr3rR3e+hdv/nHX4JPTwjdwRXpLUNt2k2svqGTV/qSB
+         TLQaBVkanwJB/xOQ05Es0LI4DKMDcGsZWfeA30T55fKjtJ1Zv/ns2fw0S9FsN49hzTVr
+         VNcdl+nxg6J++b7HlbgQ2rIEQy869EX2t2unFmrWTt1AnbBjxLkhL8Dhc0TSjbB/FsE9
+         l9fhJuX1YIxvQwEeSFpGAgUSGsbIDrn3uYyUm+66iOrUEvkQURq2H1PxmtHA3eKnWUbv
+         nRWtyPCbTuByWptb32g7jvNA+MOrtJtKRMZgzPN1kszvMF2CJz7dwuwrxkCwghLSnWw0
+         udkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759971798; x=1760576598;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g+jfxdpog7qXbji4SutVkM+hfLqi/HKH+DHfYf9r2Ww=;
-        b=B/2on6APYmpahdvvHu6/PXFnX59Ax5R70/dOrZUOdzPY5mCY+hjK3XsHq/5IQwKqcr
-         d6fOuCULgvT9uaaXuqr7PCnuPu65+zclHVeZjONg/ABCKYakMbeAmNh+8W9hG9Y1k6nD
-         EqZSeL3D7/SAX9iwBaAivdXEOxbyRJ3f6+53ydeRq2rcmxkK4fyFdgU23HS2GceVngnc
-         XFkysU5iHuXvu9OLQSRnUzPW+mJOAzbZuQ6Nw9/CvBEa0NojK8ZtLuMmYbWIZoLvDiL2
-         5p21PuIAW8E9/SbAxfHX1OQsF0LSeOsnvDvoJmcHZtaZo8eC56n7bYceNhEWnDg8GczK
-         QMQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1AhzO/Mdd/EPqT02YcaGV+2/rHAcKUBRQQ1/kZkdfRXc1hGW7UbZ4S/xlQyHCJqpg61/p+DwUSTa+kuNnAVA=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywl1fOWApQSmxKfAWi6TR22dA9oEWQmmIFKFRM/4sSU+51JU9Xj
-	kWqhCZ6GjIrjqgo7BjIFU9GzfIqb+71Q2dgy/K3Ars6YpSGtheiUUP+VSqvigmyqy+NyPds0YG7
-	6xGQKFg==
-X-Google-Smtp-Source: AGHT+IFKeWug9rAoNWt532znqpIGqG7Ud1apMC9xL48ZMgTXDMtnDoVUWtywIYBEaSmh/SWSXS3sAjCWOc4=
-X-Received: from pjjj2.prod.google.com ([2002:a17:90a:602:b0:330:72b8:fcc0])
- (user=jthies job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:1d08:b0:32b:6151:d1b
- with SMTP id 98e67ed59e1d1-33b51105a79mr7357200a91.8.1759971797841; Wed, 08
- Oct 2025 18:03:17 -0700 (PDT)
-Date: Thu,  9 Oct 2025 01:03:05 +0000
+        d=1e100.net; s=20230601; t=1759971799; x=1760576599;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9PK081DUWtNx4HfeEFM5F2Wg1a6MRRDecC9Tgqx96lM=;
+        b=Pa99xY55pNQ5qu7itk8vkmSlrQ+DBXy4waLCc9NIJDWpoBja4eCSBDyjveTF+MIYp8
+         eMMQWHGMEalCAg7kJvh10c30ii/U3Mlr5x48C1Y6H4DB9VJ+whB9kFmjAOz5L7zBQ0GT
+         A6tmSZCpvynVbRedbY1VwX4euLe+jl2LDN3btR5UBgIIaW2ylayl17Wcfx2mAN7q37zR
+         uZdmUoqthIVSGTIqlwWaUxD+O4RQl/1dbT2pOmwxL35pS/+DI5n4nhKa5QBFscT05Cu+
+         ht8XCU1duJdBNbOTbNo2CHQY1FYDwb/CHzrhKXEUi1pCXyrzkZ3diOamZ3aPGoCEtLQe
+         /Xtg==
+X-Forwarded-Encrypted: i=1; AJvYcCWKfkifmbWVfr1sK9A/And1xuvXBXRYqs6O0TQOQmln70grsFFLTWSesTwmscDwWoaMKJEj7LA3tn16n4PBvjo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxktVcnhw7XbXb9VIvpThBCfIRWKxpmoBZF8Q4Qk9CAhH+Tqwsj
+	Z8GuMilQ9WxoFKZQmY5KInIVPQXc2v3mhJwRbtSntymHQ1oXxvV9VNNW3bFPCZVOQZkQxw2kHRY
+	81a25LA==
+X-Google-Smtp-Source: AGHT+IF6Ef5HS/jsjPnjXWi2U116WXq2EAEcLkV6Ztc8hjYkYYaXlariTxuV8NKw8zY9XwFYXy1JjMx6vIg=
+X-Received: from plnq5.prod.google.com ([2002:a17:902:f785:b0:267:ddd1:bc97])
+ (user=jthies job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:3c4d:b0:267:44e6:11d3
+ with SMTP id d9443c01a7336-29027379986mr72867335ad.21.1759971799367; Wed, 08
+ Oct 2025 18:03:19 -0700 (PDT)
+Date: Thu,  9 Oct 2025 01:03:06 +0000
+In-Reply-To: <20251009010312.2203812-1-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
+References: <20251009010312.2203812-1-jthies@google.com>
 X-Mailer: git-send-email 2.51.0.710.ga91ca5db03-goog
-Message-ID: <20251009010312.2203812-1-jthies@google.com>
-Subject: [PATCH v3 0/3] Load cros_ec_ucsi from OF and ACPI definitions
+Message-ID: <20251009010312.2203812-2-jthies@google.com>
+Subject: [PATCH v3 1/3] dt-bindings: chrome: Add cros-ec-ucsi compatibility to
+ typec binding
 From: Jameson Thies <jthies@google.com>
 To: akuchynski@chromium.org, abhishekpandit@chromium.org, krzk+dt@kernel.org, 
 	robh@kernel.org, bleung@chromium.org, heikki.krogerus@linux.intel.com, 
@@ -66,55 +72,63 @@ Cc: devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Jameson Thies <jthies@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The ChromeOS UCSI driver (cros_ec_ucsi) currently gets added as
-subdevice of cros_ec_dev. But without it being defined by an ACPI
-node or in the OF device tree, the typec connectors are not correctly
-associated with other part of the device tree. This series updates the
-cros_ec_ucsi driver to load based on device definitions in ACPI and OF.
-It also changes the cros_ec_dev driver to block adding cros_ec_ucsi
-as a subdevice if it is defined in the device tree.
+Chrome OS devices with discrete power delivery controllers (PDCs) allow
+the host to read port status and control port behavior through a USB
+Type-C Connector System Software (UCSI) interface with the embedded
+controller (EC). This uses a separate interface driver than other
+Chrome OS devices with a Type-C port manager in the EC FW. Those use
+a host command interface supported by cros-ec-typec. Add a cros-ec-ucsi
+compatibility string to the existing cros-ec-typec binding.
 
-For context, I initially sent out this series for review in March 2025
-(https://lkml.kernel.org/20250312195951.1579682-1-jthies@google.com/).
+Additionally, update maintainer list to reflect cros-ec-ucsi and
+cros-ec-typec driver maintainers.
 
-Patch 1/3 has been updated to address comments from the initial review.
-There were some open questions on patch 3/3 regarding adding MFD
-children when there is no cros_ec_ucsi node and parents conditionally
-checking if a child exists to create one.
+Signed-off-by: Jameson Thies <jthies@google.com>
+---
+ .../bindings/chrome/google,cros-ec-typec.yaml | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-The expected behavior of this series is to only add the cros_ec_ucsi
-subdevice when there isn't a corresponding FW node because always adding
-it would result in multiple cros_ec_ucsi devices and too many ports
-being registered with the USB Type-C connector class on devices with
-correctly defined FW nodes. It also does not look for a child node to
-create a child. It is looking for a child of the parent EC device to
-only add cros_ec_ucsi if it does not already exist as a sibling.
-
-v3 changes:
-- adds cros-ec-ucsi compatibility string to google,cros-ec-typec.yaml
-  instead of defining a new binding.
-- updates maintainter list in google,cros-ec-typec.yaml
-- cleaned up assignments to udata->ec in cros_ec_ucsi.c
-- now using acpi_dev_found() to check for ACPI node in cros_ec_dev.c
-
-v2 changes:
-- updated google,cros-ec.yaml to support typec ports defined by
-  google,cros-ec-ucsi.yaml. Tested with make dt_binding_check
-  and dtbs_check
-
-Jameson Thies (3):
-  dt-bindings: chrome: Add cros-ec-ucsi compatibility to typec binding
-  usb: typec: cros_ec_ucsi: Load driver from OF and ACPI definitions
-  mfd: cros_ec: Don't add cros_ec_ucsi if it is defined in OF or ACPI
-
- .../bindings/chrome/google,cros-ec-typec.yaml | 19 +++++++++++----
- drivers/mfd/cros_ec_dev.c                     | 23 +++++++++++++++----
- drivers/usb/typec/ucsi/cros_ec_ucsi.c         | 22 ++++++++++++++++--
- 3 files changed, 53 insertions(+), 11 deletions(-)
-
-
-base-commit: 48633acccf38d706d7b368400647bb9db9caf1ae
--- 
+diff --git a/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.=
+yaml b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
+index 9f9816fbecbc..fd1a459879bd 100644
+--- a/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
++++ b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yaml
+@@ -8,17 +8,28 @@ title: Google Chrome OS EC(Embedded Controller) Type C po=
+rt driver.
+=20
+ maintainers:
+   - Benson Leung <bleung@chromium.org>
+-  - Prashant Malani <pmalani@chromium.org>
++  - Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
++  - Andrei Kuchynski <akuchynski@chromium.org>
++  - =C5=81ukasz Bartosik <ukaszb@chromium.org>
++  - Jameson Thies <jthies@google.com>
+=20
+ description:
+   Chrome OS devices have an Embedded Controller(EC) which has access to
+   Type C port state. This node is intended to allow the host to read and
+-  control the Type C ports. The node for this device should be under a
+-  cros-ec node like google,cros-ec-spi.
++  control the Type C ports. This binding is compatible with both the
++  cros-ec-typec and cros-ec-ucsi drivers. The cros-ec-typec driver
++  supports the host command interface used by the Chrome OS EC with a
++  built-in Type-C port manager and external Type-C Port Controller
++  (TCPC). The cros-ec-ucsi driver supports the USB Type-C Connector
++  System Software (UCSI) interface used by the Chrome OS EC when the
++  platform has a separate power delivery controller (PDC). The node for
++  this device should be under a cros-ec node like google,cros-ec-spi.
+=20
+ properties:
+   compatible:
+-    const: google,cros-ec-typec
++    enum:
++      - google,cros-ec-typec
++      - google,cros-ec-ucsi
+=20
+   '#address-cells':
+     const: 1
+--=20
 2.51.0.710.ga91ca5db03-goog
 

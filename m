@@ -1,137 +1,129 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F4CEEC0
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Oct 2025 20:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA4930E837
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Oct 2025 20:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760386906; cv=none; b=LiUn3mP5pMy8Yi0P7z7rNvNfvsFeBtZJCDHnfdABE8swH0Mb56/XOF7BKtbBopQAJapTaiYFBz9I9Zz2UrQMNbBSUSafJCd1rK7ASZ14WWpYT6jZLRjfBBZ0wc64ukidXkPKkXEft50Wt9E/avwMuNb8vsVrj+TJnqnwWM9gHRo=
+	t=1760387658; cv=none; b=nUcMohQWmJEljoIbKookBTI6baaKevNnaELyJ3obd+bsMGPpwGbPrb0H2PHTSk4PIL52iesdLXVxRf1fVjo1UvCMCYtxiqSASCQd//dun0xIXB8uUa5yigYqxO7USt9IlOXs5N58bT9RZ993S1UAbn15Y3VGO0UeIQDiahVwSz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760386906; c=relaxed/simple;
-	bh=OPlABqwzLaPodfRRLAnhDx6XJmnrg5s/0t49tmLODaA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A0e2vE1OoTiWEmlvmhgN508nysoYN7aNqNkhyUNgGPQcSYiKcGzjmKAIavHMYUyVPzawIcS/rD6R9zz5PF1RclsrdONv1GIJWDruYqM0hDycojb9Sbb3PT3jp1BZL6VTdqk1MZeAdTkT2GvoXDsLdZxEFatOY0SqF4XhKpf43ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VS+s4O94; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1760387658; c=relaxed/simple;
+	bh=8DcttytX6iOcJih/ka1yRgr3crh9eIzrXQKR3igm7Lg=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=bXQofRY5KV8kSXgGoOwGuhvho0UJUL1cp2NXKL3GVjm6MXbZX5+ZsWncnS4a84vQnhQQ3FRflJkl6uPUeNIWYcrJ8IhVf8cgO1EBiuSRyF86VWf6vHb5inOZFCPDJm0awEEKMxmQswcWJry2pIHWPDLgfl94c5lH2pzRkaVdrnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lBS+Otwl; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VS+s4O94"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59DHDKNJ020990
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Oct 2025 20:21:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	mJ4RcD6MPZiKYcvMSEcaW4l9YhL0RV3NoM0vOj+TUVE=; b=VS+s4O94kq/XbEsf
-	pizSfxkl7OYxoZidEhgcwOIpSn6IMDdSA2DRlZkNTSYdl+l2qRd4wD2cHZsuWfbO
-	bJYWHXExERqrXm7wXCMbCwA54zlWnS+BcGpz6MFw1WXMOVCX6hyGM4nsa9DxWT3u
-	u3I97KSTRHDUaD9tlkRRx7TnEYeIc76JaNSODiGGuzRfcvVVdPEL7mT/7J3T89xr
-	fDIarCSDaXNSZbZu3qL9x3+1UePFY/ThEjNMLkhtQSLAOdOQSwywI+78FXtX4AgA
-	50lgEDipk3oGCw80uAUokyPlBxvg1c3cWYRdbkzm8E599XcmSfUXfcMqoJT56XuW
-	tbXV3g==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfd8x3u4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Oct 2025 20:21:42 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8544316ef6aso589948885a.1
-        for <chrome-platform@lists.linux.dev>; Mon, 13 Oct 2025 13:21:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lBS+Otwl"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-b57c2371182so8765105a12.1
+        for <chrome-platform@lists.linux.dev>; Mon, 13 Oct 2025 13:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760387655; x=1760992455; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gzVF6HNpn2hAJ5LJ+570UzK5DdagInVxIleQtzZcUJs=;
+        b=lBS+OtwlPXfWeM3W1HVgyEnoj6Y+tNHzFSV7LFy9vnrQ21ltJjs1cu7yVTZRplTYLe
+         M6gmnNN9R1K90LMjbppqTpBGQ/g9jIe/uQWNcOjoDSEsSyPMpsx5+W1PmAwL2Zm7ZFJv
+         XD8o1YrrAIY69e1ZfKhMVHpBWKc8G2SsJ3ikw868qO69kwe3+hX1CkSQfFRtoLxTCHs/
+         zfp+t1o18NJeQUY82oksKU5/H13eeC6weFJYgZISMl/Y5glG++3nT6Mag6+zGyfEpbxs
+         8rL85tnuPqrwfhWJIFC87SrQ4j3uzKPZXHKGdtc5FuPHFi5jbA/hSeliAaPcjJgYYGVt
+         hASQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760386901; x=1760991701;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mJ4RcD6MPZiKYcvMSEcaW4l9YhL0RV3NoM0vOj+TUVE=;
-        b=FVgj7m4MeSO++8JGIH3d1DsCjeOW7gMHO10Qgd0EQAbLPP0EHjDmP9cBrKCaPM7ZfB
-         MhtVtNopOBaItk/9XYulO4mVYYeadglWnXi8ERp5KIpKRAANyPhcHqLhfxmnm1eU6qER
-         jCSmJY53cLaS8/1qaoJzEDH4sGjD2CPcLkm7jJ2emfKqkPYRxCFfLINDXDwXomQh0zgp
-         y+ca0jt75i98Z6JGlgx9mTkCsgVDe5D4/hu/NczzNehhzluKfpAWVEyEximMl6Vju3TL
-         QT9erI+W/COBNi94SIuwIFpTw5flqe/Ga/+HRIuAGFiRD6WXgPBiBym5umYC6u90Jt+O
-         TFtA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/g2DTVpwHieUMVKKdgFfj/d3mpKHPxnd7kWj6VbSr9C6gF5z/GBmvID6Pu71xQ7gXgbm/7rEMB50oP1bJs8I=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxh3NpmP2RrnTy3y0XIhDDpLNIsnzpsiPM7M5Zasne2KtAeXhIZ
-	3QtImd4DS0TUQiyzuT+Z7GnBBvvSgr++IF+qUU/UAIDzcnWlVGRRJR2iw9EfeK051v0gVmx57La
-	2RPjMjdPpAchuPb0TpX4nStZ7toqUAXxrdozT2ul/g7xGtlQ7ROhsL++hsPk4zS/Q+lgi7Ig=
-X-Gm-Gg: ASbGncsEL7IsBKnZmH8Dj5UTReDOXzCs+16RIdtsdIB8/TJH9DXYOPvsD25+XrRyhnp
-	2iYKIV4OnEnj+vhXsVFH6+Myd14OQXY74DcD9JCXzhC3/hK8sQkyHp92kg0kjZ0lP/s2XS39Ueq
-	OXtlJFspzIzkdPynMv1OWOdAfkdWLexhB6HdZCAGuWAY+KcIglxELqlvRuGPZcIiuZBnWWOUrLy
-	odpQhoteGAwBs5Wso4CPC1zUx8ecUFC/1/W1uWsbZgjyRtIvwK/tW7nIL+vFFBY6BLPOVril1GK
-	kqNEHyy7p1k8mT8+RrKjNkjVftnra7V313D+OelYzf2hQCAgJdXdj7Sm3OL4JXNXs1H3Ut8hE17
-	48fq+MLntrzaWuJ2a4Z7K9Kqz69jmpdSsOVPVabKuG9xRB8zsO/hnVmI7SVdfP5lBlpx1/fl3LI
-	2JTgx9jkK8wmdmyw==
-X-Received: by 2002:a05:620a:199b:b0:80f:2813:59dc with SMTP id af79cd13be357-88351de7416mr3153449785a.3.1760386901063;
-        Mon, 13 Oct 2025 13:21:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF/z/7lOJkqWBEOhjCXS+YrAq8drXSpYYmNd19CD2+9J0KPLEiTcxk0vcY8yHb76CEcLaTfmg==
-X-Received: by 2002:a05:620a:199b:b0:80f:2813:59dc with SMTP id af79cd13be357-88351de7416mr3153446885a.3.1760386900632;
-        Mon, 13 Oct 2025 13:21:40 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:a3:45ca:256e:fa61:5020:8e5? (2001-14bb-a3-45ca-256e-fa61-5020-8e5.rev.dnainternet.fi. [2001:14bb:a3:45ca:256e:fa61:5020:8e5])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59092ed98d9sm3637387e87.24.2025.10.13.13.21.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 13:21:39 -0700 (PDT)
-Message-ID: <c4e1cb13-1bb1-452b-8214-aaf52ae57a3f@oss.qualcomm.com>
-Date: Mon, 13 Oct 2025 23:21:38 +0300
+        d=1e100.net; s=20230601; t=1760387655; x=1760992455;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gzVF6HNpn2hAJ5LJ+570UzK5DdagInVxIleQtzZcUJs=;
+        b=AGSzQHXSGw7FMaXqbIBpvDdQEgutW0/KdgI4Cdz+qC39zQJpKkoZF4n0qPbNScYWxv
+         P3pXBhaZiekmx0of6nSDU0E9IUkq2m7FMqDYV8kwbBbIsTwCW8YHZDhG84WyGwpnmY2d
+         InnUNgSuRW0U+BUv+r6WvQ3X5IJVx8m8OaALX7eL8GYMx0W+4rVHAdS0TiXyROcZtYnV
+         pXWPSfppulRCDu5XDajAPGwZUwx+eF3r4Q4v6LDFxwMgksAo8POjLVBOnEjdHKtXuU6u
+         tc1/31TYsNAGeisJKvS8+FpEHe+hpVJfshMuifzMZoGno42f2yhVBq0dDGUMqS8b7SOX
+         9juQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVEnF7xQkUCY76DNIEO/3XVXGHeMGFKvOq78RqKXkpUP+W99ivDoWX/rkNwV5kgAWXGkeqrnP/Tm5DoBqDUKfc=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxDaKZWq0eprale8nqZvYpFms7FUwD3YM7Gf2UxIfU9mrKNEd02
+	EdvtI0cUIL1Gq5+fFNBA/0Fo3pALn72CfL7KDuU6QWALdp5bVbqqhAGWqutThPQAOs+cFKgLHxi
+	bSSj6Ag==
+X-Google-Smtp-Source: AGHT+IEO0H8VOrl7rO9YgvD5W2tsbiRTiwbuvZNbI49DJaTkZ4i17mjzWbSsXh42QUoIRnQxN/BE4fZCes8=
+X-Received: from plblq12.prod.google.com ([2002:a17:903:144c:b0:290:28e2:ce43])
+ (user=jthies job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:2343:b0:28e:7f50:5d80
+ with SMTP id d9443c01a7336-2902721336cmr301182395ad.7.1760387655190; Mon, 13
+ Oct 2025 13:34:15 -0700 (PDT)
+Date: Mon, 13 Oct 2025 20:33:24 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] usb: typec: cros_ec_ucsi: Load driver from OF and
- ACPI definitions
-To: Jameson Thies <jthies@google.com>
-Cc: akuchynski@chromium.org, abhishekpandit@chromium.org, krzk+dt@kernel.org,
-        robh@kernel.org, bleung@chromium.org, heikki.krogerus@linux.intel.com,
-        ukaszb@chromium.org, tzungbi@kernel.org, devicetree@vger.kernel.org,
-        chrome-platform@lists.linux.dev, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20251009010312.2203812-1-jthies@google.com>
- <20251009010312.2203812-3-jthies@google.com>
- <alnlmxbcv3ivhh7iolfqsurhknnm2o6i6waxq7kuhmzcbeljr5@a4wy3prshu3c>
- <CAMFSARdzoZrv4oXxVAYRcZJgxdLcrTMVAVGa=D8H=9c1vZ0zKQ@mail.gmail.com>
- <fciyxaedvyqeppldl26rsy7hogoi2zks6tq6m2yu5xerfjxo3g@u6vzsiicv5ke>
- <CAMFSARc7ySH4VhGbwd+CXXC9845NUkf-RE4gKeTW8D_9zNY--g@mail.gmail.com>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <CAMFSARc7ySH4VhGbwd+CXXC9845NUkf-RE4gKeTW8D_9zNY--g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: sNF_xHJN4V17W-wVV8MZ2eR6U4AMalom
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfXxHQHJP+No0YS
- 5hzAI66iow0RRW647yYn82jkodn270r5FxfEySvBz2MsMd2CrwykoSMHwavlRoJgvAMY+pP4FGg
- Oc6QSPuDjGM2IIm9Uyy77v0XXa/6/l22tbmiD0+w2hpJaA4k64hIydaeiJTaDz3bLWxIhmurpEf
- PUCjVwEXJmLdN4IyKBFSlCtgofeFH1LalZ4rsGoutPNFRy47eAx3Y4tSI5Kv+Q9omjPCwddCW4j
- iKdV164M3pF+EH/iTIfZ2Hd9cOS8u6iNXsjsRzJ1tVL1N7w8fovBVzxDq8S/jZ41MVEkEJMKm7I
- axf1y/ZBFRMcXA5bvD+Es1LVTNxUqaNFzNbvCqxg3zspbh3RxLDmSQj5YFTn+eaVXYiam1uvyTQ
- OZnUOauBRTqytRrOeHQ5PR07omo0/w==
-X-Proofpoint-GUID: sNF_xHJN4V17W-wVV8MZ2eR6U4AMalom
-X-Authority-Analysis: v=2.4 cv=PdTyRyhd c=1 sm=1 tr=0 ts=68ed5f56 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=x6icFKpwvdMA:10 a=oOrn3VzuZvLnv9Y8q_0A:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-13_07,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 bulkscore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110018
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.858.gf9c4a03a3a-goog
+Message-ID: <20251013203331.398517-1-jthies@google.com>
+Subject: [PATCH v4 0/3] Load cros_ec_ucsi from OF and ACPI definitions
+From: Jameson Thies <jthies@google.com>
+To: dmitry.baryshkov@oss.qualcomm.com, akuchynski@chromium.org, 
+	abhishekpandit@chromium.org, krzk+dt@kernel.org, robh@kernel.org, 
+	bleung@chromium.org, heikki.krogerus@linux.intel.com, ukaszb@chromium.org, 
+	tzungbi@kernel.org
+Cc: devicetree@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jameson Thies <jthies@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 13/10/2025 22:49, Jameson Thies wrote:
->> IIRC, MFD devices support binding subdevices to the OF nodes. Do you
->> plan to use it? Could you possibly point out the example DTs?
-> 
-> I'm not planning to add this, we want to move away from using the
-> cros_ec_dev mfd to load cros_ec_ucsi. On upcoming devices using
-> cros_ec_ucsi will just be loaded based on ACPI/DT. Regarding example
-> DTs, I'll point this out in the comment.
+The ChromeOS UCSI driver (cros_ec_ucsi) currently gets added as
+subdevice of cros_ec_dev. But without it being defined by an ACPI
+node or in the OF device tree, the typec connectors are not correctly
+associated with other part of the device tree. This series updates the
+cros_ec_ucsi driver to load based on device definitions in ACPI and OF.
+It also changes the cros_ec_dev driver to block adding cros_ec_ucsi
+as a subdevice if it is defined in the device tree.
+
+For context, I initially sent out this series for review in March 2025
+(https://lkml.kernel.org/20250312195951.1579682-1-jthies@google.com/).
+
+Patch 1/3 has been updated to address comments from the initial review.
+There were some open questions on patch 3/3 regarding adding MFD
+children when there is no cros_ec_ucsi node and parents conditionally
+checking if a child exists to create one.
+
+The expected behavior of this series is to only add the cros_ec_ucsi
+subdevice when there isn't a corresponding FW node because always adding
+it would result in multiple cros_ec_ucsi devices and too many ports
+being registered with the USB Type-C connector class on devices with
+correctly defined FW nodes. It also does not look for a child node to
+create a child. It is looking for a child of the parent EC device to
+only add cros_ec_ucsi if it does not already exist as a sibling.
+
+v4 changes:
+- added comment in cros_ec_ucsi probe explaining how the parent device
+depends on how the driver is loaded
+- updated commit message of patch 3/3 clarifying the expected why
+cros_ec_ucsi doesn't need to be added as an mfd subdevice when
+an OF/ACPI node for cros_ec_ucsi is defined
+
+v3 changes:
+- adds cros-ec-ucsi compatibility string to google,cros-ec-typec.yaml
+  instead of defining a new binding.
+- updates maintainter list in google,cros-ec-typec.yaml
+- cleaned up assignments to udata->ec in cros_ec_ucsi.c
+- now using acpi_dev_found() to check for ACPI node in cros_ec_dev.c
+
+v2 changes:
+- updated google,cros-ec.yaml to support typec ports defined by
+  google,cros-ec-ucsi.yaml. Tested with make dt_binding_check
+  and dtbs_check
 
 
-Ack, thanks for the explanation. It might be a good idea to add 
-something similar to the commit message.
+Jameson Thies (3):
+  dt-bindings: chrome: Add cros-ec-ucsi compatibility to typec binding
+  usb: typec: cros_ec_ucsi: Load driver from OF and ACPI definitions
+  mfd: cros_ec: Don't add cros_ec_ucsi if it is defined in OF or ACPI
+
+ .../bindings/chrome/google,cros-ec-typec.yaml | 19 +++++++++++---
+ drivers/mfd/cros_ec_dev.c                     | 23 ++++++++++++----
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c         | 26 +++++++++++++++++--
+ 3 files changed, 57 insertions(+), 11 deletions(-)
 
 
+base-commit: 48633acccf38d706d7b368400647bb9db9caf1ae
 -- 
-With best wishes
-Dmitry
+2.51.0.858.gf9c4a03a3a-goog
+

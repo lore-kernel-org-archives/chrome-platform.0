@@ -1,133 +1,210 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012064.outbound.protection.outlook.com [40.107.209.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C242550CA;
-	Thu, 16 Oct 2025 05:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760593392; cv=none; b=KujLf1Jj+OOCf94I7HJ40l1R6748NFrCg+uwuQhd3CG2nR6n0bMTtl7pLhWUFd975AG0yF/FWUQZ9mBqgPF2VYxPzA1gvRbWQuIZgZvHqudBgofIgL/GrYEp0Rj08bPLjAyvIElSX2BsHdrLQjPJWDpmgVRLUe+x4tJ4nNRXBkM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760593392; c=relaxed/simple;
-	bh=eIVI8OqgEV3xHp+az9XF8OTJlngtcvHJX8WxH8mJ3xQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QMHVZ6xwUqT29jYX/iZeSnMmsWFV/fUnWxajYe8w8RTu2dUHDC2N5bmNsBz9ZkrImKHbfj88yj/0VghrC0/z+jo00Tv9FYhJ6h2xnbSJF7K389ltI/tqxivW45nbMc6zwwv9n2TJBKsBZ4isAxmO4sM0EOKNzp8D1s0LUqrQsl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cjeExjP4; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E2D747F
+	for <chrome-platform@lists.linux.dev>; Thu, 16 Oct 2025 12:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760617919; cv=fail; b=pBT8mi41FOx0XJ7080SwgY8N5PPJCk+ufMUVnNStSbQBInM9dwawdNO8gfldzFM8HOQnAoTUWPU3K5ZBVce9TJX6WwKhB/fQNuKno9j8jeThYc7NcEGXmUxeREoMxMsEry4OTWWb6cO0MKEFNf5UcnrsndY9tBEXu/EjknKLU/k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760617919; c=relaxed/simple;
+	bh=+XEDEfxjqarVIMHAV9mJnGjhND0IF4K58CXahN+eVLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=RLZLZl9R3G1MH/O4bpNpHqEgxMGpXBbRup7MRHzTYPngy5223BZnvNvynIayYPyNYJCUWJQvP36aGVwyeLPnzujBHyQPhG2gze+fsIf5DkkMxF+yzGaR1dMTwbMQ06R1AcRKhusFwlU+qD9s+QuIl9BbL5xbDBWuyxOOO7ZQBCk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=OLf0keBB; arc=fail smtp.client-ip=40.107.209.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cjeExjP4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC44AC4CEFE;
-	Thu, 16 Oct 2025 05:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760593392;
-	bh=eIVI8OqgEV3xHp+az9XF8OTJlngtcvHJX8WxH8mJ3xQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cjeExjP46ZUNLmcY7FIHFH8hwwe5PyprJG4sl+TBQKzk+A1GardBEaKZaNA8alXeM
-	 Gu967SAsggH42UyYYtUCq1A4L/at5QaeM6drFxlpbMy9Q3uF7PEjcAwjVipIPrpxMu
-	 ntENjMeNC1yZlLMQIVk2YYYFWMWzRd/S11/5J9FNVhwG19aojHMZ0TBmqkW+70fnO6
-	 pgopi7c4Wb57uRIkw0Kw9zPhSpO1e/gIyMmGGO8CpUnjvEt3H+UR/kc6ntIr55ngYs
-	 0HYZAZhnH2frOoL4+/uhdPMPjGaVFIAKjGVzBzc19mMtCggQ0zhszm5DP8KH+XBa72
-	 8f2ctTv2EGbzA==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Benson Leung <bleung@chromium.org>,
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="OLf0keBB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oQBDD0gmUorEIXQFoV4WmHrVdRYMJz7zqOSTsLKF99ZsdhAuiJDsl7pttDOkIMdpK2zTsaOHlHTYaBxuVd4z9YPaUIJgS7qmNU0lVHoKFt4Dz7l13hchvLw9DJLBSGEDRM1gZYIaxuX3ZFGrmWW4QWNkdTFXHvgQUC1L5phwukrslRSgD2gu+jSsPqQl2BeqmmR5Nt+B8C9HmcJo04+MGqSDkacK0wqRtdg1B7r8BvfsnxTg1Q3iJMEmdQL2Tg0JuItRqVk1kkYGkQIaM3fFddkJPEkBdUwKxXBOBxe2pSFLkk8/KQSa3SElT0Hw6d/fpGSh0x7WwfAeABuyQajo1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yrBLIXXQB4ggYUExJjwbcIHMP8HTVLQ9eTCCF6KbOKc=;
+ b=l0N9UtCThyfYklgMQOilQtXVQdnn7sb/8JDYKUTvNju7TxOffjsOghfRUq7yrO+dsm8/ec4q5WpNWQXIgYns8IE2Cbe3XQntQ2X9ldFUaV6P8/PIZ1Yh5embYhnOiyjERqCmQEaXGXMcGmfnzZ6cwdcZo7cE+pxqTvxX6DTsUHdjpdgMYWgcE3Rnqy4P4XjyzplCsd8471sPGFLuDbiGuUTVVMflxVaoCX140cNPFgVTqofOlSLHnsX+t+dfmlD4aWI28mlB54hSjLNCoiljNHIPEEds6KUxBa04iBHqz+khtIgPaQi+x61Io+Csx99fkEu6Xr4rJdWbvM9UMLSX1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yrBLIXXQB4ggYUExJjwbcIHMP8HTVLQ9eTCCF6KbOKc=;
+ b=OLf0keBBe5gpBDD2kZp7UmCC5O6eLPzUfAT8QPXavybbwj+IeLLse4s3k1jAscdV0bULBp1EJI1ZZGRYAjJ+UHz3uRPsl5NdH5nB3PzewXK4OLmMK20oY6omdFuKuwija2rMFA5E9cSOPUB0JDEDU/NmweMVyZ65vHhYgJq/nUfB3hIbJD5B+TQLvF9F4iRqJr3+Wy0hrSGlQfTAJMUITzHqAFovbaRXXb/v6gF140gpShnOGNjxdJIrWuFjmpo1yXGsZbJB4YXUTMdH4oET7/cPIqG8vnjrkuN3bw+JXaNyNj3YPwOJYO9x9uekANX16laweDSIeJeygb64OGoJAA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by SA0PR12MB7480.namprd12.prod.outlook.com (2603:10b6:806:24b::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.13; Thu, 16 Oct
+ 2025 12:31:52 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9228.010; Thu, 16 Oct 2025
+ 12:31:52 +0000
+Date: Thu, 16 Oct 2025 09:31:49 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	tzungbi@kernel.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Bartosz Golaszewski <brgl@bgdev.pl>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v5 7/7] platform/chrome: cros_ec_chardev: Secure cros_ec_device via revocable
-Date: Thu, 16 Oct 2025 05:42:04 +0000
-Message-ID: <20251016054204.1523139-8-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.51.0.788.g6d19910ace-goog
-In-Reply-To: <20251016054204.1523139-1-tzungbi@kernel.org>
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
+Message-ID: <20251016123149.GA88213@nvidia.com>
 References: <20251016054204.1523139-1-tzungbi@kernel.org>
+ <20251016054204.1523139-6-tzungbi@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251016054204.1523139-6-tzungbi@kernel.org>
+X-ClientProxiedBy: DM6PR17CA0007.namprd17.prod.outlook.com
+ (2603:10b6:5:1b3::20) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|SA0PR12MB7480:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8c09fb0-1f29-40f7-4c18-08de0caffc51
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?LhRZGuuvV4ofFuS6hsmcYdHajR6iYyMcSgtcKkQTTur7shXrM03jLs4hhbL9?=
+ =?us-ascii?Q?D7LAeJ5uCNFt72++JwJyBHmi37pRoPWeee7v4OSB8j0zlKq8lTDMrVwaqyJi?=
+ =?us-ascii?Q?vLs8XQDF/rdQk38a4lLPrPzbprSDFKyLG6q1adpgnnZXweM/OWwF3GvNzT53?=
+ =?us-ascii?Q?VVGwlVNgaRGSJ/0L6kf5k6s1hNWkLNCU+ZlTdpa8H1CdTZKxOTG7pPjQtu0s?=
+ =?us-ascii?Q?D7U7vR/yTPRTgVgQtCaASbHZCRKdPRWfeeW9UAFegO9tboJIR9ecYh6MRIfN?=
+ =?us-ascii?Q?toX5XChVeQG/gxdpr9CGPS1oiWMA7Q9z6lwwLvcB9lXUVKmyp+dh0Ic7b83r?=
+ =?us-ascii?Q?TyYbdlOmitOOdriBE+XtulXXnSQdRK47Ep5dfKFO93vJR/sv65fCAZA6XEAB?=
+ =?us-ascii?Q?Qq/r709mYpN9d2WjeK+o9cmnWodTDLyuY/qrx3rk/X/zK7IMbgZIDx//cI75?=
+ =?us-ascii?Q?VIgNH9/6wubZQC2p7Qe5+W9q8JMzVVu38B2fBwhAA+9Iqx4dmiD3XDLUVmYq?=
+ =?us-ascii?Q?2upmYzoN4qHSJS1hsus2Y9hIHmFCW3bmcjcLdnVIptQ55khWWpFipgIjFOoB?=
+ =?us-ascii?Q?KYO756HDncYWEB3uoNCVFI3xUpMOkVn3AhEK+xJKqNG8QtyuWDF1Aw3c12/d?=
+ =?us-ascii?Q?Sm/NPiOHQNoqHewpf8JVv6l8RSe0feqlRYBcks1uDX4bpF4MV8ERowCmdtKh?=
+ =?us-ascii?Q?1/jazV6L3bt7ojt28vEv5Igk7Trg0QoFeLMEmA0jMzkkzH3AuFbeg8N5L7ch?=
+ =?us-ascii?Q?YipFH4wFefrMLnJdat5pTv33Kc65LIjBegSTcYgCPXFqjn86CNvfKg75mNxf?=
+ =?us-ascii?Q?3ixmQiKieKYDAUXPl0uad35dYtuZE3RdPJQokaoY95svb2rILmjueTWa2zCZ?=
+ =?us-ascii?Q?xYoZzc2wfQP/YoQhV2l7b3CV9fWYbv6OB8zK7R45VOsguHP+8Y+sMaCU9CXi?=
+ =?us-ascii?Q?9xrKvJyY7a8ZjDtYHGJEH/x6hzUAXwQI0qff0PuviQEQbed3wkBdiImXJ7dD?=
+ =?us-ascii?Q?GgExDOSFJNHcex65RZAxXX8un6AqqveKEpDxspLsJ+9w3cIgPWslMGDJgpyS?=
+ =?us-ascii?Q?CtyoDmv5SbLUSAX1nENsf51YTthuwk0vtrxcpCE3ABBy6QabRZHZUfrD8oOz?=
+ =?us-ascii?Q?8+ksdOJeBnKDQ4uAUzmrVuqdlBSMPvPos3i+rhQ0i3XFgDGER26oYEzdBzUX?=
+ =?us-ascii?Q?j6q80bou5T6EoVvkVX+PN1nRFa+dtpYMeUkyGwxcHyqklsDZdK56aS8YN4kQ?=
+ =?us-ascii?Q?yFlrjEpn0CSgLJo+egR7n42r3kfSq6OQg5xUgG3Bs2yezP92wlMOl5bm/Yon?=
+ =?us-ascii?Q?08KegtlYVzJ1911wGulCfc+CMWWPCqCwbyFezIY6M+Ca2cCyPBbbzwO9NU3k?=
+ =?us-ascii?Q?9SmPuN4yaVb7qmw5Dn36jZWBLJGmnQK9t2vk1iIDcBj3H5NhPaxYJQ/X008K?=
+ =?us-ascii?Q?1BB0xBe/3BuIcZlEno/FGRxxCbQwlU8N?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?EVmGzY/kJYayK0223ud1GEhKCB6qPzlTG368zJjQhNiYSeiQZdwdODnKc+5z?=
+ =?us-ascii?Q?7hOPuKu0L070moF5dZ/vxTlpXVPIWG9YDNLekzaT7KsuevX/nSxubh3O9YTV?=
+ =?us-ascii?Q?QptqOG3j9W5kKKVz1ZTGjKbDF+Dg/qubYxm/DeRgfBvduf2FeYmXA2BSCFr/?=
+ =?us-ascii?Q?mXVNzWRu5CUPsfyThxw4Q3JsDk8YXah7v42GCHk6YQ8apETrQw6/O0hUZaC9?=
+ =?us-ascii?Q?AISJqRpD5Az7IFhexcbOelgSvHz1DdZJPhm2xVEGQYx4madEJozjN4wdsyV0?=
+ =?us-ascii?Q?Y5DQAy/b+9t9fEbuVg5P+RuxzojIecb+Fbt0OtUP43uRwQeEUdVXmLpAwNKx?=
+ =?us-ascii?Q?VW8CS6HwfkSB7MuNzcpMr38ZRh3qqBX1keWeY4ibYos/0wkS5xdFrFyNBvI7?=
+ =?us-ascii?Q?CbsDUBSTArhK7SbNm/sGU53cFaWXL5L2VaqRQb1/n43L4vI7EmZhHD7HXsUl?=
+ =?us-ascii?Q?WYoNiAUaZ6f4XsvsLvN0Nx45mw+8nnvuNoy3Zk+dwscDFLRzvikpeQpzkCgi?=
+ =?us-ascii?Q?6p5n6eTn0lmdqydumq+t+C6hqdPtmN/i2yuoJDWwqAokyQ6S91L6V1Q0vj1L?=
+ =?us-ascii?Q?iOdQxgSOb4KsR/XFgNpOenXtKqYloM1vsZGgsf2Z9ofvy7IFEt0uR3CTwEig?=
+ =?us-ascii?Q?q97uzD2dfNp99xcQ9yw5JFRwRPcohE+FwQGOdqn/VHvBEt5xtuwdrL7gJZvN?=
+ =?us-ascii?Q?uDBJrMSYmw5JFqE8LIDU+QhWJWErgK9DTNEKlsO6aM5ZSvt9BoNssBok6xIx?=
+ =?us-ascii?Q?gZ+qh8fSH3nxslCOynch9kFAqdvun/mT4gVdAQaZkU3Wdpl0Ix+yGCCcLQai?=
+ =?us-ascii?Q?PC8TUsIfrXv0NIikPMxmfate/OlUBKhS0P4IjfGkRVnZwfip7BYR4Ansujb1?=
+ =?us-ascii?Q?xOLyUSdfPjIDhnflPttUdSRaOsxVP5XUPar3sP2kY6Ni4RxhiIZ0VyR3jN0N?=
+ =?us-ascii?Q?zl2boaj1CZgx69nYCn6zNEvJn3gNEN/GiVe0ivwehjQDuIQLIMRRSoGOPqxW?=
+ =?us-ascii?Q?Zp0L47H6OMs+qfCPwM2v+fw+LlhhmafAMp/2H3ychqQW2nP7rcHKqjrIoSGh?=
+ =?us-ascii?Q?hnEMgz4D0bDhQp3gFEci+TSmwnUilRIO+w1MASsk0izpKulbSR3Kl1SBTyBt?=
+ =?us-ascii?Q?wP5XAP7e/ZoRaB+EceodotKiwI96APPcD4Qirhsu8gITq868YKpWKqit9MEj?=
+ =?us-ascii?Q?07pXhdSAhl66smdzDPsiXt/HzwSMUT0h6vCyoPq9JubWntK6xkFjhG51mqJH?=
+ =?us-ascii?Q?syWw1ge2DdVSyREDwLYVPJIo0Otb/Aj+gxIH2oqnnIr8yeOUUMX90g08y75F?=
+ =?us-ascii?Q?MZGHDWEeRUNvRhDQm2CogSdE1B/X84a6+U3gxHWlqCPiYwNVjN/D9LWGa7fI?=
+ =?us-ascii?Q?UXh2u27mb/Pa5w0C4xZgMt47Kg3Ihng7E7r7d31BmzKAAFPyzw/bKOou+gBo?=
+ =?us-ascii?Q?jOYmm4Q6hO6WTVutXdIptxPM6wGlZGrcsys4JZjQsalunnA0Jq/97To5LRw/?=
+ =?us-ascii?Q?pCpCmxHXLsLwaddC5D50k5MrECXKriWQxTdK8QBE+yOYfBYCVbcXqEG/WSHT?=
+ =?us-ascii?Q?yEMLwECmX7qYocVQR4unnEMymTnx66FRbg6OIG6K?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8c09fb0-1f29-40f7-4c18-08de0caffc51
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 12:31:52.7238
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e+rDKT9fOjHh6V5/YT4TaKei+EGs4qjmE+aBBpPcOtvBvwNxfuEkltSlbqR+e5RT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7480
 
-Miscdevice now supports revocable fops replacement.  Use it to secure
-the cros_ec_device.
+On Thu, Oct 16, 2025 at 05:42:02AM +0000, Tzung-Bi Shih wrote:
+> Introduce fs_revocable_replace() to simplify the use of the revocable
+> API with file_operations.
+> 
+> The function, should be called from a driver's ->open(), replaces the
+> fops with a wrapper that automatically handles the `try_access` and
+> `withdraw_access`.
+> 
+> When the file is closed, the wrapper's ->release() restores the original
+> fops and cleanups.  This centralizes the revocable logic, making drivers
+> cleaner and easier to maintain.
+> 
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+> PoC patch.
+> 
+> Known issues:
+> - All file operations call revocable_try_access() for guaranteeing the
+>   resource even if the resource may be unused in the fops.
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-PoC patch.
+Why is this so complicated??
 
-v5:
-- No primary changes but modify the API usage accordingly.
+You already added a per-flip struct:
 
-v4: https://lore.kernel.org/chrome-platform/20250923075302.591026-8-tzungbi@kernel.org
-- New in the series.
+> +struct fs_revocable_replacement {
+> +	const struct fs_revocable_operations *frops;
+> +	const struct file_operations *orig_fops;
+> +	struct file_operations fops;
+> +	struct revocable **revs;
+> +	size_t num_revs;
+> +};
 
- drivers/platform/chrome/cros_ec_chardev.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+Why does it need so much junk in it?
 
-diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-index c9d80ad5b57e..01691b023d7e 100644
---- a/drivers/platform/chrome/cros_ec_chardev.c
-+++ b/drivers/platform/chrome/cros_ec_chardev.c
-@@ -13,6 +13,7 @@
- #include <linux/init.h>
- #include <linux/device.h>
- #include <linux/fs.h>
-+#include <linux/fs_revocable.h>
- #include <linux/miscdevice.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
-@@ -166,7 +167,6 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	priv->ec_dev = ec_dev;
- 	priv->cmd_offset = ec->cmd_offset;
- 	filp->private_data = priv;
- 	INIT_LIST_HEAD(&priv->events);
-@@ -370,6 +370,19 @@ static const struct file_operations chardev_fops = {
- #endif
- };
- 
-+static int cros_ec_chardev_rev_try_access(struct revocable **revs,
-+					  size_t num_revs, void *data)
-+{
-+	struct chardev_priv *priv = data;
-+
-+	priv->ec_dev = revocable_try_access(revs[0]);
-+	return priv->ec_dev ? 0 : -ENODEV;
-+}
-+
-+static const struct fs_revocable_operations cros_ec_chardev_frops = {
-+	.try_access = cros_ec_chardev_rev_try_access,
-+};
-+
- static int cros_ec_chardev_probe(struct platform_device *pdev)
- {
- 	struct cros_ec_dev *ec = dev_get_drvdata(pdev->dev.parent);
-@@ -386,6 +399,13 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
- 	misc->name = ec_platform->ec_name;
- 	misc->parent = pdev->dev.parent;
- 
-+	misc->rps = devm_kcalloc(&pdev->dev, 1, sizeof(*misc->rps), GFP_KERNEL);
-+	if (!misc->rps)
-+		return -ENOMEM;
-+	misc->rps[0] = ec->ec_dev->revocable_provider;
-+	misc->num_rps = 1;
-+	misc->frops = &cros_ec_chardev_frops;
-+
- 	dev_set_drvdata(&pdev->dev, misc);
- 
- 	return misc_register(misc);
--- 
-2.51.0.788.g6d19910ace-goog
+struct fs_revocable_replacement {
+   struct srcu_struct srcu;
+   bool *alive;
+};
 
+That's it. When the caller sets this up it provides a bool * pointer
+from it's own private struct that is kept krefcounted to life cycle of
+the struct file.
+
+Then the ops wrapers are a simple thing - generate them with a macro:
+
+srcu_read_lock(&f_rr->srcu);
+if (*f_rr_>alive) 
+   ret = f_rr->orig_fops->XX(...)
+else
+   ret = -ENODEV;
+srcu_read_unlock(&f_rr->srcu);
+return ret;
+
+No need for all this revokable maze to do somethinig so simple.
+
+Also, I don't think srcu is a good idea for this use case, maybe as an
+option, but the default should be to use rwsem.
+
+Jason

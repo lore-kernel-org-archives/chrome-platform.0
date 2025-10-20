@@ -1,34 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010004.outbound.protection.outlook.com [52.101.193.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E912A1CF;
-	Sun, 19 Oct 2025 15:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760886528; cv=none; b=uF99jg5D6geupWRPhQfxb8KNIaLv3Nz39GF+N0+xdCojUJhSjxwT7ZGSbJYhmdyV8B9jZ4hxqwTRKpHcXyGrFyibaiphNKKvrG1IVlGulLRx9J1oomrk6MOPlb5HahK+TU7MgRUJpSUM9WM0lEGmezASET3wfPFZm7MuXRrI+lI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760886528; c=relaxed/simple;
-	bh=kTauBeDoTqIQz3NxrorvMMaU0rVxHo/z/FhTS23ebJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mo39N9XBI4ViA2fYLUGCP4y5+JVKnBORZNcsU3XriyGCdyoGiHd/cmgRl1DhR6SZNvWKJ3wJDcOJzAIjoSDVbFUVd1IG5S5GZY1hYAlVPi4vmbBVlPfbpnzETxP4Fkf72BIwCHjTRCln54udfrGFY9RQ+CHugPzucvgSx4RKI4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SFkeUTdu; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC112F7AD7
+	for <chrome-platform@lists.linux.dev>; Mon, 20 Oct 2025 11:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760961462; cv=fail; b=NoKygxREyi4t9M0UWxFHgviXkDOaMFUUQBi+XSqQaMcS10+jWDc1aqG27domILmNaJCaVRSYAvG/7Vf/OYNmiLrRP9V212eB/Om0t6gsxBL3ds9GhM1UUPKb9zs+5MuCgYOE+eosDOepBuAzEI8nDIpaSqE9sN+UKkv6fuUKB3A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760961462; c=relaxed/simple;
+	bh=HQHpscoA/m6/P2SrAR4ulc5dlfwM8aKAosMiYtdQpE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=aZfmEHPCBlVWyRQK7Rt+mcRXGeb+0H7vrUJ1ciFMbZTe+c48RameaJrXixSZNVo5jEQHBbD/YDRLW9sLEPI+uwOlseavA5dnyjNAEIrEZXrKOlx2A9VXXKHrCOG/nv7rM5RJl1avbiIo1JZ+ZM5OfITDIeEEZ9Nag61nNt8u6Qo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lvy4f+fW; arc=fail smtp.client-ip=52.101.193.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SFkeUTdu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF62CC4CEE7;
-	Sun, 19 Oct 2025 15:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760886528;
-	bh=kTauBeDoTqIQz3NxrorvMMaU0rVxHo/z/FhTS23ebJA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SFkeUTduqPWU0avJTtFPkGsRKVFcPOBcbnbKE+M46qxoyD9O5/qKsMT/NBcOoPpsZ
-	 u98CZX0J+sOA2zePt6Gf5g9mCcPYeCgUdEiB6l0SX3Xlc5We+6l1FufO1HG5yqNXzX
-	 CHD7nGnDM8h4MxvLaU6zzDlddkQ8UX/jTOruRLMoe/u0QMMGSDS0sBA+4O5RnyIOml
-	 8Q2QDHKyblrCGUK75aK24+CYQAK0uNA7KhP/WddiNiX/3dxHW6fRJXqePJzs/9Zmvk
-	 EJOOLMM7IQYXatPnGTn8CkEmHMxHp7kKlFZ63os1beAAzYD5Xu3X8rf8lLAX61jNDh
-	 yRHMGO8wofQpA==
-Date: Sun, 19 Oct 2025 23:08:29 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lvy4f+fW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RpnYFHVKxrywbFDduP7rR13mOjSyBMMFHdEWkEE/ru+9kknoDC38Vdx28MCMW2EtsaG88IoiCjZxBPx06DokoYlSH+AvyXYld1eq86Dz6dar028PouZaBcgb/ohqAxnXt8nfaQ4gRmeuzWISAjQ1shWWWCGtVBdgzvzaB8nIwJi+v9rcWTIVpgZgBT30GrSqNkUZSxa8qYzhrEqopqLE9D17v96ykSZFShricpctKFwjmKCXRqxTi3IFvAQ157bk7+HRPVBkJ9iWngJUV/MREBk9z+BJTpzKgGCYOHmRCiayzDV0FPIPOCgamWUUq2y2DNRVsb8/9VdsadhPknpl1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=foTPVV0lKp7sjSLImcSdySw0rmx0Pj3j75CDP0jdN98=;
+ b=L2JdAfn5blotlAai4eG4UABieAWgfXm9Axl5vj7z0Vj38kkURIEiWAZ0UJzJm88OMn/SSSv9IQGxmlJ/KVwHyKTMRVRnPqPp4R07xR/B1Gr0IFwCWpqlv9l8m1QXkjXMTsughtLzieTZka9+0J9q08BSTWAvqHj6xbSx5uoND8kYSSIXxK7Z0MmEV6yD3wR74zjlL3REiFh9sr0l2/XBfo6Rb1bJyxqwgeUGm4w5yHl+t4n5ezQPXrjJojiJrXsS3J2A4pPwuoaQvYdSSSlDksGX5bVr3NDCKxRqnVNNZYn6dpALS5Ye3HONwCsql2cMWDlE7UEXfzXTSnWgTysBDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=foTPVV0lKp7sjSLImcSdySw0rmx0Pj3j75CDP0jdN98=;
+ b=lvy4f+fWiz8COX85w5q6JEkIfQq0kbJXI6T9LsTHN7gxrSxfZNT2bfqkLQxjLIBfY7y5+3UmmkkaK5VmX+UDqKx5ublFAhLljvmM3lwqmHHTx86zIQJmQP445wyA8sFe+xeM48yWou57a+ci4d/cG6vOncOeMOZJG4IYDIk1Z5Rhb3tHKQm4EO9Zat+XtG4H9g+LfpI28sfcUHOqMh7+Mq+N1ZUgD+i29nG9zvS+MpJNQRv4kZEvpX1OpVNWlCJO39CDzTEII5vtuI9OZ7XREs4suNwz/zzT/4mSPl75La/M8okBOdvxZQK9cUR8JRjJppbrY6RzzzuISYtano6l8Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by SN7PR12MB7910.namprd12.prod.outlook.com (2603:10b6:806:34b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.16; Mon, 20 Oct
+ 2025 11:57:37 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9228.015; Mon, 20 Oct 2025
+ 11:57:37 +0000
+Date: Mon, 20 Oct 2025 08:57:34 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
@@ -42,7 +58,7 @@ Cc: Benson Leung <bleung@chromium.org>,
 	Simona Vetter <simona.vetter@ffwll.ch>,
 	Dan Williams <dan.j.williams@intel.com>
 Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
-Message-ID: <aPT-7TTgW_Xop99j@tzungbi-laptop>
+Message-ID: <20251020115734.GH316284@nvidia.com>
 References: <20251016054204.1523139-1-tzungbi@kernel.org>
  <20251016054204.1523139-6-tzungbi@kernel.org>
  <20251016123149.GA88213@nvidia.com>
@@ -50,163 +66,161 @@ References: <20251016054204.1523139-1-tzungbi@kernel.org>
  <20251017134916.GK3901471@nvidia.com>
  <aPJp3hP44n96Rug9@tzungbi-laptop>
  <20251017162116.GA316284@nvidia.com>
+ <aPT-7TTgW_Xop99j@tzungbi-laptop>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aPT-7TTgW_Xop99j@tzungbi-laptop>
+X-ClientProxiedBy: BY1P220CA0004.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:59d::15) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251017162116.GA316284@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|SN7PR12MB7910:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52f4c373-2125-41dd-59a1-08de0fcfdc73
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ShT9cUNsqAtIujHfkcyOd/8hHZqZNgmAsbOIUSCU2oKSunrTe7T0QHKYqoJL?=
+ =?us-ascii?Q?aQDrHQOkoB9B3Yz6KsRaIv72fYQg/Nk56GXUzvTNwSR8xRF0IaI+dA2StNQb?=
+ =?us-ascii?Q?qPzfyzmg8idS+S/jXIvG63Nqba+pO6I6fcuGt9xRbGnYtBoe7XuGm1IpUujc?=
+ =?us-ascii?Q?lHKtn7jVrc3SqNQEYEfQk5+oY+yTCdoi+asW5uEXk01VMcZ9YBrcsgSCnZVo?=
+ =?us-ascii?Q?ItzqgtpxL+YJr/J0NihK7j68jR6WTF2r9zOugSamXnjZp1jETTSvIQ8SorXA?=
+ =?us-ascii?Q?jNVQHObYJgFiXNBvaIoyU8jVryefcbKVKQN+KoGr9nN3eI5QN5CGn4bU06cg?=
+ =?us-ascii?Q?N9F7x9uf6PRUx4PAgv4eCP3/j0d2uCtps9GXuXOZF/G7xpb/MdUIRdtMZ19t?=
+ =?us-ascii?Q?jxSbUz6M/Xc/vGs0oqkwRT0dp+wMB/runZFXAnVYv60dvtiTllXCtAv88HPj?=
+ =?us-ascii?Q?L5x3dw45dUv7Ejt7jQlpNg/mKkRAhM1D1+gX9bFot7o29oxtghZEAMmBkpLl?=
+ =?us-ascii?Q?g8SDtm11k93EWT1tIIXJvsSnDC1Wd6LlZcxD2NRz6p98Z0ICzSwPEJwTZ6rw?=
+ =?us-ascii?Q?cm54hRciFpdF8YVWxG7Er2Cv9AYJVnyk+mpOaVdUhpKaZ2VRqPbIeFWeg0rP?=
+ =?us-ascii?Q?kkUm8OAtqP4utFrztjMcZIsfxlEvwdAhgnV48tXFBpK++rfOp34NwCpmQFH1?=
+ =?us-ascii?Q?0QC9uB75Kil1co8mS+qrnwWyzgwfi5q/zeowTUpzl3FY2+bhQoWPNbM8iVWW?=
+ =?us-ascii?Q?dtibtnf5JisJFR9sEJOgVHSZ6PEr/tSyfPRPDfOHzbrZjppggNUjvGxTYSXG?=
+ =?us-ascii?Q?JDeXVjvwzj95w6SLIUTzMoIpWb/EyQER2tp9Qav5VqorgAWNQjatldIQ9Cfw?=
+ =?us-ascii?Q?K6B468xnPX0yU3I+8IFzIXa9SWQ5GTJY/KGV8JIULUj20F0meUZKuXwdyTkq?=
+ =?us-ascii?Q?s4bx5J1LL15CbY/IB7GvtYuRV5ZJaZqNKcqODSzoywqnO7ofrM/jxD4geVDB?=
+ =?us-ascii?Q?XU9/ZLQf9U5ZZt5FbggOplym/6C+vkK9F9zbssVGxHQZbmXxfiP8zWmN5h/w?=
+ =?us-ascii?Q?dB2hoxnZK2+sXi9AseF7qmz2Bz9sk0qcO/QeudbDlshuAS4GR8MSMD+d3WAQ?=
+ =?us-ascii?Q?6iSfcwqxw3ULoKYV6cS93Tpocbn8vyq98o/gcAKyHlOjDtUJ+3taZ4yOlPmC?=
+ =?us-ascii?Q?xZRmQRJMntKqqtRKz0zq4BMkArriwjo4FFvg0BCDSrtseKctj9NIwRonaGsv?=
+ =?us-ascii?Q?zIRX3VztdXEEsDvQ2AxEogfI5XGUY0SWAN9ntAx4Mc4re/YlzAwyoUt1sl9d?=
+ =?us-ascii?Q?TEIgVnH2oslg3jQ3gJHns3xuAYHNEjtb0ST+DWm61FSrduJH19LCO+/vx3YI?=
+ =?us-ascii?Q?FgmvaLfbxxm8aeiZ7qkwQ4Ub+wGZw+TWdFaZM3FGEEO0KIvJFUs0YUfMIdE5?=
+ =?us-ascii?Q?6UU0XMnCnM6c73/wmpSkG8gNCXsaipOO?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VJF15OyFC9rMipncFWN9nHYCvAO7admBamIV+LD9i7rxuEbmcGFPgTmhBwml?=
+ =?us-ascii?Q?8pQv5AsMT1KQaXnO+SE4JRRt4aadaE0Z5ij0yWEU58ST40LswyCpi92Tq0Ls?=
+ =?us-ascii?Q?YwiyZmZhz3f6ryOz51iH4NVF9Dn/U9zyVP74bRifhfaz0FaNqUWOwXakK5z8?=
+ =?us-ascii?Q?+D7o1mW5aT0IXqy7Wxig4OQd5wG8HoHECHT7VKpmAITYIXaLao94ZJ7eZOtM?=
+ =?us-ascii?Q?1mK4lZY3BzDl80HNq4wBxq7b6CQbuKvvip2hqVCkbrbgEvHFzJxfXfrUvkGy?=
+ =?us-ascii?Q?bDsZs65y3/xTaU1BPS8RgyvdgpgFYKZDi684o7B/aOLSP1fZGBETOTxfhH1s?=
+ =?us-ascii?Q?55Ry1w3JA35Je5jez9R+SxD5I4fXIJQ0pRB8YvdcNtp2diKLZGJ3Uk6cKJD5?=
+ =?us-ascii?Q?MHTHGchbJRf1JAMlsLY4443DOxTDX7mVek5TkaYAYvCVhEeZ36JkQ2m3kkN7?=
+ =?us-ascii?Q?zvFd1Wk/Dt5pA+CHpWdSgKwAW3JhXJoS+L7BZ1qkBlSBPreH9mjLgC5JdOio?=
+ =?us-ascii?Q?Z4qddNGbyDxncGhPm5Dq4upHRTmprpEYx6/lgY0HBS0Ab+0Qkce/q0hxqJAR?=
+ =?us-ascii?Q?8Rt3GKrD1EcxxhXlD59k0WaelbpqpvBZqKi4DJOj++XsOf5Do0B0f9mAu583?=
+ =?us-ascii?Q?KNUCDlRD6do2wQWpGPmemV6ZJHwPXG9n/IVJMXwTMyB8K55Ebg7GrFe+89UM?=
+ =?us-ascii?Q?1Y2Kuns4L+irKEPWzxcaukLGoaXWrxfm4xExq2TkrDqPIIr2j2E7wzbsOgq/?=
+ =?us-ascii?Q?f3ORn/eqaoRKrCFiHs44Pp32g2jUV0hoGe6ryCG0wNFxTJI39Sd/fy2q+qjX?=
+ =?us-ascii?Q?dGUv5eG6q+0+bphLMa8LNkH1mpcp0woQgh9GZkB9YehusHpnFwePCsA6Eiiv?=
+ =?us-ascii?Q?1sjGoZ4vssrJvCKPg5TAchfhbYMVGLpkH5fj1yO1OM9GoSxt7tl4q43b8mVg?=
+ =?us-ascii?Q?W2LI8j+L9jGkdhLKvSgd5lemgIfyAAkKgsgH7QsSyY+D6furlo/zLQMWOGbV?=
+ =?us-ascii?Q?36smT6K/FsOtTFEVGUii9VKpMY9CrRKJvnUlqwxgp21a8/JeJ95VO7N1BSOu?=
+ =?us-ascii?Q?nliqoKBtdBMbIqXDSBw5nzo9lmc6Lr6DKo3eIGQqeFe3LqNqxIu6/977WWKA?=
+ =?us-ascii?Q?zovuD4Dt/H9hJNGaPGcioBXKwvWp4jLrnC8VeHkQ4mxlPGwArHLwczMyHenF?=
+ =?us-ascii?Q?sOzbi8Qx+n1GY0jRlX5QGnb0r2eSmRWar1eYR2RmAvAT4JVUy79hVMybDTcM?=
+ =?us-ascii?Q?3ixqyKmOTvzky1to2e4NAWXAxK44NfJIYUCCH4Zo07BaZu/j84HG8VsKbWyx?=
+ =?us-ascii?Q?R4mjqbnXH0zwnAdud47rLVuBxW4MSDD+cMUf8BDRM9RVk3ekaNvbpu27qi5w?=
+ =?us-ascii?Q?dGxDyiisuVxKN85c4O3Pxm1/LVL9+5ccZfhldD2XRk9g+f0SvmbJdrLLBDUh?=
+ =?us-ascii?Q?0M+1f1qcJpk6KUQc0j2DPwpePC6rx9uOWaEEQaplT3CwZEla/fP3NYCwP9s/?=
+ =?us-ascii?Q?0Hx2Mh3yI3s0Z/8hHrUFhpb6HPp1CyUODJMHKjxhJBT+5mSeSkTYW8yuzMBx?=
+ =?us-ascii?Q?f9/PkXqWcW0ETbSJV3cbuwstM0jV3VNOBd2ktFB0?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52f4c373-2125-41dd-59a1-08de0fcfdc73
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2025 11:57:37.5813
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ND+5fy7VZooPnq9fzbWonbChdOv40x0C5hXT0MqIHpXiQTsnCF7z9TGWmBpWPb4j
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7910
 
-On Fri, Oct 17, 2025 at 01:21:16PM -0300, Jason Gunthorpe wrote:
-> On Sat, Oct 18, 2025 at 12:07:58AM +0800, Tzung-Bi Shih wrote:
-> > > This is already properly lifetime controlled!
+On Sun, Oct 19, 2025 at 11:08:29PM +0800, Tzung-Bi Shih wrote:
+> On Fri, Oct 17, 2025 at 01:21:16PM -0300, Jason Gunthorpe wrote:
+> > On Sat, Oct 18, 2025 at 12:07:58AM +0800, Tzung-Bi Shih wrote:
+> > > > This is already properly lifetime controlled!
+> > > > 
+> > > > It *HAS* to be, and even your patches are assuming it by blindly
+> > > > reaching into the parent's memory!
+> > > > 
+> > > > +	misc->rps[0] = ec->ec_dev->revocable_provider;
+> > > > 
+> > > > If the parent driver has been racily unbound at this point the
+> > > > ec->ec_dev is already a UAF!
 > > > 
-> > > It *HAS* to be, and even your patches are assuming it by blindly
-> > > reaching into the parent's memory!
-> > > 
-> > > +	misc->rps[0] = ec->ec_dev->revocable_provider;
-> > > 
-> > > If the parent driver has been racily unbound at this point the
-> > > ec->ec_dev is already a UAF!
+> > > Not really, it uses the fact that the caller is from probe().  I think the
+> > > driver can't be unbound when it is still in probe().
 > > 
-> > Not really, it uses the fact that the caller is from probe().  I think the
-> > driver can't be unbound when it is still in probe().
+> > Right, but that's my point you are already relying on driver binding
+> > lifetime rules to make your access valid. You should continue to rely
+> > on that and fix the lack of synchronous remove to fix the bug.
 > 
-> Right, but that's my point you are already relying on driver binding
-> lifetime rules to make your access valid. You should continue to rely
-> on that and fix the lack of synchronous remove to fix the bug.
+> I think what you're looking for is something similar to the following
+> patches.
+> 
+> - Instead of having a real resource to protect with revocable, use the
+>   subsystem device itself as a virtual resource.  Revoke the virtual
+>   resource when unregistering the device from the subsystem.
+> 
+> - Exit earlier if the virtual resource is NULL (i.e. the subsystem device
+>   has been unregistered) in the file operation wrappers.
 
-I think what you're looking for is something similar to the following
-patches.
-
-- Instead of having a real resource to protect with revocable, use the
-  subsystem device itself as a virtual resource.  Revoke the virtual
-  resource when unregistering the device from the subsystem.
-
-- Exit earlier if the virtual resource is NULL (i.e. the subsystem device
-  has been unregistered) in the file operation wrappers.
-
-By doing so, we don't need to provide a misc_deregister_sync() which could
-probably maintain a list of opening files in miscdevice and handle with all
-opening files when unregistering.  The device unbound is free to go and
-doesn't need to wait for closing or interrupting all opening files.
-
-
-diff --git a/drivers/char/misc.c b/drivers/char/misc.c
-index 27078541489f..bc4d249c4d0f 100644
---- a/drivers/char/misc.c
-+++ b/drivers/char/misc.c
-@@ -173,8 +175,12 @@ static int misc_open(struct inode *inode, struct file *file)
-         */
-        file->private_data = c;
+Sure
  
--       err = 0;
-        replace_fops(file, new_fops);
-+
-+       err = fs_revocable_replace(c->rp, file);
-+       if (err)
-+               goto fail;
-+
-        if (file->f_op->open)
-                err = file->f_op->open(inode, file);
- fail:
-@@ -234,6 +240,10 @@ int misc_register(struct miscdevice *misc)
-                return -EINVAL;
-        }
- 
-+       misc->rp = revocable_provider_alloc(misc);
-+       if (!misc->rp)
-+               return -ENOMEM;
-+
-        INIT_LIST_HEAD(&misc->list);
- 
-        mutex_lock(&misc_mtx);
-@@ -291,6 +291,8 @@ EXPORT_SYMBOL(misc_register);
+> By doing so, we don't need to provide a misc_deregister_sync() which could
+> probably maintain a list of opening files in miscdevice and handle with all
+> opening files when unregistering.  
 
- void misc_deregister(struct miscdevice *misc)
- {
-+       revocable_provider_revoke(misc->rp);
-+
-        mutex_lock(&misc_mtx);
-        list_del_init(&misc->list);
-        device_destroy(&misc_class, MKDEV(MISC_MAJOR, misc->minor));
+I don't think we want to change the default behavior of
+misc_deregister.. Maybe if it was a mutex not srcu it would be OK, but
+srcu you are looking at delaying driver removal by seconds
+potentially.
 
-diff --git a/fs/fs_revocable.c b/fs/fs_revocable.c
-new file mode 100644
-...
-+struct fs_revocable_replacement {
-+       struct revocable *rev;
-+       const struct file_operations *orig_fops;
-+       struct file_operations fops;
-+};
-+
-+static ssize_t fs_revocable_read(struct file *filp, char __user *buffer,
-+                                size_t length, loff_t *offset)
-+{
-+       void *any;
-+       struct fs_revocable_replacement *rr = filp->f_rr;
-+
-+       REVOCABLE_TRY_ACCESS_WITH(rr->rev, any) {
-+               if (!any)
-+                       return -ENODEV;
-+               return rr->orig_fops->read(filp, buffer, length, offset);
-+       }
-+}
-...
-+int fs_revocable_replace(struct revocable_provider *rp, struct file *filp)
-+{
-+       struct fs_revocable_replacement *rr;
-+
-+       rr = kzalloc(sizeof(*rr), GFP_KERNEL);
-+       if (!rr)
-+               return -ENOMEM;
-+
-+       rr->rev = revocable_alloc(rp);
-+       if (!rr->rev)
-+               goto free_rr;
-+
-+       rr->orig_fops = filp->f_op;
-+       memcpy(&rr->fops, filp->f_op, sizeof(rr->fops));
-+       rr->fops.release = fs_revocable_release;
-+
-+       if (rr->fops.read)
-+               rr->fops.read = fs_revocable_read;
-+       if (rr->fops.poll)
-+               rr->fops.poll = fs_revocable_poll;
-+       if (rr->fops.unlocked_ioctl)
-+               rr->fops.unlocked_ioctl = fs_revocable_unlocked_ioctl;
-+
-+       filp->f_rr = rr;
-+       filp->f_op = &rr->fops;
-+       return 0;
-+free_rr:
-+       kfree(rr);
-+       return -ENOMEM;
-+}
-+EXPORT_SYMBOL_GPL(fs_revocable_replace);
+> @@ -234,6 +240,10 @@ int misc_register(struct miscdevice *misc)
+>                 return -EINVAL;
+>         }
+>  
+> +       misc->rp = revocable_provider_alloc(misc);
+> +       if (!misc->rp)
+> +               return -ENOMEM;
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index a6de8d93838d..163496a5df6c 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1066,6 +1066,7 @@ struct file {
-                freeptr_t               f_freeptr;
-        };
-        /* --- cacheline 3 boundary (192 bytes) --- */
-+       struct fs_revocable_replacement *f_rr;
- } __randomize_layout
-   __attribute__((aligned(4))); /* lest something weird decides that 2 is OK */
+Just get rid of all this revocable stuff, all this needs is a scru or
+a mutex, none of this obfuscation around a simple lock is helpful in
+core kernel code.
 
-diff --git a/include/linux/miscdevice.h b/include/linux/miscdevice.h
-index aca911687bd5..c98b97f84c07 100644
---- a/include/linux/miscdevice.h
-+++ b/include/linux/miscdevice.h
-@@ -94,6 +94,7 @@ struct miscdevice  {
-        const struct attribute_group **groups;
-        const char *nodename;
-        umode_t mode;
-+       struct revocable_provider *rp;
- };
+> @@ -1066,6 +1066,7 @@ struct file {
+>                 freeptr_t               f_freeptr;
+>         };
+>         /* --- cacheline 3 boundary (192 bytes) --- */
+> +       struct fs_revocable_replacement *f_rr;
+>  } __randomize_layout
+
+The thing that will likely attract objections is this. It is probably
+a good idea to try to remove it.
+
+For simple misc users the inode->i_cdev will always be valid and you
+can reach the struct misc_dev/cdev from there in all the calls.
+
+More complex cdev users replace the inode so that wouldn't work
+universally but it is good enough to get started at least.
+
+Jason

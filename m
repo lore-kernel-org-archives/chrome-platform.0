@@ -1,107 +1,121 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329512877DE
-	for <chrome-platform@lists.linux.dev>; Mon, 27 Oct 2025 14:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A325E3277AF
+	for <chrome-platform@lists.linux.dev>; Mon, 27 Oct 2025 19:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761577155; cv=none; b=F+rsgeiIQ3W5gV4jG6OkWLiLjnr7yVk6Frr57cNjPTnF2sMXa4qM9QPS8GKUNt4q/dAB+fV1pG1PvZn3YJnQRFpzP+f2KMkDmegO5tFEHIiL6vE3L1G4fPukPV4xoKtj7zqSdf78DuMitwG7b8K4ckWJNW7+jKeaKE/eR6nxZSI=
+	t=1761593440; cv=none; b=BS+bRyda3Y/3/u0PI1Oj2QChN6hQABlrn31NrAlyo84TN3GsnnH0yTHqSEHMy93wSzeKSfPz//aR903PNYdJZ6f8O+BzqYiRNEIUUpIShXvBsIZLyF4WKP5g3BvwY5rMj2X1O0emDkjb0PG7OHs+ig6VNBPHIuWzjjBhH59WuOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761577155; c=relaxed/simple;
-	bh=7wL4+1onpcS68N8zd7qV0fUv0eIqqqeHEAHM6Nw9pSg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p/RGxqbuYW8Xaa+6nqq65e9sx62/WqNNfgRcMC3YvPRhXeK4QgAU67czLU/XG1KkrD5DkZJiCJOlA28zIkDr91SGwCxoFZKwTuDAxytsLqmMlog0YpMgrjMP3PagoXE0TVtxASJCObnbE0+EJ1eT5F6PW0YCpc8mMKwNhP3dnxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=UtXW5Imn; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1761593440; c=relaxed/simple;
+	bh=Nw/EC4BDxEdLzlg8/9tOSmc+lQtWTOG1wUVvZBCUOO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pX1YnUhcvXBiv+5c0uZFHjBY3BYqk+zDPAGyb432kRp7IeWQ8fTJE3FTDcnr9Dm3Stzg690WxbP3iJWhMSzbdNUFO5V+DJ+YekbMuRZTlZEXNjyHQj3QL/rJQlyx/9f4N+pGYg3luTEx+9mhbvDByLXHSxJzpFgvRNRSMXeMd0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CY5lTM2c; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="UtXW5Imn"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-3d275090417so1375203fac.1
-        for <chrome-platform@lists.linux.dev>; Mon, 27 Oct 2025 07:59:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CY5lTM2c"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4298a028de6so3100068f8f.0
+        for <chrome-platform@lists.linux.dev>; Mon, 27 Oct 2025 12:30:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1761577152; x=1762181952; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=42PPEESTPRM1MqRXwgq0RfVuUgixMW7zVQ9CGj4vqjk=;
-        b=UtXW5ImnOKDJ4QNXT4gxNzfkvaCdhr+y2rMFGAwVlye1AURPY6aXRcExuWNPMHci7G
-         QtI3tt4quwKEQWbT7gz7bV08aeHZWUEoZP87pFBUYKvbk5fQG3Qg9EVXYQ8MlHctwlrq
-         wKeu5lE3SdnMkEX0SPPhgTrJYqw5g0XVOaZHoGTeJBzDWbIWEYZQXFY+xIPhV01QHksa
-         QjmVux1F7IrRAddJjnRYtBbAXRzbSQgUmZ1lKTgpoWgebcOia+1t5HhIAa9hVuoHdWlE
-         hQ/vyUcmRDc9Vbkel+EEYpHNXEXmf99LXPnUnhBsgLVs1LSnjulOJ2wC61ks5NdT91NT
-         pHfw==
+        d=gmail.com; s=20230601; t=1761593436; x=1762198236; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sfEgFrMFSQT2jieK7pepMP8G7R1y/5//r9L5wGXCKUI=;
+        b=CY5lTM2calbouB23OeyFBhYlZJf1uX0Sobwn+JJn9pbQk+MXnziUpSEaB3W6rqSRB4
+         nbPv/S4ShXTV/kl8ObuqFXvh7fSHUsQP2+WlXUEOCWiCH1r62flRmEP5YY3zQxMIdzJC
+         Iu7tMlRHlOq0oFW7nPjc2UrAAc4bEGRXzG13MhP1xrz64RP1ACloJaf67gwcy4Ix0eM5
+         X9Wb5BEyt1rW3h71Osv7OT4SAcOar2FB2/hE4f3ezb5B9/8AiOqDu4P198KKE2GMhpwE
+         ldDyxqC9XxdMlEIdbkw7d/d7Kz1adSoom8J1ca7bc+sYTp2VTqtXHQAH1WmoHNIsGaXf
+         kSCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761577152; x=1762181952;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=42PPEESTPRM1MqRXwgq0RfVuUgixMW7zVQ9CGj4vqjk=;
-        b=DU4H/QlcaIjaszDFUxF4pLOxYgIQ0QP4MCoAdHYbvBhrpKC5mLtESBmA5k2SEj6Avr
-         TlRjbPo05BMNqoko3vCjk96XE0KjMYwsBlfDnXms5Tosv1w4vx+3Q3d0gJucq3RZB/ce
-         xejmUe776fD8pgOncOb7Tf8TGMLPQGt/a4nbOnGlgtyVi1h9EraWYaQFbF2v4q4zodvj
-         AyDgHK1v/PrLjAbVALz+Uoj4AiHAXguWc3iwitkaLPSmHzwQhtgnWOnRveQwmHeT6Pbo
-         Qatcfr4wdfd07mLVZGPLVPRhTE0yZY/k1mFQLXsVhU3tSHENN4hH51c0egXTp8S1Ev6e
-         6l3A==
-X-Forwarded-Encrypted: i=1; AJvYcCXB+oNsZYohkTSijmJu1ddl8G4yGaeJdKu05N2rRC6lGqAc23QC0lZG2xBucFAF4HwCr1NYIqVkIDMelyF8OsQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzENr/E1IhbqevRUjBIYovxUMHvafToQdwhSvxfsz3rRw/q4qaY
-	lPoqlFIiJI79dEVlJgTug9DfFgfywaOCxlcj2+P8IP5tz9uDeB100JZlYNlar2X4bhY=
-X-Gm-Gg: ASbGnctuirostWNhAUg3xr412n0QTPYxIfJKHU7LNSoINMWv10MmxH7e+Dv12WTYngL
-	0f5eTRiBUGSmrEIr8alP84vE8OYjU5V+hcjTmXK/+Epr8Uyn8xktKZhJsWXovdga9BMUVWYCPwc
-	prcuNrD7wqW0r5eFgPwK4zNYYsbpLOtfWfzfypne2w2kEcqy+Z2yhlP2lBMWPu+OzGDo08kpHRl
-	kZACxU7vqnfCy5/q6Qqh7cLtrHF9DRhIExCF4pX4I6FIrO9VaWJT6u4kJ4Gf1je+HOihbWVl0ne
-	3lVy9p1EQX2HJ2n2HQH1jF9kw8JitecmmQguzwI/tKWkEjgw/fuJeiBFl08KKNH0zeOzkUwkvzy
-	LhzN4o//2aJ2vs3SROOjDXn0isVAE9QYdtjwvf9nK87/TAlOYYPoILP8IeUyyX/5Pw/C4Jcu151
-	ph/bKDFqG673QnY9nkwTltZZ+ewPQrHGQyy3SqnyGTCi4SnZ4nXQ==
-X-Google-Smtp-Source: AGHT+IHzuM7f2/mhqN6TNTjfjdCykv8WqRrQS182YAqAkII2xhAQD50KGvCHAYvbwychNayps4clAw==
-X-Received: by 2002:a05:6871:ac0e:b0:343:13e4:9d3 with SMTP id 586e51a60fabf-3c98d18e2bdmr17563909fac.49.1761577152296;
-        Mon, 27 Oct 2025 07:59:12 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:46d5:c880:64c8:f854? ([2600:8803:e7e4:500:46d5:c880:64c8:f854])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3d1e2c30b50sm2536302fac.11.2025.10.27.07.59.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Oct 2025 07:59:11 -0700 (PDT)
-Message-ID: <66c8f410-6bba-41d2-88e2-46dbe133adaa@baylibre.com>
-Date: Mon, 27 Oct 2025 09:59:10 -0500
+        d=1e100.net; s=20230601; t=1761593436; x=1762198236;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sfEgFrMFSQT2jieK7pepMP8G7R1y/5//r9L5wGXCKUI=;
+        b=ucSSin7r0C39VkVg55o+Nz2cvQluCIDgcceJ/C6fVDsR4lP8egM+KlsIFQO+DePBzo
+         rMbPqdDQnftKv1hBVKizL6xSTYW5PyNkhn2rR8mOVgzmtPo7xyXAWBVhYlDO+kqUs8gs
+         cboYy+6fxkmwTeKZuvsh8hDO4xML3OXP9udlMJNpoj9xjxDNydI2VdnN3zS1mf8tR3AD
+         tySarWGOU903wrrMiW5XjEJC7nyeRkKh4pE50kRjnWuUjjdYxNM7JVDwBTWNWMbdTJXT
+         yRrMUxQwJXe4or9J3hNvyO/pndE2FwzqfeKk9ddk/nRtFQpBv11OTvYYfJLGnbTLdQ8y
+         1eRA==
+X-Forwarded-Encrypted: i=1; AJvYcCWB6ztQs2bqE4/EHz8OUUiGfFzzinMzCt6etpfmnuVe+7V9n4r63ufYt4yvVazbcatTZsSsGVzcKxUPBTojPq0=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGQIh6ab9S4b/DpsrI98hppDTOO5rAs8pj9oTAhS+9F9T9LHwF
+	vzy4kTAPNsrK9F8KGQm6V9EZtx8pAeUQE64uKqEGhJch4kIUaW2nRDJK
+X-Gm-Gg: ASbGnctSzc+pMKEUpbN2eXz9b0Zs/vzL3HbWYZLjeqvlBl17G+za6VVCIu4kZxnBQ5b
+	DZVma7r0ffX2yiWbchWVAd7EhQQq93fYH7apx77rhjoC9Y+z7V91S1MkhsVivLlV50KCbmflVCA
+	i0zI8zDsg1HSKzDKMOtOTUxSqiONn1GZ6ESEd0ahDW/J4WWKZUqUMf+E5bryQsr1hs/BE5jNVSi
+	GMNL5e6R6eIaNGeRjXvYpmMj/QJxxP7TKNvB2QHQA3+Cmx2Fbom2fh3E8uOY+i5+YCpEWJGJULg
+	eqGRSuj1/CUhPKlnUXUyb1bAWpaLlCpHHsTIZ2/xxJOonMzqAmh4Gv+oGwAUP/Atat3PCJJA1T0
+	hu5jH9ffWeeNUAFqziW1+MGjEy/D75k5BPR8yFUISGdTSTjm8seyG/kKHvOqVQTjAuM/EwyrrAf
+	LTWYZrrBMdggDXIhMN9is16/12e4q+DJqYDi6Bh9VWoJftwa0kU8BO
+X-Google-Smtp-Source: AGHT+IGtEr+9CIcpzVVArHnTXR3tT6CiV2LiHYXcwwmfckLKMvIkaTwS1E1UtslWxI222jO5QieSoQ==
+X-Received: by 2002:a5d:5f54:0:b0:425:70cb:9ba8 with SMTP id ffacd0b85a97d-429a81b1f42mr540100f8f.1.1761593435800;
+        Mon, 27 Oct 2025 12:30:35 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952e3201sm15950022f8f.47.2025.10.27.12.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Oct 2025 12:30:35 -0700 (PDT)
+Date: Mon, 27 Oct 2025 19:30:33 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Jonathan Cameron
+ <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Subject: Re: [PATCH v1 2/6] units: Add value of =?UTF-8?B?z4A=?= *
+ =?UTF-8?B?MTDigbk=?=
+Message-ID: <20251027193033.69728215@pumpkin>
+In-Reply-To: <20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
+References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
+	<20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?Q?Re=3A_=5BPATCH_v1_2/6=5D_units=3A_Add_value_of_=CF=80_*_1?=
- =?UTF-8?B?MOKBuQ==?=
-To: Jonathan Cameron <jic23@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
- <20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
- <20251027145213.7c93a3e2@jic23-huawei>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20251027145213.7c93a3e2@jic23-huawei>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 10/27/25 9:52 AM, Jonathan Cameron wrote:
-> On Mon, 27 Oct 2025 15:34:51 +0100
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> 
->> There are a few drivers that want to have this value, and at least one
->> known to come soon. Let's define a value for them.
-> 
-> Is there any way we can make the x10^9 bit obvious in the naming?  Or do
-> something a bit nasty like defining a macro along the lines of
-> 
-> PI(scale)?
-> e.g. PI(NANO), PI(10000) 
-> 
-This was my first thought when looking at this as well.
+On Mon, 27 Oct 2025 15:34:51 +0100
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-Or something like PI_x10(6).
+> There are a few drivers that want to have this value, and at least one
+> known to come soon. Let's define a value for them.
+>=20
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  include/linux/units.h | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/include/linux/units.h b/include/linux/units.h
+> index f626e212d4ca..82bdc2041328 100644
+> --- a/include/linux/units.h
+> +++ b/include/linux/units.h
+> @@ -21,6 +21,9 @@
+>  #define PICO	1000000000000ULL
+>  #define FEMTO	1000000000000000ULL
+> =20
+> +/* Value of =CF=80 * 10=E2=81=B9 */
+> +#define PI	3141592653LL
+
+Is that the right value?
+IIRC the next digits are 58979 (I used to know the next few as well)
+which means it should be rounded up.
+
+	David
+
+> +
+>  /* Hz based multipliers */
+>  #define NANOHZ_PER_HZ		1000000000UL
+>  #define MICROHZ_PER_HZ		1000000UL
+

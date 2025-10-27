@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B874F3081C6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF581DF247
 	for <chrome-platform@lists.linux.dev>; Mon, 27 Oct 2025 14:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761575941; cv=none; b=UaS1EjI6Tlg3ROhgEFvjK2f1Pc6nbrN61rwkn6BgGqXElq/4wdyprb5+O7CBZkswMU3ge4k49XbW+U+7IO36l7t5uALvVUhWtUSEGGzA6aYu6N/twCPu2PRY2L0FfgtjBd4ju5/EvSwBIFghERAFtMfJZC2s/+qyxTAy6sWnBN8=
+	t=1761575941; cv=none; b=rzrsULZ9vQuCbwbQJfdU8MvlHbDX89TIXH3HHhApqiR79uU6+gtOUyJksLVyu+vEGdHjFm46Bga4/yxrwnQ+O38BvU7fBdcLWGpYqQw9GW+kk5CVlh45lBH2+nMmt14zAEWok9lSe3KLtd2L8tPN5Z/JGz/Wr5DROlljQtZQ4e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761575941; c=relaxed/simple;
-	bh=nJ5njJ5+9hYtCs0aj31BczBczYllyXS0BJAPe/01RYE=;
+	bh=t8/6zRVTizK4cIUezK62ZALLb792Irp9cNhxLGlkKis=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y/u6S8g1DZcqt2UqpECnZ2BqHtoMlwKhG+iz3eh6By62A8CFolRNQwImEsxDif/hVl1LVUrzdMbTsgeWP0/y17LP4wqz5uALc81xZgrT7JIzLemp78wAz6ePAu9Q7n0BceWnK2Yud4muqRPINIxf4AXTZAhVPi+6jCFMcHV/r0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGRwTRnG; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version; b=S1czJIcu2Evhx4jM2mBOSvz5hv7uy/QN8y7yJphgkfWUkC3hM1JzSs24x4qULhX4mTPgKTTOuXQkp5LqUDhvVfl8JNkO3bhG2vJYah87cigRnVVAS1cUDb5WljRXTmB99NQ2FOjo+93m1cZ0b2pSRvooWuk8r51htmxcuQVWjW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUZQqWwg; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGRwTRnG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUZQqWwg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761575939; x=1793111939;
+  t=1761575940; x=1793111940;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=nJ5njJ5+9hYtCs0aj31BczBczYllyXS0BJAPe/01RYE=;
-  b=RGRwTRnGVmzV9eADhJzyZfgKwwS/R05vvK2wmr8KaiJuD6la4FFD34MX
-   5ZS4H2iw/A4wOHw87CKns+0HU2b8oM62TPVTydNT+r4jwVdxMrfTH6KkK
-   lbTr6N8LS1udmAhoBbWUL9MzN8UKCHxj7T0j2bMcVf1PiHf5Dk0Ctd8Sp
-   8prWWDFByNO5Igngoawm2vLZ66VgFYpUuCgUIvZn6S5IE1xIYRRSVVChR
-   tsHRyPlY/wkO9LfnV0F9wtr20KqE0ZShygcJuI3oDzMXWixxoEl47TZNA
-   qdhubw2fB6OUwmMyCoK+VfFeHKvFfz79MIUEuXz3Ih/2cxie6qWIgP8OX
-   Q==;
-X-CSE-ConnectionGUID: oSWm2j6yS6GQAJWH9n37Mg==
-X-CSE-MsgGUID: T5L/QSAJSC+BfebvpjlMUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67490640"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="67490640"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 07:38:57 -0700
-X-CSE-ConnectionGUID: KdQ8Cx24S+CkfiR30J0CGg==
-X-CSE-MsgGUID: 9ObjXCVMTXq4FJg4Ehc4/w==
+  bh=t8/6zRVTizK4cIUezK62ZALLb792Irp9cNhxLGlkKis=;
+  b=cUZQqWwgHb5QugiZqHOvmJUCDZsR8zO3QfEET+67U9YjVHsgdYm9wKpR
+   Slqv10ZNwJgqeS8UD8elBaBKgJuxB1LyegyeGuYkKcuF1Khc+ejg7MYnq
+   Co4yIO2MKs/xCn69WhPD93dI9O2p9jFwYh2PC+auXgi9tQJE/TaDHYHZ9
+   JREQt+v9BbJhZ+IRHMWRo+LEQR/U0uRFTEwjN/zAcn8iVEIsZ9vh3SYrT
+   rC3f1oshD+DjLxxkoFtjLYWYIAdfLnaSNpTD/bCP3m9r4t1ZbQGkjJcAX
+   Y352H1lRcZd6WSOlekqlRe40Nm2BW6noPJSw4HC2uZhves+0DWanU0WYR
+   g==;
+X-CSE-ConnectionGUID: El0iWzWwRXiEQylsVi2C8A==
+X-CSE-MsgGUID: +DD+zBFRTlibjgA1I0LDjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67520879"
+X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
+   d="scan'208";a="67520879"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 07:38:59 -0700
+X-CSE-ConnectionGUID: 6S5n2PnkSNKhgtd4dS2P3A==
+X-CSE-MsgGUID: L0AlvyGrRP+pDrU5sQTYIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="215712208"
+   d="scan'208";a="184237032"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa002.jf.intel.com with ESMTP; 27 Oct 2025 07:38:55 -0700
+  by orviesa006.jf.intel.com with ESMTP; 27 Oct 2025 07:38:56 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 5A09B99; Mon, 27 Oct 2025 15:38:53 +0100 (CET)
+	id 5ED5E9A; Mon, 27 Oct 2025 15:38:53 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-iio@vger.kernel.org,
@@ -61,9 +61,9 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
 	Michael Hennerich <Michael.Hennerich@analog.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: [PATCH v1 4/6] iio: cros_ec_sensors: Convert to use PI definition
-Date: Mon, 27 Oct 2025 15:34:53 +0100
-Message-ID: <20251027143850.2070427-5-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 5/6] iio: frequency: ad9523: Convert to use PI definition
+Date: Mon, 27 Oct 2025 15:34:54 +0100
+Message-ID: <20251027143850.2070427-6-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
 References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
@@ -79,31 +79,39 @@ Convert to use PI definition instead of open coded value of it.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/iio/frequency/ad9523.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
-index 82cef4a12442..7e7b7f97454d 100644
---- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
-+++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
-@@ -21,6 +21,7 @@
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_device.h>
+diff --git a/drivers/iio/frequency/ad9523.c b/drivers/iio/frequency/ad9523.c
+index 63c485e9e44c..fab1671d9212 100644
+--- a/drivers/iio/frequency/ad9523.c
++++ b/drivers/iio/frequency/ad9523.c
+@@ -15,6 +15,7 @@
+ #include <linux/err.h>
+ #include <linux/module.h>
+ #include <linux/delay.h>
 +#include <linux/units.h>
- #include <linux/slab.h>
  
- #define CROS_EC_SENSORS_MAX_CHANNELS 4
-@@ -120,8 +121,7 @@ static int cros_ec_sensors_read(struct iio_dev *indio_dev,
- 			 * loss. Round to the nearest integer.
- 			 */
- 			*val = 0;
--			*val2 = div_s64(val64 * 3141592653ULL,
--					180 << (CROS_EC_SENSOR_BITS - 1));
-+			*val2 = div_s64(val64 * PI, 180 << (CROS_EC_SENSOR_BITS - 1));
- 			ret = IIO_VAL_INT_PLUS_NANO;
- 			break;
- 		case MOTIONSENSE_TYPE_MAG:
+ #include <linux/iio/iio.h>
+ #include <linux/iio/sysfs.h>
+@@ -652,7 +653,7 @@ static int ad9523_read_raw(struct iio_dev *indio_dev,
+ 			AD9523_CLK_DIST_DIV_REV(ret);
+ 		return IIO_VAL_INT;
+ 	case IIO_CHAN_INFO_PHASE:
+-		code = (AD9523_CLK_DIST_DIV_PHASE_REV(ret) * 3141592) /
++		code = (AD9523_CLK_DIST_DIV_PHASE_REV(ret) * DIV_ROUND_UP_ULL(PI, 1000)) /
+ 			AD9523_CLK_DIST_DIV_REV(ret);
+ 		*val = code / 1000000;
+ 		*val2 = code % 1000000;
+@@ -701,7 +702,7 @@ static int ad9523_write_raw(struct iio_dev *indio_dev,
+ 		break;
+ 	case IIO_CHAN_INFO_PHASE:
+ 		code = val * 1000000 + val2 % 1000000;
+-		tmp = (code * AD9523_CLK_DIST_DIV_REV(ret)) / 3141592;
++		tmp = (code * AD9523_CLK_DIST_DIV_REV(reg)) / DIV_ROUND_UP_ULL(PI, 1000);
+ 		tmp = clamp(tmp, 0, 63);
+ 		reg &= ~AD9523_CLK_DIST_DIV_PHASE(~0);
+ 		reg |= AD9523_CLK_DIST_DIV_PHASE(tmp);
 -- 
 2.50.1
 

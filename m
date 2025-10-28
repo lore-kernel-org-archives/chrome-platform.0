@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB2A2AE8E
-	for <chrome-platform@lists.linux.dev>; Tue, 28 Oct 2025 08:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0EC2848AE
+	for <chrome-platform@lists.linux.dev>; Tue, 28 Oct 2025 08:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761638894; cv=none; b=i/NusYjQ/+VMtN0pHr1flpeTLQkf4OYNE6wJbtH5K4dR3U64giDeO7V1TVxrVMiCYKVLhyQza0io/GZE4GUTqu4cd3mU6e66St3kNH+481V1XYAzqQ7lNgbjr2VDTKCRhv9OQmooP0W5fdyBmv5AlheRKvfQqm6Z2/HUldlD7+Y=
+	t=1761638958; cv=none; b=kMjqw+j171z/9dTdLUE0jI3ieU5IEdDqs1bvlq1s27myR4kvWoAOe5RYi4f196jnnQANqs5Fn3rOyIzWyWUs4CQIuIM7TJj+PJFBVvkL6FFV3DfDxCZPMZKeIXF7Fo4XAlXLoSL9IJcopVDJWy4ZzFIGVMj1W7kz7ZR+Y/Vf+h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761638894; c=relaxed/simple;
-	bh=3dcAMZ0XBouz2oNM2bODG9GI8iKKSobfua0eziIQOZY=;
+	s=arc-20240116; t=1761638958; c=relaxed/simple;
+	bh=7z/1gXzlcZ6ipm71AwPYEiMUwyR4gAvf8U8KsM3aVVY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W9zQwZK8sMEDBE26SJeEoQU+nFly5pNa3cjfhbTjCcsRlwRhnmYd/Eeg1DwN7YXaOH+QcpU166MlLixTK9zJCY9C2GwNkIQuYGrQI36/8Xs8l5l27wpPI53r3OkJieZKNXaXDxdSW1ZxwCVEDivc7N0NM3W3ovrQhshXIh88s0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nOhoZ/Cq; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=VSNNjaBgF8Uju635agIlSaoF23QGdxYojzdczAbxjnerOMprxrqErOomTSvuA+6Y71dq34L3GYEAWhmbsXqN8EqnMzO/3bQ0ViqiUUHp4YnlbSzxjpEi2VJpwmKXTcrCAl2CcguRd1rtkmtHQes01MOn/43i4zzJyfSLoiAqDZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9O+pVQb; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nOhoZ/Cq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9O+pVQb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761638892; x=1793174892;
+  t=1761638957; x=1793174957;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=3dcAMZ0XBouz2oNM2bODG9GI8iKKSobfua0eziIQOZY=;
-  b=nOhoZ/CqhMxZde4D+S16i1O8rr7ovX2TXUzplNQD454ahZfkfKZwpMuf
-   m0KIoaROWId821jP+YW6jAGIuaVZZBAZSLewmBHJBpoPOWfLycY6S/kDZ
-   475jYLfdsAzYv2YoP0WFo27kc2hgymklGAY7GfLcYhHK/Kxx9rNUwOmOz
-   V55EKoQLALk7NEaqLV9qXB2PYPoUc48mV1KfNu5OJmq7yXeNh5Tcb7gpG
-   7Dni3+LR2F7y4afo1mBe1S/TztN8xe4Pd3V96QGu3aeD3G+rF0X731IjZ
-   eVshxKCuvaNUdO5CZKeF51yCHS7n8dU8UJGHepcH5LMFu5sdkeRofmQIY
+   mime-version:in-reply-to;
+  bh=7z/1gXzlcZ6ipm71AwPYEiMUwyR4gAvf8U8KsM3aVVY=;
+  b=k9O+pVQb1DHN0wu9UpyNqRqK+M56vSJCtYKFkmxV0tj3vnYUegAqUxpM
+   9097kmZsa5yriHKbDCAJDivuUXW6eRr8FAMgXTQfQhSK7zTf0aFgzROGM
+   wOuU/x05I+aZcdNZu/IFc5CNZLFUwb0toQw7tfWgtjlat9IKdlxgmg5F/
+   O4668NdRM/Nmekq+rSWQUsXxC0hFKMlBSb0Vw30FEMGfySLFwPtKPzgZ+
+   EYnJ7bxn9CMjSg1pVXSW80Gh63i8oH/2x1K6QhUIxdiCXbgt7BtvFWD5u
+   OaXTu6fIuoJx0lpQOXvkROBxNHiYrydnTjEg/T8tyFNI++TQPsFJphRpI
    g==;
-X-CSE-ConnectionGUID: mJvsl31LSxi9imhXBQh5Xw==
-X-CSE-MsgGUID: I9s00oBZSxa6Ke+OSpGlzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74405979"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="74405979"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 01:08:11 -0700
-X-CSE-ConnectionGUID: mU2CN2XBSYyKoOuvdZqQog==
-X-CSE-MsgGUID: BX4eDgl4QparbrGGxboMlA==
+X-CSE-ConnectionGUID: LYbrTqkBRSiByJ5mWbLFQg==
+X-CSE-MsgGUID: YWw/Zi2UR2m5BMel0gWQJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67567698"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="67567698"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 01:09:16 -0700
+X-CSE-ConnectionGUID: t5vVe9UuTEq2SveKnIcwng==
+X-CSE-MsgGUID: q2VaOrUDT/WqwGq3tF2ATw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="185366020"
+   d="scan'208";a="185610959"
 Received: from dalessan-mobl3.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.244.136])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 01:08:09 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 01:09:13 -0700
 Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1vDekP-00000003FGM-0g2Z;
-	Tue, 28 Oct 2025 10:08:05 +0200
-Date: Tue, 28 Oct 2025 10:08:04 +0200
+	id 1vDelS-00000003FGw-0pnx;
+	Tue, 28 Oct 2025 10:09:10 +0200
+Date: Tue, 28 Oct 2025 10:09:09 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
 	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>,
 	Benson Leung <bleung@chromium.org>,
@@ -64,43 +63,44 @@ Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
 	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 Subject: Re: [PATCH v1 2/6] units: Add =?utf-8?Q?va?=
  =?utf-8?B?bHVlIG9mIM+AICogMTDigbk=?=
-Message-ID: <aQB55GjWQL3VD1MO@smile.fi.intel.com>
+Message-ID: <aQB6JdePRUuegGxn@smile.fi.intel.com>
 References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
  <20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
- <20251027193033.69728215@pumpkin>
+ <20251027145213.7c93a3e2@jic23-huawei>
+ <66c8f410-6bba-41d2-88e2-46dbe133adaa@baylibre.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251027193033.69728215@pumpkin>
+In-Reply-To: <66c8f410-6bba-41d2-88e2-46dbe133adaa@baylibre.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Oct 27, 2025 at 07:30:33PM +0000, David Laight wrote:
-> On Mon, 27 Oct 2025 15:34:51 +0100
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+On Mon, Oct 27, 2025 at 09:59:10AM -0500, David Lechner wrote:
+> On 10/27/25 9:52 AM, Jonathan Cameron wrote:
+> > On Mon, 27 Oct 2025 15:34:51 +0100
+> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > 
+> >> There are a few drivers that want to have this value, and at least one
+> >> known to come soon. Let's define a value for them.
+> > 
+> > Is there any way we can make the x10^9 bit obvious in the naming?  Or do
+> > something a bit nasty like defining a macro along the lines of
+> > 
+> > PI(scale)?
+> > e.g. PI(NANO), PI(10000) 
+> > 
+> This was my first thought when looking at this as well.
 > 
-> > There are a few drivers that want to have this value, and at least one
-> > known to come soon. Let's define a value for them.
+> Or something like PI_x10(6).
 
-> > +/* Value of π * 10⁹ */
-> > +#define PI	3141592653LL
-> 
-> Is that the right value?
-> IIRC the next digits are 58979 (I used to know the next few as well)
-> which means it should be rounded up.
+We need a good macro that may _at compile-time_ convert 64-bit input to 32-bit
+value that may be suitable for 32-bit arithmetics / architectures.
 
-Right, today I have the same thought that actually ChromeOS driver has a
-off-by-one issue there.
-
-Btw, do you know if we can have compile-time divisions that can make 32-bit
-constants out of the 64-bit input? DIV_ROUND_CLOSEST_ULL() doesn't seem allow
-that.
 
 -- 
 With Best Regards,

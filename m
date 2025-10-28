@@ -1,142 +1,112 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EEE2FFDC2
-	for <chrome-platform@lists.linux.dev>; Tue, 28 Oct 2025 09:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211D113B58B
+	for <chrome-platform@lists.linux.dev>; Tue, 28 Oct 2025 15:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761643650; cv=none; b=s+s+H4V+8oKIZNYPjLAiZPdLs9yIAywJcC/gIfc3WZ5ZtniWnjpz5xmSmk3HOzsi7WF1j4lSLA33EwihG5/kmkkbmAk4bmYuofFwegiNcSOppEO+Gmrd4xNKbXIufMPkYXu1qj/usO6LmY/XojJrAnI8QpAf4f2yguKhgZPfU2E=
+	t=1761665479; cv=none; b=K97eJSQ2iuCm9LGFcxhONnGve+MPPXFAk7JI4pzJ7fKpUtBk0ZNFRACwhlX+jPd2CS8g6xx0m6uojxXJxja6xrnu6FKuns6Fz/DN7n+dOgYzWch3n0KlEi61pComz8TnTbZ77w+JfTOAvgEF72P3RVRijs9sI+gwF81FhkuWHU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761643650; c=relaxed/simple;
-	bh=2nzO/Lgis0CGEF4PRwALL8keP37eKj0EffWsyrHfk8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RUsGBIR3bpVefYFuuR8X1y16YJ4uhauA9I4u06CUwf/owp98oS5xJ44sXjrCXwWgmYDDUHV7WxB3T7VxAxbYhkl1VwL7IogniDsZiLUcrhxhqdMFeoNYQBn/AuaGHGsJRaq9q4LmzQVhu12VuC9vyf0PUdBY98zb0/YMboqgpj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S8TNhso8; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761665479; c=relaxed/simple;
+	bh=zX259koY1ErDXF7Q9x9tWaw7jkiH1R91w6zU9d+geSU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HODXQT7+bwvIe5al96nUUsTd+wC08kxtwoRfnW63tU7yDdaN1/ZYWVPEOLbhnw0DH/UVEbpre7zgBs1x5bXudiYYpHWN2gvH2Qs5QjEiU3UgQGojtMWgT/gYHZDg0HT2cAr/NojGdaAZyoLJ9jQi5hugZXN9k7T12AQr6S72nHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=TCA4OOXG; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S8TNhso8"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ece0e4c5faso5098334f8f.1
-        for <chrome-platform@lists.linux.dev>; Tue, 28 Oct 2025 02:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761643646; x=1762248446; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5Fa94rq4LY4WzohJQBw+1+fnrKto/qSLOJsPZx6Z7XI=;
-        b=S8TNhso8D/m7H66nt0F9pbWgwlFbpA/DJiWcrbmXR0M28F6Z7Tx9ocf15gMtLd77I6
-         RuK67Wb7ARbxW8HlVQ98ZZz+cx2TzygttEoE3IZiMtX7tFT1jYZ0osL4E3Ev4gEZgcMu
-         6+ekRYx7cYlIvaSaEQMZ6VfnhbXRLI0KzhRxBktDfprasvCGwJGsT5ll+P02pu0opv4q
-         8400vwFJLP4BKEI1ldachSv20fLwp35aUoqChybzQDecUh+6d1tb1ERmCN3qHDU9MMTE
-         h+rBIok5kaDezEBOchi5PQF+2HcNUHUh6vDbXOU7dtNjAuqt/BFq5qszUxN/9Y2snzoN
-         R4Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761643646; x=1762248446;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5Fa94rq4LY4WzohJQBw+1+fnrKto/qSLOJsPZx6Z7XI=;
-        b=buUGHwEtcV2Vfgoxf74ARNzYGRxIbuZpLi2fQcSOkNkOxZh/P1mT0JziJbLrKVC9VS
-         gGmXp9KyqyByR2PD8vegbwBNLM86FTgpJpLYPAj2ypA9VnqyI8oremjG4u+3dqGsRc5N
-         wHjuVXedlrxzMBDlA4dpYqBCWhkZF/epDKwQd8TU1zx3mYLmISMNmIvdPKiKkSvLOsUS
-         /4W3LjqjxiRDdtvrdj5LKjc9OieEgdnVR3q/4vLzoLaZjZqobmBk127HdNU+yg8NXARS
-         DTQA/Dl+FTwa7Qqeqngi+exg2h0B/t6JZVH0DaunTP35gWseTtF4TwLzlgO6LEyxo3kI
-         +1zw==
-X-Forwarded-Encrypted: i=1; AJvYcCXsKhZBL4NC/Xg7j4OSR9iXAbnSoEmwKpu8JMaB9XES5HNYTLfuhl5vs5Pg9hu1D5Ml2VZ97gh8HszSvy9Pk8k=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXo0euzohO8y94aCWpyalPbAq0Gn5Fvu922BCyF2Mgfd+6epo+
-	YIzlcobAkBUlGG9Ph7Cc3L9bGv/tJAihfVZ129BqRhcImP9+vK8uoaJI
-X-Gm-Gg: ASbGncvhSkP1S0u+Sde/gr3YYhX63UOL7Qkrf4EcJLegSLCvnU2wBIuIEuiPXpmpu5k
-	0zKakah2WL2lNSPsNzilJBoA3IPTCtGH0cNImR+5r461hBHWsM926HN25S5TGfspuil9wIQHzbw
-	h2fLGmaRnygXkYd7Ryi6E5brjG/ZrIUzQC9MgxfqhpK6GF2+IyBUiezynzBJTND7kX2RkjIQDja
-	Aue7cqTC9L08aCrE+u/DSrl4/uLSYqKN0uslB93uRbkndAnJUgFujYxx7+MS2Fz/XkHt/ouO4sG
-	PumXufag/Qs5/pzlCWXa5HF5rFOLYZppEoTzpLpChDRpxqJUpzbj6rSbjvaDCaqKeenlVuIr4qr
-	S+qQEDXRi8OzEIL9b9FwwEasqqj+FcwoPYiZXeGt6fVvraTenszu9Rp7V5nho7ZbD//m06x/NFD
-	+FH1pgnhp/7rFsCMWbNH26T7NW06eFFvKXuPVawVq1Xg==
-X-Google-Smtp-Source: AGHT+IFF5YJfFnpTtTAVxGmV5ZlBFo/mf4gYcQP7jzA5jKthEnOt4UjCXc6otkG5ppk07jpyxXmDJg==
-X-Received: by 2002:a05:6000:25f4:b0:429:a7f1:bdda with SMTP id ffacd0b85a97d-429a7f1bf31mr2313106f8f.47.1761643645777;
-        Tue, 28 Oct 2025 02:27:25 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952d4494sm19408803f8f.21.2025.10.28.02.27.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 02:27:25 -0700 (PDT)
-Date: Tue, 28 Oct 2025 09:27:23 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Jonathan Cameron
- <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: Re: [PATCH v1 2/6] units: Add value of =?UTF-8?B?z4A=?= *
- =?UTF-8?B?MTDigbk=?=
-Message-ID: <20251028092723.3403d122@pumpkin>
-In-Reply-To: <aQB55GjWQL3VD1MO@smile.fi.intel.com>
-References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
-	<20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
-	<20251027193033.69728215@pumpkin>
-	<aQB55GjWQL3VD1MO@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="TCA4OOXG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1761665469;
+	bh=zX259koY1ErDXF7Q9x9tWaw7jkiH1R91w6zU9d+geSU=;
+	h=From:Date:Subject:To:Cc:From;
+	b=TCA4OOXG9+UCc7CZiOkQFM/GW2kS+WqshLkFSOfdh1CxfyXxDbJSftqs9jKgzNZoe
+	 TmtQq1VJ4Uku4w05BjiZMp+VddrZfcwCe1cb5+Di0utgFnCs1cwuTokvrAjwnZZFiG
+	 EAcUg1uryw/YeAHk0LcW/qUUQFj4DSa4t6wX3CFk=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Tue, 28 Oct 2025 16:31:03 +0100
+Subject: [PATCH] leds: leds-cros_ec: Skip LEDs without color components
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251028-cros_ec-leds-no-colors-v1-1-ebe13a02022a@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIALbhAGkC/x3MQQqDMBBG4avIrB0wASH1KlKKJr/tgGTKDBRBv
+ Luhy2/x3kkOEzhN3UmGn7hobQh9R/mz1DdYSjPFIY5hiImzqb+QeUdxrspZdzXnkLCmErAtj0g
+ t/ho2Of7j+XldN8MzoG1oAAAA
+X-Change-ID: 20251028-cros_ec-leds-no-colors-18eb8d1efa92
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
+Cc: linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761665467; l=1805;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=zX259koY1ErDXF7Q9x9tWaw7jkiH1R91w6zU9d+geSU=;
+ b=UjRulbLbK2+GN0xY/1dSSmLc4Xadqk2KEj5cukNLVODnGzdH5+07GuEURF3jX3ChBOKQdGMrI
+ xcwvkUNJ4aiB37QDMehwdzZQo2I2NYRAAFwdkgcbDS0vnJkWPwrgOf6
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Tue, 28 Oct 2025 10:08:04 +0200
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+A user reports that on their Lenovo Corsola Magneton with EC firmware
+steelix-15194.270.0 the driver probe fails with EINVAL. It turns out
+that the power LED does not contain any color components as indicated
+by the following "ectool led power query" output:
 
-> On Mon, Oct 27, 2025 at 07:30:33PM +0000, David Laight wrote:
-> > On Mon, 27 Oct 2025 15:34:51 +0100
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> >  =20
-> > > There are a few drivers that want to have this value, and at least one
-> > > known to come soon. Let's define a value for them. =20
->=20
-> > > +/* Value of =CF=80 * 10=E2=81=B9 */
+Brightness range for LED 1:
+        red     : 0x0
+        green   : 0x0
+        blue    : 0x0
+        yellow  : 0x0
+        white   : 0x0
+        amber   : 0x0
 
-Thinks - should non-ascii characters be allowed in comments.
-They can cause grief.
+The LED also does not react to commands sent manually through ectool and
+is generally non-functional.
 
-> > > +#define PI	3141592653LL =20
-> >=20
-> > Is that the right value?
-> > IIRC the next digits are 58979 (I used to know the next few as well)
-> > which means it should be rounded up. =20
->=20
-> Right, today I have the same thought that actually ChromeOS driver has a
-> off-by-one issue there.
+Instead of failing the probe for all LEDs managed by the EC when one
+without color components is encountered, silently skip those.
 
-Not as though it is likely to make a difference.
-If any code needs anything more accurate than 3.1416 it probably cares
-whether the value is rounded down or up.
+Fixes: 8d6ce6f3ec9d ("leds: Add ChromeOS EC driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/leds/leds-cros_ec.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-> Btw, do you know if we can have compile-time divisions that can make 32-b=
-it
-> constants out of the 64-bit input? DIV_ROUND_CLOSEST_ULL() doesn't seem a=
-llow
-> that.
+diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
+index 377cf04e202a..bea3cc3fbfd2 100644
+--- a/drivers/leds/leds-cros_ec.c
++++ b/drivers/leds/leds-cros_ec.c
+@@ -142,9 +142,6 @@ static int cros_ec_led_count_subleds(struct device *dev,
+ 		}
+ 	}
+ 
+-	if (!num_subleds)
+-		return -EINVAL;
+-
+ 	*max_brightness = common_range;
+ 	return num_subleds;
+ }
+@@ -189,6 +186,8 @@ static int cros_ec_led_probe_one(struct device *dev, struct cros_ec_device *cros
+ 						&priv->led_mc_cdev.led_cdev.max_brightness);
+ 	if (num_subleds < 0)
+ 		return num_subleds;
++	if (num_subleds == 0)
++		return 0; /* LED without any colors, skip */
+ 
+ 	priv->cros_ec = cros_ec;
+ 	priv->led_id = id;
 
-Not sure, I did wonder how much thought had gone into the LL suffix.
-The value used will fit in u32 - but then any maths becomes unsigned.
-OTOH using LL forces 64bit maths on 32bit - not good.
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251028-cros_ec-leds-no-colors-18eb8d1efa92
 
-I suspect it would be better to drop a digit so the value fits in a
-signed 32bit variable.
-
-The other issue is whether scaling by a power of 10 is even right.
-If the code has to rescale the value using divides you really want
-to divide by a big power of 2 not 10.
-So multiplying by 2**29 may be more useful.
-
-	David
-
-
-
-
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 

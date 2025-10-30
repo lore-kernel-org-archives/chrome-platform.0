@@ -1,152 +1,183 @@
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3CB332ECC
-	for <chrome-platform@lists.linux.dev>; Thu, 30 Oct 2025 19:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3E4329E7B
+	for <chrome-platform@lists.linux.dev>; Thu, 30 Oct 2025 20:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761854400; cv=none; b=f1Wtze/EIfDt5ugfmJszwHbcwBFrmHGTtsB5iCg/KWsZs8710f43B16f2xQqtZdx/rByuJC/gw5rb4MD1bs1+j745eb1veNKU8BRBllFBVG3xxcA1exh5WJ7OyHgjbPG7IJ+10U/v64NiWVFfzwS17zhCF7t+X4xGCvbaLTdNsI=
+	t=1761855471; cv=none; b=EtUOoTKwFIPAq8s6Sd52inUjhlQlRovkVhMHVNxCRQusXswkPgUFBXGmrfRCgQ0EFMas/MkZegCMKfTIQwOi/bMtU6RrDq8JHg/CpFXXhyQ2J1Stdl5Ptihcoi23ymcD6Nk43mTwW5RdnxviDHRMs+YsG61CpaBaFJ8ybBbzGkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761854400; c=relaxed/simple;
-	bh=0/Ay5xIMjaO6H9CAGlnV5wtZpnCbDWuIf9Vw4FRb8NE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=prYdiSL9zD5v0f+5JZ5P1WA/FPnCpRIbetItkxzN1Ig92KOq/4/qQI2u7rFrXPJuzLkVuy8/oE/G1Ba4ju9gyusus4SFuCIbMTUZlTdQDGOrU4yRwJokW1AkV8TGTAcMXh1jpXKajdEsQ5o/KvAt8gg0f+rOGmSU6egy3Au+euE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hvCXtkxJ; arc=none smtp.client-ip=209.85.166.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761855471; c=relaxed/simple;
+	bh=9kRtTIBc07WnTizjvaJzLZPcLgBCogzq2Ghqk4DD7Dw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7TIkd/tjRGFA4JZrNWXZ/eo0rDiUdcU1BYPeX3O/+1LZshcdpV0k751t7311chprOODno9kkNI7VK5QELy5meuV75pzZAywL0VRQkFDlDy5i1qzYlecfa8l9YObx/VRQ+JTz54MCQNKDUi72vSQbfMar/jWgLc0BYF5TJo+6vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BQ0MPvOp; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hvCXtkxJ"
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-940d327df21so59366939f.1
-        for <chrome-platform@lists.linux.dev>; Thu, 30 Oct 2025 12:59:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BQ0MPvOp"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7a435a3fc57so1563602b3a.1
+        for <chrome-platform@lists.linux.dev>; Thu, 30 Oct 2025 13:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761854398; x=1762459198; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bWc+qSCsaB++95Y0qEzQptO8LIk3YM0/Lnj21sNqRgI=;
-        b=hvCXtkxJl+HraLWbzBE9FjKPuVSqhm4JvHQq1/0eNaFCP/ArTSgs/CGPj4soa4msvu
-         cCRaVpkUGUZ82vz42kX58tHoN3TBLgNYNg9JIrpnDUfTn/XkQ97F48UEm2MWMOG3edo3
-         s7eRFPhLTYNMH76fmi1oMrbz079WRCEI/QupE0xOpcQ+Tp5wuQdpvCWxWI2PNf6nvafZ
-         AvzQpI9Xrw4t8JQpheBbqC0uPrl096mJlSNx++Bx9CS9xUt7hJ4hZmxlvzIcNjQ17MJQ
-         G+X8Ezw30+6nijI6nGfrRbdS3wQpNopueb1bDXPCF8o0E9FzEnrFzRrUOV5IGLvKiU4j
-         ucCg==
+        d=google.com; s=20230601; t=1761855469; x=1762460269; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=151EPhAD4JHY/5K1q8Ff6wP++DpVmKl/O93jobS2q2s=;
+        b=BQ0MPvOpaiZiAQLkbpivFgfrFF+fAqjG3OBkVfwFkKpTLpLuiJhjGXA06GqEHxQbsi
+         qdBD+eaJ2Hw8cr7rId+fo8sGdriPhv4OXYzk9IUXccbuK3DnuxbgPt92vmkk6E5tyn0/
+         A6BR6NCRqVZ0VXQrm2E+rKkftGMI9Iy3810/8sAWwCmKF5oDiuYJz1xDWm/8l8cSppPf
+         V/EbEDpv319HVaMtbg6lZ+9/YeRj/kaGU049imxS44hBSqzOBeAxBfPZSDURT88qNP9k
+         oTMx5yR1gUbconZBa4w5Uc/xnq1aVBKC52VEDnFwl4aeTvg3Bioq6AvDYrbpjICBYAhM
+         Xr/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761854398; x=1762459198;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bWc+qSCsaB++95Y0qEzQptO8LIk3YM0/Lnj21sNqRgI=;
-        b=VYytjp11sF7P6a/83N98dbZlHlzKb03r6aVI31EefF5Y+AnuMeeF2/9hWyw0Jki51L
-         05/7VDuv6dNhzr8RR/78FiDS+qRInQMFxzaRLh2XtERiSX0evhtCvb7MUqKT2md1ym18
-         0Iy4wVXR4OBpSiSm56wJqauO6Hij9ZB678Tsn6wHRnMAnSJ4bhbaBzmTUGKiQleHjT4h
-         7zcQkYSgcWkzuIckEsS7NU3/xuHgQqbFyGgddLo01RnKR2e5IZQ2y4H2+9Y7pbbL2rvx
-         uWAhAKVz6Y1gqHvx/Yd3NZGW6Yp9uUwvT6HLNZnzwg5wTcX0oPbuZ0mhhmWD4HFiqf3+
-         fZcw==
-X-Gm-Message-State: AOJu0YyFwPLIQbb05Wk+C/g1n3bB0eKjXxSdXnFgq3W4592fj9hcqHL3
-	g5el6lBnUCWZ28gm6ErUsjywCxi7a7EFG9q8Du22TUKEDMo2UK6T+xDDZvju3L5A
-X-Gm-Gg: ASbGncsDu8tdZCiB9I3KOwSyF3nvA7/pXXhsAvs6/xa4NbOhZf6ejvvnD/xVrqFS37o
-	WcBt1FxE+kHTXZ9qfIlhOOKqhRfa+D+e7g2biRI9DqFINjmK1oo40LD33gkOvLpQvXzDZ8+8F0e
-	ZqejyK3yhz0ew/fdk/k82ce2wdBjwt7zVJelceZk4P9iS89rGJPhEg2jPpQte0+YwBI7swFLEXA
-	rZOgjzKdRPjrFibn2aj/v66Pp3dPqnHcvLSJkbZgjIl2frbXg3IzE/SIhfbJsvz0cH6jcuNR5OR
-	ucJcJQjiU9bWFwVT22pdCXKUlB9gjut8yTnYmbwoAxPRd1ebMh68oKNsGLKkQat1WVhh2zyK9FN
-	bqOA3FNhwATVSBRK5rK3E/NNR7GbbpgvzeT12Sx+ZmqnlT+IA5a2MH9X6d+GP//EnqYQdop/3
-X-Google-Smtp-Source: AGHT+IFf9MIiWLP3EO9J80LImBhp1n37tBGg7wCockg/FHC33/k9aal+Cr7NrJrymrQLn7+b2YAlYw==
-X-Received: by 2002:a05:6e02:221a:b0:42f:9353:c7bc with SMTP id e9e14a558f8ab-4330d12c587mr16467125ab.6.1761854397804;
-        Thu, 30 Oct 2025 12:59:57 -0700 (PDT)
-Received: from aperture.tree.net ([2601:40a:8000:28d9::f29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5aea995d412sm7065972173.46.2025.10.30.12.59.56
+        d=1e100.net; s=20230601; t=1761855469; x=1762460269;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=151EPhAD4JHY/5K1q8Ff6wP++DpVmKl/O93jobS2q2s=;
+        b=poThR78HPv3zXTUMhBlq6pDptl7y5+ZFpBn2zUr2K79aBO6SOwqQl5tmP8qBU/WDAr
+         yG8BtzOUSQZnyOnVPFsYL7NEZoF5zbrDrf2OI9hB81uNEPPQawbkQrvDsIMgdANsSwPu
+         3qwWyX4POKf2sPZ3yA6dHy+5UwOJHYlf4UBPyb8ESypQZKBeULuJLveuz6yrNQc1AfeV
+         rtgFni3BX7cj/SryJad7h1TgT0JYdTGW9rHejaIlZ9CxFyJQFmEKiCqhonxLBBN1n7cV
+         yk6a3MHcsKgHNB8F2d+IfirFyla2hQ0g2u634f3gWTF3AdA3hlSzSIm4UNOhDnQlnTx4
+         1UFA==
+X-Gm-Message-State: AOJu0Yz4/grLwjKX4u9OPLTPOrwQd5qCenkV8ducWdHwQt26m1lMbIC9
+	PaAENs7c3u7J//18dri5zQi/fR8DcRAKMQx+Mmmd12P4mG3NYc1HM7q3DWaTcdXaeQ==
+X-Gm-Gg: ASbGnctirRZKI0fgdJOnQ7BGJj/3g3qIHyu5yyaV3Sp9cybc7HqbJs4U+BormSGuaC3
+	3r86jNWE2D1hF4wZFu0ZC3bDRwUfjbCPedvViZpfw9yvruN0Pa3f0G6FJSGjP0F9nqzFUrwtARX
+	86jUJkVebJbWR5SCZ58L2E5n/Y9N2yCGx87XGRR5lZL8OikUMxy6x2owzqb45a0iJa7h6iXYZrN
+	ZnAaLzGMQKQhzEoeN5LWl4U69jImNWCyLj+4AQyLVKfJsXBRMLLfQg1ciXN+oZTSQPh8Ibi1VQE
+	m4xIMrIQISsOD3aB1PRlzh+EDXQwV6UasBfiVKEK3R6ly5OImMzqcfZ3irZXLZJaeV8No2B5ttm
+	UZh3d7zymGajtN+MR5xsWGdreCcIsdKpbXbOFR1lfLg8tIkHQFxXIfrJesGnl6mHVbU6ARIU12h
+	hwxUy1xEvp9k2HID0AUhyAC8v+W4B8SzUd
+X-Google-Smtp-Source: AGHT+IH6AU4NoorV5ouyjbLnksFBmEWlixg+IUFM1/RrhbDecyv2diBUOjwkESjNW4zqwzRv5X8ETA==
+X-Received: by 2002:a17:903:32c8:b0:28e:a70f:e879 with SMTP id d9443c01a7336-2951a36c289mr14370265ad.1.1761855468555;
+        Thu, 30 Oct 2025 13:17:48 -0700 (PDT)
+Received: from google.com (232.92.83.34.bc.googleusercontent.com. [34.83.92.232])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498cf49easm199598005ad.9.2025.10.30.13.17.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Oct 2025 12:59:57 -0700 (PDT)
-From: Brady Norander <bradynorander@gmail.com>
-To: chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Benson Leung <bleung@chromium.org>,
+        Thu, 30 Oct 2025 13:17:47 -0700 (PDT)
+Date: Thu, 30 Oct 2025 20:17:43 +0000
+From: Benson Leung <bleung@google.com>
+To: Brady Norander <bradynorander@gmail.com>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Brady Norander <bradynorander@gmail.com>
-Subject: [PATCH v2] platform/chrome: cros_ec_lightbar: Check if ec supports suspend commands
-Date: Thu, 30 Oct 2025 15:59:11 -0400
-Message-ID: <20251030195910.8625-2-bradynorander@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	Guenter Roeck <groeck@chromium.org>
+Subject: Re: [PATCH] platform/chrome: cros_ec_lightbar: Check if ec supports
+ suspend commands
+Message-ID: <aQPH5_gLKFbVDeSH@google.com>
+References: <20251023234239.23882-2-bradynorander@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="G7TLzwSYCEpVDVLw"
+Content-Disposition: inline
+In-Reply-To: <20251023234239.23882-2-bradynorander@gmail.com>
 
-The Chromebook Pixel 2013 (Link)'s ec does not support the lightbar manual suspend commands.
-As a result, attempting to suspend the device fails and prints the following error:
 
-    cros-ec-lightbar cros-ec-lightbar.3.auto: PM: dpm_run_callback(): platform_pm_suspend returns -22
-    cros-ec-lightbar cros-ec-lightbar.3.auto: PM: failed to suspend: error -22
-    PM: Some devices failed to suspend, or early wake event detected
+--G7TLzwSYCEpVDVLw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Check the return value of lb_manual_suspend_ctrl in cros_ec_lightbar_probe and disable manual
-suspend control if -EINVAL is returned.
+On Thu, Oct 23, 2025 at 07:42:40PM -0400, Brady Norander wrote:
+> The Chromebook Pixel 2013 (Link)'s ec does not support the lightbar manua=
+l suspend commands.
+> As a result, attempting to suspend the device fails and prints the follow=
+ing error:
+>=20
+>     cros-ec-lightbar cros-ec-lightbar.3.auto: PM: dpm_run_callback(): pla=
+tform_pm_suspend returns -22
+>     cros-ec-lightbar cros-ec-lightbar.3.auto: PM: failed to suspend: erro=
+r -22
+>     PM: Some devices failed to suspend, or early wake event detected
+>=20
+> Check the return value of lb_manual_suspend_ctrl in cros_ec_lightbar_prob=
+e and disable manual
+> suspend control if an error is returned.
+>=20
+> Signed-off-by: Brady Norander <bradynorander@gmail.com>
 
-Signed-off-by: Brady Norander <bradynorander@gmail.com>
----
+Reviewed-by: Benson Leung <bleung@chromium.org>
 
-v2:
-- Only catch -EINVAL from lb_manual_suspend_ctrl()
+>=20
+> diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platfor=
+m/chrome/cros_ec_lightbar.c
+> index 87634f6921b7..1b7e4c4e18bc 100644
+> --- a/drivers/platform/chrome/cros_ec_lightbar.c
+> +++ b/drivers/platform/chrome/cros_ec_lightbar.c
+> @@ -30,6 +30,13 @@ static unsigned long lb_interval_jiffies =3D 50 * HZ /=
+ 1000;
+>   */
+>  static bool userspace_control;
+> =20
+> +/*
+> + * Whether or not the lightbar supports the manual suspend commands.
+> + * The Pixel 2013 (Link) does not while all other devices with a
+> + * lightbar do.
+> +*/
+> +static bool has_manual_suspend;
+> +
+>  static ssize_t interval_msec_show(struct device *dev,
+>  				  struct device_attribute *attr, char *buf)
+>  {
+> @@ -550,7 +557,7 @@ static int cros_ec_lightbar_probe(struct platform_dev=
+ice *pd)
+>  		return -ENODEV;
+> =20
+>  	/* Take control of the lightbar from the EC. */
+> -	lb_manual_suspend_ctrl(ec_dev, 1);
+> +	has_manual_suspend =3D (lb_manual_suspend_ctrl(ec_dev, 1) >=3D 0);
+> =20
+>  	ret =3D sysfs_create_group(&ec_dev->class_dev.kobj,
+>  				 &cros_ec_lightbar_attr_group);
+> @@ -569,14 +576,15 @@ static void cros_ec_lightbar_remove(struct platform=
+_device *pd)
+>  			   &cros_ec_lightbar_attr_group);
+> =20
+>  	/* Let the EC take over the lightbar again. */
+> -	lb_manual_suspend_ctrl(ec_dev, 0);
+> +	if (has_manual_suspend)
+> +		lb_manual_suspend_ctrl(ec_dev, 0);
+>  }
+> =20
+>  static int __maybe_unused cros_ec_lightbar_resume(struct device *dev)
+>  {
+>  	struct cros_ec_dev *ec_dev =3D dev_get_drvdata(dev->parent);
+> =20
+> -	if (userspace_control)
+> +	if (userspace_control || !has_manual_suspend)
+>  		return 0;
+> =20
+>  	return lb_send_empty_cmd(ec_dev, LIGHTBAR_CMD_RESUME);
+> @@ -586,7 +594,7 @@ static int __maybe_unused cros_ec_lightbar_suspend(st=
+ruct device *dev)
+>  {
+>  	struct cros_ec_dev *ec_dev =3D dev_get_drvdata(dev->parent);
+> =20
+> -	if (userspace_control)
+> +	if (userspace_control || !has_manual_suspend)
+>  		return 0;
+> =20
+>  	return lb_send_empty_cmd(ec_dev, LIGHTBAR_CMD_SUSPEND);
+> --=20
+> 2.51.0
+>=20
 
- drivers/platform/chrome/cros_ec_lightbar.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+--G7TLzwSYCEpVDVLw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platform/chrome/cros_ec_lightbar.c
-index 87634f6921b7..893d269f6384 100644
---- a/drivers/platform/chrome/cros_ec_lightbar.c
-+++ b/drivers/platform/chrome/cros_ec_lightbar.c
-@@ -30,6 +30,13 @@ static unsigned long lb_interval_jiffies = 50 * HZ / 1000;
-  */
- static bool userspace_control;
- 
-+/*
-+ * Whether or not the lightbar supports the manual suspend commands.
-+ * The Pixel 2013 (Link) does not while all other devices with a
-+ * lightbar do.
-+*/
-+static bool has_manual_suspend;
-+
- static ssize_t interval_msec_show(struct device *dev,
- 				  struct device_attribute *attr, char *buf)
- {
-@@ -550,7 +557,7 @@ static int cros_ec_lightbar_probe(struct platform_device *pd)
- 		return -ENODEV;
- 
- 	/* Take control of the lightbar from the EC. */
--	lb_manual_suspend_ctrl(ec_dev, 1);
-+	has_manual_suspend = (lb_manual_suspend_ctrl(ec_dev, 1) != -EINVAL);
- 
- 	ret = sysfs_create_group(&ec_dev->class_dev.kobj,
- 				 &cros_ec_lightbar_attr_group);
-@@ -569,14 +576,15 @@ static void cros_ec_lightbar_remove(struct platform_device *pd)
- 			   &cros_ec_lightbar_attr_group);
- 
- 	/* Let the EC take over the lightbar again. */
--	lb_manual_suspend_ctrl(ec_dev, 0);
-+	if (has_manual_suspend)
-+		lb_manual_suspend_ctrl(ec_dev, 0);
- }
- 
- static int __maybe_unused cros_ec_lightbar_resume(struct device *dev)
- {
- 	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
- 
--	if (userspace_control)
-+	if (userspace_control || !has_manual_suspend)
- 		return 0;
- 
- 	return lb_send_empty_cmd(ec_dev, LIGHTBAR_CMD_RESUME);
-@@ -586,7 +594,7 @@ static int __maybe_unused cros_ec_lightbar_suspend(struct device *dev)
- {
- 	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
- 
--	if (userspace_control)
-+	if (userspace_control || !has_manual_suspend)
- 		return 0;
- 
- 	return lb_send_empty_cmd(ec_dev, LIGHTBAR_CMD_SUSPEND);
--- 
-2.51.0
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaQPH5wAKCRBzbaomhzOw
+wnilAPsFQWOTspSuE+PX5XiXmMjyns4hNOhg0x58FJLn58jiJwEAsI1jRBUsHJT+
+JIDeSbVH1XoEGPGuD70T0bjJxKLb6AA=
+=1HoK
+-----END PGP SIGNATURE-----
+
+--G7TLzwSYCEpVDVLw--

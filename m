@@ -1,112 +1,104 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211D113B58B
-	for <chrome-platform@lists.linux.dev>; Tue, 28 Oct 2025 15:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206A0336EDE;
+	Thu, 30 Oct 2025 07:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761665479; cv=none; b=K97eJSQ2iuCm9LGFcxhONnGve+MPPXFAk7JI4pzJ7fKpUtBk0ZNFRACwhlX+jPd2CS8g6xx0m6uojxXJxja6xrnu6FKuns6Fz/DN7n+dOgYzWch3n0KlEi61pComz8TnTbZ77w+JfTOAvgEF72P3RVRijs9sI+gwF81FhkuWHU4=
+	t=1761809107; cv=none; b=VzawoC7FKcijDAGSQfu013qrzFDvxJ5mUjzCqRVrpO+eBpLosJfBkXuiviFjK3b0r2qeCOSzWynpN2R4SB7iFqonFRWzqhOhUdDbfuFhHpKsWZYNpfn98xWzDgGovlpYxSXrOf1HxlYtaPHUdNcLRU/X1k392SV2lB+N22LDIaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761665479; c=relaxed/simple;
-	bh=zX259koY1ErDXF7Q9x9tWaw7jkiH1R91w6zU9d+geSU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HODXQT7+bwvIe5al96nUUsTd+wC08kxtwoRfnW63tU7yDdaN1/ZYWVPEOLbhnw0DH/UVEbpre7zgBs1x5bXudiYYpHWN2gvH2Qs5QjEiU3UgQGojtMWgT/gYHZDg0HT2cAr/NojGdaAZyoLJ9jQi5hugZXN9k7T12AQr6S72nHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=TCA4OOXG; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1761809107; c=relaxed/simple;
+	bh=0rIugVszyT34QGRppHHd9SZR9iNqZFH+IuaNiT3T9+8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=SvGCw0zIpbRLe9LYVfxJeAP9fClBCsGB63ELz7EZ5MWD3Eosq5vRuN+2ltaVq8xhr5+cKwXdtxSPlWIhrogKbb93nv9+PyOu0v0qhHRdpmhbWAhSuZwXdoIovze8UFXK3KgyEFQilWdh79STRSJYseWlEx+M0GCJ1qjY4G7D+Ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BRes+EpO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="TCA4OOXG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1761665469;
-	bh=zX259koY1ErDXF7Q9x9tWaw7jkiH1R91w6zU9d+geSU=;
-	h=From:Date:Subject:To:Cc:From;
-	b=TCA4OOXG9+UCc7CZiOkQFM/GW2kS+WqshLkFSOfdh1CxfyXxDbJSftqs9jKgzNZoe
-	 TmtQq1VJ4Uku4w05BjiZMp+VddrZfcwCe1cb5+Di0utgFnCs1cwuTokvrAjwnZZFiG
-	 EAcUg1uryw/YeAHk0LcW/qUUQFj4DSa4t6wX3CFk=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 28 Oct 2025 16:31:03 +0100
-Subject: [PATCH] leds: leds-cros_ec: Skip LEDs without color components
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BRes+EpO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82701C4CEF1;
+	Thu, 30 Oct 2025 07:25:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761809104;
+	bh=0rIugVszyT34QGRppHHd9SZR9iNqZFH+IuaNiT3T9+8=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=BRes+EpOEwjryV0Z8sofpJLsQT18kgdgVRmN0yF7WYWYjOqslFATDklrk7PMRbSr9
+	 iSOs6bU7aSsc2JDNXNlnxaazpGbttXSYTDuSXVG0BxWn91fQdrE1jScQNOwK/NFx+2
+	 oDnz9NsxyaVOqfcNuCwKDAqouFNG1qIzV+5j6j2DmJQ2YO4mAC7bCTu6JvldluiQZp
+	 DUgaczZnA9YZfXjPMdGpDP472EbCVWbbefGyks3zxWA5Grlk92hjsULkokfKYO6FFi
+	 WDjtcJ/2g0RGLVzBMBpeW9zsG4NEqaAyU4YYtarexsUMAYTaXasfsBwXwakl12ZlAT
+	 YgOi5KjpIdvxg==
+Message-ID: <b573d80c-bd93-4592-86b4-e6c398d5862e@kernel.org>
+Date: Thu, 30 Oct 2025 08:24:59 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251028-cros_ec-leds-no-colors-v1-1-ebe13a02022a@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIALbhAGkC/x3MQQqDMBBG4avIrB0wASH1KlKKJr/tgGTKDBRBv
- Luhy2/x3kkOEzhN3UmGn7hobQh9R/mz1DdYSjPFIY5hiImzqb+QeUdxrspZdzXnkLCmErAtj0g
- t/ho2Of7j+XldN8MzoG1oAAAA
-X-Change-ID: 20251028-cros_ec-leds-no-colors-18eb8d1efa92
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-Cc: linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761665467; l=1805;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=zX259koY1ErDXF7Q9x9tWaw7jkiH1R91w6zU9d+geSU=;
- b=UjRulbLbK2+GN0xY/1dSSmLc4Xadqk2KEj5cukNLVODnGzdH5+07GuEURF3jX3ChBOKQdGMrI
- xcwvkUNJ4aiB37QDMehwdzZQo2I2NYRAAFwdkgcbDS0vnJkWPwrgOf6
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v1 1/6] media: vidtv: Rename PI definition to PI_SAMPLES
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
+ <20251027143850.2070427-2-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251027143850.2070427-2-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-A user reports that on their Lenovo Corsola Magneton with EC firmware
-steelix-15194.270.0 the driver probe fails with EINVAL. It turns out
-that the power LED does not contain any color components as indicated
-by the following "ectool led power query" output:
+On 27/10/2025 15:34, Andy Shevchenko wrote:
+> The definition of PI in the driver is not the actual value in radians,
+> but rather degrees. Since we are going to have a value in radians
+> defined in a global header, rename this definition to avoid potential
+> collisions. No functional changes.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Brightness range for LED 1:
-        red     : 0x0
-        green   : 0x0
-        blue    : 0x0
-        yellow  : 0x0
-        white   : 0x0
-        amber   : 0x0
+Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 
-The LED also does not react to commands sent manually through ectool and
-is generally non-functional.
+Feel free to merge this through a non-media subsystem. If you want me to
+take this as a separate media subsystem patch, then let me know.
 
-Instead of failing the probe for all LEDs managed by the EC when one
-without color components is encountered, silently skip those.
+Regards,
 
-Fixes: 8d6ce6f3ec9d ("leds: Add ChromeOS EC driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/leds/leds-cros_ec.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+	Hans
 
-diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
-index 377cf04e202a..bea3cc3fbfd2 100644
---- a/drivers/leds/leds-cros_ec.c
-+++ b/drivers/leds/leds-cros_ec.c
-@@ -142,9 +142,6 @@ static int cros_ec_led_count_subleds(struct device *dev,
- 		}
- 	}
- 
--	if (!num_subleds)
--		return -EINVAL;
--
- 	*max_brightness = common_range;
- 	return num_subleds;
- }
-@@ -189,6 +186,8 @@ static int cros_ec_led_probe_one(struct device *dev, struct cros_ec_device *cros
- 						&priv->led_mc_cdev.led_cdev.max_brightness);
- 	if (num_subleds < 0)
- 		return num_subleds;
-+	if (num_subleds == 0)
-+		return 0; /* LED without any colors, skip */
- 
- 	priv->cros_ec = cros_ec;
- 	priv->led_id = id;
-
----
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-change-id: 20251028-cros_ec-leds-no-colors-18eb8d1efa92
-
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
+> ---
+>  drivers/media/test-drivers/vidtv/vidtv_s302m.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+> index 9da18eac04b5..b3217d643b1e 100644
+> --- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+> +++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+> @@ -45,7 +45,7 @@
+>  #define FF_S302M_DEFAULT_PTS_OFFSET 100000
+>  
+>  /* Used by the tone generator: number of samples for PI */
+> -#define PI		180
+> +#define PI_SAMPLES		180
+>  
+>  static const u8 reverse[256] = {
+>  	/* from ffmpeg */
+> @@ -259,10 +259,10 @@ static u16 vidtv_s302m_get_sample(struct vidtv_encoder *e)
+>  		if (!ctx->last_tone)
+>  			return 0x8000;
+>  
+> -		pos = (2 * PI * ctx->note_offset * ctx->last_tone) / S302M_SAMPLING_RATE_HZ;
+> +		pos = (2 * PI_SAMPLES * ctx->note_offset * ctx->last_tone) / S302M_SAMPLING_RATE_HZ;
+>  		ctx->note_offset++;
+>  
+> -		return (fixp_sin32(pos % (2 * PI)) >> 16) + 0x8000;
+> +		return (fixp_sin32(pos % (2 * PI_SAMPLES)) >> 16) + 0x8000;
+>  	}
+>  
+>  	/* bug somewhere */
 

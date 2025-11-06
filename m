@@ -1,127 +1,127 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1F526C39E
-	for <chrome-platform@lists.linux.dev>; Wed,  5 Nov 2025 21:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAAB26B0AE;
+	Thu,  6 Nov 2025 15:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762379358; cv=none; b=l3evLGv4vuYcuVPdA0c/KS/qhXnv7vHDSSAY1V78XdZW5Qk4B2uEbrwmSL0h0EOm2qh1Oabdy0YueTO8QaqBYc+48SMyLROhzbwF695d0tKkashuXgZuJe/Nnbq6km9oSm9Ynx3Nn4SFxaEnQLYj1EzVUr2Y1afwUe1rkcbSy64=
+	t=1762442624; cv=none; b=mL/3g8xyn1VtQnqgDWvHyAjDnJLR3TGzDUYZDcD/Ia9qf/A6YGO35/Y1qX6it6AlrIV73t3Dc4qB4YSqh1mDdojl8lcn+yesgib038xLbEsiibSeuMGG3/ZOspa62bahlLPGkVL3WY3j97JdwUHvRRuFNNwR5Og5iq1JwLV0M3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762379358; c=relaxed/simple;
-	bh=T3OpidHX2IFHWxcVVbNy5goWv2uX9ql1ENT6uZoLM6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bh69WRKr/T+cBJqmggJmIHj/HB+YLf8ZDSutub9W389BAzLbodjEhfDl5M0jNdGEo+GMUqvx/byVsxvnXNqqZrMRNCh5ybylJ5fb2iQc5XXoZo3fujz/1tweLIrFay78+fDYb3yICWTEyFmDWrHm9IyJlCzuPv7Byd9b9tejazQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XCjy53DZ; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762442624; c=relaxed/simple;
+	bh=zIUMeT7hGiOlHf1WB7lre3GGJ2Wo/h4bJ7uQ111gxz8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ouDZ0ICojYAchtPepd9MSXAlKZmd64lPdDM2UEGkFTviweCs19dYAkjXB6bWdtSXEVuReZVEvH+YemBt2pxuchshv5qmlQwX8IbS6B5LC9DcP5/ua/p0SCecz2P/lEpxNl2I7ErxBqzGIBGwz4l0T3u/mczUfZnWF6+VNC/8XGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r4EqVSek; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XCjy53DZ"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7aace33b75bso338873b3a.1
-        for <chrome-platform@lists.linux.dev>; Wed, 05 Nov 2025 13:49:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762379356; x=1762984156; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YkSXNAZbOjzhQnnQ/OeMxCnZIysKbvh766e3GOcQ37M=;
-        b=XCjy53DZow7c7TQw+H4rB59NTNvYE40pUJsmk04YazKdAmf6+su0C5a/U6l86v7rI9
-         02ErcczKhByAeFKpu8GHFb9/+0XsCc9Ojp0zl4U9uFU/MPLdeFudG3/QoKf/dIA4U566
-         czfLvpvvsVcnhsJlsU0XZkIpCt0h0ElyAeHtMqr89NLDF1D+HhdxL65TRLNW/eb7r2mp
-         EREwye/QuNvEktVKw2rDwgVNShR1rI3FJVonrp+V7/s7LEMKDW3CWz+Kp3tnu6tJWb3o
-         xXIVeVJ8txZa+msZactWlK5bX35EFqqB8GBpzXTqdL0cnlsvE6boXJGK3sCfUpxzRYzV
-         K6BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762379356; x=1762984156;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YkSXNAZbOjzhQnnQ/OeMxCnZIysKbvh766e3GOcQ37M=;
-        b=Min5cp5nnz9LtMpW/Rd/KVqnNeejcOwFON0a66Yns512XXNgDZb00YF6w9kuvXzD0F
-         HLwgQSW5lpqxY7xt07tX6uBuF0PbYHP1LD61k0QYMPqCiE+Rsy/000RsU2yThPZbsmfP
-         UD5sTQSTGx/JEX3l1aYpCS9Wgbze89B2K/6b6dc8ePcvSD5J84wt6WhLg+PVxwW8CGHp
-         nl1GaUFATUJG5X6ro5fEOUWd8+rkB27NUh7lVSoijLza3YtKq9CBLp77hkeRLNTKgkjF
-         UWwn0LzJIp3qMdgUrCmEk2OwsIo3tiiKikK6GX0cDuKQUjesomelL3KmkdMg0XI3vkyo
-         Py4w==
-X-Forwarded-Encrypted: i=1; AJvYcCWwOx6iDO9VLEmqOmCldYcLFjkh6bss2mMqy7FhZaYqlTgYzUeUX5EapgNuL+KCO7qZXPpl91grw9Nt6lACy5k=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxeQm53Wavkdy+WeOM08kCbrcWAvf62VFI1j9mOKy6E82sEdmA3
-	jPTdEd4EyeAEIOyTvQAcAiUmc5eut9oav66hnkisLgECH+MZFSZ4nUSA
-X-Gm-Gg: ASbGncvOy3xAV3MuUoBWvbOR154DhJpNqIYho7SnkcQXN8SR5SH4hDepwLmoMnoE/MF
-	Q/wMrcPJeoOpnjcMcvq77pNzelysg7jO+PBkf0IPGCMZFE1m77n0hkWVLjj/UiPBoc4nBy2JoCj
-	FsLf4wQFmV1PBuRvvdQoOATp7PA+Hm/n8AO1C1mGfzqPHXbQa9d9NrMSwzfCZkVxhpfu8/uNeO8
-	ZWsRrL/gyRsoPhf2AmVIdLS5Jjq8Jzmba61fWAeBOuClt6yYwGdPEUCroM2g0h5yp2k+STW53lo
-	u6AWm9b08DYfOVSZZvLI2SBmgxJWinJNtMjAzcanA8M1ebY4hQ/lUYFU0xk/wwofbkz+ovXsG0W
-	Q9LxzxPx3M28nOW4rKTV5MSlJLBqA+CzyyhlyGptDr7oSK/IzgSb6KAF+ZVB2dzfTkmipJ2gYeE
-	R7dXfOSMc3+Gtt9O3fKajGxpVrKqVdzG5++ZyawCALLA==
-X-Google-Smtp-Source: AGHT+IEfxkY2DlYd44idBXTNooK+9iUwvWUJNyG06J8FehkzWiWIPxPnEv5UUZ5iB1IZqawGc7+gAg==
-X-Received: by 2002:a05:6a00:1883:b0:7ab:21ca:a3be with SMTP id d2e1a72fcca58-7ae1d153f44mr6218257b3a.12.1762379356504;
-        Wed, 05 Nov 2025 13:49:16 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:35dd:7def:e1d1:adfe])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7af7fd5238csm416558b3a.17.2025.11.05.13.49.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 13:49:16 -0800 (PST)
-Date: Wed, 5 Nov 2025 13:49:13 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-input@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2] Input: cros_ec_keyb - Fix an invalid memory access
-Message-ID: <qtqemibhs47cdi3rwboz6rjej7dlopyr4wwnion4nsutk2rpb4@ycb525kmsgmr>
-References: <20251104070310.3212712-1-tzungbi@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r4EqVSek"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63191C4CEF7;
+	Thu,  6 Nov 2025 15:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762442623;
+	bh=zIUMeT7hGiOlHf1WB7lre3GGJ2Wo/h4bJ7uQ111gxz8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=r4EqVSekQVZrKHPjcwfGG7/Ey9EdpX4dJi33im2Oz6p6lnFJSC/nvA/B31t7rRfQ1
+	 HBIcx9i2iueDZ89qaGtd3F7LdG3Ozc6ReX17V6b79fxrjwQIgEvJ8bCjC/Zv0pbkw+
+	 KD36Zzb4mQcxGXXMPT/GmYePR8udGHyZ6kAITmTX6Y2a34coJktspJBf/qumyeDc4s
+	 KEYRYEExSZ3Lo/if3dn1LUtfbsRO0zuqSGeaevgUyFb77+PN3A92x7cQ/eZ1K7iY0V
+	 MVEKEDDIiBFC8hW1qaR25os7KMhmvJ0F8eYW71BIHbWEkZpWz22/bZrrhvtCg3gLVe
+	 fu3jG3KwVA81g==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	tzungbi@kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: [PATCH v6 0/3] drivers/base: Introduce revocable
+Date: Thu,  6 Nov 2025 23:23:27 +0800
+Message-ID: <20251106152330.11733-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104070310.3212712-1-tzungbi@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Tzung-Bi,
+The series is separated from [1] to show the independency and compare
+potential use cases easier.  This is the revocable core part.  Use cases
+are in other series.
 
-On Tue, Nov 04, 2025 at 07:03:10AM +0000, Tzung-Bi Shih wrote:
-> If cros_ec_keyb_register_matrix() isn't called (due to
-> `buttons_switches_only`) in cros_ec_keyb_probe(), `ckdev->idev` remains
-> NULL.  An invalid memory access is observed in cros_ec_keyb_process()
-> when receiving an EC_MKBP_EVENT_KEY_MATRIX event in cros_ec_keyb_work()
-> in such case.
-> 
->   Unable to handle kernel read from unreadable memory at virtual address 0000000000000028
->   ...
->   x3 : 0000000000000000 x2 : 0000000000000000
->   x1 : 0000000000000000 x0 : 0000000000000000
->   Call trace:
->   input_event
->   cros_ec_keyb_work
->   blocking_notifier_call_chain
->   ec_irq_thread
-> 
-> It's still unknown about why the kernel receives such malformed event,
-> in any cases, the kernel shouldn't access `ckdev->idev` and friends if
-> the driver doesn't intend to initialize them.
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
-> v2:
-> - dev_info() -> dev_warn_once().
-> 
-> v1: https://lore.kernel.org/chrome-platform/20251104064353.3072727-1-tzungbi@kernel.org
-> 
->  drivers/input/keyboard/cros_ec_keyb.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> index f7209c8ebbcc..324c98b1cb52 100644
-> --- a/drivers/input/keyboard/cros_ec_keyb.c
-> +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> @@ -261,6 +261,11 @@ static int cros_ec_keyb_work(struct notifier_block *nb,
->  	case EC_MKBP_EVENT_KEY_MATRIX:
->  		pm_wakeup_event(ckdev->dev, 0);
->  
-> +		if (!ckdev->idev) {
-> +			dev_warn_once(ckdev->dev, "No key matrix\n");
+The 1st patch introduces the revocable which is an implementation of ideas
+from the talk [2].
 
-Adjusted the message to "Unexpected key matrix event" and applied, thank
-you.
+The 2nd and 3rd patches add test cases for revocable in Kunit and selftest.
+
+[1] https://lore.kernel.org/chrome-platform/20251016054204.1523139-1-tzungbi@kernel.org
+[2] https://lpc.events/event/17/contributions/1627/
+
+v6:
+- Rebase onto next-20251106.
+- Separate revocable core and use cases.
+
+v5: https://lore.kernel.org/chrome-platform/20251016054204.1523139-1-tzungbi@kernel.org
+- Rebase onto next-20251015.
+- Add more context about the PoC.
+- Support multiple revocable providers in the PoC.
+
+v4: https://lore.kernel.org/chrome-platform/20250923075302.591026-1-tzungbi@kernel.org
+- Rebase onto next-20250922.
+- Remove the 5th patch from v3.
+- Add fops replacement PoC in 5th - 7th patches.
+
+v3: https://lore.kernel.org/chrome-platform/20250912081718.3827390-1-tzungbi@kernel.org
+- Rebase onto https://lore.kernel.org/chrome-platform/20250828083601.856083-1-tzungbi@kernel.org
+  and next-20250912.
+- The 4th patch changed accordingly.
+
+v2: https://lore.kernel.org/chrome-platform/20250820081645.847919-1-tzungbi@kernel.org
+- Rename "ref_proxy" -> "revocable".
+- Add test cases in Kunit and selftest.
+
+v1: https://lore.kernel.org/chrome-platform/20250814091020.1302888-1-tzungbi@kernel.org
+
+Tzung-Bi Shih (3):
+  revocable: Revocable resource management
+  revocable: Add Kunit test cases
+  selftests: revocable: Add kselftest cases
+
+ .../driver-api/driver-model/index.rst         |   1 +
+ .../driver-api/driver-model/revocable.rst     | 112 +++++++++
+ MAINTAINERS                                   |   9 +
+ drivers/base/Kconfig                          |   8 +
+ drivers/base/Makefile                         |   5 +-
+ drivers/base/revocable.c                      | 234 ++++++++++++++++++
+ drivers/base/revocable_test.c                 | 139 +++++++++++
+ include/linux/revocable.h                     |  69 ++++++
+ tools/testing/selftests/Makefile              |   1 +
+ .../selftests/drivers/base/revocable/Makefile |   7 +
+ .../drivers/base/revocable/revocable_test.c   | 136 ++++++++++
+ .../drivers/base/revocable/test-revocable.sh  |  39 +++
+ .../base/revocable/test_modules/Makefile      |  10 +
+ .../revocable/test_modules/revocable_test.c   | 195 +++++++++++++++
+ 14 files changed, 964 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/driver-api/driver-model/revocable.rst
+ create mode 100644 drivers/base/revocable.c
+ create mode 100644 drivers/base/revocable_test.c
+ create mode 100644 include/linux/revocable.h
+ create mode 100644 tools/testing/selftests/drivers/base/revocable/Makefile
+ create mode 100644 tools/testing/selftests/drivers/base/revocable/revocable_test.c
+ create mode 100755 tools/testing/selftests/drivers/base/revocable/test-revocable.sh
+ create mode 100644 tools/testing/selftests/drivers/base/revocable/test_modules/Makefile
+ create mode 100644 tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c
 
 -- 
-Dmitry
+2.48.1
+

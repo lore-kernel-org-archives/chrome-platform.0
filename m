@@ -1,154 +1,122 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE20830E0F6
-	for <chrome-platform@lists.linux.dev>; Thu,  6 Nov 2025 18:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0D526C391;
+	Fri,  7 Nov 2025 03:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762453305; cv=none; b=F+ZC1fa5E3lX9WvSupgAhXu+1IUuI/NQ6ZXIThzF4htM3nXzZh0BVrZs89ok51tIBeHmcNNT2kFVTWTo67DQMbNm2JuGWypBAy7Ep3vUUECi+nbrGl0A22+mLGeU1T0y/dFYo8iX+rukKqlLBpY5nZoLbIXa1u2NQa5/nyYQolU=
+	t=1762486814; cv=none; b=L4DjnwhKvP4128ZgBU8xSYxDU/sUgxiJXGKOGxgaIBOeJPh7/oB10PLdvSJ9oxK9hyQWUev6dYl+5nCmwwEfnm984akBN6LajknLFQQhoZOB2oBlzJDqTkm2zfhEdhg3/ynm0+hH6jLf8rWiYBEhhWk7nA8a3GRhpus8OMAScUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762453305; c=relaxed/simple;
-	bh=S6IGYBBDmC8dLHoMGr9C7EQYKSCOuNtAEg+rHyPaHQs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cAqj6nwwJ9ibGVzps35C98vamEqbSR1wXCKvvOO66R8mzZjRK1R6F5qQr0KlTw1YxMLkcXn9bUJv/zyLFcES25mIRMCp5HpVlPuSZerWK+aH7vslGGObNDdRpIUA+IubHmltbl2Lki/dT4cq5TlGLVNU/o2jNSy53tu4GWqc2xI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d9nG8AOk; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1762486814; c=relaxed/simple;
+	bh=5mryAzNSONsN2Qp9qiKezJx2wYrwlgHNENlTmAdtyPY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ux/vJlcfIKaNiQRjfan4ljIESUqDO6aZoQcE0NGnVFvK4RwWXBT5ASRSC+1fw/VOtPwX+A7DB0nLsK2mpE+JrwvfGGPe164JP2bKzREzW0WpR7lkfr9xRUK68CHOpaU5i+xoLMY57bLur83vvtcODEAhh+6eVRwZ+dVw/GH1q4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X2pH2a3F; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d9nG8AOk"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7a435a3fc57so1454309b3a.1
-        for <chrome-platform@lists.linux.dev>; Thu, 06 Nov 2025 10:21:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1762453303; x=1763058103; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n/uY7+JVbofrnb0xY1CmpLxlpuZ3PWjT1kJgbc7DbmI=;
-        b=d9nG8AOk2ylF9wTVZKpwP+cFHYzu/y5LH7ZwmT4hdcff4P9jYDv7ZGmPRx9tNNv4xg
-         +sWecyEHsAJa8bAgbqbcF+YmqpYkAEn0POymHQLtloPDl4375GRZyGvVdECtZ80f3kZg
-         Pd96hDmK9Me5AapEtgta0MUPheSIZCQ60pOR0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762453303; x=1763058103;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=n/uY7+JVbofrnb0xY1CmpLxlpuZ3PWjT1kJgbc7DbmI=;
-        b=pYBLqPnXwUaVQgVh9Uemlin0UaRqSENf0ar3G7Q/56BqG+HMCTfpAGWRj347H9F22T
-         FMnbs7GYvmKBiMpmN/AqEgpXNhh2SovxOEDtHhA9nYsHkYUhZ3P1OQPFYhaiw01Wnf/d
-         D6nDr/X8v4kCvy+XBcwsk7CxdtDAtOsVcRJEQofD3ujgCdB5a2Kjs1mfjQ+PQdu7l/ce
-         NtxFdQJG2yllrP2LJsXuPGggzUkWOfTBM5rjOvgVUhVjyGPRSbivhRSZT6KE760ws6CB
-         g2vqZlBTKtSpXl53TRhuiTA+e9I5XR+IMHiGmlMXDIDqXUbXpojFPoBKr9HaH8kDebov
-         luXA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTWcl0qIi2oW6XBNLidwPkbXvOwotpheM5YLAHWuYgl3g8XsLrzJwwWY0pDNZ3887O9Q3IESLTB6wLqbSrRzw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyrNVMTyG1f4/3lwFCfr5KRVkOdbOtWQ33/po9YCHRCZlo+XEfn
-	h55wtxuPgBOsNkihS/5MkeKCu/hj8jcaMrUzzQAP1F1reKRlA2ME+jf6iJfkRHja9MTx1NBnBpS
-	aIFJIsHpqmWhagE0mHm/4iYLEUfY8Mgi07zSBS8P/
-X-Gm-Gg: ASbGncu3QCZUbXVjELz3BlJGBFvj7nAtOFPuZ7IVGCclf4Tu+9YNpl4r4Yq0xsNvxNt
-	c7K3lHmftXFxmWDhFxvlDOM6Ql10fiEUsCNP3ZalwUOuf5+vWLSQkHKI2as9jXOJemHeZ625zNM
-	OyT97fBQ+7r0oGTTlV57nvibIapjXEz2e7oRaB+D0pD8N2MK+FTUPOpEVhg/BkOZYN0dBY8wEMO
-	uhty5c2rIOJ5lCSB84Rz2x01YBkaAUtRwSVKRYDDzcTkNGmbQFBsDJNnBjGab35085R
-X-Google-Smtp-Source: AGHT+IGqr3GmrXIMcT/NyfIZvvWpHhArzhPvNJ5PgGeULQ7OBJzK+zQVZZdpfuZs1qI8AKKejbsmymnq/rMFCO95DZE=
-X-Received: by 2002:a05:6a20:12c3:b0:2ca:1b5:9d45 with SMTP id
- adf61e73a8af0-35229758ca4mr749053637.32.1762453303097; Thu, 06 Nov 2025
- 10:21:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X2pH2a3F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762486813; x=1794022813;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5mryAzNSONsN2Qp9qiKezJx2wYrwlgHNENlTmAdtyPY=;
+  b=X2pH2a3FMjlmvD6xQ6KRjnhT1knlJs/joneAIsTumJfoLPxlm2gQnaGF
+   JdWwy1xKG+Zf68fhqB0gQQBqCo88bnI+MZx33gLrw0+uILeGo/t7HOCL5
+   7okG/9FubtjP+koHck9eRz5HUdDpjb4G/LOswvluKdt7TU2wmPrEZm1Lo
+   0MlbJbOkvvZGn8zXuHh0evESvt3EqvB1L0FwFzo1ZOXTwKSof9bzHd4Xo
+   xwpx8XDMNlo5/Vw3nf1stjUujNk0D805RoAMrVEEI9UfAd8ihnYREvg+E
+   KmKURht66QlJ2skIJtY1ymvQ6RqUVRFVVsu5Q1vJ2jfHGt3jeRTb8WCsH
+   Q==;
+X-CSE-ConnectionGUID: r6/Pxd77RtGmyydeJ1mUdg==
+X-CSE-MsgGUID: ddtIvBJxRFKN60LJ7gjgmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="68497417"
+X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
+   d="scan'208";a="68497417"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 19:40:12 -0800
+X-CSE-ConnectionGUID: z63NhgyxQsu6z3LlMrKALg==
+X-CSE-MsgGUID: q8H5WDsQSfm+YNa+YbFMUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
+   d="scan'208";a="225185237"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 06 Nov 2025 19:40:08 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vHDKX-000UfY-2q;
+	Fri, 07 Nov 2025 03:40:05 +0000
+Date: Fri, 7 Nov 2025 11:39:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org, tzungbi@kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v6 1/3] revocable: Add fops replacement
+Message-ID: <202511070909.JnNsfyvx-lkp@intel.com>
+References: <20251106152712.11850-2-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251013203331.398517-1-jthies@google.com> <20251013203331.398517-2-jthies@google.com>
- <aQzaq2ord0gK-gaL@google.com>
-In-Reply-To: <aQzaq2ord0gK-gaL@google.com>
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Date: Thu, 6 Nov 2025 10:21:31 -0800
-X-Gm-Features: AWmQ_bmyZu1_dP_yzvFdUPfiLQKow1ew3PcvaAsktAKcPqiJMFh5m_duCsqHJ_M
-Message-ID: <CANFp7mWXyUNbOAzLkT59gSrtPidLafxsrsK0vdn4_JP5uuxd-Q@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: chrome: Add cros-ec-ucsi
- compatibility to typec binding
-To: Benson Leung <bleung@google.com>
-Cc: Jameson Thies <jthies@google.com>, dmitry.baryshkov@oss.qualcomm.com, 
-	akuchynski@chromium.org, krzk+dt@kernel.org, robh@kernel.org, 
-	bleung@chromium.org, heikki.krogerus@linux.intel.com, ukaszb@chromium.org, 
-	tzungbi@kernel.org, devicetree@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251106152712.11850-2-tzungbi@kernel.org>
 
-On Thu, Nov 6, 2025 at 9:28=E2=80=AFAM Benson Leung <bleung@google.com> wro=
-te:
->
-> Hi Jameson,
->
-> On Mon, Oct 13, 2025 at 08:33:25PM +0000, Jameson Thies wrote:
-> > Chrome OS devices with discrete power delivery controllers (PDCs) allow
-> > the host to read port status and control port behavior through a USB
-> > Type-C Connector System Software (UCSI) interface with the embedded
-> > controller (EC). This uses a separate interface driver than other
-> > Chrome OS devices with a Type-C port manager in the EC FW. Those use
-> > a host command interface supported by cros-ec-typec. Add a cros-ec-ucsi
-> > compatibility string to the existing cros-ec-typec binding.
-> >
-> > Additionally, update maintainer list to reflect cros-ec-ucsi and
-> > cros-ec-typec driver maintainers.
-> >
-> > Signed-off-by: Jameson Thies <jthies@google.com>
-> > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->
-> Reviewed-by: Benson Leung <bleung@chromium.org>
->
-> > ---
-> >  .../bindings/chrome/google,cros-ec-typec.yaml | 19 +++++++++++++++----
-> >  1 file changed, 15 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/chrome/google,cros-ec-ty=
-pec.yaml b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.ya=
-ml
-> > index 9f9816fbecbc..fd1a459879bd 100644
-> > --- a/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yam=
-l
-> > +++ b/Documentation/devicetree/bindings/chrome/google,cros-ec-typec.yam=
-l
-> > @@ -8,17 +8,28 @@ title: Google Chrome OS EC(Embedded Controller) Type =
-C port driver.
-> >
-> >  maintainers:
-> >    - Benson Leung <bleung@chromium.org>
-> > -  - Prashant Malani <pmalani@chromium.org>
-> > +  - Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> > +  - Andrei Kuchynski <akuchynski@chromium.org>
-> > +  - =C5=81ukasz Bartosik <ukaszb@chromium.org>
-> > +  - Jameson Thies <jthies@google.com>
-> >
-> >  description:
-> >    Chrome OS devices have an Embedded Controller(EC) which has access t=
-o
-> >    Type C port state. This node is intended to allow the host to read a=
-nd
-> > -  control the Type C ports. The node for this device should be under a
-> > -  cros-ec node like google,cros-ec-spi.
-> > +  control the Type C ports. This binding is compatible with both the
-> > +  cros-ec-typec and cros-ec-ucsi drivers. The cros-ec-typec driver
-> > +  supports the host command interface used by the Chrome OS EC with a
-> > +  built-in Type-C port manager and external Type-C Port Controller
-> > +  (TCPC). The cros-ec-ucsi driver supports the USB Type-C Connector
-> > +  System Software (UCSI) interface used by the Chrome OS EC when the
-> > +  platform has a separate power delivery controller (PDC). The node fo=
-r
-> > +  this device should be under a cros-ec node like google,cros-ec-spi.
-> >
-> >  properties:
-> >    compatible:
-> > -    const: google,cros-ec-typec
-> > +    enum:
-> > +      - google,cros-ec-typec
-> > +      - google,cros-ec-ucsi
-> >
-> >    '#address-cells':
-> >      const: 1
-> > --
-> > 2.51.0.858.gf9c4a03a3a-goog
-> >
+Hi Tzung-Bi,
 
-Reviewed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on v6.18-rc4 next-20251106]
+[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus chrome-platform/for-next chrome-platform/for-firmware-next linus/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tzung-Bi-Shih/revocable-Add-fops-replacement/20251106-233108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20251106152712.11850-2-tzungbi%40kernel.org
+patch subject: [PATCH v6 1/3] revocable: Add fops replacement
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251107/202511070909.JnNsfyvx-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511070909.JnNsfyvx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511070909.JnNsfyvx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from fs/fs_revocable.c:9:
+>> include/linux/fs_revocable.h:10:10: fatal error: 'linux/revocable.h' file not found
+      10 | #include <linux/revocable.h>
+         |          ^~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +10 include/linux/fs_revocable.h
+
+     8	
+     9	#include <linux/fs.h>
+  > 10	#include <linux/revocable.h>
+    11	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

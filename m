@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62CB2773DE;
-	Fri,  7 Nov 2025 04:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CFE1DA60D;
+	Fri,  7 Nov 2025 05:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762488705; cv=none; b=Nb64Dew2XioyzwrHQVMBXXOu0q0PgRzIlQyUWxHfuenOD4MC9997LaB4ShQnrAlOXq/Em+qo4uE7HCLXmk+HYqPrm9QAP+YfA593aP+Zg6BofQtOoR/LtSRRFseTiLeDc+fo8aYjQFYtldeQMWx2u8L4HFi/CP7eSzva7pUH9KA=
+	t=1762492079; cv=none; b=Cqjmvpkunl31X6pU6/5f/EZHqvHO18N4+ncB/iizwn/UuULVubxL8TdbP01XjdDMwMcx4pHWTraqi79u+5AYfQEmGDh2kRtIMF7Y6DNu3IJo+NbAc/uO9S/BoK7oCaeJa2DtA+z6oMP3xT4pOVCbKktEqDt2SsB1Mwa2xlsjFqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762488705; c=relaxed/simple;
-	bh=th2E8+QU+yfvvJ5Gmg7E/hGmAuvFHm0uZFOBD3mOAQ8=;
+	s=arc-20240116; t=1762492079; c=relaxed/simple;
+	bh=Mw1hYzJPmBlRa1P9Q6n6jjczl4NnDGxr14+eAsBq9wc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0/MyacUYUwCu0HpliKbQZ0uHOYnkMNYr565lf22wOPZSdq2UGzTtlCh4u5M/lKZXaJflB2Xnf66rz7tBF1M+eLUF31v4RMaJHwimzluRJMTXbJKbznLmHYk7cC22ShwEX2nV563pYn3+aNS82pohBB2+9aa8Z38BD9sWiSGQ6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FJTH0xva; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EuGMh1q8cvcoc6iCzobsGxVoeogRbr4HczVZlHfNHgfeDVAHG/OVKBKaw95HOWlcV8K97B8P5wsi4K2dSN44YxHrTIAO+BobJhEUwzjZRTj2VwD/wOtkv0cPb1eLCGfA00U3aObkuf5NON7GMPiLdKnOpvHiubHlgTrkjdG66Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PxgTDjie; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FJTH0xva"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BE3FC4CEF5;
-	Fri,  7 Nov 2025 04:11:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PxgTDjie"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25A76C116B1;
+	Fri,  7 Nov 2025 05:07:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762488705;
-	bh=th2E8+QU+yfvvJ5Gmg7E/hGmAuvFHm0uZFOBD3mOAQ8=;
+	s=k20201202; t=1762492078;
+	bh=Mw1hYzJPmBlRa1P9Q6n6jjczl4NnDGxr14+eAsBq9wc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FJTH0xvaAjFduWgMUvyjzqRRTDtuJr9QlxUpra1sv4Re+hAYK/Xz7XBcl2OU/VOit
-	 O1bt/7rczePeLP/TB9ttV6CDeNVgu/OSr7zLPKiUX+UU03uGNHDZs/4QBX1cJi7QoT
-	 Yl4/EwuV/5pqPjJ5UE3jW2egIi3OfZecbliQXvslvJrwaZLDoHvMm/UkdOAFhS1SPy
-	 9agiEZCjEvB5L3GM85j/xvKbJm+JFDgfAJxqRtVzLgJA3GbsALIuNxk4ClrZMK8Tm6
-	 GnyVyX50JimD6tIL9ZHT7/+pbKCm2IdQSt4MJBV/dSHs7tuZ9nn21SOu717nSXNp9s
-	 825/PoaWf/Kwg==
-Date: Fri, 7 Nov 2025 04:11:40 +0000
+	b=PxgTDjie/RD0tJnwGg1tf/oiZCNgCBnM5h+8TF2R20VZ3hytBswUTVHddDufT761w
+	 hJGHowtzUpBK+CsH1s7gKs61gH3tsxUouBstyPv8e/j2C8ghVNpTccXaBy9vTNP1RF
+	 zfcek9YB//SZQYcb0vIZCHaikcQaaAym4Xfs1R5yS4nsMLZgvDnqWIvPeVXLedVM0C
+	 K2thDxvOWwxJrSpJf5FPJoKvp09V5jGFnvm9dNjqh//VdQNjzWY+JDii+D5StyS4Vx
+	 u3I2xtUOYnt/kVQU02PwkU2zMtbueP4+8KhPwawkqmqU1gDNv2JvsXiNhEfaQn3XJy
+	 RK/Eu5bGz0uPw==
+Date: Fri, 7 Nov 2025 05:07:54 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Benson Leung <bleung@chromium.org>,
@@ -41,18 +41,11 @@ Cc: Benson Leung <bleung@chromium.org>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Simona Vetter <simona.vetter@ffwll.ch>,
 	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
-Message-ID: <aQ1xfHuyg1y8eJQ_@google.com>
-References: <20251016054204.1523139-6-tzungbi@kernel.org>
- <20251016123149.GA88213@nvidia.com>
- <aPGryj-V5PQZRtoI@google.com>
- <20251017134916.GK3901471@nvidia.com>
- <aPJp3hP44n96Rug9@tzungbi-laptop>
- <20251017162116.GA316284@nvidia.com>
- <aPT-7TTgW_Xop99j@tzungbi-laptop>
- <20251020115734.GH316284@nvidia.com>
- <aPcQ99MZse5zmv3o@google.com>
- <20251021121536.GG316284@nvidia.com>
+Subject: Re: [PATCH v6 1/3] revocable: Add fops replacement
+Message-ID: <aQ1-qj0ztQ29h-oc@google.com>
+References: <20251106152712.11850-1-tzungbi@kernel.org>
+ <20251106152712.11850-2-tzungbi@kernel.org>
+ <20251106154715.GB1732817@nvidia.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -61,172 +54,64 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021121536.GG316284@nvidia.com>
+In-Reply-To: <20251106154715.GB1732817@nvidia.com>
 
-On Tue, Oct 21, 2025 at 09:15:36AM -0300, Jason Gunthorpe wrote:
-> On Tue, Oct 21, 2025 at 04:49:59AM +0000, Tzung-Bi Shih wrote:
+On Thu, Nov 06, 2025 at 11:47:15AM -0400, Jason Gunthorpe wrote:
+> On Thu, Nov 06, 2025 at 11:27:10PM +0800, Tzung-Bi Shih wrote:
+> > +/*
+> > + * Recover the private_data to its original one.
+> > + */
+> > +static struct fops_replacement *_recover_private_data(struct file *filp)
+> > +{
+> > +	struct fops_replacement *fr = filp->private_data;
+> > +
+> > +	filp->private_data = fr->orig_private_data;
+> > +	return fr;
+> > +}
+> > +
+> > +/*
+> > + * Replace the private_data to fops_replacement.
+> > + */
+> > +static void _replace_private_data(struct fops_replacement *fr)
+> > +{
+> > +	fr->filp->private_data = fr;
+> > +}
 > 
-> > I didn't get the idea.  With a mutex, how to handle the opening files?
-> > 
-> > Are they something like: (?)
-> > - Maintain a list for opening files in both .open() and .release().
-> > - In misc_deregister_sync(), traverse the list, do something (what?), and
-> >   wait for the userspace programs close the files.
+> This switching of private_data isn't reasonable, it breaks too much
+> stuff. I think I showed a better idea in my sketch.
+
+The approach assumes the filp->private_data should be set once by the
+filp->f_op->open() if any.  Is it common that the filp->private_data
+be updated in other file operations?
+
+> I still think this is a bad use case of revocable, we don't need to
+> obfuscate very simple locks in *core* kernel code like this. I'd rather
+> see you propose this series without using it.
 > 
-> You don't need any list, we don't want to close files.
+> > +static int fs_revocable_release(struct inode *inode, struct file *filp)
+> > +{
+> > +	struct fops_replacement *fr = _recover_private_data(filp);
+> > +	int ret = 0;
+> > +	void *any;
+> > +
+> > +	filp->f_op = fr->orig_fops;
+> > +
+> > +	if (!fr->orig_fops->release)
+> > +		goto leave;
+> > +
+> > +	REVOCABLE_TRY_ACCESS_SCOPED(fr->rev, any) {
+> > +		if (!any) {
+> > +			ret = -ENODEV;
+> > +			goto leave;
+> > +		}
+> > +
+> > +		ret = fr->orig_fops->release(inode, filp);
+> > +	}
 > 
-> Something like this, it is very simple. You can replace the rwsem with
-> a srcu. srcu gives faster read locking but much slower sync.
-> 
-> diff --git a/fs/char_dev.c b/fs/char_dev.c
-> index c2ddb998f3c943..69bbfe9de4f3bb 100644
-> --- a/fs/char_dev.c
-> +++ b/fs/char_dev.c
-> @@ -5,6 +5,7 @@
->   *  Copyright (C) 1991, 1992  Linus Torvalds
->   */
->  
-> +#include <linux/cleanup.h>
->  #include <linux/init.h>
->  #include <linux/fs.h>
->  #include <linux/kdev_t.h>
-> @@ -343,6 +344,74 @@ void __unregister_chrdev(unsigned int major, unsigned int baseminor,
->  	kfree(cd);
->  }
->  
-> +struct cdev_sync_data {
-> +	struct rw_semaphore sem;
-> +	const struct file_operations *orig_fops;
-> +	struct file_operations sync_fops;
-> +	bool revoked;
-> +};
-> +
-> +static int cdev_sync_open(struct inode *inode, struct file *filp)
-> +{
-> +	struct cdev *p = inode->i_cdev;
-> +	struct cdev_sync_data *sync = p->sync;
-> +	const struct file_operations *fops;
-> +	int ret;
-> +
-> +	scoped_cond_guard(rwsem_read_kill, return -ERESTARTSYS, &sync->sem) {
-> +		if (sync->revoked)
-> +			return -ENODEV;
-> +
-> +		fops = fops_get(sync->orig_fops);
-> +		if (fops->open) {
-> +			ret = filp->f_op->open(inode, filp);
-> +			if (ret) {
-> +				fops_put(fops);
-> +				return ret;
-> +			}
-> +		}
-> +	}
-> +	return 0;
-> +}
-> +
-> +static void cdev_sync_release(struct inode *inode, struct file *filp)
-> +{
-> +	struct cdev *p = inode->i_cdev;
-> +	struct cdev_sync_data *sync = p->sync;
-> +
-> +	/*
-> +	 * Release can continue to be called after unregister. The driver must
-> +	 * only clean up memory.
-> +	 */
-> +	 if (sync->orig_fops->release)
-> +		 sync->orig_fops->release(inode, filp);
-> +	fops_put(sync->orig_fops);
-> +}
-> +
-> +/* Must call before chrdev_open can happen */
-> +static int cdev_sync_init(struct cdev *p)
-> +{
-> +	struct cdev_sync_data *sync;
-> +
-> +	sync = kzalloc(sizeof(*sync), GFP_KERNEL);
-> +	if (!sync)
-> +		return -ENOMEM;
-> +	sync->sync_fops.owner = THIS_MODULE;
-> +	sync->sync_fops.open = cdev_sync_open;
-> +	sync->sync_fops.release = cdev_sync_release;
-> +	// ..
-> +	p->is_sync = true;
-> +	p->sync = sync;
-> +}
-> +
-> +static int cdev_sync_revoke(struct cdev *p)
-> +{
-> +	struct cdev_sync_data *sync = p->sync;
-> +
-> +	guard(rwsem_write)(&sync->sem);
-> +	sync->revoked = true;
-> +}
-> +
->  static DEFINE_SPINLOCK(cdev_lock);
->  
->  static struct kobject *cdev_get(struct cdev *p)
-> @@ -405,7 +474,11 @@ static int chrdev_open(struct inode *inode, struct file *filp)
->  		return ret;
->  
->  	ret = -ENXIO;
-> -	fops = fops_get(p->ops);
-> +	if (p->is_sync)
-> +		fops = fops_get(p->ops);
-> +	else
-> +		fops = fops_get(&p->sync->sync_fops);
-> +
->  	if (!fops)
->  		goto out_cdev_put;
->  
-> diff --git a/include/linux/cdev.h b/include/linux/cdev.h
-> index 0e8cd6293debba..28f0445011df20 100644
-> --- a/include/linux/cdev.h
-> +++ b/include/linux/cdev.h
-> @@ -11,13 +11,19 @@ struct file_operations;
->  struct inode;
->  struct module;
->  
-> +struct cdev_sync_data;
-> +
->  struct cdev {
->  	struct kobject kobj;
->  	struct module *owner;
-> -	const struct file_operations *ops;
-> +	union {
-> +		const struct file_operations *ops;
-> +		struct cdev_sync_data *sync;
-> +	};
->  	struct list_head list;
->  	dev_t dev;
->  	unsigned int count;
-> +	bool is_sync;
->  } __randomize_layout;
->  
->  void cdev_init(struct cdev *, const struct file_operations *);
-> diff --git a/include/linux/rwsem.h b/include/linux/rwsem.h
-> index f1aaf676a874a1..298c7d4d8abb5e 100644
-> --- a/include/linux/rwsem.h
-> +++ b/include/linux/rwsem.h
-> @@ -253,6 +253,7 @@ extern void up_write(struct rw_semaphore *sem);
->  DEFINE_GUARD(rwsem_read, struct rw_semaphore *, down_read(_T), up_read(_T))
->  DEFINE_GUARD_COND(rwsem_read, _try, down_read_trylock(_T))
->  DEFINE_GUARD_COND(rwsem_read, _intr, down_read_interruptible(_T), _RET == 0)
-> +DEFINE_GUARD_COND(rwsem_read, _kill, down_read_killable(_T), _RET == 0)
->  
->  DEFINE_GUARD(rwsem_write, struct rw_semaphore *, down_write(_T), up_write(_T))
->  DEFINE_GUARD_COND(rwsem_write, _try, down_write_trylock(_T))
+> This probably doesn't work out, is likely to make a memory leak.
+> It will be hard for the owning driver to free its per-file memory
+> without access to release.
 
-Realized the approach doesn't work for the issue I'm looking into.
-
-- All misc devices share the same cdev[1].  If misc_deregister() calls
-  cdev_sync_revoke(), the misc stop working due to one of the miscdevice
-  deregistered.
-- The context (struct cdev_sync_data) should be the same lifecycle with
-  the opening file (e.g. struct file).  Otherwise, when accessing the
-  context in the fops wrappers, it results an UAF.  For example, the
-  sturct cdev is likely freed after cdev_sync_revoke().
-
-[2] is a follow-up series of my original approach.
-
-[1] https://elixir.bootlin.com/linux/v6.17/source/drivers/char/misc.c#L299
-[2] https://lore.kernel.org/chrome-platform/20251106152712.11850-1-tzungbi@kernel.org
+Ah, I think this reveals a drawback of the approach.
+- Without calling ->release(), some memory may leak.
+- With calling ->release(), some UAF may happen. 

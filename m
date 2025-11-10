@@ -1,139 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2255A2FF147
-	for <chrome-platform@lists.linux.dev>; Sun,  9 Nov 2025 17:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6272B156F20;
+	Mon, 10 Nov 2025 06:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762708168; cv=none; b=oALWOX03xrB2mg76R/bhP+ZnDiSbwSP1kcxt9fDnJcubm/cB/9x/FI/Jn3oAQyQ9JceHbJcobU91S8Ohk8CS0XninS4b8BVnfEy1taXTq9xdDI7w4i31mv0HHJIU2r2HJz5jMyP2siSGQnWrc8x2OAoie3YY9CxF7Gv2XgE3qmQ=
+	t=1762756102; cv=none; b=PklsV1y74mhY5+ZI1V12zp2At0PQ5h6Wnf/ohNle78Y9P0XY2JpOw2j3S4hycptmV67yHNULX6Y2fEx+ZT6Xs7S64eJ9TZmrSjePCoVe2N97N7TuAoQgiPDVt+/YblPkqxEX/IjFwwK+LbQSMXpf99oH0hckYBUjSnIC6QCez/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762708168; c=relaxed/simple;
-	bh=ifyQCECAtBcQxgR5E0pL//6P+IXt1bCDRYzHSxJKPtk=;
+	s=arc-20240116; t=1762756102; c=relaxed/simple;
+	bh=ddIMMg0/UoErbMTX78JXcS4JAj9BwMzwkiTUhO7Nqns=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tACK7aEAm6/ElmwGGV24UOSPd5aBWBI+scWNzITL6SjzE/T5SIaigbBuoly8Il64fgGrPSoDITT+6Jnc7h0KRzmZpo11s68QN0ECVozxSm5TOgo9O6L7aKWIhk4IKUbmCy4CxkZeQuWrS3UszzNJFKIQtgGYGdMRj/4A05cRhA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gC5I4eN2; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=kuWJIfytjmJMJuvRi8mcrTXYgHwX+AQz9cmb0TnJL1nL1SxT2AaCS7KG71agRPl6dKsS9i6SywmGJ2QW75e2BjpPKlA7WCt0nwp9V+75AZwlDtEE0D0FFOCTQPHNiqg2YBMg3Ni7r98kIFAAGcZ2LTxdqenxVZaCta4unifiEQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hPDbT+y7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gC5I4eN2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762708167; x=1794244167;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ifyQCECAtBcQxgR5E0pL//6P+IXt1bCDRYzHSxJKPtk=;
-  b=gC5I4eN2cHfWhRoTXoNcrPD8yPmG7Uey8tiut8m2BurWxcS2FPuWnFRX
-   s8AnXCch6J1k7GUVSRCiUuxIga5QPLXR6pmgAS9ooro+02sNhwpdBYtFn
-   K26I0lE1gQN3xTOyg01rrm1WHR+eL4TXAZovlHnpJ7V6LALavY9WRnyO0
-   FGl+91n1FltWS9KEWwGwQBJ2Ed2DPFPneSuzNgT/TrVHPxkZvj+HiL/EW
-   gVRy9bnVRX6dIjD6SmP5c438od3WroFgRrzb5yU+WyCYWnq/i5lhINU3w
-   wru1uxxJnHKv6mlChUq6ZXkhdosPscHkGZqmmyq8Rf35kiHC7jcVEjKfg
-   A==;
-X-CSE-ConnectionGUID: z13eE++KTHCT9Q5XvuphhQ==
-X-CSE-MsgGUID: 7LmQU+MeTjSdPIX4Z+ScjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64704345"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64704345"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 09:09:26 -0800
-X-CSE-ConnectionGUID: Fd17s4YwRPaADzaVcPLRjg==
-X-CSE-MsgGUID: sw7bb81sQ7+538g9Rlqp5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="188327592"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.185])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 09:09:23 -0800
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1vI8um-000000074ls-1h2F;
-	Sun, 09 Nov 2025 19:09:20 +0200
-Date: Sun, 9 Nov 2025 19:09:20 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: Re: [PATCH v2 2/6] units: Add =?utf-8?Q?32?=
- =?utf-8?Q?-_and_64-bit_signed_values_of_=CF=80?=
-Message-ID: <aRDKwFkjOSfypJVW@smile.fi.intel.com>
-References: <20251107201005.3156118-1-andriy.shevchenko@linux.intel.com>
- <20251107201005.3156118-3-andriy.shevchenko@linux.intel.com>
- <fb4aafc1-dbfb-4533-b368-5d26e24acdf1@baylibre.com>
- <CAHp75VexvdYyjt1GkbfqOotkFpLeb=io6outJ5dpRqBv2qPNng@mail.gmail.com>
- <20251109170032.2763ae5b@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPDbT+y7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D8DC116B1;
+	Mon, 10 Nov 2025 06:28:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762756101;
+	bh=ddIMMg0/UoErbMTX78JXcS4JAj9BwMzwkiTUhO7Nqns=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hPDbT+y7SDARIULk5EY9QOatLDtZNrpJ0nyknHBBTjv5z+mwJKFnycRJ1vBNgBDtl
+	 ZzYYo6RNkpWQcNIlZr6LU+maAns6QpKykxbBXRJm9rA/XX7pLDkz7p7b0cbwKlNGvz
+	 1CH9nRFaIRQ93E0pzoMo2lFGTGZXSlHtRGSE0nY/g4InX86/4chH9kCNjiVF1k5vXC
+	 WQC/2+TyMIOmG/Qxl4C9N8rq3EU520uOgaftw0MHKQ0cB4ZwjVfmic0VkGp3IVhrXi
+	 BMTjemiDqgWffTd1p3587iB0ZXaKY0i8K+IBYhjYwUUxLd7a5Vuo6NQe+n1eDjg+/O
+	 iXWNfME8V8yOw==
+Date: Mon, 10 Nov 2025 06:28:17 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v6 1/3] revocable: Add fops replacement
+Message-ID: <aRGGARe6ExyGpaRh@google.com>
+References: <20251106152712.11850-1-tzungbi@kernel.org>
+ <20251106152712.11850-2-tzungbi@kernel.org>
+ <20251106154715.GB1732817@nvidia.com>
+ <aQ1-qj0ztQ29h-oc@google.com>
+ <20251107141509.GK1732817@nvidia.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251109170032.2763ae5b@jic23-huawei>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251107141509.GK1732817@nvidia.com>
 
-On Sun, Nov 09, 2025 at 05:00:32PM +0000, Jonathan Cameron wrote:
-> On Sat, 8 Nov 2025 21:02:54 +0200
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > пʼятниця, 7 листопада 2025 р. David Lechner <dlechner@baylibre.com> пише:
-> > > On 11/7/25 2:03 PM, Andy Shevchenko wrote:  
-> > > > There are a few drivers that want to have these values, and
-> > > > one more known to come soon. Let's define the values for them.
-
-...
-
-> > > > +/* Value of π * 10⁸ (fits s32 or signed int) */
-> > > > +#define PI   314159265  
-> > >
-> > > It isn't clear to me at all in the other patches that e.g.
-> > > DIV_ROUND_UP(PI, 1000) would be π ✕ 10⁴ (rounded to nearest
-> > > integer, of course).
-> > >
-> > > Calling these PI_E8 and PI_E18 or PI_x10_8 and PI_x10_18
-> > > would help to clear that up.  
+On Fri, Nov 07, 2025 at 10:15:09AM -0400, Jason Gunthorpe wrote:
+> On Fri, Nov 07, 2025 at 05:07:54AM +0000, Tzung-Bi Shih wrote:
+> > On Thu, Nov 06, 2025 at 11:47:15AM -0400, Jason Gunthorpe wrote:
+> > > On Thu, Nov 06, 2025 at 11:27:10PM +0800, Tzung-Bi Shih wrote:
+> > > > +/*
+> > > > + * Recover the private_data to its original one.
+> > > > + */
+> > > > +static struct fops_replacement *_recover_private_data(struct file *filp)
+> > > > +{
+> > > > +	struct fops_replacement *fr = filp->private_data;
+> > > > +
+> > > > +	filp->private_data = fr->orig_private_data;
+> > > > +	return fr;
+> > > > +}
+> > > > +
+> > > > +/*
+> > > > + * Replace the private_data to fops_replacement.
+> > > > + */
+> > > > +static void _replace_private_data(struct fops_replacement *fr)
+> > > > +{
+> > > > +	fr->filp->private_data = fr;
+> > > > +}
+> > > 
+> > > This switching of private_data isn't reasonable, it breaks too much
+> > > stuff. I think I showed a better idea in my sketch.
 > > 
-> > This will be an awful and ugly name(s). I fully disagree on such a
-> > proposal. The power is chosen to fit the type with maximum precision, no
-> > need to explain this in the name.
-> With no indicate of the multiplier we have to check it every time wwe
-> use it which isn't ideal either.
+> > The approach assumes the filp->private_data should be set once by the
+> > filp->f_op->open() if any.  Is it common that the filp->private_data
+> > be updated in other file operations?
 > 
-> So I agree with David that we have to indicate this somewhere. Maybe hold the
-> multiplier in a separate define
-> #define PI_MUL
-> #define PI_MUL_LL
+> You can set it once during open, but you can't change it around every
+> fops callback. This stuff is all concurrent.
+
+Ah, yes, I see.
+
+> > > This probably doesn't work out, is likely to make a memory leak.
+> > > It will be hard for the owning driver to free its per-file memory
+> > > without access to release.
+> > 
+> > Ah, I think this reveals a drawback of the approach.
+> > - Without calling ->release(), some memory may leak.
+> > - With calling ->release(), some UAF may happen. 
 > 
-> Then compute the divisions by (PI_MUL) / KILO or something along those lines?
+> It just means the user of this needs to understand there are
+> limitations on what release can do. Usually release just frees memory,
+> that is fine.
+> 
+> I think it would be strange for a release to touch revocable data,
+> that might suggest some larger problem.
 
-I see, we have a disagreement here, because I don't like to uglify the pure PI
-definition. So, please abandon this series then.
+I think it'd be inevitable for accessing some devm memory in ->release(),
+e.g. [1].
 
-> > > > +/* Value of π * 10¹⁸ (fits s64 or signed long long) */
-> > > > +#define PI_LL        3141592653589793238LL
-
-Note, this constant is used a lot in the tests (3+ modules), so if you go with
-your version, take this into account.
-
-> > > >  /* Hz based multipliers */
-> > > >  #define NANOHZ_PER_HZ                1000000000UL
-> > > >  #define MICROHZ_PER_HZ               1000000UL  
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+[1] https://elixir.bootlin.com/linux/v6.17/source/drivers/platform/chrome/cros_ec_chardev.c#L260

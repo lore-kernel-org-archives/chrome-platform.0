@@ -1,96 +1,124 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B522D73B4
-	for <chrome-platform@lists.linux.dev>; Wed, 19 Nov 2025 07:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5464D2EBDD6;
+	Wed, 19 Nov 2025 08:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763537567; cv=none; b=N2oVwCSXUdmOVgczrOF2CR4aLMaaMpjlqaVe+siq7HZMwhS0l/7GyyjMhxDpWuWLWNIrcTKyp8WHggxd/+M5W0bH16vL5kWuqPkIfFjGNQ+NPLiCwYUbSQWl7vfTZEo5a6R42e3Hr7q6oXeTiwrTf6kHzEqycvetPqcKEdsFocg=
+	t=1763539984; cv=none; b=Qo23id/r07+DQlm7h/p2kcXohGXLTeqfS3h+8qCJM7jQ9tULskRsJB6UB2F1SxnJfJkxqnRB261Nc9NLMTNvGkbmw9x8kJL2C3yAtnyRkqZIyj3GlBXg8dOb/xogj5U3aBXwToetk2DRakgCoq0OP7toYMg9OAD1nll2tBx8SzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763537567; c=relaxed/simple;
-	bh=QH5oLqLZDQZSVsmh0LNkhFrypl/KCzx0EX65VAszEfQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cNKr9UUbVxirIUgE22xhMOpTe8SYUSjQkgPenJcK/1seeY8D6IuuSiRj/iMto4roRll3WC8HPePB94I/5B8gZX+Ff5ehEI55Fan3FtS0UjDo6j6n622+XA1NeQikvkgy+GD1dHxj6AxCkR6F3froMS4dpc0TXvKY+NVPfPLtbBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MgjmPZ7y; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1763539984; c=relaxed/simple;
+	bh=3zQjxiCTJl9juHpp2Z0uOFf/UqALSkmEuIqLXnZjOWg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ou+m3YLd8/ED0Aun8EdedU1qvtselnABhC467vbiJs35oDXriIg1FsShfLpx9/XMBzzBvyabYO7CbGfOXHpeBwShRqmZOip/YpMTty2FfVD7pi7oKHHeB2pFC5TOh1MXGD52r8WkVv05KIPTIFYMjblZp9lhlR4f9xy3eXOrLDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7FVRZse; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MgjmPZ7y"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-37a2dcc52aeso63916931fa.0
-        for <chrome-platform@lists.linux.dev>; Tue, 18 Nov 2025 23:32:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763537562; x=1764142362; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IO0DNZhiENG8w/XHNdOtB6qefAmL2Exx733Q4ukPAMg=;
-        b=MgjmPZ7yh11Q3sZTukJ4BP7a2oBNVbC9OotJq4m860XLx1hCWnZOgIfAQN0s/nl8FB
-         qWQieSWUixyVL9nvJfjrD92Px7Ux/JquCB7SRWSzykHQlRE4j2Zc/M4BIbB4u3H79Hgv
-         Gg95VL1KP/k8K0Z+WTazgB42FtJGTzQTBPSns=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763537562; x=1764142362;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IO0DNZhiENG8w/XHNdOtB6qefAmL2Exx733Q4ukPAMg=;
-        b=XMQktx8obdyginGGGiw8HabUMIbQ6mbNiIA/Bnk7KfuvNWYJc5Son+aE50Vru60hYf
-         MrcIYDlmKqxwhMRM92jMm95/mtSgqS4RifNrwCS9Ew9gUsrjS4pvNp7BP+huDCba/8Qg
-         Z4urxcUz5qAGzanQ25Bd7znmvjrxCbB6yh9V9FnWId9dmNiVcV/4xL4H4DwlnGHks1LV
-         wUUy3P4B3Qs4pz5ovITVSW8/RI/f1DIxlCvVrOECTelisJ7hyNwLjmvriSAmnxTrol1m
-         krkzZk+b/XlWvAsxts2jCfvKwa2PpnHHtydC+YqHyTTYuqWLkBAW2q1xkVfv7QOBYRO4
-         7Nlw==
-X-Forwarded-Encrypted: i=1; AJvYcCVyX85nxEY5fqhwY9fL6vocE2OHa1KCt3LDjn7Gd1VZaZcQuNuuJAW3ghQHPB9eA8IcGOUcZDWIm9ihKavzDr0=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3V8Xsd27L4KO3Wfnwcr9R0X53hRI8IyA81keVaigNaWDqgiV6
-	PimYANYrBD344CDcZc1Q7z3jhaUkDAgbC3OM3c8GhQ3ZWFIxm2yiPCw2tUKJy3a47A5rbzI6SAz
-	MCUQmBKbwKW+Ubh+lCoS2/SKXGFw3Ro5XUpK/pXUO
-X-Gm-Gg: ASbGncsr/lkD5ZdrkHmV6w3FuwNx6C3v0a6u2m6fFDQOUIexQlEdMhr1ND2lXBu81rl
-	APAOlF4abgvHuoTapbH86xdhIITgsim8fucIVlZsVEMoIBxr6ZPn9TNqzDKVjE0I9mAxsteZib5
-	Yqx7DW/SHufhhZGALId6vodt3UF3Lp8x9iUy9DL3MMqqp8YpZ4Omzi4XrshiNOSVNS43i6ULUth
-	rm0NJaMLd7JAcNofX94RbKhh/iEPvUTcceIPHUZzD2dcF16RnS7pNL+5fc2MAgYff7ukcokIY/q
-	W8dm4Z3NMmf3gSxwo9Rlkhh41A==
-X-Google-Smtp-Source: AGHT+IHJrAu1K7jWQMAE6p11RyXzPNk9G1nAtzaQ+Z3fQ98mNJH85oUoeMLP1XXO3FI/y3LlEG4mixCcvEMB8DZHxuc=
-X-Received: by 2002:a2e:a1c7:0:b0:37a:432f:8ecc with SMTP id
- 38308e7fff4ca-37babd71d49mr48399931fa.33.1763537562422; Tue, 18 Nov 2025
- 23:32:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7FVRZse"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0178DC4CEF5;
+	Wed, 19 Nov 2025 08:12:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763539981;
+	bh=3zQjxiCTJl9juHpp2Z0uOFf/UqALSkmEuIqLXnZjOWg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O7FVRZse7Sq8Qzsli1xejjLK/8Mw5b4ycmOyaAAdY0I5PqamjIjOQ1WG3HXA4iaLB
+	 PLwea95mPW1lgltOfOOeFhbcSie+dQ/Gfs9K5H6lS5CowxqJAK1BioRycMdxt64poN
+	 8v4DIiV9yc6OhFlQyDF3M4CWOEMQPUTqqGJkVZbNGrdBkzUEklplmBF3tQ/EkmGCoQ
+	 gyxF5C4TKSM3FCVUXrOzUPjeUGOsgyccvs6904VPPXsHro6XdKGp0eNW75h8FNNZoq
+	 NnxvqRcOp5bDE2G/fhFGWV0Gdj+tp+kaX+qzlBEogOJnoyCY4hk3i7CjKzM4RY98d3
+	 +K7RprnHIQFNA==
+Message-ID: <d8f3eb00-c7a6-425a-9e69-a01bc3532f0c@kernel.org>
+Date: Wed, 19 Nov 2025 09:12:56 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251119071126.1719405-1-wenst@chromium.org> <18342493-54f9-4e5c-be05-568a3026663e@kernel.org>
-In-Reply-To: <18342493-54f9-4e5c-be05-568a3026663e@kernel.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 19 Nov 2025 15:32:31 +0800
-X-Gm-Features: AWmQ_bkw083HXAHlfoTHPiQeY1k_8hzN3vGBWotGu575ZiGZHcE5k6oSmz34_IY
-Message-ID: <CAGXv+5EnfwRA1SMvt=3n7gj1gS3BndXKNVfmfkC=y6n2A3VsdA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] dt-bindings: firmware: coreboot: Document optional device
  specific properties
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Julius Werner <jwerner@chromium.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ chrome-platform@lists.linux.dev, Julius Werner <jwerner@chromium.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20251119071126.1719405-1-wenst@chromium.org>
+ <18342493-54f9-4e5c-be05-568a3026663e@kernel.org>
+ <CAGXv+5EnfwRA1SMvt=3n7gj1gS3BndXKNVfmfkC=y6n2A3VsdA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAGXv+5EnfwRA1SMvt=3n7gj1gS3BndXKNVfmfkC=y6n2A3VsdA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 19, 2025 at 3:13=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 19/11/2025 08:11, Chen-Yu Tsai wrote:
-> > Coreboot, or the ChromeOS second stage bootloader, depthcharge, will
-> > insert device specific properties into the coreboot firmware node when
-> > there are valid values.
-> >
-> > Document these properties in the binding.
-> >
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > ---
-> >  Documentation/devicetree/bindings/firmware/coreboot.txt | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
->
-> TXT files cannot receive new properties. You need to first convert to DT
-> schema.
+On 19/11/2025 08:32, Chen-Yu Tsai wrote:
+> On Wed, Nov 19, 2025 at 3:13 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On 19/11/2025 08:11, Chen-Yu Tsai wrote:
+>>> Coreboot, or the ChromeOS second stage bootloader, depthcharge, will
+>>> insert device specific properties into the coreboot firmware node when
+>>> there are valid values.
+>>>
+>>> Document these properties in the binding.
+>>>
+>>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+>>> ---
+>>>  Documentation/devicetree/bindings/firmware/coreboot.txt | 9 +++++++++
+>>>  1 file changed, 9 insertions(+)
+>>>
+>>
+>> TXT files cannot receive new properties. You need to first convert to DT
+>> schema.
+> 
+> OK. Let me look into this.
 
-OK. Let me look into this.
+After the conversion you will hit another problem - you need vendor
+prefixes for these, because only generic properties can come without
+them. Otherwise (without vendor prefix) these would define the type for
+all other bindings, which probably is not what we want.
+
+Best regards,
+Krzysztof

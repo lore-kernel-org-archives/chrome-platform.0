@@ -1,182 +1,112 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010053.outbound.protection.outlook.com [52.101.85.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2674926CE23
-	for <chrome-platform@lists.linux.dev>; Mon, 17 Nov 2025 15:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763393590; cv=fail; b=KcHFCqNR/qhgJxn1idrhiIkJf2/r8Z3CjAeoLOEkUb4NVAvG2kScXjZ603qiON+t7yzsZppIJrEczesGDqMKUysp/ilWkQ5y/AcoEzGW3+DgcQkqlsY8SJO4Yr8FIlPOOzn4RmI51ZspGP85tOcy0dkosKDJciceI1O38glQ3D8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763393590; c=relaxed/simple;
-	bh=wZxmslFvjlIY+Vdq+n42KW6TCgfcaFHYBVEJgxZbrr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Ex/JPhqH62GqfddTiV6oYDkkJIII7OeQTlJqU7gtw2VECctDPzfePEWuH0of7mqMXX+Qvhzsdih5RRBsBaXkDjiujj6EzX4xyGHty15dMpLI0QkXvz0HgVi6l9wneMEAGF9hup2T1WRcxKfOxYB3mqGDEFPxHw3O9kvQTojVGv0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=q48Sss0A; arc=fail smtp.client-ip=52.101.85.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A4B2F2910
+	for <chrome-platform@lists.linux.dev>; Wed, 19 Nov 2025 07:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763536312; cv=none; b=WIPDhWnb19xNnqQrwaWtdbyS5HzaUQWCqFVogFtW2FAzKpicxfs2+/e1q4FTj1v7gU8gqpKY3GdtFPsl5OLpxbv/5BwJsa+AzotSsr0syHZBZNKFjqmS8cnkd2/MIiqo2bQ9mAkTyBtR+vZtryBROrSsDN4YqX2Y4bxQpm8IVLI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763536312; c=relaxed/simple;
+	bh=lewKTD6NLFHdDtQ7f7/vxDFUy37j58RvCE9wZLaqFZw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XgD3T5PreIvqFHWEYVxFZ1qOhCqKP+eMVfsnlhGeV9IAq5S7z1sfC8SJIxh+iFVpTKIY42otwLCNOEe6HGjY31P1uQdMjHnuJ3ooPMjkxZxLcM88eS6+ytHmxdafeWUdP7/wv6UBnv4vNUVaWhnKhi/Vp/OTf3TA/KJTkGWPCt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LzTYZjsc; arc=none smtp.client-ip=209.85.214.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="q48Sss0A"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cyzqx/DL/DqwHh6BB89+7Bdmj9RoH7/c/cBQbbweehpFrnS9a9xK5Lp1oLCWHl8VPPDdOFlKLwS0tlZ4jDX+hHw0xkCT8gqFlvR4b/kpdXAoszL/2D/LxAnmPyDNr61fcN5wOAHtE/UdwGHDHVPqQ/hCLvTH9+lB4G2tMnysjPt9IsMVEaBoz4Li4UdV9XkNUIeqFbAOGEVbZkErkRVxAO55ewDX3f4SlkLEFI/CjyYyhQhHQpqf1uI4M64ml1G11hfnUJ4vzb1OO75/4tQjQTor5LvQ6e6MRMrPPVYmvzBZHfTD0FS7N06MuryHUHfSChC6CvGoCPaAtMZXUCokvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mRRbxp1iJ9sxAtXW5XJQTqH8LSXuGMEkpE3QHqh8rYs=;
- b=rice5pToBD+PGYBfdVa+437QpLFSCJCK1prLShLOPWzanYsjmWvQaZ5TLnLyvssUvx4lBtQFegNvjA7drz33giF0GyGyfTI9F/oFf9gGkkP+sehQZfZz7goG7pOJyfFmOWdwhFpEHaU1UGcLJg2WLBSQ1aheMBkTWuTHP9sI037a4oNwlSBZtVxp6T35EaNdeiNAltoFzrzCOUVc9mzSY6B05ZYTZQtcL2Qxn4BsZYfHlA1ZrhuoZHi9Yz9vaD4kOSw1GNz2JDG55Vu8GSs/SiLezt5mmBYojIn4uiczXrkoA3peWg4BsfLruB3Y/Ngn6Mb4tdSfDvbMbpGlkPSmrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mRRbxp1iJ9sxAtXW5XJQTqH8LSXuGMEkpE3QHqh8rYs=;
- b=q48Sss0ASyLcXglFvJ/bnHbw7fzXzWLx02jWQKw2VMLnAvbpfuaJpith+pIhGDt5sBClcdOoVn11oamtygkkPgPLN+IoTMKeas5PQy/c94vS12eq6P9ETqa++9sSdnfH/FMhgnehZxtG6jArqPvLhg+Kf3ytSt2xEqAM/5aja3gIAecZK7cTcAe1/TRkERUCRmNnYeLOpAc7Yj2X7th/OfxoTnlP5QuPGnFWGru6r7muctsPylGsE9DsQ0fsYnrgX8GdQOLvg4bS55awcJAqw6EzIFbUhMt9wJZaIG+HHMCffSjRgf+YTyh/SR+//gVWaoZAzjnFUOOFfcwer649kg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by SJ0PR12MB5611.namprd12.prod.outlook.com (2603:10b6:a03:426::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.22; Mon, 17 Nov
- 2025 15:33:03 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
- 15:33:02 +0000
-Date: Mon, 17 Nov 2025 11:33:01 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v6 1/3] revocable: Add fops replacement
-Message-ID: <20251117153301.GD10864@nvidia.com>
-References: <20251106152712.11850-1-tzungbi@kernel.org>
- <20251106152712.11850-2-tzungbi@kernel.org>
- <20251106154715.GB1732817@nvidia.com>
- <aQ1-qj0ztQ29h-oc@google.com>
- <20251107141509.GK1732817@nvidia.com>
- <aRGGARe6ExyGpaRh@google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aRGGARe6ExyGpaRh@google.com>
-X-ClientProxiedBy: BL1PR13CA0103.namprd13.prod.outlook.com
- (2603:10b6:208:2b9::18) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LzTYZjsc"
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-298250d7769so43841155ad.0
+        for <chrome-platform@lists.linux.dev>; Tue, 18 Nov 2025 23:11:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1763536309; x=1764141109; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kYHfBeSzfHHxVu3uMn0kynACtSYKaWfSTnHHUJabxhI=;
+        b=LzTYZjscrjDueUB6PUfalzfVaBXsxv/sn8hqP/Kkuxe+pNRQFsA8xq4mZr3faDcix+
+         kZtO4G9o4hZhhNwT1REt6EuxfPXQ+1HyTVBkKkoeirZvR94hO587tEd9CQ3xT2R5DHv9
+         yKL/2/eVtkMhx1Aohrj1HCSGFg9xidyfsZFj8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763536309; x=1764141109;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kYHfBeSzfHHxVu3uMn0kynACtSYKaWfSTnHHUJabxhI=;
+        b=G/CKSi4slsN+pQNLS60IVVrffI8dNhJ2+nsFL/y6ZHwjsRxKxmLxRfPH9kqmyGdh0O
+         c4NKE/BrmraaAalnCKqXSVz4ZPwUg6ij9pD17w0S2EBrmqdQpvrTPd6asEzpK7o1T/J9
+         8tii5oHBnvugpF6r4ZN9Fg12TSUSpdp9DvgxkJgfGqqIJEuwmMAkPit6Ipi4e7KNMATV
+         ZTCQXrxKkLpUrk4rSCeo/qUdoc9tghj5BKci2vyYSS7inkgKBA1CYPvtua1Vf37gWApb
+         rxN6wnhJkI1MIkIH7KjLWXgY29kne4SnIgoT986K4yqRxCIGhGWhCUQwkm1nLYdym0AM
+         2OKA==
+X-Forwarded-Encrypted: i=1; AJvYcCUytNEWxvGI77TSi4mHvYZNTwLZ5Gu61TuCj+H5cpNhxlI8QyB/eektEAbak1fMT8mGxnAQ2NXatVGHC6qzLQw=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2FAcreCMN9KUvX2uRl8efgdsD3TdRXKTKa0sJ2WuFXyQXZM/j
+	lmXiP6IwHWABPXst6NVsEZS6nR96fQpBXssVNSLGyzD5Sh7jLYqz0SGExv3o2cg0PQ==
+X-Gm-Gg: ASbGnctRU51ArX+AbtggLsw8OXrPDHxyW0Ioocokza0uHPMUen0vxgE8AUZG1VnO5hB
+	jFikKhhzrBWsbY132FrdkHdEVdnWRa6FZCYBI0G+Pk/dCtHMP1P06k69Wjjho7MciGVVBX12dyK
+	Hc1hit3cMhrrEVT9TyEto7xEOJDj+9HFh6hL8OnD+Bn0ypdimiHWrN6fYiTHRvknsLN79oMOihS
+	s4TjRc9rKGYVzCnxCZtxuQO3jjJzaX5jyUA5XlM46hWC7FREwT2vYdgWIITn+LOMV3MbkmMG8Bn
+	PjDLCHDVHG1jE7yFxM2EdP5N+3vsEMEGgC7Si6HXS4jhEq3CwQpsqoIlRqhgaiaMG9J/0C+G8Y9
+	hMws+unXgN94CL+Vbzh0oNY9A0a5AjBfj77oxQ8rvpT9Lk6PlZuF3RVZhS1ayRCnbBFL3Qrhjf9
+	UCIhbk+cBFaUb+C7R7+Z//1TVZ4jv9BTm1PhndYbKg6WuMY0GHMmuZhIHHmGX3g4jDob71
+X-Google-Smtp-Source: AGHT+IGNuUZZklbSnAwcwjH0fvBJN9XmBWel6ilOI6vt+JGrwzQllOqIu2jGWlXL11D1C3baD1ynRg==
+X-Received: by 2002:a17:903:247:b0:294:ccc6:ccfd with SMTP id d9443c01a7336-2986a6bf3b3mr209119565ad.24.1763536309538;
+        Tue, 18 Nov 2025 23:11:49 -0800 (PST)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:d42c:6a2b:5251:a121])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2bf1ddsm197554725ad.92.2025.11.18.23.11.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 23:11:48 -0800 (PST)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Julius Werner <jwerner@chromium.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: firmware: coreboot: Document optional device specific properties
+Date: Wed, 19 Nov 2025 15:11:25 +0800
+Message-ID: <20251119071126.1719405-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|SJ0PR12MB5611:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33727572-8851-4766-decf-08de25ee9861
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?auOAcAHihgko1nJ/hNJUQpxkN53Q8cVkLPRsiTaqS5IyvREJCHe2JC+Ms9uU?=
- =?us-ascii?Q?gmUOWk+sIw6MPW3kHpeK2fe1HDJl3eRVoBWUdJwyITRZXkP3y2ZIy0SKxtvQ?=
- =?us-ascii?Q?YlnhElN2iFqdnvZcOlHZHi4LCJHZgfvj82rhRHhnQkUjbvyrcDAA/wvExC/5?=
- =?us-ascii?Q?U1GqynTFQX3a7pFXkSvTFDLZuNhGgHJkYH+hjW5zEw8IqqGdkWgc6N3TSbUw?=
- =?us-ascii?Q?p7Wtz/kupV2pQm80pAYCAxequRpQK0UmJ3AdhD1pDcyP8Y04pgmg63rYVutH?=
- =?us-ascii?Q?oiR1ys7FQVyCaCFiYlBBmNrbUdt9IVMxVOTQEha5jqbKZCMW+gwyCUP6LUfQ?=
- =?us-ascii?Q?9ZRYguZELaaF9E4YPawOELdr7vFxXWUfNLNAri3SB2t2Je87XQAxWsg9CTfU?=
- =?us-ascii?Q?Z/ZtF18WDfOvCPaxOPOYKz97e3VrChGCLT48J5Yw787PW+SlYEUJ6wxRZ6n1?=
- =?us-ascii?Q?w4zyO28xcWuaC2/l/SonOR0Ok/BBZEKYLSJSuDn91oSYOf2y/KyqgKtbhJEM?=
- =?us-ascii?Q?2rVkJIpGvLd/hkNkahlnbpHejcau6L0xlvXmxFgjDHgl3Tj4Ii7cQYCRjKGP?=
- =?us-ascii?Q?qwV5ANcFPltGIeJQuBwoeX/nsfmezX0L/hBqoQR3Do1HmgNZWl9qxN5tmb7s?=
- =?us-ascii?Q?sHbu4uPOAIV9J+vvJH7SaNIVb1mnqgjpU76tPluXna1SmoI3rRhuWSritF0k?=
- =?us-ascii?Q?PfWqctJwVFLBR6O8ADu2VzthQ4sHrbno3uQOTK64xCkylzCfrQ2XBxfBvibF?=
- =?us-ascii?Q?+BCSluPsAUtm0gIO+oEEODk+hn7lWvpCjnJHQIa6BK+ePRV9+PeSuudkg/Ay?=
- =?us-ascii?Q?KqJV7fMUThfD+M3P9j7xJ8uqEIiIpdpbbuareriqr34/hUaZqOO4L8Z/HfL5?=
- =?us-ascii?Q?q5ePbJNcVld2sbACoh6lZ4yRDiX8gjiUKk3kGzlMVTYe1fNNVyU8MQOifG4k?=
- =?us-ascii?Q?R3fy9e5x/dSqmjyo9+NxZ4hT2SLlLIT8kpTo2wJ8E3az9Ni9+79+MnN5InqB?=
- =?us-ascii?Q?eGsM9szVMukz/W9AhtxZpu6B5x6BArQgPA/i9XeH118UBCzmzL4rl3Nr0eP2?=
- =?us-ascii?Q?A8oCfZsdVjtMRRsnMqzUb0kRdlC6QlorYUovvLFF9cpTftOVB03gmLnkV4Qs?=
- =?us-ascii?Q?mEkcAnH/yIb7RNsTw6zZTR6+yaE15p3zQGMZ+KStcrS9MwOflnK1VO3Pggb+?=
- =?us-ascii?Q?+tyqZBBqiEWCNtOGu34hDhy2KX1eMKA0CEUi320m/OQkQbAzHONrge06iWvc?=
- =?us-ascii?Q?rLiYCyHJsmT9PcpRKnVqelzfA1JvsakCdts1v4arSkGbR5C+5/tYoGCnNbC3?=
- =?us-ascii?Q?FSPedYb8DgV/Ecd5bq3QDS+uXqvDqLTx3w/0nn620Q8DVKYYAGNP5+rN5o8w?=
- =?us-ascii?Q?/A89jq+Bt5xoYSFP/zX7fxDioFY4MPoENxzfBr8WodKVh3XppIsInntnCdCY?=
- =?us-ascii?Q?h9jsVWqKgxzNNG6ge1GiR1o+8coDmvxM?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?K5mXOUpxLq5usteHRi5xomhyHcNKYgukrlJGfHegeaTpvd59+2g6zdoFuwMb?=
- =?us-ascii?Q?P+zq1ycn1fSmChkabY5WkaYU8nb7EhHBkqt7x20HCUzoFGjO0bt0oQCyzZd0?=
- =?us-ascii?Q?wnzh8IVokLqCJaCp7beg1OkjIxopZP8RlTlnX8L+EUrWsRr0GfO9nh/hp020?=
- =?us-ascii?Q?w2dEniTJJzWIfS5prIatCgsrJN7esoEgcwSln39gKvias4ooiH66NCBrWpcI?=
- =?us-ascii?Q?Z/Iiry+lP+eXcVlx8ExfYxiVtQJPuDONdskSH26QO3YsIkUWYTosh0xzpRGe?=
- =?us-ascii?Q?fS1PvGt/j6oDs8LLS9p1C7/eQAhGOme/VWgDR0HCdUd8iaWDSkz0j7b8H/1J?=
- =?us-ascii?Q?53gmnqp7obJQGuOU95zU9derdRXeaW+g4ZGI79HVNAPrEWlAXj4ubzstoUFS?=
- =?us-ascii?Q?kMIMRI5j8+1cEnOi9FzZ9N8UIV7+bfoOrJ2gncYDT2PnyRSYB553Zjw92Jyu?=
- =?us-ascii?Q?HYE1VmAHOpw6fohYEzc0aBNL8vGnJUS6mrUk9F1D4fTemkDdl8gWMRnvxjl2?=
- =?us-ascii?Q?KjWu456QUSmLxOrkC+jcH8hs9qLALnfRChRnXj+FKdOWabF3SiLLz2rtYIzW?=
- =?us-ascii?Q?a0wtcPMsR56E2yDnpKitX460odaeqvr1O3T/nv5QOw3moiTOYhFi+GYgGwme?=
- =?us-ascii?Q?JMd6kEi/kz3P0tPpZSnePBtVW8Yw7nHekV0QUZN141YYX5j5ZPkhqeL+4rNV?=
- =?us-ascii?Q?9G6TiICfdHdKhSqQfXI4xi5d36GQ+JwY9pBIVwLQS4dAIuZnvOwUZY57e2ii?=
- =?us-ascii?Q?lJANBSnC35ND0nFq3j7x+KwtjlYgKiGyHIy7yO3DHDZ5AhKKDJe2YL5Ql79c?=
- =?us-ascii?Q?U2nbZd1gbbJim53UZj75NRxJ1Ab1qB1vpYheO6lcTvXWwfvHIEYRotYM7QvJ?=
- =?us-ascii?Q?EOVjVBcgnwfa4baeZD8PXQrq662sQ0ZibuNeS0ZXDRa2VOyMYNUfxt3LprX5?=
- =?us-ascii?Q?BmoPyPyizjYp7JkRRxF6fXeRWkiOkg8byWVvcwrgnBAmXiO83pRvm4yXGFDz?=
- =?us-ascii?Q?iTRCUE8lQkQHuTs82SJ3RSm0Vnn+cc9V+Ljz8MvC9hi9ok2mhkD5WtFrQswk?=
- =?us-ascii?Q?MZJEx5FJVJgoPwttDpO/tPAvB5VAraHJYDWRFIbwIxRb78valVtEGsjgDVo7?=
- =?us-ascii?Q?DV3Ijip/arGeRc2Z+3OaZtWO8qPXTrWwNgVT2+g0qL7TpNXBsPeDJoKxxDJy?=
- =?us-ascii?Q?5KFypDn9Xzt2ohxDy+AYC7KxFyYCzrODokjh4XLUB/A5l3ZAfE8Wr5yITYW3?=
- =?us-ascii?Q?zMqUzEQDAoxwxx+GPze2zG+O0c1Wc/U4RjeUS8luNgudpX8wvVRKMf94tsDp?=
- =?us-ascii?Q?bQgd3qv5z6iiBXtWe3YSYaM+jGBo3f6Heex2hRe3TqWxGE/16HLKqvNw1MME?=
- =?us-ascii?Q?P5DEAcqVHXdiaGthIXZTQ3v0rOtDlsIlwClZuTAswXargeyKDRUFgxvpaVz/?=
- =?us-ascii?Q?JhFZt690mB+81rFx8yzq201DoqHYq6vA1hCKoQ0NLR86ndmas/Yw3Ph4u8GC?=
- =?us-ascii?Q?enzWdefll1S1gIIQSUG0hGcTpVyntSnFkl80MMxoGMKja/EirZt5l7PMAJV/?=
- =?us-ascii?Q?ngLnOgPrPVvzBREcgeY=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33727572-8851-4766-decf-08de25ee9861
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 15:33:02.5753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4qMEQDITepSXyqQn+/5a+MM/w2ukcGbS19nV7XJlAhcIOhTFhreP3E0Fd6RrWKa8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5611
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 10, 2025 at 06:28:17AM +0000, Tzung-Bi Shih wrote:
-> > It just means the user of this needs to understand there are
-> > limitations on what release can do. Usually release just frees memory,
-> > that is fine.
-> > 
-> > I think it would be strange for a release to touch revocable data,
-> > that might suggest some larger problem.
-> 
-> I think it'd be inevitable for accessing some devm memory in ->release(),
-> e.g. [1].
-> 
-> [1] https://elixir.bootlin.com/linux/v6.17/source/drivers/platform/chrome/cros_ec_chardev.c#L260
+Coreboot, or the ChromeOS second stage bootloader, depthcharge, will
+insert device specific properties into the coreboot firmware node when
+there are valid values.
 
-Again, that's symptomatic of a "larger problem" :\
+Document these properties in the binding.
 
-The blocking notifier registration to receive events to relay out to
-the file descriptors should be part this drivers probe/remove
-lifecycle so it has the proper lifetime. Trying to use a revocable
-idea here will create a weirdly unbalanced/dangling blocking notifier
-registration :(
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+ Documentation/devicetree/bindings/firmware/coreboot.txt | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Inside cros_ec_chardev it should have a simple list of open file
-descriptors and the single blocking notifier callback can iterate over
-the list and memdup the events.  Then your release is just a simple
-locked list del on a global list which doesn't have a lifecycle
-problem.
+diff --git a/Documentation/devicetree/bindings/firmware/coreboot.txt b/Documentation/devicetree/bindings/firmware/coreboot.txt
+index 4c955703cea8..0d04ea482aa9 100644
+--- a/Documentation/devicetree/bindings/firmware/coreboot.txt
++++ b/Documentation/devicetree/bindings/firmware/coreboot.txt
+@@ -21,6 +21,15 @@ Required properties:
+ 	0xc0389481 that resides in the topmost 8 bytes of the area.
+ 	See coreboot's src/include/imd.h for details.
+ 
++Optional properties:
++- board-id: Contains the board revision number.
++- ram-code: Contains the board's DRAM configuration type.
++- sku-id: Contains the device variant SKU ID.
++- fw-config: Contains the device variant FW config value.
++
++The optional properties are only populated if the values parsed by coreboot
++are valid.
++
+ Example:
+ 	firmware {
+ 		ranges;
+-- 
+2.52.0.rc1.455.g30608eb744-goog
 
-Jason

@@ -1,272 +1,100 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA46D302CCD
-	for <chrome-platform@lists.linux.dev>; Mon, 24 Nov 2025 12:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFAB2A1C7
+	for <chrome-platform@lists.linux.dev>; Mon, 24 Nov 2025 14:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763988416; cv=none; b=JOCe/4nRZxLEw/uIGkMdobT6yb2YNniKwcpRKquxMwFryZPbK/ObgtRSWo3XiRr7j1YeQiS3okN4IGChlYbvr+laPOVu9oqkqe7ROA4+hZONIgteH7gsn5N6MYVI84PY1+VfEFpj4RCy2y3tCkqTwKnCJP4PqTrNQ6obd0NbVGc=
+	t=1763994309; cv=none; b=SJ3ZpOs/dMxW3/M9tP3ZTxma0Bu/mCRPvR7cW5fHEeraOek2DS0Z6NOXxYYfgDCXVck2+SBqOllpEAp6PrGiAG9ZD0ihyz36z6tmvu3s8YxtAtse9H9bMkZkoa583b83HCsiOYkenh0tt0GFht5xrGgeBJ/XCTYc8+5gvQFBLs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763988416; c=relaxed/simple;
-	bh=ZcWRPSvnJY7j9sksuKnADdwDhkWT5l383JVkKi48Y4A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gW12jrf1Ns+u6nUe3s+DmSRn7sjGdg4gqmaC70vPwsSFVZB3XqUh5gmXoV0kB9YYlap/nmyF+lklQ3uuGKT4eRmnUugjnJA2YMeLk3lzMYp7FwrPs/wbcB7d6G73xq/cZOFzLQb+qPI6M4cTZm433RPZKySXNsNSkmZOtDswmXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=A5DCLXrL; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1763994309; c=relaxed/simple;
+	bh=eO07VQEwgqSfynp1qqdufNtqE/l1gHcgbWWeB+OT45I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7hVpLhUVL3AeHypL/mzCDR2VoZyNMNTviLtDxvza4BLYc1sIvj5ksmCUz+OF6ybZUHgrKolB1jQ/qWNN44idhW+exvk1lTNmW29IljDpJlG/vviqr6N9mjQtCnbc5SWoT6UR8B03oyvFQa8ZCaHV8zaj1LygM8F6pn8Ao2XtkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dUT+N9nI; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A5DCLXrL"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-640ca678745so7075094a12.2
-        for <chrome-platform@lists.linux.dev>; Mon, 24 Nov 2025 04:46:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dUT+N9nI"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42b31507ed8so3717425f8f.1
+        for <chrome-platform@lists.linux.dev>; Mon, 24 Nov 2025 06:25:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763988413; x=1764593213; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+tksLNCM9hMN6EA+LRxmgTQx4fghasKcuZYm2c3+N8w=;
-        b=A5DCLXrL78HQx+A5aGKCu2uDAHTWX56C86+N2CakipTtvJDqMqQBFR1/nRvT4PiOtu
-         88qEPYXpBbolYkq4gRFnXydTNwD7I7MbziCiCzhHn4GB5Dzjb4mBMo+HzWKTKMss3Tv0
-         YRlNeMRyGZ99CK0aL2wqCUplkx/7LLGSuO9PQ=
+        d=linaro.org; s=google; t=1763994306; x=1764599106; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ae8T0Z9s4xBOOpN+XeFPZD9BWqfqP1d4jFrRORxUC1o=;
+        b=dUT+N9nIvgWKQkabNErsD6cowUVmbTr1MqmSZJx+/Spp0HJ53LdnKk1x3lCI3Uaoaw
+         zk05Eq3uoR/26RrrXZkA2c1N6L8FDIMMCeYLzka6j4TvSW6fL0Vs1R8ZdkvENNiRSvmL
+         R/v8L+0jFo+DeyYrWLb1h0lvKfmdKj1cD0o8dSNizzIJCCw3i1goM3dm36BAPMPQAZBe
+         XbEDsNE0w/7sAl7RXUE1EBbn36HZqBUVFjlQbAbHf3RPsh9kD/VlI/3wZDkfutawhIlF
+         vo0hfjX/SfWuydzmNldbSdG/ndYyhTfm7x9T8Ym80CTBRMPHTDY4NMYNW7vis+HAI4XZ
+         3dIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763988413; x=1764593213;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+tksLNCM9hMN6EA+LRxmgTQx4fghasKcuZYm2c3+N8w=;
-        b=vThHzFMYxlRYSVCRYXj86LXcsClYZF6XR31rGpPxCOVPx3XuvkghhMUY3E6rRmv7e1
-         yQQ6w0uhoj7oTLFuHtRa2gTHoFi1++CquXAu8gcXcJ+5hBfz4KZTknv12xBWTCNs2MxN
-         Emm2ZC2CuVg05Mhy2fHTKCwGCr4/vglxe+7uHmQJcssJGTodFRDAl28PAi+mToDZxWqD
-         8UtE0+Un5ZsZvZN8tH4R45g9mvoCblA131rLOwFl0GpdlAv/LvadfaHlE+QYNc93IRdZ
-         4PAlFhmtHg67Jt5EsFnGiZ4jphGN4zImbcopPLAmQeuzAd/0KwPsa7W1sBkzrHDfetPk
-         oYiA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8z15k6YYr9jdF+8FeRu3ouabWR9g6lYvFfqBm+uzmKIDcRR7Z778NDH+lGqnbfuaLqHoWsP02jffST2GBzfc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZniHMhGbV9u9p4xY1UWUYpsY73P71R5z6m2AOTfSUQmHPeKwG
-	0NT0e9BZW8DtR5gOT7XwKHFdlyx/Zvtkqk2GzTtLBIeKdQTQ1/e/TSxpTbdXelIO1Q==
-X-Gm-Gg: ASbGncuSshMewKSP8JH8Cyh8FdDXLk2CJGqKzCtF+gqlek4paw7GV5mK+hQRS/nfwcw
-	tRMJuIHNlKyhnmaqNb15T+TtOeU9rMdIoiXH4D8aGMoABXkO94o/kAXKGjl0wwTHXR4h6w7snj8
-	bhItnkOa6UxsrdROOa9Y0ieKDAMqyHPO5dpQ/FDxmGUOW/HQl1pAviNnwOsIDLVr9nyd1euMtKu
-	hYUnsR+aSu1o3Gy1k/ZigyNGwbSoEHtMe3rDLmDB+xWyMW0s6dj/AtRZyvSD/ZYBWl2tpAIjk7x
-	WDDCyq08/0+9hdfnno5eUFYAE3OcVCEZCMFzdc7hv0U6PftygyyvrmFO/KeDT2PZqb/neQ4qi0G
-	zDRPUpBAe8/q7dZl2dE3VMX80CzVHzSgPwMUIzvCPzF90MCnKWrhhFgcQVJ6FSzbG7Z7NptU6Xy
-	gzfUJx205S5bZm6mFNSeJ6qh3MNPG2Z+X3WL+SFNfJquv8APDEFe7Al616j1xqOuuNzeX0hLWKw
-	/iPVplMNo4=
-X-Google-Smtp-Source: AGHT+IEfcpbzsOCnT/x6NbrGmqhHYN1EwoeFU1i5kVHhF/kjyV0FZnqLTamKpVXxQGhmoo7XnU917g==
-X-Received: by 2002:a05:6402:13ce:b0:640:947e:70ce with SMTP id 4fb4d7f45d1cf-64555b85acamr10495350a12.5.1763988413169;
-        Mon, 24 Nov 2025 04:46:53 -0800 (PST)
-Received: from akuchynski.c.googlers.com.com (224.138.204.35.bc.googleusercontent.com. [35.204.138.224])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64536460ea9sm13342599a12.35.2025.11.24.04.46.52
+        d=1e100.net; s=20230601; t=1763994306; x=1764599106;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ae8T0Z9s4xBOOpN+XeFPZD9BWqfqP1d4jFrRORxUC1o=;
+        b=We+gxvA0s9gXf+Two5S9gJBL4hjMRJFsuQ0nzs6EmCcybXRDdT/Jk/GGVMmpYd3TNM
+         OSGOS16PV9lp6i4NH/Wd3ifMAnlDU7GmSx0ojoJonn2ZH+7G25ngg4FjofMU2yZmb+Xa
+         9KeR+7V5AgAIzE8DVBXWe1Q73PnmP0ZNv+EacIA0Bjvy3Lo0EaUdODbj9pX8ys6zeF2R
+         hWk3FOpnA395c5DJnOY3+qctiLTcr8NTGep+HofpKefWoWQbafSyUXSVsO4eycCqq73Y
+         SIwFxg6hnOC1JyyO+b49cyY8nimZqzMzS2HmqwvEYg3JGA4/fyXfjoTxUnHMr7XLwQIN
+         6yoA==
+X-Forwarded-Encrypted: i=1; AJvYcCWc95gdqJD1mM64PiTNuZGrc9PPhmwkQ738PB/txhByNthbfEk4ty79JBgOTX/s1rOY82i9zHPNdLmSZHfZI2g=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhwzswJ7Nx+ZBUiP3kqlxu4KcTvpG+Oh1F5YxGV4zZ4omMghyn
+	wMkYsS1qCfa4Kbncr5DfzvYg34t88tNm2/c/9MsP55foN80icum6RhI72rxKm+TnTec=
+X-Gm-Gg: ASbGncvS43JSxEdlgi/DJG9oVRY1qV0m82PVkBibMmmOaU2/qhlg54xSlsOUFi7I+gv
+	hn4ps9IQlZM3ZYCRoRfoIBK7IlV0kaKWEUmaRbHG2et4GGvkvXFMabX9ZqYoFBftme2p6/9gSty
+	tREe/o1Woi6yGllv3mhU5Zw981F0/jSP6GxcjSVTZnspqkkPTJ+M1G6zZJSOKMzzyanrgSxoEvp
+	TU9HQsGCKv6/LvVaGaRkttGgPb9dIM7+QTnKP4Eyb5o057MkJf82X+oVZtBCQx8bJjajPgB5y0k
+	a6jhoxe/eSyVELbyXgurj0goQU17fYRbuBj3jNsIhuGg5g+y0u4gMeEn0pWaxy5bziBJo3TWhV8
+	abMbBuUCts2oPdaEAARd+0apsnEQ+x7J761q1PhiYLGGSVwIR7SKvpFxRrjWMnrLZSF6Ep1GpF0
+	qkzGB7kBE=
+X-Google-Smtp-Source: AGHT+IECxhv9+1ZGZEYdbHolWeNHq8FMXodd47D6FbZd+PU/x7ZCehXLWBv/uH8jYsOdYwVYwArfyw==
+X-Received: by 2002:a5d:5e01:0:b0:425:742e:7823 with SMTP id ffacd0b85a97d-42cc1ac9401mr13013463f8f.12.1763994305318;
+        Mon, 24 Nov 2025 06:25:05 -0800 (PST)
+Received: from linaro.org ([86.121.7.169])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fa35c2sm27493166f8f.25.2025.11.24.06.25.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 04:46:52 -0800 (PST)
-From: Andrei Kuchynski <akuchynski@chromium.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	"Christian A. Ehrhardt" <lk@c--e.de>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>,
-	linux-kernel@vger.kernel.org,
-	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH v5 4/4] usb: typec: Expose alternate mode priority via sysfs
-Date: Mon, 24 Nov 2025 12:46:39 +0000
-Message-ID: <20251124124639.1101335-5-akuchynski@chromium.org>
-X-Mailer: git-send-email 2.52.0.rc2.455.g230fcf2819-goog
-In-Reply-To: <20251124124639.1101335-1-akuchynski@chromium.org>
+        Mon, 24 Nov 2025 06:25:04 -0800 (PST)
+Date: Mon, 24 Nov 2025 16:25:02 +0200
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	"Christian A. Ehrhardt" <lk@c--e.de>, Pooja Katiyar <pooja.katiyar@intel.com>, 
+	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 4/4] usb: typec: Expose alternate mode priority via
+ sysfs
+Message-ID: <h2e7a3xkss5zkjuk4jtuadx7uudt3rl6xssbmz7tgagw7idbhm@jnv2idvv3hbf>
 References: <20251124124639.1101335-1-akuchynski@chromium.org>
+ <20251124124639.1101335-5-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251124124639.1101335-5-akuchynski@chromium.org>
 
-This patch introduces a priority sysfs attribute to the USB Type-C
-alternate mode port interface. This new attribute allows user-space to
-configure the numeric priority of alternate modes managing their preferred
-order of operation. If a new priority value conflicts with an existing
-mode's priority, the priorities of the conflicting mode and all subsequent
-modes are automatically incremented to ensure uniqueness.
+On 25-11-24 12:46:39, Andrei Kuchynski wrote:
+> This patch introduces a priority sysfs attribute to the USB Type-C
 
-Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
----
- Documentation/ABI/testing/sysfs-class-typec | 11 +++
- drivers/usb/typec/class.c                   | 90 ++++++++++++++++++++-
- include/linux/usb/typec_altmode.h           |  1 +
- 3 files changed, 101 insertions(+), 1 deletion(-)
+Please read submitting patches doc. No "This patch ..." stuff.
 
-diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-index 38e101c17a00..737b76828b50 100644
---- a/Documentation/ABI/testing/sysfs-class-typec
-+++ b/Documentation/ABI/testing/sysfs-class-typec
-@@ -162,6 +162,17 @@ Description:	Lists the supported USB Modes. The default USB mode that is used
- 		- usb3 (USB 3.2)
- 		- usb4 (USB4)
- 
-+What:		/sys/class/typec/<port>/<alt-mode>/priority
-+Date:		July 2025
-+Contact:	Andrei Kuchynski <akuchynski@chromium.org>
-+Description:
-+		Displays and allows setting the priority for a specific alternate mode.
-+		The priority is an integer in the range 0-255. A lower numerical value
-+		indicates a higher priority (0 is the highest).
-+		If the new value is already in use by another mode, the priority of the
-+		conflicting mode and any subsequent modes will be incremented until they
-+		are all unique.
-+
- USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
- 
- What:		/sys/class/typec/<port>-partner/accessory_mode
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index a5327e444265..049d1829be98 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -445,11 +445,88 @@ svid_show(struct device *dev, struct device_attribute *attr, char *buf)
- }
- static DEVICE_ATTR_RO(svid);
- 
-+static int increment_duplicated_priority(struct device *dev, void *data)
-+{
-+	if (is_typec_altmode(dev)) {
-+		struct typec_altmode **alt_target = (struct typec_altmode **)data;
-+		struct typec_altmode *alt = to_typec_altmode(dev);
-+
-+		if (alt != *alt_target && alt->priority == (*alt_target)->priority) {
-+			alt->priority++;
-+			*alt_target = alt;
-+			return 1;
-+		}
-+	}
-+	return 0;
-+}
-+
-+static int find_duplicated_priority(struct device *dev, void *data)
-+{
-+	if (is_typec_altmode(dev)) {
-+		struct typec_altmode **alt_target = (struct typec_altmode **)data;
-+		struct typec_altmode *alt = to_typec_altmode(dev);
-+
-+		if (alt != *alt_target && alt->priority == (*alt_target)->priority)
-+			return 1;
-+	}
-+	return 0;
-+}
-+
-+static int typec_mode_set_priority(struct typec_altmode *alt, const u8 priority)
-+{
-+	struct typec_port *port = to_typec_port(alt->dev.parent);
-+	const u8 old_priority = alt->priority;
-+	int res = 1;
-+
-+	alt->priority = priority;
-+	while (res) {
-+		res = device_for_each_child(&port->dev, &alt, find_duplicated_priority);
-+		if (res) {
-+			alt->priority++;
-+			if (alt->priority == 0) {
-+				alt->priority = old_priority;
-+				return -EOVERFLOW;
-+			}
-+		}
-+	}
-+
-+	res = 1;
-+	alt->priority = priority;
-+	while (res)
-+		res = device_for_each_child(&port->dev, &alt,
-+				increment_duplicated_priority);
-+
-+	return 0;
-+}
-+
-+static ssize_t priority_store(struct device *dev,
-+			       struct device_attribute *attr,
-+			       const char *buf, size_t size)
-+{
-+	u8 val;
-+	int err = kstrtou8(buf, 10, &val);
-+
-+	if (!err)
-+		err = typec_mode_set_priority(to_typec_altmode(dev), val);
-+
-+	if (!err)
-+		return size;
-+	return err;
-+}
-+
-+static ssize_t priority_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%u\n", to_typec_altmode(dev)->priority);
-+}
-+static DEVICE_ATTR_RW(priority);
-+
- static struct attribute *typec_altmode_attrs[] = {
- 	&dev_attr_active.attr,
- 	&dev_attr_mode.attr,
- 	&dev_attr_svid.attr,
- 	&dev_attr_vdo.attr,
-+	&dev_attr_priority.attr,
- 	NULL
- };
- 
-@@ -459,11 +536,15 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
- 	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
- 	struct typec_port *port = typec_altmode2port(adev);
- 
--	if (attr == &dev_attr_active.attr)
-+	if (attr == &dev_attr_active.attr) {
- 		if (!is_typec_port(adev->dev.parent)) {
- 			if (!port->mode_control || !adev->ops || !adev->ops->activate)
- 				return 0444;
- 		}
-+	} else if (attr == &dev_attr_priority.attr) {
-+		if (!is_typec_port(adev->dev.parent) || !port->mode_control)
-+			return 0;
-+	}
- 
- 	return attr->mode;
- }
-@@ -2484,6 +2565,7 @@ typec_port_register_altmode(struct typec_port *port,
- 	struct typec_altmode *adev;
- 	struct typec_mux *mux;
- 	struct typec_retimer *retimer;
-+	int ret;
- 
- 	mux = typec_mux_get(&port->dev);
- 	if (IS_ERR(mux))
-@@ -2502,6 +2584,12 @@ typec_port_register_altmode(struct typec_port *port,
- 	} else {
- 		to_altmode(adev)->mux = mux;
- 		to_altmode(adev)->retimer = retimer;
-+
-+		ret = typec_mode_set_priority(adev, 0);
-+		if (ret) {
-+			typec_unregister_altmode(adev);
-+			return ERR_PTR(ret);
-+		}
- 	}
- 
- 	return adev;
-diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
-index f7db3bd4c90e..2c3b6bec2eca 100644
---- a/include/linux/usb/typec_altmode.h
-+++ b/include/linux/usb/typec_altmode.h
-@@ -28,6 +28,7 @@ struct typec_altmode {
- 	int				mode;
- 	u32				vdo;
- 	unsigned int			active:1;
-+	u8				priority;
- 
- 	char				*desc;
- 	const struct typec_altmode_ops	*ops;
--- 
-2.52.0.rc2.455.g230fcf2819-goog
+The rest of the patch looks OK.
+
+> alternate mode port interface. This new attribute allows user-space to
+> configure the numeric priority of alternate modes managing their preferred
+> order of operation. If a new priority value conflicts with an existing
+> mode's priority, the priorities of the conflicting mode and all subsequent
+> modes are automatically incremented to ensure uniqueness.
+> 
+> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 

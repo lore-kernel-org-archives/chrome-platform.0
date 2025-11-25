@@ -1,309 +1,203 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6495218EFD1
-	for <chrome-platform@lists.linux.dev>; Tue, 25 Nov 2025 00:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBFF2E5437
+	for <chrome-platform@lists.linux.dev>; Tue, 25 Nov 2025 06:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764030031; cv=none; b=Rlfr1F2aRiBlwD4rxeosvAAj6m01iK7rGg0zUZZYB2qp93v+Ky2sDkBqeo1PH6fxM141g9XtYQJd5Kn+C7W2LoIrS4ZSIij1gUvYJwkJfK/yWsanoJhNIxhit1di5DTdD7FzCIY4uSr8UMujCSmzK3USBvhM9WpIULQ2waF+6sQ=
+	t=1764053354; cv=none; b=KRp2NJndk5NR3v/uVH7tn1f2S3RehQP5peH1oYlJblGXu17GXvsGHhVflQe7DKgnNJs0/K4jfk6LgOyFNyyizgrqxGTYbqjbei42vy/CpIxcsMSdtNTtnNjCxASHe7FURF29NeZM4kpT5tWxrzEkQVGl5eZRhnKpRy6Wz3FaGjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764030031; c=relaxed/simple;
-	bh=t4r7jmeIwiXR7uP9kXz0A+chP9tNeXQGYI8lqGYMM30=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BZ1Fum4V7/lpBO0sXLcuvbmzO+3wR9zmLFncrdqdh9PWHcIYSXZx6hyZ+S0PchlLubsPzO4IEDTRiC3YgS1rcZKHw95fkiJcnKqiQwsz1nSPuVROJk9wbYXf4mcNevN0NzK5rU/KQ+ujOlNhGzMXulpAPZ24AEj5M2Q4jCPluuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dnB40JKH; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1764053354; c=relaxed/simple;
+	bh=rXio99+YvGuyrhKrXNpvTD+TKYC/oil56/4az6zPstM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kCC2ylth3Fi6rHqK3A95S9KVGeClWx50mBW8TygBYL3vnUHwMdJacrqLkjOt1ckru/0xMgcLUxbaWni7ygVFIx3ovlihImiS0wucn9o73TjY7z5NYK4pzEP6ONW79uBwZM6VH47dENbVf/mOGacaDJ5ftknttdQTbHl6c3IKfiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Z4Ta+aAW; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dnB40JKH"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-298456bb53aso61565335ad.0
-        for <chrome-platform@lists.linux.dev>; Mon, 24 Nov 2025 16:20:29 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Z4Ta+aAW"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7bf0ad0cb87so5043593b3a.2
+        for <chrome-platform@lists.linux.dev>; Mon, 24 Nov 2025 22:49:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764030029; x=1764634829; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wKiIQNBIFj3XpDlrxQGdfdvj6eMXs/LlHefgD1OOL0U=;
-        b=dnB40JKHR7B8Ks+it4Sa7486rppxIqkyCj68wEg+1Se/Mwox/XB4VfqjFXAYZaJj5o
-         x6J6aBeqQCiSrow3FZTo0mYltSzDoXFziqNOXgn6GfQ4UYhb/FjDJ2lvo6iQs54u1W32
-         8B00frYGf6nOwKpvtwOCJz8ubcSMWBrtEPCG89bjLSwk/4VC5/oAdBdEZ80ZxoJHtFwG
-         EFdEZjf6mgIqH4JUwrfiBJd7X16ypwcMcDsLXEFRCtcdWWq6SsgBwgcxmy3iFU/PjhCK
-         oCBV9Ss9H0G1NMf6u7xLIbcfNyMqgfPjYCJufImoYnd1Jl3aA8BvhjuioZxSugHfC9vu
-         uH5A==
+        d=chromium.org; s=google; t=1764053351; x=1764658151; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=88kFkP2tiIFI/W0cIcRfnFOjGOXOrhask+3UfD3dOMc=;
+        b=Z4Ta+aAWSPSZ4s/cXQ4bWw0IrLBYis9zyk5D8arTw22R3vw1Ixsj85Ncdov8bE4RnX
+         DlGwnBA9tqM3illr6b0ovuvIt2GA4LsEmhicYWgjs0L9sHUBgndF7k7JWFs2NhHKEe53
+         awg0PXzg1C1jrpsoHcvXHL+jqMYcI13QjOjN8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764030029; x=1764634829;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wKiIQNBIFj3XpDlrxQGdfdvj6eMXs/LlHefgD1OOL0U=;
-        b=hae3ASd+cfk5q5jLs4JjTvqM1b09sXcAsxWQ4SnLdENsh94/8XAFEUao3LIFq2HW2M
-         MpjXgK5dC0UPCSYVnDHKcrchz8Crpg4l0gM1lgk6ELZBHEoxSj6peuSobxz633E9hgMA
-         rVc8TODpPRqP/gSPKUWqQQc9zxALMP32qB66XtfjJzzl5jk8qfjrfXIa5PeBEbwK0cF1
-         36sIQPRWn0qqn6p3UM4p24CrDErJcrkG4UejRJziD4gYtdGi+UZRAq+Zw/5DvWmv6+KR
-         LfAhp3//r61QaNApS/A31W+mr5dv8fL/mEligMJ7Q6WO8We8B8X8nga5Gte99jEkL8q2
-         InGg==
-X-Forwarded-Encrypted: i=1; AJvYcCW+vxXWxTuRf4iVcjsbC1+2xOUNuhB/OczofpFRSE4TLbLfd4n0OtLs/Y34bfYA5WjluS15AY3XwOedXQwTsFI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDnR+/FlUnn9U/jLOjN1/I14BGpT1LK0kftCxKi63a97rHndof
-	VizKzmk/XuePh0VDRZyAbkl9wsStbUjcLE+Xie7fDuw2p3LDmGeZP8eTC2i62zvJ9Q==
-X-Gm-Gg: ASbGncvDeF6oKr/SGPC/C9iAffpUUw0Do7Yu0M/5ynmFDeE6TauJ4SrL0KKr6+q3Reg
-	M7chcRDx8smPuT9ZcR2YdZ1nosCM11xTO1WGTDNByLmv0EdXzD+TAyAtPcuDGzriY0jaahn7+QL
-	ueB2/BYjFozAE7XkAA/pQoerwo8IIxKOyJfXxbbZHzwMVQU4EjOKPg1Sgw9KBIBo4YpJzCzAbZR
-	c+P/x+xDuvuLUIF1NOEY53M0G1BrJah6W9VMATNB9N05p/8NGzSCJYwQFVKTsLoaPscbSl9Jd5/
-	RQALzoIgRMtAJtKJH7wTf1Erpz912cIaHLM0Ohq9QgFyRsr1XDCwfbvhX1Yop4izGXcC+GjobV4
-	fSgfY6uJUNMOVKqZimuGzz0P3ZH3eLveoTmffXUr4c7DOGp5/GMpqWhK5e83Fyw6LX214r6E7bt
-	YrK+w7WLKkdMrhfhel4hd+JUqO9RJnrYvKdTVG5bS1ludVY1oIpA0x6l0=
-X-Google-Smtp-Source: AGHT+IGDYsNsGZwIu4ltamYCleJnMoAmy+tNHW0XfaQO+7UUVPvCkzBT5sV+yAlt4K8NKohqKMNe8Q==
-X-Received: by 2002:a17:902:f706:b0:295:7f1d:b02d with SMTP id d9443c01a7336-29b6c50eaa9mr142998705ad.22.1764030028255;
-        Mon, 24 Nov 2025 16:20:28 -0800 (PST)
-Received: from google.com (232.92.83.34.bc.googleusercontent.com. [34.83.92.232])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34727a36bbfsm14706794a91.0.2025.11.24.16.20.26
+        d=1e100.net; s=20230601; t=1764053351; x=1764658151;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=88kFkP2tiIFI/W0cIcRfnFOjGOXOrhask+3UfD3dOMc=;
+        b=TDnSrsLNk+CeqzT/sQThAfZ3BCxIwNK3kTgvHtq4wHUVuxG/RE7piHvTDH/ln4BHWu
+         8WebKw+9jHBBxagBtY4/4zG9ElbUUvwU/v3Mg+mqC33NMBWH1EHiGKgpZ5c8zt5Xtytm
+         eKSi6QES3x0L16056Ie32cLY3MLqXvZepmjeabBA6j/gwBWYdR62EaERzfpx596fa+5E
+         CQKmURYqYGlktA2iH46TyUbOWEMPszknvoxPB75o/26sFUyAl8hqlB1S7EH/MP2TD5ua
+         QjxJdLeHEcZTYoyEEFuZlPPU5uvavNuHpfLmuoFOMxOh7u2kDZsMKwSS27OLFmiCA1W9
+         NT+w==
+X-Forwarded-Encrypted: i=1; AJvYcCVFO/NCO1idnYrPWqBCvNAhVTiprP0YrJK0UgJRGqSJwQg9+h/WYoDFG2NwjtvfOwzkPEpAt/KakJ4pJR5ng/c=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzW+8LcyU3fPe/G7TmDeaEhOixqWYClHR74kMZEXtRJzpTJ5qj4
+	Jp6KQ6qPUIOnRzfYMVVHZagVDMY9C40cQ6y3S3oezAJwGr9cCfI7UbaqZk9dYVL2MA==
+X-Gm-Gg: ASbGncuAy2dtOtxYzujBNBQO+q7xX2afLwfOeayHfT3nboKfwNPRWZtQTUeNDJ53sY7
+	2/hoPEzvKQ7cdB3db91W9zwoDaOi93ggvF2utmCn5nOvfbte1w+x5nEkeI82iJBwthaZMafSIuV
+	tNXeQzysVXzixpiUNEO7RDn/QXp5nGksa0wrzBWHcGstDR7bqp3DBLcsNjpnU4k8Pxkljn+ekU5
+	vQNXBWhlZBa+KJPws3D39nvgkzrn28ZoeMDBzqnOfITlsmjYXtr1Pxmrt8xXP2hDwymkI68D+Ff
+	tzY919WU/TdnVsyD7WTtMo/qfIhR254Pb5oJzMc+nDKxEATitOVZdxsYBomreqSxuGyXQcXy8UG
+	IzRK9MhGeBa2eMpYu4urgCmVPwquasLwJ9+sdwsCDlBy3mFs/xFIAjWVSIRkraGxBUq1gE9c+yX
+	ApaEFLQ6Wxn45vHoWqyKuO+3NshTs4zyRhGIZkYoE5MJjaqcaYQ8HDii8130ZMMWmo1mPm
+X-Google-Smtp-Source: AGHT+IElth1ajKpACCGhmlgof/CcbLxkdUN0v+MBgrJOs6SF5vNzmM++ExuwEs9TPuCVCvtXkQXH5Q==
+X-Received: by 2002:a05:6a00:228a:b0:7aa:a2a8:980f with SMTP id d2e1a72fcca58-7c58db2cd79mr14042173b3a.20.1764053350629;
+        Mon, 24 Nov 2025 22:49:10 -0800 (PST)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:2b48:6622:575f:f283])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed471022sm16853335b3a.21.2025.11.24.22.49.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 16:20:26 -0800 (PST)
-Date: Tue, 25 Nov 2025 00:20:23 +0000
-From: Benson Leung <bleung@google.com>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
+        Mon, 24 Nov 2025 22:49:10 -0800 (PST)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	devicetree@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
-	Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	"Christian A. Ehrhardt" <lk@c--e.de>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>,
+	Julius Werner <jwerner@chromium.org>,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/4] usb: typec: Expose alternate mode priority via
- sysfs
-Message-ID: <aST2RyOIjHiTv6J3@google.com>
-References: <20251124124639.1101335-1-akuchynski@chromium.org>
- <20251124124639.1101335-5-akuchynski@chromium.org>
+Subject: [PATCH] dt-bindings: firmware: coreboot: Convert to YAML
+Date: Tue, 25 Nov 2025 14:48:49 +0800
+Message-ID: <20251125064851.3781993-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.52.0.460.gd25c4c69ec-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PRHLhYo6a0QDr1AR"
-Content-Disposition: inline
-In-Reply-To: <20251124124639.1101335-5-akuchynski@chromium.org>
+Content-Transfer-Encoding: 8bit
 
+Convert the existing text binding to YAML.
 
---PRHLhYo6a0QDr1AR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The description has been change to reflect the possibility of coreboot
+inserting the node itself.
 
-On Mon, Nov 24, 2025 at 12:46:39PM +0000, Andrei Kuchynski wrote:
-> This patch introduces a priority sysfs attribute to the USB Type-C
-> alternate mode port interface. This new attribute allows user-space to
-> configure the numeric priority of alternate modes managing their preferred
-> order of operation. If a new priority value conflicts with an existing
-> mode's priority, the priorities of the conflicting mode and all subsequent
-> modes are automatically incremented to ensure uniqueness.
->=20
-> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+The example has been modified to compile and pass validation without
+any errors. A comment was added to note what the firmware actually
+emits.
 
-Reviewed-by: Benson Leung <bleung@chromium.org>
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+ .../devicetree/bindings/firmware/coreboot.txt | 33 ----------
+ .../bindings/firmware/coreboot.yaml           | 60 +++++++++++++++++++
+ 2 files changed, 60 insertions(+), 33 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/firmware/coreboot.txt
+ create mode 100644 Documentation/devicetree/bindings/firmware/coreboot.yaml
 
-> ---
->  Documentation/ABI/testing/sysfs-class-typec | 11 +++
->  drivers/usb/typec/class.c                   | 90 ++++++++++++++++++++-
->  include/linux/usb/typec_altmode.h           |  1 +
->  3 files changed, 101 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/=
-ABI/testing/sysfs-class-typec
-> index 38e101c17a00..737b76828b50 100644
-> --- a/Documentation/ABI/testing/sysfs-class-typec
-> +++ b/Documentation/ABI/testing/sysfs-class-typec
-> @@ -162,6 +162,17 @@ Description:	Lists the supported USB Modes. The defa=
-ult USB mode that is used
->  		- usb3 (USB 3.2)
->  		- usb4 (USB4)
-> =20
-> +What:		/sys/class/typec/<port>/<alt-mode>/priority
-> +Date:		July 2025
-> +Contact:	Andrei Kuchynski <akuchynski@chromium.org>
-> +Description:
-> +		Displays and allows setting the priority for a specific alternate mode.
-> +		The priority is an integer in the range 0-255. A lower numerical value
-> +		indicates a higher priority (0 is the highest).
-> +		If the new value is already in use by another mode, the priority of the
-> +		conflicting mode and any subsequent modes will be incremented until th=
-ey
-> +		are all unique.
-> +
->  USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
-> =20
->  What:		/sys/class/typec/<port>-partner/accessory_mode
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index a5327e444265..049d1829be98 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -445,11 +445,88 @@ svid_show(struct device *dev, struct device_attribu=
-te *attr, char *buf)
->  }
->  static DEVICE_ATTR_RO(svid);
-> =20
-> +static int increment_duplicated_priority(struct device *dev, void *data)
-> +{
-> +	if (is_typec_altmode(dev)) {
-> +		struct typec_altmode **alt_target =3D (struct typec_altmode **)data;
-> +		struct typec_altmode *alt =3D to_typec_altmode(dev);
-> +
-> +		if (alt !=3D *alt_target && alt->priority =3D=3D (*alt_target)->priori=
-ty) {
-> +			alt->priority++;
-> +			*alt_target =3D alt;
-> +			return 1;
-> +		}
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int find_duplicated_priority(struct device *dev, void *data)
-> +{
-> +	if (is_typec_altmode(dev)) {
-> +		struct typec_altmode **alt_target =3D (struct typec_altmode **)data;
-> +		struct typec_altmode *alt =3D to_typec_altmode(dev);
-> +
-> +		if (alt !=3D *alt_target && alt->priority =3D=3D (*alt_target)->priori=
-ty)
-> +			return 1;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int typec_mode_set_priority(struct typec_altmode *alt, const u8 p=
-riority)
-> +{
-> +	struct typec_port *port =3D to_typec_port(alt->dev.parent);
-> +	const u8 old_priority =3D alt->priority;
-> +	int res =3D 1;
-> +
-> +	alt->priority =3D priority;
-> +	while (res) {
-> +		res =3D device_for_each_child(&port->dev, &alt, find_duplicated_priori=
-ty);
-> +		if (res) {
-> +			alt->priority++;
-> +			if (alt->priority =3D=3D 0) {
-> +				alt->priority =3D old_priority;
-> +				return -EOVERFLOW;
-> +			}
-> +		}
-> +	}
-> +
-> +	res =3D 1;
-> +	alt->priority =3D priority;
-> +	while (res)
-> +		res =3D device_for_each_child(&port->dev, &alt,
-> +				increment_duplicated_priority);
-> +
-> +	return 0;
-> +}
-> +
-> +static ssize_t priority_store(struct device *dev,
-> +			       struct device_attribute *attr,
-> +			       const char *buf, size_t size)
-> +{
-> +	u8 val;
-> +	int err =3D kstrtou8(buf, 10, &val);
-> +
-> +	if (!err)
-> +		err =3D typec_mode_set_priority(to_typec_altmode(dev), val);
-> +
-> +	if (!err)
-> +		return size;
-> +	return err;
-> +}
-> +
-> +static ssize_t priority_show(struct device *dev,
-> +			      struct device_attribute *attr, char *buf)
-> +{
-> +	return sysfs_emit(buf, "%u\n", to_typec_altmode(dev)->priority);
-> +}
-> +static DEVICE_ATTR_RW(priority);
-> +
->  static struct attribute *typec_altmode_attrs[] =3D {
->  	&dev_attr_active.attr,
->  	&dev_attr_mode.attr,
->  	&dev_attr_svid.attr,
->  	&dev_attr_vdo.attr,
-> +	&dev_attr_priority.attr,
->  	NULL
->  };
-> =20
-> @@ -459,11 +536,15 @@ static umode_t typec_altmode_attr_is_visible(struct=
- kobject *kobj,
->  	struct typec_altmode *adev =3D to_typec_altmode(kobj_to_dev(kobj));
->  	struct typec_port *port =3D typec_altmode2port(adev);
-> =20
-> -	if (attr =3D=3D &dev_attr_active.attr)
-> +	if (attr =3D=3D &dev_attr_active.attr) {
->  		if (!is_typec_port(adev->dev.parent)) {
->  			if (!port->mode_control || !adev->ops || !adev->ops->activate)
->  				return 0444;
->  		}
-> +	} else if (attr =3D=3D &dev_attr_priority.attr) {
-> +		if (!is_typec_port(adev->dev.parent) || !port->mode_control)
-> +			return 0;
-> +	}
-> =20
->  	return attr->mode;
->  }
-> @@ -2484,6 +2565,7 @@ typec_port_register_altmode(struct typec_port *port,
->  	struct typec_altmode *adev;
->  	struct typec_mux *mux;
->  	struct typec_retimer *retimer;
-> +	int ret;
-> =20
->  	mux =3D typec_mux_get(&port->dev);
->  	if (IS_ERR(mux))
-> @@ -2502,6 +2584,12 @@ typec_port_register_altmode(struct typec_port *por=
-t,
->  	} else {
->  		to_altmode(adev)->mux =3D mux;
->  		to_altmode(adev)->retimer =3D retimer;
-> +
-> +		ret =3D typec_mode_set_priority(adev, 0);
-> +		if (ret) {
-> +			typec_unregister_altmode(adev);
-> +			return ERR_PTR(ret);
-> +		}
->  	}
-> =20
->  	return adev;
-> diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_=
-altmode.h
-> index f7db3bd4c90e..2c3b6bec2eca 100644
-> --- a/include/linux/usb/typec_altmode.h
-> +++ b/include/linux/usb/typec_altmode.h
-> @@ -28,6 +28,7 @@ struct typec_altmode {
->  	int				mode;
->  	u32				vdo;
->  	unsigned int			active:1;
-> +	u8				priority;
-> =20
->  	char				*desc;
->  	const struct typec_altmode_ops	*ops;
-> --=20
-> 2.52.0.rc2.455.g230fcf2819-goog
->=20
+diff --git a/Documentation/devicetree/bindings/firmware/coreboot.txt b/Documentation/devicetree/bindings/firmware/coreboot.txt
+deleted file mode 100644
+index 4c955703cea8..000000000000
+--- a/Documentation/devicetree/bindings/firmware/coreboot.txt
++++ /dev/null
+@@ -1,33 +0,0 @@
+-COREBOOT firmware information
+-
+-The device tree node to communicate the location of coreboot's memory-resident
+-bookkeeping structures to the kernel. Since coreboot itself cannot boot a
+-device-tree-based kernel (yet), this node needs to be inserted by a
+-second-stage bootloader (a coreboot "payload").
+-
+-Required properties:
+- - compatible: Should be "coreboot"
+- - reg: Address and length of the following two memory regions, in order:
+-	1.) The coreboot table. This is a list of variable-sized descriptors
+-	that contain various compile- and run-time generated firmware
+-	parameters. It is identified by the magic string "LBIO" in its first
+-	four bytes.
+-	See coreboot's src/commonlib/include/commonlib/coreboot_tables.h for
+-	details.
+-	2.) The CBMEM area. This is a downward-growing memory region used by
+-	coreboot to dynamically allocate data structures that remain resident.
+-	It may or may not include the coreboot table as one of its members. It
+-	is identified by a root node descriptor with the magic number
+-	0xc0389481 that resides in the topmost 8 bytes of the area.
+-	See coreboot's src/include/imd.h for details.
+-
+-Example:
+-	firmware {
+-		ranges;
+-
+-		coreboot {
+-			compatible = "coreboot";
+-			reg = <0xfdfea000 0x264>,
+-			      <0xfdfea000 0x16000>;
+-		}
+-	};
+diff --git a/Documentation/devicetree/bindings/firmware/coreboot.yaml b/Documentation/devicetree/bindings/firmware/coreboot.yaml
+new file mode 100644
+index 000000000000..568afd1abb92
+--- /dev/null
++++ b/Documentation/devicetree/bindings/firmware/coreboot.yaml
+@@ -0,0 +1,60 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/firmware/coreboot.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: COREBOOT firmware information
++
++maintainers:
++  - Julius Werner <jwerner@chromium.org>
++
++description:
++  The device tree node to communicate the location of coreboot's
++  memory-resident bookkeeping structures to the kernel. Coreboot's
++  FIT image payload can insert the node into the device tree. If a
++  second-stage bootloader (a coreboot "payload") is used, then it
++  is responsible for inserting the node.
++
++properties:
++  compatible:
++    const: coreboot
++  reg:
++    description: Address and length of the following two memory regions
++    items:
++      - description:
++          The coreboot table. This is a list of variable-sized descriptors
++          that contain various compile- and run-time generated firmware
++          parameters. It is identified by the magic string "LBIO" in its first
++          four bytes.
++
++          See coreboot's src/commonlib/include/commonlib/coreboot_tables.h for
++          details.
++      - description:
++          The CBMEM area. This is a downward-growing memory region used by
++          coreboot to dynamically allocate data structures that remain resident.
++          It may or may not include the coreboot table as one of its members. It
++          is identified by a root node descriptor with the magic number
++          0xc0389481 that resides in the topmost 8 bytes of the area.
++
++          See coreboot's src/include/imd.h for details.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    firmware {
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        /* Firmware actually emits "coreboot" node without unit name */
++        coreboot@fdfea000 {
++            compatible = "coreboot";
++            reg = <0xfdfea000 0x264>, <0xfdfea000 0x16000>;
++        };
++    };
+-- 
+2.52.0.460.gd25c4c69ec-goog
 
---PRHLhYo6a0QDr1AR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaST2RwAKCRBzbaomhzOw
-wnRnAQCjwa0q7CdVmOeRFQA1UGaN+cYQsOaeJZpLNsTtC46T2AD/QQ9UC3NwUqp8
-tCwLd6MXxidHtGCxVcDu+BxYqOjwkgc=
-=1A1B
------END PGP SIGNATURE-----
-
---PRHLhYo6a0QDr1AR--

@@ -1,64 +1,64 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3412CE55A
-	for <chrome-platform@lists.linux.dev>; Tue, 25 Nov 2025 00:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F551531C1
+	for <chrome-platform@lists.linux.dev>; Tue, 25 Nov 2025 00:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764029730; cv=none; b=GoqExP0qvYQxxzHO9VgKZnSFJcktGM2MosmUpsHiCmVaGNTQH5JGU6ALfQnbiCSQGpSPKptUlDJERtxDda+VWJqsjiVjEbbcQZ/kQP0yQMowHLMM1FKsLM3NDYfMEViKLFSxXJFMboOkE8Jky1WY4i4cf85iro0Q/g7H1iPlCss=
+	t=1764029772; cv=none; b=Sz+ELNz280xpSMnA0ad9MiqdscJ2YoMQJyfr0mCi9+oFJYqPXaB6NQVnFr/ynpJIJi3TODMklr6CvBKDuubSv9fHRczB7btYlgqA6dzHXmFh6oznr+wwXRk0LxVoRBqOCNDisYfpY4uSM3k1nOnzLyB0PhWMxJ+lKS7pvr1SUhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764029730; c=relaxed/simple;
-	bh=M2QyDO/Ls3kyrjY+oZ6+0A/VI/hwZn34k06mJO8/ChY=;
+	s=arc-20240116; t=1764029772; c=relaxed/simple;
+	bh=88K+dT75g4DX+0i8vO0KhQGeYUQrLnAqYrXSdijTo0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FFg7jgELXv5jREmlALmMFweMY+UVDaeo9k4ELdQPKhH5NjTHS3Bed3RqDtegDuMXzfPqCLVBZOJBk4o7ufP0EUZ5/NqZNYBITNPLBpqbt8rdvqEj51uFF3pnPrCQCSovyloRCAZpe3lhKYLsC4hCMgCTSqnemXBgLamDinTzXs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VZRGnyGp; arc=none smtp.client-ip=209.85.216.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=X+TMNl80oJKF4wwA5qDTfLkbOLRg/7eW6p9srOw3DMV2klydBznpqk/ACDTukL+NPyhaqbaFUa2BBOa0g4DJBD9RyOeQkk6JUELLHJ/2opAjwRTdUxj+q/+XTzYyb6Dc9vRGA+oAyuoEFIWq7oL/M83WECIIdHrv8iLUyh++EmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GESMrmNN; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VZRGnyGp"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34381ec9197so4348196a91.1
-        for <chrome-platform@lists.linux.dev>; Mon, 24 Nov 2025 16:15:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GESMrmNN"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-29853ec5b8cso59795635ad.3
+        for <chrome-platform@lists.linux.dev>; Mon, 24 Nov 2025 16:16:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764029728; x=1764634528; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1764029768; x=1764634568; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z75TCqXiDeNiJ1V7BhWMq+8kmv0G4dkLwgIfeG61ojE=;
-        b=VZRGnyGppo3hkLbazemdhNAdh7CZEWxNTsjcXw9hDvBnOtqKuYajQxvXfyQ/ojGisH
-         SrIhMzk4xCYAfYYxvUbUf6Rbjm7zPV1jX5fzwOMPwaFjPfAlDCvbPxOtrV1YMsURuFg8
-         3LZqezhd3rd3pT31uMs7Uwt4wHwhziHnViKzhGCcAMG3sYxVZnIBGAtuJT2+L1o1vn1j
-         g3dazL1w1fNrJKFgeaICVgVcewfxWdA3aIMPuI56cj4FGvVy+f4xJmG5+0PQstmf5Hmt
-         qtpqsaV1CXExMp4iP1I7pQ5VfipAYii9pCMW+t6smGMpKTW4TCyuXldrhD88HhdsS89w
-         qBhQ==
+        bh=sLyiccFRketBV3KSBd0kecIXR8DpgWP+Guf8h/gF8aE=;
+        b=GESMrmNNOUcFazOi10VHrMz1ID81qzS2HCFprj/UAYQfJb0yVQHkGJlfLt3xBRsJQE
+         ZSXeJK0bLE4NtE4PlmPIKsiZkNAaGc5cGSnKlu1Z8rafCvKit4jS6ShSgVj7slEguMl2
+         Wc6t5LQPz1plXnTJtKUcgijgrnw6mcaTQyCBErsGJGGgL9YJ4bpUG1UEFA/nU7NEYQvK
+         vf7sl/3KNRCInNRuF9SsF4f6FFUgTV4TcNHhKAebZqY3aRDppbEIy+if3kkO3C2zv2ll
+         IPDdAAq/hLoYkpI1yu0SYP2d0jxhIeRTFebkm0TnZRZ1QR/dv7/qgHaDnajaNvDyzxNE
+         951A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764029728; x=1764634528;
+        d=1e100.net; s=20230601; t=1764029768; x=1764634568;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z75TCqXiDeNiJ1V7BhWMq+8kmv0G4dkLwgIfeG61ojE=;
-        b=GztpuVNLKyW9ZW3RM3FamVYNEzXkG6QbRBrd7ORyXA0bntmAj0fu8Ou3kOyu2Y24w5
-         X3SQgQhIeuLITHCQDiwY6RcvSuJGlEWq8zXASbxhgQTbQL7BML3/Ap66OLVYkfQY8aRJ
-         Hw4mfgg2tfljvmLDif09JmSvYA6XGvXMY2fFMS6O4pHBvT1/llXqGz4p9nt+iQMYbM8O
-         GX2caVAh0IKY3rCiIrFyXwSDODa6nb8e5rtqRZEAyG1iJLdi945+tJO4BzHTVrWoWjSq
-         ODh6PH297raxwclixZdilwHrVhoG0tWkTkEBiQgTMXnXHl6WVhljBNpvhXjngo6f5AGj
-         EynQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXobPNhFj1k3OIZAPP4O5Ue/2XCCQQdveefMpbn/A+aU0m9q/4YzzTQz7FkEb/uJ7XHW8DPnPY1wA1N3G4TqK4=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6cbVPvbJnahtdW+3qyZDdrJG8e7gIengI8GCXo5eDHjcrYRJN
-	IlDsF+vq74oGlupOTYwBunjn4S1S83NY/XWqPlRH6fFqp5rwpdWTbDwCK11WlXwqng==
-X-Gm-Gg: ASbGncujvgs6t9YAcLvj1mzvAK0//e4gbMUBZEvhSttHsH3+VloFE0jKoXB1ODvgr2f
-	ymySy58kzJOBX1wFE+8H43mz32AdJpnU/VC6ih1VnobzslFv/ELAlkMZbeFMEdaFx2vzUk8Ls3c
-	h2LtHqDoPzRQk6x2b8c1cdX4oJzA3kjgwGdYwH5eaka8oHPlYgdFo2CpddscKSoIj4xXcGStNHD
-	q163PAeKzKBDsYyAmRehg+ONC4uaAaBS9okSAtFvCn0Dk1/FK+T5JpeixPdahW2gEIguQ//PshS
-	THmOFxBS3XlayKZpFzVa7J0NlwHcWKn+P2pwSCX67dzCyfP5VshxpcdONkf8CmaiZqg+yqTqynU
-	Y2DiX84r2qCA/NLqghpm2TrIIxf7Oc/kyldtkbGml8gM02igBaAS30Y5MsNr3iSxudNBrs3PK6m
-	LfQi8K50388KB8HEUAbd8HL8t8oG+yMWzxjD5QP1C50AOn
-X-Google-Smtp-Source: AGHT+IEXdnepa2ycG6iOsvpDqbdObTbNWIRhpbI2lUk6w/VA/v7ttzN3xAcFJ11ipO773Q0QjnnD3A==
-X-Received: by 2002:a17:90a:ec8f:b0:340:bc27:97b8 with SMTP id 98e67ed59e1d1-34733e71c77mr13581520a91.10.1764029727967;
-        Mon, 24 Nov 2025 16:15:27 -0800 (PST)
+        bh=sLyiccFRketBV3KSBd0kecIXR8DpgWP+Guf8h/gF8aE=;
+        b=Apb1JP6NEtGFcNkbPW0exBY9SUvY7lOPH/bB/YzOAIRxrwxfnwbY5yvDKf3unf7GRl
+         An/pcQvZnWipxJnnXAA4hHzoJOttD8Kdo4pOHsQzyc4RihtrOAIR2qef1uzWqnyir9qz
+         SWca0a6r/OKJABMPEJYHGblIX8qbOSelZPphkFVNF0zuOT6xUkcZ3qs6bXLOaBb/QyuM
+         b22kbx0vZezoE40nNr3Nvsj5R503pm2R5yNxNsUWD6+7pJR5y/xLnYBEPNGY1VbzV+oL
+         j4BPtfPc0WkpmPiNX6U/BwsT6tHuVfaVSzqu6IeJWBtGNGaJhaHiifBgkqvSNGXXma4/
+         Cslg==
+X-Forwarded-Encrypted: i=1; AJvYcCXUHuL9HYIdFp6rFj/QwxzDysbxv5I92jYSrk/kXN4kBYwJMyvgKRZPdMD1PDniHFiZ5VZ6cO2YLX1tRDrTPWo=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2erSkHzJfN/Av5W2lKCmX6Vw5/q7O5OZ1Va8awALWHE00heqZ
+	8rNX3wANoMPV8xpWfMZzeHkHN1k0NsyR2ynYQhr2E8U3TzU/MFU2X8VSGf5uFhLxew==
+X-Gm-Gg: ASbGncuUpjd+QRcXkF7fvkLi7u9DXQHYDMiMUIDWtGZZHD/e+7UkRtT1Bomi1Tnxwua
+	P6IIixc95I3CBwlYII4L1ddkVrj7suK3ee1oz+OxiR/dqspwvQXqGguJ2uOLbnDXTZ8NH5D0l2+
+	i9ZxBlLJqbtcPOJZWB/YJWiQsx5BF9Fu/7QwD4PwPEM5wH/aJfQmd0pTxmTPRhOB70NC0hQdLn4
+	ETgOL6+y9V3Lon7+x7o5pcWFuWjuzrxo9+xc4EJ3NS4nbl5heclAPwHlbOn56VNxgL2J6gjs4RC
+	iZdXANeXciTCg82HWiYR5rxOEhRc9bnRQoFj2wi1vLfApxgNrZ2GRHA63R7kfLrKOXjI6Ev+KZY
+	mO78Dzvf6kktgF51NpNLkpOaAdRbTh0PJemKeHgBQzXve5tAGH+1sHI/fqNlVofzbJnURyZUsK9
+	jJNer5GFt9rtIftdPY8sGpnvPWLXNWtCWl3Cz6KpS/2y4w
+X-Google-Smtp-Source: AGHT+IGtdLfcLagv9EE4VeSiSV3iYZFaLH51pSBBmFPOYtCNlvtT3y5HX/LP7IIpmk258K5p2Ee90w==
+X-Received: by 2002:a17:90b:3c8e:b0:340:ca7d:936a with SMTP id 98e67ed59e1d1-34733f22173mr15245146a91.18.1764029768076;
+        Mon, 24 Nov 2025 16:16:08 -0800 (PST)
 Received: from google.com (232.92.83.34.bc.googleusercontent.com. [34.83.92.232])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3472693bd15sm14766119a91.13.2025.11.24.16.15.26
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34727be2fa7sm14650194a91.6.2025.11.24.16.16.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 16:15:26 -0800 (PST)
-Date: Tue, 25 Nov 2025 00:15:23 +0000
+        Mon, 24 Nov 2025 16:16:06 -0800 (PST)
+Date: Tue, 25 Nov 2025 00:16:03 +0000
 From: Benson Leung <bleung@google.com>
 To: Andrei Kuchynski <akuchynski@chromium.org>
 Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -75,11 +75,10 @@ Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Pooja Katiyar <pooja.katiyar@intel.com>,
 	Venkat Jayaraman <venkat.jayaraman@intel.com>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] platform/chrome: cros_ec_typec: Set
- no_mode_control flag
-Message-ID: <aST1GwCm4aPqCWVh@google.com>
+Subject: Re: [PATCH v5 3/4] usb: typec: ucsi: Set no_mode_control flag
+Message-ID: <aST1Q4P6noMUNH3u@google.com>
 References: <20251124124639.1101335-1-akuchynski@chromium.org>
- <20251124124639.1101335-3-akuchynski@chromium.org>
+ <20251124124639.1101335-4-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -87,61 +86,55 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7PfsJrJt7aahXr+c"
+	protocol="application/pgp-signature"; boundary="h3g51RXmLcEl65vM"
 Content-Disposition: inline
-In-Reply-To: <20251124124639.1101335-3-akuchynski@chromium.org>
+In-Reply-To: <20251124124639.1101335-4-akuchynski@chromium.org>
 
 
---7PfsJrJt7aahXr+c
+--h3g51RXmLcEl65vM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andrei,
-
-On Mon, Nov 24, 2025 at 12:46:37PM +0000, Andrei Kuchynski wrote:
-> This flag specifies that the Embedded Controller (EC) must receive explic=
-it
-> approval from the Application Processor (AP) before initiating Type-C
-> alternate modes or USB4 mode.
+On Mon, Nov 24, 2025 at 12:46:38PM +0000, Andrei Kuchynski wrote:
+> This flag indicates that the PPM allows the OPM to change the currently
+> negotiated alternate mode using the SET_NEW_CAM command.
 >=20
 > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
 Reviewed-by: Benson Leung <bleung@chromium.org>
 
 > ---
->  drivers/platform/chrome/cros_ec_typec.c | 1 +
+>  drivers/usb/typec/ucsi/ucsi.c | 1 +
 >  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
-hrome/cros_ec_typec.c
-> index b712bcff6fb2..c0806c562bb9 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -491,6 +491,7 @@ static int cros_typec_init_ports(struct cros_typec_da=
-ta *typec)
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index 9b3df776137a..82c3efd72639 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -1700,6 +1700,7 @@ static int ucsi_register_port(struct ucsi *ucsi, st=
+ruct ucsi_connector *con)
 > =20
->  		cap->driver_data =3D cros_port;
->  		cap->ops =3D &cros_typec_usb_mode_ops;
-> +		cap->no_mode_control =3D !typec->ap_driven_altmode;
+>  	cap->driver_data =3D con;
+>  	cap->ops =3D &ucsi_ops;
+> +	cap->no_mode_control =3D !(con->ucsi->cap.features & UCSI_CAP_ALT_MODE_=
+OVERRIDE);
 > =20
->  		cros_port->port =3D typec_register_port(dev, cap);
->  		if (IS_ERR(cros_port->port)) {
+>  	if (ucsi->version >=3D UCSI_VERSION_2_0)
+>  		con->typec_cap.orientation_aware =3D true;
 > --=20
 > 2.52.0.rc2.455.g230fcf2819-goog
 >=20
 
---7PfsJrJt7aahXr+c
+--h3g51RXmLcEl65vM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaST1GwAKCRBzbaomhzOw
-wvFFAQCuGbxz6xVli+GKaG/ptObNPicCsYYsw9JeZWvQTFU4XAEAqOIJD+ai4Uuu
-O6BLLAU4psq5ZdQXWlVEG1RtiPxTmww=
-=obta
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaST1QgAKCRBzbaomhzOw
+wu9PAQDdKItmjykXpe6LqnMszjGxdJRCEusikaqeHLi1zowtagEAi+/gREG4Ve6j
+IsJX8A/1r97W3g3/o2N3KiBzUS5j4Ao=
+=OYnM
 -----END PGP SIGNATURE-----
 
---7PfsJrJt7aahXr+c--
+--h3g51RXmLcEl65vM--

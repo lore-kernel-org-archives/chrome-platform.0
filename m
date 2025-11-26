@@ -1,198 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FD9D271;
-	Tue, 25 Nov 2025 11:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237D24C6C
+	for <chrome-platform@lists.linux.dev>; Wed, 26 Nov 2025 00:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764068446; cv=none; b=g11tc/5PtuEYfP790G1ym7Im+IhKza2/rkfJmtPWFiLI9U4xI5nvA7mAwfv+9X7ygobm9/wa1rFSLR/STUrTAXZ6yn2o/Tue9J1rvtoKMQq60OwqxQbkDoqlBHWUNMs6Pgm/l3SD/k9gmonlQ7LF+CXyCEaGraVc+ZM7ua8oX6c=
+	t=1764117383; cv=none; b=GiD4ItrTP/laHrUM8VJXMe6HdSdnQVpaNmEcoC4QYu+w4+yDdzUJFs3vG5nV4yEPRNHMx/B7PPc8vBBgwDGO7uIEisJuY/MLypV71gEAVd6DwYPNYwqAy3149dKa7hhfVnsufz+k4akQylzDnlf2wMt0TB3iSJgxsfVNM4CF3Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764068446; c=relaxed/simple;
-	bh=QiOgoJoXqDk9M6kPeTKYdXRgOzf255a/k246EvsS2gQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ulMV1v2aKLTbznYQaAm+mQAHwwN22wi3oIWGl0MPJHMCCm1Oio/mo4XpLho2tN/sSB3ZIRBOB1zu8O7V70OGEAlvwLZhqYUnve+3z5ZSIXpGCl+hhjZLk4QfM2js/p1/UqOG0cTwbTw8RNAtPX7g68hHgcA1EEFzpFCucpwaLA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yb8IaVk8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764117383; c=relaxed/simple;
+	bh=7LudohsYC1oaD5/J7Dbq5dstKtMkG/Ng87rePwFfE88=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cCCH7RSdtlK1x7YiEIDkG4wg8PtOLaYrXUrXKRVl9yhPulJTrzHHG8phQ37BKZpuqp7Wl8bbXvK7ccMLz94ssna/I037PnlfRED5SxItpOdvL31K3PQXQiOIOQwW7BhmWL1NZO/BQAEPU0XqExHZcUdaWnGmg/teMwuJcY4g/QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KVmROafw; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yb8IaVk8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7036CC4CEF1;
-	Tue, 25 Nov 2025 11:00:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764068445;
-	bh=QiOgoJoXqDk9M6kPeTKYdXRgOzf255a/k246EvsS2gQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Yb8IaVk8lxZFuHa84VJqUArkGxDdR1eb6k/enxf2TEAf46rpXl/9aoySTcS0gYEHI
-	 NXmUrLr/haloP6mbpuZJRRz9kPzaQzfoCe9COK7CAG2TEVRE2bjd1vDnmANEK2aYWP
-	 z0qBsks04D/X/DW8rq+UhwUhXLDePpUar1sRQsqbkkZvmTIJp6fEgy8qDtYM+D8gfj
-	 BGFQDR1pAl9J91CsWuOA2AAzZZK9aF3liUM4XPSWWixCuNxNYkItV9ARC0O1AdIgLx
-	 XFuyIjfA7WO9kf3NBNuJPwc1EoYSAZpvvsIzm6Fq3dP8ykasNKiUDAraOr2jFb1zHj
-	 T82gAXSDVItFQ==
-Message-ID: <25ee55eb-91d6-4da2-a798-b704acfae4fe@kernel.org>
-Date: Tue, 25 Nov 2025 12:00:41 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KVmROafw"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ee147baf7bso71301cf.1
+        for <chrome-platform@lists.linux.dev>; Tue, 25 Nov 2025 16:36:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1764117381; x=1764722181; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=n5PIGTFLdkW4IniYiOexcRvEmMURl8sUXIKPSPYdx5o=;
+        b=KVmROafwkkDb3hSonwrKOdyAe3KT5EI4D2m2Qre8g9HmbM9lzcY3KeSzQZ+O+bZ171
+         ts429mgGmcOrQdW7T0yIfziOmSq7j2xdDpaPvPX03qj0E0CnfePfZxud4xQel3aWcWR3
+         js+JHTMdO9pNXfjjnyL5Fb0kNfiKa1d6Ix3tI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764117381; x=1764722181;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n5PIGTFLdkW4IniYiOexcRvEmMURl8sUXIKPSPYdx5o=;
+        b=L42aJ6gvOfZ3phBrTBQckN0UZssERAmdOTsNE8xL0udEtWfKy1rnijEnIShE4gDYax
+         ArRz+SR0uTcSJ43BLeYqgoP3AKvRrBVBRqIQeW10hALSdZVwC4mk7n/MyCz27YBcdJPv
+         uCiEd2exgU9bFKWXTKS+mejleM3tcBtuqkiUEMZm+/0gWCDD7/40x+CAIJLIFqYf6DpJ
+         WCSqxBWk0LYdtMXqxovA+Rw+TlOuQVOF72Uh8xaVMmNcmz2d540h7CziJKXLRNrcrs/n
+         qtUnhrS6GMbmjiiMuHgXviQ5rC2ALGoKSr/B18rMTx4PzsdZJYknPaU+wP2QUxrlRH17
+         GgTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSAP9xNXhntFF+OSt1KdkNlTMUmHLwD6LtwmHaO99LQt75DR1cjXb4lyIEVywn2ZNgFLYUqRf77sHu3krFrK8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvoWhTYQXZ3I5HT4wf8FUaLSd1crZVpcwvzElKNxykPG75wGDg
+	5YxgmtKzGI/vw4Tf+mdeTzeCq4p1LINLcRnzP2uijfAAajPXnfYwNvbYQiW7WJSZzsf7WW0PDAg
+	wDGW9TTGAY4RcqwDLIN6KPXpTP31A8VSNAOL58FC1
+X-Gm-Gg: ASbGncvOhNbACkBwhJZ39Zg1oakzReRWJkEDRgf8//VGXZWY4MpCYcWh09eESCXOX9W
+	bdD9Unz2LvWgJiVqETb8cCT8CEWzMWauSkTx9SSX3My2mZhWwV9e9yp3GAB9F83o6a4P9gFzd/N
+	EYYKkQtN7DloErUKp6uNFgRtqHzDAd7MX1LTKKbkD/ClbIAbcD/nk7IZ6CuRtELt2Pdi7rXvFby
+	SvSc0XCN5ugl1sEMo+Co/pvF7XB7XeEx4QZeVNRWbLMSFV982cI70dfdidyt8x6Gb/+KNU=
+X-Google-Smtp-Source: AGHT+IGP6oX1F/D2CxJOatUpgvnDhypTahl/TVp41rMeFMAZHUR682n0RVM907rgexwTnBhQMCJvipynTviLMfsb/Ok=
+X-Received: by 2002:ac8:580e:0:b0:4b7:a72f:55d9 with SMTP id
+ d75a77b69052e-4efc83b0345mr1017551cf.13.1764117380805; Tue, 25 Nov 2025
+ 16:36:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20251125064851.3781993-1-wenst@chromium.org> <20251125-outgoing-boisterous-millipede-6dabaf@kuoka>
+ <CAGXv+5FPaJMuN7wCP7g0Rxa0mXD3Ru0rxka=m8B_rv+XUkJPWA@mail.gmail.com> <25ee55eb-91d6-4da2-a798-b704acfae4fe@kernel.org>
+In-Reply-To: <25ee55eb-91d6-4da2-a798-b704acfae4fe@kernel.org>
+From: Julius Werner <jwerner@chromium.org>
+Date: Tue, 25 Nov 2025 16:36:07 -0800
+X-Gm-Features: AWmQ_bkYsZKnR0Rl94iSzfQ_dAjBcO2VNFs_DTYgpRBgQH_dr4_09XaXBAvsBPc
+Message-ID: <CAODwPW_LfeC7UFnDMxJFfKCFBoGBvu2O6S=otD0Sj7ssOSJVgw@mail.gmail.com>
 Subject: Re: [PATCH] dt-bindings: firmware: coreboot: Convert to YAML
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- chrome-platform@lists.linux.dev, Julius Werner <jwerner@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20251125064851.3781993-1-wenst@chromium.org>
- <20251125-outgoing-boisterous-millipede-6dabaf@kuoka>
- <CAGXv+5FPaJMuN7wCP7g0Rxa0mXD3Ru0rxka=m8B_rv+XUkJPWA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAGXv+5FPaJMuN7wCP7g0Rxa0mXD3Ru0rxka=m8B_rv+XUkJPWA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Julius Werner <jwerner@chromium.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 25/11/2025 11:41, Chen-Yu Tsai wrote:
->>> diff --git a/Documentation/devicetree/bindings/firmware/coreboot.yaml b/Documentation/devicetree/bindings/firmware/coreboot.yaml
->>> new file mode 100644
->>> index 000000000000..568afd1abb92
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/firmware/coreboot.yaml
->>> @@ -0,0 +1,60 @@
->>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/firmware/coreboot.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: COREBOOT firmware information
->>
->> Coreboot
-> 
-> OK. Side note, coreboot is stylized in all lowercase letters.
-> Should I follow that or just use standard English rules?
+> >>> +title: COREBOOT firmware information
+> >>
+> >> Coreboot
+> >
+> > OK. Side note, coreboot is stylized in all lowercase letters.
+> > Should I follow that or just use standard English rules?
+>
+> Just choose one. Here was capitals, but in description not. Preferably
+> Coreboot or coreboot
 
-Just choose one. Here was capitals, but in description not. Preferably
-Coreboot or coreboot
+coreboot should always be written all lowercase, even at the start of
+a sentence (i.e. "...bookkeeping structures to the kernel. coreboot's
+FIT image payload can insert..."). Not sure why I wrote it in caps in
+the heading here, that was never really correct, not even back then.
 
+> >>> +  The device tree node to communicate the location of coreboot's
+> >>> +  memory-resident bookkeeping structures to the kernel. Coreboot's
+> >>> +  FIT image payload can insert the node into the device tree. If a
 
-> 
->>> +
->>> +maintainers:
->>> +  - Julius Werner <jwerner@chromium.org>
->>> +
->>> +description:
->>> +  The device tree node to communicate the location of coreboot's
->>> +  memory-resident bookkeeping structures to the kernel. Coreboot's
->>> +  FIT image payload can insert the node into the device tree. If a
->>> +  second-stage bootloader (a coreboot "payload") is used, then it
->>> +  is responsible for inserting the node.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: coreboot
->>
->> Blank line (it is always here, there is no example without, which makes
->> me wonder which file you took as starting point)
-> 
-> I actually converted the existing text file directly, copying
-> boilerplate, i.e. the top few lines, from another file.
-> 
->>> +  reg:
->>> +    description: Address and length of the following two memory regions
->>
->> Drop description, redundant.
-> 
-> Ack.
-> 
->>> +    items:
->>> +      - description:
->>> +          The coreboot table. This is a list of variable-sized descriptors
->>> +          that contain various compile- and run-time generated firmware
->>> +          parameters. It is identified by the magic string "LBIO" in its first
->>> +          four bytes.
->>> +
->>> +          See coreboot's src/commonlib/include/commonlib/coreboot_tables.h for
->>> +          details.
->>> +      - description:
->>> +          The CBMEM area. This is a downward-growing memory region used by
->>> +          coreboot to dynamically allocate data structures that remain resident.
->>> +          It may or may not include the coreboot table as one of its members. It
->>> +          is identified by a root node descriptor with the magic number
->>> +          0xc0389481 that resides in the topmost 8 bytes of the area.
->>> +
->>> +          See coreboot's src/include/imd.h for details.
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    firmware {
->>> +        #address-cells = <1>;
->>> +        #size-cells = <1>;
->>> +        ranges;
->>> +
->>> +        /* Firmware actually emits "coreboot" node without unit name */
->>> +        coreboot@fdfea000 {
->>> +            compatible = "coreboot";
->>> +            reg = <0xfdfea000 0x264>, <0xfdfea000 0x16000>;
->>
->> That's the same address in both places, so the same one entry. You need
->> two distinctive addresses or binding needs changes to have only one item
->> as well.
-> 
-> The description does mention that the latter block can include the
-> former. It's really up to the firmware. If you like I can include
-> two examples to cover both cases.
+nit: Not really sure what "coreboot's FIT image payload" is supposed
+to be? Do you mean "coreboot's FIT image code"? (The file is just
+called fit_payload.c because the FIT image takes the place of the
+usual coreboot payload, but the code that does the device tree
+stitching itself is still coreboot proper.) To make the point you're
+trying to make here, why not just say: "This node may be inserted
+either by coreboot itself or by a second-stage bootloader (a coreboot
+"payload"), depending on where the kernel device tree is finalized."
 
-Lovely, I don't think we should accept growing this binding at all until
-coreboot fixes this mess (duplicated entry and missing unit address).
+> >>> +        /* Firmware actually emits "coreboot" node without unit name */
+> >>> +        coreboot@fdfea000 {
+> >>> +            compatible = "coreboot";
+> >>> +            reg = <0xfdfea000 0x264>, <0xfdfea000 0x16000>;
+> >>
+> >> That's the same address in both places, so the same one entry. You need
+> >> two distinctive addresses or binding needs changes to have only one item
+> >> as well.
+> >
+> > The description does mention that the latter block can include the
+> > former. It's really up to the firmware. If you like I can include
+> > two examples to cover both cases.
+>
+> Lovely, I don't think we should accept growing this binding at all until
+> coreboot fixes this mess (duplicated entry and missing unit address).
 
+As Chen-Yu said, the second region usually contains the first. It is
+possible (in fact tends to be common on many platforms, because the
+coreboot table is often the last region added to the downward-growing
+CBMEM) for the start addresses to match. That is not an error or a
+"duplicate", they're still describing two different things.
 
-Best regards,
-Krzysztof
+We can start adding the @<address> part if you want but it hasn't
+really been relevant in practice since there will always be only one
+coreboot in the system anyway. As far as I understand, node names are
+just informational in the device tree and the compatible string is
+what identifies the actual binding. Since bootloaders on older
+platforms often don't get updated, it is probably still a good idea to
+ mention that in a comment like Chen-Yu did here even if we change it.

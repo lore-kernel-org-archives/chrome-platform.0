@@ -1,62 +1,62 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96EB30DEA2
-	for <chrome-platform@lists.linux.dev>; Mon,  1 Dec 2025 12:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D603130E0D9
+	for <chrome-platform@lists.linux.dev>; Mon,  1 Dec 2025 12:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764591985; cv=none; b=u734TA7uNLD9T02CW/2ranCyHj9/eI2hYOUNud6D5Nj/9EjhevqWTwgvcJGdln0tRlW95v+EpE7NGhTjM1m6Hie6S5zQkRreJg/nhtKEmSfFeOe4LkEVUHn0lMdRs6QC1BlyW2/ZOsSpjJ/q5yJedvWxDlVPyEoSLnyOYCjFKPs=
+	t=1764591987; cv=none; b=XbuwpXfmcJL4Q+W1ZenhvuUpWkk0e8NQPZa3lH63qIRUlAtF06oWYAdip0gLCc8Ct4Fb6VkPJCW8imhZ+LrwW95cTP6CAja0lYVDGx7/80rPScRRlb3iewnNqZlW+0T0CPV3usYe4dY78m9zGKAb0MYns21EUqieiPILhgIjB6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764591985; c=relaxed/simple;
-	bh=GLVgDEZR/yW+dPBnqZM2+KBG6I9egBK1BkHdtIV8Re0=;
+	s=arc-20240116; t=1764591987; c=relaxed/simple;
+	bh=EjyjRDZ14jo9PQ2gU5QebdkTOWDTQZAHb1P+d2FyXxY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ofnQ+KFR0DUWKLTvVqDY8mNecwD28iuYHnnFv6Qy2BujaYePSJ2TugAEPL+/5CYsLkzZEgTzjot32kaMEF2wXn9MuquDNjVAnP+a38nlEjQZO1apKVn3qvLuuC8AqQiAtPfK6/LvJ5Djrkuf/oU3CKJaSqQm6Nr1QYkvFEZ12WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=E3LSf6dq; arc=none smtp.client-ip=209.85.208.49
+	 MIME-Version; b=uChlqZRgTSNmWMoB9JOircHA+M0AmD9FESYuQJGs3VIyFU5h29c5Zk2JW+qfTlnF9zI+kB3q35djQCzm4MRWZ9b6uWuC8OTkYjfgSx6hGAHZMxf+d1D/tvi8O/VchPe64/mFPu2LCcIi4SzSrNA2wauuK1PHllYzRPU0LYzJGAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mcimcMGE; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="E3LSf6dq"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-640a0812658so528004a12.0
-        for <chrome-platform@lists.linux.dev>; Mon, 01 Dec 2025 04:26:22 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mcimcMGE"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b728a43e410so704013966b.1
+        for <chrome-platform@lists.linux.dev>; Mon, 01 Dec 2025 04:26:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1764591981; x=1765196781; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1764591983; x=1765196783; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=k5OrnZlcNOQDMQX5tOxuMnlnnAQiRlG+9PrDueeCn1s=;
-        b=E3LSf6dqbYQ2P6qSRfiVkpq0TPwmUhEvxbC4LL1MwdcraaCoV/7rb4UpLyQ4c7LxT4
-         2AMMRe4dg0zylGEnsEClVV7G6g+niCc9VQJ77gCPLHm5uLw2xg4aQFeAJTeYp2F9IsKC
-         vdml8E38krtU4nfPLSR2vYdnXGSOBH59qrZNE=
+        bh=w3siUDoeibOS44ZiVJ7r4alLl9iFlDQ+/+PWsVjixhQ=;
+        b=mcimcMGE6/3BZhShF6P3Q9K9ucCCJZ0kLXxLVcSC7d8xnQKpQrl93tU01Ev7othyCM
+         nmkxl9suL44DGbJKfOvfiglGZApWmZUdxo1/ia+AKgjKsy4qugzMMRUfO8oB5k7KHgsi
+         PuUb9RjNClNn3RHTlviiGh69Bsmqf7QAWkM4g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764591981; x=1765196781;
+        d=1e100.net; s=20230601; t=1764591983; x=1765196783;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=k5OrnZlcNOQDMQX5tOxuMnlnnAQiRlG+9PrDueeCn1s=;
-        b=X5XazIfLgIiFwYNNqcqbcH3H6XBkH8NcIM0DsrsEiET4UEBUO4d+NR7Q09nehrRahr
-         JnnPwlMKimZ9uF1URgRiEVb2G69HqXKLTO0hpPBdMHSlsdEA8i5iTlsAPBWbkwSAKT6p
-         LT5rCe6Axbr+Q8MWIBuSAma4AtquEemAbnknJGhTPsDzm3MrN5RvTpcXv0U2c0TuWgDV
-         DmhkimOcsxmp7+bDk7FpxTjQnx46Y2+atNel7UlDrFBOsP6Ld85TXwn/OkqnAziRL/4/
-         wlBFy5PQDH1LSsY4lcfnCwgcCsqdnPCuEMHqTI/BW6EuCBJGY6ZJ/Lr+XCjh0ZFnyNSt
-         kbdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXCKDKk6MxGzAspM1/pPSaPhG7dz10iO/9TLIb1NTjFEIzy6BN9l+mesGmx4gGy879JWPRtYGATlKAwIFd+l30=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhnduRAyDM5fxa+zhGwlRCAdDVXMXbjs4ACX+9UrSbxgSRU8Kq
-	RDG1nOP6RjCfnw00fq+go4IfDPMiPzyNzwV8zifxxPrk10QK/qxkzz0MFqfslhefvA==
-X-Gm-Gg: ASbGncvvDfn1tkyNydzEE3kW2IgIl21iFz+tP/U8RmTKz9WzC0GtL6F1Cp80hSjv1hI
-	YNniLMISjdfb1gOSOIV/lraEGNeqvlO6W6pLxgMrtkJmkKhkNSqEwoQBL2XTHPTj7CYtkO7Zf8G
-	RUfLo3Zn+cLJm6GDioWzwUP4E0b5wuCPhWLc8QCJVTMre5fURDPZB/HvsLp8D7BGrzB67tvh9kI
-	Gs4KtgFA5MqMOtm5JZtzJw9s7hLCAoTZXYq/SEcK4x8bnwbhg8s89yll5yj/4NqykqEXnz+PqBE
-	lLBDzaL/BneoUO9nkbMDFFtPq9Lm7s6XaACwa0SRVfa2INoVF6Hp9U+WwwbaVD+YC+xfIUde3ZB
-	vDNQg9YsDeCK9BdQb2fv5CT/cZokyB4nw2GUbJZGVIDQ8dwovkqYaJ5i9GXQgmMbAtIDL37ol4r
-	+NzRnAbTThIB6Y0/JIFl3hAmimGS83L74EbM5aCWT4tYzMSUD0WCbzsDViFIbcRdBhvjN28ndZD
-	qCxfPnEt+UH40yV8W5nhA==
-X-Google-Smtp-Source: AGHT+IHo6BcWEO8aAB6UKpwKa3lU4iaGYTslO6xLm3i1HGiV97D5oGlqLdkkc3mN0VhnSOUSh5Hb2g==
-X-Received: by 2002:a17:907:980a:b0:b71:ea7c:e4ff with SMTP id a640c23a62f3a-b76c546d949mr2614872766b.6.1764591981126;
-        Mon, 01 Dec 2025 04:26:21 -0800 (PST)
+        bh=w3siUDoeibOS44ZiVJ7r4alLl9iFlDQ+/+PWsVjixhQ=;
+        b=KgXOTCCTbgo9G3nTwcr600MuLnesHff/fkd4XlH5iuauAl7MpXOky5E95gD4A9Qo4g
+         SzXoT063XJkhyG7y8Zw9AtPSWQQp92kfnruYm3SMf051CzNH4Tv6gpW2TKDU2QiyiBk8
+         GYcspDcr4iN9LrtCKKSSDpbPR4zNndWTh1CIcyOfPYt+qMXNuB0dS69CToi29/RdSZuP
+         QA1tvNGC3vjtHEa3dDfm3p7xW/NA7d+MCmKTt+cDNIjcBOXSloA4GIQBh9THf03E7OON
+         ltVfAxbsFQH8fz66nvBqANtkHbYWx35mqMWdL4fEexpA9X8YAY7VMowfNmWTHkLvIa5q
+         H+Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCWLC4tQ1qAWMQreeXv+4kq6oBFfMCt/21ETdV8OiAX0+atjsnXQHjPwE7mcD3AX8HWIjGqqWDNYMo/NZlLuRHY=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/Y/+h/DWim+4+RZybToF9ogdeO3EJA5g0Ic4tAsiH6n1xjWCR
+	TXURgJOFZ3vyosXBZ8t2Tk2FMLTJsaNlXoGy1ETDtomeJza6dz/x0S8sA2c/JmF9LA==
+X-Gm-Gg: ASbGncuCjX2vIY9q7l2FP54lXsNCmVq4tlYpZ3JDQE56Pu8JTNSEyg7I+bcjO/sS/WH
+	Cepy73blti3ui1pXpWYUB6wXceoFAO8A3Agp8006Vkrh9CRjH7obcKJsqZ1MweQ7FgjWXtKUPN1
+	IcI5MsWtOBGt7JWXssxfsLRuGSfiaJxNLggLrdGfx+xEEmn519/8gp5WJyCvkEPEhi0lrwck9Zl
+	UyswxD1zQTQjx4VWkJIwyGTxdiwtIaKOlYkKDR3ufUcuK69pKOkXCgl5QU3fOh3vINliVdZzCjW
+	3JK1m6xArVemu6uoZSGVTGso7+mHn8FtR4aUOX1dKqScSyDroFw3hJIKQC6Z3knGh8lGUa8B3jd
+	13lyD1xln2IpYqQ0oOGxSNdIPNdfIMBVnA7LfiP8MlDBenBqUFuEbhw8Kw8+mZNuu844kupc8VT
+	Qrl97f5f/nlePm+gCn2R1Ymoj9OZBF4MkeJVEZChqu/sm2085/eGUl++ilUx4JYZlo5TM8nWDhA
+	W93+g6adsk=
+X-Google-Smtp-Source: AGHT+IGdIbQA5fN2pjwFCGt2uQXmBVTAC2xTd2yjO+gh50cAVKF7tAIvotcRnv9TG3dRpl06Kz7Dmw==
+X-Received: by 2002:a17:906:fe08:b0:b72:a5bd:c585 with SMTP id a640c23a62f3a-b7671732667mr4428434466b.46.1764591983127;
+        Mon, 01 Dec 2025 04:26:23 -0800 (PST)
 Received: from akuchynski.c.googlers.com.com (218.127.147.34.bc.googleusercontent.com. [34.147.127.218])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f519e331sm1229049266b.24.2025.12.01.04.26.20
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f519e331sm1229049266b.24.2025.12.01.04.26.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 04:26:20 -0800 (PST)
+        Mon, 01 Dec 2025 04:26:22 -0800 (PST)
 From: Andrei Kuchynski <akuchynski@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
@@ -76,9 +76,9 @@ Cc: Guenter Roeck <groeck@chromium.org>,
 	Venkat Jayaraman <venkat.jayaraman@intel.com>,
 	linux-kernel@vger.kernel.org,
 	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH RFC 4/8] usb: typec: ucsi: Support mode selection to activate altmodes
-Date: Mon,  1 Dec 2025 12:26:00 +0000
-Message-ID: <20251201122604.1268071-5-akuchynski@chromium.org>
+Subject: [PATCH RFC 5/8] usb: typec: ucsi: Enforce mode selection for cros_ec_ucsi
+Date: Mon,  1 Dec 2025 12:26:01 +0000
+Message-ID: <20251201122604.1268071-6-akuchynski@chromium.org>
 X-Mailer: git-send-email 2.52.0.158.g65b55ccf14-goog
 In-Reply-To: <20251201122604.1268071-1-akuchynski@chromium.org>
 References: <20251201122604.1268071-1-akuchynski@chromium.org>
@@ -90,101 +90,96 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the ucsi port driver supports modes selection, it should implement
-`add_partner_altmodes` and `remove_partner_altmodes` ucsi operations. With
-these operations the driver can manage the mode selection process.
-Once partner altmodes are registered, `add_partner_altmodes` is called to
-start the mode selection. When the partner is unregistered,
-`remove_partner_altmodes` is supposed to stop any ongoing processes and
-clean up the resources.
-
-`typec_altmode_state_update` informes mode selection about the current mode
-of the Type-C connector.
+The mode selection sequence is initiated by the driver after all partner
+alternate modes have been successfully registered.
+To prevent the Power Delivery Controller (PDC) from activating alternate
+modes, the driver disables all alternate modes on the connector:
+- During the connector registration
+- Upon partner disconnection
+When a partner is disconnected, the driver also stops the mode selection
+process and releases resources via `typec_mode_selection_delete`.
 
 Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 17 +++++++++++++++++
- drivers/usb/typec/ucsi/ucsi.h |  4 ++++
- 2 files changed, 21 insertions(+)
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c | 44 +++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 82c3efd72639..ee96c42e9e27 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -331,6 +331,7 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
- {
- 	const struct typec_altmode *altmode = NULL;
- 	u64 command;
-+	u16 svid = 0;
- 	int ret;
- 	u8 cur;
- 	int i;
-@@ -355,6 +356,15 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
- 	for (i = 0; con->partner_altmode[i]; i++)
- 		typec_altmode_update_active(con->partner_altmode[i],
- 					    con->partner_altmode[i] == altmode);
+diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+index d753f2188e25..988a159ed778 100644
+--- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
++++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+@@ -16,6 +16,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/wait.h>
++#include <linux/usb/typec_altmode.h>
+ 
+ #include "ucsi.h"
+ 
+@@ -33,6 +34,11 @@
+ /* Number of times to attempt recovery from a write timeout before giving up. */
+ #define WRITE_TMO_CTR_MAX	5
+ 
++/* Delay between mode entry/exit attempts, ms */
++static const unsigned int mode_selection_delay = 1000;
++/* Timeout for a mode entry attempt, ms */
++static const unsigned int mode_selection_timeout = 4000;
 +
-+	if ((con->ucsi->version >= UCSI_VERSION_3_0 &&
-+		 UCSI_CONSTAT(con, PARTNER_FLAG_USB4_GEN4)) ||
-+		(con->ucsi->version >= UCSI_VERSION_2_0 &&
-+		 UCSI_CONSTAT(con, PARTNER_FLAG_USB4_GEN3)))
-+		svid = USB_TYPEC_USB4_SID;
-+	else if (altmode)
-+		svid = altmode->svid;
-+	typec_altmode_state_update(con->partner, svid, 0);
+ struct cros_ucsi_data {
+ 	struct device *dev;
+ 	struct ucsi *ucsi;
+@@ -133,6 +139,41 @@ static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd, u32 *cci)
+ 	return ret;
  }
  
- static int ucsi_altmode_next_mode(struct typec_altmode **alt, u16 svid)
-@@ -635,6 +645,8 @@ static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
- 			desc.vdo = alt[j].mid;
- 			desc.svid = alt[j].svid;
- 			desc.roles = TYPEC_PORT_DRD;
-+			desc.mode_selection = con->ucsi->ops->add_partner_altmodes &&
-+					con->ucsi->cap.features & UCSI_CAP_ALT_MODE_OVERRIDE;
- 
- 			ret = ucsi_register_altmode(con, &desc, recipient);
- 			if (ret)
-@@ -858,6 +870,9 @@ static int ucsi_check_altmodes(struct ucsi_connector *con)
- 			"con%d: failed to register partner alt modes (%d)\n",
- 			con->num, ret);
- 
-+	if (con->ucsi->ops->add_partner_altmodes)
-+		con->ucsi->ops->add_partner_altmodes(con);
++static void cros_ucsi_disable_altmodes(struct ucsi_connector *con)
++{
++	struct cros_ucsi_data *udata = ucsi_get_drvdata(con->ucsi);
++	u64 command = UCSI_SET_NEW_CAM | UCSI_CONNECTOR_NUMBER(con->num) |
++				UCSI_SET_NEW_CAM_SET_AM((u64)0xFF);
++	int ret;
 +
- 	/* Ignoring the errors in this case. */
- 	if (con->partner_altmode[0]) {
- 		num_partner_am = ucsi_get_num_altmode(con->partner_altmode);
-@@ -1154,6 +1169,8 @@ static void ucsi_unregister_partner(struct ucsi_connector *con)
- 		return;
- 
- 	typec_set_mode(con->port, TYPEC_STATE_SAFE);
-+	if (con->ucsi->ops->remove_partner_altmodes)
-+		con->ucsi->ops->remove_partner_altmodes(con);
- 
- 	typec_partner_set_usb_power_delivery(con->partner, NULL);
- 	ucsi_unregister_partner_pdos(con);
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index f946b728c373..6e77bdbdaeae 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -75,6 +75,8 @@ struct dentry;
-  * @update_altmodes: Squashes duplicate DP altmodes
-  * @update_connector: Update connector capabilities before registering
-  * @connector_status: Updates connector status, called holding connector lock
-+ * @add_partner_altmodes: Start mode selection
-+ * @remove_partner_altmodes: Clean mode selection
-  *
-  * Read and write routines for UCSI interface. @sync_write must wait for the
-  * Command Completion Event from the PPM before returning, and @async_write must
-@@ -93,6 +95,8 @@ struct ucsi_operations {
- 				struct ucsi_altmode *updated);
- 	void (*update_connector)(struct ucsi_connector *con);
- 	void (*connector_status)(struct ucsi_connector *con);
-+	void (*add_partner_altmodes)(struct ucsi_connector *con);
-+	void (*remove_partner_altmodes)(struct ucsi_connector *con);
++	con->ucsi->message_in_size = 0;
++	ret = ucsi_send_command(con->ucsi, command);
++	if (ret < 0)
++		dev_err(udata->dev,
++			"Unable to disable alt-modes on port %d\n", con->num);
++}
++
++static void cros_ucsi_update_connector(struct ucsi_connector *con)
++{
++	if (con->ucsi->cap.features & UCSI_CAP_ALT_MODE_OVERRIDE)
++		cros_ucsi_disable_altmodes(con);
++}
++
++static void cros_ucsi_add_partner_altmodes(struct ucsi_connector *con)
++{
++	if (con->ucsi->cap.features & UCSI_CAP_ALT_MODE_OVERRIDE)
++		typec_mode_selection_start(con->partner,
++				mode_selection_delay, mode_selection_timeout);
++}
++
++static void cros_ucsi_remove_partner_altmodes(struct ucsi_connector *con)
++{
++	if (con->ucsi->cap.features & UCSI_CAP_ALT_MODE_OVERRIDE) {
++		typec_mode_selection_delete(con->partner);
++		cros_ucsi_disable_altmodes(con);
++	}
++}
++
+ static const struct ucsi_operations cros_ucsi_ops = {
+ 	.read_version = cros_ucsi_read_version,
+ 	.read_cci = cros_ucsi_read_cci,
+@@ -140,6 +181,9 @@ static const struct ucsi_operations cros_ucsi_ops = {
+ 	.read_message_in = cros_ucsi_read_message_in,
+ 	.async_control = cros_ucsi_async_control,
+ 	.sync_control = cros_ucsi_sync_control,
++	.update_connector = cros_ucsi_update_connector,
++	.add_partner_altmodes = cros_ucsi_add_partner_altmodes,
++	.remove_partner_altmodes = cros_ucsi_remove_partner_altmodes,
  };
  
- struct ucsi *ucsi_create(struct device *dev, const struct ucsi_operations *ops);
+ static void cros_ucsi_work(struct work_struct *work)
 -- 
 2.52.0.158.g65b55ccf14-goog
 

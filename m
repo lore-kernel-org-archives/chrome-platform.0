@@ -1,179 +1,256 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8F52DF714
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Dec 2025 22:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B51C23ABAA
+	for <chrome-platform@lists.linux.dev>; Thu,  4 Dec 2025 14:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764801663; cv=none; b=Y6e/U4v6srXHfMKb5TPAGmxsi2BgXBZA649jj68kwWkRhWHGqyc8cVV+ckDc77nbn/eCG7d7n39dc698LDB0GgY7XEx/eQmqsDNhvPpFRaprb/DYN5bSlsx3NRNyjM6+nW9ax5HEmfvvWlBw0AFwY4sLklxjjqPFqWo/036lyjc=
+	t=1764858163; cv=none; b=Etn4riibzWPsNSqtWpTLwFNuQ1jWB0GvSETwxWuoBWHVxCizipvF+2yMI+MfhNrwbPeRgjMImFFMDoYSO2UuE4Nz0l2o8I9k3YYJNkFiOKrV2or0Od/7tyUEJsfUYATvbmUY/UtEhovQFZJIBuvIuCV/mhIjVNpbaEW3+uXSrTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764801663; c=relaxed/simple;
-	bh=SUQIyZJZp+O7Vp//jfjuuVMp8y8KVbrJbuI0BpFAPZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kJVkmFADsPFw2tJt8PDRYhajPAmNhZWPvVOYS4KGLsQlbo/YJ7/lZ14YV0w3vcnX8CYNSclfiTP3aR5abav0YQa5UqwToyuUV7iHC7mH6Sv4YNolDRmtcZBetwHqW4lHGV6KBFM8G/79n/ss8T2PHoR0HCAI+SzzHrLXMAF7FgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=oMB1NMUg; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1764858163; c=relaxed/simple;
+	bh=FNBg/aXlkpeZs8DBArvFxRgWWANEdgPP75jkUWYJflw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ACahmS3lTc2A692n7q4Q7TtVqbiETpL6JbXKSM5dKz0uC0A0j+gXbzDVqLl14xiZZJqUWBDNaaBTNXoMYDfaLSmygtJeY6urQMfxRpPJ8e07Y5Re/atIiisfi9W1dm8ToSkIKiOeTl59/Ydc4S2171GhUY7mMNaut/oqkRsDKys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ICe8527U; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="oMB1NMUg"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7c6e815310aso219288a34.0
-        for <chrome-platform@lists.linux.dev>; Wed, 03 Dec 2025 14:41:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ICe8527U"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47774d3536dso10077085e9.0
+        for <chrome-platform@lists.linux.dev>; Thu, 04 Dec 2025 06:22:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764801661; x=1765406461; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fae2T8A00LxuEcnVsoAj9zMjZYXT6dEfKw1jD+A44wY=;
-        b=oMB1NMUgUr5I1NE9A0eNDINyoqE4euQE801FcGSb6L9GTGNmuPl5g3vE1UkeXi0IYJ
-         JFzbFgG5zrUOEpN911ncv7R0f1b8FdkApd89trg4BaTHME2+ghYOcj2muppLOfafbYPk
-         1MX+0nc0Z3xUQvRzA1JNEZdIiIQctaFhxjrhJEQG6c3nE57lJKq2+mf7RJpEJQco2VLn
-         wht04+xSoQR+p2LJNROSiUusp4p1gnqixZEzs8UqJEUF4OIZaGXDP0LrwgO0f+LzF2U3
-         IFySiVJkSSy2SK2ak+jrSi8Z4dtYkLeYdgSrSowVjwuFHaFMF037rtqXRwOFHYItJ0RK
-         N13w==
+        d=gmail.com; s=20230601; t=1764858159; x=1765462959; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=lNDG6GuMsZDqikeQhQzdv2px+61VwRvh7/YTpl3X4ic=;
+        b=ICe8527UwbE018jC8lgSpqQHfaVP/NkHo3VEQhBOXV5kvQOgJF2AudLIK48Mz/2sHl
+         1ggGC/zP0efRMy/mX/+OgzVnF985mfjSyQC3GAYCz/qFyfYNgKrrturEAOye8MsmbJHj
+         zQuR+SaCPf8uW5ugoVZG/X4EpI7y4L0i43cgg5Q9ln+uowJGCHBBvrguOj0MO55AXOH1
+         ws+cZvQv7CQ5vxvH1mDDw+8kW45BWjuNcXUYYfrvTwEi1D5xf12loVwUXfF297jg5jK9
+         XgNmrbrBA/fmRGF5aYVr9+CHT7vCEmxKUikqXkqoz+gJDNqkuJAesriihiqNJwI8xcUP
+         9s6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764801661; x=1765406461;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fae2T8A00LxuEcnVsoAj9zMjZYXT6dEfKw1jD+A44wY=;
-        b=F/G0sm4KlMGfhCHjIHFqzzSOL9/58VSxY4zSfQUVtpVPdrZCKyf9xqjOTbr1ibMk31
-         hrWFAMxWclcLA25KGTDJn6Da4XJwR0AWIyht+ud01bn/xxt8xLxsf6Z6qhxcXgZtADpa
-         zl7JOlcyiyI6iHxXCNBFHJaUh4Iwe4zo5LG2BtjrpDQAX9+bT5vZ6KHmzpoKS2rqFEzV
-         ZcEShv6OP2lNzTUKsi1jB8qYLDsf6H1jThA7oEiTt4FXwfNrvU9bVkcV19mxr/JQFMPM
-         gpmHtS1iQ11KFuzHWcpU4r1wMGzkgDo8DK84qxjRyO7NnwI8vPNvKpPN9OcJ0YpbYi/H
-         Dwow==
-X-Forwarded-Encrypted: i=1; AJvYcCV8d6hpdlJESnWHaglhTvmsgoEDr4EzzmrDqvKQFqHhvNnt/CDWgm5oEaN5wHiecE2/vxX/zTWqD8EvtgF55uQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxcpDrY/YzOfaaYfwI1dcKUmqH1jqVnLXhmLNB/AY88JoNjlbsC
-	qjB80oMyBOOVKgG0s9+qMF4ba9LuIwpwB674GvLrki+7i3t5G61Z6H6DCtemgRUeois=
-X-Gm-Gg: ASbGncsA2k1eZ8Vty7NcWi4vy3FM75nARuvLCxmHbdW9ThhqqrqZMNwu0G9YksytaFH
-	WvqYmgSc2N29di3IjxvWmRpqjcKv42UDa3dF19lzmgg65TGHe/CK0e+GruTRdSP78DO1kKtnAgB
-	l1FKjLsGr2RSHkSbYwxZpLsyo/bx4v56SL8PMiqAhL3fF1JMZWEmlRARO/z61ASYrdTeQH7GDRJ
-	z/9c8XJWbz29wx/Kzyz8az/M1lCOfgxPAQ+6MP9GrHiIgG+94e9lK7e/woLIhURG7XZoAp4J7aw
-	FfH5ZSmNdpWmqNzO5reCGh0+f4tZzOd90NU7k+hC2WiTJhWHYre5Je3lfiAXwCC+GOzg4zoN1Uv
-	z8b0+Ykj3L9VU65JsIhd6npOrkB7OHpWidmin29bhsHP9KolUPOoR/ZegUEhvumRAt04SVOAeXN
-	R+vlfJxT0ElLPAbIe44Q==
-X-Google-Smtp-Source: AGHT+IE8ahaPipDh8W8AoMJnvq7L+yJGEo+dv7+OKVdTyAgpgP0LgOtF5++RGJ1xwcQ5dHaHz4vquw==
-X-Received: by 2002:a05:6830:410e:b0:7c7:568d:cba with SMTP id 46e09a7af769-7c94d8c65cfmr2925018a34.0.1764801660974;
-        Wed, 03 Dec 2025 14:41:00 -0800 (PST)
-Received: from ?IPV6:2600:8803:e7e4:500:25f4:78dc:7b9e:e7a4? ([2600:8803:e7e4:500:25f4:78dc:7b9e:e7a4])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c95acdb599sm1821a34.28.2025.12.03.14.40.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Dec 2025 14:41:00 -0800 (PST)
-Message-ID: <e1048329-83d7-4947-a57f-afdf75fb1e1f@baylibre.com>
-Date: Wed, 3 Dec 2025 16:40:58 -0600
+        d=1e100.net; s=20230601; t=1764858159; x=1765462959;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lNDG6GuMsZDqikeQhQzdv2px+61VwRvh7/YTpl3X4ic=;
+        b=aB2FkJO7IjNwEF9XfvmfN2egoEWBPX7igI7lfBaHKrxqBJd7gyW79iV6Q7QpqcYn08
+         XyXWbwnweq+K6fWOVNeT3OlaY1mO4HguqhWjIMFLZlq+j26Q9rJk+dEw1Z3t3FAodr84
+         tM0/gXDACOMbTO9aPjomhHc64KdEvFFafte+EVUCTQTUESsO0pu5yR0uA5fpkrAhiTG4
+         QyExNS9s9jzX+9+ycxrNhE2M3scNKseHyyyBMrHN6BSX3qsrgoeBWM3IhR/eGwMBOU1y
+         gh3x7xZB0NixWITz4J8FZ6l5kYeEo+Af5Sv0yvTosetoMcapYbc1FBrgaqQ1skIFI0r4
+         UvKg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1ygwzJfOHucKlOrTkaRMhSgD/8Bn3FhJREyVURlDs2it0r7R+SqfN5Fra8b+8hMLBwkmj0PI8Lh+tfkOKj4Q=@lists.linux.dev
+X-Gm-Message-State: AOJu0YynQEzhm56WwaZoEdjMq/e/AtpWbsLXe4ICKBS9piN7Esn01oP0
+	RsQxCZDF954EttXZWsUu2UkIgQFfL4F8Znthc6buD1LvJoZMR9352f6P
+X-Gm-Gg: ASbGncuvbn3TdiQpooSvWrjF+q9sLjku9XxuWAfyuxcOfQHl2FNgAev7HUnXOfx7mR5
+	+5LDksjL1uP8GlY8Q+4na2sY6NiSp6NmsJrgUFwuifqwMPWv0cE0G3DTRwlt3JSwnoPJ7eg23VT
+	WbYDqsOrMmq0kQSTY7QQPkCNvFGopszS1CPkVgA0cZqI4tyykMZi9gj0yWI+vACdlX9U9+lK3IL
+	MZinKW5vrFLMP1dKyovGzdKKnj0Jqvj6Xz2gk3oABnOMmfaYl3A9+v1smnzEIhmhtld9Hu7Zz7V
+	vion/7OyQEeSzOIuf7dcVnwWLpyLGU94LOxAq/sr9cq5XUsvCww/j/meXOBWv/SIAq5nwFfVC3T
+	IXuj2/gS+ByWOscbWLM3sUg24IptxhQ3Ktz9jUyfrCXphPY7zXPR1HTchdObi+enhxU8eXwM5MW
+	i3+TmbFLe7KOQvf2jYt9w=
+X-Google-Smtp-Source: AGHT+IE8ryaq+bro+W0C+oPynjAr8yRyWAwkzp4GpExnDcsobnvZZMTRh3TBX5P0XKrrpanLsjAClA==
+X-Received: by 2002:a05:600c:1f90:b0:477:9e0c:f59 with SMTP id 5b1f17b1804b1-4792eb12478mr38164195e9.2.1764858159131;
+        Thu, 04 Dec 2025 06:22:39 -0800 (PST)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479310c802bsm32350095e9.6.2025.12.04.06.22.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 06:22:38 -0800 (PST)
+Message-ID: <9562673ef83dd73b6092b5a7d2042b380a55700c.camel@gmail.com>
+Subject: Re: [PATCH RFC 1/6] iio: core: Match iio_device_claim_*() return
+ semantics
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Kurt Borja <kuurtb@gmail.com>, Andy Shevchenko
+ <andriy.shevchenko@intel.com>,  Lars-Peter Clausen	 <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,  Jonathan Cameron	
+ <jic23@kernel.org>, Benson Leung <bleung@chromium.org>, Antoniu Miclaus	
+ <antoniu.miclaus@analog.com>, Gwendal Grignou <gwendal@chromium.org>, 
+ Shrikant Raskar <raskar.shree97@gmail.com>, Per-Daniel Olsson
+ <perdaniel.olsson@axis.com>
+Cc: David Lechner <dlechner@baylibre.com>, Nuno =?ISO-8859-1?Q?S=E1?=
+	 <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Guenter Roeck
+	 <groeck@chromium.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Date: Thu, 04 Dec 2025 14:23:19 +0000
+In-Reply-To: <20251203-lock-impr-v1-1-b4a1fd639423@gmail.com>
+References: <20251203-lock-impr-v1-0-b4a1fd639423@gmail.com>
+	 <20251203-lock-impr-v1-1-b4a1fd639423@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 6/6] iio: light: opt4060: Use cleanup.h for IIO locks
-To: Kurt Borja <kuurtb@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@intel.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Benson Leung <bleung@chromium.org>,
- Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Gwendal Grignou <gwendal@chromium.org>,
- Shrikant Raskar <raskar.shree97@gmail.com>,
- Per-Daniel Olsson <perdaniel.olsson@axis.com>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Guenter Roeck <groeck@chromium.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-References: <20251203-lock-impr-v1-0-b4a1fd639423@gmail.com>
- <20251203-lock-impr-v1-6-b4a1fd639423@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20251203-lock-impr-v1-6-b4a1fd639423@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 12/3/25 1:18 PM, Kurt Borja wrote:
-> Simplify and drop "hacky" busy-waiting code in
-> opt4060_set_driver_state() by using guard().
-> 
+On Wed, 2025-12-03 at 14:18 -0500, Kurt Borja wrote:
+> In order to improve API consistency with conditional locks, use
+> true/false return semantics in iio_device_claim_buffer_mode().
+>=20
+> This also matches iio_device_claim_direct() return semantics.
+>=20
 > Signed-off-by: Kurt Borja <kuurtb@gmail.com>
 > ---
->  drivers/iio/light/opt4060.c | 52 +++++++++++++++------------------------------
->  1 file changed, 17 insertions(+), 35 deletions(-)
-> 
+
+Even if the rest gets a NACK, I think at least this patch makes sense. In f=
+act I
+would even extend it so that we have the same inline API with proper annota=
+tions:
+
+https://elixir.bootlin.com/linux/v6.18/source/include/linux/iio/iio.h#L679
+
+So it really has the same semantics as iio_device_claim_direct()
+
+- Nuno S=C3=A1
+
+> =C2=A0drivers/iio/adc/ade9000.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 2 +-
+> =C2=A0drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 5 +----
+> =C2=A0drivers/iio/health/max30100.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+> =C2=A0drivers/iio/health/max30102.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+> =C2=A0drivers/iio/industrialio-core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 8 ++++----
+> =C2=A0drivers/iio/light/opt4060.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+> =C2=A0include/linux/iio/iio.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 2 +-
+> =C2=A07 files changed, 10 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/drivers/iio/adc/ade9000.c b/drivers/iio/adc/ade9000.c
+> index 2de8a718d62a..b345c4d1ef24 100644
+> --- a/drivers/iio/adc/ade9000.c
+> +++ b/drivers/iio/adc/ade9000.c
+> @@ -964,7 +964,7 @@ static irqreturn_t ade9000_dready_thread(int irq, voi=
+d *data)
+> =C2=A0	struct iio_dev *indio_dev =3D data;
+> =C2=A0
+> =C2=A0	/* Handle data ready interrupt from C4/EVENT/DREADY pin */
+> -	if (!iio_device_claim_buffer_mode(indio_dev)) {
+> +	if (iio_device_claim_buffer_mode(indio_dev)) {
+> =C2=A0		ade9000_iio_push_buffer(indio_dev);
+> =C2=A0		iio_device_release_buffer_mode(indio_dev);
+> =C2=A0	}
+> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> index 9ac80e4b7d75..8ed4b2e410c8 100644
+> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+> @@ -188,11 +188,8 @@ int cros_ec_sensors_push_data(struct iio_dev *indio_=
+dev,
+> =C2=A0	/*
+> =C2=A0	 * Ignore samples if the buffer is not set: it is needed if the OD=
+R is
+> =C2=A0	 * set but the buffer is not enabled yet.
+> -	 *
+> -	 * Note: iio_device_claim_buffer_mode() returns -EBUSY if the buffer
+> -	 * is not enabled.
+> =C2=A0	 */
+> -	if (iio_device_claim_buffer_mode(indio_dev) < 0)
+> +	if (!iio_device_claim_buffer_mode(indio_dev))
+> =C2=A0		return 0;
+> =C2=A0
+> =C2=A0	out =3D (s16 *)st->samples;
+> diff --git a/drivers/iio/health/max30100.c b/drivers/iio/health/max30100.=
+c
+> index 3d441013893c..3f3680c4b42f 100644
+> --- a/drivers/iio/health/max30100.c
+> +++ b/drivers/iio/health/max30100.c
+> @@ -417,7 +417,7 @@ static int max30100_read_raw(struct iio_dev *indio_de=
+v,
+> =C2=A0		 * Temperature reading can only be acquired while engine
+> =C2=A0		 * is running
+> =C2=A0		 */
+> -		if (iio_device_claim_buffer_mode(indio_dev)) {
+> +		if (!iio_device_claim_buffer_mode(indio_dev)) {
+> =C2=A0			/*
+> =C2=A0			 * Replacing -EBUSY or other error code
+> =C2=A0			 * returned by iio_device_claim_buffer_mode()
+> diff --git a/drivers/iio/health/max30102.c b/drivers/iio/health/max30102.=
+c
+> index a48c0881a4c7..288c2f37a4a2 100644
+> --- a/drivers/iio/health/max30102.c
+> +++ b/drivers/iio/health/max30102.c
+> @@ -476,7 +476,7 @@ static int max30102_read_raw(struct iio_dev *indio_de=
+v,
+> =C2=A0		 * shutdown; leave shutdown briefly when buffer not running
+> =C2=A0		 */
+> =C2=A0any_mode_retry:
+> -		if (iio_device_claim_buffer_mode(indio_dev)) {
+> +		if (!iio_device_claim_buffer_mode(indio_dev)) {
+> =C2=A0			/*
+> =C2=A0			 * This one is a *bit* hacky. If we cannot claim buffer
+> =C2=A0			 * mode, then try direct mode so that we make sure
+> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-c=
+ore.c
+> index f69deefcfb6f..a10590ac4e17 100644
+> --- a/drivers/iio/industrialio-core.c
+> +++ b/drivers/iio/industrialio-core.c
+> @@ -2224,19 +2224,19 @@ EXPORT_SYMBOL_GPL(__iio_device_release_direct);
+> =C2=A0 *
+> =C2=A0 * Use with iio_device_release_buffer_mode().
+> =C2=A0 *
+> - * Returns: 0 on success, -EBUSY on failure.
+> + * Returns: true on success, false on failure.
+> =C2=A0 */
+> -int iio_device_claim_buffer_mode(struct iio_dev *indio_dev)
+> +bool iio_device_claim_buffer_mode(struct iio_dev *indio_dev)
+> =C2=A0{
+> =C2=A0	struct iio_dev_opaque *iio_dev_opaque =3D to_iio_dev_opaque(indio_=
+dev);
+> =C2=A0
+> =C2=A0	mutex_lock(&iio_dev_opaque->mlock);
+> =C2=A0
+> =C2=A0	if (iio_buffer_enabled(indio_dev))
+> -		return 0;
+> +		return true;
+> =C2=A0
+> =C2=A0	mutex_unlock(&iio_dev_opaque->mlock);
+> -	return -EBUSY;
+> +	return false;
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL_GPL(iio_device_claim_buffer_mode);
+> =C2=A0
 > diff --git a/drivers/iio/light/opt4060.c b/drivers/iio/light/opt4060.c
-> index 500899d7bd62..903963606143 100644
+> index 981c704e7df5..8cb3fa38077e 100644
 > --- a/drivers/iio/light/opt4060.c
 > +++ b/drivers/iio/light/opt4060.c
-> @@ -22,6 +22,7 @@
->  #include <linux/iio/trigger.h>
->  #include <linux/iio/trigger_consumer.h>
->  #include <linux/iio/triggered_buffer.h>
-> +#include <linux/cleanup.h>
->  
->  /* OPT4060 register set */
->  #define OPT4060_RED_MSB				0x00
-> @@ -302,41 +303,22 @@ static int opt4060_set_driver_state(struct iio_dev *indio_dev,
->  				    bool continuous_irq)
->  {
->  	struct opt4060_chip *chip = iio_priv(indio_dev);
-> -	int ret = 0;
-> -any_mode_retry:
-> -	if (!iio_device_claim_buffer(indio_dev)) {
-> -		/*
-> -		 * This one is a *bit* hacky. If we cannot claim buffer mode,
-> -		 * then try direct mode so that we make sure things cannot
-> -		 * concurrently change. And we just keep trying until we get one
-> -		 * of the modes...
-> -		 */
-> -		if (!iio_device_claim_direct(indio_dev))
-> -			goto any_mode_retry;
-> -		/*
-> -		 * This path means that we managed to claim direct mode. In
-> -		 * this case the buffer isn't enabled and it's okay to leave
-> -		 * continuous mode for sampling and/or irq.
-> -		 */
-> -		ret = opt4060_set_state_common(chip, continuous_sampling,
-> -					       continuous_irq);
-> -		iio_device_release_direct(indio_dev);
-> -		return ret;
-> -	} else {
-> -		/*
-> -		 * This path means that we managed to claim buffer mode. In
-> -		 * this case the buffer is enabled and irq and sampling must go
-> -		 * to or remain continuous, but only if the trigger is from this
-> -		 * device.
-> -		 */
-> -		if (!iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
-> -			ret = opt4060_set_state_common(chip, true, true);
-> -		else
-> -			ret = opt4060_set_state_common(chip, continuous_sampling,
-> -						       continuous_irq);
-> -		iio_device_release_buffer(indio_dev);
-> -	}
-> -	return ret;
-> +
-> +	guard(iio_device_claim)(indio_dev);
-> +
-> +	/*
-> +	 * If we manage to claim buffer mode and we are using our own trigger,
-> +	 * IRQ and sampling must go to or remain continuous.
-> +	 */
-> +	if (iio_buffer_enabled(indio_dev) && iio_trigger_using_own(indio_dev))
-
-The commit message does not explain why this was changed from
-iio_trigger_validate_own_device() to iio_trigger_using_own(). I'm guessing
-that is why we also dropped the `!`?
-
-> +		return opt4060_set_state_common(chip, true, true);
-> +
-> +	/*
-> +	 * This path means that we managed to claim direct mode. In this case
-> +	 * the buffer isn't enabled and it's okay to leave continuous mode for
-> +	 * sampling and/or irq.
-> +	 */
-> +	return opt4060_set_state_common(chip, continuous_sampling, continuous_irq);
->  }
->  
->  /*
-> 
-
+> @@ -304,7 +304,7 @@ static int opt4060_set_driver_state(struct iio_dev *i=
+ndio_dev,
+> =C2=A0	struct opt4060_chip *chip =3D iio_priv(indio_dev);
+> =C2=A0	int ret =3D 0;
+> =C2=A0any_mode_retry:
+> -	if (iio_device_claim_buffer_mode(indio_dev)) {
+> +	if (!iio_device_claim_buffer_mode(indio_dev)) {
+> =C2=A0		/*
+> =C2=A0		 * This one is a *bit* hacky. If we cannot claim buffer mode,
+> =C2=A0		 * then try direct mode so that we make sure things cannot
+> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+> index 872ebdf0dd77..bf7b7337ff1b 100644
+> --- a/include/linux/iio/iio.h
+> +++ b/include/linux/iio/iio.h
+> @@ -687,7 +687,7 @@ static inline void iio_device_release_direct(struct i=
+io_dev *indio_dev)
+> =C2=A0	__release(indio_dev);
+> =C2=A0}
+> =C2=A0
+> -int iio_device_claim_buffer_mode(struct iio_dev *indio_dev);
+> +bool iio_device_claim_buffer_mode(struct iio_dev *indio_dev);
+> =C2=A0void iio_device_release_buffer_mode(struct iio_dev *indio_dev);
+> =C2=A0
+> =C2=A0extern const struct bus_type iio_bus_type;

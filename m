@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920ED248896;
-	Sat,  6 Dec 2025 18:11:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67DA23A9BE;
+	Sat,  6 Dec 2025 18:18:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765044693; cv=none; b=MAmN9+t8AxwxPInAxS0rTAl/782GfE/CuuslDe4vS2r0pXFmHr9XUW7/IuJ43d1GZf6gzlAxnh0/KRms1vfbZGKE0m9APwohp76OtGQPBPle8XTenMc5rglYwGPlMwPzeI4uxR+VSnikZjMdaslgMe50rdL9Z/9PxF5M/onoDmQ=
+	t=1765045090; cv=none; b=qHNzFzkVgEaof1vSSZglnDeJ7k2DEigrGtBsiuQKvT8cprHCoU1ILBS3+Dyae7blYdk8dln/5dJGl+6C4jzy6fiJPDjblgGPWkC9zyQfSNLqZm5+7D+oUHBSGS+6uzwbEkPZQ8PkZoos+xWfKgNOiE4XZ4+dnyk2Ko2srdkF9pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765044693; c=relaxed/simple;
-	bh=6hdZyZ6p6LFkB5A4sui+WueYenWlLXyVxU8cJIGAPH0=;
+	s=arc-20240116; t=1765045090; c=relaxed/simple;
+	bh=nzszqVqx7CXJdiOecW//DQ7sr/FRyt+OLILOsXPzAWo=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f0JfRiR/gGh7D81KMu1zzHSppx35mTGQ9ysN7mcTp6VKCavEywLyv4S+V7G/fKuTDhArUrgGMHPqldwGyD9UZ8rzRBKIiLFMbi82qnRBQd3hw4mVxRLz8debcqrvA9R6nZh+u0YIJlooig70z0BdgWNAx3XPmLHVZQCDx35P7Ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uTagsQWu; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=E4WJTk7dwaXIZ28dpjNqDlVudalFBpzlXqZehycXLrqSsU+bKE8ajdTW6yIQUsgte44cLlYyg2Z10pIifzvTRIXhy/hYywZF+D49gCWpFmu/dMQ10QZ2J1N6XzEoh6jNXI81rv3R366w/7ogHV9va/iVSju8ktmdtRt2Oikv/Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n4DtKOSt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uTagsQWu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0F36C4CEF5;
-	Sat,  6 Dec 2025 18:11:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n4DtKOSt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 533ADC4CEF5;
+	Sat,  6 Dec 2025 18:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765044693;
-	bh=6hdZyZ6p6LFkB5A4sui+WueYenWlLXyVxU8cJIGAPH0=;
+	s=k20201202; t=1765045090;
+	bh=nzszqVqx7CXJdiOecW//DQ7sr/FRyt+OLILOsXPzAWo=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uTagsQWuvzQ91Gxy2NfavJ3V4Rpv28/RtVibgfIcNCy4Vy3pH2/MCIwSeik6sYNP6
-	 Fy0x0p2SfR7MvuPGNgMN3LstmUKnFQk6ChGWVxAJpCHvLJiWu2kFEYl7/XDjfv02fq
-	 qReq4uRvIT/rJggOVF+1AxRGDOLGkhRNd9sVyUW9h8s4SYag5boRKY9wd2zb0AWCFL
-	 uZlUpXYincvG4SkDBiHVcoYgPPNI0O/BLLD19ZBWUs3rgOx9hcvfPRJws26tQVfADj
-	 q08drWJ0R2x4WkmoT6crQVRM4mM7K29bMoW+yu4iFhAAIF93HUeny+7eCbEPe5Bjhw
-	 IGlXENy7aMxdA==
-Date: Sat, 6 Dec 2025 18:11:21 +0000
+	b=n4DtKOSt8VtsZiLWWyT+lqsXfKiheeNwGLVqidF4iwicQdvxH3t1ejcFNs7cRdFNW
+	 5yICNNDDmqI+XEZ+KHaE4//NqStZWLt9NehS++V68IyE7JaKVEaz2LOfGMUZ11t7ly
+	 VXpnVHUi/6ggY4r4vBO9bXgUPebio0/iQmlxRk1DEM7Hne8h9TGnKAaPGQcLIZq0Km
+	 SYGo6XDDQQJIwgaWT/5qId/dUczKqPpaVuBqeEoTxKLAvMrFgxuFI+YmbWF3rb0sYf
+	 aOW2kG1aX5gS9uYbyNBpTNFNPGICAQMdSg5wuCNDlOhdlFXJHTBTTodV1T/iC8Hw6l
+	 MOLnhxe8fFbNg==
+Date: Sat, 6 Dec 2025 18:17:58 +0000
 From: Jonathan Cameron <jic23@kernel.org>
 To: "Kurt Borja" <kuurtb@gmail.com>
 Cc: "David Lechner" <dlechner@baylibre.com>, "Andy Shevchenko"
@@ -40,13 +40,16 @@ Cc: "David Lechner" <dlechner@baylibre.com>, "Andy Shevchenko"
  "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
  <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <chrome-platform@lists.linux.dev>
-Subject: Re: [PATCH RFC 2/6] iio: core: Match iio_device_claim_*() naming
-Message-ID: <20251206181121.3bf01809@jic23-huawei>
-In-Reply-To: <DEPM3WWMT76K.P5E00DKJ73UO@gmail.com>
+Subject: Re: [PATCH RFC 5/6] iio: health: max30102: Use cleanup.h for IIO
+ locks
+Message-ID: <20251206181758.2bfefde1@jic23-huawei>
+In-Reply-To: <DEPMCPWLO4FO.2B2OXMF2CZ1G@gmail.com>
 References: <20251203-lock-impr-v1-0-b4a1fd639423@gmail.com>
-	<20251203-lock-impr-v1-2-b4a1fd639423@gmail.com>
-	<40cd9574-ac26-45c9-91a4-b08ad799ca99@baylibre.com>
-	<DEPM3WWMT76K.P5E00DKJ73UO@gmail.com>
+	<20251203-lock-impr-v1-5-b4a1fd639423@gmail.com>
+	<f96694db-2ad5-46d3-a380-cba3eaa2de2f@baylibre.com>
+	<DEPLIJFBZQ36.20XX5DCMCJVB3@gmail.com>
+	<c9efd563-9d52-4761-a5f1-be0df0222dff@baylibre.com>
+	<DEPMCPWLO4FO.2B2OXMF2CZ1G@gmail.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -57,37 +60,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 04 Dec 2025 12:35:38 -0500
+On Thu, 04 Dec 2025 12:47:08 -0500
 "Kurt Borja" <kuurtb@gmail.com> wrote:
 
-> On Wed Dec 3, 2025 at 4:50 PM -05, David Lechner wrote:
-> > On 12/3/25 1:18 PM, Kurt Borja wrote:  
-> >> Rename iio_device_claim_buffer_mode() -> iio_device_claim_buffer() to
-> >> match iio_device_claim_direct().
+> On Thu Dec 4, 2025 at 12:35 PM -05, David Lechner wrote:
+> > On 12/4/25 11:07 AM, Kurt Borja wrote:  
+> >> On Wed Dec 3, 2025 at 4:52 PM -05, David Lechner wrote:  
+> >>> On 12/3/25 1:18 PM, Kurt Borja wrote:  
+> >
+> > ...
+> >  
+> >>> I would write the whole function like this:
+> >>>
+> >>> static int max30102_read_raw(struct iio_dev *indio_dev,
+> >>> 			     struct iio_chan_spec const *chan,
+> >>> 			     int *val, int *val2, long mask)
+> >>> {
+> >>> 	struct max30102_data *data = iio_priv(indio_dev);
+> >>> 	int ret;
+> >>>
+> >>> 	switch (mask) {
+> >>> 	case IIO_CHAN_INFO_RAW: {
+> >>> 		/*
+> >>> 		 * Temperature reading can only be acquired when not in
+> >>> 		 * shutdown; leave shutdown briefly when buffer not running
+> >>> 		 */
+> >>> 		guard(iio_device_claim)(indio_dev);  
 > >> 
-> >> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
-> >> ---  
-> > If we decide to do this, I would squash this with the previous patch
-> > to make a clean break of it. Although it is helpful to have "mode"
-> > in the name if we can keep that without breaking things.  
+> >> AFAIK you can't guard() inside switch-case blocks. I don't know the
+> >> exact reason, but it has to be scoped_guard().  
+> >
+> > You can. You just need the braces like I showed in my suggestion.
+> >
+> > The reason is that guard() is declaring local variables and some
+> > compilers like LLVM don't like declaring local variables in a
+> > switch case. By adding the { } scope, the variables are limited
+> > to that scope and the issue goes away.  
 > 
-> Agree, but If rename iio_device_claim_direct() that would be too big and
-> I think it should be separate patches.
+> Ah - You're right. I dind't see the braces.
 > 
-For the iio_device_claim() there were far to many drivers to do
-the conversions in a single patch hence I needed a different name
-and took the view the _mode() wasn't that important.
+> Now it is overly complicated. In this case I see why guard() isn't
+> really an improvement.
 
-We already had precedence in the _scoped() variant that I was ripping
-out (the revert David refers to in the cover letter discussion).
+This bit of guard() usage is fairly well known and I think people are
+getting familiar with it.
 
-As you say it is probably not worth the effort of putting the _mode()
-prefix back and things are inconsistent.
-
-So I think this is on balance the most practical way to get to a
-consistent ABI again.  However as suggested, if we agree to go this
-way squash with previous patch.
+So I'd prefer the form David suggested. It is nice to get rid
+of the mode claiming dance in here.
 
 Jonathan
 
+> 
+> 
 

@@ -1,82 +1,81 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC37242D6C
-	for <chrome-platform@lists.linux.dev>; Sun,  7 Dec 2025 15:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEBC242D95
+	for <chrome-platform@lists.linux.dev>; Sun,  7 Dec 2025 15:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765123182; cv=none; b=uOz7G5rlXObhuMc40EBA2Se4zZ/b78PBoPYSIErFqzhfh4KPHHK1GPZauWrQbnRexYlf9/03edYU1NUbP5vXV66JXibSgEg/LJBIjK/dP5jsyDMcr29hcYmLySBcfV3x6wRMLHW/7txPT2f+/kwAuZuvzTf3q3NmaZpPLGpCY7Y=
+	t=1765123195; cv=none; b=UdPfihwEmghpPdS8njZvw1hiOfHD8emK8Gz34xgjx8iornP47IodRqaS1ZRMkg9D2RSMsjiVRVAxznhAWiIYB4Sqo0Z+yEIDwhYjgh6CKhpZyTA0tclvP2lra78TS0ulScYa37gdkRojmE9RqrSm7NrIcH4fe3WV9izvb0fEwNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765123182; c=relaxed/simple;
-	bh=yyNUlROQCvKp4HOi2SP71/oqKu0yWaC+JHckQnMu9DQ=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:Mime-Version:
-	 References:In-Reply-To; b=C0Y6CP2MQA3rHU9LEq10LULF58prIsy8uo34tc66z9pTcaMkeT2V9kHr9J3aV9QrWPgfKTz/oI6MN0+6SbMif/8SEbMkQMECeAJZ9VDzy4yL+5xmxJBxDbnNByax/PTt2nGVeZjuUCPZGJ0WVjxc+xmC3vj4AHTTT/WHWbwg/l4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIT6HEYn; arc=none smtp.client-ip=209.85.221.177
+	s=arc-20240116; t=1765123195; c=relaxed/simple;
+	bh=lN2nyMT5KURr5BnJaibgIHzRgf7UPdc+YsOVRYAzzEs=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:Mime-Version:
+	 References:In-Reply-To; b=s+8D6bY9IJU2z11S2Wjwgr82ypgU60haJYCAp/m9qUHXpVbAuP+19W7KsE8/YypIy33HYEeDDaVGOZL7xqmwvw/6IV4vDTGSCxcomEIGUXwEpn3eneKh/excOGWJxuvJ8x3v5EkPGz+2T8CY4C5b77VsiEX8cxNgYTPkmQhEptM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZQUDhSPp; arc=none smtp.client-ip=209.85.221.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIT6HEYn"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-55b09d690dcso1359453e0c.1
-        for <chrome-platform@lists.linux.dev>; Sun, 07 Dec 2025 07:59:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZQUDhSPp"
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-55b09d690dcso1359502e0c.1
+        for <chrome-platform@lists.linux.dev>; Sun, 07 Dec 2025 07:59:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765123180; x=1765727980; darn=lists.linux.dev;
-        h=in-reply-to:references:content-transfer-encoding:mime-version
-         :subject:cc:to:from:message-id:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h1tqJEH0nvtzunebE0gFQ9Z6ukbX9uGV2B9981sp0bk=;
-        b=hIT6HEYnJeutgsDPkf7vTh1CqOVzqSCaNTf9uzS+PFeLTXpmF6Jz6bUDV9OSZ7gdPj
-         pwERY3ObnJ7gtgffboirhawsc2gDyIO7KamzJjn+iPyE9Rc57rFo2mg35HGSzkBIQkjQ
-         KDbOcRpbcUQMAqsjMZ//C7pwS+z2yEz1twcXXGCAQMdmXACts8B+H7hOHwKpSJmbqifm
-         WE4JcKadzoPis1BxEsI8q3qj3JjfB9ZRI00gA1QiEWrnUi8B/O+MC+oq00P0zdeUFZqF
-         Ft+ujz1TXr1U7s6SlE3Q4Yz7RjIKFOLc2oA7aE8H+DiQNW1aYRaf2uKLgc6yrfHc18xC
-         ngLg==
+        d=gmail.com; s=20230601; t=1765123193; x=1765727993; darn=lists.linux.dev;
+        h=in-reply-to:references:content-transfer-encoding:mime-version:to
+         :from:subject:cc:message-id:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lN2nyMT5KURr5BnJaibgIHzRgf7UPdc+YsOVRYAzzEs=;
+        b=ZQUDhSPplF/s1YXhZDRJ9a0zrB4TvzoP2InoSpB0hgkUCFaEWlZV5mnVfjz7aYwqxG
+         7+26NFqDWQu1nYJYRZglalE2Fd0bv/9LmxzQQ64QO+OBEX6bo1qKqC2snQhIj6A/ZmF2
+         xLN6Ez49pp5CDkM+mvrx//TlOfZZz2f+k4tXDYLl5UXA+qlAMVJZvVwrSWsm4AiLuChF
+         H4Ipk9AmuZqWYJURRHM5FNvJ7osYk/aDgIhTyZCO/7n15kfWge7wo/jwxsUWOZHtoXKu
+         S1VCFrOOzOV7qOVBivkmpSOJj7XBHhIFNER0qEyp3eTuQqzhT/FLP83VdLJsyvy0HJO8
+         0FLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765123180; x=1765727980;
-        h=in-reply-to:references:content-transfer-encoding:mime-version
-         :subject:cc:to:from:message-id:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=h1tqJEH0nvtzunebE0gFQ9Z6ukbX9uGV2B9981sp0bk=;
-        b=jKyEp+BAbn1NVpcpUm5YEqStJn0TKBwp8hWkKkWu1KrgwJn6zP0veEXsQifnpOs0BH
-         Ov71qSLHkEakElwX/AP6tAcpFvUTFJuFUl2lxZsDoxkov3aVxqMYM7vOkXUGWyMNYWG7
-         Pp9IE2jui4/m2QL000NTrF0du2M78+5U4g0Q5QwuFYGN/vxi64batiTHLbEGE8TutCJO
-         zukNgXGzb9RZ7N3T0yJd8AwZbq/UeyYq31IwmOSG7oqqFNf2cpu9wUddQ4nTHDxubk96
-         xFwO9O1xCnqO7RaqsD61neUZvRHShliJOWWFZHIugPq+6Vw0fdPLU0UpRFos4P7g1Muk
-         5IZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXEHExeFRGdOTDWDEnRKRxvynaeOTuB6liaLXU/omZeVS0JFr0nyi/qEZkXBRoxq7PoMXqCZv3XngIsvlb5A8w=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJ3KqTIPEgAH/nyYy2jdE0fl9tb/SG6pnXJSNfR6O7bASSEcqC
-	KIirGhq5UliFywR2QZ24oGHInJjOLKT3u8E2V0QICWj5ytuHRT0PZ3Ym
-X-Gm-Gg: ASbGncte7Dg+mI5lVaYG9tn010FnEkiKwz/tPqAH8sma8JW27ZE84I7XUjBhJZJA7Hu
-	PdjEATLTS+EUPhMX4pVUDZNa3amtuKSd51mGwqyG15e2uyXWSBT3Ig3pR1ePkgAXZ2lqK90FOoJ
-	XtQ6cKHzmQiSTu3AcZxzFAUmcvv3KIE2fl2qjwpr/1/3sZtxOogSnM9GyO+x+RBRfUy79CH++1z
-	46crQoh0Wsjsn0ryQH+ovTx2Eysjn7aN3e6vBF27NbrP1an6K4beCbMY9MKpJBDSw2Mwgtc2x2Q
-	/I9b4SNZmheAKAE61jICmXjgwQV6u64MZ+37Q4EMJzJ/NXmmjPk/28cx/Cpuhc5ewoZ+IG7JrZW
-	gch0iCFmwGiPKvRt6rku5YeJs40+6HvDaidViES0LNZbf+KVw5Lt3y1RzxV1j+4R4+N3O9EdLAB
-	ZoKRc=
-X-Google-Smtp-Source: AGHT+IH3R7zodvMeVJJJJ7fn2S6JQ+o/S6MOmjVgK3nMnTwxe+33R4LGyRZImJUof8loaB4NiZRB9Q==
-X-Received: by 2002:a05:6122:6598:b0:55b:d85:5073 with SMTP id 71dfb90a1353d-55e84587aeamr1556249e0c.4.1765123180107;
-        Sun, 07 Dec 2025 07:59:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765123193; x=1765727993;
+        h=in-reply-to:references:content-transfer-encoding:mime-version:to
+         :from:subject:cc:message-id:date:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lN2nyMT5KURr5BnJaibgIHzRgf7UPdc+YsOVRYAzzEs=;
+        b=czH6p517WvW4LXsIj16sNihaO6Mb3lGEaeShfMk4Zkb0lZbzh6tg5XULtrB1FS24Uc
+         rTuKgNXqIyy7E4x2Tx/ZhsmCQ3hQpLbIDMmi/ZGQDF+oTZ+NXFxlyK3m+BKJZ+ovcC/D
+         KqeIOKUTKLxVWcMZUzDXqEwE68ZN9zLeMUoJUQPy7MDefon0WNJcOf2eCGAOSdDY6UzQ
+         sapmgJUvCWiQpiQqF089u1kRo3yYuiydhNAlRk2PYQFgDALuCEBDfD9ZsZ2UAPlk5jy6
+         M+A1MYXWG7+6+EnK03CfKfdGbaUQv7OnIcQi/flC10Pzy0oO80avzmJlDtyv21bhYCw7
+         UxDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVL69/0ZuNRhErXpXpFHOvzAD+u6+5Qf8fgUOKAfDAGvOEUusKBa6i6bi5bhIBLFJ+FE5eaQ1sGYNrgBKswCGo=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzigm7MtdHo9ec6e2hPsYzl4j8YNw3PkZ7fE9Bqo9/QsmxObyO/
+	XQwuGPrMJicM0wekMA3fcXt18IoByl1WGwi3x3pgoldn0rGFNXWOnZM4
+X-Gm-Gg: ASbGncuyST+BIv8mSSU2WFwhnwOHM6wvFmZyr1/Gm9uDLPKWBv5RhyriFRePGJxd7uq
+	4s1rh3NgEeAbpdiD6s3xM+Mtkz6oOQ5v1I1v4pk4e1FoIs8JVYahlubzV4Ffx+VzSR8DVvqy9LJ
+	DVAEFWLu8t+pYeMkkPfqFs7rYkF24bCXB40gs1zndsfzHTKM5ct4q9ZbEmaWzKU36imYH/UXJBL
+	NfTvrIHp9FIhjiotiwjvxtqHMhmEqjJjcRKB+EWPoTIX/q9+6Ndvc7AZ+Wn1aMbI7vv0NEZRAqF
+	TO3n+DfLjICy0Kuu7GoLr/r1yDPCKdRQoQO+9t/p7ntIQ/Nwwnl7OteL1ahmsPmx6HmWei+7Zsz
+	uPKIN3Px+h9bfoHlfu/mTvCi61E2kScJHVl/S2DResUMIlZn5ITNNKvf6yniCkmiw7uaz8LaBPE
+	OA2xI=
+X-Google-Smtp-Source: AGHT+IHb5qCj47GPIJks5IrPfFovkp1AcVzoXUqVEm5uXUvz/i0JGsqz6kwhm3CHmygeESKzo+fSKw==
+X-Received: by 2002:a05:6122:330a:b0:554:b32c:6f76 with SMTP id 71dfb90a1353d-55e846e664dmr1336197e0c.15.1765123192735;
+        Sun, 07 Dec 2025 07:59:52 -0800 (PST)
 Received: from localhost ([2800:bf0:82:3d2:875c:6c76:e06b:3095])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55e6c972414sm4860987e0c.15.2025.12.07.07.59.38
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55e6c568ae2sm4895821e0c.5.2025.12.07.07.59.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Dec 2025 07:59:39 -0800 (PST)
+        Sun, 07 Dec 2025 07:59:52 -0800 (PST)
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 07 Dec 2025 10:59:37 -0500
-Message-Id: <DES3Y1DXTLGR.38DNWI7NC291D@gmail.com>
+Date: Sun, 07 Dec 2025 10:59:50 -0500
+Message-Id: <DES3Y754XVT8.1KUU58F8LQUHA@gmail.com>
+Cc: "Andy Shevchenko" <andriy.shevchenko@intel.com>, "Lars-Peter Clausen"
+ <lars@metafoo.de>, "Michael Hennerich" <Michael.Hennerich@analog.com>,
+ "Benson Leung" <bleung@chromium.org>, "Antoniu Miclaus"
+ <antoniu.miclaus@analog.com>, "Gwendal Grignou" <gwendal@chromium.org>,
+ "Shrikant Raskar" <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
+ <perdaniel.olsson@axis.com>, "David Lechner" <dlechner@baylibre.com>,
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Andy Shevchenko"
+ <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>, "Jonathan
+ Cameron" <Jonathan.Cameron@huawei.com>, <linux-iio@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>
+Subject: Re: [PATCH RFC 3/6] iio: core: Add cleanup.h support for
+ iio_device_claim_*()
 From: "Kurt Borja" <kuurtb@gmail.com>
 To: "Jonathan Cameron" <jic23@kernel.org>, "Kurt Borja" <kuurtb@gmail.com>
-Cc: "David Lechner" <dlechner@baylibre.com>, "Andy Shevchenko"
- <andriy.shevchenko@intel.com>, "Lars-Peter Clausen" <lars@metafoo.de>,
- "Michael Hennerich" <Michael.Hennerich@analog.com>, "Benson Leung"
- <bleung@chromium.org>, "Antoniu Miclaus" <antoniu.miclaus@analog.com>,
- "Gwendal Grignou" <gwendal@chromium.org>, "Shrikant Raskar"
- <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
- <perdaniel.olsson@axis.com>, =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- "Andy Shevchenko" <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>,
- "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
- <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <chrome-platform@lists.linux.dev>
-Subject: Re: [PATCH RFC 5/6] iio: health: max30102: Use cleanup.h for IIO
- locks
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -86,68 +85,34 @@ Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20251203-lock-impr-v1-0-b4a1fd639423@gmail.com>
- <20251203-lock-impr-v1-5-b4a1fd639423@gmail.com>
- <f96694db-2ad5-46d3-a380-cba3eaa2de2f@baylibre.com>
- <DEPLIJFBZQ36.20XX5DCMCJVB3@gmail.com>
- <c9efd563-9d52-4761-a5f1-be0df0222dff@baylibre.com>
- <DEPMCPWLO4FO.2B2OXMF2CZ1G@gmail.com> <20251206181758.2bfefde1@jic23-huawei>
-In-Reply-To: <20251206181758.2bfefde1@jic23-huawei>
+ <20251203-lock-impr-v1-3-b4a1fd639423@gmail.com>
+ <20251206182057.40402e66@jic23-huawei>
+In-Reply-To: <20251206182057.40402e66@jic23-huawei>
 
-On Sat Dec 6, 2025 at 1:17 PM -05, Jonathan Cameron wrote:
-> On Thu, 04 Dec 2025 12:47:08 -0500
-> "Kurt Borja" <kuurtb@gmail.com> wrote:
+On Sat Dec 6, 2025 at 1:20 PM -05, Jonathan Cameron wrote:
+> On Wed, 03 Dec 2025 14:18:17 -0500
+> Kurt Borja <kuurtb@gmail.com> wrote:
 >
->> On Thu Dec 4, 2025 at 12:35 PM -05, David Lechner wrote:
->> > On 12/4/25 11:07 AM, Kurt Borja wrote: =20
->> >> On Wed Dec 3, 2025 at 4:52 PM -05, David Lechner wrote: =20
->> >>> On 12/3/25 1:18 PM, Kurt Borja wrote: =20
->> >
->> > ...
->> > =20
->> >>> I would write the whole function like this:
->> >>>
->> >>> static int max30102_read_raw(struct iio_dev *indio_dev,
->> >>> 			     struct iio_chan_spec const *chan,
->> >>> 			     int *val, int *val2, long mask)
->> >>> {
->> >>> 	struct max30102_data *data =3D iio_priv(indio_dev);
->> >>> 	int ret;
->> >>>
->> >>> 	switch (mask) {
->> >>> 	case IIO_CHAN_INFO_RAW: {
->> >>> 		/*
->> >>> 		 * Temperature reading can only be acquired when not in
->> >>> 		 * shutdown; leave shutdown briefly when buffer not running
->> >>> 		 */
->> >>> 		guard(iio_device_claim)(indio_dev); =20
->> >>=20
->> >> AFAIK you can't guard() inside switch-case blocks. I don't know the
->> >> exact reason, but it has to be scoped_guard(). =20
->> >
->> > You can. You just need the braces like I showed in my suggestion.
->> >
->> > The reason is that guard() is declaring local variables and some
->> > compilers like LLVM don't like declaring local variables in a
->> > switch case. By adding the { } scope, the variables are limited
->> > to that scope and the issue goes away. =20
+>> Add guard() and ACQUIRE() support for iio_device_claim_*() lock.
 >>=20
->> Ah - You're right. I dind't see the braces.
+>> This involves exporting iio_device_{claim, release}() wrappers to define
+>> a general GUARD class, and then defining the _direct and _buffer
+>> conditional ones.
 >>=20
->> Now it is overly complicated. In this case I see why guard() isn't
->> really an improvement.
+>> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+>> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
 >
-> This bit of guard() usage is fairly well known and I think people are
-> getting familiar with it.
+> I'd like some documentation (alongside the DEFINE_GUARD() stuff)
+> - particularly warn people that using the non conditional variant
+> is very much the unusual one.
 >
-> So I'd prefer the form David suggested. It is nice to get rid
-> of the mode claiming dance in here.
+> Perhaps add examples of usage for the other two and ignore that one
+> on basis alarm bells will ring whenever we see it in code.
 
-Ok, that's good to hear. I'll take David's suggestions for the next
-version.
+Sure! I'll add it.
 
 >
 > Jonathan
-
 
 --=20
  ~ Kurt

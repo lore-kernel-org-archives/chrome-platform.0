@@ -1,206 +1,161 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B638B2F7440
-	for <chrome-platform@lists.linux.dev>; Sun,  7 Dec 2025 16:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCA72FA0DB
+	for <chrome-platform@lists.linux.dev>; Sun,  7 Dec 2025 16:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765123233; cv=none; b=SqWr0KcWIbMYrvnEsertZfuqKpc04wZXKa9EI2WRVGizPzzVCC6DdWqG5niX+ElkzNMHNU+MkYzKxkDWD0A7xkZDpsqVBOq2tt5ze+gQYepQxrg2TE0UiuMSiqQYXRu8/n2IbBhwQ2wuasSseWsSeb2dUrLksBV5CASfsKkYiTg=
+	t=1765123256; cv=none; b=uQqa9ZedpZx2J3blyAy5w60KFmYjTOfOnZWDeoplGvnWvYxBagF/DfTl5n+ODWcr6FaZnilRzXR61EuB1zfShqXxiN3dNjrTLkPPf2+UJCv8gtBHOpubOABD4ifxN+hrtP5p8/I0ZRdAnR9zfg2acLRNtv1dQVgRZP003IaTmFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765123233; c=relaxed/simple;
-	bh=fNaw/pQ6+rIuOq+pZ9tLxQ3v1LQvIrpT0JZXJNXotWc=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:Mime-Version:
-	 References:In-Reply-To; b=J4ENpFQRFwf0wL3X2VrkdCt6WFPBCYXqhvQEk4uujxvqjJSNF2PHGVf5dmwLJZ987bVIAXsLs+g7mlmV0+o37fr5iBjJzGTnP90SEM9bT5iCtVQJOKBn0Ff272TltQicssmALLV9XHg6L4IiZjp6kr6sxOcFgd37CQvdjUTCRtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ipUVOcdv; arc=none smtp.client-ip=209.85.217.47
+	s=arc-20240116; t=1765123256; c=relaxed/simple;
+	bh=ONfJbGREEVhf0xPpAs1SAV4Q3KV7qHQ5RDVEi5NK7LQ=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:Mime-Version:
+	 References:In-Reply-To; b=PfwX5fv1/9XDJb4SNp99oteNB9yNNtEdPtlveFHCsoZJWzcA2HoB0Xs6ftdClfAnfUNOOjhftPEpNCwLEplb+VoMdgc1903AjIEDDcTuN4awA/zv8PSmHVu9VG0zAZK6+XUOGOPBhMdCWca+CyF9qN/wczsxFx2EUZzxvVRP/CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WIVRSOwu; arc=none smtp.client-ip=209.85.217.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ipUVOcdv"
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5de23ddba5eso2891781137.3
-        for <chrome-platform@lists.linux.dev>; Sun, 07 Dec 2025 08:00:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WIVRSOwu"
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-5dbe6be1ac5so1563970137.1
+        for <chrome-platform@lists.linux.dev>; Sun, 07 Dec 2025 08:00:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765123231; x=1765728031; darn=lists.linux.dev;
-        h=in-reply-to:references:content-transfer-encoding:mime-version:to
-         :from:subject:cc:message-id:date:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1765123253; x=1765728053; darn=lists.linux.dev;
+        h=in-reply-to:references:mime-version:content-transfer-encoding:cc:to
+         :from:subject:message-id:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SvyW/VsfDEVpe/uLFhc3QlugzHRA/waosh3tdpzei1U=;
-        b=ipUVOcdvrNYJuVSnDwF8rZe7qo8rL7VMArk2iDCL456gcwFm6/2jjozq9l+tixyy+z
-         UMPzaBFiX9qF2TxK7xHRZDJEPZYRyTDRJ//KbfFDvGjr/HoAtm4GDOPImOhpWrouKjHK
-         KPp9eCH9lZ8zG0KVsrHH/ObohFPIL69DqCKn6yd1SEyI5DGBl4o1KTWKbGS4+LNyYsOH
-         XGe+xDhbIebqOPzd0Q33HTMASW0PrYxI/qtJs3v/UJL+XyPh9vWhbAzlMlFe9+Kv4CeP
-         TtqfhL9Nt5aDa3WSyPNjbOos3cVKyuu2uf3PR7VTovvAcbtgws4IplsIe4OM7MfUpmtI
-         lOHw==
+        bh=C05hxMdhSejZs7B3U82wBg7N+6ftUEeKG49qP2la0+o=;
+        b=WIVRSOwu6xbHKo9SptynIYsyhNGZRpR7GXeVihUf5hQltJe4b9ghBALj56WDfsgFJ0
+         YxcHnw0SfJZ65OVyDZv9ivAeAN4VQdNV/0p9knFJN90RTfz6/gI0GZuuGcwduX3XL2fa
+         +zSjTbmdrVDef5A0xrYjOivyU0OuxpASRlCHPX0YuCLsbgPvtbcrwZqC4JgmeFczGVqb
+         FFwvqVhYxmywML8N/whtL/p988Oh50Lq4vcch4CRMO7+y2uTAFWhYUP/uUnwn/MJnTIb
+         rgUsdYMxKU1H+5pK3WQLY+SJtMegUWhZRWytxcEjRneNR7YvTIPyKa0lqVmCH1j1UHDm
+         jbvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765123231; x=1765728031;
-        h=in-reply-to:references:content-transfer-encoding:mime-version:to
-         :from:subject:cc:message-id:date:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SvyW/VsfDEVpe/uLFhc3QlugzHRA/waosh3tdpzei1U=;
-        b=VIX5suTJnHM4H+2f7elDCwoC4cAJfo35qMGuKqAy4zaaKb92fL2nLx6PaZHC9Y70Tj
-         6b0RPvpH3+8RBMGwDIgzbutKOvhqwvbnnq6bY9UQrMQCi+hZx+kppL+XtIpZxB9hlMvm
-         a3XPaUloBh//sUpqxHamiDx8/qtQFDIMQgk26IW3TEMguB3fHFFf+oaHSZxGudXppdPI
-         Cu7trZPh5Urr4IfKOkdA+1P4lBryUhhMyUTRR/3gY4CfAgwU92UlD7aEBuZlSXZI2/91
-         M81SDh2VVfp2/cP+C8l19IUY1810Cb/fFBVoWPj5JzzbmZvjfVPZm3gzpzrBG9mSJX6f
-         67Kg==
-X-Forwarded-Encrypted: i=1; AJvYcCVRIutj9KHbYTN4FARhVea7VeajIxMjIZpAtnPnPp028+dmsDDdz8XUXga0HZpW8EzhGPfUUniyFMnEJn16B3Y=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVpz2CPTwoSneuc2QIWZPGuvmKfCijXjCQoHn2AYOTH5LYMSeS
-	NGz3EZ2F9CP1uFLwh04ht+AyC0u5cLTH8LXKqhxTsERHQ2pSxpETxh3C
-X-Gm-Gg: ASbGncvUlhfNsnwsRpuuv4LUmQNxRqPmrmdQ/iN0jyttZoqtXhCrWY1bHrCXfyDlqhN
-	EgG8TyDlJetJ+AMFSLCjTUmaJaxKsPJnqCtZTuZLf+x+SIVHBwjSgHtKiiGtPlYrg0WMJXMmh2B
-	L5X/DdW6PToXS+nFwlF+G88IhVj3xhIaYAf81ELFjMSqi36pw8d9wb4nHZbk1M7bQC8q5r7loZm
-	+nCDe4m+cXotCEfIyDxSi982xzCDovdIJhcxCqLok1MzYCh5xZJ7dOtvNbikxQshKiwLggaK7NU
-	7D25PqL+riRdhcEolsRHlDpiv+VxhUqPovJkzxQKtIh6wqdOTVq7ZPz0bABd2105YxWAFTPY2mQ
-	FGAcsenJ+eHzuS5F6BZ5kk93nTBFzz0Qj+caYgCGAFnGjekGF//9aSyyG2B6HOiEp3PK7/UsKIh
-	8L5bWVl90Ebvbt1g==
-X-Google-Smtp-Source: AGHT+IHBnqs2aQ2Fr8RdGbKL8fSqIjGYHTr6uO5d9m6cWkZ3v0f4Dr1+0rK9s9F+7cBhyVY8YBiQwg==
-X-Received: by 2002:a05:6102:448c:b0:5db:ebb4:fded with SMTP id ada2fe7eead31-5e52cbcfd70mr1635134137.25.1765123230579;
-        Sun, 07 Dec 2025 08:00:30 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765123253; x=1765728053;
+        h=in-reply-to:references:mime-version:content-transfer-encoding:cc:to
+         :from:subject:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C05hxMdhSejZs7B3U82wBg7N+6ftUEeKG49qP2la0+o=;
+        b=OKnhm7WittAI90RgairnkYJAmuIxkj1wwgUEMhndqR+tT3iABD13dx4bhPL+o9XZx7
+         65Ko2mjToubbC2zSXSh+sQ3Zg5heydT+M84ruC6MeohJQEBlBhlpLGoUOWVKQ8zh3e4O
+         XXzZbZ1s4c2yAfko9sTIOTE5CXlQ/1uzNzrxbyYEJVOxCAuNEbekalUox25H0Otj0++E
+         +Be2W4yZHdfxGeRpyAtrYpW4pvj0YqbsWE9mOdW38WVAmbNBuTgf9liW2Y/+JG7uzW8+
+         LAuqi+SrKyKocmkFowvhXEsBc7lx3GGcgHKsEva+t+2DuArkLN71Wbx4aDzaF7nhzUSx
+         jPzA==
+X-Forwarded-Encrypted: i=1; AJvYcCULrPEuvx3Q6dkjqLCRYbx0VsXnPaU3JSyu2G0E8a7cBMUZClKBpPb2QDKxNW19FQPzWLf7KbPr3CH5KeMDWrQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjvoUOPLpefCdiz7MhZdEUAUGC/pJ5Qt11Gk4OXpeov2JXZu5q
+	i2Nx5jhKPVaGNZmHKmSLGknhuEYX7qGnzbU6KT9sn/BuXoFwrwDW0tRd
+X-Gm-Gg: ASbGnctopYFleAlfL0G61WDnxWKmnuVmDqpLssZy+TjWv0odfv+iR6mVEthdr384c7L
+	Qk6tzXjKgCGo48rLQqUd6xFzaZR1BpWG1L4/L/jku/nlj0V1qyjWExXZNHj//QkwVETcrBU8Mzw
+	suydGaPp1+8YUESmcPhnnSGNrZUF+y5aC4ORFcPjlttgIVBvVPn67IhZpPkxoL/zwOD1pTC63W1
+	X1q4L/gkZlKerYfcXLUjjC8LFClvadHjSgVm5r2neP3mf2pSOTMJXeIwOi+uZJq7iFkp4tf4KsK
+	45YfJsKYWjTSeCzlRijWiLz8C0JoyfH937e7ngb6Z3n66GBHpZVz/sYObQ8UZqtIhz79KdagNZW
+	tuTgvwLd/dWhagOmY2iJ8D5Yitqs6XJvlfoPO35fH5Px9rPedOEsAzeH1KVggT2Xu2xbx/FRGT0
+	04x9rwLKvQss+AJw==
+X-Google-Smtp-Source: AGHT+IFvMMi8SeriD8ofLkkikPJ/IRwJH9eX2CR7z1bizsi4e0heB2zUKTRYwSBWyo5tPo+Bc0Pzbw==
+X-Received: by 2002:a05:6102:f93:b0:5db:3bbf:8e62 with SMTP id ada2fe7eead31-5e52c96d23cmr1323197137.1.1765123253190;
+        Sun, 07 Dec 2025 08:00:53 -0800 (PST)
 Received: from localhost ([2800:bf0:82:3d2:875c:6c76:e06b:3095])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-93f01d022a4sm3058685241.3.2025.12.07.08.00.28
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e510cd624csm4396150137.13.2025.12.07.08.00.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Dec 2025 08:00:30 -0800 (PST)
+        Sun, 07 Dec 2025 08:00:52 -0800 (PST)
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 07 Dec 2025 11:00:28 -0500
-Message-Id: <DES3YOKEMZ16.2OIHKXA8ESBUX@gmail.com>
-Cc: "Kurt Borja" <kuurtb@gmail.com>, "David Lechner"
- <dlechner@baylibre.com>, "Andy Shevchenko" <andriy.shevchenko@intel.com>,
+Date: Sun, 07 Dec 2025 11:00:50 -0500
+Message-Id: <DES3YYXIH4ML.1K5X4KDG273HD@gmail.com>
+Subject: Re: [PATCH RFC 0/6] iio: core: Introduce cleanup.h support for mode
+ locks
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "Jonathan Cameron" <jic23@kernel.org>, "Andy Shevchenko"
+ <andy.shevchenko@gmail.com>
+Cc: =?utf-8?q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, "Kurt Borja"
+ <kuurtb@gmail.com>, "Andy Shevchenko" <andriy.shevchenko@intel.com>,
  "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
  <Michael.Hennerich@analog.com>, "Benson Leung" <bleung@chromium.org>,
  "Antoniu Miclaus" <antoniu.miclaus@analog.com>, "Gwendal Grignou"
  <gwendal@chromium.org>, "Shrikant Raskar" <raskar.shree97@gmail.com>,
- "Per-Daniel Olsson" <perdaniel.olsson@axis.com>, =?utf-8?q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, "Andy Shevchenko" <andy@kernel.org>, "Guenter Roeck"
- <groeck@chromium.org>, "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+ "Per-Daniel Olsson" <perdaniel.olsson@axis.com>, "David Lechner"
+ <dlechner@baylibre.com>, =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ "Andy Shevchenko" <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>,
+ "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
  <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <chrome-platform@lists.linux.dev>
-Subject: Re: [PATCH RFC 3/6] iio: core: Add cleanup.h support for
- iio_device_claim_*()
-From: "Kurt Borja" <kuurtb@gmail.com>
-To: "Jonathan Cameron" <jic23@kernel.org>, "Andy Shevchenko"
- <andy.shevchenko@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20251203-lock-impr-v1-0-b4a1fd639423@gmail.com>
- <20251203-lock-impr-v1-3-b4a1fd639423@gmail.com>
- <3b80f8f3-c435-49f8-8c55-42568215bf0b@baylibre.com>
- <bf1c82f7-da25-47b6-846d-9f8427ee5790@baylibre.com>
- <DEPLQT84HBAO.2GAY5BHP05HNL@gmail.com>
- <CAHp75VfpG4PAG6rC5aFYAPLgnOZZzfJcGP6bMzKPMkMjpuymoQ@mail.gmail.com>
- <20251206184332.426cc30f@jic23-huawei>
-In-Reply-To: <20251206184332.426cc30f@jic23-huawei>
+ <77ca77847511e67066a150096a7af2fb84f1f25f.camel@gmail.com>
+ <CAHp75VdNjqZdy0+aSbBzn9CwEwHUhjwED+KRVqkdOMc_N+nX9w@mail.gmail.com>
+ <20251206184645.51099254@jic23-huawei>
+In-Reply-To: <20251206184645.51099254@jic23-huawei>
 
-On Sat Dec 6, 2025 at 1:43 PM -05, Jonathan Cameron wrote:
-> On Thu, 4 Dec 2025 19:36:28 +0200
+On Sat Dec 6, 2025 at 1:46 PM -05, Jonathan Cameron wrote:
+> On Thu, 4 Dec 2025 17:07:28 +0200
 > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 >
->> On Thu, Dec 4, 2025 at 7:18=E2=80=AFPM Kurt Borja <kuurtb@gmail.com> wro=
-te:
->> > On Wed Dec 3, 2025 at 5:34 PM -05, David Lechner wrote: =20
->> > > On 12/3/25 3:50 PM, David Lechner wrote: =20
->> > >> On 12/3/25 1:18 PM, Kurt Borja wrote: =20
->>=20
->> ...
->>=20
->> > > When I made the comments about keeping "mode" in the name, I forgot
->> > > that DEFINE_GUARD_COND() only extends a DEFINE_GUARD(). So I underst=
-and
->> > > if we need to make names that fit a certain pattern rather than what
->> > > I suggested.
+>> On Thu, Dec 4, 2025 at 4:35=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gmail.c=
+om> wrote:
+>> > On Wed, 2025-12-03 at 14:18 -0500, Kurt Borja wrote: =20
 >> > >
->> > > Still would be nice to have:
+>> > > In a recent driver review discussion [1], Andy Shevchenko suggested =
+we
+>> > > add cleanup.h support for the lock API:
 >> > >
->> > > iio_device_claim_mode()
->> > > iio_device_claim_mode_direct()
->> > > iio_device_claim_mode_buffer()
->> > > iio_device_release_mode()
->> > >
->> > > Just really annoying to rename iio_device_{claim,release}_direct()
->> > > everywhere since we just did that. We could keep both names around
->> > > for a while though to avoid the churn. =20
->
-> Definitely. Possibly indefinitely. I don't want a rename just to make
-> this facility easier to use as people won't see what is under the
-> ACQUIRE() anyway if we end up doing something like Rafael has done for
-> runtime PM where you don't call ACQUIRE() directly but use a runtime pm
-> specific macro (not sure if that will make this cycle or not, was
-> still being discussed when I went on holiday).
->
-> https://lore.kernel.org/all/3400866.aeNJFYEL58@rafael.j.wysocki/
-
-That looks nice.
-
->
->
+>> > >       iio_device_claim_{direct,buffer_mode}(). =20
 >> >
->> > If we rename iio_device_claim_direct() (which is huge), maybe we can
->> > pick shorter names and more descriptive names while at it? I was
->> > thinking something like:
+>> > We already went this patch and then reverted it. I guess before we did=
+ not had
+>> > ACQUIRE() and ACQUIRE_ERR() but I'm not sure that makes it much better=
+. Looking at the
+>> > last two patches on how we are handling the buffer mode stuff, I'm rea=
+lly not convinced...
 >> >
->> >         iio_mode_lock()
->> >         iio_mode_lock_direct()
->> >         iio_mode_lock_buffer()
->> >         iio_mode_unlock() =20
+>> > Also, I have doubts sparse can keep up with the __cleanup stuff so I'm=
+ not sure the
+>> > annotations much make sense if we go down this path. Unless we want to=
+ use both
+>> > approaches which is also questionable. =20
 >>=20
->> The device context is important, so at least iio_dev_mode_lock() (and so=
- on).
+>> This, indeed, needs a (broader) discussion and I appreciate that Kurt
+>> sent this RFC. Jonathan, what's your thoughts?
 >
-> If we are bringing lock into the name do we need to make it explicit whic=
-h can fail?
-> Given you can't use them in the wrong place, maybe not.
+> I was pretty heavily involved in discussions around ACQUIRE() and it's us=
+e
+> in CXL and runtime PM (though that's still evolving with Rafael trying
+> to improve the syntax a little).  As you might guess I did have this use
+> in mind during those discussions.
 >
-> iio_mode_lock_try_direct() or maybe iio_mode_lock_direct_try()?
-
-As Andy mentioned, maybe iio_mode_trylock_{direct,buffer}()?
-
+> As far as I know by avoiding the for loop complexity of the previous
+> try we made and looking (under the hood) like guard() it should be much
+> easier and safer to use.  Looking at this was on my list, so I'm very hap=
+py
+> to see this series from Kurt exploring how it would be done.
 >
-> This was less relevant when they all could fail.  Maybe we don't need to
-> bother given how rarely used the unconditional ones are.
+> Sparse wise there is no support for now for any of the cleanup.h magic
+> other than ignoring it.  That doesn't bother me that much though as these
+> macros create more or less hidden local variables that are hard to mess
+> with in incorrect ways.
 >
-> I did like the claiming of mode terminology because it made it a little
-> more clear that we were taking a lock that was there for a purpose rather=
- than
-> a normal lock.  Also the fact it's a lock is an implementation detail I'd
-> rather not back into the ABI.
-
-Even if it's an implementation detail, from what I've seen, a lot of
-drivers might depend on this being a lock.
-
-I my other series (ti-ads1x18), I dropped my private lock in favor of
-iio_device_claim_direct() per David's suggestion too.
-
+> So in general I'm very much in favour of this for same reasons I jumped
+> in last time (which turned out to be premature!)
 >
-> Maybe it's worth something inspired by Rafael's patch linked above?
->
-> #define IIO_DEV_ACQUIRE_DIRECT_MODE(_dev, _var) \
-> 	ACQUIRE(iio_device_claim_direct, _var)(_dev);
-> #define IIO_DEV_ACQUIRE_BUFFER_MODE(_dev, _var) \
-> 	ACQUIRE(iio_device_claim_buffer, _var)(_dev);
+> This will be particularly useful in avoiding the need for helper function=
+s
+> in otherwise simple code flows.
 
-I like this a lot, I'll add it here.
+Good to hear!
+
+Next version, after we agree on the naming approach, I'll drop the RFC
+and thake all suggestions for the next version.
+
+Thank you all for your suggestions and comments :)
 
 >
-> For the two more complex ones and fine using guard() for the rare
-> any mode variant.
->
-> Then we can have whatever naming we like for the helpers under
-> the hood as no one will ever use them directly.
-
-Yes, I do think a rename would be nice, but maybe we can leave that for
-a (near) future patch.
-
-On that note, should I really rename iio_device_claim_buffer_mode()?
-With this macros I don't think is necessary anymore.
-
->
-> Hohum. Hardest problems in computer science etc, coherency and naming. :)
-
-Indeed :)
+> Jonathan
 
 
 --=20

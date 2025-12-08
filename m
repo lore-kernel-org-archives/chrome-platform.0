@@ -1,163 +1,172 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCA72FA0DB
-	for <chrome-platform@lists.linux.dev>; Sun,  7 Dec 2025 16:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1057923D7FF;
+	Mon,  8 Dec 2025 02:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765123256; cv=none; b=uQqa9ZedpZx2J3blyAy5w60KFmYjTOfOnZWDeoplGvnWvYxBagF/DfTl5n+ODWcr6FaZnilRzXR61EuB1zfShqXxiN3dNjrTLkPPf2+UJCv8gtBHOpubOABD4ifxN+hrtP5p8/I0ZRdAnR9zfg2acLRNtv1dQVgRZP003IaTmFk=
+	t=1765159459; cv=none; b=B7KU6mMbzWmZRSJaVXwLYwkehdhzvOwnhjlW4kP5Rkv7eGSTq24Hia3c7Ks0koSnIBHV9Tu8sMu7wbWtBoNZDPwPUziijR/YuUm7jHUHl+XQwKAet84C+eLI0cX5VNp6MlHvzHsYVFmYYSjOBk89QQYfY1/tNXtlcP7cbQffLzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765123256; c=relaxed/simple;
-	bh=ONfJbGREEVhf0xPpAs1SAV4Q3KV7qHQ5RDVEi5NK7LQ=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:Mime-Version:
-	 References:In-Reply-To; b=PfwX5fv1/9XDJb4SNp99oteNB9yNNtEdPtlveFHCsoZJWzcA2HoB0Xs6ftdClfAnfUNOOjhftPEpNCwLEplb+VoMdgc1903AjIEDDcTuN4awA/zv8PSmHVu9VG0zAZK6+XUOGOPBhMdCWca+CyF9qN/wczsxFx2EUZzxvVRP/CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WIVRSOwu; arc=none smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765159459; c=relaxed/simple;
+	bh=PhD/zPcsp23w3jW7gcG+Xy9ut1qV4VnpMklFW2ZBkn0=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=POojAmYDQdqIYDMcEp7bAeF7yxbYPBjYbeG/F9qqyMf3fqkNX3R3Oc6/CBE+SKuSvvALwOt7n359YFx4h8U1w8AN/oQp/yw/f85y6GZYjk8VXDsUttsjM4BNeDoWs+npUhHd/hV67n/WOCMCzDjZ6yyCXZOlyMfQNenQO1WF/IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GJIo+4RI; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WIVRSOwu"
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-5dbe6be1ac5so1563970137.1
-        for <chrome-platform@lists.linux.dev>; Sun, 07 Dec 2025 08:00:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765123253; x=1765728053; darn=lists.linux.dev;
-        h=in-reply-to:references:mime-version:content-transfer-encoding:cc:to
-         :from:subject:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C05hxMdhSejZs7B3U82wBg7N+6ftUEeKG49qP2la0+o=;
-        b=WIVRSOwu6xbHKo9SptynIYsyhNGZRpR7GXeVihUf5hQltJe4b9ghBALj56WDfsgFJ0
-         YxcHnw0SfJZ65OVyDZv9ivAeAN4VQdNV/0p9knFJN90RTfz6/gI0GZuuGcwduX3XL2fa
-         +zSjTbmdrVDef5A0xrYjOivyU0OuxpASRlCHPX0YuCLsbgPvtbcrwZqC4JgmeFczGVqb
-         FFwvqVhYxmywML8N/whtL/p988Oh50Lq4vcch4CRMO7+y2uTAFWhYUP/uUnwn/MJnTIb
-         rgUsdYMxKU1H+5pK3WQLY+SJtMegUWhZRWytxcEjRneNR7YvTIPyKa0lqVmCH1j1UHDm
-         jbvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765123253; x=1765728053;
-        h=in-reply-to:references:mime-version:content-transfer-encoding:cc:to
-         :from:subject:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C05hxMdhSejZs7B3U82wBg7N+6ftUEeKG49qP2la0+o=;
-        b=OKnhm7WittAI90RgairnkYJAmuIxkj1wwgUEMhndqR+tT3iABD13dx4bhPL+o9XZx7
-         65Ko2mjToubbC2zSXSh+sQ3Zg5heydT+M84ruC6MeohJQEBlBhlpLGoUOWVKQ8zh3e4O
-         XXzZbZ1s4c2yAfko9sTIOTE5CXlQ/1uzNzrxbyYEJVOxCAuNEbekalUox25H0Otj0++E
-         +Be2W4yZHdfxGeRpyAtrYpW4pvj0YqbsWE9mOdW38WVAmbNBuTgf9liW2Y/+JG7uzW8+
-         LAuqi+SrKyKocmkFowvhXEsBc7lx3GGcgHKsEva+t+2DuArkLN71Wbx4aDzaF7nhzUSx
-         jPzA==
-X-Forwarded-Encrypted: i=1; AJvYcCULrPEuvx3Q6dkjqLCRYbx0VsXnPaU3JSyu2G0E8a7cBMUZClKBpPb2QDKxNW19FQPzWLf7KbPr3CH5KeMDWrQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxjvoUOPLpefCdiz7MhZdEUAUGC/pJ5Qt11Gk4OXpeov2JXZu5q
-	i2Nx5jhKPVaGNZmHKmSLGknhuEYX7qGnzbU6KT9sn/BuXoFwrwDW0tRd
-X-Gm-Gg: ASbGnctopYFleAlfL0G61WDnxWKmnuVmDqpLssZy+TjWv0odfv+iR6mVEthdr384c7L
-	Qk6tzXjKgCGo48rLQqUd6xFzaZR1BpWG1L4/L/jku/nlj0V1qyjWExXZNHj//QkwVETcrBU8Mzw
-	suydGaPp1+8YUESmcPhnnSGNrZUF+y5aC4ORFcPjlttgIVBvVPn67IhZpPkxoL/zwOD1pTC63W1
-	X1q4L/gkZlKerYfcXLUjjC8LFClvadHjSgVm5r2neP3mf2pSOTMJXeIwOi+uZJq7iFkp4tf4KsK
-	45YfJsKYWjTSeCzlRijWiLz8C0JoyfH937e7ngb6Z3n66GBHpZVz/sYObQ8UZqtIhz79KdagNZW
-	tuTgvwLd/dWhagOmY2iJ8D5Yitqs6XJvlfoPO35fH5Px9rPedOEsAzeH1KVggT2Xu2xbx/FRGT0
-	04x9rwLKvQss+AJw==
-X-Google-Smtp-Source: AGHT+IFvMMi8SeriD8ofLkkikPJ/IRwJH9eX2CR7z1bizsi4e0heB2zUKTRYwSBWyo5tPo+Bc0Pzbw==
-X-Received: by 2002:a05:6102:f93:b0:5db:3bbf:8e62 with SMTP id ada2fe7eead31-5e52c96d23cmr1323197137.1.1765123253190;
-        Sun, 07 Dec 2025 08:00:53 -0800 (PST)
-Received: from localhost ([2800:bf0:82:3d2:875c:6c76:e06b:3095])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e510cd624csm4396150137.13.2025.12.07.08.00.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Dec 2025 08:00:52 -0800 (PST)
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 07 Dec 2025 11:00:50 -0500
-Message-Id: <DES3YYXIH4ML.1K5X4KDG273HD@gmail.com>
-Subject: Re: [PATCH RFC 0/6] iio: core: Introduce cleanup.h support for mode
- locks
-From: "Kurt Borja" <kuurtb@gmail.com>
-To: "Jonathan Cameron" <jic23@kernel.org>, "Andy Shevchenko"
- <andy.shevchenko@gmail.com>
-Cc: =?utf-8?q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, "Kurt Borja"
- <kuurtb@gmail.com>, "Andy Shevchenko" <andriy.shevchenko@intel.com>,
- "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
- <Michael.Hennerich@analog.com>, "Benson Leung" <bleung@chromium.org>,
- "Antoniu Miclaus" <antoniu.miclaus@analog.com>, "Gwendal Grignou"
- <gwendal@chromium.org>, "Shrikant Raskar" <raskar.shree97@gmail.com>,
- "Per-Daniel Olsson" <perdaniel.olsson@axis.com>, "David Lechner"
- <dlechner@baylibre.com>, =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- "Andy Shevchenko" <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>,
- "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
- <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <chrome-platform@lists.linux.dev>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GJIo+4RI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:Cc:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=gug9CwpDqb+TCtvtvwUyKvSMovynSjoGfeuTquKCNd8=; b=GJIo+4RI9zScb6ah6vv9oRpxzU
+	Y7EWECcyRQu8nbLGARUrNfg8Tf31lmCdvheA4wizeMRNn8jd2oQZcDFAKM3XtpJOFHgKAIFmFxcTv
+	bVNsYdJ2WBssI0QGKWm0dAlXfAEFt4dYUFXweq8dChvTJhlWS/bFlbMLpmvwR8sVH4LLAn+moUc/e
+	dwPO4XIr7ox2E+EE6HCxsIqlryksDU81uTSUtjnVkU5jqxCVHQsxgXSQICjzZd9bGt39Vynmmg2y9
+	bmZm1gVEVFJDMuvAUWQJs1vvVlr2tI/R5csgXX7eLqAEJF5YMH5r3nH7sEBdxlHU/k0O4WlY47CKF
+	weAnAEQw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vSQbi-0000000CRpl-40tu;
+	Mon, 08 Dec 2025 02:04:11 +0000
+Message-ID: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+Date: Sun, 7 Dec 2025 18:04:09 -0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251203-lock-impr-v1-0-b4a1fd639423@gmail.com>
- <77ca77847511e67066a150096a7af2fb84f1f25f.camel@gmail.com>
- <CAHp75VdNjqZdy0+aSbBzn9CwEwHUhjwED+KRVqkdOMc_N+nX9w@mail.gmail.com>
- <20251206184645.51099254@jic23-huawei>
-In-Reply-To: <20251206184645.51099254@jic23-huawei>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: Kconfig dangling references (BZ 216748)
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, andrew.jones@linux.dev, linux-omap@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-sound@vger.kernel.org,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-mips@vger.kernel.org, asahi@lists.linux.dev,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Paul Kocialkowski <paulk@sys-base.io>, chrome-platform@lists.linux.dev,
+ Paul Cercueil <paul@crapouillou.net>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
+ x86@kernel.org, Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat Dec 6, 2025 at 1:46 PM -05, Jonathan Cameron wrote:
-> On Thu, 4 Dec 2025 17:07:28 +0200
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
->
->> On Thu, Dec 4, 2025 at 4:35=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gmail.c=
-om> wrote:
->> > On Wed, 2025-12-03 at 14:18 -0500, Kurt Borja wrote: =20
->> > >
->> > > In a recent driver review discussion [1], Andy Shevchenko suggested =
-we
->> > > add cleanup.h support for the lock API:
->> > >
->> > >       iio_device_claim_{direct,buffer_mode}(). =20
->> >
->> > We already went this patch and then reverted it. I guess before we did=
- not had
->> > ACQUIRE() and ACQUIRE_ERR() but I'm not sure that makes it much better=
-. Looking at the
->> > last two patches on how we are handling the buffer mode stuff, I'm rea=
-lly not convinced...
->> >
->> > Also, I have doubts sparse can keep up with the __cleanup stuff so I'm=
- not sure the
->> > annotations much make sense if we go down this path. Unless we want to=
- use both
->> > approaches which is also questionable. =20
->>=20
->> This, indeed, needs a (broader) discussion and I appreciate that Kurt
->> sent this RFC. Jonathan, what's your thoughts?
->
-> I was pretty heavily involved in discussions around ACQUIRE() and it's us=
-e
-> in CXL and runtime PM (though that's still evolving with Rafael trying
-> to improve the syntax a little).  As you might guess I did have this use
-> in mind during those discussions.
->
-> As far as I know by avoiding the for loop complexity of the previous
-> try we made and looking (under the hood) like guard() it should be much
-> easier and safer to use.  Looking at this was on my list, so I'm very hap=
-py
-> to see this series from Kurt exploring how it would be done.
->
-> Sparse wise there is no support for now for any of the cleanup.h magic
-> other than ignoring it.  That doesn't bother me that much though as these
-> macros create more or less hidden local variables that are hard to mess
-> with in incorrect ways.
->
-> So in general I'm very much in favour of this for same reasons I jumped
-> in last time (which turned out to be premature!)
->
-> This will be particularly useful in avoiding the need for helper function=
-s
-> in otherwise simple code flows.
+from  https://bugzilla.kernel.org/show_bug.cgi?id=216748
 
-Good to hear!
+The bugzilla entry includes a Perl script and a shell script.
+This is the edited result of running them (I removed some entries that were noise).
 
-Next version, after we agree on the naming approach, I'll drop the RFC
-and thake all suggestions for the next version.
-
-Thank you all for your suggestions and comments :)
-
->
-> Jonathan
+I'll try to Cc: all of the relevant mailing lists or individuals.
 
 
---=20
- ~ Kurt
+ARCH_HAS_HOLES_MEMORYMODEL ---
+arch/arm/mach-omap1/Kconfig:7:	select ARCH_HAS_HOLES_MEMORYMODEL
+
+ARM_ERRATA_794072 ---
+arch/arm/mach-npcm/Kconfig:33:	select ARM_ERRATA_794072
+
+ARM_SMC_MBOX ---
+arch/arm64/Kconfig.platforms:375:	select ARM_SMC_MBOX
+
+CLK_FIXED_FCH ---
+sound/soc/amd/Kconfig:11:	select CLK_FIXED_FCH
+sound/soc/amd/Kconfig:48:	select CLK_FIXED_FCH
+sound/soc/amd/acp/Kconfig:107:	select CLK_FIXED_FCH
+
+CONFIG_STM ---
+drivers/hwtracing/stm/Kconfig:16:	default CONFIG_STM  # should be STM
+drivers/hwtracing/stm/Kconfig:31:	default CONFIG_STM
+
+CPU_HAS_LOAD_STORE_LR ---
+arch/mips/Kconfig:1411:	select CPU_HAS_LOAD_STORE_LR
+
+DRM_KMS_DMA_HELPER ---
+drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
+drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
+
+EXTCON_TCSS_CROS_EC ---
+drivers/usb/typec/ucsi/Kconfig:76:	depends on !EXTCON_TCSS_CROS_EC
+
+MACH_JZ4755 ---
+drivers/clk/ingenic/Kconfig:20:	default MACH_JZ4755
+drivers/pinctrl/pinctrl-ingenic.c:158:	IS_ENABLED(CONFIG_MACH_JZ4755) << ID_JZ4755 |
+drivers/pinctrl/pinctrl-ingenic.c:4616:		.data = IF_ENABLED(CONFIG_MACH_JZ4755, &jz4755_chip_info)
+
+MACH_JZ4760 ---
+drivers/clk/ingenic/Kconfig:40:	default MACH_JZ4760
+drivers/pinctrl/pinctrl-ingenic.c:159:	IS_ENABLED(CONFIG_MACH_JZ4760) << ID_JZ4760 |
+drivers/pinctrl/pinctrl-ingenic.c:4620:		.data = IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+drivers/pinctrl/pinctrl-ingenic.c:4624:		.data = IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+
+MACH_STM32MP25 ---
+drivers/pinctrl/stm32/Kconfig:58:	default MACH_STM32MP25 || (ARCH_STM32 && ARM64)
+
+MFD_AIROHA_AN8855 ---
+drivers/nvmem/Kconfig:33:	depends on MFD_AIROHA_AN8855 || COMPILE_TEST
+
+MFD_TN48M_CPLD ---
+drivers/gpio/Kconfig:1624:	depends on MFD_TN48M_CPLD || COMPILE_TEST
+drivers/reset/Kconfig:365:	depends on MFD_TN48M_CPLD || COMPILE_TEST
+drivers/reset/Kconfig:366:	default MFD_TN48M_CPLD
+
+MIPS_BAIKAL_T1 ---
+drivers/ata/Kconfig:197:	select MFD_SYSCON if (MIPS_BAIKAL_T1 || COMPILE_TEST)
+drivers/bus/Kconfig:43:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/bus/Kconfig:58:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/clk/baikal-t1/Kconfig:4:	depends on (MIPS_BAIKAL_T1 && OF) || COMPILE_TEST
+drivers/clk/baikal-t1/Kconfig:5:	default MIPS_BAIKAL_T1
+drivers/clk/baikal-t1/Kconfig:20:	default MIPS_BAIKAL_T1
+drivers/clk/baikal-t1/Kconfig:33:	default MIPS_BAIKAL_T1
+drivers/clk/baikal-t1/Kconfig:45:	default MIPS_BAIKAL_T1
+drivers/hwmon/Kconfig:462:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/i2c/busses/Kconfig:589:	select MFD_SYSCON if MIPS_BAIKAL_T1
+drivers/memory/Kconfig:69:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/mtd/maps/Kconfig:81:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/pci/controller/dwc/Kconfig:89:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/spi/Kconfig:370:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+
+PINCTRL_MILBEAUT ---
+arch/arm/mach-milbeaut/Kconfig:16:	select PINCTRL_MILBEAUT
+
+SND_SOC_AC97_BUS_NEW ---
+sound/soc/pxa/Kconfig:21:	select SND_SOC_AC97_BUS_NEW
+
+SND_SOC_CS35L56_CAL_SYSFS_COMMON ---
+sound/soc/codecs/Kconfig:920:	select SND_SOC_CS35L56_CAL_SYSFS_COMMON
+
+TEST_KUNIT_DEVICE_HELPERS ---
+drivers/iio/test/Kconfig:11:	select TEST_KUNIT_DEVICE_HELPERS
+
+USB_HSIC_USB3613 ---
+drivers/staging/greybus/Kconfig:209:	depends on USB_HSIC_USB3613 || COMPILE_TEST
+drivers/staging/greybus/arche-platform.c:26:#if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
+
+USB_OHCI_SH ---
+arch/sh/Kconfig:334:	select USB_OHCI_SH if USB_OHCI_HCD
+arch/sh/Kconfig:344:	select USB_OHCI_SH if USB_OHCI_HCD
+arch/sh/Kconfig:429:	select USB_OHCI_SH if USB_OHCI_HCD
+arch/sh/Kconfig:455:	select USB_OHCI_SH if USB_OHCI_HCD
+arch/sh/configs/sh7757lcr_defconfig:61:CONFIG_USB_OHCI_SH=y
+
+X86_P6_NOP ---
+arch/x86/Kconfig.cpufeatures:41:	depends on X86_64 || X86_P6_NOP
+arch/x86/Makefile_32.cpu:48:ifneq ($(CONFIG_X86_P6_NOP),y)
+
+XTENSA_PLATFORM_ESP32 ---
+drivers/tty/serial/Kconfig:1598:	depends on XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
+drivers/tty/serial/Kconfig:1611:	depends on XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
+
+
+-- 
+~Randy
 

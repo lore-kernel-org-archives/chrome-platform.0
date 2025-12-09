@@ -1,210 +1,171 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498A326ED3E;
-	Tue,  9 Dec 2025 09:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765273054; cv=fail; b=mIdnvYDY9kdH1mIET0rDQ6K0usS3xXfYjtsL1k9uNkTMj5XKjLBBB5MJbm9klz98N4Im5KeN+F+qsqXe3bO4AfRGbyfCgt8M+8Vu/P9FH27vwgs/qhH0V20p+BOEzCN4TzHnumbuRpwbuycbHAa38lnKsmdVfD2QGpbli+lbwwg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765273054; c=relaxed/simple;
-	bh=/8frytfZT8C4vyh0B90Yhphu+Mp3j37X2ZdoHM9/d2A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NcF89Ab76EF1eIqAwlybMbRQ5n5oLjoLMFIEsp2glSU6WFrn1wmSXd9w3jP1j3TyYqmeBkZsktwJDVVCWjdiUxTF0xNAqOKW9Dgo4P6W063xbutIAuTmuCvnv4ZolaV5OmDmLoBBvoxoJd6NwONkSilYqL8aUgRwIMYUowlksAE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=nJMsVbkk; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=rQqSpYe+; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC57D2D46B4
+	for <chrome-platform@lists.linux.dev>; Tue,  9 Dec 2025 10:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765276417; cv=none; b=tbZFFQw4Us8/rgXPSOgrL21bORDmL2FtaXkJi5M/osPb8kVjprKYKE0y0MqL4IXTJzJckYuuQrtMKgdHBVAdRezb5ecHklotzZ2UAdk1jwWJ23pUDvqrop24htoy4SKF8iKVTb21uSkR1ZoNHXfzb9NaH/ZOvB27pjW1q+D/bfk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765276417; c=relaxed/simple;
+	bh=6vUYZ7ZB1XA9z9XfSJy6LYoyZNPS3TghgWHThsU7xZg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uhIDsfP+HafWJ19NK1OOqkp9iDM3TGJfP4angjqe1ZK/9gxlTDeZufxDhyAGsNctaC9uy2MXldYY3/ynAWuf+oTwdy3xZrAL4pQZFebau9yBkN+z/XKOpiKZ7GZ5IfgNezeM+rz26ciLjKNEc4yvzi6d8HAXuz5FJ87h3jpDsQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AB4McMJv; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="nJMsVbkk";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="rQqSpYe+"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B94uIYT179684;
-	Tue, 9 Dec 2025 03:36:39 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=PKHXBFeexF1OLAnNorin/u5kfN3/rLU+xeTkWta0by4=; b=
-	nJMsVbkk/0REfe2/pWPRS82FuNujSbNQPo1LBhVcs61yKmFSeTF6bSMUpRcXRxX3
-	z0I5ZH3ifEWfPTBUhu8BM49Y7ERFF57al/Tsu+Pyvye/a4M2OOE444VSoMohKB2s
-	UWNHqcHeOWDIFiom8rfWm7XL9V6rMg3inKg8EvppFi9v6BHg3d5vvMZtO5kakP9E
-	Rbui9lEqJxfY4p7/2UoS25vYCT48dlS8qwHZeDN0dmzfuKcvDsKEgmU0BWRqspaa
-	afcNJZ2o7CLGamtn4o+gWGTHLvAsbYytt6jvOf6wD9E3K8OvS7x1q5/6TJz5WHf0
-	m6wY4CKTeI7uCeVErbnzAQ==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020138.outbound.protection.outlook.com [52.101.193.138])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4avhskk8kr-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 09 Dec 2025 03:36:39 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RucF7YSWv+eVINCnJJz5Q4p7cK7P+xezEF3ZpKz2ripy9635PtU07jdzd7jlH33FCgnQ6awntnCFM76xH1BWfV9yo68ohSXF9RADhUShLbiR1LE1T+j7u1nVDlRFpcdAvhNSgrS9hu2l1xpTUmCDHj6rBz55N2fxzZup0S18G5yQb3BnayyUh3VSfKUkrUzeknxsUEI0Flq0E921EyKgxv9lzN0fLPlWvyyy1awX7hFU6lNQRsz1EHz9zh7BZ+dCaNVq1D6w2vWbjjBV608ojL9UecO4w+Ywo9mGsPdTR30FcP17sn7OkoayeuVH6h/O6cyIGggvFgZQ3ql1Vt7Hqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PKHXBFeexF1OLAnNorin/u5kfN3/rLU+xeTkWta0by4=;
- b=ZTo6YWe1S4PjpS9yGxzWHkbTbbx9+oukgTRzY96RYHGY+baBGL7rciiDqFWuCR+zYbu1rhYRv33lOA5fylVrh88ulBwOLJ2b6NVTh4SyDfAG4rBRvrj2IX/i5a7a1gvw5T+K209loVrZPrHByZf6t+6MMIrajpPcV2GgX5dCVhxroUva2LlojsBkAsHMqZPRqAqri2yQHRIPSINBzxIWiMUgdxR5C6ymRjR1t53+Ep/dlmuwTUjEpJIEPklBxVoDV8f0QCss1dCQ8E87sm6oj2FC4xh+ZneSFRef/EpHdw7iI42skgSgzQA/RhMe/4AbdaZQuWXC7aFk5n4poR1qtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=arndb.de smtp.mailfrom=opensource.cirrus.com;
- dmarc=fail (p=reject sp=reject pct=100) action=oreject
- header.from=opensource.cirrus.com; dkim=none (message not signed); arc=none
- (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AB4McMJv"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4779a637712so40292885e9.1
+        for <chrome-platform@lists.linux.dev>; Tue, 09 Dec 2025 02:33:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PKHXBFeexF1OLAnNorin/u5kfN3/rLU+xeTkWta0by4=;
- b=rQqSpYe++dHKD8budRum+Pa/h/84bQEYkcJ8NsxvflHiSsdWjJirIQnFztPGqBm2G2XijzizPBOaxCv9Gm5ufnvkqH6gybqoWhVPPeaBzVznebkSoT1WRIPgsPS4DDs/l7EwnLwBLsubeiLWSmfsvcYBPbxhTfYJJQONr8YImys=
-Received: from BLAPR03CA0120.namprd03.prod.outlook.com (2603:10b6:208:32a::35)
- by PH0PR19MB5396.namprd19.prod.outlook.com (2603:10b6:510:fa::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.6; Tue, 9 Dec
- 2025 09:36:36 +0000
-Received: from BL6PEPF00022575.namprd02.prod.outlook.com
- (2603:10b6:208:32a:cafe::fd) by BLAPR03CA0120.outlook.office365.com
- (2603:10b6:208:32a::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.14 via Frontend Transport; Tue,
- 9 Dec 2025 09:35:56 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL6PEPF00022575.mail.protection.outlook.com (10.167.249.43) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.4
- via Frontend Transport; Tue, 9 Dec 2025 09:36:35 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 6ED37406541;
-	Tue,  9 Dec 2025 09:36:34 +0000 (UTC)
-Received: from [198.90.208.24] (ediswws06.ad.cirrus.com [198.90.208.24])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 5F14F820247;
-	Tue,  9 Dec 2025 09:36:34 +0000 (UTC)
-Message-ID: <3b72f01e-698c-48da-a40e-431d08c7b847@opensource.cirrus.com>
-Date: Tue, 9 Dec 2025 09:36:33 +0000
+        d=gmail.com; s=20230601; t=1765276414; x=1765881214; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6vUYZ7ZB1XA9z9XfSJy6LYoyZNPS3TghgWHThsU7xZg=;
+        b=AB4McMJv9c41xHo2acNmewH3U43rbzRC2TGQXVXYINzn4DOb8UoB1cJ4M07JpajL1K
+         mOxmDQ9Ce//IOlkjK6Le/DyiBc6apJ+dEOblZVlfo2vAnu3G+WKHWZptfhAXsfRPNRqv
+         nmAzwzgErsImXLwAO/JWic/vT/TTNJAOa47gh05aNhPkNob0gD6HLWfL3pLgit78Eeb2
+         PNaGMw2TksOpDzBiYywDSPzWVF7FqLVxetf87sTjEPV2SlXT+uwYi5BDjuW0IsGU85Q5
+         BViO8sFb8Oh25wevujXojKAgsLxF8lqrncphH5nh6fO3g/uMqcPxyz/OQzvYxYlUz3+C
+         BfBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765276414; x=1765881214;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6vUYZ7ZB1XA9z9XfSJy6LYoyZNPS3TghgWHThsU7xZg=;
+        b=t06v3KUFfWhnK0zqieP4WVwI+sePECOnPDJZjezGSLK2I2GoajPTbXr76oqD68DpWF
+         ack5dBRU7UUUmZ9Xiet/DRdXHeOKLG21Umw6pQUb6hZWH6sGbDP4WIPaRRQ97rLpwBpz
+         nngjgHX72/aW1gfwqZ3CWlqE85W/dRlrPd/Yx2DmNQKiTGQAvFTnf+RIVd0aJHDMLIVP
+         J8nRxp9+QX8Inb9HaPSOxBK7KGmDJRiayEJWSXoo7zobo9jDxWfA5A5QQUSic0A2WtYg
+         aoXXmC24apCrfrvv7Oh1pK1/W+GERiczfeC42TyP/GwLn5LE7WQarSsqFLpJs+U7qxGu
+         RegA==
+X-Forwarded-Encrypted: i=1; AJvYcCXUyqh4/kvNc/JpV3JL2o7AF4kYD+kXgl16735+lKUL4cHIRi8CcsuRWRa3ulZVdANrDDyE7cMNQXe2iipHUJY=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz73jLSjaNW2u7hXBU/os/eSDfdrDBmo1ms7JC8F8j0yyJhX/Oy
+	yKQHxp+NetVMTVcZSCBxUuWhbF/lRwqufM62f+fz1zhtdsoLZDcZZakZ
+X-Gm-Gg: ASbGnctjpr3pPJ7Mq0JlFejv2uiKOTDZ3e538ai5CEThkeM5dqhsoupBYPwaPDIPPqJ
+	2URkudtZdjAQvS2IHtb68yqhUkvN5rw6psVyLRP5VmJUERLXP3JDZz6cWt8Broh3VPdM2NtyoHO
+	HjGxT+BDATme9Y8hez7dVyXTpMZRwfJmD/oOQykUUz72DIqbwBRTXtr93cvzWW2J8dAS/vex30h
+	xZtOHX+BjA6fmv0N5PN9V7wuayn8K7zfGzV+Yi9Pg4itu/RmqP2F7JDZyC9GsDpDFlF8GXHNpep
+	4SCFYcG3gWeuUHtY0fri8JxxX7/bU8mVMrcnSKGHQyCRj48PtykVqTbDdzlt8o00DTLM6+ArCfD
+	5yzIXbo9KorD2wgSURwtrDH9hIfjVD2PT3YX9eYayR97mJoQ2/kQ4Ti3pTCXxKdKGiGQC1qif/1
+	t89C355yGr1v8qKfv8KAg=
+X-Google-Smtp-Source: AGHT+IGZQrJg+7CP7PO6TcoDaHyiNMGgsBliDZ1Lgu0m6bB12DU/JkBOondvRTh7wk+YcAEp6Q+UiQ==
+X-Received: by 2002:a05:600c:a43:b0:47a:75b6:32c with SMTP id 5b1f17b1804b1-47a7b17cfdfmr29371385e9.2.1765276413463;
+        Tue, 09 Dec 2025 02:33:33 -0800 (PST)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a7d3749bbsm15685995e9.3.2025.12.09.02.33.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 02:33:33 -0800 (PST)
+Message-ID: <54483083c42cf7500239ebb7c0d32d25f11bb02f.camel@gmail.com>
+Subject: Re: [PATCH RFC 0/6] iio: core: Introduce cleanup.h support for mode
+ locks
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko
+	 <andy.shevchenko@gmail.com>
+Cc: Kurt Borja <kuurtb@gmail.com>, Andy Shevchenko
+ <andriy.shevchenko@intel.com>,  Lars-Peter Clausen	 <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, Benson Leung
+ <bleung@chromium.org>, Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Gwendal Grignou	 <gwendal@chromium.org>, Shrikant Raskar
+ <raskar.shree97@gmail.com>,  Per-Daniel Olsson <perdaniel.olsson@axis.com>,
+ David Lechner <dlechner@baylibre.com>, Nuno =?ISO-8859-1?Q?S=E1?=	
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Guenter Roeck	
+ <groeck@chromium.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev
+Date: Tue, 09 Dec 2025 10:34:13 +0000
+In-Reply-To: <20251206184645.51099254@jic23-huawei>
+References: <20251203-lock-impr-v1-0-b4a1fd639423@gmail.com>
+		<77ca77847511e67066a150096a7af2fb84f1f25f.camel@gmail.com>
+		<CAHp75VdNjqZdy0+aSbBzn9CwEwHUhjwED+KRVqkdOMc_N+nX9w@mail.gmail.com>
+	 <20251206184645.51099254@jic23-huawei>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Kconfig dangling references (BZ 216748)
-To: Takashi Iwai <tiwai@suse.de>, Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, andrew.jones@linux.dev,
-        linux-omap@vger.kernel.org, openbmc@lists.ozlabs.org,
-        linux-sound@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        linux-mips@vger.kernel.org, asahi@lists.linux.dev,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Paul Kocialkowski <paulk@sys-base.io>, chrome-platform@lists.linux.dev,
-        Paul Cercueil <paul@crapouillou.net>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Vaibhav Hiremath <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
-        x86@kernel.org, Max Filippov <jcmvbkbc@gmail.com>
-References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
- <87fr9luyu7.wl-tiwai@suse.de>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <87fr9luyu7.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00022575:EE_|PH0PR19MB5396:EE_
-X-MS-Office365-Filtering-Correlation-Id: 08c42c0c-2e81-44e5-7bbe-08de370671fc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|36860700013|7416014|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RHIrRDJGd3cvK1dZN2c3cHlhSldLOW5aNnZtT0JNQmpoR1FwempvU1I3alpZ?=
- =?utf-8?B?MFk4aVJDTlMwLzMxN1h3SWtQWmxMNnVJQkY3OWdBVkpWOWRVWEphMmVXd0hv?=
- =?utf-8?B?SlJUbXBYbFhmajVQajZDa0xOUlhkTmg0VmpHOFhUcDJNVFlWUU1WcEZmMGVG?=
- =?utf-8?B?MDBhU1RScTVVdC9xQ1oxeG44bWE5SDhRdWtHWmRld3NGTFlsTW5hZkxySVNY?=
- =?utf-8?B?ZmM3Z3FwU3ZDOFpnczlJQXRONmNLU2FaMXlTRWE1eHBGY0Q3bzZQMXJIaDgx?=
- =?utf-8?B?bk56QXZBclBXSkNFOGFrRjl0SmY0K2lSTk1hOWI1NlRKeXYyTkRDZGdwZzZm?=
- =?utf-8?B?bllSTSsrbWdwRDN0bVl0aVNhUUQ5RTVHWnBqM3JBU1ZrNEJjR3BVRERHWDJP?=
- =?utf-8?B?TmdXWExBM2gvanRkRUtISVk2RUxSM1VKQ1l2NkhxZFdUV21ha1NrVVczTk1U?=
- =?utf-8?B?aHNkYkFMZlZIcEZuc3dtUmgvQnI5ekVrM2NJN3dOZWllWllaTzZOZHNXaHlz?=
- =?utf-8?B?WDdGNmhnSXFMbFoxVDU4YTdKNTRXdFVRK05zY1IzcWJ6YmtDRDZKQ0tjbVJh?=
- =?utf-8?B?V1dkMVliTVA3cWFYMzhicmNGYVhnYnU5NHJOL2RSdlRCem1RRHN4Y2pjZ0hN?=
- =?utf-8?B?Q3NrSVExYkk1VUZTNW1WdkpxTG1BQWFKQnpqK0ZYZkVWQmM2UDFpVVI5Zkp1?=
- =?utf-8?B?cHBpNVV0TVNQRjlua0M3V3c3OENwaUdpMGQvS01zMFdXMElvVk9mak1XWVNy?=
- =?utf-8?B?S2hiMFFqMUJoTWprTEt3S1RsNFBVWS8zTitMbmNJSW9sRWRIMlBPL2NMbnRP?=
- =?utf-8?B?M05Fc29xNWFuUXlhN002RWR2V0NhS1R5dC84cWRUMkdnbjV2NW1FTHJ1Z0M0?=
- =?utf-8?B?VXZkc0VHa2pjSnhvVzI5QS85SjkxNWhUM3B6bTVPQXRKT2dpZC9jYldFaW41?=
- =?utf-8?B?eFJJTWYvUGp6NVJ6NjdNM1cyaXlIUm0zZndGdTI0MlRCSHlJMjdtWStYRTVV?=
- =?utf-8?B?TndIRXM3Nnl5dUlNS2ZlUk42WnZ3eTlOZGJUbFVETGU2bWJxNnFrNmlnSTBv?=
- =?utf-8?B?WG1ub0UwM0Q5d2lqNjVKdUlpeTlXY2d6M1N6RTYxMTZNajRYejE3ZFdJekRn?=
- =?utf-8?B?VTdBUCtpWWI3RFlxY2FKRVZsR3hwTzVKR1lGYkNWZll2WFFuTzY3eGlLSFd1?=
- =?utf-8?B?NlJkQk1XTmVsem42cGg4TjRhUTlDcWlrOXZjTWpBbVo2bUdtNHgzTlJRcFdS?=
- =?utf-8?B?VDVvWE9hWGtoZ1JnbEd2bWVvYXFob3NSczNFVk5VZjA1dnN3RkU1aXlnaHhG?=
- =?utf-8?B?cnRwVGJLaGpuOW9ZZS9NRGdFUFNyM0UwUEJMT3lXSTRVdDdsZCt5RlF3d3Zu?=
- =?utf-8?B?em1BYmNGL3RKaFc3UmpXUjVYUHl4MitGK3FzVTlKTXhBTjdyanF3RmczY0Va?=
- =?utf-8?B?SHJqSGp5ZklqUy9SZ09sZ2I2VkVVQkc1QzV1bWZjcGJMZVNkVkhEdThScUM5?=
- =?utf-8?B?RnFuYUk2Y3NZZDZDb1cxS0tWYjdUK2YwUmpQN1NGOGE5MUtUM1dvck1PNUlj?=
- =?utf-8?B?Wncwa2lFd09NVWlnQWY4b2xzR3MxRjlzQjVpazJQOWxwQUowODRkK05tRGhj?=
- =?utf-8?B?eXVVZkdpcjZ0ZTFaSjdBd25DMG1SZVIrbVNLQjQwNVBBMmVxcVRoUUplak9O?=
- =?utf-8?B?UXd2RXI0TElBSVZJUHZvZHBjOW9waFpGWlhOZ3BjZVgwcmQwajJ1N0xnWVBs?=
- =?utf-8?B?WUNaSmxMY1BLeS8yekVSZ0JOZDVyOUcvNjBxR2hrVWIveGIrUTc1ai8zd0tv?=
- =?utf-8?B?KzNoZm9SREFJaEpYSjREaStpM1prSUNoVWxZbEgxNEMydmJJc2FXa1ZZMkx4?=
- =?utf-8?B?MXFEVkhJQTlJeGhHUWdCZU1zRDE0eTZHTkJFTnQ0dCt0ZXRPSTVwdTBqTEdt?=
- =?utf-8?B?SUJqTGlYWENpYSs0QnVML0NkOFdtZjRqMVFTUHNsOEI4NXAyZGFsVTNid3Fz?=
- =?utf-8?B?M3ZHK0pKUjFld3FrTms1TXIzcFVKME53V1lBQk9WaGJzZlJhYkxBaWhzN3VO?=
- =?utf-8?B?YytIYnRMeGNSYWF2YVZPNXFDcEh3WFlLRGNrQT09?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700013)(7416014)(376014)(82310400026);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 09:36:35.2774
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08c42c0c-2e81-44e5-7bbe-08de370671fc
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL6PEPF00022575.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR19MB5396
-X-Proofpoint-ORIG-GUID: HmELDZTK9mzkvQe1JymO9Z9NL6DpSihZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDA2NyBTYWx0ZWRfX2rz8c69/HykU
- amDi/ybpGW57WMK6dc8arxp314n78gNQL74C8fKc88pW//+dtIFUEH3C9HGcP1rxLceLzz8KRxC
- uz3g6rG2/b9tj2r4ObAweTO7B/nAS+F/P0kyPiavpUBWeqsrcYM7vXan+fagpB02xzqMeLqcAXZ
- GpvcWKiNNd9j4kdKZu1ikQJKs6XkojQD/OfF693xcQNDyepRUc0Qru8LLrHxJV9hb/mqfWBJZJW
- GNmDvNtdFj3g/zpLDt/IQVyJ8mXOiJeLflQZquZiHsRANq5hw1oA+RQ8z3RlkNbs/lpgUQywV5C
- WPVgsYLvut7rvvl1bG18/ADFTRGdZo/4XolOX6Lwg7lOv3js4+JveFBWhFsK5dUPJunby6TzVxO
- P9CtUWZ+nV6VnkkbgLjiXdMrSdX+Bw==
-X-Authority-Analysis: v=2.4 cv=DJ6CIiNb c=1 sm=1 tr=0 ts=6937eda7 cx=c_pps
- a=wpg3e3TFAlO0qOiIlNsFBg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=eQQaxFmmQVRwuAb-A3wA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: HmELDZTK9mzkvQe1JymO9Z9NL6DpSihZ
-X-Proofpoint-Spam-Reason: safe
 
-On 08/12/2025 9:06 am, Takashi Iwai wrote:
-> On Mon, 08 Dec 2025 03:04:09 +0100,
-> Randy Dunlap wrote:
->>
->> SND_SOC_AC97_BUS_NEW ---
->> sound/soc/pxa/Kconfig:21:	select SND_SOC_AC97_BUS_NEW
-> 
-> This must be a bogus entry added in commit 1c8bc7b3de5e ("ASoC: pxa:
-> switch to new ac97 bus support"), which can be dropped.
-> 
->> SND_SOC_CS35L56_CAL_SYSFS_COMMON ---
->> sound/soc/codecs/Kconfig:920:	select SND_SOC_CS35L56_CAL_SYSFS_COMMON
-> 
-> The buggy commit was 32172cf3cb54 ("ASoC: cs35l56: Allow restoring
-> factory calibration through ALSA control").
-> This looks like a fallout at changing from sysfs to debugfs, so this
-> should be SND_SOC_CS35L56_CAL_DEBUGFS_COMMON instead.
-> 
-> 
+On Sat, 2025-12-06 at 18:46 +0000, Jonathan Cameron wrote:
+> On Thu, 4 Dec 2025 17:07:28 +0200
+> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+>=20
+> > On Thu, Dec 4, 2025 at 4:35=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gmail.=
+com> wrote:
+> > > On Wed, 2025-12-03 at 14:18 -0500, Kurt Borja wrote:=C2=A0=20
+> > > >=20
+> > > > In a recent driver review discussion [1], Andy Shevchenko suggested=
+ we
+> > > > add cleanup.h support for the lock API:
+> > > >=20
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio_device_claim_{direct,buffer_mode=
+}().=C2=A0=20
+> > >=20
+> > > We already went this patch and then reverted it. I guess before we di=
+d not had
+> > > ACQUIRE() and ACQUIRE_ERR() but I'm not sure that makes it much bette=
+r. Looking at the
+> > > last two patches on how we are handling the buffer mode stuff, I'm re=
+ally not convinced...
+> > >=20
+> > > Also, I have doubts sparse can keep up with the __cleanup stuff so I'=
+m not sure the
+> > > annotations much make sense if we go down this path. Unless we want t=
+o use both
+> > > approaches which is also questionable.=C2=A0=20
+> >=20
+> > This, indeed, needs a (broader) discussion and I appreciate that Kurt
+> > sent this RFC. Jonathan, what's your thoughts?
+>=20
+> I was pretty heavily involved in discussions around ACQUIRE() and it's us=
+e
+> in CXL and runtime PM (though that's still evolving with Rafael trying
+> to improve the syntax a little).=C2=A0 As you might guess I did have this=
+ use
+> in mind during those discussions.
+>=20
+> As far as I know by avoiding the for loop complexity of the previous
+> try we made and looking (under the hood) like guard() it should be much
+> easier and safer to use.=C2=A0 Looking at this was on my list, so I'm ver=
+y happy
+> to see this series from Kurt exploring how it would be done.
+>=20
+> Sparse wise there is no support for now for any of the cleanup.h magic
+> other than ignoring it.=C2=A0 That doesn't bother me that much though as =
+these
+> macros create more or less hidden local variables that are hard to mess
+> with in incorrect ways.
+>=20
+> So in general I'm very much in favour of this for same reasons I jumped
+> in last time (which turned out to be premature!)
+>=20
+> This will be particularly useful in avoiding the need for helper function=
+s
+> in otherwise simple code flows.
+>=20
 
-Oh! I checked multiple times that I'd changed all the sysfs to debugfs
-and this STILL got through. I'll send a fix.
+Ok, it seems we are going down the path to introduce this again. I do agree=
+ the new ACQUIRE()
+macros make things better (btw, I would be in favor of something similar to=
+ pm runtime). Though
+I'm still a bit worried about the device lock helper (the iio_device_claim =
+one). We went through
+some significant work in order to make mlock private (given historical abus=
+e of it) and this
+is basically making it public again. So I would like to either think a bit =
+harder to see if we
+can avoid it or just keep the code in patches 5 and 6 as is (even though th=
+e dance in there is
+really not pretty).
+
+At the very least I would like to see a big, fat comment stating that lock =
+is not to be randomly
+used by drivers to protect their own internal data structures and state.
+
+- Nuno S=C3=A1

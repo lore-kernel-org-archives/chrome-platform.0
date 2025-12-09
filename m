@@ -1,100 +1,106 @@
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D329426F2B8;
-	Tue,  9 Dec 2025 10:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848012750ED
+	for <chrome-platform@lists.linux.dev>; Tue,  9 Dec 2025 15:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765277123; cv=none; b=Ts+dgFzJUiR/GxePpCinUhIFjRYeWsBOyCl3YFqzF3DmEIIkmjxkWXRhL7Qj+S9NMpTkdQyCmy7pZjEe7PtT3RQet+H79OMPfhHU1hEdBJ25fv4XXTHgVgfovFgKWxSKiwdAgt/RaFf6ZLA8O87BCTdYkUt6O27yKxKaPGcSIm8=
+	t=1765295235; cv=none; b=U+mYXt1Z8+z/U32ebmrjk0QJhARX1TyXbXiNlyLnz0gre6sd8xnWsF/D0VLueoAir82HIk3IwvYGeF5PPiIuQnJECUFQ2Dgk5HXUfanPgCAwEJP1a+6PJQnqBAECxxwfj+W4waeNObDgZ+CFIRXqH/nNM/s42IdehH8jJ1CPwVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765277123; c=relaxed/simple;
-	bh=BqS+Wvd6f8X2A+oiqGiE1sknipTqPIJGzDlgX5v7cJI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GQlu9Yi7tIqZqAwCqR1tHTcrybLKrqr8xBybo1CyaOn9Ev9mII7TGIykL55evsT2oTqspt6FE5XDn5/VOuxmTMQ7175p7VFPgRDRUnTvLbKI298alcUhV1j17HgItDC+hepWfQepmHr2hObh7am9xIS59IZaTBLr0luisr5Pgfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=TD2Cgs1A; arc=none smtp.client-ip=130.133.4.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+	s=arc-20240116; t=1765295235; c=relaxed/simple;
+	bh=m2A6ZHh38QLY0KCcRCAKW90Du25XkQzdMPrnADEF3KI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cSeT5HtGmpusIzx3pl6oi7KFCLqkDo2Bzut2n43WeTV/wLfnk+bEE5jdgYa5rU91nozu4PG8vEcwXZGC8ZbMdnSneTqUM0YtOK81/oL+9Y0dn/SpLsvndW6BeIxVsmRle4fL2UPRyn85LpmkP93vIw1hs9R0EV6DiXRUMvqp3zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nI+32DDn; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="TD2Cgs1A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=V43iKeuXkWEbsOTGyK/7fvOM7cegPuuBRLGvWn7Si9k=; t=1765277120;
-	x=1765881920; b=TD2Cgs1A5DnIyk9FV9oJitmoUgbh/8zi5qx2miG2yba2keJmef7pK2soQZolD
-	b5pV8o02u0FNGYxN/IN+oA/1Z2P3/o67q1UbPnFvDTUvEv7YoHpB2r8JKIVCW0LxJ/Zfju6eBgtZR
-	23YGGb7j/dFNybH8e4ukdbS5wxiZoWsMLaUPk7lFh3qWtIP8MKUpH+bV00xU/MCAUGSpMfJ7KtUdD
-	vkC+/Tbql4X+eQgwg8Lbb9SDR4kkTAnDhZYFHaDv6H77+0HRhQEApglJ2D1ZoSI9YuOTvSMhunYXE
-	Y4fVmwKAWI5cQmtJr2NBJy+1Stm+E+//dsGyLDLe6FvtZrwFiQ==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.99)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1vSvDW-00000000kdw-08Hs; Tue, 09 Dec 2025 11:45:14 +0100
-Received: from p5dc55f29.dip0.t-ipconnect.de ([93.197.95.41] helo=[192.168.178.61])
-          by inpost2.zedat.fu-berlin.de (Exim 4.99)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1vSvDV-00000000qRg-3H26; Tue, 09 Dec 2025 11:45:13 +0100
-Message-ID: <2189d38d368b1b580ee440d1d406bfcd3631213f.camel@physik.fu-berlin.de>
-Subject: Re: Kconfig dangling references (BZ 216748)
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Rob Landley <rob@landley.net>, Randy Dunlap <rdunlap@infradead.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, andrew.jones@linux.dev, Alexander
- Shishkin	 <alexander.shishkin@linux.intel.com>,
- "dri-devel@lists.freedesktop.org"	 <dri-devel@lists.freedesktop.org>, Paul
- Kocialkowski <paulk@sys-base.io>, 	chrome-platform@lists.linux.dev, Paul
- Cercueil <paul@crapouillou.net>, 	linux-stm32@st-md-mailman.stormreply.com,
- Srinivas Kandagatla <srini@kernel.org>,  Philipp Zabel
- <p.zabel@pengutronix.de>, Matti Vaittinen <mazziesaccount@gmail.com>,
- Jonathan Cameron	 <jic23@kernel.org>, Vaibhav Hiremath
- <hvaibhav.linux@gmail.com>, 	linux-sh@vger.kernel.org, Max Filippov
- <jcmvbkbc@gmail.com>
-Date: Tue, 09 Dec 2025 11:45:12 +0100
-In-Reply-To: <f10e135e-14c5-4bc0-8100-1712be3796dd@landley.net>
-References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
-	 <f10e135e-14c5-4bc0-8100-1712be3796dd@landley.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nI+32DDn"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47789cd2083so35219605e9.2
+        for <chrome-platform@lists.linux.dev>; Tue, 09 Dec 2025 07:47:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1765295232; x=1765900032; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2c04LwHbF/s3zM8ygqzdu4yzOQ4Hv2zMBfxhEf+2XtE=;
+        b=nI+32DDnqlzPm5GoKgSW00sfdshE0BB+S4NE/u4aQ9u6FJ7FnnFJy6EV9DzGJyk9IH
+         IbG2vEP2L7bGedrwdKdB0gm/RdX3Rsnqog256h65BE1CJG9aKdx+waMdBh9q4tgZa4t8
+         rlxToVfYJTZMj0uEwphcIeF3KW3tFdNddhPe8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765295232; x=1765900032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2c04LwHbF/s3zM8ygqzdu4yzOQ4Hv2zMBfxhEf+2XtE=;
+        b=i/BY1J676ZbGnphzHXG0wQLQln5FSVOZl/z4uHZoiD34fOTaRt6sXfo6pGxzTEgXSu
+         /YVWCREIGMXAqqzPFue5XKv7EqYtvfiztSMdlwSWUKU7wiFE17jbgAWiR/atEyDjZHA0
+         1Plod4Co+EQiLnioCBMQvJPi3mT/nC0IfGN+nsbMvLq0sL7+Tx5Tch+wTbd7wj1WHmZ2
+         /RzaiYrhHG9o8jTzkq01btfIZcUuvcbHYzdP8f7xkiE7G/5tGlZaPkRGJSjZ5tYQSlze
+         5/jKXPHZBbJXSvFZUJhikLdk8xzYfjaoxqaU0UDn12xdPnQgTQ9QrOZN9aCQ5NwqjxY/
+         h4Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCWOiGEidCfC8WfOda8FpvhWsl9hd4piE+iNicEsRrpzNSsDyaaNwx5weSXqzT50665kO5dZfLst1eTNqmEnNE8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyAmB3CcFMJYe1moxJsxGIZpbf0/ToRGzzQ3Nw8ZpEYDvsT9Njg
+	TjCt+lghZP8tXeGHZURmEYgtELFTr/QvQiXFufrnOX2qp/uIn8thKeuJwz8Cu8a5dw==
+X-Gm-Gg: ASbGncuylEBLYZYmCSbKlOLoTKtbk5ZnGVBlkfB4t7ujYU/8QBVPHmtZ0IVhnAVFT4E
+	46Xeaqhq6E5VbB2/PB7udU0UkM7QYED1aXHALhBaVxrdd//ObocqdGwHrNJycs14RcrPVSkgShM
+	0J0pSXpeXMNwvPji5dBEuj1cZd4Me2LGb/x7IlqXX/0NDI8hxmGDeMM3A87IzdBqNtkRyaouvKB
+	YbYhu/1TrCqCcfUG+EKR1SBnkw8NlIyxFfHigwPtCFQPXwMzh2/oNDM8ANubwpe0ni5wibQvBEQ
+	kRvPbXVhq5zCyFWnBZ1d3Mh0CvhK2GI8q+4ilqNEtEw8osBc+w9CByHUrW8iA4R7bj84aGiilFA
+	dWU4nC+6eMI0kBuG4o4DgypHvMAmbhdFG5ZM44zH4ckQ86iXEZsCPRdaQ9ODoFgJh25m87Uve5M
+	htMALHk38inLcHUcg=
+X-Google-Smtp-Source: AGHT+IETtig917c/959U67stUU8b8pUELNsuVOkLdt6GOzPmjWWtx8z0b7xMKjenAYwi61hJeTVS2g==
+X-Received: by 2002:a05:600c:19cf:b0:46e:4586:57e4 with SMTP id 5b1f17b1804b1-47939e3a6c6mr124500145e9.24.1765295231876;
+        Tue, 09 Dec 2025 07:47:11 -0800 (PST)
+Received: from balto-ws ([37.228.206.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d353c9esm31097881f8f.40.2025.12.09.07.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 07:47:11 -0800 (PST)
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Fabio Baltieri <fabiobaltieri@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Simon Glass <sjg@chromium.org>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.orga
+Subject: [PATCH v1 0/3] Input: cros_ec_keyb: add function key support
+Date: Tue,  9 Dec 2025 15:47:03 +0000
+Message-ID: <20251209154706.529784-1-fabiobaltieri@chromium.org>
+X-Mailer: git-send-email 2.52.0.223.gf5cc29aaa4-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+Content-Transfer-Encoding: 8bit
 
 Hi,
 
-On Mon, 2025-12-08 at 16:20 -0600, Rob Landley wrote:
-> On 12/7/25 20:04, Randy Dunlap wrote:
-> > USB_OHCI_SH ---
-> > arch/sh/Kconfig:334:	select USB_OHCI_SH if USB_OHCI_HCD
-> > arch/sh/Kconfig:344:	select USB_OHCI_SH if USB_OHCI_HCD
-> > arch/sh/Kconfig:429:	select USB_OHCI_SH if USB_OHCI_HCD
-> > arch/sh/Kconfig:455:	select USB_OHCI_SH if USB_OHCI_HCD
-> > arch/sh/configs/sh7757lcr_defconfig:61:CONFIG_USB_OHCI_SH=3Dy
-> Commit 231a72e03af6 removed the only user of CONFIG_USB_OHCI_SH (an=20
-> #ifdef in drivers/usb/host/ohci-hcd.c), commit f6723b569a67 missed it=20
-> cleaning up, then commit 4f6dfc2136fb special case removed the symbol=20
-> but not references to it.
->=20
-> It can go.
+this adds function key support to the cros_ec_keyb driver: the platform
+can specify a key to be used as "function key", and that changes the
+keycode emitted for other keys as long as the function key remains
+pressed.
 
-I will take care of this. If someone wants to help, please feel free to
-post a patch to the linux-sh mailing list and I will then review it and
-pick it up from there into my sh-linux tree.
+The Fn key omits its own code if pressed and released with no other
+function key pressed in the meantime. Non mapped keys do not emit any
+codes, this seems to be the behavior of other devices I have lying
+around.
 
-Adrian
+Fabio Baltieri (3):
+  Input: cros_ec_keyb: clarify key event error message
+  Input: cros_ec_keyb: add function key support
+  dt-bindings: google,cros-ec-keyb: add fn-key and f-keymap props
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+ .../bindings/input/google,cros-ec-keyb.yaml   |  60 +++++-
+ drivers/input/keyboard/cros_ec_keyb.c         | 193 ++++++++++++++++--
+ 2 files changed, 227 insertions(+), 26 deletions(-)
+
+-- 
+2.52.0.223.gf5cc29aaa4-goog
+

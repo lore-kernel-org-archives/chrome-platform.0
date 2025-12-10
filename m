@@ -1,215 +1,112 @@
-Received: from aposti.net (aposti.net [185.119.170.32])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061D91E7C23;
-	Wed, 10 Dec 2025 13:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.119.170.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF62A2FD7C6
+	for <chrome-platform@lists.linux.dev>; Wed, 10 Dec 2025 18:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765372646; cv=none; b=aUlcRiEWkcvXz4dg+n624o5EcevZ1qGwI6HsyzCST5ITksB4pCeFQKLFSnIHNwK702n4h5N2ou/bv3DL60270rWDDng9WHLrqnB6Eso+aJc+L+YkDNkUtvucOILhXtNOZoOsjYaKtSj/5xn2e6A2G6PMbTnzhRCBb/dk7NFGVyI=
+	t=1765389635; cv=none; b=gWQK8BqKqrKc4PV+eWtI6OYR9G00Q/gCV62rejPhuEV4n/2IAtCUrkEiKvfl9SgpPkrSSebwvr94nSIby5TfutaGt39Aaszh/uk2acKiM1o4Cj8fH6jUd0EI0q0XxTcrigOgP6Kfmg7QEWCfosub2dby2oycaBTVMWKNwLYvrbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765372646; c=relaxed/simple;
-	bh=jcPu3SNVQJaXw9PqEo38M18ABhD7SAoOI2W2LvihJ68=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KRdleWvJ3m97Pnh889nzPVtHX26xI8yG7D/D2P1hg3v8/1do1X4rAIt4o0OcHzIRJCN/VwKPBDoWZqDvToGGGEMzYTIXoB9+5QrphkzHYBRtpNo+K0Cws/cmqANC6nndRnUp7ml8HR6lHl0TuNaijhsY1vLRjvxUo2UoS9cEKjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=RnCMPHJ8; arc=none smtp.client-ip=185.119.170.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	s=arc-20240116; t=1765389635; c=relaxed/simple;
+	bh=a+WgLV8Me8he8vsaz9WjfiuVCZvCj6zKFhsOIiTYBLs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YmgW+bq1+JqLFBj31q8xz88a08bGkgRMWJhHbglXrjyCKyTaLy4QSWfrQa4YCD45NcPIg4agYVAqrG9j63HB15OZ8RuatJmVQGoEK5HOAHmwJAQpImEz5/UVoJj0UQ3QbrksEZzJcZtxI3RJ46Bi69GmGx+tozvZ4FbGM1sGeoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oIQjf9Jk; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="RnCMPHJ8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1765372011;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=cDRFy6vcE6IK0n780GaRWgRqUqt6rq2uXI/t4/Gr+Mo=;
-	b=RnCMPHJ8+5bLooq6YXu3nxjc4rHzf3q6p7Xq5Db7RIOUc6t+Xd3ujkkPR0UB3ezQtrVOcb
-	eEW6BLRdJMR0FiH+oIzNU8lDYzI29mfeAEpWk0l8VPS1wWY4/shf0rvBVsaV0G+NMHf00k
-	+Cudz+YjfUoQ/V5j0AoCmAvEmoGw5dk=
-Message-ID: <4b6db1eb455fff8e3c7372943faa5ef179c1d19f.camel@crapouillou.net>
-Subject: Re: Kconfig dangling references (BZ 216748)
-From: Paul Cercueil <paul@crapouillou.net>
-To: Randy Dunlap <rdunlap@infradead.org>, Linux Kernel Mailing List
-	 <linux-kernel@vger.kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann
- <arnd@arndb.de>, 	andrew.jones@linux.dev, linux-omap@vger.kernel.org,
- openbmc@lists.ozlabs.org, 	linux-sound@vger.kernel.org, Alexander Shishkin	
- <alexander.shishkin@linux.intel.com>, linux-mips@vger.kernel.org, 
-	asahi@lists.linux.dev, "dri-devel@lists.freedesktop.org"	
- <dri-devel@lists.freedesktop.org>, Paul Kocialkowski <paulk@sys-base.io>, 
-	chrome-platform@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-gpio@vger.kernel.org, Srinivas Kandagatla	 <srini@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Matti Vaittinen	
- <mazziesaccount@gmail.com>, Jonathan Cameron <jic23@kernel.org>, Vaibhav
- Hiremath <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
- x86@kernel.org, Max Filippov	 <jcmvbkbc@gmail.com>
-Date: Wed, 10 Dec 2025 14:06:41 +0100
-In-Reply-To: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
-References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRU=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oIQjf9Jk"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42e2e6aa22fso10550f8f.2
+        for <chrome-platform@lists.linux.dev>; Wed, 10 Dec 2025 10:00:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1765389632; x=1765994432; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vNo6uQ8AO0yOaAEJTUC3/zvI8C5HZVj+hKvmdCETuYM=;
+        b=oIQjf9JktDYRz7qJLm1wESX5nTflrcUDv30Z9/mS3xmlJbNZMACUlCGJ9d/aTMJIAD
+         Gr0sSX8jq9Swr39q8VFtuGiNzKG2teSb2+tQdpTBv6VnaVkMUMSD02kRmOW2kRKaSIAv
+         u04FN8x/2qFRnv88lYChEuXZbMCaxPpODB1j8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765389632; x=1765994432;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vNo6uQ8AO0yOaAEJTUC3/zvI8C5HZVj+hKvmdCETuYM=;
+        b=o3eEeDiZtayw29xhbuKJv0qX+zKux8iUCTQOlI/UBFUeKnd/Pl+v24FNpUMESYEvv9
+         5u4mv1TD1g21K+gdK0gCep4MOtr6pB7ItmvvUtv5ImYlmPcF0pXDbiOQaL/Nbs4UGlu+
+         A2qhEMgtcJxBJZpgovMAbuoLV8l+FxBvZaxbePyQAEYjYWQA93WuXtkOs1h05xl5mXh2
+         jyN9T9mm5tUk1lhpJbNUtGmFDloY2MVDobkaWUHJBa2QMyXnFahDU+iJO1VVX7yvgShO
+         8HGEvuXAvCNnBpoT1Guq/bKaqSQFZ3hqBTJU/C7LbJ8SbblUafDUxOdFp9iJAycm09Dh
+         eKDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXxJoswobN17y6tyxnKvEBm5FljlG0LSGmhq7ER5rjmGswf/cFUAk+t4gLAUIgKtY94ys35llStMfRkzD4Hc5o=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWYirwb62T/VvdCmtRFRPWwXRKIwD4/ike8fCj8XMw11a7SX2B
+	DRRa0num+2tJ2zjz9yDf6Mm7/3rYvt0zFeeZunFSZRGdS3uhDjS3HGWPTQQuy5vaGg==
+X-Gm-Gg: AY/fxX4Rgr4TQAreqQR17t2Z4UMlQOCyqkjbLzE4Zk8HN9/qq+bjey9gYpK620lYnqn
+	6FAWhsFcuE35HXyhzygQZHdK67Kvl7eIG2jZJrDVxTpMctVOk9IMsLrL13dyEYfo99L5uBrtAC+
+	KMkdIvNgehTuEtns8J4goBklSE/Iwl44or47UHDbR/50dFYEDKLr62aixqSO/yTaX427D2oJTzu
+	8vQMh9vSwj5MGYLlxs2WX6vdMd9I6aHk0XS/7xBq3EpVgYlxws5AC+Ja6L0KOkFP5Lq68XBXwev
+	4aH8auDx6XVfdY0ZmjwHMOvB5NJR/+pYc7DHCmjFzO25HS6bWrAsZyyioGpkJWd78ya4GgUcKLw
+	Ipr/at8+1iBGSKiQv/x95rQ2hlyPzErBQspnRMu9M9w8UtKHHpBypvPRPiR7JpktYrR3HeGqf7y
+	InsVWrwZ/Ia3xj8CAq6Q==
+X-Google-Smtp-Source: AGHT+IGPESWqtdwT/XRTR5/RmcuAb3YXC3b7FMypahW+beW9pJZ9LM1+rqVviz4PyBnlnycCgdJNOQ==
+X-Received: by 2002:a05:6000:608:b0:429:b9bc:e826 with SMTP id ffacd0b85a97d-42fa3b079c1mr3929886f8f.53.1765389632184;
+        Wed, 10 Dec 2025 10:00:32 -0800 (PST)
+Received: from google.com ([37.228.206.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b8601csm291118f8f.22.2025.12.10.10.00.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Dec 2025 10:00:31 -0800 (PST)
+Date: Wed, 10 Dec 2025 18:00:29 +0000
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Simon Glass <sjg@chromium.org>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] dt-bindings: google,cros-ec-keyb: add fn-key and
+ f-keymap props
+Message-ID: <aTm1PVLrS7Ra0OTF@google.com>
+References: <20251209154706.529784-1-fabiobaltieri@chromium.org>
+ <20251209154706.529784-4-fabiobaltieri@chromium.org>
+ <20251209192243.GA963693-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251209192243.GA963693-robh@kernel.org>
 
-Hi Randy,
+Hey Rob, thanks for the review.
 
-Le dimanche 07 d=C3=A9cembre 2025 =C3=A0 18:04 -0800, Randy Dunlap a =C3=A9=
-crit=C2=A0:
-> from=C2=A0 https://bugzilla.kernel.org/show_bug.cgi?id=3D216748
->=20
-> The bugzilla entry includes a Perl script and a shell script.
-> This is the edited result of running them (I removed some entries
-> that were noise).
->=20
-> I'll try to Cc: all of the relevant mailing lists or individuals.
->=20
->=20
-> ARCH_HAS_HOLES_MEMORYMODEL ---
-> arch/arm/mach-omap1/Kconfig:7:	select ARCH_HAS_HOLES_MEMORYMODEL
->=20
-> ARM_ERRATA_794072 ---
-> arch/arm/mach-npcm/Kconfig:33:	select ARM_ERRATA_794072
->=20
-> ARM_SMC_MBOX ---
-> arch/arm64/Kconfig.platforms:375:	select ARM_SMC_MBOX
->=20
-> CLK_FIXED_FCH ---
-> sound/soc/amd/Kconfig:11:	select CLK_FIXED_FCH
-> sound/soc/amd/Kconfig:48:	select CLK_FIXED_FCH
-> sound/soc/amd/acp/Kconfig:107:	select CLK_FIXED_FCH
->=20
-> CONFIG_STM ---
-> drivers/hwtracing/stm/Kconfig:16:	default CONFIG_STM=C2=A0 # should
-> be STM
-> drivers/hwtracing/stm/Kconfig:31:	default CONFIG_STM
->=20
-> CPU_HAS_LOAD_STORE_LR ---
-> arch/mips/Kconfig:1411:	select CPU_HAS_LOAD_STORE_LR
->=20
-> DRM_KMS_DMA_HELPER ---
-> drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
-> drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
->=20
-> EXTCON_TCSS_CROS_EC ---
-> drivers/usb/typec/ucsi/Kconfig:76:	depends on
-> !EXTCON_TCSS_CROS_EC
->=20
-> MACH_JZ4755 ---
-> drivers/clk/ingenic/Kconfig:20:	default MACH_JZ4755
-> drivers/pinctrl/pinctrl-
-> ingenic.c:158:	IS_ENABLED(CONFIG_MACH_JZ4755) << ID_JZ4755 |
-> drivers/pinctrl/pinctrl-ingenic.c:4616:		.data =3D
-> IF_ENABLED(CONFIG_MACH_JZ4755, &jz4755_chip_info)
->=20
-> MACH_JZ4760 ---
-> drivers/clk/ingenic/Kconfig:40:	default MACH_JZ4760
-> drivers/pinctrl/pinctrl-
-> ingenic.c:159:	IS_ENABLED(CONFIG_MACH_JZ4760) << ID_JZ4760 |
-> drivers/pinctrl/pinctrl-ingenic.c:4620:		.data =3D
-> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
-> drivers/pinctrl/pinctrl-ingenic.c:4624:		.data =3D
-> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+On Tue, Dec 09, 2025 at 01:22:43PM -0600, Rob Herring wrote:
+> On Tue, Dec 09, 2025 at 03:47:06PM +0000, Fabio Baltieri wrote:
+> > +  fn-key:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: |
+> > +      An u32 containing the coordinate of the Fn key, use the MATRIX_KEY(row,
+> > +      col, code) macro, code is ignored.
+> > +
+> > +  fn-keymap:
+> 
+> If keymap is linux,keymap, then this should perhaps be linux,fn-keymap. 
+> Depends if we still think linux,keymap is Linux specific?
 
-Those were added when upstreaming support for the JZ4755/JZ4760, but
-the DTS files and actual support in arch/mips/ was never sent.
+I'm open for suggestions, trying to understand the pattern, these are
+specific to this binding I think if anything they should be
+google,fn-key and google,fn-keymap, similarly to the existing
+google,needs-ghost-filter -- no idea why function-row-physmap was not
+prefixed but I guess it slipped in and now it's not worth changing it.
 
-Instead of dropping those, I'll try to upstream the basic support for
-those SoCs in the coming days.
+Would it make sense?
 
-Cheers,
--Paul
+Thanks,
+Fabio
 
->=20
-> MACH_STM32MP25 ---
-> drivers/pinctrl/stm32/Kconfig:58:	default MACH_STM32MP25 ||
-> (ARCH_STM32 && ARM64)
->=20
-> MFD_AIROHA_AN8855 ---
-> drivers/nvmem/Kconfig:33:	depends on MFD_AIROHA_AN8855 ||
-> COMPILE_TEST
->=20
-> MFD_TN48M_CPLD ---
-> drivers/gpio/Kconfig:1624:	depends on MFD_TN48M_CPLD ||
-> COMPILE_TEST
-> drivers/reset/Kconfig:365:	depends on MFD_TN48M_CPLD ||
-> COMPILE_TEST
-> drivers/reset/Kconfig:366:	default MFD_TN48M_CPLD
->=20
-> MIPS_BAIKAL_T1 ---
-> drivers/ata/Kconfig:197:	select MFD_SYSCON if (MIPS_BAIKAL_T1
-> || COMPILE_TEST)
-> drivers/bus/Kconfig:43:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
-> drivers/bus/Kconfig:58:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
-> drivers/clk/baikal-t1/Kconfig:4:	depends on (MIPS_BAIKAL_T1
-> && OF) || COMPILE_TEST
-> drivers/clk/baikal-t1/Kconfig:5:	default MIPS_BAIKAL_T1
-> drivers/clk/baikal-t1/Kconfig:20:	default MIPS_BAIKAL_T1
-> drivers/clk/baikal-t1/Kconfig:33:	default MIPS_BAIKAL_T1
-> drivers/clk/baikal-t1/Kconfig:45:	default MIPS_BAIKAL_T1
-> drivers/hwmon/Kconfig:462:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
-> drivers/i2c/busses/Kconfig:589:	select MFD_SYSCON if MIPS_BAIKAL_T1
-> drivers/memory/Kconfig:69:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
-> drivers/mtd/maps/Kconfig:81:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
-> drivers/pci/controller/dwc/Kconfig:89:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
-> drivers/spi/Kconfig:370:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
->=20
-> PINCTRL_MILBEAUT ---
-> arch/arm/mach-milbeaut/Kconfig:16:	select PINCTRL_MILBEAUT
->=20
-> SND_SOC_AC97_BUS_NEW ---
-> sound/soc/pxa/Kconfig:21:	select SND_SOC_AC97_BUS_NEW
->=20
-> SND_SOC_CS35L56_CAL_SYSFS_COMMON ---
-> sound/soc/codecs/Kconfig:920:	select
-> SND_SOC_CS35L56_CAL_SYSFS_COMMON
->=20
-> TEST_KUNIT_DEVICE_HELPERS ---
-> drivers/iio/test/Kconfig:11:	select TEST_KUNIT_DEVICE_HELPERS
->=20
-> USB_HSIC_USB3613 ---
-> drivers/staging/greybus/Kconfig:209:	depends on USB_HSIC_USB3613
-> || COMPILE_TEST
-> drivers/staging/greybus/arche-platform.c:26:#if
-> IS_ENABLED(CONFIG_USB_HSIC_USB3613)
->=20
-> USB_OHCI_SH ---
-> arch/sh/Kconfig:334:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/Kconfig:344:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/Kconfig:429:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/Kconfig:455:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/configs/sh7757lcr_defconfig:61:CONFIG_USB_OHCI_SH=3Dy
->=20
-> X86_P6_NOP ---
-> arch/x86/Kconfig.cpufeatures:41:	depends on X86_64 ||
-> X86_P6_NOP
-> arch/x86/Makefile_32.cpu:48:ifneq ($(CONFIG_X86_P6_NOP),y)
->=20
-> XTENSA_PLATFORM_ESP32 ---
-> drivers/tty/serial/Kconfig:1598:	depends on
-> XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
-> drivers/tty/serial/Kconfig:1611:	depends on
-> XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
->=20
+-- 
+Fabio Baltieri

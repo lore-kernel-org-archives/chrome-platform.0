@@ -1,184 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AC7276020;
-	Wed, 10 Dec 2025 18:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3198A2FB0BC;
+	Wed, 10 Dec 2025 22:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765389894; cv=none; b=OVWv3vSXERvK8OIxhcK546T0G5lXtkGjQk4Wn5LPdXth9Rwoi6tPQF4sivFd+QlObvPvFEs8UnXyavK07aAjbR6zy/D+O3H31FAvf8hKD7JfT8v9BDkwJCYhrskHE7vKDU/wau/gOpdA1hFQU7SmieTicqDb6qQGpiSSUtJIjiI=
+	t=1765404628; cv=none; b=DsVMrWpGR5SUWsHz8Mb6uCT1ihS4CQs177DPC1ngsfw1/U7xHEleT6HRG6zzveFDrLCBMMolT0BXMmhMM+mc//VLOtzWCprGmPke08I2audy0Tck88roccr/5a1lwxv2Iaa3DRFrIC2NmIoJ6/la0IfXDCcHKwnku3Ygu3a2RIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765389894; c=relaxed/simple;
-	bh=0faUSSKLytOQXTQ0wtj0LzWTrjM3kYFWiYFxfpTAknw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IOE0N2HFeAo9AV/8TTCrEubTTpcDdwLI1cwCWBNZg7V4EUulwWlJfEfGOmRvtjla3SPLWvmjIXPtmTi/OPRPU20M971EpqXL/88M0PjMiLwuvMT7rynYMc6dQ9MbU+QI/v28ekek0H2Y9m+7Su6JwUOTtKLCYDNMlx96Kgb33Ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UlloFr9R; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UlloFr9R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A909C4CEF1;
-	Wed, 10 Dec 2025 18:04:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765389894;
-	bh=0faUSSKLytOQXTQ0wtj0LzWTrjM3kYFWiYFxfpTAknw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UlloFr9REes6eNWj2a7za8w/R5HxMPI3KTLC65OdbnKtfQR3Dx5Latzj40LHYsqb4
-	 8sc4557skKYfMeLO/zXrJzPtACiAzo6RU4zxTDQ7oHyz7rrkqlivmtco82x9Ta4XeK
-	 TCsDcWix55AcYnFoqBfcxnraTTWCspMuhWgv7sYLbmbV5OZ7cUZt+j+tvpUCG080Jj
-	 s/Gp4lV4WaWyVILxG6/ZcCYeoYuj4TS8qKNn0Jj8k+EifQPALccFmXpkmE5ew61HEc
-	 O8WhGo7Krfi3nm7nYFexjgOfZXXnlcCJSQM3txQt+hXsa63xZ08/MJlYMlwSU9syCk
-	 iH0Xiw3RNcDKQ==
-Date: Wed, 10 Dec 2025 18:04:47 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>, Andy Shevchenko
- <andy.shevchenko@gmail.com>, Kurt Borja <kuurtb@gmail.com>, Andy Shevchenko
- <andriy.shevchenko@intel.com>, Lars-Peter Clausen	 <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, Benson Leung
- <bleung@chromium.org>, Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Gwendal Grignou	 <gwendal@chromium.org>, Shrikant Raskar
- <raskar.shree97@gmail.com>, Per-Daniel Olsson <perdaniel.olsson@axis.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko	
- <andy@kernel.org>, Guenter Roeck <groeck@chromium.org>, Jonathan Cameron	
- <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH RFC 0/6] iio: core: Introduce cleanup.h support for mode
- locks
-Message-ID: <20251210180447.0a37c3dc@jic23-huawei>
-In-Reply-To: <8f24bb46e02a6bec6267430d0f0742c601af9aed.camel@gmail.com>
-References: <20251203-lock-impr-v1-0-b4a1fd639423@gmail.com>
-	<77ca77847511e67066a150096a7af2fb84f1f25f.camel@gmail.com>
-	<CAHp75VdNjqZdy0+aSbBzn9CwEwHUhjwED+KRVqkdOMc_N+nX9w@mail.gmail.com>
-	<20251206184645.51099254@jic23-huawei>
-	<54483083c42cf7500239ebb7c0d32d25f11bb02f.camel@gmail.com>
-	<7aeab2a4-72d9-452f-af86-1e44d5133b67@baylibre.com>
-	<8f24bb46e02a6bec6267430d0f0742c601af9aed.camel@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1765404628; c=relaxed/simple;
+	bh=9Mbw+2a+O0bpocbYBboqIR0wKgD/bxSaeJe1Sq+BSnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E5YIhgESYNYm/X5GvVcf+XaQrwwreex+PJ5gLI5QGh/62HED/4s5JGiWaCADg/4iR+Q5q4pTTDh8Yt00a8ejCMFrbBPIGsrWnhlPXhviVwFoMEflzZoaQybcSDLQPNTFCT+St7dz0VoeyXTyyWfhcSFLgP6EB8W3UxWrblfDN+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 6CDDB1F80041;
+	Wed, 10 Dec 2025 22:09:51 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 69875B127FD; Wed, 10 Dec 2025 22:09:38 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id EBB48B127E9;
+	Wed, 10 Dec 2025 22:09:35 +0000 (UTC)
+Date: Wed, 10 Dec 2025 23:09:33 +0100
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Janne Grunau <j@jannau.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, andrew.jones@linux.dev,
+	linux-omap@vger.kernel.org, openbmc@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-mips@vger.kernel.org, asahi@lists.linux.dev,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	chrome-platform@lists.linux.dev,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	linux-sh@vger.kernel.org, x86@kernel.org,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: Kconfig dangling references (BZ 216748)
+Message-ID: <aTnvnaRuJ5lF4dVv@collins>
+References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+ <aTcVXrUXVsyjaT22@shepard>
+ <20251208200555.GA333481@robin.jannau.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MEb6eXQ93P1+3Wd8"
+Content-Disposition: inline
+In-Reply-To: <20251208200555.GA333481@robin.jannau.net>
+
+
+--MEb6eXQ93P1+3Wd8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 10 Dec 2025 09:17:17 +0000
-Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+Hi Janne,
 
-> On Tue, 2025-12-09 at 11:05 -0600, David Lechner wrote:
-> > On 12/9/25 4:34 AM, Nuno S=C3=A1 wrote: =20
-> > > On Sat, 2025-12-06 at 18:46 +0000, Jonathan Cameron wrote: =20
-> > > > On Thu, 4 Dec 2025 17:07:28 +0200
-> > > > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > > >  =20
-> > > > > On Thu, Dec 4, 2025 at 4:35=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@=
-gmail.com> wrote: =20
-> > > > > > On Wed, 2025-12-03 at 14:18 -0500, Kurt Borja wrote:=C2=A0  =20
-> > > > > > >=20
-> > > > > > > In a recent driver review discussion [1], Andy Shevchenko sug=
-gested we
-> > > > > > > add cleanup.h support for the lock API:
-> > > > > > >=20
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio_device_claim_{direct,buffe=
-r_mode}().=C2=A0  =20
-> > > > > >=20
-> > > > > > We already went this patch and then reverted it. I guess before=
- we did not had
-> > > > > > ACQUIRE() and ACQUIRE_ERR() but I'm not sure that makes it much=
- better. Looking at the
-> > > > > > last two patches on how we are handling the buffer mode stuff, =
-I'm really not convinced...
-> > > > > >=20
-> > > > > > Also, I have doubts sparse can keep up with the __cleanup stuff=
- so I'm not sure the
-> > > > > > annotations much make sense if we go down this path. Unless we =
-want to use both
-> > > > > > approaches which is also questionable.=C2=A0  =20
-> > > > >=20
-> > > > > This, indeed, needs a (broader) discussion and I appreciate that =
-Kurt
-> > > > > sent this RFC. Jonathan, what's your thoughts? =20
-> > > >=20
-> > > > I was pretty heavily involved in discussions around ACQUIRE() and i=
-t's use
-> > > > in CXL and runtime PM (though that's still evolving with Rafael try=
-ing
-> > > > to improve the syntax a little).=C2=A0 As you might guess I did hav=
-e this use
-> > > > in mind during those discussions.
-> > > >=20
-> > > > As far as I know by avoiding the for loop complexity of the previous
-> > > > try we made and looking (under the hood) like guard() it should be =
-much
-> > > > easier and safer to use.=C2=A0 Looking at this was on my list, so I=
-'m very happy
-> > > > to see this series from Kurt exploring how it would be done.
-> > > >=20
-> > > > Sparse wise there is no support for now for any of the cleanup.h ma=
-gic
-> > > > other than ignoring it.=C2=A0 That doesn't bother me that much thou=
-gh as these
-> > > > macros create more or less hidden local variables that are hard to =
-mess
-> > > > with in incorrect ways.
-> > > >=20
-> > > > So in general I'm very much in favour of this for same reasons I ju=
-mped
-> > > > in last time (which turned out to be premature!)
-> > > >=20
-> > > > This will be particularly useful in avoiding the need for helper fu=
-nctions
-> > > > in otherwise simple code flows.
-> > > >  =20
-> > >=20
-> > > Ok, it seems we are going down the path to introduce this again. I do=
- agree the new ACQUIRE()
-> > > macros make things better (btw, I would be in favor of something simi=
-lar to pm runtime). Though
-> > > I'm still a bit worried about the device lock helper (the iio_device_=
-claim one). We went through
-> > > some significant work in order to make mlock private (given historica=
-l abuse of it) and this
-> > > is basically making it public again. So I would like to either think =
-a bit harder to see if we
-> > > can avoid it or just keep the code in patches 5 and 6 as is (even tho=
-ugh the dance in there is
-> > > really not pretty).
-> > >=20
-> > > At the very least I would like to see a big, fat comment stating that=
- lock is not to be randomly
-> > > used by drivers to protect their own internal data structures and sta=
-te.
-> > >=20
-> > > - Nuno S=C3=A1 =20
+Le Mon 08 Dec 25, 21:05, Janne Grunau a =C3=A9crit :
+> On Mon, Dec 08, 2025 at 07:13:50PM +0100, Paul Kocialkowski wrote:
+> > Hi Randy,
 > >=20
-> > Due to the way that conditional guards only extend regular guards, I do=
-n't
-> > think there is a way to not expose the basic mlock wrapper. So "don't u=
-se this
-> > unless you really know what you are doing" docs seem like the best opti=
-on. =20
+> > On Sun 07 Dec 25, 18:04, Randy Dunlap wrote:
+> > > from  https://bugzilla.kernel.org/show_bug.cgi?id=3D216748
+> > >=20
+> > > The bugzilla entry includes a Perl script and a shell script.
+> > > This is the edited result of running them (I removed some entries tha=
+t were noise).
+> >=20
+> > [...]
+> >=20
+> > > DRM_KMS_DMA_HELPER ---
+> > > drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
+> > > drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
+> >=20
+> > For these two, the symbol was removed in commit
+> > 09717af7d13d63df141ae6e71686289989d17efd
 >=20
-> Right! I figured my first option would be very unlikely... But for the co=
-mment I hope we can
-> elaborate a bit more. Like "don't use this lock to protect your own drive=
-r state/data ... you might
-> need this together iio_buffer_enabled() and if for some reason you cannot=
- use the claim helpers).
-I think this problem is possible to work around.
-
-We use wrapper macros rather than ever using the ACQUIRE macro directly
-(and obscure function names to make it obvious they aren't normal :)
-
-The underlying lock guards might be there but they'll smell so bad that any=
-one
-using them should have at least checked why and hence seen the 'do not use =
-this'
-documentation.
-
-Jonathan
-
+> That commit removed DRM_KMS_CMA_HELPER. Later commit 6bcfe8eaeef0
+> ("drm/fb: rename FB CMA helpers to FB DMA helpers") renamed
+> DRM_KMS_CMA_HELPER erroneously to DRM_KMS_DMA_HELPER.
 >=20
-> - Nuno S=C3=A1
+> > but these two drivers either were
+> > missed by the batch rename or were introduced a bit later.
 >=20
+> In the case of drivers/gpu/drm/adp/Kconfig it was missed much later
+> during review (but iirc went through the same rename out of tree).
 >=20
+> > Since the symbol selected DRM_GEM_CMA_HELPER (which is still needed by =
+the
+> > drivers), it should be replaced with DRM_GEM_CMA_HELPER.
+>=20
+> That symbol doesn't exist anymore either. It's now DRM_GEM_DMA_HELPER
+> which is already present in both files.
 
+Thanks for the details! It seems that I was looking at an older tree.
+
+> So the "select DRM_KMS_DMA_HELPER" lines can be removed from both files.
+
+Good, then I'll craft a patch removing these two lines.
+
+All the best,
+
+Paul
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--MEb6eXQ93P1+3Wd8
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmk5750ACgkQhP3B6o/u
+lQxOag/+J9Lwmq+hqcg9BxoDCZl6KmFGAh/RmelPeBUew6LlQphMcDpjQ0yJavK3
+bxojss4r12rV5307+f47JlSMFJa/100MablzoWV0koupx/JCRszhYf2w1lxYHKJh
+7jwy8GLd9NnaZGaiscrckVEcfaVRufzSM2I6ErSZIMSYEZ1LUTCakTPAwrgtarZb
+b9FzHmCrau56mdC2M6StWaolU90t4em1/We8XVRtLY87MEY/VQK6qLylL2fbpuIX
+5+DjnOBDMrvyB7UJFVbzcQA4ev1ckCBvnB2JdzGOfquj6XTO23m5/L5qfxTVk6qa
+yp9ShU6lQZ9RjinifpGWf8JTYl46U7hch9PrUCE/n0FgVl2frQHb/N08ynKUniCB
+1U76zgnG48Wkj08Sz6anRvER3dqEhzJgxJxpkW1UqoXFOSBQeeJZzZONuuUxYw3M
+8JKSldwJVj/oLlvCOI6QO0Q9T+U4YS1gpNBfHbysPaJgZyqld5tXaElOo9k8P8pX
+kAMhcvAn6FaXqkX5qJOAN+91M+CkQwQlWf16G7HKV0LcOvzCtGHYWVrxb7xWw9Em
+JBZRsrdq4CaQc34D8GkBR14H6WGWkGR4OQSTqxshPv7x/S4u9vV8FQWIhLW2LToY
+kw9ephtALgBj6D79R84K2DGlmZwPH2sunV3y9huDh3SNlR5dZg8=
+=EEMR
+-----END PGP SIGNATURE-----
+
+--MEb6eXQ93P1+3Wd8--

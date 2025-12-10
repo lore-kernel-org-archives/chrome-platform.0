@@ -1,91 +1,67 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from aposti.net (aposti.net [185.119.170.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036272ED84C
-	for <chrome-platform@lists.linux.dev>; Wed, 10 Dec 2025 09:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061D91E7C23;
+	Wed, 10 Dec 2025 13:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.119.170.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765358201; cv=none; b=YnCu2lUZAhiNC4Zr8h/GbRGli+8qaEv6RH+YW7xQzzQWGSOMYXVR3vpIYSmrmzdEsRP0A8bKZe2Osdu6BoMTO2TYLfSnwyB24x9c18XnNpVefsHa0EbSdZp1IyAlFQFdUQhkw+eOQC3yIcpBBQbuy/INqYewLO5fvS1iuL8vai8=
+	t=1765372646; cv=none; b=aUlcRiEWkcvXz4dg+n624o5EcevZ1qGwI6HsyzCST5ITksB4pCeFQKLFSnIHNwK702n4h5N2ou/bv3DL60270rWDDng9WHLrqnB6Eso+aJc+L+YkDNkUtvucOILhXtNOZoOsjYaKtSj/5xn2e6A2G6PMbTnzhRCBb/dk7NFGVyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765358201; c=relaxed/simple;
-	bh=mMeglKXr1y95udnLZbB2DRU8LoPBn2+zFpGB0mu+WPU=;
+	s=arc-20240116; t=1765372646; c=relaxed/simple;
+	bh=jcPu3SNVQJaXw9PqEo38M18ABhD7SAoOI2W2LvihJ68=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rgkRqM+sy5nrzuFgalaKcmcrQoMG3E873hFjCkYmM6R6TuoLVs8gtJOMuzdPiP3u8m4c7Ibwdu6mt1sMU6Lmql2CK2K8IQOc2CFKAt2+k9LwxGmQcIuXlY6XUb9CxCtCQnzaiJBbsxPtD6Du1w8jbUAvShqlG0X0RZ2ux5X2Y+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bhWPJOhj; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:MIME-Version; b=KRdleWvJ3m97Pnh889nzPVtHX26xI8yG7D/D2P1hg3v8/1do1X4rAIt4o0OcHzIRJCN/VwKPBDoWZqDvToGGGEMzYTIXoB9+5QrphkzHYBRtpNo+K0Cws/cmqANC6nndRnUp7ml8HR6lHl0TuNaijhsY1vLRjvxUo2UoS9cEKjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=RnCMPHJ8; arc=none smtp.client-ip=185.119.170.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bhWPJOhj"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42e2d52c24dso3573941f8f.1
-        for <chrome-platform@lists.linux.dev>; Wed, 10 Dec 2025 01:16:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765358198; x=1765962998; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=mMeglKXr1y95udnLZbB2DRU8LoPBn2+zFpGB0mu+WPU=;
-        b=bhWPJOhjOFZV+q7H0Mff0EyHo3GP5FGDqiLvc3mY3xbYRz26sGvbZSkoCiAXFCa4u9
-         Bn1EdkysRYmrhX7+JIndfCjfCEBsWYRaipGUg743y7td5acjJP6ooYwo3ai4RIjTRDni
-         1Hk46AWF05fyzgfynkIdI6fsh9xkrQNvcnmabp16PrimX223FZAMGhwDFR9arao4nb1S
-         pcCXmLe1ROGiP/Y1zWHAaOAqu0qxN9ktsyJGJ10JOeIY1m7AOWYyOaska1WA9uV4GFOt
-         ZxbFkWQ+sT1aU77fO6/zWedXQ1eC6IfrMNzXnw1J0VKcw74mA3xOwTSBz+vOL/7lKEti
-         6GJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765358198; x=1765962998;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mMeglKXr1y95udnLZbB2DRU8LoPBn2+zFpGB0mu+WPU=;
-        b=fiRmC1ZmcwJvXspphaqTaU+NpQmZFFFULonWfW7rYKsg06jbFtea3gaHFRmBAa+upW
-         TuidMr9OsNnYuPADPhPXs9RA6chmXdvtZGsQw5IcM6XRQs8u4RK3V2+Wq95k4bNWMxFh
-         GBF1PzK4b6an+8ySPqbk/XXQXkiciYPoLGeasZzkxeOl+W0ShY4DgIRwr+A2nG/MDJkF
-         vi9DczRLkbci5t+KOBEQFXCTQRZkaZyTQYeey+CXMkGgp+Hgp3YZI1EPBC9B9DlwOj5x
-         qwBOWRHZvFlGanfdG1jUzPtAhxYwA4oZESlYWCvjDlyGaTszpyr4Epx/UL2NNNtnz0R3
-         uM2g==
-X-Forwarded-Encrypted: i=1; AJvYcCW5KqkFC1U548WREZfOMo5X1AhtZHMWbiLfnDf7N9gdnq2btpL0Zv9av6d1g0kbvJ1X1wuuk0YDHGjref+00Ac=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxrLRhDiISQxVUvla7impAsW82A+TSSxsyUog2dmMIELkuQPfP3
-	0SJcgTwt66ilt6HdpP3sfIAwRa53ZLm5mGCdgQOMvTQZ+mz7WtmxvrC2
-X-Gm-Gg: AY/fxX5QPtZzGULiMLpekP/4QNCuLtkaMFbhlqH84+iWBtONh5AJcTf2YtbjbX439Gc
-	OoMSe4dnqo/cpgMiLjJiusHn/oWuXOpzXmdXVWwdiW89Tv6HXXr/eVRcH1IyzJFHlZPTJq+vO2z
-	Mcy5JwOMb/Lfri8zgpTpA046+Hu4FLtextD7m63n4J6Xok0GqlsLb0SgBAzj/e6JmC29UX1VIHM
-	IymUAIzGvVlRd87n04YFNjwAujDbUyOuGn4cNRtxRrz7CEHBtLp4Vnycc5qPz2m09ir/Nn2J/cB
-	cyn/s1t5i/OsXNS71aaVfZ0do7gchVCmL43MGOT9LjZKMNnjd8Tj5pBNFCMbN9q7p7fIduBcuBw
-	zasvGXNAptiVtPy08mTGQAq4paF6xhrA3RfXpN9OHUx1oyXmerNrziYfZH0diAgZ0K9KtkU8U/T
-	jzWD3MZj9/Y3Gy9G0ivzE=
-X-Google-Smtp-Source: AGHT+IGGphhsdBPpYhuUVQaCWeznKoajx6lTjqKTOyeVxnajYYCGXFRHOAHFacuC5Hrwgx4Mdp9lCA==
-X-Received: by 2002:a05:6000:2410:b0:429:d725:410c with SMTP id ffacd0b85a97d-42fa3b186f0mr1564102f8f.44.1765358197942;
-        Wed, 10 Dec 2025 01:16:37 -0800 (PST)
-Received: from [192.168.1.187] ([161.230.67.253])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d331aeasm36386052f8f.37.2025.12.10.01.16.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 01:16:37 -0800 (PST)
-Message-ID: <8f24bb46e02a6bec6267430d0f0742c601af9aed.camel@gmail.com>
-Subject: Re: [PATCH RFC 0/6] iio: core: Introduce cleanup.h support for mode
- locks
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: David Lechner <dlechner@baylibre.com>, Jonathan Cameron
- <jic23@kernel.org>,  Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Kurt Borja <kuurtb@gmail.com>, Andy Shevchenko
- <andriy.shevchenko@intel.com>,  Lars-Peter Clausen	 <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, Benson Leung
- <bleung@chromium.org>, Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Gwendal Grignou	 <gwendal@chromium.org>, Shrikant Raskar
- <raskar.shree97@gmail.com>,  Per-Daniel Olsson <perdaniel.olsson@axis.com>,
- Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Andy Shevchenko	
- <andy@kernel.org>, Guenter Roeck <groeck@chromium.org>, Jonathan Cameron	
- <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-Date: Wed, 10 Dec 2025 09:17:17 +0000
-In-Reply-To: <7aeab2a4-72d9-452f-af86-1e44d5133b67@baylibre.com>
-References: <20251203-lock-impr-v1-0-b4a1fd639423@gmail.com>
-	 <77ca77847511e67066a150096a7af2fb84f1f25f.camel@gmail.com>
-	 <CAHp75VdNjqZdy0+aSbBzn9CwEwHUhjwED+KRVqkdOMc_N+nX9w@mail.gmail.com>
-	 <20251206184645.51099254@jic23-huawei>
-	 <54483083c42cf7500239ebb7c0d32d25f11bb02f.camel@gmail.com>
-	 <7aeab2a4-72d9-452f-af86-1e44d5133b67@baylibre.com>
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="RnCMPHJ8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1765372011;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=cDRFy6vcE6IK0n780GaRWgRqUqt6rq2uXI/t4/Gr+Mo=;
+	b=RnCMPHJ8+5bLooq6YXu3nxjc4rHzf3q6p7Xq5Db7RIOUc6t+Xd3ujkkPR0UB3ezQtrVOcb
+	eEW6BLRdJMR0FiH+oIzNU8lDYzI29mfeAEpWk0l8VPS1wWY4/shf0rvBVsaV0G+NMHf00k
+	+Cudz+YjfUoQ/V5j0AoCmAvEmoGw5dk=
+Message-ID: <4b6db1eb455fff8e3c7372943faa5ef179c1d19f.camel@crapouillou.net>
+Subject: Re: Kconfig dangling references (BZ 216748)
+From: Paul Cercueil <paul@crapouillou.net>
+To: Randy Dunlap <rdunlap@infradead.org>, Linux Kernel Mailing List
+	 <linux-kernel@vger.kernel.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, 	andrew.jones@linux.dev, linux-omap@vger.kernel.org,
+ openbmc@lists.ozlabs.org, 	linux-sound@vger.kernel.org, Alexander Shishkin	
+ <alexander.shishkin@linux.intel.com>, linux-mips@vger.kernel.org, 
+	asahi@lists.linux.dev, "dri-devel@lists.freedesktop.org"	
+ <dri-devel@lists.freedesktop.org>, Paul Kocialkowski <paulk@sys-base.io>, 
+	chrome-platform@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-gpio@vger.kernel.org, Srinivas Kandagatla	 <srini@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Matti Vaittinen	
+ <mazziesaccount@gmail.com>, Jonathan Cameron <jic23@kernel.org>, Vaibhav
+ Hiremath <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
+ x86@kernel.org, Max Filippov	 <jcmvbkbc@gmail.com>
+Date: Wed, 10 Dec 2025 14:06:41 +0100
+In-Reply-To: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
+ LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
+ FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
+ z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
+ +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
+ 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
+ 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
+ 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
+ dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
+ 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
+ rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
+ lBwgAhlGy6nqP7O3u7q23hRU=
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -93,107 +69,147 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-On Tue, 2025-12-09 at 11:05 -0600, David Lechner wrote:
-> On 12/9/25 4:34 AM, Nuno S=C3=A1 wrote:
-> > On Sat, 2025-12-06 at 18:46 +0000, Jonathan Cameron wrote:
-> > > On Thu, 4 Dec 2025 17:07:28 +0200
-> > > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > >=20
-> > > > On Thu, Dec 4, 2025 at 4:35=E2=80=AFPM Nuno S=C3=A1 <noname.nuno@gm=
-ail.com> wrote:
-> > > > > On Wed, 2025-12-03 at 14:18 -0500, Kurt Borja wrote:=C2=A0=20
-> > > > > >=20
-> > > > > > In a recent driver review discussion [1], Andy Shevchenko sugge=
-sted we
-> > > > > > add cleanup.h support for the lock API:
-> > > > > >=20
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio_device_claim_{direct,buffer_=
-mode}().=C2=A0=20
-> > > > >=20
-> > > > > We already went this patch and then reverted it. I guess before w=
-e did not had
-> > > > > ACQUIRE() and ACQUIRE_ERR() but I'm not sure that makes it much b=
-etter. Looking at the
-> > > > > last two patches on how we are handling the buffer mode stuff, I'=
-m really not convinced...
-> > > > >=20
-> > > > > Also, I have doubts sparse can keep up with the __cleanup stuff s=
-o I'm not sure the
-> > > > > annotations much make sense if we go down this path. Unless we wa=
-nt to use both
-> > > > > approaches which is also questionable.=C2=A0=20
-> > > >=20
-> > > > This, indeed, needs a (broader) discussion and I appreciate that Ku=
-rt
-> > > > sent this RFC. Jonathan, what's your thoughts?
-> > >=20
-> > > I was pretty heavily involved in discussions around ACQUIRE() and it'=
-s use
-> > > in CXL and runtime PM (though that's still evolving with Rafael tryin=
-g
-> > > to improve the syntax a little).=C2=A0 As you might guess I did have =
-this use
-> > > in mind during those discussions.
-> > >=20
-> > > As far as I know by avoiding the for loop complexity of the previous
-> > > try we made and looking (under the hood) like guard() it should be mu=
-ch
-> > > easier and safer to use.=C2=A0 Looking at this was on my list, so I'm=
- very happy
-> > > to see this series from Kurt exploring how it would be done.
-> > >=20
-> > > Sparse wise there is no support for now for any of the cleanup.h magi=
-c
-> > > other than ignoring it.=C2=A0 That doesn't bother me that much though=
- as these
-> > > macros create more or less hidden local variables that are hard to me=
-ss
-> > > with in incorrect ways.
-> > >=20
-> > > So in general I'm very much in favour of this for same reasons I jump=
-ed
-> > > in last time (which turned out to be premature!)
-> > >=20
-> > > This will be particularly useful in avoiding the need for helper func=
-tions
-> > > in otherwise simple code flows.
-> > >=20
-> >=20
-> > Ok, it seems we are going down the path to introduce this again. I do a=
-gree the new ACQUIRE()
-> > macros make things better (btw, I would be in favor of something simila=
-r to pm runtime). Though
-> > I'm still a bit worried about the device lock helper (the iio_device_cl=
-aim one). We went through
-> > some significant work in order to make mlock private (given historical =
-abuse of it) and this
-> > is basically making it public again. So I would like to either think a =
-bit harder to see if we
-> > can avoid it or just keep the code in patches 5 and 6 as is (even thoug=
-h the dance in there is
-> > really not pretty).
-> >=20
-> > At the very least I would like to see a big, fat comment stating that l=
-ock is not to be randomly
-> > used by drivers to protect their own internal data structures and state=
-.
-> >=20
-> > - Nuno S=C3=A1
+Hi Randy,
+
+Le dimanche 07 d=C3=A9cembre 2025 =C3=A0 18:04 -0800, Randy Dunlap a =C3=A9=
+crit=C2=A0:
+> from=C2=A0 https://bugzilla.kernel.org/show_bug.cgi?id=3D216748
 >=20
-> Due to the way that conditional guards only extend regular guards, I don'=
-t
-> think there is a way to not expose the basic mlock wrapper. So "don't use=
- this
-> unless you really know what you are doing" docs seem like the best option=
-.
+> The bugzilla entry includes a Perl script and a shell script.
+> This is the edited result of running them (I removed some entries
+> that were noise).
+>=20
+> I'll try to Cc: all of the relevant mailing lists or individuals.
+>=20
+>=20
+> ARCH_HAS_HOLES_MEMORYMODEL ---
+> arch/arm/mach-omap1/Kconfig:7:	select ARCH_HAS_HOLES_MEMORYMODEL
+>=20
+> ARM_ERRATA_794072 ---
+> arch/arm/mach-npcm/Kconfig:33:	select ARM_ERRATA_794072
+>=20
+> ARM_SMC_MBOX ---
+> arch/arm64/Kconfig.platforms:375:	select ARM_SMC_MBOX
+>=20
+> CLK_FIXED_FCH ---
+> sound/soc/amd/Kconfig:11:	select CLK_FIXED_FCH
+> sound/soc/amd/Kconfig:48:	select CLK_FIXED_FCH
+> sound/soc/amd/acp/Kconfig:107:	select CLK_FIXED_FCH
+>=20
+> CONFIG_STM ---
+> drivers/hwtracing/stm/Kconfig:16:	default CONFIG_STM=C2=A0 # should
+> be STM
+> drivers/hwtracing/stm/Kconfig:31:	default CONFIG_STM
+>=20
+> CPU_HAS_LOAD_STORE_LR ---
+> arch/mips/Kconfig:1411:	select CPU_HAS_LOAD_STORE_LR
+>=20
+> DRM_KMS_DMA_HELPER ---
+> drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
+> drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
+>=20
+> EXTCON_TCSS_CROS_EC ---
+> drivers/usb/typec/ucsi/Kconfig:76:	depends on
+> !EXTCON_TCSS_CROS_EC
+>=20
+> MACH_JZ4755 ---
+> drivers/clk/ingenic/Kconfig:20:	default MACH_JZ4755
+> drivers/pinctrl/pinctrl-
+> ingenic.c:158:	IS_ENABLED(CONFIG_MACH_JZ4755) << ID_JZ4755 |
+> drivers/pinctrl/pinctrl-ingenic.c:4616:		.data =3D
+> IF_ENABLED(CONFIG_MACH_JZ4755, &jz4755_chip_info)
+>=20
+> MACH_JZ4760 ---
+> drivers/clk/ingenic/Kconfig:40:	default MACH_JZ4760
+> drivers/pinctrl/pinctrl-
+> ingenic.c:159:	IS_ENABLED(CONFIG_MACH_JZ4760) << ID_JZ4760 |
+> drivers/pinctrl/pinctrl-ingenic.c:4620:		.data =3D
+> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+> drivers/pinctrl/pinctrl-ingenic.c:4624:		.data =3D
+> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
 
-Right! I figured my first option would be very unlikely... But for the comm=
-ent I hope we can
-elaborate a bit more. Like "don't use this lock to protect your own driver =
-state/data ... you might
-need this together iio_buffer_enabled() and if for some reason you cannot u=
-se the claim helpers).
+Those were added when upstreaming support for the JZ4755/JZ4760, but
+the DTS files and actual support in arch/mips/ was never sent.
 
-- Nuno S=C3=A1
+Instead of dropping those, I'll try to upstream the basic support for
+those SoCs in the coming days.
 
+Cheers,
+-Paul
 
+>=20
+> MACH_STM32MP25 ---
+> drivers/pinctrl/stm32/Kconfig:58:	default MACH_STM32MP25 ||
+> (ARCH_STM32 && ARM64)
+>=20
+> MFD_AIROHA_AN8855 ---
+> drivers/nvmem/Kconfig:33:	depends on MFD_AIROHA_AN8855 ||
+> COMPILE_TEST
+>=20
+> MFD_TN48M_CPLD ---
+> drivers/gpio/Kconfig:1624:	depends on MFD_TN48M_CPLD ||
+> COMPILE_TEST
+> drivers/reset/Kconfig:365:	depends on MFD_TN48M_CPLD ||
+> COMPILE_TEST
+> drivers/reset/Kconfig:366:	default MFD_TN48M_CPLD
+>=20
+> MIPS_BAIKAL_T1 ---
+> drivers/ata/Kconfig:197:	select MFD_SYSCON if (MIPS_BAIKAL_T1
+> || COMPILE_TEST)
+> drivers/bus/Kconfig:43:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+> drivers/bus/Kconfig:58:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+> drivers/clk/baikal-t1/Kconfig:4:	depends on (MIPS_BAIKAL_T1
+> && OF) || COMPILE_TEST
+> drivers/clk/baikal-t1/Kconfig:5:	default MIPS_BAIKAL_T1
+> drivers/clk/baikal-t1/Kconfig:20:	default MIPS_BAIKAL_T1
+> drivers/clk/baikal-t1/Kconfig:33:	default MIPS_BAIKAL_T1
+> drivers/clk/baikal-t1/Kconfig:45:	default MIPS_BAIKAL_T1
+> drivers/hwmon/Kconfig:462:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+> drivers/i2c/busses/Kconfig:589:	select MFD_SYSCON if MIPS_BAIKAL_T1
+> drivers/memory/Kconfig:69:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+> drivers/mtd/maps/Kconfig:81:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+> drivers/pci/controller/dwc/Kconfig:89:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+> drivers/spi/Kconfig:370:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+>=20
+> PINCTRL_MILBEAUT ---
+> arch/arm/mach-milbeaut/Kconfig:16:	select PINCTRL_MILBEAUT
+>=20
+> SND_SOC_AC97_BUS_NEW ---
+> sound/soc/pxa/Kconfig:21:	select SND_SOC_AC97_BUS_NEW
+>=20
+> SND_SOC_CS35L56_CAL_SYSFS_COMMON ---
+> sound/soc/codecs/Kconfig:920:	select
+> SND_SOC_CS35L56_CAL_SYSFS_COMMON
+>=20
+> TEST_KUNIT_DEVICE_HELPERS ---
+> drivers/iio/test/Kconfig:11:	select TEST_KUNIT_DEVICE_HELPERS
+>=20
+> USB_HSIC_USB3613 ---
+> drivers/staging/greybus/Kconfig:209:	depends on USB_HSIC_USB3613
+> || COMPILE_TEST
+> drivers/staging/greybus/arche-platform.c:26:#if
+> IS_ENABLED(CONFIG_USB_HSIC_USB3613)
+>=20
+> USB_OHCI_SH ---
+> arch/sh/Kconfig:334:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/Kconfig:344:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/Kconfig:429:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/Kconfig:455:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/configs/sh7757lcr_defconfig:61:CONFIG_USB_OHCI_SH=3Dy
+>=20
+> X86_P6_NOP ---
+> arch/x86/Kconfig.cpufeatures:41:	depends on X86_64 ||
+> X86_P6_NOP
+> arch/x86/Makefile_32.cpu:48:ifneq ($(CONFIG_X86_P6_NOP),y)
+>=20
+> XTENSA_PLATFORM_ESP32 ---
+> drivers/tty/serial/Kconfig:1598:	depends on
+> XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
+> drivers/tty/serial/Kconfig:1611:	depends on
+> XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
+>=20

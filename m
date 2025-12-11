@@ -1,148 +1,119 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3198A2FB0BC;
-	Wed, 10 Dec 2025 22:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D83B23717F
+	for <chrome-platform@lists.linux.dev>; Thu, 11 Dec 2025 03:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765404628; cv=none; b=DsVMrWpGR5SUWsHz8Mb6uCT1ihS4CQs177DPC1ngsfw1/U7xHEleT6HRG6zzveFDrLCBMMolT0BXMmhMM+mc//VLOtzWCprGmPke08I2audy0Tck88roccr/5a1lwxv2Iaa3DRFrIC2NmIoJ6/la0IfXDCcHKwnku3Ygu3a2RIs=
+	t=1765423416; cv=none; b=DdUba6bq4N3pWty14R9Y4XaTy+zV13WtGe+7/wP4NStq261bsW1ELwqaNAlArJYFZxxaStEyI/ZZt1w6gwPxJct7DYdTXb8j+bFTtZyePV9dD6bwmCYM5q+WUTjgGRFzq50nUJLWq/liPD+pCGWsnuxIFmVuYtcCQ24gil+s8yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765404628; c=relaxed/simple;
-	bh=9Mbw+2a+O0bpocbYBboqIR0wKgD/bxSaeJe1Sq+BSnE=;
+	s=arc-20240116; t=1765423416; c=relaxed/simple;
+	bh=cxD3Wr/Ig8GN/DsuCXoKzNk347PDwsV4kSz6ulTT+40=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E5YIhgESYNYm/X5GvVcf+XaQrwwreex+PJ5gLI5QGh/62HED/4s5JGiWaCADg/4iR+Q5q4pTTDh8Yt00a8ejCMFrbBPIGsrWnhlPXhviVwFoMEflzZoaQybcSDLQPNTFCT+St7dz0VoeyXTyyWfhcSFLgP6EB8W3UxWrblfDN+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 6CDDB1F80041;
-	Wed, 10 Dec 2025 22:09:51 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 69875B127FD; Wed, 10 Dec 2025 22:09:38 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id EBB48B127E9;
-	Wed, 10 Dec 2025 22:09:35 +0000 (UTC)
-Date: Wed, 10 Dec 2025 23:09:33 +0100
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Janne Grunau <j@jannau.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, andrew.jones@linux.dev,
-	linux-omap@vger.kernel.org, openbmc@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-mips@vger.kernel.org, asahi@lists.linux.dev,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	chrome-platform@lists.linux.dev,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	linux-sh@vger.kernel.org, x86@kernel.org,
-	Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: Kconfig dangling references (BZ 216748)
-Message-ID: <aTnvnaRuJ5lF4dVv@collins>
-References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
- <aTcVXrUXVsyjaT22@shepard>
- <20251208200555.GA333481@robin.jannau.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=V3tIqx0/Y0pi36BNUPBWJ+RwjR/q0JxVgnmWMehUzkOjZ5Yd2CXp2G2UUW0vXg0UPl+iqaGdqyYH24lcuxD83PYGBBegSResOtwKj5UyHos5LAn7srEpykUFXyDGmNjPFxMY/Nuh3mSyHLTe7QPXKighGj/GIzqgnzMVHy6cZ90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BpphSAq6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BpphSAq6"
+Received: from pendragon.ideasonboard.com (fs98a57d9d.tkyc007.ap.nuro.jp [152.165.125.157])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 1E3EE667;
+	Thu, 11 Dec 2025 04:23:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765423404;
+	bh=cxD3Wr/Ig8GN/DsuCXoKzNk347PDwsV4kSz6ulTT+40=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BpphSAq6iftkqPdhbFOdow0SCP+IS+RLblRTJAlpxnkFqE8hFQcEtin7Osvda2fv5
+	 6+6qsxI8XkY05NyR6HWqiLQC6XrUmBGyNFiiIPgZnj1EblTci3BWmJfh66fH7D0UDb
+	 13LW7K3yqyTLErnME6NyO186FEPcSFKmiMB1yXrw=
+Date: Thu, 11 Dec 2025 12:23:06 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
+Message-ID: <20251211032306.GO28860@pendragon.ideasonboard.com>
+References: <20251017134916.GK3901471@nvidia.com>
+ <aPJp3hP44n96Rug9@tzungbi-laptop>
+ <20251017162116.GA316284@nvidia.com>
+ <aPT-7TTgW_Xop99j@tzungbi-laptop>
+ <20251020115734.GH316284@nvidia.com>
+ <aPcQ99MZse5zmv3o@google.com>
+ <20251021121536.GG316284@nvidia.com>
+ <aPo6CZyT_IGWmu-O@tzungbi-laptop>
+ <20251023145131.GI262900@nvidia.com>
+ <2025102321-struggle-fraying-52ff@gregkh>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MEb6eXQ93P1+3Wd8"
-Content-Disposition: inline
-In-Reply-To: <20251208200555.GA333481@robin.jannau.net>
-
-
---MEb6eXQ93P1+3Wd8
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <2025102321-struggle-fraying-52ff@gregkh>
 
-Hi Janne,
+On Thu, Oct 23, 2025 at 05:04:57PM +0200, Greg KH wrote:
+> On Thu, Oct 23, 2025 at 11:51:31AM -0300, Jason Gunthorpe wrote:
+> > On Thu, Oct 23, 2025 at 10:22:01PM +0800, Tzung-Bi Shih wrote:
+> > 
+> > > I was misunderstanding about the "sync" we were discussing for
+> > > misc_deregister_sync().  The "sync", is analogous to synchronize_srcu()
+> > > of revocable_provider_revoke() in the revocable version [1], doesn't wait
+> > > for closing all opened files.
+> > 
+> > Yes, and my remark is we don't need to obfuscate simple locks in core
+> > kernel code.
+> 
+> {sigh}
+> 
+> Yes, that's not the goal here at all.
+> 
+> I've refrained from jumping in as I think we are thinking of different
+> stuff here, probably talking past each other in places.
+> 
+> The original goal of having "revocable" is still needed, despite you
+> feeling that cdev can live without it (I strongly disagree with that,
+> and the v4l, gpio, i2c, and other subsystem developers have feelings
+> along those lines as backed up by the many talks over the years about
+> this.)
 
-Le Mon 08 Dec 25, 21:05, Janne Grunau a =C3=A9crit :
-> On Mon, Dec 08, 2025 at 07:13:50PM +0100, Paul Kocialkowski wrote:
-> > Hi Randy,
-> >=20
-> > On Sun 07 Dec 25, 18:04, Randy Dunlap wrote:
-> > > from  https://bugzilla.kernel.org/show_bug.cgi?id=3D216748
-> > >=20
-> > > The bugzilla entry includes a Perl script and a shell script.
-> > > This is the edited result of running them (I removed some entries tha=
-t were noise).
-> >=20
-> > [...]
-> >=20
-> > > DRM_KMS_DMA_HELPER ---
-> > > drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
-> > > drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
-> >=20
-> > For these two, the symbol was removed in commit
-> > 09717af7d13d63df141ae6e71686289989d17efd
->=20
-> That commit removed DRM_KMS_CMA_HELPER. Later commit 6bcfe8eaeef0
-> ("drm/fb: rename FB CMA helpers to FB DMA helpers") renamed
-> DRM_KMS_CMA_HELPER erroneously to DRM_KMS_DMA_HELPER.
->=20
-> > but these two drivers either were
-> > missed by the batch rename or were introduced a bit later.
->=20
-> In the case of drivers/gpu/drm/adp/Kconfig it was missed much later
-> during review (but iirc went through the same rename out of tree).
->=20
-> > Since the symbol selected DRM_GEM_CMA_HELPER (which is still needed by =
-the
-> > drivers), it should be replaced with DRM_GEM_CMA_HELPER.
->=20
-> That symbol doesn't exist anymore either. It's now DRM_GEM_DMA_HELPER
-> which is already present in both files.
+Replying late to this thread, I don't think this is right for V4L2. When
+it comes to solving the .remove() vs. userspace race, I think the right
+solution is at the cdev level. We could also implement it exactly the
+same way in the V4L2 core, but that would be a shame as other subsystems
+would need to replicate the same. There are existing implementations,
+they're easy to use in drivers (if implemented in cdev with the little
+amount of required driver-logic implemented in the V4L2 core, it would
+be mostly transparent for drivers), easy to wrap your head around (no
+obscure lifetime magic), and they work.
 
-Thanks for the details! It seems that I was looking at an older tree.
+Where I believe a revocable infrastructure could be useful is for
+solving the .remove() vs. *kernel usage* race, which is something GPIO
+likely cares about strongly.
 
-> So the "select DRM_KMS_DMA_HELPER" lines can be removed from both files.
+> The use of it in the Rust code already is kind of proof of this, it
+> enables driver authors to not have to worry about a ton of real-world
+> issues they would have to otherwise.  Which is why I suggested copying
+> that pattern into C to help us out here.
+> 
+> Anyway...
+> 
+> I've been traveling a ton, and it's not going to let up soon, but I'll
+> try to dig into this more later next week, or on the next 12+ hour
+> flight that I'll be just after that, to give a more detailed review and
+> response, sorry I've not been able to do so yet.
 
-Good, then I'll craft a patch removing these two lines.
+-- 
+Regards,
 
-All the best,
-
-Paul
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---MEb6eXQ93P1+3Wd8
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmk5750ACgkQhP3B6o/u
-lQxOag/+J9Lwmq+hqcg9BxoDCZl6KmFGAh/RmelPeBUew6LlQphMcDpjQ0yJavK3
-bxojss4r12rV5307+f47JlSMFJa/100MablzoWV0koupx/JCRszhYf2w1lxYHKJh
-7jwy8GLd9NnaZGaiscrckVEcfaVRufzSM2I6ErSZIMSYEZ1LUTCakTPAwrgtarZb
-b9FzHmCrau56mdC2M6StWaolU90t4em1/We8XVRtLY87MEY/VQK6qLylL2fbpuIX
-5+DjnOBDMrvyB7UJFVbzcQA4ev1ckCBvnB2JdzGOfquj6XTO23m5/L5qfxTVk6qa
-yp9ShU6lQZ9RjinifpGWf8JTYl46U7hch9PrUCE/n0FgVl2frQHb/N08ynKUniCB
-1U76zgnG48Wkj08Sz6anRvER3dqEhzJgxJxpkW1UqoXFOSBQeeJZzZONuuUxYw3M
-8JKSldwJVj/oLlvCOI6QO0Q9T+U4YS1gpNBfHbysPaJgZyqld5tXaElOo9k8P8pX
-kAMhcvAn6FaXqkX5qJOAN+91M+CkQwQlWf16G7HKV0LcOvzCtGHYWVrxb7xWw9Em
-JBZRsrdq4CaQc34D8GkBR14H6WGWkGR4OQSTqxshPv7x/S4u9vV8FQWIhLW2LToY
-kw9ephtALgBj6D79R84K2DGlmZwPH2sunV3y9huDh3SNlR5dZg8=
-=EEMR
------END PGP SIGNATURE-----
-
---MEb6eXQ93P1+3Wd8--
+Laurent Pinchart

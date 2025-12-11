@@ -1,97 +1,104 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575442144D7
-	for <chrome-platform@lists.linux.dev>; Thu, 11 Dec 2025 13:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802E02D94B7
+	for <chrome-platform@lists.linux.dev>; Thu, 11 Dec 2025 14:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765460613; cv=none; b=dsKX1B7CbJ5JG/PxLQU/IGt3StHsc+QaYjGizY/TgXM8nOl/XBbMiR4A9k8xFvtjDoXTcXeMUyUvbB/EbX4SSGXiWECG/3L34queHeUUlaMZj7MGkCf/gousrtN5Ut3veCaw1dMUBZvkYWFrJZf6v5+ULWQRR787LsofxltwLQ0=
+	t=1765462991; cv=none; b=jlDEHB3Mo91f5ISIpW5zDPjBPmiJY5QzB+hRf96u7qEurEkzvdLXzd6GTIsw/9BpbG7o+UxAlKS1IgdbMWsL8JZaOYRGYpkuG692ghQHruHfcPBfkwc5gFnk47+FKMR2ow9JzfLuOnj0ufVCEosKg+GW9x9GIDq3onwr9wpPDxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765460613; c=relaxed/simple;
-	bh=GHYEhlkvcFeFuGWpDaxnbBTjKdxg8bMF0QV/AkgQAig=;
+	s=arc-20240116; t=1765462991; c=relaxed/simple;
+	bh=Y3OiXOZcdUuK/t85aiLic9ti7tF9t/QEcg8Jc+6OU2A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EEmNj6zBffQS86+Kl52sd6rE/g23y9KM4B3qfnyHxeU6q5KLHDdlrR5FhTwRnplVtPyl/cvkDfdycQ52hbJUUgYz+xxHuSPms1y98y1IDdZ11w9LaEbv5hmaaHnVOazWOdxbehw3xDN7mS4nHe4dFoR2QPp3NIV4Tho/mgS6LME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dbFMSp1A; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=BtCCcGAHSTU4WedsXLuVfyICr2IuHBHLuq5Grzy9WQqQItojeAn2wPSf7BdjsPdq58JEB0xhmEKodUrY1Jbr1/bgDNygNuXpXo1JVxksblp+Vn/VSQuxv4QPm97mUmTZkEj3esZ2NVtWysVWcg/cowe+M5kRwzW5XHvr4aqr5dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P6A1nPwe; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dbFMSp1A"
-Received: from pendragon.ideasonboard.com (p7838222-ipoefx.ipoe.ocn.ne.jp [123.225.39.221])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 66639667;
-	Thu, 11 Dec 2025 14:43:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1765460606;
-	bh=GHYEhlkvcFeFuGWpDaxnbBTjKdxg8bMF0QV/AkgQAig=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dbFMSp1AqU3bnnjDdUEE3/kzX7SQCG+yy/mGts/WuUB8P6bmdsDyZhiHFzl7Zlp5L
-	 tqvjaY5Hsb9siuSBgzclY6Vkx8Gl+3UFhTp58xxCaoXCrabR5oon/mrGpx1+29fHXJ
-	 VQSM65zvmVFFXqnxZp10sqjVbdMJIQQrolZDmuro=
-Date: Thu, 11 Dec 2025 22:43:06 +0900
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P6A1nPwe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765462990; x=1796998990;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y3OiXOZcdUuK/t85aiLic9ti7tF9t/QEcg8Jc+6OU2A=;
+  b=P6A1nPwexMqZXeqBGPP00s3zTDWSSPkRffMRLbCKAysOolJIA8lOzkVN
+   lg41pERg8c73oJo02LyRWVQ96A4gMClPkfWaWib6jjvA/lIul/SI2E8SR
+   h8tgYRL55aBzMM1fDvU52hhjDGAwOJiA/lIPfxdeBDanukx4PMr4hV3Vb
+   voKAOYeOkySOWh4oWK11osqJSd5t3qoiX1wyRbVIFbzbZqeV8YAa9iDAu
+   BzwgqMI6VRXw8GxkmJqaL2DYyw4P3e5OAWS3BTUGwurh6clmXpUgzLnqY
+   4He3FnLF78RHtGyeAY6327zfSPiyZlJZ17RT9GuYhphlh4AvC6DLw1v7n
+   Q==;
+X-CSE-ConnectionGUID: MiNCJLzGQk6oWrT1UxEPmA==
+X-CSE-MsgGUID: 882a23yAR3mZ+W7GOt6exA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71067523"
+X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
+   d="scan'208";a="71067523"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 06:23:09 -0800
+X-CSE-ConnectionGUID: gyzAZhjxT4qg/19Cy6w4MA==
+X-CSE-MsgGUID: KLNuBfEkSAuV2H6QTgL8cA==
+X-ExtLoop1: 1
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO kuha) ([10.124.222.61])
+  by fmviesa003.fm.intel.com with SMTP; 11 Dec 2025 06:23:03 -0800
+Received: by kuha (sSMTP sendmail emulation); Thu, 11 Dec 2025 16:22:52 +0200
+Date: Thu, 11 Dec 2025 16:22:52 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	Benson Leung <bleung@chromium.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
-Message-ID: <20251211134306.GC28411@pendragon.ideasonboard.com>
-References: <20251020115734.GH316284@nvidia.com>
- <aPcQ99MZse5zmv3o@google.com>
- <20251021121536.GG316284@nvidia.com>
- <aPo6CZyT_IGWmu-O@tzungbi-laptop>
- <20251023145131.GI262900@nvidia.com>
- <2025102321-struggle-fraying-52ff@gregkh>
- <20251211032306.GO28860@pendragon.ideasonboard.com>
- <aTo-xErTTiJcribR@shikoro>
- <20251211080517.GA28411@pendragon.ideasonboard.com>
- <aTqCqab1pGB9LNZy@shikoro>
+	Jameson Thies <jthies@google.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Guenter Roeck <groeck@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	"Christian A. Ehrhardt" <lk@c--e.de>,
+	Abel Vesa <abel.vesa@linaro.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Pavan Holla <pholla@chromium.org>, Madhu M <madhu.m@intel.com>,
+	Venkat Jayaraman <venkat.jayaraman@intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 0/8] USB Type-C alternate mode selection
+Message-ID: <aTrTvA8Srak1mNGS@kuha>
+References: <20251201122604.1268071-1-akuchynski@chromium.org>
+ <aTrJwA7Y4fWiTMzB@kuha>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aTqCqab1pGB9LNZy@shikoro>
+In-Reply-To: <aTrJwA7Y4fWiTMzB@kuha>
 
-On Thu, Dec 11, 2025 at 05:36:57PM +0900, Wolfram Sang wrote:
+Thu, Dec 11, 2025 at 03:40:24PM +0200, Heikki Krogerus kirjoitti:
+> Without going into the code review yet, I'm okay with this in general,
+> except with the artificial SID for the USB4. I still don't understand
+> why do you guys think we should use that instead of an USB4 specific
+> device type?
 > 
-> > > Isn't there even prototype code from Dan Williams?
-> > > 
-> > > "[PATCH 1/3] cdev: Finish the cdev api with queued mode support"
-> > > 
-> > > https://lkml.org/lkml/2021/1/20/997
-> > 
-> > I mentioned that in my LPC talk in 2022 :-) I think we should merge that
-> > (or a rebased, possibly improved version of it). I've meant to try
-> > plumbing that series in V4L2 but couldn't find the time so far.
+> I think somebody said earlier that the user space can't see the device
+> type of the alt modes? If that's really the case, then I think there
+> is some bigger issue here. Are you really sure that if you check the
+> device type of an alternate mode for example with udevadm, it does not
+> say DEVTYPE=typec_alternate_mode ?
 > 
-> Yes, you mentioned it in 2022 but maybe not everyone in this thread is
-> right now aware of it ;) The patch above got changes requested. I talked
-> to Dan very briefly about it at Maintainers Summit 2023 and he was also
-> open (back then) to pick it up again.
+>         % udevadm info -q property --property=DEVTYPE /sys/bus/typec/devices/port0-partner.0
+>         DEVTYPE=typec_alternate_mode
 
-After discussing with Tzung-Bi today after his presentation (thank you
-Tzung-Bi for your time, it helped me understand the problem you're
-facing better), I wonder if this series is fixing the issue in the right
-place.
+Or just use grep :)
 
-At the core of the problem is a devm_kzalloc() call to allocate
-driver-specific data. That data structure is then referenced from a
-cdev, which can dereference is after it gets freed. It seems that
-reference-counting the data structure instead of using devm_kzalloc()
-could be a better solution.
+        % grep DEVTYPE /sys/bus/typec/devices/port0-partner.0/uevent
+        DEVTYPE=typec_alternate_mode
+
+So, if that really does not work, then there is a bug somewhere that
+we obviously need to fix.
+
+Please note that the port altmodes are now also part of the bus.
+
+Br,
 
 -- 
-Regards,
-
-Laurent Pinchart
+heikki

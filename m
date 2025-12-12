@@ -1,111 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E5F262FC0;
-	Thu, 11 Dec 2025 14:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB154594A
+	for <chrome-platform@lists.linux.dev>; Fri, 12 Dec 2025 02:45:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765464376; cv=none; b=EfwKtDfYdvBORxLr7/fvesLAumarQdMxWcHlAf3Lm9PPePJ+wZ3OQhAq6fgTbM9l5ZPMln4GVjUBCPvooBT159/+skJ0gAi8t1cFPdbbctd4bK3682oksVRu1lPUcs30MbckRpL8JxoEXHkM2hcu6CWReg0IzrfWChuOCBSHqXw=
+	t=1765507535; cv=none; b=tz96+U9yXG8vEaBQQbTKfIA6OcqyqHwcsrnRdIZJA18wRDjNafUAbcJAM0sJi2aysEVCjsLGil/lLSLZW9MFOwLZQqlA+ZbVpLNMkjQaKpaFDCq/AQYwUBFeDHJw0OwJgyQDPnt8CcXh3scUGMgrhvyOZtS+H2K6nI8j0TpcJq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765464376; c=relaxed/simple;
-	bh=ct3eNG8xt/aRp6Oevi9PIN+vHA9Q69EYHCy9CGOfaKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M8wnZVPwFI3p3QOzTFECB9AxyPVSjrsPh/kYeBR9stDQaY0tKF2QnHzXcYzaDjlmp5zQ7Hq6PLPjTWNYK0zoSVqsJ80/1sSLumEuQcW5WCKwkPVyvRPrp6l7euIeiXDVCAt0pbRTeG9f7HCx06PJtQbnNOGmlCcUr9l2bDItIhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bKnWPMve; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765507535; c=relaxed/simple;
+	bh=YXFW98NZuFLnBMTCpnnslVJ6bxatDBadAJ6ohMCZDqU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Rlwlp3upLGoFOYwlCCgixoOi8cEgMU2VTRw+39dDGcA8c3lRSZUMTZVqXX0p2tI6AoInBo0Do8Fs1NzkN+kdKTTPFZVYfPZ0LgR0yd52AlO2ofpSm/bvEs6Z8TQFqoOV6dziQx7cO3urep/JgoZ5Sq7YCUW5tqsrQ3hRU+SIffQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ys/Ncw3Z; arc=none smtp.client-ip=209.85.222.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bKnWPMve"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B0D2C4CEF7;
-	Thu, 11 Dec 2025 14:46:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765464372;
-	bh=ct3eNG8xt/aRp6Oevi9PIN+vHA9Q69EYHCy9CGOfaKA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bKnWPMve6z4TPVPac1KdXdcXMLak4J7e88dev1ppcJJS3wNDTcRV3QLy920Qr8VXP
-	 bqJDHQTy7gAgN4wm/BmmWG/C0eopqnHGyO/XqQlsSKIsH8BLgEE3itB5Xt2t5/LDNS
-	 77sieFDWwYND0S71kglLY7Hlaf7v/ptd0+YU02qEEXijLvZ0adYqbrYuAcy7rDGFwE
-	 6EoAXx50lwZwbgCAW6W8EWo8cNLsg59BOQU9ffDtxVmaEy/Jo2JeOQrB2DIG0JR0Z4
-	 wScDZxoNjETiV5qSansXs5Ts23iUrMuqVVCSmGXsL6r3RLat7gj/iyCRj4xQgvCzMu
-	 FoCcrFTldHwhA==
-Date: Thu, 11 Dec 2025 14:46:08 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Benson Leung <bleung@chromium.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
-Message-ID: <aTrZMJ8R6zybFNHR@google.com>
-References: <aPcQ99MZse5zmv3o@google.com>
- <20251021121536.GG316284@nvidia.com>
- <aPo6CZyT_IGWmu-O@tzungbi-laptop>
- <20251023145131.GI262900@nvidia.com>
- <2025102321-struggle-fraying-52ff@gregkh>
- <20251211032306.GO28860@pendragon.ideasonboard.com>
- <aTo-xErTTiJcribR@shikoro>
- <20251211080517.GA28411@pendragon.ideasonboard.com>
- <aTqCqab1pGB9LNZy@shikoro>
- <20251211134306.GC28411@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ys/Ncw3Z"
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-93f542917eeso238712241.2
+        for <chrome-platform@lists.linux.dev>; Thu, 11 Dec 2025 18:45:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765507532; x=1766112332; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Xe+z35nDcGCHFcLb8uQ0wiLcWmhROk2HZ283Q91bZE=;
+        b=Ys/Ncw3ZvsKmN/0zzij14gamnPPhWDEbgCWRjXmtc4Vp24S5ZQ9CERsQRbHy3V16gh
+         hk9D9pQ5fwaGcXmEnN3d9fcl3FucFDkW2ZuLnKJ0lhh2Ci5S3QQsx3ZcXhKMeGG/jQrU
+         wCQqBvfApRkUTA4LpplUaoqoXDtayto4XFXXYSRYtMCKHW+NojEbwWXOkQ3mgpReUbXB
+         Pk2AuyOS6njI4LuFZeG46LtpyEtYc9fGjLiIFN4fkhzJzdZGv1taJO5D8HF2psj9+wi3
+         NtmBZgwQwTdBKqMWLg0ODF5e9E8TLL0zshVCAn28gVEibecYTW2JDH0h2e+JZ9vEGjbc
+         KPSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765507532; x=1766112332;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8Xe+z35nDcGCHFcLb8uQ0wiLcWmhROk2HZ283Q91bZE=;
+        b=c8k+FsQyJ0Upb40Dc34U5vt96IRPSdc0I+eLNURdL9BpeEJrxYiB+BO0+a0PZMDkaQ
+         1SsHX9lZTKFJmSYObndxT541llzVpL36CL25LUzKhCj/5vk0Vuh5Jp7z4FBaQ1ATD9t4
+         OfcyIj9EDo7Oknan8aFMC77NIuqQYw3BkgTfyNupQ5HNYHLihHGU6Q3t6tzIpzOGzg16
+         l4J4+nCvkoA3LWt74pg9nLYznQp/UGlOSNOgNB6NzC1IqZXWKuqzkkLn08ZtCRV+8JDu
+         V75yJriWIDL0X5PRp8pqXpistL9iAZsIE5WuOLw+OlHlzFQA/FRdx7+cIIppRVHFMofd
+         G7WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXaOF+K3RYKAhnoZX173inpT16UZK9sqV/YVEHs0fMyB6KR0NESTGXxqm35izhJ52//E7iupX7Nw7aExfO7nMU=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1WU5hjEm/klnh00kOtlU3qQQ7M/hMoyQQBcqNZy47y/rzO0HP
+	ReakUHtCDMPGJDtbOSqlcNsXqwijw9QTh9S3u+BCnlsJdAWpvCUIJjdP
+X-Gm-Gg: AY/fxX597Rfx+EVojEoRQYVy3y5UmHjwHs4l5rqy7qtNOUF57+zXCLBA0K3yajhqlY2
+	BYzLyN70Guz3+kba9Pk5/ryHciy+GveCTmJbL0FevKzqH51L1aIlNag661KvPh8/hxg544Z2JUL
+	o6k45BoBXpFVvanKPwYg5T58XiZVP6gXQl/brhy4MI8u8Zt2AGOz3Oc6HLqxGpSaaTrJ0xtRxS9
+	ZrQnS8XE1U/R3zzdqJEenM+ms99GQldVwsq+h3rfuNRrSujw1lTyB10qrjYMr8KdgY6shMv5jJw
+	y6AXa6sCxYZ2p8z8gRgH53MObDDs1xinPrqmQXSkKrcLS19MTlFeBM0b9sFnzkpmbcCizITsV6r
+	0XsmO2nqACLgDfuphGP++OiMpB8Zu4jdi9XO/whftQrVWBDWgEEvMDRgUQdIKrmaOqEeNSNkNkG
+	lDgQq/0jsobx3L3DvIVDJu378=
+X-Google-Smtp-Source: AGHT+IHgSIn4ixGPWXBwjfI8XHiT+6Ui1NjpsiknsBJPTXrBKLciTSKicuXK96UUqpbjjZ8A0vOXRg==
+X-Received: by 2002:a05:6102:3a0d:b0:5db:47c2:f926 with SMTP id ada2fe7eead31-5e82768c16amr112709137.15.1765507532442;
+        Thu, 11 Dec 2025 18:45:32 -0800 (PST)
+Received: from [192.168.100.70] ([2800:bf0:82:3d2:875c:6c76:e06b:3095])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e7d0f25ce2sm1693762137.8.2025.12.11.18.45.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Dec 2025 18:45:31 -0800 (PST)
+From: Kurt Borja <kuurtb@gmail.com>
+Subject: [PATCH v2 0/7] iio: core: Introduce cleanup.h support for mode
+ locks
+Date: Thu, 11 Dec 2025 21:45:18 -0500
+Message-Id: <20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251211134306.GC28411@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL6BO2kC/03MQQ7CIBCF4as0sxYDA63VlfcwXSCFdmJbGjBE0
+ 3B3sW5c/i8v3wbRBrIRLtUGwSaK5JcSeKjAjHoZLKO+NCDHWgjJ2eTNg9G8BtY4xJNqjahtC+W
+ /BuvotVu3rvRI8enDe6eT+K4/Bbn8U5JgnN2VFq5v5FmhvA6zpulo/AxdzvkDJiMda6IAAAA=
+X-Change-ID: 20251130-lock-impr-6f22748c15e8
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+ Gwendal Grignou <gwendal@chromium.org>, 
+ Shrikant Raskar <raskar.shree97@gmail.com>, 
+ Per-Daniel Olsson <perdaniel.olsson@axis.com>
+Cc: David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ Kurt Borja <kuurtb@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3337; i=kuurtb@gmail.com;
+ h=from:subject:message-id; bh=YXFW98NZuFLnBMTCpnnslVJ6bxatDBadAJ6ohMCZDqU=;
+ b=owGbwMvMwCUmluBs8WX+lTTG02pJDJnWjQdnbf26SVlpovfDjofh3b6zOl98v7ffWuAYc1IBF
+ 4vQMxujjlIWBjEuBlkxRZb2hEXfHkXlvfU7EHofZg4rE8gQBi5OAZjI3UsM/8xYM/wO/K3syZxg
+ zh0kYr7jePOtRVE2n7b+j1l5QFuy7Bojw5xNNgeypnhWzdbZvVJ8StoPRsupy+oaF2vf5u08Zl/
+ 9hQMA
+X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
+ fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
 
-On Thu, Dec 11, 2025 at 10:43:06PM +0900, Laurent Pinchart wrote:
-> On Thu, Dec 11, 2025 at 05:36:57PM +0900, Wolfram Sang wrote:
-> > 
-> > > > Isn't there even prototype code from Dan Williams?
-> > > > 
-> > > > "[PATCH 1/3] cdev: Finish the cdev api with queued mode support"
-> > > > 
-> > > > https://lkml.org/lkml/2021/1/20/997
-> > > 
-> > > I mentioned that in my LPC talk in 2022 :-) I think we should merge that
-> > > (or a rebased, possibly improved version of it). I've meant to try
-> > > plumbing that series in V4L2 but couldn't find the time so far.
-> > 
-> > Yes, you mentioned it in 2022 but maybe not everyone in this thread is
-> > right now aware of it ;) The patch above got changes requested. I talked
-> > to Dan very briefly about it at Maintainers Summit 2023 and he was also
-> > open (back then) to pick it up again.
-> 
-> After discussing with Tzung-Bi today after his presentation (thank you
-> Tzung-Bi for your time, it helped me understand the problem you're
-> facing better), I wonder if this series is fixing the issue in the right
-> place.
+Hi,
 
-Thank you for your time too for providing me some more context.
+In a recent driver review discussion [1], Andy Shevchenko suggested we
+add cleanup.h support for the lock API:
 
-> At the core of the problem is a devm_kzalloc() call to allocate
-> driver-specific data. That data structure is then referenced from a
-> cdev, which can dereference is after it gets freed. It seems that
-> reference-counting the data structure instead of using devm_kzalloc()
-> could be a better solution.
+	iio_device_claim_{direct,buffer_mode}().
 
-After discussing with you, I recalled this was one of my previous attempts.
-See the series [1] and Greg's feedback [2].
+Which would allow some nice code simplification in many places. Some
+examples are given as patches, but the last two are the biggest
+differences.
 
-I want to provide some more context about the cdev level solution.  I failed
-to do so for misc device [3] mainly because all misc devices share a same
-cdev [4].  If one of the misc device drivers "revoke" the cdev, all other
-drivers stop working.
+In this version I dropped the RFC tag, as the general feeling is to go
+through with this after some modifications. Main one is the addition of
+IIO_DEV_ACQUIRE_{BUFFER,CLAIM}_MODE() wrappers to avoid drivers using
+the guard classes directly. I also added comments on the forbidden ways
+to use this API but I definitely still take suggestions on this.
 
-I'm not saying we shouldn't seek for cdev level solution.  But at least it
-doesn't work for misc device.  Still need some other ways for misc devices.
+For now I dropped iio_device_claim_buffer_mode() rename, as this point
+is still being discussed. My suggestion based on the RFC discussion is
+to do it, but in a separate patch (using coccinelle) and while we're at
+it rename the whole API like this:
 
-[1] https://lore.kernel.org/chrome-platform/20250721044456.2736300-8-tzungbi@kernel.org/
-[2] https://lore.kernel.org/chrome-platform/2025072114-unifier-screen-1594@gregkh/
-[3] https://lore.kernel.org/chrome-platform/aQ1xfHuyg1y8eJQ_@google.com/
-[4] https://elixir.bootlin.com/linux/v6.17/source/drivers/char/misc.c#L299
+	iio_dev_mode_lock()
+	iio_dev_mode_direct_trylock()
+	iio_dev_mode_buffer_trylock()
+	iio_dev_mode_unlock()
+
+Let me know what you think and thanks for taking a look! The RFC
+discussion was a bit long so apologies if I overlooked some comment.
+
+Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+---
+v2:
+  - Add __iio_dev_mode_lock() (formerly iio_device_claim()) in the first
+    patch.
+  - Added comments to make sure __iio_dev_mode_lock() is not used by
+    drivers to protect internal state, or in general.
+  - Add patch which re-implements iio_device_claim_direct() using
+    __iio_dev_mode_lock().
+  - Match iio_device_claim_buffer_mode() semantics by reimplementing it
+    in the same way as iio_device_claim_direct().
+  - Guard classes now are prefixed with __priv__ to make sure drivers
+    don't use them directly.
+  - Add IIO_DEV_ACQUIRE_{BUFFER,DIRECT}_MODE() documented wrappers
+  - Avoid any function renames (for now).
+  - Rename dummy variable `claim` instead of `busy` on vcnl4000 patch.
+  - Avoid scoped guard in max30102.
+  - Keep using iio_trigger_validate_own_device() insted of
+    iio_trigger_using_own() in opt4060.
+  - Link to v1: https://lore.kernel.org/r/20251203-lock-impr-v1-0-b4a1fd639423@gmail.com
+
+---
+Kurt Borja (7):
+      iio: core: Add and export __iio_dev_mode_lock()
+      iio: core: Refactor iio_device_claim_direct() implementation
+      iio: core: Match iio_device_claim_*() semantics and implementation
+      iio: core: Add cleanup.h support for iio_device_claim_*()
+      iio: light: vcnl4000: Use IIO cleanup helpers
+      iio: health: max30102: Use IIO cleanup helpers
+      iio: light: opt4060: Use IIO cleanup helpers
+
+ drivers/iio/adc/ade9000.c                          |   2 +-
+ .../common/cros_ec_sensors/cros_ec_sensors_core.c  |   5 +-
+ drivers/iio/health/max30100.c                      |   2 +-
+ drivers/iio/health/max30102.c                      |  33 ++---
+ drivers/iio/industrialio-core.c                    |  86 ++---------
+ drivers/iio/light/opt4060.c                        |  52 +++----
+ drivers/iio/light/vcnl4000.c                       |  49 +++----
+ include/linux/iio/iio.h                            | 162 +++++++++++++++++++--
+ 8 files changed, 210 insertions(+), 181 deletions(-)
+---
+base-commit: daea3a394a8b425a2dd206ab09eb37f0d1087d35
+change-id: 20251130-lock-impr-6f22748c15e8
+
+-- 
+ ~ Kurt
+

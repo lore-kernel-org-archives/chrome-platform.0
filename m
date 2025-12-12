@@ -1,67 +1,67 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F3829ACF6
-	for <chrome-platform@lists.linux.dev>; Fri, 12 Dec 2025 02:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692DE13D503
+	for <chrome-platform@lists.linux.dev>; Fri, 12 Dec 2025 02:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765507548; cv=none; b=ny8m4MsqHtJnF0FRbqBI8KtEVbsNYj+L7Y7LET9kMc6O/VKSnV1qPWnG1Pw+qWUimieUow1GDEKB59f7Flv9i6PFtUcjDbt5fHSu3qRTNSqzpEtqNu8r0jd0pXoDU7riG11e84o38b0OhL/cao0QUrxh6xYt3I+uTVotGoe8YP4=
+	t=1765507549; cv=none; b=E3HNinAsTCd/woAqhhrijy/zC0IgnZdf6s43u5BGQ4QeLiCYH9oME9UWp0KNrnSKuodqtUzZhWV4hNe4gseU2epcP6WxWQIDT+prTBMpUnar2WH7aKyEFGgnFDNhedXBnWQeDNmB+CUyRk+QF/QOV7FFIK5GtOfdDFdw1EcTB9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765507548; c=relaxed/simple;
-	bh=q6gZRxmz6cKGnQKSSxqxXmYWJF1PKw60AF3Tc6GXjyU=;
+	s=arc-20240116; t=1765507549; c=relaxed/simple;
+	bh=m4docKzSN6U3IisnQGU0vDNlqcdF+sgdQ/746l+2whQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OmcN6IlVjJM+hPjiJy6Qu+zZdCAgplJatWj6ITzWGvfuaUeCnTWogJyc+86BJdOvqC3KF8WmEFBWudT0DWM1wEn6UQp65EvAM/kvEDtfIl7XdnkKmeXHP5fE7z69mb73euPFVjGoVaQMX5hO17yCMp3YB4eCSpgwWoiyCy9TP1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eb/nzAlz; arc=none smtp.client-ip=209.85.222.51
+	 In-Reply-To:To:Cc; b=hrOvTR7LyKydzTZRnGBwYk0WLoUMgTgoeUVATZWxqFzh2bfeGGnE3EpBmZFggGt3tJ9O1uFLbHup3jAMfQQ1VrswZGUf5McLhCifckf7lu1qFN1DlNxqJfEyRM0OD9PV3HKRcxQLP2RRjYw7L9VRFCNvihvQrjYC0RE2Z0QRHPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GgNHWa+c; arc=none smtp.client-ip=209.85.217.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eb/nzAlz"
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-940c539de8fso218764241.0
-        for <chrome-platform@lists.linux.dev>; Thu, 11 Dec 2025 18:45:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GgNHWa+c"
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5e1fde1f014so256026137.0
+        for <chrome-platform@lists.linux.dev>; Thu, 11 Dec 2025 18:45:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765507544; x=1766112344; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1765507546; x=1766112346; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2wlEL307B3m+aaEYqQkKNwT5MYGrgAWckQlDU+pQY6Q=;
-        b=eb/nzAlzXErZjLhiL2kIjaJhdzTmV37SHOLcCDsZuz7xN79Ti1GLjzr31L26V8VJHM
-         J4aByZJ43nJyRfM2fNg2dzcC0plASSBeP/MC5Jd7Pgm+MV3bhO98QrpVsfpP/BTvyEEk
-         AWXzLu6Y9mKqHlG/amNqtB5x8EwBrnl2UwU3vhwtPi6WM3IL2ztZFeAyO/tWVqQh7uWm
-         yLNVsPC7Ug/zWSU0NFIx1IaITggHTj53Iv9iSKvXpRntWmlhG+FMZ9hcXHxYI2rekbCR
-         vWdowY+C8OMnQuilaxHk1USLFDjRwsoFJIqlA/CIBa/lAttkhL2LzSqiJLPgQV0jMNkl
-         zC4A==
+        bh=SZxE86UOpBkEr43S5oO3m/muydq3y/4ppHxIwZHfNzc=;
+        b=GgNHWa+cT2kEiBYXA19Ae8uMHRd3KE95n2GylgeH8T9kQ9IkliJgQ89jYoScu9OhyC
+         Q1wpih23/CtqlEflrpVS17etgry6Wl9D0at8+4EumGQWQs0BsureUSabWPxR0MssIxeN
+         Tym1gryZ0fkOiPb0ZjmXzMycwgyswsvWyVo97cmfb7v8KPUBdOfi8W9MUR2Db6y4qf1j
+         NvE1T+oxixjKkvta/WXBRDQckbBJSysQAONdnpaTwwQ+6Awl4YMOL9ZSBxfVfxGZl1N0
+         f6KuP1lHeJFktTKJ5fCSbpNyLnOP6u1N4783z5UBikyx19An10xgzw2WV21IdSI9L25B
+         hLjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765507544; x=1766112344;
+        d=1e100.net; s=20230601; t=1765507546; x=1766112346;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2wlEL307B3m+aaEYqQkKNwT5MYGrgAWckQlDU+pQY6Q=;
-        b=JKAX4KwX50B5yU5UxgtLcqCJRGK25bSm8QHtU4Hm6iTPqWARM0tp+2eD9fAcMCxJvw
-         ll2Nkg031PUJocgaxXs6W2ypDHoln1l2mK2Ij1MVitpZ1Ngiq5BfR5u1ATWB7sLyGl+d
-         5J2p1CDL4KYhtd8F6aEiB6jbtrdiEOu27zPr1qrsy3+Z/lthKmLrg9Ao1ZXzP1sIqGc5
-         KboXtjDnUJiYIRy72YhpqWAacuwj85stC1QgTF+8NwuJ8xuZy33i8MdVKa8tp2Spb4NL
-         OcsUlYuskJXMtRP+BxDglqnUIajj1YifKCHEUoDzCSi9PFeYdKHSnlnXDyuKJoYIAk4b
-         FtGA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8D5+9sq1cyDtGZDlmwFeEO1YE1BXhCrGdO2FEveBCh4fiE7uTAmgzuznv0MTa8bTq1uL60x/6+e2+YWc8lLM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyoLVGQi+8s9y48WXg6DI1B61BoKpi3MfzaVYTTJAQJh16hwhT4
-	X+h8VG4AP0GVstKGk2H5vNuU8j/HfMvoUgK8g8/lLquPLkBsIB7y3+Ix
-X-Gm-Gg: AY/fxX6Jm43J7Q1QpNpjrHhxMmEGdkbtSsXC7ZDuoCx96kv34FU44Cptq1MOtcCNvj4
-	FXJAz3c7XWH4POgPTpY4AetfXGpwK4HjvL1q7QJBGBV0auknYEec0g8lU64XW/5bjNxaQvEURMu
-	LMyJBbXeNRGcl6tifnbyhlIANTWZ1FAOPOcvqwVFfWojFNbEbro/L9RB+MatJCb75iR9Mo7uAeU
-	1POyeyfhfibRCzD8Lu55fOsgTY9YeN5eua8MquoOb0nGCZmuCYhtM+2duSEAjAcdCvtrMnm+zHj
-	smZihoWbCf+CRzkv26VLYKZAXZaIacMq90sQ3FxlD+FwCZ2SO6rNi7VUhPYL0mfBn9rK6mElSvb
-	9pboHFWSGAqyhYp6ZI2t0bxC/SUE743XXsawSPOTIugAo+NcK+JX6Xx6wnOg0KLTzya2mtiTOkc
-	EMP5v5cstQVJHZ0OCWnihRjzw=
-X-Google-Smtp-Source: AGHT+IG0wdLgjzf9Ktth3/5kZmD0HDcUqwfLcmvB1VHLyGx97sarm2rz4f/F64/HbgrAXqumKQeOKg==
-X-Received: by 2002:a05:6102:945:b0:5db:f615:1821 with SMTP id ada2fe7eead31-5e8276b6fecmr140118137.10.1765507543991;
-        Thu, 11 Dec 2025 18:45:43 -0800 (PST)
+        bh=SZxE86UOpBkEr43S5oO3m/muydq3y/4ppHxIwZHfNzc=;
+        b=a4pXgb+n6pzqlBFUhocTePQfcanreCxi+i3QGEhtPLDDVLz1N6rmi9plf7+9+aBMss
+         lG1OhZlKE055YYG9Pc351cb/6xS+Xn8UJEaMPjOeRQ/UigrB7xvmgwzAVfkh7ZIaBLYJ
+         LIYRhqceTjeQXqi3f4mxxwnLIXqi5SlMe4YiQ0l+5sd24LQYEyoAbqmM3VoVenINoasD
+         zjbZDS4ei5icA0c96xjLggNLEl236ZvFgykQZJS9ZEGEw94SctN7U/XYWYKlZyWklYYI
+         o2oBW6uB0oiMmjUDfb25OWhxOF68JEhN7Ln67SkMY390r5w9Nx9Ls2tlp5mzTVPnyMNJ
+         vVhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXG1ErjoXq3D4ZeFXIdjD5wOUXvmbYlbXyW9r41npNwkv+gI703YJLHY4fwlk7ZLozprF/uKgZcfF3KbWT3tBo=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywtijr7a/4jQLU+46fDjXAwN70P6EIpQrhjKElL2DMZC+jZqRsu
+	MTMugWo5TeGdW/Uih0k7CpZ1jUt49FBkl0+JYu6D6KZm7Z2o2yuyI8C/6xUNCA==
+X-Gm-Gg: AY/fxX6yU9AGSJckF0nsXUV7JYQUGopyXaiY+CFnJVCP0B1lVWNLbdlvS85hmktN3fv
+	2HoK6PMZMLnbOct/nZm4Fl+Ucn9g8Uqq9dZImtNc7UQ1FdmGZXNJH6nO3f8rNHnIiAT7nhW1wPr
+	HbjKX6MAyL0ilabQbiGCO7aG9uB6q+TUaRW/D4kqr+fwu0FdZp29hMf7VmHn8HZ+nXAvTiR4gu/
+	sj7j20rPok4wFm2bOxiNJVnlxIeEKP/ehve/WBpYNzrAf8NQg5uQcTth8362uL02v254AZy3MRx
+	795CF8qvitcHiJVSjcCdD8xCr3MK43gNrIgwSyrG8mr0QGBXZ31FRD7r6+qCZfyosjZdnn8Fdns
+	KCe8Nao6YU+9V1Em+lZbSvMlwzsyhswRVKxBjvSWtszRdE4z/DPMs+ri+IXbC1CqtdKW0tehEUF
+	0zf/4+AKT1A6Oh
+X-Google-Smtp-Source: AGHT+IE6R1SPTPYAVrVVaJYQAbRBZp7N0gNjOqqIWn71FlnxAZHPp5xMi1+R7KzVuAZ/J+ZqU/BtQg==
+X-Received: by 2002:a05:6102:5a9a:b0:5dd:84f1:b51a with SMTP id ada2fe7eead31-5e82788200bmr94910137.43.1765507546232;
+        Thu, 11 Dec 2025 18:45:46 -0800 (PST)
 Received: from [192.168.100.70] ([2800:bf0:82:3d2:875c:6c76:e06b:3095])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e7d0f25ce2sm1693762137.8.2025.12.11.18.45.41
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5e7d0f25ce2sm1693762137.8.2025.12.11.18.45.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 18:45:43 -0800 (PST)
+        Thu, 11 Dec 2025 18:45:45 -0800 (PST)
 From: Kurt Borja <kuurtb@gmail.com>
-Date: Thu, 11 Dec 2025 21:45:23 -0500
-Subject: [PATCH v2 5/7] iio: light: vcnl4000: Use IIO cleanup helpers
+Date: Thu, 11 Dec 2025 21:45:24 -0500
+Subject: [PATCH v2 6/7] iio: health: max30102: Use IIO cleanup helpers
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251211-lock-impr-v2-5-6fb47bdaaf24@gmail.com>
+Message-Id: <20251211-lock-impr-v2-6-6fb47bdaaf24@gmail.com>
 References: <20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.com>
 In-Reply-To: <20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.com>
 To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
@@ -88,118 +88,81 @@ Cc: David Lechner <dlechner@baylibre.com>,
  linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
  Kurt Borja <kuurtb@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3034; i=kuurtb@gmail.com;
- h=from:subject:message-id; bh=q6gZRxmz6cKGnQKSSxqxXmYWJF1PKw60AF3Tc6GXjyU=;
- b=owGbwMvMwCUmluBs8WX+lTTG02pJDJnWjSdTFecdzhNMZ5e0WlEw07Hnq8fE7OMHH9+5uOVkb
- czi+ZMkOkpZGMS4GGTFFFnaExZ9exSV99bvQOh9mDmsTCBDGLg4BWAi9xoZGS4HJzyYUb40KfdQ
- 0MacMHGmjX8yPY2vWaXsTn6bldDZ/Jbhr/Cx/rqAJafilN97XlsRo+Wy3PizUvI+2e3PNbVTz9x
- 05wEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1978; i=kuurtb@gmail.com;
+ h=from:subject:message-id; bh=m4docKzSN6U3IisnQGU0vDNlqcdF+sgdQ/746l+2whQ=;
+ b=owGbwMvMwCUmluBs8WX+lTTG02pJDJnWjSf782TM12mtP8/XLVE3/SujM+vX+E7D3v0PsgoT4
+ 7rSlvN2lLIwiHExyIopsrQnLPr2KCrvrd+B0Pswc1iZQIYwcHEKwEQO8TEyXOz/F91xtu8Zq0IN
+ k7oqW+9J0QJmwWzmaWVZK+Sm75UqYmSYWfog54KZl+KBeV8agr+f2KM/yclxx5tNi3Y3TJomx2f
+ MBQA=
 X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
  fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
 
-Use IIO_DEV_ACQUIRE_DIRECT_MODE() helper to automatically release direct
-mode.
+Use IIO_DEV_GUARD_ANY_MODE() cleanup helper to simplify and drop
+busy-waiting code in max30102_read_raw().
 
 Signed-off-by: Kurt Borja <kuurtb@gmail.com>
 ---
- drivers/iio/light/vcnl4000.c | 49 ++++++++++++++++----------------------------
- 1 file changed, 18 insertions(+), 31 deletions(-)
+ drivers/iio/health/max30102.c | 33 +++++++++------------------------
+ 1 file changed, 9 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/iio/light/vcnl4000.c b/drivers/iio/light/vcnl4000.c
-index 4dbb2294a843..4184104ac8f2 100644
---- a/drivers/iio/light/vcnl4000.c
-+++ b/drivers/iio/light/vcnl4000.c
-@@ -1078,20 +1078,17 @@ static int vcnl4010_read_raw(struct iio_dev *indio_dev,
- 
- 	switch (mask) {
- 	case IIO_CHAN_INFO_RAW:
--	case IIO_CHAN_INFO_SCALE:
--		if (!iio_device_claim_direct(indio_dev))
-+	case IIO_CHAN_INFO_SCALE: {
-+		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-+		if (IIO_DEV_ACQUIRE_ERR(&claim))
- 			return -EBUSY;
- 
- 		/* Protect against event capture. */
--		if (vcnl4010_is_in_periodic_mode(data)) {
--			ret = -EBUSY;
--		} else {
--			ret = vcnl4000_read_raw(indio_dev, chan, val, val2,
--						mask);
--		}
-+		if (vcnl4010_is_in_periodic_mode(data))
-+			return -EBUSY;
- 
--		iio_device_release_direct(indio_dev);
--		return ret;
-+		return vcnl4000_read_raw(indio_dev, chan, val, val2, mask);
-+	}
- 	case IIO_CHAN_INFO_SAMP_FREQ:
- 		switch (chan->type) {
- 		case IIO_PROXIMITY:
-@@ -1148,36 +1145,27 @@ static int vcnl4010_write_raw(struct iio_dev *indio_dev,
- 			      struct iio_chan_spec const *chan,
- 			      int val, int val2, long mask)
+diff --git a/drivers/iio/health/max30102.c b/drivers/iio/health/max30102.c
+index 288c2f37a4a2..94e15598ffe7 100644
+--- a/drivers/iio/health/max30102.c
++++ b/drivers/iio/health/max30102.c
+@@ -467,44 +467,29 @@ static int max30102_read_raw(struct iio_dev *indio_dev,
+ 			     int *val, int *val2, long mask)
  {
--	int ret;
- 	struct vcnl4000_data *data = iio_priv(indio_dev);
- 
--	if (!iio_device_claim_direct(indio_dev))
-+	IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-+	if (IIO_DEV_ACQUIRE_ERR(&claim))
- 		return -EBUSY;
- 
- 	/* Protect against event capture. */
--	if (vcnl4010_is_in_periodic_mode(data)) {
--		ret = -EBUSY;
--		goto end;
--	}
-+	if (vcnl4010_is_in_periodic_mode(data))
-+		return -EBUSY;
+ 	struct max30102_data *data = iio_priv(indio_dev);
+-	int ret = -EINVAL;
++	int ret;
  
  	switch (mask) {
- 	case IIO_CHAN_INFO_SAMP_FREQ:
- 		switch (chan->type) {
- 		case IIO_PROXIMITY:
--			ret = vcnl4010_write_proxy_samp_freq(data, val, val2);
--			goto end;
-+			return vcnl4010_write_proxy_samp_freq(data, val, val2);
- 		default:
--			ret = -EINVAL;
--			goto end;
-+			return -EINVAL;
- 		}
- 	default:
--		ret = -EINVAL;
--		goto end;
+-	case IIO_CHAN_INFO_RAW:
++	case IIO_CHAN_INFO_RAW: {
+ 		/*
+ 		 * Temperature reading can only be acquired when not in
+ 		 * shutdown; leave shutdown briefly when buffer not running
+ 		 */
+-any_mode_retry:
+-		if (!iio_device_claim_buffer_mode(indio_dev)) {
+-			/*
+-			 * This one is a *bit* hacky. If we cannot claim buffer
+-			 * mode, then try direct mode so that we make sure
+-			 * things cannot concurrently change. And we just keep
+-			 * trying until we get one of the modes...
+-			 */
+-			if (!iio_device_claim_direct(indio_dev))
+-				goto any_mode_retry;
++		IIO_DEV_GUARD_ANY_MODE(indio_dev);
+ 
+-			ret = max30102_get_temp(data, val, true);
+-			iio_device_release_direct(indio_dev);
+-		} else {
+-			ret = max30102_get_temp(data, val, false);
+-			iio_device_release_buffer_mode(indio_dev);
+-		}
++		ret = max30102_get_temp(data, val, !iio_buffer_enabled(indio_dev));
+ 		if (ret)
+ 			return ret;
+ 
+-		ret = IIO_VAL_INT;
+-		break;
++		return IIO_VAL_INT;
++	}
+ 	case IIO_CHAN_INFO_SCALE:
+ 		*val = 1000;  /* 62.5 */
+ 		*val2 = 16;
+-		ret = IIO_VAL_FRACTIONAL;
+-		break;
++		return IIO_VAL_FRACTIONAL;
++	default:
 +		return -EINVAL;
  	}
 -
--end:
--	iio_device_release_direct(indio_dev);
 -	return ret;
  }
  
- static int vcnl4010_read_event(struct iio_dev *indio_dev,
-@@ -1438,14 +1426,13 @@ static int vcnl4010_config_threshold_disable(struct vcnl4000_data *data)
- static int vcnl4010_config_threshold(struct iio_dev *indio_dev, bool state)
- {
- 	struct vcnl4000_data *data = iio_priv(indio_dev);
--	int ret;
- 
- 	if (state) {
--		if (!iio_device_claim_direct(indio_dev))
-+		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-+		if (IIO_DEV_ACQUIRE_ERR(&claim))
- 			return -EBUSY;
--		ret = vcnl4010_config_threshold_enable(data);
--		iio_device_release_direct(indio_dev);
--		return ret;
-+
-+		return vcnl4010_config_threshold_enable(data);
- 	} else {
- 		return vcnl4010_config_threshold_disable(data);
- 	}
+ static const struct iio_info max30102_info = {
 
 -- 
 2.52.0

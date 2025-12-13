@@ -1,71 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE8F3002A8
-	for <chrome-platform@lists.linux.dev>; Fri, 12 Dec 2025 18:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDCE2E0930
+	for <chrome-platform@lists.linux.dev>; Sat, 13 Dec 2025 09:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765564036; cv=none; b=UGOuZlARgCZ7kSQ/NiUQpJonXmi/LA9U5ZD0lJ+WIDiAue/smLnG02k7ewY3dTWEifRMMfub/J8A/e41XRzBlSXKcvSMoU90+29KAcLJu0ydfh5lXylWFqBdKDoK92QWc8aCy3VPCFgnrBrZIsrxYpkD4dVE45jTYPsoTGxhPzk=
+	t=1765618850; cv=none; b=tlmF8PfZspndkDuqVRRzwF6RGEaQfwSKXz8+6RjRFr88AIKcKZUxpdQ8DE4cUlPRh4LqYvFi+VatKSplYcpVuiLfnXJoz3PEsZfhMui5kpG2aMHXd1sFzMWTPuqtW1tMJt1qhHhZsbFmlLStm87564VO+/4y3DwjEbc9ZbugKNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765564036; c=relaxed/simple;
-	bh=BnmxK/gHlfgVlrkPliVviBYlifCofWtiW/GWzSlgkfM=;
+	s=arc-20240116; t=1765618850; c=relaxed/simple;
+	bh=qEFKXie5vJrx6a5S+nNUgx0Sj0uAo/+iyw1Pq2VAZqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mKoq96xUdQv4XB3JcivXxHlYUCQmK9CsTqCGmKiQpQIljvMgprMGGV4WS4My9RypPvAe2u7aAZdm30x+4QXC9scYchkAffnDpG/mL1pN2t7A0jhr6Rj1A0SP44fxmFMWmIoxGeDrMImS/vLxuQAL8qNG/E8Ko6hIvhi1jKGaLAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jeu15aaB; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+azSjXMI6rkQFn+xzwmqc9ri2Vvzsb24lr++53sSZxgAmqBRSBneq6gVOvZHtjRjTVY4O2FTDcWSjMSufGTjSVhqAQG2uqmQ9XaG+EB8tI5WECiBuetqkMppHuUhHMB5rnZKUsxJmdLsFyg+i0iamMPyeuaUJ5M8fXAKpcsgFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C1MEE61X; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jeu15aaB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765564035; x=1797100035;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BnmxK/gHlfgVlrkPliVviBYlifCofWtiW/GWzSlgkfM=;
-  b=Jeu15aaBoRMYU/3Hru0Lz7czXjr/lyyiHkSbjbicMz0uQyj3UXCQh1ui
-   H7k1ACFjHLA8gDCmaMoGT1lS1faPQrBWdUvlfwYBEZzEEnU6nXugwYlUm
-   02G0aS8w1VyViYPHIbrkZN4YWK4XT6t/gO7/BiBoQn5wTwGMdYZzY2G18
-   MnEaMoQlqMPuWGNl7D/G69qb+vvfm9VZPeSYLnrIwWpwnvpbL8nDIWJo3
-   Of+z0T3UkvaMWpSxVMsaNY7LPjVIzg+LKB2UY4Fut4NQgkU/rgsJgu4Xz
-   JFoOKhBBCLZgFluE9V+/LdXXHwYRFIa9XYsG3Fe2LO8QBwXukOP9SNasQ
-   w==;
-X-CSE-ConnectionGUID: RMVOEgcDQty0Wj/SbK5CrQ==
-X-CSE-MsgGUID: Ype5OJcKQQKwHkNUJAcm9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="71200585"
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="71200585"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 10:27:14 -0800
-X-CSE-ConnectionGUID: gtWWtGVJRjm5ByqyIT+plw==
-X-CSE-MsgGUID: oVbz2Yc+SPqhIF8D9n1F/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="197420834"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.181])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 10:27:10 -0800
-Date: Fri, 12 Dec 2025 20:27:07 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Kurt Borja <kuurtb@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Shrikant Raskar <raskar.shree97@gmail.com>,
-	Per-Daniel Olsson <perdaniel.olsson@axis.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2 3/7] iio: core: Match iio_device_claim_*() semantics
- and implementation
-Message-ID: <aTxeexretB6w_01B@smile.fi.intel.com>
-References: <20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.com>
- <20251211-lock-impr-v2-3-6fb47bdaaf24@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C1MEE61X"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-34a2acb736eso1591781a91.1
+        for <chrome-platform@lists.linux.dev>; Sat, 13 Dec 2025 01:40:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765618848; x=1766223648; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GlXqF9nhSvIgkdEsUbMZ/tQ2h8iuKeKknEMLOxVfXsw=;
+        b=C1MEE61X+0hJLGFh8Zj+yrOY8Qq7ePIiOWsy5GrKbWazrnyVWGv1dzGztz54plQRKQ
+         vNtk6rGkZl3ONAURR5+cowKKrTmcco+t98z2cIM8wcnWmR5HMx7hojSeGKLtZUwxj4XP
+         PwGCf5Nta4TooOZL8JNV81sMNZby7/sFncqL2t1tMYpaQHmmuBaoBaJ0pbHCtzwanDh3
+         XF4VAe8z037VXtpBUo6TYybKIBE6MOwIIa3pabSQ/CJxvxoCLbb6hkrG+b+HeYqM0UYk
+         lnLc4XC+cqsoH/2X3FbO/BoZPmkxqH3ANxzLpsQuQZOPBPiRKhYhLLscbdZHY+ruoYqG
+         Qj4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765618848; x=1766223648;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GlXqF9nhSvIgkdEsUbMZ/tQ2h8iuKeKknEMLOxVfXsw=;
+        b=G33YmNRey2P6z++Ut/WUZLnsMJlLZlKphtEGKPocFQdfbEzQ+1S1aPjHAo6KIt2aUd
+         ckue5nhbkFl9FQLTHJq+0vE25dGQjvr/6SguSH7tG+gRRRv6w1b7OXKN1yxnzSTIjLlV
+         o/TL+Dg2Ie2YwTi6qbIqSwfaFpM/NDXSSM3A8Aqgh7DpH+AUfp9i/rQL/4KdCuDwl/Wd
+         yP5uklMkTFtdXf67wuT6VPSa2HedcqK0MBwgTbO9C/o6VPaWkrLhiip/RgC2OjTG8/Gv
+         Piymr4WQ31kt/NOeWR0xVykRB/zQ3ip6J1aBguiQrS1wI5ZxrI9BzPl+lB3y/wtMdIz6
+         kg5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWDxvWV5BI+Dslso17kDGXHyc8LtenuBl79Nq1C0FeobBQ8wMEIv5LIP1XErfVTbGKY7KRrrZcWP7uRp+OX0xY=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywcki4VwMNyFzGwGiGmefy78q3d0De9nsbazDyDXOT04EftTcJV
+	5Bn6UWi7E7t8T7d1JHxb6J0vTBWfpugyrO3r/x6NwpWKJXDSW4GzX9R0
+X-Gm-Gg: AY/fxX4dzOMwghKECHICvoEpsqzGYUaMpJVh4OSDEBSCf+ut+dLESXWpFXJEbdACcWC
+	/QfWmB/Xc9RPhh4YPTpdeJmK8boWVUGope44i+S05cF2xcHobEG7prAwXEpdwps/7XSpw4inYBn
+	aNW6armQYPypwDizQECvAMiVZpCt2KEP0QtjMWO5pyivaHXrM6Gid9H9GbahziPdGeyDoVerAxd
+	WZMt2swHEvhTDkXWAC/oz9uH4g6TqU+jZ8yd0t7vOrN+w54kGZ1meQzRw6cJDlkYPSljrEFF1PA
+	dUOlLS50G/D1SpTL2kd8fpMWJdccWVruqFZ45OuPJNFph9kUDXkj8DgwWjC6dD0vpdhM1qFSBZH
+	cMUAaNPQXSeBNjP1BxY1HhR2wtHO0aeFSeiGfR0RPr19JOISML69bqjLkAOkyG1k+lwrbsR/jyN
+	KU0iLyndt+94KAS2H98Oyqwu0MIPnYrk1xCs5IqZktMWwTih/xYFHE
+X-Google-Smtp-Source: AGHT+IE3dHo7tKyXquVMXM8M5LvDb/NQv3IV2NNUcYlrcgrWD7s59hZ5Y0Qv8n3Nsfl4CN4sKLfwbw==
+X-Received: by 2002:a05:7022:5f06:b0:11b:9386:a387 with SMTP id a92af1059eb24-11f34c593e7mr3132632c88.42.1765618847882;
+        Sat, 13 Dec 2025 01:40:47 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:3478:9150:d4be:149f])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2b51b2sm23455386c88.8.2025.12.13.01.40.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Dec 2025 01:40:47 -0800 (PST)
+Date: Sat, 13 Dec 2025 01:40:45 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.orga
+Subject: Re: [PATCH v1 1/3] Input: cros_ec_keyb: clarify key event error
+ message
+Message-ID: <53iuqpw5qvdan2s5hegbeqdw6oyk6eygdied5j7gqbatmmdd3u@gpmn23s65rci>
+References: <20251209154706.529784-1-fabiobaltieri@chromium.org>
+ <20251209154706.529784-2-fabiobaltieri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -74,40 +79,16 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251211-lock-impr-v2-3-6fb47bdaaf24@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251209154706.529784-2-fabiobaltieri@chromium.org>
 
-On Thu, Dec 11, 2025 at 09:45:21PM -0500, Kurt Borja wrote:
-> Implement iio_device_claim_buffer_mode() fully inline with the use of
-> __iio_dev_mode_lock(), which takes care of sparse annotations.
+On Tue, Dec 09, 2025 at 03:47:04PM +0000, Fabio Baltieri wrote:
+> Reword one of the key event error messages to clarify its meaning: it's
+> not necessarily an incomplete message, more of a mismatch length.
+> Clarify that and log the expected and received length too.
 > 
-> To completely match iio_device_claim_direct() semantics, we need to
-> also change iio_device_claim_buffer_mode() return semantics to usual
-> true/false conditional lock semantics.
+> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
 
-...
-
-> -		if (iio_device_claim_buffer_mode(indio_dev)) {
-> +		if (!iio_device_claim_buffer_mode(indio_dev)) {
->  			/*
->  			 * Replacing -EBUSY or other error code
->  			 * returned by iio_device_claim_buffer_mode()
-
-In one of the previous files you removed a comment, and here it's still present.
-
-...
-
-> -		if (iio_device_claim_buffer_mode(indio_dev)) {
-> +		if (!iio_device_claim_buffer_mode(indio_dev)) {
->  			/*
->  			 * This one is a *bit* hacky. If we cannot claim buffer
->  			 * mode, then try direct mode so that we make sure
-
-Also check if this comment needs to be amended.
+Applied, thank you.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Dmitry

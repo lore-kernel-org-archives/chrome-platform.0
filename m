@@ -1,76 +1,77 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDCE2E0930
-	for <chrome-platform@lists.linux.dev>; Sat, 13 Dec 2025 09:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30722D77E6
+	for <chrome-platform@lists.linux.dev>; Mon, 15 Dec 2025 13:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765618850; cv=none; b=tlmF8PfZspndkDuqVRRzwF6RGEaQfwSKXz8+6RjRFr88AIKcKZUxpdQ8DE4cUlPRh4LqYvFi+VatKSplYcpVuiLfnXJoz3PEsZfhMui5kpG2aMHXd1sFzMWTPuqtW1tMJt1qhHhZsbFmlLStm87564VO+/4y3DwjEbc9ZbugKNI=
+	t=1765804170; cv=none; b=bXQKOBGvBcDDFtiLReZp01IiwOm1511UlnmVG+/5mtSsgSoYFzLG2iSS/wbL++WwMOQbIaAelRx3fnRrLx+ToZh5oX4cVqUEa8LTv2/6hbTl5K8ea0znfF1prpZQcuwEUb+5gayV7qMH3T7ehGOzghvOoY4kC8LAa9Nwi5SLvQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765618850; c=relaxed/simple;
-	bh=qEFKXie5vJrx6a5S+nNUgx0Sj0uAo/+iyw1Pq2VAZqc=;
+	s=arc-20240116; t=1765804170; c=relaxed/simple;
+	bh=htT2w6l3gT1BhEWxPoOuIIkxt113epopi+xlKxAqEYk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+azSjXMI6rkQFn+xzwmqc9ri2Vvzsb24lr++53sSZxgAmqBRSBneq6gVOvZHtjRjTVY4O2FTDcWSjMSufGTjSVhqAQG2uqmQ9XaG+EB8tI5WECiBuetqkMppHuUhHMB5rnZKUsxJmdLsFyg+i0iamMPyeuaUJ5M8fXAKpcsgFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C1MEE61X; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PWj9Yu8pS6r9Zn9DiOpcu0/s6TC/Pa/PiGvHTgCDrHMgSDfx+LwYGnBnKo1gQxbTrBrorNy/BAmRMTgByilsXpQTblZky665OtfjDrPaXAP8snka2zrItOSqGlCleWqWCHLLm2Zay2d0hviU8Ir24P3hNFHY0VXW5Py/bR3KDi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Lns5CA7a; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C1MEE61X"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-34a2acb736eso1591781a91.1
-        for <chrome-platform@lists.linux.dev>; Sat, 13 Dec 2025 01:40:48 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Lns5CA7a"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-430f2ee2f00so760686f8f.3
+        for <chrome-platform@lists.linux.dev>; Mon, 15 Dec 2025 05:09:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765618848; x=1766223648; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1765804167; x=1766408967; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GlXqF9nhSvIgkdEsUbMZ/tQ2h8iuKeKknEMLOxVfXsw=;
-        b=C1MEE61X+0hJLGFh8Zj+yrOY8Qq7ePIiOWsy5GrKbWazrnyVWGv1dzGztz54plQRKQ
-         vNtk6rGkZl3ONAURR5+cowKKrTmcco+t98z2cIM8wcnWmR5HMx7hojSeGKLtZUwxj4XP
-         PwGCf5Nta4TooOZL8JNV81sMNZby7/sFncqL2t1tMYpaQHmmuBaoBaJ0pbHCtzwanDh3
-         XF4VAe8z037VXtpBUo6TYybKIBE6MOwIIa3pabSQ/CJxvxoCLbb6hkrG+b+HeYqM0UYk
-         lnLc4XC+cqsoH/2X3FbO/BoZPmkxqH3ANxzLpsQuQZOPBPiRKhYhLLscbdZHY+ruoYqG
-         Qj4w==
+        bh=M4qyctUX7vU1W8pSxvEcJ1tR+43BtQPWPVTKPDH9E2M=;
+        b=Lns5CA7aAidnyrHiqLILantcIOmc4f3aMWatpCN+Mi7gsogvBOqJKzTh+9pfTW1jbw
+         tlCkkjzNRHSMezUJl1rZY9baPKYD6ueIyjEK50FqKaF+d7Ho02TyqXvo2G3UYHIKlk20
+         u3//CKTT6puYfnka0TAvHk4MRYnZtmJfe8jOM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765618848; x=1766223648;
+        d=1e100.net; s=20230601; t=1765804167; x=1766408967;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GlXqF9nhSvIgkdEsUbMZ/tQ2h8iuKeKknEMLOxVfXsw=;
-        b=G33YmNRey2P6z++Ut/WUZLnsMJlLZlKphtEGKPocFQdfbEzQ+1S1aPjHAo6KIt2aUd
-         ckue5nhbkFl9FQLTHJq+0vE25dGQjvr/6SguSH7tG+gRRRv6w1b7OXKN1yxnzSTIjLlV
-         o/TL+Dg2Ie2YwTi6qbIqSwfaFpM/NDXSSM3A8Aqgh7DpH+AUfp9i/rQL/4KdCuDwl/Wd
-         yP5uklMkTFtdXf67wuT6VPSa2HedcqK0MBwgTbO9C/o6VPaWkrLhiip/RgC2OjTG8/Gv
-         Piymr4WQ31kt/NOeWR0xVykRB/zQ3ip6J1aBguiQrS1wI5ZxrI9BzPl+lB3y/wtMdIz6
-         kg5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWDxvWV5BI+Dslso17kDGXHyc8LtenuBl79Nq1C0FeobBQ8wMEIv5LIP1XErfVTbGKY7KRrrZcWP7uRp+OX0xY=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywcki4VwMNyFzGwGiGmefy78q3d0De9nsbazDyDXOT04EftTcJV
-	5Bn6UWi7E7t8T7d1JHxb6J0vTBWfpugyrO3r/x6NwpWKJXDSW4GzX9R0
-X-Gm-Gg: AY/fxX4dzOMwghKECHICvoEpsqzGYUaMpJVh4OSDEBSCf+ut+dLESXWpFXJEbdACcWC
-	/QfWmB/Xc9RPhh4YPTpdeJmK8boWVUGope44i+S05cF2xcHobEG7prAwXEpdwps/7XSpw4inYBn
-	aNW6armQYPypwDizQECvAMiVZpCt2KEP0QtjMWO5pyivaHXrM6Gid9H9GbahziPdGeyDoVerAxd
-	WZMt2swHEvhTDkXWAC/oz9uH4g6TqU+jZ8yd0t7vOrN+w54kGZ1meQzRw6cJDlkYPSljrEFF1PA
-	dUOlLS50G/D1SpTL2kd8fpMWJdccWVruqFZ45OuPJNFph9kUDXkj8DgwWjC6dD0vpdhM1qFSBZH
-	cMUAaNPQXSeBNjP1BxY1HhR2wtHO0aeFSeiGfR0RPr19JOISML69bqjLkAOkyG1k+lwrbsR/jyN
-	KU0iLyndt+94KAS2H98Oyqwu0MIPnYrk1xCs5IqZktMWwTih/xYFHE
-X-Google-Smtp-Source: AGHT+IE3dHo7tKyXquVMXM8M5LvDb/NQv3IV2NNUcYlrcgrWD7s59hZ5Y0Qv8n3Nsfl4CN4sKLfwbw==
-X-Received: by 2002:a05:7022:5f06:b0:11b:9386:a387 with SMTP id a92af1059eb24-11f34c593e7mr3132632c88.42.1765618847882;
-        Sat, 13 Dec 2025 01:40:47 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:3478:9150:d4be:149f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2b51b2sm23455386c88.8.2025.12.13.01.40.47
+        bh=M4qyctUX7vU1W8pSxvEcJ1tR+43BtQPWPVTKPDH9E2M=;
+        b=xUUuv+VIBAIkuDZg7qHwA0mwdq/wTq1giZ8+BBQpeAFv0NJIgaOCpICVBA1nQwCb/U
+         aFzTTuryeMHMUq03muLAkwQy6MiJB17pX9pVR4kjxUlj+9LVx6ymXHbw/8y8GwiKymgr
+         GioIxgF1Jbsg+jxQS0K4r+X5EC5KR3JsXNfGjv0JbCV1l8+yF6j7bFvCNK3DyafIJs6T
+         Cy3xgoVr6RK2/u+SkIqaYEYPHAoN6CJmZbtithxDTdUm5OYVi58H94EHnAIaGv1ME5ru
+         6yzyKKV7D5B4oJprPjyOrIMzKrWdUR7qJ/lKJXqzOof6LiqV4P3kWEYGAxdcxdQfQleh
+         Rm+g==
+X-Forwarded-Encrypted: i=1; AJvYcCV57Zhc6kERAw8M5rOR0oAJUg6jFEtw421B8vjxa/sC8FNOoC+73FziLlNCkC0IPUmx2KsW4YdqMsEoVwT3zI8=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz5T4FCktgESwdJk1i+NaNgLceRc7xztoq9NuATZzjinlwjqJZM
+	qJznn9U37Gzar8iQ3+D/31wuvN61Mwq8lGtXqJdQC3L7E/Nw3PGl0rRCr0EynC6p5g==
+X-Gm-Gg: AY/fxX4mYtbOeQqeF7XtF5dUugUcB8Tk+ytt8AwAUBsu8fqcNZwYjUUJCIV6i0L/z+7
+	/EffFFgfYKqPIKNMuQMLb7t+KMX8AMNP7c4IiCF3wSbPUZiHjJl74gbn53fIQnfSgbmYjRyvxjW
+	RTSixYqDgSoqaJ6gTse/Hs0HTxOMBIu53Q9Q9bqRlNzUF9OqRTKdSGH7uU1OwsFueVY8DiYOmBO
+	v5eRYWKKT0ZFuUVDoIbaDg1K1KrSE9Vf2wJIuWCecdCP6QlSAOYApF7BodHv4r2Vy3DKtrdVdX0
+	ksNx9TzmEd2XIQogi3xskGtgzqEu7wIum1snnOIG1iXvxZmo/F7BTQ83X5E/xuBjBAcPz81O9JH
+	7lP0a13PgJs3EJvWZG4tBY8d1Hzw8EsIIIw+2UkxFATLw4Z0ERsXVmkBtgx+y/15yYzeyLx6MRw
+	Cj4HkgCLFMG5y75nMARQ==
+X-Google-Smtp-Source: AGHT+IHxUjIM6pOJsp7j/o99Vq4T5LCbQu9SoxxJURH/po4ld/NsNTEpHIlESpdoGRU4OR27kBc92g==
+X-Received: by 2002:a05:6000:4383:b0:430:f182:788f with SMTP id ffacd0b85a97d-430f1827ae9mr8904843f8f.21.1765804167048;
+        Mon, 15 Dec 2025 05:09:27 -0800 (PST)
+Received: from google.com ([37.228.206.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-430f6e78a7csm11582854f8f.34.2025.12.15.05.09.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 01:40:47 -0800 (PST)
-Date: Sat, 13 Dec 2025 01:40:45 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Fabio Baltieri <fabiobaltieri@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.orga
-Subject: Re: [PATCH v1 1/3] Input: cros_ec_keyb: clarify key event error
- message
-Message-ID: <53iuqpw5qvdan2s5hegbeqdw6oyk6eygdied5j7gqbatmmdd3u@gpmn23s65rci>
+        Mon, 15 Dec 2025 05:09:26 -0800 (PST)
+Date: Mon, 15 Dec 2025 13:09:24 +0000
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Simon Glass <sjg@chromium.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/3] Input: cros_ec_keyb: add function key support
+Message-ID: <aUAIhNMTPQVl3b4W@google.com>
 References: <20251209154706.529784-1-fabiobaltieri@chromium.org>
- <20251209154706.529784-2-fabiobaltieri@chromium.org>
+ <20251209154706.529784-3-fabiobaltieri@chromium.org>
+ <CAFLszThUU4hfb4vY4mmGHQadRKThG3e=9cAKRy_ampKwA_XNcA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -79,16 +80,159 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251209154706.529784-2-fabiobaltieri@chromium.org>
+In-Reply-To: <CAFLszThUU4hfb4vY4mmGHQadRKThG3e=9cAKRy_ampKwA_XNcA@mail.gmail.com>
 
-On Tue, Dec 09, 2025 at 03:47:04PM +0000, Fabio Baltieri wrote:
-> Reword one of the key event error messages to clarify its meaning: it's
-> not necessarily an incomplete message, more of a mismatch length.
-> Clarify that and log the expected and received length too.
+Hey Simon,
+
+On Thu, Dec 11, 2025 at 06:29:01AM -0700, Simon Glass wrote:
+> > @@ -44,6 +52,13 @@
+> >   * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
+> >   * @notifier: interrupt event notifier for transport devices
+> >   * @vdata: vivaldi function row data
+> > + * @fn_key: coordinate of the function key
+> > + * @fn_keymap: array of coordinate and codes for the function keys
+> > + * @fn_keymap_len: number of entries in the fn_keymap array
+> > + * @fn_key_status: active function keys bitmap
+> > + * @normal_key_status: active normal keys bitmap
+> > + * @fn_key_pressed: tracks the function key status
+> > + * @fn_key_triggered: tracks where any function key fired
+> >   */
+> >  struct cros_ec_keyb {
+> >         unsigned int rows;
+> > @@ -61,6 +76,14 @@ struct cros_ec_keyb {
+> >         struct notifier_block notifier;
+> >
+> >         struct vivaldi_data vdata;
+> > +
+> > +       uint32_t fn_key;
 > 
-> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+> Normally we use u32/u8 these days
 
-Applied, thank you.
+Okay, I did notice the file was a bit of a mix, I'll change them in v2.
+
+> 
+> > +       uint32_t *fn_keymap;
+> > +       int fn_keymap_len;
+> > +       uint32_t fn_key_status;
+> > +       uint8_t normal_key_status[CROS_EC_KEYBOARD_COLS_MAX];
+> > +       bool fn_key_pressed;
+> > +       bool fn_key_triggered;
+> >  };
+> >
+> >  /**
+> > @@ -166,16 +189,108 @@ static bool cros_ec_keyb_has_ghosting(struct cros_ec_keyb *ckdev, uint8_t *buf)
+> >         return false;
+> >  }
+> >
+> > +static bool cros_ec_key_is(int row, int col, uint32_t key)
+> > +{
+> > +       if (row == KEY_ROW(key) && col == KEY_COL(key))
+> > +               return true;
+> > +
+> > +       return false;
+> > +}
+> > +
+> > +static void cros_ec_keyb_process_one(struct cros_ec_keyb *ckdev,
+> > +                                    int row, int col, bool state)
+> > +{
+> > +       struct input_dev *idev = ckdev->idev;
+> > +       const unsigned short *keycodes = idev->keycode;
+> > +       int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
+> > +       unsigned int code = keycodes[pos];
+> > +
+> > +       dev_dbg(ckdev->dev, "changed: [r%d c%d]: byte %02x\n", row, col, state);
+> > +
+> > +       if (ckdev->fn_keymap) {
+> > +               if (cros_ec_key_is(row, col, ckdev->fn_key)) {
+> > +                       ckdev->fn_key_pressed = state;
+> > +
+> > +                       if (state) {
+> > +                               ckdev->fn_key_triggered = false;
+> > +                       } else if (!ckdev->fn_key_triggered) {
+> > +                               /*
+> > +                                * Send the original code if nothing else has
+> > +                                * been pressed together with Fn.
+> > +                                */
+> > +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
+> > +                               input_report_key(idev, code, true);
+> > +                               input_sync(ckdev->idev);
+> 
+> What is this function? I might be missing a patch?
+
+input_sync? it sends an EV_SYN, been there from the start, though I
+noticed I miss one two lines below, was relying on the rest of the
+function to send it but I changed the logic at some point and broke that
+path, will fix that.
+
+> 
+> > +
+> > +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
+> > +                               input_report_key(idev, code, false);
+> > +                       }
+> > +
+> > +                       return;
+> > +               }
+> > +
+> > +               if (!state) {
+> > +                       /* Key release, may need to release the Fn code */
+> > +                       for (int i = 0; i < ckdev->fn_keymap_len; i++) {
+> > +                               if (!cros_ec_key_is(row, col,
+> > +                                                   ckdev->fn_keymap[i]))
+> > +                                       continue;
+> > +
+> > +                               if ((ckdev->fn_key_status & BIT(i)) == 0)
+> > +                                       continue;
+> > +
+> > +                               code = KEY_VAL(ckdev->fn_keymap[i]);
+> > +                               ckdev->fn_key_status &= ~BIT(i);
+> > +
+> > +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
+> > +                               input_report_key(idev, code, state);
+> > +
+> > +                               return;
+> > +                       }
+> > +
+> > +                       if ((ckdev->normal_key_status[col] & BIT(row)) == 0)
+> > +                               /* Discard, key press code was not sent */
+> > +                               return;
+> > +               } else if (ckdev->fn_key_pressed) {
+> > +                       /* Key press while holding Fn */
+> > +                       ckdev->fn_key_triggered = true;
+> > +
+> > +                       for (int i = 0; i < ckdev->fn_keymap_len; i++) {
+> > +                               if (!cros_ec_key_is(row, col,
+> > +                                                   ckdev->fn_keymap[i]))
+> > +                                       continue;
+> > +
+> > +                               code = KEY_VAL(ckdev->fn_keymap[i]);
+> > +                               ckdev->fn_key_status |= BIT(i);
+> > +
+> > +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
+> > +                               input_report_key(idev, code, state);
+> > +
+> > +                               return;
+> > +                       }
+> > +
+> > +                       /* Do not emit a code if the key is not mapped */
+> > +                       return;
+> > +               }
+> > +       }
+> 
+> I think this function could do with splitting a bit
+
+Yeah, I don't love it either but there's a lot of logic intertwined in
+there, tried to split it myself and ended up breaking stuff, the logic
+for the fn key itsel though can go that's a good 16 lines, I'll start
+with that, send a v2 and then go from there.
+
+> Can the sandbox driver support this too?
+
+Not sure what you are referring to, can you give me a pointer?
+
+Hey thanks for the review, good to hear from you. :-)
+
+Cheers,
+Fabio
 
 -- 
-Dmitry
+Fabio Baltieri

@@ -1,57 +1,141 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6558340A4A
-	for <chrome-platform@lists.linux.dev>; Tue, 16 Dec 2025 12:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAC630DD13
+	for <chrome-platform@lists.linux.dev>; Tue, 16 Dec 2025 14:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765889434; cv=none; b=DANI2+YeTXidV5pFiuZc4iPkucfriIrMjbpAk2Z21EFMc+0wbQjwBFqbd0slC/P/4m1XiUMZ3a575em7pK9fGFnGkTHEwIjVhXyXONyyxgukqSSJpGQPXvEXHoZOPmzdWJALsUfMdbsi/mppjWogtvj0tqBZOv5Ph4GEKdJFO+w=
+	t=1765897073; cv=none; b=uCaHTqjtxw4N8RsEc1H4ikiGMUR5rGnwfNY6FVFEFGjU2OIvbx8r71v2e4KF9xO9gl0WObgUlXzhwvcBDgPSIK5iJWO7a043mWiQ7ZeALMfeq8qED3kMSzvhpbJ+Dzfry1LfdGUC6i4+E26aLzS6sx/2MxbMVFK/1rB31PUQoQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765889434; c=relaxed/simple;
-	bh=m/J/nUS2/6k0e8ixn+1Yvy1A1GNbKIrYYTkDriBeNCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FLR8bZ4LhxvbS1GFunULDFCKbS+YQdNtzbWbs8syV2oDO0K9sVXs45rtx8CQxNKttxOjP5Qco2kxZYsGXldxK1NvW5cJDhKIAZppL6Dwbx5dFfSI+QikP367L5FnfdxMiXaHSbK36hMv8X3/6XMdwQRzWPyTvVLiPV37kxlxDa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=GPLy1Maw; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1765897073; c=relaxed/simple;
+	bh=2wMthbHVjjP+gIScZhyEdoOnajehfZ/046O1h3WJBQs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GV6OsF/bCNyy+RBco/mKcOUppTZfwJVMX43caSfb6k4SeGjiXo0cB+ktZzEUhBbEm9B8xHM9z8uUjzZHXBMohtObQ+/baZfd9F6XhxAvdhxaQ/HeCHah2E4cR0toLCT0cXX5sXiM6xEsVxqbZ6Nu+HdBVtWbqbQbKK0vGiukVi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YwcXY9EG; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="GPLy1Maw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1765889424;
-	bh=m/J/nUS2/6k0e8ixn+1Yvy1A1GNbKIrYYTkDriBeNCE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GPLy1MawfPTbvM90jC+mVy+62K5qHW7kcFBjDDbt8fJS6Z+fx9vExg6DiZhc/Vhys
-	 WZQTGou2B752Pxvqxbx1hzMwFKWb8CSKxS3qFn55gr/cVL886LAo94YYNsCP9fTfVR
-	 gSgi2EbZivzN5OfMw4NOjLTV0NLrBtDErYnY2UBc=
-Date: Tue, 16 Dec 2025 13:50:19 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: stable@vger.kernel.org
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [STABLE BACKPORT] leds: leds-cros_ec: Skip LEDs without color
- components
-Message-ID: <6b4ad836-7c7e-471d-a491-b0e8e68673b5@t-8ch.de>
-References: <20251028-cros_ec-leds-no-colors-v1-1-ebe13a02022a@weissschuh.net>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YwcXY9EG"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a137692691so11772265ad.0
+        for <chrome-platform@lists.linux.dev>; Tue, 16 Dec 2025 06:57:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1765897071; x=1766501871; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UJMwXlx2Rjl+EioxGE3frGq2agjzpjGGNIFFQoMj4s8=;
+        b=YwcXY9EGz09Kw8sJV5TyjTj/Kmp5vB/f/0JEbDDHVtqRdiPtmxcO2uoJaIwt63u5IF
+         v41vdjbF53ve9jsQnZlCwyljn5ksZQF3owJk523YQNGQoVCxFipHzcxajH+Rt3dFUchh
+         8vCKm+gTLugR+tZidMk0zpXEQdkRe6jwH6DYA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765897071; x=1766501871;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UJMwXlx2Rjl+EioxGE3frGq2agjzpjGGNIFFQoMj4s8=;
+        b=UmJqjDpugO25u7lZf0K250+56rJtldbPeob7gnQorNVQF3qiFvBT9xEkxfsvRto6oB
+         wI5TGqqY82Om70sX/XMScKE4xd/tHtMK9Bhy9eMIsEqLfW+95GokFo88s1fX0TvrP0o2
+         YJXtwjdxZUelZME6wmAa4q0Fk2LWSFAAj4J8NzE09Lj8PW581ksJuuM6DlsAdKN0i9On
+         apIIU7bnDvV8RZ+5KiZ9nS/s6DAN4Ncjt6tWFouOwSiq5AmtwC0l/6/0+jy1xSeiEayv
+         5eXSWbhFtZPOR0+Ml2gOJJlUISqiT2KNBDhap/DSng9Hg9XW1gTB80tU2GawA3NU6Ox7
+         a2nQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVt2gaz8bNaOmnD/0jb+i1Kj7jBsIEIiSZ1KIMflkDyDUCypPy4Rik25Oe8HlBbRv5ZvMOJzcPhLfrduR06sN8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzlC9ZmBioAbIpyTMPkO/Fa1ru6BEhesRiBHaUESDUadrnK4di
+	1kUCV/FEgIuhBow/L7nFSqPki/af5BDCPR2KJBhIW8BLuauESOADLs8K3qF8PsRaqAX2tnuc8op
+	3C+vVI/olg/UZIl38BoZQ/nrDI2dww5n83CkK6u8P
+X-Gm-Gg: AY/fxX7BufylhbqKC/f1r5Pys+RAC/baiDowr3c9LlZNhhfj6SRO8XAAguDfk1bRDkL
+	wVwiYJ4CelBKb4TrQXv5q4wVPpyY+1HbWruJSLO1YnISCNSKwS6oowa8DCrzwSd6gd2k8FZHpW1
+	z6HdhtcfPMB2eoSrIOt7Zq0VuCvCUAq3dvnmmu9UjOBk0iaV3w/OXpGe5kuf58UVIpoAPpSNB6P
+	3glXH5YjsQVWvcDpSN2U49PVtY4Tz6qDbY9nvVzKJvbx67zq2ig7nypHyAewwrcq0iSgO4EWG+j
+	r32Ph0JQ0FLAkMiPYFgCqGGped2Gv7o=
+X-Google-Smtp-Source: AGHT+IFq/YJLo2S94WSmkV3peCfI5q+2HJAgkoWlsWR59YkyvNZbaVFa1+jxfVtOJWIj3uj/WxaOViW9ql8LtSIDXIs=
+X-Received: by 2002:a17:902:f686:b0:2a0:b3d5:5c3b with SMTP id
+ d9443c01a7336-2a0b3d55dbcmr110163575ad.29.1765897071499; Tue, 16 Dec 2025
+ 06:57:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251028-cros_ec-leds-no-colors-v1-1-ebe13a02022a@weissschuh.net>
+References: <20251201122604.1268071-1-akuchynski@chromium.org>
+ <aTrJwA7Y4fWiTMzB@kuha> <aTrTvA8Srak1mNGS@kuha>
+In-Reply-To: <aTrTvA8Srak1mNGS@kuha>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Tue, 16 Dec 2025 15:57:40 +0100
+X-Gm-Features: AQt7F2qeZ_WfsLUra7491GkxZMYka8CwuiO4xGxfSOYVSZ4rrkAarfhEbx97JRI
+Message-ID: <CAMMMRMdwX8wKJz6OEvosVXFH2npr+7pd0pdq3eY9r-Pbr3tjMw@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/8] USB Type-C alternate mode selection
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
+	Abel Vesa <abel.vesa@linaro.org>, Pooja Katiyar <pooja.katiyar@intel.com>, 
+	Pavan Holla <pholla@chromium.org>, Madhu M <madhu.m@intel.com>, 
+	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dear stable team,
+On Thu, Dec 11, 2025 at 3:23=E2=80=AFPM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> Thu, Dec 11, 2025 at 03:40:24PM +0200, Heikki Krogerus kirjoitti:
+> > Without going into the code review yet, I'm okay with this in general,
+> > except with the artificial SID for the USB4. I still don't understand
+> > why do you guys think we should use that instead of an USB4 specific
+> > device type?
+> >
+> > I think somebody said earlier that the user space can't see the device
+> > type of the alt modes? If that's really the case, then I think there
+> > is some bigger issue here. Are you really sure that if you check the
+> > device type of an alternate mode for example with udevadm, it does not
+> > say DEVTYPE=3Dtypec_alternate_mode ?
+> >
+> >         % udevadm info -q property --property=3DDEVTYPE /sys/bus/typec/=
+devices/port0-partner.0
+> >         DEVTYPE=3Dtypec_alternate_mode
+>
+> Or just use grep :)
+>
+>         % grep DEVTYPE /sys/bus/typec/devices/port0-partner.0/uevent
+>         DEVTYPE=3Dtypec_alternate_mode
+>
+> So, if that really does not work, then there is a bug somewhere that
+> we obviously need to fix.
+>
+> Please note that the port altmodes are now also part of the bus.
+>
+> Br,
+>
+> --
+> heikki
 
-please backport the following commit from Linus' tree to the relevant
-stable trees.
+Thank you for the review, Heikki.
 
-	4dbf066d965c ("leds: leds-cros_ec: Skip LEDs without color components")
+The USB4 SID is utilized for distinguishing between USB4 and alternate
+modes internally and is not exposed to user-space. This represents internal
+implementation detail, for example the boolean variable `is_alternate`
+could serve the same purpose as the SID.
+This patch series introduces no new sysfs entries; the only new attribute,
+`priority`, was introduced in the mode priority series, available at
+https://lore.kernel.org/all/20251124124639.1101335-1-akuchynski@chromium.or=
+g/
 
-It fixes a probing issue affecting users as explained in the commit.
+It is possible to use already existing `usb_capabily` and `usb_mode`
+attributes to manage USB4 mode, allowing verification of USB4 support on
+both the port and the partner. The activation of USB4 is accomplished
+through the implementation of the `enter_usb_mode` typec operation.
 
+I would like your opinion on whether using a USB4 device type would be a
+better approach.
 
-Regards,
-Thomas
+Please note that patches 6 and 7 are not part of the mode selection series.
+They are not yet complete and are provided only to demonstrate how the
+entire feature should work.
+
+I confirm there is no issue with the DEVTYPE. Thank you.
+
+Thanks,
+Andrei

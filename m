@@ -1,141 +1,181 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAC630DD13
-	for <chrome-platform@lists.linux.dev>; Tue, 16 Dec 2025 14:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609AA238178
+	for <chrome-platform@lists.linux.dev>; Wed, 17 Dec 2025 18:05:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765897073; cv=none; b=uCaHTqjtxw4N8RsEc1H4ikiGMUR5rGnwfNY6FVFEFGjU2OIvbx8r71v2e4KF9xO9gl0WObgUlXzhwvcBDgPSIK5iJWO7a043mWiQ7ZeALMfeq8qED3kMSzvhpbJ+Dzfry1LfdGUC6i4+E26aLzS6sx/2MxbMVFK/1rB31PUQoQY=
+	t=1765994751; cv=none; b=LQzD47Ux81D7B/4D9zCkZnLHixXKPZXlezG0lySaSnNEQqdltI7b8pzwirQPilEOt8g5pCXSnepSaFP5XCX8ENcfHZzsrsMDJxIJzB9lsIC4QtaS80Dl6WXDYOo/lbUftH4ITJpdKsH3B+VpFgFDkC4Ae5i7NdZLApkBmOxoM+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765897073; c=relaxed/simple;
-	bh=2wMthbHVjjP+gIScZhyEdoOnajehfZ/046O1h3WJBQs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GV6OsF/bCNyy+RBco/mKcOUppTZfwJVMX43caSfb6k4SeGjiXo0cB+ktZzEUhBbEm9B8xHM9z8uUjzZHXBMohtObQ+/baZfd9F6XhxAvdhxaQ/HeCHah2E4cR0toLCT0cXX5sXiM6xEsVxqbZ6Nu+HdBVtWbqbQbKK0vGiukVi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YwcXY9EG; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1765994751; c=relaxed/simple;
+	bh=fCWiyQYPca+nvNeYkPrsg8l58+2d9hcv3WRYXCFhOAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=omSOu1EqvxTH+giQVLF8bJEy2Iy0JqHo2T0LZ7WDmyDcCsPnlRphywucBlrKsarAvuBQ/QMGhAig7SF++ruHDdSwJTvxWUzMjKE2sv6tIvGzfxurtKAV/Yuzw70ZOUAJGa97kHZ52YruVe3dtjVN4wpQl4E1yJATnFn+DVvhoPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ExCLf9vi; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YwcXY9EG"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a137692691so11772265ad.0
-        for <chrome-platform@lists.linux.dev>; Tue, 16 Dec 2025 06:57:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ExCLf9vi"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a1360e1392so21367465ad.2
+        for <chrome-platform@lists.linux.dev>; Wed, 17 Dec 2025 10:05:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1765897071; x=1766501871; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UJMwXlx2Rjl+EioxGE3frGq2agjzpjGGNIFFQoMj4s8=;
-        b=YwcXY9EGz09Kw8sJV5TyjTj/Kmp5vB/f/0JEbDDHVtqRdiPtmxcO2uoJaIwt63u5IF
-         v41vdjbF53ve9jsQnZlCwyljn5ksZQF3owJk523YQNGQoVCxFipHzcxajH+Rt3dFUchh
-         8vCKm+gTLugR+tZidMk0zpXEQdkRe6jwH6DYA=
+        d=gmail.com; s=20230601; t=1765994749; x=1766599549; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eJ+Wh0xNBReUdUR45vUeWefJp7cP+N3hdwazYMqKhgo=;
+        b=ExCLf9viq8DuIkjRb5lOjDeaFPpnfHmmX/eSnNQU7sDvGMYwZ8HssSbuSUW+WoowF8
+         ghQvCc6SbdXMi1BlbYmfiBJ/onO7K8Slfz+353n8gAfZfWeWoOGIR8hyBQwNs0xoUfue
+         sklqnMSUjCtQWBw53DyZ2svw8yx/iM7kkdQa1Vj3H/bmbasOzl+2M7oNoC1Pi1NN/Cj5
+         KITmlESPIAbGPE3283eeLoO4p1sYvKJrUUToabOUSdPHs7W1jAEfzeyP2Z8BISGJSMa4
+         eGPxxyCbKLEXlFcWuB4Dd7q4pO6lqPe3xlCDYE5NA6PYn5J/kW7uwfUo9WbQkS9MEtRa
+         LnfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765897071; x=1766501871;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UJMwXlx2Rjl+EioxGE3frGq2agjzpjGGNIFFQoMj4s8=;
-        b=UmJqjDpugO25u7lZf0K250+56rJtldbPeob7gnQorNVQF3qiFvBT9xEkxfsvRto6oB
-         wI5TGqqY82Om70sX/XMScKE4xd/tHtMK9Bhy9eMIsEqLfW+95GokFo88s1fX0TvrP0o2
-         YJXtwjdxZUelZME6wmAa4q0Fk2LWSFAAj4J8NzE09Lj8PW581ksJuuM6DlsAdKN0i9On
-         apIIU7bnDvV8RZ+5KiZ9nS/s6DAN4Ncjt6tWFouOwSiq5AmtwC0l/6/0+jy1xSeiEayv
-         5eXSWbhFtZPOR0+Ml2gOJJlUISqiT2KNBDhap/DSng9Hg9XW1gTB80tU2GawA3NU6Ox7
-         a2nQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVt2gaz8bNaOmnD/0jb+i1Kj7jBsIEIiSZ1KIMflkDyDUCypPy4Rik25Oe8HlBbRv5ZvMOJzcPhLfrduR06sN8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzlC9ZmBioAbIpyTMPkO/Fa1ru6BEhesRiBHaUESDUadrnK4di
-	1kUCV/FEgIuhBow/L7nFSqPki/af5BDCPR2KJBhIW8BLuauESOADLs8K3qF8PsRaqAX2tnuc8op
-	3C+vVI/olg/UZIl38BoZQ/nrDI2dww5n83CkK6u8P
-X-Gm-Gg: AY/fxX7BufylhbqKC/f1r5Pys+RAC/baiDowr3c9LlZNhhfj6SRO8XAAguDfk1bRDkL
-	wVwiYJ4CelBKb4TrQXv5q4wVPpyY+1HbWruJSLO1YnISCNSKwS6oowa8DCrzwSd6gd2k8FZHpW1
-	z6HdhtcfPMB2eoSrIOt7Zq0VuCvCUAq3dvnmmu9UjOBk0iaV3w/OXpGe5kuf58UVIpoAPpSNB6P
-	3glXH5YjsQVWvcDpSN2U49PVtY4Tz6qDbY9nvVzKJvbx67zq2ig7nypHyAewwrcq0iSgO4EWG+j
-	r32Ph0JQ0FLAkMiPYFgCqGGped2Gv7o=
-X-Google-Smtp-Source: AGHT+IFq/YJLo2S94WSmkV3peCfI5q+2HJAgkoWlsWR59YkyvNZbaVFa1+jxfVtOJWIj3uj/WxaOViW9ql8LtSIDXIs=
-X-Received: by 2002:a17:902:f686:b0:2a0:b3d5:5c3b with SMTP id
- d9443c01a7336-2a0b3d55dbcmr110163575ad.29.1765897071499; Tue, 16 Dec 2025
- 06:57:51 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765994749; x=1766599549;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eJ+Wh0xNBReUdUR45vUeWefJp7cP+N3hdwazYMqKhgo=;
+        b=s7ZyoMiIe36Kn+eIUdXxsMV2/8zv08RGtfnpRLvQfaIDbhukmcokuZZls4DJ33PWQ6
+         eK3hGqUgJRvLG0GXgD1vX4VpTtkb9k06NrM8Lx9i4twDlpRF4Hq+BcNp0AJKJdBQsIU8
+         p4R5oJS2hHAAp3hYyIkAQY5Fol6cZDF+/ccsYZ1UwCQd8QRreuYTG7CHMrjqKusIhOKr
+         dJEng4xOoa+ASo1PRc9jQY2ZG/I82nP0cRScq6EaS779ZUDHA+G6rYCEkKUcIu8uRK/J
+         DlPBq5Fy/vXfAFRCI0hA93mkafzBFFXUPLmkhLsQmUyG41mZnGmm6KVC8fzNUIf5Za95
+         y2tg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWOkAhTJAgex/yI0LfSAogqeoEiJWhyYZPjvihlpLzPcUwhFuusdwYyOte5D1m+hDRo1hFmklTXzgfPsvF97U=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzk4CxI5SW0JCAHlkMRDShRpdE8O+mv0KHdkVWy0isvbJWDdrvq
+	Cd5Kopeq2pP1gqNHY336NwnWsH9VhcIT1tTZlCdQprrvCiiaL4aRk1G5
+X-Gm-Gg: AY/fxX4YT5buc0ErFdjHFPklD6/0Rw4QQ4Rqis/OC6/SYH76240/6Wb/fpIYbV3t8kY
+	iRADvGbnIPn9qNshw6ysf02CJladq+MpS1Q/A0m1p84pmYYUPHcdqnYkWTmo4uZcWkRzBRU/KAc
+	Vyv4c82t1/Yhfa1XBcJWyHj+cu6IDDVk78dwCooJMhm6KbdNbMYGMsMY93J/MhDKNKk43KsHWXE
+	NTuLPohQvYHLW2klMLSmPlQgA5+RWoeyfACNCVPFu4tE8wPqp5y75IG688+QHPnxrDok6KPtnVt
+	KhQr3mVs6fC9sDYjn9MzhdBMHiLNav3YwKG1zAu/NC2F99ofLVon/Ss6W2jMaQohknM6GZj8aZS
+	uLZmIUNdZLbVL4HWgxwFf4JqcCNLB/S6gCGuX7+sfha8+YpiqcGxi35T2d2XzL4buHrN6eHBnQ6
+	KVD5nQFNvQPUm26d0fMIV2PpiDGM5L6M8CC6++/991Ie0aHPgePg==
+X-Google-Smtp-Source: AGHT+IEsG5kPC7PFC1E5kE+BODk9O4ruJ6wx9lSNpfYD+lFEkTLCuj5suLNYSIL43zw4PUMGaxx2jQ==
+X-Received: by 2002:a05:701a:ca0d:b0:11b:8fc9:9f5d with SMTP id a92af1059eb24-11f34c4d15emr13268343c88.30.1765994748500;
+        Wed, 17 Dec 2025 10:05:48 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:86:f92f:a027:b12a])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12061a93616sm409533c88.14.2025.12.17.10.05.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Dec 2025 10:05:48 -0800 (PST)
+Date: Wed, 17 Dec 2025 10:05:45 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] dt-bindings: google,cros-ec-keyb: add fn-key and
+ f-keymap props
+Message-ID: <nx4lo6qfyfoxha7poyipa2hjc2vogp6twxbcap2555aj4y56gg@ddhkfh7eifvm>
+References: <20251209154706.529784-1-fabiobaltieri@chromium.org>
+ <20251209154706.529784-4-fabiobaltieri@chromium.org>
+ <20251209192243.GA963693-robh@kernel.org>
+ <aTm1PVLrS7Ra0OTF@google.com>
+ <2gd2npolfpo5jruwraamwpn3wurm7w447jnwsbcfonmhos2owf@ejrqiz3qdxj4>
+ <aUFPKni-iFkxQQGu@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251201122604.1268071-1-akuchynski@chromium.org>
- <aTrJwA7Y4fWiTMzB@kuha> <aTrTvA8Srak1mNGS@kuha>
-In-Reply-To: <aTrTvA8Srak1mNGS@kuha>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Tue, 16 Dec 2025 15:57:40 +0100
-X-Gm-Features: AQt7F2qeZ_WfsLUra7491GkxZMYka8CwuiO4xGxfSOYVSZ4rrkAarfhEbx97JRI
-Message-ID: <CAMMMRMdwX8wKJz6OEvosVXFH2npr+7pd0pdq3eY9r-Pbr3tjMw@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/8] USB Type-C alternate mode selection
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
-	Abel Vesa <abel.vesa@linaro.org>, Pooja Katiyar <pooja.katiyar@intel.com>, 
-	Pavan Holla <pholla@chromium.org>, Madhu M <madhu.m@intel.com>, 
-	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aUFPKni-iFkxQQGu@google.com>
 
-On Thu, Dec 11, 2025 at 3:23=E2=80=AFPM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> Thu, Dec 11, 2025 at 03:40:24PM +0200, Heikki Krogerus kirjoitti:
-> > Without going into the code review yet, I'm okay with this in general,
-> > except with the artificial SID for the USB4. I still don't understand
-> > why do you guys think we should use that instead of an USB4 specific
-> > device type?
-> >
-> > I think somebody said earlier that the user space can't see the device
-> > type of the alt modes? If that's really the case, then I think there
-> > is some bigger issue here. Are you really sure that if you check the
-> > device type of an alternate mode for example with udevadm, it does not
-> > say DEVTYPE=3Dtypec_alternate_mode ?
-> >
-> >         % udevadm info -q property --property=3DDEVTYPE /sys/bus/typec/=
-devices/port0-partner.0
-> >         DEVTYPE=3Dtypec_alternate_mode
->
-> Or just use grep :)
->
->         % grep DEVTYPE /sys/bus/typec/devices/port0-partner.0/uevent
->         DEVTYPE=3Dtypec_alternate_mode
->
-> So, if that really does not work, then there is a bug somewhere that
-> we obviously need to fix.
->
-> Please note that the port altmodes are now also part of the bus.
->
-> Br,
->
-> --
-> heikki
+Hi Fabio,
 
-Thank you for the review, Heikki.
+On Tue, Dec 16, 2025 at 12:23:06PM +0000, Fabio Baltieri wrote:
+> Hi Dmitry,
+> 
+> On Thu, Dec 11, 2025 at 08:44:02PM -0800, Dmitry Torokhov wrote:
+> > On Wed, Dec 10, 2025 at 06:00:29PM +0000, Fabio Baltieri wrote:
+> > > Hey Rob, thanks for the review.
+> > > 
+> > > On Tue, Dec 09, 2025 at 01:22:43PM -0600, Rob Herring wrote:
+> > > > On Tue, Dec 09, 2025 at 03:47:06PM +0000, Fabio Baltieri wrote:
+> > > > > +  fn-key:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > +    description: |
+> > > > > +      An u32 containing the coordinate of the Fn key, use the MATRIX_KEY(row,
+> > > > > +      col, code) macro, code is ignored.
+> > > > > +
+> > > > > +  fn-keymap:
+> > > > 
+> > > > If keymap is linux,keymap, then this should perhaps be linux,fn-keymap. 
+> > > > Depends if we still think linux,keymap is Linux specific?
+> > > 
+> > > I'm open for suggestions, trying to understand the pattern, these are
+> > > specific to this binding I think if anything they should be
+> > > google,fn-key and google,fn-keymap, similarly to the existing
+> > > google,needs-ghost-filter -- no idea why function-row-physmap was not
+> > > prefixed but I guess it slipped in and now it's not worth changing it.
+> > 
+> > Just double the number of rows in the regular keymap to accommodate the
+> > FN modifier, no need for separate keymap. Also no need to have fn-key
+> > property, use whatever key that reports KEY_FN. See how it is done in
+> > drivers/input/keyboard/tegra-kbc.c
+> 
+> Had a look at the tegra-kbc driver as you suggested, first thing it
+> seems like the fn-key functionality there is dead code since 2013,
+> `use_fn_map` could only be enabled with platform data, not OF, and that
+> has been removed in 3a495aeada2b, as it stands kbc->use_fn_map can only
+> be false. I could send a patch to rip off that code if you want me to,
+> clearly it hasn't been used in a while (unless I'm missing something).
 
-The USB4 SID is utilized for distinguishing between USB4 and alternate
-modes internally and is not exposed to user-space. This represents internal
-implementation detail, for example the boolean variable `is_alternate`
-could serve the same purpose as the SID.
-This patch series introduces no new sysfs entries; the only new attribute,
-`priority`, was introduced in the mode priority series, available at
-https://lore.kernel.org/all/20251124124639.1101335-1-akuchynski@chromium.or=
-g/
+I guess you are right, we shoudl clean that up. We have another newer
+driver that uses the same approach:
 
-It is possible to use already existing `usb_capabily` and `usb_mode`
-attributes to manage USB4 mode, allowing verification of USB4 support on
-both the port and the partner. The activation of USB4 is accomplished
-through the implementation of the `enter_usb_mode` typec operation.
+drivers/input/keyboard/pinephone-keyboard.c
 
-I would like your opinion on whether using a USB4 device type would be a
-better approach.
 
-Please note that patches 6 and 7 are not part of the mode selection series.
-They are not yet complete and are provided only to demonstrate how the
-entire feature should work.
+> About the extended fn map, I've two problems with it:
+> - it seems very wasteful: the normal map is loaded in a linear array
+>   so it can be access directly, which make sense as that's typically
+>   very densely populated, but in the case of the fn keys that's going to
+>   be mostly empty, I'd expect ~20 keys top from a 18x8 matrix. So that
+>   would waste load of space, direct access is good but for ~20 keys I
+>   think it's fine to scan it, especially since it only happens when Fn
+>   is pressed.
 
-I confirm there is no issue with the DEVTYPE. Thank you.
+I am not concerned with this, as this is a singleton device. You
+probably "waste" as much space in the code segment by implementing the
+custom scanning logic. Additionally with the consolidated keymap
+approach you are not breaking ioctls dealing with setting and retrieving
+key codes.
 
-Thanks,
-Andrei
+> - I'd end up with two values for cols kicking around the driver, the
+>   real one and the one used in the map, which I feel adds confusing in
+>   the code.
+
+Not sure I follow. You still have the same row and col reported, just
+when figuring out the final keycode you need to add an offset.
+
+> - more importantly, one would have to keep the offset in mind when
+>   setting the keys in dt, we rely on OEM doing this and I think having a
+
+Do we now? I thought we retain greater control over this. Maybe we
+should sync internally.
+
+>   separate property with a meaningful name and a map with the same
+>   row,col and different code is more intuitive and would make their life
+>   easier, especially since we ship with keyboard of different size
+>   and the offset would be different depending on the device.
+> 
+> As for the fn-key property, unfortunately based on past experience I'd
+> expect such OEM to want to change that code, I could specify the code
+> rather than the row,col but I would not plain hardcode. Even my
+> (thinkpad) laptop sends KEY_WAKEUP for Fn.
+
+Again, we need to make sure we control OEMs better. On Lenovo Fn sends
+wakeup only if it is not combined with another key, so it really has
+custom logic with events delivered either through the main AT keyboard
+or through custom interface in thinkpad platform driver. We do not need
+this in oiur designs.
+
+Thanks.
+
+-- 
+Dmitry

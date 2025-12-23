@@ -1,67 +1,67 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFF514B084
-	for <chrome-platform@lists.linux.dev>; Tue, 23 Dec 2025 17:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739F92F1FDB
+	for <chrome-platform@lists.linux.dev>; Tue, 23 Dec 2025 17:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766510383; cv=none; b=YNku7MCqFsGLDl3d5J6hCD27OYMlVbGNFqbMvi5o2evHfxmzaNTgwMTNyZJ7FHT6ZFN+T4IuRkZjlk21YvsCKQCutW/sE4gzb9RIYbH3B8I/d1ZNwm86iMGs9VaTFdDs7TV+zt6NIJPHO0xR8FdbzDAhZyv6cBcNhqTSTPHG8gQ=
+	t=1766510423; cv=none; b=r/aYrBG50riHAajVQBmcH+A9Dl4weg+XUOpufWNfNRo5Rzfi/qWgDaoikfztBZDhwCi6rDsuxI0y+Ohbv+vZX+JzV1D2Hbg0CB7ZLdCzzO1VLiusE37j1Mf5CMuZ5HYl68WNJMhIDom5CjxEXDsvxNQ+UreqQnrANC4ZWfngCg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766510383; c=relaxed/simple;
-	bh=NdjE4V+EEouklcSCm6BZ7mfDidB3bn7JY5Wh2M//4AM=;
+	s=arc-20240116; t=1766510423; c=relaxed/simple;
+	bh=BOangCFpjJ52aOedJ3g06NZWOG6nu/2RmNPphZdciHY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pZVBqEGIvKJZE/D6C2FC4YWM0vgpd9qV732hgzipmQc8Rn9mXr+rsQNefFVioXFxjupjIVFpH9LC32QYpO1ib+mq4HMHBzMfKVLBjbSgYafdTCl6GP1HTKrDsf9WQftIqrgBUCDAmqMtk97EQBFtyCgAnGh8Ei59ZP3mf/NmVK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Im/uFMGR; arc=none smtp.client-ip=209.85.161.52
+	 In-Reply-To:Content-Type; b=oL2fCNmj1ngjQcTdcxI7n+bb7+/tb839PS6AEStN+0SAvhtWNzZWILMcTnpatG1nFBMn3+rMIj9bp5xOcHfz9ahgVNjB/J29W/YG9bkmhtKDRV0Fa2Ng5Y4oWHBWQggKD/Yl6FBpTW8yD4s5IQPYFmOZ2ir57dg9s9iImeRXRuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=vFw+xdbs; arc=none smtp.client-ip=209.85.210.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Im/uFMGR"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-657044fea68so3199397eaf.0
-        for <chrome-platform@lists.linux.dev>; Tue, 23 Dec 2025 09:19:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="vFw+xdbs"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7c750b10e14so2101758a34.2
+        for <chrome-platform@lists.linux.dev>; Tue, 23 Dec 2025 09:20:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1766510380; x=1767115180; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1766510419; x=1767115219; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kHzs3BD6a+q8LRnlmiLzH3xOmNz9JKocpErVtV3u+xk=;
-        b=Im/uFMGRrvqkqZ3eM8iejJEXHWuEHT3RwaKZhT42KMqps5QEYYe5K/9x6rdP2J5vWK
-         XZJ9MA9yWPRH83U3PbotF0fTF5rlWbccXMex8lM0LL6NMSlnEtTizTuxvRehrKSWUqBW
-         7EN+j5IG0VWtsFQBGJII5eW9SHEgl92KXkLgU4Lkfl8VSxXeEPzFzjnHnFR3pRbpFgqV
-         SZ2RQ2y30kg7gQLFRMx9ROzFjU5ECaB3SspT1D9msOgroq5IlvSV1OrTdK11YnNWwTBW
-         B0xS+jDc61hxO3NN0GKeNFNIDukXkE/fQQqiTSwo8o/68kpr4ivJPk4kNHF7AHSnGAdg
-         1rxA==
+        bh=HqjoHDMp6UnfGET/5eFXYzvi2pMQ1f0rv1DZdq1dHzY=;
+        b=vFw+xdbsleXPJtGapc+uwfYVSwsoYVa5MJOx8wmOchNmRdR52NyVcamX7UkX038Npj
+         zUKMO3qwu01Jbpz158s7XWLUdv5HDS9gbVwS+yIMGfPxVC+uhvqAWQ0SreXjLiiAmj9R
+         0DtreOjqHBJdycj0RAb3r23j3aTHpLhJ9HLIzE8Mnb8rvohKY4B4A2GNamcTs3k8mYTW
+         +TBMFWAtk+jhYceLuTXjuubIw2dl8DZwHLI8Ag/gokaoD+9IAA+PZ/xd5ADF52BBOP7j
+         MV0w+JJFp005cENNv7x0Sqad93VLB741g7tN6fRIj13NZA5lvLTUm/bj31KHYspDbvBj
+         UFKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766510380; x=1767115180;
+        d=1e100.net; s=20230601; t=1766510419; x=1767115219;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kHzs3BD6a+q8LRnlmiLzH3xOmNz9JKocpErVtV3u+xk=;
-        b=Sz0T9bxQv3osuR/W0PrxgWIBz0Xb1YLgre0TrYALN7W3Ox/rT/5KFiNGk76a4ZGcKb
-         ytfikcT20Y9ilrQ3iHwv/w74IvHsCXx4Eiah/V/XosVKyS3KDRKg+e32c5ci8SDsWYWJ
-         xJoLEMaD8h56nPZ0ObpsrI6R+G2iaZlZcpt7QWCEcIu4g7YA42ULOrcbFrlmEWEtKpYS
-         nftvhNsloLANJJ6UwS78k6qKwsctSJf/V9Zwq4vsZAX6X90Vv0+5RaJK+BH6GN/epa8R
-         uBCEIK8PG5Buz3xhSOiv2n8ipigPOlbVvYppnYlzNX42KWPxWiqZxzkB6Y1Mt8f/VVux
-         Eb8w==
-X-Forwarded-Encrypted: i=1; AJvYcCX93gs3mY/fXxN5jDJqBgNf7R7+4Jh3+bpimZ1uejDpaXWR4TENcihz46Hi2AvuUf52DdezIxCYqOEGUUBgOFs=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxM+gGJujiVVSggnOrw0RDwzEiDnJOeT0z7WGX99Kv0Nu0wLX1V
-	qXiZWfPOncDJO5n5A8/xyAIPu3mUVm8NSsCSOubLAW3QSey58lBWaKRYGhV6fAc/Nek=
-X-Gm-Gg: AY/fxX7r7xRbL5Kp3lDjd3ekPPsFgnEU5XQxKMvfZK18JB5CpxVbxV+dcrl9NvslQM5
-	Ui5D19IVuenw02PHyMpRzb2XqyvmhioGtgHZ9k31mNGIMAiW8xZV2nKctqVgGZqAjvFRg5ydhIj
-	tPoq8e8IA8h0R8K5wdLNbaseEyVhD2KwmkkZIft4B6aWyvVhbun/k09TyWLjqGQnUImCFc8mabx
-	gyn8saSyf/z/JnsV9dTR+iAt7DSjAs3LcQCV06P8jv8NvZ9l5YzhLQ//tyKBdYEBlj9hsqN0OlG
-	lEvQM2SexILUDk9B+lQ/B2V+I/9mZWMpF9wxxqdkUHKir9RPzFingGByhl+F/vQ/lpsgGcUmA8X
-	DW1HWD1MCwQ9XKRmSNjVYFtSfZcfNqOYj8sZ21Jsn1qG+bciycVclUnsO7XDt4sZ4qTvIUaGdG1
-	VsSZO52u3TwDmXKRzDQqS1n5kbJxOvaFZvCgCc5GC9ooqU0mnazHye9YWll+DS
-X-Google-Smtp-Source: AGHT+IFol+32ZNHnAJwQnVwVNbtJWIUgSq1V1a2nMl5MLixp2jR1RBcMRLq6HzFozpq4GGBCAoox8A==
-X-Received: by 2002:a05:6820:f004:b0:659:9a49:8eea with SMTP id 006d021491bc7-65d0e3a9cb9mr7432898eaf.30.1766510379759;
-        Tue, 23 Dec 2025 09:19:39 -0800 (PST)
+        bh=HqjoHDMp6UnfGET/5eFXYzvi2pMQ1f0rv1DZdq1dHzY=;
+        b=uMJsQWgCwYsYpQFqxUuKJ3kc4jREZ9j7ahUN3FsrfwbzKh7TbZYxB/OvkFufy5xgLT
+         ydjbPhwWW4OX6Ign07ueCWCFq8QlE0EIrw9qVLSOe00sxpJnsd9c7icbmmNWMOIgl61I
+         o1hZxTVBBN6u0uUsP9SYKx8CLNKhzmixAe3ZmK3MmzGzo1ofI2uxfNSQoqgritgCyGSW
+         ViB1PWgLgGGuOlajwyNfqmcKGLAEDYneQcKYhjttDfWByHTX29YqX7ejQRdJ4PQeF2Vd
+         nQLiE7JH8us0PcFOzgP3Dknk//8duIUjb5w03e+SQ9fjCo/vAZvQOiOObJhnNieiXUeB
+         ZUqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXwiADTOBiCws2NspokhXH8xygh6CupVc27tNgqb04S0EFvg0ipBD0tiqvCXuLT0/jjFcV5Lf4metf+isQCkUM=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0yY26e47dflJ9PUcI+jIieWisLCRuQFwUhAoKL/JKAcK119il
+	xX3qHF1LdTe8i9xt/zMMlANadIOKA348NdmgQzfUyD3OYXgkRrNv/PYzSdYEKxioU1k=
+X-Gm-Gg: AY/fxX4DqBwvHL4xj0ZX5auv3oHU0ue+OMX1+dSvLPKi8s5EY8QK1frO7z6+7isKvYJ
+	1pU6hNBHiKa4a5M+z4o+SRn8PCbIGcfM5hQO35a7Hu7yw5w7Gr1dJ2tCHnkRKDC4Cg/PaFy8A0x
+	mBQUpLE8C/sL9W/NzrVnXtWvyHGpBrU/7J/3+diL9z3Ah6Uy5BrXWs+VKrdNePZsImrqgNWjTs/
+	7c3HOrpSjFD+VHzkdKPKAEkP1CxpOnQusS+ZvLR0QwPeOcUv7CbK0EOdTa/IUrMjRJUAsSs87O2
+	DjG/T6uWYEHZ97oMmkRsdlnJOBnYBXfERJLWmCYMY6/TrXKniw31eITaY8qIuf1MkQhvI1dOeXx
+	46glPSL4ltjlMiWy1SXboFvlN/UEgpyC4nvNfA/83Sb7luEeaBlbfKhPjUNSXRsmsfBb/v7smCL
+	S8k2SqSkYZmG0vcvMvyR2tD1qRQxOTAYEGC50WL0rOQPLSLTMmYqKs2gyyZQTy
+X-Google-Smtp-Source: AGHT+IFKHrsIz88QlZ38cn6wj+NStTXlLJClZOJ8CAkdAaG6odFkTXTwTPo7/oejo9fhLpdux+pQCA==
+X-Received: by 2002:a05:6830:7199:b0:7c2:8937:5d2e with SMTP id 46e09a7af769-7cc66901f28mr7039103a34.15.1766510419383;
+        Tue, 23 Dec 2025 09:20:19 -0800 (PST)
 Received: from ?IPV6:2600:8803:e7e4:500:fe29:88f1:f763:378b? ([2600:8803:e7e4:500:fe29:88f1:f763:378b])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-65d0f69ba9bsm8889471eaf.10.2025.12.23.09.19.38
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cc667ebe98sm9756043a34.21.2025.12.23.09.20.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Dec 2025 09:19:39 -0800 (PST)
-Message-ID: <92d07935-b2b5-4cf3-bd45-654d77cdc23b@baylibre.com>
-Date: Tue, 23 Dec 2025 11:19:38 -0600
+        Tue, 23 Dec 2025 09:20:18 -0800 (PST)
+Message-ID: <6ad0f764-91f2-4946-81cd-9363ec87722a@baylibre.com>
+Date: Tue, 23 Dec 2025 11:20:17 -0600
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -69,7 +69,8 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] iio: core: Add and export __iio_dev_mode_lock()
+Subject: Re: [PATCH v2 2/7] iio: core: Refactor iio_device_claim_direct()
+ implementation
 To: Kurt Borja <kuurtb@gmail.com>,
  Andy Shevchenko <andriy.shevchenko@intel.com>,
  Lars-Peter Clausen <lars@metafoo.de>,
@@ -84,90 +85,158 @@ Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org,
  linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 References: <20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.com>
- <20251211-lock-impr-v2-1-6fb47bdaaf24@gmail.com>
+ <20251211-lock-impr-v2-2-6fb47bdaaf24@gmail.com>
 Content-Language: en-US
 From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20251211-lock-impr-v2-1-6fb47bdaaf24@gmail.com>
+In-Reply-To: <20251211-lock-impr-v2-2-6fb47bdaaf24@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 12/11/25 8:45 PM, Kurt Borja wrote:
-> Add infallible wrappers around the internal IIO mode lock.
-
-Not sure what "infallible" is supposed to mean in this context. Maybe
-referring to autocleanup?
-
-> 
-> As mentioned in the documentation, this is not meant to be used by
-> drivers, instead this will aid in the eventual addition of cleanup
-> classes around conditional locks.
+> In order to eventually unify the locking API, implement
+> iio_device_claim_direct() fully inline, with the use of
+> __iio_dev_mode_lock(), which takes care of sparse annotations.
 > 
 > Signed-off-by: Kurt Borja <kuurtb@gmail.com>
 > ---
->  drivers/iio/industrialio-core.c | 30 ++++++++++++++++++++++++++++++
->  include/linux/iio/iio.h         |  3 +++
->  2 files changed, 33 insertions(+)
+>  drivers/iio/industrialio-core.c | 44 -----------------------------------------
+>  include/linux/iio/iio.h         | 38 +++++++++++++++++++++++------------
+>  2 files changed, 25 insertions(+), 57 deletions(-)
 > 
 > diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
-> index f69deefcfb6f..1cce2d1ecef1 100644
+> index 1cce2d1ecef1..cffc6efb6617 100644
 > --- a/drivers/iio/industrialio-core.c
 > +++ b/drivers/iio/industrialio-core.c
-> @@ -2171,6 +2171,36 @@ int __devm_iio_device_register(struct device *dev, struct iio_dev *indio_dev,
+> @@ -2201,50 +2201,6 @@ void __iio_dev_mode_unlock(struct iio_dev *indio_dev)
 >  }
->  EXPORT_SYMBOL_GPL(__devm_iio_device_register);
+>  EXPORT_SYMBOL_GPL(__iio_dev_mode_unlock);
 >  
-> +/**
-> + * __iio_dev_mode_lock - Locks the current IIO device mode
-> + * @indio_dev: the iio_dev associated with the device
-> + *
-> + * If the device is either in direct or buffer mode, it's guaranteed to stay
-> + * that way until __iio_dev_mode_unlock() is called.
-> + *
-> + * This function is not meant to be used directly by drivers to protect internal
-> + * state, a driver should have it's own mechanisms for that matter.
-> + *
-> + * There are very few cases where a driver actually needs to lock any mode. It's
-> + * *strongly* recommended to use iio_device_claim_direct() or
-
-I wouldn't even say "strongly recommend". Just say "use these instead".
-
-In the exceptions, likely the autocleanup version should be used as is
-the case currently.
-
-> + * iio_device_claim_buffer_mode() pairs or related helpers.
-> + */
-> +void __iio_dev_mode_lock(struct iio_dev *indio_dev)
-> +{
-> +	mutex_lock(&to_iio_dev_opaque(indio_dev)->mlock);
-> +}
-> +EXPORT_SYMBOL_GPL(__iio_dev_mode_lock);
-> +
-> +/**
-> + * __iio_dev_mode_unlock - Unlocks the current IIO device mode
-> + * @indio_dev: the iio_dev associated with the device
-> + */
-> +void __iio_dev_mode_unlock(struct iio_dev *indio_dev)
-> +{
-> +	mutex_unlock(&to_iio_dev_opaque(indio_dev)->mlock);
-> +}
-> +EXPORT_SYMBOL_GPL(__iio_dev_mode_unlock);
-> +
+> -/**
+> - * __iio_device_claim_direct - Keep device in direct mode
+> - * @indio_dev:	the iio_dev associated with the device
+> - *
+> - * If the device is in direct mode it is guaranteed to stay
+> - * that way until __iio_device_release_direct() is called.
+> - *
+> - * Use with __iio_device_release_direct().
+> - *
+> - * Drivers should only call iio_device_claim_direct().
+> - *
+> - * Returns: true on success, false on failure.
+> - */
+> -bool __iio_device_claim_direct(struct iio_dev *indio_dev)
+> -{
+> -	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
+> -
+> -	mutex_lock(&iio_dev_opaque->mlock);
+> -
+> -	if (iio_buffer_enabled(indio_dev)) {
+> -		mutex_unlock(&iio_dev_opaque->mlock);
+> -		return false;
+> -	}
+> -	return true;
+> -}
+> -EXPORT_SYMBOL_GPL(__iio_device_claim_direct);
+> -
+> -/**
+> - * __iio_device_release_direct - releases claim on direct mode
+> - * @indio_dev:	the iio_dev associated with the device
+> - *
+> - * Release the claim. Device is no longer guaranteed to stay
+> - * in direct mode.
+> - *
+> - * Drivers should only call iio_device_release_direct().
+> - *
+> - * Use with __iio_device_claim_direct()
+> - */
+> -void __iio_device_release_direct(struct iio_dev *indio_dev)
+> -{
+> -	mutex_unlock(&to_iio_dev_opaque(indio_dev)->mlock);
+> -}
+> -EXPORT_SYMBOL_GPL(__iio_device_release_direct);
+> -
 >  /**
->   * __iio_device_claim_direct - Keep device in direct mode
+>   * iio_device_claim_buffer_mode - Keep device in buffer mode
 >   * @indio_dev:	the iio_dev associated with the device
 > diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-> index 872ebdf0dd77..aecda887d833 100644
+> index aecda887d833..76398dbfa5ca 100644
 > --- a/include/linux/iio/iio.h
 > +++ b/include/linux/iio/iio.h
-> @@ -661,6 +661,9 @@ void iio_device_unregister(struct iio_dev *indio_dev);
->  int __devm_iio_device_register(struct device *dev, struct iio_dev *indio_dev,
->  			       struct module *this_mod);
->  int iio_push_event(struct iio_dev *indio_dev, u64 ev_code, s64 timestamp);
-> +
-> +void __iio_dev_mode_lock(struct iio_dev *indio_dev) __acquires(indio_dev);
-> +void __iio_dev_mode_unlock(struct iio_dev *indio_dev) __releases(indio_dev);
->  bool __iio_device_claim_direct(struct iio_dev *indio_dev);
->  void __iio_device_release_direct(struct iio_dev *indio_dev);
+> @@ -664,30 +664,42 @@ int iio_push_event(struct iio_dev *indio_dev, u64 ev_code, s64 timestamp);
 >  
+>  void __iio_dev_mode_lock(struct iio_dev *indio_dev) __acquires(indio_dev);
+>  void __iio_dev_mode_unlock(struct iio_dev *indio_dev) __releases(indio_dev);
+> -bool __iio_device_claim_direct(struct iio_dev *indio_dev);
+> -void __iio_device_release_direct(struct iio_dev *indio_dev);
+>  
+> -/*
+> - * Helper functions that allow claim and release of direct mode
+> - * in a fashion that doesn't generate many false positives from sparse.
+> - * Note this must remain static inline in the header so that sparse
+> - * can see the __acquire() marking. Revisit when sparse supports
+> - * __cond_acquires()
+
+I think we should leave a comment that says these functions need to stay
+as static inline so that sparse works. Although I'm wondering how sparse
+could still work since __acquire() and __release() are removed here. IIRC
+it was a bit finicky about that.
+
+> +/**
+> + * iio_device_claim_direct - Keep device in direct mode
+> + * @indio_dev:	the iio_dev associated with the device
+> + *
+> + * If the device is in direct mode it is guaranteed to stay
+> + * that way until iio_device_release_direct() is called.
+> + *
+> + * Use with iio_device_release_direct().
+> + *
+> + * Returns: true on success, false on failure.
+>   */
+>  static inline bool iio_device_claim_direct(struct iio_dev *indio_dev)
+>  {
+> -	if (!__iio_device_claim_direct(indio_dev))
+> -		return false;
+> +	__iio_dev_mode_lock(indio_dev);
+>  
+> -	__acquire(iio_dev);
+> +	if (iio_buffer_enabled(indio_dev)) {
+> +		__iio_dev_mode_unlock(indio_dev);
+> +		return false;
+> +	}
+>  
+>  	return true;
+>  }
+>  
+> +/**
+> + * iio_device_release_direct - Releases claim on direct mode
+> + * @indio_dev:	the iio_dev associated with the device
+> + *
+> + * Release the claim. Device is no longer guaranteed to stay
+> + * in direct mode.
+> + *
+> + * Use with iio_device_claim_direct()
+> + */
+>  static inline void iio_device_release_direct(struct iio_dev *indio_dev)
+
+It could make more sense to make this:
+
+#define iio_device_release_direct __iio_dev_mode_unlock
+
+To make it clear that the auto cleanup functions that come later
+don't call iio_device_release_direct() but rather call
+__iio_dev_mode_unlock() directly.
+
+Otherwise, someone could be tempted to modify the iio_device_release_direct()
+function and the changes would not have an effect when auto cleanup is used.
+
+(Same applies to the release buffer mode function.)
+
+>  {
+> -	__iio_device_release_direct(indio_dev);
+> -	__release(indio_dev);
+> +	__iio_dev_mode_unlock(indio_dev);
+>  }
+>  
+>  int iio_device_claim_buffer_mode(struct iio_dev *indio_dev);
 > 
 

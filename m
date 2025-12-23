@@ -1,163 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA92F2F6179
-	for <chrome-platform@lists.linux.dev>; Tue, 23 Dec 2025 11:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72F02857D2
+	for <chrome-platform@lists.linux.dev>; Tue, 23 Dec 2025 15:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766488622; cv=none; b=XbToUNAH/Pdyx6m8ajvoGxuNYeQjaASUPcTVX2JZ4vpABMv18dp4HwAn8cohheJ5ZXkOqLS8OJ+kVUUQbN+nXZmitOrY24wSTUJWdKwXcr8X4OO5rJKgCrThEV23m1n26cKjxHPTTkqWPVetUo6wnnNLIGHUnVeswrEMNlUNiUo=
+	t=1766503768; cv=none; b=DYhX6uowbl6U1Z8z1VHtRG04krTAnuBrCnbOIQ17YTx//HCRYj68CaqLtlyYeqb/OGR0SsL7vms7CkD1qrP5YqXZIcvg4ph70q2UVNu1jJ1TA/kKdLI8yIlP43vtcGOn/uV33h1HMx9EogcAc8iqg2TmeTU6LZWBofanOzcMbm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766488622; c=relaxed/simple;
-	bh=sXBwY5XSdNzV/btwmd+DepxU8mWg/Y4kaRSz0C0TQRg=;
+	s=arc-20240116; t=1766503768; c=relaxed/simple;
+	bh=J3Ux6KfmhKmVgyLO5VYVS8zBuR2bX/I0/MfIw/LAZ8o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c5NhbyhFZr7DG3+E5cXXMntFX7TPKX6RMqnzK3K212BYgmTwROrUc7x7V4OusVhYHv6kAc8l8Vg/dO80/PBvi6w3JKPpKpq6dAYbLeLXiCs66EfRUC+sfNpziYS6BAo+XpveDSDQPl0sEwi8KEqlaGDwfWd4WRcLGbJ9idZQyLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b11uzxCY; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=aZ1En/BIprveQ937eEYuSO6XApuxdZg6R3Hbic5RRU0MrgO11dg6h2PB5Isz/vciJyzTqJnN7EFaode6571VD/fPX1iMXxemzUfD7vlSZNttOM2n0cERdFkPr/qz7j1jHDA+nGdX90jvIJSScYOOcKDmMgA1GdsWt6Fy+YeafPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=irnkMBlS; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b11uzxCY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766488620; x=1798024620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=sXBwY5XSdNzV/btwmd+DepxU8mWg/Y4kaRSz0C0TQRg=;
-  b=b11uzxCY5ilewDUekt2NeWNtwSPVVdj6IJzjnvmLes6QHdCbYlsiII8G
-   JXTSOsKKQQ/ZEJujiKW90hFUF7q3sZEPLdhdLJDVi3y07KovIzq3oKO8G
-   HQ1zU14Jsi0ZFaapL6BighMnvMvCHo5G5UszKk5uRptV9UdVvte+kyhD8
-   B0cwIxk+0vQ3IxQAdkvQ+VJDQV7+WAfygTwqGrSQvKl9VfmEEWRUu9RCY
-   yc6Ft2GTpP6BL0svePKROxgZ6EY3VwdyvHoPbfmvyu3ndKHW6JgAMzeZW
-   eKf+flOJoyUNrBlZh8TmxEUcSyxSb+/Oca72VRs/ZfqW+YJMc1gL78/Q5
-   A==;
-X-CSE-ConnectionGUID: sPXXayBhTSaK+oHEA0IHEg==
-X-CSE-MsgGUID: i9gTvCZTSLCtv8t8FwfBHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68092015"
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="68092015"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 03:17:00 -0800
-X-CSE-ConnectionGUID: 5Xb+KvL4QS67d5QYOpz/lw==
-X-CSE-MsgGUID: UYkogc3WRtqlQ613/AmtKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="204699977"
-Received: from bkammerd-mobl.amr.corp.intel.com (HELO kuha) ([10.124.220.158])
-  by fmviesa004.fm.intel.com with SMTP; 23 Dec 2025 03:16:54 -0800
-Received: by kuha (sSMTP sendmail emulation); Tue, 23 Dec 2025 13:16:39 +0200
-Date: Tue, 23 Dec 2025 13:16:39 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="irnkMBlS"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477aa218f20so32066735e9.0
+        for <chrome-platform@lists.linux.dev>; Tue, 23 Dec 2025 07:29:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1766503765; x=1767108565; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KU2jR3iD71XyPNeJB6Z0f1sjv8gA+ESxHLWTu3Zqx2A=;
+        b=irnkMBlS8jAC8n95Ml0DqHLKqyBu/n2JY4wtsx9XP0BhjMxladPZISrD/R/3CceAwv
+         WZWk/ACLo49vUzge+bZUqTBCmpt0lhgETm1u9HP2doBC6QmhhYN0B19HZlMyRhHx63Qi
+         tIQ5s9ptovq3N4BjUYlHPndU6bZmYJp7O56uw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766503765; x=1767108565;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KU2jR3iD71XyPNeJB6Z0f1sjv8gA+ESxHLWTu3Zqx2A=;
+        b=KSjhZdudn2OPe5UEfW1+lc/7WJwr5jy4buOjypPwW/CKp3iudZUzgM0OtXGOga9ky5
+         vllT+XGrLPbJh90KZK6y3U4CuXGpJ4xVEZOviryO4GaIjQrf6DSk+NzOpwGyF2aE0bfR
+         gJS94miMQql9IMyl4Li70ljHDhe0b+/IZhkBgpXPYA3nuKqTquLRYHv4f0ZkORi5pA42
+         jDSN7pfhkY6RHIumY5z70gVcszPXwNQQYB1Z1LoDjZtXjFkk7V1orkannTSgY0rtEMh8
+         y733ry4Gevt3uk0Fp/pPGXW4dzXWaxGOYWpfkzg0CE5liubTsvmE1t1OgfRTGSI+jOoX
+         5afg==
+X-Forwarded-Encrypted: i=1; AJvYcCWY+1Ne/v7lpfiAN4/3EpnrlM4HUeazZaLbgGIyMN7CpfTQ7A1+1TDd/63jjBoc9e1k4mQz5EmysQzI1MOi//k=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkgZWdQ8jN5pukk0QQTBlkCggUbsgmMotM364PL/Clm6AXJjOO
+	luGlatCMBPzAQIUhkTeYYREOW25YK46eeedFLbY+brTBRxtBgriAggwvYyC2RC8KBg==
+X-Gm-Gg: AY/fxX5KSpS2SB20CJw0u+IFrsc4XWYHOfyJ/qz7OcyhUJKBis1ZBw6zyDUyeQViDdw
+	kP9BiOUSkjmOFGFAnPDOEKsdTV+f6n+jDKGMuiYE09x5Dn+KYAxNMe0MLmBx8uF4o3JhHrkHjvd
+	mSheEXqyKBBeCdOk23MVrjA67sNra95DSMM/WMMKHg8VOx0EOEC4V3OzwfODljZ0eXoE59+t4MH
+	biTdfTZHwgeRRVugEaW2CVMEQCovre3hGsoQTPdulRO26TGKikTyAAWHo/HhAFDuFQPrEYTg7OP
+	xlUEQT30Bw/Qqbq7MP0ISSo7wfZSQO2S90wGb1U5wfdrB89j7Lthn1LtwafigEnS9LXBIddwnNd
+	WJ1bazvd2j9VUeFTAgzitrav+q8q+i4GvnK7+AdqHUaw+FIZVTYPB/5A3UcqHgyzS8ZB8t0YBkA
+	jTwnXcxr5NTnko1TeBwA==
+X-Google-Smtp-Source: AGHT+IG/0CMavtTslZpbI5j2xnemhkhT+LYz90KZrJXqfzvE0jdXgerJdltJj03OeHUtFpEK624zOg==
+X-Received: by 2002:a05:600c:4506:b0:477:9392:8557 with SMTP id 5b1f17b1804b1-47d1957711fmr143504525e9.18.1766503765317;
+        Tue, 23 Dec 2025 07:29:25 -0800 (PST)
+Received: from google.com ([37.228.206.31])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193cbc0bsm248425045e9.11.2025.12.23.07.29.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 07:29:24 -0800 (PST)
+Date: Tue, 23 Dec 2025 15:29:22 +0000
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
 	Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	"Christian A. Ehrhardt" <lk@c--e.de>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Pavan Holla <pholla@chromium.org>, Madhu M <madhu.m@intel.com>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/8] USB Type-C alternate mode selection
-Message-ID: <aUp6FxThy1r2pNxD@kuha>
-References: <20251201122604.1268071-1-akuchynski@chromium.org>
- <aTrJwA7Y4fWiTMzB@kuha>
- <aTrTvA8Srak1mNGS@kuha>
- <CAMMMRMdwX8wKJz6OEvosVXFH2npr+7pd0pdq3eY9r-Pbr3tjMw@mail.gmail.com>
+	Tzung-Bi Shih <tzungbi@kernel.org>, Simon Glass <sjg@chromium.org>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] dt-bindings: google,cros-ec-keyb: add fn-key and
+ f-keymap props
+Message-ID: <aUq1UuFHE9B9zHIz@google.com>
+References: <20251209154706.529784-1-fabiobaltieri@chromium.org>
+ <20251209154706.529784-4-fabiobaltieri@chromium.org>
+ <20251209192243.GA963693-robh@kernel.org>
+ <aTm1PVLrS7Ra0OTF@google.com>
+ <2gd2npolfpo5jruwraamwpn3wurm7w447jnwsbcfonmhos2owf@ejrqiz3qdxj4>
+ <aUFPKni-iFkxQQGu@google.com>
+ <nx4lo6qfyfoxha7poyipa2hjc2vogp6twxbcap2555aj4y56gg@ddhkfh7eifvm>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMMMRMdwX8wKJz6OEvosVXFH2npr+7pd0pdq3eY9r-Pbr3tjMw@mail.gmail.com>
+In-Reply-To: <nx4lo6qfyfoxha7poyipa2hjc2vogp6twxbcap2555aj4y56gg@ddhkfh7eifvm>
 
-Hi,
-
-Tue, Dec 16, 2025 at 03:57:40PM +0100, Andrei Kuchynski kirjoitti:
-> On Thu, Dec 11, 2025 at 3:23 PM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > Thu, Dec 11, 2025 at 03:40:24PM +0200, Heikki Krogerus kirjoitti:
-> > > Without going into the code review yet, I'm okay with this in general,
-> > > except with the artificial SID for the USB4. I still don't understand
-> > > why do you guys think we should use that instead of an USB4 specific
-> > > device type?
-> > >
-> > > I think somebody said earlier that the user space can't see the device
-> > > type of the alt modes? If that's really the case, then I think there
-> > > is some bigger issue here. Are you really sure that if you check the
-> > > device type of an alternate mode for example with udevadm, it does not
-> > > say DEVTYPE=typec_alternate_mode ?
-> > >
-> > >         % udevadm info -q property --property=DEVTYPE /sys/bus/typec/devices/port0-partner.0
-> > >         DEVTYPE=typec_alternate_mode
-> >
-> > Or just use grep :)
-> >
-> >         % grep DEVTYPE /sys/bus/typec/devices/port0-partner.0/uevent
-> >         DEVTYPE=typec_alternate_mode
-> >
-> > So, if that really does not work, then there is a bug somewhere that
-> > we obviously need to fix.
-> >
-> > Please note that the port altmodes are now also part of the bus.
-> >
-> > Br,
-> >
-> > --
-> > heikki
+On Wed, Dec 17, 2025 at 10:05:45AM -0800, Dmitry Torokhov wrote:
+> > Had a look at the tegra-kbc driver as you suggested, first thing it
+> > seems like the fn-key functionality there is dead code since 2013,
+> > `use_fn_map` could only be enabled with platform data, not OF, and that
+> > has been removed in 3a495aeada2b, as it stands kbc->use_fn_map can only
+> > be false. I could send a patch to rip off that code if you want me to,
+> > clearly it hasn't been used in a while (unless I'm missing something).
 > 
-> Thank you for the review, Heikki.
+> I guess you are right, we shoudl clean that up. We have another newer
+> driver that uses the same approach:
 > 
-> The USB4 SID is utilized for distinguishing between USB4 and alternate
-> modes internally and is not exposed to user-space. This represents internal
-> implementation detail, for example the boolean variable `is_alternate`
-> could serve the same purpose as the SID.
-> This patch series introduces no new sysfs entries; the only new attribute,
-> `priority`, was introduced in the mode priority series, available at
-> https://lore.kernel.org/all/20251124124639.1101335-1-akuchynski@chromium.org/
-> 
-> It is possible to use already existing `usb_capabily` and `usb_mode`
-> attributes to manage USB4 mode, allowing verification of USB4 support on
-> both the port and the partner. The activation of USB4 is accomplished
-> through the implementation of the `enter_usb_mode` typec operation.
-> 
-> I would like your opinion on whether using a USB4 device type would be a
-> better approach.
+> drivers/input/keyboard/pinephone-keyboard.c
 
-The device for the USB4 mode will need to have its own device type in
-any case, but I'm indeed mainly concerned about how we expose the USB4
-mode device to the user space.
+Alright I'll look into it and rework a v2 with the extended map, checked
+the code again and I see your arguments, sounds reasonable.
 
-As a kernel internal implementation detail the custom SID is probable
-fine for now, although I was actually hoping that we could improve the
-API a bit. So something like typec_register_mode() type of API. You
-probable could introduce something like this for that API:
-
-        struct typec_mode {
-                /* enum typec_accessory         accessory; */
-                enum usb_mode                   usb;      /* or just USB4 flag */
-                struct typec_altmode_desc       *altmode; /* NULL with USB4 */
-        };
-
-> Please note that patches 6 and 7 are not part of the mode selection series.
-> They are not yet complete and are provided only to demonstrate how the
-> entire feature should work.
-
-Got it.
-
-> I confirm there is no issue with the DEVTYPE. Thank you.
-
-Okay, good. So there are no bugs at least :)
-
-Br,
+Cheers,
+Fabio
 
 -- 
-heikki
+Fabio Baltieri

@@ -1,64 +1,64 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43886238C1B
-	for <chrome-platform@lists.linux.dev>; Sat, 27 Dec 2025 18:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64224283FF9
+	for <chrome-platform@lists.linux.dev>; Sat, 27 Dec 2025 18:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766858660; cv=none; b=Bam6REWx6m10vtPA0LfzpCjFxx0B3HiI2iOIbHUzJTh8mZ3aqP3g1L4B/vXXq4jUI2Ip2Q+qGWnfKQ2kT0aTe9IwtTtV6oPAOdJ3u0bUZy0JO1Q9Y13ZY5zvowvqNewXrwjiPNczFD9CS3UCIW0PHa12i9/jmxOF10P3cJEHxzg=
+	t=1766858912; cv=none; b=DjbMB2npF5D8ehIsz+MUyKBV+GbuVFw8HM+jRSltsNaox6ZGwpyCvfjqVcHPE7cPQhQJhvFXTwIKSkYNqdoNFc+tHO3jZ4wPTpBwrHj2cfoqzagMQXa8K9Eymwa5Pve1KkOU3NJoV7UJUqq6mgp09wsOKtKY6MnBjoEdB6qurgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766858660; c=relaxed/simple;
-	bh=lqrS/zjIYx40Yg8PlnjUuTxP3jx36eCAmsTfFvh4quo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=ZaAi/rO68qEJRk55fpN2kF3RL0ctpiMSyL0SGLIBUSWr9uZOjpV75BsQCLB1Pxgk6IcEyrnNLEVEKNazGLcn/vPVIiGesSnoKddwxXwsFqYfifqsLZSjAZZ5E2bj7WhRwGOUSatz0ysAlMjes4qMu+5p424oLBsGjcRy+oMVWZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L+eGAqm5; arc=none smtp.client-ip=209.85.221.182
+	s=arc-20240116; t=1766858912; c=relaxed/simple;
+	bh=b8VNWawuLEv2VOR0aC030ySiJTNbjx5/+mjSevhatXo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=UNWhg5Q0OdT6hPtiVbxQ4MkyJ9+vbfpJj7+fVgk0Fn99QX+03MP6gHbNzS7IQWo11fFj/f/6upFS5g1Ubi1MGJyMyc/t0iSTUukMXRauUb+1EF1zBhvDMWng202zIqIvTZqU/Yv4m/kNlwX52zXJZqaRHk4jj6anRY6x5rz6Dqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KG4iAu3B; arc=none smtp.client-ip=209.85.222.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L+eGAqm5"
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-55e8c539b11so5611272e0c.2
-        for <chrome-platform@lists.linux.dev>; Sat, 27 Dec 2025 10:04:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KG4iAu3B"
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-93f5729f159so4753366241.0
+        for <chrome-platform@lists.linux.dev>; Sat, 27 Dec 2025 10:08:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766858657; x=1767463457; darn=lists.linux.dev;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
+        d=gmail.com; s=20230601; t=1766858910; x=1767463710; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ndiaKA3zHdfMjEHzp3S9OhQFlmAtLm0Pa+LsGTsnIAs=;
-        b=L+eGAqm5rW18mf3Os6aCf9W4oE6FOk/Tsb88380BVv97S/TrNyIhEKCuPqRF0P3PZm
-         xdQGTsTxuZxnq1+6KjHTyjoqDwkVCZadbs7Sk8gcFD5sgk9r+6K97U2aFZPK1kWKyLuk
-         W7i8KRhiuCmIqLxQopdJn5sQS5+V8IHDZCtxNVV8+2BCsYWn/jJxQ9bIV/nAO/OndQJG
-         wgSURik+9fPTf3OW6MFJqCTi7F6s6eaOD74sKsUUNYEx1OWivKwi4gheRMlibdFGiEcT
-         c8SsZo+Xhute6wbXIHgoYIJouV9Xgbwr/Y8d+qsVfQaGVhxxGgb7msWVpQol0nC2/X+Y
-         IJow==
+        bh=U7CS9a/UP1wGl2+5J10FtNTBbvnTiBPo4mSf3bNivDw=;
+        b=KG4iAu3BWzWk9UXIpDPDI/RdsCdiaWu9yVWZNgiJVitPMBGYNHx6MZEQ2JHoRhDQrr
+         oNtGKgDkdkKL9hgVy+6RCz2L1qij5MHaY6NO3ACDzodP8g42QF11007QNa+mN+GB5gvF
+         u9n/hMfpPGERwlabwwRfij3QtdKANDM8npSmih35pREEElB0hWtEh7f8I+gaWuSrVHwi
+         KnP59rhVe2QIU72zIYcHw94AmmhkeFDg3TIgcK3IYnwCQU1VqHEGNTP0R4d97XjXQWUs
+         wgMWt8HIe2iNm2iUdil9kx0l1+4BhPoV6yGbYWABh66Zg9l1NbtWv7dIKWi1iC9Z25YK
+         EqCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766858657; x=1767463457;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
+        d=1e100.net; s=20230601; t=1766858910; x=1767463710;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ndiaKA3zHdfMjEHzp3S9OhQFlmAtLm0Pa+LsGTsnIAs=;
-        b=vbjrJlfNI6AI7mQ2yk4xCe0egZJtrGqyexF4qFg6qeBwPnsLCcnjqTpawzG4x9Lmwp
-         zeNyYb5wwFi1y+mJywdx2xpjYOqsb2nYNN/x1cPdZwEiBI5Tr23v82O5iEPttSzEQF5+
-         uCCnAdOpPgvuPF8W2AM7HtkcteoLuDS4PglXCJLoSV/McNNG4oUR/UuTppPeI8cZlXma
-         K9dXCwd/040R071hzGl0J5x4Ak2xSamDl/K5Z8m3oB/dtpVbmWNDw6ezYyCuVK4QdO0Q
-         EwBZG0m+MiaJcO0G+01rJsnTQwvZ7oRCL8i1v87fs0y0eZRyJBKN/39hq/yP6PelpFN1
-         q+7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUXYx9IAcyNkaTY7wvBb4kpik9Rw+jPDhsQAhA9PVcVtKyLyPUqtzMmrLdNhg2R1CNNP/HcoN2y+iL+lwgTe6Y=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1C09R3uQq007luVHcOzGHIaLrvgOdoDOScbLC69Nt+2M0qVDf
-	ArxbaD6wYmOq017TFGKmX8DYO3AZvH1Kn9u8cupJyPAvhQ4e6tBp9VGUleg9yA==
-X-Gm-Gg: AY/fxX52Wn/ethDpDY5U4RZG8zuYEubruKddMB76VsuVBVPQlb59cEYZ1k8FvlSnUNe
-	J/9Dw9FbZh7jrunIBJIVIcX4QE2nJJAQfagI6U0OJ+HzfrQCoLuyEzjSTPpIir9wa8kXjPwblRT
-	hifGJ+m8SJP9t2QAimshX0G8prZDlobmFU9dZDi4j3Tw7C28Dn8LeVYUpZoPLGdgenLws7nFkx/
-	ws5mfIkDSRaak9LsoypfQgEFdzthx0+Onq1FrRuw0Y5cGy1jALnpxfbvDNnJMm7u2cn+1rxQnHh
-	2YbL6WsAiEcvTCuDV/Jpni73cglTjjdzj7b3qv4PvARcXrFmSEfTc4UTECdqJ1eSINLr2gSECBY
-	0mjrO0uwu/dJhtwG+PnRxMl5jPFc7iaPkmO9lXAH9v67oYnYhAvBXDW/FW1lRylCA/xDb7zJsSR
-	GoRQ==
-X-Google-Smtp-Source: AGHT+IFMdahookWFrofSUU63LPPQg44mNjDOGme9X4c0o3pENxZxJbB959KtW1Yruxhnf1OpDcjZQA==
-X-Received: by 2002:a05:6122:3c86:b0:554:b32c:6f76 with SMTP id 71dfb90a1353d-5615bebc60bmr7329206e0c.15.1766858657125;
-        Sat, 27 Dec 2025 10:04:17 -0800 (PST)
+        bh=U7CS9a/UP1wGl2+5J10FtNTBbvnTiBPo4mSf3bNivDw=;
+        b=TlUiWoiRxhevdw0cZhnN1AWaHZQmb+mR4zlKA3NVelIZZ9FhOkNd2leQd8bM4wxCzi
+         h4doEnOLllTLl6OQ9AsQP0JO9UkZnlAMX5+sBwWEonKkVgQI1x4oB2Vwg/sb8vSDXUwX
+         owHj/GkWKVBmuaF3fWb6WCw0XbLX/kjq+GZDuV7B1+61dd+FevvZd51sHwg8sg6xmJND
+         fU/vBMUqxZMTGTSA63GbmX2AfZoZFNgJpiGno3V9M5+iXaLNAnFU1IPqssRBL6vNJRUO
+         DtFBJH/r5XfK0FwFpPvZjKTmgEpAQHY4eUBWqnuvDAnNgtZNPa2qZIvoTo3uQXYEvqW+
+         5XTg==
+X-Forwarded-Encrypted: i=1; AJvYcCVzXuBEDBK7Vg53KrS2Ve+R45UvnijsyNWisKb+nOrNpzPcK0tQSngQCg8bnqRF2ct2eLh7YgXliZgOWCviYKQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKPXFI7x51c8JsHexoIsT9lFWkKciTv79emqE8tEJVvVPUQ9ee
+	QH99WvSEtG4LEe/eNDsKMFyWxdVpLZ/hTO5wEh+mSzMEsdfI1YgWg54W
+X-Gm-Gg: AY/fxX63rWGnFJvCpeClzohz9xNFgOv9nXqGVDaYzC1IWs2IxRmbzIlTTeYx+4qJ24K
+	NYuWzQlwhO2B1ZdWR2i5U8lVtajYJAvlx4nTFUfgCzOsLEndDeHLiMsLBMhTmq63tazp/s74nhs
+	KWp2gjSqulqGlNM6EOlm7s17l9NgboHRoCvguAzr6nz2zssUIgXn2WjKUthHcvgh0w9zqIk33gs
+	z1kw3oKR/7NIUM3LilovsGVlz/eiWbf5xUvw/LozOB1bjuvu53/3NeRPopDnWkszZNEuDbPoDBh
+	HO9R+8chKlvJRSSjpRPyr3k1zX1RrXiJ8Wgha8PHnwhjecpg8gKBPT4PJXafkLRc4tXaMuN+JTH
+	1sjYocTR6UNYR4haNwJPmZOVlXEc58xmrJpxlI/sVI23UiJgOiM3rhJu3j/GIswPKQ1Ucsary+I
+	W0QlMp2u4azVff
+X-Google-Smtp-Source: AGHT+IHW7mZTpijQh1W0Vlb08EDOefDM9YQfhnD645lciF5cqOP+tlMO2IiZxFXvLAGGhdfgkwosEQ==
+X-Received: by 2002:a67:e702:0:b0:5de:31b1:1ffe with SMTP id ada2fe7eead31-5eb1a827522mr10343377137.32.1766858910355;
+        Sat, 27 Dec 2025 10:08:30 -0800 (PST)
 Received: from localhost ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5615d1665f2sm8376920e0c.21.2025.12.27.10.04.15
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9434176c1d3sm6868920241.9.2025.12.27.10.08.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Dec 2025 10:04:16 -0800 (PST)
+        Sat, 27 Dec 2025 10:08:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -67,165 +67,87 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 27 Dec 2025 13:04:14 -0500
-Message-Id: <DF974CHWQ5BL.MW4NYZU499S7@gmail.com>
-To: "David Lechner" <dlechner@baylibre.com>, "Kurt Borja"
- <kuurtb@gmail.com>, "Andy Shevchenko" <andriy.shevchenko@intel.com>,
- "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
- <Michael.Hennerich@analog.com>, "Jonathan Cameron" <jic23@kernel.org>,
- "Benson Leung" <bleung@chromium.org>, "Antoniu Miclaus"
- <antoniu.miclaus@analog.com>, "Gwendal Grignou" <gwendal@chromium.org>,
- "Shrikant Raskar" <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
- <perdaniel.olsson@axis.com>
-Cc: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Andy Shevchenko"
- <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>, "Jonathan
- Cameron" <Jonathan.Cameron@huawei.com>, <linux-iio@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>
+Date: Sat, 27 Dec 2025 13:08:27 -0500
+Message-Id: <DF977KU7WNXA.2B1WDUTKS7NRC@gmail.com>
+Cc: "Kurt Borja" <kuurtb@gmail.com>, "Andy Shevchenko"
+ <andriy.shevchenko@intel.com>, "Lars-Peter Clausen" <lars@metafoo.de>,
+ "Michael Hennerich" <Michael.Hennerich@analog.com>, "Benson Leung"
+ <bleung@chromium.org>, "Antoniu Miclaus" <antoniu.miclaus@analog.com>,
+ "Gwendal Grignou" <gwendal@chromium.org>, "Shrikant Raskar"
+ <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
+ <perdaniel.olsson@axis.com>, =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ "Andy Shevchenko" <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>,
+ "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+ <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <chrome-platform@lists.linux.dev>
 Subject: Re: [PATCH v2 4/7] iio: core: Add cleanup.h support for
  iio_device_claim_*()
 From: "Kurt Borja" <kuurtb@gmail.com>
+To: "Jonathan Cameron" <jic23@kernel.org>, "David Lechner"
+ <dlechner@baylibre.com>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.com>
  <20251211-lock-impr-v2-4-6fb47bdaaf24@gmail.com>
  <f5ef483b-12d8-4ed2-9637-af993c3f8b7d@baylibre.com>
-In-Reply-To: <f5ef483b-12d8-4ed2-9637-af993c3f8b7d@baylibre.com>
+ <20251227145312.0f1c5f87@jic23-huawei>
+In-Reply-To: <20251227145312.0f1c5f87@jic23-huawei>
 
-On Tue Dec 23, 2025 at 12:23 PM -05, David Lechner wrote:
-> On 12/11/25 8:45 PM, Kurt Borja wrote:
->> Add guard classes for iio_device_claim_*() conditional locks. This will
->> aid drivers write safer and cleaner code when dealing with some common
->> patterns.
+On Sat Dec 27, 2025 at 9:53 AM -05, Jonathan Cameron wrote:
+> On Tue, 23 Dec 2025 11:23:24 -0600
+> David Lechner <dlechner@baylibre.com> wrote:
+>
+>> On 12/11/25 8:45 PM, Kurt Borja wrote:
+>> > Add guard classes for iio_device_claim_*() conditional locks. This wil=
+l
+>> > aid drivers write safer and cleaner code when dealing with some common
+>> > patterns.
+>> >  =20
 >>=20
->
->
->> These classes are not meant to be used directly by drivers (hence the
->> __priv__ prefix). Instead, documented wrapper macros are provided to
->> enforce the use of ACQUIRE() or guard() semantics and avoid the
->> problematic scoped guard.
->
-> Would be useful to repeat this in a comment in the code.
-
-Sure!
-
->
 >>=20
->> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
->> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
->> ---
->>  include/linux/iio/iio.h | 83 ++++++++++++++++++++++++++++++++++++++++++=
-+++++++
->>  1 file changed, 83 insertions(+)
+>> > These classes are not meant to be used directly by drivers (hence the
+>> > __priv__ prefix). Instead, documented wrapper macros are provided to
+>> > enforce the use of ACQUIRE() or guard() semantics and avoid the
+>> > problematic scoped guard. =20
 >>=20
->> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
->> index f8a7ef709210..c84853c7a37f 100644
->> --- a/include/linux/iio/iio.h
->> +++ b/include/linux/iio/iio.h
->> @@ -10,6 +10,7 @@
->>  #include <linux/align.h>
->>  #include <linux/device.h>
->>  #include <linux/cdev.h>
->> +#include <linux/cleanup.h>
->>  #include <linux/compiler_types.h>
->>  #include <linux/minmax.h>
->>  #include <linux/slab.h>
->> @@ -739,6 +740,88 @@ static inline void iio_device_release_buffer_mode(s=
-truct iio_dev *indio_dev)
->>  	__iio_dev_mode_unlock(indio_dev);
->>  }
->> =20
->> +DEFINE_GUARD(__priv__iio_dev_mode_lock, struct iio_dev *,
->> +	     __iio_dev_mode_lock(_T), __iio_dev_mode_unlock(_T));
->> +DEFINE_GUARD_COND(__priv__iio_dev_mode_lock, _try_buffer,
->> +		  iio_device_claim_buffer_mode(_T));
->> +DEFINE_GUARD_COND(__priv__iio_dev_mode_lock, _try_direct,
->> +		  iio_device_claim_direct(_T));
->> +
->> +/**
->> + * IIO_DEV_ACQUIRE_DIRECT_MODE(_dev, _var) - Tries to acquire the direc=
-t mode
->> + *                                           lock with automatic releas=
-e
->> + * @_dev: IIO device instance
->> + * @_var: Dummy variable identifier to store acquire result
->
-> It's not a dummy if it does something. :-) (so we can drop that word)
+>> Would be useful to repeat this in a comment in the code.
+>>=20
+> Given David did a much more thorough review than me I've just
+> added a few comments on top.
 
-That's true :).
-
->
-> Also, I would call it _claim instead of _var to to match the example
-> and encourage people to use the same name everywhere.
->
-> And for that matter, we don't really need the leading underscores in eith=
-er
-> parameter since there are no name conflicts.
-
-Ack.
+Hi Jonathan,
 
 ...
 
->> +/**
->> + * IIO_DEV_ACQUIRE_ERR() - ACQUIRE_ERR() wrapper
->> + * @_var: Dummy variable passed to IIO_DEV_ACQUIRE_*_MODE()
->> + *
->> + * Return: true on success, false on error
+>> > +/**
+>> > + * IIO_DEV_ACQUIRE_BUFFER_MODE(_dev, _var) - Tries to acquire the buf=
+fer mode
+>> > + *                                           lock with automatic rele=
+ase
+>> > + * @_dev: IIO device instance
+>> > + * @_var: Dummy variable identifier to store acquire result
+>> > + *
+>> > + * Tries to acquire the direct mode lock and automatically releases i=
+t at the
+>> > + * end of the scope. It most be paired with IIO_DEV_ACQUIRE_ERR(), fo=
+r example::
+>> > + *
+>> > + *	IIO_DEV_ACQUIRE_BUFFER_MODE(indio_dev, claim);
+>> > + *	if (IIO_DEV_ACQUIRE_ERR(&claim))
+>> > + *		return IRQ_HANDLED;
+>> > + *
+>> > + * Context: Can sleep
+>> > + */
+>> > +#define IIO_DEV_ACQUIRE_BUFFER_MODE(_dev, _var) \
+>> > +	ACQUIRE(__priv__iio_dev_mode_lock_try_buffer, _var)(_dev)
 >
-> This could be clarified more. Based on the example, this sounds
-> backwards.
->
-> 	Returns: true if acquiring the mode failed, otherwise false.
->
->> + */
->> +#define IIO_DEV_ACQUIRE_ERR(_var_ptr) \
->> +	ACQUIRE_ERR(__priv__iio_dev_mode_lock_try_buffer, _var_ptr)
->
-> There is no error code here, so calling it "ERR" seems wrong.
-> Maybe IIO_DEV_ACQUIRE_FAILED()?
+> This one doesn't actually have any users I think?  Do we want to introduc=
+e
+> it without them? I'm not sure we do.
 
-Here I'd prefer to keep it as _ERR so users can make the immediate
-association. But I don't feel strongly about it.
+I can drop it.
 
->
->> +
->> +/**
->> + * IIO_DEV_GUARD_ANY_MODE - Acquires the mode lock with automatic relea=
-se
->> + * @_dev: IIO device instance
->
-> It would be helpful to explain more about the use case here and that this
-> is used rarely.
->
-> The point to get across is that it is used when we need to do something
-> that doesn't depend on the current mode, but would be affected by a mode
-> switch. So it guards against changing the mode without caring what the
-> current mode is. If it is in buffer mode, it stays in buffer mode, otherw=
-ise
-> direct mode is claimed.
-
-I'll add a comment on this.
-
->
->> + *
->> + * Acquires the mode lock with cleanup guard() semantics. It is usually=
- paired
->> + * with iio_buffer_enabled().
->> + *
->> + * This should *not* be used to protect internal driver state and it's =
-use in
->> + * general is *strongly* discouraged. Use any of the IIO_DEV_ACQUIRE_*_=
-MODE()
->> + * variants.
->
-> Might as well add Context: here like the others.
->
->> + */
->> +#define IIO_DEV_GUARD_ANY_MODE(_dev) \
->
-> Accordingly, I would be inclined to call it IIO_DEV_GUARD_CURRENT_MODE()
-
-I like this better.
-
-Thank you for your comments!
+I would personally keep it for completeness, but you're right, the
+buffer variant is very niche in general.
 
 --=20
  ~ Kurt

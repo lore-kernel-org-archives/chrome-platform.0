@@ -1,109 +1,82 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2682251795;
-	Mon,  5 Jan 2026 01:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10FD2D8793;
+	Mon,  5 Jan 2026 07:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767575845; cv=none; b=jxCjq+eslDwzZnYce+6dgkqLUuahofDevRXT1LRjw37bmG7nys9D0KIWjASnuoRtV1wXdbizT5QJB2+dEU6ke1jNrEajKb5yc0EhYbuUqOEkN+xmHwCoitJtGguzrOv129iVnQxUJiAxxzO3/i3yiLHUa8zqrDW0QCqE7cVcjgk=
+	t=1767599581; cv=none; b=ZhIxJMDquSNeW2MC5N+99bJ/L7wAK2Q4Hnot000FMm7EaJOILXJpynYHpobIVcq0KXkhtP5VWowJgEYWw48TFxiErO7R48N3ZcQM1nn//L8HQk/10Xy8HTnDP6/MJC2UGtbPp3qcBefgC6DirE5+mAJBBf7+Cgbmvc70NLBgyqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767575845; c=relaxed/simple;
-	bh=lKYlFUk3wTX+gwXFOMsXeQ4+0b/Y3itIzSFepyAzzDk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=FvRMSne941cGw4VtG2k9spnZqIb3e6Y6vtKAfmF8nwM1/Rr+xxc6p65WBdQBkCyRUCbM3HtQewP2uIjhpr95MO2+lAxZzYczov4V6lcwe7RULYPAFd7y0uPL/a2rEDeOUXgzpf8S6gg6f0VGTFAMRXTrXltYaw1vs3zadtmKIlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AKRq+C0R; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1767599581; c=relaxed/simple;
+	bh=AiSYHgd0LeMj4IYkW5BSptu0mxPtYcWnONLKwMb1fzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WiC3gVWIga5irEv2hdWERLhEj2VblRX8tMOFAZXM6VGbaQr0rsOH4ggugO/9YWEMIJtx1jZ2e0ReUGaMqSriOo7i7AhNKjlgmPumcP9AAqG2O46p+BOWsHXOdagrxKDUYTej2DfgoIwa/3X6uH5mk8fhQTo25L+6phRgHaawNV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c5kr3reW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AKRq+C0R"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=pZJXqr1shDOJNTqRYSFVIu1Zdtd7/8R285rGmkkRm1E=; b=AKRq+C0RidbJ2ebH1AwJJaiFtO
-	8KWAnzMMb5j2/RD+jEWnlyhtwoMIEpAqesaCl2mj+Bgr79rcXC2iLY4X8UoUZ1J6ZcERcRLZf/1Mr
-	Qj9AvTYMuYYMDIchA/83TyX753gWfZ5EHQHWWsZhznwSoZHN6XQ9mSMXkqJBZRxUOF8JjK7kxTjy8
-	YRYm5cRRxcqihc4WnIbQJI4hdpLFCyLFM5d6xhV3rSlhTjcSnziwDYdjnr6V0QQi5WmSmqCxg8qg0
-	JaNWJvB4I8S7f1CbEKaO5cHJ++lZok1J0rNm2fPDugTXr2azRdsHFhVo21Rw9ChmdPDMCgZBM4Cj0
-	TJFOwEpA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vcZDf-0000000AbSy-3tej;
-	Mon, 05 Jan 2026 01:17:16 +0000
-Message-ID: <eb7c246a-6c5f-4d8d-bc96-2a71ece2e042@infradead.org>
-Date: Sun, 4 Jan 2026 17:17:14 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c5kr3reW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7EA2C116D0;
+	Mon,  5 Jan 2026 07:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767599580;
+	bh=AiSYHgd0LeMj4IYkW5BSptu0mxPtYcWnONLKwMb1fzs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c5kr3reWi4rMJpw3k9dv0aR1x0qpH0wvTUyfVk8ruKF5agk5PehhI048fD/2pyjnV
+	 /WDHVvjA0V0lUWZUQiQboQK4dvs9SHwZttsPL33/TxwLa77Yc+FH7DVnM9UF+D9FvC
+	 vgwqG+LZyWEPEgttWc6TeZ0c0BX92CSvNlTQMhzcLwkddAa1v0f9jejo1rGMlfcb+5
+	 GFLa1cxVbbz8P5AWHQuYoY6Fqr5uJXRSAq0VFjDPyoqo8b7p/qV4UFRfjt8wQPyxLT
+	 6CGUt8JBkqCvm6xKjcGnZ1T9nl3Q9JN2DK8/GZUsYgXuX0hDXPMPtwZmjflrhu5x6z
+	 mm7tnsktKPOCQ==
+Date: Mon, 5 Jan 2026 08:52:56 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: google,cros-ec-keyb: add has-fn-map
+ prop
+Message-ID: <20260105-helpful-ocelot-of-eternity-6bb1ee@quoll>
+References: <20251231143538.37483-1-fabiobaltieri@chromium.org>
+ <20251231143538.37483-2-fabiobaltieri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [Linux-stm32] Kconfig dangling references (BZ 216748)
-To: Antonio Borneo <antonio.borneo@foss.st.com>, Arnd Bergmann
- <arnd@arndb.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: linux-sh@vger.kernel.org,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- andrew.jones@linux.dev, Paul Cercueil <paul@crapouillou.net>,
- Max Filippov <jcmvbkbc@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
- chrome-platform@lists.linux.dev, openbmc@lists.ozlabs.org, x86@kernel.org,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Paul Kocialkowski
- <paulk@sys-base.io>, linux-sound@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-mips@vger.kernel.org, asahi@lists.linux.dev,
- Srinivas Kandagatla <srini@kernel.org>, Jonathan Cameron <jic23@kernel.org>
-References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
- <5e335232-89b4-4c35-93bd-efad7e4d8995@app.fastmail.com>
- <0220ec0592b6ef8936c25cffbc6cbfa0539fb71a.camel@foss.st.com>
-Content-Language: en-US
-In-Reply-To: <0220ec0592b6ef8936c25cffbc6cbfa0539fb71a.camel@foss.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251231143538.37483-2-fabiobaltieri@chromium.org>
 
-
-
-On 12/8/25 1:48 AM, Antonio Borneo wrote:
-> On Mon, 2025-12-08 at 09:55 +0100, Arnd Bergmann wrote:
->> On Mon, Dec 8, 2025, at 03:04, Randy Dunlap wrote:
->>> from  https://bugzilla.kernel.org/show_bug.cgi?id=216748
->>>
->>> The bugzilla entry includes a Perl script and a shell script.
->>> This is the edited result of running them (I removed some entries that 
->>> were noise).
->>>
->>> I'll try to Cc: all of the relevant mailing lists or individuals.
->>>
->>> ...
->>>
->>> MACH_STM32MP25 ---
->>> drivers/pinctrl/stm32/Kconfig:58:       default MACH_STM32MP25 || (ARCH_STM32 
->>> && ARM64)
->>
->> This was likely intended for 32-bit kernels on 64-bit STM32MP25
->> chips, which we don't support. I think this can go.
+On Wed, Dec 31, 2025 at 02:35:37PM +0000, Fabio Baltieri wrote:
+> Add binding documentation for the has-fn-map property.
 > 
-> Yes, I fully agree!
+> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+> ---
+>  .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> I have a series pinctrl stm32 to be rebased on v6.19-rc1 and I can include the
-> drop of MACH_STM32MP25 inside it.
+> diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> index fefaaf46a240..fa24b1cbc788 100644
+> --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> @@ -44,6 +44,14 @@ properties:
+>        where the lower 16 bits are reserved. This property is specified only
+>        when the keyboard has a custom design for the top row keys.
+>  
+> +  google,has-fn-map:
+> +    description: |
+> +      The keymap has function key layer. This allows defining an extra set of
+> +      codes that are sent if a key is pressed while the KEY_FN is held pressed
+> +      as well. The function codes have to be defined in the linux,keymap
+> +      property with an offset of keypad,num-rows from the normal ones.
+> +    type: boolean
 
-and what about this dangling symbol?
-arch/arm64/Kconfig.platforms:375:	select ARM_SMC_MBOX
+You still did not answer to my previous question, why this is not
+deducible from the key map (presence of KEY_FN in the map).
 
-It was merged with ARCH_STM32 in
-9e4e24414cc6 ("arm64: introduce STM32 family on Armv8 architecture")
-
-Same answer as for MACH_STM32MP25?
-If so, Antonio, can you take care of that one also, please?
-
-thanks.
--- 
-~Randy
+Best regards,
+Krzysztof
 

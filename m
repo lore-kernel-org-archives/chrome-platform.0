@@ -1,174 +1,138 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906BF31ED61
-	for <chrome-platform@lists.linux.dev>; Tue,  6 Jan 2026 08:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D6932C31A
+	for <chrome-platform@lists.linux.dev>; Tue,  6 Jan 2026 11:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767686849; cv=none; b=DMsU0Bo8wSMKBAEKX2ho9IJOSIvEJRf2JGS6bOG9eGo9hKZHBjwY11Ro+bD/2E7omofIPFtkiRWhNd+iT5sOk6kS6GxbwoZMFGRgLKTDGsVm/vUeJzWhP/mmEUTWbUUzHzqQj9Sqz+gNYHWurOJG9n8YTa4C7J5R5lU6Kzu+svQ=
+	t=1767697286; cv=none; b=Qg2xVw5EBQuBwhtBdN6Qs7Du0yz9CD0EbhSjx6ip+9OMp6tq5skO0/bWPoq55w9HO9HKjS4s8PwAuX1dDT2AA4NhoFrv/bzGf2Hj1XMR2gs1W6c3NdNjPSxbDuoQLwg+Dtljd3wKIDCIfUseJncCrjdcIRz52+RmamXj9URIrWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767686849; c=relaxed/simple;
-	bh=wLQkfH84L3nWLNYNBgcXpFCEELbehsGmWWxLa2vh72M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AE5U68Y9zv+IiNxDL3R56APVZWxMQkczjFZfbNvOlBHNzuFeI0+mrmZtygdYWvX3+qCNGmm/OQkk6wxIrHQlNb582NstRxqHJjOiplU6dcZpi0/kaIjBlIxoMGOvtMXWFzlTHyt1rbQvSBj8hnbqzW/lTc48E/JLAP6aOfdh4Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TIRBRYOO; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767697286; c=relaxed/simple;
+	bh=K8B1ITgIq3FUq81iGq9UYGee0jVJIvlcDFoY0m6i980=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q/BFL6YsBUXsYnbEbmTaWADaMM0S4ZDUvxuHOPZ2V/pwRjgVnSlhFfS7lwcfzIu6pxWO3fFXRl8wnf2utuUkM87HPIMKljzU1dxGXCJAIa5+SL6vJaPt0ckt/unr8MAqpTC+xKrQbgk71VqX3Ux27FI8fHcehyvImuWV6T2q/zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fFpQ5ePE; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TIRBRYOO"
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-93f4f04d9f6so1359509241.0
-        for <chrome-platform@lists.linux.dev>; Tue, 06 Jan 2026 00:07:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fFpQ5ePE"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42fb6ce71c7so562579f8f.1
+        for <chrome-platform@lists.linux.dev>; Tue, 06 Jan 2026 03:01:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767686846; x=1768291646; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IydZnnaEgCiF4tRpM0JqQAl0iXFoV2F5d6i1TSIygpQ=;
-        b=TIRBRYOONphvlgFL/BN3lyX57Fr+Cfkh5Vz8VcxMBw4+by5YsmlPPDCHBC4GQMyh8e
-         ehFGvffB6mGqeml8rMALqaNP/U/Ch59VrX8SSrQo2gZBnCgWKN2FQdCT2nBcHpKcGGjN
-         wr4n1SNIPoshjShNjH00IZNaI7gMH95Gy9FBrnhACzfZihRNDDjKfFS7LApFzAzvHCyO
-         Uk/PPA7ZKs9DABRXhhL6ZBknXNGe0pGUE218nERq/59l/zF0LZEUIsHoquu6AM2PqWUK
-         zGHl8a7w3aHzCUMSlZBJjm5tmwd5hulauljxfXAIFFMS3RiWyBO0nZiu02qrS/DA2o7G
-         eTxw==
+        d=chromium.org; s=google; t=1767697282; x=1768302082; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O3m/v4VXTV6NMfNLvVjfAE6l9ij7+j/SxZwfjGUHi2c=;
+        b=fFpQ5ePEBkXIrmi4Wl5zh18SXin1Y7hBIreZFk3vpjFgc9ybL5HPsba16MLfKtVa4P
+         sGOjjlBEW/0ocEdh/ElcsSRz3DcJJ1E9q3wKZuuGYkHAuftySZ04sKhAxRe2aDISZA4c
+         VvLmC7BAt6M9RBX7Rg6pZq3B3DcUSw2spbrQQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767686846; x=1768291646;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IydZnnaEgCiF4tRpM0JqQAl0iXFoV2F5d6i1TSIygpQ=;
-        b=g4i0GYLmL9r+6X0vFIQVFBgDGOQ8x1g2kc2ZtVlBuhQUTFQnYZCv5EoFr2QhBhx1yC
-         P0V03s6h2gZZAV28glYOLzO5OvR9mZUQmz1BrqcUKKVYkq5c6hsmOcIN2WtkeoXGjwk5
-         u+E0y0kMSjsiSQ1KqThWq0Eq8rtG7Ch0ZKroSjbGHF06mPlqB47TIL9H0PqcRUaFMsvm
-         QwFSrZ9XlqAKpRVTjVfUeHr4MWjOwqj6TFiumvBxKK/ap/UovNHw1jMDCDYBTEyIdNXp
-         5yzN/L9mE4IZDhUXJ8rb41vLOsfbeiojvtRSO1mcdJVx/CGDLWzTERLDcKd9X7sci2b5
-         WqUw==
-X-Forwarded-Encrypted: i=1; AJvYcCWdQ/bwvisrRd1qawX6QR3xipbwHMJHuc4n5c1xvItwn3xwBHvpJOufx+9qSQa3eI0wa/xjWGGVhSq06buotKc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWYiFpNLM1Dz7ldbcKtU6fqTOqZ6bIt4GIotI0ZippQmRS8FmN
-	Y2Infr+m4+3pD0FY/q/bQfx94UHsz/Mo7PA2WHO3cELUbw5F1v2pyj7f
-X-Gm-Gg: AY/fxX7FRV9RTIeGL87eG2O49JuanBPb2+JD7or1s0wuTcKHdOFsrRXRBfdIlMV/IEk
-	/4n7qCZTau5V84Jnj5mjVDqRaGe6pSTJBxahth/jy752YUlS6Yx7/WWsRV0sh+9WNYa2Krs6VPX
-	LaSfk+mirLG1PEwVxCDxq1X4WB9aomqmySRtYDAVqLqAoQeNfL0kgDp+2YP3l+NnaKCym7yyTNQ
-	chrcvqMM4s8W2zrKh3GxfZE2yu5bMLOYqVZFAu47iPqLN9SCuy7tXGknGUFcC6GrL7jnJ6Rmk0H
-	cKpzl8Q7tDcxwqvSl07MP2uCtQ5/PeQz8Lq5YFmBJk/EzU9+hpk3CMP29zT3DwcxlnODBIZcOqB
-	tcybarY6ILhzXjiyzShjJkGla7zGqmgOMH78nhOjnYb25O266bLtZXCcxTyJGwvXGDmR8Xnghq9
-	JULlmFQLm898FS
-X-Google-Smtp-Source: AGHT+IGMzI/cOqZ43QXZ7a5RlfUrH5CNRBYOY+ps8BI9qD34V+0PqH3koe/uQqhNWbT7bakQngPE0Q==
-X-Received: by 2002:a05:6102:41a5:b0:5d5:f6ae:3903 with SMTP id ada2fe7eead31-5ec75772675mr663970137.20.1767686846422;
-        Tue, 06 Jan 2026 00:07:26 -0800 (PST)
-Received: from [192.168.100.253] ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-944124a3386sm457615241.11.2026.01.06.00.07.24
+        d=1e100.net; s=20230601; t=1767697282; x=1768302082;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O3m/v4VXTV6NMfNLvVjfAE6l9ij7+j/SxZwfjGUHi2c=;
+        b=SotxkQ/aJwkFqEmLMXhGbGdE8g/QrylNGXZC1deQ0/2DXlmhvl0aK24D1chsxdybf0
+         SmzhBbMDt66naG0MoC/ZOiDA/JkJ1k8mjjWvOEWpjcTwjEYIpQ0118cliuu4wtUXyFo2
+         0GGM+0PfQdQKgywA6yPlASrBfmAZX6dgHBO/leVYh7ZsH6QQ7zCH+sNVp/dwL+L7HLAj
+         YN5oKfcr6wmfcdlsVzs+4dplUwHclxkDtVFAcNbvT8gsAx/j4dp+IDXN0uVFJ4ws4jpv
+         poFI4qCbdSiizjrEuttAkXmu0FOfFTEeytnDZ/11kUWSJpTWLE/KAOCJbQmIljKRkeNC
+         TQ+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWZlxvtdRK+2fHzMzTu0xQ0z647qBulFHGzI3ykyMVh2f5fAstitM9EPIynTMZyt7anTrxwoWmXA0ODz99jYo0=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywb4WFLjR65nPBTyVzogTcXw5ql/kgszJ82X+YPYPQIVO+fLMTs
+	t/yFr6PNkdGdT1S5AcFuq4Jffl4TSg/z1ebnOp6YdMXZkE/eGb9Y0+Ru1XdMByK5bQ==
+X-Gm-Gg: AY/fxX66AAnhJ0VOp+rPm+zy0bAYsk4pW7l8cz3FdJ7+JigA3Kohv5rvNgUfSlhBjin
+	iWLmV8mBhP8mXKCtvQcjshyvKrsGuoj37lS5FR5oE8fIQ0EjkPJCQehRw3Aigd6oFWBybPC3wlB
+	2JKnRBkxDcA6mXiwXOA+8EGYn9rrBVrp05Bm9zlJ8wo8PC3e7vQGqdniSiRBm8e/dvuuWrxdWOJ
+	X0qLGqNyirknqJrEihTYQ58qzh/+Bk1+Hu2uNkOMW0PrzScrVmYtJXXWE7oQHNc/01+Fvq/zNXj
+	FoCnA8P8/4la2wFdcPVO8xMJoDBmu1hNff7OfVoJ6iGZtOZDz3n1SiaK46zdxgKb+qvMruSuH4H
+	vkI7WSEgZLzDLdSe5aOA0aNLk04mcgRURHMe18QvVDo0AoTHlfQU8sWNktyXAaQ2p/eoSwuipuV
+	rwKEhFeg+qb2ByEVuZpQ==
+X-Google-Smtp-Source: AGHT+IG9g5Uruo7F3IpKCSwx4dA/EzxEcppJATTbysJnloBLnkO2XLfNlAmhjuyITGfSxfeZpj0FHw==
+X-Received: by 2002:a05:6000:2c12:b0:430:f9c2:8500 with SMTP id ffacd0b85a97d-432bc9fc09emr2909739f8f.43.1767697281958;
+        Tue, 06 Jan 2026 03:01:21 -0800 (PST)
+Received: from google.com ([37.228.206.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e16d2sm4050362f8f.13.2026.01.06.03.01.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 00:07:25 -0800 (PST)
-From: Kurt Borja <kuurtb@gmail.com>
-Date: Tue, 06 Jan 2026 03:07:02 -0500
-Subject: [PATCH v3 7/7] iio: light: opt4060: Use IIO cleanup helpers
+        Tue, 06 Jan 2026 03:01:21 -0800 (PST)
+Date: Tue, 6 Jan 2026 11:01:19 +0000
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, Simon Glass <sjg@chromium.org>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: google,cros-ec-keyb: add has-fn-map
+ prop
+Message-ID: <aVzrfwY8SrIAGn-e@google.com>
+References: <20251231143538.37483-1-fabiobaltieri@chromium.org>
+ <20251231143538.37483-2-fabiobaltieri@chromium.org>
+ <20260105-helpful-ocelot-of-eternity-6bb1ee@quoll>
+ <aVuYt24q6nihC4t0@google.com>
+ <20260106-oryx-of-major-protection-10c4e3@quoll>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260106-lock-impr-v3-7-1db909b192c0@gmail.com>
-References: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
-In-Reply-To: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Benson Leung <bleung@chromium.org>, 
- Antoniu Miclaus <antoniu.miclaus@analog.com>, 
- Gwendal Grignou <gwendal@chromium.org>, 
- Shrikant Raskar <raskar.shree97@gmail.com>, 
- Per-Daniel Olsson <perdaniel.olsson@axis.com>
-Cc: David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org, 
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- Kurt Borja <kuurtb@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2592; i=kuurtb@gmail.com;
- h=from:subject:message-id; bh=wLQkfH84L3nWLNYNBgcXpFCEELbehsGmWWxLa2vh72M=;
- b=owGbwMvMwCUmluBs8WX+lTTG02pJDJkxh1ZZLly6fU/3oVnceUXdgQrl5s9XfjBatl7l8LvJE
- 8SeHfH52lHKwiDGxSArpsjSnrDo26OovLd+B0Lvw8xhZQIZwsDFKQATcZNm+F/+RFrepeK68zpN
- lvAJXpZuJr9u9bomyiUc76pf6te5goWR4f+5Ssv1Z9lFLX76L/g4K0Fs7Vcfv7/lFtturOAN3Ht
- 2Ew8A
-X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
- fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260106-oryx-of-major-protection-10c4e3@quoll>
 
-Use IIO_DEV_GUARD_CURRENT_MODE() cleanup helper to simplify and drop
-busy-waiting code in opt4060_set_driver_state().
+On Tue, Jan 06, 2026 at 08:27:10AM +0100, Krzysztof Kozlowski wrote:
+> On Mon, Jan 05, 2026 at 10:55:51AM +0000, Fabio Baltieri wrote:
+> > On Mon, Jan 05, 2026 at 08:52:56AM +0100, Krzysztof Kozlowski wrote:
+> > > On Wed, Dec 31, 2025 at 02:35:37PM +0000, Fabio Baltieri wrote:
+> > > > Add binding documentation for the has-fn-map property.
+> > > > 
+> > > > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+> > > > ---
+> > > >  .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 8 ++++++++
+> > > >  1 file changed, 8 insertions(+)
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> > > > index fefaaf46a240..fa24b1cbc788 100644
+> > > > --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> > > > +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> > > > @@ -44,6 +44,14 @@ properties:
+> > > >        where the lower 16 bits are reserved. This property is specified only
+> > > >        when the keyboard has a custom design for the top row keys.
+> > > >  
+> > > > +  google,has-fn-map:
+> > > > +    description: |
+> > > > +      The keymap has function key layer. This allows defining an extra set of
+> > > > +      codes that are sent if a key is pressed while the KEY_FN is held pressed
+> > > > +      as well. The function codes have to be defined in the linux,keymap
+> > > > +      property with an offset of keypad,num-rows from the normal ones.
+> > > > +    type: boolean
+> > > 
+> > > You still did not answer to my previous question, why this is not
+> > > deducible from the key map (presence of KEY_FN in the map).
+> > 
+> > The driver behaves differently with the fn layer is present, has to make
+> > extra space for the extra codes and enable the logic to use it. I can
+> > certainly detect it in runtime, would have to always allocate the extra
+> > space even if not needed and check not only that there is an FN key but
+> > if there's anything in the second half of the map.
+> > 
+> > I'm not overly enthusiastic about it, it's a bit wasteful on memory
+> > (probably no big deal, half a kb of RAM I guess) and somewhat less
+> > defensive to misconfigurations and in general I don't like the new logic
+> > to be enabled magically, as a side effect. It'd be extra complexity for
+> > the sake of saving one boolean property, but sure if you think that's
+> > the way to go then I guess I can implement it that way.
+> 
+> Driver logic is not an argument here, we don't care about it. You should
+> answer why presence of google,has-fn-map in DT makes sense when none of
+> the keymaps has KEY_FN. Why this is a valid and desired configuration?
+> 
 
-Signed-off-by: Kurt Borja <kuurtb@gmail.com>
----
- drivers/iio/light/opt4060.c | 52 +++++++++++++++------------------------------
- 1 file changed, 17 insertions(+), 35 deletions(-)
-
-diff --git a/drivers/iio/light/opt4060.c b/drivers/iio/light/opt4060.c
-index 8c4a1f562a83..d6e915ab355d 100644
---- a/drivers/iio/light/opt4060.c
-+++ b/drivers/iio/light/opt4060.c
-@@ -302,41 +302,23 @@ static int opt4060_set_driver_state(struct iio_dev *indio_dev,
- 				    bool continuous_irq)
- {
- 	struct opt4060_chip *chip = iio_priv(indio_dev);
--	int ret = 0;
--any_mode_retry:
--	if (!iio_device_try_claim_buffer_mode(indio_dev)) {
--		/*
--		 * This one is a *bit* hacky. If we cannot claim buffer mode,
--		 * then try direct mode so that we make sure things cannot
--		 * concurrently change. And we just keep trying until we get one
--		 * of the modes...
--		 */
--		if (!iio_device_claim_direct(indio_dev))
--			goto any_mode_retry;
--		/*
--		 * This path means that we managed to claim direct mode. In
--		 * this case the buffer isn't enabled and it's okay to leave
--		 * continuous mode for sampling and/or irq.
--		 */
--		ret = opt4060_set_state_common(chip, continuous_sampling,
--					       continuous_irq);
--		iio_device_release_direct(indio_dev);
--		return ret;
--	} else {
--		/*
--		 * This path means that we managed to claim buffer mode. In
--		 * this case the buffer is enabled and irq and sampling must go
--		 * to or remain continuous, but only if the trigger is from this
--		 * device.
--		 */
--		if (!iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
--			ret = opt4060_set_state_common(chip, true, true);
--		else
--			ret = opt4060_set_state_common(chip, continuous_sampling,
--						       continuous_irq);
--		iio_device_release_buffer_mode(indio_dev);
--	}
--	return ret;
-+
-+	IIO_DEV_GUARD_CURRENT_MODE(indio_dev);
-+
-+	/*
-+	 * If we manage to claim buffer mode and we are using our own trigger,
-+	 * IRQ and sampling must go to or remain continuous.
-+	 */
-+	if (iio_buffer_enabled(indio_dev) &&
-+	    iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
-+		return opt4060_set_state_common(chip, true, true);
-+
-+	/*
-+	 * This path means that we managed to claim direct mode. In this case
-+	 * the buffer isn't enabled and it's okay to leave continuous mode for
-+	 * sampling and/or irq.
-+	 */
-+	return opt4060_set_state_common(chip, continuous_sampling, continuous_irq);
- }
- 
- /*
-
--- 
-2.52.0
-
+Think I answered that, it felt like a clarer design to me. Anyway I got
+the message will send a v4 with runtime detection, it's certainly a
+valid option and works out for me.

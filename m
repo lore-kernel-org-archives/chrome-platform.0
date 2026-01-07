@@ -1,176 +1,125 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A41283FEA
-	for <chrome-platform@lists.linux.dev>; Wed,  7 Jan 2026 09:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF23719C54E
+	for <chrome-platform@lists.linux.dev>; Wed,  7 Jan 2026 10:24:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767776579; cv=none; b=c6cX1ucBiLNv3HLUutHsS0DF/OduW3lJG1AD/a/gDWQnO3Wgz8w6tMptWRsaeTkg9JmB7EJVLH0hEzE61Fj7k1jfDtVDhxXPvO6r71b2hw7BWbs0F9JfQw72n67lFDnBUgARmrL+btiSELM2NsqDxS1qbJ2+MTWIDY19H9miOVI=
+	t=1767781483; cv=none; b=ki/achX+CUIrEz0CxTNFVx7K4rt76gv4OquLIIVmiY4pE/IzvhC2jEj95CUbZE+W1pacLnXYYyqfHBeIbu0gjiNd/JXs7sMB/eGzjnsnocZysZgPb/2xxes3fZj7ZM1laKPqBoCat2GMmiIYLBQaukjb3kmW3HOyrpofXBAwssE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767776579; c=relaxed/simple;
-	bh=c9Eaq6NHgJs1gmcbceR7Po8zxZJ42JrGgdOHIl1O1Zg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RWMdiWKCkMuNkanDTWg6bkrl2qx6GLcKTzTya8oOOpRot1q6qMzErj5L5LxzI/n6mQ3lg/ZViIvTKt4sVV8ZPuakOnPbfUlFxLLiAaDkdeeDnfOojoHvRM2kxJzegS+ji9oADf4B0q77vs6NspMoGeQPMygnStCgKavLxLgITfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Q2qorUbX; arc=none smtp.client-ip=209.85.215.179
+	s=arc-20240116; t=1767781483; c=relaxed/simple;
+	bh=RU676P3TvU0swoFzAWorS8H0cptCGiCBmBQZLWScomk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZwTxijvalopHcERP6Kqz4urQIEypzB+g6aVyF/yT13bu/Za8qTWdvscRWpfENTw+H1yjI6v+cgngbjg6NoxGyCh4ZpFNIQ8/MxsggPZZymWY9Y3t7u30PpSvQa6itAqy1ttTGaUFu4hyMcj6csM0vILqU9gKaZGfBsIRtl8/xMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nWrBrGAJ; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Q2qorUbX"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c2dc870e194so1120522a12.2
-        for <chrome-platform@lists.linux.dev>; Wed, 07 Jan 2026 01:02:58 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nWrBrGAJ"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47775fb6cb4so10760945e9.0
+        for <chrome-platform@lists.linux.dev>; Wed, 07 Jan 2026 02:24:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1767776578; x=1768381378; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j2G0+ow3aEvj9nCmuMZLN+Bl7iDn9WopMZQcreUCtuo=;
-        b=Q2qorUbXBdtxq2TPYzv20U+E0O8IlR+pe4v1jLoCRmvEOx4aYlEtGkQA175qxx0wvy
-         spNlVHRT86Du4ixJyd0wBEW0rOv8gZqEnJavZ1Ngx9/8xFwn8QWR2UOcm7XGnZ6bHajm
-         bgwzB4XPn2KljDKwoc50NbN2VU3vNya2z/wRQ=
+        d=chromium.org; s=google; t=1767781480; x=1768386280; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AK2Gg8unTsWO3CwKx4f9Ov3gr2i0DpoldAAWtOWz2w0=;
+        b=nWrBrGAJwCfEeH606dhzNZDciqXN+SSCT1CIo+9rRIszxfzCDrGl4xB07GG1Z2/9U6
+         3Ydmy8EpEgfUtY0dSMdaDMRzTQQu33vCIR1IYBawe68Iomkqped9U9PZVJeO2gAJxmEA
+         bvqwfL4POI6JrsquSsREQEmyEakWw0iQArL64=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767776578; x=1768381378;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=j2G0+ow3aEvj9nCmuMZLN+Bl7iDn9WopMZQcreUCtuo=;
-        b=rvOxe2dKpweJ4GSMNOdtr4f2GDFrW0QR3tPRBPg3HwShkXDBekS1cOnvHrY5MGnr1y
-         3fenn0xbJKyys9vjX+Pyp24x3NdoGwrbRnH1DFLImUepFvTZ40JB2uoUiNGzeQsbxiYh
-         kRPDku0CeDt0SBH84qVuLerkE37raUXw1ORwwM7/TLwSkSUsdr5qQ6Kx84saZ7BB1ZoK
-         NPbXufbymcW2Mdnq8xf7UuSxFVqa3s8Vdtk0ioQAvffTwIaPWPMseD+JQq5jDnterqvL
-         vAp/dZ89Fkhd9sQL2gO79MnEigTlX242bGsAoeklOZSdLaex1Z2hUZUdQIjtBjwmV2Xs
-         E4uw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlk+Ht6BprP5futAzhH2fu2mEky14OXJxj1aSu6vVjz4erMGoDwHyjF7XuCacor4NbuQglWR8lmLmHpPswMXI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkSv6lJRQ9fk4D8GgyGadSf+Prepn3rMB7wL/kP8ovVKDt8iuZ
-	5mLNJiDu62CNdQavG3+IKo/Ht8WbTwhX4pMlQ9dNwPxgjqrBE/7QX0rXBHQLmXyl3Yhrlxstw2Z
-	buMBJTJNzHeV2B91rCbLiC3t5Dz0HdaS0tUOya7iF
-X-Gm-Gg: AY/fxX7TVO2w8EUdlvtMe2I3jAKmKKh82O3Fk1vdjVi9ld6CPxf029Ew9QEFUO//SIu
-	TFzFHICpdfIHR9NPqLs1XPYdW0x86WovrG3VeLTN39Rn1lTJPS3D1rv2PlPEuP88FhPWPfVY032
-	tgP4nSvxcG3IJtdawOZBZRIIVoBfCNUr4VuIs45u3PQmdEokyWUoV4gedtjZQW/IuL7BsO69gmH
-	eZePW5XRmenqskDo32n++m1fpXTUI6zdbkPU34UXETMKXwJSLqdRiLYdHtpDUFQpYbRCsTr7Geu
-	IRKLafGK8aEJgJ4c1Xb6
-X-Google-Smtp-Source: AGHT+IFSgQAg+iv9BdyK3Tg4JWt6tUDK5l6qV0i9nXILLuUTtITsTnQDUNw9LFDunFpS8QGL+I606Ji65XMvOZkowwc=
-X-Received: by 2002:a05:6a20:6a1b:b0:366:55c4:c5a8 with SMTP id
- adf61e73a8af0-3898f91d59emr1861329637.25.1767776577681; Wed, 07 Jan 2026
- 01:02:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767781480; x=1768386280;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AK2Gg8unTsWO3CwKx4f9Ov3gr2i0DpoldAAWtOWz2w0=;
+        b=i29kvKXrA/S7plEkKDR+cWWrTFtcMMd5wZsx1o9AdUqKgYLNp9zJO91MVDFNv73rN0
+         UWD+lfY8RcXxYS9f6Ssasg/WmDBcF1yLWnYbzGMjl6bsxwMO1lW6sb7owV888j5LzKse
+         /MwAxBo0t2wshbxrmNDVAAOAA30fkQcVwn5I4rMBGzu487VboA2vd+9fwZvtiCFUfAv7
+         ZYPcluEJ0Fr38Kpr0EONM2205+QhWmn0t7RW7FS2jZMGI81rumZKAz9ehX5FCHOpEdoF
+         4pBDGO4vhLeuF1pkyCKx7hnaEX06LF5DkcVEThS9MVKJwOVfAeG3ZEVIZ5Rzfd/dRP7H
+         PBJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVFOBdqWsy2xAreCxV2XI80Re83TUIAGGJKh4Rn0RFXoWgkK7iFNAmSVIonGvcuN35iC/Wm3uOa8VBxJhneQdA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNabCzMLiBqx9DRt6VsKXkILNULd+mNAmBghGFjXwC+q/zNdrw
+	rZ4p9T0rfLuTaADASgJiaKTgW8JwBJcOZxClkWUG0IdSdHShz02q99CEAMu7elMuwJhu94t4MN3
+	xqvo=
+X-Gm-Gg: AY/fxX75An8y4PKQxVujE5tsXKU/p1jaKbLy0jmEss85NK31HdniUDvyECE7tWVgZwq
+	sLHezcvw76eDpTWw4/e0KxelQokSCTTI/z77Zz+OIfnv+oO/d0j7SRW6XMddDqLUwPyTlKvvGrh
+	AVFAa9KH9OjgyEukIcpbZ+GJoIHacFOrVXNrGwSz197+wpsgOtRsi21rCruAnWQRv4YUEvDEou9
+	YpgpwNymwkMvCNH4Oqan9MIswH/vjR9n8DdoLGwKxaXOqZHY41MSh+Atk7P+mqAbedM4ZpQxyhB
+	BKgp4R69rUutQXfMKVXIpTDyD9NdYGOH2ya0FIirG4JFW3n71ZVwOf+NIS+rnG/8JAl/NgJUI4I
+	PeNp5360H3jF5qUbsAxnlzxHzG/hRkI+cHMHT7XjprJp/ExOM9XlEMP63NYsxCZcvEPLzUoPcIU
+	nByZ7+7owjcT1vJc+1pieeU0+H9OeW
+X-Google-Smtp-Source: AGHT+IELXErZD8ru3w6x43TKd1f8wm86x+ymI62qEzqJdcBMa1KawoY4byUO5aTYAhFJUs8vu9rlqQ==
+X-Received: by 2002:a05:600c:19cc:b0:47a:7fd0:9f01 with SMTP id 5b1f17b1804b1-47d84b21227mr24311245e9.16.1767781480359;
+        Wed, 07 Jan 2026 02:24:40 -0800 (PST)
+Received: from google.com ([37.228.206.31])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f653c78sm93239545e9.11.2026.01.07.02.24.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 02:24:39 -0800 (PST)
+Date: Wed, 7 Jan 2026 10:24:37 +0000
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Simon Glass <sjg@chromium.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-input@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/1] Input: cros_ec_keyb - add function key support
+Message-ID: <aV40ZQRNh11zAtFz@google.com>
+References: <20260106112953.692304-1-fabiobaltieri@chromium.org>
+ <20260106112953.692304-2-fabiobaltieri@chromium.org>
+ <CAFLszTgMeRRi_=Bs6wzdZZGDn9DbmnZEdkbqPOhi0rqDs7DnPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251201122604.1268071-1-akuchynski@chromium.org>
- <aTrJwA7Y4fWiTMzB@kuha> <aTrTvA8Srak1mNGS@kuha> <CAMMMRMdwX8wKJz6OEvosVXFH2npr+7pd0pdq3eY9r-Pbr3tjMw@mail.gmail.com>
- <aUp6FxThy1r2pNxD@kuha>
-In-Reply-To: <aUp6FxThy1r2pNxD@kuha>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Wed, 7 Jan 2026 10:02:45 +0100
-X-Gm-Features: AQt7F2oR4AXcYvx0awKh4BmgsMZ09ybzehFPckjy8ioYO2rxAKcsk9BTPRutVcM
-Message-ID: <CAMMMRMfk1Rv7P4NMkYnG+2RFqVm-7Effb_xiBQU3NXhPJeeg_g@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/8] USB Type-C alternate mode selection
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Christian A. Ehrhardt" <lk@c--e.de>, 
-	Abel Vesa <abel.vesa@linaro.org>, Pooja Katiyar <pooja.katiyar@intel.com>, 
-	Pavan Holla <pholla@chromium.org>, Madhu M <madhu.m@intel.com>, 
-	Venkat Jayaraman <venkat.jayaraman@intel.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFLszTgMeRRi_=Bs6wzdZZGDn9DbmnZEdkbqPOhi0rqDs7DnPQ@mail.gmail.com>
 
-On Tue, Dec 23, 2025 at 12:17=E2=80=AFPM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> Hi,
->
-> Tue, Dec 16, 2025 at 03:57:40PM +0100, Andrei Kuchynski kirjoitti:
-> > On Thu, Dec 11, 2025 at 3:23=E2=80=AFPM Heikki Krogerus
-> > <heikki.krogerus@linux.intel.com> wrote:
-> > >
-> > > Thu, Dec 11, 2025 at 03:40:24PM +0200, Heikki Krogerus kirjoitti:
-> > > > Without going into the code review yet, I'm okay with this in gener=
-al,
-> > > > except with the artificial SID for the USB4. I still don't understa=
-nd
-> > > > why do you guys think we should use that instead of an USB4 specifi=
-c
-> > > > device type?
-> > > >
-> > > > I think somebody said earlier that the user space can't see the dev=
-ice
-> > > > type of the alt modes? If that's really the case, then I think ther=
-e
-> > > > is some bigger issue here. Are you really sure that if you check th=
-e
-> > > > device type of an alternate mode for example with udevadm, it does =
-not
-> > > > say DEVTYPE=3Dtypec_alternate_mode ?
-> > > >
-> > > >         % udevadm info -q property --property=3DDEVTYPE /sys/bus/ty=
-pec/devices/port0-partner.0
-> > > >         DEVTYPE=3Dtypec_alternate_mode
-> > >
-> > > Or just use grep :)
-> > >
-> > >         % grep DEVTYPE /sys/bus/typec/devices/port0-partner.0/uevent
-> > >         DEVTYPE=3Dtypec_alternate_mode
-> > >
-> > > So, if that really does not work, then there is a bug somewhere that
-> > > we obviously need to fix.
-> > >
-> > > Please note that the port altmodes are now also part of the bus.
-> > >
-> > > Br,
-> > >
-> > > --
-> > > heikki
+On Tue, Jan 06, 2026 at 09:22:06AM -0700, Simon Glass wrote:
+> Hi Fabio,
+> 
+> On Tue, 6 Jan 2026 at 04:29, Fabio Baltieri <fabiobaltieri@chromium.org> wrote:
 > >
-> > Thank you for the review, Heikki.
+> > Add support for handling an Fn button and sending separate keycodes for
+> > a subset of keys in the matrix defined in the upper half of the keymap.
 > >
-> > The USB4 SID is utilized for distinguishing between USB4 and alternate
-> > modes internally and is not exposed to user-space. This represents inte=
-rnal
-> > implementation detail, for example the boolean variable `is_alternate`
-> > could serve the same purpose as the SID.
-> > This patch series introduces no new sysfs entries; the only new attribu=
-te,
-> > `priority`, was introduced in the mode priority series, available at
-> > https://lore.kernel.org/all/20251124124639.1101335-1-akuchynski@chromiu=
-m.org/
+> > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
+> > ---
+> >  drivers/input/keyboard/cros_ec_keyb.c | 174 +++++++++++++++++++++++---
+> >  1 file changed, 158 insertions(+), 16 deletions(-)
 > >
-> > It is possible to use already existing `usb_capabily` and `usb_mode`
-> > attributes to manage USB4 mode, allowing verification of USB4 support o=
-n
-> > both the port and the partner. The activation of USB4 is accomplished
-> > through the implementation of the `enter_usb_mode` typec operation.
-> >
-> > I would like your opinion on whether using a USB4 device type would be =
-a
-> > better approach.
->
-> The device for the USB4 mode will need to have its own device type in
-> any case, but I'm indeed mainly concerned about how we expose the USB4
-> mode device to the user space.
->
-> As a kernel internal implementation detail the custom SID is probable
-> fine for now, although I was actually hoping that we could improve the
-> API a bit. So something like typec_register_mode() type of API. You
-> probable could introduce something like this for that API:
->
->         struct typec_mode {
->                 /* enum typec_accessory         accessory; */
->                 enum usb_mode                   usb;      /* or just USB4=
- flag */
->                 struct typec_altmode_desc       *altmode; /* NULL with US=
-B4 */
->         };
+> 
+> Reviewed-by: Simon Glass <sjg@chromium.org>
 
-Got it.
-If you don=E2=80=99t have objections regarding the mode selection, I will p=
-roceed
-with sending the current patch series, omitting the USB4 support.
-The support for USB4 mode will be in a subsequent series.
+Thanks again!
 
-Thanks,
-Andrei
+> 
+> > diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+> > index 1c6b0461dc35..74ac1700b104 100644
+> > --- a/drivers/input/keyboard/cros_ec_keyb.c
+> > +++ b/drivers/input/keyboard/cros_ec_keyb.c
+> > @@ -29,6 +29,11 @@
+> >
+> >  #include <linux/unaligned.h>
+> >
+> > +/* Maximum size of the normal key matrix, this is limited by the host command
+> > + * key_matrix field defined in ec_response_get_next_data_v3
+> > + */
+> > +#define CROS_EC_KEYBOARD_COLS_MAX 18
+> > +
+> >  /**
+> >   * struct cros_ec_keyb - Structure representing EC keyboard device
+> >   *
+> > @@ -44,6 +49,11 @@
+> >   * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
+> >   * @notifier: interrupt event notifier for transport devices
+> >   * @vdata: vivaldi function row data
+> > + * @has_fn_map: whether the driver use an fn function map layer
+> 
+> How about: driver uses an fn function-map layer
+
+Yeah sounds good, will send a v5 with that comment tweaked.

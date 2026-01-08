@@ -1,559 +1,247 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BCA22097
-	for <chrome-platform@lists.linux.dev>; Thu,  8 Jan 2026 14:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767883899; cv=none; b=EDGhrjjYSCPU8OSSbmn7xKadFKHbJZUAskt78iS42gW85tDjpUYk6k1kE9TgdYCtumpbDvtqeZdqKGU+lV0UVJDzQarrxlMDlPEVsrSwsaBf0oSfk2g2xnnqUKj2nORK2Eo8+nn5XO0nZh/gLCngy0rm+hgVKO7TIHq6LtPOyjg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767883899; c=relaxed/simple;
-	bh=mYRH3Q8jiH3XTXZFpbrKqthJgjYRd0YWvPY/30YOib4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tOY/tNAVyhQ+S4CTJIBjM/VjutvkAa/nEofNBYkX205pmsQgXwgh63jbiX7feTnDLlB3asaFgqV0qqlqpSVK8/Oo9nP0mgC2vF50vLy4IgflbhxBg887nczz/TnH5J2kivyjrvmAZ1jOGcHmytkRsHkOgaZ4w80Vrvq9OS+xyOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BBD3734310;
-	Thu,  8 Jan 2026 14:51:04 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7366D3EA63;
-	Thu,  8 Jan 2026 14:51:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ADe9GljEX2n0WQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 08 Jan 2026 14:51:04 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: tzungbi@kernel.org,
-	briannorris@chromium.org,
-	jwerner@chromium.org,
-	javierm@redhat.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	airlied@gmail.com,
-	simona@ffwll.ch
-Cc: chrome-platform@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
-Date: Thu,  8 Jan 2026 15:19:48 +0100
-Message-ID: <20260108145058.56943-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260108145058.56943-1-tzimmermann@suse.de>
-References: <20260108145058.56943-1-tzimmermann@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEB52E5B3D
+	for <chrome-platform@lists.linux.dev>; Thu,  8 Jan 2026 16:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767891368; cv=pass; b=dwVajJtUV3iNHHSvrJ50ot82GeciMVb7B1m+2PGZO9nrhwr1eDHSX0nTJgV+1mvjjuxPVuXbNIKY6B/JGQKTBxDy+L3a4ABpCcpZu7ZfiivwZYcxHMjebcWzJWAkH7SgbBY7t1kcRYFtBroIn7cQv1Ve9oQDXyTeo8yFe3QVau0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767891368; c=relaxed/simple;
+	bh=bj5At3d3u364yUqJB4ViHq22xAII6x29JDWnizEw9+4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Aor3PLuZo42rtAFwruE71iw3MxKwefiPvkmBmPNatBn07hTU0KlQUzw/+UfCNA9F9TDwIGLs8WMNHNC7oX+KTr7cHS/sgbYo5+S8JeJ+cl/3Vpp1/fYQ1a9kSJGIhZZwD5r1TWhTG66QkQhlvHCLGuAqa0GNjyisneuG7yb03CU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MkgQhLXP; arc=pass smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MkgQhLXP"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4ee243b98caso939241cf.1
+        for <chrome-platform@lists.linux.dev>; Thu, 08 Jan 2026 08:56:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767891360; cv=none;
+        d=google.com; s=arc-20240605;
+        b=F8EJS5fkfDL9WxPpv2HzuWaZcocPO4gSBjIrvrfkZBJ7NzcCbS8ghxdMksb6usLipq
+         S3bdW7Cy9FUQrZ5NV89C2+3RtoOuIRnlD94Z2kUj4zHokp7XCddJ6xoXdKO/LtG8oXRC
+         yXkRbZfUWOi4CPIxGdUxeYaAkuxr/9J/6DLPTK8GdjYhVnn/QpD0bVsPWn7Jx71/Z99Z
+         AlsL9/tm51+xYZ/PoxMfCCng6XAiHvmsJQImD1GBlMn00y7wpRRMNl9KlW+kGYTn60a+
+         8Yg0wHHzeag3JZ/n5hv92qOblyVIWUMiQtkldo3Dvp/ZH9GlU9N6w/mYm2iY7YGX5XGr
+         STDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vIdw/bZz4S68grqXEhuikL6auL03By/bmt4IlBeykRk=;
+        fh=BQ0q9cCKYLKKyU2NWixFVvkZ3jbBn+ISd+F+pDnWx1Q=;
+        b=H9BPjjOz1Kw5wuhzjnUJCIQIJZTBjNIsIsvDX3LFcATGHXQfFIKlvZWkvP0/zF66K1
+         wUgKcC8+81CpUfGxaudUsoaaSx1emBwGdFIdPm93i9drupJAlDbQPRElacsazWi8xD1u
+         TKkdh3pcOZaQsMjrCPdEF1LriV+F2b6OxmpcNjzx6xMRXp8wg/lb3VA1OCgkyge86IyJ
+         BCXf3hhMU0U6cgBmwR5vbYWD5PXvA6yJ3WAoF9Vf0+3V8NZPb5UqdyVZeRf4kzT9MoHi
+         ltDwW6Sq2Xo738fMkoquZP6f5Rl/oBAGiksQmEDkatSvVPEUkK/7b0hZj980X/auF0RK
+         mjVQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1767891360; x=1768496160; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vIdw/bZz4S68grqXEhuikL6auL03By/bmt4IlBeykRk=;
+        b=MkgQhLXPd1xroY+BLLOHVwbC5hOJPmqqFPLKZNA87ElIntQavpFQAn3CXgQ6AcfLRA
+         N6iKjZgD+aEsuND93M558O0hFQ+iuXCU2wu7IxDLqqTcDYR4HFiImJvU2N5cxC1+6z+H
+         Mje5eLvsYmhj3zOlQvagbltzP+d6nvFiBa88c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767891360; x=1768496160;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vIdw/bZz4S68grqXEhuikL6auL03By/bmt4IlBeykRk=;
+        b=bEByzkojKdTrojVKdO8XUZcm6DU/UuHMY0mICtIshhF7rE9jK5nP0mLQIkL37BRsgF
+         nqQZJByGVgLzV+pQoZiGi+4/yELGTX6ECe/zCr5h6FBRlAXlwrLtyBPjPNocahpR24sT
+         rHXv36wqH28LngHOchkaVokiWIG8LBwQi+sPJP8rytAY75G4nlxOes6zIQdRB5v9rT+y
+         xt5KVlZWQS0x4ghp5oVH2fYKbbPFGR7xd78Ub70M2WqWgtL0AXPCDETnPHQzGnqKW2zG
+         PdexyRrh0nIKwY7jSKo9DroMo4rDy2ty6nv6sSg3l1vD1wPqP3EkQek+SQFXc0QxzkkD
+         aI+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXSkqHNCeqzQhbY3TwOTbabriPH8Eqs/7BOv/VOFkJMmc4X6g1TkK1oRq1VfBYU4S4eruxW1hN5y1p8cxdyDE4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzQz58nISdXFjXKvZ6W3KwvPgopbLsAWsDFvWebvYT3h+B0QK1F
+	IqmvjMIjtc2/VEh02S8Wjal7kzrOR3kSdxuQKPBlkxmNKamjkZzPrXLYfExg64BU9TyjB2Zx14x
+	8nzW12ieIq0wUwaY20Q5WNengGmSACLFdnqPzbZEc
+X-Gm-Gg: AY/fxX4p+k9YgOwV4JyTljLyyadBxToN91cRMT7UgYwWbkdb+eU9l8qpLPVEg4SgFxf
+	cPteINnGDm/7I1lwLMIwpYzId4pyU07G+7YzlQtaubIkzTlgSvw/d8/UeY67iYF35VS0JB+wQxj
+	vpP/UGD91xoNU3mJbKmN3a5/33pR0F7gpJeRhAGE7EXD7Vq1AID2rMunoppPouUxLAfzLplOiN8
+	HUO0i3gutaG87d2LFTLZnxNeXYmZZAy/r2fxG7Xdwlf6IMy6hWcZOLkDaOHRkxpPhCrEnMeWrLT
+	YTFnGr0P0L1bvJulUJxtr0EzS4c=
+X-Received: by 2002:a05:622a:58d:b0:4f1:83e4:73be with SMTP id
+ d75a77b69052e-4ffc0a316e7mr11372301cf.15.1767891359532; Thu, 08 Jan 2026
+ 08:55:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: BBD3734310
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
+References: <20260108145058.56943-1-tzimmermann@suse.de> <20260108145058.56943-2-tzimmermann@suse.de>
+In-Reply-To: <20260108145058.56943-2-tzimmermann@suse.de>
+From: Julius Werner <jwerner@chromium.org>
+Date: Thu, 8 Jan 2026 17:55:47 +0100
+X-Gm-Features: AQt7F2qJIiDpBT_vI3dPo1eTLtai_cdssRpmiMmmVYS9yYB6c7XHe8vJWwfRxd4
+Message-ID: <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
+Subject: Re: [PATCH 1/8] firmware: google: Do sysfb test before creating
+ coreboot framebuffer
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org, 
+	javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+	airlied@gmail.com, simona@ffwll.ch, chrome-platform@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add corebotdrm, a DRM driver for coreboot framebuffers. The driver
-supports a pre-initialized framebuffer with various packed RGB formats.
-The driver code is fairly small and uses the same logic as the other
-sysfb drivers. Most of the implementation comes from existing sysfb
-helpers.
+This seems less consistent to me, although tbh I don't understand the
+Linux device and driver framework that well. I think the original idea
+here was that the coreboot bus represents the coreboot table, and each
+entry is represented as one device (regardless of whether any driver
+actually wants to do anything with that entry). That's why we're
+creating a device for all the tags even though most of them aren't
+really interesting for kernel drivers. This also helps with inspecting
+things in sysfs.
 
-Until now, coreboot relied on simpledrm or simplefb for boot-up graphics
-output. Removing either leaves a dangling pointer in framebuffer_remove()
-after the native graphics driver replaced the sysfb driver. Using the
-new corebootdrm driver resolves this problem.
+So the device with TAG_FRAMEBUFFER doesn't mean that we have a
+framebuffer, it just means that we have an entry in the table
+describing a framebuffer. Whether it should actually be used to set up
+a framebuffer should be up to the binding driver. That's why I think
+keeping this decision in the driver probe makes more sense, and
+excluding it from the devices on the bus is weird (because you're just
+randomly excluding one of the entries in the table from being
+represented like the others, just because of details about how its
+drivers would want to use it).
 
-The old coreboot framebuffer code can now only selected if corebootdrm
-has been disabled. Using corebootdrm is preferred.
+If you want these devices to be bound by drivers outside this
+directory, then I think either that other driver needs to have the
+logic to decide when a coreboot framebuffer should actually be used,
+or maybe you should have a small stub driver in this directory that
+binds to the list entry device, makes the decision whether to actually
+use it, and if so creates a sub-device or something (if that's
+possible?) which the actual outside driver can find and bind to.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/firmware/google/Kconfig     |   1 +
- drivers/gpu/drm/sysfb/Kconfig       |  16 ++
- drivers/gpu/drm/sysfb/Makefile      |   1 +
- drivers/gpu/drm/sysfb/corebootdrm.c | 402 ++++++++++++++++++++++++++++
- 4 files changed, 420 insertions(+)
- create mode 100644 drivers/gpu/drm/sysfb/corebootdrm.c
-
-diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-index 41b78f5cb735..b306a0f56061 100644
---- a/drivers/firmware/google/Kconfig
-+++ b/drivers/firmware/google/Kconfig
-@@ -60,6 +60,7 @@ config GOOGLE_MEMCONSOLE_X86_LEGACY
- config GOOGLE_FRAMEBUFFER_COREBOOT
- 	tristate "Coreboot Framebuffer"
- 	depends on FB_SIMPLE || DRM_SIMPLEDRM
-+	depends on DRM_COREBOOTDRM=n
- 	depends on GOOGLE_COREBOOT_TABLE
- 	help
- 	  This option enables the kernel to search for a framebuffer in
-diff --git a/drivers/gpu/drm/sysfb/Kconfig b/drivers/gpu/drm/sysfb/Kconfig
-index 9c9884c7efc6..e12be823e32b 100644
---- a/drivers/gpu/drm/sysfb/Kconfig
-+++ b/drivers/gpu/drm/sysfb/Kconfig
-@@ -7,6 +7,22 @@ config DRM_SYSFB_HELPER
- 	tristate
- 	depends on DRM
- 
-+config DRM_COREBOOTDRM
-+	tristate "Coreboot framebuffer driver"
-+	depends on DRM && MMU
-+	depends on GOOGLE_COREBOOT_TABLE
-+	select APERTURE_HELPERS
-+	select DRM_CLIENT_SELECTION
-+	select DRM_GEM_SHMEM_HELPER
-+	select DRM_KMS_HELPER
-+	select DRM_SYSFB_HELPER
-+	help
-+	  DRM driver for coreboot-provided framebuffers.
-+
-+	  This driver assumes that the display hardware has been initialized
-+	  by coreboot firmware before the kernel boots. Scanout buffer, size,
-+	  and display format must be provided via coreboot framebuffer device.
-+
- config DRM_EFIDRM
- 	tristate "EFI framebuffer driver"
- 	depends on DRM && MMU && EFI && (!SYSFB_SIMPLEFB || COMPILE_TEST)
-diff --git a/drivers/gpu/drm/sysfb/Makefile b/drivers/gpu/drm/sysfb/Makefile
-index a156c496413d..85c9087ab03d 100644
---- a/drivers/gpu/drm/sysfb/Makefile
-+++ b/drivers/gpu/drm/sysfb/Makefile
-@@ -6,6 +6,7 @@ drm_sysfb_helper-y := \
- drm_sysfb_helper-$(CONFIG_SCREEN_INFO) += drm_sysfb_screen_info.o
- obj-$(CONFIG_DRM_SYSFB_HELPER)	+= drm_sysfb_helper.o
- 
-+obj-$(CONFIG_DRM_COREBOOTDRM)	+= corebootdrm.o
- obj-$(CONFIG_DRM_EFIDRM)	+= efidrm.o
- obj-$(CONFIG_DRM_OFDRM)		+= ofdrm.o
- obj-$(CONFIG_DRM_SIMPLEDRM)	+= simpledrm.o
-diff --git a/drivers/gpu/drm/sysfb/corebootdrm.c b/drivers/gpu/drm/sysfb/corebootdrm.c
-new file mode 100644
-index 000000000000..242e668c98f1
---- /dev/null
-+++ b/drivers/gpu/drm/sysfb/corebootdrm.c
-@@ -0,0 +1,402 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/aperture.h>
-+#include <linux/coreboot.h>
-+#include <linux/minmax.h>
-+
-+#include <drm/clients/drm_client_setup.h>
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_damage_helper.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fbdev_shmem.h>
-+#include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_print.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#include "drm_sysfb_helper.h"
-+
-+#define DRIVER_NAME	"corebootdrm"
-+#define DRIVER_DESC	"DRM driver for Coreboot framebuffers"
-+#define DRIVER_MAJOR	1
-+#define DRIVER_MINOR	0
-+
-+static const struct drm_format_info *
-+corebootdrm_get_format_fb(struct drm_device *dev, const struct lb_framebuffer *fb)
-+{
-+	static const struct drm_sysfb_format formats[] = {
-+		{ PIXEL_FORMAT_XRGB1555, DRM_FORMAT_XRGB1555, },
-+		{ PIXEL_FORMAT_RGB565, DRM_FORMAT_RGB565, },
-+		{ PIXEL_FORMAT_RGB888, DRM_FORMAT_RGB888, },
-+		{ PIXEL_FORMAT_XRGB8888, DRM_FORMAT_XRGB8888, },
-+		{ PIXEL_FORMAT_XBGR8888, DRM_FORMAT_XBGR8888, },
-+		{ PIXEL_FORMAT_XRGB2101010, DRM_FORMAT_XRGB2101010, },
-+	};
-+	const struct pixel_format pixel = {
-+		.bits_per_pixel = fb->bits_per_pixel,
-+		.indexed  = false,
-+		.alpha = {
-+			.offset = 0,
-+			.length = 0,
-+		},
-+		.red = {
-+			.offset = fb->red_mask_pos,
-+			.length = fb->red_mask_size,
-+		},
-+		.green = {
-+			.offset = fb->green_mask_pos,
-+			.length = fb->green_mask_size,
-+		},
-+		.blue = {
-+			.offset = fb->blue_mask_pos,
-+			.length = fb->blue_mask_size,
-+		},
-+	};
-+
-+	return drm_sysfb_get_format(dev, formats, ARRAY_SIZE(formats), &pixel);
-+}
-+
-+static int corebootdrm_get_width_fb(struct drm_device *dev, const struct lb_framebuffer *fb)
-+{
-+	return drm_sysfb_get_validated_int0(dev, "width", fb->x_resolution, INT_MAX);
-+}
-+
-+static int corebootdrm_get_height_fb(struct drm_device *dev, const struct lb_framebuffer *fb)
-+{
-+	return drm_sysfb_get_validated_int0(dev, "height", fb->y_resolution, INT_MAX);
-+}
-+
-+static int corebootdrm_get_pitch_fb(struct drm_device *dev, const struct drm_format_info *format,
-+				    unsigned int width, const struct lb_framebuffer *fb)
-+{
-+	u64 bytes_per_line = fb->bytes_per_line;
-+
-+	if (!bytes_per_line)
-+		bytes_per_line = drm_format_info_min_pitch(format, 0, width);
-+
-+	return drm_sysfb_get_validated_int0(dev, "pitch", bytes_per_line, INT_MAX);
-+}
-+
-+static u64 corebootdrm_get_address_fb(struct drm_device *dev, unsigned int height,
-+				      unsigned int pitch, const struct lb_framebuffer *fb)
-+{
-+	u64 visible_size, size;
-+
-+	if (!fb->physical_address)
-+		return 0;
-+
-+	if (check_mul_overflow(height, pitch, &visible_size))
-+		return 0;
-+	size = PAGE_ALIGN(visible_size);
-+
-+	if (fb->physical_address > (U64_MAX - size))
-+		return 0;
-+
-+	return fb->physical_address;
-+}
-+
-+/*
-+ * Simple Framebuffer device
-+ */
-+
-+struct corebootdrm_device {
-+	struct drm_sysfb_device sysfb;
-+
-+	/* modesetting */
-+	u32 formats[DRM_SYSFB_PLANE_NFORMATS(1)];
-+	struct drm_plane primary_plane;
-+	struct drm_crtc crtc;
-+	struct drm_encoder encoder;
-+	struct drm_connector connector;
-+};
-+
-+/*
-+ * Modesetting
-+ */
-+
-+static const u64 corebootdrm_primary_plane_format_modifiers[] = {
-+	DRM_SYSFB_PLANE_FORMAT_MODIFIERS,
-+};
-+
-+static const struct drm_plane_helper_funcs corebootdrm_primary_plane_helper_funcs = {
-+	DRM_SYSFB_PLANE_HELPER_FUNCS,
-+};
-+
-+static const struct drm_plane_funcs corebootdrm_primary_plane_funcs = {
-+	DRM_SYSFB_PLANE_FUNCS,
-+	.destroy = drm_plane_cleanup,
-+};
-+
-+static const struct drm_crtc_helper_funcs corebootdrm_crtc_helper_funcs = {
-+	DRM_SYSFB_CRTC_HELPER_FUNCS,
-+};
-+
-+static const struct drm_crtc_funcs corebootdrm_crtc_funcs = {
-+	DRM_SYSFB_CRTC_FUNCS,
-+	.destroy = drm_crtc_cleanup,
-+};
-+
-+static const struct drm_encoder_funcs corebootdrm_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
-+static const struct drm_connector_helper_funcs corebootdrm_connector_helper_funcs = {
-+	DRM_SYSFB_CONNECTOR_HELPER_FUNCS,
-+};
-+
-+static const struct drm_connector_funcs corebootdrm_connector_funcs = {
-+	DRM_SYSFB_CONNECTOR_FUNCS,
-+	.destroy = drm_connector_cleanup,
-+};
-+
-+static const struct drm_mode_config_funcs corebootdrm_mode_config_funcs = {
-+	DRM_SYSFB_MODE_CONFIG_FUNCS,
-+};
-+
-+/*
-+ * Init / Cleanup
-+ */
-+
-+static int corebootdrm_device_init(struct corebootdrm_device *cdev, struct coreboot_device *cbdev)
-+{
-+	const struct lb_framebuffer *fb = &cbdev->framebuffer;
-+	struct drm_sysfb_device *sysfb = &cdev->sysfb;
-+	struct drm_device *dev = &sysfb->dev;
-+	const struct drm_format_info *format;
-+	int width, height, pitch;
-+	u64 address;
-+	int width_mm = 0, height_mm = 0;
-+	resource_size_t fb_size, fb_base, fb_pgbase, fb_pgsize;
-+	struct resource *res, *mem = NULL;
-+	void __iomem *screen_base;
-+	struct drm_plane *primary_plane;
-+	struct drm_crtc *crtc;
-+	struct drm_encoder *encoder;
-+	struct drm_connector *connector;
-+	unsigned long max_width, max_height;
-+	size_t nformats;
-+	int ret;
-+
-+	/*
-+	 * Hardware settings
-+	 */
-+
-+	format = corebootdrm_get_format_fb(dev, fb);
-+	if (!format)
-+		return -EINVAL;
-+	width = corebootdrm_get_width_fb(dev, fb);
-+	if (width < 0)
-+		return width;
-+	height = corebootdrm_get_height_fb(dev, fb);
-+	if (height < 0)
-+		return height;
-+	pitch = corebootdrm_get_pitch_fb(dev, format, width, fb);
-+	if (pitch < 0)
-+		return pitch;
-+	address = corebootdrm_get_address_fb(dev, height, pitch, fb);
-+	if (!address)
-+		return -EINVAL;
-+
-+	sysfb->fb_mode = drm_sysfb_mode(width, height, width_mm, height_mm);
-+	sysfb->fb_format = format;
-+	sysfb->fb_pitch = pitch;
-+
-+	drm_dbg(dev, "display mode={" DRM_MODE_FMT "}\n", DRM_MODE_ARG(&sysfb->fb_mode));
-+	drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, pitch=%d byte\n",
-+		&format->format, width, height, pitch);
-+
-+	/*
-+	 * Memory management
-+	 */
-+
-+	fb_base = address;
-+	fb_size = pitch * height;
-+
-+	fb_pgbase = round_down(fb_base, PAGE_SIZE);
-+	fb_pgsize = fb_base - fb_pgbase + round_up(fb_size, PAGE_SIZE);
-+
-+	ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
-+	if (ret) {
-+		drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
-+		return ret;
-+	}
-+
-+	drm_dbg(dev, "using I/O memory framebuffer at %pr\n", res);
-+
-+	mem = devm_request_mem_region(&cbdev->dev, fb_pgbase, fb_pgsize, dev_name(&cbdev->dev));
-+	if (!mem) {
-+		/*
-+		 * We cannot make this fatal. Sometimes this comes from magic
-+		 * spaces our resource handlers simply don't know about. Use
-+		 * the I/O-memory resource as-is and try to map that instead.
-+		 */
-+		drm_warn(dev, "could not acquire memory region %pr\n", res);
-+		mem = res;
-+	}
-+
-+	screen_base = devm_ioremap_wc(&cbdev->dev, fb_pgbase, fb_pgsize);
-+	if (!screen_base)
-+		return -ENOMEM;
-+
-+	iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
-+
-+	/*
-+	 * Modesetting
-+	 */
-+
-+	ret = drmm_mode_config_init(dev);
-+	if (ret)
-+		return ret;
-+
-+	max_width = max_t(unsigned long, width, DRM_SHADOW_PLANE_MAX_WIDTH);
-+	max_height = max_t(unsigned long, height, DRM_SHADOW_PLANE_MAX_HEIGHT);
-+
-+	dev->mode_config.min_width = width;
-+	dev->mode_config.max_width = max_width;
-+	dev->mode_config.min_height = height;
-+	dev->mode_config.max_height = max_height;
-+	dev->mode_config.preferred_depth = format->depth;
-+	dev->mode_config.funcs = &corebootdrm_mode_config_funcs;
-+
-+	/* Primary plane */
-+
-+	nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-+					       cdev->formats, ARRAY_SIZE(cdev->formats));
-+
-+	primary_plane = &cdev->primary_plane;
-+	ret = drm_universal_plane_init(dev, primary_plane, 0, &corebootdrm_primary_plane_funcs,
-+				       cdev->formats, nformats,
-+				       corebootdrm_primary_plane_format_modifiers,
-+				       DRM_PLANE_TYPE_PRIMARY, NULL);
-+	if (ret)
-+		return ret;
-+	drm_plane_helper_add(primary_plane, &corebootdrm_primary_plane_helper_funcs);
-+	drm_plane_enable_fb_damage_clips(primary_plane);
-+
-+	/* CRTC */
-+
-+	crtc = &cdev->crtc;
-+	ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
-+					&corebootdrm_crtc_funcs, NULL);
-+	if (ret)
-+		return ret;
-+	drm_crtc_helper_add(crtc, &corebootdrm_crtc_helper_funcs);
-+
-+	/* Encoder */
-+
-+	encoder = &cdev->encoder;
-+	ret = drm_encoder_init(dev, encoder, &corebootdrm_encoder_funcs,
-+			       DRM_MODE_ENCODER_NONE, NULL);
-+	if (ret)
-+		return ret;
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+
-+	/* Connector */
-+
-+	connector = &cdev->connector;
-+	ret = drm_connector_init(dev, connector, &corebootdrm_connector_funcs,
-+				 DRM_MODE_CONNECTOR_Unknown);
-+	if (ret)
-+		return ret;
-+	drm_connector_helper_add(connector, &corebootdrm_connector_helper_funcs);
-+	drm_connector_set_panel_orientation_with_quirk(connector,
-+						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
-+						       width, height);
-+
-+	ret = drm_connector_attach_encoder(connector, encoder);
-+	if (ret)
-+		return ret;
-+
-+	drm_mode_config_reset(dev);
-+
-+	return 0;
-+}
-+
-+/*
-+ * DRM driver
-+ */
-+
-+DEFINE_DRM_GEM_FOPS(corebootdrm_fops);
-+
-+static struct drm_driver corebootdrm_drm_driver = {
-+	DRM_GEM_SHMEM_DRIVER_OPS,
-+	DRM_FBDEV_SHMEM_DRIVER_OPS,
-+	.name			= DRIVER_NAME,
-+	.desc			= DRIVER_DESC,
-+	.major			= DRIVER_MAJOR,
-+	.minor			= DRIVER_MINOR,
-+	.driver_features	= DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
-+	.fops			= &corebootdrm_fops,
-+};
-+
-+/*
-+ * Coreboot driver
-+ */
-+
-+static int corebootdrm_probe(struct coreboot_device *cbdev)
-+{
-+	const struct lb_framebuffer *fb = &cbdev->framebuffer;
-+	struct corebootdrm_device *cdev;
-+	struct drm_sysfb_device *sysfb;
-+	struct drm_device *dev;
-+	int ret;
-+
-+	if (fb->size < sizeof(*fb)) {
-+		drm_err(dev, "coreboot framebuffer entry too small\n");
-+		return -EINVAL;
-+	}
-+
-+	cdev = devm_drm_dev_alloc(&cbdev->dev, &corebootdrm_drm_driver,
-+				  struct corebootdrm_device, sysfb.dev);
-+	if (IS_ERR(cdev))
-+		return PTR_ERR(cdev);
-+	dev_set_drvdata(&cbdev->dev, cdev);
-+
-+	ret = corebootdrm_device_init(cdev, cbdev);
-+	if (ret)
-+		return ret;
-+	sysfb = &cdev->sysfb;
-+	dev = &sysfb->dev;
-+
-+	ret = drm_dev_register(dev, 0);
-+	if (ret)
-+		return ret;
-+
-+	drm_client_setup(dev, sysfb->fb_format);
-+
-+	return 0;
-+}
-+
-+static void corebootdrm_remove(struct coreboot_device *cbdev)
-+{
-+	struct corebootdrm_device *cdev = dev_get_drvdata(&cbdev->dev);
-+	struct drm_device *dev = &cdev->sysfb.dev;
-+
-+	drm_dev_unplug(dev);
-+}
-+
-+static const struct coreboot_device_id corebootdrm_id_table[] = {
-+	{ .tag = CB_TAG_FRAMEBUFFER },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(coreboot, corebootdrm_id_table);
-+
-+static struct coreboot_driver corebootdrm_driver = {
-+	.probe = corebootdrm_probe,
-+	.remove = corebootdrm_remove,
-+	.drv = {
-+		.name = "corebootdrm",
-+	},
-+	.id_table = corebootdrm_id_table,
-+};
-+module_coreboot_driver(corebootdrm_driver);
-+
-+MODULE_DESCRIPTION(DRIVER_DESC);
-+MODULE_LICENSE("GPL");
--- 
-2.52.0
-
+On Thu, Jan 8, 2026 at 3:51=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+>
+> Test sysfb before creating the coreboot framebuffer device. Skip
+> device creation if the test fails, as this framebuffer does not exist.
+>
+> Depending on the system setup, the initial framebuffer can be provided
+> by the boot loader via screen_info boot parameters and handled by the
+> kernel's sysfb code in drivers/firmware/sysfb.c. With the sysfb test in
+> the coreboot-framebuffer probing, the coreboot device is present without
+> the framebuffer. Even after the sysfb device has been replaced with a
+> native PCI device, the coreboot device persists.
+>
+> Skipping device creation early avoids all these inconsistencies. It
+> further prepares coreboot to support graphics drivers besides the one
+> in framebuffer-coreboot.c.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/firmware/google/coreboot_table.c       | 17 +++++++++++++++++
+>  drivers/firmware/google/coreboot_table.h       |  1 +
+>  drivers/firmware/google/framebuffer-coreboot.c | 16 ----------------
+>  3 files changed, 18 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/=
+google/coreboot_table.c
+> index 882db32e51be..c34426e5002d 100644
+> --- a/drivers/firmware/google/coreboot_table.c
+> +++ b/drivers/firmware/google/coreboot_table.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+> +#include <linux/sysfb.h>
+>
+>  #include "coreboot_table.h"
+>
+> @@ -118,6 +119,22 @@ static int coreboot_table_populate(struct device *de=
+v, void *ptr)
+>                         return -EINVAL;
+>                 }
+>
+> +               switch (entry->tag) {
+> +               case CB_TAG_FRAMEBUFFER:
+> +                       /*
+> +                        * On coreboot systems, the advertised CB_TAG_FRA=
+MEBUFFER entry
+> +                        * in the coreboot table should only be used if t=
+he payload did
+> +                        * not pass a framebuffer information to the Linu=
+x kernel.
+> +                        *
+> +                        * If the global screen_info data has been filled=
+, the generic
+> +                        * system framebuffers (sysfb) will already regis=
+ter a platform
+> +                        * device and pass that screen_info as platform_d=
+ata to a driver
+> +                        * that can scan-out using the system-provided fr=
+amebuffer.
+> +                        */
+> +                       if (sysfb_handles_screen_info())
+> +                               continue;
+> +               }
+> +
+>                 device =3D kzalloc(sizeof(device->dev) + entry->size, GFP=
+_KERNEL);
+>                 if (!device)
+>                         return -ENOMEM;
+> diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/=
+google/coreboot_table.h
+> index bb6f0f7299b4..e3c353676940 100644
+> --- a/drivers/firmware/google/coreboot_table.h
+> +++ b/drivers/firmware/google/coreboot_table.h
+> @@ -40,6 +40,7 @@ struct lb_cbmem_ref {
+>         u64 cbmem_addr;
+>  };
+>
+> +#define CB_TAG_FRAMEBUFFER 0x12
+>  #define LB_TAG_CBMEM_ENTRY 0x31
+>
+>  /* Corresponds to LB_TAG_CBMEM_ENTRY */
+> diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/fir=
+mware/google/framebuffer-coreboot.c
+> index c68c9f56370f..bb53d1a47409 100644
+> --- a/drivers/firmware/google/framebuffer-coreboot.c
+> +++ b/drivers/firmware/google/framebuffer-coreboot.c
+> @@ -15,12 +15,9 @@
+>  #include <linux/module.h>
+>  #include <linux/platform_data/simplefb.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/sysfb.h>
+>
+>  #include "coreboot_table.h"
+>
+> -#define CB_TAG_FRAMEBUFFER 0x12
+> -
+>  static const struct simplefb_format formats[] =3D SIMPLEFB_FORMATS;
+>
+>  static int framebuffer_probe(struct coreboot_device *dev)
+> @@ -37,19 +34,6 @@ static int framebuffer_probe(struct coreboot_device *d=
+ev)
+>                 .format =3D NULL,
+>         };
+>
+> -       /*
+> -        * On coreboot systems, the advertised LB_TAG_FRAMEBUFFER entry
+> -        * in the coreboot table should only be used if the payload did
+> -        * not pass a framebuffer information to the Linux kernel.
+> -        *
+> -        * If the global screen_info data has been filled, the Generic
+> -        * System Framebuffers (sysfb) will already register a platform
+> -        * device and pass that screen_info as platform_data to a driver
+> -        * that can scan-out using the system provided framebuffer.
+> -        */
+> -       if (sysfb_handles_screen_info())
+> -               return -ENODEV;
+> -
+>         if (!fb->physical_address)
+>                 return -ENODEV;
+>
+> --
+> 2.52.0
+>

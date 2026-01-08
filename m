@@ -1,125 +1,188 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF23719C54E
-	for <chrome-platform@lists.linux.dev>; Wed,  7 Jan 2026 10:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DDF272E56
+	for <chrome-platform@lists.linux.dev>; Thu,  8 Jan 2026 14:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767781483; cv=none; b=ki/achX+CUIrEz0CxTNFVx7K4rt76gv4OquLIIVmiY4pE/IzvhC2jEj95CUbZE+W1pacLnXYYyqfHBeIbu0gjiNd/JXs7sMB/eGzjnsnocZysZgPb/2xxes3fZj7ZM1laKPqBoCat2GMmiIYLBQaukjb3kmW3HOyrpofXBAwssE=
+	t=1767883866; cv=none; b=a4H3BFZUzWciuL8kQTq0YPTqKrA3QC6DcB+WgNRxAZckpUTYd78XvuKov4JV6votvrSPcZ9Bn8tQUz9TfwZleyDMPexe1nBk99uTcrXPxEKbMXDvHvMC3a8YCWpevIsw52PSTd6FJ3VauTakziOFkecOuwauf2jjZnE4EZUGc18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767781483; c=relaxed/simple;
-	bh=RU676P3TvU0swoFzAWorS8H0cptCGiCBmBQZLWScomk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZwTxijvalopHcERP6Kqz4urQIEypzB+g6aVyF/yT13bu/Za8qTWdvscRWpfENTw+H1yjI6v+cgngbjg6NoxGyCh4ZpFNIQ8/MxsggPZZymWY9Y3t7u30PpSvQa6itAqy1ttTGaUFu4hyMcj6csM0vILqU9gKaZGfBsIRtl8/xMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nWrBrGAJ; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1767883866; c=relaxed/simple;
+	bh=QdgB6Sc4COPR1xqUNKi/pQ5SkNAF52JZWLTjNYrVq6U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NVnmt2RHQdjV3AkyEN7x+LpqCUwC9z7ib/ApoZqnxvsl96sHwSwcprU3GZJIkydQOkWRHJcXwMJVRKVkng25Vc0Moyc9FAxqJqF8VN0zGoVinl7aUZb6EvsVQ3mrAOxGT7ZX2x+stDnESs50v4lZAGro8W5U5C+xHov12vmAGJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=17nT0uqj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JXfDqnGH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=17nT0uqj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JXfDqnGH; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nWrBrGAJ"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47775fb6cb4so10760945e9.0
-        for <chrome-platform@lists.linux.dev>; Wed, 07 Jan 2026 02:24:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1767781480; x=1768386280; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AK2Gg8unTsWO3CwKx4f9Ov3gr2i0DpoldAAWtOWz2w0=;
-        b=nWrBrGAJwCfEeH606dhzNZDciqXN+SSCT1CIo+9rRIszxfzCDrGl4xB07GG1Z2/9U6
-         3Ydmy8EpEgfUtY0dSMdaDMRzTQQu33vCIR1IYBawe68Iomkqped9U9PZVJeO2gAJxmEA
-         bvqwfL4POI6JrsquSsREQEmyEakWw0iQArL64=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767781480; x=1768386280;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AK2Gg8unTsWO3CwKx4f9Ov3gr2i0DpoldAAWtOWz2w0=;
-        b=i29kvKXrA/S7plEkKDR+cWWrTFtcMMd5wZsx1o9AdUqKgYLNp9zJO91MVDFNv73rN0
-         UWD+lfY8RcXxYS9f6Ssasg/WmDBcF1yLWnYbzGMjl6bsxwMO1lW6sb7owV888j5LzKse
-         /MwAxBo0t2wshbxrmNDVAAOAA30fkQcVwn5I4rMBGzu487VboA2vd+9fwZvtiCFUfAv7
-         ZYPcluEJ0Fr38Kpr0EONM2205+QhWmn0t7RW7FS2jZMGI81rumZKAz9ehX5FCHOpEdoF
-         4pBDGO4vhLeuF1pkyCKx7hnaEX06LF5DkcVEThS9MVKJwOVfAeG3ZEVIZ5Rzfd/dRP7H
-         PBJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFOBdqWsy2xAreCxV2XI80Re83TUIAGGJKh4Rn0RFXoWgkK7iFNAmSVIonGvcuN35iC/Wm3uOa8VBxJhneQdA=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNabCzMLiBqx9DRt6VsKXkILNULd+mNAmBghGFjXwC+q/zNdrw
-	rZ4p9T0rfLuTaADASgJiaKTgW8JwBJcOZxClkWUG0IdSdHShz02q99CEAMu7elMuwJhu94t4MN3
-	xqvo=
-X-Gm-Gg: AY/fxX75An8y4PKQxVujE5tsXKU/p1jaKbLy0jmEss85NK31HdniUDvyECE7tWVgZwq
-	sLHezcvw76eDpTWw4/e0KxelQokSCTTI/z77Zz+OIfnv+oO/d0j7SRW6XMddDqLUwPyTlKvvGrh
-	AVFAa9KH9OjgyEukIcpbZ+GJoIHacFOrVXNrGwSz197+wpsgOtRsi21rCruAnWQRv4YUEvDEou9
-	YpgpwNymwkMvCNH4Oqan9MIswH/vjR9n8DdoLGwKxaXOqZHY41MSh+Atk7P+mqAbedM4ZpQxyhB
-	BKgp4R69rUutQXfMKVXIpTDyD9NdYGOH2ya0FIirG4JFW3n71ZVwOf+NIS+rnG/8JAl/NgJUI4I
-	PeNp5360H3jF5qUbsAxnlzxHzG/hRkI+cHMHT7XjprJp/ExOM9XlEMP63NYsxCZcvEPLzUoPcIU
-	nByZ7+7owjcT1vJc+1pieeU0+H9OeW
-X-Google-Smtp-Source: AGHT+IELXErZD8ru3w6x43TKd1f8wm86x+ymI62qEzqJdcBMa1KawoY4byUO5aTYAhFJUs8vu9rlqQ==
-X-Received: by 2002:a05:600c:19cc:b0:47a:7fd0:9f01 with SMTP id 5b1f17b1804b1-47d84b21227mr24311245e9.16.1767781480359;
-        Wed, 07 Jan 2026 02:24:40 -0800 (PST)
-Received: from google.com ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f653c78sm93239545e9.11.2026.01.07.02.24.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 02:24:39 -0800 (PST)
-Date: Wed, 7 Jan 2026 10:24:37 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Simon Glass <sjg@chromium.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-input@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] Input: cros_ec_keyb - add function key support
-Message-ID: <aV40ZQRNh11zAtFz@google.com>
-References: <20260106112953.692304-1-fabiobaltieri@chromium.org>
- <20260106112953.692304-2-fabiobaltieri@chromium.org>
- <CAFLszTgMeRRi_=Bs6wzdZZGDn9DbmnZEdkbqPOhi0rqDs7DnPQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="17nT0uqj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JXfDqnGH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="17nT0uqj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JXfDqnGH"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2321D5C7ED;
+	Thu,  8 Jan 2026 14:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767883862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=W/eTUG+ysAsgGSdlosKgjYFRQosHCRiLAkuNYwWFQQo=;
+	b=17nT0uqjPz0zuGGPN8BFn/IN8UWKB3/64/EgNojzs3caB8vVlpmXObNvPeH5QFysqBxDql
+	LFWq/u6aq5kIhOdB5VBlnUx6K2TkU76Jj4nUJM0Nj2vR5MJlv5/f11Q81PSZzRGiq+gvgu
+	INVl4dHfsMz1SewAnEnInWIdLRDR/6Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767883862;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=W/eTUG+ysAsgGSdlosKgjYFRQosHCRiLAkuNYwWFQQo=;
+	b=JXfDqnGHp6pJ4mjYM9WpoOZEsKI2Xi7ofK6+Z0TqtYp3GjU1CGwAcJ01yCLJT+xSlUfsbU
+	1osCB9gSFXt5cxCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767883862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=W/eTUG+ysAsgGSdlosKgjYFRQosHCRiLAkuNYwWFQQo=;
+	b=17nT0uqjPz0zuGGPN8BFn/IN8UWKB3/64/EgNojzs3caB8vVlpmXObNvPeH5QFysqBxDql
+	LFWq/u6aq5kIhOdB5VBlnUx6K2TkU76Jj4nUJM0Nj2vR5MJlv5/f11Q81PSZzRGiq+gvgu
+	INVl4dHfsMz1SewAnEnInWIdLRDR/6Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767883862;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=W/eTUG+ysAsgGSdlosKgjYFRQosHCRiLAkuNYwWFQQo=;
+	b=JXfDqnGHp6pJ4mjYM9WpoOZEsKI2Xi7ofK6+Z0TqtYp3GjU1CGwAcJ01yCLJT+xSlUfsbU
+	1osCB9gSFXt5cxCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBB403EA63;
+	Thu,  8 Jan 2026 14:51:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ebp1MFXEX2n0WQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 08 Jan 2026 14:51:01 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: tzungbi@kernel.org,
+	briannorris@chromium.org,
+	jwerner@chromium.org,
+	javierm@redhat.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch
+Cc: chrome-platform@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/8] drm, coreboot: Add DRM coreboot driver
+Date: Thu,  8 Jan 2026 15:19:40 +0100
+Message-ID: <20260108145058.56943-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFLszTgMeRRi_=Bs6wzdZZGDn9DbmnZEdkbqPOhi0rqDs7DnPQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.992];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_TWO(0.00)[2];
+	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,linux.intel.com,gmail.com,ffwll.ch];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Tue, Jan 06, 2026 at 09:22:06AM -0700, Simon Glass wrote:
-> Hi Fabio,
-> 
-> On Tue, 6 Jan 2026 at 04:29, Fabio Baltieri <fabiobaltieri@chromium.org> wrote:
-> >
-> > Add support for handling an Fn button and sending separate keycodes for
-> > a subset of keys in the matrix defined in the upper half of the keymap.
-> >
-> > Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> > ---
-> >  drivers/input/keyboard/cros_ec_keyb.c | 174 +++++++++++++++++++++++---
-> >  1 file changed, 158 insertions(+), 16 deletions(-)
-> >
-> 
-> Reviewed-by: Simon Glass <sjg@chromium.org>
+Coreboot implements framebuffer support via simplefb. Provide a
+native DRM driver. Keep the simplefb code for now.
 
-Thanks again!
+For each firmware's provided framebuffer, we want a dedicated DRM
+driver tailored towards the platform's feature set. The coreboot
+framebuffer device creates a simplefb device for the provided
+framebuffer. When the native graphics driver unloads the simplefb
+device, it leaves behind a dangling pointer in the coreboot framebuffer
+device. [1] This only works because the coreboot framebuffer device
+never runs this code; even after the native driver took over the
+hardware. At that point the underlying coreboot framebuffer is gone,
+which is inconsistent with kernel state.
 
-> 
-> > diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> > index 1c6b0461dc35..74ac1700b104 100644
-> > --- a/drivers/input/keyboard/cros_ec_keyb.c
-> > +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> > @@ -29,6 +29,11 @@
-> >
-> >  #include <linux/unaligned.h>
-> >
-> > +/* Maximum size of the normal key matrix, this is limited by the host command
-> > + * key_matrix field defined in ec_response_get_next_data_v3
-> > + */
-> > +#define CROS_EC_KEYBOARD_COLS_MAX 18
-> > +
-> >  /**
-> >   * struct cros_ec_keyb - Structure representing EC keyboard device
-> >   *
-> > @@ -44,6 +49,11 @@
-> >   * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
-> >   * @notifier: interrupt event notifier for transport devices
-> >   * @vdata: vivaldi function row data
-> > + * @has_fn_map: whether the driver use an fn function map layer
-> 
-> How about: driver uses an fn function-map layer
+Additionally, the simplefb drivers handle simple-framebuffer nodes in
+the DeviceTree, but were not meant for supporting arbitrary framebuffers.
+The simplefb infrastructure should be phased out for non-DT use cases.
+Coreboot is one of the final users of the code (besides n64).
 
-Yeah sounds good, will send a v5 with that comment tweaked.
+Patches 1 to 4 of this series prepare the kernel's coreboot support for
+the DRM driver. With patch 1, the coreboot framebuffer device will only
+be created if it really handles the framebuffer. Some systems emulate
+UEFI instead. The other 3 patches make coreboot drivers available to
+other subsystems. A DRM driver will then be able to bind directly to a
+coreboot device.
+
+Patch 5 prepares the kernel's aperture helpers for coreboot devices.
+This is required to handover hardware to the native graphics driver.
+
+Patches 6 to 8 prepare DRM and add a new driver for the coreboot
+framebuffer. The corebootdrm driver follows the pattern established by
+similar drivers. It also uses the same sysfb helpers. It's fairly small
+therefore.
+
+Tested on an HP Chromebook with MrChromebox 4.16. Runs with Weston and
+fbcon. Xorg requires an additional patch available at [2].
+
+[1] https://elixir.bootlin.com/linux/v6.18/source/drivers/firmware/google/framebuffer-coreboot.c#L92
+[2] https://gitlab.freedesktop.org/tzimmermann/xserver/-/commit/0b326aad28549762ed2b0e2bedf8f8a42f1f6b3b
+
+Thomas Zimmermann (8):
+  firmware: google: Do sysfb test before creating coreboot framebuffer
+  firmware: google: Init coreboot bus with subsys_initcall()
+  firmware: google: Clean up include statements in coreboot_table.h
+  firmware: google: Export coreboot driver and device interfaces
+  video/aperture: Support coreboot devices
+  drm/sysfb: Remove duplicate declarations
+  drm/sysfb: Generalize pixel-format matching
+  drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
+
+ drivers/firmware/google/Kconfig               |   1 +
+ drivers/firmware/google/cbmem.c               |   4 +-
+ drivers/firmware/google/coreboot_table.c      |  33 +-
+ .../firmware/google/framebuffer-coreboot.c    |  20 +-
+ drivers/firmware/google/memconsole-coreboot.c |   3 +-
+ drivers/firmware/google/vpd.c                 |   3 +-
+ drivers/gpu/drm/sysfb/Kconfig                 |  16 +
+ drivers/gpu/drm/sysfb/Makefile                |   1 +
+ drivers/gpu/drm/sysfb/corebootdrm.c           | 402 ++++++++++++++++++
+ drivers/gpu/drm/sysfb/drm_sysfb.c             |  24 ++
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |  17 +-
+ drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c |  30 --
+ drivers/gpu/drm/sysfb/efidrm.c                |   8 +-
+ drivers/gpu/drm/sysfb/vesadrm.c               |   8 +-
+ drivers/video/aperture.c                      |  60 ++-
+ include/linux/aperture.h                      |  16 +
+ .../linux/coreboot.h                          |  29 +-
+ 17 files changed, 575 insertions(+), 100 deletions(-)
+ create mode 100644 drivers/gpu/drm/sysfb/corebootdrm.c
+ rename drivers/firmware/google/coreboot_table.h => include/linux/coreboot.h (86%)
+
+-- 
+2.52.0
+

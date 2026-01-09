@@ -1,81 +1,80 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5771B225A35
-	for <chrome-platform@lists.linux.dev>; Fri,  9 Jan 2026 08:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B2A27FD7C
+	for <chrome-platform@lists.linux.dev>; Fri,  9 Jan 2026 09:17:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767948664; cv=none; b=MQm/grV0iviHpMkvtspHYbAJCfiTzeN9Jd037oi9o5GoUtS8lFZUqPU7VTGp/IMi94X5+ALqF6GR5IhR26C2/7lT8sbDDusPLaq3ZdTtZqTHsoFFn/xeE2IfHd8kHsrdc219Ue8O1/BB/cFIPDQKXmYMZdHK7x9jcFY2+nP1/SY=
+	t=1767950248; cv=none; b=UEevLxq73x11rI2U27jbTw6OsJ7PSRgGDs2ufyv8CTMhiMC9wRyHPFPsUyXbOdxIUYDunmoeicc7clQZlILj2qXZl3z4hYOzJLLreDBkC4qAfrmfNbyYxd+x2Phs1KWsV595HvTUzl7giaESVBJfkeIaVZCZyIO7cmsQCQjpEqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767948664; c=relaxed/simple;
-	bh=owoaRI0KYSURV5aE7GXMefoybLfyMgO7FyutYaREDd4=;
+	s=arc-20240116; t=1767950248; c=relaxed/simple;
+	bh=7G2w8qqt8V9ITZybrIeXu3ZZxGApnQLsDQaVMrG7w90=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z1vhl8+4WW+vzfSZ2r8YK4Q3hRat5wBAWrjoZCWBHRnF6SWUXgOcFoLC6lQU6nTznLk/RTiqgkZqBw6lvpaHv2N6vNW68y4QkyAg/Et+yr8gQyAhLczQXUgG1HvMd7ZBQynAfaxOTWMSJVoQm0gYQ6Ad1W7Dz21YkFOsIdyQgss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mFtTmEUG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=12qBbHNj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mFtTmEUG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=12qBbHNj; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:Content-Type; b=nYfhyCtDoDdSTFJjDQph2vHjXxdf2CaDgO/AVLvO2vVtrTaKkhcr/eiaZy/QtG/fsYgJISrXDviJdF+Goef3K4o4n/DpH8FepGRdxnEuvvkDRpWkrVaN2A60vujjPNLY/VOnAUl6GATffQae/bMsE9bqRkd7PuFK8McvlDVVlPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dDIeWs3I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1Q1sK4iN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=B/0XAQmx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=td1TZn/i; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mFtTmEUG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="12qBbHNj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mFtTmEUG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="12qBbHNj"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dDIeWs3I";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1Q1sK4iN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B/0XAQmx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="td1TZn/i"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7C16C5BEE8;
-	Fri,  9 Jan 2026 08:50:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4306F5BEE8;
+	Fri,  9 Jan 2026 09:17:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767948657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1767950244; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KP/cXEjqhyANOwV17KPvdDFMcYFm5FQXlWZQXoZoqdc=;
-	b=mFtTmEUGczOGpEFdHzC2ensdm/6K4zYahKpPpXxrClz737G3tkaBzoXkn/pbhpOrRfemum
-	Uu0s1VyhNv+gfOYpTtw1KKGWuu7Niygy4+HbZvPCQXGx6nCTYqWud6wnq/xCqlCqh7Pv08
-	vdR218gw6gqMfVksPex4ylJPOa8gxr0=
+	bh=deZXh0Znw+wcx84cK9R/NNIYmgNZoUTEP/U+GusY37s=;
+	b=dDIeWs3IDpTXQ2sf6hgYqJzhjLEwHli8pfhFuJVNtM/gFc5FbJkcZ8kJ/5Emdz3xClTy6t
+	VhIDV69RnDHbFiX84IKZcWE8+IKWsGxoWtqtTcgRWstmbAMkQc8F0uZMW0P13z3KM86NE8
+	r5X8eRsulByGQQJbis2W6sFJPmKmERc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767948657;
+	s=susede2_ed25519; t=1767950244;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KP/cXEjqhyANOwV17KPvdDFMcYFm5FQXlWZQXoZoqdc=;
-	b=12qBbHNjd2XMduiGc8zkr7lZwe1ePBSeumgssBfVBJvNlwuFKV/5bdXLNnt/883F+RqH81
-	W2+ibLPqY+WEbsAQ==
+	bh=deZXh0Znw+wcx84cK9R/NNIYmgNZoUTEP/U+GusY37s=;
+	b=1Q1sK4iNLOFRtg58YuTYf4iAfyUo3HRDCt3ay2dzRnC2RhXjB/hrMIXkIc2Wmcm2y6yXg/
+	jpoM9iFKX7WN3jAw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mFtTmEUG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=12qBbHNj
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767948657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1767950243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KP/cXEjqhyANOwV17KPvdDFMcYFm5FQXlWZQXoZoqdc=;
-	b=mFtTmEUGczOGpEFdHzC2ensdm/6K4zYahKpPpXxrClz737G3tkaBzoXkn/pbhpOrRfemum
-	Uu0s1VyhNv+gfOYpTtw1KKGWuu7Niygy4+HbZvPCQXGx6nCTYqWud6wnq/xCqlCqh7Pv08
-	vdR218gw6gqMfVksPex4ylJPOa8gxr0=
+	bh=deZXh0Znw+wcx84cK9R/NNIYmgNZoUTEP/U+GusY37s=;
+	b=B/0XAQmxFHU7HhkS/2rvWuw4JJE2VLNmVKek+J3Xksczqpzdf0MZGVOxSgPdcWs8I5WndV
+	vOw+88+52bZMMP1aUBNINvPKyA40ZT9wmWbvE9qVNMGZ4tyFpgX5JCUL57jLe5ge8N62jv
+	kMJ88y112Eg/3pxfA/fW9hhYQ9z2nsY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767948657;
+	s=susede2_ed25519; t=1767950243;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KP/cXEjqhyANOwV17KPvdDFMcYFm5FQXlWZQXoZoqdc=;
-	b=12qBbHNjd2XMduiGc8zkr7lZwe1ePBSeumgssBfVBJvNlwuFKV/5bdXLNnt/883F+RqH81
-	W2+ibLPqY+WEbsAQ==
+	bh=deZXh0Znw+wcx84cK9R/NNIYmgNZoUTEP/U+GusY37s=;
+	b=td1TZn/i3V+QvQSxrbYvv4XGlESsOz6Nlg0j2x4AU9JCjKtMU5TLVdk98UZpHMr5QTRPAU
+	sMNrVnOml3bCS7CQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CFFB3EA63;
-	Fri,  9 Jan 2026 08:50:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E11893EA63;
+	Fri,  9 Jan 2026 09:17:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9zPxBHHBYGmDXQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 09 Jan 2026 08:50:57 +0000
-Message-ID: <8d1b915c-b1c4-42db-b941-cf62613c17bf@suse.de>
-Date: Fri, 9 Jan 2026 09:50:56 +0100
+	id O+a6NaLHYGmSdwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 09 Jan 2026 09:17:22 +0000
+Message-ID: <9d9015fa-aba4-4dd7-a024-563f58b7f43a@suse.de>
+Date: Fri, 9 Jan 2026 10:17:22 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -83,14 +82,16 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] drm, coreboot: Add DRM coreboot driver
-To: Brian Norris <briannorris@chromium.org>
-Cc: tzungbi@kernel.org, jwerner@chromium.org, javierm@redhat.com,
+Subject: Re: [PATCH 1/8] firmware: google: Do sysfb test before creating
+ coreboot framebuffer
+To: Julius Werner <jwerner@chromium.org>
+Cc: tzungbi@kernel.org, briannorris@chromium.org, javierm@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch, chrome-platform@lists.linux.dev,
  dri-devel@lists.freedesktop.org
 References: <20260108145058.56943-1-tzimmermann@suse.de>
- <aV_zKzBth1TJNFvJ@google.com>
+ <20260108145058.56943-2-tzimmermann@suse.de>
+ <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -117,69 +118,218 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aV_zKzBth1TJNFvJ@google.com>
+In-Reply-To: <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.51
-X-Spamd-Result: default: False [-4.51 / 50.00];
+X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,chromium.org,redhat.com,linux.intel.com,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:dkim,suse.de:mid]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 7C16C5BEE8
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,suse.com:url,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 
 Hi
 
-Am 08.01.26 um 19:10 schrieb Brian Norris:
-> On Thu, Jan 08, 2026 at 03:19:40PM +0100, Thomas Zimmermann wrote:
->> Coreboot implements framebuffer support via simplefb. Provide a
->> native DRM driver. Keep the simplefb code for now.
-> I'm not much of a DRM-er, but what's blocking us from just replacing the
-> simplefb driver with DRM completely? Just being conservative and
-> allowing flexibility? Or are there technical reasons this wouldn't be a
-> proper replacement? It sounds like supporting 2 drivers provides at
-> least some small complications, like in patch 1, where you're trying to
-> avoid repeating similar logic in 2 framebuffer-handling drivers.
+Am 08.01.26 um 17:55 schrieb Julius Werner:
+> This seems less consistent to me, although tbh I don't understand the
+> Linux device and driver framework that well. I think the original idea
+> here was that the coreboot bus represents the coreboot table, and each
+> entry is represented as one device (regardless of whether any driver
+> actually wants to do anything with that entry). That's why we're
+> creating a device for all the tags even though most of them aren't
+> really interesting for kernel drivers. This also helps with inspecting
+> things in sysfs.
 
-Yes, that's true.
+We need to distinguish between coreboot and sysfb. Only one of these 
+subsystems can handle the framebuffer. Having a framebuffer device on 
+the coreboot bus, if the underlying framebuffer is managed by a 
+different device seems even more incorrect.
 
-There are currently two drivers that bind to the created 
-simple-framebuffer: fbdev's simplefb and DRM's simpledrm. The new 
-corebootdrm intents to replace simpledrm. And simplefb is deprecated: if 
-no one uses that any longer, I'm all for removing coreboot's current 
-framebuffer handling.
+>
+> So the device with TAG_FRAMEBUFFER doesn't mean that we have a
+> framebuffer, it just means that we have an entry in the table
+> describing a framebuffer. Whether it should actually be used to set up
+> a framebuffer should be up to the binding driver. That's why I think
+> keeping this decision in the driver probe makes more sense, and
+> excluding it from the devices on the bus is weird (because you're just
+> randomly excluding one of the entries in the table from being
+> represented like the others, just because of details about how its
+> drivers would want to use it).
+>
+> If you want these devices to be bound by drivers outside this
+> directory, then I think either that other driver needs to have the
+> logic to decide when a coreboot framebuffer should actually be used,
+> or maybe you should have a small stub driver in this directory that
+> binds to the list entry device, makes the decision whether to actually
+> use it, and if so creates a sub-device or something (if that's
+> possible?) which the actual outside driver can find and bind to.
+
+This is what the current code in framebuffer-coreboot.c does. It binds 
+to the coreboot-framebuffer device and create another device for 
+external DRM/fbdev drivers to handle. This is problematic, as
+
+1) the additional device will be gone after the native hardware drivers 
+takes over the display, so the pdev pointer at [1] is dangling. 
+Apparently no one ever unloads the coreboot-framebuffer device to 
+trigger this problem.
+
+2) The corboot-framebuffer device sets itself as the external device's 
+parent. This is incorrect. The framebuffer exists on top of a PCI 
+graphics device, so that device should be the parent. Otherwise the user 
+can hot-unplug the PCI hardware and the coreboot framebuffer operates on 
+a bogus graphics aperture. Modeling the parent-child relationships 
+correctly, avoids this problem.  We've seen these problems with 
+UEFI/VESA framebuffers and fixed it accordingly. [2] Something similar 
+should be done for coreboot. Coreboot devices can still be located on 
+the coreboot bus.
+
+[1] 
+https://elixir.bootlin.com/linux/v6.18.4/source/drivers/firmware/google/framebuffer-coreboot.c#L92
+[2] 
+https://elixir.bootlin.com/linux/v6.18.4/source/drivers/firmware/sysfb.c#L160
+
+Another question I have is why there's a separate device for the 
+coreboot-table? Couldn't the kernel just create the coreboot bus and 
+then populate it with the table entries? DT does that. If the 
+coreboot-table device is really just the parent for the other deivce, 
+that is incorrect, as I describe above.
+
+The coreboot bus is only for convenience, I guess? Other subsystems 
+(sysfb, DT) create platform devices directly.
 
 Best regards
 Thomas
 
+
+
 >
-> Brian
+> On Thu, Jan 8, 2026 at 3:51 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Test sysfb before creating the coreboot framebuffer device. Skip
+>> device creation if the test fails, as this framebuffer does not exist.
+>>
+>> Depending on the system setup, the initial framebuffer can be provided
+>> by the boot loader via screen_info boot parameters and handled by the
+>> kernel's sysfb code in drivers/firmware/sysfb.c. With the sysfb test in
+>> the coreboot-framebuffer probing, the coreboot device is present without
+>> the framebuffer. Even after the sysfb device has been replaced with a
+>> native PCI device, the coreboot device persists.
+>>
+>> Skipping device creation early avoids all these inconsistencies. It
+>> further prepares coreboot to support graphics drivers besides the one
+>> in framebuffer-coreboot.c.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/firmware/google/coreboot_table.c       | 17 +++++++++++++++++
+>>   drivers/firmware/google/coreboot_table.h       |  1 +
+>>   drivers/firmware/google/framebuffer-coreboot.c | 16 ----------------
+>>   3 files changed, 18 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
+>> index 882db32e51be..c34426e5002d 100644
+>> --- a/drivers/firmware/google/coreboot_table.c
+>> +++ b/drivers/firmware/google/coreboot_table.c
+>> @@ -18,6 +18,7 @@
+>>   #include <linux/of.h>
+>>   #include <linux/platform_device.h>
+>>   #include <linux/slab.h>
+>> +#include <linux/sysfb.h>
+>>
+>>   #include "coreboot_table.h"
+>>
+>> @@ -118,6 +119,22 @@ static int coreboot_table_populate(struct device *dev, void *ptr)
+>>                          return -EINVAL;
+>>                  }
+>>
+>> +               switch (entry->tag) {
+>> +               case CB_TAG_FRAMEBUFFER:
+>> +                       /*
+>> +                        * On coreboot systems, the advertised CB_TAG_FRAMEBUFFER entry
+>> +                        * in the coreboot table should only be used if the payload did
+>> +                        * not pass a framebuffer information to the Linux kernel.
+>> +                        *
+>> +                        * If the global screen_info data has been filled, the generic
+>> +                        * system framebuffers (sysfb) will already register a platform
+>> +                        * device and pass that screen_info as platform_data to a driver
+>> +                        * that can scan-out using the system-provided framebuffer.
+>> +                        */
+>> +                       if (sysfb_handles_screen_info())
+>> +                               continue;
+>> +               }
+>> +
+>>                  device = kzalloc(sizeof(device->dev) + entry->size, GFP_KERNEL);
+>>                  if (!device)
+>>                          return -ENOMEM;
+>> diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
+>> index bb6f0f7299b4..e3c353676940 100644
+>> --- a/drivers/firmware/google/coreboot_table.h
+>> +++ b/drivers/firmware/google/coreboot_table.h
+>> @@ -40,6 +40,7 @@ struct lb_cbmem_ref {
+>>          u64 cbmem_addr;
+>>   };
+>>
+>> +#define CB_TAG_FRAMEBUFFER 0x12
+>>   #define LB_TAG_CBMEM_ENTRY 0x31
+>>
+>>   /* Corresponds to LB_TAG_CBMEM_ENTRY */
+>> diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
+>> index c68c9f56370f..bb53d1a47409 100644
+>> --- a/drivers/firmware/google/framebuffer-coreboot.c
+>> +++ b/drivers/firmware/google/framebuffer-coreboot.c
+>> @@ -15,12 +15,9 @@
+>>   #include <linux/module.h>
+>>   #include <linux/platform_data/simplefb.h>
+>>   #include <linux/platform_device.h>
+>> -#include <linux/sysfb.h>
+>>
+>>   #include "coreboot_table.h"
+>>
+>> -#define CB_TAG_FRAMEBUFFER 0x12
+>> -
+>>   static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
+>>
+>>   static int framebuffer_probe(struct coreboot_device *dev)
+>> @@ -37,19 +34,6 @@ static int framebuffer_probe(struct coreboot_device *dev)
+>>                  .format = NULL,
+>>          };
+>>
+>> -       /*
+>> -        * On coreboot systems, the advertised LB_TAG_FRAMEBUFFER entry
+>> -        * in the coreboot table should only be used if the payload did
+>> -        * not pass a framebuffer information to the Linux kernel.
+>> -        *
+>> -        * If the global screen_info data has been filled, the Generic
+>> -        * System Framebuffers (sysfb) will already register a platform
+>> -        * device and pass that screen_info as platform_data to a driver
+>> -        * that can scan-out using the system provided framebuffer.
+>> -        */
+>> -       if (sysfb_handles_screen_info())
+>> -               return -ENODEV;
+>> -
+>>          if (!fb->physical_address)
+>>                  return -ENODEV;
+>>
+>> --
+>> 2.52.0
+>>
 
 -- 
 --

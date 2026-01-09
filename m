@@ -1,81 +1,83 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9ACA338939
-	for <chrome-platform@lists.linux.dev>; Fri,  9 Jan 2026 10:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB08E2D5A19
+	for <chrome-platform@lists.linux.dev>; Fri,  9 Jan 2026 10:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767954760; cv=none; b=HGtFcU6E0oDccYVAKR3Qzwy8jFSgdWSXKmzj4hHf0CVwTRExpCzfulNTAycQ5DBfyrRQsAn7Fs8qz7dTC37jlCKv/J9oPf8QBAm4BIeNYBsjQ8YQfELzBpIuSWbG5WDWRRcorpF3j/PtTsuj3TF7GZnkuwMf5Wc8q5ZgtbW+J18=
+	t=1767955057; cv=none; b=QZy72OAhv352h66WEfqISaBc7clUXHgW/Wd6xs7d/J7G1Rh7TJmY5dBPfgYSDGesQAJYmn02aUWDMcKR/we6wYmW6V2XRqdrObXiuY1rnWRUUMEKyy5KRcbpWJui0aKAwNw6i8JwaAfTDNCy9n3XmSPr6eCnoo7o5DqEtWLmnBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767954760; c=relaxed/simple;
-	bh=ObJc4V7iuK4/N8N/4tgs7aW9kUNkjjTAS2HFZphM+lo=;
+	s=arc-20240116; t=1767955057; c=relaxed/simple;
+	bh=qrIEp/l0K6ka8h752ICWD8wzfk1p282cjEfjAmMczBA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IifoI0ahXvEpclv0SfUHUzo/RzcvaESyRTGfA1WmjI4NK0E2WvhBEAKI9AWcbDK2H/PGScs5YP5G+7VhB9SHMp6KDEsOjF85WXeeeIKFQr95JkVwtd5Se1eI+cTznYwFxthiV/Df5gubxFMMVJKKz/aOgWvWxXWrQh5leLWcugI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KdwUwQJc; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=sE84cQfEFlyg3L7HbHXN8aLMiPcbL5NvH4lF918A9NjLywAMoUa28ZOx78L80Wq49ZI9E45NmaW7g9MdgtkakSDUIjKLCSdbNxXiQrPEHPiSoJZBdieaeaKmD8+kwdm6DM8WS+sYXkwzU8B9vnzYZUvlgOlzYy6I3JR/oSM0DCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ghVcIwm/; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KdwUwQJc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ghVcIwm/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767954757;
+	s=mimecast20190719; t=1767955054;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eAlQtNmtIWNkGsFyRvvL4elBNAjOXcmk4EMceP10HwM=;
-	b=KdwUwQJcdIkJB3GbdxzlpLeEjZ/wSr1o8SAW5VO7qSe7xX1b//miZmZMeqR5f6gcEQehU/
-	NMpKk+luqyLCY8sG46NxYel63PeC5QwzZEPs8nh3dwccZElFHPpqcAY3Qt/oRLNf2v8KBe
-	uzTfKyN4tq5cel4MaggsdAHyrsOwB7c=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=ipuoDX2rtJ56VEsP+6WugM42BQVThpNDN2xp89WYaWo=;
+	b=ghVcIwm/NZ8/u/dl1+ShSDVwT27zANdd+nJ5chLj2IxWb1covuQUsVDu41DgawCLPMkhat
+	j+mTgopUM3UGNWLmvQu/q+jNYCgifeVkS6PmVBgJdnjvr/aKeqKjENzQA2pGXuU+E+tqNF
+	5/J3lEramwrCxkkDn4CuvwrVnLzk72M=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-540-sOcUyAWJO9WfSz1czqwYxg-1; Fri, 09 Jan 2026 05:32:36 -0500
-X-MC-Unique: sOcUyAWJO9WfSz1czqwYxg-1
-X-Mimecast-MFC-AGG-ID: sOcUyAWJO9WfSz1czqwYxg_1767954755
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-47d5c7a2f54so20659445e9.1
-        for <chrome-platform@lists.linux.dev>; Fri, 09 Jan 2026 02:32:36 -0800 (PST)
+ us-mta-225-I_4U4TSYPlaI7QOv-NwrMQ-1; Fri, 09 Jan 2026 05:37:31 -0500
+X-MC-Unique: I_4U4TSYPlaI7QOv-NwrMQ-1
+X-Mimecast-MFC-AGG-ID: I_4U4TSYPlaI7QOv-NwrMQ_1767955050
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-477c49f273fso41555845e9.3
+        for <chrome-platform@lists.linux.dev>; Fri, 09 Jan 2026 02:37:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767954755; x=1768559555;
+        d=1e100.net; s=20230601; t=1767955050; x=1768559850;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eAlQtNmtIWNkGsFyRvvL4elBNAjOXcmk4EMceP10HwM=;
-        b=krimK4AFlNKyfMZ17wUsIAXgqJwMDaL3pqoidIkZAneMj856IjSf1SEpybKWbt59bC
-         sV04w+DHZg/TsdVP2JIZk3DQIjFf+RkbtdqhQ8HCipsXg6cYSXLCHgQ5sDeReYx+TxSH
-         s7J3ChHaceiPWvOtRQ41JKSfc2eaY3z0M299xkdHBc0grNfkcq7M+BWdw1lm0c/FM+uC
-         SwXIiQF5czJnSgz8qXibqaHigSq/pSiH/O/1ZMn2kzRH2qUrBWxLZYo4oz+6Fa6snZ3b
-         sWz+MuDKeFZfMDuvkJtD50n6aqEoxh5T6PXhZ/Snef0DlG8rhUnvMq9yl/wX4q6ep4Hl
-         qC9A==
-X-Gm-Message-State: AOJu0Yz2uZ5XicQBFx7zaX0AFi4svfHadP3ccvkC3OA7gvKv1swAzU6x
-	2bXhL5Ui9n2cYAYlZWcLYs5EDm/z1lPj4TiHCdzJs4RpiKTqK/g+UQ5vNX8YxLuZmMFNkorwSN3
-	2nih9jIb4eqFBkggaWTyiwrs3GECN6WTtYaNkVapGDHem/GX9WFohk28EVWxbZwzD/462aQ==
-X-Gm-Gg: AY/fxX6i6U7pqOLeX6RG/ezSJgeV2OpS2gQsG3z0ERwjC8+sQjb6t8SwhceESB4aM53
-	zdAMMxBV2qB+GX29DFCYvkqm7SaFm54HkDTXPXWCAuwAddzvs5UTCtv7SNoP/jwVgEmcVw57J73
-	gtPleFC0MCl3RhNa07/dbwFnxqcouvQA9V32EiX3DJDtXLthTPSAAtu+428GXweasoZJ9RSpNF9
-	8iE9ja4UjG4ctFUB6vENb+C73KOMIMt4PccXS9BFppb8rowWlbjN80Of23PFEDxvdY0+57T3a4H
-	WGOliBOTBLuISPT1zfixSQoDuegwyu1fy5gR/fa/mdC8xnQQfsvi+X5r1WQSvcZPl+6duJYpm+F
-	RBJjvr/oIp2pZD3uuxxdpr/207fvkhPkTlbgocA5gXyvDBuC0L8pG6Ttl7TMpNi17BZmk
-X-Received: by 2002:a05:600c:348c:b0:47b:deb9:163d with SMTP id 5b1f17b1804b1-47d8484a329mr100760565e9.7.1767954755296;
-        Fri, 09 Jan 2026 02:32:35 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IETFBS/84c6OLlNUw1c46PhgMv94/Y+DtAyEqQRjy5tiBzm3ee/UaLuzoWFK41czGzScD/9kg==
-X-Received: by 2002:a05:600c:348c:b0:47b:deb9:163d with SMTP id 5b1f17b1804b1-47d8484a329mr100760375e9.7.1767954754942;
-        Fri, 09 Jan 2026 02:32:34 -0800 (PST)
+        bh=ipuoDX2rtJ56VEsP+6WugM42BQVThpNDN2xp89WYaWo=;
+        b=DyOtkHozophhJEDCM3jN9ljaBKgX2gv/w0XLeFvO4JK5wwzxoGO0WRW3nBUc4/ksIl
+         KvX+Da0x5g69WQEa1FH59/M/nvPyFAX+Eu6fd0tcgrql0ynsvOFMFU5sr6Axa5+qZHWa
+         7kvRgJSyqjXSBLBUmkI73nFe4TNi9d8Gy8wux1lyOLw4vyX2oHlBHs6IKJwB3Oa/JnJ8
+         Uu1tX4ioX46mvuW2r81TuIQGjMS0CwM9ygQWnVn9pQiAJwltHMj+J2DlHDbahEf4+W0L
+         /iuSl+TTzymNxpWOgfW+zuVrhgfguHhHl3vjpKkTlOXkoY+aaOq4pU6koeiL6042lsJ5
+         JY4g==
+X-Forwarded-Encrypted: i=1; AJvYcCXM1XlIiJu6qIDNNnGTsHXZewionXwPh9i2+AYvbROgfdUIARoN2PVCdsSbIiLtbxR5lb0+WgHYycxTfvZxYfg=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqsW2sH+d4gACrlYBWLU3ti/cMRkXuqNPz3HpWqJqhTR5h0oIC
+	TCSaU67U3R4katqZAXvOim0VzF/WwhLwpTaM6TnAKgzCe+z2AJPX9Uu5c445+NYBszJFwJzEnij
+	ZWsMwDFVLl8H4QqvNqvgUe4QYc1+E7k+rWabpliUXyxT9CV3+oENR9u9aOcQjiBsbR5z3Nw==
+X-Gm-Gg: AY/fxX4+pjcnIeiX0Yc+a3urVRd6ymOA9QOonLppFgAIxnT3FolzbPc69/+Y5sCI7ou
+	SDW5eQ1Z/HTgm4oHTWdlsSNokz/adUpuE3u/DQwcIRobM5936xiEE942FmSs4FWAJS8acF+UaAL
+	gSHThSQ45UPlxlA1aXNijRcw3kc+JqGsFnAnhFPcMrEMg06tiI/DVHVsRE+x5Yvizu8IWL3VB78
+	NGGmF6WChZ6m2aQnXEQdMd64fyJFNBiQboEIbOnbG1yJSMa9ahCC1Lfp3k4Pdfj1FaOHekQlIzG
+	2GLjqgrHl8P+SwlF8czApWfBNqGS4dI6mbfnxKGfVv+fdwpcKUxOMU2OXGlSvTh4RyeuCAXDbRT
+	9tAlwbCGDhjsO120OHukw9NMkqXa/HmL4/MaIMk8IHSHIzHuoewWH+1oH2SUHdU4Wuuqn
+X-Received: by 2002:a05:600c:8b2c:b0:47d:3690:7490 with SMTP id 5b1f17b1804b1-47d84b1849emr110853885e9.9.1767955050352;
+        Fri, 09 Jan 2026 02:37:30 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IETCK7XKY5/aWdQyBTZZ8C1HEHfaJgnGTLB3Vai329iWuwNw67ymEzlG9XniABoH2eVUx9ipw==
+X-Received: by 2002:a05:600c:8b2c:b0:47d:3690:7490 with SMTP id 5b1f17b1804b1-47d84b1849emr110853625e9.9.1767955049923;
+        Fri, 09 Jan 2026 02:37:29 -0800 (PST)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f410c6csm212778215e9.1.2026.01.09.02.32.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d8384646fsm167654735e9.15.2026.01.09.02.37.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 02:32:34 -0800 (PST)
+        Fri, 09 Jan 2026 02:37:29 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
- briannorris@chromium.org, jwerner@chromium.org,
+To: Thomas Zimmermann <tzimmermann@suse.de>, Brian Norris
+ <briannorris@chromium.org>
+Cc: tzungbi@kernel.org, jwerner@chromium.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org, Thomas
- Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 7/8] drm/sysfb: Generalize pixel-format matching
-In-Reply-To: <20260108145058.56943-8-tzimmermann@suse.de>
+ simona@ffwll.ch, chrome-platform@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 0/8] drm, coreboot: Add DRM coreboot driver
+In-Reply-To: <8d1b915c-b1c4-42db-b941-cf62613c17bf@suse.de>
 References: <20260108145058.56943-1-tzimmermann@suse.de>
- <20260108145058.56943-8-tzimmermann@suse.de>
-Date: Fri, 09 Jan 2026 11:32:33 +0100
-Message-ID: <87bjj3f54u.fsf@ocarina.mail-host-address-is-not-set>
+ <aV_zKzBth1TJNFvJ@google.com>
+ <8d1b915c-b1c4-42db-b941-cf62613c17bf@suse.de>
+Date: Fri, 09 Jan 2026 11:37:28 +0100
+Message-ID: <878qe7f4wn.fsf@ocarina.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -83,27 +85,50 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: OKukPfrHo1h7Zjxn5ULcYfGmvK1K1bsHlXUC60VUWcM_1767954755
+X-Mimecast-MFC-PROC-ID: 5NG6Oj2wUiRaV7rdkoE9l29MMy2YuikTv1Wx--YmB5Q_1767955050
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Provide drm_sysfb_get_format(), a helper that finds a specific DRM
-> format from a list of pixel formats. The new function builds upon
-> drm_sysfb_get_format_si(), which finds the DRM format from a given
-> instance of struct screen_info. Now get the screen_info's pixel format
-> in the caller. Allows for matching pixel formats in drivers without
-> screen_info.
+> Hi
 >
-> Convert the callers in efidrm and vesadrm to the new interface.
+> Am 08.01.26 um 19:10 schrieb Brian Norris:
+>> On Thu, Jan 08, 2026 at 03:19:40PM +0100, Thomas Zimmermann wrote:
+>>> Coreboot implements framebuffer support via simplefb. Provide a
+>>> native DRM driver. Keep the simplefb code for now.
+>> I'm not much of a DRM-er, but what's blocking us from just replacing the
+>> simplefb driver with DRM completely? Just being conservative and
+>> allowing flexibility? Or are there technical reasons this wouldn't be a
+>> proper replacement? It sounds like supporting 2 drivers provides at
+>> least some small complications, like in patch 1, where you're trying to
+>> avoid repeating similar logic in 2 framebuffer-handling drivers.
+
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> Yes, that's true.
+>
+> There are currently two drivers that bind to the created 
+> simple-framebuffer: fbdev's simplefb and DRM's simpledrm. The new 
+> corebootdrm intents to replace simpledrm. And simplefb is deprecated: if 
+> no one uses that any longer, I'm all for removing coreboot's current 
+> framebuffer handling.
+>
+> Best regards
+> Thomas
+>
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+As Thomas said, simplefb has already been replaced by simpledrm. DRM
+provides a lot of advantages over simplefb, for instance is a KMS driver
+so one could start KMS apps (e.g., a wayland compositor) which is not
+possible with simplefb.
 
-Again another patch that could just land and doesn't need to wait for the rest.
+And as Thomas said, fbdev is deprecated and likely going away at some
+point in the future.
+
+The real question is about simpledrm vs corebootdrm but Thomas also has
+explained why that change is an improvement. Then simpledrm could only
+focus on DT based systems and have dedicated drivers for EFI, VESA and
+Coreboot system framebuffers.
 
 -- 
 Best regards,

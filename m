@@ -1,85 +1,82 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCD333436A
-	for <chrome-platform@lists.linux.dev>; Fri,  9 Jan 2026 10:21:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2D6337BBC
+	for <chrome-platform@lists.linux.dev>; Fri,  9 Jan 2026 10:24:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767954103; cv=none; b=MRF2L2bpdhIjol8hRDwySsWeXvHiSZcPrkwtfhsiXR8hmHp7Z4tRsw2N+krbUKWYWCzLj6u3+cB1OdFeVefs6lLOb0JBbYW9u7a8y4S4MzjOssvNXL7TRzNps4d1hNgbgPnrDKAahmInUz6BqBsquq8wQUwFliWvQewxpAKo0uE=
+	t=1767954254; cv=none; b=F0mOEC8sZbH8Rp0GXjucMlmlIbu7VLmEJ0QEEyWopM1ixNsntvquwsPJr0eAPUXTDTo7fKUaYtjxBkmz38jVoA7hJUUNs6w1fO5frhY77yphPpUdI2PvKTDZvHFmNOhzMgU201/RzJrukSSdl4d6AYNq35FH8CKjx3l1PidKjs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767954103; c=relaxed/simple;
-	bh=j66FNTsKpilKur7Dez855Bxydrl+wxScDGy7Hr9iYek=;
+	s=arc-20240116; t=1767954254; c=relaxed/simple;
+	bh=RSrb7wrlsStx+tKOcLplcHBZ93zpsrLUr8d+3pJDxQ8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QzpJwfzq8HjzYoVROFhjhvmmEUTjZuu/xsMpObucaTzZ1suhoA66k05qNGgVyaJN8Z5xHRoLlfEV1ik/ymjS8E+kaKsbIRsJlcXt+JCW3oOQwSfkbetFC24X9FrpnJRprxRUSLsM9TwB7PDc7ELnul+EqCXB/U16url8bDUsjoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SiITk1La; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=CBUclItr6YAiB8peUSxHcfDe5J/6o22r4g+gP6w7dkvcB2pVxXo1GrdcLxgbhWO9AT4kvL+CjtHORi3wfZBQT07Pg4iw+k2Ary56CQvoFoQmN0PqYJulXqES1A1rIueQSNj6mvq0ETN3jGYYDICJDvvyVx2ndsE8NUPKR4W8mVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KF9tGq8w; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SiITk1La"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KF9tGq8w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767954100;
+	s=mimecast20190719; t=1767954252;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FezN54GYPDoxnsyXbOv5BiaITQPqN2z+3NnISchCk/Q=;
-	b=SiITk1LaVaNco5I5gy7Ya5odyQXiWD8xGjSoH1kewxL0e8OMtDI2w7BlTvIdwDjPhqUxWJ
-	ucfDdyMhl333xr5Axtt5AqHuSolC0bMHRv5zT8d5bRYi0zHbIz8ubbpzhzszwTEBKay7Qd
-	S5lhO1+2eEYk2GZiS7j3FFkULonRSXM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=pym140T9WEuciOsv6f5sDVH99vBIoa9ppIjVo6ZnmJc=;
+	b=KF9tGq8wix9it49Kt6UYaschTsAN1E+zBQWmljlQpG6k9oj1etSN9s+XG08k91ZjF7jHBA
+	iG92Vxf7geCDwA1lZIeyzL25GDFafp/C3WxijJjWwt3Uiikg8vWNHf+8rzF3BN1OKzpXg8
+	1d5fKnjyxuwHaso2aby/VKLLuQdb9Xw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-344-x4-w4gKqNGmoA9wIev5i_w-1; Fri, 09 Jan 2026 05:21:39 -0500
-X-MC-Unique: x4-w4gKqNGmoA9wIev5i_w-1
-X-Mimecast-MFC-AGG-ID: x4-w4gKqNGmoA9wIev5i_w_1767954098
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-43284f60a8aso2395555f8f.3
-        for <chrome-platform@lists.linux.dev>; Fri, 09 Jan 2026 02:21:39 -0800 (PST)
+ us-mta-556-GcQ_WK_iN7mmEYS6RnTAag-1; Fri, 09 Jan 2026 05:24:11 -0500
+X-MC-Unique: GcQ_WK_iN7mmEYS6RnTAag-1
+X-Mimecast-MFC-AGG-ID: GcQ_WK_iN7mmEYS6RnTAag_1767954250
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-477964c22e0so22956395e9.0
+        for <chrome-platform@lists.linux.dev>; Fri, 09 Jan 2026 02:24:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767954098; x=1768558898;
+        d=1e100.net; s=20230601; t=1767954250; x=1768559050;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FezN54GYPDoxnsyXbOv5BiaITQPqN2z+3NnISchCk/Q=;
-        b=sWkrgUEQMd6M7HXKQ4cGpAXpKz/nA3EklOUqx+/EqfqJTu202RSn6caFUv92FAf5OU
-         0z9Ocia/q+vFQTJvPVj2rcq4Z3C5ffsZ6+VnwJH97HExft/L8R3BSrZo3C4Y+kXSMYYn
-         G98qDP2kzsrMfanSdWHeMjgkCxDJ3H/C8OaKtPHhoYJlhpZx/ep+dZIMMmrho/XVyVYF
-         wqt6YfS3Yp+s2uOVoIzveavKPxCI59HbFuFMbNqRVsVwnkCnfFhF698JzAPyXXn4gueA
-         1UcC3GpvEuNplMOBkOvanxFPH078f+unE5f9v4L+uZ4LDNRSfiXem13Nv+jtFLCZYEEQ
-         3xXw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpQxVse6Tkd42gnKiyMBFkqGa83NiuPJEDD3BfKE9t/KcISL/2HeA+r9AklsG4IGJakuKmjfw7cdxFlqCgw+0=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxgwgM8MeKSb+aUdHwwHmHtFFP16ds0EpeU57ITMaPF3H0ibkRK
-	AH7bw/ri7e2t5xSgJCN9MytRuvMcJJ/y3NUxKceHJk2GGigggqytf7s3tzMux7D50z73/PdWlux
-	LhAXwyacIjmhhOenYFV0Vda3S4G54KGD1xrZ1SrUr7NU9sHxUDqsUhSFK3/jVfYFTyzZHzQ==
-X-Gm-Gg: AY/fxX70zpWqSFvhFd86OF/3azMnhMzsEiC75JiasSYF7XXddcGq8wJ6ea5jy13Z4vV
-	RJYSTmEh30Me9mkkbni4P0wYwdYi6zZvwFl4n3vOjpI/hligBI24n95PKX09VUEAZeJjv9id0/G
-	sPfzgpS9ed4yLo5/HtDoj1+0T8ZnjUxf+AFZSq0TO5eimcKqomGv47Vl69alQV6XtyXlXFmmXm7
-	Wea/Ln3S1EBenstc8XWBz/ECS5SxDdqj1ahpjLVBNh1XmnnXb9dvK4IRAAowijHFM4JVVhDV0C0
-	k9E/RyWLPt6f1LZaOBTQ/KkFb7rzlWR6R+aZeLS42AhVemHTjHYWjrUrLV4gNR9qlsRbNgECYL6
-	EbwpTo9ckUkNRH6cGDsgCX9KKdiJc/cWIiVzJoS7MoKS9kulvJ7WZG+O3CGV1QFagmUpx
-X-Received: by 2002:a05:6000:258a:b0:431:1ae:a3be with SMTP id ffacd0b85a97d-432c36280damr10902028f8f.3.1767954098354;
-        Fri, 09 Jan 2026 02:21:38 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEtCX+SYG3wx1L2Yc3dj54o790Re1VGvFH2eZ6tg5FAB0dllrthP5tvWIarRl51Mjjd7wi/qQ==
-X-Received: by 2002:a05:6000:258a:b0:431:1ae:a3be with SMTP id ffacd0b85a97d-432c36280damr10902013f8f.3.1767954097964;
-        Fri, 09 Jan 2026 02:21:37 -0800 (PST)
+        bh=pym140T9WEuciOsv6f5sDVH99vBIoa9ppIjVo6ZnmJc=;
+        b=KIATrEHakwKkSyQyZAgahbI9XzNSuTa4GKf1EvyMhk4E9F8KV3FeUsJux+YfMCTCJ+
+         nTp+eDUCxIV9x148zMVhPNE0/UcWbAb26PxspkHWY9JApo4KJXyLP9626LKmB+sJ8fPW
+         o5wfR/eB9YLZanyY5q+TPuhVZ1X3x94jxknTF06NBT5gFo70oAevo2SVuA/kiinmXb+Y
+         eEHs7uIOzmxsgqxBpdO5hqDXWeNZRhb+neluR+Aa0m6LoLUqaDe/D6DvfmELry+kISWM
+         8hT8CYL0jKJ5R2OiyNGIvBQ3RlSkMJYc+8LTsBn3IdPplYqHzQdJrcpSZ0t6lUkBVEjG
+         T1iw==
+X-Gm-Message-State: AOJu0YycYK4Kojsl4fwqcvGxQzpviL+Dh4PxUEA5K0bMPb4DGD2J6VV3
+	g7Lu7Zt94ygNaspJq2PGP5qS+z/8lo1KbciHsH9UAip6sYTUcGfqNE2N844+J7SeSfzVA5meZwX
+	vbIPl+RumVUu/v+pDbQCfSXSORJCFV9Td3skrB3O+P36fyDBOwslGXptJtkEPu07mSRDipg==
+X-Gm-Gg: AY/fxX4jJ6QeBxsrO0axINm9QscaXCvwNuM8n5b3x+mHyrsXnFF3JdFU+DJ6vHgJvVB
+	8Di8oYmsAsgUos5BEjSLH0U2LWqXoXDalGVJDk/Vwg8wPtZGahiTPzdn0O/6pZUld4n60Ydqh/Y
+	Yp/qagRr9aIURvA/nd8G/3gAMf8J7yfuMhxoHiPvmUY3gq7h/21oIuXtylfTmoWDhHUG+cmfYd1
+	zmG78DJH7fwBefj3X96giuRMxqmpQjmj39UsYqxGJ5xugnstvpklKeNOiZvTOWmSYaFYcSbS2OH
+	yqz35IhPjLYJOpQnzjoYztj5PboH0vmqc4vYkEuiOetGH+rinIccAUJQopV/Nl29eDpaNTABdQ3
+	tmATOkGlMLxvNo8/iyLkx3KqwMUfwqZp35Vf4AQgm0bnDgI+oRG68MCURXpTCiB2jZRWv
+X-Received: by 2002:a7b:c358:0:b0:477:a71c:d200 with SMTP id 5b1f17b1804b1-47d7f616248mr101203955e9.11.1767954249741;
+        Fri, 09 Jan 2026 02:24:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFhHr+oRWV9twPID3yI7aHXNGJDxSzEl4qHGGDumKDgymP0EGzgtIzqbhIhrME3WHKV5ytk6w==
+X-Received: by 2002:a7b:c358:0:b0:477:a71c:d200 with SMTP id 5b1f17b1804b1-47d7f616248mr101203795e9.11.1767954249369;
+        Fri, 09 Jan 2026 02:24:09 -0800 (PST)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e175csm21406436f8f.14.2026.01.09.02.21.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f70bc4fsm196128645e9.15.2026.01.09.02.24.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 02:21:37 -0800 (PST)
+        Fri, 09 Jan 2026 02:24:08 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Julius Werner
- <jwerner@chromium.org>
-Cc: tzungbi@kernel.org, briannorris@chromium.org,
+To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
+ briannorris@chromium.org, jwerner@chromium.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, chrome-platform@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/8] firmware: google: Do sysfb test before creating
- coreboot framebuffer
-In-Reply-To: <9d9015fa-aba4-4dd7-a024-563f58b7f43a@suse.de>
+ simona@ffwll.ch
+Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org, Thomas
+ Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/8] firmware: google: Init coreboot bus with
+ subsys_initcall()
+In-Reply-To: <20260108145058.56943-3-tzimmermann@suse.de>
 References: <20260108145058.56943-1-tzimmermann@suse.de>
- <20260108145058.56943-2-tzimmermann@suse.de>
- <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
- <9d9015fa-aba4-4dd7-a024-563f58b7f43a@suse.de>
-Date: Fri, 09 Jan 2026 11:21:36 +0100
-Message-ID: <87tswvf5n3.fsf@ocarina.mail-host-address-is-not-set>
+ <20260108145058.56943-3-tzimmermann@suse.de>
+Date: Fri, 09 Jan 2026 11:24:07 +0100
+Message-ID: <87qzrzf5iw.fsf@ocarina.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -87,50 +84,50 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: tUO8OqAnR1O9yK1U89OzYsC641XpDZ2-aSgJDmgxMgM_1767954098
+X-Mimecast-MFC-PROC-ID: 2rnufvnnzrjUy74ll-LyunzH2IPlVEKVX17baC6KgJ4_1767954250
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Hello Thomas and Julius,
+Hello Thomas,
 
-> Hi
+> Using module_init()/device_initcall() is too late to initialize
+> the coreboot bus, as there might already be drivers that depend
+> on it.
 >
-> Am 08.01.26 um 17:55 schrieb Julius Werner:
->> This seems less consistent to me, although tbh I don't understand the
->> Linux device and driver framework that well. I think the original idea
->> here was that the coreboot bus represents the coreboot table, and each
->> entry is represented as one device (regardless of whether any driver
->> actually wants to do anything with that entry). That's why we're
->> creating a device for all the tags even though most of them aren't
->> really interesting for kernel drivers. This also helps with inspecting
->> things in sysfs.
+> So far this hasn't been a problem, as coreboot controls all device
+> creation. Initializing the coreboot bus earlier in subsys_initcall()
+> will allow for external coreboot drivers to register themselves
+> with device_initcall(). Prepares coreboot to support additional
+> coreboot drivers from other subsystems.
 >
-> We need to distinguish between coreboot and sysfb. Only one of these 
-> subsystems can handle the framebuffer. Having a framebuffer device on 
-> the coreboot bus, if the underlying framebuffer is managed by a 
-> different device seems even more incorrect.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/firmware/google/coreboot_table.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
+> index c34426e5002d..3bee22d2a7b3 100644
+> --- a/drivers/firmware/google/coreboot_table.c
+> +++ b/drivers/firmware/google/coreboot_table.c
+> @@ -268,7 +268,7 @@ static void __exit coreboot_table_driver_exit(void)
+>  	bus_unregister(&coreboot_bus_type);
+>  }
+>  
+> -module_init(coreboot_table_driver_init);
+> +subsys_initcall(coreboot_table_driver_init);
+>  module_exit(coreboot_table_driver_exit);
+>  
+>  MODULE_AUTHOR("Google, Inc.");
+> -- 
+> 2.52.0
 >
 
-I'm not familiar with coreboot so please forgive me if something that I
-say makes no sense but IMO what should be done is the following:
+I agree and is also consistent to the init call level used by EFI, PSCI,
+SCMI, DMI, etc.
 
-* coreboot_table_populate() should populate the bus and devices for all
-  devices. That way the complete device hierarchy will be exposed in the
-  sysfs entries as Julius mentioned.
-
-* the check on whether the CB_TAG_FRAMEBUFFER should be used or not by the
-  kernel should also be there (what Thomas did in patch 1/8) but instead
-  of omiting registering the coreboot device in the bus, the device could
-  be marked as "unused" or "disabled" (by adding a field to coreboot_device).
-
-* the coreboot_bus_match() function then can take this new field into
-  account and only match if (device->entry.tag == id->tag && !device->unused)
-  or something like that.
-
-That way no device will be removed from the bus and the corebootdrm driver
-will only be probed when the device has to actually be used by the kernel.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,

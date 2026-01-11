@@ -1,165 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1886A359FB6
-	for <chrome-platform@lists.linux.dev>; Fri,  9 Jan 2026 13:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743E02C21D3;
+	Sun, 11 Jan 2026 11:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767964610; cv=none; b=GeaZvB1HZfvlKGqP1i1GvM+pJYXTSzkYuLxMw6Op+YFIk3jJQofzJMwwrfhclvz42bKjDRsjO8syXWPGcnZO/88JPIMb02K7VR4JxMJ67dQ9chDrG3BL9L37v1NLcITtGXkamNdO2RfYz6n0d1oCJcK7mPfIY/3tq/VDNKbU0G8=
+	t=1768131197; cv=none; b=Mey/r5x3D/UBJjh/+3Rr5+gH1b2xFytV1xEImbjRLaUg1Idnq/7Z9ABV68+LwVMPDZA2QP9WgGab+rQzIA2bnpZVp5d9Z4KkbnwuEh52DR+1jUFwNY82zPN9NQo8+nuYMrRJ7dfYmcj6Q6FLz+B6cxX56XKMjCwnwOW2VLpmEQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767964610; c=relaxed/simple;
-	bh=Eiqy8QHhs0CCZc1VmkJi7YdpuVAIHCnMSQUKHKNFKS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Iy/ASOeaQZoE/joPDlbQyjbwlemzUWV40fBbittakNB270h88AfjnxIPHhFjDC1k1sHgZwOItO2Tp5TCkuDuk9wQr/U+OhrVpGky45XiyxVedwIokauK7ZM/qtADIy8/rBimP185Il324jSzImgsMQTriuiVSC3yTvZOEbRUC+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bEFTDTm+; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1768131197; c=relaxed/simple;
+	bh=61jN0u6N/7FdllL+22N9CPsVrpSeGc94JQmwpLCa7O4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=n3tGaDcPWesMz28GsmmHT5um84igqM/FNNQHFe2uvBe4y08lcp+FO/J7GpsQU4O1yKSD8S8UOwF7P+Hblk+NrFY0fvUrOD+4Bq+FGZAT3d80i8qKfUV3Wz+KWQfqt3SfmOyTP78lvaf4nZb51BtneQvQX0KYpx2dytYBvghMAJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UTaIm9so; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bEFTDTm+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767964609; x=1799500609;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Eiqy8QHhs0CCZc1VmkJi7YdpuVAIHCnMSQUKHKNFKS8=;
-  b=bEFTDTm+wM0/rkcxjCKN4RAG4FD4yCXS6deriARdCfte6GOsLiq/MzmT
-   hdleavh0rvkorGppM0d4KdgwRlXD0DGT6TgJUgq0oypEgyC7nHOZUTVgX
-   Am0hbsmcXhE/HEihc4LEQhqQJK+t+z2rsqth/Fs346t2O7S8RvVrIonmj
-   1aeaQmhm0rKGXRAmFkcwdha06763UIgNCM/qy8QgCCqN5U6XQTDnax/ik
-   VVWggsUoIszkNYpllh4UpRiR2yixfY3bHOsuvFKhsNYCU0MW5WWRcYPq7
-   iaztQy6ye6u9YI+gghHjl3YHOBK+gv8PEO6iEiV8ScJp4/cSvyE6EyT5b
-   Q==;
-X-CSE-ConnectionGUID: v/mL9Bh2Tyi+k/dYEEYoKQ==
-X-CSE-MsgGUID: WlJwvWGHR2W+D88W1i4T5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="73202823"
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="73202823"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 05:16:48 -0800
-X-CSE-ConnectionGUID: IWopFVngT/SgdSWuu+CWaw==
-X-CSE-MsgGUID: aDURCKC7Q+a1MTH+U2FjWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="202677671"
-Received: from khuang2-desk.gar.corp.intel.com (HELO kuha) ([10.124.223.90])
-  by orviesa010.jf.intel.com with SMTP; 09 Jan 2026 05:16:42 -0800
-Received: by kuha (sSMTP sendmail emulation); Fri, 09 Jan 2026 15:16:21 +0200
-Date: Fri, 9 Jan 2026 15:16:21 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	"Christian A. Ehrhardt" <lk@c--e.de>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Pavan Holla <pholla@chromium.org>, Madhu M <madhu.m@intel.com>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/8] USB Type-C alternate mode selection
-Message-ID: <aWD_pbsydOcgNX3z@kuha>
-References: <20251201122604.1268071-1-akuchynski@chromium.org>
- <aTrJwA7Y4fWiTMzB@kuha>
- <aTrTvA8Srak1mNGS@kuha>
- <CAMMMRMdwX8wKJz6OEvosVXFH2npr+7pd0pdq3eY9r-Pbr3tjMw@mail.gmail.com>
- <aUp6FxThy1r2pNxD@kuha>
- <CAMMMRMfk1Rv7P4NMkYnG+2RFqVm-7Effb_xiBQU3NXhPJeeg_g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTaIm9so"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15C6EC4CEF7;
+	Sun, 11 Jan 2026 11:33:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768131197;
+	bh=61jN0u6N/7FdllL+22N9CPsVrpSeGc94JQmwpLCa7O4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UTaIm9soQSvtAiQx+vZGdTlTKetupzcUUaCKBxt+LIBTHoqN7eCDNMPfeqQDVPj4X
+	 gfi/Hil7h978iwDm5AhppM04oTEVtkeFllpHVlJ6AFndCGTgql8PanKv+DAPy//Vcp
+	 XhA5cfK1YppvUZVfvzorIqYL13M9hmdrz0LGlJDDLekOKNOu03yC6GCnuDHWNb4CkR
+	 dlaHi1t6X/P22/wb5X6dQSkS/GWlDURMD7fZvjZyLFMGovwzrNgfMt03dEDXjRn7Ff
+	 rqX7WB1XCEQrfNgtPea8rATvgm4eCOP4jMr9lFspe8I5h8rOHdujqBGSEjHd33x7tl
+	 Bi7zK2kfLoIlg==
+Date: Sun, 11 Jan 2026 11:33:05 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Kurt Borja" <kuurtb@gmail.com>
+Cc: "David Lechner" <dlechner@baylibre.com>, "Andy Shevchenko"
+ <andriy.shevchenko@intel.com>, "Lars-Peter Clausen" <lars@metafoo.de>,
+ "Michael Hennerich" <Michael.Hennerich@analog.com>, "Benson Leung"
+ <bleung@chromium.org>, "Antoniu Miclaus" <antoniu.miclaus@analog.com>,
+ "Gwendal Grignou" <gwendal@chromium.org>, "Shrikant Raskar"
+ <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
+ <perdaniel.olsson@axis.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ "Andy Shevchenko" <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>,
+ "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+ <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <chrome-platform@lists.linux.dev>
+Subject: Re: [PATCH v2 3/7] iio: core: Match iio_device_claim_*() semantics
+ and implementation
+Message-ID: <20260111113305.415941e4@jic23-huawei>
+In-Reply-To: <DF97Z8HIH640.49M8GK9XPEXZ@gmail.com>
+References: <20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.com>
+	<20251211-lock-impr-v2-3-6fb47bdaaf24@gmail.com>
+	<20251227144707.1bebcf27@jic23-huawei>
+	<DF97CCMNGWVP.2JBZR7CQF1FID@gmail.com>
+	<f1c1ca8d-7896-4ccd-b59b-8c6c1bf4fa66@baylibre.com>
+	<DF97Z8HIH640.49M8GK9XPEXZ@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMMMRMfk1Rv7P4NMkYnG+2RFqVm-7Effb_xiBQU3NXhPJeeg_g@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Wed, Jan 07, 2026 at 10:02:45AM +0100, Andrei Kuchynski kirjoitti:
-> On Tue, Dec 23, 2025 at 12:17 PM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
+On Sat, 27 Dec 2025 13:44:35 -0500
+"Kurt Borja" <kuurtb@gmail.com> wrote:
+
+> On Sat Dec 27, 2025 at 1:24 PM -05, David Lechner wrote:
+> > On 12/27/25 12:14 PM, Kurt Borja wrote:  
+> >> On Sat Dec 27, 2025 at 9:47 AM -05, Jonathan Cameron wrote:  
+> >>> On Thu, 11 Dec 2025 21:45:21 -0500
+> >>> Kurt Borja <kuurtb@gmail.com> wrote:
+> >>>  
 > >
-> > Hi,
+> > ...
+> >  
+> >>> Given earlier discussion about this one being rather more tricky
+> >>> to name than the claim_direct because claim_buffer sounds like
+> >>> we are grabbing the buffer, I'm not sure on the best naming to have
+> >>> here. iio_device_claim_buffer_m maybe?  Ugly though and
+> >>> these are super rare so maybe this isn't a particularly major
+> >>> concern.  
+> >> 
+> >> Yes, it's a bit ugly, but as I proposed in the cover letter, if we go
+> >> for a full API rename, it shouldn't matter for now?
+> >> 
+> >> What do you think about that?
+> >> 
+> >> I'll go for iio_device_claim_buffer_m() if I can't think of something
+> >> better.  
 > >
-> > Tue, Dec 16, 2025 at 03:57:40PM +0100, Andrei Kuchynski kirjoitti:
-> > > On Thu, Dec 11, 2025 at 3:23 PM Heikki Krogerus
-> > > <heikki.krogerus@linux.intel.com> wrote:
-> > > >
-> > > > Thu, Dec 11, 2025 at 03:40:24PM +0200, Heikki Krogerus kirjoitti:
-> > > > > Without going into the code review yet, I'm okay with this in general,
-> > > > > except with the artificial SID for the USB4. I still don't understand
-> > > > > why do you guys think we should use that instead of an USB4 specific
-> > > > > device type?
-> > > > >
-> > > > > I think somebody said earlier that the user space can't see the device
-> > > > > type of the alt modes? If that's really the case, then I think there
-> > > > > is some bigger issue here. Are you really sure that if you check the
-> > > > > device type of an alternate mode for example with udevadm, it does not
-> > > > > say DEVTYPE=typec_alternate_mode ?
-> > > > >
-> > > > >         % udevadm info -q property --property=DEVTYPE /sys/bus/typec/devices/port0-partner.0
-> > > > >         DEVTYPE=typec_alternate_mode
-> > > >
-> > > > Or just use grep :)
-> > > >
-> > > >         % grep DEVTYPE /sys/bus/typec/devices/port0-partner.0/uevent
-> > > >         DEVTYPE=typec_alternate_mode
-> > > >
-> > > > So, if that really does not work, then there is a bug somewhere that
-> > > > we obviously need to fix.
-> > > >
-> > > > Please note that the port altmodes are now also part of the bus.
-> > > >
-> > > > Br,
-> > > >
-> > > > --
-> > > > heikki
-> > >
-> > > Thank you for the review, Heikki.
-> > >
-> > > The USB4 SID is utilized for distinguishing between USB4 and alternate
-> > > modes internally and is not exposed to user-space. This represents internal
-> > > implementation detail, for example the boolean variable `is_alternate`
-> > > could serve the same purpose as the SID.
-> > > This patch series introduces no new sysfs entries; the only new attribute,
-> > > `priority`, was introduced in the mode priority series, available at
-> > > https://lore.kernel.org/all/20251124124639.1101335-1-akuchynski@chromium.org/
-> > >
-> > > It is possible to use already existing `usb_capabily` and `usb_mode`
-> > > attributes to manage USB4 mode, allowing verification of USB4 support on
-> > > both the port and the partner. The activation of USB4 is accomplished
-> > > through the implementation of the `enter_usb_mode` typec operation.
-> > >
-> > > I would like your opinion on whether using a USB4 device type would be a
-> > > better approach.
-> >
-> > The device for the USB4 mode will need to have its own device type in
-> > any case, but I'm indeed mainly concerned about how we expose the USB4
-> > mode device to the user space.
-> >
-> > As a kernel internal implementation detail the custom SID is probable
-> > fine for now, although I was actually hoping that we could improve the
-> > API a bit. So something like typec_register_mode() type of API. You
-> > probable could introduce something like this for that API:
-> >
-> >         struct typec_mode {
-> >                 /* enum typec_accessory         accessory; */
-> >                 enum usb_mode                   usb;      /* or just USB4 flag */
-> >                 struct typec_altmode_desc       *altmode; /* NULL with USB4 */
-> >         };
+> > iio_device_try_claim_buffer_mode()?
+> >  
 > 
-> Got it.
-> If you don’t have objections regarding the mode selection, I will proceed
-> with sending the current patch series, omitting the USB4 support.
-> The support for USB4 mode will be in a subsequent series.
+> Yes, that's better.
+> 
+Agreed. That's nice.
 
-No objections :)
-
-
--- 
-heikki

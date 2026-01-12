@@ -1,96 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743E02C21D3;
-	Sun, 11 Jan 2026 11:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58CA3469F8
+	for <chrome-platform@lists.linux.dev>; Mon, 12 Jan 2026 09:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768131197; cv=none; b=Mey/r5x3D/UBJjh/+3Rr5+gH1b2xFytV1xEImbjRLaUg1Idnq/7Z9ABV68+LwVMPDZA2QP9WgGab+rQzIA2bnpZVp5d9Z4KkbnwuEh52DR+1jUFwNY82zPN9NQo8+nuYMrRJ7dfYmcj6Q6FLz+B6cxX56XKMjCwnwOW2VLpmEQg=
+	t=1768210397; cv=none; b=n28BpQvHob7y65Vp47aMOf67nepJikKVAb8iqn0UGvdrG9Xi0k2Nky5eaqijcP2yXJociqP3dp55PRN4GgAtVbLB0l3ii5ROUxy16DxwZhGt9Epd3L60Ji6gFkHhb8DBUDBZvRLnSJP8G9OBX+HYvfhs/yZsG8CCDuS1PVAKtyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768131197; c=relaxed/simple;
-	bh=61jN0u6N/7FdllL+22N9CPsVrpSeGc94JQmwpLCa7O4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n3tGaDcPWesMz28GsmmHT5um84igqM/FNNQHFe2uvBe4y08lcp+FO/J7GpsQU4O1yKSD8S8UOwF7P+Hblk+NrFY0fvUrOD+4Bq+FGZAT3d80i8qKfUV3Wz+KWQfqt3SfmOyTP78lvaf4nZb51BtneQvQX0KYpx2dytYBvghMAJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UTaIm9so; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768210397; c=relaxed/simple;
+	bh=IAKl4vpIBEFH7+YWJ3gRbOu7pA7TosM0+vs3odp96+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dtlvylp7REIrf35eIMMM8uCxe7nDLMaqvJYQG6jgOWqh6aLJKB4PmJUEK5e9ZHVhVqppA4ZDMF7XzavJMK+bm1p4I0hauDPiGbhoA/msBasXUJX90G3ffJqOonLp12pyFsIofivzHkg5XV4Hqg0G4hX5r7Kt96C4kgDlf397eNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XFWQaRBI; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTaIm9so"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15C6EC4CEF7;
-	Sun, 11 Jan 2026 11:33:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768131197;
-	bh=61jN0u6N/7FdllL+22N9CPsVrpSeGc94JQmwpLCa7O4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UTaIm9soQSvtAiQx+vZGdTlTKetupzcUUaCKBxt+LIBTHoqN7eCDNMPfeqQDVPj4X
-	 gfi/Hil7h978iwDm5AhppM04oTEVtkeFllpHVlJ6AFndCGTgql8PanKv+DAPy//Vcp
-	 XhA5cfK1YppvUZVfvzorIqYL13M9hmdrz0LGlJDDLekOKNOu03yC6GCnuDHWNb4CkR
-	 dlaHi1t6X/P22/wb5X6dQSkS/GWlDURMD7fZvjZyLFMGovwzrNgfMt03dEDXjRn7Ff
-	 rqX7WB1XCEQrfNgtPea8rATvgm4eCOP4jMr9lFspe8I5h8rOHdujqBGSEjHd33x7tl
-	 Bi7zK2kfLoIlg==
-Date: Sun, 11 Jan 2026 11:33:05 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: "Kurt Borja" <kuurtb@gmail.com>
-Cc: "David Lechner" <dlechner@baylibre.com>, "Andy Shevchenko"
- <andriy.shevchenko@intel.com>, "Lars-Peter Clausen" <lars@metafoo.de>,
- "Michael Hennerich" <Michael.Hennerich@analog.com>, "Benson Leung"
- <bleung@chromium.org>, "Antoniu Miclaus" <antoniu.miclaus@analog.com>,
- "Gwendal Grignou" <gwendal@chromium.org>, "Shrikant Raskar"
- <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
- <perdaniel.olsson@axis.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- "Andy Shevchenko" <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>,
- "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
- <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <chrome-platform@lists.linux.dev>
-Subject: Re: [PATCH v2 3/7] iio: core: Match iio_device_claim_*() semantics
- and implementation
-Message-ID: <20260111113305.415941e4@jic23-huawei>
-In-Reply-To: <DF97Z8HIH640.49M8GK9XPEXZ@gmail.com>
-References: <20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.com>
-	<20251211-lock-impr-v2-3-6fb47bdaaf24@gmail.com>
-	<20251227144707.1bebcf27@jic23-huawei>
-	<DF97CCMNGWVP.2JBZR7CQF1FID@gmail.com>
-	<f1c1ca8d-7896-4ccd-b59b-8c6c1bf4fa66@baylibre.com>
-	<DF97Z8HIH640.49M8GK9XPEXZ@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XFWQaRBI"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-432d2670932so2517126f8f.2
+        for <chrome-platform@lists.linux.dev>; Mon, 12 Jan 2026 01:33:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1768210393; x=1768815193; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DP5z3e0ZOiisg8hZsQ1FZqU1iTR24BbzmoSmozFADbc=;
+        b=XFWQaRBIToYl1u0f5Eay0vsslxAlMCZ/1FGN2G2tDp+SVayF0gIAMhBKNcq2FnwZSa
+         GUSi4gf6zkURB8OLEYPHtboysmNSZNXX7VK/fc/limnI9NCWxpjJTTJI0MJAnYj6uLm2
+         nfWfcv9tcW6Lw1e7m76o7NJizNLAIzMRu/T1I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768210393; x=1768815193;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DP5z3e0ZOiisg8hZsQ1FZqU1iTR24BbzmoSmozFADbc=;
+        b=aEjHa/e9hte0JVLMpHmSG84FrALXHEvAv5zsbsBZnELIvJvByDILuOg020haYRcz/S
+         11GuE0gW2x6mgx/pEZlqsHFx3U+zlRNQ1RQLUzFt6xJPw6qdlCJAcw90Qt/fRx5Wm6zA
+         A3ebdXqV6223m57yJXqqCK3PEiuOqowixUyo3zT0FpYu58Gg3VHoJuLbCO9hjMiNbgpQ
+         YsYAays81fVxHl9XjsB+dgqbwBAAcKSSRGrX2JQKNsjrACg40Fpo9p6NkgkikVfohzdd
+         ORKXIi3z8pa+A+P8rGJGmhLyWh/OsNJCizIrvnih1iOY9CIm/n1qKruvUARRQkk0l3Is
+         8vOg==
+X-Forwarded-Encrypted: i=1; AJvYcCUNjK+aLCshZHfdDHPObhGvKBB3fEdL37QrwWYguJLdi5Fwb2l/yhblUs35f1ifYJT0si0hzZTaR+mtEVYPhuw=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyB609skpLPGnxa1MpO1EUFPUV88NVyymrXqtNDir1a7MSeBtO2
+	D6rq10puqUJXpSHbQaLYSEYOAzjt5IxXsykjP5oZa2fhDjRtObz4OgDb8SPj0rzuJw==
+X-Gm-Gg: AY/fxX4aUSv0pa1FqiFjUdHxh5/QZD9FDXCxX9U8yM0VGt9lD0eo/qUFVcLWwFn+FfD
+	MDCqix9pLFHN/iVlIww60m7F/1n5sVb3DY6XvzEGhr7QJiWm+c6N3R0C6PmqRPKJo+RZdbvC3k9
+	3H2Z1AE6ayYebarvNPB0EAmQRKcXw5F39n3wpP7f3QSyRVBfjq+33gTcudzt6HkHn3ZgtRixG60
+	0O94SCybtLqM4lMPxZqMeXEa8EJJlbw3Oj6tHGSxQosARu6sIarw3ceFd7oNFa/EgKs8EJaCy1I
+	KSMKGS9CVnWmwLajpK5UAibdlsEW0iltOe21Ywl8lV68LbqZIe66voQjx9gW+PGRXxeJwXJiQjM
+	XerJqSpswA97Lp8KZua4oyCbpyTiKKio3QZehBEK0VBQUvdB8SngjxpGDyhTCvscs19+A6Q8YBo
+	XXJndidFyQeCuWbyvhNlibeJJv7Q==
+X-Google-Smtp-Source: AGHT+IFswOEiIqy/9YWajbGN1gT75zToUj2gfiKRmyBNuc6vk7aVyRzAS/0ByYHRt5DYQaP6QCA7xQ==
+X-Received: by 2002:a05:6000:24c2:b0:431:c73:48a8 with SMTP id ffacd0b85a97d-432c37c8796mr20710449f8f.29.1768210393125;
+        Mon, 12 Jan 2026 01:33:13 -0800 (PST)
+Received: from balto-ws ([37.228.206.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e16ffsm38608881f8f.12.2026.01.12.01.33.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 01:33:12 -0800 (PST)
+From: Fabio Baltieri <fabiobaltieri@chromium.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: Fabio Baltieri <fabiobaltieri@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Simon Glass <sjg@chromium.org>,
+	linux-input@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/1] Input: cros_ec_keyb: add function key support
+Date: Mon, 12 Jan 2026 09:33:08 +0000
+Message-ID: <20260112093309.240905-1-fabiobaltieri@chromium.org>
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 27 Dec 2025 13:44:35 -0500
-"Kurt Borja" <kuurtb@gmail.com> wrote:
+Changes from v4:
+  - just a comment tweak
 
-> On Sat Dec 27, 2025 at 1:24 PM -05, David Lechner wrote:
-> > On 12/27/25 12:14 PM, Kurt Borja wrote:  
-> >> On Sat Dec 27, 2025 at 9:47 AM -05, Jonathan Cameron wrote:  
-> >>> On Thu, 11 Dec 2025 21:45:21 -0500
-> >>> Kurt Borja <kuurtb@gmail.com> wrote:
-> >>>  
-> >
-> > ...
-> >  
-> >>> Given earlier discussion about this one being rather more tricky
-> >>> to name than the claim_direct because claim_buffer sounds like
-> >>> we are grabbing the buffer, I'm not sure on the best naming to have
-> >>> here. iio_device_claim_buffer_m maybe?  Ugly though and
-> >>> these are super rare so maybe this isn't a particularly major
-> >>> concern.  
-> >> 
-> >> Yes, it's a bit ugly, but as I proposed in the cover letter, if we go
-> >> for a full API rename, it shouldn't matter for now?
-> >> 
-> >> What do you think about that?
-> >> 
-> >> I'll go for iio_device_claim_buffer_m() if I can't think of something
-> >> better.  
-> >
-> > iio_device_try_claim_buffer_mode()?
-> >  
-> 
-> Yes, that's better.
-> 
-Agreed. That's nice.
+Changes from v3:
+  - implemented fn layer runtime detection
+  - tweaked cros_ec_keyb_fn_code to return back the correct position
+    code
+
+Changes from v2:
+  - renamed the dt property to use-fn-map, dropped the example
+  - added few function comments
+  - added a helper for obtaining the fn code
+  - reordered, dt patch first
+
+Changes from v1:
+  - change struct to short types
+  - refactored the fn key handling in its own function
+  - changed props to use the google, prefix
+  - reworked the properties to use an overlay map rather than a
+    dedicated one
+
+Fabio Baltieri (1):
+  Input: cros_ec_keyb - add function key support
+
+ drivers/input/keyboard/cros_ec_keyb.c | 174 +++++++++++++++++++++++---
+ 1 file changed, 158 insertions(+), 16 deletions(-)
+
+-- 
+2.52.0.457.g6b5491de43-goog
 

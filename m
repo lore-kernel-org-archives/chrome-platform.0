@@ -1,60 +1,62 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA6438FEE7
-	for <chrome-platform@lists.linux.dev>; Tue, 13 Jan 2026 13:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325A138BF6A
+	for <chrome-platform@lists.linux.dev>; Tue, 13 Jan 2026 13:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768309545; cv=none; b=Grm+/gPFalVgbF1dN64n7w0uz7YV8ypST0dAazLH+eawqLFbi9AfB3n/s6MPw9AWtOZCaQH/G+moE/+R5KgBRNpMk2XOa5qJq0i6ADdkqIYy3hs1WMf3weEbWx+Cx97kC+2XuJV0vRKjukne2fJx0fhYMS4vsqpDbyd9iWmsLXw=
+	t=1768309549; cv=none; b=GFPBFxPaGxEv+KSmL7wDZsSDV1TIRMaaKs1f2aZunJrYgr++TNQnmss0KZjx1jR92BFSPM6sZsgZqu34IMc7ekjBFFqeNuWK6d/dOAU+YwZlFgu82WLlaZRXud8ROo++jStMxO2CxKkC9pkG6171KTruzHv5j/T27sqChqyouwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768309545; c=relaxed/simple;
-	bh=fwUzfC2xTG6i2MQ2ip8x5FilPTF7hu2g+bnWM4R+rkQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=InIe5793VPFF47Ut0JfcS01UA4L5EKGFkuYJba1ofMrj+1/7/5cRqGFqqcv6I8Keet7AV2LmOrxcDGEAlqR7t8eDXlfidNZHmSDQY/5lIaCUrmDi1yyk+a83Gb7FEqjR69j0JtpiQg/xlVI0E3B44L/Yt1wdVZSiRp9w3dJTNNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eUV9wLxW; arc=none smtp.client-ip=209.85.208.45
+	s=arc-20240116; t=1768309549; c=relaxed/simple;
+	bh=V1jmUzlQs0mqeDEI06ZenpYXU3urQAv3hO+yVPpB20c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZjunvKx2vc9prhCpMomNDX2mx0mX3NshiUaQ3bJHSTJfuaGd4sjU3ZSqvrNF7OR7clA9CmXOHO91cZg98/wiwZByRPMP0yCMZrEQLlNcv5HCDWRaTGLO48jNGcSeg7/WYCTLNSce51g04kB6iDc/sYjmKnp5AocoYoBAtxfl4sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d+28VlRy; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eUV9wLxW"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-65378ba2ff7so287095a12.2
-        for <chrome-platform@lists.linux.dev>; Tue, 13 Jan 2026 05:05:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d+28VlRy"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b86f3e88d4dso389268766b.0
+        for <chrome-platform@lists.linux.dev>; Tue, 13 Jan 2026 05:05:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1768309542; x=1768914342; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dlFZOR9bPvQSMDUQEj/b/JXXSikTf4KnUZzPY79O4dk=;
-        b=eUV9wLxWLfTu6dneg5LGsiBBQ9UVXYRrD3+pg7NOBvg5ecK85p4DUzAipF313T03ji
-         6/vRWPbEtc4pBxsVEyBGmcP9fTcXWLrB96NK62h0Z3m8laid1Ku7AK9dswkWqRe+qsSG
-         7nrx+rRDYkMGotCoxpxU3IT9iDFAjEbL+x+As=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768309542; x=1768914342;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1768309544; x=1768914344; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dlFZOR9bPvQSMDUQEj/b/JXXSikTf4KnUZzPY79O4dk=;
-        b=uRV34wk+GqoUxVbx66eg95Lwpn05EF+KGDxZ+HFzZQhAqXHoI9GSumkbwcwIFt50g9
-         tvoYd0ta5CyUubLTefGL9YDHAVuOCvgBo8CLQKEStvTCf3dnr+m3dCIc5oICtoyXFj5h
-         IXUaENe0mkPcF8DQ+G3kJOymRSu1Fn446/sXBrNC5k7HT8WEC9zUKeEJAuG2n/skHiX/
-         AyZm+DTECg1ausVJ09M/Xl04liY+Il6gddwdM7JcFBLcxBVMADyu1uZ9hD7UMFaixCeN
-         eqqpyuu6PUTgc5JbTrtcNJySGjzem8RQAKbZc7FaacoYx15NWmlUDDfVCMpF6Kv22PSA
-         g0mg==
-X-Forwarded-Encrypted: i=1; AJvYcCWZVIDnwvIxp9ZL+QYGpb+OWGytF6MOJqtyJii18mcCS1bGXHVKUGyJnDMbHva52rs4Qh3sOUzxEBqf/wUULtQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3MH0TYlJrbCG/8iuIINgVA9k8EPIT/8/pSoM6x4QMQxT4bvLL
-	GEU4cPSKtpikqo9eAk9SX3pfU+MuDgMDl/GERiIQJxiY3Mpc0EjrQhsibnt3kYIp5Q==
-X-Gm-Gg: AY/fxX5Sv/eHYrHdYfIVCw3ENNX6XUtjiuCUfjZzJc1h6+BNnE+ScODxKC4p5am9SLc
-	RrGsiTj4rfZ3AeoegYpdTOpuEOc0MYQVcd/OcQGuftjNURjGvFc6Swkcyf0n6ZxUKM4fbB+zjMV
-	J+ECgpAT8CyKiKkOJi29pU2CDom3cAiZrrI/06Cq9X9WNZ98P9GUKg+ASxyqUknHeklnKbwpkBf
-	/bFlYAFbjMBxPtIMfkOKQnjCroi3UnmYZiDzdf+JbijjONrmCoQuD0ErJCmk/NDBm/z08Tuhsqm
-	I7RV0lsEFCUMCJR52e1a5U8sUrkzt336Vvan9A928TUfpZVkPK0gY6RUPrmaLvtdTXbxhgcKDFJ
-	IdTIEmufmsvYqZpHRlUVv6IpKfKq69jscn+gwduspBtA1E/cpFHf1HzPv/gfsKXYHNkmclMSNs+
-	qTeqEDb6CfHrxS2jr+xHcRsR0Yp9fJp/dEUEDeBU8YFhr3RyqE5YoXy12WfABUBLfgmtK9nGuO/
-	nG5jz9U
-X-Google-Smtp-Source: AGHT+IGRI9YhixtELVuz80DZdKhv617FozvgQfzvl6i67vy1UXB7yEw95GJgE2A7sinO3f5EEbChAQ==
-X-Received: by 2002:a17:907:9727:b0:b87:6ce:1267 with SMTP id a640c23a62f3a-b8706ce1943mr751779966b.64.1768309541641;
-        Tue, 13 Jan 2026 05:05:41 -0800 (PST)
+        bh=cLqa5LSPMe82XqVLviPNjog13TrBNYmx2vAnL8Z9NGE=;
+        b=d+28VlRyemd7DaXrPbNhM+NkW6aTVsScS86E4khiF5mnou9l/Ss4p+PQNdCSAdoqXM
+         4JT2OYcoUdy4Qr4cmyERW+/rD0giF6JjQEXFDnOvwwe9c1q9cf2dHws2MhbDm3FukGj6
+         wCWEb2gt38hCxCTgzRbY17KwfeajtZjml21bo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768309544; x=1768914344;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cLqa5LSPMe82XqVLviPNjog13TrBNYmx2vAnL8Z9NGE=;
+        b=KEF9J5E4VDfnqu5o/g2Gi+ByVk8I2fyIojzZ5+GIUAlOx7NDYrAb1Ec4GOgF5HArup
+         UgO1cnLjgFa/S8U4qlUB2B3MUSYum0Y1acCs5+JgsQKdgvhunPGn81/URLhw1E6+aNit
+         yS2B/NhQhK3v//HDCk5tX3X0xRHRJtezqZB+O5DfEWxlFO8ECM1U2cAsmO+3i3Qw0+65
+         B+YqtIF0ftEPBaLSw46NixlYl4d2sNft09c1vMeyoUZX8Cp10LIxifLUDPa7EBt0G7O2
+         zNbKn2z7SpGBIKps1CwJ/grLuJXZPORk9tTb+nSvrmcpFlk7w3iVY+VcoMoJDdBA0OkP
+         3fTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUsExN6OdPJhbWGerv8AvTU1NNWaF8ym65AYgQZK0u1Q+2e2Esr16NaNAW00IhjqnVUdmexSqXYDPQAU8TNDds=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxLU8r854SYphgK29ML89ADgpB2jInhCL3L2XHbyb+jzmrjG/Sy
+	nSVdcc6M+anMt/wbJJ1bYGrDgF8OpzAyWaVde9SUWgIjmDmxgXkTKVwEPrtb+iQytA==
+X-Gm-Gg: AY/fxX5Teypl1bCOwkhsIOqW6Ck8kgYazqgmlGSxXb5BvchrUS/98hayMOEJ8pkpiqM
+	5JYsZc+XS3tGPQffasJ24/IPYh+bp2rTeSx/ZOmaRQddNtnwaZcn7Cfv0mSMwysIlKlQmCbAbXX
+	mFT/WZsfGLmaW5RXo7K8ff+eta8L0tYxmoxZDc9/jnYGSQ3mjhKr2SJ9XLEYoDcb5Gm5rLLGFUY
+	e6/W0Db9M124epwS/yWX053oXElixIGWgjHd+xRxMovg6nHasnaFYeNdfFsQ9Z4cVNdwNfX9pgk
+	i3GEhK21LrvWxPMfFsAibI8vs5T3CxrkewCR4n0hCiMff5vBUafAyMqlUJV4gVIi5ss289X61RY
+	1HFar74DexHk5jW2avLNtLEc3BcV4a2REgLnrpv0tfhKpCrxby3b3WQ3peSDE2uXYsRdYv+yPZN
+	iVUTronNMF25s9GlEhWxRW82q0BEzoP8F81rRttwkM+WVAl5hW66tsKWRPc4NWB0W18F3INCagc
+	Zr+kTFzB0VgYXHWx1I=
+X-Google-Smtp-Source: AGHT+IH9fdlAcsYdBhHsm3MzZdhegh+CqE1dU7+aUp1J6imJDfwNUKifMVZoBAGXlrQ1du/vBUGWRQ==
+X-Received: by 2002:a17:907:9691:b0:b87:51d6:22fd with SMTP id a640c23a62f3a-b8751d62cacmr45371966b.4.1768309544446;
+        Tue, 13 Jan 2026 05:05:44 -0800 (PST)
 Received: from akuchynski.c.googlers.com.com (150.230.32.34.bc.googleusercontent.com. [34.32.230.150])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b871b5e60dasm586217266b.63.2026.01.13.05.05.40
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b871b5e60dasm586217266b.63.2026.01.13.05.05.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 05:05:40 -0800 (PST)
+        Tue, 13 Jan 2026 05:05:43 -0800 (PST)
 From: Andrei Kuchynski <akuchynski@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
@@ -75,10 +77,12 @@ Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
 	Madhu M <madhu.m@intel.com>,
 	Venkat Jayaraman <venkat.jayaraman@intel.com>,
 	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH v4 0/8] USB Type-C mode selection
-Date: Tue, 13 Jan 2026 13:05:28 +0000
-Message-ID: <20260113130536.3068311-1-akuchynski@chromium.org>
+Subject: [PATCH v4 1/8] usb: typec: Add mode_control field to port property
+Date: Tue, 13 Jan 2026 13:05:29 +0000
+Message-ID: <20260113130536.3068311-2-akuchynski@chromium.org>
 X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+In-Reply-To: <20260113130536.3068311-1-akuchynski@chromium.org>
+References: <20260113130536.3068311-1-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -87,91 +91,80 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series introduces functionality to the USB Type-C Alternate Mode
-negotiation process by implementing a priority-based selection mechanism.
+This new field in the port properties dictates whether the Platform Policy
+Manager (PPM) allows the OS Policy Manager (OPM) to change the currently
+active, negotiated alternate mode.
 
-Currently, DisplayPort and Thunderbolt drivers initiate a mode entry
-separately within their respective probe functions. The Power Delivery
-Controller (PDC) retains the ability to activate either USB4 mode or
-Alternate Modes based on its internal policy.
-The mode selection mechanism disables Alternate Modes to be entered by
-their respective drivers and the PDC. Instead, a priority-ordered approach
-is used to activate the most desirable mode.
+Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Reviewed-by: Benson Leung <bleung@chromium.org>
+---
+ drivers/usb/typec/class.c | 9 ++++++---
+ drivers/usb/typec/class.h | 1 +
+ include/linux/usb/typec.h | 2 ++
+ 3 files changed, 9 insertions(+), 3 deletions(-)
 
-A new `priority` field is added to the `typec_altmode` structure to store
-a numerical priority value, with all priorities being unique.
-If the port driver supports the mode selection feature, it must set the
-`mode_selection` boolean field within the `typec_altmode` structure. This
-indicates to the alternate mode drivers that they are not to activate the
-altmode separately.
-
-The mode selection process is managed by three API functions:
-- `typec_mode_selection_start`
-- `typec_altmode_state_update`
-- `typec_mode_selection_delete`
-
-When a partner device is connected, the `typec_mode_selection_start`
-function executes the following steps:
-- It compiles a priority-ordered list of Alternate Modes that are mutually
-supported by both the port and the partner.
-- A dedicated mode selection task is subsequently initiated on the Work
-Queue.
-- This task attempts to activate a mode by starting with the
-highest-priority altmode on the list. Alternate modes are identified with
-their SVIDs. Activation/Deactivation performed via `activate` typec_altmode
-operation. The process stops as soon as a mode is successfully entered.
-Otherwise, after a timeout or if an error occurs, the next alternative mode
-will be activated.
-
-The `typec_altmode_state_update` function is invoked by the port driver to
-communicate the current mode of the Type-C connector.
-
-The `typec_mode_selection_delete` function is responsible for stopping the
-currently running mode selection process and releasing all associated
-system resources.
-
-Mode selection is initiated only once during partner registration, and only
-if the port driver provides support for this feature. Subsequent
-mode-switching activities can be managed via existing sysfs entries. Any
-modifications to altmode priorities are relevant only to future
-connections.
-
-This series is based on the RFC discussed here -
-https://lore.kernel.org/all/20251201122604.1268071-1-akuchynski@chromium.org/
-It incorporates the 'v5 USB Type-C alternate mode priorities' patches,
-reflecting the change of the is_typec_altmode macro to
-is_typec_port_altmode -
-https://lore.kernel.org/all/20251124124639.1101335-1-akuchynski@chromium.org/
-
-This series was tested on an Android OS device with kernel 6.19.0-rc4,
-PDC: TI TPS6699, Realtek RTS5453.
-
-Andrei Kuchynski (8):
-  usb: typec: Add mode_control field to port property
-  platform/chrome: cros_ec_typec: Set no_mode_control flag
-  usb: typec: ucsi: Set no_mode_control flag
-  usb: typec: Expose alternate mode priority via sysfs
-  usb: typec: Implement mode selection
-  usb: typec: Introduce mode_selection bit
-  usb: typec: ucsi: Support mode selection to activate altmodes
-  usb: typec: ucsi: Enforce mode selection for cros_ec_ucsi
-
- Documentation/ABI/testing/sysfs-class-typec |  11 +
- drivers/platform/chrome/cros_ec_typec.c     |   1 +
- drivers/usb/typec/Makefile                  |   2 +-
- drivers/usb/typec/altmodes/displayport.c    |   6 +-
- drivers/usb/typec/altmodes/thunderbolt.c    |   2 +-
- drivers/usb/typec/class.c                   | 100 ++++++-
- drivers/usb/typec/class.h                   |   3 +
- drivers/usb/typec/mode_selection.c          | 288 ++++++++++++++++++++
- drivers/usb/typec/ucsi/cros_ec_ucsi.c       |  21 ++
- drivers/usb/typec/ucsi/ucsi.c               |  12 +
- drivers/usb/typec/ucsi/ucsi.h               |   4 +
- include/linux/usb/typec.h                   |   3 +
- include/linux/usb/typec_altmode.h           |  42 +++
- 13 files changed, 487 insertions(+), 8 deletions(-)
- create mode 100644 drivers/usb/typec/mode_selection.c
-
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index c4ff4310ff58a..0f12d6120511b 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -457,11 +457,13 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
+ 					     struct attribute *attr, int n)
+ {
+ 	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
++	struct typec_port *port = typec_altmode2port(adev);
+ 
+ 	if (attr == &dev_attr_active.attr)
+-		if (!is_typec_port(adev->dev.parent) &&
+-		    (!adev->ops || !adev->ops->activate))
+-			return 0444;
++		if (!is_typec_port(adev->dev.parent)) {
++			if (!port->mode_control || !adev->ops || !adev->ops->activate)
++				return 0444;
++		}
+ 
+ 	return attr->mode;
+ }
+@@ -2708,6 +2710,7 @@ struct typec_port *typec_register_port(struct device *parent,
+ 	}
+ 
+ 	port->pd = cap->pd;
++	port->mode_control = !cap->no_mode_control;
+ 
+ 	ret = device_add(&port->dev);
+ 	if (ret) {
+diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+index db2fe96c48ff0..2e89a83c2eb70 100644
+--- a/drivers/usb/typec/class.h
++++ b/drivers/usb/typec/class.h
+@@ -62,6 +62,7 @@ struct typec_port {
+ 	struct mutex			partner_link_lock;
+ 
+ 	enum typec_orientation		orientation;
++	bool				mode_control;
+ 	struct typec_switch		*sw;
+ 	struct typec_mux		*mux;
+ 	struct typec_retimer		*retimer;
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index c6fd46902fce7..dbb259d885266 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -290,6 +290,7 @@ enum usb_pd_svdm_ver {
+  * @prefer_role: Initial role preference (DRP ports).
+  * @accessory: Supported Accessory Modes
+  * @usb_capability: Supported USB Modes
++ * @no_mode_control: Ability to manage Alternate Modes
+  * @fwnode: Optional fwnode of the port
+  * @driver_data: Private pointer for driver specific info
+  * @pd: Optional USB Power Delivery Support
+@@ -307,6 +308,7 @@ struct typec_capability {
+ 	enum typec_accessory	accessory[TYPEC_MAX_ACCESSORY];
+ 	unsigned int		orientation_aware:1;
+ 	u8			usb_capability;
++	bool			no_mode_control;
+ 
+ 	struct fwnode_handle	*fwnode;
+ 	void			*driver_data;
 -- 
 2.52.0.457.g6b5491de43-goog
 

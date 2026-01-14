@@ -1,114 +1,271 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D525272816
-	for <chrome-platform@lists.linux.dev>; Wed, 14 Jan 2026 20:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768422795; cv=pass; b=iqfiafYs/9VoqtCEC3W+EhssFZ6wp+s9zt0sZ2VQCnxtl3YlDpVISe0ip37peOVyYbsYv+oZACXkbP58Wh61pDvlK55XzCH9Zbx7VRalHllkLV6n9OuM6rHHv/152VfB0ulr6pIzN8dpIiVk82D2eqV3oDpTm23b6Gp4bssDeIY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768422795; c=relaxed/simple;
-	bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KGGv2mfoTLEykSc/6S/wdO+DWUjzJkzXg4XkD1613vB4681UurH0b2Ej3YGnpE05tCqWu7Lx5U/Lf73pAVCn+HrcmcDxc5VjYFB8kAaUhYRJGdCYtGJMTwZhuiep5dyuzKIQ5/ciyGaJCeZ5O0gLYqzBhd5b0sB5NOaU/d09Ye4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=A4Q+d5zX; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F67A38E11A;
+	Wed, 14 Jan 2026 21:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768427375; cv=none; b=Pp2H4jAnkP5q0ai6BiU9p34fO1xgAbW+cAeR6bKFDReSteg9GYlDLt+iMxgfVFQfB2U2AVS+6L/cyPpIREV0Pp0z4QpA7cSxGgk36p3Q656z3zLIeLwC121W6AfmVOp6A3DpV5ROoWhaOqMosGh9o5vk7AXTaSN6YNGefSavVyw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768427375; c=relaxed/simple;
+	bh=hwHl5VbBy2oNNnHXb35Q9wtBVlA2YMJ5yPi1OfuYOFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W6lZ1nIqVqqluRBh2MrVRnhvKzKDKQduHDMtQI0hSnnaMg76dmB3e/31tsM7rQUDtbsPCo14EVeUVYMcJLbeohUL7DVC7SMGKCGHINypi6m18D1HQYdVFVNYEmCXxevVVaV7zTAZLk6AIBk8OOLubnMMAbrDInUhtk0okRR0kS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JgOzXRvz; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A4Q+d5zX"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5014b5d8551so78151cf.0
-        for <chrome-platform@lists.linux.dev>; Wed, 14 Jan 2026 12:33:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768422793; cv=none;
-        d=google.com; s=arc-20240605;
-        b=juIs8LXxpHwdg18eu5TonQGjuz9zEVTFxcTVTRNnZ7Vo+pVwmqCuahoERA6oge8Ma/
-         FMM87ZLFGKTABQRs/pcsykNNTVp54Qp2VkN8NVKmLHgjsd9+GCtdltVjBok+h3Ob6kSv
-         Qp40nhIE+eZD2cgu5kL0PQLjZrvW6iSPlOvTGaHlELy8DE/kb3Q9BNUxMJtotisZMBLx
-         clP+Sph5wVzKOEhJqiZe8zar4ZkoAI6EAuXpsZzb353AJ+xSYGJcg6lNb/v6u8lkl0Ks
-         swFmCmekCDzwqaKROmhSxO7m/cUChLDmDnpoaH4VPKyDxK0cVbhYVcLJkI7KruXOrWad
-         Mvjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
-        fh=pStS84zGOxfELWUcCDI6nmzUP3wsh7p5PXRJCUTlPbw=;
-        b=PcCUso76TIMzWdsiEXSsNODyoEhWenqN5/LzmCXdBl18/GLS/1fb66dIMUj9UHN/14
-         pY1HfzI6GUwPAQ61RZKPP6r9h27Ml0BMVt15vf5r2I81ck8r0jLW1p2U8mC5yDtClZlb
-         L/iga6ylcwstyL7RG+0UesI148TJJrRimTNd7OAjLDUojezeh7hUv6g/3vDVxpilc6ai
-         EPClFzOBy3uz/Zpah7sSU4wZrglNtYyUsNwd0YvTuVcllFF/ObFyz+oszoP8zYdti6R5
-         E5txlwDabWvBVG4hP+eQLbrFIdQsyW+BbKH/gkQYgcp/X/Z80FcxEzcBRwC7v0KjJw/o
-         etdA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1768422793; x=1769027593; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
-        b=A4Q+d5zXw03kZ7qCv+VDzT4jYPSbzXBbyiHwdoVNg+AuuCr/C4PACdOP09Vjku8LDI
-         Z2RPobUDLaekVo68oD4Z0zegInumcT1Wz2rIvP2DP9k+LTFu3EAOV3A7DIsUWovSIVCJ
-         NOsdjCT/hqPwWgk5ZxudFcf0uwLsfrUGUUJfA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768422793; x=1769027593;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
-        b=KjScJZPEOGdMMhL0iF7NbVudPJmL79F1RqVUP0ksrCgEn2mO98KCtjC/DHxUzxYtQy
-         gtC77J/beq8+lhMxWmtlU6VrONHj1bYBC7TJg0QUJm4VvzuRA3wBdfhffpuT0DSv7wPj
-         3lgXu9+E6Jk9toNzgEWCZxGjIzj3LRxHx/gFy5w+iUwGVyfTRaB2pG9dWNShoVRzXsM8
-         LZfx4ony4syz5k4cIQxlhvjfR4Y4UBkaEfNpn7tLpugkCNkRw8ftneFeoG7lhXXWl3tp
-         HTNQ0h8ZnVWhmm+ouhANuQPkezWmfX+lfILuzOhEt40I3Bzwrmg0n9ownCoJVh67Qy4p
-         hj8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXTe5wJYHQ1uQdgzU7Mi68ScAtf2JLidnMwfO5VhSEB0zaVWAmPxZahJtq7PBQB84TtYtbhGDE3V4b5jMYuyvE=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywb5YKxGL6/24FlIj/AUe5z36dUFZptFgPtE2SDiPRF0/FV5QVr
-	KK/acxUlp53vpNUENXC2BA22lAEsd7B8bEIRQUz+HoYAESqYlxJUZuuQfP6hTbov5zqeB9dA45s
-	LVP5TOseayRaxFBwu7XY+xHoXzlrQGdJ0PNGEEcbp
-X-Gm-Gg: AY/fxX7dIbyGfT9E667zu+jbfBE147lt9amaKoEpPDpa6F0wXzCw3W4VvgPcNEskII0
-	WfD9L4UPIHmVBML6OW8Un+gaXXrKgTanXnylZfc9odsdQfSq7ibO6WbojZkSSE9RcCukaTex97O
-	DtIsdTUUL6X/yrSRwnoGieCpR23E1/xmheN6gM/YbjefSEQMJ9+ok5/OXcKIHfqE+N2YLG82kTi
-	ONxnFo1vbYrboJbMP7R0VbUUmSM0AuVMJLXYFHtthxIKoJK8Cv5j3nz/Oj5qEaU15aB8vmfdtEU
-	m/EqsKjgFQQjtryFftMNHjnN
-X-Received: by 2002:a05:622a:4b0f:b0:501:5180:3c90 with SMTP id
- d75a77b69052e-502009984cfmr1248501cf.15.1768422792691; Wed, 14 Jan 2026
- 12:33:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JgOzXRvz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768427372; x=1799963372;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hwHl5VbBy2oNNnHXb35Q9wtBVlA2YMJ5yPi1OfuYOFU=;
+  b=JgOzXRvzH0cKfvrYOECrXJvziGfBO7is7FM7UBpvIGcrtWBjF2rPn/4z
+   TR7rNJ7oyS9azZh+xr6owprTtu+HYkNnGIRBVmk7rbllKm7tZe9tdD+Gd
+   TdDQ+U8XN0QRkj5Ve0zdcm3hWJoF//RuhnP3+GIuTgkvqwXGnBqAIH5rz
+   Sy2QNOeeC7ObJVn+jG/YgL4uIauHhfC2+QR/rUbRnTETUlZ83ZU2D+4pv
+   1pbF/zMlaofxOw92tViuEmZRQZl5vgFyxBaBliJylIyS1s81KCC2/aknA
+   EAmFrXc3l9U0LGFJclIS6aXi8LDT3HHNYykjSUhuhW/H31U7Ts1CP/MWk
+   w==;
+X-CSE-ConnectionGUID: MJvXNbccR8qhl4aIPmtdIA==
+X-CSE-MsgGUID: Ncf6I253SU+fo7ibJoFUfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69656219"
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
+   d="scan'208";a="69656219"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 13:49:27 -0800
+X-CSE-ConnectionGUID: F3zygsX7QceaUQ52sD1Yow==
+X-CSE-MsgGUID: 1h3G/NmmQdeKGBAQXEee9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
+   d="scan'208";a="209645182"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 14 Jan 2026 13:49:23 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vg8jw-00000000H44-40sG;
+	Wed, 14 Jan 2026 21:49:20 +0000
+Date: Thu, 15 Jan 2026 05:49:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
+	briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, chrome-platform@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot
+ framebuffers
+Message-ID: <202601150553.5KsVSXQr-lkp@intel.com>
+References: <20260108145058.56943-9-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260108145058.56943-1-tzimmermann@suse.de> <20260108145058.56943-2-tzimmermann@suse.de>
- <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
- <9d9015fa-aba4-4dd7-a024-563f58b7f43a@suse.de> <87tswvf5n3.fsf@ocarina.mail-host-address-is-not-set>
- <CAODwPW-JdJh1QmyMWxoZdaXKTE-y0n5BRSZPaj8Ntszyu10OuA@mail.gmail.com> <85fbdbe9-28bb-43c1-a5cc-6ad8861b96a5@suse.de>
-In-Reply-To: <85fbdbe9-28bb-43c1-a5cc-6ad8861b96a5@suse.de>
-From: Julius Werner <jwerner@chromium.org>
-Date: Wed, 14 Jan 2026 12:32:59 -0800
-X-Gm-Features: AZwV_QjVwzBhyPz60Pd4NCPrZZoJImvApT5iRWKTNbJvb1nRjPpq98n5BJnB29I
-Message-ID: <CAODwPW9vkYdqtHbVbwrrJ5P7Hp=6N7HwrSGiog1DwzuNSruSOA@mail.gmail.com>
-Subject: Re: [PATCH 1/8] firmware: google: Do sysfb test before creating
- coreboot framebuffer
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Julius Werner <jwerner@chromium.org>, Javier Martinez Canillas <javierm@redhat.com>, 
-	Samuel Holland <samuel@sholland.org>, tzungbi@kernel.org, briannorris@chromium.org, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
-	simona@ffwll.ch, chrome-platform@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108145058.56943-9-tzimmermann@suse.de>
 
-> IDK. My take would have been to provide the coreboot table under
-> /sys/firmware; similar to DT. And then walk over it and create devices
-> for the known entries.
+Hi Thomas,
 
-We have established userspace infrastructure relying on the current
-sysfs layout (at least the `cbmem-XXXXXXXX` nodes), so while you may
-be right that there may have been better approaches to do this to
-begin with, I would much prefer if we can stick with what's there now.
+kernel test robot noticed the following build errors:
 
-> I have a new iteration of the series that creates a coreboot-framebuffer
-> platform device for at the same place that currently creates the
-> simple-framebuffer device (in framebuffer_probe()). So we can leave most
-> of the code it as. There are also a number of bugs that this is going to
-> fix. I'll post it soon.
+[auto build test ERROR on chrome-platform/for-next]
+[also build test ERROR on drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master chrome-platform/for-firmware-next v6.19-rc5 next-20260114]
+[cannot apply to drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Sounds good, thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/firmware-google-Do-sysfb-test-before-creating-coreboot-framebuffer/20260108-225542
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260108145058.56943-9-tzimmermann%40suse.de
+patch subject: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601150553.5KsVSXQr-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150553.5KsVSXQr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150553.5KsVSXQr-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/sysfb/corebootdrm.c: In function 'corebootdrm_device_init':
+>> drivers/gpu/drm/sysfb/corebootdrm.c:225:15: error: implicit declaration of function 'devm_aperture_acquire_for_coreboot_device'; did you mean 'devm_aperture_acquire_for_platform_device'? [-Wimplicit-function-declaration]
+     225 |         ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               devm_aperture_acquire_for_platform_device
+
+
+vim +225 drivers/gpu/drm/sysfb/corebootdrm.c
+
+   162	
+   163	/*
+   164	 * Init / Cleanup
+   165	 */
+   166	
+   167	static int corebootdrm_device_init(struct corebootdrm_device *cdev, struct coreboot_device *cbdev)
+   168	{
+   169		const struct lb_framebuffer *fb = &cbdev->framebuffer;
+   170		struct drm_sysfb_device *sysfb = &cdev->sysfb;
+   171		struct drm_device *dev = &sysfb->dev;
+   172		const struct drm_format_info *format;
+   173		int width, height, pitch;
+   174		u64 address;
+   175		int width_mm = 0, height_mm = 0;
+   176		resource_size_t fb_size, fb_base, fb_pgbase, fb_pgsize;
+   177		struct resource *res, *mem = NULL;
+   178		void __iomem *screen_base;
+   179		struct drm_plane *primary_plane;
+   180		struct drm_crtc *crtc;
+   181		struct drm_encoder *encoder;
+   182		struct drm_connector *connector;
+   183		unsigned long max_width, max_height;
+   184		size_t nformats;
+   185		int ret;
+   186	
+   187		/*
+   188		 * Hardware settings
+   189		 */
+   190	
+   191		format = corebootdrm_get_format_fb(dev, fb);
+   192		if (!format)
+   193			return -EINVAL;
+   194		width = corebootdrm_get_width_fb(dev, fb);
+   195		if (width < 0)
+   196			return width;
+   197		height = corebootdrm_get_height_fb(dev, fb);
+   198		if (height < 0)
+   199			return height;
+   200		pitch = corebootdrm_get_pitch_fb(dev, format, width, fb);
+   201		if (pitch < 0)
+   202			return pitch;
+   203		address = corebootdrm_get_address_fb(dev, height, pitch, fb);
+   204		if (!address)
+   205			return -EINVAL;
+   206	
+   207		sysfb->fb_mode = drm_sysfb_mode(width, height, width_mm, height_mm);
+   208		sysfb->fb_format = format;
+   209		sysfb->fb_pitch = pitch;
+   210	
+   211		drm_dbg(dev, "display mode={" DRM_MODE_FMT "}\n", DRM_MODE_ARG(&sysfb->fb_mode));
+   212		drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, pitch=%d byte\n",
+   213			&format->format, width, height, pitch);
+   214	
+   215		/*
+   216		 * Memory management
+   217		 */
+   218	
+   219		fb_base = address;
+   220		fb_size = pitch * height;
+   221	
+   222		fb_pgbase = round_down(fb_base, PAGE_SIZE);
+   223		fb_pgsize = fb_base - fb_pgbase + round_up(fb_size, PAGE_SIZE);
+   224	
+ > 225		ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
+   226		if (ret) {
+   227			drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
+   228			return ret;
+   229		}
+   230	
+   231		drm_dbg(dev, "using I/O memory framebuffer at %pr\n", res);
+   232	
+   233		mem = devm_request_mem_region(&cbdev->dev, fb_pgbase, fb_pgsize, dev_name(&cbdev->dev));
+   234		if (!mem) {
+   235			/*
+   236			 * We cannot make this fatal. Sometimes this comes from magic
+   237			 * spaces our resource handlers simply don't know about. Use
+   238			 * the I/O-memory resource as-is and try to map that instead.
+   239			 */
+   240			drm_warn(dev, "could not acquire memory region %pr\n", res);
+   241			mem = res;
+   242		}
+   243	
+   244		screen_base = devm_ioremap_wc(&cbdev->dev, fb_pgbase, fb_pgsize);
+   245		if (!screen_base)
+   246			return -ENOMEM;
+   247	
+   248		iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
+   249	
+   250		/*
+   251		 * Modesetting
+   252		 */
+   253	
+   254		ret = drmm_mode_config_init(dev);
+   255		if (ret)
+   256			return ret;
+   257	
+   258		max_width = max_t(unsigned long, width, DRM_SHADOW_PLANE_MAX_WIDTH);
+   259		max_height = max_t(unsigned long, height, DRM_SHADOW_PLANE_MAX_HEIGHT);
+   260	
+   261		dev->mode_config.min_width = width;
+   262		dev->mode_config.max_width = max_width;
+   263		dev->mode_config.min_height = height;
+   264		dev->mode_config.max_height = max_height;
+   265		dev->mode_config.preferred_depth = format->depth;
+   266		dev->mode_config.funcs = &corebootdrm_mode_config_funcs;
+   267	
+   268		/* Primary plane */
+   269	
+   270		nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
+   271						       cdev->formats, ARRAY_SIZE(cdev->formats));
+   272	
+   273		primary_plane = &cdev->primary_plane;
+   274		ret = drm_universal_plane_init(dev, primary_plane, 0, &corebootdrm_primary_plane_funcs,
+   275					       cdev->formats, nformats,
+   276					       corebootdrm_primary_plane_format_modifiers,
+   277					       DRM_PLANE_TYPE_PRIMARY, NULL);
+   278		if (ret)
+   279			return ret;
+   280		drm_plane_helper_add(primary_plane, &corebootdrm_primary_plane_helper_funcs);
+   281		drm_plane_enable_fb_damage_clips(primary_plane);
+   282	
+   283		/* CRTC */
+   284	
+   285		crtc = &cdev->crtc;
+   286		ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
+   287						&corebootdrm_crtc_funcs, NULL);
+   288		if (ret)
+   289			return ret;
+   290		drm_crtc_helper_add(crtc, &corebootdrm_crtc_helper_funcs);
+   291	
+   292		/* Encoder */
+   293	
+   294		encoder = &cdev->encoder;
+   295		ret = drm_encoder_init(dev, encoder, &corebootdrm_encoder_funcs,
+   296				       DRM_MODE_ENCODER_NONE, NULL);
+   297		if (ret)
+   298			return ret;
+   299		encoder->possible_crtcs = drm_crtc_mask(crtc);
+   300	
+   301		/* Connector */
+   302	
+   303		connector = &cdev->connector;
+   304		ret = drm_connector_init(dev, connector, &corebootdrm_connector_funcs,
+   305					 DRM_MODE_CONNECTOR_Unknown);
+   306		if (ret)
+   307			return ret;
+   308		drm_connector_helper_add(connector, &corebootdrm_connector_helper_funcs);
+   309		drm_connector_set_panel_orientation_with_quirk(connector,
+   310							       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
+   311							       width, height);
+   312	
+   313		ret = drm_connector_attach_encoder(connector, encoder);
+   314		if (ret)
+   315			return ret;
+   316	
+   317		drm_mode_config_reset(dev);
+   318	
+   319		return 0;
+   320	}
+   321	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki

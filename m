@@ -1,80 +1,80 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D147342C8E
-	for <chrome-platform@lists.linux.dev>; Wed, 14 Jan 2026 08:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F2A2FBDFF
+	for <chrome-platform@lists.linux.dev>; Wed, 14 Jan 2026 09:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768378435; cv=none; b=s9hc6lfVO3cwEHN4B4ocgrVRFdo1h1dOL/9iHviMlTqN6En+evRXrWLRQZYy0o1Z2+pZ7810Ls4lhdq9DlQLWJnJHt7qDBZUhHTtu7eEch4iPdXtCIWU2B8uVvLQmn1X2ftH/OAgArC62PLlEIQl/YcqL7TZzVRoLWyKOpPsx+o=
+	t=1768381374; cv=none; b=ruYSxUJVbas8RLxRHXmhCahrpFmLp4SOk2eYTGSLAMpyWjjCPeY0bpEwgKQvaNLypFOFDF+ax7iZuA2hR0jniJgUGTLYFpDCbNiy0p92moMWMuSabS1BQ8dbivonzRjaupBSjXjKqmOnN1C3LMG3Bhm5UwVbmBMRBctYTD3KIgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768378435; c=relaxed/simple;
-	bh=/cjWSCOqOU5OZzO8AFDdKPgY+NvH7Z03TOWNzyo0WyM=;
+	s=arc-20240116; t=1768381374; c=relaxed/simple;
+	bh=nN8dNb+ULWRciX6HSxokmAu9GLKXvbrVenA5Lm8vQQE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=igR1fQA8k5JDITBGrHVIamx3fMplSghtopV0n3PMu8oQFYgrm5AeM7M+HGqn7xTGcA54HzbdpNO0kHCULKbdhISW8cGpZWbIq+4ZS3j5KSKHErBnB547GGI3syW1FXZdrfEllJmqS2CBHzcAhUVaawrShBFhL3NlHZRQazzR698=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dKnddNdf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xi0azGMA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dKnddNdf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xi0azGMA; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:Content-Type; b=gDFIqVrymhnLMHR2l9QdgVcf8Ul2UKONm9ZXoEp+c3uww4nY4MYKYWLbd9sc1yXI8b/lOfPiRBXg3T+0iRHcVI5EQm7XL0wdamTgroW78HTeUWqevUdmTngpsF06tby8WqMNbX9LO2ACraqUOb3MxYcsDFOItiIP+W9ENRbViV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BAqFnNCw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hi65Xvj9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ALfiIRyz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5NAzUi/u; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dKnddNdf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xi0azGMA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dKnddNdf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xi0azGMA"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BAqFnNCw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hi65Xvj9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ALfiIRyz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5NAzUi/u"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 43A535BD35;
-	Wed, 14 Jan 2026 08:13:50 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B48F33838;
+	Wed, 14 Jan 2026 09:02:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768378430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768381361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6moF34+qK1gn/F+wX915nzJUiepHL4ZhpjaofLS3VVY=;
-	b=dKnddNdfi1SrguprTn2tNrzypzJ9vy5/aDRpbCMxliU+vXB0HeyuyZy1tz38HBewCIq/xx
-	bzLeY/EwmpY4XBnm6uUqJULK6DLlNiEv6VswMMXbEw2CHKaSg8/msnVFIZODpbytEvz1r1
-	L4UYp/Etq68GMDuUvWyhdHseGcav1t0=
+	bh=dvw73lmZsHnj67N36Sj/+aclU6XFvMasgmnvVJhshrk=;
+	b=BAqFnNCwhO6/KOVVWQdbSZ8ZHVYH7bQcfQlBZSITjeIhz+rl0Vp93hO0Ry9KZX3ZLcqXvL
+	vz1tkfoXsb8bBJEdWUwn4+wtucJPshCrZ3hoxr1N7NL//FJni94sh2P6iB4nH2oJC1WYYT
+	1H/lsZG/vnAzY3ySONLhXx6NLtpjGX4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768378430;
+	s=susede2_ed25519; t=1768381361;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6moF34+qK1gn/F+wX915nzJUiepHL4ZhpjaofLS3VVY=;
-	b=xi0azGMACEmnv3JJqhoYDW83/4Bz2kFTvd59sVcIHutsFXxh7eXcrT6354LTK+ocE5V8Dw
-	lZSL6PiTH9pWJpBw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=dvw73lmZsHnj67N36Sj/+aclU6XFvMasgmnvVJhshrk=;
+	b=hi65Xvj913HM3KJEx7scztgGv3euZmblPpX9YncaMY6m0DkvVndSmiI4/FOoXsYJObI30i
+	eri5SizUCiT6AiAQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768378430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768381360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6moF34+qK1gn/F+wX915nzJUiepHL4ZhpjaofLS3VVY=;
-	b=dKnddNdfi1SrguprTn2tNrzypzJ9vy5/aDRpbCMxliU+vXB0HeyuyZy1tz38HBewCIq/xx
-	bzLeY/EwmpY4XBnm6uUqJULK6DLlNiEv6VswMMXbEw2CHKaSg8/msnVFIZODpbytEvz1r1
-	L4UYp/Etq68GMDuUvWyhdHseGcav1t0=
+	bh=dvw73lmZsHnj67N36Sj/+aclU6XFvMasgmnvVJhshrk=;
+	b=ALfiIRyzFWfPIQ3nI6innhppkGsJpk5Wlg4uz2FEsRTujQ82JP+OaHRGHVKIfGddzE3Hee
+	BS0fFqFV2QcI/d3zCXiVvZCFoG2stwtHOJ11IfvWawCKyrqx847DK1AmdJADdXhI12Pwq/
+	1gYsed5ADAmtK7FOb6FtSwJlZy6R7xo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768378430;
+	s=susede2_ed25519; t=1768381360;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6moF34+qK1gn/F+wX915nzJUiepHL4ZhpjaofLS3VVY=;
-	b=xi0azGMACEmnv3JJqhoYDW83/4Bz2kFTvd59sVcIHutsFXxh7eXcrT6354LTK+ocE5V8Dw
-	lZSL6PiTH9pWJpBw==
+	bh=dvw73lmZsHnj67N36Sj/+aclU6XFvMasgmnvVJhshrk=;
+	b=5NAzUi/uYwSG+e4IfOqN7vaM8mH7wevO/BV0t7Sa3bH+BLnNmWdCX8Xk4W+4+hx9kmKRU5
+	fFwsp7ORZswnjlDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE2703EA63;
-	Wed, 14 Jan 2026 08:13:49 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD0A93EA63;
+	Wed, 14 Jan 2026 09:02:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XAtXOD1QZ2lqRAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 14 Jan 2026 08:13:49 +0000
-Message-ID: <85fbdbe9-28bb-43c1-a5cc-6ad8861b96a5@suse.de>
-Date: Wed, 14 Jan 2026 09:13:49 +0100
+	id VW2GNK9bZ2nbcgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 14 Jan 2026 09:02:39 +0000
+Message-ID: <4cb4d554-4874-4216-b7ae-6265dc4d595f@suse.de>
+Date: Wed, 14 Jan 2026 10:02:39 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -82,21 +82,16 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] firmware: google: Do sysfb test before creating
- coreboot framebuffer
-To: Julius Werner <jwerner@chromium.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: tzungbi@kernel.org, briannorris@chromium.org,
+Subject: Re: [PATCH 6/8] drm/sysfb: Remove duplicate declarations
+To: Javier Martinez Canillas <javierm@redhat.com>, tzungbi@kernel.org,
+ briannorris@chromium.org, jwerner@chromium.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, chrome-platform@lists.linux.dev,
- dri-devel@lists.freedesktop.org
+ simona@ffwll.ch
+Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org
 References: <20260108145058.56943-1-tzimmermann@suse.de>
- <20260108145058.56943-2-tzimmermann@suse.de>
- <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
- <9d9015fa-aba4-4dd7-a024-563f58b7f43a@suse.de>
- <87tswvf5n3.fsf@ocarina.mail-host-address-is-not-set>
- <CAODwPW-JdJh1QmyMWxoZdaXKTE-y0n5BRSZPaj8Ntszyu10OuA@mail.gmail.com>
+ <20260108145058.56943-7-tzimmermann@suse.de>
+ <87ecnzf57f.fsf@ocarina.mail-host-address-is-not-set>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -123,7 +118,7 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAODwPW-JdJh1QmyMWxoZdaXKTE-y0n5BRSZPaj8Ntszyu10OuA@mail.gmail.com>
+In-Reply-To: <87ecnzf57f.fsf@ocarina.mail-host-address-is-not-set>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Score: -4.30
@@ -133,7 +128,7 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[redhat.com,kernel.org,chromium.org,linux.intel.com,gmail.com,ffwll.ch];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_SEVEN(0.00)[11];
@@ -141,73 +136,41 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,chromium.org,linux.intel.com,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.com:url,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,lists.freedesktop.org:email,suse.com:url]
 X-Spam-Level: 
 X-Spam-Flag: NO
 
-Hi
 
-Am 13.01.26 um 23:32 schrieb Julius Werner:
->> Another question I have is why there's a separate device for the
->> coreboot-table? Couldn't the kernel just create the coreboot bus and
->> then populate it with the table entries? DT does that. If the
->> coreboot-table device is really just the parent for the other deivce,
->> that is incorrect, as I describe above.
-> To be honest I didn't write this code and probably don't understand it
-> well enough to answer that question (we should probably CC +Samuel,
-> who did). I assume that it was done to get the automatic matching of
-> the ACPI/DT entry that tells the kernel that a coreboot table exists.
-> If there's a better way to achieve that, feel free to change it.
 
-IDK. My take would have been to provide the coreboot table under 
-/sys/firmware; similar to DT. And then walk over it and create devices 
-for the known entries.
+Am 09.01.26 um 11:31 schrieb Javier Martinez Canillas:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>
+>> Commit 6046b49bafff ("drm/sysfb: Share helpers for integer validation")
+>> and commit e8c086880b2b ("drm/sysfb: Share helpers for screen_info
+>> validation") added duplicate function declarations. Remove the latter
+>> ones.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: e8c086880b2b ("drm/sysfb: Share helpers for screen_info validation")
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Javier Martinez Canillas <javierm@redhat.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: <stable@vger.kernel.org> # v6.16+
+>> ---
+>>   drivers/gpu/drm/sysfb/drm_sysfb_helper.h | 9 ---------
+>>   1 file changed, 9 deletions(-)
+>>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Thanks. I'm going to put this into drm-misc-fixes in any case.
 
 >
->> * the check on whether the CB_TAG_FRAMEBUFFER should be used or not by the
->>    kernel should also be there (what Thomas did in patch 1/8) but instead
->>    of omiting registering the coreboot device in the bus, the device could
->>    be marked as "unused" or "disabled" (by adding a field to coreboot_device).
-> This sounds like a reasonable compromise. It still feels a bit odd to
-> me that the check whether other framebuffers exist happens during
-> parsing of the table rather than at the point where the table entry is
-> actually used by something, but if that's the easiest way to make it
-> work, I guess there's no harm in doing it there. (I'm still curious,
-> though, why can't you just do the check in corebootdrm_probe(), and
-> return -ENODEV if the other framebuffer is used? Wouldn't that be
-> equivalent to what the old driver did?)
-
-I have a new iteration of the series that creates a coreboot-framebuffer 
-platform device for at the same place that currently creates the 
-simple-framebuffer device (in framebuffer_probe()). So we can leave most 
-of the code it as. There are also a number of bugs that this is going to 
-fix. I'll post it soon.
-
-Best regards
-Thomas
-
->
->
->> * the coreboot_bus_match() function then can take this new field into
->>    account and only match if (device->entry.tag == id->tag && !device->unused)
->>    or something like that.
->>
->> That way no device will be removed from the bus and the corebootdrm driver
->> will only be probed when the device has to actually be used by the kernel.
->>
->> --
->> Best regards,
->>
->> Javier Martinez Canillas
->> Core Platforms
->> Red Hat
->>
 
 -- 
 --

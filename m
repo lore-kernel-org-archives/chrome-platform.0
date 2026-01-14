@@ -1,183 +1,173 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F2A2FBDFF
-	for <chrome-platform@lists.linux.dev>; Wed, 14 Jan 2026 09:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F2D2E1F02;
+	Wed, 14 Jan 2026 14:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768381374; cv=none; b=ruYSxUJVbas8RLxRHXmhCahrpFmLp4SOk2eYTGSLAMpyWjjCPeY0bpEwgKQvaNLypFOFDF+ax7iZuA2hR0jniJgUGTLYFpDCbNiy0p92moMWMuSabS1BQ8dbivonzRjaupBSjXjKqmOnN1C3LMG3Bhm5UwVbmBMRBctYTD3KIgU=
+	t=1768402362; cv=none; b=DimoQRPLb7WEHmbwd8o/f7DFjZkk+vC4b1+FFHdSPDwKTaNkk2Do6sAxbmMh412BkJxGk7uNKoMhsJiCW4BVztkxKxSrX1g8DlL2tyD7zVTUmg1yIYjz23mJFMBj+f83kFoObgqiuBzKd4da9Vj0E0izqd5ovmpH53sp3AUGc7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768381374; c=relaxed/simple;
-	bh=nN8dNb+ULWRciX6HSxokmAu9GLKXvbrVenA5Lm8vQQE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gDFIqVrymhnLMHR2l9QdgVcf8Ul2UKONm9ZXoEp+c3uww4nY4MYKYWLbd9sc1yXI8b/lOfPiRBXg3T+0iRHcVI5EQm7XL0wdamTgroW78HTeUWqevUdmTngpsF06tby8WqMNbX9LO2ACraqUOb3MxYcsDFOItiIP+W9ENRbViV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BAqFnNCw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hi65Xvj9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ALfiIRyz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5NAzUi/u; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1768402362; c=relaxed/simple;
+	bh=dNgdeh66mbYlkQn0Le2nIbCxYc/84MQKqkAFeyOsX3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LcNckPREMz56iA7rNmgk/eYk3qldYf7sWlH8SuYA7oIuW20QWPI7kFoo1C8OjpkrNK3UE5ykAcYqgoTM0KS9dKXqhS7hUjuRcAZz/+jfnjFEMwONLO0JZlssi1PSf2Kmx99pg77n5ralkoVdUGost4xyYV3a/k3coBjImTKeTYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oIN1NQVy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BAqFnNCw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hi65Xvj9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ALfiIRyz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5NAzUi/u"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B48F33838;
-	Wed, 14 Jan 2026 09:02:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768381361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dvw73lmZsHnj67N36Sj/+aclU6XFvMasgmnvVJhshrk=;
-	b=BAqFnNCwhO6/KOVVWQdbSZ8ZHVYH7bQcfQlBZSITjeIhz+rl0Vp93hO0Ry9KZX3ZLcqXvL
-	vz1tkfoXsb8bBJEdWUwn4+wtucJPshCrZ3hoxr1N7NL//FJni94sh2P6iB4nH2oJC1WYYT
-	1H/lsZG/vnAzY3ySONLhXx6NLtpjGX4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768381361;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dvw73lmZsHnj67N36Sj/+aclU6XFvMasgmnvVJhshrk=;
-	b=hi65Xvj913HM3KJEx7scztgGv3euZmblPpX9YncaMY6m0DkvVndSmiI4/FOoXsYJObI30i
-	eri5SizUCiT6AiAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768381360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dvw73lmZsHnj67N36Sj/+aclU6XFvMasgmnvVJhshrk=;
-	b=ALfiIRyzFWfPIQ3nI6innhppkGsJpk5Wlg4uz2FEsRTujQ82JP+OaHRGHVKIfGddzE3Hee
-	BS0fFqFV2QcI/d3zCXiVvZCFoG2stwtHOJ11IfvWawCKyrqx847DK1AmdJADdXhI12Pwq/
-	1gYsed5ADAmtK7FOb6FtSwJlZy6R7xo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768381360;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=dvw73lmZsHnj67N36Sj/+aclU6XFvMasgmnvVJhshrk=;
-	b=5NAzUi/uYwSG+e4IfOqN7vaM8mH7wevO/BV0t7Sa3bH+BLnNmWdCX8Xk4W+4+hx9kmKRU5
-	fFwsp7ORZswnjlDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD0A93EA63;
-	Wed, 14 Jan 2026 09:02:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VW2GNK9bZ2nbcgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 14 Jan 2026 09:02:39 +0000
-Message-ID: <4cb4d554-4874-4216-b7ae-6265dc4d595f@suse.de>
-Date: Wed, 14 Jan 2026 10:02:39 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oIN1NQVy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3542DC4CEF7;
+	Wed, 14 Jan 2026 14:52:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1768402361;
+	bh=dNgdeh66mbYlkQn0Le2nIbCxYc/84MQKqkAFeyOsX3Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oIN1NQVyOfKuPJ5B0p12h4xHq7dNUhrMV/492n1ZofjVd9JH2IZTGB32k5H2deHH+
+	 DoBj0S/lPaZ+lLgCjSVT2YKyQxzTHMqPPMOKXruxs+Nh9Iqola8MyqqjNXDhbXAiCG
+	 Q7plQlbeaHPChUP2mXouWsgQs5fduEySn4XMOtQg=
+Date: Wed, 14 Jan 2026 15:52:38 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
+	Abel Vesa <abel.vesa@linaro.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>, Madhu M <madhu.m@intel.com>,
+	Venkat Jayaraman <venkat.jayaraman@intel.com>
+Subject: Re: [PATCH v4 0/8] USB Type-C mode selection
+Message-ID: <2026011423-voltage-frugally-084f@gregkh>
+References: <20260113130536.3068311-1-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] drm/sysfb: Remove duplicate declarations
-To: Javier Martinez Canillas <javierm@redhat.com>, tzungbi@kernel.org,
- briannorris@chromium.org, jwerner@chromium.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-References: <20260108145058.56943-1-tzimmermann@suse.de>
- <20260108145058.56943-7-tzimmermann@suse.de>
- <87ecnzf57f.fsf@ocarina.mail-host-address-is-not-set>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87ecnzf57f.fsf@ocarina.mail-host-address-is-not-set>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[redhat.com,kernel.org,chromium.org,linux.intel.com,gmail.com,ffwll.ch];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,lists.freedesktop.org:email,suse.com:url]
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113130536.3068311-1-akuchynski@chromium.org>
 
+On Tue, Jan 13, 2026 at 01:05:28PM +0000, Andrei Kuchynski wrote:
+> This patch series introduces functionality to the USB Type-C Alternate Mode
+> negotiation process by implementing a priority-based selection mechanism.
+> 
+> Currently, DisplayPort and Thunderbolt drivers initiate a mode entry
+> separately within their respective probe functions. The Power Delivery
+> Controller (PDC) retains the ability to activate either USB4 mode or
+> Alternate Modes based on its internal policy.
+> The mode selection mechanism disables Alternate Modes to be entered by
+> their respective drivers and the PDC. Instead, a priority-ordered approach
+> is used to activate the most desirable mode.
+> 
+> A new `priority` field is added to the `typec_altmode` structure to store
+> a numerical priority value, with all priorities being unique.
+> If the port driver supports the mode selection feature, it must set the
+> `mode_selection` boolean field within the `typec_altmode` structure. This
+> indicates to the alternate mode drivers that they are not to activate the
+> altmode separately.
+> 
+> The mode selection process is managed by three API functions:
+> - `typec_mode_selection_start`
+> - `typec_altmode_state_update`
+> - `typec_mode_selection_delete`
+> 
+> When a partner device is connected, the `typec_mode_selection_start`
+> function executes the following steps:
+> - It compiles a priority-ordered list of Alternate Modes that are mutually
+> supported by both the port and the partner.
+> - A dedicated mode selection task is subsequently initiated on the Work
+> Queue.
+> - This task attempts to activate a mode by starting with the
+> highest-priority altmode on the list. Alternate modes are identified with
+> their SVIDs. Activation/Deactivation performed via `activate` typec_altmode
+> operation. The process stops as soon as a mode is successfully entered.
+> Otherwise, after a timeout or if an error occurs, the next alternative mode
+> will be activated.
+> 
+> The `typec_altmode_state_update` function is invoked by the port driver to
+> communicate the current mode of the Type-C connector.
+> 
+> The `typec_mode_selection_delete` function is responsible for stopping the
+> currently running mode selection process and releasing all associated
+> system resources.
+> 
+> Mode selection is initiated only once during partner registration, and only
+> if the port driver provides support for this feature. Subsequent
+> mode-switching activities can be managed via existing sysfs entries. Any
+> modifications to altmode priorities are relevant only to future
+> connections.
+> 
+> This series is based on the RFC discussed here -
+> https://lore.kernel.org/all/20251201122604.1268071-1-akuchynski@chromium.org/
+> It incorporates the 'v5 USB Type-C alternate mode priorities' patches,
+> reflecting the change of the is_typec_altmode macro to
+> is_typec_port_altmode -
+> https://lore.kernel.org/all/20251124124639.1101335-1-akuchynski@chromium.org/
+> 
+> This series was tested on an Android OS device with kernel 6.19.0-rc4,
+> PDC: TI TPS6699, Realtek RTS5453.
+> 
+> Andrei Kuchynski (8):
+>   usb: typec: Add mode_control field to port property
+>   platform/chrome: cros_ec_typec: Set no_mode_control flag
+>   usb: typec: ucsi: Set no_mode_control flag
+>   usb: typec: Expose alternate mode priority via sysfs
+>   usb: typec: Implement mode selection
+>   usb: typec: Introduce mode_selection bit
+>   usb: typec: ucsi: Support mode selection to activate altmodes
+>   usb: typec: ucsi: Enforce mode selection for cros_ec_ucsi
+> 
+>  Documentation/ABI/testing/sysfs-class-typec |  11 +
+>  drivers/platform/chrome/cros_ec_typec.c     |   1 +
+>  drivers/usb/typec/Makefile                  |   2 +-
+>  drivers/usb/typec/altmodes/displayport.c    |   6 +-
+>  drivers/usb/typec/altmodes/thunderbolt.c    |   2 +-
+>  drivers/usb/typec/class.c                   | 100 ++++++-
+>  drivers/usb/typec/class.h                   |   3 +
+>  drivers/usb/typec/mode_selection.c          | 288 ++++++++++++++++++++
+>  drivers/usb/typec/ucsi/cros_ec_ucsi.c       |  21 ++
+>  drivers/usb/typec/ucsi/ucsi.c               |  12 +
+>  drivers/usb/typec/ucsi/ucsi.h               |   4 +
+>  include/linux/usb/typec.h                   |   3 +
+>  include/linux/usb/typec_altmode.h           |  42 +++
+>  13 files changed, 487 insertions(+), 8 deletions(-)
+>  create mode 100644 drivers/usb/typec/mode_selection.c
+> 
+> -- 
+> 2.52.0.457.g6b5491de43-goog
+> 
+> 
 
+Hi,
 
-Am 09.01.26 um 11:31 schrieb Javier Martinez Canillas:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
->
->> Commit 6046b49bafff ("drm/sysfb: Share helpers for integer validation")
->> and commit e8c086880b2b ("drm/sysfb: Share helpers for screen_info
->> validation") added duplicate function declarations. Remove the latter
->> ones.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Fixes: e8c086880b2b ("drm/sysfb: Share helpers for screen_info validation")
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Javier Martinez Canillas <javierm@redhat.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: <stable@vger.kernel.org> # v6.16+
->> ---
->>   drivers/gpu/drm/sysfb/drm_sysfb_helper.h | 9 ---------
->>   1 file changed, 9 deletions(-)
->>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Thanks. I'm going to put this into drm-misc-fixes in any case.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
->
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
+thanks,
 
+greg k-h's patch email bot

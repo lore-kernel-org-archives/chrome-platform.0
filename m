@@ -1,64 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F67A38E11A;
-	Wed, 14 Jan 2026 21:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA473B52E3;
+	Wed, 14 Jan 2026 22:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768427375; cv=none; b=Pp2H4jAnkP5q0ai6BiU9p34fO1xgAbW+cAeR6bKFDReSteg9GYlDLt+iMxgfVFQfB2U2AVS+6L/cyPpIREV0Pp0z4QpA7cSxGgk36p3Q656z3zLIeLwC121W6AfmVOp6A3DpV5ROoWhaOqMosGh9o5vk7AXTaSN6YNGefSavVyw=
+	t=1768428851; cv=none; b=Ufc338qncKAdgQFUFVxQm+TDRBNn4N29ccOXT1vpZ0IgB7+Ok2J2pU00QomlG4Uictb2XzCitD7EREdbE+ue8pPm6Z2x8MYiaa4/+Z+X+v6GNcE9+R4GOcyp+Jc1273Wvqt7cChNheZ/Q5AFXxowQKItbcGqLhpJMLFZq/ylp2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768427375; c=relaxed/simple;
-	bh=hwHl5VbBy2oNNnHXb35Q9wtBVlA2YMJ5yPi1OfuYOFU=;
+	s=arc-20240116; t=1768428851; c=relaxed/simple;
+	bh=mNmuOjx6q/Cryn9pY8n4bZQdzwXbQVjuQJum73s9y/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W6lZ1nIqVqqluRBh2MrVRnhvKzKDKQduHDMtQI0hSnnaMg76dmB3e/31tsM7rQUDtbsPCo14EVeUVYMcJLbeohUL7DVC7SMGKCGHINypi6m18D1HQYdVFVNYEmCXxevVVaV7zTAZLk6AIBk8OOLubnMMAbrDInUhtk0okRR0kS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JgOzXRvz; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=Crcq1LCoFrDBiBGP0kzRGnG1ivNZpstbdHjw0qS5EYg63xhq/aizTyul/HEHi7Hpu94j4vLy5sOd0ysORsdEkUMt4pOAGNqAoGhP9KP5jz1SaHL3UXjklsdvYbkeob1RAQ1LwIurqXk9tze/pOvUGgFhW2UNGcUIBdMq+dG0cJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SOA8ewX9; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JgOzXRvz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOA8ewX9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768427372; x=1799963372;
+  t=1768428828; x=1799964828;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hwHl5VbBy2oNNnHXb35Q9wtBVlA2YMJ5yPi1OfuYOFU=;
-  b=JgOzXRvzH0cKfvrYOECrXJvziGfBO7is7FM7UBpvIGcrtWBjF2rPn/4z
-   TR7rNJ7oyS9azZh+xr6owprTtu+HYkNnGIRBVmk7rbllKm7tZe9tdD+Gd
-   TdDQ+U8XN0QRkj5Ve0zdcm3hWJoF//RuhnP3+GIuTgkvqwXGnBqAIH5rz
-   Sy2QNOeeC7ObJVn+jG/YgL4uIauHhfC2+QR/rUbRnTETUlZ83ZU2D+4pv
-   1pbF/zMlaofxOw92tViuEmZRQZl5vgFyxBaBliJylIyS1s81KCC2/aknA
-   EAmFrXc3l9U0LGFJclIS6aXi8LDT3HHNYykjSUhuhW/H31U7Ts1CP/MWk
-   w==;
-X-CSE-ConnectionGUID: MJvXNbccR8qhl4aIPmtdIA==
-X-CSE-MsgGUID: Ncf6I253SU+fo7ibJoFUfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69656219"
+  bh=mNmuOjx6q/Cryn9pY8n4bZQdzwXbQVjuQJum73s9y/k=;
+  b=SOA8ewX9WVNvBlV985OpL/suxe8aEoeU29f9TC/QGd5+ccaoEEIXGEmH
+   vjIO0r0/CVJRpS5vQKvHKlmN50SuHAPqjWA3Wv31mYYgPMTPYb3B+SAd8
+   YlifaxqoVUoa/zBU0h8i+ic+YLzxWg8mwHLL228EqTZegnR+gRAaLs4NQ
+   +1uTWOlinSivjLvUUwRxFC1SjZXzKkVbk+xQEY6c4gemstnWrts5UfgLU
+   vwgY2sEka8YrpoTY+kxguUh5sD00ilaAyRihTm9/7O/XT2pDmB/ABTKr1
+   ON/r/qPbE8XQ9X6phHbnnfEw4A6uuPG5WVmso5CRZP7GfYASiEn0A3xlx
+   Q==;
+X-CSE-ConnectionGUID: ZA5mkTK/QXGm0OJVw6GWVg==
+X-CSE-MsgGUID: oGRfbXlaSeG/83iQgPDzUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="95216281"
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="69656219"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 13:49:27 -0800
-X-CSE-ConnectionGUID: F3zygsX7QceaUQ52sD1Yow==
-X-CSE-MsgGUID: 1h3G/NmmQdeKGBAQXEee9w==
+   d="scan'208";a="95216281"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 14:13:29 -0800
+X-CSE-ConnectionGUID: /mS1GwKTTjqS9jX2YLBFzQ==
+X-CSE-MsgGUID: nuwN31E+RX67z5jUmg/pAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="209645182"
+   d="scan'208";a="236042826"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Jan 2026 13:49:23 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 14 Jan 2026 14:13:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vg8jw-00000000H44-40sG;
-	Wed, 14 Jan 2026 21:49:20 +0000
-Date: Thu, 15 Jan 2026 05:49:12 +0800
+	id 1vg97D-00000000H7E-29VX;
+	Wed, 14 Jan 2026 22:13:23 +0000
+Date: Thu, 15 Jan 2026 06:12:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
 	briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
 	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
 	airlied@gmail.com, simona@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, chrome-platform@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot
  framebuffers
-Message-ID: <202601150553.5KsVSXQr-lkp@intel.com>
+Message-ID: <202601150622.i0pTAj9w-lkp@intel.com>
 References: <20260108145058.56943-9-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -85,25 +85,28 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/firmwar
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 patch link:    https://lore.kernel.org/r/20260108145058.56943-9-tzimmermann%40suse.de
 patch subject: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601150553.5KsVSXQr-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150553.5KsVSXQr-lkp@intel.com/reproduce)
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601150622.i0pTAj9w-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150622.i0pTAj9w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601150553.5KsVSXQr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150622.i0pTAj9w-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/sysfb/corebootdrm.c: In function 'corebootdrm_device_init':
->> drivers/gpu/drm/sysfb/corebootdrm.c:225:15: error: implicit declaration of function 'devm_aperture_acquire_for_coreboot_device'; did you mean 'devm_aperture_acquire_for_platform_device'? [-Wimplicit-function-declaration]
+>> drivers/gpu/drm/sysfb/corebootdrm.c:225:8: error: call to undeclared function 'devm_aperture_acquire_for_coreboot_device'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      225 |         ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               devm_aperture_acquire_for_platform_device
+         |               ^
+   drivers/gpu/drm/sysfb/corebootdrm.c:225:8: note: did you mean 'devm_aperture_acquire_for_platform_device'?
+   include/linux/aperture.h:19:5: note: 'devm_aperture_acquire_for_platform_device' declared here
+      19 | int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
+         |     ^
+   1 error generated.
 
 
-vim +225 drivers/gpu/drm/sysfb/corebootdrm.c
+vim +/devm_aperture_acquire_for_coreboot_device +225 drivers/gpu/drm/sysfb/corebootdrm.c
 
    162	
    163	/*

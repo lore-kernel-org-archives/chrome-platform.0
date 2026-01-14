@@ -1,173 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F2D2E1F02;
-	Wed, 14 Jan 2026 14:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768402362; cv=none; b=DimoQRPLb7WEHmbwd8o/f7DFjZkk+vC4b1+FFHdSPDwKTaNkk2Do6sAxbmMh412BkJxGk7uNKoMhsJiCW4BVztkxKxSrX1g8DlL2tyD7zVTUmg1yIYjz23mJFMBj+f83kFoObgqiuBzKd4da9Vj0E0izqd5ovmpH53sp3AUGc7o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768402362; c=relaxed/simple;
-	bh=dNgdeh66mbYlkQn0Le2nIbCxYc/84MQKqkAFeyOsX3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LcNckPREMz56iA7rNmgk/eYk3qldYf7sWlH8SuYA7oIuW20QWPI7kFoo1C8OjpkrNK3UE5ykAcYqgoTM0KS9dKXqhS7hUjuRcAZz/+jfnjFEMwONLO0JZlssi1PSf2Kmx99pg77n5ralkoVdUGost4xyYV3a/k3coBjImTKeTYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oIN1NQVy; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D525272816
+	for <chrome-platform@lists.linux.dev>; Wed, 14 Jan 2026 20:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768422795; cv=pass; b=iqfiafYs/9VoqtCEC3W+EhssFZ6wp+s9zt0sZ2VQCnxtl3YlDpVISe0ip37peOVyYbsYv+oZACXkbP58Wh61pDvlK55XzCH9Zbx7VRalHllkLV6n9OuM6rHHv/152VfB0ulr6pIzN8dpIiVk82D2eqV3oDpTm23b6Gp4bssDeIY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768422795; c=relaxed/simple;
+	bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KGGv2mfoTLEykSc/6S/wdO+DWUjzJkzXg4XkD1613vB4681UurH0b2Ej3YGnpE05tCqWu7Lx5U/Lf73pAVCn+HrcmcDxc5VjYFB8kAaUhYRJGdCYtGJMTwZhuiep5dyuzKIQ5/ciyGaJCeZ5O0gLYqzBhd5b0sB5NOaU/d09Ye4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=A4Q+d5zX; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oIN1NQVy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3542DC4CEF7;
-	Wed, 14 Jan 2026 14:52:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768402361;
-	bh=dNgdeh66mbYlkQn0Le2nIbCxYc/84MQKqkAFeyOsX3Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oIN1NQVyOfKuPJ5B0p12h4xHq7dNUhrMV/492n1ZofjVd9JH2IZTGB32k5H2deHH+
-	 DoBj0S/lPaZ+lLgCjSVT2YKyQxzTHMqPPMOKXruxs+Nh9Iqola8MyqqjNXDhbXAiCG
-	 Q7plQlbeaHPChUP2mXouWsgQs5fduEySn4XMOtQg=
-Date: Wed, 14 Jan 2026 15:52:38 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>, Madhu M <madhu.m@intel.com>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>
-Subject: Re: [PATCH v4 0/8] USB Type-C mode selection
-Message-ID: <2026011423-voltage-frugally-084f@gregkh>
-References: <20260113130536.3068311-1-akuchynski@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A4Q+d5zX"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5014b5d8551so78151cf.0
+        for <chrome-platform@lists.linux.dev>; Wed, 14 Jan 2026 12:33:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768422793; cv=none;
+        d=google.com; s=arc-20240605;
+        b=juIs8LXxpHwdg18eu5TonQGjuz9zEVTFxcTVTRNnZ7Vo+pVwmqCuahoERA6oge8Ma/
+         FMM87ZLFGKTABQRs/pcsykNNTVp54Qp2VkN8NVKmLHgjsd9+GCtdltVjBok+h3Ob6kSv
+         Qp40nhIE+eZD2cgu5kL0PQLjZrvW6iSPlOvTGaHlELy8DE/kb3Q9BNUxMJtotisZMBLx
+         clP+Sph5wVzKOEhJqiZe8zar4ZkoAI6EAuXpsZzb353AJ+xSYGJcg6lNb/v6u8lkl0Ks
+         swFmCmekCDzwqaKROmhSxO7m/cUChLDmDnpoaH4VPKyDxK0cVbhYVcLJkI7KruXOrWad
+         Mvjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
+        fh=pStS84zGOxfELWUcCDI6nmzUP3wsh7p5PXRJCUTlPbw=;
+        b=PcCUso76TIMzWdsiEXSsNODyoEhWenqN5/LzmCXdBl18/GLS/1fb66dIMUj9UHN/14
+         pY1HfzI6GUwPAQ61RZKPP6r9h27Ml0BMVt15vf5r2I81ck8r0jLW1p2U8mC5yDtClZlb
+         L/iga6ylcwstyL7RG+0UesI148TJJrRimTNd7OAjLDUojezeh7hUv6g/3vDVxpilc6ai
+         EPClFzOBy3uz/Zpah7sSU4wZrglNtYyUsNwd0YvTuVcllFF/ObFyz+oszoP8zYdti6R5
+         E5txlwDabWvBVG4hP+eQLbrFIdQsyW+BbKH/gkQYgcp/X/Z80FcxEzcBRwC7v0KjJw/o
+         etdA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1768422793; x=1769027593; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
+        b=A4Q+d5zXw03kZ7qCv+VDzT4jYPSbzXBbyiHwdoVNg+AuuCr/C4PACdOP09Vjku8LDI
+         Z2RPobUDLaekVo68oD4Z0zegInumcT1Wz2rIvP2DP9k+LTFu3EAOV3A7DIsUWovSIVCJ
+         NOsdjCT/hqPwWgk5ZxudFcf0uwLsfrUGUUJfA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768422793; x=1769027593;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L2qUhi5GqLcT68OEJKLecI02kmIzgIz9YY1G1+QA60A=;
+        b=KjScJZPEOGdMMhL0iF7NbVudPJmL79F1RqVUP0ksrCgEn2mO98KCtjC/DHxUzxYtQy
+         gtC77J/beq8+lhMxWmtlU6VrONHj1bYBC7TJg0QUJm4VvzuRA3wBdfhffpuT0DSv7wPj
+         3lgXu9+E6Jk9toNzgEWCZxGjIzj3LRxHx/gFy5w+iUwGVyfTRaB2pG9dWNShoVRzXsM8
+         LZfx4ony4syz5k4cIQxlhvjfR4Y4UBkaEfNpn7tLpugkCNkRw8ftneFeoG7lhXXWl3tp
+         HTNQ0h8ZnVWhmm+ouhANuQPkezWmfX+lfILuzOhEt40I3Bzwrmg0n9ownCoJVh67Qy4p
+         hj8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXTe5wJYHQ1uQdgzU7Mi68ScAtf2JLidnMwfO5VhSEB0zaVWAmPxZahJtq7PBQB84TtYtbhGDE3V4b5jMYuyvE=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywb5YKxGL6/24FlIj/AUe5z36dUFZptFgPtE2SDiPRF0/FV5QVr
+	KK/acxUlp53vpNUENXC2BA22lAEsd7B8bEIRQUz+HoYAESqYlxJUZuuQfP6hTbov5zqeB9dA45s
+	LVP5TOseayRaxFBwu7XY+xHoXzlrQGdJ0PNGEEcbp
+X-Gm-Gg: AY/fxX7dIbyGfT9E667zu+jbfBE147lt9amaKoEpPDpa6F0wXzCw3W4VvgPcNEskII0
+	WfD9L4UPIHmVBML6OW8Un+gaXXrKgTanXnylZfc9odsdQfSq7ibO6WbojZkSSE9RcCukaTex97O
+	DtIsdTUUL6X/yrSRwnoGieCpR23E1/xmheN6gM/YbjefSEQMJ9+ok5/OXcKIHfqE+N2YLG82kTi
+	ONxnFo1vbYrboJbMP7R0VbUUmSM0AuVMJLXYFHtthxIKoJK8Cv5j3nz/Oj5qEaU15aB8vmfdtEU
+	m/EqsKjgFQQjtryFftMNHjnN
+X-Received: by 2002:a05:622a:4b0f:b0:501:5180:3c90 with SMTP id
+ d75a77b69052e-502009984cfmr1248501cf.15.1768422792691; Wed, 14 Jan 2026
+ 12:33:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113130536.3068311-1-akuchynski@chromium.org>
+References: <20260108145058.56943-1-tzimmermann@suse.de> <20260108145058.56943-2-tzimmermann@suse.de>
+ <CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com>
+ <9d9015fa-aba4-4dd7-a024-563f58b7f43a@suse.de> <87tswvf5n3.fsf@ocarina.mail-host-address-is-not-set>
+ <CAODwPW-JdJh1QmyMWxoZdaXKTE-y0n5BRSZPaj8Ntszyu10OuA@mail.gmail.com> <85fbdbe9-28bb-43c1-a5cc-6ad8861b96a5@suse.de>
+In-Reply-To: <85fbdbe9-28bb-43c1-a5cc-6ad8861b96a5@suse.de>
+From: Julius Werner <jwerner@chromium.org>
+Date: Wed, 14 Jan 2026 12:32:59 -0800
+X-Gm-Features: AZwV_QjVwzBhyPz60Pd4NCPrZZoJImvApT5iRWKTNbJvb1nRjPpq98n5BJnB29I
+Message-ID: <CAODwPW9vkYdqtHbVbwrrJ5P7Hp=6N7HwrSGiog1DwzuNSruSOA@mail.gmail.com>
+Subject: Re: [PATCH 1/8] firmware: google: Do sysfb test before creating
+ coreboot framebuffer
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Julius Werner <jwerner@chromium.org>, Javier Martinez Canillas <javierm@redhat.com>, 
+	Samuel Holland <samuel@sholland.org>, tzungbi@kernel.org, briannorris@chromium.org, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+	simona@ffwll.ch, chrome-platform@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 13, 2026 at 01:05:28PM +0000, Andrei Kuchynski wrote:
-> This patch series introduces functionality to the USB Type-C Alternate Mode
-> negotiation process by implementing a priority-based selection mechanism.
-> 
-> Currently, DisplayPort and Thunderbolt drivers initiate a mode entry
-> separately within their respective probe functions. The Power Delivery
-> Controller (PDC) retains the ability to activate either USB4 mode or
-> Alternate Modes based on its internal policy.
-> The mode selection mechanism disables Alternate Modes to be entered by
-> their respective drivers and the PDC. Instead, a priority-ordered approach
-> is used to activate the most desirable mode.
-> 
-> A new `priority` field is added to the `typec_altmode` structure to store
-> a numerical priority value, with all priorities being unique.
-> If the port driver supports the mode selection feature, it must set the
-> `mode_selection` boolean field within the `typec_altmode` structure. This
-> indicates to the alternate mode drivers that they are not to activate the
-> altmode separately.
-> 
-> The mode selection process is managed by three API functions:
-> - `typec_mode_selection_start`
-> - `typec_altmode_state_update`
-> - `typec_mode_selection_delete`
-> 
-> When a partner device is connected, the `typec_mode_selection_start`
-> function executes the following steps:
-> - It compiles a priority-ordered list of Alternate Modes that are mutually
-> supported by both the port and the partner.
-> - A dedicated mode selection task is subsequently initiated on the Work
-> Queue.
-> - This task attempts to activate a mode by starting with the
-> highest-priority altmode on the list. Alternate modes are identified with
-> their SVIDs. Activation/Deactivation performed via `activate` typec_altmode
-> operation. The process stops as soon as a mode is successfully entered.
-> Otherwise, after a timeout or if an error occurs, the next alternative mode
-> will be activated.
-> 
-> The `typec_altmode_state_update` function is invoked by the port driver to
-> communicate the current mode of the Type-C connector.
-> 
-> The `typec_mode_selection_delete` function is responsible for stopping the
-> currently running mode selection process and releasing all associated
-> system resources.
-> 
-> Mode selection is initiated only once during partner registration, and only
-> if the port driver provides support for this feature. Subsequent
-> mode-switching activities can be managed via existing sysfs entries. Any
-> modifications to altmode priorities are relevant only to future
-> connections.
-> 
-> This series is based on the RFC discussed here -
-> https://lore.kernel.org/all/20251201122604.1268071-1-akuchynski@chromium.org/
-> It incorporates the 'v5 USB Type-C alternate mode priorities' patches,
-> reflecting the change of the is_typec_altmode macro to
-> is_typec_port_altmode -
-> https://lore.kernel.org/all/20251124124639.1101335-1-akuchynski@chromium.org/
-> 
-> This series was tested on an Android OS device with kernel 6.19.0-rc4,
-> PDC: TI TPS6699, Realtek RTS5453.
-> 
-> Andrei Kuchynski (8):
->   usb: typec: Add mode_control field to port property
->   platform/chrome: cros_ec_typec: Set no_mode_control flag
->   usb: typec: ucsi: Set no_mode_control flag
->   usb: typec: Expose alternate mode priority via sysfs
->   usb: typec: Implement mode selection
->   usb: typec: Introduce mode_selection bit
->   usb: typec: ucsi: Support mode selection to activate altmodes
->   usb: typec: ucsi: Enforce mode selection for cros_ec_ucsi
-> 
->  Documentation/ABI/testing/sysfs-class-typec |  11 +
->  drivers/platform/chrome/cros_ec_typec.c     |   1 +
->  drivers/usb/typec/Makefile                  |   2 +-
->  drivers/usb/typec/altmodes/displayport.c    |   6 +-
->  drivers/usb/typec/altmodes/thunderbolt.c    |   2 +-
->  drivers/usb/typec/class.c                   | 100 ++++++-
->  drivers/usb/typec/class.h                   |   3 +
->  drivers/usb/typec/mode_selection.c          | 288 ++++++++++++++++++++
->  drivers/usb/typec/ucsi/cros_ec_ucsi.c       |  21 ++
->  drivers/usb/typec/ucsi/ucsi.c               |  12 +
->  drivers/usb/typec/ucsi/ucsi.h               |   4 +
->  include/linux/usb/typec.h                   |   3 +
->  include/linux/usb/typec_altmode.h           |  42 +++
->  13 files changed, 487 insertions(+), 8 deletions(-)
->  create mode 100644 drivers/usb/typec/mode_selection.c
-> 
-> -- 
-> 2.52.0.457.g6b5491de43-goog
-> 
-> 
+> IDK. My take would have been to provide the coreboot table under
+> /sys/firmware; similar to DT. And then walk over it and create devices
+> for the known entries.
 
-Hi,
+We have established userspace infrastructure relying on the current
+sysfs layout (at least the `cbmem-XXXXXXXX` nodes), so while you may
+be right that there may have been better approaches to do this to
+begin with, I would much prefer if we can stick with what's there now.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+> I have a new iteration of the series that creates a coreboot-framebuffer
+> platform device for at the same place that currently creates the
+> simple-framebuffer device (in framebuffer_probe()). So we can leave most
+> of the code it as. There are also a number of bugs that this is going to
+> fix. I'll post it soon.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Sounds good, thanks!

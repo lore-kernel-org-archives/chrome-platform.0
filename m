@@ -1,155 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8490C3A785A
-	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 14:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768489197; cv=none; b=noWKytyZWdY6W+YpZMMk4EcpcNqerHh3yN9x3nsQNV1Fea+XKdEj64QliW3NGhGiGR1w6Zl1Sr6AYi/uREFlqF/eMSPQnf9hHMQx0dcfo71dYjyEPxunfiiILnGT2ATz5tPf3zVwR02RPJ92iRQ54y+lIUboS0/4O79Y4F1AQjI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768489197; c=relaxed/simple;
-	bh=gXoI2O8+xVQi6gOwspTCtKXpFpyWlqwJWXjGm+1H+vY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vATT0CtoyEkPU63qz4eKH3rswmUn6H0HByjrFR9rYPpbZkLq998JVrrzJCE+FV3VG+IoDXJ8+IOdGJcoU0h6kbdxlJslK4sIJ5GB8/ZIdS3Ir20JMaH/QwEpkL1FnR6eb39C+kvShMpC8ftztt4dqDDEZ7YtvbHJ0agXRRacObc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aT4Sjp3o; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1290B21FF46
+	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 20:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768510481; cv=pass; b=OI1dzP82keLOdi/4r1VmycGeYPwlhut0oirJKl5k7JS8PV/ViLmalrWdthDKNUN3p4F2CixNfL4iBemwi93e91rEkZI+cGwa4MT1qNi1zL0G2rG/jUZ0fHE1N1i7ur7AHjauk28I9bRCyvJIDVlCWe1zyJgaHaVp4XuUdTLWSAk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768510481; c=relaxed/simple;
+	bh=KMDCAuEpBU2j7VyBDlD6eYOZpYO2bi5WCD88B/El57s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lWhsfh5Ogldv0bU/jS/rElvW1bGOVXjd6ENUqs/CX+M+y/J6xF0fJjutZTGvQmDBywa5VhHc/aw7mfcvy4JXb6PXCOrKnMfZfR97teGLn2PbmGADDw10MNk1CZMgL20t4FnCtGdz7YLMQZMq/DRX1OXA9cl0JHkQPlw044SJogQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=k5j2GJDo; arc=pass smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aT4Sjp3o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768489192; x=1800025192;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gXoI2O8+xVQi6gOwspTCtKXpFpyWlqwJWXjGm+1H+vY=;
-  b=aT4Sjp3oqF9OPQS6pra8W36bU9Z3skYHpa/7O+XpEs2V+keE6bO+G/jf
-   4nKfXYyM4Zrg5FHWfuyiKAOlzSPLiNJc2NuifpmCCV71Fnb7FLT/2pRyA
-   5RJ6RRhpTOVbWqI5FMnZg01z2+xEiu/zExmkr092g9S8fSS6bbIF2nTA/
-   oZvMfxEYwT3RzyrJs86Mp19Wy+gEYu9ImPn9+JEzUJycdoYhnKlPGqui+
-   iLfoxc1j8L+p58x/8Om2koEuxMeLYpKbYCqWNLhRPa0UP6cdddurtzyYm
-   YF5iN8ofWdIZOng+yZ/2YKszImYZJN+k+JrHjjXQxDqAP41CZMnDp5dM1
-   A==;
-X-CSE-ConnectionGUID: gm/cDhuhSvWb8E4Xoujsrg==
-X-CSE-MsgGUID: YSTQgBh9QIeVm2EevZ6T4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80906930"
-X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="80906930"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 06:59:48 -0800
-X-CSE-ConnectionGUID: hxNWxTP/S7uRZVcgJ6uYrw==
-X-CSE-MsgGUID: Dh5X0pf8Tbu4FyqPzhj3wg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="228047403"
-Received: from spandruv-mobl5.amr.corp.intel.com (HELO kuha) ([10.124.220.243])
-  by fmviesa002.fm.intel.com with SMTP; 15 Jan 2026 06:59:41 -0800
-Received: by kuha (sSMTP sendmail emulation); Thu, 15 Jan 2026 16:59:19 +0200
-Date: Thu, 15 Jan 2026 16:59:19 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>, Madhu M <madhu.m@intel.com>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>
-Subject: Re: [PATCH v4 7/8] usb: typec: ucsi: Support mode selection to
- activate altmodes
-Message-ID: <aWkAx-QjfwQGJ6Eb@kuha>
-References: <20260113130536.3068311-1-akuchynski@chromium.org>
- <20260113130536.3068311-8-akuchynski@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="k5j2GJDo"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-501511aa012so72981cf.0
+        for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 12:54:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768510479; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iFxUsp498IazJqQiEtF84FUTkQsMNB9nPIGG/De1NmXFnDMuK2JUTPKc36MJch4b5E
+         BrPQTklrE6f1Hxfg0n3YIxAtTvD+K5JgXyZfg3eeVB93yxQcekIIAJdbRmDqIddhNFxq
+         wbmQiDjPcTp90JKDhlLtKwVn3Fsg8ndU/SIin/bKauk7xhqWM4i0az2JrU6mQpbC99Lb
+         Z/+pieFnYPoNXfTrCeH8caYczmqe27tz5aCsz08v47Z97Nb10t0E0ztfkXlaAeKSBQWm
+         be8Nk1vUVj2CRETjWds58E0dOEhM9CZIaopugrrtw1sNtsTNQm/nqYE3r7MJfNYMcDlm
+         g7PA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=KMDCAuEpBU2j7VyBDlD6eYOZpYO2bi5WCD88B/El57s=;
+        fh=c3F59AA+4W2iZu5DZpEpLDbVzxTEVQ9ujNvQODHEZqo=;
+        b=I9I01G/y7BlSqRSlz6LCc/a5JzksKCQ/kliYnCpwrN6VAYtkl0Bgp6RSiYCTbnYs1V
+         JmejFgcKzUGwbrkpCaLNHGe8qOzkXAnen2pNtQahOJt5IktHC4NySu8y4hng4YiFE4Ws
+         KFUN2gFfW4Sw+lKn3FMIQ3tyNRmM2EBmBa51miFWmT5Qh7zPq4YN3UkaL77q2Rgd8owb
+         IoJ568AvwmJMs+EJrDfAB3EiUhdm1jyD2ELHDtslvjPtvlkXO08uta1mgitX5xgYTyBp
+         /rXtQJNVUkDEDiAkylsyeySlV5j6wc+5SRS1hHEqFJTAxwO/GY4b2xRHgzDjmprdT4mg
+         2t1g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1768510479; x=1769115279; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KMDCAuEpBU2j7VyBDlD6eYOZpYO2bi5WCD88B/El57s=;
+        b=k5j2GJDozRy71sUpC7lwQLQmwdVZAS/jUDEV1DhH7Eg4LGkyni+u6CmJH0PvPf8Nms
+         IEmmAjtRJYZy4HhXNAp3g63XAvQZLz6yIsfEOPEoqd+fBPdK5l5DciK/hhSLZRwyHwQK
+         D/Dg5D3ZqctEZ35efagadEcY21CuD2O8TNgoY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768510479; x=1769115279;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KMDCAuEpBU2j7VyBDlD6eYOZpYO2bi5WCD88B/El57s=;
+        b=DZ1zeZHp2qOEP4XBBZ1APDFVDr0mE7HnTF9Wt+1zWp55OiZ4dX0317bF6TzNXBi7Dc
+         GplxeFHE/2XuzYHPH3MFD45KC0GcpYEzgcETELrfphJ6xJrp8ndPCGOvJVX1pcIsXEbg
+         UShkradDwZpkw+SEVmtGYNcoHr8qZW3TLmnbc2DCvEsSaIUw02wRLlubYnyxqsPbNNRH
+         DUyaKkx2GMydTlnBibvCnN7MB5b2CyNVYIotINd/9dpNbIZ8vAK3fXYzqkcNkSjRMus1
+         Bklk7LVqon4rVA7xg5iWVvI84HTPtilxLMfjvwmYdcUJQmHEFM/uvVmWcY4WRaiZuLDe
+         f/dw==
+X-Forwarded-Encrypted: i=1; AJvYcCWBwFO29OEHd3WKaTCESS4Xio6xt8e6Pe95teajc65qbftskP68wnn+glsFyBfHaSPNwO56chzXjNpBSUvjx2c=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGYxeGkcumHR3nGzNQ6QbHA7xlTYvdbGxUoszqxOjzbprzD8zX
+	myM+axC+8TlAzhzxEtRT1GQJgr8P77wbeNjMQyHhqVgaOPPtAxkODSd6TIhw99pLZ2r9Wbm0lu9
+	dwnFwSBTYxM+oi9TaSkvRAfFHypvLQL9lIGQXq2Ur
+X-Gm-Gg: AY/fxX4oEj7xWeJj8ktptNyM9RcXpRG2l/fO43AJv9Ge+v5PuoNvd0zWx4Y0VZyIksF
+	EZ/NN8wRN+LvMrZ1GMKYCCACt6kpIMVOTPrnoQzMYwwxF6C2GREMHwlrjY5OgdSPuizo6iwcZBr
+	ftHYWlE8jkfapuwwcAsfg0USwMRwby4IpW5KkQ+q1SNz1Ss0Aq7Cq0AZep8uDs1r0wnZ5tHc/G+
+	fqp3Rs4N8JQ3mPsH/8sI2O5hMaWm7L2Mc1RiEHmonKz9KFfnSHOWtFki5CEuHJevrkdoeowTkNl
+	Wce0XCd+tKpQpJN0BXimKuNgEA==
+X-Received: by 2002:a05:622a:291:b0:501:4539:c81 with SMTP id
+ d75a77b69052e-502a2308ca2mr2072271cf.2.1768510478470; Thu, 15 Jan 2026
+ 12:54:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113130536.3068311-8-akuchynski@chromium.org>
+References: <20260115082128.12460-1-tzimmermann@suse.de> <20260115082128.12460-6-tzimmermann@suse.de>
+In-Reply-To: <20260115082128.12460-6-tzimmermann@suse.de>
+From: Julius Werner <jwerner@chromium.org>
+Date: Thu, 15 Jan 2026 12:54:23 -0800
+X-Gm-Features: AZwV_Qhkh7OWarAssFoak5kIszzJHYAOlxl7WYMlwiaFV3xMZUkLvFfEXU3N6YE
+Message-ID: <CAODwPW_n=LfW+az4v8XecrzAksFmP+0U-9ELb_TrVtLL4EGk9w@mail.gmail.com>
+Subject: Re: [PATCH v2 05/12] firmware: google: framebuffer: Fix dependencies
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org, 
+	javierm@redhat.com, samuel@sholland.org, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch, 
+	chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
-Tue, Jan 13, 2026 at 01:05:35PM +0000, Andrei Kuchynski kirjoitti:
-> If the ucsi port driver supports modes selection, it should implement
-> `add_partner_altmodes` and `remove_partner_altmodes` ucsi operations. With
-> these operations the driver can manage the mode selection process.
-> Once partner altmodes are registered, `add_partner_altmodes` is called to
-> start the mode selection. When the partner is unregistered,
-> `remove_partner_altmodes` is supposed to stop any ongoing processes and
-> clean up the resources.
-> 
-> `typec_altmode_state_update` informes mode selection about the current mode
-> of the Type-C connector.
-> 
-> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> ---
->  drivers/usb/typec/ucsi/ucsi.c | 11 +++++++++++
->  drivers/usb/typec/ucsi/ucsi.h |  4 ++++
->  2 files changed, 15 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index deb210c066cb5..4a6e23b55b10c 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -314,6 +314,7 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
->  {
->  	const struct typec_altmode *altmode = NULL;
->  	u64 command;
-> +	u16 svid = 0;
->  	int ret;
->  	u8 cur;
->  	int i;
-> @@ -335,6 +336,10 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
->  	for (i = 0; con->partner_altmode[i]; i++)
->  		typec_altmode_update_active(con->partner_altmode[i],
->  					    con->partner_altmode[i] == altmode);
-> +
-> +	if (altmode)
-> +		svid = altmode->svid;
-> +	typec_altmode_state_update(con->partner, svid, 0);
->  }
->  
->  static int ucsi_altmode_next_mode(struct typec_altmode **alt, u16 svid)
-> @@ -609,6 +614,8 @@ static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
->  			desc.vdo = alt[j].mid;
->  			desc.svid = alt[j].svid;
->  			desc.roles = TYPEC_PORT_DRD;
-> +			desc.mode_selection = con->ucsi->ops->add_partner_altmodes &&
-> +					con->ucsi->cap.features & UCSI_CAP_ALT_MODE_OVERRIDE;
-
-Can't you just use that con->typec_cap.no_mode_control flag here?
-
-Maybe also consider squashing that patch 3/8 into this one while at it.
-
->  			ret = ucsi_register_altmode(con, &desc, recipient);
->  			if (ret)
-> @@ -831,6 +838,8 @@ static int ucsi_check_altmodes(struct ucsi_connector *con)
->  	if (con->partner_altmode[0]) {
->  		num_partner_am = ucsi_get_num_altmode(con->partner_altmode);
->  		typec_partner_set_num_altmodes(con->partner, num_partner_am);
-> +		if (con->ucsi->ops->add_partner_altmodes)
-> +			con->ucsi->ops->add_partner_altmodes(con);
->  		ucsi_altmode_update_active(con);
->  		return 0;
->  	} else {
-> @@ -1119,6 +1128,8 @@ static void ucsi_unregister_partner(struct ucsi_connector *con)
->  		return;
->  
->  	typec_set_mode(con->port, TYPEC_STATE_SAFE);
-> +	if (con->ucsi->ops->remove_partner_altmodes)
-> +		con->ucsi->ops->remove_partner_altmodes(con);
->  
->  	typec_partner_set_usb_power_delivery(con->partner, NULL);
->  	ucsi_unregister_partner_pdos(con);
-
-thanks,
-
--- 
-heikki
+Not really sure I understand this part? The code in coreboot_table.c
+creates the device that represents the entry in the table. The code in
+framebuffer-coreboot.c (which this Kconfig guards) contains the code
+that creates the device which will be the actual framebuffer. Doesn't
+it make sense for that part to depend on a framebuffer backend being
+available?

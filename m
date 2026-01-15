@@ -1,78 +1,79 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B01330D47
-	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 08:21:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7B5329391
+	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 08:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768465310; cv=none; b=e7lhbhAK0tqtZidn0vusfrSQUiWjb8dPBxwr77qTU6WD7dzhC94dtfhm/SRv2cl3/3QHtv56ydqo7GW5w5B0fRUnREJVJ4zfKBmwO9mK4P+UJLvslgqgiAOj3cmGtOt48UT4Y5+48lDoDBcQSnvb5OBsLGEFtAVMtMK9Jr61tf0=
+	t=1768465316; cv=none; b=PtiFshd9hPAMrGnr3pnrBEW6ry9voKcuXW1l4k9cz4gjCRDMSgj4NWACPyjfbSY3kqdf+kE+YemPFDTcYCOm8hKd1ch+mXgdyGe77BXx/nwLsSwrDO4mn84gP9ujkGTlldXcpkJa/B1aybA98Y9/CLSrhf5YWlRPaibHdb1DjMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768465310; c=relaxed/simple;
-	bh=lmCae9aQzWnmGVx4ulCykFgI2orGKwoZrsCJg1+bZWk=;
+	s=arc-20240116; t=1768465316; c=relaxed/simple;
+	bh=bp1Vx/FJfM5TPRwREn25rMSp7QWHuTQ12SYJkG7j1NQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TuE2M4kjfO0JedCcvawJgR1sNl2ib1qxzsNo6I9bIZCT1QELoI99RBMXe4k7Ywm7zrTcS7u69p4RlSuR2zvJlM0JfVMyVRSqnxgNw57WyudnFzR0Ai/jdcUT7Al3VKOGIA2zrs9qV+fPoDls7g+o3JhNaiFMhoIxWp6Jg67/DLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rEF9wiEE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UYbny/p9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rEF9wiEE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UYbny/p9; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=Y6ENCTy7Mg5i+v/Usnfm7iHafDEzm8pu0pc7X68HBHQAcSYx2Sb225JXMwqk1hgxKMrsFDHiIp9NMQYTYHlgH/yQ+KShE7+j9w0yyos3PhVgTBMYoDpczXtTXqrtqx7aVfdGIEk1EeKjsVoiR2LU8e2x7wXUK2GwMcFJql1iNb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sKwZqysg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xtd0Z2+/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sKwZqysg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xtd0Z2+/; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rEF9wiEE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UYbny/p9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rEF9wiEE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UYbny/p9"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sKwZqysg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xtd0Z2+/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sKwZqysg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xtd0Z2+/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 855D65BD36;
-	Thu, 15 Jan 2026 08:21:35 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 74FDC3372A;
+	Thu, 15 Jan 2026 08:21:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768465295; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768465293; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v8UWEsAIEN8WjKUNnytV5kF/3gD6BSKz+iBqjXdkf0s=;
-	b=rEF9wiEERyFRmalkhz1FLFCdkt3d++aTkCOQKXuCWD6E0BGWY11JduKbULdKX/WSadcWtp
-	X/FBT8t8tmsPpIsefzWy5duxu3sDl4ZW2G4g0176I8ZigMM99Ie++47dvwbOaZwY6QxHGH
-	+y5wrm1vVgPP5+hyl9kw00E+dbYBWkQ=
+	bh=onosAkSac40vpgSIOimauTWeYR7KhAbAz3Jf45D2/m4=;
+	b=sKwZqysg0zaP8+xfVYnPiykpJoKvXzD9ikPXGqtCnGaPWRYWmM4+X6RyNxFgoYmt7+nWQJ
+	Bb8MXXuti8bH5eUHmnaBATBsDgY8v7ce4ILAR7Skj0p87Hqef1se7A6MMYQTbkZN/dgdIq
+	v5DdNdwfVBFAU9jyzJ3SnqRqux66DDc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768465295;
+	s=susede2_ed25519; t=1768465293;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v8UWEsAIEN8WjKUNnytV5kF/3gD6BSKz+iBqjXdkf0s=;
-	b=UYbny/p99fhY6GAlLdrK9OEm0rZlDxCRyVnVEeQv1HpnwG+c0vM3qXdFcNXEKwok+1RART
-	JwdHVj9Jq4GCGRAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=onosAkSac40vpgSIOimauTWeYR7KhAbAz3Jf45D2/m4=;
+	b=xtd0Z2+/7V3TPU6K1a0B8s/SPeWKA1rFfG6+PfUlUAWjUkv44vKGFktjaplTMIEhNaUDSL
+	qvcLWaE5vaNT8/Bg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sKwZqysg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="xtd0Z2+/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768465295; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768465293; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v8UWEsAIEN8WjKUNnytV5kF/3gD6BSKz+iBqjXdkf0s=;
-	b=rEF9wiEERyFRmalkhz1FLFCdkt3d++aTkCOQKXuCWD6E0BGWY11JduKbULdKX/WSadcWtp
-	X/FBT8t8tmsPpIsefzWy5duxu3sDl4ZW2G4g0176I8ZigMM99Ie++47dvwbOaZwY6QxHGH
-	+y5wrm1vVgPP5+hyl9kw00E+dbYBWkQ=
+	bh=onosAkSac40vpgSIOimauTWeYR7KhAbAz3Jf45D2/m4=;
+	b=sKwZqysg0zaP8+xfVYnPiykpJoKvXzD9ikPXGqtCnGaPWRYWmM4+X6RyNxFgoYmt7+nWQJ
+	Bb8MXXuti8bH5eUHmnaBATBsDgY8v7ce4ILAR7Skj0p87Hqef1se7A6MMYQTbkZN/dgdIq
+	v5DdNdwfVBFAU9jyzJ3SnqRqux66DDc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768465295;
+	s=susede2_ed25519; t=1768465293;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v8UWEsAIEN8WjKUNnytV5kF/3gD6BSKz+iBqjXdkf0s=;
-	b=UYbny/p99fhY6GAlLdrK9OEm0rZlDxCRyVnVEeQv1HpnwG+c0vM3qXdFcNXEKwok+1RART
-	JwdHVj9Jq4GCGRAg==
+	bh=onosAkSac40vpgSIOimauTWeYR7KhAbAz3Jf45D2/m4=;
+	b=xtd0Z2+/7V3TPU6K1a0B8s/SPeWKA1rFfG6+PfUlUAWjUkv44vKGFktjaplTMIEhNaUDSL
+	qvcLWaE5vaNT8/Bg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 329253EA63;
-	Thu, 15 Jan 2026 08:21:35 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 283283EA63;
+	Thu, 15 Jan 2026 08:21:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kFooC4+jaGkjBQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 08:21:35 +0000
+	id qJOYCI2jaGkjBQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 08:21:33 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tzungbi@kernel.org,
 	briannorris@chromium.org,
@@ -86,9 +87,9 @@ To: tzungbi@kernel.org,
 Cc: chrome-platform@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 10/12] drm/sysfb: Generalize pixel-format matching
-Date: Thu, 15 Jan 2026 08:57:20 +0100
-Message-ID: <20260115082128.12460-11-tzimmermann@suse.de>
+Subject: [PATCH v2 04/12] firmware: google: framebuffer: Tie platform device to PCI hardware
+Date: Thu, 15 Jan 2026 08:57:14 +0100
+Message-ID: <20260115082128.12460-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260115082128.12460-1-tzimmermann@suse.de>
 References: <20260115082128.12460-1-tzimmermann@suse.de>
@@ -99,190 +100,193 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Score: -3.01
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLegosg57ubitsp1hzqd38n4uy)];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLf8s8spogujn9h9roxabhn3pd)];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
 X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 74FDC3372A
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Provide drm_sysfb_get_format(), a helper that finds a specific DRM
-format from a list of pixel formats. The new function builds upon
-drm_sysfb_get_format_si(), which finds the DRM format from a given
-instance of struct screen_info. Now get the screen_info's pixel format
-in the caller. Allows for matching pixel formats in drivers without
-screen_info.
+Use the PCI device as parent of the system-framebuffer device instead
+of the coreboot device. Prevents SIGBUS or SIGSEG after hot-unplug of
+the PCI device while the framebuffer is active.
 
-Convert the callers in efidrm and vesadrm to the new interface.
+The simple-framebuffer device depends on the PCI hardware, so this
+device needs to be its parent. The current coreboot parent is no
+longer needed after the system-framebuffer evice has been created.
+
+On systems without PCI or if no PCI parent device could be found,
+the platform device hangs on the platform bus directly.
+
+The fix here is similar to code in sysfb, which contained that same
+bug.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/sysfb/drm_sysfb.c             | 24 +++++++++++++++
- drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |  8 ++---
- drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c | 30 -------------------
- drivers/gpu/drm/sysfb/efidrm.c                |  8 ++++-
- drivers/gpu/drm/sysfb/vesadrm.c               |  8 ++++-
- 5 files changed, 42 insertions(+), 36 deletions(-)
+ .../firmware/google/framebuffer-coreboot.c    | 85 +++++++++++++++++--
+ 1 file changed, 80 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb.c b/drivers/gpu/drm/sysfb/drm_sysfb.c
-index 308f82153b15..fbfb37d0fae1 100644
---- a/drivers/gpu/drm/sysfb/drm_sysfb.c
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb.c
-@@ -31,5 +31,29 @@ int drm_sysfb_get_validated_int0(struct drm_device *dev, const char *name,
- }
- EXPORT_SYMBOL(drm_sysfb_get_validated_int0);
+diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
+index 767515a30a52..cdb10f5de6ad 100644
+--- a/drivers/firmware/google/framebuffer-coreboot.c
++++ b/drivers/firmware/google/framebuffer-coreboot.c
+@@ -13,6 +13,7 @@
+ #include <linux/kernel.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
++#include <linux/pci.h>
+ #include <linux/platform_data/simplefb.h>
+ #include <linux/platform_device.h>
+ #include <linux/sysfb.h>
+@@ -21,14 +22,71 @@
  
-+const struct drm_format_info *drm_sysfb_get_format(struct drm_device *dev,
-+						   const struct drm_sysfb_format *formats,
-+						   size_t nformats,
-+						   const struct pixel_format *pixel)
+ #define CB_TAG_FRAMEBUFFER 0x12
+ 
++#if defined(CONFIG_PCI)
++static bool framebuffer_pci_dev_is_enabled(struct pci_dev *pdev)
 +{
-+	const struct drm_format_info *format = NULL;
-+	size_t i;
++	/*
++	 * TODO: Try to integrate this code into the PCI subsystem
++	 */
++	int ret;
++	u16 command;
 +
-+	for (i = 0; i < nformats; ++i) {
-+		const struct drm_sysfb_format *f = &formats[i];
++	ret = pci_read_config_word(pdev, PCI_COMMAND, &command);
++	if (ret != PCIBIOS_SUCCESSFUL)
++		return false;
++	if (!(command & PCI_COMMAND_MEMORY))
++		return false;
++	return true;
++}
 +
-+		if (pixel_format_equal(pixel, &f->pixel)) {
-+			format = drm_format_info(f->fourcc);
-+			break;
-+		}
++static struct pci_dev *framebuffer_parent_pci_dev(struct resource *res)
++{
++	struct pci_dev *pdev = NULL;
++	const struct resource *r = NULL;
++
++	while (!r && (pdev = pci_get_base_class(PCI_BASE_CLASS_DISPLAY, pdev)))
++		r = pci_find_resource(pdev, res);
++
++	if (!r || !pdev)
++		return NULL; /* not found; not an error */
++
++	if (!framebuffer_pci_dev_is_enabled(pdev)) {
++		pci_dev_put(pdev);
++		return ERR_PTR(-ENODEV);
 +	}
 +
-+	if (!format)
-+		drm_warn(dev, "No compatible color format found\n");
-+
-+	return format;
++	return pdev;
 +}
-+EXPORT_SYMBOL(drm_sysfb_get_format);
++#else
++static struct pci_dev *framebuffer_parent_pci_dev(struct resource *res)
++{
++	return NULL;
++}
++#endif
 +
- MODULE_DESCRIPTION("Helpers for DRM sysfb drivers");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-index de96bfe7562c..b14df5b54bc9 100644
---- a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-@@ -36,6 +36,10 @@ int drm_sysfb_get_validated_int(struct drm_device *dev, const char *name,
- 				u64 value, u32 max);
- int drm_sysfb_get_validated_int0(struct drm_device *dev, const char *name,
- 				 u64 value, u32 max);
-+const struct drm_format_info *drm_sysfb_get_format(struct drm_device *dev,
-+						   const struct drm_sysfb_format *formats,
-+						   size_t nformats,
-+						   const struct pixel_format *pixel);
++static struct device *framebuffer_parent_dev(struct resource *res)
++{
++	struct pci_dev *pdev;
++
++	pdev = framebuffer_parent_pci_dev(res);
++	if (IS_ERR(pdev))
++		return ERR_CAST(pdev);
++	else if (pdev)
++		return &pdev->dev;
++
++	return NULL;
++}
++
+ static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
  
- #if defined(CONFIG_SCREEN_INFO)
- int drm_sysfb_get_width_si(struct drm_device *dev, const struct screen_info *si);
-@@ -48,10 +52,6 @@ int drm_sysfb_get_stride_si(struct drm_device *dev, const struct screen_info *si
- 			    unsigned int width, unsigned int height, u64 size);
- u64 drm_sysfb_get_visible_size_si(struct drm_device *dev, const struct screen_info *si,
- 				  unsigned int height, unsigned int stride, u64 size);
--const struct drm_format_info *drm_sysfb_get_format_si(struct drm_device *dev,
--						      const struct drm_sysfb_format *formats,
--						      size_t nformats,
--						      const struct screen_info *si);
- #endif
- 
- /*
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c b/drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c
-index 885864168c54..749290196c6a 100644
---- a/drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c
-@@ -72,33 +72,3 @@ u64 drm_sysfb_get_visible_size_si(struct drm_device *dev, const struct screen_in
- 	return drm_sysfb_get_validated_size0(dev, "visible size", vsize, size);
- }
- EXPORT_SYMBOL(drm_sysfb_get_visible_size_si);
--
--const struct drm_format_info *drm_sysfb_get_format_si(struct drm_device *dev,
--						      const struct drm_sysfb_format *formats,
--						      size_t nformats,
--						      const struct screen_info *si)
--{
--	const struct drm_format_info *format = NULL;
--	struct pixel_format pixel;
--	size_t i;
--	int ret;
--
--	ret = screen_info_pixel_format(si, &pixel);
--	if (ret)
--		return NULL;
--
--	for (i = 0; i < nformats; ++i) {
--		const struct drm_sysfb_format *f = &formats[i];
--
--		if (pixel_format_equal(&pixel, &f->pixel)) {
--			format = drm_format_info(f->fourcc);
--			break;
--		}
--	}
--
--	if (!format)
--		drm_warn(dev, "No compatible color format found\n");
--
--	return format;
--}
--EXPORT_SYMBOL(drm_sysfb_get_format_si);
-diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-index 1b683d55d6ea..ee525f330441 100644
---- a/drivers/gpu/drm/sysfb/efidrm.c
-+++ b/drivers/gpu/drm/sysfb/efidrm.c
-@@ -45,8 +45,14 @@ static const struct drm_format_info *efidrm_get_format_si(struct drm_device *dev
- 		{ PIXEL_FORMAT_XBGR8888, DRM_FORMAT_XBGR8888, },
- 		{ PIXEL_FORMAT_XRGB2101010, DRM_FORMAT_XRGB2101010, },
- 	};
-+	struct pixel_format pixel;
+ static int framebuffer_probe(struct coreboot_device *dev)
+ {
+ 	int i;
+ 	struct lb_framebuffer *fb = &dev->framebuffer;
++	struct device *parent;
+ 	struct platform_device *pdev;
+ 	struct resource res;
 +	int ret;
-+
-+	ret = screen_info_pixel_format(si, &pixel);
-+	if (ret)
-+		return NULL;
+ 	struct simplefb_platform_data pdata = {
+ 		.width = fb->x_resolution,
+ 		.height = fb->y_resolution,
+@@ -57,6 +115,10 @@ static int framebuffer_probe(struct coreboot_device *dev)
+ 	if (res.end <= res.start)
+ 		return -EINVAL;
  
--	return drm_sysfb_get_format_si(dev, formats, ARRAY_SIZE(formats), si);
-+	return drm_sysfb_get_format(dev, formats, ARRAY_SIZE(formats), &pixel);
++	parent = framebuffer_parent_dev(&res);
++	if (IS_ERR(parent))
++		return PTR_ERR(parent);
++
+ 	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
+ 		if (fb->bits_per_pixel     == formats[i].bits_per_pixel &&
+ 		    fb->red_mask_pos       == formats[i].red.offset &&
+@@ -67,17 +129,30 @@ static int framebuffer_probe(struct coreboot_device *dev)
+ 		    fb->blue_mask_size     == formats[i].blue.length)
+ 			pdata.format = formats[i].name;
+ 	}
+-	if (!pdata.format)
+-		return -ENODEV;
++	if (!pdata.format) {
++		ret = -ENODEV;
++		goto err_put_device_parent;
++	}
+ 
+-	pdev = platform_device_register_resndata(&dev->dev,
++	pdev = platform_device_register_resndata(parent,
+ 						 "simple-framebuffer", 0,
+ 						 &res, 1, &pdata,
+ 						 sizeof(pdata));
+-	if (IS_ERR(pdev))
++	if (IS_ERR(pdev)) {
++		ret = PTR_ERR(pdev);
+ 		pr_warn("coreboot: could not register framebuffer\n");
++		goto err_put_device_parent;
++	}
++
++	if (parent)
++		put_device(parent);
++
++	return 0;
+ 
+-	return PTR_ERR_OR_ZERO(pdev);
++err_put_device_parent:
++	if (parent)
++		put_device(parent);
++	return ret;
  }
  
- static u64 efidrm_get_mem_flags(struct drm_device *dev, resource_size_t start,
-diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
-index 7b7b5ba26317..b8c16ae3faad 100644
---- a/drivers/gpu/drm/sysfb/vesadrm.c
-+++ b/drivers/gpu/drm/sysfb/vesadrm.c
-@@ -49,8 +49,14 @@ static const struct drm_format_info *vesadrm_get_format_si(struct drm_device *de
- 		{ PIXEL_FORMAT_XBGR8888, DRM_FORMAT_XBGR8888, },
- 		{ PIXEL_FORMAT_C8, DRM_FORMAT_C8, },
- 	};
-+	struct pixel_format pixel;
-+	int ret;
-+
-+	ret = screen_info_pixel_format(si, &pixel);
-+	if (ret)
-+		return NULL;
- 
--	return drm_sysfb_get_format_si(dev, formats, ARRAY_SIZE(formats), si);
-+	return drm_sysfb_get_format(dev, formats, ARRAY_SIZE(formats), &pixel);
- }
- 
- /*
+ static const struct coreboot_device_id framebuffer_ids[] = {
 -- 
 2.52.0
 

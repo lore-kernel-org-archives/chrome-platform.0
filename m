@@ -1,78 +1,78 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9055332FA1B
-	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 08:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E8D33121C
+	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 08:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768465301; cv=none; b=nyODp+AN3qwbNEfFqJXTJKx7pkB7TLAAfAnMASKiTmcBkVRzEkMl8qcyKg6lCZUqln71AxlvnDCSl4Qedi7aCkJWwtdCT6z3Or5QB/dEM+7vlF50MtC1T2DUBKDWtKsHtZm0a7vN1VCZMmPoJx6t7Sn6DgI3YIAGgZZlkrwxVac=
+	t=1768465308; cv=none; b=BLSXlw+doZdIrI8jbrAdhCjeXXyFbA1j2v9RIqsNF5LUgBG3QbF6nbzFde9WaEAwbRvX2bTlWqvxKg3GxYgDaPPPJ14tNT3X0W6imtOQFTcJcaD46s9j5pxwcQgXOqDw2sPBJoUJeQz/jAstkbtT5rpTRR7xlWvAvqcvqMYSQWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768465301; c=relaxed/simple;
-	bh=eDdYTgCwTrTgilse9u57M+7JitjTaW8QOL9pa58J8Ec=;
+	s=arc-20240116; t=1768465308; c=relaxed/simple;
+	bh=5jQe/ELsWIEtSAtdSLXJZ3pXL/KkMM3UR5Cf4a8rtP8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d7/Cg5kqWj21msTn3qpoQYh3xacjY9Q2KDRXtm5v3/8jfGcGR1XrQOz9ZlMVtzAFnOVhYPCdVve3Gf/LfXIqMFNYWbu+vj8Xq7HUwTeT/By7Hz0CQ+m9GiogrWK+2byWWCJpn4655vI+F6i/pF/8dpiz7wb/FGMd/SXC6hAVZ7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tEVzVGe8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SF6B4jeM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tEVzVGe8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SF6B4jeM; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=Xpt5g1fuiq8s0sLY7GWzsQY/i8Yg+ProKcRM5aH4VNtyGpwOyQJ4YYIKEdgry3T08kWiW5D3oKbwgEmExuYVTfKvxqs9WQqPSJlTmaeaBQ+Y4kcdLKJnSRVxz/IE8riXYoxv30dJb4Xg38aHlbpL2eII0O4/RbFUhJbQnj7Z+GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DGRDNDHs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/vyEyMQp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DGRDNDHs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/vyEyMQp; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tEVzVGe8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SF6B4jeM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tEVzVGe8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SF6B4jeM"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DGRDNDHs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/vyEyMQp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DGRDNDHs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/vyEyMQp"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C84065BDCC;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 21AE2336B3;
 	Thu, 15 Jan 2026 08:21:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1768465293; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EzmG/oZgXxRImfht+xAAx2KBwFKPDnqnFz72kf4reuw=;
-	b=tEVzVGe8HvnLEnrBBToa8XrfGqKCq4OM0t40/pTe6VsZqB0x2AJuyt7KiXW5m1CcaZS30m
-	abWJZrxot38cVS2J2EhT2HbXNJX19FMN1sZdkSee8uTHf0L3IHdJcCxrhGW7aasSEkp2s1
-	56OJSeCT5kDVbS45YK7IsZa1H+MIgQ4=
+	bh=qI8rE6vHHpVDEeTPK2WJWmd2EG/kNBS2EFH/uaRkj9w=;
+	b=DGRDNDHssvJrfyPDbHrulbFRCW+DtPXu7jCdG7+HieX+fXyjb/BXziC5kDLlB9DvL5FPHr
+	lXvY+gV9eXzRksjJoIEAtENkpn7CvjVS4TtXFfHNh9Sk0oIfGU4GdfJ3SvSg16mG4vz4ur
+	kFzJ/RhND3vYizbsfS0fi19cpswutFA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1768465293;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EzmG/oZgXxRImfht+xAAx2KBwFKPDnqnFz72kf4reuw=;
-	b=SF6B4jeMFN31VyZGcx56pJ2mT0NEW6LpB2QOk6ZZkeGtbGXeHH5GiMyxuKT0SgdD1vjio+
-	VfpUNmlp2kU8XyCg==
-Authentication-Results: smtp-out2.suse.de;
+	bh=qI8rE6vHHpVDEeTPK2WJWmd2EG/kNBS2EFH/uaRkj9w=;
+	b=/vyEyMQp2XEw2aa8Hcf+hSncBuvy1VeM0NbeSoRvCPr07G9Eqdt0xotYUI91I1S9znq6kc
+	gOAaNC7hQdE3+nBA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1768465293; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EzmG/oZgXxRImfht+xAAx2KBwFKPDnqnFz72kf4reuw=;
-	b=tEVzVGe8HvnLEnrBBToa8XrfGqKCq4OM0t40/pTe6VsZqB0x2AJuyt7KiXW5m1CcaZS30m
-	abWJZrxot38cVS2J2EhT2HbXNJX19FMN1sZdkSee8uTHf0L3IHdJcCxrhGW7aasSEkp2s1
-	56OJSeCT5kDVbS45YK7IsZa1H+MIgQ4=
+	bh=qI8rE6vHHpVDEeTPK2WJWmd2EG/kNBS2EFH/uaRkj9w=;
+	b=DGRDNDHssvJrfyPDbHrulbFRCW+DtPXu7jCdG7+HieX+fXyjb/BXziC5kDLlB9DvL5FPHr
+	lXvY+gV9eXzRksjJoIEAtENkpn7CvjVS4TtXFfHNh9Sk0oIfGU4GdfJ3SvSg16mG4vz4ur
+	kFzJ/RhND3vYizbsfS0fi19cpswutFA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1768465293;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EzmG/oZgXxRImfht+xAAx2KBwFKPDnqnFz72kf4reuw=;
-	b=SF6B4jeMFN31VyZGcx56pJ2mT0NEW6LpB2QOk6ZZkeGtbGXeHH5GiMyxuKT0SgdD1vjio+
-	VfpUNmlp2kU8XyCg==
+	bh=qI8rE6vHHpVDEeTPK2WJWmd2EG/kNBS2EFH/uaRkj9w=;
+	b=/vyEyMQp2XEw2aa8Hcf+hSncBuvy1VeM0NbeSoRvCPr07G9Eqdt0xotYUI91I1S9znq6kc
+	gOAaNC7hQdE3+nBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C0BB3EA65;
-	Thu, 15 Jan 2026 08:21:33 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB3973EA65;
+	Thu, 15 Jan 2026 08:21:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2LUTHY2jaGkjBQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 08:21:33 +0000
+	id 6AJsMIyjaGkjBQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 08:21:32 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tzungbi@kernel.org,
 	briannorris@chromium.org,
@@ -86,9 +86,9 @@ To: tzungbi@kernel.org,
 Cc: chrome-platform@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 05/12] firmware: google: framebuffer: Fix dependencies
-Date: Thu, 15 Jan 2026 08:57:15 +0100
-Message-ID: <20260115082128.12460-6-tzimmermann@suse.de>
+Subject: [PATCH v2 03/12] firmware: google: framebuffer: Init memory resource with helper macro
+Date: Thu, 15 Jan 2026 08:57:13 +0100
+Message-ID: <20260115082128.12460-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260115082128.12460-1-tzimmermann@suse.de>
 References: <20260115082128.12460-1-tzimmermann@suse.de>
@@ -126,34 +126,60 @@ X-Spam-Flag: NO
 X-Spam-Score: -2.80
 X-Spam-Level: 
 
-The framebuffer on the coreboot bus represents an entry in the
-coreboot payload table; not the actual device. [1] Hence it must
-not depend on any other driver setting.
+Initialize framebuffer memory resource with DEFINE_RES_MEM() instead
+of open-coding the setup.
+
+While at it, drop the resource name to make the kernel use the device
+name of the simple-framebuffer device for the resource. The latter
+includes a device number. While the meaning of the resource name is
+somewhat fuzzy and varies across entries in /proc/iomem, showing the
+device name seems more helpful than showing a fixed name.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://lore.kernel.org/dri-devel/CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com/ # [1]
 ---
- drivers/firmware/google/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/firmware/google/framebuffer-coreboot.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-index 41b78f5cb735..3ab3e089328b 100644
---- a/drivers/firmware/google/Kconfig
-+++ b/drivers/firmware/google/Kconfig
-@@ -59,11 +59,11 @@ config GOOGLE_MEMCONSOLE_X86_LEGACY
+diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
+index f44183476ed7..767515a30a52 100644
+--- a/drivers/firmware/google/framebuffer-coreboot.c
++++ b/drivers/firmware/google/framebuffer-coreboot.c
+@@ -26,7 +26,6 @@ static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
+ static int framebuffer_probe(struct coreboot_device *dev)
+ {
+ 	int i;
+-	u32 length;
+ 	struct lb_framebuffer *fb = &dev->framebuffer;
+ 	struct platform_device *pdev;
+ 	struct resource res;
+@@ -53,6 +52,11 @@ static int framebuffer_probe(struct coreboot_device *dev)
+ 	if (!fb->physical_address)
+ 		return -ENODEV;
  
- config GOOGLE_FRAMEBUFFER_COREBOOT
- 	tristate "Coreboot Framebuffer"
--	depends on FB_SIMPLE || DRM_SIMPLEDRM
- 	depends on GOOGLE_COREBOOT_TABLE
- 	help
- 	  This option enables the kernel to search for a framebuffer in
--	  the coreboot table.  If found, it is registered with simplefb.
-+	  the coreboot table.  If found, it is registered with a platform
-+	  device of type simple-framebuffer.
++	res = DEFINE_RES_MEM(fb->physical_address,
++			     PAGE_ALIGN(fb->y_resolution * fb->bytes_per_line));
++	if (res.end <= res.start)
++		return -EINVAL;
++
+ 	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
+ 		if (fb->bits_per_pixel     == formats[i].bits_per_pixel &&
+ 		    fb->red_mask_pos       == formats[i].red.offset &&
+@@ -66,15 +70,6 @@ static int framebuffer_probe(struct coreboot_device *dev)
+ 	if (!pdata.format)
+ 		return -ENODEV;
  
- config GOOGLE_MEMCONSOLE_COREBOOT
- 	tristate "Firmware Memory Console"
+-	memset(&res, 0, sizeof(res));
+-	res.flags = IORESOURCE_MEM;
+-	res.name = "Coreboot Framebuffer";
+-	res.start = fb->physical_address;
+-	length = PAGE_ALIGN(fb->y_resolution * fb->bytes_per_line);
+-	res.end = res.start + length - 1;
+-	if (res.end <= res.start)
+-		return -EINVAL;
+-
+ 	pdev = platform_device_register_resndata(&dev->dev,
+ 						 "simple-framebuffer", 0,
+ 						 &res, 1, &pdata,
 -- 
 2.52.0
 

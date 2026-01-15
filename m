@@ -1,78 +1,79 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9311DEFE8
-	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 08:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EF314BF92
+	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 08:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768465317; cv=none; b=amUOntH2BT5ivdIz2yGPlHl3NmewmKXo7iEK6ANKtTaZroPKwS/+b7H96xnIFRVtNxjDYgnahcpBYTLWUV0KiwtLJM5ogGjI3sa7RrhJxoVY9/RxhnIUIjj779ePNvRiMqaTizPU2ZIgA4FNinzw4gDnuTBG8+w5TatLnkjU+/w=
+	t=1768465322; cv=none; b=JCJstDU1qLkWe3h4CzufvpQnRUha2TBFA+2buNGiYUjz3YNfjJA0ffOFrfrqIda+ea3ctAIk43Uyyd+a7fi1pZQ8STY5xHIKgiyxMkgYglRN1fGGka9sRpf0r4yRb4f3yjj4WKaGaEvdCPOjCZ724HG2di/Pjs4MDqQUvtksuPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768465317; c=relaxed/simple;
-	bh=GZdzVHUnZ4rrmmK4HYwfNaMIIHcFuWPe1QDfzZ156uU=;
+	s=arc-20240116; t=1768465322; c=relaxed/simple;
+	bh=m7tU1BOeE1MPijlvSrEANSJc2xMcdzgnDmg/hCNH55w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p2FxfeK9UiEckUn+bQPPf/KaKxsdjKvHa63U/9m2UoqZHT1Tfbuncd+RpeWdjbr6pBXc38Cn8aNiigLkoAj4bMIux8EQR0kPhBkwFYrYFexJ8Nij0fm0rQVVYbYUQ7koMZ1dD8x7gJdr2ZxX/k8FGQNvXhv56DGdEbMSMLnhJtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M0bXvUH5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=968qfzj2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M0bXvUH5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=968qfzj2; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=k17f19IBvUg/d5h9n2H6LUSlb2tJdxCrsdO+L5iM5gW9gWeEHrhR7SxUPRPnlREkFUIcp+4sjaye2QxkB+SCrK49kWviIYxKPphXfItZeUBc6GcDsKspgaZs4+OOOEX+wsjjxR6ZC8hWTXdalTbWdvqyyJ4UUflAjxlow0MEEjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uM3hrQaN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5bq1qcHx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uM3hrQaN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5bq1qcHx; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M0bXvUH5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="968qfzj2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M0bXvUH5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="968qfzj2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uM3hrQaN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5bq1qcHx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uM3hrQaN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5bq1qcHx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 428FE5BCEB;
-	Thu, 15 Jan 2026 08:21:36 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2442333747;
+	Thu, 15 Jan 2026 08:21:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768465296; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768465294; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=z7m9ptp3zS9Bt5WIJi/no0bSERhCnoUipcknBWmggDU=;
-	b=M0bXvUH51lgLjqOZO9F5kFqg8TDwLUB4qZP/1rMJznsAyF707tcVuOH/8hKrKrBiDZ/FTT
-	8EXNTsY8lAkyeuuh0wZNWuBnNXCCfG1DBHeoT+H/IOIx0kcVC+ygHNbqBCt6o+8WrtyvSB
-	dhUumpTmTHHnseMdCp3ifYZVGmygt4g=
+	bh=ONFkpal61itzrlAhQL7tPQAtE3AnH+QkVtkROqr1ktE=;
+	b=uM3hrQaNEAHo6XV/LT+rTa5DtK+DcB6WFnmh/z9YcUmgGACGi788X/UCFerOHvGKfMT5Ml
+	Znc0vRnQqCsFXHrRRrspF/4MGTg7OUDXaFEInLMMffwcrS95AWw2x4RPqSfhJyuZxdKhuy
+	85yYSaQ3ZA4ojgMU+zjOtOP5RiUORV0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768465296;
+	s=susede2_ed25519; t=1768465294;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=z7m9ptp3zS9Bt5WIJi/no0bSERhCnoUipcknBWmggDU=;
-	b=968qfzj28b087BElNt0z55oIFVfHVfFOq+biXVxirUZ80wMDbIvlICGUXDFgaWQotRXsGd
-	oYLgzGpQa54f0MDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=ONFkpal61itzrlAhQL7tPQAtE3AnH+QkVtkROqr1ktE=;
+	b=5bq1qcHx2kQ+OKUvZX7Hjqn8EahyHs99eIHpNUbgH9HzsamhunuBvnc/Fwx1oxqM2R0z7I
+	Q5MVqycFGj5rR8Dw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uM3hrQaN;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5bq1qcHx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768465296; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768465294; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=z7m9ptp3zS9Bt5WIJi/no0bSERhCnoUipcknBWmggDU=;
-	b=M0bXvUH51lgLjqOZO9F5kFqg8TDwLUB4qZP/1rMJznsAyF707tcVuOH/8hKrKrBiDZ/FTT
-	8EXNTsY8lAkyeuuh0wZNWuBnNXCCfG1DBHeoT+H/IOIx0kcVC+ygHNbqBCt6o+8WrtyvSB
-	dhUumpTmTHHnseMdCp3ifYZVGmygt4g=
+	bh=ONFkpal61itzrlAhQL7tPQAtE3AnH+QkVtkROqr1ktE=;
+	b=uM3hrQaNEAHo6XV/LT+rTa5DtK+DcB6WFnmh/z9YcUmgGACGi788X/UCFerOHvGKfMT5Ml
+	Znc0vRnQqCsFXHrRRrspF/4MGTg7OUDXaFEInLMMffwcrS95AWw2x4RPqSfhJyuZxdKhuy
+	85yYSaQ3ZA4ojgMU+zjOtOP5RiUORV0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768465296;
+	s=susede2_ed25519; t=1768465294;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=z7m9ptp3zS9Bt5WIJi/no0bSERhCnoUipcknBWmggDU=;
-	b=968qfzj28b087BElNt0z55oIFVfHVfFOq+biXVxirUZ80wMDbIvlICGUXDFgaWQotRXsGd
-	oYLgzGpQa54f0MDw==
+	bh=ONFkpal61itzrlAhQL7tPQAtE3AnH+QkVtkROqr1ktE=;
+	b=5bq1qcHx2kQ+OKUvZX7Hjqn8EahyHs99eIHpNUbgH9HzsamhunuBvnc/Fwx1oxqM2R0z7I
+	Q5MVqycFGj5rR8Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E365C3EA63;
-	Thu, 15 Jan 2026 08:21:35 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CE0C63EA63;
+	Thu, 15 Jan 2026 08:21:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UIxRNo+jaGkjBQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 08:21:35 +0000
+	id yGQfMY2jaGkjBQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 08:21:33 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tzungbi@kernel.org,
 	briannorris@chromium.org,
@@ -86,9 +87,9 @@ To: tzungbi@kernel.org,
 Cc: chrome-platform@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 12/12] drm/corebotdrm: Support panel orientation
-Date: Thu, 15 Jan 2026 08:57:22 +0100
-Message-ID: <20260115082128.12460-13-tzimmermann@suse.de>
+Subject: [PATCH v2 06/12] firmware: google: Init coreboot bus with subsys_initcall()
+Date: Thu, 15 Jan 2026 08:57:16 +0100
+Message-ID: <20260115082128.12460-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260115082128.12460-1-tzimmermann@suse.de>
 References: <20260115082128.12460-1-tzimmermann@suse.de>
@@ -99,150 +100,72 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Score: -3.01
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLegosg57ubitsp1hzqd38n4uy)];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLf8s8spogujn9h9roxabhn3pd)];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
 X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 2442333747
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Add fields and constants for coreboot framebuffer orientation. Set
-corebootdrm's DRM connector state from the values. Not all firmware
-provides orientation, so make it optional. Systems without continue
-to use unknown orientation.
+Using module_init()/device_initcall() is too late to initialize
+the coreboot bus, as there might already be drivers that depend
+on it.
+
+So far this hasn't been a problem, as coreboot controls all device
+creation. Initializing the coreboot bus earlier in subsys_initcall()
+will allow for external coreboot drivers to register themselves
+with device_initcall(). Prepares coreboot to support additional
+coreboot drivers from other subsystems.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/sysfb/corebootdrm.c | 30 +++++++++++++++++++++++++----
- include/linux/coreboot.h            |  9 +++++++++
- 2 files changed, 35 insertions(+), 4 deletions(-)
+ drivers/firmware/google/coreboot_table.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sysfb/corebootdrm.c b/drivers/gpu/drm/sysfb/corebootdrm.c
-index 745318580a5d..5dc6f3c76f7b 100644
---- a/drivers/gpu/drm/sysfb/corebootdrm.c
-+++ b/drivers/gpu/drm/sysfb/corebootdrm.c
-@@ -110,6 +110,26 @@ static phys_addr_t corebootdrm_get_address_fb(struct drm_device *dev, resource_s
- 	return fb->physical_address;
+diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
+index 882db32e51be..26d93781e64a 100644
+--- a/drivers/firmware/google/coreboot_table.c
++++ b/drivers/firmware/google/coreboot_table.c
+@@ -251,7 +251,7 @@ static void __exit coreboot_table_driver_exit(void)
+ 	bus_unregister(&coreboot_bus_type);
  }
  
-+static enum drm_panel_orientation corebootdrm_get_orientation_fb(struct drm_device *dev,
-+								 const struct lb_framebuffer *fb)
-+{
-+	if (!LB_FRAMEBUFFER_HAS_ORIENTATION(fb))
-+		return DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-+
-+	switch (fb->orientation) {
-+	case LB_FRAMEBUFFER_ORIENTATION_NORMAL:
-+		return DRM_MODE_PANEL_ORIENTATION_NORMAL;
-+	case LB_FRAMEBUFFER_ORIENTATION_BOTTOM_UP:
-+		return DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP;
-+	case LB_FRAMEBUFFER_ORIENTATION_LEFT_UP:
-+		return DRM_MODE_PANEL_ORIENTATION_LEFT_UP;
-+	case LB_FRAMEBUFFER_ORIENTATION_RIGHT_UP:
-+		return DRM_MODE_PANEL_ORIENTATION_RIGHT_UP;
-+	}
-+
-+	return DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-+}
-+
- /*
-  * Simple Framebuffer device
-  */
-@@ -168,7 +188,8 @@ static const struct drm_mode_config_funcs corebootdrm_mode_config_funcs = {
- 	DRM_SYSFB_MODE_CONFIG_FUNCS,
- };
+-module_init(coreboot_table_driver_init);
++subsys_initcall(coreboot_table_driver_init);
+ module_exit(coreboot_table_driver_exit);
  
--static int corebootdrm_mode_config_init(struct corebootdrm_device *cdev)
-+static int corebootdrm_mode_config_init(struct corebootdrm_device *cdev,
-+					enum drm_panel_orientation orientation)
- {
- 	struct drm_sysfb_device *sysfb = &cdev->sysfb;
- 	struct drm_device *dev = &sysfb->dev;
-@@ -234,8 +255,7 @@ static int corebootdrm_mode_config_init(struct corebootdrm_device *cdev)
- 	if (ret)
- 		return ret;
- 	drm_connector_helper_add(connector, &corebootdrm_connector_helper_funcs);
--	drm_connector_set_panel_orientation_with_quirk(connector,
--						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
-+	drm_connector_set_panel_orientation_with_quirk(connector, orientation,
- 						       width, height);
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
-@@ -276,6 +296,7 @@ static int corebootdrm_probe(struct platform_device *pdev)
- 	int width, height, pitch;
- 	resource_size_t size;
- 	phys_addr_t address;
-+	enum drm_panel_orientation orientation;
- 	struct resource *res, *mem = NULL;
- 	struct resource aperture;
- 	void __iomem *screen_base;
-@@ -320,6 +341,7 @@ static int corebootdrm_probe(struct platform_device *pdev)
- 	address = corebootdrm_get_address_fb(dev, size, fb);
- 	if (!address)
- 		return -EINVAL;
-+	orientation = corebootdrm_get_orientation_fb(dev, fb);
- 
- 	sysfb->fb_mode = drm_sysfb_mode(width, height, 0, 0);
- 	sysfb->fb_format = format;
-@@ -375,7 +397,7 @@ static int corebootdrm_probe(struct platform_device *pdev)
- 	 * DRM mode setting and registration
- 	 */
- 
--	ret = corebootdrm_mode_config_init(cdev);
-+	ret = corebootdrm_mode_config_init(cdev, orientation);
- 	if (ret)
- 		return ret;
- 
-diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
-index e81ee5746e2b..d1de94f49cd3 100644
---- a/include/linux/coreboot.h
-+++ b/include/linux/coreboot.h
-@@ -45,6 +45,11 @@ struct lb_cbmem_entry {
- 	u32 id;
- } __packed;
- 
-+#define LB_FRAMEBUFFER_ORIENTATION_NORMAL	0
-+#define LB_FRAMEBUFFER_ORIENTATION_BOTTOM_UP	1
-+#define LB_FRAMEBUFFER_ORIENTATION_LEFT_UP	2
-+#define LB_FRAMEBUFFER_ORIENTATION_RIGHT_UP	3
-+
- /* Describes framebuffer setup by coreboot */
- struct lb_framebuffer {
- 	u32 tag;
-@@ -63,9 +68,13 @@ struct lb_framebuffer {
- 	u8  blue_mask_size;
- 	u8  reserved_mask_pos;
- 	u8  reserved_mask_size;
-+	u8  orientation;
- } __packed;
- 
- #define LB_FRAMEBUFFER_HAS_LFB(__fb) \
- 	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
- 
-+#define LB_FRAMEBUFFER_HAS_ORIENTATION(__fb) \
-+	((__fb)->size >= offsetofend(struct lb_framebuffer, orientation))
-+
- #endif /* _LINUX_COREBOOT_H */
+ MODULE_AUTHOR("Google, Inc.");
 -- 
 2.52.0
 

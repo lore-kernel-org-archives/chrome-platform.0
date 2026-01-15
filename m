@@ -1,89 +1,90 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1290B21FF46
-	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 20:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E2227F72C
+	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 20:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768510481; cv=pass; b=OI1dzP82keLOdi/4r1VmycGeYPwlhut0oirJKl5k7JS8PV/ViLmalrWdthDKNUN3p4F2CixNfL4iBemwi93e91rEkZI+cGwa4MT1qNi1zL0G2rG/jUZ0fHE1N1i7ur7AHjauk28I9bRCyvJIDVlCWe1zyJgaHaVp4XuUdTLWSAk=
+	t=1768510623; cv=pass; b=JqBtP5D3hUZXXlrbmJdtcGL2kccxBFDgJtBwexbWV2Mb7K/YdlBwqmu0dNIaD8pdXuTZ2epjIGsynzL93cORfA44rimcemMclxDbdBanTh0KfVgkV2JirF4oBBH/51vRbfSifrvZJs/0UnggyBa03HvXPHxd1Snyara7emfrwMg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768510481; c=relaxed/simple;
-	bh=KMDCAuEpBU2j7VyBDlD6eYOZpYO2bi5WCD88B/El57s=;
+	s=arc-20240116; t=1768510623; c=relaxed/simple;
+	bh=6I58fF6TuVXRegMzDGdPH+1UeFbeJDUNF8oPGeWWasc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lWhsfh5Ogldv0bU/jS/rElvW1bGOVXjd6ENUqs/CX+M+y/J6xF0fJjutZTGvQmDBywa5VhHc/aw7mfcvy4JXb6PXCOrKnMfZfR97teGLn2PbmGADDw10MNk1CZMgL20t4FnCtGdz7YLMQZMq/DRX1OXA9cl0JHkQPlw044SJogQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=k5j2GJDo; arc=pass smtp.client-ip=209.85.160.180
+	 To:Cc:Content-Type; b=bQVEHNJ/A2LnBuApjLtCDjwkGKrtQ5+FJNi3oPXWh14r5a0HoksdSnrde32xbDLUUF9OXr6Pg801lXEAf6mrBhTYXNrk0lDl4py64mBboHJFq9T6iu/EJiBzNewQZV8m6h06mNl+7M0mzpyLDK9ICXY4avMkwTCn5X77fHPJbgM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jYNt8+cZ; arc=pass smtp.client-ip=209.85.160.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="k5j2GJDo"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-501511aa012so72981cf.0
-        for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 12:54:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768510479; cv=none;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jYNt8+cZ"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5014acad6f2so22051cf.1
+        for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 12:57:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768510621; cv=none;
         d=google.com; s=arc-20240605;
-        b=iFxUsp498IazJqQiEtF84FUTkQsMNB9nPIGG/De1NmXFnDMuK2JUTPKc36MJch4b5E
-         BrPQTklrE6f1Hxfg0n3YIxAtTvD+K5JgXyZfg3eeVB93yxQcekIIAJdbRmDqIddhNFxq
-         wbmQiDjPcTp90JKDhlLtKwVn3Fsg8ndU/SIin/bKauk7xhqWM4i0az2JrU6mQpbC99Lb
-         Z/+pieFnYPoNXfTrCeH8caYczmqe27tz5aCsz08v47Z97Nb10t0E0ztfkXlaAeKSBQWm
-         be8Nk1vUVj2CRETjWds58E0dOEhM9CZIaopugrrtw1sNtsTNQm/nqYE3r7MJfNYMcDlm
-         g7PA==
+        b=DBsQg+jtUbzW7VwrTQxHipPsx9QZze0dj9YM52p2kUjwR+iCp+CxW1jgclGlp1TZ2w
+         oxaP9fyF2cRyI+CtMF7W6K0aUtltqhW4v3Kk/sq3U4Jnfnuc8xdmhibmP9NBtUsjpF1l
+         KsA/zs8E0oV+G4V+IR0LbqFzaZEoYS2tZvGwqlHImvSQYqkJOZm3C/BS1K7DoFqXWmei
+         9SFqZBCr5KEzjL+wphMIGzmXv0feiLbhAvaQ4QCLWC4RhgMG4rpXVJsWnjaOJGKz85ia
+         q5Oj7pY44QUDLKV9nRD8pzDQvHeMU5RO4s2312UgvvMzHIyBfmJpp4gtgMoj9bSeEGd6
+         eO8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=KMDCAuEpBU2j7VyBDlD6eYOZpYO2bi5WCD88B/El57s=;
-        fh=c3F59AA+4W2iZu5DZpEpLDbVzxTEVQ9ujNvQODHEZqo=;
-        b=I9I01G/y7BlSqRSlz6LCc/a5JzksKCQ/kliYnCpwrN6VAYtkl0Bgp6RSiYCTbnYs1V
-         JmejFgcKzUGwbrkpCaLNHGe8qOzkXAnen2pNtQahOJt5IktHC4NySu8y4hng4YiFE4Ws
-         KFUN2gFfW4Sw+lKn3FMIQ3tyNRmM2EBmBa51miFWmT5Qh7zPq4YN3UkaL77q2Rgd8owb
-         IoJ568AvwmJMs+EJrDfAB3EiUhdm1jyD2ELHDtslvjPtvlkXO08uta1mgitX5xgYTyBp
-         /rXtQJNVUkDEDiAkylsyeySlV5j6wc+5SRS1hHEqFJTAxwO/GY4b2xRHgzDjmprdT4mg
-         2t1g==;
+        bh=6I58fF6TuVXRegMzDGdPH+1UeFbeJDUNF8oPGeWWasc=;
+        fh=B1mFzZdGKP4ZhjV6cA8tKuZqe1P5q4sS9JX2B02MHOM=;
+        b=eovzIr8NN3e/tTa/LxZQ+WTTojSl8f4Z0DY0D8EepphxL+15C4gXKu5TyWMGhDrHj+
+         wdonDspWG716f++S0B4ybMaSs2u6//FPAyXxFTykSOThS9n9k2PwHTo/U9o8rbKz0RDp
+         bUNdMsBW2Dp6+897px4o14rw3KR2OCxN4c5mxumXIZ6jQ6eMrOimJLcR+UEnBVhETOtB
+         L8w3xKy4zasaupwAnPijqzmPFzIP00ghpQowACf7BlTg9/eNi+Cily2Ruwy3DbYey9SO
+         oFCyAjkN3W1ZTC68ckeCBBBTlzTStooWM5IkckR2EKxdvQ6A8AUmd93Mk+J1VIazpfTt
+         uE5g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1768510479; x=1769115279; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1768510621; x=1769115421; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KMDCAuEpBU2j7VyBDlD6eYOZpYO2bi5WCD88B/El57s=;
-        b=k5j2GJDozRy71sUpC7lwQLQmwdVZAS/jUDEV1DhH7Eg4LGkyni+u6CmJH0PvPf8Nms
-         IEmmAjtRJYZy4HhXNAp3g63XAvQZLz6yIsfEOPEoqd+fBPdK5l5DciK/hhSLZRwyHwQK
-         D/Dg5D3ZqctEZ35efagadEcY21CuD2O8TNgoY=
+        bh=6I58fF6TuVXRegMzDGdPH+1UeFbeJDUNF8oPGeWWasc=;
+        b=jYNt8+cZaH5bblwicX5fjoJsf+EupAO3Q4fERK8yksU22dzWrQD1HZ7PDcOlSRfDX9
+         ZWStpeoJhOSHQinHE5v2lCg4hhO9t9zozo6OV1Tz394iPH4ndiz7EPN/xsZ5yCgmqorO
+         vs5y6LXshSKMVgWVC8dD+/cuhNaIX070taZqI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768510479; x=1769115279;
+        d=1e100.net; s=20230601; t=1768510621; x=1769115421;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KMDCAuEpBU2j7VyBDlD6eYOZpYO2bi5WCD88B/El57s=;
-        b=DZ1zeZHp2qOEP4XBBZ1APDFVDr0mE7HnTF9Wt+1zWp55OiZ4dX0317bF6TzNXBi7Dc
-         GplxeFHE/2XuzYHPH3MFD45KC0GcpYEzgcETELrfphJ6xJrp8ndPCGOvJVX1pcIsXEbg
-         UShkradDwZpkw+SEVmtGYNcoHr8qZW3TLmnbc2DCvEsSaIUw02wRLlubYnyxqsPbNNRH
-         DUyaKkx2GMydTlnBibvCnN7MB5b2CyNVYIotINd/9dpNbIZ8vAK3fXYzqkcNkSjRMus1
-         Bklk7LVqon4rVA7xg5iWVvI84HTPtilxLMfjvwmYdcUJQmHEFM/uvVmWcY4WRaiZuLDe
-         f/dw==
-X-Forwarded-Encrypted: i=1; AJvYcCWBwFO29OEHd3WKaTCESS4Xio6xt8e6Pe95teajc65qbftskP68wnn+glsFyBfHaSPNwO56chzXjNpBSUvjx2c=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGYxeGkcumHR3nGzNQ6QbHA7xlTYvdbGxUoszqxOjzbprzD8zX
-	myM+axC+8TlAzhzxEtRT1GQJgr8P77wbeNjMQyHhqVgaOPPtAxkODSd6TIhw99pLZ2r9Wbm0lu9
-	dwnFwSBTYxM+oi9TaSkvRAfFHypvLQL9lIGQXq2Ur
-X-Gm-Gg: AY/fxX4oEj7xWeJj8ktptNyM9RcXpRG2l/fO43AJv9Ge+v5PuoNvd0zWx4Y0VZyIksF
-	EZ/NN8wRN+LvMrZ1GMKYCCACt6kpIMVOTPrnoQzMYwwxF6C2GREMHwlrjY5OgdSPuizo6iwcZBr
-	ftHYWlE8jkfapuwwcAsfg0USwMRwby4IpW5KkQ+q1SNz1Ss0Aq7Cq0AZep8uDs1r0wnZ5tHc/G+
-	fqp3Rs4N8JQ3mPsH/8sI2O5hMaWm7L2Mc1RiEHmonKz9KFfnSHOWtFki5CEuHJevrkdoeowTkNl
-	Wce0XCd+tKpQpJN0BXimKuNgEA==
-X-Received: by 2002:a05:622a:291:b0:501:4539:c81 with SMTP id
- d75a77b69052e-502a2308ca2mr2072271cf.2.1768510478470; Thu, 15 Jan 2026
- 12:54:38 -0800 (PST)
+        bh=6I58fF6TuVXRegMzDGdPH+1UeFbeJDUNF8oPGeWWasc=;
+        b=aJWAAw4L+p5pgWI09UpCvPJLdZ5nZ9/CWqFxGptwtbQwFrynIFm78tZ64VLeF3fEVA
+         s7/3VqYhF2czmUm+/G+LR9zDn6UJ/zjx3GyPZwzV0Fr4t5UUX8Tk9KdKl6Dgzd3pum5g
+         YThzrVAYI4MQjDQ6Z2L8riraFxBdQx5P6oVI+Mlxz+iKM7RUy588aKOymaLF2LCgKQNo
+         EFZXHwJETn1YZLfeGM7a1WzGA1IZZATC3OOXq+3lU2yAe2ejr6ZmxWvk06udVzhbBdSC
+         la4CRdVFJ2Q5ftVRE4CdXCOi6p8qkzIDN6dZzrW3mKABOyncJb1c90Iu7W3sYUMEv8Mg
+         xjew==
+X-Forwarded-Encrypted: i=1; AJvYcCUBqdzq7iCyabT7J/zu0C56/F2c8aNkQfplrBNzZ19+71QTzY1JrIZAUYbQ0qLn+V+6PUZJ30a+tGwZRB0wO6Q=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZEBX3EqnP6eklvWipxN3mBfqFFoN5h1xYromhrX72YdhgkW6V
+	YRKgnXFWP442fXrQPJcrWG92j0kq+K4oR4PGczJzrmtpVkN04uydhFxx6ONxHuKIqOLavaQ1VP+
+	E31lKAfH5IggTvYkxXzVXx2w0hBV2XyYLdAqwBM3W
+X-Gm-Gg: AY/fxX7RB59pgfCutbyqJP01gdqUPU4XKVLWEmpJ9IU5WP+qjwRMXEnZmucb4hVDhj6
+	l5RuBDG0PBC9MR+ucObmuYQg5YNvSMGRdeQgtJr4DspWr/HfZvs+3akHSxLWTXSbi/f6Bewy3Cb
+	VAThaCEMhgxCqW6e3Gzl8WuUzcY46gMeJhPfcsE5S1M9I/m4n2PYoLw6sPuqsvcvI7pUzwil+j9
+	D7PB9J+UnP4kzXHRhuq64aQ2SCdUGgnxQ375K4XgEG5DrVRMCF0xHptusbWUuHpe+G3/EolhLj/
+	UD+odHTZUHAvn1akOYLotPqNuQ==
+X-Received: by 2002:ac8:5d08:0:b0:4ff:bf96:db86 with SMTP id
+ d75a77b69052e-502a23dc15emr2080621cf.16.1768510620599; Thu, 15 Jan 2026
+ 12:57:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260115082128.12460-1-tzimmermann@suse.de> <20260115082128.12460-6-tzimmermann@suse.de>
-In-Reply-To: <20260115082128.12460-6-tzimmermann@suse.de>
+References: <20260115082128.12460-1-tzimmermann@suse.de> <20260115082128.12460-10-tzimmermann@suse.de>
+In-Reply-To: <20260115082128.12460-10-tzimmermann@suse.de>
 From: Julius Werner <jwerner@chromium.org>
-Date: Thu, 15 Jan 2026 12:54:23 -0800
-X-Gm-Features: AZwV_Qhkh7OWarAssFoak5kIszzJHYAOlxl7WYMlwiaFV3xMZUkLvFfEXU3N6YE
-Message-ID: <CAODwPW_n=LfW+az4v8XecrzAksFmP+0U-9ELb_TrVtLL4EGk9w@mail.gmail.com>
-Subject: Re: [PATCH v2 05/12] firmware: google: framebuffer: Fix dependencies
+Date: Thu, 15 Jan 2026 12:56:48 -0800
+X-Gm-Features: AZwV_Qg5K_5_9lpK3wrMnXsEAg9k1xj0wh4ZSps8vZ_Tg0OFv5Ka7-vAGXG0iEA
+Message-ID: <CAODwPW_uDHQHpcMYd-tu0Ld5e+7MQ5OVUtUgM8hnrg8crY22vA@mail.gmail.com>
+Subject: Re: [PATCH v2 09/12] firmware: google: Pack structures for coreboot
+ table entries
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org, 
 	javierm@redhat.com, samuel@sholland.org, maarten.lankhorst@linux.intel.com, 
@@ -91,9 +92,13 @@ Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
 	chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 
-Not really sure I understand this part? The code in coreboot_table.c
-creates the device that represents the entry in the table. The code in
-framebuffer-coreboot.c (which this Kconfig guards) contains the code
-that creates the device which will be the actual framebuffer. Doesn't
-it make sense for that part to depend on a framebuffer backend being
-available?
+Is this necessary? The coreboot table entries are 4 byte aligned, so
+only the uint64_t fields are a problem. In coreboot we solve this by
+not packing the structure and instead using something like this:
+
+typedef __aligned(4) uint64_t cb_uint64_t;
+
+I think the same solution could work in the kernel? Packing the
+structure makes all alignment assumptions go away which can cause some
+architectures to generate really bad code, so I've learned to try to
+avoid it where possible.

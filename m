@@ -1,78 +1,78 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486541E5B9E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9055332FA1B
 	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 08:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768465301; cv=none; b=L+4M6MCxIUeOooAp7RcZK+ZiCBG13nkJnnD1CFPOX2jY8ilBpgkj92NoOVMXfgWDWquYVDOq9X7E9Al29rTZyWtqGTrKBsQ3ue8PgAiZda4geDbMhKhT5YyV6YpFc7v2UNw8Uyq48XoCMLYntPDeFmV6EutVOja5g3URuwFyICU=
+	t=1768465301; cv=none; b=nyODp+AN3qwbNEfFqJXTJKx7pkB7TLAAfAnMASKiTmcBkVRzEkMl8qcyKg6lCZUqln71AxlvnDCSl4Qedi7aCkJWwtdCT6z3Or5QB/dEM+7vlF50MtC1T2DUBKDWtKsHtZm0a7vN1VCZMmPoJx6t7Sn6DgI3YIAGgZZlkrwxVac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768465301; c=relaxed/simple;
-	bh=JdIZUb/ShpPOPonDvjmI/lbjheQ4/aFTKZ5+Rp9obGs=;
+	bh=eDdYTgCwTrTgilse9u57M+7JitjTaW8QOL9pa58J8Ec=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tlAQWYC/FJGhAKY9XL5HixaMVyPvaDvoyC7v5hKdmb8nWMJA2yfe9FxJnQVtSjljkOyj+nWIcsDvbCTwun4PSZLr26Nm0nAgOha0GkFdhJlPEQt5xMzU3EVKTZFg7e0y+E2rS/4nrz4OmpLnqV4fYKCVJhL/uXiEdNsYLbQpegg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YxqG+nbH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=waK1tnt4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YxqG+nbH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=waK1tnt4; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=d7/Cg5kqWj21msTn3qpoQYh3xacjY9Q2KDRXtm5v3/8jfGcGR1XrQOz9ZlMVtzAFnOVhYPCdVve3Gf/LfXIqMFNYWbu+vj8Xq7HUwTeT/By7Hz0CQ+m9GiogrWK+2byWWCJpn4655vI+F6i/pF/8dpiz7wb/FGMd/SXC6hAVZ7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tEVzVGe8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SF6B4jeM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tEVzVGe8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SF6B4jeM; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YxqG+nbH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="waK1tnt4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YxqG+nbH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="waK1tnt4"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tEVzVGe8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SF6B4jeM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tEVzVGe8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SF6B4jeM"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 62CB6336AC;
-	Thu, 15 Jan 2026 08:21:32 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C84065BDCC;
+	Thu, 15 Jan 2026 08:21:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768465292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768465293; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1DBneb3s2nrkwFFOZ3uPchgRpc+BTIv4ygaa47RQKwE=;
-	b=YxqG+nbHf/H5mu+80IbSCWmVcpGALi8p7psI2FSQZD/luMpjn1tY1QC2E6F9USTMuKpy5M
-	nYIeymQeY3dJ/qOk7FIWkCHpBhbkqDxfiHomzlbSXmg/rlL5hq8hN7x7XGVeF1VLikRVT/
-	A6UASLqiFUQhd28z7g5884xTdml9cCY=
+	bh=EzmG/oZgXxRImfht+xAAx2KBwFKPDnqnFz72kf4reuw=;
+	b=tEVzVGe8HvnLEnrBBToa8XrfGqKCq4OM0t40/pTe6VsZqB0x2AJuyt7KiXW5m1CcaZS30m
+	abWJZrxot38cVS2J2EhT2HbXNJX19FMN1sZdkSee8uTHf0L3IHdJcCxrhGW7aasSEkp2s1
+	56OJSeCT5kDVbS45YK7IsZa1H+MIgQ4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768465292;
+	s=susede2_ed25519; t=1768465293;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1DBneb3s2nrkwFFOZ3uPchgRpc+BTIv4ygaa47RQKwE=;
-	b=waK1tnt4nUic7oVI7oYdRQzR/cEpkzkdQyKZYoU954zsEyEo7fr3qBiKlXdxrLD5ljO9s+
-	goIuH2zVQjY27SDA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=EzmG/oZgXxRImfht+xAAx2KBwFKPDnqnFz72kf4reuw=;
+	b=SF6B4jeMFN31VyZGcx56pJ2mT0NEW6LpB2QOk6ZZkeGtbGXeHH5GiMyxuKT0SgdD1vjio+
+	VfpUNmlp2kU8XyCg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768465292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768465293; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1DBneb3s2nrkwFFOZ3uPchgRpc+BTIv4ygaa47RQKwE=;
-	b=YxqG+nbHf/H5mu+80IbSCWmVcpGALi8p7psI2FSQZD/luMpjn1tY1QC2E6F9USTMuKpy5M
-	nYIeymQeY3dJ/qOk7FIWkCHpBhbkqDxfiHomzlbSXmg/rlL5hq8hN7x7XGVeF1VLikRVT/
-	A6UASLqiFUQhd28z7g5884xTdml9cCY=
+	bh=EzmG/oZgXxRImfht+xAAx2KBwFKPDnqnFz72kf4reuw=;
+	b=tEVzVGe8HvnLEnrBBToa8XrfGqKCq4OM0t40/pTe6VsZqB0x2AJuyt7KiXW5m1CcaZS30m
+	abWJZrxot38cVS2J2EhT2HbXNJX19FMN1sZdkSee8uTHf0L3IHdJcCxrhGW7aasSEkp2s1
+	56OJSeCT5kDVbS45YK7IsZa1H+MIgQ4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768465292;
+	s=susede2_ed25519; t=1768465293;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1DBneb3s2nrkwFFOZ3uPchgRpc+BTIv4ygaa47RQKwE=;
-	b=waK1tnt4nUic7oVI7oYdRQzR/cEpkzkdQyKZYoU954zsEyEo7fr3qBiKlXdxrLD5ljO9s+
-	goIuH2zVQjY27SDA==
+	bh=EzmG/oZgXxRImfht+xAAx2KBwFKPDnqnFz72kf4reuw=;
+	b=SF6B4jeMFN31VyZGcx56pJ2mT0NEW6LpB2QOk6ZZkeGtbGXeHH5GiMyxuKT0SgdD1vjio+
+	VfpUNmlp2kU8XyCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05D7E3EA65;
-	Thu, 15 Jan 2026 08:21:32 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C0BB3EA65;
+	Thu, 15 Jan 2026 08:21:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ONY8AIyjaGkjBQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 08:21:32 +0000
+	id 2LUTHY2jaGkjBQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 08:21:33 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tzungbi@kernel.org,
 	briannorris@chromium.org,
@@ -85,13 +85,10 @@ To: tzungbi@kernel.org,
 	simona@ffwll.ch
 Cc: chrome-platform@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Hans de Goede <hansg@kernel.org>,
-	linux-fbdev@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2 01/12] firmware: google: framebuffer: Do not unregister platform device
-Date: Thu, 15 Jan 2026 08:57:11 +0100
-Message-ID: <20260115082128.12460-2-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 05/12] firmware: google: framebuffer: Fix dependencies
+Date: Thu, 15 Jan 2026 08:57:15 +0100
+Message-ID: <20260115082128.12460-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260115082128.12460-1-tzimmermann@suse.de>
 References: <20260115082128.12460-1-tzimmermann@suse.de>
@@ -104,88 +101,59 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
-	FROM_EQ_ENVFROM(0.00)[];
+	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
 	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLf8s8spogujn9h9roxabhn3pd)];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com]
 X-Spam-Flag: NO
 X-Spam-Score: -2.80
 X-Spam-Level: 
 
-The native driver takes over the framebuffer aperture by removing the
-system- framebuffer platform device. Afterwards the pointer in drvdata
-is dangling. Remove the entire logic around drvdata and let the kernel's
-aperture helpers handle this. The platform device depends on the native
-hardware device instead of the coreboot device anyway.
-
-When commit 851b4c14532d ("firmware: coreboot: Add coreboot framebuffer
-driver") added the coreboot framebuffer code, the kernel did not support
-device-based aperture management. Instead native driviers only removed
-the conflicting fbdev device. At that point, unregistering the framebuffer
-device most likely worked correctly. It was definitely broken after
-commit d9702b2a2171 ("fbdev/simplefb: Do not use struct
-fb_info.apertures"). So take this commit for the Fixes tag. Earlier
-releases might work depending on the native hardware driver.
+The framebuffer on the coreboot bus represents an entry in the
+coreboot payload table; not the actual device. [1] Hence it must
+not depend on any other driver setting.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: d9702b2a2171 ("fbdev/simplefb: Do not use struct fb_info.apertures")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Hans de Goede <hansg@kernel.org>
-Cc: linux-fbdev@vger.kernel.org
-Cc: <stable@vger.kernel.org> # v6.3+
+Link: https://lore.kernel.org/dri-devel/CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com/ # [1]
 ---
- drivers/firmware/google/framebuffer-coreboot.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/firmware/google/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
-index c68c9f56370f..4e9177105992 100644
---- a/drivers/firmware/google/framebuffer-coreboot.c
-+++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -81,19 +81,10 @@ static int framebuffer_probe(struct coreboot_device *dev)
- 						 sizeof(pdata));
- 	if (IS_ERR(pdev))
- 		pr_warn("coreboot: could not register framebuffer\n");
--	else
--		dev_set_drvdata(&dev->dev, pdev);
+diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
+index 41b78f5cb735..3ab3e089328b 100644
+--- a/drivers/firmware/google/Kconfig
++++ b/drivers/firmware/google/Kconfig
+@@ -59,11 +59,11 @@ config GOOGLE_MEMCONSOLE_X86_LEGACY
  
- 	return PTR_ERR_OR_ZERO(pdev);
- }
+ config GOOGLE_FRAMEBUFFER_COREBOOT
+ 	tristate "Coreboot Framebuffer"
+-	depends on FB_SIMPLE || DRM_SIMPLEDRM
+ 	depends on GOOGLE_COREBOOT_TABLE
+ 	help
+ 	  This option enables the kernel to search for a framebuffer in
+-	  the coreboot table.  If found, it is registered with simplefb.
++	  the coreboot table.  If found, it is registered with a platform
++	  device of type simple-framebuffer.
  
--static void framebuffer_remove(struct coreboot_device *dev)
--{
--	struct platform_device *pdev = dev_get_drvdata(&dev->dev);
--
--	platform_device_unregister(pdev);
--}
--
- static const struct coreboot_device_id framebuffer_ids[] = {
- 	{ .tag = CB_TAG_FRAMEBUFFER },
- 	{ /* sentinel */ }
-@@ -102,7 +93,6 @@ MODULE_DEVICE_TABLE(coreboot, framebuffer_ids);
- 
- static struct coreboot_driver framebuffer_driver = {
- 	.probe = framebuffer_probe,
--	.remove = framebuffer_remove,
- 	.drv = {
- 		.name = "framebuffer",
- 	},
+ config GOOGLE_MEMCONSOLE_COREBOOT
+ 	tristate "Firmware Memory Console"
 -- 
 2.52.0
 

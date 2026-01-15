@@ -1,274 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA473B52E3;
-	Wed, 14 Jan 2026 22:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9A8330676
+	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 08:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768428851; cv=none; b=Ufc338qncKAdgQFUFVxQm+TDRBNn4N29ccOXT1vpZ0IgB7+Ok2J2pU00QomlG4Uictb2XzCitD7EREdbE+ue8pPm6Z2x8MYiaa4/+Z+X+v6GNcE9+R4GOcyp+Jc1273Wvqt7cChNheZ/Q5AFXxowQKItbcGqLhpJMLFZq/ylp2w=
+	t=1768465295; cv=none; b=qU7nxHHD7ZwFFtz4TJUHKEDA+vXl2fcZLfMiFfFmQSAoiq5XmZEHWafsM+LSrD4q+HHpHX1qEHD2j73YPEXh0x5cHq9diI/7wsrl0tw533e1Qvsy2nANx6rt4M8Aqad0mob8pkc8IzVzbLPhcSD2sKDCWaLFnNqsW2HfnmFTjXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768428851; c=relaxed/simple;
-	bh=mNmuOjx6q/Cryn9pY8n4bZQdzwXbQVjuQJum73s9y/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Crcq1LCoFrDBiBGP0kzRGnG1ivNZpstbdHjw0qS5EYg63xhq/aizTyul/HEHi7Hpu94j4vLy5sOd0ysORsdEkUMt4pOAGNqAoGhP9KP5jz1SaHL3UXjklsdvYbkeob1RAQ1LwIurqXk9tze/pOvUGgFhW2UNGcUIBdMq+dG0cJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SOA8ewX9; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768465295; c=relaxed/simple;
+	bh=QVJsb6SXXXyVASiBonl/1z0jg4alrwMcJ0C/BjaH96A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oJQZDiDlrtKX31Aio+Sj5wrb2CcRtw3xOc8dJBxam5p1AW6p3mcgFE4gvLzuahxrZf0dDU++zPx5VFFufXW5J45Furre/5JfFoRE4TJs001epOVyI8cJsCYpL9Ktn3aValaBnaEsQaAFigjCJRTAPCAxjuNFVyuJSPYrQwvTV5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zeQZjWMG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HY/1CnAc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zeQZjWMG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HY/1CnAc; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOA8ewX9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768428828; x=1799964828;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mNmuOjx6q/Cryn9pY8n4bZQdzwXbQVjuQJum73s9y/k=;
-  b=SOA8ewX9WVNvBlV985OpL/suxe8aEoeU29f9TC/QGd5+ccaoEEIXGEmH
-   vjIO0r0/CVJRpS5vQKvHKlmN50SuHAPqjWA3Wv31mYYgPMTPYb3B+SAd8
-   YlifaxqoVUoa/zBU0h8i+ic+YLzxWg8mwHLL228EqTZegnR+gRAaLs4NQ
-   +1uTWOlinSivjLvUUwRxFC1SjZXzKkVbk+xQEY6c4gemstnWrts5UfgLU
-   vwgY2sEka8YrpoTY+kxguUh5sD00ilaAyRihTm9/7O/XT2pDmB/ABTKr1
-   ON/r/qPbE8XQ9X6phHbnnfEw4A6uuPG5WVmso5CRZP7GfYASiEn0A3xlx
-   Q==;
-X-CSE-ConnectionGUID: ZA5mkTK/QXGm0OJVw6GWVg==
-X-CSE-MsgGUID: oGRfbXlaSeG/83iQgPDzUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="95216281"
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="95216281"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 14:13:29 -0800
-X-CSE-ConnectionGUID: /mS1GwKTTjqS9jX2YLBFzQ==
-X-CSE-MsgGUID: nuwN31E+RX67z5jUmg/pAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="236042826"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Jan 2026 14:13:26 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vg97D-00000000H7E-29VX;
-	Wed, 14 Jan 2026 22:13:23 +0000
-Date: Thu, 15 Jan 2026 06:12:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
-	briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	airlied@gmail.com, simona@ffwll.ch
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zeQZjWMG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HY/1CnAc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zeQZjWMG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HY/1CnAc"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F3B6133694;
+	Thu, 15 Jan 2026 08:21:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768465292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=B73bsXW/dn42L/xmLYY7VT5BOiWns8UULJCcXEDPK6M=;
+	b=zeQZjWMG4OH5/A8CVCG8FKhLjeL9coqM/Vls5LnmItpN+qqzFqQpjMJxdo1MoNDE5WbvVw
+	sQaWpPx/75R6XfEiDaEtwfQ/1VEDSLjY0Qrk2/LYp/IjUOlu3mrsXsCGYtSEM5yb77JvAk
+	BoAzJE2d4LZmm6Ihrnig4QEnj2WkuuE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768465292;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=B73bsXW/dn42L/xmLYY7VT5BOiWns8UULJCcXEDPK6M=;
+	b=HY/1CnAcR8HMUf2REUZXRONqbtJnjyL7lspXKg+1Ax2xoE0m/cmDkWzcbCGoax1hm2xYLr
+	qBQJL61fyuElBJAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zeQZjWMG;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="HY/1CnAc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768465292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=B73bsXW/dn42L/xmLYY7VT5BOiWns8UULJCcXEDPK6M=;
+	b=zeQZjWMG4OH5/A8CVCG8FKhLjeL9coqM/Vls5LnmItpN+qqzFqQpjMJxdo1MoNDE5WbvVw
+	sQaWpPx/75R6XfEiDaEtwfQ/1VEDSLjY0Qrk2/LYp/IjUOlu3mrsXsCGYtSEM5yb77JvAk
+	BoAzJE2d4LZmm6Ihrnig4QEnj2WkuuE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768465292;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=B73bsXW/dn42L/xmLYY7VT5BOiWns8UULJCcXEDPK6M=;
+	b=HY/1CnAcR8HMUf2REUZXRONqbtJnjyL7lspXKg+1Ax2xoE0m/cmDkWzcbCGoax1hm2xYLr
+	qBQJL61fyuElBJAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A145E3EA63;
+	Thu, 15 Jan 2026 08:21:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id F2IvJoujaGkjBQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 15 Jan 2026 08:21:31 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: tzungbi@kernel.org,
+	briannorris@chromium.org,
+	jwerner@chromium.org,
+	javierm@redhat.com,
+	samuel@sholland.org,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch
+Cc: chrome-platform@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot
- framebuffers
-Message-ID: <202601150622.i0pTAj9w-lkp@intel.com>
-References: <20260108145058.56943-9-tzimmermann@suse.de>
+Subject: [PATCH v2 00/12] drm, coreboot: Add DRM coreboot driver
+Date: Thu, 15 Jan 2026 08:57:10 +0100
+Message-ID: <20260115082128.12460-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260108145058.56943-9-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.01
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: F3B6133694
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Hi Thomas,
+Coreboot implements framebuffer support via simple-framebuffer. Provide a
+dedicated DRM driver. Keep the simple-framebuffer code for now.
 
-kernel test robot noticed the following build errors:
+For each firmware's provided framebuffer, we prefer a dedicated DRM driver
+tailored towards the platform's feature set. The coreboot framebuffer
+device currently creates a simple-framebuffer device for the provided
+framebuffer aperture. But simple-framebuffer is for DeviceTree nodes; not
+for coreboot. The simple-framebuffer infrastructure should be phased out
+for non-DT use cases. Coreboot is one of the final users of the code
+(besides n64).
 
-[auto build test ERROR on chrome-platform/for-next]
-[also build test ERROR on drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master chrome-platform/for-firmware-next v6.19-rc5 next-20260114]
-[cannot apply to drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Patches 1 to 5 start by fixing problems in the coreboot framebuffer
+implementation. There is a possible dangling pointer, the memory is
+marked as busy, the device hierarchy is incorrect, and a few minor things.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/firmware-google-Do-sysfb-test-before-creating-coreboot-framebuffer/20260108-225542
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260108145058.56943-9-tzimmermann%40suse.de
-patch subject: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601150622.i0pTAj9w-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150622.i0pTAj9w-lkp@intel.com/reproduce)
+Patches 6 to 9 prepare the coreboot support for use by external drivers.
+Specifically, structures for the entries os the coreboot payload table
+have to be exported.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601150622.i0pTAj9w-lkp@intel.com/
+Patches 10 to 12 add corebootdrm, a DRM driver for the new
+coreboot-framebuffer platform device. Corebootdrm follows the pattern
+established by similar drivers. It also uses the same sysfb helpers. It
+is therefore fairly small. With patch 11, it has feature parity with
+simpledrm on the old simple-framebuffer. Patch 12 adds support for panel-
+orientation flags that coreboot makes available.
 
-All errors (new ones prefixed by >>):
+Tested on an HP Chromebook with MrChromebox 4.16. Runs with Weston and
+fbcon. Xorg requires an additional patch available at [1].
 
->> drivers/gpu/drm/sysfb/corebootdrm.c:225:8: error: call to undeclared function 'devm_aperture_acquire_for_coreboot_device'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     225 |         ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
-         |               ^
-   drivers/gpu/drm/sysfb/corebootdrm.c:225:8: note: did you mean 'devm_aperture_acquire_for_platform_device'?
-   include/linux/aperture.h:19:5: note: 'devm_aperture_acquire_for_platform_device' declared here
-      19 | int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
-         |     ^
-   1 error generated.
+v2:
+- keep design of coreboot framebuffer code intact (Julius)
+- fix bugs in the coreboot framebuffer code
+- rewrite corebootdrm as platform device
+- support panel orientation
+
+[1] https://gitlab.freedesktop.org/tzimmermann/xserver/-/commit/0b326aad28549762ed2b0e2bedf8f8a42f1f6b3b
+
+Thomas Zimmermann (12):
+  firmware: google: framebuffer: Do not unregister platform device
+  firmware: google: framebuffer: Do not mark framebuffer as busy
+  firmware: google: framebuffer: Init memory resource with helper macro
+  firmware: google: framebuffer: Tie platform device to PCI hardware
+  firmware: google: framebuffer: Fix dependencies
+  firmware: google: Init coreboot bus with subsys_initcall()
+  firmware: google: Clean up include statements in coreboot_table.h
+  firmware: google: Export coreboot table entries
+  firmware: google: Pack structures for coreboot table entries
+  drm/sysfb: Generalize pixel-format matching
+  drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
+  drm/corebotdrm: Support panel orientation
+
+ MAINTAINERS                                   |   1 +
+ drivers/firmware/google/Kconfig               |   5 +-
+ drivers/firmware/google/cbmem.c               |   1 +
+ drivers/firmware/google/coreboot_table.c      |  13 +-
+ drivers/firmware/google/coreboot_table.h      |  59 +--
+ .../firmware/google/framebuffer-coreboot.c    | 122 +++--
+ drivers/firmware/google/memconsole-coreboot.c |   1 +
+ drivers/firmware/google/vpd.c                 |   1 +
+ drivers/gpu/drm/sysfb/Kconfig                 |  16 +
+ drivers/gpu/drm/sysfb/Makefile                |   1 +
+ drivers/gpu/drm/sysfb/corebootdrm.c           | 434 ++++++++++++++++++
+ drivers/gpu/drm/sysfb/drm_sysfb.c             |  24 +
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |   8 +-
+ drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c |  30 --
+ drivers/gpu/drm/sysfb/efidrm.c                |   8 +-
+ drivers/gpu/drm/sysfb/vesadrm.c               |   8 +-
+ include/linux/coreboot.h                      |  80 ++++
+ 17 files changed, 689 insertions(+), 123 deletions(-)
+ create mode 100644 drivers/gpu/drm/sysfb/corebootdrm.c
+ create mode 100644 include/linux/coreboot.h
 
 
-vim +/devm_aperture_acquire_for_coreboot_device +225 drivers/gpu/drm/sysfb/corebootdrm.c
-
-   162	
-   163	/*
-   164	 * Init / Cleanup
-   165	 */
-   166	
-   167	static int corebootdrm_device_init(struct corebootdrm_device *cdev, struct coreboot_device *cbdev)
-   168	{
-   169		const struct lb_framebuffer *fb = &cbdev->framebuffer;
-   170		struct drm_sysfb_device *sysfb = &cdev->sysfb;
-   171		struct drm_device *dev = &sysfb->dev;
-   172		const struct drm_format_info *format;
-   173		int width, height, pitch;
-   174		u64 address;
-   175		int width_mm = 0, height_mm = 0;
-   176		resource_size_t fb_size, fb_base, fb_pgbase, fb_pgsize;
-   177		struct resource *res, *mem = NULL;
-   178		void __iomem *screen_base;
-   179		struct drm_plane *primary_plane;
-   180		struct drm_crtc *crtc;
-   181		struct drm_encoder *encoder;
-   182		struct drm_connector *connector;
-   183		unsigned long max_width, max_height;
-   184		size_t nformats;
-   185		int ret;
-   186	
-   187		/*
-   188		 * Hardware settings
-   189		 */
-   190	
-   191		format = corebootdrm_get_format_fb(dev, fb);
-   192		if (!format)
-   193			return -EINVAL;
-   194		width = corebootdrm_get_width_fb(dev, fb);
-   195		if (width < 0)
-   196			return width;
-   197		height = corebootdrm_get_height_fb(dev, fb);
-   198		if (height < 0)
-   199			return height;
-   200		pitch = corebootdrm_get_pitch_fb(dev, format, width, fb);
-   201		if (pitch < 0)
-   202			return pitch;
-   203		address = corebootdrm_get_address_fb(dev, height, pitch, fb);
-   204		if (!address)
-   205			return -EINVAL;
-   206	
-   207		sysfb->fb_mode = drm_sysfb_mode(width, height, width_mm, height_mm);
-   208		sysfb->fb_format = format;
-   209		sysfb->fb_pitch = pitch;
-   210	
-   211		drm_dbg(dev, "display mode={" DRM_MODE_FMT "}\n", DRM_MODE_ARG(&sysfb->fb_mode));
-   212		drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, pitch=%d byte\n",
-   213			&format->format, width, height, pitch);
-   214	
-   215		/*
-   216		 * Memory management
-   217		 */
-   218	
-   219		fb_base = address;
-   220		fb_size = pitch * height;
-   221	
-   222		fb_pgbase = round_down(fb_base, PAGE_SIZE);
-   223		fb_pgsize = fb_base - fb_pgbase + round_up(fb_size, PAGE_SIZE);
-   224	
- > 225		ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
-   226		if (ret) {
-   227			drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
-   228			return ret;
-   229		}
-   230	
-   231		drm_dbg(dev, "using I/O memory framebuffer at %pr\n", res);
-   232	
-   233		mem = devm_request_mem_region(&cbdev->dev, fb_pgbase, fb_pgsize, dev_name(&cbdev->dev));
-   234		if (!mem) {
-   235			/*
-   236			 * We cannot make this fatal. Sometimes this comes from magic
-   237			 * spaces our resource handlers simply don't know about. Use
-   238			 * the I/O-memory resource as-is and try to map that instead.
-   239			 */
-   240			drm_warn(dev, "could not acquire memory region %pr\n", res);
-   241			mem = res;
-   242		}
-   243	
-   244		screen_base = devm_ioremap_wc(&cbdev->dev, fb_pgbase, fb_pgsize);
-   245		if (!screen_base)
-   246			return -ENOMEM;
-   247	
-   248		iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
-   249	
-   250		/*
-   251		 * Modesetting
-   252		 */
-   253	
-   254		ret = drmm_mode_config_init(dev);
-   255		if (ret)
-   256			return ret;
-   257	
-   258		max_width = max_t(unsigned long, width, DRM_SHADOW_PLANE_MAX_WIDTH);
-   259		max_height = max_t(unsigned long, height, DRM_SHADOW_PLANE_MAX_HEIGHT);
-   260	
-   261		dev->mode_config.min_width = width;
-   262		dev->mode_config.max_width = max_width;
-   263		dev->mode_config.min_height = height;
-   264		dev->mode_config.max_height = max_height;
-   265		dev->mode_config.preferred_depth = format->depth;
-   266		dev->mode_config.funcs = &corebootdrm_mode_config_funcs;
-   267	
-   268		/* Primary plane */
-   269	
-   270		nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-   271						       cdev->formats, ARRAY_SIZE(cdev->formats));
-   272	
-   273		primary_plane = &cdev->primary_plane;
-   274		ret = drm_universal_plane_init(dev, primary_plane, 0, &corebootdrm_primary_plane_funcs,
-   275					       cdev->formats, nformats,
-   276					       corebootdrm_primary_plane_format_modifiers,
-   277					       DRM_PLANE_TYPE_PRIMARY, NULL);
-   278		if (ret)
-   279			return ret;
-   280		drm_plane_helper_add(primary_plane, &corebootdrm_primary_plane_helper_funcs);
-   281		drm_plane_enable_fb_damage_clips(primary_plane);
-   282	
-   283		/* CRTC */
-   284	
-   285		crtc = &cdev->crtc;
-   286		ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
-   287						&corebootdrm_crtc_funcs, NULL);
-   288		if (ret)
-   289			return ret;
-   290		drm_crtc_helper_add(crtc, &corebootdrm_crtc_helper_funcs);
-   291	
-   292		/* Encoder */
-   293	
-   294		encoder = &cdev->encoder;
-   295		ret = drm_encoder_init(dev, encoder, &corebootdrm_encoder_funcs,
-   296				       DRM_MODE_ENCODER_NONE, NULL);
-   297		if (ret)
-   298			return ret;
-   299		encoder->possible_crtcs = drm_crtc_mask(crtc);
-   300	
-   301		/* Connector */
-   302	
-   303		connector = &cdev->connector;
-   304		ret = drm_connector_init(dev, connector, &corebootdrm_connector_funcs,
-   305					 DRM_MODE_CONNECTOR_Unknown);
-   306		if (ret)
-   307			return ret;
-   308		drm_connector_helper_add(connector, &corebootdrm_connector_helper_funcs);
-   309		drm_connector_set_panel_orientation_with_quirk(connector,
-   310							       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
-   311							       width, height);
-   312	
-   313		ret = drm_connector_attach_encoder(connector, encoder);
-   314		if (ret)
-   315			return ret;
-   316	
-   317		drm_mode_config_reset(dev);
-   318	
-   319		return 0;
-   320	}
-   321	
-
+base-commit: d5b0278e4bea2fb27de6d12b7f865a74072af677
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: a5a973e527c88a5b47053d7a72aefe0b550197cb
+prerequisite-patch-id: 719d09751d38f5da743beed6266585ee063e1e29
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.52.0
+

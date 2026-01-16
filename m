@@ -1,118 +1,157 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E26230274
-	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 18:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBA73A4AAF;
+	Fri, 16 Jan 2026 20:18:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768588326; cv=none; b=VcOomRGKTRK6cr6nDn12YAFIjivoTEoAuJBz75u8bBp/eK5SERTyiiQ6aLzjqNkMYhh32XQDa3/8R56fqPXdMugirlgMdOE2r64UZDG6OFXcyFA+jKBsRvFNNeOVSsyLyyOVxWTYs24OEHnzZP1wR+ewTvZBCzxfZoR/fUBO260=
+	t=1768594739; cv=none; b=emnUJTwKI66lV4IetG10LuEGes8W34INZ3YVW6awwMj6na10Xc2AN1yGUE9jIbVf8gyYpbftUx7nJPZ3DhLKjE2jHCo9v9gjP1tQ/70P6pRwiwYojoGeU2enAoykWyIMUZNY3TUviiMZLvYplC8WUH0PvYaq7B3xRQ9ZZIxgxFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768588326; c=relaxed/simple;
-	bh=Ss7qiRqTeuY+VD+9H9/ZWNCvERV6Dkawhl4DEc9LoVI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tX1CuzGDPUI1VsAvY/XmJbJQjJgVV2W1gpKx/PDVKKWX9vep3Wnv2+lH0FP7M5HqAgfafuIMOL/z6E9hzGWAPhgxITvMRzHsBjEWFCaQ7IYDjGzHtGVgiF5QQcFNBXs3fdl2iliwjNc8EirzXUsb6zf85zAy8K0E0nH2U9HO/sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b4SGA+/1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768594739; c=relaxed/simple;
+	bh=FdKqZ6ZSUrS2whE11MZTAsTR0xEG9d46ZjxxsQnWxL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZvtJg/sG7ERQn/cCoOtcLmG8C898Y3r/ijor9MFMveswCD/Sjhm94Ru/7iNutd3vIO4Th7WYo84mj4jwfF55H8gUUpE2YCkh5i9JFuDovrpdVc5AAsRSkE1VirPbZf6edmCunmDR4r/9HE+y4Xssf7DT4fjCV/rUA8U/t0KGJRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AJn7PKf6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b4SGA+/1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BFA2C2BCB1
-	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 18:32:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AJn7PKf6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C7EC116C6;
+	Fri, 16 Jan 2026 20:18:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768588325;
-	bh=Ss7qiRqTeuY+VD+9H9/ZWNCvERV6Dkawhl4DEc9LoVI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=b4SGA+/1MZXjRUOv6t/Nl8NtJ/OLE9LVuNugo9h6zdSvVvdEmabRufWLmKz2c+Vhy
-	 +bbjsOm4lhhi70Bb2IF6Am1apRaUIVDgVHhHFCf3miqVmjr8J0/X5JrpofEmx0fJ56
-	 u+r9m1oXG4y8YOHIhn/PcguhnDW1O4/mIF346Py2RNG8seasZ29/mxrCec6JtqAkUQ
-	 Fwvrlhpn9jJ6KJydXlQBRPSGu+wcOrk0fIWswrZ41m8XSG1KmGhjtxpqI4QMNfg3hD
-	 QPavFKm/WZDhd1vxAfUkpwj4YQYHogJJfPe5/6H4glBBPFVqo4FzMqC2XDS0QGbAKh
-	 BGxHq+jgsO3Jg==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59b834e3d64so3461797e87.2
-        for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 10:32:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX+324m63xWVySj72Xx3SzyJnlAroPNVqld/ayCTQ0LwUya3NaTzKMrzv7TygpANMXdtaegmwp7vD7257X7thQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDnIc7d67BCwXGY4N5gyxBjZxecdbPCnlnbhBenKRKY+U8mj08
-	vsjGy4ihyXoR2B6fsCps9JY8GOXxF+LdfRj8pv6gxVL5cAssA5UOA37um27mxEIiIUflu6HJtWX
-	L0aL+qFlkFPRtIsy0ewU86H7mM4g2xok0PpnLDQV7vA==
-X-Received: by 2002:a05:6512:b81:b0:59b:9f92:301f with SMTP id
- 2adb3069b0e04-59bafdb63a8mr1058854e87.7.1768588324162; Fri, 16 Jan 2026
- 10:32:04 -0800 (PST)
+	s=k20201202; t=1768594738;
+	bh=FdKqZ6ZSUrS2whE11MZTAsTR0xEG9d46ZjxxsQnWxL8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=AJn7PKf6wkWlVTSUa1OX/xs21PnxV6Nh73AFBVojEmjaF/Ngpl5I2QZeivmEkQzOS
+	 k7GxYIUcAtJZx+vc6R3I06FH6yMUBfk3sQkdFU//HxUtY31uKb1AsWQPfusQGFJ7/H
+	 3lYzbp9rpPGtUnZ56895fuRr/yOLjqTHNCwZYFR4BwlI+VWD4mRmI3BKzzebpBbZAV
+	 QJj8RwskDWeHoKyWMyjhC/143TSuNNjtg1JSsjMAsBOHgzU1TERCVRNh5NgYAkX13W
+	 PHz5q/jh80r6Q/nBHXjP+N/up/ZRcqZtV9EUeMyeB8679TconU79/3ErJoKxn5DwJ0
+	 T2ddKdrfKOl/g==
+Date: Fri, 16 Jan 2026 20:18:47 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Kurt Borja <kuurtb@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Benson
+ Leung <bleung@chromium.org>, Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Gwendal Grignou <gwendal@chromium.org>, Shrikant Raskar
+ <raskar.shree97@gmail.com>, Per-Daniel Olsson <perdaniel.olsson@axis.com>,
+ David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Guenter Roeck
+ <groeck@chromium.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v3 1/7] iio: core: Add and export __iio_dev_mode_lock()
+Message-ID: <20260116201847.3560a2e2@jic23-huawei>
+In-Reply-To: <20260106-lock-impr-v3-1-1db909b192c0@gmail.com>
+References: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
+	<20260106-lock-impr-v3-1-1db909b192c0@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260116080235.350305-1-tzungbi@kernel.org> <20260116080235.350305-2-tzungbi@kernel.org>
- <DFQ45FWO4XHC.2BW7I9LGC76WT@kernel.org> <CAMRc=Medaqr5UPimc8o+VTy=9MgU5p8AXjArisQfBNqi7ktSGg@mail.gmail.com>
- <20260116160424.GA14499@pendragon.ideasonboard.com> <DFQ5W41X6Z7S.3V6FRPXYMDJ1F@kernel.org>
- <CAMRc=MfAZxzd2hjqgDsXBR+UxgkaEQX0vR5nNZ=a+5WccUb4GQ@mail.gmail.com> <20260116182431.GA1134360@nvidia.com>
-In-Reply-To: <20260116182431.GA1134360@nvidia.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 16 Jan 2026 19:31:51 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McsrthHS4kcV7UkmdVFS4nr9vXe8Z_kQODvMUYxVkE8KQ@mail.gmail.com>
-X-Gm-Features: AZwV_QhX6LG8DkljEPjMvfuFGbrj6wIYYufM6rhcWWImQbypzvqc5Ui2tF-rlh8
-Message-ID: <CAMRc=McsrthHS4kcV7UkmdVFS4nr9vXe8Z_kQODvMUYxVkE8KQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/3] revocable: Revocable resource management
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 16, 2026 at 7:24=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Fri, Jan 16, 2026 at 07:19:50PM +0100, Bartosz Golaszewski wrote:
-> > On Fri, Jan 16, 2026 at 5:41=E2=80=AFPM Danilo Krummrich <dakr@kernel.o=
-rg> wrote:
-> > >
-> > > On Fri Jan 16, 2026 at 5:04 PM CET, Laurent Pinchart wrote:
-> > > > Based on the discussions we had at LPC, the revocable resource mana=
-gement API
-> > > > is not the right solution to handle races between device removal an=
-d userspace
-> > > > access.
-> > >
-> > > Please see: https://lore.kernel.org/all/DFQ5D44A0348.PZJIGPL972N@kern=
-el.org/
-> > >
-> > > > It is however a possibly useful tool for races between producers an=
-d consumers
-> > > > *inside the kernel*.
-> > >
-> > > Do you have an example for such a case?
-> >
-> > Isn't the GPIO use-case - which the series on top of it addresses - one=
-?
-> >
-> > With fw_devlink=3Doff it's quite easy to trigger all kinds of crashes
-> > with in-kernel users.
->
-> Does this series solve that? It looked to me like it just replaces the
-> existing SRCU with a wrapper?
->
+On Tue, 06 Jan 2026 03:06:56 -0500
+Kurt Borja <kuurtb@gmail.com> wrote:
 
-SRCU already *did* solve it. Revocable *is* a wrapper around SRCU that
-generalizes the initial solution.
+> Add unconditional wrappers around the internal IIO mode lock.
+> 
+> As mentioned in the documentation, this is not meant to be used by
+> drivers, instead this will aid in the eventual addition of cleanup
+> classes around conditional locks.
+> 
+> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+Hi Kurt,
 
-Replacing SRCU with a generalized wrapper is fine but there are
-subsystems out there, where the problem is much less trivial. Take I2C
-for example: the struct device management is so broken that there
-isn't even anything *to revoke* yet. It'll take years of little
-reworks before we can even use revocable at all.
+I'm being a bit conservative in looking to apply this so apologies
+if it seems like I'm ignoring you! I wanted to give plenty of time
+for others to take a look.
 
-I'm not against it as a library of functions. But TBH I looked at the
-series and - besides making the code run slower - it also kind of
-makes it harder to read. With *naked* SRCU it's very clear what's
-going on, when you start hiding the logic, it becomes needlessly
-obfuscated.
+A few comments, but if we go with this version I'll tweak the
+punctuation if I remember whilst applying.
 
-I want to first see revocable match current GPIO performance and then
-we can talk about accepting it.
+Jonathan
 
-Bartosz
+
+> ---
+>  drivers/iio/industrialio-core.c | 30 ++++++++++++++++++++++++++++++
+>  include/linux/iio/iio.h         |  3 +++
+>  2 files changed, 33 insertions(+)
+> 
+> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+> index f69deefcfb6f..34867a860a84 100644
+> --- a/drivers/iio/industrialio-core.c
+> +++ b/drivers/iio/industrialio-core.c
+> @@ -2171,6 +2171,36 @@ int __devm_iio_device_register(struct device *dev, struct iio_dev *indio_dev,
+>  }
+>  EXPORT_SYMBOL_GPL(__devm_iio_device_register);
+>  
+> +/**
+> + * __iio_dev_mode_lock - Locks the current IIO device mode
+> + * @indio_dev: the iio_dev associated with the device
+> + *
+> + * If the device is either in direct or buffer mode, it's guaranteed to stay
+> + * that way until __iio_dev_mode_unlock() is called.
+> + *
+> + * This function is not meant to be used directly by drivers to protect internal
+> + * state, a driver should have it's own mechanisms for that matter.
+
+Nitpick, shouldn't be a comma.  Either
+
+ * This function is not meant to be used directly by drivers to protect internal
+ * state. A driver should have it's own mechanisms for that matter.
+
+or if you like fancy uses of the semi colon.
+
+ * This function is not meant to be used directly by drivers to protect internal
+ * state; a driver should have it's own mechanisms for that matter.
+
+> + *
+> + * There are very few cases where a driver actually needs to lock the current
+> + * mode unconditionally. It's recommended to use iio_device_claim_direct() or
+> + * iio_device_claim_buffer_mode() pairs or related helpers instead.
+> + */
+> +void __iio_dev_mode_lock(struct iio_dev *indio_dev)
+> +{
+> +	mutex_lock(&to_iio_dev_opaque(indio_dev)->mlock);
+> +}
+> +EXPORT_SYMBOL_GPL(__iio_dev_mode_lock);
+> +
+> +/**
+> + * __iio_dev_mode_unlock - Unlocks the current IIO device mode
+> + * @indio_dev: the iio_dev associated with the device
+> + */
+> +void __iio_dev_mode_unlock(struct iio_dev *indio_dev)
+> +{
+> +	mutex_unlock(&to_iio_dev_opaque(indio_dev)->mlock);
+> +}
+> +EXPORT_SYMBOL_GPL(__iio_dev_mode_unlock);
+> +
+>  /**
+>   * __iio_device_claim_direct - Keep device in direct mode
+>   * @indio_dev:	the iio_dev associated with the device
+> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+> index 872ebdf0dd77..aecda887d833 100644
+> --- a/include/linux/iio/iio.h
+> +++ b/include/linux/iio/iio.h
+> @@ -661,6 +661,9 @@ void iio_device_unregister(struct iio_dev *indio_dev);
+>  int __devm_iio_device_register(struct device *dev, struct iio_dev *indio_dev,
+>  			       struct module *this_mod);
+>  int iio_push_event(struct iio_dev *indio_dev, u64 ev_code, s64 timestamp);
+> +
+> +void __iio_dev_mode_lock(struct iio_dev *indio_dev) __acquires(indio_dev);
+> +void __iio_dev_mode_unlock(struct iio_dev *indio_dev) __releases(indio_dev);
+This is an interesting notation choice as there are several locks embedded
+in iio_devs but I think it is the only one we want to expose so fair enough
+if we don't see any false warnings from this!
+
+Jonathan
+
+>  bool __iio_device_claim_direct(struct iio_dev *indio_dev);
+>  void __iio_device_release_direct(struct iio_dev *indio_dev);
+>  
+> 
+

@@ -1,129 +1,190 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE9D30B50B
-	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 10:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5B036D51F;
+	Fri, 16 Jan 2026 11:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768559713; cv=none; b=fneVydaPpEI8t5CV6NK3gDMXPDnMePb0IyUGWhi34UtwTgyOYOFEw2m6Ab+2UsLkmEkA82ArEZtSlHrb7QBE/oZb5fv+LKSOBfE/xKY4cj5LNfvJjP+sAI3BLkzYfJVmI3zQvsYhXstERR0O6Di1T3LxFPJ5WFYOaf4yk40SMmo=
+	t=1768562501; cv=none; b=Ttq2DAMODV0BDTd8+Hie3s/wswsMeYUhfYsHFiuROZvUUXQdj1TgZRHOj1sIRhVmmXpf/F8uT6PrmZNKDYu63AaCux28qxQeiBJdHoUExrlXZl65OWl24nn5lTW2DB9FzMICkbZVm0OZLJdDQ73FpyYsu/I3ObCxhN18fcMK7Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768559713; c=relaxed/simple;
-	bh=KSWdzg1gOF99TWW9j8m3/qPK4vSpI6A17JhlDPLJ2Bo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iV1hl4+mrGLN+AeYvef0mazJoU1KH/LTXta1opwUxedFG34XnwEKmtvfkRr/fEcZn97SomztMqHU+nNywvcRPPyYafhutHeQwWkU1ygZ6+h72iiQIBCi9sy0ylhxr4jjeol2h+KkWvboETRee1TNHVNQB8IhHN/KVkQXdZ2rqA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ndol4E9z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768562501; c=relaxed/simple;
+	bh=uzmgy23XlDPZ47f+gzIkOgAH7PZE9VKM/yt+dTRX+qY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VlXsSxGN2TDf04QqWnN01xcSkPx1NmEpKIkxoeAyflprN2oPdvJOdRIABZuPWEA1QZK7FnkG8PRtJj5eHJ1A3etSZ5KZGbDgmpA0c7gokO017VR9lgKHXac8m2GJpH8UHKLzrpMCNkWm2jxoIimlorC6U/8eh2nSH742dWEpSwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HhlGg6RM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ndol4E9z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7767FC2BCB0
-	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 10:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768559713;
-	bh=KSWdzg1gOF99TWW9j8m3/qPK4vSpI6A17JhlDPLJ2Bo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ndol4E9zjVO1ob4hrYysx78HhwXkjOZJFcbgg7kxOXZhCewB1CtxSq1IkIfEGN1TD
-	 QSY2Bg5odi00tZNaQk9ghQBIr6tfn5qohAUjz0QfKk4w5yWlOjIBnlFtoEza67yMbW
-	 m+ZN9kIoFxbDdbAZErN6tMERO0cHpCRpcvuJPI4olZaoUsO1TpY+AzRYKIg0Gkzr9y
-	 s/p4chGdD4LSkQHzhE33zscjD5wytXNw2Mc4JUxwiNwP0y5sjZh0GusGaavTgPPsHL
-	 a/4iWrbsCV8/AI252oKl72yFcbBz6T5c/j/XPwnrMasIxv7RjOPId+4VJa8vyp7R4k
-	 aZRSLIyvTc0Mw==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59b6f04cae6so1941005e87.2
-        for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 02:35:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV70rj1atP9BZNJKdF+C5VNaEIBxkUnoC2GUrJbEK2p/HvoC1rBS7/IzlFa8MqJGSupS/JmXid1Zumj7ZgmOtI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLXq4xdnlm8lBu95ppO1UDMrPXXZI++XVkX3oZw7SQ3NxEfdyN
-	P/cr2Yb9EqI5Z3elLjTCZMHPLTMK4lWVSt2OkKVJW3ahz6T3FMNSTQ2AXndxXJImdZ1J/e31la0
-	GF5BFHYHBPYxfudKZZV9WNNnWiFM6BNHbNKrQeRC9Hg==
-X-Received: by 2002:a05:6512:3b0a:b0:59b:707d:1db5 with SMTP id
- 2adb3069b0e04-59baeef6ef6mr744298e87.29.1768559712051; Fri, 16 Jan 2026
- 02:35:12 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HhlGg6RM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0198CC116C6;
+	Fri, 16 Jan 2026 11:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1768562500;
+	bh=uzmgy23XlDPZ47f+gzIkOgAH7PZE9VKM/yt+dTRX+qY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HhlGg6RM1asu68X7YXKJNhD13gK6KljJJRHtw/TJWcisMfBjXyFX50bi4pqkhp4zZ
+	 QD12jE25fACmx+8mLLnbWY/sJ3MH5WOa91Ricr1Te5Qcf6bDiSX1xdXkVD50X2G7VZ
+	 wHZdQqV2J8cakMKb8/tT7j42GfJIw/Jd2Oq210tA=
+Date: Fri, 16 Jan 2026 12:21:37 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Andrei Kuchynski <akuchynski@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
+	Abel Vesa <abel.vesa@linaro.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>, Madhu M <madhu.m@intel.com>,
+	Venkat Jayaraman <venkat.jayaraman@intel.com>
+Subject: Re: [PATCH v4 4/8] usb: typec: Expose alternate mode priority via
+ sysfs
+Message-ID: <2026011625-demanding-gap-8815@gregkh>
+References: <20260113130536.3068311-1-akuchynski@chromium.org>
+ <20260113130536.3068311-5-akuchynski@chromium.org>
+ <aWj6vLt3iHXjuYjz@kuha>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260116081036.352286-1-tzungbi@kernel.org>
-In-Reply-To: <20260116081036.352286-1-tzungbi@kernel.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 16 Jan 2026 11:35:00 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
-X-Gm-Features: AZwV_QgMLckxVJmhlVGfz2mb8tqX8HZItwcSTfGc8Lsh6N3NsV87v74hAVT04jE
-Message-ID: <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
-Subject: Re: [PATCH 00/23] gpiolib: Adopt revocable mechanism for UAF prevention
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWj6vLt3iHXjuYjz@kuha>
 
-On Fri, Jan 16, 2026 at 9:11=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> This series transitions the UAF prevention logic within the GPIO core
-> (gpiolib) to use the 'revocable' mechanism.
->
-> The existing code aims to prevent UAF issues when the underlying GPIO
-> chip is removed.  This series replaces that custom logic with the
-> generic 'revocable' API, which is designed to handle such lifecycle
-> dependencies.  There should be no change in behavior.
->
-> This series depends on the 'revocable' API, introduced in [1].  Some
-> build bots may report errors due to undefined symbols related to
-> 'revocable' until the dependency is merged.
->
+On Thu, Jan 15, 2026 at 04:33:32PM +0200, Heikki Krogerus wrote:
+> Hi Andrei,
+> 
+> Tue, Jan 13, 2026 at 01:05:32PM +0000, Andrei Kuchynski kirjoitti:
+> > This patch introduces a priority sysfs attribute to the USB Type-C
+> > alternate mode port interface. This new attribute allows user-space to
+> > configure the numeric priority of alternate modes managing their preferred
+> > order of operation. If a new priority value conflicts with an existing
+> > mode's priority, the priorities of the conflicting mode and all subsequent
+> > modes are automatically incremented to ensure uniqueness.
+> > 
+> > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> > Reviewed-by: Benson Leung <bleung@chromium.org>
+> > ---
+> >  Documentation/ABI/testing/sysfs-class-typec | 11 +++
+> >  drivers/usb/typec/class.c                   | 90 ++++++++++++++++++++-
+> >  include/linux/usb/typec_altmode.h           |  1 +
+> >  3 files changed, 101 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
+> > index 38e101c17a004..737b76828b509 100644
+> > --- a/Documentation/ABI/testing/sysfs-class-typec
+> > +++ b/Documentation/ABI/testing/sysfs-class-typec
+> > @@ -162,6 +162,17 @@ Description:	Lists the supported USB Modes. The default USB mode that is used
+> >  		- usb3 (USB 3.2)
+> >  		- usb4 (USB4)
+> >  
+> > +What:		/sys/class/typec/<port>/<alt-mode>/priority
+> > +Date:		July 2025
+> > +Contact:	Andrei Kuchynski <akuchynski@chromium.org>
+> > +Description:
+> > +		Displays and allows setting the priority for a specific alternate mode.
+> > +		The priority is an integer in the range 0-255. A lower numerical value
+> > +		indicates a higher priority (0 is the highest).
+> > +		If the new value is already in use by another mode, the priority of the
+> > +		conflicting mode and any subsequent modes will be incremented until they
+> > +		are all unique.
+> 
+> Greg already told you to show the range somehow with this, so the
+> total number of (so far known?) alternate modes. Maybe something like
+> <index> / <total_num_altmodes> ?
+> 
+> >  USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
+> >  
+> >  What:		/sys/class/typec/<port>-partner/accessory_mode
+> > diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> > index 0f12d6120511b..1fb5450c0a2f2 100644
+> > --- a/drivers/usb/typec/class.c
+> > +++ b/drivers/usb/typec/class.c
+> > @@ -445,11 +445,88 @@ svid_show(struct device *dev, struct device_attribute *attr, char *buf)
+> >  }
+> >  static DEVICE_ATTR_RO(svid);
+> >  
+> > +static int increment_duplicated_priority(struct device *dev, void *data)
+> > +{
+> > +	if (is_typec_port_altmode(dev)) {
+> > +		struct typec_altmode **alt_target = (struct typec_altmode **)data;
+> > +		struct typec_altmode *alt = to_typec_altmode(dev);
+> > +
+> > +		if (alt != *alt_target && alt->priority == (*alt_target)->priority) {
+> > +			alt->priority++;
+> > +			*alt_target = alt;
+> > +			return 1;
+> > +		}
+> > +	}
+> > +	return 0;
+> > +}
+> > +
+> > +static int find_duplicated_priority(struct device *dev, void *data)
+> > +{
+> > +	if (is_typec_port_altmode(dev)) {
+> > +		struct typec_altmode **alt_target = (struct typec_altmode **)data;
+> > +		struct typec_altmode *alt = to_typec_altmode(dev);
+> > +
+> > +		if (alt != *alt_target && alt->priority == (*alt_target)->priority)
+> > +			return 1;
+> > +	}
+> > +	return 0;
+> > +}
+> > +
+> > +static int typec_mode_set_priority(struct typec_altmode *alt, const u8 priority)
+> > +{
+> > +	struct typec_port *port = to_typec_port(alt->dev.parent);
+> > +	const u8 old_priority = alt->priority;
+> > +	int res = 1;
+> > +
+> > +	alt->priority = priority;
+> > +	while (res) {
+> > +		res = device_for_each_child(&port->dev, &alt, find_duplicated_priority);
+> > +		if (res) {
+> > +			alt->priority++;
+> > +			if (alt->priority == 0) {
+> > +				alt->priority = old_priority;
+> > +				return -EOVERFLOW;
+> > +			}
+> > +		}
+> > +	}
+> > +
+> > +	res = 1;
+> > +	alt->priority = priority;
+> > +	while (res)
+> > +		res = device_for_each_child(&port->dev, &alt,
+> > +				increment_duplicated_priority);
+> 
+> Please align the code properly.
+> 
+> > +	return 0;
+> > +}
+> > +
+> > +static ssize_t priority_store(struct device *dev,
+> > +			       struct device_attribute *attr,
+> > +			       const char *buf, size_t size)
+> > +{
+> > +	u8 val;
+> > +	int err = kstrtou8(buf, 10, &val);
+> > +
+> > +	if (!err)
+> > +		err = typec_mode_set_priority(to_typec_altmode(dev), val);
+> > +
+> > +	if (!err)
+> > +		return size;
+> > +	return err;
+> 
+> I know not everybody likes the ternary operator, but I would just
+> 
+>         return err ?: size;
 
-Hi Tzung-Bi!
+I hate it, so this is fine as is :)
 
-Thank you for doing this and considering my suggestions from LPC. I
-haven't looked at the code yet but I quickly tested the series with my
-regular test-suites. The good news is: nothing is broken, every test
-works fine. The bad news is: there seems to be a significant impact on
-performance. With the user-space test-suite from libgpiod (for core C
-library - gpiod-test) I'm seeing a consistent 40% impact on
-performance. That's not really acceptable. :( I will try to bisect the
-series later and see which part exactly breaks it.
+thanks,
 
-I can also help you with user-space testing with libgpiod, if you need
-it? Some documentation is available here:
-https://libgpiod.readthedocs.io/en/latest/testing.html
-
-> [1] https://lore.kernel.org/chrome-platform/20260116080235.350305-1-tzung=
-bi@kernel.org
->
-> Tzung-Bi Shih (23):
->   gpiolib: Correct wrong kfree() usage for `kobj->name`
->   gpiolib: cdev: Fix resource leaks on errors in gpiolib_cdev_register()
->   gpiolib: Fix resource leaks on errors in gpiochip_add_data_with_key()
->   gpiolib: Fix resource leaks on errors in lineinfo_changed_notify()
->   gpiolib: cdev: Correct return code on memory allocation failure
->
-> =3D> The first 5 patches are fixes.  They aren't directly related to the
->    replacement, and should be able to apply independently.
->
-
-Awesome, I'll make them a priority.
-
->   gpiolib: Access `gpio_bus_type` in gpiochip_setup_dev()
->   gpiolib: Remove redundant check for struct gpio_chip
->   gpiolib: sysfs: Remove redundant check for struct gpio_chip
->   gpiolib: Ensure struct gpio_chip for gpiochip_setup_dev()
->   gpiolib: cdev: Don't check struct gpio_chip in gpio_chrdev_open()
->
-> =3D> The following 5 patches are refactors.  Makes the subsequent changes
->    easier or at least clear.
->
->   selftests: gpio: Add gpio-cdev-uaf tests
->
-> =3D> The following patch adds kselftest cases for some classic UAF
->    scenarios.
->
-
-Thanks, these too look like v7.0 material for me. I'll try to review
-these ASAP too.
-
-Bart
+greg k-h

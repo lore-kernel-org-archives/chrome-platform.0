@@ -1,190 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5B036D51F;
-	Fri, 16 Jan 2026 11:21:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6982823BD06
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 13:15:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768562501; cv=none; b=Ttq2DAMODV0BDTd8+Hie3s/wswsMeYUhfYsHFiuROZvUUXQdj1TgZRHOj1sIRhVmmXpf/F8uT6PrmZNKDYu63AaCux28qxQeiBJdHoUExrlXZl65OWl24nn5lTW2DB9FzMICkbZVm0OZLJdDQ73FpyYsu/I3ObCxhN18fcMK7Oo=
+	t=1768569320; cv=none; b=ZY+ValHNW6yxEksWqneyA305HhDWpdN+CcQ1fiOxVqnNwli+3SFiNXpeNfVBk8EXig0LnQ4CRisoNLqJKKCSthmsfa/h8ItQLUjF8qdnpeVHI+9zHBqOkwZivDkzhT4p52JBVoGD2xkRoSiR3RSNBD0uB7JEuXN87x75Bogu7mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768562501; c=relaxed/simple;
-	bh=uzmgy23XlDPZ47f+gzIkOgAH7PZE9VKM/yt+dTRX+qY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VlXsSxGN2TDf04QqWnN01xcSkPx1NmEpKIkxoeAyflprN2oPdvJOdRIABZuPWEA1QZK7FnkG8PRtJj5eHJ1A3etSZ5KZGbDgmpA0c7gokO017VR9lgKHXac8m2GJpH8UHKLzrpMCNkWm2jxoIimlorC6U/8eh2nSH742dWEpSwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HhlGg6RM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768569320; c=relaxed/simple;
+	bh=F0zejtQsFxq+RFGdR3iowVouDSNSub03rMOOO/DadmM=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=b3V8dbQuaEf7RA9dnV6Bhua5sIjaDdeLTLI8jxPibzn6N64HIsQUNGu32YzFjGV8Aof4QR35MyYV6YTdKV4y+DxeDwVMTDVgCpPvGbqvRTOAjR20izhpWUno6PkpM5mso8c6g4VSdf63ynVfymbNMKbWTWoQVKDvc8mUgf72O8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XgcXouMJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HhlGg6RM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0198CC116C6;
-	Fri, 16 Jan 2026 11:21:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768562500;
-	bh=uzmgy23XlDPZ47f+gzIkOgAH7PZE9VKM/yt+dTRX+qY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HhlGg6RM1asu68X7YXKJNhD13gK6KljJJRHtw/TJWcisMfBjXyFX50bi4pqkhp4zZ
-	 QD12jE25fACmx+8mLLnbWY/sJ3MH5WOa91Ricr1Te5Qcf6bDiSX1xdXkVD50X2G7VZ
-	 wHZdQqV2J8cakMKb8/tT7j42GfJIw/Jd2Oq210tA=
-Date: Fri, 16 Jan 2026 12:21:37 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Andrei Kuchynski <akuchynski@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>, Madhu M <madhu.m@intel.com>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>
-Subject: Re: [PATCH v4 4/8] usb: typec: Expose alternate mode priority via
- sysfs
-Message-ID: <2026011625-demanding-gap-8815@gregkh>
-References: <20260113130536.3068311-1-akuchynski@chromium.org>
- <20260113130536.3068311-5-akuchynski@chromium.org>
- <aWj6vLt3iHXjuYjz@kuha>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XgcXouMJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B4DDC2BC87
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 13:15:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768569320;
+	bh=F0zejtQsFxq+RFGdR3iowVouDSNSub03rMOOO/DadmM=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=XgcXouMJNUoG6WpBiXxL9gT9CCq/mOISBP6ZpjC5wQxLiE1J5koGWpNtEjVRyWJbL
+	 DE9pVJJM607nFdFx7SfyyXD4DjGUZwbpPlIhA3Bsji+L+yhKzYQa5B/Pks/8JsIeY+
+	 GbR7PwJgiVlwN9n4REV6Vriu2Wptoop1OcQPJMTH5S4XpUtQ5LSGqkKr4CuaksRFLT
+	 lRnbhQxFmg+ebNYejENnbG8ecxX1v/ORJbesoD4Xk5fBFTvJx802KY8yYNdQ3RzNor
+	 b5yGG4pW7oae+1qbdONKqATe32iX/xjVKoY9zlsr1AkcnbNhTC0Hs28FN65XWIOB+m
+	 F3qHNnauKyWGA==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59b67388c9cso2556074e87.2
+        for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 05:15:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVNSDvqLYI2F3Mc7Un9kAiZilp3Pj6SIapBKG60oQRxhkiYCADl0JrFDupthJZY2lZGCMaYsSpG0pqip03XyQQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzeAuHMf+FrnqFbo0AAPincdijhpsQNbShjgdRgPem0mlQj0D4J
+	+CaQXzfm9kp9i4CafMrh5EOecL1teWCXhjD7geUdKxwmx/rUGftcEp17KLpL9r32mN9HdLyWkdN
+	zR9I3laW5QUTOEbpsSkGBB8b7gC74g/hD2dbcpRkW3w==
+X-Received: by 2002:a05:6512:32c8:b0:598:eef2:e209 with SMTP id
+ 2adb3069b0e04-59baeec26ebmr1143109e87.5.1768569318553; Fri, 16 Jan 2026
+ 05:15:18 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 16 Jan 2026 13:15:17 +0000
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 16 Jan 2026 13:15:17 +0000
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260116081036.352286-2-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aWj6vLt3iHXjuYjz@kuha>
+References: <20260116081036.352286-1-tzungbi@kernel.org> <20260116081036.352286-2-tzungbi@kernel.org>
+Date: Fri, 16 Jan 2026 13:15:17 +0000
+X-Gmail-Original-Message-ID: <CAMRc=MeiQho5mfxGsL1AZ60brCzfox64XQao=xWnxMsdHF2-vA@mail.gmail.com>
+X-Gm-Features: AZwV_QjtzprOMqG2qDnke0_Bxhon5JnActWvxaD629LTW7BB9RenENKWKCocUJE
+Message-ID: <CAMRc=MeiQho5mfxGsL1AZ60brCzfox64XQao=xWnxMsdHF2-vA@mail.gmail.com>
+Subject: Re: [PATCH 01/23] gpiolib: Correct wrong kfree() usage for `kobj->name`
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org, 
+	stable@vger.kernel.org, Benson Leung <bleung@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 15, 2026 at 04:33:32PM +0200, Heikki Krogerus wrote:
-> Hi Andrei,
-> 
-> Tue, Jan 13, 2026 at 01:05:32PM +0000, Andrei Kuchynski kirjoitti:
-> > This patch introduces a priority sysfs attribute to the USB Type-C
-> > alternate mode port interface. This new attribute allows user-space to
-> > configure the numeric priority of alternate modes managing their preferred
-> > order of operation. If a new priority value conflicts with an existing
-> > mode's priority, the priorities of the conflicting mode and all subsequent
-> > modes are automatically incremented to ensure uniqueness.
-> > 
-> > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> > Reviewed-by: Benson Leung <bleung@chromium.org>
-> > ---
-> >  Documentation/ABI/testing/sysfs-class-typec | 11 +++
-> >  drivers/usb/typec/class.c                   | 90 ++++++++++++++++++++-
-> >  include/linux/usb/typec_altmode.h           |  1 +
-> >  3 files changed, 101 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-> > index 38e101c17a004..737b76828b509 100644
-> > --- a/Documentation/ABI/testing/sysfs-class-typec
-> > +++ b/Documentation/ABI/testing/sysfs-class-typec
-> > @@ -162,6 +162,17 @@ Description:	Lists the supported USB Modes. The default USB mode that is used
-> >  		- usb3 (USB 3.2)
-> >  		- usb4 (USB4)
-> >  
-> > +What:		/sys/class/typec/<port>/<alt-mode>/priority
-> > +Date:		July 2025
-> > +Contact:	Andrei Kuchynski <akuchynski@chromium.org>
-> > +Description:
-> > +		Displays and allows setting the priority for a specific alternate mode.
-> > +		The priority is an integer in the range 0-255. A lower numerical value
-> > +		indicates a higher priority (0 is the highest).
-> > +		If the new value is already in use by another mode, the priority of the
-> > +		conflicting mode and any subsequent modes will be incremented until they
-> > +		are all unique.
-> 
-> Greg already told you to show the range somehow with this, so the
-> total number of (so far known?) alternate modes. Maybe something like
-> <index> / <total_num_altmodes> ?
-> 
-> >  USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
-> >  
-> >  What:		/sys/class/typec/<port>-partner/accessory_mode
-> > diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> > index 0f12d6120511b..1fb5450c0a2f2 100644
-> > --- a/drivers/usb/typec/class.c
-> > +++ b/drivers/usb/typec/class.c
-> > @@ -445,11 +445,88 @@ svid_show(struct device *dev, struct device_attribute *attr, char *buf)
-> >  }
-> >  static DEVICE_ATTR_RO(svid);
-> >  
-> > +static int increment_duplicated_priority(struct device *dev, void *data)
-> > +{
-> > +	if (is_typec_port_altmode(dev)) {
-> > +		struct typec_altmode **alt_target = (struct typec_altmode **)data;
-> > +		struct typec_altmode *alt = to_typec_altmode(dev);
-> > +
-> > +		if (alt != *alt_target && alt->priority == (*alt_target)->priority) {
-> > +			alt->priority++;
-> > +			*alt_target = alt;
-> > +			return 1;
-> > +		}
-> > +	}
-> > +	return 0;
-> > +}
-> > +
-> > +static int find_duplicated_priority(struct device *dev, void *data)
-> > +{
-> > +	if (is_typec_port_altmode(dev)) {
-> > +		struct typec_altmode **alt_target = (struct typec_altmode **)data;
-> > +		struct typec_altmode *alt = to_typec_altmode(dev);
-> > +
-> > +		if (alt != *alt_target && alt->priority == (*alt_target)->priority)
-> > +			return 1;
-> > +	}
-> > +	return 0;
-> > +}
-> > +
-> > +static int typec_mode_set_priority(struct typec_altmode *alt, const u8 priority)
-> > +{
-> > +	struct typec_port *port = to_typec_port(alt->dev.parent);
-> > +	const u8 old_priority = alt->priority;
-> > +	int res = 1;
-> > +
-> > +	alt->priority = priority;
-> > +	while (res) {
-> > +		res = device_for_each_child(&port->dev, &alt, find_duplicated_priority);
-> > +		if (res) {
-> > +			alt->priority++;
-> > +			if (alt->priority == 0) {
-> > +				alt->priority = old_priority;
-> > +				return -EOVERFLOW;
-> > +			}
-> > +		}
-> > +	}
-> > +
-> > +	res = 1;
-> > +	alt->priority = priority;
-> > +	while (res)
-> > +		res = device_for_each_child(&port->dev, &alt,
-> > +				increment_duplicated_priority);
-> 
-> Please align the code properly.
-> 
-> > +	return 0;
-> > +}
-> > +
-> > +static ssize_t priority_store(struct device *dev,
-> > +			       struct device_attribute *attr,
-> > +			       const char *buf, size_t size)
-> > +{
-> > +	u8 val;
-> > +	int err = kstrtou8(buf, 10, &val);
-> > +
-> > +	if (!err)
-> > +		err = typec_mode_set_priority(to_typec_altmode(dev), val);
-> > +
-> > +	if (!err)
-> > +		return size;
-> > +	return err;
-> 
-> I know not everybody likes the ternary operator, but I would just
-> 
->         return err ?: size;
+On Fri, 16 Jan 2026 09:10:14 +0100, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> `kobj->name` should be freed by kfree_const()[1][2].  Correct it.
+>
+> [1] https://elixir.bootlin.com/linux/v6.18/source/lib/kasprintf.c#L41
+> [2] https://elixir.bootlin.com/linux/v6.18/source/lib/kobject.c#L695
+>
 
-I hate it, so this is fine as is :)
+Please don't add links third-party groks to git commit messages.
 
-thanks,
+> Cc: stable@vger.kernel.org
+> Fixes: c351bb64cbe6 ("gpiolib: free device name on error path to fix kmemleak")
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+>  drivers/gpio/gpiolib.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> index 5eb918da7ea2..ba9323432e3a 100644
+> --- a/drivers/gpio/gpiolib.c
+> +++ b/drivers/gpio/gpiolib.c
+> @@ -1263,7 +1263,7 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
+>  err_free_descs:
+>  	kfree(gdev->descs);
+>  err_free_dev_name:
+> -	kfree(dev_name(&gdev->dev));
+> +	kfree_const(dev_name(&gdev->dev));
+>  err_free_ida:
+>  	ida_free(&gpio_ida, gdev->id);
+>  err_free_gdev:
+> --
+> 2.52.0.457.g6b5491de43-goog
+>
+>
 
-greg k-h
+I've never paid attention to this bit but it really looks broken. I understand
+that this string won't get freed until we initialize refcounting on the
+underlying kobject but reaching two abstraction layers below to get the string
+for freeing out of the kobject looks incorrect to me.
+
+It's also one of only two instances of doing kfree(dev_name(dev)), the other
+one being in drivers/scsi/hosts.c.
+
+It looks to me that the device name is not really used in
+gpiochip_add_data_with_key(). Can we move dev_set_name() after
+device_initialize()?
+
+Bart

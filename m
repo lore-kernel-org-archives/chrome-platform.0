@@ -1,66 +1,66 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41442EB5A1
-	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 22:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44B82DE703
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 22:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768601042; cv=none; b=J5UEL8uaiPjG64HWGxOxN5Q75aJ3uFEWGTKCxiv5Cam1TMw1skVWJLD7sXJ8+y6AImOP0YYobyKqZp2vMCutD0u0UERMH2PX7RNIratOJSggrHAVuIaBubvhtvg7EBX2EMo6914gLmOwnJXdOh5xbEJzj3vt5t0nakZmXzy4O40=
+	t=1768601291; cv=none; b=C51KkHplsfGg3rDViIcQcpucZKAy1v031scno1b2mGjGBTi2tTML+xFOoI3HvNWma2Q4RC38QcYs8Lk0NpCBHyY79S18NdWasKxiJTJwfmPbRTlns1LrrNntx2LrvyuEm/WGzmL+W1t5+UGBYBlQul5J3v39nKMRyGTRnqqXsZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768601042; c=relaxed/simple;
-	bh=6tyjTajdOQh6J57U/rMOsH8jV3xfmFKJ5YGgVVF1VoE=;
+	s=arc-20240116; t=1768601291; c=relaxed/simple;
+	bh=oEe9OHwJMl1JJM8nh2NuUNyf1hkrjraAipLQfPvexEY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WfaaFpds5AK5SBdF7Des3+xGa0I5JT5Sq7tpYQAo2tQVfA59oSvWyOMofzBh1DY5tIrA25ZM0MCc1CzJ9OOdnKCXw0oiaDU8MGRr4CXerJ8qqKJ6ZMxWRasIVLD3gXajS3q/3M2yOfG4zpx4qS3V/x5XC6sOM1aFNauDCljJWkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=PF/9jCMI; arc=none smtp.client-ip=209.85.167.175
+	 In-Reply-To:Content-Type; b=kGQm+FRmJG1/2WstTeaGAaieSWw2HxfQJ8fg1MZtXGYfsiNXrXlCGH2mYUAea1Oj1LxZA/wfII/Jbug4Pf4jdVTmfPiJ+/vqu22X35KOPfTaaI49gdj8vnJdLcmA5IRHYIpo3ZMM+Jnw++uGmo6nxH9VT0rcn1Ih6xkgC10yekw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=QfHlvgWP; arc=none smtp.client-ip=209.85.210.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="PF/9jCMI"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-45c733ccc32so1573468b6e.0
-        for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 14:03:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="QfHlvgWP"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7cfdd3146deso823513a34.2
+        for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 14:08:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1768601038; x=1769205838; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1768601289; x=1769206089; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=nIt+ZzeCtP7pqDmlgpYUQhxXE3OKLmphYCyoYGAfb3I=;
-        b=PF/9jCMIGJ0v/6LwHElU5pWd960TQVR24j3cfooG7z3Yv4MX884BOT/GEmc941XMZc
-         7ukk2CgBSv7Vc6p+SR7+X8R+j/FG+Od5No6LoVrq+NVue7Ik6gpVwsIr3DRJtgE24XbE
-         RdWrXHBwc/f4EhT8IaJ9RvBO24wMAevGyNl+qGrOWF3/L4zHxiK5caiJwP0iNFUO/fuu
-         2mRPJ+Ml2dDDYNZxsSobhneC8WHmRr57vrb5zoHEhea64LzExn1bT+sYTpv9SxZx1zdq
-         OApZrVjrASUeSmhdlUolnXDpTgpQc8nrCGWKlG69tM+aFxp89nOxkaNysfunOk/ORyxm
-         jOXw==
+        bh=hnxLBlPiG6XltTI+ghGxYDwfnQMTS3jgBfwR6N4+E+I=;
+        b=QfHlvgWPWU6jQ82/lgO1nMqQB3sC0vC8msHjcsRiiOX+1v9R0PHwknb8ObA06/dtHV
+         NwCcXtGsfj+iebDtiG8ENvyVV5tzc5SNSOIkHbM1D9ezo4QolhLwVGo+9YxnMLMylqbZ
+         Z1dOtXRy3V5xRgrQ0NK3mOedbKL164bLvZFoqg4iMCCzo/iuFTQqwC0PmQKUGiP8+gAP
+         u8Is7qZjEs1wDvkdWtFfWJEzhWuk/B1FvjObLN/37w/jMNtVXmgYWtZ7hObXk/2h7BkD
+         IE374EufDoRarfGax5yi18MDXWkISpOsMjAGtskkifA67UBET+vNZT/PA/8whkdOO9Hj
+         tVQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768601038; x=1769205838;
+        d=1e100.net; s=20230601; t=1768601289; x=1769206089;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nIt+ZzeCtP7pqDmlgpYUQhxXE3OKLmphYCyoYGAfb3I=;
-        b=pvxXE+lNrc4ITtACUkDJ9R6kHyPh5GtZ4wTFzee40QW8wksKm4PTiw0hNU6xutBuAO
-         Xqcsx454p9aqDJqKhE5F5Y6H/elgsS2RSls5dBeE+G/bw4EZ7uNcGI2w+NSpNhm+ybxt
-         M+Wni+Rn0cAP0kW/8CzPcEJIDerBoZ3PRwbcak/5x3PbRMMcczMh8tNZTpOD51jmHYFE
-         LC7wuqJu2jG3/LWxHgc/osy2OdWOCpThQSQ2vcl5dicbWGFPsT7MXWBrLiIfi1R1d9Ob
-         2bsptyvJ7X7j1+imIW16h18gQuuucdHyf3t26UeAXrSpxJMh5loOzONX8HDv2nByPyhq
-         k74g==
-X-Forwarded-Encrypted: i=1; AJvYcCUlg5gIbA6xEqLq2JtL7ev9RIGtYPcvo1IiVtTImnQz2slePlphCmG8J4pB9W1rr7a3DwZ97DKxk3977LGQO2E=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJZxCIQcYUkLw5pkoSEvg4Ji59YOW9dOkuJ9Tvs3vrnNaN0I/e
-	kbB/snnwDsDXt9I4KAn6DQ/yr/9FZmOrNlGZ8ike84KPfLjZYPG3rmwmGSRDoWazEfg=
-X-Gm-Gg: AY/fxX4CCihFun2i/RTJiiVtbk/SyeV4cd9mpqKBlgNxdAVzHswiMDnDU3AEWcGzquH
-	7CVAdFxQLhYEHA3ILBrpGEU3AYsGEwLggJxgc//t9RhN/XMMxT8qUQKvhStAmZTHCJT+jsIRsyn
-	s72StspTpNPGrQjMG4+lBxaeusqd+PWHyKQdfCoYtTSbBX0l5neMElt4lB+ncwcIiBYlontxYT0
-	Vtaa2eAsQVALjkeeneMzrc10laEuNS8FtFGzZ1SL1CdtKRT7u7wc3yrSgMWEm0YgIt/vIj3Yz+o
-	Y8PHbJWPpfcJWwYA8x2T86r7Y7CMWyqQGmK7oQ8S/bd2gWiUBvGunyHxTElYdeDXyvOA7thGPNe
-	bLZKH3JTg+670aB9MqyGpPAZh2Z4dbE7ACF4oGFjGRp5Mm04lpJZNvEmQdqNN7oHGxcdM7NhUUV
-	FVaDcbp1ttazVgXhiduuz5tPlMg+xCadRsZJ+D66HQCVdYbj7oiRDXbsl2D+RL
-X-Received: by 2002:a05:6808:4f4e:b0:45c:7eba:576a with SMTP id 5614622812f47-45c9c1a732emr2028739b6e.64.1768601038648;
-        Fri, 16 Jan 2026 14:03:58 -0800 (PST)
+        bh=hnxLBlPiG6XltTI+ghGxYDwfnQMTS3jgBfwR6N4+E+I=;
+        b=mATkJz8sQpnp0gkJcBgeYZ9oJeNKiyUwIzsZt3Z43QOLkRAfIUJObnPxNh84WM/TNh
+         mtXH0KNLUxI5RPZgSmS8pFLZg0i9o1/jOEe8g0apIeuA3nPmXpnogGYCz5KfR7vVlOvs
+         NhJBk8pO/0mkam7+wtrYaKXiUPLXPESBXhKkX5JfWFxN7L+aXlPGOL+/TwJFlDPkAUzp
+         I3FDAc8aULDJjtt+SAmIv6LFrL0bbQILJaylFSke/sgZtsQnYF479VheSbjdaWAnDQWB
+         b3dNga+y7eu717WYJozC7qHRW39YTEbXbgQ655SyCozFn3Owh1n89As6bUyMx47TqK2w
+         BEhw==
+X-Forwarded-Encrypted: i=1; AJvYcCVXYeROS7InHsg7hEAXSwpjPUQHMrYzg+0EIdR9XwyO3+R9u7jGiZQajoIdZUHZ8CSTj4jaKBcz/mEqzd00yIE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwqBCY59T/pVEDNjUNSusMXvX9p4gfMOE1VqpVt8ceeTbJgBG1y
+	eehCTK0aIOeD511xDeR2zhtZ5ngioJ30Fs0c2aHKm1F8xs5K9EqxXOMwsJqn0mvvp4I=
+X-Gm-Gg: AY/fxX74J6yUcPb37um6TV3mD8z+A2ZgA35wc54HHG8d3A2rA3zfBz5G7sex6dtyhNv
+	0EHbq6w0db9lVUXDyPsaMSgGkDBtPzhKr5Ifz/WN/F1DO5E/MeV3lELaRyZlthH7mJYnCxk2MjH
+	WYYKkCm6Jz8RWd0c8AwPeWOsEhTAv3NhdwPecBAVBKAm7DStmLPnCMrXY5IlIvZLB9UpeHCeslP
+	rThxp5w+QOdnUlRSzJ2+noO8BVpIgbWBnME1K8Y2pae7XRGL+AtcUNVm58W/05bpZGg19XeZYa1
+	TonYI7hj0AI02HkYiwFR+d1sXyk1BptCYP3BW8l0SMhkUEeLxd5Ok8eNMqsLcl110qEvKeA8ecw
+	/BM6I0PCvepcx4wosemoBJ1boOwpQTHrukwpoqwMuxw5M4ZNZFwBxk0dgU2pKtQiTrzCb2Cg7js
+	6VwznD5Ph7Ekb7zlcM9LzYZK/KlOeEIxj/DcdJWYjxXF2435y/9e6Z86ja7/iT
+X-Received: by 2002:a05:6830:f85:b0:7cf:d191:2a50 with SMTP id 46e09a7af769-7cfded8025cmr1842614a34.13.1768601288855;
+        Fri, 16 Jan 2026 14:08:08 -0800 (PST)
 Received: from ?IPV6:2600:8803:e7e4:500:bd39:740e:f70f:5f7d? ([2600:8803:e7e4:500:bd39:740e:f70f:5f7d])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4044bd14883sm2386316fac.12.2026.01.16.14.03.57
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfdf2a5f0dsm2452490a34.24.2026.01.16.14.08.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 14:03:58 -0800 (PST)
-Message-ID: <27cf1ec1-545b-4e44-8229-852f8bdae116@baylibre.com>
-Date: Fri, 16 Jan 2026 16:03:57 -0600
+        Fri, 16 Jan 2026 14:08:08 -0800 (PST)
+Message-ID: <4e77ebef-07b3-49ae-9d53-d24616569a74@baylibre.com>
+Date: Fri, 16 Jan 2026 16:08:07 -0600
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/7] iio: core: Add cleanup.h support for
- iio_device_claim_*()
+Subject: Re: [PATCH v3 0/7] iio: core: Introduce cleanup.h support for mode
+ locks
 To: Kurt Borja <kuurtb@gmail.com>,
  Andy Shevchenko <andriy.shevchenko@intel.com>,
  Lars-Peter Clausen <lars@metafoo.de>,
@@ -84,106 +84,46 @@ Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org,
  linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 References: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
- <20260106-lock-impr-v3-4-1db909b192c0@gmail.com>
 Content-Language: en-US
 From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260106-lock-impr-v3-4-1db909b192c0@gmail.com>
+In-Reply-To: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 1/6/26 2:06 AM, Kurt Borja wrote:
-> Add guard classes for iio_device_claim_*() conditional locks. This will
-> aid drivers write safer and cleaner code when dealing with some common
-> patterns.
+> Hi,
 > 
-> These classes are not meant to be used directly by drivers (hence the
-> __priv__ prefix). Instead, documented wrapper macros are provided to
-> enforce the use of ACQUIRE() or guard() semantics and avoid the
-> problematic scoped guard.
+> In a recent driver review discussion [1], Andy Shevchenko suggested we
+> add cleanup.h support for the lock API:
 > 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> 	iio_device_claim_{direct,buffer_mode}().
+> 
+> Which would allow some nice code simplification in many places. Some
+> examples are given as patches, but the last two are the biggest
+> differences.
+> 
+> In this version I dropped the RFC tag, as the general feeling is to go
+> through with this after some modifications. Main one is the addition of
+> IIO_DEV_ACQUIRE_{BUFFER,CLAIM}_MODE() wrappers to avoid drivers using
+> the guard classes directly. I also added comments on the forbidden ways
+> to use this API but I definitely still take suggestions on this.
+> 
+> For now I dropped iio_device_claim_buffer_mode() rename, as this point
+> is still being discussed. My suggestion based on the RFC discussion is
+> to do it, but in a separate patch (using coccinelle) and while we're at
+> it rename the whole API like this:
+> 
+> 	iio_dev_mode_lock()
+> 	iio_dev_mode_direct_trylock()
+> 	iio_dev_mode_buffer_trylock()
+> 	iio_dev_mode_unlock()
+> 
+> Let me know what you think and thanks for taking a look!
+> 
 > Signed-off-by: Kurt Borja <kuurtb@gmail.com>
 > ---
->  include/linux/iio/iio.h | 71 +++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 71 insertions(+)
-> 
-> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-> index d8af0456f966..c795f731f2d8 100644
-> --- a/include/linux/iio/iio.h
-> +++ b/include/linux/iio/iio.h
-> @@ -10,6 +10,7 @@
->  #include <linux/align.h>
->  #include <linux/device.h>
->  #include <linux/cdev.h>
-> +#include <linux/cleanup.h>
->  #include <linux/compiler_types.h>
->  #include <linux/minmax.h>
->  #include <linux/slab.h>
-> @@ -740,6 +741,76 @@ static inline bool iio_device_try_claim_buffer_mode(struct iio_dev *indio_dev)
->   */
->  #define iio_device_release_buffer_mode(indio_dev) __iio_dev_mode_unlock(indio_dev)
->  
-> +/*
-> + * These classes are not meant to be used directly by drivers (hence the
-> + * __priv__ prefix). Instead, documented wrapper macros are provided bellow to
-> + * enforce the use of ACQUIRE() or guard() semantics and avoid the problematic
-> + * scoped guard variants.
-> + */
-> +DEFINE_GUARD(__priv__iio_dev_mode_lock, struct iio_dev *,
-> +	     __iio_dev_mode_lock(_T), __iio_dev_mode_unlock(_T));
-> +DEFINE_GUARD_COND(__priv__iio_dev_mode_lock, _try_direct,
-> +		  iio_device_claim_direct(_T));
-> +
-> +/**
-> + * IIO_DEV_ACQUIRE_DIRECT_MODE(_dev, _var) - Tries to acquire the direct mode
-> + *                                           lock with automatic release
+Like Jonathan, I just had a few minor suggestions, but overall:
 
-I don't think it is usual to put the function parameters in the
-doc comment like this. They don't match the actual names anyway.
-
-> + * @dev: IIO device instance
-> + * @claim: Variable identifier to store acquire result
-> + *
-> + * Tries to acquire the direct mode lock with cleanup ACQUIRE() semantics and
-> + * automatically releases it at the end of the scope. It most be always paired
-> + * with IIO_DEV_ACQUIRE_ERR(), for example::
-> + *
-> + *	IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-> + *	if (IIO_DEV_ACQUIRE_FAILED(&claim))
-> + *		return -EBUSY;
-> + *
-> + * ...or a more common scenario (notice scope the braces)::
-> + *
-> + *	switch() {
-> + *	case IIO_CHAN_INFO_RAW: {
-> + *		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-> + *		if (IIO_DEV_ACQUIRE_FAILED(&claim))
-> + *			return -EBUSY;
-> + *
-> + *		...
-> + *	}
-> + *	case IIO_CHAN_INFO_SCALE:
-> + *		...
-> + *	...
-> + *	}
-> + *
-> + * Context: Can sleep
-> + */
-> +#define IIO_DEV_ACQUIRE_DIRECT_MODE(dev, claim) \
-> +	ACQUIRE(__priv__iio_dev_mode_lock_try_direct, claim)(dev)
-> +
-> +/**
-> + * IIO_DEV_ACQUIRE_FAILED() - ACQUIRE_ERR() wrapper
-> + * @claim_ptr: Pointer to the claim variable passed to IIO_DEV_ACQUIRE_*_MODE()
-> + *
-> + * Return: true if acquired the mode failed, otherwise false.
-> + */
-> +#define IIO_DEV_ACQUIRE_FAILED(claim_ptr) \
-> +	ACQUIRE_ERR(__priv__iio_dev_mode_lock_try_direct, claim_ptr)
-> +
-
-If we always have to add the & at the call site, could we just
-put that in the macro instead? Then the parameter would just be
-claim instead of claim_ptr.
+Reviewed-by: David Lechner <dlechner@baylibre.com>
 
 

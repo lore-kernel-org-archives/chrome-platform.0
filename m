@@ -1,95 +1,129 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3925D35A950
-	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 09:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE9D30B50B
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 10:35:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768557086; cv=none; b=SpDf34U6sbsfkqY5pGpHyo7wcsWztfl1zQFbD4ZjCegdC8VTmWBbxml+hpOlIQkXMDyuHIZtTe/0DUgZL/dU3xve0fCV9IaAgUoIu8suMGGDxK72QiBFL5RGHXLyfL7HbUarId0wyVqhCTGV2YC22wA9WwgYpaeFR6qj1ot74qo=
+	t=1768559713; cv=none; b=fneVydaPpEI8t5CV6NK3gDMXPDnMePb0IyUGWhi34UtwTgyOYOFEw2m6Ab+2UsLkmEkA82ArEZtSlHrb7QBE/oZb5fv+LKSOBfE/xKY4cj5LNfvJjP+sAI3BLkzYfJVmI3zQvsYhXstERR0O6Di1T3LxFPJ5WFYOaf4yk40SMmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768557086; c=relaxed/simple;
-	bh=G0lAoXNnE8zHbc7Q4sP6bIThkQm+fl35P4QPoHmhG5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WvSt2+H1kKlqkI6q5Y61Dx0+llzDTyVjyMg6+xPG3TrSGwjjaAc3gCc9/BtETlyv98tWdnASNyNirPp5r8bxu6ztNtPhmHXK6u+HTwERsWeyyMp3leZzEbu2z6mAfXz23KoQZ35jnFd3tIDd7sBWX2wFvVkLz3pPD98Lh9xU7QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jMRYqRa1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768559713; c=relaxed/simple;
+	bh=KSWdzg1gOF99TWW9j8m3/qPK4vSpI6A17JhlDPLJ2Bo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iV1hl4+mrGLN+AeYvef0mazJoU1KH/LTXta1opwUxedFG34XnwEKmtvfkRr/fEcZn97SomztMqHU+nNywvcRPPyYafhutHeQwWkU1ygZ6+h72iiQIBCi9sy0ylhxr4jjeol2h+KkWvboETRee1TNHVNQB8IhHN/KVkQXdZ2rqA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ndol4E9z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jMRYqRa1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16DEEC116C6;
-	Fri, 16 Jan 2026 09:51:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ndol4E9z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7767FC2BCB0
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 10:35:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768557085;
-	bh=G0lAoXNnE8zHbc7Q4sP6bIThkQm+fl35P4QPoHmhG5c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jMRYqRa1lzkXrJsLQTDXxWE7gIOkK/AZR3GEY3WR4k5DbqQo9Yxav5qlMduZpOWck
-	 ap5IP7rG5NJD5ET7kr9xQUuQokctiIC/II4Ds+Fo+f9MQlLpk0ckKGRZd5x2iStQEF
-	 VSgqz4wyvSVCf6J8Z1k+TMW35ob5fxlnokkFnufEprvIaIiHvUm34oUNp/lDfiY05G
-	 LqFdiSxFVxjVWUlYHvf6QH2cRmcVH6PJU3CJTFTv8wKOSIxVnh1ZP3NzjRfc7nzQgf
-	 S3e0/MdWBvhPWWrAlqVKTZDixAm05nK0/+DPzBSDHSChqjTxgw2tKhjsNhNQiG1SqI
-	 sFZFdgxV7YzBw==
-Date: Fri, 16 Jan 2026 09:51:21 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
-	samuel@sholland.org, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
-	chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 00/12] drm, coreboot: Add DRM coreboot driver
-Message-ID: <aWoKGXtYPMm71K9a@google.com>
-References: <20260115082128.12460-1-tzimmermann@suse.de>
- <aWoBQGckP3q8KcDX@google.com>
- <07efafb2-30bf-4d45-a53f-114272c1a1b1@suse.de>
+	s=k20201202; t=1768559713;
+	bh=KSWdzg1gOF99TWW9j8m3/qPK4vSpI6A17JhlDPLJ2Bo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Ndol4E9zjVO1ob4hrYysx78HhwXkjOZJFcbgg7kxOXZhCewB1CtxSq1IkIfEGN1TD
+	 QSY2Bg5odi00tZNaQk9ghQBIr6tfn5qohAUjz0QfKk4w5yWlOjIBnlFtoEza67yMbW
+	 m+ZN9kIoFxbDdbAZErN6tMERO0cHpCRpcvuJPI4olZaoUsO1TpY+AzRYKIg0Gkzr9y
+	 s/p4chGdD4LSkQHzhE33zscjD5wytXNw2Mc4JUxwiNwP0y5sjZh0GusGaavTgPPsHL
+	 a/4iWrbsCV8/AI252oKl72yFcbBz6T5c/j/XPwnrMasIxv7RjOPId+4VJa8vyp7R4k
+	 aZRSLIyvTc0Mw==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59b6f04cae6so1941005e87.2
+        for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 02:35:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV70rj1atP9BZNJKdF+C5VNaEIBxkUnoC2GUrJbEK2p/HvoC1rBS7/IzlFa8MqJGSupS/JmXid1Zumj7ZgmOtI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLXq4xdnlm8lBu95ppO1UDMrPXXZI++XVkX3oZw7SQ3NxEfdyN
+	P/cr2Yb9EqI5Z3elLjTCZMHPLTMK4lWVSt2OkKVJW3ahz6T3FMNSTQ2AXndxXJImdZ1J/e31la0
+	GF5BFHYHBPYxfudKZZV9WNNnWiFM6BNHbNKrQeRC9Hg==
+X-Received: by 2002:a05:6512:3b0a:b0:59b:707d:1db5 with SMTP id
+ 2adb3069b0e04-59baeef6ef6mr744298e87.29.1768559712051; Fri, 16 Jan 2026
+ 02:35:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <07efafb2-30bf-4d45-a53f-114272c1a1b1@suse.de>
+References: <20260116081036.352286-1-tzungbi@kernel.org>
+In-Reply-To: <20260116081036.352286-1-tzungbi@kernel.org>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Fri, 16 Jan 2026 11:35:00 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
+X-Gm-Features: AZwV_QgMLckxVJmhlVGfz2mb8tqX8HZItwcSTfGc8Lsh6N3NsV87v74hAVT04jE
+Message-ID: <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
+Subject: Re: [PATCH 00/23] gpiolib: Adopt revocable mechanism for UAF prevention
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 16, 2026 at 10:19:03AM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 16.01.26 um 10:13 schrieb Tzung-Bi Shih:
-> > On Thu, Jan 15, 2026 at 08:57:10AM +0100, Thomas Zimmermann wrote:
-> > > Coreboot implements framebuffer support via simple-framebuffer. Provide a
-> > > dedicated DRM driver. Keep the simple-framebuffer code for now.
-> > > 
-> > > For each firmware's provided framebuffer, we prefer a dedicated DRM driver
-> > > tailored towards the platform's feature set. The coreboot framebuffer
-> > > device currently creates a simple-framebuffer device for the provided
-> > > framebuffer aperture. But simple-framebuffer is for DeviceTree nodes; not
-> > > for coreboot. The simple-framebuffer infrastructure should be phased out
-> > > for non-DT use cases. Coreboot is one of the final users of the code
-> > > (besides n64).
-> > > 
-> > > Patches 1 to 5 start by fixing problems in the coreboot framebuffer
-> > > implementation. There is a possible dangling pointer, the memory is
-> > > marked as busy, the device hierarchy is incorrect, and a few minor things.
-> > > 
-> > > Patches 6 to 9 prepare the coreboot support for use by external drivers.
-> > > Specifically, structures for the entries os the coreboot payload table
-> > > have to be exported.
-> > > 
-> > > Patches 10 to 12 add corebootdrm, a DRM driver for the new
-> > > coreboot-framebuffer platform device. Corebootdrm follows the pattern
-> > > established by similar drivers. It also uses the same sysfb helpers. It
-> > > is therefore fairly small. With patch 11, it has feature parity with
-> > > simpledrm on the old simple-framebuffer. Patch 12 adds support for panel-
-> > > orientation flags that coreboot makes available.
-> > What would you suggest to submit the patches (e.g., which patches submit
-> > through which tree)?  Do they have build-time dependencies?
-> 
-> The patches have no dependencies besides the coreboot and DRM frameworks
-> they operate in. DRM moves a lot faster than coreboot, and you likely don't
-> have the latest DRM in the coreboot tree. So I'd take them via DRM, if
-> possible.
+On Fri, Jan 16, 2026 at 9:11=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> This series transitions the UAF prevention logic within the GPIO core
+> (gpiolib) to use the 'revocable' mechanism.
+>
+> The existing code aims to prevent UAF issues when the underlying GPIO
+> chip is removed.  This series replaces that custom logic with the
+> generic 'revocable' API, which is designed to handle such lifecycle
+> dependencies.  There should be no change in behavior.
+>
+> This series depends on the 'revocable' API, introduced in [1].  Some
+> build bots may report errors due to undefined symbols related to
+> 'revocable' until the dependency is merged.
+>
 
-Let's take this way.  I'll try to review the patches and provide my A-b tag
-too if possible.
+Hi Tzung-Bi!
 
-> Note that there will be at least one more update to this series to address
-> review comments.
+Thank you for doing this and considering my suggestions from LPC. I
+haven't looked at the code yet but I quickly tested the series with my
+regular test-suites. The good news is: nothing is broken, every test
+works fine. The bad news is: there seems to be a significant impact on
+performance. With the user-space test-suite from libgpiod (for core C
+library - gpiod-test) I'm seeing a consistent 40% impact on
+performance. That's not really acceptable. :( I will try to bisect the
+series later and see which part exactly breaks it.
 
-Sure, no rush.
+I can also help you with user-space testing with libgpiod, if you need
+it? Some documentation is available here:
+https://libgpiod.readthedocs.io/en/latest/testing.html
+
+> [1] https://lore.kernel.org/chrome-platform/20260116080235.350305-1-tzung=
+bi@kernel.org
+>
+> Tzung-Bi Shih (23):
+>   gpiolib: Correct wrong kfree() usage for `kobj->name`
+>   gpiolib: cdev: Fix resource leaks on errors in gpiolib_cdev_register()
+>   gpiolib: Fix resource leaks on errors in gpiochip_add_data_with_key()
+>   gpiolib: Fix resource leaks on errors in lineinfo_changed_notify()
+>   gpiolib: cdev: Correct return code on memory allocation failure
+>
+> =3D> The first 5 patches are fixes.  They aren't directly related to the
+>    replacement, and should be able to apply independently.
+>
+
+Awesome, I'll make them a priority.
+
+>   gpiolib: Access `gpio_bus_type` in gpiochip_setup_dev()
+>   gpiolib: Remove redundant check for struct gpio_chip
+>   gpiolib: sysfs: Remove redundant check for struct gpio_chip
+>   gpiolib: Ensure struct gpio_chip for gpiochip_setup_dev()
+>   gpiolib: cdev: Don't check struct gpio_chip in gpio_chrdev_open()
+>
+> =3D> The following 5 patches are refactors.  Makes the subsequent changes
+>    easier or at least clear.
+>
+>   selftests: gpio: Add gpio-cdev-uaf tests
+>
+> =3D> The following patch adds kselftest cases for some classic UAF
+>    scenarios.
+>
+
+Thanks, these too look like v7.0 material for me. I'll try to review
+these ASAP too.
+
+Bart

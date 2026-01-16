@@ -1,100 +1,189 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C22E27F72C
-	for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 20:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768510735; cv=pass; b=FDjwkwSipab7WoG1a0dmBJGrZjKBM60+lqq1SYVVttwxb7iq7jW1H3KYsUIgPfk4cddmeqbACvwC5hRgiyR304GANCtYWAvQbmq540YjkphEw8bJDFfBKFxJM8zxX1UjQ6QgZ/2ahkhs4rLJmzcnZq4r90vmZXWZEDmA6wSNDl8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768510735; c=relaxed/simple;
-	bh=aN6gj1asa/7P0fGIQeK2r+Ar66tOkO2hHBCp/S5hpjU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NSD2ojZRoyyFpQHCARU2SGOICTuowWtW3lfbauITT3mORhZAC/RDO8EbGneqtj3DQZIp8MzobU7rOWo3PIUSdoYw3KK1zEXV7mDKUqDv6ZtYISqVehpGbULYiSm6TMbpTBT2Odw1kuxt5IfNeFKbyb2CSJH03Hdxy2go/peLQ6g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mDeP85aB; arc=pass smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DEF4239594
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 07:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768548634; cv=none; b=NDO1FdXYjfO8Y6o1iK6fPafKM0ctMSVB4ZVl4hxRI7pnnpEqMxU1BaDCgIW6oeVqsw8QPcPuJUGYh2CaRazHRlOKV0CUyOkrAJrHgaa61HUpFbqhLpH/44Ux4Zl6ub7OGAYYr5sju2YxW8bY4oy7EOzyMI1tHDH4Vagx4eYG2S0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768548634; c=relaxed/simple;
+	bh=jkSP44Kjvo4z0bYEcvmEfQm7oc5R+8SUwMh8BWdWteU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PbOJz9LTIE+4rbhX9aRTT2ZnCl5eVdYeysUJ33o9MsRMUIfXMeBGIvEv0QVFXb/+CjLiP43HGfyqbE0aiuIgeUGIMvHWoiTmxTTsdS9d+N6bX8XPS7xiIjprm2KLw0vBGllFOARlLYTzYO4iX95K9zGQEBa4WjVTIhXHRjm5Afc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ysSXB+uI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xC71ZXC0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ysSXB+uI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xC71ZXC0; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mDeP85aB"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-50299648ae9so20171cf.1
-        for <chrome-platform@lists.linux.dev>; Thu, 15 Jan 2026 12:58:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768510733; cv=none;
-        d=google.com; s=arc-20240605;
-        b=axi7sFQi+JCH+BagdHDNMzvkkbhjgAC8HoTDwne2mRbkhHGP3QtQGG03ujGeH3MpZG
-         h/hBcUwDwQ6/SgyrOFqx8xLdLBMgk+t7ElnORpRcwSWYH9HHU3ItAiga9PSWkySH8/tc
-         K0b7k1FMbEuh4lWtpUDs3t5hxeTZaSgNYmIvnRyeeuAhaDhPJYQxZflN58mJ121SGMD/
-         TV5gQshXnvffSAW4CtsCFxDrFPrltJw7jbr5G9VAE1kzu3LwX+6tOzK3Hcn1GUGgwCgS
-         H2j1DefnqhIC4bSWdtNWdbpbLB63A+zNOdZn7NDeter75Gx1CvjcoUDllK61OYfir0aB
-         bJ7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=aN6gj1asa/7P0fGIQeK2r+Ar66tOkO2hHBCp/S5hpjU=;
-        fh=keXLqvjQjAdepMUZDLEFinPMRF+fipRqRHUVCNDinjg=;
-        b=XjamAsj1X7XHMhBKTd48i/GZM64t/wpaQUMnlGH8LSFeUTbotoTxPd5GONCbP3b9Kw
-         wV7wHq8naR25gHS7tBKbXwx6mr+bFwQ8s0KX9d227HdWDVpfEXfcswruVqZcjlnhgPM2
-         gwdRpb8nmMB9dkHFUAzXxWt5nM+hKcfAP8EKHYu7EJhsToCY5GUdc9ehxfdsl2VUr/F9
-         4yFijKUmLJRG0WlOqMs+8G22WQeQrLsT0dM3VcYrcj5lBofcdrOScjcrW7mu+qB6SsQV
-         pBVQ3HKYD8740RLLjpZ1E7oLw9xBePDRbVFe6Fhvenj+W9jknRfi6drxjPGEoAo8LQtk
-         607Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1768510733; x=1769115533; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aN6gj1asa/7P0fGIQeK2r+Ar66tOkO2hHBCp/S5hpjU=;
-        b=mDeP85aB3RlOD7/I6TknQxNsrcWY/5wy7/rHhALHP9qYmhgtZqG6q89JL/BTxnPqsI
-         PyAMfrs8gYLcmFdzF6IGz7aorcRHjolay1ZVZcyzVGctFvnPskPilCzbnmJxwRpnSK4a
-         vCnu6UmB0Z9OBHpK9TvB6KOhKduvEmaU9nVgk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768510733; x=1769115533;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aN6gj1asa/7P0fGIQeK2r+Ar66tOkO2hHBCp/S5hpjU=;
-        b=QMqBouJ5oDFuglBUsg/RA9M6dCKVY7verNf1WBcG7ryKU+c+EvwpkKf4Kl+7CEuwG8
-         U+EX/XAkMY5jG201xdf4ZsuyHxxdULSjj2BCm9wGTJR7lglg56XO4sBMP9Jrkz392YG6
-         f+YGBSPQquoxOb6Cf5f8D5mgulGDcxwfnT+3de4V6+/RxL5rxVsl3ye+A3aRwXn+bdr6
-         0nX2fbzTSPOKZL4U6cv1f8fbaxLXYO5bK0XxPO9hMggHSm2SE815iMGw2WUlZEq+Ifrp
-         V+3x3mMYXvJ3rqy1vGkp6aP6ppQMjHEtFiLkxJ/9Heg7JJNMGMRZiXTzchtZcPnIIrlb
-         3Bfw==
-X-Forwarded-Encrypted: i=1; AJvYcCUWyp0G2qbNOn4vMCejibrxfV1hgFj33Sq9/LDoFY72IIfENAOHXO0qIN0g28iOuhs85Wsf0Au2wXLhL3h+RtQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwClzBhE2ImpLJaJNv4NpRirhrIbtfcZW6ffsKX9EX2LzsX9YDS
-	pNF83Z2+IhVJ74kKZfhpJb84DL42S9Mvotc29lRtIxFa859boMBwvQYEMhS0pSxzSlgdcR5bXmu
-	VWJLGrmsy/KpS9CfWISawNKudvH4QRyjRt4U1kvLi
-X-Gm-Gg: AY/fxX6/QRKf1YT1zYD0YCNYarVe91mBBW30V45XGlB0b6ibqVpj5X08TbR4UaubKF7
-	+h7eHGtgvPFEZtjpqo0fmfKEsPZKRAyj+vt1TiKoBhO5q4NKDJC8nSAqljvPj6QMknYJtdNHvRX
-	HV0OFY47CiAgEYHhzxykvK1J2GYtIuO1PJm6Ay13Pg3KjEr10Rf9cZ/d9VcGcTRDR4/6G8T+7aC
-	ZhKA2ogJXLlclxjng86TcurgOiyT/WYoCXQwF45PjeEHlhXr9q2HuBtq9ACMcB4wlqBYBppdl44
-	L5S5grEchM35csOkZwKGNyUUvA==
-X-Received: by 2002:ac8:7e8d:0:b0:4ff:cb25:998b with SMTP id
- d75a77b69052e-502a23874c7mr2282841cf.12.1768510732990; Thu, 15 Jan 2026
- 12:58:52 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ysSXB+uI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xC71ZXC0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ysSXB+uI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xC71ZXC0"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7798E3368D;
+	Fri, 16 Jan 2026 07:30:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768548629; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
+	b=ysSXB+uIXUNvoaV/15pmHk0kYCl+v3zFlmFXT3n47CcnpYASviit8nEPRLXSmmEJMWehia
+	SsWsxdM7tgSZR0giwUplMYy7IXRpfK9poATroIgZNC1+HKv2TqOE9i7fobV7/bKor6fT4C
+	DpcVs0Yfy0yCmbkP0wWkfOOjZlHucrE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768548629;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
+	b=xC71ZXC0ViXDCFL4BUeM5ezhEvQw+2KOyJqqMiXpntrFmY/m9osmkV7Dx/X7KRt6rI5/eZ
+	1n53sX67ZoW5QWDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ysSXB+uI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xC71ZXC0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768548629; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
+	b=ysSXB+uIXUNvoaV/15pmHk0kYCl+v3zFlmFXT3n47CcnpYASviit8nEPRLXSmmEJMWehia
+	SsWsxdM7tgSZR0giwUplMYy7IXRpfK9poATroIgZNC1+HKv2TqOE9i7fobV7/bKor6fT4C
+	DpcVs0Yfy0yCmbkP0wWkfOOjZlHucrE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768548629;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=gGmnBqFeo99Z7pjmTLspM4xJB3J3GNXos4QudhNmInE=;
+	b=xC71ZXC0ViXDCFL4BUeM5ezhEvQw+2KOyJqqMiXpntrFmY/m9osmkV7Dx/X7KRt6rI5/eZ
+	1n53sX67ZoW5QWDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2165C3EA63;
+	Fri, 16 Jan 2026 07:30:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YzTxBhTpaWmSSgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 16 Jan 2026 07:30:28 +0000
+Message-ID: <fcc432e7-308b-4d8f-8c26-355409f1bd94@suse.de>
+Date: Fri, 16 Jan 2026 08:30:27 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/12] firmware: google: framebuffer: Fix dependencies
+To: Julius Werner <jwerner@chromium.org>
+Cc: tzungbi@kernel.org, briannorris@chromium.org, javierm@redhat.com,
+ samuel@sholland.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, chrome-platform@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
 References: <20260115082128.12460-1-tzimmermann@suse.de>
-In-Reply-To: <20260115082128.12460-1-tzimmermann@suse.de>
-From: Julius Werner <jwerner@chromium.org>
-Date: Thu, 15 Jan 2026 12:58:40 -0800
-X-Gm-Features: AZwV_QgAvNKXMipZU3vFetTFrWbMaSg3BOdWiKKlVxjbyY9-74HfW16m0dIEsTE
-Message-ID: <CAODwPW8g5sn6nJkZbj-rc_7PkgT9qVcQeLg=ARba5w5MQEHDcA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/12] drm, coreboot: Add DRM coreboot driver
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org, 
-	javierm@redhat.com, samuel@sholland.org, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch, 
-	chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+ <20260115082128.12460-6-tzimmermann@suse.de>
+ <CAODwPW_n=LfW+az4v8XecrzAksFmP+0U-9ELb_TrVtLL4EGk9w@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAODwPW_n=LfW+az4v8XecrzAksFmP+0U-9ELb_TrVtLL4EGk9w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.51
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 7798E3368D
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Whole series looks good to me in general, so you can call it
+Hi
 
-Acked-by: Julius Werner <jwerner@chromium.org>
+Am 15.01.26 um 21:54 schrieb Julius Werner:
+> Not really sure I understand this part? The code in coreboot_table.c
+> creates the device that represents the entry in the table. The code in
+> framebuffer-coreboot.c (which this Kconfig guards) contains the code
+> that creates the device which will be the actual framebuffer. Doesn't
+> it make sense for that part to depend on a framebuffer backend being
+> available?
 
-But I'm only really familiar with coreboot and don't have the
-expertise for all these DRM interfaces, so I hope someone else can do
-a detailed review.
+Corebootdrm already depends on the CONFIG_GOOGLE_FRAMEBUFFER, which is 
+standard behavior for all kernel drivers (i.e., drivers depending on 
+architectural options). Having dependencies in the other direction 
+creates a circular dependency, which Kconfig doesn't handle. But 
+generally speaking, what's the point of having that framebuffer backend 
+code then? I tried to remove it, but it is supposed to remain. But it 
+would not serve a purpose other than creating the platform device for 
+the actual driver. I'm confused about the reason for this design.
+
+Best regards
+Thomas
+
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+

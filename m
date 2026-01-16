@@ -1,219 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B6B2F5461;
-	Fri, 16 Jan 2026 08:12:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F250B4C81
+	for <chrome-platform@lists.linux.dev>; Fri, 16 Jan 2026 09:13:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768551138; cv=none; b=SblwW1+JcV4isg9k4nJIlYLh07Ql5fiHB59JaoRe533W7bWm9/Be8BH9n54Yl3ARZDFL889I/greApflcadgJHOz0HvwqTSU9Ycy5zj//IFRJkFs9CXTU6VKcp+MpYiDIrXqpxuBlixlYQuyyCTMBPs59+SD++ohjGTof0zTGzw=
+	t=1768554821; cv=none; b=MmvWzga24uVkCfoTuT+fXijhJMEj2Mj2Qz80j4eIQ0cuuR+umV1fc9gTt//ehdU7wDqAVGc60j61eJbYpOmdEQKaaoGOng8JJK+36rrMCObQDqsCXTigjEXfYJnrF+SghoPS/X46nghUAHx/ktvd8+CpWye3CA74PSA5UELY8oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768551138; c=relaxed/simple;
-	bh=GhZ4IEFrAvMGKCF8VQdEwrw8Y7MMLL9mIj9KkZbgkIY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y0Pc/0CNBK6OUiKc3qMYMV8J2V8U5+2OFCS8vnnhIZzv/qTL9df7JpLJOT9EppNnvhFTYVKcJWc4QFAeKAs438wdUMSulGWoAiIItbuXfvs45da0FNBEN/5XUEfN/fETlxVBgV9vr5XQJH7OHIKwycMT5IxwZDuNDZ7eMh1eQ5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJo4pQ9P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768554821; c=relaxed/simple;
+	bh=mLYzN5UqM+HvTCcP8XCike0pwHL9S/sIn2p4PFTMQC0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nuT78xzo9amuLgRA1vyWaa8IApMKembq6sLh6EBgJXGyd6Wii0qRlESK2B87oDSn0H9BgTOFvbdqC9n1tZdIsHf9CNFfOKhAtKkbpuonHNjfUdLUg0WZ+ra4VU4Saj2fgdQhDGjrVJ4Rv1y+iq9jsCoh1gqGp8WPC9lNGsZZcnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=blMA4ccs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJo4pQ9P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C4EEC116C6;
-	Fri, 16 Jan 2026 08:12:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="blMA4ccs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7CC1C116C6;
+	Fri, 16 Jan 2026 09:13:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768551137;
-	bh=GhZ4IEFrAvMGKCF8VQdEwrw8Y7MMLL9mIj9KkZbgkIY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mJo4pQ9PjN3qB0t8dLoed3B2Qv1+l8fJOdvOUCq0vXCCFlXCITTF4I/01WIQqEEqo
-	 9PkKr2qG4j/mN6dplWd7s8taoSX4AaPfIGZqoQ/tk1aoxWTsu9vmtKadHuH0eAIF6h
-	 UkhGQpPtz5F36KDrMpNRRTgfyBHAgUiOh3VM7qUEt2/vxja4caSWm7XMb12T6kzLxI
-	 wAFDkPQdQpqjEK/RaTAQwm+QV7oo+cVQkawSK8MAdcbUD1LwOP/D2VebLXDzP7nOdb
-	 EsF2dZ6oKqX6ZGj+X+fklKVcp6eL45N/hzgmqYkIwxvto1xUWeOj0C2w8zm/L4Zg5l
-	 7qETsHVKWghNg==
+	s=k20201202; t=1768554820;
+	bh=mLYzN5UqM+HvTCcP8XCike0pwHL9S/sIn2p4PFTMQC0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=blMA4ccs2NpwNePBouS27UscMZUBtyVqvXEfqIpT0Z3dXytTOpvIz6IBx9Sh5HWTg
+	 gH+UIO1q5nfmuXfglCIOYKDxuCDDrNlRcvbvnQYKQiFEQmTraDCw+40cErq6j8s5le
+	 HOgg2u+hggxKGMDyT3xwueILf25Xe6wGXfFAxhJcLIHWMxM20B7GyREz72QJ8Oksbm
+	 +cc9axGurjCAls17U4CfFP8WVr21H6N9Cqfx5mZrmYjvRmfnvcLuzQYkmFNOxRSCdo
+	 SrvAocr6+UdlSisCugR++V62Xhhe6z7yAfQZ3howS+cQ4qJePvK9AjE13szg81n+ym
+	 C/GnBAHiM5l2Q==
+Date: Fri, 16 Jan 2026 09:13:36 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linusw@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	tzungbi@kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	linux-gpio@vger.kernel.org
-Subject: [PATCH 23/23] gpiolib: Remove unused `chip` and `srcu` in struct gpio_device
-Date: Fri, 16 Jan 2026 08:10:36 +0000
-Message-ID: <20260116081036.352286-24-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
-In-Reply-To: <20260116081036.352286-1-tzungbi@kernel.org>
-References: <20260116081036.352286-1-tzungbi@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
+	samuel@sholland.org, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+	chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 00/12] drm, coreboot: Add DRM coreboot driver
+Message-ID: <aWoBQGckP3q8KcDX@google.com>
+References: <20260115082128.12460-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115082128.12460-1-tzimmermann@suse.de>
 
-`chip` and `srcu` in struct gpio_device are unused as their usages are
-replaced to use revocable.  Remove them.
+On Thu, Jan 15, 2026 at 08:57:10AM +0100, Thomas Zimmermann wrote:
+> Coreboot implements framebuffer support via simple-framebuffer. Provide a
+> dedicated DRM driver. Keep the simple-framebuffer code for now.
+> 
+> For each firmware's provided framebuffer, we prefer a dedicated DRM driver
+> tailored towards the platform's feature set. The coreboot framebuffer
+> device currently creates a simple-framebuffer device for the provided
+> framebuffer aperture. But simple-framebuffer is for DeviceTree nodes; not
+> for coreboot. The simple-framebuffer infrastructure should be phased out
+> for non-DT use cases. Coreboot is one of the final users of the code
+> (besides n64).
+> 
+> Patches 1 to 5 start by fixing problems in the coreboot framebuffer
+> implementation. There is a possible dangling pointer, the memory is
+> marked as busy, the device hierarchy is incorrect, and a few minor things.
+> 
+> Patches 6 to 9 prepare the coreboot support for use by external drivers.
+> Specifically, structures for the entries os the coreboot payload table
+> have to be exported.
+> 
+> Patches 10 to 12 add corebootdrm, a DRM driver for the new
+> coreboot-framebuffer platform device. Corebootdrm follows the pattern
+> established by similar drivers. It also uses the same sysfb helpers. It
+> is therefore fairly small. With patch 11, it has feature parity with
+> simpledrm on the old simple-framebuffer. Patch 12 adds support for panel-
+> orientation flags that coreboot makes available.
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- drivers/gpio/gpiolib.c | 26 +-------------------------
- drivers/gpio/gpiolib.h |  4 ----
- 2 files changed, 1 insertion(+), 29 deletions(-)
-
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index 44915c8b6131..31f6cc27e0b7 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -424,8 +424,6 @@ static int gpiochip_get_direction(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->get_direction))
- 		return -EOPNOTSUPP;
- 
-@@ -880,7 +878,6 @@ static void gpiodev_release(struct device *dev)
- 	ida_free(&gpio_ida, gdev->id);
- 	kfree_const(gdev->label);
- 	kfree(gdev->descs);
--	cleanup_srcu_struct(&gdev->srcu);
- 	kfree(gdev);
- }
- 
-@@ -1104,14 +1101,9 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
- 		goto err_free_descs;
- 	}
- 
--	ret = init_srcu_struct(&gdev->srcu);
--	if (ret)
--		goto err_free_label;
--	rcu_assign_pointer(gdev->chip, gc);
--
- 	ret = init_srcu_struct(&gdev->desc_srcu);
- 	if (ret)
--		goto err_cleanup_gdev_srcu;
-+		goto err_free_label;
- 
- 	gdev->chip_rp = revocable_provider_alloc(gc);
- 	if (!gdev->chip_rp) {
-@@ -1286,8 +1278,6 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
- 
- err_cleanup_desc_srcu:
- 	cleanup_srcu_struct(&gdev->desc_srcu);
--err_cleanup_gdev_srcu:
--	cleanup_srcu_struct(&gdev->srcu);
- err_free_label:
- 	kfree_const(gdev->label);
- err_free_descs:
-@@ -1330,8 +1320,6 @@ void gpiochip_remove(struct gpio_chip *gc)
- 	synchronize_srcu(&gpio_devices_srcu);
- 
- 	/* Numb the device, cancelling all outstanding operations */
--	rcu_assign_pointer(gdev->chip, NULL);
--	synchronize_srcu(&gdev->srcu);
- 	revocable_provider_revoke(gdev->chip_rp);
- 	gpio_device_teardown_shared(gdev);
- 	gpiochip_irqchip_remove(gc);
-@@ -2843,8 +2831,6 @@ static int gpiochip_direction_input(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->direction_input))
- 		return -EOPNOTSUPP;
- 
-@@ -2860,8 +2846,6 @@ static int gpiochip_direction_output(struct gpio_chip *gc, unsigned int offset,
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->direction_output))
- 		return -EOPNOTSUPP;
- 
-@@ -2952,8 +2936,6 @@ static int gpiochip_set(struct gpio_chip *gc, unsigned int offset, int value)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(unlikely(!gc->set)))
- 		return -EOPNOTSUPP;
- 
-@@ -3312,8 +3294,6 @@ static int gpiochip_get(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	/* Make sure this is called after checking for gc->get(). */
- 	ret = gc->get(gc, offset);
- 	if (ret > 1)
-@@ -3368,8 +3348,6 @@ static int gpiod_get_raw_value_commit(const struct gpio_desc *desc)
- static int gpio_chip_get_multiple(struct gpio_chip *gc,
- 				  unsigned long *mask, unsigned long *bits)
- {
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (gc->get_multiple) {
- 		int ret;
- 
-@@ -3731,8 +3709,6 @@ static int gpiochip_set_multiple(struct gpio_chip *gc,
- 	unsigned int i;
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (gc->set_multiple) {
- 		ret = gc->set_multiple(gc, mask, bits);
- 		if (ret > 0)
-diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
-index 00aa354950c9..c1952c287a64 100644
---- a/drivers/gpio/gpiolib.h
-+++ b/drivers/gpio/gpiolib.h
-@@ -28,7 +28,6 @@
-  * @chrdev: character device for the GPIO device
-  * @id: numerical ID number for the GPIO chip
-  * @owner: helps prevent removal of modules exporting active GPIOs
-- * @chip: pointer to the corresponding gpiochip, holding static
-  * data for this device
-  * @descs: array of ngpio descriptors.
-  * @valid_mask: If not %NULL, holds bitmask of GPIOs which are valid to be
-@@ -51,7 +50,6 @@
-  *                 process context
-  * @device_notifier: used to notify character device wait queues about the GPIO
-  *                   device being unregistered
-- * @srcu: protects the pointer to the underlying GPIO chip
-  * @chip_rp: revocable provider handle for the corresponding struct gpio_chip.
-  * @pin_ranges: range of pins served by the GPIO driver
-  *
-@@ -65,7 +63,6 @@ struct gpio_device {
- 	struct cdev		chrdev;
- 	int			id;
- 	struct module		*owner;
--	struct gpio_chip __rcu	*chip;
- 	struct gpio_desc	*descs;
- 	unsigned long		*valid_mask;
- 	struct srcu_struct	desc_srcu;
-@@ -79,7 +76,6 @@ struct gpio_device {
- 	rwlock_t		line_state_lock;
- 	struct workqueue_struct	*line_state_wq;
- 	struct blocking_notifier_head device_notifier;
--	struct srcu_struct	srcu;
- 	struct revocable_provider *chip_rp;
- 
- #ifdef CONFIG_PINCTRL
--- 
-2.52.0.457.g6b5491de43-goog
-
+What would you suggest to submit the patches (e.g., which patches submit
+through which tree)?  Do they have build-time dependencies?

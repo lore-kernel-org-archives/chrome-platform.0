@@ -1,178 +1,157 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C102D7D2E
-	for <chrome-platform@lists.linux.dev>; Sat, 17 Jan 2026 19:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768678509; cv=pass; b=BfBrZ+e32FxsrVANXIxDtTWRhlaV09vRMMkPyu8HzHt7tOw9dVIYSrL+kiLRI1zyYs2h3ueJgy9/0SNssX7eXw+oVKp0daryF5rP/E2ZyalXcIc4kTdPJi8Cz91JYuI4ZAUcehiMQjtzNjFtEGW9qC5LTOnAOQZlA4ZJ1Dq+tNc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768678509; c=relaxed/simple;
-	bh=TqFVyyk6gTWcdPPR/kpD6NILCI0ocp7uuvScmO5LREY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KTX2tfoofctoKqnbi2gsM0Zw3a1edykJXlTPgE6TKJWLvYZ8T8p3x3xziRx2ALI/D3InGou40aYd4yxPab+RuZmXp0eAp15PBFG1iZWJlQFu7PGYo+GbXrF2Twr/pQokoUd3xamIOr/h+b9EXtW+RY9gq7kK8hYoPmcVOAZCaN4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HZmjjKRA; arc=pass smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C792DAFAC
+	for <chrome-platform@lists.linux.dev>; Sat, 17 Jan 2026 19:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768678980; cv=none; b=uaEV0OCiKS0J6YDUy+7wewap7pJw/eU7PTqRKePWhDX2k0TAFMOEaVIaAVs6/7d/Musoub5GGsHx1LSlFVb1+XO667tIlb/2M88MCXpI6zvExNap+blSNlbZLlaQyE/qXq5pO43vEinrNy3P76N7/NK4ut+hcpjQp5mYhVf+csw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768678980; c=relaxed/simple;
+	bh=kyADtZzJjqa9S3qeCD1Nc9zebIgMdiyTsz6JgRZYFxM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=A2jFCXfGragxRf1MFCJbziNl7xqMGOz0T1DDeVGnYwrGb6jXxnQy9Kv1i9uQlBa+29YoLGm0NeAn7+hMagPe0FvW2vFiNf3S3f6ueapVqWnZ73QWH5v5LjJYJyky/yV88IZlhCgukSjfrlXVtt6oBpNsv/hB9Wr280qmSnq/MBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LSakuUCJ; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HZmjjKRA"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a0ac29fca1so19563245ad.2
-        for <chrome-platform@lists.linux.dev>; Sat, 17 Jan 2026 11:35:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768678507; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Yws9zVhviFnlj5rUEITfSAfBi7MYBhVjjBHwFyRbfIwrLJfxU74XNeombQ2WaKWFll
-         iZqJhh8R2K49wuuctKTHOqUHZzl9wfvCz1gy7ZHzWJ2w8Hvdak+xAbyN5HEB9KhRprTD
-         kP1aMAoI3iOK4dIe1hU0yBAblrd2cdddccoWDGbpwiIIrdRjnOTxN+dsRharS0vz5g7s
-         JPGNBinrQSIsTA4SAgFErI/u2NiFLFFEYUz8vyDMTXcoXGThOvTUu2As6+VBE4C0FO0/
-         ZaLiqt3SA+8GGWFAX1uHQ7zEg9S6wmCHfgKqPao8a+4Ut5ISF0IxeRUH66lEE95K0trB
-         IW9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sBJUYern0gP4g1kXsrl0YD7ywgpzAWw+KQJMDqXrH9M=;
-        fh=JzAujAAx3B660Vwwddo1YnDNbpCTdXRgzYc+gP7J3O0=;
-        b=k8WFQZndh7FgSDb0aB+3ouct7BN1imclj58G5GMC2cIiB5Np17vIn84bwLbo0WX5ZA
-         g99u5c+Wxn0M2ihanwg2tVQYdlP7cgHwX9o2xLM1UB7Cled0jmi1SWOrACViKj8h4wOY
-         qsjPA4nqnQEqXG1XYDwgg6xUkRGWThtFg1fXh9NrJMlLr/cpkl9R0k9Uo57N5PWWoH68
-         OxVXXzzw6qkHbvLtrtCFSiVNxcfSphY+Rq1gelyrtW+0nVgIDhDJAfFm6EDZQa6ZzLNW
-         VYR4EWEN+u3mIOKYZ0ZOMc4Y4eAmgQJpB5NVlNEt/u6vdOzz405+iV8lzl++sIYaetHg
-         4JiA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LSakuUCJ"
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-563610de035so2506583e0c.0
+        for <chrome-platform@lists.linux.dev>; Sat, 17 Jan 2026 11:42:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1768678507; x=1769283307; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1768678978; x=1769283778; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sBJUYern0gP4g1kXsrl0YD7ywgpzAWw+KQJMDqXrH9M=;
-        b=HZmjjKRASGOhqDJv4Ryl9QAm/5l5/KcUgmDnJMg1ctziD7QV+5w+d4P2rCj7gjyrRr
-         Bx2VV3zwB9lgHRzLC8KF9U7FHlJNtBv44HXZ7LIgCVDcOXhKDQJ0PDNRswvbKM+HmnW9
-         pdRHu9iGk0qwl7SZBu3wdAxoN9706c/COgZvE=
+        bh=jX+S0Sb3/TORvv49jMJHt7cR5imR7FosT/IXWBB8ZKA=;
+        b=LSakuUCJ969QiqwX6xaQnjyqYOdRkqgW0mePfl1mV3/pdyXAwtpwM0dWOoN3nyiCiE
+         FMSq06HzgYpVYA8CcPO7GtWEGvgOTDov32A/oYKSQdqaD01KokDAJKi4kqNiF+EkDB36
+         v62RLK3da2h6r4dbEuc8zp9bowj/fxiBKXS1zcFIvY5i5eVphaQAbvAyEw8ArGUWRiyz
+         wwJSv56PZKW8tyYW6V8sh0cUpjwrTrUE/d4t3FVgB6+474dufIO/arqPpuMl4odpMmKf
+         9UZ6OtUfVyCmEY8jFFwD1g5hyWyH0S+P9xTGLVmlgv0hIZys+gfhbaC0XfNbLssSL4hP
+         Asvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768678507; x=1769283307;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sBJUYern0gP4g1kXsrl0YD7ywgpzAWw+KQJMDqXrH9M=;
-        b=AUyzLXFY8/KyPdtG5IEaVjUW6o5XKCdnPjOk16ekBECO3U7kuFuHgRIeMfcry8RcA0
-         ra6H1j7oCl9vnrOPy9/filhyYj0JeG5/BbshELBMrref01bbcy/aV5X5ljmFXrLgLvKt
-         w4bqh/QEq/Y5+39hH4Gm+RpdmsLppVVu6z7XX/l+4DwRiAYkDRd79PomxrH1D6o5CRkn
-         6aWl6P0VBi785uRrSyC3zhP3Crlucvf63CbjkqQKKN9Qun9xhinnL8CUpktI9SMHL6yk
-         5mfDGfByi7L5xFRLeQgmJfMGe2Pbs1zcgxPqm+qWstbI9shG1TT7n9IagCJI7HrSbQTf
-         NQ0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVAZnWqjevtsGHiQAoipsR4OT15CjOwpx0YHQ1d2X38aQ3KDUXXJuXdGAA1sQisSWHDMbPCe4ngcqFKUYv60g8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YygqZc4N/F5EnfioedFZpW8e5DxarXYtrglusrrW1MpZ6U4kzoM
-	7h56GC+KchooF46tBfusVNKHxqSxpYCY0nt/f9BusYNvtR8LGc5skZF4wLxUAwM92VO+GLT3Mr9
-	Vp2z5qWGE67YZYXlBZogfl3/fQmuZgZSXAXrjdP+1
-X-Gm-Gg: AY/fxX7e9GI8kxxHTcHPDWuhyMEXGA2XZxJfGiqjynBD/W6lToUpuf76WwHcC4BXxny
-	I2uA410fDD2LsNzGIsH1E3xep3CBEN1Rg/+XcGe0jFGRT9kW+Cecj1HKz2OB0pSv5leZmACWCJ+
-	85jTPVPZQug2E2Vr02osuqUaJmAnFj32v9Czei/yAsHAWNIv/tBxfeEndrNkRFGikDNNpy4cCfu
-	OdDzBF8QfDDBwHmLOxiL8kApSUC217tQeBFHcciptEX78Ozs5tPGSBAUYHXMTLa86lN5w==
-X-Received: by 2002:a17:903:11c7:b0:2a5:8e98:1b44 with SMTP id
- d9443c01a7336-2a7175a637emr63427135ad.31.1768678506782; Sat, 17 Jan 2026
- 11:35:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768678978; x=1769283778;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jX+S0Sb3/TORvv49jMJHt7cR5imR7FosT/IXWBB8ZKA=;
+        b=rM2Tt22H2OoKCgNavgAZx7AU7rIp1IUrz9AWAjTzkua5bUhaO99f5NfBgu4QaEaJt8
+         tparfbO3LtCKSzE8/5aVTwZex8nbB9XVEn3bHw/xrXIygYiLhYBWqjH9qVm+nimqXRIG
+         Ud4XhH56WjifQBxkQI12QvzUPtSHRJVhGu8MXmCdoCO8LjYy4Ce6I9tOV4/lk1CDQU/+
+         Bb1PNsE1QnvYspAiDoDwBfk4I4CbahAkwQUyZQB4jCxFTOxO5Ts2c5PStdQEm3ZdpPND
+         2VP5PupQp+nXtaFZJiHrB/NPka0hf8Q0KxUXRvBYL/yz58GqpHI4r1XwENYpATTGmS7d
+         Qopg==
+X-Forwarded-Encrypted: i=1; AJvYcCXlggABRjvj8vYR94dKOyuhL1Voz7p0i94KFpZtX/cDBqMHtv1ZaQ+HkZu1rdulZuGgYBF2BIJjXD2IexdjFWs=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx759hkBcj+S/5Tnlmrt6vsZJv+gDxkeDmsBGEOP27+/oZMCuJE
+	GxZxva9UUVwZ1HA1q+2USmZi55bFtDmi1CTj/Ml+zy2G+ir9XSItBq5X
+X-Gm-Gg: AY/fxX4in3GDhE1+HlMQ7H/1RCrR3xkprFx1SQDWsgsghnYjHE9V/lfxv8IfCtNSXjz
+	kYriImfAcZ4QyxCfHI8z46APq90fkf5jS801gvgchSfGcQ0dUK39s2xwAucUAujqNfi7vcqmkTn
+	qRN0s6Jv3lvFlmwDb3QidMrUYPm7wY241Plx+O1Kbz6OHwLn0wI3csOmw5jacUm+8xLClYj6LBX
+	MH3bajxCQxzwTBOINgkZp77IKIAIS/8mmuQWuqB+99bHlvEmX6qtEClcWRMxacdDYoOJbjnkVe8
+	JFO7+mrHzeYI6Edrk9dBq3RtRkB7FGaPNsn5//WruKHbClwd/xzAsBemXLJL98LF8Z9mmcwQfDY
+	IQCvAL9CxSE8esgCUO12cCs5j6prF8APxkEnV/2YxK51An02jn3qi9sY67dtbQ/27DjGN6RT9XK
+	Csvg==
+X-Received: by 2002:a05:6122:1791:b0:557:ddc4:dea4 with SMTP id 71dfb90a1353d-563b5b8cfaamr2316062e0c.5.1768678978135;
+        Sat, 17 Jan 2026 11:42:58 -0800 (PST)
+Received: from localhost ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b71226a0sm1568589e0c.20.2026.01.17.11.42.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 17 Jan 2026 11:42:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260113130536.3068311-1-akuchynski@chromium.org>
- <20260113130536.3068311-8-akuchynski@chromium.org> <aWkAx-QjfwQGJ6Eb@kuha>
-In-Reply-To: <aWkAx-QjfwQGJ6Eb@kuha>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Sat, 17 Jan 2026 20:34:54 +0100
-X-Gm-Features: AZwV_Qix8YRb3f7h2HG8Ncj6wtivEszSjSskjFE8VN2Lt4Np26OhSDfbOXSzbOM
-Message-ID: <CAMMMRMcpuaTpJ3=zO0SafaeRPxTkAEEQrS-mDRKFBTc3yESM6A@mail.gmail.com>
-Subject: Re: [PATCH v4 7/8] usb: typec: ucsi: Support mode selection to
- activate altmodes
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	Jameson Thies <jthies@google.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Guenter Roeck <groeck@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	=?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>, 
-	Abel Vesa <abel.vesa@linaro.org>, Pooja Katiyar <pooja.katiyar@intel.com>, 
-	Johan Hovold <johan@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>, Madhu M <madhu.m@intel.com>, 
-	Venkat Jayaraman <venkat.jayaraman@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 17 Jan 2026 14:42:54 -0500
+Message-Id: <DFR4DC4NN16R.2365N6R1B6A9Z@gmail.com>
+Subject: Re: [PATCH v3 0/7] iio: core: Introduce cleanup.h support for mode
+ locks
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "Jonathan Cameron" <jic23@kernel.org>, "Kurt Borja" <kuurtb@gmail.com>
+Cc: "Andy Shevchenko" <andriy.shevchenko@intel.com>, "Lars-Peter Clausen"
+ <lars@metafoo.de>, "Michael Hennerich" <Michael.Hennerich@analog.com>,
+ "Benson Leung" <bleung@chromium.org>, "Antoniu Miclaus"
+ <antoniu.miclaus@analog.com>, "Gwendal Grignou" <gwendal@chromium.org>,
+ "Shrikant Raskar" <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
+ <perdaniel.olsson@axis.com>, "David Lechner" <dlechner@baylibre.com>,
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Andy Shevchenko"
+ <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>, "Jonathan
+ Cameron" <Jonathan.Cameron@huawei.com>, <linux-iio@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
+ <20260116203353.59a2a00e@jic23-huawei>
+In-Reply-To: <20260116203353.59a2a00e@jic23-huawei>
 
-On Thu, Jan 15, 2026 at 3:59=E2=80=AFPM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
+On Fri Jan 16, 2026 at 3:33 PM -05, Jonathan Cameron wrote:
+> On Tue, 06 Jan 2026 03:06:55 -0500
+> Kurt Borja <kuurtb@gmail.com> wrote:
 >
-> Tue, Jan 13, 2026 at 01:05:35PM +0000, Andrei Kuchynski kirjoitti:
-> > If the ucsi port driver supports modes selection, it should implement
-> > `add_partner_altmodes` and `remove_partner_altmodes` ucsi operations. W=
-ith
-> > these operations the driver can manage the mode selection process.
-> > Once partner altmodes are registered, `add_partner_altmodes` is called =
-to
-> > start the mode selection. When the partner is unregistered,
-> > `remove_partner_altmodes` is supposed to stop any ongoing processes and
-> > clean up the resources.
-> >
-> > `typec_altmode_state_update` informes mode selection about the current =
-mode
-> > of the Type-C connector.
-> >
-> > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> > ---
-> >  drivers/usb/typec/ucsi/ucsi.c | 11 +++++++++++
-> >  drivers/usb/typec/ucsi/ucsi.h |  4 ++++
-> >  2 files changed, 15 insertions(+)
-> >
-> > diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucs=
-i.c
-> > index deb210c066cb5..4a6e23b55b10c 100644
-> > --- a/drivers/usb/typec/ucsi/ucsi.c
-> > +++ b/drivers/usb/typec/ucsi/ucsi.c
-> > @@ -314,6 +314,7 @@ void ucsi_altmode_update_active(struct ucsi_connect=
-or *con)
-> >  {
-> >       const struct typec_altmode *altmode =3D NULL;
-> >       u64 command;
-> > +     u16 svid =3D 0;
-> >       int ret;
-> >       u8 cur;
-> >       int i;
-> > @@ -335,6 +336,10 @@ void ucsi_altmode_update_active(struct ucsi_connec=
-tor *con)
-> >       for (i =3D 0; con->partner_altmode[i]; i++)
-> >               typec_altmode_update_active(con->partner_altmode[i],
-> >                                           con->partner_altmode[i] =3D=
-=3D altmode);
-> > +
-> > +     if (altmode)
-> > +             svid =3D altmode->svid;
-> > +     typec_altmode_state_update(con->partner, svid, 0);
-> >  }
-> >
-> >  static int ucsi_altmode_next_mode(struct typec_altmode **alt, u16 svid=
-)
-> > @@ -609,6 +614,8 @@ static int ucsi_register_altmodes(struct ucsi_conne=
-ctor *con, u8 recipient)
-> >                       desc.vdo =3D alt[j].mid;
-> >                       desc.svid =3D alt[j].svid;
-> >                       desc.roles =3D TYPEC_PORT_DRD;
-> > +                     desc.mode_selection =3D con->ucsi->ops->add_partn=
-er_altmodes &&
-> > +                                     con->ucsi->cap.features & UCSI_CA=
-P_ALT_MODE_OVERRIDE;
+>> Hi,
+>>=20
+>> In a recent driver review discussion [1], Andy Shevchenko suggested we
+>> add cleanup.h support for the lock API:
+>>=20
+>> 	iio_device_claim_{direct,buffer_mode}().
+>>=20
+>> Which would allow some nice code simplification in many places. Some
+>> examples are given as patches, but the last two are the biggest
+>> differences.
+>>=20
+>> In this version I dropped the RFC tag, as the general feeling is to go
+>> through with this after some modifications. Main one is the addition of
+>> IIO_DEV_ACQUIRE_{BUFFER,CLAIM}_MODE() wrappers to avoid drivers using
+>> the guard classes directly. I also added comments on the forbidden ways
+>> to use this API but I definitely still take suggestions on this.
+>>=20
+>> For now I dropped iio_device_claim_buffer_mode() rename, as this point
+>> is still being discussed. My suggestion based on the RFC discussion is
+>> to do it, but in a separate patch (using coccinelle) and while we're at
+>> it rename the whole API like this:
+>>=20
+>> 	iio_dev_mode_lock()
+>> 	iio_dev_mode_direct_trylock()
+>> 	iio_dev_mode_buffer_trylock()
+>> 	iio_dev_mode_unlock()
 >
-> Can't you just use that con->typec_cap.no_mode_control flag here?
+> I'm not a huge fan of flag days though this is entirely in direct mode
+> so I can just do it at the start of a cycle.
+>
+> Anyhow, that's a job for another day where we can bikeshed the naming
+> yet again.
+>
+> I do like unifying the unlock though.
+
+I can send the patch, gather some feedback and then send a rebased v2 at
+the start of the next cycle (or whenever seems best).
+
+Should be pretty trivial, after I learn a bit about semantic patches
+( famous last words? :) ).
+
+If you feel up to it, I'm up to it.
+
+>
+> Patch 5 never made the list for some reason.
+> https://lore.kernel.org/all/20260106-lock-impr-v3-0-1db909b192c0@gmail.co=
+m/#r
+>
+> (I thought I'd accidentally deleted it!)
+
+Yep, it seems it never reached. I'll make sure it does this time.
+
+>
+> Thanks
+>
+> Jonathan
+>
 >
 
-Thanks. It looks much better.
 
-> Maybe also consider squashing that patch 3/8 into this one while at it.
->
+--=20
+Thanks,
+ ~ Kurt
 
-I agree. Patch 3/8 was part of a mode priority series. Now there's no
-point in leaving a single line of code in a separate patch.
-
-Thank you for your review of the series!
-I will send the subsequent series with all the changes.
-
-Andrei

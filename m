@@ -1,63 +1,63 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F472DECA0
-	for <chrome-platform@lists.linux.dev>; Sat, 17 Jan 2026 19:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895F32E1758
+	for <chrome-platform@lists.linux.dev>; Sat, 17 Jan 2026 19:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768679072; cv=none; b=BXxZ/3vGJ60GcoEusF6btapfml3ECRBIxvy+O7Lm4oEZqfjCg/zwA0YWk1J7Z5H4enfT0aexnqgcFycDqqpe19iIILX2H9H6t8JSA7pd3znQ9BZAwhby00SwKYFlGSS7C8OXAJH70Ny91RCzhtzadqE1RDzy6gisbls0dnYZeoI=
+	t=1768679115; cv=none; b=EDxyCRvH63BpygKTA5+fcGiqP1ku4Lqkx3+RU7Dm7MhWrqiCqKyduCnTsLa/ntgTjtj+/zjyvuM7L4i8yPkp0CCnhA9bwnaB/cTbcA+G0MKjSxMzn8HvoM03Tf8RJoml5zZY4exLxSPs4NSdIE7rzBQ2jn1zJ+w5FZhItKTEkX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768679072; c=relaxed/simple;
-	bh=xkKytNjeVcjDL10/GqrC/ZAsjwWotwsWzGLKnH3NAuc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=qj6g/XwcNSCFPGSU/Q9PK1AFOQU0yXPebbxzVdhsWhXnWJuMuFtinLhS/C89HYOFxv6FieWsWYdonlql/+9aP+lyY0KYtT9kTtBbem9TSL7EIKxKhvw5VYrHsqMcVW/cZMXbPO7gyvQ4xf/waNzZgFkL3+RylCoq9x/2zfUCkkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ht9DeU0S; arc=none smtp.client-ip=209.85.217.42
+	s=arc-20240116; t=1768679115; c=relaxed/simple;
+	bh=jpqBLBtcKEzVsS7UF6kIY4x735PGlJz3V7jBe9IpCYY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=nTHInBJ16wmWVj7fXhsn1rROL1FQXXsc10T95KlM0Wp5VHYSUgr5TAjsRRXELjVulc4+/UZSSI/DfeAwtjTAAttwvAluX+0ZFixb7lrM4NYCxRoI9C8GijJGN9oYiymDWeJxQ+XmDXSFH8SeJ2An74FTx9MuunzbFl64xbT7+Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nO4ZMsaw; arc=none smtp.client-ip=209.85.222.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ht9DeU0S"
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-5eeaae02888so888074137.1
-        for <chrome-platform@lists.linux.dev>; Sat, 17 Jan 2026 11:44:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nO4ZMsaw"
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-93f64ae67dbso898715241.1
+        for <chrome-platform@lists.linux.dev>; Sat, 17 Jan 2026 11:45:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768679069; x=1769283869; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=gmail.com; s=20230601; t=1768679112; x=1769283912; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u1uCAAMUi0Dl9Xk8gsU5DOI/xVq90HWLTJ/j/86WebA=;
-        b=Ht9DeU0SopXS+G7zT48gykUkL0TGHBb+KoawPFEh1RgVZBZ0bpxFL1E57i+BSp/rnA
-         a/gSGJfQvPaVo19wAE3ZSS/a1wC9jo7ib+0yvS0o7xppA/sQMrVrQnTldqK601x+0RIR
-         7Pcn1caIkl0Z69ZsNiGz0bl3agrfFh7hd291mMTXoBNk8TUkDmjnE0xOk2/TEb6zVUlx
-         9kQ1WfEXxp+kCa0lHeIMdmm/ax+cWzAox5L843Y5+/chBfbO5h9sSVR1ideGVo75QSzm
-         VgS/SMDm4YViR+fwXePaNydAX347uTBu7saJBsxknSIh1tOWPBlOjzbgye/batUYM30E
-         5Mlw==
+        bh=IUH5YLlwfZi0OdbE0v9gLIiwvyrwpkrw6SV78GoWRsU=;
+        b=nO4ZMsaw/Icw2wijLxdfPtk6yBiodDjcxtc51bHZx/9UoTZVHJiiDjO3ZixpnrsNmi
+         Q7nsR0jAgYdAOK2in1ztBja4J97jDAaA2DABke2drni8KQraH4nHC026S4J0y/rKkLTw
+         CnTbBsFGtpG9MRXpdPR5z99MqdmxfODgDqcD9tabaGjKLf9SVZHpMaWM33i+QR+MJUuY
+         RKfPzWp5Tn4ithOxj2ffQDEnIRAAWW/p9ZFtgQXTNZroKi7WDMITsbAxxJ0/blwLp3nP
+         bD6ees0Wsosuh8xwUKnDH9mIGqsRWWU8a1puNFR4u6/WsFWUH+M7csxi9rzBaP0aOtuI
+         /lUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768679069; x=1769283869;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=1e100.net; s=20230601; t=1768679112; x=1769283912;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=u1uCAAMUi0Dl9Xk8gsU5DOI/xVq90HWLTJ/j/86WebA=;
-        b=CtuEVqVPQEUa7Sy7y6hqAGh+8fnmf6RsDOUEpR9GhnAvDMXGPkLdQEK429NIPopUFN
-         4MHTvPT0R/A30ILzYhR+qu5EGEwmY+QJ4FVfm2kn+a/7DZprqHMp2BwlQAoIsTWVnHGR
-         D2WOe62LcP7+OISYxh0/AKcE65/q4TAgzKYyAZswPVxwIAPvt9goblFA+mpEJsix1J4q
-         ptD3ejJMVeQ9XI+xt/9FvfG0o4Wr2CZlr8fd3C6impu0o8m3isptwY4+wVjek4cSwcUB
-         DELyZ8LmhclEUnVbM7JQJa2EWZc4Pt9wFPuYQ5izBw4X6KBkVOMm/8SzxAo1662Rr4m0
-         pYgA==
-X-Forwarded-Encrypted: i=1; AJvYcCUr5cWm09OZAH6k6RNIQ5/+1J92RhEK+zjmj+81CKrHlFdMC6wefdXD6nr0KNPCXBFhSxbCytw8YWtxwi6T7Ug=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxtg2dxdJGOHP6sX+wtf6J8SdTzhNWbDeuULdSmHY0mmWNrZjY2
-	2h+TGLpdIG/24W6AYyHQzd+Lj/s0ik7IPckLVjk6/gwLkXQ3/ncFlEzm
-X-Gm-Gg: AY/fxX6mdgg4/GftcZCSSnLbBSwqBZ3NzWo4Jwv76y+PWlm5kYkY3ayai4CEpbj/A5d
-	jOclWKqc9ERKx4scz9zNJWKkyZma0dP8qlhBOxFhtb00TS+EPAq4nGmuwkMjcNhdHfrcAnwDJ+W
-	pzRjS8+xCxTNRWtzLxOnouccbj0IXSjVB4iz8FnWjj/zfI9mJJuc1WlNjcTbQGGf5P5lQFfXbR7
-	OZ7znhtJqd87xVwgJDgtRJ1bNWRTaetW7wTJ5VgQY/6Y8DWShl36AdSbRGXRlPnNorAd6aHChHi
-	ISQVSfYy4sXXpIfalYnqoWwgpJjLY1EISsR8VLImyUMoyxadOj3EVi6+oPPiufRjcmZRULGSiJE
-	bEEXxo3zPnGLfDT4eGJe4B58nrXiEPhsDXvhd2DIHzAGXP/On++4STC6BMS0ZwCpKBMKX05nRGN
-	Ik8Q==
-X-Received: by 2002:a05:6102:f10:b0:5ee:a309:6684 with SMTP id ada2fe7eead31-5f1a4dc26femr2032982137.10.1768679069122;
-        Sat, 17 Jan 2026 11:44:29 -0800 (PST)
+        bh=IUH5YLlwfZi0OdbE0v9gLIiwvyrwpkrw6SV78GoWRsU=;
+        b=rTi6/DymIxJt4nlRicRTgtIrboVGuilsar1nLzVFYBWHHCLAsuiH6zRzlzDXOekYHe
+         55XMziT4ADqpgpluzGA7+9pT9JHETGM8Kzo2EqzRyCtooRc1j2D0CrGNAtlSbFwgyp6z
+         RJlRVtQqAV/I1wRmbnJmfOnPgRRjh6Q9TaCPwUXvopFF2izNK8XZgU3kuR7Ui+7l3v7o
+         xK9LjWYtfQ3tlwUzrvgmhXWq/WVmGsCzbvIUSyRrZYNQM3u1TcpjGMVX1I7KQOljrJi5
+         xxCUcptGK12Qax3POF4k039iZkyMS//h7+/4Tqex8riHIHp7r7wlaQTeWkgLgC22fA6b
+         Eb/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW0HJ2uElNhbdfAqNdY9mwdGeB8Wc0prwLcIeZcMyQWI6PJOAon/XL4Wrh0UiPRmSAAfuVu72xX8jRfgmaOdpc=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy3qrQ94SzCT/0/8yB4x9w2g3usaGQEUFMId+rTBB21/Cqg8s21
+	7rYHwKOJp6xQYfHFGA1IsXVcXH3elnTg8xXAjtr5xApy5U5vfAVa88HX
+X-Gm-Gg: AY/fxX6RBcqsNcmNJZURawXPMu32RGVyMe3tUiFMep/lhrhbHRB2pwGKXlxDJB2/mKf
+	wSjVd6tJ9m2FXr/WSONkoJ9CZcBrcCiFCh2UWFxEsRgVE0992Eb9KJc+baF4Dg/1MORXeT1/HXG
+	0AttHlC66GQ5ErUmDrDB7pqUSRsu44ta75W/HhkwFHIvPch8JGq9w2E0cE4qB8Dmdiq4CCuy304
+	lu+E+24Zmas/E+4Utr1isl2a4dXY+vKVGcU4YM34A21AmTfIKV7ymwgk3jUqmfYSB3eXlxk7Un7
+	VpT9UU+vlajqd/ZUDNQ7MKavdpVvot18SZP/Y1vyUJzd74ysOiWFYR8dMoZDwwHDpgGkk0DIP5U
+	nAoB6k5mpJsBEhqnuBiBhlNa7CvFsgVbLLP9fjnu+oky/INY3mKdNn8KqchiJ/2ExJIjDVXVdLP
+	LpRQ==
+X-Received: by 2002:a05:6102:e08:b0:5ee:a0de:65d5 with SMTP id ada2fe7eead31-5f1a720aa52mr1737315137.41.1768679112408;
+        Sat, 17 Jan 2026 11:45:12 -0800 (PST)
 Received: from localhost ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-947d04377bfsm1854349241.10.2026.01.17.11.44.26
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-947d03c2861sm1785523241.3.2026.01.17.11.45.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Jan 2026 11:44:28 -0800 (PST)
+        Sat, 17 Jan 2026 11:45:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -66,68 +66,84 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 17 Jan 2026 14:44:21 -0500
-Message-Id: <DFR4EFO39YMN.2B4GMZC3TPMQ8@gmail.com>
-Subject: Re: [PATCH v3 0/7] iio: core: Introduce cleanup.h support for mode
- locks
-From: "Kurt Borja" <kuurtb@gmail.com>
-To: "David Lechner" <dlechner@baylibre.com>, "Kurt Borja"
- <kuurtb@gmail.com>, "Andy Shevchenko" <andriy.shevchenko@intel.com>,
- "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
- <Michael.Hennerich@analog.com>, "Jonathan Cameron" <jic23@kernel.org>,
- "Benson Leung" <bleung@chromium.org>, "Antoniu Miclaus"
+Date: Sat, 17 Jan 2026 14:45:04 -0500
+Message-Id: <DFR4EZFDOSJS.2U76CKFU7TVT2@gmail.com>
+Cc: "Kurt Borja" <kuurtb@gmail.com>, "Andy Shevchenko"
+ <andriy.shevchenko@intel.com>, "Lars-Peter Clausen" <lars@metafoo.de>,
+ "Michael Hennerich" <Michael.Hennerich@analog.com>, "Jonathan Cameron"
+ <jic23@kernel.org>, "Benson Leung" <bleung@chromium.org>, "Antoniu Miclaus"
  <antoniu.miclaus@analog.com>, "Gwendal Grignou" <gwendal@chromium.org>,
  "Shrikant Raskar" <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
- <perdaniel.olsson@axis.com>
-Cc: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Andy Shevchenko"
- <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>, "Jonathan
- Cameron" <Jonathan.Cameron@huawei.com>, <linux-iio@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>
+ <perdaniel.olsson@axis.com>, =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ "Andy Shevchenko" <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>,
+ "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>
+Subject: Re: [PATCH v3 2/7] iio: core: Refactor iio_device_claim_direct()
+ implementation
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "Andy Shevchenko" <andy.shevchenko@gmail.com>, "David Lechner"
+ <dlechner@baylibre.com>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
- <4e77ebef-07b3-49ae-9d53-d24616569a74@baylibre.com>
-In-Reply-To: <4e77ebef-07b3-49ae-9d53-d24616569a74@baylibre.com>
+ <20260106-lock-impr-v3-2-1db909b192c0@gmail.com>
+ <5a953bf8-857e-4c67-be43-d60cc9b5a34c@baylibre.com>
+ <CAHp75Vei0q4bJrfuv28B+f-JOn2DGBkE3LT3UX8TiTnmUgDw_w@mail.gmail.com>
+In-Reply-To: <CAHp75Vei0q4bJrfuv28B+f-JOn2DGBkE3LT3UX8TiTnmUgDw_w@mail.gmail.com>
 
-On Fri Jan 16, 2026 at 5:08 PM -05, David Lechner wrote:
-> On 1/6/26 2:06 AM, Kurt Borja wrote:
->> Hi,
->>=20
->> In a recent driver review discussion [1], Andy Shevchenko suggested we
->> add cleanup.h support for the lock API:
->>=20
->> 	iio_device_claim_{direct,buffer_mode}().
->>=20
->> Which would allow some nice code simplification in many places. Some
->> examples are given as patches, but the last two are the biggest
->> differences.
->>=20
->> In this version I dropped the RFC tag, as the general feeling is to go
->> through with this after some modifications. Main one is the addition of
->> IIO_DEV_ACQUIRE_{BUFFER,CLAIM}_MODE() wrappers to avoid drivers using
->> the guard classes directly. I also added comments on the forbidden ways
->> to use this API but I definitely still take suggestions on this.
->>=20
->> For now I dropped iio_device_claim_buffer_mode() rename, as this point
->> is still being discussed. My suggestion based on the RFC discussion is
->> to do it, but in a separate patch (using coccinelle) and while we're at
->> it rename the whole API like this:
->>=20
->> 	iio_dev_mode_lock()
->> 	iio_dev_mode_direct_trylock()
->> 	iio_dev_mode_buffer_trylock()
->> 	iio_dev_mode_unlock()
->>=20
->> Let me know what you think and thanks for taking a look!
->>=20
->> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
->> ---
-> Like Jonathan, I just had a few minor suggestions, but overall:
+On Sat Jan 17, 2026 at 7:01 AM -05, Andy Shevchenko wrote:
+> =D0=BF=CA=BC=D1=8F=D1=82=D0=BD=D0=B8=D1=86=D1=8F, 16 =D1=81=D1=96=D1=87=
+=D0=BD=D1=8F 2026=E2=80=AF=D1=80. David Lechner <dlechner@baylibre.com> =D0=
+=BF=D0=B8=D1=88=D0=B5:
 >
-> Reviewed-by: David Lechner <dlechner@baylibre.com>
+>> On 1/6/26 2:06 AM, Kurt Borja wrote:
+>> > In order to eventually unify the locking API, implement
+>> > iio_device_claim_direct() fully inline, with the use of
+>> > __iio_dev_mode_lock(), which takes care of sparse annotations.
+>> >
+>> > Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+>> > ---
+>>
+>> ...
+>>
+>> > diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+>> > index aecda887d833..3cf340208694 100644
+>> > --- a/include/linux/iio/iio.h
+>> > +++ b/include/linux/iio/iio.h
+>> > @@ -664,31 +664,47 @@ int iio_push_event(struct iio_dev *indio_dev, u6=
+4
+>> ev_code, s64 timestamp);
+>> >
+>> >  void __iio_dev_mode_lock(struct iio_dev *indio_dev)
+>> __acquires(indio_dev);
+>> >  void __iio_dev_mode_unlock(struct iio_dev *indio_dev)
+>> __releases(indio_dev);
+>> > -bool __iio_device_claim_direct(struct iio_dev *indio_dev);
+>> > -void __iio_device_release_direct(struct iio_dev *indio_dev);
+>> >
+>> >  /*
+>> >   * Helper functions that allow claim and release of direct mode
+>> >   * in a fashion that doesn't generate many false positives from spars=
+e.
+>> >   * Note this must remain static inline in the header so that sparse
+>> > - * can see the __acquire() marking. Revisit when sparse supports
+>> > - * __cond_acquires()
+>> > + * can see the __acquires() and __releases() markings.
+>> > + */
+>> > +
+>> nit: I think "attributes" would be more technically correct than
+>> "markings" (since we are touching this).
+>>
+>
+> The annotations is slightly better because these are for sparse and not f=
+or
+> compiler.
 
-Hi David,
+Hi Andy,
 
-I'll add your remarks in the next version. Thanks for all the feedback!
+Yes, annotations also matches the Sparse documentation so I'll go with
+that.
 
 
 --=20

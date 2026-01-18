@@ -1,255 +1,268 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C55285CA8
-	for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 09:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4079650094E
+	for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 15:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768730352; cv=none; b=Aa+j27TVcxzyJrYU51UeExZf3GV7mFa0T+YpPhcU9g9gzhLVPZr2QC1nOm8vcExeSl38DASRTYB3gzC/58GbqkJZYN0QDX+26Gzpd3YiAxXJjsbk0fzezTZJpTaK6nfZ0O+1UIJbh+XZoFTlFI9OUDwftbT4eZjyGfrsIouOJz4=
+	t=1768749561; cv=none; b=G+T8ksO1VfMBVN8mksZDE5YX/jZYiResLV5lcEj46EyjLHB/sAncwiidskppHB6LcFjzH6/UJH9eSd0xdxBCFHR60MwpWmdMI6N14/CSjAHTGPHX4jX4DCTd5Tsgh5gHDhLdf1yZIoHsNXOjNHuKk4sHft8ZVG1EIQfxUHuBhVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768730352; c=relaxed/simple;
-	bh=08rC0cvF54ACB0PVeySzp8VYTmE3tgW3pybPh55JTAc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VaTEicUwKSMc9niTzkW3cwoCYS4wbD3ZLpQR1w4r9XM/7voSCifxqFvb961EO++kPgx9OhLWHY4GIFVfV9L56TyXeubp4R7gpX1L0b9lUmecQQ0ChHDvQiFGMcN2AW80CZvbV9O5AbvtJHr107nIhvRss2naFG/e8OVFni5Fb9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y/5j9pPr; arc=none smtp.client-ip=209.85.167.46
+	s=arc-20240116; t=1768749561; c=relaxed/simple;
+	bh=g06A1tXDMolKKapiyzUzcHhUdjAZvYx4RznKjM44peE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=spk28oJKQIJN4rdH9TWF2g+Ctu4qjUqIw70Qh+A2hBj4zgm/RhzFNj8g8iT3wvOn3hYw134nLFkjce2OguUzI9TmiLKW9sRcD3aiBV5YwU0okzmKI2U79LprQPbQu3q9j+Q8vaCpgFgGGegGTBDKIlzQ+JNSTDQJvLB4WLrpJcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AFJFGqCE; arc=none smtp.client-ip=209.85.221.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y/5j9pPr"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59b73193dc8so3212996e87.0
-        for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 01:59:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AFJFGqCE"
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-563610de035so2856490e0c.0
+        for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 07:19:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768730349; x=1769335149; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=X5Wp4PFW3FDjcGZeHy285d4DuBD8ZW5QDx8KF4QEZ6I=;
-        b=Y/5j9pPrPp38KfdPIXLQBheLuPtGmnzcqFmlSGq23vERf+c+LZagABYMlq99SOx7WN
-         gosoet3rShlIQeIOknYFGmnBj81qHE6RpwqwrLms8y1u7M7/59D7Mvo1wn7SFN6AuFVR
-         fuNOKX/ejbeplOYs83Q8SfJVcoCQBCVnyzek0wGITm8vY3fsDyZaTPUXU7SDKMJLu0ic
-         JEafjxUqz1bMS3bTMLC/zxbqerfMDlZLSG6SHB9HolDF2ZnMG4JZPmM+o4L/D10lFWwO
-         1T6NyN2j3ruo7WpvCXn2D74eWJrJkQLKYrUi8XMgC3Hk1XchO+8TiYwXVpPGL8MEE+Rn
-         uV6Q==
+        d=gmail.com; s=20230601; t=1768749558; x=1769354358; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BOUvpplcT3urd/iksfVnrJu08Fkv1KRGqxSkXimkTS8=;
+        b=AFJFGqCE6dw6T8eVb3VdqluaEqdA+uBnema32cjmJLQ6b8a3vg7gPQ78s+eujxOTLl
+         FhufZkLb1nU0ao9O5gGeRxFSkQXjfz+jniVCSiK88pm4g73Ub6TDwx/iCk40fdaKygux
+         ME6LVGHN/31J5s16a31bIjU3IGKwx7nWfa/pE0GNeQhcsUF+QjOFR6SX6Ta00NGVAWID
+         35UfFsqmC/JSubdFeRu2qbtCt3Mgv5ka/4aofEiLRRD7bChWbxDkT5/QYVvw7nlLtgkg
+         d42KfbQA6KwQVZrDuGkcTZDQW/QC1z2rhrvaZ8+m7v0vFScdiRRSRxa9nZwQUD1jGTc8
+         OyVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768730349; x=1769335149;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X5Wp4PFW3FDjcGZeHy285d4DuBD8ZW5QDx8KF4QEZ6I=;
-        b=H0MdRL2gFPeJNNN3d2vi7xHYE5x/KDy3KfwXbez7yNkt7kn/yzH2fqT7ntuwi87mkQ
-         5+W6bFl9a6lsfrqjNzpQOAYYGZ5P0HJmOnYfHptU1XpV1kfDySBZyan40iB8JUNOKVrr
-         twlQOdxBIhzET9ngF02KyRukUEg1nvWJou3YJ6G5uowPXYpIQUivdhiP6wO1OM8ayuQJ
-         5fIJ0skIL9tI0zgdrN+UENNTLKUMLIpFyQbjXbPXXfxdgQJBPoBWEXx4aRiDr5OZi66I
-         ek/T8U+BVZyNQcVflYUMVUbUf+ADNOiBtHwu3tQbW+gOANBOJ73JdwbYrD7D2xPVECC4
-         qqPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMMeEsQ9xZUYAS33MZuHbkMtGmeEsWkOZOJdV9a3eG1lg/ubbfUmwEURuZV7QiephilKbHVmEV+njMnUT4P4A=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyguAebg/Dkbn2BK13jFAu/D/pNNcLv7PwcifGuNP9kDX8pKwY0
-	fWj7RYZ7vai4hNHRb4BPdxzl8lE00/jTXWdxtDjvn37+eLtGc1KP6ijA
-X-Gm-Gg: AY/fxX5N3/HsqqDySMIFv0W4grauU7DUxv/8Fzyp5aYo1ukWQjOM4jTAnppM3gmlnkH
-	wU8TSzvBmB6v5QWyFwTTrg6plQehjwJkR7WeeN/vfZr+OVeHVGauSGkH6ZLEPjbz445Dl9M+OE6
-	Ea6PzLZMLKbSjYcBFihyOMZ1CpFjeH1XABpA+qTFZuSFxfTMsQKWXepjVkGIr13SlZ2IFurZ3aJ
-	s9NSCgGv/h1RYkz04FgmkpGEkauc5IwKcad328wjx9wIKsSsJqx53zkfv9+0VgrA1g6STtD6nIF
-	gFQmbp04QKHatcP6urBFcjQfaT9/JWav+grotFE0Gw+JqhIRyVbER2vn7Ban/2audiRHTIDdTD7
-	tADDYozlT6oRGzEG/ipwqx55iBrm5moI0hAIiGbC1pyMt1bHmGrl3nYc/MrWa7WgArakGopNikp
-	AutqICfpz/+8vT4vS9BLG97z2QkqlA3TxWMHzRJxwFNj33hagyE3on7KlEiqs=
-X-Received: by 2002:a05:6512:3b0d:b0:59b:78b2:27fc with SMTP id 2adb3069b0e04-59baeee5f3emr2568080e87.42.1768730348531;
-        Sun, 18 Jan 2026 01:59:08 -0800 (PST)
-Received: from ?IPv6:2001:818:ea56:d000:94c4:fb0e:28f:2a8d? ([2001:818:ea56:d000:94c4:fb0e:28f:2a8d])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59baf397728sm2292945e87.49.2026.01.18.01.59.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 01:59:07 -0800 (PST)
-Message-ID: <363f81bfe996de839a43e9f6a355ed014cd3de8a.camel@gmail.com>
-Subject: Re: [PATCH v3 0/7] iio: core: Introduce cleanup.h support for mode
- locks
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Kurt Borja <kuurtb@gmail.com>, Andy Shevchenko
- <andriy.shevchenko@intel.com>,  Lars-Peter Clausen	 <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,  Jonathan Cameron	
- <jic23@kernel.org>, Benson Leung <bleung@chromium.org>, Antoniu Miclaus	
- <antoniu.miclaus@analog.com>, Gwendal Grignou <gwendal@chromium.org>, 
- Shrikant Raskar <raskar.shree97@gmail.com>, Per-Daniel Olsson
- <perdaniel.olsson@axis.com>
-Cc: David Lechner <dlechner@baylibre.com>, Nuno =?ISO-8859-1?Q?S=E1?=
-	 <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Guenter Roeck
-	 <groeck@chromium.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev
-Date: Sun, 18 Jan 2026 10:00:10 +0000
-In-Reply-To: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
-References: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        d=1e100.net; s=20230601; t=1768749558; x=1769354358;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BOUvpplcT3urd/iksfVnrJu08Fkv1KRGqxSkXimkTS8=;
+        b=m6A/cmDMwgf83i+YP4kckceheFQ+QiWbw0quUVK5KsQEm24j11f7sywwOifU6gk0KM
+         gDr52T86PVMERF34X2v9/mPt9vZRuededGMLuprfmXgoc+FWh4gMRC9m6wW+5KoA9syY
+         iqrCFXMZ1fjmSLk+T9dJ0rZekqYBtWaKc+EQ5uLwepw+IXsuFcaBFBQMfAsilYIJgkaS
+         YW3p2tKmGHLEstkAL5E9V3A0XqzuaNzmpZHoAfVFMlrG4W3ZkhL3+CpETddjE2Sk9EKh
+         GQGJtg8hFIgyM9FU3kewXB9yedwar5QiCrVPBPbDwFK5wAg6WaDPaPArA1eh7AcfOvwN
+         gH5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXQnUDxyEzmIvcFamRXGTGKAK7GbBWS4UKHaDbLtoK5KGldneo43GjOoBmwBRAMG7RtyoccCupplJHauNi5Rno=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw+Brn33ibFa3w/v2dwV1Cya222aWqE6vTuYl8rSjekuvCkoxC8
+	NW1Ys4Fw40AhyFWflMFx0CONJRKkAbwWSaa2i2X2EMXc8573arp4VJSH
+X-Gm-Gg: AY/fxX6CE+4/pWVsQ7SJ9YU0eMpH/PWdMgB0YiM2JvuP5I6yO+9TNzpdxENm9XBR6Y6
+	99whDUZ4N/EIeNztdQsQ0hiPp0liG6on3uqJlbu22ZyZyr4E7KEC/DkjYfaC4/Q9cSefiFJoSpb
+	Icv2HRiYKSef0RzoDb+6L6hDYbrhD5C9FZHx7nGh6dBZUhxh+On3mXKTc+6ujtNtszjVtgrt55p
+	PwHvGtxIpP357vztRT1WKl990cOfd/vpNchbUIBP+vEnk520W2mnOCNY7jugdS30YDTMvyZ9ssz
+	2oZXKEHCpge8GG86fw8jslpuAG01wCc0sAjgdYkLOUYUUUgyjyEFZ4hYmpcVZAWsT5vuxju6zDo
+	ESvDJUfyVUtolAynYIU57Areei8t9xEdDOpqijbsCURYwHKiZWj6kOSs5DhqlLiig0aG25guPkh
+	oo/B3WTlnmZhlq
+X-Received: by 2002:a05:6122:3c92:b0:563:7062:2a75 with SMTP id 71dfb90a1353d-563b5be1d20mr2679439e0c.8.1768749558189;
+        Sun, 18 Jan 2026 07:19:18 -0800 (PST)
+Received: from localhost ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b6fdb023sm2154628e0c.3.2026.01.18.07.19.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Jan 2026 07:19:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 18 Jan 2026 10:19:09 -0500
+Message-Id: <DFRTDXTFAYGT.46CY6IJICG4W@gmail.com>
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: =?utf-8?q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, "Kurt Borja"
+ <kuurtb@gmail.com>, "Andy Shevchenko" <andriy.shevchenko@intel.com>,
+ "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
+ <Michael.Hennerich@analog.com>, "Jonathan Cameron" <jic23@kernel.org>,
+ "Benson Leung" <bleung@chromium.org>, "Antoniu Miclaus"
+ <antoniu.miclaus@analog.com>, "Gwendal Grignou" <gwendal@chromium.org>,
+ "Shrikant Raskar" <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
+ <perdaniel.olsson@axis.com>
+Cc: "David Lechner" <dlechner@baylibre.com>, =?utf-8?q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, "Andy Shevchenko" <andy@kernel.org>, "Guenter Roeck"
+ <groeck@chromium.org>, "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+ <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <chrome-platform@lists.linux.dev>
+Subject: Re: [PATCH v3 0/7] iio: core: Introduce cleanup.h support for mode
+ locks
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
+ <363f81bfe996de839a43e9f6a355ed014cd3de8a.camel@gmail.com>
+In-Reply-To: <363f81bfe996de839a43e9f6a355ed014cd3de8a.camel@gmail.com>
 
-On Tue, 2026-01-06 at 03:06 -0500, Kurt Borja wrote:
-> Hi,
->=20
-> In a recent driver review discussion [1], Andy Shevchenko suggested we
-> add cleanup.h support for the lock API:
->=20
-> 	iio_device_claim_{direct,buffer_mode}().
->=20
-> Which would allow some nice code simplification in many places. Some
-> examples are given as patches, but the last two are the biggest
-> differences.
->=20
-> In this version I dropped the RFC tag, as the general feeling is to go
-> through with this after some modifications. Main one is the addition of
-> IIO_DEV_ACQUIRE_{BUFFER,CLAIM}_MODE() wrappers to avoid drivers using
-> the guard classes directly. I also added comments on the forbidden ways
-> to use this API but I definitely still take suggestions on this.
->=20
-> For now I dropped iio_device_claim_buffer_mode() rename, as this point
-> is still being discussed. My suggestion based on the RFC discussion is
-> to do it, but in a separate patch (using coccinelle) and while we're at
-> it rename the whole API like this:
->=20
-> 	iio_dev_mode_lock()
-> 	iio_dev_mode_direct_trylock()
-> 	iio_dev_mode_buffer_trylock()
-> 	iio_dev_mode_unlock()
->=20
-> Let me know what you think and thanks for taking a look!
->=20
-> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
-> ---
-> v3:
->=20
-> =C2=A0 - Reword commit message of patch 1: infallible -> unconditional.
->=20
-> =C2=A0 - Drop "*strongly*" in __iio_dev_mode_lock() kernel-doc and be a b=
-it
-> =C2=A0=C2=A0=C2=A0 more clear on the function's intention.
->=20
-> =C2=A0 - Keep comment about inline functions and sparse markings, but dro=
-p
-> =C2=A0=C2=A0=C2=A0 the __cond_acquires() part, as the new implementation =
-makes it
-> =C2=A0=C2=A0=C2=A0 unnecessary.
->=20
-> =C2=A0 - Implement iio_device_release_*() as macros around
-> =C2=A0=C2=A0=C2=A0 __iio_dev_mode_unlock().
->=20
-> =C2=A0 - Rename iio_device_claim_buffer_mode() ->
-> =C2=A0=C2=A0=C2=A0 iio_device_try_claim_buffer_mode() to avoid silently b=
-reaking
-> =C2=A0=C2=A0=C2=A0 out-of-tree drivers.
->=20
-> =C2=A0 - Drop the `_` argument prefix in new macros, as there are no name
-> =C2=A0=C2=A0=C2=A0 conflicts.
->=20
-> =C2=A0 - Drop "dummy" from IIO_DEV_ACQUIRE_DIRECT_MODE kernel-doc, as the
-> =C2=A0=C2=A0=C2=A0 `claim` variable does store the error value.
->=20
-> =C2=A0 - Drop IIO_DEV_ACQUIRE_BUFFER_MODE() until a driver actually needs=
- it.
->=20
-> =C2=A0 - Rename IIO_DEV_ACQUIRE_ERR() -> IIO_DEV_ACQUIRE_FAILED() to make=
- the
-> =C2=A0=C2=A0=C2=A0 name more clear.
->=20
-> =C2=A0 - Rename IIO_DEV_GUARD_ANY_MODE() -> IIO_DEV_GUARD_CURRENT_MODE() =
-to
-> =C2=A0=C2=A0=C2=A0 make the name more clear.
->=20
-> =C2=A0 - Add missing . in iio_device_release_direct() kernel-doc.
->=20
-> =C2=A0 NOTE: Andy suggested __iio_dev_mode_*() be exported into the IIO_C=
-ORE
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 namespace. However, this canno=
-t be done because these functions
-> 	need to be called inline, so Sparse can see the __acquires() and
-> 	__releases() tags.
->=20
-> =C2=A0 Happy new year to everyone :)
->=20
-> v2: https://lore.kernel.org/r/20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.=
-com
->=20
-> =C2=A0 - Add __iio_dev_mode_lock() (formerly iio_device_claim()) in the f=
-irst
-> =C2=A0=C2=A0=C2=A0 patch.
->=20
-> =C2=A0 - Added comments to make sure __iio_dev_mode_lock() is not used by
-> =C2=A0=C2=A0=C2=A0 drivers to protect internal state, or in general.
->=20
-> =C2=A0 - Add patch which re-implements iio_device_claim_direct() using
-> =C2=A0=C2=A0=C2=A0 __iio_dev_mode_lock().
->=20
-> =C2=A0 - Match iio_device_claim_buffer_mode() semantics by reimplementing=
- it
-> =C2=A0=C2=A0=C2=A0 in the same way as iio_device_claim_direct().
->=20
-> =C2=A0 - Guard classes now are prefixed with __priv__ to make sure driver=
-s
-> =C2=A0=C2=A0=C2=A0 don't use them directly.
->=20
-> =C2=A0 - Add IIO_DEV_ACQUIRE_{BUFFER,DIRECT}_MODE() documented wrappers
->=20
-> =C2=A0 - Avoid any function renames (for now).
->=20
-> =C2=A0 - Rename dummy variable `claim` instead of `busy` on vcnl4000 patc=
-h.
->=20
-> =C2=A0 - Avoid scoped guard in max30102.
->=20
-> =C2=A0 - Keep using iio_trigger_validate_own_device() insted of
-> =C2=A0=C2=A0=C2=A0 iio_trigger_using_own() in opt4060.
->=20
-> v1: https://lore.kernel.org/r/20251203-lock-impr-v1-0-b4a1fd639423@gmail.=
-com
->=20
-> ---
-> Kurt Borja (7):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: core: Add and export __iio_dev_mode_l=
-ock()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: core: Refactor iio_device_claim_direc=
-t() implementation
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: core: Match iio_device_claim_*() sema=
-ntics and implementation
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: core: Add cleanup.h support for iio_d=
-evice_claim_*()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: light: vcnl4000: Use IIO cleanup help=
-ers
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: health: max30102: Use IIO cleanup hel=
-pers
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: light: opt4060: Use IIO cleanup helpe=
+On Sun Jan 18, 2026 at 5:00 AM -05, Nuno S=C3=A1 wrote:
+> On Tue, 2026-01-06 at 03:06 -0500, Kurt Borja wrote:
+>> Hi,
+>>=20
+>> In a recent driver review discussion [1], Andy Shevchenko suggested we
+>> add cleanup.h support for the lock API:
+>>=20
+>> 	iio_device_claim_{direct,buffer_mode}().
+>>=20
+>> Which would allow some nice code simplification in many places. Some
+>> examples are given as patches, but the last two are the biggest
+>> differences.
+>>=20
+>> In this version I dropped the RFC tag, as the general feeling is to go
+>> through with this after some modifications. Main one is the addition of
+>> IIO_DEV_ACQUIRE_{BUFFER,CLAIM}_MODE() wrappers to avoid drivers using
+>> the guard classes directly. I also added comments on the forbidden ways
+>> to use this API but I definitely still take suggestions on this.
+>>=20
+>> For now I dropped iio_device_claim_buffer_mode() rename, as this point
+>> is still being discussed. My suggestion based on the RFC discussion is
+>> to do it, but in a separate patch (using coccinelle) and while we're at
+>> it rename the whole API like this:
+>>=20
+>> 	iio_dev_mode_lock()
+>> 	iio_dev_mode_direct_trylock()
+>> 	iio_dev_mode_buffer_trylock()
+>> 	iio_dev_mode_unlock()
+>>=20
+>> Let me know what you think and thanks for taking a look!
+>>=20
+>> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+>> ---
+>> v3:
+>>=20
+>> =C2=A0 - Reword commit message of patch 1: infallible -> unconditional.
+>>=20
+>> =C2=A0 - Drop "*strongly*" in __iio_dev_mode_lock() kernel-doc and be a =
+bit
+>> =C2=A0=C2=A0=C2=A0 more clear on the function's intention.
+>>=20
+>> =C2=A0 - Keep comment about inline functions and sparse markings, but dr=
+op
+>> =C2=A0=C2=A0=C2=A0 the __cond_acquires() part, as the new implementation=
+ makes it
+>> =C2=A0=C2=A0=C2=A0 unnecessary.
+>>=20
+>> =C2=A0 - Implement iio_device_release_*() as macros around
+>> =C2=A0=C2=A0=C2=A0 __iio_dev_mode_unlock().
+>>=20
+>> =C2=A0 - Rename iio_device_claim_buffer_mode() ->
+>> =C2=A0=C2=A0=C2=A0 iio_device_try_claim_buffer_mode() to avoid silently =
+breaking
+>> =C2=A0=C2=A0=C2=A0 out-of-tree drivers.
+>>=20
+>> =C2=A0 - Drop the `_` argument prefix in new macros, as there are no nam=
+e
+>> =C2=A0=C2=A0=C2=A0 conflicts.
+>>=20
+>> =C2=A0 - Drop "dummy" from IIO_DEV_ACQUIRE_DIRECT_MODE kernel-doc, as th=
+e
+>> =C2=A0=C2=A0=C2=A0 `claim` variable does store the error value.
+>>=20
+>> =C2=A0 - Drop IIO_DEV_ACQUIRE_BUFFER_MODE() until a driver actually need=
+s it.
+>>=20
+>> =C2=A0 - Rename IIO_DEV_ACQUIRE_ERR() -> IIO_DEV_ACQUIRE_FAILED() to mak=
+e the
+>> =C2=A0=C2=A0=C2=A0 name more clear.
+>>=20
+>> =C2=A0 - Rename IIO_DEV_GUARD_ANY_MODE() -> IIO_DEV_GUARD_CURRENT_MODE()=
+ to
+>> =C2=A0=C2=A0=C2=A0 make the name more clear.
+>>=20
+>> =C2=A0 - Add missing . in iio_device_release_direct() kernel-doc.
+>>=20
+>> =C2=A0 NOTE: Andy suggested __iio_dev_mode_*() be exported into the IIO_=
+CORE
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 namespace. However, this cann=
+ot be done because these functions
+>> 	need to be called inline, so Sparse can see the __acquires() and
+>> 	__releases() tags.
+>>=20
+>> =C2=A0 Happy new year to everyone :)
+>>=20
+>> v2: https://lore.kernel.org/r/20251211-lock-impr-v2-0-6fb47bdaaf24@gmail=
+.com
+>>=20
+>> =C2=A0 - Add __iio_dev_mode_lock() (formerly iio_device_claim()) in the =
+first
+>> =C2=A0=C2=A0=C2=A0 patch.
+>>=20
+>> =C2=A0 - Added comments to make sure __iio_dev_mode_lock() is not used b=
+y
+>> =C2=A0=C2=A0=C2=A0 drivers to protect internal state, or in general.
+>>=20
+>> =C2=A0 - Add patch which re-implements iio_device_claim_direct() using
+>> =C2=A0=C2=A0=C2=A0 __iio_dev_mode_lock().
+>>=20
+>> =C2=A0 - Match iio_device_claim_buffer_mode() semantics by reimplementin=
+g it
+>> =C2=A0=C2=A0=C2=A0 in the same way as iio_device_claim_direct().
+>>=20
+>> =C2=A0 - Guard classes now are prefixed with __priv__ to make sure drive=
 rs
->=20
-> =C2=A0drivers/iio/adc/ade9000.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0.../common/cros_ec_sensors/cros_ec_sensors_core.c=C2=A0 |=C2=A0=C2=
+>> =C2=A0=C2=A0=C2=A0 don't use them directly.
+>>=20
+>> =C2=A0 - Add IIO_DEV_ACQUIRE_{BUFFER,DIRECT}_MODE() documented wrappers
+>>=20
+>> =C2=A0 - Avoid any function renames (for now).
+>>=20
+>> =C2=A0 - Rename dummy variable `claim` instead of `busy` on vcnl4000 pat=
+ch.
+>>=20
+>> =C2=A0 - Avoid scoped guard in max30102.
+>>=20
+>> =C2=A0 - Keep using iio_trigger_validate_own_device() insted of
+>> =C2=A0=C2=A0=C2=A0 iio_trigger_using_own() in opt4060.
+>>=20
+>> v1: https://lore.kernel.org/r/20251203-lock-impr-v1-0-b4a1fd639423@gmail=
+.com
+>>=20
+>> ---
+>> Kurt Borja (7):
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: core: Add and export __iio_dev_mode_=
+lock()
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: core: Refactor iio_device_claim_dire=
+ct() implementation
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: core: Match iio_device_claim_*() sem=
+antics and implementation
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: core: Add cleanup.h support for iio_=
+device_claim_*()
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: light: vcnl4000: Use IIO cleanup hel=
+pers
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: health: max30102: Use IIO cleanup he=
+lpers
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iio: light: opt4060: Use IIO cleanup help=
+ers
+>>=20
+>> =C2=A0drivers/iio/adc/ade9000.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+>> =C2=A0.../common/cros_ec_sensors/cros_ec_sensors_core.c=C2=A0 |=C2=A0=C2=
 =A0 5 +-
-> =C2=A0drivers/iio/health/max30100.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+>> =C2=A0drivers/iio/health/max30100.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
 =A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +-
-> =C2=A0drivers/iio/health/max30102.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+>> =C2=A0drivers/iio/health/max30102.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
 =A0=C2=A0=C2=A0 |=C2=A0 33 ++---
-> =C2=A0drivers/iio/industrialio-core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 86 +++---------
-> =C2=A0drivers/iio/light/opt4060.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+>> =C2=A0drivers/iio/industrialio-core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 86 +++---------
+>> =C2=A0drivers/iio/light/opt4060.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
 =A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 52 +++-----
-> =C2=A0drivers/iio/light/vcnl4000.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 49 +++----
-> =C2=A0include/linux/iio/iio.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+>> =C2=A0drivers/iio/light/vcnl4000.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 49 +++----
+>> =C2=A0include/linux/iio/iio.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
 =A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 145 +++++++++++++++++++--
-> =C2=A08 files changed, 196 insertions(+), 184 deletions(-)
-> ---
-> base-commit: fb2f4eb29a258145b0336601f00509cab6e93e7c
-> change-id: 20251130-lock-impr-6f22748c15e8
+>> =C2=A08 files changed, 196 insertions(+), 184 deletions(-)
+>> ---
+>> base-commit: fb2f4eb29a258145b0336601f00509cab6e93e7c
+>> change-id: 20251130-lock-impr-6f22748c15e8
+>
+> Nothing to add from me...
+>
+> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 
-Nothing to add from me...
+Thank you for your feedback, Nuno!
 
-Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+--=20
+Thanks,
+ ~ Kurt
+

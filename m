@@ -1,175 +1,168 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A5621ABC1
-	for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 15:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F8B26ED3A
+	for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 19:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768751119; cv=none; b=ZGSRM2c5wD6KRPxKKy7dmNdBCKaaR705s3Y6Y4sD+4L4e8goGX5uMB+YePzB1KgIoxJQbWMI0X2xX98J6BoJasSozEp6yTM6g0qPCbqivk83Enj9k1W5XSEzaaTebEQUdanz/2b94eSeVloIcx+yT9m4ghKgWa0cEUKKsS8yF50=
+	t=1768764617; cv=none; b=iy7kQl9Qn8OiZhXcU1c8ASFAjBIfYFZjzN/A09g/seIUb5GM8N9B6x5ejwcsyl5d+ReHGWoOv13dBgDvOB5QpOrM1gVoTzZCm/ZdkS9WgbuRNQBAEmiy+MrBZkRpONtM9fbGopPKqNV5vR0i/GwQg/QLqWKa3MT+4S2HZpThHrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768751119; c=relaxed/simple;
-	bh=K/GzZXmVDH5d3ajOh9Vses0jzRTbszvo9JEIlad+htc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DrGZH3HbZiZ9k0BjHzkgQiu5MuNLHrmROgp0rQPelIXHHKtPhfoSxRcM3Ik4vwy+jbS1+rlU+v5UltWOQmMrlErnecGwqqmQTgUINQUy0S0R2Wz1ca+xPFAapoDU9Mfa9zM4nbaQBC5EOCjC+mOELE9inIs12yLjUW4UAgP74BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k6jG9f9r; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768764617; c=relaxed/simple;
+	bh=XaDBiv5M+RFEv9IJJoFZ/qrG6BEziOBJceL/IH/8v2U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SiT/GtVvh3z3pqmmwqtYt9cT8XpILmqGT8aTA4MoY5wnI4vj08n4LauhcMOhoHszFNcUdJC89QxEBTWRrKP0CM6EJHk+SGgzNphFr74Okns1BNNUzH5NtbIWDUWkEun0CDt91cBhZlPWqY47TEXNuvdKkuR1bkb/Bi8ZeRnb5Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=XuGwFZxq; arc=none smtp.client-ip=209.85.160.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k6jG9f9r"
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-93a9f6efe8bso908762241.0
-        for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 07:45:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="XuGwFZxq"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-40439fb8584so2250689fac.0
+        for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 11:30:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768751108; x=1769355908; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SUuEqo1bBPTtYvx/6MqHHwRERlW4p1/ugxXmq/ssirA=;
-        b=k6jG9f9rYKUSXu3jIpC4UW0gbyfhR9919/He93i6ERe2LQApPTrB62TJDuTVzsR4H9
-         VagpG7ok9YA28G+qAjoEhK4TXksA7D8ahPgTpyPKquFy9FE2AJ5Xj9ouE38oU1ELwlk2
-         fTUViCsNDkLyf4+7fJEiQvzFuSfhtx+kIrQipeBY/BoZnOv7ILyY3bOdbH13Dyk5F2vl
-         QAIQYZ7GNlIzM7+Mbn3/8XnFZCG04fInxAlJ+KHZb0n3JfTRbJctVO1dvdRKQC6Qmdbn
-         ibMbkEy48FtfnF/XOWqMBOBbDUhpxhWeQgw8Xn+7Fpw7A3imBjrzMU3L4+CfaINJZn/c
-         Ij7g==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1768764614; x=1769369414; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FE91AlC+Wf3fpDTOpQTd2EcMaLnOUTf8XrrOstYz7Jk=;
+        b=XuGwFZxqxKUJzNyxkmYmtzdDxfCUsFHyvUnM5e4cOSfa784Ng2nr1x4nUCPusqq28m
+         PzgwRe5Q5PYEEcLYlChWdNU/6LlUhKKK0HdZM0WD+Iu9pWuJGi16+9lq2Ugvp2ijrkXo
+         cZbQxTZyCDlOlPTh7W9D+clgL5mfoj7DFnsdvAQC+zYTKDmHyVSmfrNTT/4Xlw1upN04
+         dbFIgR/wZSBBET76x+vmE+Npbc8CUQ5a6y/4PBlDK4DnhkRLB2zc+6AVzRIvuo+w0vCs
+         IdE56zkoXC+yUQCkAQvfnD9bSq1vDF/0wSPCXC8CxJzaZ+CFHPK/hFlPjoZKcE49pIS2
+         ISbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768751108; x=1769355908;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SUuEqo1bBPTtYvx/6MqHHwRERlW4p1/ugxXmq/ssirA=;
-        b=DFO586sIXfTktuZeuaRn/RCGWAWondL6IAjvKHMwtRdKN3gVlpkwLAgLzmfpApY7D5
-         A0jZjZSKEnOdLNaNa3Tyu+g1n1rUolNDupbq3PjzofYXLW1pcA/mlCXIeHemvNGdKju3
-         44YyDevRAetlOvwPQNVXC2zz274regedHO0lBX+nNUIqf384wBWfhVcR4Ru0zggGO3QT
-         HakYLRNbDb45uD56dVBd1taKkxfGS/tGPCF5zMef4PonY2pn8aaezym0uqnRrE7BLWtH
-         q9JbKpbAT9yKV8xm9gFNBgw08WyLY9us7d/IKzioHDG4avfzrHCu6xpFjdfocjnzuzDB
-         zLQw==
-X-Forwarded-Encrypted: i=1; AJvYcCUsI7zSDKZfh7qUWu6SGlRsBVf9LGcdeYsbsitDg3zW+iRhu3e5+SL1ukZgBiQgHO6B+dB95ikgJ5kMN36WxzI=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5FV/UZgXf3l7N2JQYxYUQsZpKT4dA1OMVJbewmMI1nS3epBXR
-	pn761qSAPj+KK2Ug3VJzEfsVyG5RTRsGWudPF9i00J/OGom0SrNVIdEOFo7KG/rC
-X-Gm-Gg: AY/fxX6+2wxZFuTaj2JkZmdJVcJxaKNE5PWcHPq+eRACun9zLck+TRXA7zhLN2UVQrw
-	cjLWQDcOBhBKEe1CGrE8Sz2BWzuYRa2CM/9MHJRbuzTy4aBBZQbhVNz9UULGkn0z3lYP8C7S7MS
-	5+IoF1q87PWSmSU5QfRJNQbQdCkv2/G5PXP9E//pCn+ejeY147o4Z/NjNn9ZOnVoVUK/NWsWa/+
-	6v1W7E7RIabT3NCLajaA43K4OqNyaTEXPcY1pqkXPyAMhKuyLuDvVHpaD6Rcmiyb/kSMypIqmMT
-	XW/1diTnNHay8qSRILNPasZsNm7oCCmJSf0QjhNdzaqqGtY4LlE6pMCBt1WG+aR0ESu3DhfQYbb
-	1iLBhGscDxDDNp5s4EOLoHyPjMGFp2Yk1df67Sm4l5faXkyHTby6oX37t9O5njxV6pOBu1gXXyW
-	Szg7IdCbcthNeL
-X-Received: by 2002:a05:6102:38c9:b0:5db:d60a:6b24 with SMTP id ada2fe7eead31-5f1a5527da2mr2484137137.22.1768751107999;
-        Sun, 18 Jan 2026 07:45:07 -0800 (PST)
-Received: from [192.168.100.253] ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6d3ca2esm2832731137.10.2026.01.18.07.45.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 07:45:07 -0800 (PST)
-From: Kurt Borja <kuurtb@gmail.com>
-Date: Sun, 18 Jan 2026 10:44:34 -0500
-Subject: [PATCH v4 7/7] iio: light: opt4060: Use IIO cleanup helpers
+        d=1e100.net; s=20230601; t=1768764614; x=1769369414;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FE91AlC+Wf3fpDTOpQTd2EcMaLnOUTf8XrrOstYz7Jk=;
+        b=tNtn6MlpUVoD5qBF0aODOQis/eZ4P34LGiEu9YpZNmgWM4qaHCCBihQWg56N0OY4Vu
+         b9gWhJPsS7oMlccU4mvHYf4zthtWbb+/rLyUR3lB65Bqs3UHsQw5ZYsujIorSrs3bNRd
+         BcdZPAzobD9r+IAuXn1QM3vgo5ZmGYA81x6JHVbQ8guYZ8lk9wp0oXguZCYAyXONt+xf
+         2wCKDcDwEYDeuf6vko1K04PxcFr1zI9AO6OQDZ2g3hLOUiPn5Vbh1j+jHqZlIbbUkWXv
+         Wu5zberVme3wG03vQHwvCfMkPjO+AIdoYcgJonZF+I0Xxq1asGSIXRZ0/wAthqwRP+Yu
+         vMVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU451mPvmaJ02NL86InJPdOEhcxfKeDcumUsP38A1QboRdEYZp798PJquoPAB4ONu4erE93+pfCjC9z8Qxcev4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjiWoMf0Q7uBaWsm7CZQT/UQgkix3WgdgkoYgRuyVmJVEgzsNe
+	B+sdGR3bbkcJQjkTnIypQcqRMS7ZPlk2uWvc0P8ngW8mVqLCL7hIgoEDyQ+x/iOB40Q=
+X-Gm-Gg: AY/fxX5Kw9kngpME+JjRf7AcTvOC9dK3m4bME/FxV0HnKtfdHn8r/KXNT7Ct+dnzvCL
+	F8/f4WB/s5gKzq2hoELj7q2zU5KLbNP4JGsqslmfnU+dFW34+nhUqM1XHvOBSvTUV0dNWuj1sKl
+	QdP3KwhcX2QXdqhdHfDnrp2auDg8OqtIeLWuH4o8HwvcPkvxlgF3GlJGtMVcA0kqVHYGiShYq4r
+	4InuscSaI3T4eto99i3u2WrH7yydx+t/HIhB3xCvT349lyZGkRQaL24IgZRKwQVELx4sN01Yyyc
+	NfGsaBXah+2qJGZ6HzqnSQhg7pNax4q2s8O+/iyO0+ubIC3mSH72M85eqQ5UtfeBw4oZekc1MLc
+	tBBUVedO8OsgPXbFhcmAZTinhQi2+NKXp01RRTrLVvF0guHqPYEQvdTA6JwfuRaBbqK9B1aDHac
+	dXTYSvWoG04Vzra9Is3I6UnUpu/LizkoDwUl+ZlWikkpgvETocByPJ+e2R2PU6
+X-Received: by 2002:a05:6820:1688:b0:659:9a49:8ed8 with SMTP id 006d021491bc7-66118020948mr3526334eaf.12.1768764613766;
+        Sun, 18 Jan 2026 11:30:13 -0800 (PST)
+Received: from ?IPV6:2600:8803:e7e4:500:d542:af69:64b6:f7df? ([2600:8803:e7e4:500:d542:af69:64b6:f7df])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4044bd5d62csm5629835fac.19.2026.01.18.11.30.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Jan 2026 11:30:12 -0800 (PST)
+Message-ID: <c73935a2-1c71-493e-9504-5ea205169eb7@baylibre.com>
+Date: Sun, 18 Jan 2026 13:30:10 -0600
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260118-lock-impr-v4-7-6c8d0aee8ed2@gmail.com>
-References: <20260118-lock-impr-v4-0-6c8d0aee8ed2@gmail.com>
-In-Reply-To: <20260118-lock-impr-v4-0-6c8d0aee8ed2@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Benson Leung <bleung@chromium.org>, 
- Antoniu Miclaus <antoniu.miclaus@analog.com>, 
- Gwendal Grignou <gwendal@chromium.org>, 
- Shrikant Raskar <raskar.shree97@gmail.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/7] iio: core: Add cleanup.h support for
+ iio_device_claim_*()
+To: Kurt Borja <kuurtb@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@intel.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Gwendal Grignou <gwendal@chromium.org>,
+ Shrikant Raskar <raskar.shree97@gmail.com>,
  Per-Daniel Olsson <perdaniel.olsson@axis.com>
-Cc: David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org, 
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- Kurt Borja <kuurtb@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2688; i=kuurtb@gmail.com;
- h=from:subject:message-id; bh=K/GzZXmVDH5d3ajOh9Vses0jzRTbszvo9JEIlad+htc=;
- b=owGbwMvMwCUmluBs8WX+lTTG02pJDJk5/z9efWr+Xjwq72RES8m2CyrWnD3Hl+pwmrgYfxLYr
- ZO1amNlRykLgxgXg6yYIkt7wqJvj6Ly3vodCL0PM4eVCWQIAxenAExEQ4WR4V1Q1p3SkOX1NZxR
- 6XZG2W/4HgQtZT74dGqV7PYjx4+9SWP4w8lyUSt/QbZJTPfrdVk19xOLD16O6vD6OcNm6lEdPt0
- HjAA=
-X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
- fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
+Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Guenter Roeck <groeck@chromium.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+References: <20260106-lock-impr-v3-0-1db909b192c0@gmail.com>
+ <20260106-lock-impr-v3-4-1db909b192c0@gmail.com>
+ <27cf1ec1-545b-4e44-8229-852f8bdae116@baylibre.com>
+ <DFRTH0GI1UPO.12NSSABBNSRST@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <DFRTH0GI1UPO.12NSSABBNSRST@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use IIO_DEV_GUARD_CURRENT_MODE() cleanup helper to simplify and drop
-busy-waiting code in opt4060_set_driver_state().
+On 1/18/26 9:23 AM, Kurt Borja wrote:
+> On Fri Jan 16, 2026 at 5:03 PM -05, David Lechner wrote:
+>> On 1/6/26 2:06 AM, Kurt Borja wrote:
+>>> Add guard classes for iio_device_claim_*() conditional locks. This will
+>>> aid drivers write safer and cleaner code when dealing with some common
+>>> patterns.
+>>>
+>>> These classes are not meant to be used directly by drivers (hence the
+>>> __priv__ prefix). Instead, documented wrapper macros are provided to
+>>> enforce the use of ACQUIRE() or guard() semantics and avoid the
+>>> problematic scoped guard.
+>>>
+>>> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+>>> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+>>> ---
+>>>  include/linux/iio/iio.h | 71 +++++++++++++++++++++++++++++++++++++++++++++++++
+>>>  1 file changed, 71 insertions(+)
+>>>
+>>> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+>>> index d8af0456f966..c795f731f2d8 100644
+>>> --- a/include/linux/iio/iio.h
+>>> +++ b/include/linux/iio/iio.h
+>>> @@ -10,6 +10,7 @@
+>>>  #include <linux/align.h>
+>>>  #include <linux/device.h>
+>>>  #include <linux/cdev.h>
+>>> +#include <linux/cleanup.h>
+>>>  #include <linux/compiler_types.h>
+>>>  #include <linux/minmax.h>
+>>>  #include <linux/slab.h>
+>>> @@ -740,6 +741,76 @@ static inline bool iio_device_try_claim_buffer_mode(struct iio_dev *indio_dev)
+>>>   */
+>>>  #define iio_device_release_buffer_mode(indio_dev) __iio_dev_mode_unlock(indio_dev)
+>>>  
+>>> +/*
+>>> + * These classes are not meant to be used directly by drivers (hence the
+>>> + * __priv__ prefix). Instead, documented wrapper macros are provided bellow to
+>>> + * enforce the use of ACQUIRE() or guard() semantics and avoid the problematic
+>>> + * scoped guard variants.
+>>> + */
+>>> +DEFINE_GUARD(__priv__iio_dev_mode_lock, struct iio_dev *,
+>>> +	     __iio_dev_mode_lock(_T), __iio_dev_mode_unlock(_T));
+>>> +DEFINE_GUARD_COND(__priv__iio_dev_mode_lock, _try_direct,
+>>> +		  iio_device_claim_direct(_T));
+>>> +
+>>> +/**
+>>> + * IIO_DEV_ACQUIRE_DIRECT_MODE(_dev, _var) - Tries to acquire the direct mode
+>>> + *                                           lock with automatic release
+>>
+>> I don't think it is usual to put the function parameters in the
+>> doc comment like this. They don't match the actual names anyway.
+> 
+> Hi David,
+> 
+> This format of kernel-doc applies to function-like macros too [1]. I'll
+> match the name of the variables though.
 
-Reviewed-by: David Lechner <dlechner@baylibre.com>
-Reviewed-by: Nuno Sá <nuno.sa@analog.com>
-Signed-off-by: Kurt Borja <kuurtb@gmail.com>
----
- drivers/iio/light/opt4060.c | 52 +++++++++++++++------------------------------
- 1 file changed, 17 insertions(+), 35 deletions(-)
+Right. And it has no parameters between the () on the first line
+in that documentation.
 
-diff --git a/drivers/iio/light/opt4060.c b/drivers/iio/light/opt4060.c
-index 8c4a1f562a83..d6e915ab355d 100644
---- a/drivers/iio/light/opt4060.c
-+++ b/drivers/iio/light/opt4060.c
-@@ -302,41 +302,23 @@ static int opt4060_set_driver_state(struct iio_dev *indio_dev,
- 				    bool continuous_irq)
- {
- 	struct opt4060_chip *chip = iio_priv(indio_dev);
--	int ret = 0;
--any_mode_retry:
--	if (!iio_device_try_claim_buffer_mode(indio_dev)) {
--		/*
--		 * This one is a *bit* hacky. If we cannot claim buffer mode,
--		 * then try direct mode so that we make sure things cannot
--		 * concurrently change. And we just keep trying until we get one
--		 * of the modes...
--		 */
--		if (!iio_device_claim_direct(indio_dev))
--			goto any_mode_retry;
--		/*
--		 * This path means that we managed to claim direct mode. In
--		 * this case the buffer isn't enabled and it's okay to leave
--		 * continuous mode for sampling and/or irq.
--		 */
--		ret = opt4060_set_state_common(chip, continuous_sampling,
--					       continuous_irq);
--		iio_device_release_direct(indio_dev);
--		return ret;
--	} else {
--		/*
--		 * This path means that we managed to claim buffer mode. In
--		 * this case the buffer is enabled and irq and sampling must go
--		 * to or remain continuous, but only if the trigger is from this
--		 * device.
--		 */
--		if (!iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
--			ret = opt4060_set_state_common(chip, true, true);
--		else
--			ret = opt4060_set_state_common(chip, continuous_sampling,
--						       continuous_irq);
--		iio_device_release_buffer_mode(indio_dev);
--	}
--	return ret;
-+
-+	IIO_DEV_GUARD_CURRENT_MODE(indio_dev);
-+
-+	/*
-+	 * If we manage to claim buffer mode and we are using our own trigger,
-+	 * IRQ and sampling must go to or remain continuous.
-+	 */
-+	if (iio_buffer_enabled(indio_dev) &&
-+	    iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
-+		return opt4060_set_state_common(chip, true, true);
-+
-+	/*
-+	 * This path means that we managed to claim direct mode. In this case
-+	 * the buffer isn't enabled and it's okay to leave continuous mode for
-+	 * sampling and/or irq.
-+	 */
-+	return opt4060_set_state_common(chip, continuous_sampling, continuous_irq);
- }
- 
- /*
+/*
+ * function_name() - Brief description of function.
 
--- 
-2.52.0
+
+So it should be just `IIO_DEV_ACQUIRE_DIRECT_MODE() - ...
+
+>
+>> + * @dev: IIO device instance
+>> + * @claim: Variable identifier to store acquire result
+>> + *
+
+The parameters go below like this, which is already correct.
 

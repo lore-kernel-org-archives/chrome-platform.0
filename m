@@ -1,66 +1,66 @@
 Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9618923EAA5
-	for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 15:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCB2264602
+	for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 15:45:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768751106; cv=none; b=dgL5RcylNk+D0eEq6YO2g5JOL5CbQB1EMUkysSbey2WN4UuO/aQ6+895hJEoaTwqkJ4wSncp1TGlm8JhMdx4Cv2k015fP8/JLAlRTrMF0r1OI1Ezqy9dDvvL7+tocPrtiirjK4aCe5ySihz+k7bnah58hsYfNgmT0kgQy4U2rZY=
+	t=1768751114; cv=none; b=qQ/w920PKS19Omi18B+mlLEUtDwkfIIiWqz68DunyqiD4AsE6fpLLm8IqjtM39nS/iQuVgo40JrGQs3zjF0qFqy3CDoNm0RZJMsOCZ26jdyv3SP+I5CM1/Xhbt3E6aC3WrRyDAO5QDzXaR3OWj4o9T6DXU4t2oswHZ2nqqtH4Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768751106; c=relaxed/simple;
-	bh=3P+X2YeLcPjCXYTP9cibJrgBqh+scSiCbpaQGpGyBmA=;
+	s=arc-20240116; t=1768751114; c=relaxed/simple;
+	bh=R6AtgfHNFuyoDu3Dt8So6HbHkHEi4svHf3KFVpxGpRY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RfYTiQK8FElAm71D+ZA2DSRAleV+XA1LzTqAKtp3qaxzvWb61lXRLSztUNXCZUVa4WhmW9guiol/l3qCsTtHZmk9t8vJFn5mdT9fGwFQZi2KYm4MZZ5iWI9NMJnBlBCzr2GMDDY0jiZwUaQbyQ4tdbKHp4UkC2ZYGpcod00Fip0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSM3LBY5; arc=none smtp.client-ip=209.85.217.43
+	 In-Reply-To:To:Cc; b=DSNEar32xOgAv2NhthnECt5zzHKUm95DbKxypfd7Uz8wi6bK3Sa08jyQPyB1fKeUZBjZvh9gx0eoQBvmW4bLI9COqwfhgzwCe9L+cCKW+G3VuSYJNZ7clpP1AOy022u96amWRBlZ0VpcCp2+UhmKgglozxdNGTyaL/dt2MPzroU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JP0WW9iC; arc=none smtp.client-ip=209.85.217.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSM3LBY5"
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5efa4229bd2so2409291137.0
-        for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 07:45:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JP0WW9iC"
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5eea9fbe4a4so1282638137.0
+        for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 07:45:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768751103; x=1769355903; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768751106; x=1769355906; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XTnTVRGv/a3yeACWeWEj6KZeE3Y99K4b2EX+Zi7IhJ8=;
-        b=DSM3LBY5x/6TIch/1F3pFLHUTTBRNIqcB5wRlLif2OwYD7xxNzHgUMmtgQhqCYHX91
-         UOBN83dDwgYYmM/04kJIi2Er5wGcd0RDKLrqnC2QhW5tqc6EEYgtmBgWjA8BuvkgxOtD
-         T+3J8YSCjIsOZB2y34SVU062q0H+Z3dbgUIcr5doArxZXiE33E8WxVx4FtwmBcavLUbM
-         D6RjOk1k5BQa7Ma0Lbml/oLYfeQW+ZM8ZyN4YjMxHvxRGymSH1Z2hkRox6wbtGL/ziLI
-         i7tR88x2htpqChR/TBFeEXsAD1BkUkjLeOcIfFWckG+aggW8rWqJLa3tUkdKqUVoKbfW
-         8hyQ==
+        bh=RvaFKco8z0TcIBUmMpdNSTwRtZj3x2smNoAu0imBUvA=;
+        b=JP0WW9iC5+tpJct/NNFsMAWtcrlSeI9wDXKnQZI+yPjcu+Zp6BAqPRdDYbIY3t8S3B
+         XxQYpejiJrWoUGHhnsYIjRgKsB3Le1oIpi8yLWzpxSNENkkNyT8D1a7a4ter77vivqHa
+         1jfOgs3SC31sOVYiefGKtH2rka6oUszSLSBl3K71aALR3CXfrniw2c1caVUi5Jfh7rET
+         OysMhVng85AmhvMjcrd3Naqy01FH2Kf9jey9v5F8mD95vZa2ksWav5Vt46/83nnaCFce
+         jFrHW8DgiCIMs2T85Ad80piRWDAeLLOtwT9QuUcBlxnit3QssTMeZF1GFpy9Gzo0CIxK
+         kTUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768751103; x=1769355903;
+        d=1e100.net; s=20230601; t=1768751106; x=1769355906;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=XTnTVRGv/a3yeACWeWEj6KZeE3Y99K4b2EX+Zi7IhJ8=;
-        b=v8TOJo//Zi1safsogkuR2O38ByLEOmdr4lW4q4hdeF3aPhQMO3Vz2fMGrRYxz51fDZ
-         m0FcXZt9Wf6s5We4uTl4Tzb0SUuAYTxf2j+BAk6pRDhcpxF7X0thzOGjB0VZurlWUWF8
-         6Lxb17UV9n1G43RqEdbTbgW53GAyr4UqoIfXLzwsACPlp3jhC93SkK72tHRVATY2jhkW
-         NVJnwJ+nzPzxuf3WRZoJUjNsoYzH6rLixS/w2Ls70b60nzsJXa+Hy2lAvXl2jVPdRNz1
-         2AB0JBifN1jtvtx/CiyihGSK+RHRfx/BPvqhKHctaEUvMSLHGrcfMYCmC9Bec2+0uXpo
-         zIWg==
-X-Forwarded-Encrypted: i=1; AJvYcCVsk+8SrAHrdOIijzovR7T7oUS/G3EEcKyUabWm6zlVyXDNN3pLhiOROZNmQhhZNL1WuhrXrbhJtRy/E75sPSc=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6hsSicOD5uCuEylfFfBWshU+LcImEiD7uDpROMyPhxjoKQAgK
-	ugoRXUVGBK2g6/beEP8exk6JZHsJxTNsbo6nExU9QCs2Ax7gxOoxQCM1+i0lmO4k
-X-Gm-Gg: AY/fxX4EgERKp/5CX/VlOJSm/QlqAFCHl+ARjglW9WqcYbDfd4lWtZ1Ved3TcsXKTZ5
-	bZS5lm5uuC2iR11Z/re3zJ/pwpVxffL1E9/TWkc+nb4HDUvlPjPlyzvkofCnlVwL9+t6m/KM48K
-	tzgDr1sMVPObwibXBQCfHq5B42d4dqGklHNZ1E3DWlKHNH276vRvyZiJHP0a/l6iBqWcrZAmVVt
-	V9rEF/w7kAwEl1aHoV59NuWgJxBJHpvBrGeHLHg+gOcXiKoxUbhaXqzHcQ9T8BQGK7n9+ZuX+RV
-	VEUwbYnR6JU2/caC8r7v60HreRIrRyloD9LfY757wQQvsiAXGJq0XnCiA+I+5pRiFAT6cJsskXf
-	/rOAEEZByUu7/rqU0oAOONoCHm4JSL6xAs41DvOpaGN1dXnspuN4vQcae6gaXODeMKq5ViC+Tdn
-	D/KrC5iWS+Odoy
-X-Received: by 2002:a05:6102:a48:b0:5db:cfb2:e610 with SMTP id ada2fe7eead31-5f1a55dce21mr3189064137.41.1768751103410;
-        Sun, 18 Jan 2026 07:45:03 -0800 (PST)
+        bh=RvaFKco8z0TcIBUmMpdNSTwRtZj3x2smNoAu0imBUvA=;
+        b=fOwgLj+64zVfpABCIFWSfopvKzMINboWoP/vm8p8C3HN0oevAga/Hw+u/eCH/tZOT7
+         oCtm8f6Xhymp+lqjEsEi7l3yezGqjm+vW8qvtdFYBIQ4xwywX6c20hRLab/6oUV40E2G
+         1tYMRv1M3CfdKn6NgnrDfI9qVOWJfI5c32jLtLn9JXMy6EMCMPO0ZELuN6mJQsqdMCq5
+         ShaPh/Yp/TXjtoj6Bk6nC5Uasf2Xk/yc8qpw+9vjOHGCLmnpn7T4Z6MZUDcxymvSJzlF
+         RP0Rg9TybhuJJIIMzLerj8zWsQb+msIoFya6eI7cTe6yjuqo71kbpZyfgJFrpXN5RXJa
+         JCqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXEqFtDI0DbZUi009LKw/KUa0TqfTL9zMDJ+8IvwRBqivv2AXNe+f6kgdpRGb2ezxKUf5koEJDn+E24zMiGjxs=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxi/DH6tWqaWJeTk6bBhTbXBwYboBlF5lrmkr7puN+AAT1M9UoW
+	xGUiWyVV33QuXkFBdk3jB4sHgjMelqM/0AFbLakFh15s0mzRqMYy9/EGHC4b08WM
+X-Gm-Gg: AY/fxX76tTZSO6UjAD7cV6xr7h0F/49SsZesM6XymrnWRdBH1/7//9/dxJ0SUvs/dpj
+	zZ2lvtdBmuJsY8Y7n8ElLhjqHYBU8y3nt54+OFn1my+FXU9cJaoWi57YS0pvjn2cLvVWmPaD24n
+	OKLdcZG/3cIx0ahT/ypBTcl+VHlJG+gOjSuO4TJvmkFKPZrfnkL7lTGCl7XL6ihMCcXYi2NfOkN
+	2g/tLq2VV087L1URAl1rLSjyqrEy3I27yk2PzX1lAUK+1iT8V5bbYB5QSiye6T7SQqNVh8xW7ph
+	obFmbQEpG/cLme9Q8xQ7bMRpwcy1Gsa+OwzpvSrYxTqbm5PlG/dzMEDAEPKjQMINoighFwWBsZF
+	E6RtGkRgKVnfelRDQKEMRGbe+Y/POZZrmekSkvX85mTlMwO3MRQuQbswERGfIHHEEgyh6UvzwPK
+	CUQjEoiOjKMVzM
+X-Received: by 2002:a05:6102:54a8:b0:5e1:866c:4f83 with SMTP id ada2fe7eead31-5f1a558c2e5mr2344860137.35.1768751105696;
+        Sun, 18 Jan 2026 07:45:05 -0800 (PST)
 Received: from [192.168.100.253] ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6d3ca2esm2832731137.10.2026.01.18.07.45.01
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6d3ca2esm2832731137.10.2026.01.18.07.45.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 07:45:03 -0800 (PST)
+        Sun, 18 Jan 2026 07:45:05 -0800 (PST)
 From: Kurt Borja <kuurtb@gmail.com>
-Date: Sun, 18 Jan 2026 10:44:32 -0500
-Subject: [PATCH v4 5/7] iio: light: vcnl4000: Use IIO cleanup helpers
+Date: Sun, 18 Jan 2026 10:44:33 -0500
+Subject: [PATCH v4 6/7] iio: health: max30102: Use IIO cleanup helpers
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260118-lock-impr-v4-5-6c8d0aee8ed2@gmail.com>
+Message-Id: <20260118-lock-impr-v4-6-6c8d0aee8ed2@gmail.com>
 References: <20260118-lock-impr-v4-0-6c8d0aee8ed2@gmail.com>
 In-Reply-To: <20260118-lock-impr-v4-0-6c8d0aee8ed2@gmail.com>
 To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
@@ -87,120 +87,83 @@ Cc: David Lechner <dlechner@baylibre.com>,
  linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
  Kurt Borja <kuurtb@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3136; i=kuurtb@gmail.com;
- h=from:subject:message-id; bh=3P+X2YeLcPjCXYTP9cibJrgBqh+scSiCbpaQGpGyBmA=;
- b=owGbwMvMwCUmluBs8WX+lTTG02pJDJk5/z8+iJ4RHnlk3snQuump56fLnmzP+yR1+31BpOonj
- oP5N49ZdZSyMIhxMciKKbK0Jyz69igq763fgdD7MHNYmUCGMHBxCsBENsow/I+9cd2l0P+rrurq
- RW/ydxrGWMhMORSpfOQDu0CYocvuLQcY/opzLnlwkuPZZJakczuqJ/W/OmoQ9l1TeGnI5QPW4gn
- fH7ABAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2086; i=kuurtb@gmail.com;
+ h=from:subject:message-id; bh=R6AtgfHNFuyoDu3Dt8So6HbHkHEi4svHf3KFVpxGpRY=;
+ b=owGbwMvMwCUmluBs8WX+lTTG02pJDJk5/z+KsaetvqNpz/Jty55VRR2Fgt/erzJ7WWW/qmtL6
+ owrzOY2HaUsDGJcDLJiiiztCYu+PYrKe+t3IPQ+zBxWJpAhDFycAjCR83KMDLN6GFbuZXgb8nTK
+ hNfPlVgneCdYrJYODnP+lLol0mPd3R+MDK1liWf0Ek7wrZlqLGdVseJgb7CSX1n61T05E3JfMhT
+ f4QIA
 X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
  fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
 
-Use IIO_DEV_ACQUIRE_DIRECT_MODE() helper to automatically release direct
-mode.
+Use IIO_DEV_GUARD_CURRENT_MODE() cleanup helper to simplify and drop
+busy-waiting code in max30102_read_raw().
 
 Reviewed-by: David Lechner <dlechner@baylibre.com>
 Reviewed-by: Nuno Sá <nuno.sa@analog.com>
 Signed-off-by: Kurt Borja <kuurtb@gmail.com>
 ---
- drivers/iio/light/vcnl4000.c | 49 ++++++++++++++++----------------------------
- 1 file changed, 18 insertions(+), 31 deletions(-)
+ drivers/iio/health/max30102.c | 33 +++++++++------------------------
+ 1 file changed, 9 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/iio/light/vcnl4000.c b/drivers/iio/light/vcnl4000.c
-index 4dbb2294a843..a36c23813679 100644
---- a/drivers/iio/light/vcnl4000.c
-+++ b/drivers/iio/light/vcnl4000.c
-@@ -1078,20 +1078,17 @@ static int vcnl4010_read_raw(struct iio_dev *indio_dev,
- 
- 	switch (mask) {
- 	case IIO_CHAN_INFO_RAW:
--	case IIO_CHAN_INFO_SCALE:
--		if (!iio_device_claim_direct(indio_dev))
-+	case IIO_CHAN_INFO_SCALE: {
-+		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-+		if (IIO_DEV_ACQUIRE_FAILED(claim))
- 			return -EBUSY;
- 
- 		/* Protect against event capture. */
--		if (vcnl4010_is_in_periodic_mode(data)) {
--			ret = -EBUSY;
--		} else {
--			ret = vcnl4000_read_raw(indio_dev, chan, val, val2,
--						mask);
--		}
-+		if (vcnl4010_is_in_periodic_mode(data))
-+			return -EBUSY;
- 
--		iio_device_release_direct(indio_dev);
--		return ret;
-+		return vcnl4000_read_raw(indio_dev, chan, val, val2, mask);
-+	}
- 	case IIO_CHAN_INFO_SAMP_FREQ:
- 		switch (chan->type) {
- 		case IIO_PROXIMITY:
-@@ -1148,36 +1145,27 @@ static int vcnl4010_write_raw(struct iio_dev *indio_dev,
- 			      struct iio_chan_spec const *chan,
- 			      int val, int val2, long mask)
+diff --git a/drivers/iio/health/max30102.c b/drivers/iio/health/max30102.c
+index 6918fcb5de2b..47da44efd68b 100644
+--- a/drivers/iio/health/max30102.c
++++ b/drivers/iio/health/max30102.c
+@@ -467,44 +467,29 @@ static int max30102_read_raw(struct iio_dev *indio_dev,
+ 			     int *val, int *val2, long mask)
  {
--	int ret;
- 	struct vcnl4000_data *data = iio_priv(indio_dev);
- 
--	if (!iio_device_claim_direct(indio_dev))
-+	IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-+	if (IIO_DEV_ACQUIRE_FAILED(claim))
- 		return -EBUSY;
- 
- 	/* Protect against event capture. */
--	if (vcnl4010_is_in_periodic_mode(data)) {
--		ret = -EBUSY;
--		goto end;
--	}
-+	if (vcnl4010_is_in_periodic_mode(data))
-+		return -EBUSY;
+ 	struct max30102_data *data = iio_priv(indio_dev);
+-	int ret = -EINVAL;
++	int ret;
  
  	switch (mask) {
- 	case IIO_CHAN_INFO_SAMP_FREQ:
- 		switch (chan->type) {
- 		case IIO_PROXIMITY:
--			ret = vcnl4010_write_proxy_samp_freq(data, val, val2);
--			goto end;
-+			return vcnl4010_write_proxy_samp_freq(data, val, val2);
- 		default:
--			ret = -EINVAL;
--			goto end;
-+			return -EINVAL;
- 		}
- 	default:
--		ret = -EINVAL;
--		goto end;
+-	case IIO_CHAN_INFO_RAW:
++	case IIO_CHAN_INFO_RAW: {
+ 		/*
+ 		 * Temperature reading can only be acquired when not in
+ 		 * shutdown; leave shutdown briefly when buffer not running
+ 		 */
+-any_mode_retry:
+-		if (!iio_device_try_claim_buffer_mode(indio_dev)) {
+-			/*
+-			 * This one is a *bit* hacky. If we cannot claim buffer
+-			 * mode, then try direct mode so that we make sure
+-			 * things cannot concurrently change. And we just keep
+-			 * trying until we get one of the modes...
+-			 */
+-			if (!iio_device_claim_direct(indio_dev))
+-				goto any_mode_retry;
++		IIO_DEV_GUARD_CURRENT_MODE(indio_dev);
+ 
+-			ret = max30102_get_temp(data, val, true);
+-			iio_device_release_direct(indio_dev);
+-		} else {
+-			ret = max30102_get_temp(data, val, false);
+-			iio_device_release_buffer_mode(indio_dev);
+-		}
++		ret = max30102_get_temp(data, val, !iio_buffer_enabled(indio_dev));
+ 		if (ret)
+ 			return ret;
+ 
+-		ret = IIO_VAL_INT;
+-		break;
++		return IIO_VAL_INT;
++	}
+ 	case IIO_CHAN_INFO_SCALE:
+ 		*val = 1000;  /* 62.5 */
+ 		*val2 = 16;
+-		ret = IIO_VAL_FRACTIONAL;
+-		break;
++		return IIO_VAL_FRACTIONAL;
++	default:
 +		return -EINVAL;
  	}
 -
--end:
--	iio_device_release_direct(indio_dev);
 -	return ret;
  }
  
- static int vcnl4010_read_event(struct iio_dev *indio_dev,
-@@ -1438,14 +1426,13 @@ static int vcnl4010_config_threshold_disable(struct vcnl4000_data *data)
- static int vcnl4010_config_threshold(struct iio_dev *indio_dev, bool state)
- {
- 	struct vcnl4000_data *data = iio_priv(indio_dev);
--	int ret;
- 
- 	if (state) {
--		if (!iio_device_claim_direct(indio_dev))
-+		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-+		if (IIO_DEV_ACQUIRE_FAILED(claim))
- 			return -EBUSY;
--		ret = vcnl4010_config_threshold_enable(data);
--		iio_device_release_direct(indio_dev);
--		return ret;
-+
-+		return vcnl4010_config_threshold_enable(data);
- 	} else {
- 		return vcnl4010_config_threshold_disable(data);
- 	}
+ static const struct iio_info max30102_info = {
 
 -- 
 2.52.0

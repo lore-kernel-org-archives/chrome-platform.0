@@ -1,67 +1,66 @@
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2D923E330
-	for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 15:45:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9618923EAA5
+	for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 15:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768751105; cv=none; b=Ky9PauAdsmE3Xw2hEiIxPfcIX+ieqY+uatDj5q6OYCodkTD0DScSPMBOfT77Ery/ekwmv1UGggPAwYj4doIncS31AznBJ97L0SKragQs4kHSEu6DEvFIWL5gFz9G4DvwLENhPClLyqcybUcIUb3DIux05Unw7Dj+Ix+NuBIwBc0=
+	t=1768751106; cv=none; b=dgL5RcylNk+D0eEq6YO2g5JOL5CbQB1EMUkysSbey2WN4UuO/aQ6+895hJEoaTwqkJ4wSncp1TGlm8JhMdx4Cv2k015fP8/JLAlRTrMF0r1OI1Ezqy9dDvvL7+tocPrtiirjK4aCe5ySihz+k7bnah58hsYfNgmT0kgQy4U2rZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768751105; c=relaxed/simple;
-	bh=Bt3F/lHb6LI1N+BCX9VGngIeBqcSWQC3l35PbzVvVCs=;
+	s=arc-20240116; t=1768751106; c=relaxed/simple;
+	bh=3P+X2YeLcPjCXYTP9cibJrgBqh+scSiCbpaQGpGyBmA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QxSfavi9r1gqwcLUQ8Aym4dzofN9oXqKrdLDOmTv6i61LhXBRpwknvhhO36cWZdbEp7L+g0AkiJ4a5rPDl1ZNItKRpyxIA2YXwMKA/tC/fDQiWlvBCRWCPd5tZi26juvOx6+wRHwBjpOtb6qibxOSEaIdxRF5EJitrY9iRVxwhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X/X17lJw; arc=none smtp.client-ip=209.85.222.54
+	 In-Reply-To:To:Cc; b=RfYTiQK8FElAm71D+ZA2DSRAleV+XA1LzTqAKtp3qaxzvWb61lXRLSztUNXCZUVa4WhmW9guiol/l3qCsTtHZmk9t8vJFn5mdT9fGwFQZi2KYm4MZZ5iWI9NMJnBlBCzr2GMDDY0jiZwUaQbyQ4tdbKHp4UkC2ZYGpcod00Fip0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSM3LBY5; arc=none smtp.client-ip=209.85.217.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/X17lJw"
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-9412512e9f3so980708241.0
-        for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 07:45:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSM3LBY5"
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5efa4229bd2so2409291137.0
+        for <chrome-platform@lists.linux.dev>; Sun, 18 Jan 2026 07:45:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768751101; x=1769355901; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768751103; x=1769355903; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XGdTfbPm6m/cN0XbYhh/ArH4Gt5W4bmHVBdR2RxVxHc=;
-        b=X/X17lJwko6NU8thw5wtANONEWIPwpTsmbZQUkuubrnW3NIJKsdHtHRkfIwSuYGB5j
-         ke5154mOBHvYrlvtjBdYV4Ce52/DvdhSDFQiVVwcKqmyC3u4P46LuMfPnbOt3XCVYmyd
-         Vsg3bW3e8Dfs18iaTYXOv7Nrj4ujy9UpeJ5r4BLdVCKbKscvjko3YMuT+AcCvVkNBWOv
-         UbU+AtuXAon5MVvYefSU0EyS0P3B3/huUYZ9jZMqHbSKV00g+onxUr/1BrzIeVFMMLwA
-         7wKuBHp+FcJ3mTXBaspt1EJ9hGEGtf5zoA/jyJvnGi0ZQFY1q6jnmLYHl6jKEpXqubQp
-         jnVQ==
+        bh=XTnTVRGv/a3yeACWeWEj6KZeE3Y99K4b2EX+Zi7IhJ8=;
+        b=DSM3LBY5x/6TIch/1F3pFLHUTTBRNIqcB5wRlLif2OwYD7xxNzHgUMmtgQhqCYHX91
+         UOBN83dDwgYYmM/04kJIi2Er5wGcd0RDKLrqnC2QhW5tqc6EEYgtmBgWjA8BuvkgxOtD
+         T+3J8YSCjIsOZB2y34SVU062q0H+Z3dbgUIcr5doArxZXiE33E8WxVx4FtwmBcavLUbM
+         D6RjOk1k5BQa7Ma0Lbml/oLYfeQW+ZM8ZyN4YjMxHvxRGymSH1Z2hkRox6wbtGL/ziLI
+         i7tR88x2htpqChR/TBFeEXsAD1BkUkjLeOcIfFWckG+aggW8rWqJLa3tUkdKqUVoKbfW
+         8hyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768751101; x=1769355901;
+        d=1e100.net; s=20230601; t=1768751103; x=1769355903;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=XGdTfbPm6m/cN0XbYhh/ArH4Gt5W4bmHVBdR2RxVxHc=;
-        b=WqwIxfBrRVRUc1DegunIOnX388SxATPhChUNH2MZ4YqDBzS834Qcogac6+45Unyn/r
-         DxVrEJVUcK7wEGnsDc3S/5TpgXJj3wDgS0rD8EWKvLmzD5rErUR3k4+8go6q5NRms66N
-         R3b3H3DPcbEb1uxn3zieqbeOsSFwNJyM9XLP9XYxn1koWe+v3KbV5GegeVq7laRuLTg4
-         UGt1zY4tFBWN84rj+3Vw+p3hBVJJAnnARGMIVbkbnfzENc42L5ZMfmH8MF6ueK6SwJw5
-         tKrzo+yIArr8cnYQFRfVXTRjVlfkB586j4Gru/0HQSP4bjLCSGpNxu50ZwF2RXEsqFiW
-         xhdg==
-X-Forwarded-Encrypted: i=1; AJvYcCX40m+DGFCYO/9xqvwl3pIq659hfPH+WuBTHKly54tKiCtJJ7LR506z7Jb3TzdeTRWy+/3UKBcl4Ey/2/jHNuk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSQq+h5GN4CMky0gUqfA3tNDXaGrP/A/0+v4VE4PyG9ZWI8ypM
-	Uk8MSlmcJqIh0xVeNlHyoZ5g7z0DEoibaWniaSQPj+VjZ9T/ayFKBgAsSaBx2OhV
-X-Gm-Gg: AY/fxX41RO45NBBfDc5qpPPyKS+PiZ+o6AiSlrBwZRjemKy9fC8QpL8chT3BgeX3FMu
-	abmOadHRdZ5UY+0LdVmuGdmKI+nswEHGjw7QrwwuOe4ywcxlU/lsK/Mzxufa+2meLBcW8uvABKh
-	/cm9vh/4fsQWduQZ1uPFUC8E/PYY8S1aOj586RXH3WEXEZbkQntyTBojWFpLWQVxoHBwt3pOIhX
-	8nyB0aSv5Sror2aUd4X2BaV2rq02GUTF6tkZVJ5dEc+OWc0g+5BIV0SD95tF0PWSZKP17ofPhJJ
-	tYhsMxM2NOVtfzdIF6nh1OfZxMewfn2Q6jK3jVbJqx9DBqvV5RkYOSky18l/xjR9Bff7uBf2fcu
-	86jmGavTyVvKrRTX2pfdQz3qmsPubbjEt/D8UhQZQGnkElT4fxAjj4YGiXq9h+Hgj3Iz13W60rL
-	KIbteMl6ItCVDB
-X-Received: by 2002:a05:6102:dcc:b0:5db:f031:84c7 with SMTP id ada2fe7eead31-5f1a717ed4emr2752450137.30.1768751100866;
-        Sun, 18 Jan 2026 07:45:00 -0800 (PST)
+        bh=XTnTVRGv/a3yeACWeWEj6KZeE3Y99K4b2EX+Zi7IhJ8=;
+        b=v8TOJo//Zi1safsogkuR2O38ByLEOmdr4lW4q4hdeF3aPhQMO3Vz2fMGrRYxz51fDZ
+         m0FcXZt9Wf6s5We4uTl4Tzb0SUuAYTxf2j+BAk6pRDhcpxF7X0thzOGjB0VZurlWUWF8
+         6Lxb17UV9n1G43RqEdbTbgW53GAyr4UqoIfXLzwsACPlp3jhC93SkK72tHRVATY2jhkW
+         NVJnwJ+nzPzxuf3WRZoJUjNsoYzH6rLixS/w2Ls70b60nzsJXa+Hy2lAvXl2jVPdRNz1
+         2AB0JBifN1jtvtx/CiyihGSK+RHRfx/BPvqhKHctaEUvMSLHGrcfMYCmC9Bec2+0uXpo
+         zIWg==
+X-Forwarded-Encrypted: i=1; AJvYcCVsk+8SrAHrdOIijzovR7T7oUS/G3EEcKyUabWm6zlVyXDNN3pLhiOROZNmQhhZNL1WuhrXrbhJtRy/E75sPSc=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6hsSicOD5uCuEylfFfBWshU+LcImEiD7uDpROMyPhxjoKQAgK
+	ugoRXUVGBK2g6/beEP8exk6JZHsJxTNsbo6nExU9QCs2Ax7gxOoxQCM1+i0lmO4k
+X-Gm-Gg: AY/fxX4EgERKp/5CX/VlOJSm/QlqAFCHl+ARjglW9WqcYbDfd4lWtZ1Ved3TcsXKTZ5
+	bZS5lm5uuC2iR11Z/re3zJ/pwpVxffL1E9/TWkc+nb4HDUvlPjPlyzvkofCnlVwL9+t6m/KM48K
+	tzgDr1sMVPObwibXBQCfHq5B42d4dqGklHNZ1E3DWlKHNH276vRvyZiJHP0a/l6iBqWcrZAmVVt
+	V9rEF/w7kAwEl1aHoV59NuWgJxBJHpvBrGeHLHg+gOcXiKoxUbhaXqzHcQ9T8BQGK7n9+ZuX+RV
+	VEUwbYnR6JU2/caC8r7v60HreRIrRyloD9LfY757wQQvsiAXGJq0XnCiA+I+5pRiFAT6cJsskXf
+	/rOAEEZByUu7/rqU0oAOONoCHm4JSL6xAs41DvOpaGN1dXnspuN4vQcae6gaXODeMKq5ViC+Tdn
+	D/KrC5iWS+Odoy
+X-Received: by 2002:a05:6102:a48:b0:5db:cfb2:e610 with SMTP id ada2fe7eead31-5f1a55dce21mr3189064137.41.1768751103410;
+        Sun, 18 Jan 2026 07:45:03 -0800 (PST)
 Received: from [192.168.100.253] ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6d3ca2esm2832731137.10.2026.01.18.07.44.58
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6d3ca2esm2832731137.10.2026.01.18.07.45.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 07:45:00 -0800 (PST)
+        Sun, 18 Jan 2026 07:45:03 -0800 (PST)
 From: Kurt Borja <kuurtb@gmail.com>
-Date: Sun, 18 Jan 2026 10:44:31 -0500
-Subject: [PATCH v4 4/7] iio: core: Add cleanup.h support for
- iio_device_claim_*()
+Date: Sun, 18 Jan 2026 10:44:32 -0500
+Subject: [PATCH v4 5/7] iio: light: vcnl4000: Use IIO cleanup helpers
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -70,7 +69,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260118-lock-impr-v4-4-6c8d0aee8ed2@gmail.com>
+Message-Id: <20260118-lock-impr-v4-5-6c8d0aee8ed2@gmail.com>
 References: <20260118-lock-impr-v4-0-6c8d0aee8ed2@gmail.com>
 In-Reply-To: <20260118-lock-impr-v4-0-6c8d0aee8ed2@gmail.com>
 To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
@@ -88,115 +87,120 @@ Cc: David Lechner <dlechner@baylibre.com>,
  linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
  Kurt Borja <kuurtb@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3563; i=kuurtb@gmail.com;
- h=from:subject:message-id; bh=Bt3F/lHb6LI1N+BCX9VGngIeBqcSWQC3l35PbzVvVCs=;
- b=owGbwMvMwCUmluBs8WX+lTTG02pJDJk5/z/eZhPNcLLkddP59UGR49r002tzUzdNjdqo2JfJW
- 3O1JGlhRykLgxgXg6yYIkt7wqJvj6Ly3vodCL0PM4eVCWQIAxenAEzEtomR4cuUHvZdLO4rD//d
- OF+kpG/y8dPXpjw71f91z99lwi8/bVjKyDCfY9uReJ37ehPnBBxm7NIxvvZq4s0F+97uz85dN8l
- J9wkzAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3136; i=kuurtb@gmail.com;
+ h=from:subject:message-id; bh=3P+X2YeLcPjCXYTP9cibJrgBqh+scSiCbpaQGpGyBmA=;
+ b=owGbwMvMwCUmluBs8WX+lTTG02pJDJk5/z8+iJ4RHnlk3snQuump56fLnmzP+yR1+31BpOonj
+ oP5N49ZdZSyMIhxMciKKbK0Jyz69igq763fgdD7MHNYmUCGMHBxCsBENsow/I+9cd2l0P+rrurq
+ RW/ydxrGWMhMORSpfOQDu0CYocvuLQcY/opzLnlwkuPZZJakczuqJ/W/OmoQ9l1TeGnI5QPW4gn
+ fH7ABAA==
 X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
  fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
 
-Add guard classes for iio_device_claim_*() conditional locks. This will
-aid drivers write safer and cleaner code when dealing with some common
-patterns.
+Use IIO_DEV_ACQUIRE_DIRECT_MODE() helper to automatically release direct
+mode.
 
-These classes are not meant to be used directly by drivers (hence the
-__priv__ prefix). Instead, documented wrapper macros are provided to
-enforce the use of ACQUIRE() or guard() semantics and avoid the
-problematic scoped guard.
-
-Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 Reviewed-by: David Lechner <dlechner@baylibre.com>
 Reviewed-by: Nuno Sá <nuno.sa@analog.com>
 Signed-off-by: Kurt Borja <kuurtb@gmail.com>
 ---
- include/linux/iio/iio.h | 65 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ drivers/iio/light/vcnl4000.c | 49 ++++++++++++++++----------------------------
+ 1 file changed, 18 insertions(+), 31 deletions(-)
 
-diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-index fa671e120e95..4a0a77fcfa8d 100644
---- a/include/linux/iio/iio.h
-+++ b/include/linux/iio/iio.h
-@@ -10,6 +10,7 @@
- #include <linux/align.h>
- #include <linux/device.h>
- #include <linux/cdev.h>
-+#include <linux/cleanup.h>
- #include <linux/compiler_types.h>
- #include <linux/minmax.h>
- #include <linux/slab.h>
-@@ -740,6 +741,70 @@ static inline bool iio_device_try_claim_buffer_mode(struct iio_dev *indio_dev)
-  */
- #define iio_device_release_buffer_mode(indio_dev) __iio_dev_mode_unlock(indio_dev)
+diff --git a/drivers/iio/light/vcnl4000.c b/drivers/iio/light/vcnl4000.c
+index 4dbb2294a843..a36c23813679 100644
+--- a/drivers/iio/light/vcnl4000.c
++++ b/drivers/iio/light/vcnl4000.c
+@@ -1078,20 +1078,17 @@ static int vcnl4010_read_raw(struct iio_dev *indio_dev,
  
-+/*
-+ * These classes are not meant to be used directly by drivers (hence the
-+ * __priv__ prefix). Instead, documented wrapper macros are provided below to
-+ * enforce the use of ACQUIRE() or guard() semantics and avoid the problematic
-+ * scoped guard variants.
-+ */
-+DEFINE_GUARD(__priv__iio_dev_mode_lock, struct iio_dev *,
-+	     __iio_dev_mode_lock(_T), __iio_dev_mode_unlock(_T));
-+DEFINE_GUARD_COND(__priv__iio_dev_mode_lock, _try_direct,
-+		  iio_device_claim_direct(_T));
-+
-+/**
-+ * IIO_DEV_ACQUIRE_DIRECT_MODE(dev, var) - Tries to acquire the direct mode
-+ *					   lock with automatic release
-+ * @dev: IIO device instance
-+ * @claim: Variable identifier to store acquire result
-+ *
-+ * Tries to acquire the direct mode lock with cleanup ACQUIRE() semantics and
-+ * automatically releases it at the end of the scope. It most be always paired
-+ * with IIO_DEV_ACQUIRE_ERR(), for example (notice the scope braces)::
-+ *
-+ *	switch() {
-+ *	case IIO_CHAN_INFO_RAW: {
-+ *		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-+ *		if (IIO_DEV_ACQUIRE_FAILED(claim))
-+ *			return -EBUSY;
-+ *
-+ *		...
-+ *	}
-+ *	case IIO_CHAN_INFO_SCALE:
-+ *		...
-+ *	...
-+ *	}
-+ *
-+ * Context: Can sleep
-+ */
-+#define IIO_DEV_ACQUIRE_DIRECT_MODE(dev, claim) \
-+	ACQUIRE(__priv__iio_dev_mode_lock_try_direct, claim)(dev)
-+
-+/**
-+ * IIO_DEV_ACQUIRE_FAILED() - ACQUIRE_ERR() wrapper
-+ * @claim: The claim variable passed to IIO_DEV_ACQUIRE_*_MODE()
-+ *
-+ * Return: true if failed to acquire the mode, otherwise false.
-+ */
-+#define IIO_DEV_ACQUIRE_FAILED(claim) \
-+	ACQUIRE_ERR(__priv__iio_dev_mode_lock_try_direct, &(claim))
-+
-+/**
-+ * IIO_DEV_GUARD_CURRENT_MODE - Acquires the mode lock with automatic release
-+ * @dev: IIO device instance
-+ *
-+ * Acquires the mode lock with cleanup guard() semantics. It is usually paired
-+ * with iio_buffer_enabled().
-+ *
-+ * This should *not* be used to protect internal driver state and it's use in
-+ * general is *strongly* discouraged. Use any of the IIO_DEV_ACQUIRE_*_MODE()
-+ * variants.
-+ *
-+ * Context: Can sleep
-+ */
-+#define IIO_DEV_GUARD_CURRENT_MODE(dev) \
-+	guard(__priv__iio_dev_mode_lock)(dev)
-+
- extern const struct bus_type iio_bus_type;
+ 	switch (mask) {
+ 	case IIO_CHAN_INFO_RAW:
+-	case IIO_CHAN_INFO_SCALE:
+-		if (!iio_device_claim_direct(indio_dev))
++	case IIO_CHAN_INFO_SCALE: {
++		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
++		if (IIO_DEV_ACQUIRE_FAILED(claim))
+ 			return -EBUSY;
  
- /**
+ 		/* Protect against event capture. */
+-		if (vcnl4010_is_in_periodic_mode(data)) {
+-			ret = -EBUSY;
+-		} else {
+-			ret = vcnl4000_read_raw(indio_dev, chan, val, val2,
+-						mask);
+-		}
++		if (vcnl4010_is_in_periodic_mode(data))
++			return -EBUSY;
+ 
+-		iio_device_release_direct(indio_dev);
+-		return ret;
++		return vcnl4000_read_raw(indio_dev, chan, val, val2, mask);
++	}
+ 	case IIO_CHAN_INFO_SAMP_FREQ:
+ 		switch (chan->type) {
+ 		case IIO_PROXIMITY:
+@@ -1148,36 +1145,27 @@ static int vcnl4010_write_raw(struct iio_dev *indio_dev,
+ 			      struct iio_chan_spec const *chan,
+ 			      int val, int val2, long mask)
+ {
+-	int ret;
+ 	struct vcnl4000_data *data = iio_priv(indio_dev);
+ 
+-	if (!iio_device_claim_direct(indio_dev))
++	IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
++	if (IIO_DEV_ACQUIRE_FAILED(claim))
+ 		return -EBUSY;
+ 
+ 	/* Protect against event capture. */
+-	if (vcnl4010_is_in_periodic_mode(data)) {
+-		ret = -EBUSY;
+-		goto end;
+-	}
++	if (vcnl4010_is_in_periodic_mode(data))
++		return -EBUSY;
+ 
+ 	switch (mask) {
+ 	case IIO_CHAN_INFO_SAMP_FREQ:
+ 		switch (chan->type) {
+ 		case IIO_PROXIMITY:
+-			ret = vcnl4010_write_proxy_samp_freq(data, val, val2);
+-			goto end;
++			return vcnl4010_write_proxy_samp_freq(data, val, val2);
+ 		default:
+-			ret = -EINVAL;
+-			goto end;
++			return -EINVAL;
+ 		}
+ 	default:
+-		ret = -EINVAL;
+-		goto end;
++		return -EINVAL;
+ 	}
+-
+-end:
+-	iio_device_release_direct(indio_dev);
+-	return ret;
+ }
+ 
+ static int vcnl4010_read_event(struct iio_dev *indio_dev,
+@@ -1438,14 +1426,13 @@ static int vcnl4010_config_threshold_disable(struct vcnl4000_data *data)
+ static int vcnl4010_config_threshold(struct iio_dev *indio_dev, bool state)
+ {
+ 	struct vcnl4000_data *data = iio_priv(indio_dev);
+-	int ret;
+ 
+ 	if (state) {
+-		if (!iio_device_claim_direct(indio_dev))
++		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
++		if (IIO_DEV_ACQUIRE_FAILED(claim))
+ 			return -EBUSY;
+-		ret = vcnl4010_config_threshold_enable(data);
+-		iio_device_release_direct(indio_dev);
+-		return ret;
++
++		return vcnl4010_config_threshold_enable(data);
+ 	} else {
+ 		return vcnl4010_config_threshold_disable(data);
+ 	}
 
 -- 
 2.52.0

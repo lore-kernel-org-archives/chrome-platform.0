@@ -1,159 +1,203 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DCF3659E9
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 14:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CF72475E3
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 19:31:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768832497; cv=none; b=Szja0o7GI9ZNmOtkHQagB+ojytPvK9FWyhNTzkJcwyAuxxIxM7BE8XLRy3h5PwwcFeSBEvufdxZUK+zkDFOxC8K+2FtUB/x5J5vyXUhDBQiOsU0wc2Um5JBtcwQ6LkpYWf08jM4n0DR9PgFqkwr5HOI93Kh65LHDxbYdeLWjGiU=
+	t=1768851064; cv=none; b=pduo6BFvq1RFgydp7qC1TU99QcgdO0O+QXEiERdSyy+fNzFSDQcMJsrKt0ECuCEMRIwIMjVLOdN1imIrRgd+wIKdVH8+h5PwgVm8whzQ14TUW/Hw8NLaR/HHI4G9jbRrVYO6nwsP/YXO5c4BKDmTO1L6QK3FsMpFdI48K/9Rthk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768832497; c=relaxed/simple;
-	bh=8agNwjJ4zy4m6BRUaQNXinFIwq7siSR4+wJAzG4qWxU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xv5nAlYRSZUI7WNGu27I0yIM/Ykg/JxNyf3lwlHA+zqQVBi2vT9Ej9+JRKmgjGw9SZ4ZbxHgrxLo3r4jvg5Kq6VK6HxTNpz+bmXRJ5pQVdSKpCqlCdi8hELhRypJHejokCOb85kaZiDFKZ/eVWedOQrm/5s0lo7S4kZPFGH7YJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MBkLyTHu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HFOYM72J; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1768851064; c=relaxed/simple;
+	bh=8ekbjBw6M/rsnNmO/cbzayaTuonKM33h9jOjhxZad3M=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=Id6DUKrvlmsXRCGRCLN1lz78VcdGeOrY7MbGgWr4YTuK3scarkIE+8I011xVWj3xJ0veqlVKc9fsvQulUt8oY3KZNMPvCSFsGSfjt/TiIILUOvULhVSMcYZAisFaWyQwhqWOGvauuJblJMV1yGlWN9ZQJUs/n5zvuTCs+uw+eNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nQrPj6nX; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MBkLyTHu";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HFOYM72J"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60J9nSsD2966239
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 14:21:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	DUD17svob3ckgQw9sTfdTLObVRKIRVlmGErtozciMyI=; b=MBkLyTHu7KHdVtED
-	SgDcrkk5UUan1MrpVDRaT0Hms5z6vq9gbyBcN4LId7jUIF8bDB/rs30a3Gq3xblc
-	bs5UK6F2UArgkILogkapp0gL7Thoch2tvUuc4/W1BfNa1ZI+X/wHYHMVXjY5aNxG
-	1F081JymlmZx3BgTb93925rQhXZZwjGaJocsBqo5Om9cafW4lDEewc51dm1UfyK7
-	wgyZFVR9z98IvALAodPN96IN6dxmZ73ztmF/6fZWZE69W1Hfee2NgT55OwOzOmX+
-	PS5x8Yb9rqtVum6jW0KrGkdTHlTr/PJ9g9DjV+e9/efbZWns3PEBt6As7oILNqyp
-	/jiESw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bsjaa8r5f-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 14:21:35 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c6a289856eso864838485a.0
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 06:21:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQrPj6nX"
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56379cb870bso1240645e0c.2
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 11:31:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768832494; x=1769437294; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1768851062; x=1769455862; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DUD17svob3ckgQw9sTfdTLObVRKIRVlmGErtozciMyI=;
-        b=HFOYM72JS8aEokWvRxWyxhxanEa0GVPfyYyubZgN3tR4htSXYSvIc5fN+cGJvl5iwZ
-         ca2RzkWVO0MmUegNCFGomx6Z1vzL9eLHllgF3xLXez8xvI+vhp5uBJrWFaLusxABfOxQ
-         Jq85KPuxjKQ12/04G2Ls5gvsZFQFGi2RHcEjKChHZpv5G/tyVZm3gUwwC30JGQfqxtJH
-         GGjFfZM4JeKnGMKVTRwBZX7Xu27xj5hDX2BBq1uQo4kJWyCzUlsAUg+ndtsiSQwXT13I
-         Kxk19XkoHDb0//yi/0AE+9/EjiSKwcbwConYIdvB0vVWvqnDlRwCb8h/K0on7LFfsXK+
-         oa3w==
+        bh=mSI/mMQ05DiSZvf3TBwxj/Af+SeoSoRBsI8Y3/TAqgo=;
+        b=nQrPj6nXj1P280Mihy9VgL/opQEvzP4KssK1MN1hNGu0IoFVA+ml7PVCMZNYdqGttJ
+         RZDEjmpc2VbXul0kBknsVfeZk/d7GX0z28hYDOSu3IVTCWoxkX3tZ/59TGOl7qRZ9apn
+         85BxLkCxXMmq3JY3tIPIkieAvdMaHY64CdDq9EZg7RmAs9BrV+/WDFlaoUSu1nmieQ+X
+         oUKBZVFEvDohYFnxVe0dbCdXXC/hlAZuLwdUZu1op0nhF8didQs+XZo8vFV6rkufa5Qz
+         tHlXkqkgMgOR+Ak3XLECPIJMW44Y5TiB+Z/Gevl2kpNzQTUjwpRLYHwQHSzk65G2bzF2
+         J+3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768832494; x=1769437294;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DUD17svob3ckgQw9sTfdTLObVRKIRVlmGErtozciMyI=;
-        b=cbWtTy11bhksWYDcEgGBWKZ+4u+VFoNMXKxG5gzSM+yo19SSvao1R8TFBAu55gIEJb
-         QUPchXC+RgnWhcmvedZiA4AB13k2RtV/5rRH4qgcTr2eVxPYERra9ai+kJsVyanLziA9
-         iwbZ/G/nQ3Svow5jM40WEE/nEllEYeRbPfg4y2dY7q+wmhmlxgXSIwQlsQI1uBZ5RZ+U
-         Jad247uvO+2PC8olf+wfV4T2lbxS+lQKDNZ7CCNwGRAyUP8rwBFBdFM7ffqoYaJi3Krh
-         THvyezhopkpM8pZUDoNxEMjrc0RbTD5XxfjNIuYWuonBCHp/77iITnlWK+cFw8y3vG1z
-         HfWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNr7burIC+5BJ92do6sBld/EsgujdcKWQkbTtRl/hLAgkRL3r2PRqMB+9M31pncIuVDGHU6RFrcyzczNd7GaU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyDOkXg/C/cwImO1Nni+B8TLHC8HB/xbN/qU8qqvAvrTPrzczcs
-	iyTtxmbW7QSmYocurf7fYvVhWkfIBaI/DSU/337zN4strJrdUmknnM8zNbc1eBj6IxPO+iwXSW6
-	kebxHTJXls07G/B1LGWoRlg8cP7YxfNHikgnMfAcw3X0nFrp3QqHNBPl8fpmN1Oyx0LJQwMA=
-X-Gm-Gg: AY/fxX5ha5LPRwzJ5L6DdoVL4pnrCwMM39JvNMXOzm2uMDDfyE/xpX2hcohdOrCKlk1
-	aj5YZqpkDebrULbssaN1rrqhjTEVfddg8Pxv+xcb+1JmokELSkKd8mQGymuOAiJ4CwLn6dJnUs7
-	78AaCG7p5JX8jhbbDkpXyu3NMedUjn/0/rlI23EN/S2httdhlG82VAqHEfFdiAOJaAHE94KdcQV
-	1eTsgg5cc4nh4TIkkPHN973MW3cQrqzNlY2/SdwMZNXAXMKFqiRID0D+qbDa2W7nBcaoKuB3wVX
-	smmLXkeU2YsW//pHeG86YRjE4M5g+H6HmL21dSKoY7Va07R5/m1LTs7tefZvquZnxivvspW8CzB
-	h6P+/rcq+f3HwYIztSrTOZUE9ZPCvsp+bm7yH
-X-Received: by 2002:a05:620a:31a4:b0:8c5:3412:3aa6 with SMTP id af79cd13be357-8c591a1d06cmr1960802085a.42.1768832494335;
-        Mon, 19 Jan 2026 06:21:34 -0800 (PST)
-X-Received: by 2002:a05:620a:31a4:b0:8c5:3412:3aa6 with SMTP id af79cd13be357-8c591a1d06cmr1960795585a.42.1768832493696;
-        Mon, 19 Jan 2026 06:21:33 -0800 (PST)
-Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:8691:997:57af:f0e1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e8c0475sm232136445e9.10.2026.01.19.06.21.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 06:21:33 -0800 (PST)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-To: Benson Leung <bleung@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>,
-        Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Simona Vetter <simona.vetter@ffwll.ch>,
-        Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: (subset) [PATCH 00/23] gpiolib: Adopt revocable mechanism for UAF prevention
-Date: Mon, 19 Jan 2026 15:21:30 +0100
-Message-ID: <176883238369.34730.6318990234727983164.b4-ty@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260116081036.352286-1-tzungbi@kernel.org>
-References: <20260116081036.352286-1-tzungbi@kernel.org>
+        d=1e100.net; s=20230601; t=1768851062; x=1769455862;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mSI/mMQ05DiSZvf3TBwxj/Af+SeoSoRBsI8Y3/TAqgo=;
+        b=Pk+PmXfgLwjvsxBkh3ZtONl1bk18VOvqdcEPc/WuoVzqUiIdtDt/sPgl2X0Xnx3VaB
+         PTSnmUAyeiM54koOqfzQpoKebd+0DFdix4kZVdoywvhLuLCy48Kc7a8fjxh/VhA23d2s
+         sq+zVCBI5LbfzCfQnSBiovVMLuBlXJEepBpdda2dvVi1An2AK3rtrlXkruwCsyh4ozx0
+         ppcWHBoDkxFfjsGFwy/BTzzeMQ3ALY/Y9eiqPZIPoi9rQjpNUJd986Jq/TBXBDmYrMnn
+         mtF5+8QV+4lMJ9UjLdAqVAxW4qfUJlv/IQczMcR2T6G4CC8qqh0PSKBC9x//kyEsajkL
+         Y3aw==
+X-Forwarded-Encrypted: i=1; AJvYcCWmeJeNbdNT9iMJwV2sLnXSxLGe0gUW2oHu39FzXFsxAZiZKyMdGLauRmVuVan99FzizaMSa7OKp2iCUQ7nW2A=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9GlXdXcuozWksImTcPDzMyL0N6Yq6UVqn03knBrjjJytkjRKF
+	6yeizeNeUUiZD62h3+IoCXkwrLvW7AX6WLdvLfTnyrSVI5yRi+XZzH/I
+X-Gm-Gg: AY/fxX5rRz758tOiclc4pKmTVIDzaYK7s21/uzAH/4AjamXbAs4f/8GFLOGNrFp5KLp
+	SO8q/Q6IS5aeUhynXBuBvsY561qAez0n95EBxK964c/ASdb8HN1M9qa6Ek5WII2HP+LLPqRVLHU
+	RV5hHJmTK6KRnG+Z1yD9TvXHjMytxF0kDRHAjEYMV8uQLeU60gPtzzAaMDDu+nh1q7d144Z0mbl
+	TmKtbzVY0lTpdBqBOtMs8EHkxJ8r/YGokmDdfryBhEuH66IJjl2YgTt3ULI16WZ48rdLovqkm9u
+	/IMcsiRet5s1VsHMEtWm5y0dA3izRAUL5haRTndngvgL4CsnkaSMr/Gp+pXGH7DLztzrjZZPpBZ
+	FSwVMk63cSBml6DFj+hDj9kMVwf1+pVym9El7pBkVRZ7+hDIr/mgChoZXaoOy6xCWYLoRElwOTV
+	lSlw==
+X-Received: by 2002:a05:6122:7c8:b0:54a:1e96:e958 with SMTP id 71dfb90a1353d-563b5a79b75mr3945356e0c.0.1768851061928;
+        Mon, 19 Jan 2026 11:31:01 -0800 (PST)
+Received: from localhost ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b70fea8csm2984342e0c.15.2026.01.19.11.30.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jan 2026 11:31:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDEyMCBTYWx0ZWRfXyiiCCqC6pTc+
- JKTRttVSBx9qYPRJKleHVZsZPp815lKXvGWEshBCyhoPYaYzGsw92ZB6LlBybHuVt8amz2Z5Vl8
- EP5fFzwVjdI2zJiq2QIsy61DpbFE5RD9mnsGUOeKsI1j4EQk42SvJrUYp7B4/HAdljRsqloTwhh
- ojEGTWVPziSSDLdG1LtY0+4ZIVMt1QcuELe1HRo53uGhMF+Mx7wh2DJW+Fjx6x1DAeeiDdT3jnD
- Sh/6b4RrXgtSoJwbzRp38V7UVGt+kQIZwFQuQZdyVMgL2pBSl3KVPPaWeWcgR+1yvxSZg0t2mCF
- nWSw7NjHbLknDpeSDdNsemzDtgN+gmN4kQl6KpESiJcvgS4glNb89micP7O5s1dn03Fz6Q+Ke4m
- zqa/VbeR9IcRVBxgHgUC79bZYSF+bkS1NBVNixEHDYY/xR95ABDi3D+7vINxhz/d42gEhlGxIy2
- F93+n8lWhk9ARb9Nn7w==
-X-Proofpoint-ORIG-GUID: Hs2LUHUtuVdAle-s4FTbvHlAMaiAgxfr
-X-Proofpoint-GUID: Hs2LUHUtuVdAle-s4FTbvHlAMaiAgxfr
-X-Authority-Analysis: v=2.4 cv=L8gQguT8 c=1 sm=1 tr=0 ts=696e3def cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=9vGuVDj-4svxC1PVwDYA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-19_03,2026-01-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 suspectscore=0 phishscore=0 spamscore=0
- clxscore=1011 priorityscore=1501 lowpriorityscore=0 bulkscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601190120
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 Jan 2026 14:30:53 -0500
+Message-Id: <DFSTD80YOO0Y.1LLCJGT3GW0S3@gmail.com>
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "David Lechner" <dlechner@baylibre.com>, "Kurt Borja"
+ <kuurtb@gmail.com>, "Andy Shevchenko" <andriy.shevchenko@intel.com>,
+ "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
+ <Michael.Hennerich@analog.com>, "Jonathan Cameron" <jic23@kernel.org>,
+ "Benson Leung" <bleung@chromium.org>, "Antoniu Miclaus"
+ <antoniu.miclaus@analog.com>, "Gwendal Grignou" <gwendal@chromium.org>,
+ "Shrikant Raskar" <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
+ <perdaniel.olsson@axis.com>
+Cc: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Andy Shevchenko"
+ <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>, "Jonathan
+ Cameron" <Jonathan.Cameron@huawei.com>, <linux-iio@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>
+Subject: Re: [PATCH v4 4/7] iio: core: Add cleanup.h support for
+ iio_device_claim_*()
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260118-lock-impr-v4-0-6c8d0aee8ed2@gmail.com>
+ <20260118-lock-impr-v4-4-6c8d0aee8ed2@gmail.com>
+ <fef660dc-8c81-420c-95b6-cc8649971894@baylibre.com>
+In-Reply-To: <fef660dc-8c81-420c-95b6-cc8649971894@baylibre.com>
 
+On Sun Jan 18, 2026 at 2:35 PM -05, David Lechner wrote:
+> On 1/18/26 9:44 AM, Kurt Borja wrote:
+>> Add guard classes for iio_device_claim_*() conditional locks. This will
+>> aid drivers write safer and cleaner code when dealing with some common
+>> patterns.
+>>=20
+>> These classes are not meant to be used directly by drivers (hence the
+>> __priv__ prefix). Instead, documented wrapper macros are provided to
+>> enforce the use of ACQUIRE() or guard() semantics and avoid the
+>> problematic scoped guard.
+>>=20
+>> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+>> Reviewed-by: David Lechner <dlechner@baylibre.com>
+>> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+>> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+>> ---
+>>  include/linux/iio/iio.h | 65 ++++++++++++++++++++++++++++++++++++++++++=
++++++++
+>>  1 file changed, 65 insertions(+)
+>>=20
+>> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+>> index fa671e120e95..4a0a77fcfa8d 100644
+>> --- a/include/linux/iio/iio.h
+>> +++ b/include/linux/iio/iio.h
+>> @@ -10,6 +10,7 @@
+>>  #include <linux/align.h>
+>>  #include <linux/device.h>
+>>  #include <linux/cdev.h>
+>> +#include <linux/cleanup.h>
+>>  #include <linux/compiler_types.h>
+>>  #include <linux/minmax.h>
+>>  #include <linux/slab.h>
+>> @@ -740,6 +741,70 @@ static inline bool iio_device_try_claim_buffer_mode=
+(struct iio_dev *indio_dev)
+>>   */
+>>  #define iio_device_release_buffer_mode(indio_dev) __iio_dev_mode_unlock=
+(indio_dev)
+>> =20
+>> +/*
+>> + * These classes are not meant to be used directly by drivers (hence th=
+e
+>> + * __priv__ prefix). Instead, documented wrapper macros are provided be=
+low to
+>> + * enforce the use of ACQUIRE() or guard() semantics and avoid the prob=
+lematic
+>> + * scoped guard variants.
+>> + */
+>> +DEFINE_GUARD(__priv__iio_dev_mode_lock, struct iio_dev *,
+>> +	     __iio_dev_mode_lock(_T), __iio_dev_mode_unlock(_T));
+>> +DEFINE_GUARD_COND(__priv__iio_dev_mode_lock, _try_direct,
+>> +		  iio_device_claim_direct(_T));
+>> +
+>> +/**
+>> + * IIO_DEV_ACQUIRE_DIRECT_MODE(dev, var) - Tries to acquire the direct =
+mode
+>> + *					   lock with automatic release
+>
+> Should be just IIO_DEV_ACQUIRE_DIRECT_MODE()
+>
+>> + * @dev: IIO device instance
+>> + * @claim: Variable identifier to store acquire result
+>> + *
+>> + * Tries to acquire the direct mode lock with cleanup ACQUIRE() semanti=
+cs and
+>> + * automatically releases it at the end of the scope. It most be always=
+ paired
+>> + * with IIO_DEV_ACQUIRE_ERR(), for example (notice the scope braces)::
+>> + *
+>> + *	switch() {
+>> + *	case IIO_CHAN_INFO_RAW: {
+>> + *		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
+>> + *		if (IIO_DEV_ACQUIRE_FAILED(claim))
+>> + *			return -EBUSY;
+>> + *
+>> + *		...
+>> + *	}
+>> + *	case IIO_CHAN_INFO_SCALE:
+>> + *		...
+>> + *	...
+>> + *	}
+>> + *
+>> + * Context: Can sleep
+>> + */
+>> +#define IIO_DEV_ACQUIRE_DIRECT_MODE(dev, claim) \
+>> +	ACQUIRE(__priv__iio_dev_mode_lock_try_direct, claim)(dev)
+>> +
+>> +/**
+>> + * IIO_DEV_ACQUIRE_FAILED() - ACQUIRE_ERR() wrapper
+>
+> This one is correct style.
+>
+>> + * @claim: The claim variable passed to IIO_DEV_ACQUIRE_*_MODE()
+>> + *
+>> + * Return: true if failed to acquire the mode, otherwise false.
+>> + */
+>> +#define IIO_DEV_ACQUIRE_FAILED(claim) \
+>> +	ACQUIRE_ERR(__priv__iio_dev_mode_lock_try_direct, &(claim))
+>> +
+>> +/**
+>> + * IIO_DEV_GUARD_CURRENT_MODE - Acquires the mode lock with automatic r=
+elease
+>
+> Missing ()
 
-On Fri, 16 Jan 2026 08:10:13 +0000, Tzung-Bi Shih wrote:
-> This series transitions the UAF prevention logic within the GPIO core
-> (gpiolib) to use the 'revocable' mechanism.
-> 
-> The existing code aims to prevent UAF issues when the underlying GPIO
-> chip is removed.  This series replaces that custom logic with the
-> generic 'revocable' API, which is designed to handle such lifecycle
-> dependencies.  There should be no change in behavior.
-> 
-> [...]
+Hi David,
 
-Tzung-Bi: I queued these two for fixes. Please resend patch 04/23 separately
-so that I can queue it for v6.19 as well. 01/23 and 03/23 risk impacting a
-very fragile path in GPIOLIB so any changes to it will have to wait until
-v7.0-rc1 to give it a lot of time in next.
+I didn't see what you meant in the previous email. Sorry! I'll correct
+it.
 
-[02/23] gpiolib: cdev: Fix resource leaks on errors in gpiolib_cdev_register()
-        commit: be037ec1785d76351037103ce6baddd3299606ee
-[05/23] gpiolib: cdev: Correct return code on memory allocation failure
-        commit: c7843298bf973d4bc7f4346140661e117186decc
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+--=20
+Thanks,
+ ~ Kurt

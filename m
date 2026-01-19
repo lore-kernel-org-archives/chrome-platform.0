@@ -1,63 +1,63 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CF72475E3
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 19:31:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA3D26ED3D
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 19:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768851064; cv=none; b=pduo6BFvq1RFgydp7qC1TU99QcgdO0O+QXEiERdSyy+fNzFSDQcMJsrKt0ECuCEMRIwIMjVLOdN1imIrRgd+wIKdVH8+h5PwgVm8whzQ14TUW/Hw8NLaR/HHI4G9jbRrVYO6nwsP/YXO5c4BKDmTO1L6QK3FsMpFdI48K/9Rthk=
+	t=1768851108; cv=none; b=hul+LjJFHV+qynG4iuoCdsPeV+hs+K9UBaWwZMqmt6yh3MA4K2rxYnb4nmoohwTAYKGzxl7CbISltNxvhmhO01YljMWamBkSBVMIW4F4EfkbJo96VXKvrF7Z65XcOxd+GDhn+ZlHIiSNiww9N9d2LBHDqbYsUpL784iwFaUMJ8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768851064; c=relaxed/simple;
-	bh=8ekbjBw6M/rsnNmO/cbzayaTuonKM33h9jOjhxZad3M=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=Id6DUKrvlmsXRCGRCLN1lz78VcdGeOrY7MbGgWr4YTuK3scarkIE+8I011xVWj3xJ0veqlVKc9fsvQulUt8oY3KZNMPvCSFsGSfjt/TiIILUOvULhVSMcYZAisFaWyQwhqWOGvauuJblJMV1yGlWN9ZQJUs/n5zvuTCs+uw+eNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nQrPj6nX; arc=none smtp.client-ip=209.85.221.178
+	s=arc-20240116; t=1768851108; c=relaxed/simple;
+	bh=x2b9lNEGCQygYR/3W/mNW1fFVMbpAS2G13sb1IHGSSE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=rI2fK5xuIUGBzD/VIVEIA3ogZgqCPnSfUMdDNRqU3yctTQh/bdBx7OnUGRarRSLPCfNzyuajgBNYymX3sapZBTaYBmu6zH7fESh0Fgw/gr8KPKDLM43If/XVo4NUt1S22c/m3rPduoZGnbDdPMBP5AAlpXEJ4DW8BpmcXEDZrxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4bNOGtf; arc=none smtp.client-ip=209.85.221.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQrPj6nX"
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56379cb870bso1240645e0c.2
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 11:31:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4bNOGtf"
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-559f4801609so1759512e0c.0
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 11:31:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768851062; x=1769455862; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
+        d=gmail.com; s=20230601; t=1768851106; x=1769455906; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mSI/mMQ05DiSZvf3TBwxj/Af+SeoSoRBsI8Y3/TAqgo=;
-        b=nQrPj6nXj1P280Mihy9VgL/opQEvzP4KssK1MN1hNGu0IoFVA+ml7PVCMZNYdqGttJ
-         RZDEjmpc2VbXul0kBknsVfeZk/d7GX0z28hYDOSu3IVTCWoxkX3tZ/59TGOl7qRZ9apn
-         85BxLkCxXMmq3JY3tIPIkieAvdMaHY64CdDq9EZg7RmAs9BrV+/WDFlaoUSu1nmieQ+X
-         oUKBZVFEvDohYFnxVe0dbCdXXC/hlAZuLwdUZu1op0nhF8didQs+XZo8vFV6rkufa5Qz
-         tHlXkqkgMgOR+Ak3XLECPIJMW44Y5TiB+Z/Gevl2kpNzQTUjwpRLYHwQHSzk65G2bzF2
-         J+3w==
+        bh=x2b9lNEGCQygYR/3W/mNW1fFVMbpAS2G13sb1IHGSSE=;
+        b=G4bNOGtfdUFN1EawrDmyK0PhgdmHIyPZznnnt52XaEd4uBaYwPrvxNTm/973KvI13a
+         CaJ6EbOQ2wn8+X9HDiDxPM5R0jBEBCOWduw0CD2L8PuCFU/RBYSvMqvtwVhP90m2/jcr
+         XTTt2/spWu7iNaR9IfzzwymxZyabW8rL9tLzdLCm7y0b5eo0J360l1QONvnDeCynB7M+
+         zScE9wiT3O7V6+F5kaqbXidkzFv3Pp+lWoHpwQeWT5w272o8qcyap9OqN2UzqanzBGM/
+         wlGOZP6zzGuss1XWxlyGyUJxUYvF+oYEZNx/CG4bSQUrpQkCvFC4FFR4Lv6y0v/l0YuU
+         GPig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768851062; x=1769455862;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
+        d=1e100.net; s=20230601; t=1768851106; x=1769455906;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=mSI/mMQ05DiSZvf3TBwxj/Af+SeoSoRBsI8Y3/TAqgo=;
-        b=Pk+PmXfgLwjvsxBkh3ZtONl1bk18VOvqdcEPc/WuoVzqUiIdtDt/sPgl2X0Xnx3VaB
-         PTSnmUAyeiM54koOqfzQpoKebd+0DFdix4kZVdoywvhLuLCy48Kc7a8fjxh/VhA23d2s
-         sq+zVCBI5LbfzCfQnSBiovVMLuBlXJEepBpdda2dvVi1An2AK3rtrlXkruwCsyh4ozx0
-         ppcWHBoDkxFfjsGFwy/BTzzeMQ3ALY/Y9eiqPZIPoi9rQjpNUJd986Jq/TBXBDmYrMnn
-         mtF5+8QV+4lMJ9UjLdAqVAxW4qfUJlv/IQczMcR2T6G4CC8qqh0PSKBC9x//kyEsajkL
-         Y3aw==
-X-Forwarded-Encrypted: i=1; AJvYcCWmeJeNbdNT9iMJwV2sLnXSxLGe0gUW2oHu39FzXFsxAZiZKyMdGLauRmVuVan99FzizaMSa7OKp2iCUQ7nW2A=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx9GlXdXcuozWksImTcPDzMyL0N6Yq6UVqn03knBrjjJytkjRKF
-	6yeizeNeUUiZD62h3+IoCXkwrLvW7AX6WLdvLfTnyrSVI5yRi+XZzH/I
-X-Gm-Gg: AY/fxX5rRz758tOiclc4pKmTVIDzaYK7s21/uzAH/4AjamXbAs4f/8GFLOGNrFp5KLp
-	SO8q/Q6IS5aeUhynXBuBvsY561qAez0n95EBxK964c/ASdb8HN1M9qa6Ek5WII2HP+LLPqRVLHU
-	RV5hHJmTK6KRnG+Z1yD9TvXHjMytxF0kDRHAjEYMV8uQLeU60gPtzzAaMDDu+nh1q7d144Z0mbl
-	TmKtbzVY0lTpdBqBOtMs8EHkxJ8r/YGokmDdfryBhEuH66IJjl2YgTt3ULI16WZ48rdLovqkm9u
-	/IMcsiRet5s1VsHMEtWm5y0dA3izRAUL5haRTndngvgL4CsnkaSMr/Gp+pXGH7DLztzrjZZPpBZ
-	FSwVMk63cSBml6DFj+hDj9kMVwf1+pVym9El7pBkVRZ7+hDIr/mgChoZXaoOy6xCWYLoRElwOTV
-	lSlw==
-X-Received: by 2002:a05:6122:7c8:b0:54a:1e96:e958 with SMTP id 71dfb90a1353d-563b5a79b75mr3945356e0c.0.1768851061928;
-        Mon, 19 Jan 2026 11:31:01 -0800 (PST)
+        bh=x2b9lNEGCQygYR/3W/mNW1fFVMbpAS2G13sb1IHGSSE=;
+        b=IGoa5UgdPlZhBResnvJ96Shnbcy7rKKIw6fzqyug5tAI3YuhslezICT87KxlCHwRl6
+         0gcQ2dtQ4LWiVUM67xEyUtCMcqjBs7xoJbRN1+uHkADpE+U7PSCX7vXZpqF0MUJR9KjB
+         mEVCYhZWA8nXnzhwOZ3BChj8QDmK0XmqUbeXw/RL/lohMH5StfLc+J6WEtgEUVwmRYF+
+         mWOszwNY7D0Uz+fACUCf9qKkqCY7sRMo+wGkSpcRO4p7E3zwo3eX8E0iTZPGhgWla6Oa
+         od6+FJdd5eMQRux5dNctn4H+v1Rkx0pPC0OUOORpwx7qztnUqT2j9pA+6u2lbXJ57xOD
+         XqFw==
+X-Forwarded-Encrypted: i=1; AJvYcCUH2WWwCPnFKAy0n2UU9s7YP/w6ZkyHONEiKfXGA2Uxs5lE6TO7ZCXItzHRtvkNsEVaXG15KKyjFAV3FWtwOgc=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyS3dxWFjGRc4lRoHi5m/jzQTAWEbdApxaXe6/M/idGHrOjp82O
+	SZJtVZF+iXpRPHUWHi5EGKB2mqyItpERjjWHQ0CKGlfV5GXGZdDMFhLC
+X-Gm-Gg: AY/fxX458wF+QFN9h8bgbhilYeNt6T2p7EIuiCjE3i7jYzGOMe2lkZmpYKeqNtGNf7X
+	4+P3cPa72VVJ0EIIUZyQUatRAPIafqP4Ey1csccK5/vcJExDsdCsMBqqMGMkSBSQ2ldaY9MR0hk
+	JbRITRxUkE3kih8b6lMvq42sqREIfHzDIUGCYs11jETvMdnw72q88CpOqhrsrRB0mBIjAZJ3IF7
+	UKwqygt041ljzz+hg5dsIKQLXebGklc1oMT23eZPr1xi/sAt2P1mN8YVh6Ds2YcfQEO4+TeXlW5
+	/Jyh7Y+pMy5z1gxc3eYq2+qdNersZaCnWum2eBAPSHPbifPVRZgqtYZUCB+YsWERii11zG41Gfq
+	B1S7wUnrZPr7JoEH0hjp3AB+4CUlMd/AyeWUPyM0CQp19m+IZN+wWTtE0PkDEZ7vFr6IQJfUQFv
+	rdBw==
+X-Received: by 2002:a05:6122:3d46:b0:563:5a97:ad78 with SMTP id 71dfb90a1353d-563b5c35871mr4451376e0c.6.1768851106440;
+        Mon, 19 Jan 2026 11:31:46 -0800 (PST)
 Received: from localhost ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b70fea8csm2984342e0c.15.2026.01.19.11.30.59
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b70e7eaasm2974068e0c.12.2026.01.19.11.31.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jan 2026 11:31:01 -0800 (PST)
+        Mon, 19 Jan 2026 11:31:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -66,31 +66,31 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 Jan 2026 14:30:53 -0500
-Message-Id: <DFSTD80YOO0Y.1LLCJGT3GW0S3@gmail.com>
-From: "Kurt Borja" <kuurtb@gmail.com>
-To: "David Lechner" <dlechner@baylibre.com>, "Kurt Borja"
- <kuurtb@gmail.com>, "Andy Shevchenko" <andriy.shevchenko@intel.com>,
- "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
+Date: Mon, 19 Jan 2026 14:31:38 -0500
+Message-Id: <DFSTDSO5P9RC.DGCGPD10KYPG@gmail.com>
+Cc: "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
  <Michael.Hennerich@analog.com>, "Jonathan Cameron" <jic23@kernel.org>,
  "Benson Leung" <bleung@chromium.org>, "Antoniu Miclaus"
  <antoniu.miclaus@analog.com>, "Gwendal Grignou" <gwendal@chromium.org>,
  "Shrikant Raskar" <raskar.shree97@gmail.com>, "Per-Daniel Olsson"
- <perdaniel.olsson@axis.com>
-Cc: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Andy Shevchenko"
+ <perdaniel.olsson@axis.com>, "David Lechner" <dlechner@baylibre.com>,
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Andy Shevchenko"
  <andy@kernel.org>, "Guenter Roeck" <groeck@chromium.org>, "Jonathan
  Cameron" <Jonathan.Cameron@huawei.com>, <linux-iio@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>
 Subject: Re: [PATCH v4 4/7] iio: core: Add cleanup.h support for
  iio_device_claim_*()
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "Andy Shevchenko" <andriy.shevchenko@intel.com>, "Kurt Borja"
+ <kuurtb@gmail.com>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20260118-lock-impr-v4-0-6c8d0aee8ed2@gmail.com>
  <20260118-lock-impr-v4-4-6c8d0aee8ed2@gmail.com>
- <fef660dc-8c81-420c-95b6-cc8649971894@baylibre.com>
-In-Reply-To: <fef660dc-8c81-420c-95b6-cc8649971894@baylibre.com>
+ <aW3oEZ2WSp0JGl90@smile.fi.intel.com>
+In-Reply-To: <aW3oEZ2WSp0JGl90@smile.fi.intel.com>
 
-On Sun Jan 18, 2026 at 2:35 PM -05, David Lechner wrote:
-> On 1/18/26 9:44 AM, Kurt Borja wrote:
+On Mon Jan 19, 2026 at 3:15 AM -05, Andy Shevchenko wrote:
+> On Sun, Jan 18, 2026 at 10:44:31AM -0500, Kurt Borja wrote:
 >> Add guard classes for iio_device_claim_*() conditional locks. This will
 >> aid drivers write safer and cleaner code when dealing with some common
 >> patterns.
@@ -99,104 +99,12 @@ On Sun Jan 18, 2026 at 2:35 PM -05, David Lechner wrote:
 >> __priv__ prefix). Instead, documented wrapper macros are provided to
 >> enforce the use of ACQUIRE() or guard() semantics and avoid the
 >> problematic scoped guard.
->>=20
->> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
->> Reviewed-by: David Lechner <dlechner@baylibre.com>
->> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
->> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
->> ---
->>  include/linux/iio/iio.h | 65 ++++++++++++++++++++++++++++++++++++++++++=
-+++++++
->>  1 file changed, 65 insertions(+)
->>=20
->> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
->> index fa671e120e95..4a0a77fcfa8d 100644
->> --- a/include/linux/iio/iio.h
->> +++ b/include/linux/iio/iio.h
->> @@ -10,6 +10,7 @@
->>  #include <linux/align.h>
->>  #include <linux/device.h>
->>  #include <linux/cdev.h>
->> +#include <linux/cleanup.h>
->>  #include <linux/compiler_types.h>
->>  #include <linux/minmax.h>
->>  #include <linux/slab.h>
->> @@ -740,6 +741,70 @@ static inline bool iio_device_try_claim_buffer_mode=
-(struct iio_dev *indio_dev)
->>   */
->>  #define iio_device_release_buffer_mode(indio_dev) __iio_dev_mode_unlock=
-(indio_dev)
->> =20
->> +/*
->> + * These classes are not meant to be used directly by drivers (hence th=
-e
->> + * __priv__ prefix). Instead, documented wrapper macros are provided be=
-low to
->> + * enforce the use of ACQUIRE() or guard() semantics and avoid the prob=
-lematic
->> + * scoped guard variants.
->> + */
->> +DEFINE_GUARD(__priv__iio_dev_mode_lock, struct iio_dev *,
->> +	     __iio_dev_mode_lock(_T), __iio_dev_mode_unlock(_T));
->> +DEFINE_GUARD_COND(__priv__iio_dev_mode_lock, _try_direct,
->> +		  iio_device_claim_direct(_T));
->> +
->> +/**
->> + * IIO_DEV_ACQUIRE_DIRECT_MODE(dev, var) - Tries to acquire the direct =
-mode
->> + *					   lock with automatic release
 >
-> Should be just IIO_DEV_ACQUIRE_DIRECT_MODE()
->
->> + * @dev: IIO device instance
->> + * @claim: Variable identifier to store acquire result
->> + *
->> + * Tries to acquire the direct mode lock with cleanup ACQUIRE() semanti=
-cs and
->> + * automatically releases it at the end of the scope. It most be always=
- paired
->> + * with IIO_DEV_ACQUIRE_ERR(), for example (notice the scope braces)::
->> + *
->> + *	switch() {
->> + *	case IIO_CHAN_INFO_RAW: {
->> + *		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
->> + *		if (IIO_DEV_ACQUIRE_FAILED(claim))
->> + *			return -EBUSY;
->> + *
->> + *		...
->> + *	}
->> + *	case IIO_CHAN_INFO_SCALE:
->> + *		...
->> + *	...
->> + *	}
->> + *
->> + * Context: Can sleep
->> + */
->> +#define IIO_DEV_ACQUIRE_DIRECT_MODE(dev, claim) \
->> +	ACQUIRE(__priv__iio_dev_mode_lock_try_direct, claim)(dev)
->> +
->> +/**
->> + * IIO_DEV_ACQUIRE_FAILED() - ACQUIRE_ERR() wrapper
->
-> This one is correct style.
->
->> + * @claim: The claim variable passed to IIO_DEV_ACQUIRE_*_MODE()
->> + *
->> + * Return: true if failed to acquire the mode, otherwise false.
->> + */
->> +#define IIO_DEV_ACQUIRE_FAILED(claim) \
->> +	ACQUIRE_ERR(__priv__iio_dev_mode_lock_try_direct, &(claim))
->> +
->> +/**
->> + * IIO_DEV_GUARD_CURRENT_MODE - Acquires the mode lock with automatic r=
-elease
->
-> Missing ()
+> Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-Hi David,
+Hi Andy,
 
-I didn't see what you meant in the previous email. Sorry! I'll correct
-it.
+Thank you for your feedback!
 
 --=20
 Thanks,

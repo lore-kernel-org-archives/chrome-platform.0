@@ -1,61 +1,61 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0D335CB98
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 13:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2DA36826C
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 13:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768828734; cv=none; b=jjIAJ8v9AFkxa3aavYDXDlqxAaan8EarGpFXuvJrA1/B8uggHfa8XbN9f7e+mbCFDWSUgccWjeLnOF1rGtEFB4W3K8qe1p7V8lilC8zLjdxdxWqHy7j0DfeZnlj3v3uh8nxeUnBYlRCmFN2xyK1ExMGl8VkVwVwK/CNQD/6X5qo=
+	t=1768828735; cv=none; b=IziP/FmAj5OK14/9ERgo1SJ5oRPEGtGBWmz4+ooPZy6oJRMMac/fbhhrPiF6RrUvVH4RsiME+PwMDEdIv2a6TFEujN77Mk/NSP1anNbr3/emCRZ0/RL1hbj/fHN2HOsQhWrKxs8Y6DSytYEiwlySMyim5cEObkm+M5PL60OnkmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768828734; c=relaxed/simple;
-	bh=DfrSPWYURzwp3WwkWbtpXKx1iOauYrzcxYjkJqvZmck=;
+	s=arc-20240116; t=1768828735; c=relaxed/simple;
+	bh=W5rVUeJ0ZYQc7VJJqv7IN5MlC5nYGPDBCCaodck9cLg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mw+fzqt2Cp2GVfrYbcfUYDrlnLIjOKLQYYcpdI6QQxi1RHlT0mhPt5RV7/vhMk9AInc9U/HFnFqxkUqp9wjDYzmbUE38548u2rgIcEbxg0FI3Wi8ndH8cJJNYvxi02cyNUYoZqPG92KtiuF9v1vHiB7HPAx6jq55zwPURmZDznM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IctBUB4c; arc=none smtp.client-ip=209.85.208.42
+	 MIME-Version; b=JD/qCSkCacdW+jEDMIt0qrWUzzlGvZ90DF+aLtseA/V/eEW5+DLM/7m8m3l4jaAcQbVGCgL4MaxaqmW58iHD3W92ToRo1E+qJjnHl+6FhMYKMq/gESB38NmvDjhsUN2NLSfUhCMTOuOmxYyyfip8hCbUZxge9OE9GRMPwtQF5as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BIHaK2bC; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IctBUB4c"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-65063a95558so6582029a12.0
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 05:18:48 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BIHaK2bC"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b79f8f7ea43so998432566b.2
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 05:18:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1768828727; x=1769433527; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1768828729; x=1769433529; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JVZyoDBgCg278jS1vSrSjkeNL7wqN0touFgdWqJTr8k=;
-        b=IctBUB4cq/vFdIthSSyYiD68GjG++3/TBImsmV0JXG7HkuFxav35ol2vprPkSQxoiz
-         9bygTq2nlWVIpYQbTqiZMGN5xlfFCGvxFvCBaeePSe071biNKZCUibHRyKERHSNu2w2/
-         kFoeKIpwn48IZj3Sqb3b3eeMy4RobRbR+SHco=
+        bh=6Z12NdnfPArhakjxM92nLWa6k5fhcIcqz5sumyUrY3w=;
+        b=BIHaK2bCrI8DAlaCa0/i4ks0pKM5zu71DJVWlJEgVztfs4rScaXvvZ6mNiU19lYckS
+         P9MW5E2nz0skgXtSDoq81WfWxMA73v+3XUKwWTszIbw+JWx77SxH1gnY8NyY0/SOxvak
+         dQsUZDPpxoOdcMTXxL2MFKyZ4CEec+p5JqKNg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768828727; x=1769433527;
+        d=1e100.net; s=20230601; t=1768828729; x=1769433529;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JVZyoDBgCg278jS1vSrSjkeNL7wqN0touFgdWqJTr8k=;
-        b=rAapJQq2RQcSljqGyZlSk1XCVslXmM/FiHY4LIOhLvX7WB5iUatLmPkJKFRdnIsmuE
-         frvp8UJYBJeb573tlCsbhbL+KQmGgkrX1DtDx6e7+GiLs0okKsIRh7l1cGSOviBe5DmB
-         7Z9o0IFxJa35PuAs6Hw7AdiIs7IqZXACFpyXlLXtjApOOKQiNaY2KgLaHQUQV6CEpaxb
-         leGN4ZE0ZWmo7BczJJ3+eXuFH7PmSZdAOpJnQTF3PaL2qTk0tMMyeM/0wLFBMwl+f+VY
-         c0oAPpTYTkyv4Av5twNmy4UrJ3/Y6oyLGyxEUdpSqpYa/mgoV9i555m5z4Hy2glL4ch5
-         sElA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkD3uQe0f5cyGLRV9YhP7czcprHXxwBzwwrFJPkVQJTT7u7M7Uj5QlpHGO5O7YdNWv1nM4mC7pvJDFCCuRhWI=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw29zwrbcaGJ9KjKZn1LvQarnZg2pt3PYflclKVQ6Cgolbbo/eJ
-	BAQW6bx4/X/COsrMSAtU4EJIsLswRnrJ7M+675BvCpwjZxakpWoN2pGyFNYh9CerLQ==
-X-Gm-Gg: AY/fxX7pQiuiaXqIsOUUGiTRfG20OjSmMhY4Fsynbss6xzNMqytH7snnnoNv+lOdPNw
-	umL96cR8sbHDCqr52WUiPj4Jsr9RIYk0bCefKUi7Dzlmc1Rj0KiJlIZTBnzr2CvrEhOV0dQ6su6
-	dqIR9Aay7SQwtrxGQhQHceu7pdJR5+frkOBP/xBpbD/RzSUSO/3+LHM+XS/QXZlk43/fKOjEpXy
-	WYNvp+oX1Et+0q7fpjJHkT6wkIKIwRBqL92rYTYPa5UsdAgNJU8X1+lvq+2uNszXIaRRbHQOFRJ
-	NrphCRZFlaWzSAbstRqzaXlDokS33HuCwXxkunuHHJGse7rzn3i+9Rq63rHNKP0y7GyLYPEqci7
-	aK9t9NHg1mlbZ0oV+I9gM+maRPuIghZxbWLRlTf//uH+l4fC+B70bQAWfg0vQS9AuMaVaBZSA1Y
-	VyI8AS8CLMb6LvEaWwkDrSKPXKsTJpESwahlVMBC/0gsGNxIQM9OUxa4P8Riw7QHMaPdLJm65du
-	47SG5L4xTJjzpvPoDk=
-X-Received: by 2002:a17:906:7305:b0:b86:fd46:724 with SMTP id a640c23a62f3a-b8792d489b0mr1082509366b.13.1768828726748;
-        Mon, 19 Jan 2026 05:18:46 -0800 (PST)
+        bh=6Z12NdnfPArhakjxM92nLWa6k5fhcIcqz5sumyUrY3w=;
+        b=dK2k3riyoRb/Y89gRLTxjcBn+X6qlqNvRK0/VXja1HEZ3LLJFVHUjMgffKTvOiHTgu
+         jOr2cv3qPkXpNmgry8DnIQILK094ezT5DIYcOcQzCYxNAUjQOmX/74DC/7F5OZFBHkcY
+         o31qBVXK/pbOCN48/E1eEZbWv80of+i+TK/x0wOQjcQ8aM4xqyzB6a3UzWi1mA10EZXu
+         kKmU6adZsjCWrAi8iPFMZGxHG03GKehivswCO31PaT6X0Gct1tK3AonXyVCeWuo1MRYO
+         l7UjbV/Jfk8lC1GIAEe6R+HO7MZpYSUYclaKwUpJcAKADCa94RHIBv185qt03lGWNvcW
+         ZJEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWxYUG2SGzyryek27nF/5DIkEU9mbauOzj6A5o4twrhY6ny7nblThq/Svvpc0jPrZMGTzGblZ4rOxJ2Y75gU88=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy30YKkzFElfoYdnBtio3JYzaq9D822Q2ppALPr7tW7YaM65/Vs
+	QipJKlZgwk61j0eDdekuipFoJYt8yzSj7V5GVgadp3orxWAvmBhNAd3j35zB42uzjQ==
+X-Gm-Gg: AY/fxX5otQsl8ZeO3yyEGxUE3VFWyp1D2ocaGkc2BuV6xRIINd5r+z2nOI0gEubrFkt
+	3vSod1v++MS5ty2nKnnnr/aqlzeoPLy5Kw1Loe0K+Cdvfvgw8OfwpUZyUuApGVQaPJF3cDRwAuJ
+	aAtlhaT+6qvQuEzHPHE3cvGohS8W3D+4As+BQEF4Jzobi8Q0ybpJBWIfJpujeaMqW3U/dOieoh9
+	Fg/YQBVWaUvMqU9i8RKl3lmEt1c72HXfGDC72nz+H1ppQ0gZZJwxZwbO30RimmFfJrqIIIo6wrL
+	4NPGcccV9rdjJqxnP7YxQUd2xyL+g0IOYLS+OLLPgbNYC/fRzMGaAIOJ01DhzhWKL8x+bz/72tP
+	SR+oT9eOqxbuDRqYJUK7cDDcsU+EwS9P73SMSFYj076gZIBCpdK252gcT8JZ2GXMQ7a0DCKfZBB
+	KIeb7zEdtNXEBNeGtBt5bG3CB7YAK8A0OblFX28snHPnzibzttpK63kwaUdRnnv7vREkKSw6SCt
+	f9XMGYN
+X-Received: by 2002:a17:906:4793:b0:b87:3809:6982 with SMTP id a640c23a62f3a-b8793254fe1mr1093930866b.57.1768828729213;
+        Mon, 19 Jan 2026 05:18:49 -0800 (PST)
 Received: from akuchynski.c.googlers.com.com (150.230.32.34.bc.googleusercontent.com. [34.32.230.150])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959c9a14sm1078801866b.45.2026.01.19.05.18.46
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959c9a14sm1078801866b.45.2026.01.19.05.18.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 05:18:46 -0800 (PST)
+        Mon, 19 Jan 2026 05:18:48 -0800 (PST)
 From: Andrei Kuchynski <akuchynski@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
@@ -75,9 +75,9 @@ Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
 	Madhu M <madhu.m@intel.com>,
 	Venkat Jayaraman <venkat.jayaraman@intel.com>,
 	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH v5 3/7] usb: typec: Expose alternate mode priority via sysfs
-Date: Mon, 19 Jan 2026 13:18:20 +0000
-Message-ID: <20260119131824.2529334-4-akuchynski@chromium.org>
+Subject: [PATCH v5 4/7] usb: typec: Implement mode selection
+Date: Mon, 19 Jan 2026 13:18:21 +0000
+Message-ID: <20260119131824.2529334-5-akuchynski@chromium.org>
 X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
 In-Reply-To: <20260119131824.2529334-1-akuchynski@chromium.org>
 References: <20260119131824.2529334-1-akuchynski@chromium.org>
@@ -89,189 +89,408 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch introduces a priority sysfs attribute to the USB Type-C
-alternate mode port interface. This new attribute allows user-space to
-configure the numeric priority of alternate modes managing their preferred
-order of operation. If a new priority value conflicts with an existing
-mode's priority, the priorities of the conflicting mode and all subsequent
-modes are automatically incremented to ensure uniqueness.
+The mode selection process is controlled by the following API functions,
+which allow to initiate and complete mode entry based on the priority of
+each mode:
+
+`typec_mode_selection_start` function compiles a priority list of supported
+Alternate Modes.
+`typec_altmode_state_update` function is invoked by the port driver to
+communicate the current mode of the Type-C connector.
+`typec_mode_selection_delete` function stops the currently running mode
+selection process and releases all associated system resources.
+
+`mode_selection_work_fn` task attempts to activate modes. The process stops
+on success; otherwise, it proceeds to the next mode after a timeout or
+error.
 
 Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-Reviewed-by: Benson Leung <bleung@chromium.org>
 ---
 Changes in V5:
+- Adopt guard(mutex)(&sel->lock) in mode_selection_work_fn()
+- Use dev_err instead of dev_dbg, remove the error message when exiting
+  the mode
+- Update typec_altmode_state_update() to only reschedule the
+  mode_selection_work_fn task if it was successfully cancelled
 - Clean up code style and alignment issues
 
- Documentation/ABI/testing/sysfs-class-typec | 11 +++
- drivers/usb/typec/class.c                   | 90 ++++++++++++++++++++-
- include/linux/usb/typec_altmode.h           |  1 +
- 3 files changed, 101 insertions(+), 1 deletion(-)
+ drivers/usb/typec/Makefile         |   2 +-
+ drivers/usb/typec/class.h          |   2 +
+ drivers/usb/typec/mode_selection.c | 283 +++++++++++++++++++++++++++++
+ include/linux/usb/typec_altmode.h  |  40 ++++
+ 4 files changed, 326 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/usb/typec/mode_selection.c
 
-diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-index 38e101c17a004..737b76828b509 100644
---- a/Documentation/ABI/testing/sysfs-class-typec
-+++ b/Documentation/ABI/testing/sysfs-class-typec
-@@ -162,6 +162,17 @@ Description:	Lists the supported USB Modes. The default USB mode that is used
- 		- usb3 (USB 3.2)
- 		- usb4 (USB4)
+diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
+index 7a368fea61bc9..8a6a1c663eb69 100644
+--- a/drivers/usb/typec/Makefile
++++ b/drivers/usb/typec/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_TYPEC)		+= typec.o
+-typec-y				:= class.o mux.o bus.o pd.o retimer.o
++typec-y				:= class.o mux.o bus.o pd.o retimer.o mode_selection.o
+ typec-$(CONFIG_ACPI)		+= port-mapper.o
+ obj-$(CONFIG_TYPEC)		+= altmodes/
+ obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
+diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+index 2e89a83c2eb70..d3435936ee7c8 100644
+--- a/drivers/usb/typec/class.h
++++ b/drivers/usb/typec/class.h
+@@ -9,6 +9,7 @@
+ struct typec_mux;
+ struct typec_switch;
+ struct usb_device;
++struct mode_selection;
  
-+What:		/sys/class/typec/<port>/<alt-mode>/priority
-+Date:		July 2025
-+Contact:	Andrei Kuchynski <akuchynski@chromium.org>
-+Description:
-+		Displays and allows setting the priority for a specific alternate mode.
-+		The priority is an integer in the range 0-255. A lower numerical value
-+		indicates a higher priority (0 is the highest).
-+		If the new value is already in use by another mode, the priority of the
-+		conflicting mode and any subsequent modes will be incremented until they
-+		are all unique.
+ struct typec_plug {
+ 	struct device			dev;
+@@ -39,6 +40,7 @@ struct typec_partner {
+ 	u8				usb_capability;
+ 
+ 	struct usb_power_delivery	*pd;
++	struct mode_selection	*sel;
+ 
+ 	void (*attach)(struct typec_partner *partner, struct device *dev);
+ 	void (*deattach)(struct typec_partner *partner, struct device *dev);
+diff --git a/drivers/usb/typec/mode_selection.c b/drivers/usb/typec/mode_selection.c
+new file mode 100644
+index 0000000000000..a95b31e21b528
+--- /dev/null
++++ b/drivers/usb/typec/mode_selection.c
+@@ -0,0 +1,283 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright 2025 Google LLC.
++ */
 +
- USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
- 
- What:		/sys/class/typec/<port>-partner/accessory_mode
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 0f12d6120511b..a48c447125184 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -445,11 +445,88 @@ svid_show(struct device *dev, struct device_attribute *attr, char *buf)
- }
- static DEVICE_ATTR_RO(svid);
- 
-+static int increment_duplicated_priority(struct device *dev, void *data)
++#include <linux/types.h>
++#include <linux/list_sort.h>
++#include <linux/slab.h>
++#include <linux/mutex.h>
++#include <linux/workqueue.h>
++#include <linux/usb/typec_altmode.h>
++
++#include "class.h"
++
++/**
++ * struct mode_state - State tracking for a specific Type-C alternate mode
++ * @svid: Standard or Vendor ID of the Alternate Mode
++ * @priority: Mode priority
++ * @error: Outcome of the last attempt to enter the mode
++ * @list: List head to link this mode state into a prioritized list
++ */
++struct mode_state {
++	u16 svid;
++	u8 priority;
++	int error;
++	struct list_head list;
++};
++
++/**
++ * struct mode_selection - Manages the selection and state of Alternate Modes
++ * @mode_list: Prioritized list of available Alternate Modes
++ * @lock: Mutex to protect mode_list
++ * @work: Work structure
++ * @partner: Handle to the Type-C partner device
++ * @active_svid: svid of currently active mode
++ * @timeout: Timeout for a mode entry attempt, ms
++ * @delay: Delay between mode entry/exit attempts, ms
++ */
++struct mode_selection {
++	struct list_head mode_list;
++	/* Protects the mode_list*/
++	struct mutex lock;
++	struct delayed_work work;
++	struct typec_partner *partner;
++	u16 active_svid;
++	unsigned int timeout;
++	unsigned int delay;
++};
++
++/**
++ * struct mode_order - Mode activation tracking
++ * @svid: Standard or Vendor ID of the Alternate Mode
++ * @enter: Flag indicating if the driver is currently attempting to enter or
++ * exit the mode
++ * @result: Outcome of the attempt to activate the mode
++ */
++struct mode_order {
++	u16 svid;
++	int enter;
++	int result;
++};
++
++static int activate_altmode(struct device *dev, void *data)
 +{
-+	if (is_typec_port_altmode(dev)) {
-+		struct typec_altmode **alt_target = (struct typec_altmode **)data;
++	if (is_typec_partner_altmode(dev)) {
 +		struct typec_altmode *alt = to_typec_altmode(dev);
++		struct mode_order *order = (struct mode_order *)data;
 +
-+		if (alt != *alt_target && alt->priority == (*alt_target)->priority) {
-+			alt->priority++;
-+			*alt_target = alt;
++		if (order->svid == alt->svid) {
++			if (alt->ops && alt->ops->activate)
++				order->result = alt->ops->activate(alt, order->enter);
++			else
++				order->result = -EOPNOTSUPP;
 +			return 1;
 +		}
 +	}
 +	return 0;
 +}
 +
-+static int find_duplicated_priority(struct device *dev, void *data)
-+{
-+	if (is_typec_port_altmode(dev)) {
-+		struct typec_altmode **alt_target = (struct typec_altmode **)data;
-+		struct typec_altmode *alt = to_typec_altmode(dev);
++static int mode_selection_activate(struct mode_selection *sel,
++				   const u16 svid, const int enter)
 +
-+		if (alt != *alt_target && alt->priority == (*alt_target)->priority)
-+			return 1;
-+	}
-+	return 0;
++	__must_hold(&sel->lock)
++{
++	struct mode_order order = {.svid = svid, .enter = enter, .result = -ENODEV};
++
++	/*
++	 * The port driver may acquire its internal mutex during alternate mode
++	 * activation. Since this is the same mutex that may be held during the
++	 * execution of typec_altmode_state_update(), it is crucial to release
++	 * sel->mutex before activation to avoid potential deadlock.
++	 * Note that sel->mode_list must remain invariant throughout this unlocked
++	 * interval.
++	 */
++	mutex_unlock(&sel->lock);
++	device_for_each_child(&sel->partner->dev, &order, activate_altmode);
++	mutex_lock(&sel->lock);
++
++	return order.result;
 +}
 +
-+static int typec_mode_set_priority(struct typec_altmode *alt, const u8 priority)
++static void mode_list_clean(struct mode_selection *sel)
 +{
-+	struct typec_port *port = to_typec_port(alt->dev.parent);
-+	const u8 old_priority = alt->priority;
-+	int res = 1;
++	struct mode_state *ms, *tmp;
 +
-+	alt->priority = priority;
-+	while (res) {
-+		res = device_for_each_child(&port->dev, &alt, find_duplicated_priority);
-+		if (res) {
-+			alt->priority++;
-+			if (alt->priority == 0) {
-+				alt->priority = old_priority;
-+				return -EOVERFLOW;
-+			}
++	list_for_each_entry_safe(ms, tmp, &sel->mode_list, list) {
++		list_del(&ms->list);
++		kfree(ms);
++	}
++}
++
++/**
++ * mode_selection_work_fn() - Alternate mode activation task
++ * @work: work structure
++ *
++ * - If the Alternate Mode currently prioritized at the top of the list is already
++ * active, the entire selection process is considered finished.
++ * - If a different Alternate Mode is currently active, the system must exit that
++ * active mode first before attempting any new entry.
++ *
++ * The function then checks the result of the attempt to entre the current mode,
++ * stored in the `ms->error` field:
++ * - if the attempt FAILED, the mode is deactivated and removed from the list.
++ * - `ms->error` value of 0 signifies that the mode has not yet been activated.
++ *
++ * Once successfully activated, the task is scheduled for subsequent entry after
++ * a timeout period. The alternate mode driver is expected to call back with the
++ * actual mode entry result via `typec_altmode_state_update()`.
++ */
++static void mode_selection_work_fn(struct work_struct *work)
++{
++	struct mode_selection *sel = container_of(work,
++				struct mode_selection, work.work);
++	struct mode_state *ms;
++	unsigned int delay = sel->delay;
++	int result;
++
++	guard(mutex)(&sel->lock);
++
++	ms = list_first_entry_or_null(&sel->mode_list, struct mode_state, list);
++	if (!ms)
++		return;
++
++	if (sel->active_svid == ms->svid) {
++		dev_dbg(&sel->partner->dev, "%x altmode is active\n", ms->svid);
++		mode_list_clean(sel);
++	} else if (sel->active_svid != 0) {
++		result = mode_selection_activate(sel, sel->active_svid, 0);
++		if (result)
++			mode_list_clean(sel);
++		else
++			sel->active_svid = 0;
++	} else if (ms->error) {
++		dev_err(&sel->partner->dev, "%x: entry error %pe\n",
++			ms->svid, ERR_PTR(ms->error));
++		mode_selection_activate(sel, ms->svid, 0);
++		list_del(&ms->list);
++		kfree(ms);
++	} else {
++		result = mode_selection_activate(sel, ms->svid, 1);
++		if (result) {
++			dev_err(&sel->partner->dev, "%x: activation error %pe\n",
++				ms->svid, ERR_PTR(result));
++			list_del(&ms->list);
++			kfree(ms);
++		} else {
++			delay = sel->timeout;
++			ms->error = -ETIMEDOUT;
 +		}
 +	}
 +
-+	res = 1;
-+	alt->priority = priority;
-+	while (res)
-+		res = device_for_each_child(&port->dev, &alt,
-+					    increment_duplicated_priority);
++	if (!list_empty(&sel->mode_list))
++		schedule_delayed_work(&sel->work, msecs_to_jiffies(delay));
++}
 +
++void typec_altmode_state_update(struct typec_partner *partner, const u16 svid,
++				const int error)
++{
++	struct mode_selection *sel = partner->sel;
++	struct mode_state *ms;
++
++	if (sel) {
++		mutex_lock(&sel->lock);
++		ms = list_first_entry_or_null(&sel->mode_list, struct mode_state, list);
++		if (ms && ms->svid == svid) {
++			ms->error = error;
++			if (cancel_delayed_work(&sel->work))
++				schedule_delayed_work(&sel->work, 0);
++		}
++		if (!error)
++			sel->active_svid = svid;
++		else
++			sel->active_svid = 0;
++		mutex_unlock(&sel->lock);
++	}
++}
++EXPORT_SYMBOL_GPL(typec_altmode_state_update);
++
++static int compare_priorities(void *priv,
++			      const struct list_head *a, const struct list_head *b)
++{
++	const struct mode_state *msa = container_of(a, struct mode_state, list);
++	const struct mode_state *msb = container_of(b, struct mode_state, list);
++
++	if (msa->priority < msb->priority)
++		return -1;
++	return 1;
++}
++
++static int altmode_add_to_list(struct device *dev, void *data)
++{
++	if (is_typec_partner_altmode(dev)) {
++		struct list_head *list = (struct list_head *)data;
++		struct typec_altmode *altmode = to_typec_altmode(dev);
++		const struct typec_altmode *pdev = typec_altmode_get_partner(altmode);
++		struct mode_state *ms;
++
++		if (pdev && altmode->ops && altmode->ops->activate) {
++			ms = kzalloc(sizeof(*ms), GFP_KERNEL);
++			if (!ms)
++				return -ENOMEM;
++			ms->svid = pdev->svid;
++			ms->priority = pdev->priority;
++			INIT_LIST_HEAD(&ms->list);
++			list_add_tail(&ms->list, list);
++		}
++	}
 +	return 0;
 +}
 +
-+static ssize_t priority_store(struct device *dev,
-+			      struct device_attribute *attr,
-+			      const char *buf, size_t size)
++int typec_mode_selection_start(struct typec_partner *partner,
++			       const unsigned int delay, const unsigned int timeout)
 +{
-+	u8 val;
-+	int err = kstrtou8(buf, 10, &val);
-+
-+	if (!err)
-+		err = typec_mode_set_priority(to_typec_altmode(dev), val);
-+
-+	if (!err)
-+		return size;
-+	return err;
-+}
-+
-+static ssize_t priority_show(struct device *dev,
-+			     struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%u\n", to_typec_altmode(dev)->priority);
-+}
-+static DEVICE_ATTR_RW(priority);
-+
- static struct attribute *typec_altmode_attrs[] = {
- 	&dev_attr_active.attr,
- 	&dev_attr_mode.attr,
- 	&dev_attr_svid.attr,
- 	&dev_attr_vdo.attr,
-+	&dev_attr_priority.attr,
- 	NULL
- };
- 
-@@ -459,11 +536,15 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
- 	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
- 	struct typec_port *port = typec_altmode2port(adev);
- 
--	if (attr == &dev_attr_active.attr)
-+	if (attr == &dev_attr_active.attr) {
- 		if (!is_typec_port(adev->dev.parent)) {
- 			if (!port->mode_control || !adev->ops || !adev->ops->activate)
- 				return 0444;
- 		}
-+	} else if (attr == &dev_attr_priority.attr) {
-+		if (!is_typec_port(adev->dev.parent) || !port->mode_control)
-+			return 0;
-+	}
- 
- 	return attr->mode;
- }
-@@ -2498,6 +2579,7 @@ typec_port_register_altmode(struct typec_port *port,
- 	struct typec_altmode *adev;
- 	struct typec_mux *mux;
- 	struct typec_retimer *retimer;
++	struct mode_selection *sel;
 +	int ret;
- 
- 	mux = typec_mux_get(&port->dev);
- 	if (IS_ERR(mux))
-@@ -2516,6 +2598,12 @@ typec_port_register_altmode(struct typec_port *port,
- 	} else {
- 		to_altmode(adev)->mux = mux;
- 		to_altmode(adev)->retimer = retimer;
 +
-+		ret = typec_mode_set_priority(adev, 0);
-+		if (ret) {
-+			typec_unregister_altmode(adev);
-+			return ERR_PTR(ret);
-+		}
- 	}
- 
- 	return adev;
++	if (partner->usb_mode == USB_MODE_USB4)
++		return -EBUSY;
++
++	if (partner->sel)
++		return -EALREADY;
++
++	sel = kzalloc(sizeof(*sel), GFP_KERNEL);
++	if (!sel)
++		return -ENOMEM;
++
++	INIT_LIST_HEAD(&sel->mode_list);
++
++	ret = device_for_each_child(&partner->dev, &sel->mode_list,
++				    altmode_add_to_list);
++
++	if (ret || list_empty(&sel->mode_list)) {
++		mode_list_clean(sel);
++		kfree(sel);
++		return ret;
++	}
++
++	list_sort(NULL, &sel->mode_list, compare_priorities);
++	sel->partner = partner;
++	sel->delay = delay;
++	sel->timeout = timeout;
++	mutex_init(&sel->lock);
++	INIT_DELAYED_WORK(&sel->work, mode_selection_work_fn);
++	schedule_delayed_work(&sel->work, msecs_to_jiffies(delay));
++	partner->sel = sel;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(typec_mode_selection_start);
++
++void typec_mode_selection_delete(struct typec_partner *partner)
++{
++	struct mode_selection *sel = partner->sel;
++
++	if (sel) {
++		partner->sel = NULL;
++		cancel_delayed_work_sync(&sel->work);
++		mode_list_clean(sel);
++		mutex_destroy(&sel->lock);
++		kfree(sel);
++	}
++}
++EXPORT_SYMBOL_GPL(typec_mode_selection_delete);
 diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
-index 9197a4637a938..7e6c02d74b54f 100644
+index 7e6c02d74b54f..70026f5f8f997 100644
 --- a/include/linux/usb/typec_altmode.h
 +++ b/include/linux/usb/typec_altmode.h
-@@ -36,6 +36,7 @@ struct typec_altmode {
- 	int				mode;
- 	u32				vdo;
- 	unsigned int			active:1;
-+	u8				priority;
+@@ -240,4 +240,44 @@ void typec_altmode_unregister_driver(struct typec_altmode_driver *drv);
+ 	module_driver(__typec_altmode_driver, typec_altmode_register_driver, \
+ 		      typec_altmode_unregister_driver)
  
- 	char				*desc;
- 	const struct typec_altmode_ops	*ops;
++/**
++ * typec_mode_selection_start - Start an alternate mode selection process
++ * @partner: Handle to the Type-C partner device
++ * @delay: Delay between mode entry/exit attempts, ms
++ * @timeout: Timeout for a mode entry attempt, ms
++ *
++ * This function initiates the process of attempting to enter an Alternate Mode
++ * supported by the connected Type-C partner.
++ * Returns 0 on success, or a negative error code on failure.
++ */
++int typec_mode_selection_start(struct typec_partner *partner,
++			       const unsigned int delay, const unsigned int timeout);
++
++/**
++ * typec_altmode_state_update - Report the current status of an Alternate Mode
++ * negotiation
++ * @partner: Handle to the Type-C partner device
++ * @svid: Standard or Vendor ID of the Alternate Mode. A value of 0 should be
++ * passed if no mode is currently active
++ * @result: Result of the entry operation. This should be 0 on success, or a
++ * negative error code if the negotiation failed
++ *
++ * This function should be called by an Alternate Mode driver to report the
++ * result of an asynchronous alternate mode entry request. It signals what the
++ * current active SVID is (or 0 if none) and the success or failure status of
++ * the last attempt.
++ */
++void typec_altmode_state_update(struct typec_partner *partner, const u16 svid,
++				const int result);
++
++/**
++ * typec_mode_selection_delete - Delete an alternate mode selection instance
++ * @partner: Handle to the Type-C partner device.
++ *
++ * This function cancels a pending alternate mode selection request that was
++ * previously started with typec_mode_selection_start().
++ * This is typically called when the partner disconnects.
++ */
++void typec_mode_selection_delete(struct typec_partner *partner);
++
+ #endif /* __USB_TYPEC_ALTMODE_H */
 -- 
 2.52.0.457.g6b5491de43-goog
 

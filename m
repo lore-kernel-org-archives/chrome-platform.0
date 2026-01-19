@@ -1,61 +1,61 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E4136826C
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 13:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1975358D1B
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 13:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768828727; cv=none; b=jb38lxmczy5XTabhdZWUpLQtRpEoL05Fqwq80kvGBepJeOgDtwS7jNIds8P9p32qlu8tktOJgStkkm+iPiG1Ij9ctdprnUkGVKOanOi+gusCrw0y0jeNhmpIrPALekUhHEpXGADuH9/wdg6Ldk1PMZcEqwwAWaww6Bf6xniRudY=
+	t=1768828730; cv=none; b=bGna+vu+ejj44TzRPfum6kEn38/JKwwwPrYOZRhpaLJlwFkiUpJ4bFuXgm/yBBwHvJGQ9Nzth8gQebdByAcMsZRMnGXjXrkTTwiEGUFPQP3Nnezg7jLZyVLb7jVkRe0U5v2T8cu+Ct63N5HzF1ktYzYhIy3w3MIEKfWihgZL+G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768828727; c=relaxed/simple;
-	bh=aP2YFO92lDva0e1jN3T5U5hBf2PD7EyvHXkgrzxR9eA=;
+	s=arc-20240116; t=1768828730; c=relaxed/simple;
+	bh=V1jmUzlQs0mqeDEI06ZenpYXU3urQAv3hO+yVPpB20c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iI8z0ry+R87g90rWKv6Rwowqs+Mwo90BvDPkYsOZao9cfR8xIMsi36DszsPq9gq0luMp1WHmEanr1dCGKCa3n5oauFXDAYfJFB4NRtF6Km6q+FWDblBk80+7n6nDJdq6FzKj8cWUSdXKcfyCR419koNx32EPVTizVNaoNj/b9Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VWxvFaNb; arc=none smtp.client-ip=209.85.208.54
+	 MIME-Version; b=aQUaDJN/Clte3WZq9HSLMkuId2bg4Vlt2jQqWvp2tWt6QYmxeq/aaS+jiqidTKHtfkhka1kJYrVOlJ5mVlz7wrajsr9UZLtChRYTWKSyuBlE8jEg2ITY2umJxjocyb2Py89yYz6VEib0Ak/52HL1/StyRB00+uC/YpW4pmwVRxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FxHoz/zD; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VWxvFaNb"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-655ae329d6bso5706130a12.0
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 05:18:45 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FxHoz/zD"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b874c00a39fso760555366b.0
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 05:18:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1768828724; x=1769433524; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1768828722; x=1769433522; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KHMLWRy5Z3mpMYGMUoVXUolvpCNuwJWbgQEgoyJgmAk=;
-        b=VWxvFaNbD7KVeRGgawmS0uo9Sc4ojB+ZNTVKWBwFAF3tHxV5blD5IeFm7JN0NB/fh4
-         iX1tw3SXk/a5PXdkJ7hSS9Kj37BG+hOiCpmCCKXR+53ybnSC40v+Dd5gt2VZ5BM41fQQ
-         s2wh38UI8z0i7pCZdggiS5cQCuzx9kMu7oFPk=
+        bh=cLqa5LSPMe82XqVLviPNjog13TrBNYmx2vAnL8Z9NGE=;
+        b=FxHoz/zDkJXwjJBw+mBzQbDtu+YVw8Uam1zlBqiS/Ogjgv6/VLFz+hRuwme5F0HmZP
+         aLGJj9pxpbo1tr5/nOR+mlOPM3arMy9zFrNjWuebHNrBobNkVmat3jGn4mOGl5o/zSl+
+         FJQWkFMsf81DCtRpT92oEPvdec9ZsClMHiags=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768828724; x=1769433524;
+        d=1e100.net; s=20230601; t=1768828722; x=1769433522;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=KHMLWRy5Z3mpMYGMUoVXUolvpCNuwJWbgQEgoyJgmAk=;
-        b=HLBYl39X2GcZkR3FdYLpWNRXehPhEGxfGndUtuwm2UJ2BH5GsLu86dv3CAWBNVF6Ee
-         K8E45Fb1bYuoMK2FPTHuRHVM0crV1N/BANCVDKDLZdzU4ImyCrwaneKYJKapHbsjhRbc
-         y52UZH5rj3KoZedZAT5SKd5DuTpIGzkcaAX4ZLBNR+5z6kpRPIUsunzKH6n4jdpztwM+
-         CdEbd/fYgHZBcCnqhocwb5kJt7GZchDEXizr0erc9OTqtY/OZCFI5xbSzt/XpP9o0QIP
-         BjDSDnnildNfxB3SNEpSPE2YBhoq4FSFfHsuYvx70RqsOLgEK2xVzb6KgCqa8ImSui3y
-         LSGw==
-X-Forwarded-Encrypted: i=1; AJvYcCXo3Xz2swwOFvw0TU/s9JsL/mdWboy6Yjq5rY9596jolmqEOJ4p8De6TnUFOjF4RV3t/Jde9efDr+ElxoHqlmE=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3MwWOG+t9zy3FmOOfFlWDWgBxlfGToeiinow6gKHUF7k3M2xk
-	zZ/+fA5tNC2qj7YD8nLftacUf9lg8N5+7ABSBUg9zGJEDp4E2gy338qwMvB3gbzL3w==
-X-Gm-Gg: AY/fxX7qt3CBcnWzfeh9KzKRUg2QAru/Ilav1+tEUnuD6TjjrF6WFvfo/JwNEaes7F1
-	r2jmu8otjst4xrk3SbjQbnm6yC0+oGj90HX7k4eEWnh//SFuQb6n/02S1FdfNB9uv+9uMIrH3Wk
-	nxhcOakpN3xq7HyWPGi76I3opwib7NNXKKzKc+y90yS5CY9Yt5+NXmLEdp+8yfaUC5/7jbIPv65
-	3OO5M4C5TbnpsTbdS4sWQBoVkzNga6AHUkjLoC4+/TnCKmiEOhI/zRF7pgwvHiPdOhGU9lAYMcx
-	SvYNX6+JeMOPXO2Mi7eoHd5WzKr5sb2OmuBVWg8AEEFfkJcQUWV6rVkrKANY8qjI9QyGI0zHMQN
-	tPE5A/g36Ash6ejoyDndHUKXLOdWc/Y5NhUAF6NVA9NmV7FJsqfCc1FZ5ZRiHlLhL0ZTxoAyvgd
-	4/AF7NRvXjvLssKEdfkiYPHW1W+jy1W7Uovp9LyGIgrl/iRipYqWRbYI16d28B9qTmLI8mU72G8
-	ri4TQuK
-X-Received: by 2002:a17:907:9713:b0:b80:402e:6e77 with SMTP id a640c23a62f3a-b8796b9da5fmr999144466b.54.1768828724407;
-        Mon, 19 Jan 2026 05:18:44 -0800 (PST)
+        bh=cLqa5LSPMe82XqVLviPNjog13TrBNYmx2vAnL8Z9NGE=;
+        b=IWMASV9E+Y/gOVy18vPhEiOdAkHClbmjlph7m4zneJyrIW/OqhWyZy9HrI5sBfHHDK
+         /99ZORdAdb1Kx6N+5MjDqefyInUfHNP3rH0QNsAryTK85SpHyk7IkxkGd0YI7/APr1wn
+         agyt8DHOjgD6Nl+MFXYEz9q1EJqdsXwwXsdwasniMTqvG0qgB2/S11wN/Kz/2Fkn357J
+         yJJTtV0TKHOOhyySdhs6Uddz2SYQd3Fk/fIUtevK0oX1ZXgjL+LaNJgZ+twnLQ/XZDLz
+         NPOq2D6mTvEKLAzy6dsY4LwEk3Ewx4Sep4RE3RgcpqtNRw/oYZzrrnEN+iYQqre+FEGy
+         vo1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUaNiD6yc18agyXhAMu2+18B+sGc/u9FZmvWCnOZ/VX3F4gD1XnjC9lUsHpwLWJBtLD6r/4gzE802X7QVFVxj8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzH4Nuyizq/yUatHzK4Z0abPU53bWWIakQo5uz/R/HjvnmGMrCG
+	cn89/6bfkURHDOc9CoezkP/o/HQ5yPdygQiaxhGlPMpF2Z3CAu0a3TReXIv6IAPBmw==
+X-Gm-Gg: AY/fxX5Jj/RGRrdyUawZFRA3+szrxYTGTFLJfZy9czFaMnv8XdrserIslt6nJwOaqdO
+	gqbhX9sO4/zouHIxFuP/kD+o4mNaJqMC3uQxvAf4fTWpcFEwPOwd6ARnMTQNA4cNJ/GRppZToAN
+	kLIjh+jPSBLgqFTAbcTpk3ep4iEaeHV0R6XbN0lJjwFjfG8IULxeE+QF7mREAOC/7GF2Xd2iPXt
+	m8uI7ju9kXrDcJfmqPjWV1NnmIkEknEsRSHK8YUm/gRjxY2NMQMD0rMqNdlOMzKGj+eOXOUTNkW
+	qX2hhk3oKK6vd07dneSiSDLzM+NqmwRZOQOU+P4p6CplfCUF+6C5AeMN+YuqVTIY2RH/UpomRvv
+	ifXG6rGunjDsd8+HJomRuB/39w670O6E4Zmxv91tvrv3mg8pzyzw0VoYFUyStldNISzedX2i7kr
+	3HfXmSo4i96/Ff/1lKolcUWk3GKn5P60zMfDX877bbDOWfRoohbwaZTPWkSiojKB9PeVBqPJM5I
+	dS1i5d7
+X-Received: by 2002:a17:907:971e:b0:b7c:cc8d:14f4 with SMTP id a640c23a62f3a-b8777a09915mr1291724366b.4.1768828722003;
+        Mon, 19 Jan 2026 05:18:42 -0800 (PST)
 Received: from akuchynski.c.googlers.com.com (150.230.32.34.bc.googleusercontent.com. [34.32.230.150])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959c9a14sm1078801866b.45.2026.01.19.05.18.43
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959c9a14sm1078801866b.45.2026.01.19.05.18.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 05:18:43 -0800 (PST)
+        Mon, 19 Jan 2026 05:18:41 -0800 (PST)
 From: Andrei Kuchynski <akuchynski@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
@@ -75,9 +75,9 @@ Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
 	Madhu M <madhu.m@intel.com>,
 	Venkat Jayaraman <venkat.jayaraman@intel.com>,
 	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH v5 2/7] platform/chrome: cros_ec_typec: Set no_mode_control flag
-Date: Mon, 19 Jan 2026 13:18:19 +0000
-Message-ID: <20260119131824.2529334-3-akuchynski@chromium.org>
+Subject: [PATCH v5 1/7] usb: typec: Add mode_control field to port property
+Date: Mon, 19 Jan 2026 13:18:18 +0000
+Message-ID: <20260119131824.2529334-2-akuchynski@chromium.org>
 X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
 In-Reply-To: <20260119131824.2529334-1-akuchynski@chromium.org>
 References: <20260119131824.2529334-1-akuchynski@chromium.org>
@@ -89,30 +89,80 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This flag specifies that the Embedded Controller (EC) must receive explicit
-approval from the Application Processor (AP) before initiating Type-C
-alternate modes or USB4 mode.
+This new field in the port properties dictates whether the Platform Policy
+Manager (PPM) allows the OS Policy Manager (OPM) to change the currently
+active, negotiated alternate mode.
 
 Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 Reviewed-by: Benson Leung <bleung@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/typec/class.c | 9 ++++++---
+ drivers/usb/typec/class.h | 1 +
+ include/linux/usb/typec.h | 2 ++
+ 3 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index b712bcff6fb26..c0806c562bb93 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -491,6 +491,7 @@ static int cros_typec_init_ports(struct cros_typec_data *typec)
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index c4ff4310ff58a..0f12d6120511b 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -457,11 +457,13 @@ static umode_t typec_altmode_attr_is_visible(struct kobject *kobj,
+ 					     struct attribute *attr, int n)
+ {
+ 	struct typec_altmode *adev = to_typec_altmode(kobj_to_dev(kobj));
++	struct typec_port *port = typec_altmode2port(adev);
  
- 		cap->driver_data = cros_port;
- 		cap->ops = &cros_typec_usb_mode_ops;
-+		cap->no_mode_control = !typec->ap_driven_altmode;
+ 	if (attr == &dev_attr_active.attr)
+-		if (!is_typec_port(adev->dev.parent) &&
+-		    (!adev->ops || !adev->ops->activate))
+-			return 0444;
++		if (!is_typec_port(adev->dev.parent)) {
++			if (!port->mode_control || !adev->ops || !adev->ops->activate)
++				return 0444;
++		}
  
- 		cros_port->port = typec_register_port(dev, cap);
- 		if (IS_ERR(cros_port->port)) {
+ 	return attr->mode;
+ }
+@@ -2708,6 +2710,7 @@ struct typec_port *typec_register_port(struct device *parent,
+ 	}
+ 
+ 	port->pd = cap->pd;
++	port->mode_control = !cap->no_mode_control;
+ 
+ 	ret = device_add(&port->dev);
+ 	if (ret) {
+diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+index db2fe96c48ff0..2e89a83c2eb70 100644
+--- a/drivers/usb/typec/class.h
++++ b/drivers/usb/typec/class.h
+@@ -62,6 +62,7 @@ struct typec_port {
+ 	struct mutex			partner_link_lock;
+ 
+ 	enum typec_orientation		orientation;
++	bool				mode_control;
+ 	struct typec_switch		*sw;
+ 	struct typec_mux		*mux;
+ 	struct typec_retimer		*retimer;
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index c6fd46902fce7..dbb259d885266 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -290,6 +290,7 @@ enum usb_pd_svdm_ver {
+  * @prefer_role: Initial role preference (DRP ports).
+  * @accessory: Supported Accessory Modes
+  * @usb_capability: Supported USB Modes
++ * @no_mode_control: Ability to manage Alternate Modes
+  * @fwnode: Optional fwnode of the port
+  * @driver_data: Private pointer for driver specific info
+  * @pd: Optional USB Power Delivery Support
+@@ -307,6 +308,7 @@ struct typec_capability {
+ 	enum typec_accessory	accessory[TYPEC_MAX_ACCESSORY];
+ 	unsigned int		orientation_aware:1;
+ 	u8			usb_capability;
++	bool			no_mode_control;
+ 
+ 	struct fwnode_handle	*fwnode;
+ 	void			*driver_data;
 -- 
 2.52.0.457.g6b5491de43-goog
 

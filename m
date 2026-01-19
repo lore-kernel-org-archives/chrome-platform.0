@@ -1,113 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A08018DF80
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 08:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C36365A03
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 13:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768811615; cv=none; b=sPHrvuEeL/Rm8W6zhUqceWbcSMrE6VnctQBkjbDm5oW1/WEP1uVmd1RN63OsnRAgxBFTQhoOgh93L7pGCUb/YC5VVqXnnIeGQ+aj+PADPmXoWdrjis/cBbNdgJ1nJKbF6qi7WWL0G+Q1xzP0SQsyNkb/9XGGEj+f08qZHU+WLn0=
+	t=1768828722; cv=none; b=AqLrGindk26BZH/HYuYTCwYWiEjuzCP7IvKzSZ7U2bfldOYoFi/VTeBcMopdLBYdO+TLNv3mfs+nH0CRO2Xhh4S161gHtWtDV/f2Q2kSq+vAcR8720a07vSo3ubdJctxikXEYiCdAmwcXt0E5+P920/SoWiY/gRNoCm9lq4ZzCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768811615; c=relaxed/simple;
-	bh=EuBTo90+0xISmGE1iNCeM36DlYb7oTzHhMLT3OQBIPE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N2WxZhQI6rwFcBkaycPZs/esaxNFIQtPHL7KV8EZINf71dJKh5bFxA6ZAHG/NPF+rekzqboy9eI0nqJO67fvNTNmBydeuPrWG524mxFJJMtTv+sgin7x4B0zUlWmFf20X4Q8HMXTPUbZ51+OxVLB2qsk5jG2afPSRRGunDFtx/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRNFvmSK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768828722; c=relaxed/simple;
+	bh=mMG+Hn8BawRbQWK4kLNveOLJbx1FyWTF834qhx1Dno0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LAVcNYQIccwAlXpLbIHkGX+a3csEs1ptgniPxDGPIy3zhhRVCdnR7wG+ftN/JUIjHYDp5eeoRM+5qbUF2HvBwlcXja+doldzM7z0+wb55NSSmXrWLhpvhITWBt2eJ4fivaOqMdIGf/ElRE92DJ2FVTLSk3aAWnFVYyZWa8vBLsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HfxnBug/; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRNFvmSK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42718C19424
-	for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 08:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768811615;
-	bh=EuBTo90+0xISmGE1iNCeM36DlYb7oTzHhMLT3OQBIPE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SRNFvmSKtc1/gW2SNtZW30SG39DZstyWleIGLwc3+e6Cv9azYLqCXmb0J/NGIhIbj
-	 /wTmF4SDgNtHeyr2FQhinA3m/glZe57tHi14mTpCtWsPnYeUarbcRgIxavUISrDsiF
-	 w/580IPMEgXFFwc0v8Fshggp27kbxKyhsxTXUNOCrH6QfHnsQbjYXNbt24nOPycd4F
-	 vpnBXLnsXbBHOdAUahCpdjVRk1O+DOg03LaLQwKk8DkYT6QUgVbvubxkAb4QaizyoV
-	 dDRBaZga/AKjAy63AKSFj542BZn6t8VmFnC/kOeQo5/ATIHt3qyii6u4zyfSqo04fy
-	 OrmfHLBtQ4J0A==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-59b78886454so5025594e87.2
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 00:33:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVX+grYnWyxV2zGyON1edDP1q7om5/WoLxrrJxZZT1jJfAHxlJHvwYQQdubyYTlUbl7Gqi//3uSyx1RYpEk1ZQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4JXQdhp2YlSPoMuMlSEO+cvuXYmeJTkzLGlyvI+EL9WzdDOE+
-	aGmpatePjwcaSaUK1dyj4mOFIa5QG1VrQAOHSdVJfpaQkdChc5riXN9OU/Y32nvre6RLtQmvh93
-	W9Jj4c7ruAK5wrKXvUo1oJ48R21vIJ+Sg8xUBdPE/Qg==
-X-Received: by 2002:a05:6512:10d6:b0:59d:4a12:5f9 with SMTP id
- 2adb3069b0e04-59d4a1206famr260681e87.3.1768811613889; Mon, 19 Jan 2026
- 00:33:33 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HfxnBug/"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6505d3adc3aso6722763a12.1
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 05:18:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1768828719; x=1769433519; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iRNnwiYKOAp913PL4zbruan81hvYhlt0XTNkvMtBRB0=;
+        b=HfxnBug/VUBut3DQW4JcS+kAhMEwCYB/kOdUSroJIYcT8cat3qMuYXxTvpy9VhQccV
+         ImLj1nezVgY2v2J8ZjMGOs7anKtrgUdTW146Cv8CzSiIloiIfs5Cuj6Cdx1xEp1JuXLM
+         eN+qMU+dI7iaaUlh7VKcxTqrierk2DdSgAJr4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768828719; x=1769433519;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iRNnwiYKOAp913PL4zbruan81hvYhlt0XTNkvMtBRB0=;
+        b=PNiDSg4DNLN0JTZZW54bRPotNbWjmXV5ZEbLrOzDyEszwmbuwnzVKO96Q0kBkRR/J1
+         CruYJ5MZrtQZAke9Ok1CK9u/RS2+m3IWs99qgck4hOTFPSImjU4KTFbr61f8rcUziIzE
+         l0dNL6lIEKWL9HZvlYuWd19yPVpymBDvgF/bIjEerCoDArD0+1fZN128k5UYxbXwLVtK
+         FX+82ElrN1NMHhoVtcWDy6ucpH6X+GADS3JrvKZkwWQxQwB71HveKgl7E8zm2zmieDYz
+         v/mlPeOXRx6Nr5O/d4UZpf9+MoMImN0NPgfRXXa5OXf2pKF77x8r8NW3mVC8kgb7CYwK
+         SJ7g==
+X-Forwarded-Encrypted: i=1; AJvYcCX+Skf+OOcyOJpAAqAatChH/bMmKcGYBq8l7uM5x9QEjQFc60T6pgPhyhSHI93BuUtosKIKjIokYbnV7ZYlBgo=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9HUaAIBm+ywrxGLvPcPCFOV5+ooLe8v/aMvV2Ildy5ts3/pOm
+	Y5GHtJC7IM0d2PzgoEygDy9VbGHYc0PIq312T/w8zSFTRQx2Nwc6c587SbklHAIwZQ==
+X-Gm-Gg: AY/fxX62d93cYTOp7QIydYkvDp34m5J+DiCPpqeNWQXgmLY7aOSePG+HS9j5Sb9GE1f
+	53t0S654MfZ+19iJ77i7vIf4HHR0IWe18fK16jSfhF3yqcv4reN3mpjA7sTGSIBhf3hEstk3QDV
+	76xzWYp3NxrsMYFam1yeugSUK0rJHAyZDn2Xp6mIpGMZfCXTOcLwHosUJU/8w46r9798hvH417w
+	Cl81zLv1NmTFa+XgW6a5rmRHPxSeclews9FDrpmtHmzTHZH0kewDSZIMLc4WF9UhvQtUaEyML/l
+	LpFTdJJWUJXl5KKMrk3933zePeeSG9DrbnNFDhWa8lNsuu5uRGoPLP57QI8UtRil3DQrPOXuaCs
+	4/22kMo67uE6RWmvg6TW5bJP4eeSJKJvwUisqpJQmau57MFQjQlthmRgLvYklZNmQqkbuiHMdki
+	sU2fwyceX1TRkO8wX+MuBByfssX0aJqsEfpz7900IPkZvWiGjAKO1DtYMZFp5QeNj9/fiCUgD6J
+	REy0EG7
+X-Received: by 2002:a17:906:f5a2:b0:b87:b87:cdbf with SMTP id a640c23a62f3a-b8796b85d1bmr942630166b.53.1768828719421;
+        Mon, 19 Jan 2026 05:18:39 -0800 (PST)
+Received: from akuchynski.c.googlers.com.com (150.230.32.34.bc.googleusercontent.com. [34.32.230.150])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b87959c9a14sm1078801866b.45.2026.01.19.05.18.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 05:18:38 -0800 (PST)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	=?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Madhu M <madhu.m@intel.com>,
+	Venkat Jayaraman <venkat.jayaraman@intel.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Subject: [PATCH v5 0/7] USB Type-C mode selection
+Date: Mon, 19 Jan 2026 13:18:17 +0000
+Message-ID: <20260119131824.2529334-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260116081036.352286-1-tzungbi@kernel.org> <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
- <aWuFBqIfJpDL9g-J@tzungbi-laptop>
-In-Reply-To: <aWuFBqIfJpDL9g-J@tzungbi-laptop>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 19 Jan 2026 09:33:21 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
-X-Gm-Features: AZwV_Qj-H4GoQtvkwFseN5jYlKSdPvBPHrbR8AGUp3PpNz29IUPVXyzfscvZ_KA
-Message-ID: <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
-Subject: Re: [PATCH 00/23] gpiolib: Adopt revocable mechanism for UAF prevention
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jan 17, 2026 at 1:48=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> On Fri, Jan 16, 2026 at 11:35:00AM +0100, Bartosz Golaszewski wrote:
-> > On Fri, Jan 16, 2026 at 9:11=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.o=
-rg> wrote:
-> > >
-> > > This series transitions the UAF prevention logic within the GPIO core
-> > > (gpiolib) to use the 'revocable' mechanism.
-> > >
-> > > The existing code aims to prevent UAF issues when the underlying GPIO
-> > > chip is removed.  This series replaces that custom logic with the
-> > > generic 'revocable' API, which is designed to handle such lifecycle
-> > > dependencies.  There should be no change in behavior.
-> > >
-> > > This series depends on the 'revocable' API, introduced in [1].  Some
-> > > build bots may report errors due to undefined symbols related to
-> > > 'revocable' until the dependency is merged.
-> > >
-> >
-> > Hi Tzung-Bi!
-> >
-> > Thank you for doing this and considering my suggestions from LPC. I
-> > haven't looked at the code yet but I quickly tested the series with my
-> > regular test-suites. The good news is: nothing is broken, every test
-> > works fine. The bad news is: there seems to be a significant impact on
-> > performance. With the user-space test-suite from libgpiod (for core C
-> > library - gpiod-test) I'm seeing a consistent 40% impact on
-> > performance. That's not really acceptable. :( I will try to bisect the
-> > series later and see which part exactly breaks it.
-> >
-> > I can also help you with user-space testing with libgpiod, if you need
-> > it? Some documentation is available here:
-> > https://libgpiod.readthedocs.io/en/latest/testing.html
->
-> How to get the performance data?
->
-> I tried on libgpiod-2.2.2.tar.xz:
-> - ./configure --enable-tools --enable-tests
-> - make
-> - ./tests/gpiod-test
->
-> There is only TAP output.  Also I don't see the difference between:
-> `./tests/gpiod-test` vs. `./tests/gpiod-test -m perf`.
+This patch series introduces functionality to the USB Type-C Alternate Mode
+negotiation process by implementing a priority-based selection mechanism.
 
-Yeah, no, there's no dedicated performance measurement in GLib tests,
-I just timed the test-suite and it runs 40% slower with this series.
+Currently, DisplayPort and Thunderbolt drivers initiate a mode entry
+separately within their respective probe functions. The Power Delivery
+Controller (PDC) retains the ability to activate either USB4 mode or
+Alternate Modes based on its internal policy.
+The mode selection mechanism disables Alternate Modes to be entered by
+their respective drivers and the PDC. Instead, a priority-ordered approach
+is used to activate the most desirable mode.
 
-Bartosz
+A new `priority` field is added to the `typec_altmode` structure to store
+a numerical priority value, with all priorities being unique.
+If the port driver supports the mode selection feature, it must set the
+`mode_selection` boolean field within the `typec_altmode` structure. This
+indicates to the alternate mode drivers that they are not to activate the
+altmode separately.
+
+The mode selection process is managed by three API functions:
+- `typec_mode_selection_start`
+- `typec_altmode_state_update`
+- `typec_mode_selection_delete`
+
+When a partner device is connected, the `typec_mode_selection_start`
+function executes the following steps:
+- It compiles a priority-ordered list of Alternate Modes that are mutually
+supported by both the port and the partner.
+- A dedicated mode selection task is subsequently initiated on the Work
+Queue.
+- This task attempts to activate a mode by starting with the
+highest-priority altmode on the list. Alternate modes are identified with
+their SVIDs. Activation/Deactivation performed via `activate` typec_altmode
+operation. The process stops as soon as a mode is successfully entered.
+Otherwise, after a timeout or if an error occurs, the next alternative mode
+will be activated.
+
+The `typec_altmode_state_update` function is invoked by the port driver to
+communicate the current mode of the Type-C connector.
+
+The `typec_mode_selection_delete` function is responsible for stopping the
+currently running mode selection process and releasing all associated
+system resources.
+
+Mode selection is initiated only once during partner registration, and only
+if the port driver provides support for this feature. Subsequent
+mode-switching activities can be managed via existing sysfs entries. Any
+modifications to altmode priorities are relevant only to future
+connections.
+
+This series was tested on an Android OS device with kernel 6.19.0-rc4,
+PDC: TI TPS6699, Realtek RTS5453.
+
+Changes in V5:
+- Use the no_mode_control field instead of
+  con->ucsi->cap.features & UCSI_CAP_ALT_MODE_OVERRIDE
+- Squash previous V4 patches 3/8 and 7/8 into a single patch
+- Adopt guard(mutex)(&sel->lock) in mode_selection_work_fn()
+- Use dev_err instead of dev_dbg, remove the error message when exiting
+  the mode
+- Update typec_altmode_state_update() to only reschedule the 
+  mode_selection_work_fn task if it was successfully cancelled 
+- Clean up code style and alignment issues
+
+Andrei Kuchynski (7):
+  usb: typec: Add mode_control field to port property
+  platform/chrome: cros_ec_typec: Set no_mode_control flag
+  usb: typec: Expose alternate mode priority via sysfs
+  usb: typec: Implement mode selection
+  usb: typec: Introduce mode_selection bit
+  usb: typec: ucsi: Support mode selection to activate altmodes
+  usb: typec: ucsi: Enforce mode selection for cros_ec_ucsi
+
+ Documentation/ABI/testing/sysfs-class-typec |  11 +
+ drivers/platform/chrome/cros_ec_typec.c     |   1 +
+ drivers/usb/typec/Makefile                  |   2 +-
+ drivers/usb/typec/altmodes/displayport.c    |   6 +-
+ drivers/usb/typec/altmodes/thunderbolt.c    |   2 +-
+ drivers/usb/typec/class.c                   | 100 ++++++-
+ drivers/usb/typec/class.h                   |   3 +
+ drivers/usb/typec/mode_selection.c          | 283 ++++++++++++++++++++
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c       |  22 ++
+ drivers/usb/typec/ucsi/ucsi.c               |  12 +
+ drivers/usb/typec/ucsi/ucsi.h               |   4 +
+ include/linux/usb/typec.h                   |   3 +
+ include/linux/usb/typec_altmode.h           |  42 +++
+ 13 files changed, 483 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/usb/typec/mode_selection.c
+
+-- 
+2.52.0.457.g6b5491de43-goog
+

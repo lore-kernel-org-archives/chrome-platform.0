@@ -1,66 +1,66 @@
 Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F3436CE0A
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 06:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2C8363C62
+	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 06:21:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768890088; cv=none; b=CK+fm5+sSIi/nyXdjmdlU+blye/4vXUbIEFRhb1oVlZwJh2/cY6dfEu4FeQw7Urlg7MTuTOxHVH3plmcFqBrZHbaYDiuWGRNAB9pYdgWi0ORI3vXxMgbl6N/QnqTqq8NHgumNygRXw4veqv4LHJt8rATb/fWN2d//CbEyPOk9Pw=
+	t=1768890089; cv=none; b=cgVYdggs/izDgsnScCz9A64M2CKLmnOkMmzp7A7VplqlafMtcgdNvOvjzjAgx6z3mQShcNHEXE5dAlhGTI+o9dxSlqeOFwThzRyMK2oa1lnKr+8q4KrHOKLiIao5hvBeDirXH3Xl1PknuP5DaowvzvZ7rQAk78xs7fCPI9Dclyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768890088; c=relaxed/simple;
-	bh=R6AtgfHNFuyoDu3Dt8So6HbHkHEi4svHf3KFVpxGpRY=;
+	s=arc-20240116; t=1768890089; c=relaxed/simple;
+	bh=K/GzZXmVDH5d3ajOh9Vses0jzRTbszvo9JEIlad+htc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RGbTcf0jq7ctpHMxL9juRJz1CeIsmb38r2bCxweMq2t/zNS9S0Aiisc65mGsQYNt9ZgHOQ8I8hULbH6yW7AWqIcl6SUjFCpKtqu9OOUz/UQ5bjJV6AtuV3qXgvnPlBCKTIDGj3G6RVc/Pr0SbEgObP1pzDtNqXQYpqD65PG3Mnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqpuq1t2; arc=none smtp.client-ip=209.85.217.54
+	 In-Reply-To:To:Cc; b=X4pOEIylUz4e5BG7fG92VLDorjR2OQJXLPTLpmHD3CJrxXDegF1Qih9WSFw/t6dymgB+PFfufZOeq71QK2CieCpOJmslGM/skGGh3XHilCcxUxydFDuYTsVXMy5T7ZJwvPDGjnbZsR5qhMOVDF5HKNE6luoXYJONSLMc7h1hypY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBoRNn3n; arc=none smtp.client-ip=209.85.217.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqpuq1t2"
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5ef2561e395so3274095137.2
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 22:21:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBoRNn3n"
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5ec96028b32so3422572137.2
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 22:21:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768890085; x=1769494885; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768890087; x=1769494887; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RvaFKco8z0TcIBUmMpdNSTwRtZj3x2smNoAu0imBUvA=;
-        b=jqpuq1t2nKCifOyNNJR886+0pmBy/ZyBGgcEXn35Qoq4mXYpSS92u1/tfss6Pa4KBE
-         BnfA18N7Me8O+Y58J3jKP4xO7zumsXtw7lEYntyRqbK2f/WvuwpR8ryWyQojT7fAX1bk
-         QbWM82aRuztUGSBe6clsTloxW2WUoVlG/nl0IXXlauto0PljgLhq00AJchQW5kSTg0ME
-         4UFKKOqy3c+c0Q5fBmjKvtSnTKbxutQHcVsjnGq6X/yuzy4o0+kyQNhMgCnCW4fDiDhg
-         hqZaKepQc0TmRIxNTAl25c3ekwVYURF2b1yBx5Bw2goYSjQsZtl0ZpSneje0oJLeEjcW
-         eeeA==
+        bh=SUuEqo1bBPTtYvx/6MqHHwRERlW4p1/ugxXmq/ssirA=;
+        b=HBoRNn3nfhuBlK4VrgATlC/0vrzfy6xK0ohux3eCqMKZPaKFqQ7uz+x2ZJYOD1MAjT
+         q+4Ph+MLTeeTcWfYRH+Q+WMoR0B1VYAsfglzz19LGu8vXlhG6JxTXvrw+kZnRzGRasjR
+         ID2Be0xrdI55JpylR+P6YkxsIIAxOhZfYJr8NB7qA+qCjiUSDW/HHhGQUn7LgZw1Xd0Z
+         IFRMxNvxozrOcDXQAOKkbAzGsv5YU42bO56feVHlOsNSNLnpnq6swx+OIJzbPr8ddHwG
+         qxCC2Z734wr/EGTnwHMjXfY8+wtsOGRSUdcCHDEdU5wfhObm8/dW2NOHhKyCKuBRiBOH
+         fDoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768890085; x=1769494885;
+        d=1e100.net; s=20230601; t=1768890087; x=1769494887;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=RvaFKco8z0TcIBUmMpdNSTwRtZj3x2smNoAu0imBUvA=;
-        b=LJh1RegScH/X7X+brzvgpjrjYYpbyPMjb8YfWQA/rUWos4r0gR8WwCWW6CnL35hc2A
-         rxWL4mF3t1tpY/9stFYa6WhcQZzuv9DgBlm3k0zZshnvGljMghv/7TeGR2H909z3LA8m
-         mA2icDDWJo4IBxsO4+lK6wlcSry/yZVneg7CdZ9AjKAPu68qbk5G1fIGhXXfMZPp02f+
-         Y7Kapx3bs6MwxRkXJ8XNvYp3/BMkgBbue6Rgan7W5f0Du3D/rlGpZbszHAk5TNx/K6Rp
-         etODJ3/p8C2bodocfAIEH8ll2y2sm071TasBXwfH3dK/vd89yP58q7QM2kM3FARxiUrB
-         f86g==
-X-Forwarded-Encrypted: i=1; AJvYcCUCMbUblyV4m8wyuTpwkTsLoN0MDQAvGx5FRbAk3yCR4UXtjLhrXU2pGJ5cWmvpephFi96KtqZabBTBEak4sZ8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyDYJwtI3vsKSN8pBOULAVQAMcMo5hdwr6J1wYuf6OvEJ4wvT2R
-	8UUHXWq1iI2Dc72q3eUWG21//ls6owAm4Je04pzydvPJKNzWYbEcTy44
-X-Gm-Gg: AZuq6aINkusqD8Pev8CBBoR696TCbHACx/d8mOyQrJDEg4PvdJc7EFtWnugpPTgUE/e
-	QneFNby45M9FnEHxo7N03WH9gVF30Qn30r+ncyj3V6g13kIEC27FnSxhBO2ne2HNHE06uM60qDe
-	gYFoNum7GXj14EyPjFWnv8+gbdkBHTZV3qWjv0INWNBPagAtcmp/UUc3sldZoOYHfbYuNn3sPoX
-	8WvykU2ZQiRhW2vSDykN3VblAFqG3lCqjQ7RJLjDQMMArKB+ciJg6Dp9p39wtZiHAjouyoQqRcb
-	uQD6fk0Vs9uOqFtNy6KMBF8Zz9gdCAbyZ8d7sEszAV0b14jcD/figdQJgfD/4c4hUzZoyr9aHZC
-	nmWOKuvDRdmx6ulhQwxZuHwJybwOD+JqlL1/nIT902ZW/sjIlEORqSV7nzpt3vBFGEngLdGseGJ
-	5/tBrI9/xAteS1
-X-Received: by 2002:a05:6102:c0c:b0:5ed:a24:1a98 with SMTP id ada2fe7eead31-5f1a55e599emr4178016137.44.1768890084657;
-        Mon, 19 Jan 2026 22:21:24 -0800 (PST)
+        bh=SUuEqo1bBPTtYvx/6MqHHwRERlW4p1/ugxXmq/ssirA=;
+        b=unznJFu1b0wLvSKAuDE17UrW2WKFHpV+YokNe2i4EucDuOjZqHEWyDWRkUURTjvtQ4
+         AvBM8OSH6JlxDihe7DSkT6+AIk4X4V/YLl+Oz7q1KVkXKl+es1dshxPQlK2CTLtdWheX
+         W9fRj5WVX9LnbnrD8VbizR2tZmJqsDe8jszsN5+n50ZNa3mJ4caxIoQeDKgUj268trTA
+         M3lO+nASzZGt/eUokH8QxoRB6CiYgduXFtQM0CtEQKAuKHrmXlSz7hJHtQvq26rPvCy2
+         YkxXbyfONQNzdjAGNW6HEhVfP3TNBa9rEm/RQPANqB2iZA/8uPBkmnzZKHIMBvYIhPTb
+         Cdgg==
+X-Forwarded-Encrypted: i=1; AJvYcCVknEk6C5tBnLnq8XoF5fXYLfXKlEwlA46xrxtdE9s3Tf4X4IV7uH2n+Ja4a+e9BLZCk+zmU74PCZS0b7d0gsg=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDBPk6Awr+zb+D2UWPcWrI2AH+exb/Nn+ySS/g1jvj8fk2BHQ/
+	OWxJCAjsKB5NwjGOvP2/WnlLmwx+GlmwswfBjyxUQlsZy79++wC2aKeR
+X-Gm-Gg: AZuq6aIsfEBloVC1OnhwYiw9K5ckn6Imsw6yNS8VPrguiSBNp+OyDKYh2U+vRXXZkHr
+	mzmZTcsIYIS1uDi7vxt/ZI/lmpnN9zqRS3u3hiVsRsuPce/cAMd6a/NulooxcEs/75gQJFWgIlN
+	loTDHTTQ9okKCfHYlf5q79tlvgYiPOpYIjczhdJmC52Uk6gEdLG2GEoT4jeD3cSVLsNVIJjMHmi
+	niFhYGZF/080027osXFigj6yPj0jhPHPPiX5NDDnzLIZNyo7u3foe2MdORNyFTs5RdN/hGvsPRc
+	gJencKHc6GmPEKsjQHLt74sv54gwi+IDHaM6CK1DVkI0mu8YlD5iQh4Gzp2yTM4XDeEzHjCK5yY
+	/4jtk8MEVdyn9mpSuAJ7ej9RQ2tMESiqmDGg9PVVTZUEiItISveDwkfiE2ESAiCVoU7AaGCsD9b
+	getnXNC2oo/Gdu
+X-Received: by 2002:a05:6102:3584:b0:5ef:aeff:82fc with SMTP id ada2fe7eead31-5f50aa1028emr250763137.37.1768890087050;
+        Mon, 19 Jan 2026 22:21:27 -0800 (PST)
 Received: from [192.168.100.253] ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6900c1esm4057944137.3.2026.01.19.22.21.22
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6900c1esm4057944137.3.2026.01.19.22.21.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 22:21:24 -0800 (PST)
+        Mon, 19 Jan 2026 22:21:26 -0800 (PST)
 From: Kurt Borja <kuurtb@gmail.com>
-Date: Tue, 20 Jan 2026 01:20:46 -0500
-Subject: [PATCH v5 6/7] iio: health: max30102: Use IIO cleanup helpers
+Date: Tue, 20 Jan 2026 01:20:47 -0500
+Subject: [PATCH v5 7/7] iio: light: opt4060: Use IIO cleanup helpers
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260120-lock-impr-v5-6-d4d22347041f@gmail.com>
+Message-Id: <20260120-lock-impr-v5-7-d4d22347041f@gmail.com>
 References: <20260120-lock-impr-v5-0-d4d22347041f@gmail.com>
 In-Reply-To: <20260120-lock-impr-v5-0-d4d22347041f@gmail.com>
 To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
@@ -87,83 +87,88 @@ Cc: David Lechner <dlechner@baylibre.com>,
  linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
  Kurt Borja <kuurtb@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2086; i=kuurtb@gmail.com;
- h=from:subject:message-id; bh=R6AtgfHNFuyoDu3Dt8So6HbHkHEi4svHf3KFVpxGpRY=;
- b=owGbwMvMwCUmluBs8WX+lTTG02pJDJn5cld4PVkXr+ucZnJwyS918f2KXWyhifIiBqXPPnDtW
- DTBSOlmRykLgxgXg6yYIkt7wqJvj6Ly3vodCL0PM4eVCWQIAxenAEzkhzXD/3wb/gNpl18+bNt8
- 9Nl/N9u7+uz7G8+HMO85r9p15cMGEWmG/9kLLLl/R1kvsVLoET5XJW8pd0Z0ekKpYf/HXzz/F61
- 3YwcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2688; i=kuurtb@gmail.com;
+ h=from:subject:message-id; bh=K/GzZXmVDH5d3ajOh9Vses0jzRTbszvo9JEIlad+htc=;
+ b=kA0DAAoWFmBDOPSf1GYByyZiAGlvHtSjrwC1JnQanLoLExLJTwrpwdoltjp5KmS8n1f6i+dHS
+ Yh1BAAWCgAdFiEEh2Ci9uJabu1OwFXfFmBDOPSf1GYFAmlvHtQACgkQFmBDOPSf1Gb/KAD7BdoF
+ qUPP0diCbpCK9p45EPoIqdtrwlBjt1YOYDEaEvAA/2iqEPiM5dVqGN7bLWinI7Y1nD5Qgy9ZPUt
+ 10sazV1EN
 X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
  fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
 
 Use IIO_DEV_GUARD_CURRENT_MODE() cleanup helper to simplify and drop
-busy-waiting code in max30102_read_raw().
+busy-waiting code in opt4060_set_driver_state().
 
 Reviewed-by: David Lechner <dlechner@baylibre.com>
 Reviewed-by: Nuno Sá <nuno.sa@analog.com>
 Signed-off-by: Kurt Borja <kuurtb@gmail.com>
 ---
- drivers/iio/health/max30102.c | 33 +++++++++------------------------
- 1 file changed, 9 insertions(+), 24 deletions(-)
+ drivers/iio/light/opt4060.c | 52 +++++++++++++++------------------------------
+ 1 file changed, 17 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/iio/health/max30102.c b/drivers/iio/health/max30102.c
-index 6918fcb5de2b..47da44efd68b 100644
---- a/drivers/iio/health/max30102.c
-+++ b/drivers/iio/health/max30102.c
-@@ -467,44 +467,29 @@ static int max30102_read_raw(struct iio_dev *indio_dev,
- 			     int *val, int *val2, long mask)
+diff --git a/drivers/iio/light/opt4060.c b/drivers/iio/light/opt4060.c
+index 8c4a1f562a83..d6e915ab355d 100644
+--- a/drivers/iio/light/opt4060.c
++++ b/drivers/iio/light/opt4060.c
+@@ -302,41 +302,23 @@ static int opt4060_set_driver_state(struct iio_dev *indio_dev,
+ 				    bool continuous_irq)
  {
- 	struct max30102_data *data = iio_priv(indio_dev);
--	int ret = -EINVAL;
-+	int ret;
- 
- 	switch (mask) {
--	case IIO_CHAN_INFO_RAW:
-+	case IIO_CHAN_INFO_RAW: {
- 		/*
- 		 * Temperature reading can only be acquired when not in
- 		 * shutdown; leave shutdown briefly when buffer not running
- 		 */
+ 	struct opt4060_chip *chip = iio_priv(indio_dev);
+-	int ret = 0;
 -any_mode_retry:
--		if (!iio_device_try_claim_buffer_mode(indio_dev)) {
--			/*
--			 * This one is a *bit* hacky. If we cannot claim buffer
--			 * mode, then try direct mode so that we make sure
--			 * things cannot concurrently change. And we just keep
--			 * trying until we get one of the modes...
--			 */
--			if (!iio_device_claim_direct(indio_dev))
--				goto any_mode_retry;
-+		IIO_DEV_GUARD_CURRENT_MODE(indio_dev);
- 
--			ret = max30102_get_temp(data, val, true);
--			iio_device_release_direct(indio_dev);
--		} else {
--			ret = max30102_get_temp(data, val, false);
--			iio_device_release_buffer_mode(indio_dev);
--		}
-+		ret = max30102_get_temp(data, val, !iio_buffer_enabled(indio_dev));
- 		if (ret)
- 			return ret;
- 
--		ret = IIO_VAL_INT;
--		break;
-+		return IIO_VAL_INT;
-+	}
- 	case IIO_CHAN_INFO_SCALE:
- 		*val = 1000;  /* 62.5 */
- 		*val2 = 16;
--		ret = IIO_VAL_FRACTIONAL;
--		break;
-+		return IIO_VAL_FRACTIONAL;
-+	default:
-+		return -EINVAL;
- 	}
--
+-	if (!iio_device_try_claim_buffer_mode(indio_dev)) {
+-		/*
+-		 * This one is a *bit* hacky. If we cannot claim buffer mode,
+-		 * then try direct mode so that we make sure things cannot
+-		 * concurrently change. And we just keep trying until we get one
+-		 * of the modes...
+-		 */
+-		if (!iio_device_claim_direct(indio_dev))
+-			goto any_mode_retry;
+-		/*
+-		 * This path means that we managed to claim direct mode. In
+-		 * this case the buffer isn't enabled and it's okay to leave
+-		 * continuous mode for sampling and/or irq.
+-		 */
+-		ret = opt4060_set_state_common(chip, continuous_sampling,
+-					       continuous_irq);
+-		iio_device_release_direct(indio_dev);
+-		return ret;
+-	} else {
+-		/*
+-		 * This path means that we managed to claim buffer mode. In
+-		 * this case the buffer is enabled and irq and sampling must go
+-		 * to or remain continuous, but only if the trigger is from this
+-		 * device.
+-		 */
+-		if (!iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
+-			ret = opt4060_set_state_common(chip, true, true);
+-		else
+-			ret = opt4060_set_state_common(chip, continuous_sampling,
+-						       continuous_irq);
+-		iio_device_release_buffer_mode(indio_dev);
+-	}
 -	return ret;
++
++	IIO_DEV_GUARD_CURRENT_MODE(indio_dev);
++
++	/*
++	 * If we manage to claim buffer mode and we are using our own trigger,
++	 * IRQ and sampling must go to or remain continuous.
++	 */
++	if (iio_buffer_enabled(indio_dev) &&
++	    iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
++		return opt4060_set_state_common(chip, true, true);
++
++	/*
++	 * This path means that we managed to claim direct mode. In this case
++	 * the buffer isn't enabled and it's okay to leave continuous mode for
++	 * sampling and/or irq.
++	 */
++	return opt4060_set_state_common(chip, continuous_sampling, continuous_irq);
  }
  
- static const struct iio_info max30102_info = {
+ /*
 
 -- 
 2.52.0

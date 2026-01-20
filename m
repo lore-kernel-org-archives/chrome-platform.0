@@ -1,66 +1,66 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D064836BCE2
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 06:21:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E758F155389
+	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 06:21:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768890073; cv=none; b=BWM0zDvCXnAqzCp2+i9KSzl0Gt2hQ70o10cd71Qe7UYw6UbOzKP8qpQaXJxQGNj8do0dQNLNh/7HHOBScJh1QeZlXVoVHxqfxNSb6jQb1erzbnsmxv4BxC8cW+v72jHuPnIwFlPTaWIFXFNeJrWNqcnJOsx8GA7eQS7NoSD5TmM=
+	t=1768890076; cv=none; b=UAGtV4FkFXCaIvTzX4P2AGsGVeOA7pWOKZuxD/sIwQMXzpOnWlMtf6zzL5ojZI9lhNbLJ4StDVlWLz5krasAQhh3oirkT/WdHF2APisfiaeHuhDDqBFWuikROMvn6T5zAYQyJ8CjX1v+bdF4V/F5SAfvVly0RyMJmrQk3rPF+nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768890073; c=relaxed/simple;
-	bh=8ACIUTMxM/zKXo7x/eO1abUeDEvW7CEDgGcDZxCz8g4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SjRJCZzifGdmMlgHxOSU13hOrLKezTnI5kJ5sXDsWMqUq6TcL2glcRMdlV5ng7vXut7ISpqRXSDLgo+sV2YkldAqy9CNNhKG6ua0FnaTM+CM5jWkyzKq92TAH8ECaJ4KSiZejn6v5gaetvqK5fs4Np2BrUA4O0u51/h9mYiDSHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jG2yMD0J; arc=none smtp.client-ip=209.85.222.46
+	s=arc-20240116; t=1768890076; c=relaxed/simple;
+	bh=Tc5/3NT6AVqhl2DjZzJv2Sn4xFJDlerjPios4AAER84=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=LtRFoLknlsawxCb5eh4w/5simF/L7YHmrHhGxc5ijZBKANQfO3aXR9GphRAv2j+2bVDkM4MBvgUHgBcc/w26e/OUQEgYajO/S6IrYj4jhS+qQhZt4M99Hh8lv1z3Z1BsFdEXubaHMT9DhbEY0KZ21a+ERZKjUydCNAxWnUC+TP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEY/4RqH; arc=none smtp.client-ip=209.85.221.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jG2yMD0J"
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-93f573ba819so1852990241.1
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 22:21:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEY/4RqH"
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5636f0cf5c3so3633051e0c.1
+        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 22:21:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768890071; x=1769494871; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b/He2bNX5Xacc5gQDOXo1/F0LSaAQyrezJ+tls86n2g=;
-        b=jG2yMD0JjIwhMdu5/57V1vbSAyU95UajnvwoPTFpuOiRUAUCzpgv66kAnQIy6Rtbri
-         +N829RJKr6vE2dbN0iIIj6PThjGueR+xY2UQF7XdXpiecmbGGAq9mFsfqo0p0DQTLI+K
-         LZUYiU/GJqwbDfdWEfI/fTHLC6vuMKLFSS50TOflDCJkXBz1mEz680ERceykpOj2YHQ7
-         zY1aQXkYBInnMbjAE9QW9C090JhyZIu6rV0xIN0pla9JhCOuXEsmgmcKWy1ex917DsUL
-         DEQbdYF69pjSIQTwl9wirhiu8eJNCJJEXCQZjEfe/S4govY08IJP4Qqot0E3IVhQqSss
-         Sj/g==
+        d=gmail.com; s=20230601; t=1768890073; x=1769494873; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=awxt+DDD9i1Z2I3KP5u44VA06ZhetlDbI4UFSh79c8k=;
+        b=cEY/4RqHJtedrpsJTuVZS7qCkjcAjzfSZnMbvRA/ua0+1SUUpejtNRuJjOe3wUHkGD
+         nMf4+qPgjkeuaGWQ2MUhZQR8A/8LFvgdWtxxaH5ljqNXnKGFJqMdp4EZ1wvbcQfOIIaU
+         JXuMbO+X3/Wn42ovO5vkxSIGlzuySMnUmcx1SldiUo84eFPkonarM4lvas2fOMyWF4iw
+         46pyC1Rplw9XQA9Kt1e1nugHR/ESmKR7uWN6fysw20mGoyEm3ehDJ630qtaZaGbMNEFi
+         fm3B2FbY8l0trg3Y0a5m7qdcg4yB3p0J9WPNlwuzJSO6u9m3AVu8AizFeYXhNXzoAQbO
+         o6Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768890071; x=1769494871;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b/He2bNX5Xacc5gQDOXo1/F0LSaAQyrezJ+tls86n2g=;
-        b=KrNJBTugEQZ5v9EUTQg8pdId2McJMJHWl814RincYfC2nqebl7s6KkuF4w4Nxrsq3U
-         xtccYPAfWwBP3oo2lIL1vesPEfzWMn4dDop62JYBxqEXGQtVq5gwNwK812mJRAuxe59t
-         hSlK2A5+Pn2cJIfirAxLTztmj0WgJcd6nYQ43yqAKWoQYNREbXi4pJsMQE34Rd9wJLIx
-         R0K6HoiNjozZKDCnoqnG0Xd1bMfQ2wPZ0XqCunk+hyuiMcxPIfDE+Eqib9D34V2QazVV
-         o6GwaAlQyjtu1jAk5gfRhr3CT500nn2tTIKG7DnvUSr/ffKlMgMAlE6w44gWJ5rIkagm
-         eMGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWe9PYtoyRfJ403YEFKBeVwzFxhNXAqQ0JXQv5Nhp6KqCd7yIHtdMXKF+cMXFYcUDpx6UYPKOLxpW+6wT+6Lfs=@lists.linux.dev
-X-Gm-Message-State: AOJu0YztJkk6t9CHCRZtSsboRr705zzcbN24isKQnmGuZH6U8reD+3dN
-	kDF0ypytahEyx4prplYXdKK/iqH8eZsq2+PPOVUMX6mHor1feR8n5FLm
-X-Gm-Gg: AZuq6aLRhMalko5YUVHGZn5U5TwBWFObl8WqSW9LTxhWhqii9bb29rCqIlNdx2/YGUN
-	GRuyF7JqsxESdyYOSJ4fTgsNpu0dLO+xb/TcB5z4XACaaqpGpETUtgK7v9BNgKXM++BdZOfLPmn
-	OtFq8u3LViUENCBHiCohoS5impoxRkvGnybDirTghkmnuW9Vr1q5zmtKNRHmgFBHAwtrrFZgePa
-	tVtYklkX5/oDrQ8+jUivP47MdEM6zZGHYQnJKd3AX8aC1EIaZn4Nl9HTjYY/sz4vl0+V9FIovl0
-	WX3NuGROq9YUVcCUeqRXJloFIa8dtwbDC8C/hLV7CbosGHIV0CBeoTcGxVCAPMV8OUkH7frKy0R
-	sJ0vU1JHQ1RpANuM5bZcPcG0l83evT+VhXYOwS0HnYetdZFWDEva4E3qiw9BOQlkvnIxhLrBz5O
-	SYQjXgQDpMOl65jZj4t80XLBM=
-X-Received: by 2002:a05:6102:54a2:b0:5f1:555e:a0b4 with SMTP id ada2fe7eead31-5f1a557be80mr4122229137.32.1768890070503;
-        Mon, 19 Jan 2026 22:21:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768890073; x=1769494873;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=awxt+DDD9i1Z2I3KP5u44VA06ZhetlDbI4UFSh79c8k=;
+        b=E29sCTdq/BdmdwXgF0CPMfxXnqmgoa73zo0jYubfHNuaum7C1sUvxQuk/4D8qvdae8
+         tuNTLwxJMFLUFdVS/sT+vAlXswchVQYPZmLAzHZjBBxgHNeREbomhoyIop1uA7REJk7Z
+         csQU/D+uBL2uAYYRv+a5FBUiI5ZNEa7eHb02bkDu+i4atWlUVscksroqt2sX3gZG1KDp
+         WiUtDxOg7Y4uGkVK46Nx4cYcxf3x3C2UwJtZwWZdWMCyi+og5TSz6OTXIo9O/+BXYnRM
+         FfcOUR2GAmNUY1e2ycTO8ewPLzMX3OOcXOU1qcs82Lmqx2zzzJQt3mInLzekUPQLZxi0
+         susA==
+X-Forwarded-Encrypted: i=1; AJvYcCXW3HOT56tCT//ZFlSN6Lia9TSI3XAIz0Q7zBtazItHH2dewwPalaqo5u4yAvkVQbRmkOLeFiDDASH0RFAF5PM=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw88SQPp97rISMeOh+dSb9p274nN5v0NEVHc4oW6yiarMWQzwro
+	1RVSbCJjiICfSeDT4w4MIfqof+2E03Ly5TmI+mNI2VBAb3audcM/DX2s
+X-Gm-Gg: AZuq6aKymFnmg+xdN5kWpAVDgq0Zh7quOqlBpuUJ1b81rQ+1+h8capJ8jwyp88xi5eH
+	o0seEEch1dGx4aTvAFWLiedJoTLuXrynx/badYm3C72ehGbWOSaiJ2xEl8we+zwmB/dtpJNKceP
+	Ylhjlq8LdWy2E+nG8N2tUB+BJkn7K1WsnxsyhWt5QzkEnjmpUBY5/i2kcgeSPmTtXQkILLM1S0F
+	h9IngxHzGp80ouYl8ZlpGqZO8PdYXDbjPEN/yUJtIv8TRJVx5T2rcOQGzOIyJJJs5B9pFHPAqku
+	5h8cahjyICOnoHD03DPFQdp55XEgOXwLdJi9cVL+jB6gVcxD4oDrKIfG1ZNLuBhWa1CbBWsyg+x
+	NppD4/OP8pcY6yV+4uP/XHPCQULiXJ3La3+ySNqivlQcWCms5FM3IZM3Yy/HDHlIUO3NfDZgJCv
+	axj8USOOCpZNmomlfqN+UkNQY=
+X-Received: by 2002:a05:6102:3907:b0:5df:bb10:6334 with SMTP id ada2fe7eead31-5f50aa7f38emr239664137.39.1768890072897;
+        Mon, 19 Jan 2026 22:21:12 -0800 (PST)
 Received: from [192.168.100.253] ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6900c1esm4057944137.3.2026.01.19.22.21.08
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6900c1esm4057944137.3.2026.01.19.22.21.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 22:21:10 -0800 (PST)
+        Mon, 19 Jan 2026 22:21:12 -0800 (PST)
 From: Kurt Borja <kuurtb@gmail.com>
-Subject: [PATCH v5 0/7] iio: core: Introduce cleanup.h support for mode
- locks
-Date: Tue, 20 Jan 2026 01:20:40 -0500
-Message-Id: <20260120-lock-impr-v5-0-d4d22347041f@gmail.com>
+Date: Tue, 20 Jan 2026 01:20:41 -0500
+Subject: [PATCH v5 1/7] iio: core: Add and export __iio_dev_mode_lock()
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -68,13 +68,10 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/13N3YrCMBCG4VuRHG9kZpLG1CPvQ/YgPxMNa62kU
- lyk976pixA8/IY8b55i4pJ5EvvNUxSe85THax3d10aEs7ueWOZYtyCgDlGBvIzhR+bhVqRJRDt
- tA3ZsRX1/K5zy49U6ftd9ztN9LL+v9Izr9b9CoJrKjBKk1w5TNKrXpA6nweXLNoyDWCszNRKxl
- VSlSV7vfHQukf6U6i0NIJhWqiox+h56jz0F+JS6kWhbqdc/g43gmC1HauWyLH8gbIziUAEAAA=
- =
-X-Change-ID: 20251130-lock-impr-6f22748c15e8
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260120-lock-impr-v5-1-d4d22347041f@gmail.com>
+References: <20260120-lock-impr-v5-0-d4d22347041f@gmail.com>
+In-Reply-To: <20260120-lock-impr-v5-0-d4d22347041f@gmail.com>
 To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
  Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
@@ -90,159 +87,85 @@ Cc: David Lechner <dlechner@baylibre.com>,
  linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
  Kurt Borja <kuurtb@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5359; i=kuurtb@gmail.com;
- h=from:subject:message-id; bh=8ACIUTMxM/zKXo7x/eO1abUeDEvW7CEDgGcDZxCz8g4=;
- b=owGbwMvMwCUmluBs8WX+lTTG02pJDJn5cod0J6aIdx5/dN+NVfVqrafgcbNel3P9xk1nFLzeT
- 1x9OjOjo5SFQYyLQVZMkaU9YdG3R1F5b/0OhN6HmcPKBDKEgYtTACayay3DP5Uk72ZOiRtVGrud
- D7adSX7z7uLB/dtnBSzb4+80nynjyidGhmPqtyNLWAxzHl/WZ7Rc/9+J5fBpmy27fpjHJ82/PkN
- wEjcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2878; i=kuurtb@gmail.com;
+ h=from:subject:message-id; bh=Tc5/3NT6AVqhl2DjZzJv2Sn4xFJDlerjPios4AAER84=;
+ b=owGbwMvMwCUmluBs8WX+lTTG02pJDJn5cpd37ymcE5MvdiLlS5ro7VTG8AX9gdpToh6cz+6Z/
+ KxHf+mmjlIWBjEuBlkxRZb2hEXfHkXlvfU7EHofZg4rE8gQBi5OAZhI0gNGhq3ckxtdHLa7+G8I
+ cTm6hz1GQVN1rXR06HtRDoMf3zz7shj+57ZOjdJUbFh+n7ni3ORULgb2G5XJWkZ/Fj0/5r33mbc
+ eOwA=
 X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
  fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
 
-Hi,
+Add unconditional wrappers around the internal IIO mode lock.
 
-In a recent driver review discussion [1], Andy Shevchenko suggested we
-add cleanup.h support for the lock API:
+As mentioned in the documentation, this is not meant to be used by
+drivers, instead this will aid in the eventual addition of cleanup
+classes around conditional locks.
 
-	iio_device_claim_{direct,buffer_mode}().
-
-Which would allow some nice code simplification in many places. Some
-examples are given as patches, but the last two are the biggest
-differences.
-
-In this version I dropped the RFC tag, as the general feeling is to go
-through with this after some modifications. Main one is the addition of
-IIO_DEV_ACQUIRE_{BUFFER,CLAIM}_MODE() wrappers to avoid drivers using
-the guard classes directly. I also added comments on the forbidden ways
-to use this API but I definitely still take suggestions on this.
-
-For now I dropped iio_device_claim_buffer_mode() rename, as this point
-is still being discussed. My suggestion based on the RFC discussion is
-to do it, but in a separate patch (using coccinelle) and while we're at
-it rename the whole API like this:
-
-	iio_dev_mode_lock()
-	iio_dev_mode_direct_trylock()
-	iio_dev_mode_buffer_trylock()
-	iio_dev_mode_unlock()
-
-Let me know what you think and thanks for taking a look!
-
+Reviewed-by: David Lechner <dlechner@baylibre.com>
+Reviewed-by: Nuno Sá <nuno.sa@analog.com>
 Signed-off-by: Kurt Borja <kuurtb@gmail.com>
 ---
-v5:
+ drivers/iio/industrialio-core.c | 30 ++++++++++++++++++++++++++++++
+ include/linux/iio/iio.h         |  3 +++
+ 2 files changed, 33 insertions(+)
 
-  - Fix all function/macro names in kernel-doc
-
-v4: https://lore.kernel.org/r/20260118-lock-impr-v4-0-6c8d0aee8ed2@gmail.com
-
-  - Replace "," with ";" in __iio_dev_mode_lock() docs.
-
-  - Fix "bellow" -> "below" typo.
-
-  - Drop first example in IIO_DEV_ACQUIRE_DIRECT_MODE() docs.
-
-  - Match variable names in kernel-doc and definitions.
-
-  - Replace "markings" with "annotations" in the "static inline" remark
-
-  - Replace "claim_ptr" with "claim" in IIO_DEV_ACQUIRE_FAILED() and get
-    the pointer inside.
-
-v3: https://lore.kernel.org/r/20260106-lock-impr-v3-0-1db909b192c0@gmail.com
-
-  - Reword commit message of patch 1: infallible -> unconditional.
-
-  - Drop "*strongly*" in __iio_dev_mode_lock() kernel-doc and be a bit
-    more clear on the function's intention.
-
-  - Keep comment about inline functions and sparse markings, but drop
-    the __cond_acquires() part, as the new implementation makes it
-    unnecessary.
-
-  - Implement iio_device_release_*() as macros around
-    __iio_dev_mode_unlock().
-
-  - Rename iio_device_claim_buffer_mode() ->
-    iio_device_try_claim_buffer_mode() to avoid silently breaking
-    out-of-tree drivers.
-
-  - Drop the `_` argument prefix in new macros, as there are no name
-    conflicts.
-
-  - Drop "dummy" from IIO_DEV_ACQUIRE_DIRECT_MODE kernel-doc, as the
-    `claim` variable does store the error value.
-
-  - Drop IIO_DEV_ACQUIRE_BUFFER_MODE() until a driver actually needs it.
-
-  - Rename IIO_DEV_ACQUIRE_ERR() -> IIO_DEV_ACQUIRE_FAILED() to make the
-    name more clear.
-
-  - Rename IIO_DEV_GUARD_ANY_MODE() -> IIO_DEV_GUARD_CURRENT_MODE() to
-    make the name more clear.
-
-  - Add missing . in iio_device_release_direct() kernel-doc.
-
-  NOTE: Andy suggested __iio_dev_mode_*() be exported into the IIO_CORE
-        namespace. However, this cannot be done because these functions
-	need to be called inline, so Sparse can see the __acquires() and
-	__releases() tags.
-
-  Happy new year to everyone :)
-
-v2: https://lore.kernel.org/r/20251211-lock-impr-v2-0-6fb47bdaaf24@gmail.com
-
-  - Add __iio_dev_mode_lock() (formerly iio_device_claim()) in the first
-    patch.
-
-  - Added comments to make sure __iio_dev_mode_lock() is not used by
-    drivers to protect internal state, or in general.
-
-  - Add patch which re-implements iio_device_claim_direct() using
-    __iio_dev_mode_lock().
-
-  - Match iio_device_claim_buffer_mode() semantics by reimplementing it
-    in the same way as iio_device_claim_direct().
-
-  - Guard classes now are prefixed with __priv__ to make sure drivers
-    don't use them directly.
-
-  - Add IIO_DEV_ACQUIRE_{BUFFER,DIRECT}_MODE() documented wrappers
-
-  - Avoid any function renames (for now).
-
-  - Rename dummy variable `claim` instead of `busy` on vcnl4000 patch.
-
-  - Avoid scoped guard in max30102.
-
-  - Keep using iio_trigger_validate_own_device() insted of
-    iio_trigger_using_own() in opt4060.
-
-v1: https://lore.kernel.org/r/20251203-lock-impr-v1-0-b4a1fd639423@gmail.com
-
----
-Kurt Borja (7):
-      iio: core: Add and export __iio_dev_mode_lock()
-      iio: core: Refactor iio_device_claim_direct() implementation
-      iio: core: Match iio_device_claim_*() semantics and implementation
-      iio: core: Add cleanup.h support for iio_device_claim_*()
-      iio: light: vcnl4000: Use IIO cleanup helpers
-      iio: health: max30102: Use IIO cleanup helpers
-      iio: light: opt4060: Use IIO cleanup helpers
-
- drivers/iio/adc/ade9000.c                          |   2 +-
- .../common/cros_ec_sensors/cros_ec_sensors_core.c  |   5 +-
- drivers/iio/health/max30100.c                      |   8 +-
- drivers/iio/health/max30102.c                      |  33 ++---
- drivers/iio/industrialio-core.c                    |  86 +++----------
- drivers/iio/light/opt4060.c                        |  52 +++-----
- drivers/iio/light/vcnl4000.c                       |  49 +++-----
- include/linux/iio/iio.h                            | 139 +++++++++++++++++++--
- 8 files changed, 190 insertions(+), 184 deletions(-)
----
-base-commit: eab91f819af428173f7e0aa1c80b3e561c3707bb
-change-id: 20251130-lock-impr-6f22748c15e8
+diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+index f69deefcfb6f..db803267df6e 100644
+--- a/drivers/iio/industrialio-core.c
++++ b/drivers/iio/industrialio-core.c
+@@ -2171,6 +2171,36 @@ int __devm_iio_device_register(struct device *dev, struct iio_dev *indio_dev,
+ }
+ EXPORT_SYMBOL_GPL(__devm_iio_device_register);
+ 
++/**
++ * __iio_dev_mode_lock() - Locks the current IIO device mode
++ * @indio_dev: the iio_dev associated with the device
++ *
++ * If the device is either in direct or buffer mode, it's guaranteed to stay
++ * that way until __iio_dev_mode_unlock() is called.
++ *
++ * This function is not meant to be used directly by drivers to protect internal
++ * state; a driver should have it's own mechanisms for that matter.
++ *
++ * There are very few cases where a driver actually needs to lock the current
++ * mode unconditionally. It's recommended to use iio_device_claim_direct() or
++ * iio_device_claim_buffer_mode() pairs or related helpers instead.
++ */
++void __iio_dev_mode_lock(struct iio_dev *indio_dev)
++{
++	mutex_lock(&to_iio_dev_opaque(indio_dev)->mlock);
++}
++EXPORT_SYMBOL_GPL(__iio_dev_mode_lock);
++
++/**
++ * __iio_dev_mode_unlock() - Unlocks the current IIO device mode
++ * @indio_dev: the iio_dev associated with the device
++ */
++void __iio_dev_mode_unlock(struct iio_dev *indio_dev)
++{
++	mutex_unlock(&to_iio_dev_opaque(indio_dev)->mlock);
++}
++EXPORT_SYMBOL_GPL(__iio_dev_mode_unlock);
++
+ /**
+  * __iio_device_claim_direct - Keep device in direct mode
+  * @indio_dev:	the iio_dev associated with the device
+diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+index 872ebdf0dd77..aecda887d833 100644
+--- a/include/linux/iio/iio.h
++++ b/include/linux/iio/iio.h
+@@ -661,6 +661,9 @@ void iio_device_unregister(struct iio_dev *indio_dev);
+ int __devm_iio_device_register(struct device *dev, struct iio_dev *indio_dev,
+ 			       struct module *this_mod);
+ int iio_push_event(struct iio_dev *indio_dev, u64 ev_code, s64 timestamp);
++
++void __iio_dev_mode_lock(struct iio_dev *indio_dev) __acquires(indio_dev);
++void __iio_dev_mode_unlock(struct iio_dev *indio_dev) __releases(indio_dev);
+ bool __iio_device_claim_direct(struct iio_dev *indio_dev);
+ void __iio_device_release_direct(struct iio_dev *indio_dev);
+ 
 
 -- 
- ~ Kurt
+2.52.0
 

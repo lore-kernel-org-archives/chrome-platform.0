@@ -1,175 +1,128 @@
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2C8363C62
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 06:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805B63B8BDA
+	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 08:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768890089; cv=none; b=cgVYdggs/izDgsnScCz9A64M2CKLmnOkMmzp7A7VplqlafMtcgdNvOvjzjAgx6z3mQShcNHEXE5dAlhGTI+o9dxSlqeOFwThzRyMK2oa1lnKr+8q4KrHOKLiIao5hvBeDirXH3Xl1PknuP5DaowvzvZ7rQAk78xs7fCPI9Dclyw=
+	t=1768898961; cv=none; b=nYK4cH3R2mUddsg5d+BswSJwvxiDbBpFuk+DlNJJEFiJ05k7xDzhFVCsIgbBrPVQ5iXenGNgoDGTNMJ/0k1xd5N0ZlmJMzLZjVHvZvm2kjq1qETimAauNr2SJWwsBngXVwQk3uOFz9eMd4095HAqr/BrcGGjhjT2Pr7onxBiLc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768890089; c=relaxed/simple;
-	bh=K/GzZXmVDH5d3ajOh9Vses0jzRTbszvo9JEIlad+htc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=X4pOEIylUz4e5BG7fG92VLDorjR2OQJXLPTLpmHD3CJrxXDegF1Qih9WSFw/t6dymgB+PFfufZOeq71QK2CieCpOJmslGM/skGGh3XHilCcxUxydFDuYTsVXMy5T7ZJwvPDGjnbZsR5qhMOVDF5HKNE6luoXYJONSLMc7h1hypY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBoRNn3n; arc=none smtp.client-ip=209.85.217.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768898961; c=relaxed/simple;
+	bh=LItWGG7vJFV8Z6lwaP47B6AzEaYXFT8Zo38po2X7m2A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QoqLA7UdEZ8nbLWXLlwScnYd6p2XUOXCmJJWA2JmOp65QfY0+2LBnNB32CLsAxjCi3p72+R66okLsC5AzYtYNMxOcM2xojIVhpJoEYQ7qjNTNzLPY2qK6kW8YVNolwVrZ1iGf1WPpy45sgOCeGqNgyl90iBHbUKc2rgLf4VEZGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ucLZQAR+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBoRNn3n"
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5ec96028b32so3422572137.2
-        for <chrome-platform@lists.linux.dev>; Mon, 19 Jan 2026 22:21:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768890087; x=1769494887; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SUuEqo1bBPTtYvx/6MqHHwRERlW4p1/ugxXmq/ssirA=;
-        b=HBoRNn3nfhuBlK4VrgATlC/0vrzfy6xK0ohux3eCqMKZPaKFqQ7uz+x2ZJYOD1MAjT
-         q+4Ph+MLTeeTcWfYRH+Q+WMoR0B1VYAsfglzz19LGu8vXlhG6JxTXvrw+kZnRzGRasjR
-         ID2Be0xrdI55JpylR+P6YkxsIIAxOhZfYJr8NB7qA+qCjiUSDW/HHhGQUn7LgZw1Xd0Z
-         IFRMxNvxozrOcDXQAOKkbAzGsv5YU42bO56feVHlOsNSNLnpnq6swx+OIJzbPr8ddHwG
-         qxCC2Z734wr/EGTnwHMjXfY8+wtsOGRSUdcCHDEdU5wfhObm8/dW2NOHhKyCKuBRiBOH
-         fDoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768890087; x=1769494887;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SUuEqo1bBPTtYvx/6MqHHwRERlW4p1/ugxXmq/ssirA=;
-        b=unznJFu1b0wLvSKAuDE17UrW2WKFHpV+YokNe2i4EucDuOjZqHEWyDWRkUURTjvtQ4
-         AvBM8OSH6JlxDihe7DSkT6+AIk4X4V/YLl+Oz7q1KVkXKl+es1dshxPQlK2CTLtdWheX
-         W9fRj5WVX9LnbnrD8VbizR2tZmJqsDe8jszsN5+n50ZNa3mJ4caxIoQeDKgUj268trTA
-         M3lO+nASzZGt/eUokH8QxoRB6CiYgduXFtQM0CtEQKAuKHrmXlSz7hJHtQvq26rPvCy2
-         YkxXbyfONQNzdjAGNW6HEhVfP3TNBa9rEm/RQPANqB2iZA/8uPBkmnzZKHIMBvYIhPTb
-         Cdgg==
-X-Forwarded-Encrypted: i=1; AJvYcCVknEk6C5tBnLnq8XoF5fXYLfXKlEwlA46xrxtdE9s3Tf4X4IV7uH2n+Ja4a+e9BLZCk+zmU74PCZS0b7d0gsg=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDBPk6Awr+zb+D2UWPcWrI2AH+exb/Nn+ySS/g1jvj8fk2BHQ/
-	OWxJCAjsKB5NwjGOvP2/WnlLmwx+GlmwswfBjyxUQlsZy79++wC2aKeR
-X-Gm-Gg: AZuq6aIsfEBloVC1OnhwYiw9K5ckn6Imsw6yNS8VPrguiSBNp+OyDKYh2U+vRXXZkHr
-	mzmZTcsIYIS1uDi7vxt/ZI/lmpnN9zqRS3u3hiVsRsuPce/cAMd6a/NulooxcEs/75gQJFWgIlN
-	loTDHTTQ9okKCfHYlf5q79tlvgYiPOpYIjczhdJmC52Uk6gEdLG2GEoT4jeD3cSVLsNVIJjMHmi
-	niFhYGZF/080027osXFigj6yPj0jhPHPPiX5NDDnzLIZNyo7u3foe2MdORNyFTs5RdN/hGvsPRc
-	gJencKHc6GmPEKsjQHLt74sv54gwi+IDHaM6CK1DVkI0mu8YlD5iQh4Gzp2yTM4XDeEzHjCK5yY
-	/4jtk8MEVdyn9mpSuAJ7ej9RQ2tMESiqmDGg9PVVTZUEiItISveDwkfiE2ESAiCVoU7AaGCsD9b
-	getnXNC2oo/Gdu
-X-Received: by 2002:a05:6102:3584:b0:5ef:aeff:82fc with SMTP id ada2fe7eead31-5f50aa1028emr250763137.37.1768890087050;
-        Mon, 19 Jan 2026 22:21:27 -0800 (PST)
-Received: from [192.168.100.253] ([2800:bf0:82:11a2:7ac4:1f2:947b:2b6])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5f1a6900c1esm4057944137.3.2026.01.19.22.21.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 22:21:26 -0800 (PST)
-From: Kurt Borja <kuurtb@gmail.com>
-Date: Tue, 20 Jan 2026 01:20:47 -0500
-Subject: [PATCH v5 7/7] iio: light: opt4060: Use IIO cleanup helpers
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ucLZQAR+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20379C19423
+	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 08:49:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768898961;
+	bh=LItWGG7vJFV8Z6lwaP47B6AzEaYXFT8Zo38po2X7m2A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ucLZQAR+oVbyOm4uhSJ2XNi9bOTMVpjisCRVewgPNDrRkIQsNhD4RvUC7nnSWD7ip
+	 U0CYRZNMw6SqPYDd+kUZSvntYRShAHzA0BpCC2nOJvDcLTh5gaiayu13MGd2vVHdvd
+	 n4/I/38oKSIAWDTWR5o2YoT6GoLlx3pDaRbIgbCTTBsglAzH4cWIb9dENDLyB/iq7M
+	 tiwCHTWrovEAAGevA9lnJA05gxX266ISzCJVwQwmBjsctw0tdKaX68a2wkfg7TADtp
+	 a7eHhl9kjEdD8Q50M+PCNaW+Y9JyJma76Bw7CW/5d7FWh7M3Sh1MhgfrDq5MIOqolD
+	 y5UNHDN5zEJYQ==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-59b6c89d302so4486685e87.1
+        for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 00:49:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXxBGKnfRXIjgCBGFDxYdKyqw+xMr4xkApiTXpi3EYKV8Bcd5xV19Ubx+xRgk2sOkyVgtOY+2YRizdWCnVWwmw=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSVQTyqBp+2+Qd7kSYQv5Swq9NWfM0unlDGB1mYzH0fyz7CU3d
+	61/UXdIzCDu77xMW6bpGPccoPTyExzxFpRPE9kRit2vAL4MAqORTGDs7zz2yjX/kXbW1TJBU7GK
+	ndkOf9w6iCuCgpZ/Lz0MK09ZrVVQrLdPHT9Yq5I1y5w==
+X-Received: by 2002:a05:6512:12c3:b0:59b:8259:5fcc with SMTP id
+ 2adb3069b0e04-59baeef0c8amr4645725e87.52.1768898959765; Tue, 20 Jan 2026
+ 00:49:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260120-lock-impr-v5-7-d4d22347041f@gmail.com>
-References: <20260120-lock-impr-v5-0-d4d22347041f@gmail.com>
-In-Reply-To: <20260120-lock-impr-v5-0-d4d22347041f@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Benson Leung <bleung@chromium.org>, 
- Antoniu Miclaus <antoniu.miclaus@analog.com>, 
- Gwendal Grignou <gwendal@chromium.org>, 
- Shrikant Raskar <raskar.shree97@gmail.com>, 
- Per-Daniel Olsson <perdaniel.olsson@axis.com>
-Cc: David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org, 
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
- Kurt Borja <kuurtb@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2688; i=kuurtb@gmail.com;
- h=from:subject:message-id; bh=K/GzZXmVDH5d3ajOh9Vses0jzRTbszvo9JEIlad+htc=;
- b=kA0DAAoWFmBDOPSf1GYByyZiAGlvHtSjrwC1JnQanLoLExLJTwrpwdoltjp5KmS8n1f6i+dHS
- Yh1BAAWCgAdFiEEh2Ci9uJabu1OwFXfFmBDOPSf1GYFAmlvHtQACgkQFmBDOPSf1Gb/KAD7BdoF
- qUPP0diCbpCK9p45EPoIqdtrwlBjt1YOYDEaEvAA/2iqEPiM5dVqGN7bLWinI7Y1nD5Qgy9ZPUt
- 10sazV1EN
-X-Developer-Key: i=kuurtb@gmail.com; a=openpgp;
- fpr=54D3BE170AEF777983C3C63B57E3B6585920A69A
+References: <20260116081036.352286-1-tzungbi@kernel.org> <20260116081036.352286-5-tzungbi@kernel.org>
+ <CAMRc=Mc4UoXif=vwUQG1jYW8G3QziZwbdcfvZGquytdrd4SBpg@mail.gmail.com> <aW7yazJvgRu-WyZQ@google.com>
+In-Reply-To: <aW7yazJvgRu-WyZQ@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 20 Jan 2026 09:49:06 +0100
+X-Gmail-Original-Message-ID: <CAMRc=Mc65Oo9hHNXu3pxv-9PqgBnbWLyKYaPO5C9R5s07bkB2Q@mail.gmail.com>
+X-Gm-Features: AZwV_QjlXTj3OPUDAGm9xmA9ueX3pxZH12LDy0PJ8wJfK3l5w55VKf2MBS8AxUQ
+Message-ID: <CAMRc=Mc65Oo9hHNXu3pxv-9PqgBnbWLyKYaPO5C9R5s07bkB2Q@mail.gmail.com>
+Subject: Re: [PATCH 04/23] gpiolib: Fix resource leaks on errors in lineinfo_changed_notify()
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org, 
+	stable@vger.kernel.org, Benson Leung <bleung@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use IIO_DEV_GUARD_CURRENT_MODE() cleanup helper to simplify and drop
-busy-waiting code in opt4060_set_driver_state().
+On Tue, Jan 20, 2026 at 4:11=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Fri, Jan 16, 2026 at 01:26:01PM +0000, Bartosz Golaszewski wrote:
+> > On Fri, 16 Jan 2026 09:10:17 +0100, Tzung-Bi Shih <tzungbi@kernel.org> =
+said:
+> > > On error handling paths, lineinfo_changed_notify() doesn't free the
+> > > allocated resources which results leaks.  Fix it.
+> > >
+> > > Cc: stable@vger.kernel.org
+> > > Fixes: d4cd0902c156 ("gpio: cdev: make sure the cdev fd is still acti=
+ve before emitting events")
+> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > > ---
+> > >  drivers/gpio/gpiolib-cdev.c | 5 ++++-
+> > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpio/gpiolib-cdev.c b/drivers/gpio/gpiolib-cdev.=
+c
+> > > index ba1eae15852d..6196aab5ed74 100644
+> > > --- a/drivers/gpio/gpiolib-cdev.c
+> > > +++ b/drivers/gpio/gpiolib-cdev.c
+> > > @@ -2549,7 +2549,7 @@ static int lineinfo_changed_notify(struct notif=
+ier_block *nb,
+> > >     ctx =3D kzalloc(sizeof(*ctx), GFP_ATOMIC);
+> > >     if (!ctx) {
+> > >             pr_err("Failed to allocate memory for line info notificat=
+ion\n");
+> > > -           return NOTIFY_DONE;
+> > > +           goto err_put_fp;
+> > >     }
+> > >
+> > >     ctx->chg.event_type =3D action;
+> > > @@ -2563,6 +2563,9 @@ static int lineinfo_changed_notify(struct notif=
+ier_block *nb,
+> > >     queue_work(ctx->gdev->line_state_wq, &ctx->work);
+> > >
+> > >     return NOTIFY_OK;
+> > > +err_put_fp:
+> > > +   fput(fp);
+> > > +   return NOTIFY_DONE;
+> > >  }
+> > >
+> > >  static int gpio_device_unregistered_notify(struct notifier_block *nb=
+,
+> > > --
+> > > 2.52.0.457.g6b5491de43-goog
+> > >
+> > >
+> >
+> > There's only one place where you need this fput(), please do it directl=
+y in
+> > the error path of kzalloc() and drop the label.
+>
+> Sure, just wanted to give a heads up: 17/23 might introduce the label bac=
+k.
+>
+> v2: https://lore.kernel.org/all/20260120030857.2144847-1-tzungbi@kernel.o=
+rg
 
-Reviewed-by: David Lechner <dlechner@baylibre.com>
-Reviewed-by: Nuno Sá <nuno.sa@analog.com>
-Signed-off-by: Kurt Borja <kuurtb@gmail.com>
----
- drivers/iio/light/opt4060.c | 52 +++++++++++++++------------------------------
- 1 file changed, 17 insertions(+), 35 deletions(-)
+That's alright, we prefer a smaller patch for backporting.
 
-diff --git a/drivers/iio/light/opt4060.c b/drivers/iio/light/opt4060.c
-index 8c4a1f562a83..d6e915ab355d 100644
---- a/drivers/iio/light/opt4060.c
-+++ b/drivers/iio/light/opt4060.c
-@@ -302,41 +302,23 @@ static int opt4060_set_driver_state(struct iio_dev *indio_dev,
- 				    bool continuous_irq)
- {
- 	struct opt4060_chip *chip = iio_priv(indio_dev);
--	int ret = 0;
--any_mode_retry:
--	if (!iio_device_try_claim_buffer_mode(indio_dev)) {
--		/*
--		 * This one is a *bit* hacky. If we cannot claim buffer mode,
--		 * then try direct mode so that we make sure things cannot
--		 * concurrently change. And we just keep trying until we get one
--		 * of the modes...
--		 */
--		if (!iio_device_claim_direct(indio_dev))
--			goto any_mode_retry;
--		/*
--		 * This path means that we managed to claim direct mode. In
--		 * this case the buffer isn't enabled and it's okay to leave
--		 * continuous mode for sampling and/or irq.
--		 */
--		ret = opt4060_set_state_common(chip, continuous_sampling,
--					       continuous_irq);
--		iio_device_release_direct(indio_dev);
--		return ret;
--	} else {
--		/*
--		 * This path means that we managed to claim buffer mode. In
--		 * this case the buffer is enabled and irq and sampling must go
--		 * to or remain continuous, but only if the trigger is from this
--		 * device.
--		 */
--		if (!iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
--			ret = opt4060_set_state_common(chip, true, true);
--		else
--			ret = opt4060_set_state_common(chip, continuous_sampling,
--						       continuous_irq);
--		iio_device_release_buffer_mode(indio_dev);
--	}
--	return ret;
-+
-+	IIO_DEV_GUARD_CURRENT_MODE(indio_dev);
-+
-+	/*
-+	 * If we manage to claim buffer mode and we are using our own trigger,
-+	 * IRQ and sampling must go to or remain continuous.
-+	 */
-+	if (iio_buffer_enabled(indio_dev) &&
-+	    iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
-+		return opt4060_set_state_common(chip, true, true);
-+
-+	/*
-+	 * This path means that we managed to claim direct mode. In this case
-+	 * the buffer isn't enabled and it's okay to leave continuous mode for
-+	 * sampling and/or irq.
-+	 */
-+	return opt4060_set_state_common(chip, continuous_sampling, continuous_irq);
- }
- 
- /*
-
--- 
-2.52.0
-
+Bart

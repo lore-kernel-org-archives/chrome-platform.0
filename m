@@ -1,96 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9251E3D3312
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 09:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A2C4266B6
+	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 13:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768902249; cv=none; b=WgBDWONBgtKDbOKoRg31tKn/2AwluG6k6A9A2yO+6QqU1GFujm9Z9DwpuCineZhY++dq4i4IVpxH6ow0tQJOReBSFSbFIg5r9cj3HkgGbHGH6R/QGNttE3IYKPjU9Cs8iKi/h+N1ClAVew6qIaBqbkob88+tcVNKxye26qtxZQo=
+	t=1768914860; cv=none; b=GkBi25tHF0pbFd8RrcZNzNPnIXZd2eNwDul09WcN020D1qmH3tEZ4luMt2pfK9XJSgj8RO0S9ReHli24gZau5cBZ+bRS0UCFPDjSQei0+Y97g0yT2x+de6zbUmV+D64ZyJCiIJVKm0K55qhDL5iLSYVZM3FRX0XGkzGvbkiL9hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768902249; c=relaxed/simple;
-	bh=MzhJ4TJTIhCH0zKb2utua0m4Nln1DRnFCX4uFZXOJbg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=leOHGZpixLz+qJz4HtC9GFvRtw9bWX2EuUneKHOU//lS3Pvt2a7ZuGlFUvuPLKf4G+esrRBrUKzW4lodsMqNIGnk+K6/vJhOatLGBMLBk07QDM8LhGlBk/5sgxzsnCZeJBmt4aUSKXuGC+RTXHZzKPagg9Wcu417O79acGE/Hyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X0H6qtHG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768914860; c=relaxed/simple;
+	bh=IsVAU4KfzrnB2HrF7PabY9ogQ5sJ8ttV9gteU16eWPE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eP3PiqH7pbPjxAFrZ9WOTdBBxAjOTAXD+6zTYdADEzcxR7tswcWvQXCq5S4BbfXFKACPcosEIk1vTAaTgREIm+NkDXW28FVbG3QU0XE18csZT/9Xa2iEMBqPCLVTXkROlR1kMPJxohWS7b6OFm7+xVUQAGFwh2n8hsyRvNRxqUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FpgBCiUs; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X0H6qtHG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CFC8C2BCAF
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 09:44:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768902249;
-	bh=MzhJ4TJTIhCH0zKb2utua0m4Nln1DRnFCX4uFZXOJbg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=X0H6qtHG5kl+uhJX2vgPoRxxE7zM6IhzVnuWMShXWAs5LUYX4DB3bdacCNmWy/k4o
-	 kWmU4zyoACoV+Fr4ox+7ngtUwZSHAgCh5Oird3Zp6q0sX6Olv7a/hUKUb9uVyrz3Ut
-	 HDcIW5MSyu8/EFZvo87fjegUxI7Qr4rRuuBlpgJQ/SHEB4peBATv6ybMUGPJLiFVsb
-	 AOoZlJCtRUe82p7tZTsh0BIQlHqkg0NyrVq3KvzWe0qv9WqfXgmr/4oCcQBvdkGHxV
-	 dn18n3+Tpsufm9+XOg+SSQzWNHI1EKFEgNSDcyItb1PiX+tmUxTyoY20XyPLRsuTem
-	 rJuMxs/7ofCWQ==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-59b67388c9cso6360267e87.2
-        for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 01:44:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW/bb/qIWJbJtw8Z4xWAgUDq244DjWhJ1pAuFRFmgGE0yofR1pSmeYa++2GWnjibrdwdhwjDHcvSY4GuASJkSA=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzj1qRamwKy+4XEBhKURxJoMBwxU+gYl5K/l0VmEPM1CltME+jV
-	xXCEb+HdJugiUU20FQTpVp1L3G0SiY728qeV7HrtsvWqlF8dImhsRM4K3zO+PNkDThrPRJOBabm
-	Q3C8nAEySYxWbyf9jKpC9zg4XaVGRSG7Kx54jO2VRKQ==
-X-Received: by 2002:ac2:4f14:0:b0:59b:7c78:a9c3 with SMTP id
- 2adb3069b0e04-59baeebad7amr3951306e87.1.1768902247880; Tue, 20 Jan 2026
- 01:44:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FpgBCiUs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768914859; x=1800450859;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=IsVAU4KfzrnB2HrF7PabY9ogQ5sJ8ttV9gteU16eWPE=;
+  b=FpgBCiUsa0wc6a9QiMEr2STCeTOfxK2fUx1V12KqrNVw+22fPNQp/7EN
+   WUupdo4UjtLmC0rPQxVUpykjtsznKI+6YOs67YWZomw87GQm4Y6CONxqe
+   NziDLaMBfM5J5UgoPo/8kM2/eh1hmEfC0qRmUycFyY78yb72M5ufc7RgQ
+   vcAqy1Y2/ciB4pk+QVspDYnvrCZBsq8hsGJBbRPH0k6oDVNK0SxC6bF/U
+   lDGMYYoWy6H0QsLygwi+ZbkkQLKTMza2saQ250ibnIAbeIeniOP8+he/P
+   dQOo8oQrPodM/Q+gNWGvNDia/XnHB6Ii8R+UHd0vpdTp+MO2DJLVsYFMK
+   Q==;
+X-CSE-ConnectionGUID: E4RlteUCT66auZ+too7KsQ==
+X-CSE-MsgGUID: d90DqZcaS66AEvYStQp4Bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70174841"
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="70174841"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 05:14:18 -0800
+X-CSE-ConnectionGUID: r/EcAOvaT5CA0Z3jStTdmg==
+X-CSE-MsgGUID: l5VcyZs4RHys7l8V5TAccg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="210967673"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa004.fm.intel.com with ESMTP; 20 Jan 2026 05:14:16 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 1C4A89B; Tue, 20 Jan 2026 14:14:15 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Subject: [PATCH v1 2/2] platform/chrome: cros_typec_switch: simplify code with acpi_get_local_u64_address()
+Date: Tue, 20 Jan 2026 14:12:31 +0100
+Message-ID: <20260120131413.1697891-3-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260120131413.1697891-1-andriy.shevchenko@linux.intel.com>
+References: <20260120131413.1697891-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260116081036.352286-1-tzungbi@kernel.org> <20260116081036.352286-2-tzungbi@kernel.org>
- <20260116141356.GI961588@nvidia.com> <CAMRc=MfNHuTYsZJ+_RqPN1TtLOHsenv2neD5wvhA18NH6m7XjA@mail.gmail.com>
- <aW8E1i6L7-fhORFA@google.com>
-In-Reply-To: <aW8E1i6L7-fhORFA@google.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 20 Jan 2026 10:43:55 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McNVLS3qs=ZSY8T=rNGwTd8amvFbz+mOcDZeiAV6Mw-UQ@mail.gmail.com>
-X-Gm-Features: AZwV_QiCH_VHQCMm9eBe-2VB2mhwH6n8pi7RaQwW3k2VN6H-wpGYT844-9rfWL8
-Message-ID: <CAMRc=McNVLS3qs=ZSY8T=rNGwTd8amvFbz+mOcDZeiAV6Mw-UQ@mail.gmail.com>
-Subject: Re: [PATCH 01/23] gpiolib: Correct wrong kfree() usage for `kobj->name`
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Benson Leung <bleung@chromium.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 20, 2026 at 5:30=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> Generally, I think we can try to move device_initialize() earlier in the
-> function.  On error handling paths, just put_device() for it.  In the
-> .release() callback, free the resource iff it has initialized.
->
-> > In theory yes but you wouldn't be the first one to attempt to improve
-> > it. This code is very brittle when it comes to GPIO chips that need to
-> > be initialized very early into the boot process. I'm talking old
-> > drivers in arch which call this function without even an associated
-> > parent struct device. When I'm looking at it now, it does seem
-> > possible to call device_initialize() early but whether that will work
-> > correctly for all existing users is a bigger question.
->
-> FWIW: found a very early stage calling path when I was investigating
-> `gpiolib_initialized`: start_kernel() -> init_IRQ() -> dove_init_irq() ->
-> orion_gpio_init() -> gpiochip_add_data() -> gpiochip_add_data_with_key().
->
-> Prior to aab5c6f20023 ("gpio: set device type for GPIO chips"),
-> device_initialize() is also called in gpiochip_add_data_with_key().  It
-> seems to me it's possible to move it back to gpiochip_add_data_with_key()
-> as 03/23 does, and move it earlier in the function.
+Now we have a helper so there's no need to open-code.
 
-Sounds good, let's try it next cycle!
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/platform/chrome/cros_typec_switch.c | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
-Tzung-Bi: please make it a change separate from the wider Revocable
-series for GPIO.
+diff --git a/drivers/platform/chrome/cros_typec_switch.c b/drivers/platform/chrome/cros_typec_switch.c
+index d8a28d4e51a8..fe0eddd2cf45 100644
+--- a/drivers/platform/chrome/cros_typec_switch.c
++++ b/drivers/platform/chrome/cros_typec_switch.c
+@@ -211,9 +211,8 @@ static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
+ 	struct cros_typec_port *port;
+ 	struct device *dev = sdata->dev;
+ 	struct fwnode_handle *fwnode;
+-	struct acpi_device *adev;
+-	unsigned long long index;
+ 	int nports, ret;
++	u64 index;
+ 
+ 	nports = device_get_child_node_count(dev);
+ 	if (nports == 0) {
+@@ -228,17 +227,9 @@ static int cros_typec_register_switches(struct cros_typec_switch_data *sdata)
+ 			goto err_switch;
+ 		}
+ 
+-		adev = to_acpi_device_node(fwnode);
+-		if (!adev) {
+-			dev_err(dev, "Couldn't get ACPI device handle for %pfwP\n", fwnode);
+-			ret = -ENODEV;
+-			goto err_switch;
+-		}
+-
+-		ret = acpi_evaluate_integer(adev->handle, "_ADR", NULL, &index);
+-		if (ACPI_FAILURE(ret)) {
++		ret = acpi_get_local_u64_address(ACPI_HANDLE_FWNODE(fwnode), &index);
++		if (ret) {
+ 			dev_err(dev, "_ADR wasn't evaluated for %pfwP\n", fwnode);
+-			ret = -ENODATA;
+ 			goto err_switch;
+ 		}
+ 
+-- 
+2.50.1
 
-Bart

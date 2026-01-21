@@ -1,75 +1,145 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC40314D14;
-	Wed, 21 Jan 2026 09:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6913BFE33
+	for <chrome-platform@lists.linux.dev>; Wed, 21 Jan 2026 10:42:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768986547; cv=none; b=O+bxABkTGwpUDtWLkAjNLthwupu6Q7mf9X7KySMDmubeFN1z63JWKjuBMISRWKcUly9qVharenKQvytJZUn2Z7Kchgj9XFbG6zyKSrk6nUAfaQPW/BjqNWGjABWs0iJNpOzcfIFBFbxzR7kbe8dRhGHDzFK2XW8fFaRk/TzuwpU=
+	t=1768992134; cv=none; b=gVxXUsM93G3UKIXLP+DUzf316xOOG7zd5hO4OLLKruW7ZcubLgF/DQwG3Wvh74TrA2Y7S3FZTBYh81StnOE02Qo7vPJ5FTndSEJCTQgbcxDuB8Hv4YRRG+AP22c9jZTYc+Zwbb06V15w2rLl7KFEfFQ2KA7u6ZRRcb/7F0TPplc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768986547; c=relaxed/simple;
-	bh=wB5YGwNv5kDvyaFLjlC9JafOot+oNpD8z6lWTCd1QBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QSsq48ZvvTA/5cCuN8L5Qw1SO/0/fC0ceIcxbLPAPhZdhQyqYD76kTaOxanXQO3Pcv1koBlXL24TVx5emsNJAxR486XoO2wI9c/jAKg3vW9hfW6ATMsMkB1yYOmt8fPCvIusY+fL+3scJ8Omk8URF/YLZ6dDlotWWTyzXJVrGVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vQO1qqpg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768992134; c=relaxed/simple;
+	bh=R21oflyt7SrGqIaCohBGqYGY1hSCnp/1MlBXab+sm7k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L59+3Zb9QASv7axHrIs5zkllMjuPZG/+1axFqPfTXPrnGmqzMANFyGmRZx26HMh0jwyY8XbMfxCvcS3p+UriND+Sda1xDF8caNy/cj8tXWcqly6ZvQIaZ8o8+W0U4M+VW2wWSzpHtZM2oUK6T64Vw4wwk0QiBmLE76quFjApD+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uuCWDPzK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vQO1qqpg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DE07C116D0;
-	Wed, 21 Jan 2026 09:09:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uuCWDPzK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C7E8C2BCAF
+	for <chrome-platform@lists.linux.dev>; Wed, 21 Jan 2026 10:42:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768986546;
-	bh=wB5YGwNv5kDvyaFLjlC9JafOot+oNpD8z6lWTCd1QBU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vQO1qqpgxlUzT+uJ7O7ZkexdSAz6I2etQaKMPLDzBTUpAdIkT4YHfMwkUkKKR02qE
-	 1iSQRfDj5z+8TfJzra1J3I20Z2zXCzsrfHaGuCVsYmsSVAB40mQvXQwz8gZRO0t/pN
-	 21r4PS0KJMbBTebndbOxZRcZ7G/vP4i9+G14cQ69OWeY/hXZc40afr3odyZPbdYjdZ
-	 BOAH1YyfOjXF8cxkeFHXJ8Sm8ndtmS7vdi9FMNrGhb00BTciOP1majM+Wbr4kat+d5
-	 C5AToSa/tIqmUti0NbhjTWOPU7JwlYB+Q02tyjEHzQpqVoLjPKjwF80qaAqEC+EGO4
-	 oZ2vAdl5hY8Qw==
-Date: Wed, 21 Jan 2026 09:09:02 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>, Dustin Howett <dustin@howett.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Stephen Horvath <s.horvath@outlook.com.au>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, Sung-Chi Li <lschyi@chromium.org>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] hwmon: (cros_ec) Add support for temperature
- thresholds
-Message-ID: <aXCXrqIvBPrGj0bl@google.com>
-References: <20260118-cros_ec-hwmon-pwm-v2-0-77eb1709b031@weissschuh.net>
- <20260118-cros_ec-hwmon-pwm-v2-4-77eb1709b031@weissschuh.net>
+	s=k20201202; t=1768992134;
+	bh=R21oflyt7SrGqIaCohBGqYGY1hSCnp/1MlBXab+sm7k=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uuCWDPzKoVZZXKxa6bPgjmxODXrRoGoTMwAHaeFS5xCYfS7W94ziXycYAkvQxJIed
+	 xi7iXbpER2Ppeil+4pGZf/Gw7wJAyWZVKQcfwlTsTo4OTM8/HL48VY3cFuTDAl/qls
+	 B29+xNFEplPYwPldths9i3RppCwheWuWuDY4Xxhm8mM9/tZCyi9B0bM3VLVPHkrUfn
+	 DOTJSSAmCTxEJpBwohJE/9YxbPtIEGAm+1OhfmwwaiPiQ+tS2BwDRa1jeXv4aeneNA
+	 lEF/VG/DfkebuMKfh043gRFiWh5CiHPF08ovRPjuUbZcqAIgIwhAYHNZw2EHuntFry
+	 9PQxXxfuud5ig==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-385bdc72422so440071fa.1
+        for <chrome-platform@lists.linux.dev>; Wed, 21 Jan 2026 02:42:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW+jfp1Ifd9zfHXbQtCjqbEH8ot3zXzGVM5qLsnh1Nv2rAdc3oblrhXGMxaHC64QApuMukjIhxj50J+HgkLbr8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOrFrTGqMZap146alxguiUJu96ZhahhuDsLYdRoEJ5rYk3ptWU
+	Ecu29DyU5/NaBIsk0sUDS9iEQyhG5eOrgAE0bujhaldn/lGcQ7Jm9jZ6MNf9VuY33DP8XmlD227
+	sKitm9hsqPkRgzIredR5dqzJl5axtW97G/cnn7ceOlQ==
+X-Received: by 2002:a2e:bc0f:0:b0:383:2537:f13b with SMTP id
+ 38308e7fff4ca-385a546efc7mr18343981fa.27.1768992132870; Wed, 21 Jan 2026
+ 02:42:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260118-cros_ec-hwmon-pwm-v2-4-77eb1709b031@weissschuh.net>
+References: <20260116081036.352286-1-tzungbi@kernel.org> <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
+ <aWuFBqIfJpDL9g-J@tzungbi-laptop> <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
+ <aXBTPG9rUHMgbHYp@google.com>
+In-Reply-To: <aXBTPG9rUHMgbHYp@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Wed, 21 Jan 2026 11:42:00 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MejWmGb02akR6TZVPzM4rnZ041TRkJG94=JDYdA5z=xVg@mail.gmail.com>
+X-Gm-Features: AZwV_QixHT71jBAW6CYhhCzIJ7SgSnL_P7SnAvqNGHxkd0_5haa6k71I4bYVShY
+Message-ID: <CAMRc=MejWmGb02akR6TZVPzM4rnZ041TRkJG94=JDYdA5z=xVg@mail.gmail.com>
+Subject: Re: [PATCH 00/23] gpiolib: Adopt revocable mechanism for UAF prevention
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 18, 2026 at 10:45:58AM +0100, Thomas Weiﬂschuh wrote:
-> Implement reading temperature thresholds through
-> EC_CMD_THERMAL_GET_THRESHOLD/EC_CMD_THERMAL_SET_THRESHOLD.
+On Wed, Jan 21, 2026 at 5:17=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Mon, Jan 19, 2026 at 09:33:21AM +0100, Bartosz Golaszewski wrote:
+> > On Sat, Jan 17, 2026 at 1:48=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.o=
+rg> wrote:
+> > >
+> > > On Fri, Jan 16, 2026 at 11:35:00AM +0100, Bartosz Golaszewski wrote:
+> > > > On Fri, Jan 16, 2026 at 9:11=E2=80=AFAM Tzung-Bi Shih <tzungbi@kern=
+el.org> wrote:
+> > > > >
+> > > > > This series transitions the UAF prevention logic within the GPIO =
+core
+> > > > > (gpiolib) to use the 'revocable' mechanism.
+> > > > >
+> > > > > The existing code aims to prevent UAF issues when the underlying =
+GPIO
+> > > > > chip is removed.  This series replaces that custom logic with the
+> > > > > generic 'revocable' API, which is designed to handle such lifecyc=
+le
+> > > > > dependencies.  There should be no change in behavior.
+> > > > >
+> > > > > This series depends on the 'revocable' API, introduced in [1].  S=
+ome
+> > > > > build bots may report errors due to undefined symbols related to
+> > > > > 'revocable' until the dependency is merged.
+> > > > >
+> > > >
+> > > > Hi Tzung-Bi!
+> > > >
+> > > > Thank you for doing this and considering my suggestions from LPC. I
+> > > > haven't looked at the code yet but I quickly tested the series with=
+ my
+> > > > regular test-suites. The good news is: nothing is broken, every tes=
+t
+> > > > works fine. The bad news is: there seems to be a significant impact=
+ on
+> > > > performance. With the user-space test-suite from libgpiod (for core=
+ C
+> > > > library - gpiod-test) I'm seeing a consistent 40% impact on
+> > > > performance. That's not really acceptable. :( I will try to bisect =
+the
+> > > > series later and see which part exactly breaks it.
+> > > >
+> > > > I can also help you with user-space testing with libgpiod, if you n=
+eed
+> > > > it? Some documentation is available here:
+> > > > https://libgpiod.readthedocs.io/en/latest/testing.html
+> > >
+> > > How to get the performance data?
+> > >
+> > > I tried on libgpiod-2.2.2.tar.xz:
+> > > - ./configure --enable-tools --enable-tests
+> > > - make
+> > > - ./tests/gpiod-test
+> > >
+> > > There is only TAP output.  Also I don't see the difference between:
+> > > `./tests/gpiod-test` vs. `./tests/gpiod-test -m perf`.
+> >
+> > Yeah, no, there's no dedicated performance measurement in GLib tests,
+> > I just timed the test-suite and it runs 40% slower with this series.
+>
+> I think this is mostly introduced by a redundant synchronize_srcu() call =
+in
+> revocable_provider_alloc().  Proposed a fix in
+> https://lore.kernel.org/all/20260121040204.2699886-1-tzungbi@kernel.org/.
+>
+> The replacement still brings a few overhead (e.g., for allocating some in
+> the .open() file operations).  Especially the test approach can accumulat=
+e
+> them.
 
-The patch doesn't use it:
-s@/EC_CMD_THERMAL_SET_THRESHOLD@@.
+People do care about open()/close() performance, please see the
+following discussion:
+https://lore.kernel.org/all/20250311110034.53959031@erd003.prtnl/
 
-> 
-> Thresholds are mapped as follows between the EC and hwmon:
-> 
-> hwmon_temp_max       - EC_TEMP_THRESH_WARN
-> hwmon_temp_crit      - EC_TEMP_THRESH_HIGH
-> hwmon_temp_emergency - EC_TEMP_THRESH_HALT
-> 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+It required us to use raw notifiers instead of atomic ones which call
+rcu_synchronize() to fix the performance regression.
 
-With the commit message issue addressed,
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Bartosz

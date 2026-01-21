@@ -1,154 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E199246AED2
-	for <chrome-platform@lists.linux.dev>; Tue, 20 Jan 2026 15:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A3F2EC08C;
+	Wed, 21 Jan 2026 04:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768922893; cv=none; b=cfuUv7c1wBs8EtDOaJej2p0bWpTZZ/OSC94UiLNLYUAZax4YLisIOKjm2NZhI8Vso8CaHrwub5qppKEQSlMMdtK0ezkA3XSPTfcqYc+Xy5s7WBfPvqPszS8g77GYwoSj0SnRQt4HWCHmAIwnkBHE0kHIXon+T2HvpvRo+mE0F4M=
+	t=1768969025; cv=none; b=NyZalhmjnqP5UGauZVBQQVcp5ue1W/MgEbRuR+CPRlIV4HHF2QUIfENGTNcDBgOWcWowXdQBWPS4iFbJXdLF/th81xatjL0EiqJECPOrPg7samHje+XbkJneyO5ajlO5FnXETn2LjyPA1eQ8A6xkbEyQELyGnqks3G6llemq4KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768922893; c=relaxed/simple;
-	bh=KRGpNUuVMK7dsHhd41JZl39FJgjszvw/CUsCK2tvM1U=;
+	s=arc-20240116; t=1768969025; c=relaxed/simple;
+	bh=Vl8thQo27leGKYP+VBuDV4QcUH1ab8Zm+QHojEY2LTw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CE0ulDrOPFuwCM2Z8FnNScbFJhfySd/KpQ/nJ05YjY+CeZLDgqsaqtDSokm4pQipt9Qtm6nH+xCcnKBDMuo11idtuDOiVfjB0iMlb1aNNaLJ/fmx7eqf2Uap/zlNKSaLra6YdjSiGpODWJ9hNbgkrDm8wFxTkQMxt7kHhNjuV8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJC8QaUV; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mBeaneZzESZManiQIq9TmQLS+Bx3A9SHWp8c/Du3pgpCP62yNEvjH+/VaOEr4zCuSw/3fPVznjLKk6U35II62PPV32b5HREQZQvCWMQNzsSBx1WY7OqizUdMMJkPQKVV1xXIFk2uZ4iC0Ntkxo3QsqAUaGXyQsqlABZ0zVPo3ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpiQrLkq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJC8QaUV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768922892; x=1800458892;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KRGpNUuVMK7dsHhd41JZl39FJgjszvw/CUsCK2tvM1U=;
-  b=nJC8QaUVSCIt3RNCz181Al/LRSLLqnDTgY5Golao/c/HuPG5lAge8bfV
-   mtrTY+kCpCUE1WRLkPWCb9UEDa9b/52MLbOT6tYsYLq34ofOt1Lzh0ZHt
-   le1RQR+hKKq4/t5NCC4qJjjaQNGGldPEt4j11jhA3DoGteBZ8QwidyWgB
-   8eK8mZxELAhE1ySR08MywUzzHuMhBu/DRgMQTZC0p1e7FugUxiFi+Nxxf
-   hFuzVfuL9A1bKuLFJT6rCFs6OwzNRO0+bfj/B9YxDIDRQEpwWru+Ercj9
-   faPuiEOxVTOxDVQ/R7a01fRPQZp141BvpApnCogg/MuYS8Z5iHr9PgyQA
-   Q==;
-X-CSE-ConnectionGUID: IzAavPH4RFGMEPo20nPYvA==
-X-CSE-MsgGUID: JEk2LkapTsa7zji7sZeDeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70298500"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="70298500"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 07:28:10 -0800
-X-CSE-ConnectionGUID: RYXyC9fpSB+4V3p/QcnGsQ==
-X-CSE-MsgGUID: g2kaM+7iQ6W5qFugORj24Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="206406431"
-Received: from mdroper-mobl2.amr.corp.intel.com (HELO kuha) ([10.124.221.217])
-  by fmviesa008.fm.intel.com with SMTP; 20 Jan 2026 07:28:03 -0800
-Received: by kuha (sSMTP sendmail emulation); Tue, 20 Jan 2026 17:27:39 +0200
-Date: Tue, 20 Jan 2026 17:27:39 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Jameson Thies <jthies@google.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NpiQrLkq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41D85C116D0;
+	Wed, 21 Jan 2026 04:17:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768969024;
+	bh=Vl8thQo27leGKYP+VBuDV4QcUH1ab8Zm+QHojEY2LTw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NpiQrLkqRJHXDW+JXPvNr7gw7F2ux/zr6uGSneIY4EGQMUd6kKBsNpUyo0GdLzTHa
+	 P3YoAYs5kvjZJBKnWgmGn3FDrCQht4uV/2mu8vzDQ1oHHykU74IppL1JNKa2ozpVXf
+	 QBcDFS2fUmnDwzo6jBkXQKlFG9DnaEhntgHGFpeAvYuG3v6CjWyZvtgJ9z2SdeT9RZ
+	 TCuf/5uvkSaOOPld0hpxFVF3gHFlLzakawq3BeQSGhNarXWheOGjEpDT6ykJkC5r1I
+	 xqIRP2NxIUkjwoY0bHPO/cYVhT+g8AmyWXp2GZuaKH4pEEgqp4TfeIVLjoKVyfsLYq
+	 OGL+vs/YFN28Q==
+Date: Wed, 21 Jan 2026 04:17:00 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>, Madhu M <madhu.m@intel.com>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>
-Subject: Re: [PATCH v5 7/7] usb: typec: ucsi: Enforce mode selection for
- cros_ec_ucsi
-Message-ID: <aW-e6_yEl6ON-5mk@kuha>
-References: <20260119131824.2529334-1-akuchynski@chromium.org>
- <20260119131824.2529334-8-akuchynski@chromium.org>
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 00/23] gpiolib: Adopt revocable mechanism for UAF
+ prevention
+Message-ID: <aXBTPG9rUHMgbHYp@google.com>
+References: <20260116081036.352286-1-tzungbi@kernel.org>
+ <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
+ <aWuFBqIfJpDL9g-J@tzungbi-laptop>
+ <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260119131824.2529334-8-akuchynski@chromium.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
 
-Mon, Jan 19, 2026 at 01:18:24PM +0000, Andrei Kuchynski kirjoitti:
-> The mode selection sequence is initiated by the driver after all partner
-> alternate modes have been successfully registered.
-> When a partner is disconnected, the driver also stops the mode selection
-> process and releases resources via `typec_mode_selection_delete`.
+On Mon, Jan 19, 2026 at 09:33:21AM +0100, Bartosz Golaszewski wrote:
+> On Sat, Jan 17, 2026 at 1:48 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> >
+> > On Fri, Jan 16, 2026 at 11:35:00AM +0100, Bartosz Golaszewski wrote:
+> > > On Fri, Jan 16, 2026 at 9:11 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> > > >
+> > > > This series transitions the UAF prevention logic within the GPIO core
+> > > > (gpiolib) to use the 'revocable' mechanism.
+> > > >
+> > > > The existing code aims to prevent UAF issues when the underlying GPIO
+> > > > chip is removed.  This series replaces that custom logic with the
+> > > > generic 'revocable' API, which is designed to handle such lifecycle
+> > > > dependencies.  There should be no change in behavior.
+> > > >
+> > > > This series depends on the 'revocable' API, introduced in [1].  Some
+> > > > build bots may report errors due to undefined symbols related to
+> > > > 'revocable' until the dependency is merged.
+> > > >
+> > >
+> > > Hi Tzung-Bi!
+> > >
+> > > Thank you for doing this and considering my suggestions from LPC. I
+> > > haven't looked at the code yet but I quickly tested the series with my
+> > > regular test-suites. The good news is: nothing is broken, every test
+> > > works fine. The bad news is: there seems to be a significant impact on
+> > > performance. With the user-space test-suite from libgpiod (for core C
+> > > library - gpiod-test) I'm seeing a consistent 40% impact on
+> > > performance. That's not really acceptable. :( I will try to bisect the
+> > > series later and see which part exactly breaks it.
+> > >
+> > > I can also help you with user-space testing with libgpiod, if you need
+> > > it? Some documentation is available here:
+> > > https://libgpiod.readthedocs.io/en/latest/testing.html
+> >
+> > How to get the performance data?
+> >
+> > I tried on libgpiod-2.2.2.tar.xz:
+> > - ./configure --enable-tools --enable-tests
+> > - make
+> > - ./tests/gpiod-test
+> >
+> > There is only TAP output.  Also I don't see the difference between:
+> > `./tests/gpiod-test` vs. `./tests/gpiod-test -m perf`.
 > 
-> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> Yeah, no, there's no dedicated performance measurement in GLib tests,
+> I just timed the test-suite and it runs 40% slower with this series.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+I think this is mostly introduced by a redundant synchronize_srcu() call in
+revocable_provider_alloc().  Proposed a fix in
+https://lore.kernel.org/all/20260121040204.2699886-1-tzungbi@kernel.org/.
 
-> ---
-> Changes in V5:
-> - Use the no_mode_control field instead of
->   con->ucsi->cap.features & UCSI_CAP_ALT_MODE_OVERRIDE
-> 
->  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> index eed2a7d0ebc63..6bca2dce211cd 100644
-> --- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> +++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
-> @@ -16,6 +16,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  #include <linux/wait.h>
-> +#include <linux/usb/typec_altmode.h>
->  
->  #include "ucsi.h"
->  
-> @@ -33,6 +34,11 @@
->  /* Number of times to attempt recovery from a write timeout before giving up. */
->  #define WRITE_TMO_CTR_MAX	5
->  
-> +/* Delay between mode entry/exit attempts, ms */
-> +static const unsigned int mode_selection_delay = 1000;
-> +/* Timeout for a mode entry attempt, ms */
-> +static const unsigned int mode_selection_timeout = 4000;
-> +
->  struct cros_ucsi_data {
->  	struct device *dev;
->  	struct ucsi *ucsi;
-> @@ -134,6 +140,20 @@ static int cros_ucsi_sync_control(struct ucsi *ucsi, u64 cmd, u32 *cci,
->  	return ret;
->  }
->  
-> +static void cros_ucsi_add_partner_altmodes(struct ucsi_connector *con)
-> +{
-> +	if (!con->typec_cap.no_mode_control)
-> +		typec_mode_selection_start(con->partner,
-> +					   mode_selection_delay,
-> +					   mode_selection_timeout);
-> +}
-> +
-> +static void cros_ucsi_remove_partner_altmodes(struct ucsi_connector *con)
-> +{
-> +	if (!con->typec_cap.no_mode_control)
-> +		typec_mode_selection_delete(con->partner);
-> +}
-> +
->  static const struct ucsi_operations cros_ucsi_ops = {
->  	.read_version = cros_ucsi_read_version,
->  	.read_cci = cros_ucsi_read_cci,
-> @@ -141,6 +161,8 @@ static const struct ucsi_operations cros_ucsi_ops = {
->  	.read_message_in = cros_ucsi_read_message_in,
->  	.async_control = cros_ucsi_async_control,
->  	.sync_control = cros_ucsi_sync_control,
-> +	.add_partner_altmodes = cros_ucsi_add_partner_altmodes,
-> +	.remove_partner_altmodes = cros_ucsi_remove_partner_altmodes,
->  };
->  
->  static void cros_ucsi_work(struct work_struct *work)
-> -- 
-> 2.52.0.457.g6b5491de43-goog
-
--- 
-heikki
+The replacement still brings a few overhead (e.g., for allocating some in
+the .open() file operations).  Especially the test approach can accumulate
+them.

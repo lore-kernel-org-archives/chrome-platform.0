@@ -1,113 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2193502A6
-	for <chrome-platform@lists.linux.dev>; Fri, 23 Jan 2026 08:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A3B340260;
+	Fri, 23 Jan 2026 09:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769155387; cv=none; b=KnSHsxC3uPODp6vPVmK4JDWs7JZ1hOiMoAxS0zMJFM0OnkksTsYfraxEXBtkLYEx8vp11Xm7Py43Bg7AP0yYt3bp6IIp6JL+Cu3E3SmwmJn1KI6LN+yKT1wTrx86heMD9HsG9ebubh1YRcMN3RcMYz7EBDO1In+cr0pxR8MqNHo=
+	t=1769162192; cv=none; b=TQE2rXAON7b5HgvV/myc5WnrwhrMTyBjiTVWnnediLBksEKm5extu4q+g+wTQ4i2TQVV4YFsokhi1HxpnG40vQYTz9gbtRvvMl9NXpqoG26Th6FCcjjCf7wfTUWiBdpTSwXkWhTwWgPwYbtfLc/9u4//Yn9t4bwU2vt7UMDpWQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769155387; c=relaxed/simple;
-	bh=c1ab4LkOHQ8qfkP3VSw/0QTzrKUlCilO8pM3vKJxZPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dz/jlki8ofVKEbVYdcWeWK4TxVc9auRNsJSUmCYom/Ok7G76C8K/im+9M7dDhAVVqr3zfR+qRdRKW0sNW01zMehtDzq0BQtyPaX7XwCg/LCNG418gDvWbielZ1tlYcJcjc2334TPijO+GkcoAbtitfImV+OD7YphX7f+62FxLL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIFG1EMD; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769162192; c=relaxed/simple;
+	bh=yekfAuEBrPfUmKH2UK5QGV+4CEYhc2dtx4EbQRdMNDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W2V0tbVY+ndtF/UTnhxHQOf86qCz0XDIKUP2Sm7FeTaPL0MUoDCktd7tuBDyWMi73Dnc2k2DMh0fOafpn6vXCkzqtNz2air7zCm+QO4G+MZ1GGJiQoJHc1bG0x7wYgSevaJlPsxZ/yrNI6CbmE9BLuuU1n2lhKQU6xqMqfGUnr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uuQC80Zm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIFG1EMD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769155387; x=1800691387;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c1ab4LkOHQ8qfkP3VSw/0QTzrKUlCilO8pM3vKJxZPc=;
-  b=mIFG1EMD4CSAOPKKD+G6NAlROkB+EG6cam/wLzM6IL2aZyWwdiQcx1Ln
-   caqjmjUs5GtkHiGJbKlf7vUcpmCuQUB7YuHTgsm1tH5KJRF5fXN7qL2pt
-   +YqPGBzy3CRwi2KrO3otxcQSZddr4vNNxB+G6eTI4UNAZIHrxtzgxlnDP
-   ff0Xij6IYF1QWVcPq/L4KW1MEDTjSEydtJbkXffRkHU0zbQP7mpEsCjmt
-   rHeEmQIpzIfsLIkOFTDBXBsztYFEZM7GZRahMH9Mri03LKSkapWNv9mcn
-   dWXYlUyptQ2VLCAmKoveJofyLYXj05sTRB/ti3m/6VcXwpHpPT+/Fkj7W
-   w==;
-X-CSE-ConnectionGUID: zIjgcLVdSnOKqAe1f4XZrw==
-X-CSE-MsgGUID: HZWQAwgVQIOXpLyghctQfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="57977921"
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="57977921"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 00:03:06 -0800
-X-CSE-ConnectionGUID: McHcWqU8R8iwWy9HDcsOpw==
-X-CSE-MsgGUID: 03pI/lhRRSuCsHeNoBUD4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="238220472"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.112])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 00:03:02 -0800
-Date: Fri, 23 Jan 2026 10:02:59 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Kurt Borja <kuurtb@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Benson Leung <bleung@chromium.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Shrikant Raskar <raskar.shree97@gmail.com>,
-	Per-Daniel Olsson <perdaniel.olsson@axis.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uuQC80Zm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 146DBC116D0;
+	Fri, 23 Jan 2026 09:56:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769162191;
+	bh=yekfAuEBrPfUmKH2UK5QGV+4CEYhc2dtx4EbQRdMNDs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uuQC80ZmzFDjeIY2H6mboWVcf6HkhAjUS8bBTzG0NR18XP/PBnwbluOWftHj1S3OV
+	 rLGTj9YDtT4Kcn0Q4iUZeMrXkP/YdZOcq5heRB3fI/bfPlHFBNt5lux8uJhAjBVP0u
+	 ijaFFgSzEQR3/echWSU6rZUtCctMGMUv1banw8D6EOJweGv7yK/NgbkhUQKGvch3QY
+	 0N+aYpN2cI5ZNk2bwGm9JJf36LHHRH9eVE/O+YM87EYNaFn8hSsuhzMwSus1a1mPyv
+	 kez5D8Kwp7WmjLRmcmIYwz602Jkd1cRFpr+2QekTk84K/uJ5HX09gG2dK7gTLvlJqU
+	 1uxAe0NaDibIA==
+Date: Fri, 23 Jan 2026 09:56:21 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Kurt Borja <kuurtb@gmail.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, Benson Leung
+ <bleung@chromium.org>, Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Gwendal Grignou <gwendal@chromium.org>, Shrikant Raskar
+ <raskar.shree97@gmail.com>, Per-Daniel Olsson <perdaniel.olsson@axis.com>,
+ David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Guenter Roeck
+ <groeck@chromium.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ chrome-platform@lists.linux.dev
 Subject: Re: [PATCH v5 2/7] iio: core: Refactor iio_device_claim_direct()
  implementation
-Message-ID: <aXMrM4rDBHj0-pQU@smile.fi.intel.com>
+Message-ID: <20260123095621.4b3276ef@jic23-huawei>
+In-Reply-To: <aXMq5bBkj8It6f5z@smile.fi.intel.com>
 References: <20260120-lock-impr-v5-0-d4d22347041f@gmail.com>
- <20260120-lock-impr-v5-2-d4d22347041f@gmail.com>
- <20260122190401.510234c4@jic23-huawei>
- <DFVGV1BDS81K.3VWJ5CAO37A1X@gmail.com>
+	<20260120-lock-impr-v5-2-d4d22347041f@gmail.com>
+	<20260122190401.510234c4@jic23-huawei>
+	<aXMq5bBkj8It6f5z@smile.fi.intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DFVGV1BDS81K.3VWJ5CAO37A1X@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 22, 2026 at 05:20:55PM -0500, Kurt Borja wrote:
-> On Thu Jan 22, 2026 at 2:04 PM -05, Jonathan Cameron wrote:
+On Fri, 23 Jan 2026 10:01:41 +0200
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+
+> On Thu, Jan 22, 2026 at 07:04:01PM +0000, Jonathan Cameron wrote:
 > > On Tue, 20 Jan 2026 01:20:42 -0500
-> > Kurt Borja <kuurtb@gmail.com> wrote:
-
-...
-
+> > Kurt Borja <kuurtb@gmail.com> wrote:  
+> 
+> ...
+> 
 > > So sparse does change what it moans about with this one in precisely one instance
 > > There are 9 false positives with Al Viro's updated sparse - I haven't checked the
-> > original one recently.
+> > original one recently.  
 > 
-> Hi Jonathan,
+> FWIW, I also switched to use Al's branch of sparse and recommended LKP to use
+> that as well.
 > 
-> Upstream sparse is kinda broken right now.
-
-Yep, please switch to Al's version.
-
-> I'm not getting any false positives on the locking stuff but a BUNCH of
-> "error: bad constant expresion" on MODULE_*() macros so I don't fully
-> trust it.
-> 
-> I know at least one subsystem maintainer is getting these too so I guess
-> it's an upstream problem.
-
-Yes, it's fixed in Al's version.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Agreed, that will help with most of the false positives but not all :(

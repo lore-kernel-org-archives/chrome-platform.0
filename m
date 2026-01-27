@@ -1,39 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5251B4244
-	for <chrome-platform@lists.linux.dev>; Tue, 27 Jan 2026 08:17:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45AF28AAEE;
+	Tue, 27 Jan 2026 15:56:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769501832; cv=none; b=E5oqwZI9Vjuh4rCmnQEVm7x1v+pEicdIIgcEMc8XnT0M1Obc5vIs5FVn7gyM3vv8fjytVdYNcN0wgZrJzHVA3o/nvmLdeaBZz+iyvxY9+R+4Ki9XhUBezwRBgdegXQkXDJsb7bQZ/vNijNiChtg2sYKXzk91mjnVKzNn+3lg25Q=
+	t=1769529404; cv=none; b=UJp6faAhXQrGiPP6wIZ2qhvPEgHFebbJbg2Kunzx1JpchGpXLOEL+h1zCFWQ2LPWGj46KpfdpOuUHRnoqtkukcWq4W/CrglyWs2B8fqr2vikHapcZhgIM9G6bgmNmP5kjfTCw00q6vOZIDzbIMSizSOvH+auh7hS82q5LryhJeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769501832; c=relaxed/simple;
-	bh=Cv8ULhdY9hlYEWHkGHz+8wtqg/yt/0F8ftcn6HSPJ9I=;
+	s=arc-20240116; t=1769529404; c=relaxed/simple;
+	bh=Ew7hCSheEXnd37I1gPTsKYpC9BbT8MdweTT2b/6Hmz4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rbxNrhRf0GTpfX62uvd8n1DVfN1VbhjI3orihZr6tzGh2Vf/bBwEy0o1iIepTdMoTXzOrUoFhjUPQ90lT/Ta9oIgLOXcNwltavmoIs8miZhCR95n7RHWMU6pQOpBES1i+CcxsJTEbFpF+qjX94AUMzkW4d0NdxrqPqWiv1D1kKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4RWjy3F; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=c7PmK5TupPKpNZT0GioD955ejD5cS9WDNpWa3oBfdd/szX512+yGjpASK2pOZDy6aBl+JZeVwlLsYL5llibYhXwQDAxBZqStU/4zrIk3S6g3FhYeMLyZNq/CkXcatRHUTOKpleoSNZVX47ywk4SPeGPq6o0Hi6DP6l+oD0axu8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tdbkFkTU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4RWjy3F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366EDC116C6;
-	Tue, 27 Jan 2026 08:17:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tdbkFkTU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94484C116C6;
+	Tue, 27 Jan 2026 15:56:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769501831;
-	bh=Cv8ULhdY9hlYEWHkGHz+8wtqg/yt/0F8ftcn6HSPJ9I=;
+	s=k20201202; t=1769529404;
+	bh=Ew7hCSheEXnd37I1gPTsKYpC9BbT8MdweTT2b/6Hmz4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E4RWjy3FSutHb4bjjNDWkAiKtGyYymwjSr20K3SNGNnkVj9OK2Hzs1FlcqUogNRWu
-	 gdyKHJ5rBfa3Na13TEdFfdg/g1VJZLz7i3UyzEIbATMNvUOcCziV4/LkiIaNgL+JYS
-	 +1dBwbVRlQ4hBTHtiDJTVFGZBiOuhPaojJCiYu8JHCkg17U5ivDIN0fjam+bHmFcpV
-	 9sUcfi/vtl8VgYkMBsTs0gQd47mZJm/tVqWyiDeEtK7W6T3tejse/6RHLnifC/JODc
-	 /1lRVamDS+gHL1wq4ZbdTgapZXjbfh7fMNgarFUfHHO6qQpsCaS0YwG/+dtqfpDXSC
-	 BtT4m/mr0KNMg==
-Date: Tue, 27 Jan 2026 08:17:08 +0000
+	b=tdbkFkTU5CRN3W5LhfCQ6KICm6LpdRFet4vLhYTuDg5eEgNodBEeMrvTClp0PNhkE
+	 H2V4eC82r0Y2zu0Tg29osuH/wQTnUy665zj71XvljOyrx0WyT201cMuOl5fDLOzA9D
+	 0ZGkEQDF0u9bYYanSqD5WTkN3++ymB99/e/UDcdh+DcHIPQ19mw2GtiJb6F2LJ5RD5
+	 mfOZcGZHNLfd5JcUQ2tBPf4Thfd4dYudFPKNuktq6daUaCDfYFaNwWPdV/5Bu97pjW
+	 kialUZ5b7GnOTPfi7udoQOGplOI2jbWCZzc/0c/16FMVn/ADJUgSFcBT4KX7Cis7WH
+	 X9DJUMRK4yFKw==
+Date: Tue, 27 Jan 2026 15:56:39 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Gwendal Grignou <gwendal@chromium.org>
-Cc: chrome-platform@lists.linux.dev, Gwendal Grignou <gwendal@google.com>
-Subject: Re: [PATCH v2 1/2] platform: chrome: lightbar: Report number of
- segments
-Message-ID: <aXh0hEZNk2gmLncI@google.com>
-References: <20260127063434.789047-1-gwendal@google.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 22/23] gpiolib: Leverage revocable for other independent
+ lifecycle instances
+Message-ID: <aXjgN2jGsaNQgP9o@google.com>
+References: <20260116081036.352286-1-tzungbi@kernel.org>
+ <20260116081036.352286-23-tzungbi@kernel.org>
+ <aXT45B6vLf9R3Pbf@hovoldconsulting.com>
+ <aXdy-b3GOJkzGqYo@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -42,48 +58,33 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260127063434.789047-1-gwendal@google.com>
+In-Reply-To: <aXdy-b3GOJkzGqYo@hovoldconsulting.com>
 
-On Mon, Jan 26, 2026 at 10:34:33PM -0800, Gwendal Grignou wrote:
-> Add attribue `num_segments` to return the number of exposed LED segments
-> in the lightbar. It can be smaller than the number of physical leds in
-> the lightbar.
+On Mon, Jan 26, 2026 at 02:58:17PM +0100, Johan Hovold wrote:
+> On Sat, Jan 24, 2026 at 05:52:53PM +0100, Johan Hovold wrote:
+> > On Fri, Jan 16, 2026 at 08:10:35AM +0000, Tzung-Bi Shih wrote:
+> > > There are independent lifecycle instances (e.g., other drivers) can save
+> > > a raw pointer to the struct gpio_device (e.g., via gpio_device_find())
+> > > or struct gpio_desc (e.g., via gpio_to_desc()).  In some operations,
+> > > they have to access the underlying struct gpio_chip.
+> > > 
+> > > Leverage revocable for them so that they don't need to handle the
+> > > synchronization by accessing the SRCU explicitly.
+> > > 
+> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > 
+> > >  static int gpiod_get_raw_value_commit(const struct gpio_desc *desc)
+> > >  {
+> > > -	struct gpio_device *gdev;
+> > >  	struct gpio_chip *gc;
+> > >  	int value;
+> > > +	DEFINE_REVOCABLE(rev, desc->gdev->chip_rp);
+> > 
+> > DEFINE_REVOCABLE() is racy and can lead to use-after-free since nothing
+> > prevents chip_rp from being revoked and freed while the
+> > revocable_alloc() hidden in DEFINE_REVOCABLE() is running.
 > 
-> Test: Check the attribute is present and returns a value when read.
-> 
-> Signed-off-by: Gwendal Grignou <gwendal@google.com>
-> ---
-> Changes in v2:
-> - Put local variables at beginning of num_segments_show()
-> - Cleanup return logic.
-> 
->  drivers/platform/chrome/cros_ec_lightbar.c    | 43 +++++++++++++++++++
->  .../linux/platform_data/cros_ec_commands.h    | 11 +++++
+> This was supposed to say "revocable_init()" (i.e. revocable_alloc()
+> without the memory allocation).
 
-The patch generally looks good to me.  We have to wait the header change
-landed in firmware.
-
-> +static ssize_t num_segments_show(struct device *dev,
-> +				 struct device_attribute *attr, char *buf)
-> +{
-> +	struct ec_params_lightbar *param;
-> +	struct ec_response_lightbar *resp;
-> +	struct cros_ec_command *msg;
-> +	struct cros_ec_dev *ec = to_cros_ec_dev(dev);
-> +	uint32_t num = 0;
-> +	int ret;
-> +
-> +	ret = lb_throttle();
-> +	if (ret)
-> +		return ret;
-> +
-> +	msg = alloc_lightbar_cmd_msg(ec);
-> +	if (!msg)
-> +		return -ENOMEM;
-> +
-> +	param = (struct ec_params_lightbar *)msg->data;
-> +	param->cmd = LIGHTBAR_CMD_GET_PARAMS_V3;
-> +	msg->outsize = sizeof(param->cmd);
-> +	msg->result = sizeof(resp->get_params_v3);
-             ^^^^^^ insize
-It seems you missed the comment from v1.
+I see the issue.  Thanks for identifying this.

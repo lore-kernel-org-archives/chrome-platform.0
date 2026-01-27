@@ -1,103 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B26423B61B;
-	Mon, 26 Jan 2026 13:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E931A256E
+	for <chrome-platform@lists.linux.dev>; Tue, 27 Jan 2026 00:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769435902; cv=none; b=TDSVBgNEJH7cLQWuZW/R8SoIXcPRwcmX68SmgsSdzM1sNYV0u7jqoE/083MfHo6SMKjqHW+tzK+fbx+XJ1l7hfKcqnCo98iXRzOZ0CDzLfYkWszj5FPdKEBn+ZptyW9f5g8BF43ykeX5o+nhFkAZ2W7DIQGAioi8sWdZzY3M8/A=
+	t=1769473434; cv=none; b=IT6LinOUMRRAxKsw9M0eDpd3jP9WgiQE8uTAsisjbzw7vrYfIK1i9Y21Fiym3Z4dD5zymoXavgLWRnRxtV12GF8WxtRB1dt+LN1hJaK9vvvP7StjCFdtVZHyPFSQjOxzzQ+I8azpKKCsiOsEwCsKO3HcIvgN9Z48lwQOKvmUUZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769435902; c=relaxed/simple;
-	bh=RtHetFmUEXwciULc0GdQkNg6vLMwT9i40Cxcw/PXJxA=;
+	s=arc-20240116; t=1769473434; c=relaxed/simple;
+	bh=bVmYZCvIg0fuqjElUFCUghFOqlB1ruVviQKp1Q1sy0A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hBHk1kcnLtddesUg8RGkPEtIODHcxZYtTh1qwsgUaJ5b4mGDGFoEmgEC8y8pSAogFyOwKwD08j01cFIdyxJfm7oHK2Z99H++3DDyqaqzIcMZcgy+HLAxb0IiJi+7jbNOtEF8RJtiHkrm0zIf+sTmf6YPTRiqkY61+kK42QN7T78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nDYnglkz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=A2bzqljr1QBRLvDW8JyEHGZAC+lYkZ+biiPFJtt4VZPCx4C/3kM/QE2MtMKPG9DclAFdKnJhzl4ENA0k6uo8MeQNxmiQl65fh+aN1cbO0jiYiNSyVRBzMfOHosqtv7IaQ4hXRCkfc9FJPjePYmFWS7kVGhlqAvayby1n/WYTBvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nc24+Adp; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nDYnglkz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36287C116C6;
-	Mon, 26 Jan 2026 13:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769435902;
-	bh=RtHetFmUEXwciULc0GdQkNg6vLMwT9i40Cxcw/PXJxA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nDYnglkzRkdUTIgLg8zF2yhAiofNf1KmW0aB7f8FG10JPDTBY9KYsDqgrKGjXlDdy
-	 oTXICNmDUB++rgsnskdz6ostpx0kTTKZoXG6m7dsCDHQ1UPpFAQ+ulcNfNucNwfTOU
-	 6luWJpEQsljQq19IQYiUJ6e/uJYOYJdZLJhZcmHWLatZejr9ghc1JpNzFdLvTo5NPu
-	 xot6T+NlPTRb5KsFNnzve3KW0iPtkzIY1MhHZGtV8/CT4tsuIQ1KWEgZFLluVelxHy
-	 zMQ2voDqjqaF2P1Fj8yoL3MXienIL1JsXYAB8shBAfdvcgK1y8lj0h13WoJwL0D2mt
-	 +x6b9PjLQPFog==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vkN6f-000000005P0-1JW0;
-	Mon, 26 Jan 2026 14:58:17 +0100
-Date: Mon, 26 Jan 2026 14:58:17 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 22/23] gpiolib: Leverage revocable for other independent
- lifecycle instances
-Message-ID: <aXdy-b3GOJkzGqYo@hovoldconsulting.com>
-References: <20260116081036.352286-1-tzungbi@kernel.org>
- <20260116081036.352286-23-tzungbi@kernel.org>
- <aXT45B6vLf9R3Pbf@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nc24+Adp"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-81db1530173so2614908b3a.1
+        for <chrome-platform@lists.linux.dev>; Mon, 26 Jan 2026 16:23:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769473432; x=1770078232; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=caooTO+7nQeQ+uubG6MbzWHbwrWNJFEfGvuRG7PXupY=;
+        b=nc24+AdpWvX1y1TYpzW7TxpznCE2EEuI5fB3o8DMn3nD6JCb6Alcsain7aH6VC/oPk
+         hl8qtSQcazudU8SG1XMdlkpp8HhZ5Gu9lLFPH+eP97E+wL2hcB3aTSyEsgQ7WKxerk4V
+         6b9VIqbeu8Lun/tiw5c7DSyIQDxiVkDr/2cPQPORDnutCMS9LxNWh3nuGroqnckjKeUM
+         CDgO6QxZ6w4fKfVZwYrXVqXWtEFLlHC30Ht52nXC+gzdTEbzUVs5Hak0qNu1vSqA1bJw
+         UnbJt0btPVrwCJrKz8XT7WpjBlXCqM2FvPbKCuOQJ2ZUcIPfu9A78oA63X0a+5pWsb+e
+         0dyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769473432; x=1770078232;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=caooTO+7nQeQ+uubG6MbzWHbwrWNJFEfGvuRG7PXupY=;
+        b=s0PZa3ebHIX11PrhuFnpSPa2U4L/PP/XBrhpiP0c3U7EF25Tig5RXoDAXL2YFkiG1B
+         PKwkACsI6L78cVCdqM9TcKmXwXKr0EQiESSQPAxcqZxt31VxKk3Yw6ulHqgpUwq+xgZ4
+         u4pl33Fk1pVcNonZFTxYmc0kEkKwBQKduC1pnNtcF8Iv0tUdYYgCIlEKZG+Iu6If7jTO
+         UjSkPtAQG7egXwRXIBchtkstrpY10jFQPUgLeTxWMWXRpKuzsEaghGQubL/gijR60cQo
+         zTq+h3TXFspEP46MVF0lmmMIoI7FeGVC7izXyExzzRlN8REKb4ha9G/cVL2PjSj5tQtb
+         vIcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWKyFbIcNi1XGnpb01mvY3+V086lk37mQKPqxZJxpEhR86YLsTTXFdkt5c3KU6YCNny3Cs0eDFjPFOQKhSHgPk=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmO68nWZaIoudBQpSx1Iiy0j6fCnWsbJlbvt56RClS7ZJAeveX
+	43gziUyfF1syxIg/ygmvKyUMZh64bsFcLRlVQ3F+9kINAG0UuU+yvWjU
+X-Gm-Gg: AZuq6aJIUW3FFPeycuuwah5DBkJAlJ2PFFOn6asYwtd6XqMkv6yskgoHKCzSRWGDi1m
+	E6jTXMYH0i3ZvB4i03fCjCIgfFRQPF7soRDVRl1D1Qwik4BnKhre82cSvhkcQ7K0HTP0GZ4NELm
+	1qEJ72QqluVpUUd2ZgVxKoSt3qOxnLX98ujn/QTb54YRqL0FIiXhyOaZENTRXifYIc7d+YmvIwN
+	gdO5EYiPT2GEr1PqZyiHQbr7byupMgTGdeRF/XO01j7DmkLPwGmyj4SBbb9/NU4RwQHDFSzA+S0
+	DwTAnFwg3hhtqoKF3r/cOsSJK3GuIHSesmzdrjRw3KL7pQ4MILAXsAqAk+mNWHmt/G/yCEGvGFw
+	IqJ46Z8it1Z1O7ALnceegGdvh5YIe3zVZXcQx4wSC+RImY9ukbdDj4E2Hu5JCTrvTZ3crkYEJg3
+	ABZzMovWLazF+LvM4G2H7E13wh
+X-Received: by 2002:a05:6a00:90a2:b0:823:cbb:a484 with SMTP id d2e1a72fcca58-8236916ac21mr31129b3a.14.1769473432307;
+        Mon, 26 Jan 2026 16:23:52 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82318644bcasm10315629b3a.2.2026.01.26.16.23.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 16:23:51 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 26 Jan 2026 16:23:51 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@weissschuh.net>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Dustin Howett <dustin@howett.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Stephen Horvath <s.horvath@outlook.com.au>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, Sung-Chi Li <lschyi@chromium.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] hwmon: (cros_ec) Split up supported features in
+ the documentation
+Message-ID: <6741ce04-c51d-4c21-84f4-c7f26b298b44@roeck-us.net>
+References: <20260118-cros_ec-hwmon-pwm-v2-0-77eb1709b031@weissschuh.net>
+ <20260118-cros_ec-hwmon-pwm-v2-1-77eb1709b031@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <aXT45B6vLf9R3Pbf@hovoldconsulting.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260118-cros_ec-hwmon-pwm-v2-1-77eb1709b031@weissschuh.net>
 
-On Sat, Jan 24, 2026 at 05:52:53PM +0100, Johan Hovold wrote:
-> On Fri, Jan 16, 2026 at 08:10:35AM +0000, Tzung-Bi Shih wrote:
-> > There are independent lifecycle instances (e.g., other drivers) can save
-> > a raw pointer to the struct gpio_device (e.g., via gpio_device_find())
-> > or struct gpio_desc (e.g., via gpio_to_desc()).  In some operations,
-> > they have to access the underlying struct gpio_chip.
-> > 
-> > Leverage revocable for them so that they don't need to handle the
-> > synchronization by accessing the SRCU explicitly.
-> > 
-> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+On Sun, Jan 18, 2026 at 10:45:55AM +0100, Thomas Weiﬂschuh wrote:
+> The wall of text of supported features is hard to read and messy to
+> extend. Split it into a definition list with an explanations for each
+> supported feature.
 > 
-> >  static int gpiod_get_raw_value_commit(const struct gpio_desc *desc)
-> >  {
-> > -	struct gpio_device *gdev;
-> >  	struct gpio_chip *gc;
-> >  	int value;
-> > +	DEFINE_REVOCABLE(rev, desc->gdev->chip_rp);
-> 
-> DEFINE_REVOCABLE() is racy and can lead to use-after-free since nothing
-> prevents chip_rp from being revoked and freed while the
-> revocable_alloc() hidden in DEFINE_REVOCABLE() is running.
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-This was supposed to say "revocable_init()" (i.e. revocable_alloc()
-without the memory allocation).
- 
-> >  
-> > -	/* FIXME Unable to use gpio_chip_guard due to const desc. */
-> > -	gdev = desc->gdev;
-> > -
-> > -	guard(srcu)(&gdev->srcu);
-> > -
-> > -	gc = srcu_dereference(gdev->chip, &gdev->srcu);
-> > +	REVOCABLE_TRY_ACCESS_WITH(rev, gc);
-> >  	if (!gc)
-> >  		return -ENODEV;
- 
-Johan
+Applied.
+
+Thanks,
+Guenter

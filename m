@@ -1,200 +1,220 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3916B239E7D
-	for <chrome-platform@lists.linux.dev>; Thu, 29 Jan 2026 12:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736161C5D5E
+	for <chrome-platform@lists.linux.dev>; Thu, 29 Jan 2026 13:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769690500; cv=none; b=YLOtFttzUsaSHceF22qi+69gUHZGA2TldoTTOesVxPYTRqMBJDMqV1XU2xODX1NJo1jHpz2ANMJJvWxr5ADQh7AiXk73jd7b1Yc7i0rsKCIYF94Z948U1daD2qPNC0IDDLupfE59nntTxFiuwGMUtPBBcWq+jhLxGxYs9qevhHQ=
+	t=1769692778; cv=none; b=saxOr27yOASffbd2he8EPTf6w5oClY3CGUH2qgcVzDsDXEJY3nCcECnjXlFRcuJo9n8KsjKp38jAbWtRrjQeMMF+78RUGsSgUiTqKkpQqFZs7yiIspbkW8Pluqcn+0cWQtL3DWQbq4XH/wNzNo05c2krfrCSHqSJ173/U3xy1II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769690500; c=relaxed/simple;
-	bh=3bHzGbD66B88JCvXGoSXLypYyBfOMcVaUbqBxDgtpwU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vEAiGVBzEUPFgPPDl7fimVzbV1lnKTzMleQj7rADvmeEdpKWHEf979YmNf2JHUTZrO0zV0P2Dg6XEybQvXatRNs/PtO/VkHqqkAc8PmQjecP3BqEH8NjdfGgznbZKa4WtCmC8RCMEHy8tchYIts9jh/iYBHz2JrfP5pJqf1lp08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XgURDsR8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2g5FVlRN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RQ63o+9Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PzFdR25W; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1769692778; c=relaxed/simple;
+	bh=Bf7Yvu/POsAWzKY1L8pdvUlvmkJ1cHJNyMTBkkbDDag=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hX1Vcnuxfkf3kYZh6CsIO9qJfi5xKWsWT0LRLFBb91wJmNX1AbDnU+6ldG9DC16awPk2bexSzwf8K74Ar1LRcC0zGW2dJR7nh6/IFdIIcUpw8FRioOGIJibpbhTf2gudr/3LM5VpJ9bzJsAw7NbaxKwpdRaVl+oftq9ME7lYOXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IM48mpME; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XgURDsR8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2g5FVlRN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RQ63o+9Y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PzFdR25W"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2D7435BCE6;
-	Thu, 29 Jan 2026 12:41:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769690497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AZhLBjr9NONwdfK2/efN92blRXVmRq2Ai5ZNRUh6Zzc=;
-	b=XgURDsR84kR8CSvVKgIWfO9RtwGTytWwnKZ6fLyY1Oq8BN5K8uKpbsAeSjw9sZyXr8GfFb
-	4MQ8uLCCHgBW/vW/5VLsk40TvRofpoCc1xDuWap4ZNgdsgrh4Ip+m1YkKQplEVGcTjCpV3
-	owVchWcBAQIu2tF2DJgkTQekmDTulXg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769690497;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AZhLBjr9NONwdfK2/efN92blRXVmRq2Ai5ZNRUh6Zzc=;
-	b=2g5FVlRNJEO1PgCffe8IiVQ/o8osi4tq1CImok/As/Sw9FDWu+rtyMJjzf9jdJFRW4uSzT
-	sIkRcJTsDwALwzDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769690496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AZhLBjr9NONwdfK2/efN92blRXVmRq2Ai5ZNRUh6Zzc=;
-	b=RQ63o+9YO1XD5R4vKBdwEBP0RN4JUZJP/eZqcp+eaIjzIsVFjFppaAH5ZKFeKbIKKMOY3p
-	RsbD1nKOqmOznhfPzLtTO/iGGySy9iDTXyQVHrXL2PEXrRR4usaSL3Ki7zam6KwJgHw0eN
-	+uolSlPcWxSo5QS5A/nuXaC4VeDH8tw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769690496;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AZhLBjr9NONwdfK2/efN92blRXVmRq2Ai5ZNRUh6Zzc=;
-	b=PzFdR25WYVwio0OOOzYuY6L2bcRFHwyoH7KPjCqJrHIIBjS0fFSeQqkxxNMrBF5Eh3FU4W
-	XEZ4YL4Es/LJFoBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C3ABC3EA61;
-	Thu, 29 Jan 2026 12:41:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VwA9Ln9Ve2nWbQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 29 Jan 2026 12:41:35 +0000
-Message-ID: <bc053bb6-f2b9-48ee-bd5a-acc962c19df6@suse.de>
-Date: Thu, 29 Jan 2026 13:41:35 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IM48mpME"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b7cf4a975d2so131688866b.2
+        for <chrome-platform@lists.linux.dev>; Thu, 29 Jan 2026 05:19:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1769692774; x=1770297574; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gGvZX6nfZgmy3Vj2ElSTYgn1DWRFSxvOFrP+JagB/oo=;
+        b=IM48mpMEWBTsA4PHGtIt1X1z4kJ+Dep72Z61d+YVPkTiz6e2furQia8RoqCuOTXzSF
+         bt9+SanV5C2VaiXdNtBBBgbderf9fRrwj5BkYEYd+nepVJMp5YPRzZAjmxFixDFpBtzD
+         Q2p/jWXIxFYQNiQDdMFdA3Gbm3dywrbgXvxME=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769692774; x=1770297574;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gGvZX6nfZgmy3Vj2ElSTYgn1DWRFSxvOFrP+JagB/oo=;
+        b=lCWBv4TfrDW6bPFVmgfpgpgYDijmemcxTHf7cZychEHO1SQ6ktf7QPrYCcRdDAVAh6
+         +6T0N6IfsKvIc2LhZlfB0phDsmHlp67eeXOP6HAQyIlSBDBopxl4b8uaB0tvM3TkPkyD
+         rsVS6caaPvyujqKNb7DMp/Gt0X5c4FPDy7sDqM5eMtTSmFK652D2MYblwB7dJ8nxsdzt
+         +SujmHDoHWC0iLRTK96OC/sioOiMHYBUCmnstCqQKq7wNo4HN2+wHH9o3bKqr3ScYqK5
+         1Rq4L+nrInTEb0WJN+MFoJHvtDYZnhGojcPBg4LpCLMtC92+O73Dwa8jpitYZuwkcmza
+         445Q==
+X-Gm-Message-State: AOJu0YwP4wDySzrkTR5515YwP+bixYyeELR75q8REVzASnH1Sura0I+P
+	/wI9Ha//H6Wtcz+h1yAGT9e9Q9khYh+xfzlnqVNdW8lufcgdxTvOErtJEleWRsa9Jg==
+X-Gm-Gg: AZuq6aLXYkbE/B9bhFIADI9aNrhWgvOyfCtnSboDJ9sZOPyOr80Nqj5Dnv40MYriDhn
+	8lTYFQHWj1NU9SntvT8e3w/ljTpwop0xTMUW303bePoC6+0i+RhxhuXiaZcbjO3Fe70v9u+tdtY
+	hONgSvRI5emZufLDrokWjcSJapZjVn/HTcJggi18jHGhEYDzJAMp7/fcJ3d3vw72nWqq++4gx1w
+	IdhqQMLdgdTCIXDKlqduKhEiPddMnfCSX7nizcirc+j2sOB/CZY+VK0aNExDIQJ5ZcQWkt8jDy8
+	6Pry3pAwEumi0Y/x+SOr/V587IVZr90j6ybRludwpJqKGuPGbB4OboVmvWzR7ES9O9p7oxd1Z2f
+	bla24hNGUsDMEGCump8h4AU3E8vS41WY/JI3pWNAm3ihX7W1JUp8eUjWcR7PUZBspgUEzP8NhVH
+	L0Ek/g+O4Ef1ySKDpf0qjSw+0gNiiO3sMbARO1/sfXBNW/A5UfB285k00ijr0Dk3hWtpr4IuDiO
+	M3xH2Vm
+X-Received: by 2002:a17:907:3d02:b0:b88:31c1:c76e with SMTP id a640c23a62f3a-b8dab304ff5mr552866066b.16.1769692773645;
+        Thu, 29 Jan 2026 05:19:33 -0800 (PST)
+Received: from akuchynski.c.googlers.com.com (150.230.32.34.bc.googleusercontent.com. [34.32.230.150])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8dbf1baa42sm262666666b.46.2026.01.29.05.19.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jan 2026 05:19:32 -0800 (PST)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Jameson Thies <jthies@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Subject: [PATCH 1/2] platform/chrome: cros_ec_typec: Enforce priority-based mode selection
+Date: Thu, 29 Jan 2026 13:19:27 +0000
+Message-ID: <20260129131928.794768-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.53.0.rc1.217.geba53bf80e-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/12] firmware: google: framebuffer: Fix dependencies
-To: Julius Werner <jwerner@chromium.org>
-Cc: tzungbi@kernel.org, briannorris@chromium.org, javierm@redhat.com,
- samuel@sholland.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, chrome-platform@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <20260115082128.12460-1-tzimmermann@suse.de>
- <20260115082128.12460-6-tzimmermann@suse.de>
- <CAODwPW_n=LfW+az4v8XecrzAksFmP+0U-9ELb_TrVtLL4EGk9w@mail.gmail.com>
- <fcc432e7-308b-4d8f-8c26-355409f1bd94@suse.de>
- <CAODwPW-8MP2Ps8J6DV7K3CeTMGC_HFyb32P3Tj6__nZ5w3nxCQ@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAODwPW-8MP2Ps8J6DV7K3CeTMGC_HFyb32P3Tj6__nZ5w3nxCQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
 
-Hi
+The driver sets mode_selection bit for each Alternate mode, thereby
+preventing individual altmode drivers from activating their respective
+modes.
+Once the registration of all Alternate Modes is complete, the driver
+verifies if USB4 mode is supported by both the port and the partner and
+activates USB4 mode. In cases where USB4 is not supported, the driver
+invokes typec_mode_selection_start to initiate the mode selection process
+based on mode priorities.
+The driver communicates the current Type-C mode to the mode selection
+process via typec_altmode_state_update.
 
-Am 17.01.26 um 02:38 schrieb Julius Werner:
->> Corebootdrm already depends on the CONFIG_GOOGLE_FRAMEBUFFER, which is
->> standard behavior for all kernel drivers (i.e., drivers depending on
->> architectural options). Having dependencies in the other direction
->> creates a circular dependency, which Kconfig doesn't handle.
-> Yes, okay, I think that makes sense. I thought `DRM_SIMPLEDRM` was
-> some sort of more general option that the DRM subsystem is enabled,
-> but I guess it was just the driver that you now replaced with
-> DRM_COREBOOTDRM, and I understand that you can't have a circular
-> dependency there.
->
->> But
->> generally speaking, what's the point of having that framebuffer backend
->> code then? I tried to remove it, but it is supposed to remain. But it
->> would not serve a purpose other than creating the platform device for
->> the actual driver. I'm confused about the reason for this design.
-> I thought the point was just to have a place to put that `if
-> (sysfs_handles_screen_info()) return -ENODEV;`? (That and that PCI
-> parent device thing you're doing where I don't really understand the
-> code enough to know what it's for.)
->
-> If you can put that line directly in corebootdrm_probe() instead (and
-> bind it directly to the coreboot bus device), then that's perfectly
-> fine by me too, and then you can get rid of framebuffer-coreboot.c. I
-> just assumed that there was some reason I don't have the expertise to
-> understand for why you couldn't do that.
->
-> My earlier concern here was just about not putting that line into
-> coreboot_table_populate(), because then you would be preventing the
-> creation of the sysfs node for that coreboot table entry, while all
-> other entries that don't have associated drivers are still there (and
-> that seems inconsistent).
+Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+---
+ drivers/platform/chrome/cros_ec_typec.c      | 39 +++++++++++++++++++-
+ drivers/platform/chrome/cros_typec_altmode.c |  8 +++-
+ 2 files changed, 44 insertions(+), 3 deletions(-)
 
-Makes sense. Then let's leave the logic as it is.
-
-Best regards
-Thomas
-
-
-
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index c0806c562bb93..d14bc90a62e6b 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -27,6 +27,11 @@
+ 						BIT(DP_PIN_ASSIGN_D) | \
+ 						BIT(DP_PIN_ASSIGN_E)))
+ 
++/* Delay between mode entry/exit attempts, ms */
++static const unsigned int mode_selection_delay = 1000;
++/* Timeout for a mode entry attempt, ms */
++static const unsigned int mode_selection_timeout = 4000;
++
+ static void cros_typec_role_switch_quirk(struct fwnode_handle *fwnode)
+ {
+ #ifdef CONFIG_ACPI
+@@ -325,6 +330,7 @@ static void cros_typec_remove_partner(struct cros_typec_data *typec,
+ 	if (!port->partner)
+ 		return;
+ 
++	typec_mode_selection_delete(port->partner);
+ 	cros_typec_unregister_altmodes(typec, port_num, true);
+ 
+ 	typec_partner_set_usb_power_delivery(port->partner, NULL);
+@@ -421,7 +427,6 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
+ 		memset(&desc, 0, sizeof(desc));
+ 		desc.svid = USB_TYPEC_TBT_SID;
+ 		desc.mode = TBT_MODE;
+-		desc.inactive = true;
+ 		amode = cros_typec_register_thunderbolt(port, &desc);
+ 		if (IS_ERR(amode))
+ 			return PTR_ERR(amode);
+@@ -742,6 +747,7 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+ 	enum typec_orientation orientation;
+ 	struct cros_typec_altmode_node *node;
+ 	int ret;
++	u16 active_svid = 0;
+ 
+ 	ret = cros_ec_cmd(typec->ec, 0, EC_CMD_USB_PD_MUX_INFO,
+ 			  &req, sizeof(req), &resp, sizeof(resp));
+@@ -782,8 +788,10 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+ 		ret = cros_typec_enable_usb4(typec, port_num, pd_ctrl);
+ 	} else if (port->mux_flags & USB_PD_MUX_TBT_COMPAT_ENABLED) {
+ 		ret = cros_typec_enable_tbt(typec, port_num, pd_ctrl);
++		active_svid = USB_TYPEC_TBT_SID;
+ 	} else if (port->mux_flags & USB_PD_MUX_DP_ENABLED) {
+ 		ret = cros_typec_enable_dp(typec, port_num, pd_ctrl);
++		active_svid = USB_TYPEC_DP_SID;
+ 	} else if (port->mux_flags & USB_PD_MUX_SAFE_MODE) {
+ 		ret = cros_typec_usb_safe_state(port);
+ 	} else if (port->mux_flags & USB_PD_MUX_USB_ENABLED) {
+@@ -799,6 +807,9 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+ 			port->mux_flags);
+ 	}
+ 
++	if (port->partner)
++		typec_altmode_state_update(port->partner, active_svid, ret);
++
+ 	/* Iterate all partner alt-modes and set the active alternate mode. */
+ 	list_for_each_entry(node, &port->partner_mode_list, list) {
+ 		typec_altmode_update_active(
+@@ -900,6 +911,7 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
+ 			desc.svid = sop_disc->svids[i].svid;
+ 			desc.mode = j + 1;
+ 			desc.vdo = sop_disc->svids[i].mode_vdo[j];
++			desc.mode_selection = typec->ap_driven_altmode;
+ 
+ 			if (is_partner)
+ 				amode = typec_partner_register_altmode(port->partner, &desc);
+@@ -940,6 +952,31 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
+ 		goto err_cleanup;
+ 	}
+ 
++	/* Once all partner alt-modes are added, we should also trigger
++	 * mode selection.
++	 */
++	if (is_partner && typec->ap_driven_altmode) {
++		bool usb4_mode = (port->caps.usb_capability & USB_CAPABILITY_USB4) &&
++			(PD_VDO_UFP_DEVCAP(port->p_identity.vdo[0]) & DEV_USB4_CAPABLE);
++
++		if (usb4_mode) {
++			ret = cros_typec_enter_usb_mode(port->port, USB_MODE_USB4);
++			if (ret < 0) {
++				usb4_mode = false;
++				dev_err(typec->dev,
++					"Unable to activate USB4 mode, port: %d\n", port_num);
++			}
++		}
++		if (!usb4_mode) {
++			ret = typec_mode_selection_start(port->partner,
++							 mode_selection_delay,
++							 mode_selection_timeout);
++			if (ret < 0)
++				dev_err(typec->dev,
++					"Unable to run mode selection, port: %d\n", port_num);
++		}
++	}
++
+ 	return 0;
+ 
+ err_cleanup:
+diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
+index 557340b53af03..42360945b374f 100644
+--- a/drivers/platform/chrome/cros_typec_altmode.c
++++ b/drivers/platform/chrome/cros_typec_altmode.c
+@@ -41,12 +41,16 @@ static void cros_typec_altmode_work(struct work_struct *work)
+ {
+ 	struct cros_typec_altmode_data *data =
+ 		container_of(work, struct cros_typec_altmode_data, work);
++	int ret;
+ 
+ 	mutex_lock(&data->lock);
+ 
+-	if (typec_altmode_vdm(data->alt, data->header, data->vdo_data,
+-			      data->vdo_size))
++	ret = typec_altmode_vdm(data->alt, data->header, data->vdo_data,
++				data->vdo_size);
++	if (ret) {
+ 		dev_err(&data->alt->dev, "VDM 0x%x failed\n", data->header);
++		typec_altmode_state_update(data->port->partner, data->sid, ret);
++	}
+ 
+ 	data->header = 0;
+ 	data->vdo_data = NULL;
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+2.53.0.rc1.217.geba53bf80e-goog
 

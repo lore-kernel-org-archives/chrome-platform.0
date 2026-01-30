@@ -1,211 +1,79 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95A78462
-	for <chrome-platform@lists.linux.dev>; Thu, 29 Jan 2026 15:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3D21DF74F;
+	Fri, 30 Jan 2026 03:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769698889; cv=none; b=iudDDnfvlPiW4fB4JhjGCTvJWy7mIwYZ3/neDOTDur4eJsHd8KSqG2gouSS3q3jpPbvhh5SNOO9EGMmhBpeGXg8O53m6DjBvjYKkqUjXoNG0FVH+pY3Dt8jq+U5vzy9S5NQ3dVZHm5+rLDY//PYZJA5WUNWnEfH9tiTPILbD1NE=
+	t=1769743619; cv=none; b=H2MwPUtNzovcMEli+8jqrrJQrNMBP7coNoNR1bNGOQGlj/JTC/HA32+Krahqz5LTGcut1MUuUPyHlmNQR8E6GjDjNsdm6dj004KetwVYWy2Th3bbkHTNaBXNlaQD5VCskaJXYrpyzTRmyDyTUUArUvFg92Vui+FI9AfbATI5ieQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769698889; c=relaxed/simple;
-	bh=OV5rSrR7nTmIyzKL2skv1hOTi4WxRP7WwZFEmS27AeY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZUBRBoCnk+5/8ZQb4Pz15vg+9ln3SMkWDspT8yphtWxiIU0MfsXgD7Bj34Dky7I5RRvuIKmz+pQOBLFYBYjUgJNyUj5zW+0goTXqqeygwcbysN/h0mDyNvYTG9AAJ1Kol6kqd9ORaEfmMlfSGBdW4wg7IlNgWGsdL1bp+TionXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qpG2wLpA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LbDGyj8r; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qpG2wLpA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LbDGyj8r; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1769743619; c=relaxed/simple;
+	bh=xSUD5ZCNJ4zuPw4QXBqNcX8VkKnd9/Qvr8VoEPT+h2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ku3DcafHOoDUX1CgrNiOuotNy6ypvFwx5+ZyS1rZLzreLyq9GuEgQxzOf6hB2ZQLVA0OzpMOyxrQ5Q5+0xmYxcfFajo//aSBJJ36QxeWp9FpcMJeOMPoHSRDuRUCLdtJz/bKOon/3Iyw8aCE4EmKOkCPqrB2t+gACBMCMekdkbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bYhpZi+I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qpG2wLpA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LbDGyj8r";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qpG2wLpA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LbDGyj8r"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 035A83416B;
-	Thu, 29 Jan 2026 15:01:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769698886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=aNg1n5QetPvNGJbToQ/+shMOHy63KWW9hzmiGlPcX1Y=;
-	b=qpG2wLpA3wpr+m4/R1YRGs6YmP5Gf9k54RfzLVs9ezo1IjDlyCbvaEI0ibfMVCkDI1UJJ6
-	bLSL2rmJvc2OnMh49hYahPVWTKy0Ari3xqtSt4wwjP+zqzHcZ9f5LQZO0h1fFuWFd13upN
-	6BRIxkfAPPyrYjEHAc0FoVt7oXyDVlw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769698886;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=aNg1n5QetPvNGJbToQ/+shMOHy63KWW9hzmiGlPcX1Y=;
-	b=LbDGyj8rd+WYsWr/5DwTUHiMKldnxWOnNlO07t4kdssz/bVzzKdyKEeLQXEAOd3InvrMrU
-	nwpIQsdtB3tC1UBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qpG2wLpA;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LbDGyj8r
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1769698886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=aNg1n5QetPvNGJbToQ/+shMOHy63KWW9hzmiGlPcX1Y=;
-	b=qpG2wLpA3wpr+m4/R1YRGs6YmP5Gf9k54RfzLVs9ezo1IjDlyCbvaEI0ibfMVCkDI1UJJ6
-	bLSL2rmJvc2OnMh49hYahPVWTKy0Ari3xqtSt4wwjP+zqzHcZ9f5LQZO0h1fFuWFd13upN
-	6BRIxkfAPPyrYjEHAc0FoVt7oXyDVlw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1769698886;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=aNg1n5QetPvNGJbToQ/+shMOHy63KWW9hzmiGlPcX1Y=;
-	b=LbDGyj8rd+WYsWr/5DwTUHiMKldnxWOnNlO07t4kdssz/bVzzKdyKEeLQXEAOd3InvrMrU
-	nwpIQsdtB3tC1UBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AADCF3EA61;
-	Thu, 29 Jan 2026 15:01:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GEcvKEV2e2k1FQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 29 Jan 2026 15:01:25 +0000
-Message-ID: <2613a50f-fcba-4f59-9432-19a5e5fc8889@suse.de>
-Date: Thu, 29 Jan 2026 16:01:25 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bYhpZi+I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AE9FC4CEF7;
+	Fri, 30 Jan 2026 03:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769743619;
+	bh=xSUD5ZCNJ4zuPw4QXBqNcX8VkKnd9/Qvr8VoEPT+h2Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bYhpZi+IiJ808fOvJf0xddvUnUp9YU8eXRELDXW2zPFTe/+36l7o20XvyU6rb+dN/
+	 xt/kAiSHD23pFMikQCI4eUXA2F4rSO90+ZYxD332UH8fGAW1UZ055GZpiHsWj6kjhi
+	 nmPC+cHP+p5tcdC8IBW+vklxWEQfiFwjRjR4X6u3G+Ok4nP2ELpFrN5IYQ1oDxDogw
+	 mOmKzGQ/XT0iqc6jkoQZV/tJJ7o6uBeZiKIsCVu8jAYd4lDarndSYk3rWz6KUitB1X
+	 7+kzTucDsyCbtiu6sap2zU103Qk+Jl7UrSUwwTIgEAX6dLlg4XQonKiB/p10ek3tbt
+	 LGRzmxd/PjW/A==
+Date: Fri, 30 Jan 2026 03:26:55 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] platform/chrome: cros_ec_typec: Enforce
+ priority-based mode selection
+Message-ID: <aXwk_wzeF9UPd5DK@google.com>
+References: <20260129131928.794768-1-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/12] drm/corebotdrm: Support panel orientation
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
- samuel@sholland.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, chrome-platform@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <20260115082128.12460-1-tzimmermann@suse.de>
- <20260115082128.12460-13-tzimmermann@suse.de> <aXhuGnUlM500G6Ht@google.com>
- <aXhxcS1Sifj_qeyb@google.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aXhxcS1Sifj_qeyb@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[chromium.org,redhat.com,sholland.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:url]
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 035A83416B
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260129131928.794768-1-akuchynski@chromium.org>
 
-Hi
+On Thu, Jan 29, 2026 at 01:19:27PM +0000, Andrei Kuchynski wrote:
+> The driver sets mode_selection bit for each Alternate mode, thereby
+> preventing individual altmode drivers from activating their respective
+> modes.
+> Once the registration of all Alternate Modes is complete, the driver
+> verifies if USB4 mode is supported by both the port and the partner and
+> activates USB4 mode. In cases where USB4 is not supported, the driver
+> invokes typec_mode_selection_start to initiate the mode selection process
+> based on mode priorities.
+> The driver communicates the current Type-C mode to the mode selection
+> process via typec_altmode_state_update.
 
-Am 27.01.26 um 09:04 schrieb Tzung-Bi Shih:
-> On Tue, Jan 27, 2026 at 07:49:46AM +0000, Tzung-Bi Shih wrote:
->> On Thu, Jan 15, 2026 at 08:57:22AM +0100, Thomas Zimmermann wrote:
->>> diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
->>> [...]
->>> @@ -63,9 +68,13 @@ struct lb_framebuffer {
->>>   	u8  blue_mask_size;
->>>   	u8  reserved_mask_pos;
->>>   	u8  reserved_mask_size;
->>> +	u8  orientation;
->>>   } __packed;
->>>   
->>>   #define LB_FRAMEBUFFER_HAS_LFB(__fb) \
->>>   	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
->>>   
->>> +#define LB_FRAMEBUFFER_HAS_ORIENTATION(__fb) \
->>> +	((__fb)->size >= offsetofend(struct lb_framebuffer, orientation))
->> Wouldn't the new field in struct lb_framebuffer break LB_FRAMEBUFFER_HAS_LFB()?
->> E.g., fb->size == offsetofend(struct lb_framebuffer, reserved_mask_size)
->>     -> LB_FRAMEBUFFER_HAS_LFB(fb) == true
->>     -> LB_FRAMEBUFFER_HAS_ORIENTATION(fb) == false?
-> The example is wrong, please forget it.
->
-> Again, I supposed the "LFB" is tailing data of struct lb_framebuffer.
->
-> I meant: is it possible that there is no tailing data
->        -> fb->size == offsetofend(struct lb_framebuffer, orientation)
->        -> LB_FRAMEBUFFER_HAS_LFB() == true falsely.
+I find the message doesn't help me too much for understanding the patch.
+Can you rephrase them and assuming readers might not have too much context?
 
-I'm not quite sure if I understand the question: _HAS_LFB test is the 
-provided entry is large enough to hold framebuffer information (true 
-unless the firmware is broken). _HAS_ORIENTATION tests is the provided 
-entry is large enough to hold the orientation field. That depends on the 
-coreboot version, as early versions might not have it.  If either macro 
-is true, we can safely look at the rsp fields; otherwise the fields are 
-undefined.
+> ---
+>  drivers/platform/chrome/cros_ec_typec.c      | 39 +++++++++++++++++++-
+>  drivers/platform/chrome/cros_typec_altmode.c |  8 +++-
+>  2 files changed, 44 insertions(+), 3 deletions(-)
 
-If provided, the individual fields still need to be validated whether 
-they have meaning full values.
+The patch uses some exported symbols which aren't yet in upstream
+(drivers/usb/typec/mode_selection.c).  Ideally, you should mention that in
+either cover letter or note after "---".
 
-Best regards
-Thomas
+> +/* Delay between mode entry/exit attempts, ms */
+> +static const unsigned int mode_selection_delay = 1000;
+> +/* Timeout for a mode entry attempt, ms */
+> +static const unsigned int mode_selection_timeout = 4000;
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+The commit message probably needs some description about why these values.

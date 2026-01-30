@@ -1,67 +1,70 @@
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B964D32BF55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28A528D8F1
 	for <chrome-platform@lists.linux.dev>; Fri, 30 Jan 2026 08:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769760839; cv=none; b=I7cCGqdDP7aLZDpxlEt4AxugIStXcDwzz3uJMcZ1XxeMUIebTG6sAehYEyNZIoAkHtOKmjeSaX/J6ez3U357fxbdnieLrXA9XkBJJMHoxV1U6xXjCWxRdkfLmQu0wp2zjPJZYxJCv9AmN6qYW4D+lfTsViZE0bYD4TWmpdGOKBs=
+	t=1769760839; cv=none; b=pxWS9R1l1NsRcgbkVZrdAi1sa3MXl0m9bGwHHPYfBTqce4O4bSheI260sIIMp9arGYpiQ6JdtCALhh7Gtq7/usuY4rONkSdI4+PIN4mmF/phHKZC+XZzt7h7YX+2nV1k6wrXTBrYEkBcvBfQtZntcalLsK/pFdq10uRtwmAGXrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769760839; c=relaxed/simple;
-	bh=1mDa0Kv7DiqdWBjNWjMgPGQaVmo+uY10HA3hocjPPzs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vj7ZDDU68Ua9ByznqlLfoomOhO6mVz5rNTdAKHuRFoKUf6Mh2j6D986891cAB6BvJ+Q3qiP4EXBEo93hR9paeGYVrc7DVoEutZFRNRfIHmQh8JAXa1Vq08FcZBQgFyvvuWAdaNGolMDkTsrqOqzW3nJU2nR2IQlYGm/W3Q71Vbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QWaJph2R; arc=none smtp.client-ip=74.125.82.182
+	bh=Ist+Wr1w8wJCLydWDU3E/HT2/d51UgMJUFwAcjwonSw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aZwNnK9eM5GDsS/IC8vYCAs49VQ13mNtzS8rWO+huxFzZXnowxmHjtw94UDFh3CSOuXyNAM4aHOWi32uZZJyTUniygdyOnD6M+TTkB38bdcd2H/mU6atc5Ds/yQUg9cBCeUyeB+COaOqTjV9Mc9ZxGoAwYoluwhczWP8hqC5yYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SbctyA5d; arc=none smtp.client-ip=74.125.82.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QWaJph2R"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2b729f4c154so3611515eec.0
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SbctyA5d"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2b720e4dcb4so2304753eec.0
         for <chrome-platform@lists.linux.dev>; Fri, 30 Jan 2026 00:13:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1769760837; x=1770365637; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ogtyIwYd+pJEtbDIBk9toJlFYEmwCjsHBPEM7Z8fszk=;
-        b=QWaJph2R9d9v+3Nuht5tdALzMsilwcbKhYQ/5XKXGpTTXF9KsaLsFT/Ge/OazI2G76
-         MMVvdsG56T5qW/L9ffMGbNbc34oKyrDvxx654fwqeo77zDlrRGCVyqR3bRaRwsQvD0vX
-         pvJ/uz4Sq6p1PkzaNXgJfkmvq1MLEl5QAgyjU=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O+1+qsxp916IXRTs5HYkRlJHpuMQB20CHQwVpQqnSU4=;
+        b=SbctyA5d4aJhJBCYonZJC7J05cuxwlp3yvV5DT1fkR9mLYL+UC1oPth6IYHBrydkOh
+         BQkTangSA5rGR2inOf+Xrws0CAzFt5MOln7MCQKD1QQpO3RKwQrOuips2eY8cn2dGq3G
+         90rYES84PkeIYFDVMGqO/GhzvTd87ss6Yi7Hw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1769760837; x=1770365637;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ogtyIwYd+pJEtbDIBk9toJlFYEmwCjsHBPEM7Z8fszk=;
-        b=JL5Vq7peenNH79FYaVxKDIQ/J45oQUP1zuS7g+Agjpps5hLoYSnxTnMKjmeqJy4k4e
-         ThvCjKLEjd/CLZ+BJQdWnPNbKuwtBiWXww1lPvA1MyB5SX88MQ7Fb0PsVyjLIvglyORs
-         QFeNoBcgaHKOq8+zRBKF9pHzFufTvXWXB5hGR/eGJ927qngAG8NFoqnrxefdqYsLYsud
-         SChmcOf0QhlgPXuEpR8+kEqAmg7CzcVLjcx/274lH9bQNMb00qcFLUvYtoOtVBbJsg8m
-         FMBHpw/zxx+8BSt5okHXMfyJsFX96sc0jb1H7n3CobKsk0+Y9xYEBuI/m73hyWszKpXw
-         iy3A==
-X-Gm-Message-State: AOJu0YymR7f0mntps1zTtxaVW1k+7h8M0Qul7PTgO/EUswOds/JeYdOT
-	9oJ2dyDlbuhtsON/prmTMas68yVgXkvlacD6LMA69dCf7YJRWAVoFf1bxf63m8Fhnle8fDcHEfI
-	v90k=
-X-Gm-Gg: AZuq6aKi9Ir3SyKWD7b4wq+0BTszd7WejJNw8RkJqMNylv8yTvbQGjabpZhPvQoZfod
-	blbb7yjMd6gCdesaaOvzEqywUxmYA73+TEEh7gT31Sa/V5MxxtdVOKV52a2IWSrHxw6Zn1R9LhR
-	oaU+uNu1mqNxi5/N79vrI+V9691yVENxc2jv4sB2MT4HRzsamnFPvlNE6Ey8xdyIic4PyS3U6bi
-	xY045vIfHbjVCoXFszEyhvNCaOjEn2vjUujAHRgQGG7iwgow1CBT/RMahp1foaOknHzvxd3beWj
-	ZB3AbXg9/piJqjoAqFnPT7z3mwAXiYXgHH1tw4Kh8CxQBc7EMal73BOqryJTL/VSiVE3hfSf/d7
-	pG8Vyw2CmQAqiwuFRK1g0GR6VL88GpQd0CqqAdjlN3iIHNr3Dy/27dcRYu3MhhMIhBvrucIOVDB
-	i23M+XyVxdA2Q7nYlK62ROi7yFDVdphzHI/E83G1wzGg6d
-X-Received: by 2002:a05:7301:4198:b0:2ae:5d8a:7095 with SMTP id 5a478bee46e88-2b7c864e2a8mr918090eec.10.1769760835262;
-        Fri, 30 Jan 2026 00:13:55 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O+1+qsxp916IXRTs5HYkRlJHpuMQB20CHQwVpQqnSU4=;
+        b=RgdfOQIf+qOU9ISOQzqQlwJkxsNOUuaL/GacjUJzEQtGgJ/vrYlUTc451HprNLAoYH
+         ilc9Ea0UJTEMiAcNTG3sCdqb++kIPb4J1kechKdNevKUEDut4bWpUFFzJGQveQZIj9rq
+         1+6Q65ZIJW795fxGX/+cGEn33H4D/jcq4ou2Kz8Hk/Lsy1SEBbQLyRy+LotPPMOEk0iv
+         OVWetcqp21UofuMMDJdvc9N3VB/O1jjo04PaOiexgz13vNSJ+05Dbl8VdUPBd8sjzxre
+         ByjMkvqoYeV4RJhmukILGo2YnklNU8q8GyQVXkEGJs0+NRt8o7abqtIF0okIONHkBU8t
+         AOtQ==
+X-Gm-Message-State: AOJu0YwW4Dwu0DlruN2xlgki7dUixwQzwzSF0If3QKwEb4ZM8mL02g7X
+	hzSudpKy5WVA0mThIiRwrM/yQyHSzTDDMebjcaqsrGWhe6L+b/FIcbpvOMc4oydRaw==
+X-Gm-Gg: AZuq6aL/HL1wNVfdwLEcjY6ZfL34qK8wdBeH8uKXnEIVD/BbkEaJNZ23wsGkVYVriid
+	v7oPrBPMHDrtT4AEdc2BzjryCwiCaugC/zCo1J4RMgFmdoZ5q0QjmLJ3jjtexHR7VOy1LHAZiYx
+	M02mycchWQiOQs8rPwDuUYo5Kw8ueK+6mtCoPDntfkMpsBZT/MiU56tgfT85VVsTUwcYV9/2m5i
+	X64NxUqnSg+UwyGJsnQNUC9NRXs/Y1O2Qg8dOBdQvskrT21tAkQSnFdr2tvDILC1Ra45AFzUp7H
+	eF6UP1exhj/JUQzRwiaA/kQvCJQhj5KSXtaMuaphnl9R3fQcGP3/JxwQD6Sf7/VFLZFzvw2xrna
+	rrsWTl1dlxfgDVz6nt5wCpdqkmZSIV1gbCUp0uFRN4S6lo9w8M3Io3/kovInMLVmYAk2yNSWRT8
+	528rkgQjBeEJdrYkY2jH82PnSWX1a3n94q0QrQAPUyHMqv
+X-Received: by 2002:a05:7300:ed0d:b0:2b4:7e6b:9c00 with SMTP id 5a478bee46e88-2b7c88ea112mr819079eec.23.1769760836787;
+        Fri, 30 Jan 2026 00:13:56 -0800 (PST)
 Received: from localhost ([2a00:79e0:2ebe:8:25e3:7f30:7f62:d1ad])
-        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-124a9d7f95asm9135761c88.7.2026.01.30.00.13.53
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-124a9e0304bsm9473830c88.14.2026.01.30.00.13.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Jan 2026 00:13:54 -0800 (PST)
+        Fri, 30 Jan 2026 00:13:56 -0800 (PST)
 From: Gwendal Grignou <gwendal@chromium.org>
 X-Google-Original-From: Gwendal Grignou <gwendal@google.com>
 To: tzungbi@kernel.org
 Cc: chrome-platform@lists.linux.dev,
 	Gwendal Grignou <gwendal@google.com>
-Subject: [PATCH v4 1/2] platform: chrome: lightbar: Report number of segments
-Date: Fri, 30 Jan 2026 00:13:50 -0800
-Message-ID: <20260130081351.487517-1-gwendal@google.com>
+Subject: [PATCH v4 2/2] platform: chrome: lightbar: Add support for large sequence
+Date: Fri, 30 Jan 2026 00:13:51 -0800
+Message-ID: <20260130081351.487517-2-gwendal@google.com>
 X-Mailer: git-send-email 2.53.0.rc1.225.gd81095ad13-goog
+In-Reply-To: <20260130081351.487517-1-gwendal@google.com>
+References: <20260130081351.487517-1-gwendal@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -70,127 +73,216 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add attribue `num_segments` to return the number of exposed LED segments
-in the lightbar. It can be smaller than the number of physical leds in
-the lightbar.
+Current sequences are limited to 192 bytes. Increase support to whatever
+the EC support. If the sequence is too long, the EC will return an
+OVERFLOW error.
 
-Test: Check the attribute is present and returns a value when read.
+Test: Check sending a large sequence is received by the EC.
 
 Signed-off-by: Gwendal Grignou <gwendal@google.com>
 ---
 Changes in v4:
-- Remove fix in get_lightbar_version(), not related.
+- Cleanup calculation of the header size by using offsetof macro.
 Changes in v3:
-- Use proper field "insize" when setting tunning response size.
+- Fix allocation size for lightbar command. Use the maximal allowed
+  sizes by default.
 Changes in v2:
-- Put local variables at beginning of num_segments_show()
-- Cleanup return logic.
+- Default initilization for lb_version.
+- Minimal changes in local variables definitions in program_store().
+- Fix errors in cros_ec_commands.h: use a variable length array for
+  payload.
 
- drivers/platform/chrome/cros_ec_lightbar.c    | 45 ++++++++++++++++++-
- .../linux/platform_data/cros_ec_commands.h    | 11 +++++
- 2 files changed, 54 insertions(+)
+ drivers/platform/chrome/cros_ec_lightbar.c    | 88 +++++++++++++------
+ .../linux/platform_data/cros_ec_commands.h    | 13 +++
+ 2 files changed, 74 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platform/chrome/cros_ec_lightbar.c
-index 87634f6921b7..5f14c7425faf 100644
+index 5f14c7425faf..463383bd9076 100644
 --- a/drivers/platform/chrome/cros_ec_lightbar.c
 +++ b/drivers/platform/chrome/cros_ec_lightbar.c
-@@ -173,6 +173,47 @@ static ssize_t version_show(struct device *dev,
- 	return sysfs_emit(buf, "%d %d\n", version, flags);
- }
+@@ -30,6 +30,11 @@ static unsigned long lb_interval_jiffies = 50 * HZ / 1000;
+  */
+ static bool userspace_control;
  
-+static ssize_t num_segments_show(struct device *dev,
-+				 struct device_attribute *attr, char *buf)
-+{
-+	struct ec_params_lightbar *param;
-+	struct ec_response_lightbar *resp;
-+	struct cros_ec_command *msg;
-+	struct cros_ec_dev *ec = to_cros_ec_dev(dev);
-+	uint32_t num = 0;
-+	int ret;
++/*
++ * Lightbar version
++ */
++static int lb_version;
 +
-+	ret = lb_throttle();
-+	if (ret)
-+		return ret;
-+
-+	msg = alloc_lightbar_cmd_msg(ec);
-+	if (!msg)
-+		return -ENOMEM;
-+
-+	param = (struct ec_params_lightbar *)msg->data;
-+	param->cmd = LIGHTBAR_CMD_GET_PARAMS_V3;
-+	msg->outsize = sizeof(param->cmd);
-+	msg->insize = sizeof(resp->get_params_v3);
-+	ret = cros_ec_cmd_xfer_status(ec->ec_dev, msg);
-+	if (ret < 0 && ret != -EINVAL)
-+		goto exit;
-+
-+	if (msg->result == EC_RES_SUCCESS) {
-+		resp = (struct ec_response_lightbar *)msg->data;
-+		num = resp->get_params_v3.reported_led_num;
-+	}
-+
+ static ssize_t interval_msec_show(struct device *dev,
+ 				  struct device_attribute *attr, char *buf)
+ {
+@@ -86,11 +91,8 @@ static int lb_throttle(void)
+ 
+ static struct cros_ec_command *alloc_lightbar_cmd_msg(struct cros_ec_dev *ec)
+ {
++	int len = max(ec->ec_dev->max_response, ec->ec_dev->max_request);
+ 	struct cros_ec_command *msg;
+-	int len;
+-
+-	len = max(sizeof(struct ec_params_lightbar),
+-		  sizeof(struct ec_response_lightbar));
+ 
+ 	msg = kmalloc(sizeof(*msg) + len, GFP_KERNEL);
+ 	if (!msg)
+@@ -98,6 +100,11 @@ static struct cros_ec_command *alloc_lightbar_cmd_msg(struct cros_ec_dev *ec)
+ 
+ 	msg->version = 0;
+ 	msg->command = EC_CMD_LIGHTBAR_CMD + ec->cmd_offset;
 +	/*
-+	 * Anything else (ie, EC_RES_INVALID_COMMAND) - no direct control over
-+	 * LEDs, return that no leds are supported.
++	 * Default sizes for regular commands.
++	 * Can be set smaller to optimize transfer,
++	 * larger when sending large light sequences.
 +	 */
-+	ret = sysfs_emit(buf, "%u\n", num);
-+exit:
-+	kfree(msg);
-+	return ret;
-+}
+ 	msg->outsize = sizeof(struct ec_params_lightbar);
+ 	msg->insize = sizeof(struct ec_response_lightbar);
+ 
+@@ -464,10 +471,11 @@ static ssize_t sequence_store(struct device *dev, struct device_attribute *attr,
+ static ssize_t program_store(struct device *dev, struct device_attribute *attr,
+ 			     const char *buf, size_t count)
+ {
+-	int extra_bytes, max_size, ret;
++	size_t extra_bytes, max_size;
+ 	struct ec_params_lightbar *param;
+ 	struct cros_ec_command *msg;
+ 	struct cros_ec_dev *ec = to_cros_ec_dev(dev);
++	int ret;
+ 
+ 	/*
+ 	 * We might need to reject the program for size reasons. The EC
+@@ -475,14 +483,22 @@ static ssize_t program_store(struct device *dev, struct device_attribute *attr,
+ 	 * and send a program that is too big for the protocol. In order
+ 	 * to ensure the latter, we also need to ensure we have extra bytes
+ 	 * to represent the rest of the packet.
++	 * With V3, larger program can be sent, limited only by the EC.
++	 * Only the protocol limit the payload size.
+ 	 */
+-	extra_bytes = sizeof(*param) - sizeof(param->set_program.data);
+-	max_size = min(EC_LB_PROG_LEN, ec->ec_dev->max_request - extra_bytes);
+-	if (count > max_size) {
+-		dev_err(dev, "Program is %u bytes, too long to send (max: %u)",
+-			(unsigned int)count, max_size);
+-
+-		return -EINVAL;
++	if (lb_version < 3) {
++		extra_bytes = sizeof(*param) - sizeof(param->set_program.data);
++		max_size = min(EC_LB_PROG_LEN, ec->ec_dev->max_request - extra_bytes);
++		if (count > max_size) {
++			dev_err(dev, "Program is %zu bytes, too long to send (max: %zu)",
++				count, max_size);
 +
- static ssize_t brightness_store(struct device *dev,
- 				struct device_attribute *attr,
- 				const char *buf, size_t count)
-@@ -505,6 +546,7 @@ static ssize_t userspace_control_store(struct device *dev,
- /* Module initialization */
++			return -EINVAL;
++		}
++	} else {
++		extra_bytes = offsetof(typeof(*param), set_program_ex) +
++			sizeof(param->set_program_ex);
++		max_size = ec->ec_dev->max_request - extra_bytes;
+ 	}
  
- static DEVICE_ATTR_RW(interval_msec);
-+static DEVICE_ATTR_RO(num_segments);
- static DEVICE_ATTR_RO(version);
- static DEVICE_ATTR_WO(brightness);
- static DEVICE_ATTR_WO(led_rgb);
-@@ -514,6 +556,7 @@ static DEVICE_ATTR_RW(userspace_control);
+ 	msg = alloc_lightbar_cmd_msg(ec);
+@@ -492,26 +508,44 @@ static ssize_t program_store(struct device *dev, struct device_attribute *attr,
+ 	ret = lb_throttle();
+ 	if (ret)
+ 		goto exit;
++	param = (struct ec_params_lightbar *)msg->data;
  
- static struct attribute *__lb_cmds_attrs[] = {
- 	&dev_attr_interval_msec.attr,
-+	&dev_attr_num_segments.attr,
- 	&dev_attr_version.attr,
- 	&dev_attr_brightness.attr,
- 	&dev_attr_led_rgb.attr,
+-	dev_info(dev, "Copying %zu byte program to EC", count);
++	if (lb_version < 3) {
++		dev_info(dev, "Copying %zu byte program to EC", count);
+ 
+-	param = (struct ec_params_lightbar *)msg->data;
+-	param->cmd = LIGHTBAR_CMD_SET_PROGRAM;
++		param->cmd = LIGHTBAR_CMD_SET_PROGRAM;
+ 
+-	param->set_program.size = count;
+-	memcpy(param->set_program.data, buf, count);
++		param->set_program.size = count;
++		memcpy(param->set_program.data, buf, count);
+ 
+-	/*
+-	 * We need to set the message size manually or else it will use
+-	 * EC_LB_PROG_LEN. This might be too long, and the program
+-	 * is unlikely to use all of the space.
+-	 */
+-	msg->outsize = count + extra_bytes;
++		/*
++		 * We need to set the message size manually or else it will use
++		 * EC_LB_PROG_LEN. This might be too long, and the program
++		 * is unlikely to use all of the space.
++		 */
++		msg->outsize = count + extra_bytes;
+ 
+-	ret = cros_ec_cmd_xfer_status(ec->ec_dev, msg);
+-	if (ret < 0)
+-		goto exit;
++		ret = cros_ec_cmd_xfer_status(ec->ec_dev, msg);
++		if (ret < 0)
++			goto exit;
++	} else {
++		size_t offset = 0;
++		size_t payload = 0;
++
++		param->cmd = LIGHTBAR_CMD_SET_PROGRAM_EX;
++		while (offset < count) {
++			payload = min(max_size, count - offset);
++			param->set_program_ex.offset = offset;
++			param->set_program_ex.size = payload;
++			memcpy(param->set_program_ex.data, &buf[offset], payload);
++			msg->outsize = payload + extra_bytes;
+ 
++			ret = cros_ec_cmd_xfer_status(ec->ec_dev, msg);
++			if (ret < 0)
++				goto exit;
++			offset += payload;
++		}
++	}
+ 	ret = count;
+ exit:
+ 	kfree(msg);
+@@ -589,7 +623,7 @@ static int cros_ec_lightbar_probe(struct platform_device *pd)
+ 	 * Ask then for the lightbar version, if it's 0 then the 'cros_ec'
+ 	 * doesn't have a lightbar.
+ 	 */
+-	if (!get_lightbar_version(ec_dev, NULL, NULL))
++	if (!get_lightbar_version(ec_dev, &lb_version, NULL))
+ 		return -ENODEV;
+ 
+ 	/* Take control of the lightbar from the EC. */
 diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index 69294f79cc88..9cbf024f56c3 100644
+index 9cbf024f56c3..144243143034 100644
 --- a/include/linux/platform_data/cros_ec_commands.h
 +++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -2005,6 +2005,14 @@ struct lightbar_params_v2_colors {
- 	struct rgb_s color[8];			/* 0-3 are Google colors */
+@@ -2020,6 +2020,17 @@ struct lightbar_program {
+ 	uint8_t data[EC_LB_PROG_LEN];
+ } __ec_todo_unpacked;
+ 
++/*
++ * Lightbar program for large sequences. Sequences are sent in pieces, with
++ * increasing offset. The sequences are still limited by the amount reserved in
++ * EC RAM.
++ */
++struct lightbar_program_ex {
++	uint16_t offset;
++	uint8_t size;
++	uint8_t data[0];
++} __ec_todo_unpacked;
++
+ struct ec_params_lightbar {
+ 	uint8_t cmd;		      /* Command (see enum lightbar_command) */
+ 	union {
+@@ -2066,6 +2077,7 @@ struct ec_params_lightbar {
+ 		struct lightbar_params_v2_colors set_v2par_colors;
+ 
+ 		struct lightbar_program set_program;
++		struct lightbar_program_ex set_program_ex;
+ 	};
  } __ec_todo_packed;
  
-+struct lightbar_params_v3 {
-+	/*
-+	 *  Number of LEDs reported by the EC.
-+	 *  May be less than the actual number of LEDs in the lightbar.
-+	 */
-+	uint8_t reported_led_num;
-+} __ec_todo_packed;
-+
- /* Lightbar program. */
- #define EC_LB_PROG_LEN 192
- struct lightbar_program {
-@@ -2086,6 +2094,8 @@ struct ec_response_lightbar {
- 		struct lightbar_params_v2_thresholds get_params_v2_thlds;
- 		struct lightbar_params_v2_colors get_params_v2_colors;
- 
-+		struct lightbar_params_v3 get_params_v3;
-+
- 		struct __ec_todo_unpacked {
- 			uint32_t num;
- 			uint32_t flags;
-@@ -2143,6 +2153,7 @@ enum lightbar_command {
- 	LIGHTBAR_CMD_SET_PARAMS_V2_THRESHOLDS = 31,
+@@ -2154,6 +2166,7 @@ enum lightbar_command {
  	LIGHTBAR_CMD_GET_PARAMS_V2_COLORS = 32,
  	LIGHTBAR_CMD_SET_PARAMS_V2_COLORS = 33,
-+	LIGHTBAR_CMD_GET_PARAMS_V3 = 34,
+ 	LIGHTBAR_CMD_GET_PARAMS_V3 = 34,
++	LIGHTBAR_CMD_SET_PROGRAM_EX = 35,
  	LIGHTBAR_NUM_CMDS
  };
  

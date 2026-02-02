@@ -1,99 +1,60 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11932727F3
-	for <chrome-platform@lists.linux.dev>; Mon,  2 Feb 2026 10:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDAD36167E
+	for <chrome-platform@lists.linux.dev>; Mon,  2 Feb 2026 13:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770026790; cv=none; b=Yq6P6aLFAgpJa6YvwlOP7xHBRzMnaMXxDOPivugDJ3Obpnk2upmbJ9JlvbatUYYXNRxdD1jNTl4e+SvngO1pcyhSjwrgS4+a3iNMyWtTqV6y6e3LivBsWorpgUX3l9qsmwXi2haYeG458JhmjbDT3hIfoWaOQfm0D0UApu7dEIE=
+	t=1770037807; cv=none; b=fLB5b6qE2pICYXKuEYlKX3iciARpo3f+LqkP3tJDg0VpBIQdFtEtRhPIj8VxSpvoMs8CTJbiFdR7knZcuIBbraMVNY00FkZ0Z5QQiPXWpDignpmrpimgXzXymdUOOZ4Uyfm+Gwfx1SdUWIHF4XrW2tjaZ0yNcPWL5vJoaLPebdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770026790; c=relaxed/simple;
-	bh=SIKNYUbtclxxsYiswiKvL+F1a7IRNxJp1g333C8aNV8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fLN0+zLCwlq46gymBglEh2kUs3K/RLIdfBsI4GI1Z5GMRMStLjQnB6UQ6Ubeed+edFUFAIO5kkzRI5DVoiVgK+J2twkFPXaGncUVt0a+Bz7GKzKhwmR7nRheawkws2n6diTEtdq7zNd5iZgVPNgla2sTdWFuoImllyhHptLvhbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZQbpGHIo; arc=none smtp.client-ip=74.125.82.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1770037807; c=relaxed/simple;
+	bh=yOxQ75HQqmC/cnQRRCpp7T1mzbbAYYYdJvmuhvAuiLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sC2nNNWpO4ZjxiqB206K1q2CeCtrVB2pP4Z2PbzFR+t+sI+ae3KK8BPjGNsMqPtHQcojp1H03A8dy+AEmmvp6VjWQ1OfAox0VWRX6oPDohfr6Ot4Y5O20O6B1OF3fUDgA73oOGEuQsgf+RrI178uz3NXXdW4euo9IVOWGrfgqkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AbC4mOi4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZQbpGHIo"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2b729f4c154so182544eec.0
-        for <chrome-platform@lists.linux.dev>; Mon, 02 Feb 2026 02:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1770026788; x=1770631588; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pYRS8REiJkUFBo0hIRmfjiKWM6qxlJroPIpVwsxgx/g=;
-        b=ZQbpGHIow3RsTfRQpx8QSZayCTKXm4HiQTDlICXtIuW0u7LwjVrJdFc8SASM0Z3TOu
-         SlOcGC80dNl47epzlhTag0I93H9+bj9jiHXzxEW8vGU8MDCuHw6i/TK6g0rH5HEd3PP/
-         NWVmvdRdx/eouJHWOCxuY63B6f7KIDpdpLXKQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770026788; x=1770631588;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pYRS8REiJkUFBo0hIRmfjiKWM6qxlJroPIpVwsxgx/g=;
-        b=MeUdTVHxX95G9wMM4XDINoOJjgHa+jHx470GJtCngh6ZQmTJbzKUJJlPXk4V/NFR6n
-         DfUSGRAyaluivperxYmKm5f1C8Nauzb2iaMbGi4ESkedAC9KMt3pJSQe71w6xfd7BJBa
-         mrd6XM0wqV7KIl8oaC+8PfnaqDzkCHBG9neraHN1ytTgmiocgdyQvVdB9gsYt5XB7ixt
-         IS0xGt/CRb0A3CNkbG6cwBGCYfmMfmTusE9mICbAgjURKwBlG5D2ETuULwCS8T7G0z+w
-         +uUSoF5Dkm/M8xStO0veGMzam3FO3r/8o1luiyRdx/uw3Ge7hfAJTZOYk6Y0lhGghdqK
-         R23g==
-X-Gm-Message-State: AOJu0Yw8LMuuJgPoTyNYzkx/1HcVzxaudQvg7daKPd2O/mwYMRSv8zGD
-	UrF6datH0kxXA3UtxoO+7gpQhk4BfygsQQrejZDNUWxZNaBei8suL8hv8Nq5GOKv0L5piRiWAeK
-	c+9Q=
-X-Gm-Gg: AZuq6aLx6o1oMrcVMaZaiTABN9CC24ba5j9tw4r3VXvbJwF8uJyb+4H1UrJqML0B9Bh
-	iedlr3BTJbUg+wO5e0nUoj25qh7ovHDREZEOM1LMAalXC0nQrORjbvHOOq7WY//0821OXwOXReq
-	RssBlGGtewWpXxOBslv+7iu4tDlDxhEhrRdeeeFNRkd0KHP+0xAVRqxz4GF7Zs7pDp1XLcGXyA+
-	gsKF7ZQcU+sqWfrFDEV1YK25wb8hJJf14y5UP4dd/YSpVQgctZPvfFjAZRGbNpgcO1B7doST1ZR
-	QUpI4i1SWTeq2/WEsTM+Mstz66h3Jq+Tcw/uZ10N+Ts6/Tq2RvFyYQHNkjYVGxfcJdlmCde9OeC
-	m24ggNuUIf9dp8/4uxybsxsKQ/4SbDUt9Raaf7mHed/HnDXuvhz3tY9/D7apNMqlTxqoZh52tmY
-	IRV6N+9RGubpEQfP9Fh960Va0/c4zAXSY0o1qDl2by5Jt7P0TeNzhVnok=
-X-Received: by 2002:a05:7300:4313:b0:2a4:3593:645b with SMTP id 5a478bee46e88-2b7c865023bmr3580914eec.11.1770026787840;
-        Mon, 02 Feb 2026 02:06:27 -0800 (PST)
-Received: from localhost ([2a00:79e0:2ebe:8:71b8:af59:32bf:9394])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-2b7a1af8ac0sm19789598eec.35.2026.02.02.02.06.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Feb 2026 02:06:27 -0800 (PST)
-From: Gwendal Grignou <gwendal@chromium.org>
-X-Google-Original-From: Gwendal Grignou <gwendal@google.com>
-To: tzungbi@kernel.org
-Cc: chrome-platform@lists.linux.dev,
-	Gwendal Grignou <gwendal@google.com>
-Subject: [PATCH] platform/chrome: lightbar: Fix lightbar_program_ex alignment
-Date: Mon,  2 Feb 2026 02:06:21 -0800
-Message-ID: <20260202100621.3608437-1-gwendal@google.com>
-X-Mailer: git-send-email 2.53.0.rc1.225.gd81095ad13-goog
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AbC4mOi4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD59CC116C6;
+	Mon,  2 Feb 2026 13:10:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770037807;
+	bh=yOxQ75HQqmC/cnQRRCpp7T1mzbbAYYYdJvmuhvAuiLY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AbC4mOi4v6a3xxcVjRCWSdFG/Dblv3mIuHlLrZQYuhf3IzurGY/Jv3rtAgaUFnHz5
+	 DrPD55JeH1gWTvmrgJIJtsrOvvneYqHGhsRnk4Fa5IajV81J1R/W+1k5gs3/rAwpXU
+	 jE1jp7227beFcG4sz/OqJiXIM/bWX/RqZIUj9HzUPE8XqexMDwwYqci7Tul9h4HptA
+	 dybSPegR96GHe99wpzGnOx1PZ0nSzTzznkUtnEUy6SxPA9KxgupT9gOOslu+Jk09Lc
+	 jDUU7cjz4AXShikVRMGHK7mfF4fKL11D25V4JLhBkK/93r2BPmUNDSLt5qMW6mg6VW
+	 /n4lkpTSY3zqA==
+Date: Mon, 2 Feb 2026 13:10:04 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Gwendal Grignou <gwendal@chromium.org>
+Cc: chrome-platform@lists.linux.dev, Gwendal Grignou <gwendal@google.com>
+Subject: Re: [PATCH] platform/chrome: lightbar: Fix lightbar_program_ex
+ alignment
+Message-ID: <aYCiLONNTvtjtb6h@google.com>
+References: <20260202100621.3608437-1-gwendal@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202100621.3608437-1-gwendal@google.com>
 
-Make sure sub-command of lightbar command starts with a 8bit
-parameter to ensure alignment.
+On Mon, Feb 02, 2026 at 02:06:21AM -0800, Gwendal Grignou wrote:
+> Make sure sub-command of lightbar command starts with a 8bit
+> parameter to ensure alignment.
+> 
+> [...]
 
-Fixes: 9600b8bdbfe4 ("platform/chrome: lightbar: Add support for large sequence")
+Applied to
 
-Signed-off-by: Gwendal Grignou <gwendal@google.com>
----
- include/linux/platform_data/cros_ec_commands.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index 144243143034..16e779daad26 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -2026,8 +2026,8 @@ struct lightbar_program {
-  * EC RAM.
-  */
- struct lightbar_program_ex {
--	uint16_t offset;
- 	uint8_t size;
-+	uint16_t offset;
- 	uint8_t data[0];
- } __ec_todo_unpacked;
- 
--- 
-2.53.0.rc1.225.gd81095ad13-goog
+[1/1] platform/chrome: lightbar: Fix lightbar_program_ex alignment
+      commit: ff6ff0f950066fb84a6d9358614d18d7280d1b6a
 
+Thanks!

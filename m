@@ -1,60 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D16B2C11FE
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Feb 2026 02:24:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130942F12C9;
+	Tue,  3 Feb 2026 06:11:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770085485; cv=none; b=fH8/BvVp2GPIBCBPCpXKNcW6nJgbClaW2CJOn7r3QbW/+ltTzB4o8EDRZrXyCLs6387tsjx05YSCtyFEFqOHUJ4Iq3jIuyNIS/cJQNCe0/+mDgWf93hMDltyV9o9ZwWvTE3F/1N8hn/FT/m6m9/6Cu7zfhYwFk5KYiGrub58Yg8=
+	t=1770099111; cv=none; b=FDYYQDkqPoo0gmWsGriykKXO7nHc+ipMNKQkQEjWyOyTbjo36rjBf0VuJzjxk7/O8I3jmTl9Uw5zrFZ/AZm6KDPM7m4VHFNyP+JHxvH8eD440dgiajCGakUQsr+kGNL5AQoaCczNxSt9lfUd1BFNQtPFqcdYy3ieZ0l0ffA24e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770085485; c=relaxed/simple;
-	bh=7s4uWKpo+/4IrEd4YbkHa0XDK5bSLnDpNUrLW+/wzM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q7LlZujUp+x/P1TKR/4g1wGizNINuT/x8qWgQ11XtK48diTccKij5uWyZIFSZbafC+zuPqmCnl2kf+g/RtzA5w/KtR23TgSfl1mPLL17WeOwDTF6KRmMGYYBiZzVjli3RDfa7hEYtdAmTvEw4WK068uSPGyd7FnKt3+Vg8kT3cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PbwIKhA1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770099111; c=relaxed/simple;
+	bh=BSGHvToVNCx/Yaya0iwtDEm8RKbO3YQ4bYXyPmAstLE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YRsd25GcERUyRJyevYS0idSWFny7bzi8YvhYZ/ZHKmAG5j3hRxszbw7sQOg75v5v2FQRyEBPzPh5SLHEoQZgszCMmdkb3EPm2i6INTjW1CIuuPybJxOjiEmBAdFRYor68x3OOe7sfdwR8vqd+iCL1U3mH2KGB5E7+ykuvPUxFQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVC5Kf0F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PbwIKhA1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA78C116C6;
-	Tue,  3 Feb 2026 02:24:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVC5Kf0F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46721C116D0;
+	Tue,  3 Feb 2026 06:11:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770085485;
-	bh=7s4uWKpo+/4IrEd4YbkHa0XDK5bSLnDpNUrLW+/wzM4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PbwIKhA1KBlZ7Beei1/pdrMzpAx2ESa1bvsDWNNZ9N4iMpyTmJlsAdmiGB3Pw7FMd
-	 8Ys+8i/TgvJ5WAbfneKWRkOKv21x60ZBhJdwcgJBVPHV7NdRHGzci0pXYR6puOvfHf
-	 Cma4LvdT9pcqWUd2I3LLKTpEBfvUSZYnZToFsUuzxIY/d/uF7eYv015vAajZVA/oXE
-	 f5VvtDo//WYyGHPDAT68QroFLaQH1c3wH84Oj+dX2Jth3Xvaz+M62koyd4VXWyIM9P
-	 I8elBzlGXKeAtgv7eRJ+ZZuQgNgkLu4PW41TpXwsGfe2Cc5yjNRbVe4LRCgGMBg5bS
-	 Pn7+3OjkU9zSg==
-Date: Tue, 3 Feb 2026 02:24:42 +0000
+	s=k20201202; t=1770099110;
+	bh=BSGHvToVNCx/Yaya0iwtDEm8RKbO3YQ4bYXyPmAstLE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dVC5Kf0FuMzGQbAYOTnbaXD7awfQUjAaTQi7gl9dqyAxyEkEPWJ5+ygagwNw2cVnt
+	 sHe/pu6WajcRIGNG045FvHaCX8MKbN8+enaCDz2kLvXFqHXupS/h1gcX+kHvDIL71U
+	 GiL/SytMSwxYVs29zIRpZWRX0lSxWm/aZLzsE0ux+dqsv5mtXTfzEMBeeE3NZ0mthn
+	 XRxDm7ASxtiii9zYC9+HXh7CHNe50RUUoo6g43NLhB/+iY5hHIsxB9IhhLm18jxP6p
+	 jYpLN6BJwvRNQkrybL9nZR8v8T3VmdBr9odbrJWjAYzlku9m15qRoKVp39AujNxJei
+	 jKOMOoIHXi+qQ==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Gwendal Grignou <gwendal@chromium.org>
-Cc: chrome-platform@lists.linux.dev, Gwendal Grignou <gwendal@google.com>
-Subject: Re: [PATCH v2] platform/chrome: lightbar: Fix lightbar_program_ex
- alignment
-Message-ID: <aYFcasfnPM9FhaZm@google.com>
-References: <20260202202157.529680-1-gwendal@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linusw@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Johan Hovold <johan@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-gpio@vger.kernel.org
+Subject: [PATCH v2 00/11] gpio: Adopt revocable mechanism for UAF prevention
+Date: Tue,  3 Feb 2026 06:10:47 +0000
+Message-ID: <20260203061059.975605-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.53.0.rc2.204.g2597b5adb4-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202202157.529680-1-gwendal@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 02, 2026 at 12:21:57PM -0800, Gwendal Grignou wrote:
-> Make sure sub-command of lightbar command starts with a 8bit
-> parameter to ensure alignment.
-> 
-> [...]
+This series transitions the UAF prevention logic within the GPIO core
+(gpiolib) to use the 'revocable' mechanism.
 
-Applied to
+The existing code aims to prevent UAF issues when the underlying GPIO
+chip is removed.  This series replaces that custom logic with the
+generic 'revocable' API, which is designed to handle such lifecycle
+dependencies.  There should be no changes in behavior.
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+The series applies after:
+- https://lore.kernel.org/all/20260129143733.45618-1-tzungbi@kernel.org
+- https://lore.kernel.org/all/20260203060210.972243-1-tzungbi@kernel.org
 
-[1/1] platform/chrome: lightbar: Fix lightbar_program_ex alignment
-      commit: d55493f6d2dae3a8e8b50fe82e947781a7735c51
+Bartosz: the series was planned to send after -rc1 comes.  But I think
+it'd be great to send out for your early review and testing if possible.
+The series base on v6.19-rc8, driver-core-next, and gpio/for-next.
+Please use the temporary integration testing branch
+https://git.kernel.org/pub/scm/linux/kernel/git/tzungbi/chrome-platform.git/log/?h=gpio_rev
+if you'd like to.
 
-Thanks!
+Tzung-Bi Shih (11):
+  gpio: Access `gpio_bus_type` in gpiochip_setup_dev()
+  gpio: Remove redundant check for struct gpio_chip
+  gpio: sysfs: Remove redundant check for struct gpio_chip
+  gpio: Ensure struct gpio_chip for gpiochip_setup_dev()
+  gpio: cdev: Don't check struct gpio_chip in gpio_chrdev_open()
+=> The first 5 patches are refactors.  They try to make the subsequent
+   changes easier or at least clear.
+
+  selftests: gpio: Add gpio-cdev-uaf tests
+=> The following patch adds kselftest cases for some classic UAF
+   scenarios.
+
+  gpio: Add revocable provider handle for struct gpio_chip
+  gpio: cdev: Leverage revocable for accessing struct gpio_chip
+  gpio: Remove gpio_chip_guard by using revocable
+  gpio: Leverage revocable for accessing struct gpio_chip
+=> The following 4 patches start to replace the existing code.
+
+  gpio: Remove unused `chip` and `srcu` in struct gpio_device
+=> The last patch removes the unused fields for the custom logic as all
+   of them should be transiting to revocable.
+
+---
+v2:
+- Separate fixes patches from v1.  Some of them have been landed.
+- Combine small patches into one as they become simpler after applying
+  https://lore.kernel.org/all/20260129143733.45618-1-tzungbi@kernel.org.
+
+v1: https://lore.kernel.org/all/20260116081036.352286-1-tzungbi@kernel.org
+
+ drivers/gpio/gpiolib-cdev.c                   |  97 +++---
+ drivers/gpio/gpiolib-cdev.h                   |   3 +-
+ drivers/gpio/gpiolib-sysfs.c                  |  50 ++-
+ drivers/gpio/gpiolib-sysfs.h                  |  11 +-
+ drivers/gpio/gpiolib.c                        | 303 +++++++++---------
+ drivers/gpio/gpiolib.h                        |  27 +-
+ tools/testing/selftests/gpio/Makefile         |   5 +-
+ tools/testing/selftests/gpio/gpio-cdev-uaf.c  | 292 +++++++++++++++++
+ tools/testing/selftests/gpio/gpio-cdev-uaf.sh |  63 ++++
+ 9 files changed, 575 insertions(+), 276 deletions(-)
+ create mode 100644 tools/testing/selftests/gpio/gpio-cdev-uaf.c
+ create mode 100755 tools/testing/selftests/gpio/gpio-cdev-uaf.sh
+
+-- 
+2.53.0.rc2.204.g2597b5adb4-goog
+

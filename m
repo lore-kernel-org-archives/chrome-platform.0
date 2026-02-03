@@ -1,222 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE5636BCEB;
-	Tue,  3 Feb 2026 06:12:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34776393DF5;
+	Tue,  3 Feb 2026 09:51:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770099141; cv=none; b=KATSqR3XyUZErm1UAQpUZC+Kn21uVvU6QmFUBCh5QoWzZjvQ/x5ebDmXAka0UNVBfkIE7mWSYsM3DTKL+POLE42nFIkS1BQsRrBn9QUhQ3//WArT5rqMXo5ni2Tgb97EHPL0Niev6XmqB72HMs0Zhj8rumwJZEwvZJNn8TJrwpQ=
+	t=1770112320; cv=none; b=Fz8/+5TV5NaRHtVR520oZyiBDScEM726FfkP22h/AasnbT2RmAhZYfWu3yMvDOMI/bJE1ksFl0Azxvcs0AapYEBJZHNf7/Z/C20m3d+2AN/2B3jGB6ZBdwUSOFfO3Xxgp5a7i5AJFsiotlveggMe1EnnKzmrz6xFLCW74en7g/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770099141; c=relaxed/simple;
-	bh=ldihWY52VOZDRWgJtWxRIOsufAG6wBHd6sUeYExdgBs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=etNfeBJ2DF5NiI4X0cWmA6TSQw6mo2z66P/AhZCInAqDOmFYzoLZWAaPygHvnv6fvPKdG/+tIz/4nveqGVeqX7EVuWgsU6/mLnpgMRL3b2nzcz457X4DKN+10n087qZlctY7pA/l+UAEog2YDAQykN/Ve8e/9G1rF3xfsR7+TKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJaGHU3j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770112320; c=relaxed/simple;
+	bh=JoSo1U6Ut8p2NIj9qp0jlb4l/KgJvCWtB/NubAXASxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=flQ5V3zoRRriKpAfzwmglGj2CFqziYKEkpcqOf0FQsJY2zIH9PwkMhA9f1yy3gGTHxds5tXPS9YA1SHAmWe+fyXXsxkfoQ/J07rc/ZDq8Llp3Er8rzkZ/1CVUofj/Q3wOiYr45/CuoLValoNM5TZi+lBQT2itbZXPK2T7rB+tkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yh7zXQ74; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJaGHU3j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6678BC2BC86;
-	Tue,  3 Feb 2026 06:12:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yh7zXQ74"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 672ADC116D0;
+	Tue,  3 Feb 2026 09:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770099140;
-	bh=ldihWY52VOZDRWgJtWxRIOsufAG6wBHd6sUeYExdgBs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mJaGHU3jljibqPDab6tqYZlsKfG93kZu5gLYchcbaMnxi3EKmS9UeFjbj6PyRQV6g
-	 1XZkfhQiY/N7nNlFOnoin4EuJNz42ZCXn8UL/ImGiGbpeNhLOUcgSHD3Ly/aoFb4v1
-	 RL5Owm1F60a6syEOCzm/j3T2ixOoNgy+CJoxpyWbVEunRsJSVUBPRBPGUyQb5bgP3w
-	 iwwLOoSoGxUfUS1ln6et1hW9alBSe2AtUxKmEiC70JmhZx2RZ4RWSWpNG1yHXFJeLg
-	 G0iweisPLWg+a2nVB2FftXjIZNpdeOXjFcxlVN5hZobq4VRX/WKBw9u6m9TEsG1C/e
-	 1KEURwkzu4WYw==
+	s=k20201202; t=1770112319;
+	bh=JoSo1U6Ut8p2NIj9qp0jlb4l/KgJvCWtB/NubAXASxo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yh7zXQ7443ey47b/4qL7hWhikaxa7wSLA9BvoIZd/S8NGfOpmskBo62jAFK1E0k1R
+	 M1u48wDhNaYfRQVYJP2cNktX6g77jpAKi1z3Hir9j82XX7fsALNQf+94U9RSyZPZIS
+	 FRs8+P3uJAYK0YhwQTTBthhNjBHY6uSRS8vn6rf5rmDHZk6RgotMcj3REsevjWsFEH
+	 6e462cyswn4UFcwfdIJy4h9qAuVex2BqOeJsVhCIKoT16cWyO72WmqV4MiTTtq146E
+	 342uCEEtFkQ5Odn+ZPo5PpGypDgY+LfrJhyL6Hz5XuAPSNb7FcrUEUvboSHSF4ZkKG
+	 ENu9tai4XJxkw==
+Date: Tue, 3 Feb 2026 09:51:55 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
 	Bartosz Golaszewski <brgl@bgdev.pl>,
 	Linus Walleij <linusw@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Johan Hovold <johan@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+	Jason Gunthorpe <jgg@nvidia.com>, Johan Hovold <johan@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
-	tzungbi@kernel.org,
-	Dan Williams <dan.j.williams@intel.com>,
-	linux-gpio@vger.kernel.org
-Subject: [PATCH v2 11/11] gpio: Remove unused `chip` and `srcu` in struct gpio_device
-Date: Tue,  3 Feb 2026 06:10:58 +0000
-Message-ID: <20260203061059.975605-12-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.53.0.rc2.204.g2597b5adb4-goog
-In-Reply-To: <20260203061059.975605-1-tzungbi@kernel.org>
+	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 08/11] gpio: cdev: Leverage revocable for accessing
+ struct gpio_chip
+Message-ID: <aYHFO0TlXMP4Bli-@google.com>
 References: <20260203061059.975605-1-tzungbi@kernel.org>
+ <20260203061059.975605-9-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260203061059.975605-9-tzungbi@kernel.org>
 
-`chip` and `srcu` in struct gpio_device are unused as their usages are
-replaced to use revocable.  Remove them.
+On Tue, Feb 03, 2026 at 06:10:55AM +0000, Tzung-Bi Shih wrote:
+> ---
+> v2:
+> - Change usages accordingly after applying
+>   https://lore.kernel.org/all/20260129143733.45618-4-tzungbi@kernel.org.
+>   - Preserve a local storage for `struct revocable`.
+> - Combine multiple patches (see "v1:").
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-v2:
-- No changes.
+Forgot to mention it in the changelog:
+- v2 fixes a race condition reported in
+  https://lore.kernel.org/all/CAMRc=McDaipt85OHm0MksLkuf6E79dY1uNSqqbcJnoQTUs81Pw@mail.gmail.com/
+  and analyzed in
+  https://lore.kernel.org/all/aXEEUWwkxHZzCnaI@tzungbi-laptop/.
+  In v1, the blocking_notifier_chain_unregister() will be skipped if the
+  chip has been removed, leading an UAF in gpiolib_cdev_unregister().
+  In v2, it won't skip blocking_notifier_chain_unregister().
 
-v1: https://lore.kernel.org/all/20260116081036.352286-24-tzungbi@kernel.org
-
- drivers/gpio/gpiolib.c | 26 +-------------------------
- drivers/gpio/gpiolib.h |  4 ----
- 2 files changed, 1 insertion(+), 29 deletions(-)
-
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index 347ff456858f..bcc7834b2362 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -423,8 +423,6 @@ static int gpiochip_get_direction(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->get_direction))
- 		return -EOPNOTSUPP;
- 
-@@ -875,7 +873,6 @@ static void gpiodev_release(struct device *dev)
- 	ida_free(&gpio_ida, gdev->id);
- 	kfree_const(gdev->label);
- 	kfree(gdev->descs);
--	cleanup_srcu_struct(&gdev->srcu);
- 	kfree(gdev);
- }
- 
-@@ -1076,14 +1073,9 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
- 		goto err_free_gdev;
- 	gdev->id = ret;
- 
--	ret = init_srcu_struct(&gdev->srcu);
--	if (ret)
--		goto err_free_ida;
--	rcu_assign_pointer(gdev->chip, gc);
--
- 	ret = init_srcu_struct(&gdev->desc_srcu);
- 	if (ret)
--		goto err_cleanup_gdev_srcu;
-+		goto err_free_ida;
- 
- 	ret = dev_set_name(&gdev->dev, GPIOCHIP_NAME "%d", gdev->id);
- 	if (ret)
-@@ -1277,8 +1269,6 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
- 
- err_cleanup_desc_srcu:
- 	cleanup_srcu_struct(&gdev->desc_srcu);
--err_cleanup_gdev_srcu:
--	cleanup_srcu_struct(&gdev->srcu);
- err_free_ida:
- 	ida_free(&gpio_ida, gdev->id);
- err_free_gdev:
-@@ -1315,8 +1305,6 @@ void gpiochip_remove(struct gpio_chip *gc)
- 	synchronize_srcu(&gpio_devices_srcu);
- 
- 	/* Numb the device, cancelling all outstanding operations */
--	rcu_assign_pointer(gdev->chip, NULL);
--	synchronize_srcu(&gdev->srcu);
- 	revocable_provider_revoke(&gdev->chip_rp);
- 	gpio_device_teardown_shared(gdev);
- 	gpiochip_irqchip_remove(gc);
-@@ -2822,8 +2810,6 @@ static int gpiochip_direction_input(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->direction_input))
- 		return -EOPNOTSUPP;
- 
-@@ -2839,8 +2825,6 @@ static int gpiochip_direction_output(struct gpio_chip *gc, unsigned int offset,
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->direction_output))
- 		return -EOPNOTSUPP;
- 
-@@ -2930,8 +2914,6 @@ static int gpiochip_set(struct gpio_chip *gc, unsigned int offset, int value)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(unlikely(!gc->set)))
- 		return -EOPNOTSUPP;
- 
-@@ -3285,8 +3267,6 @@ static int gpiochip_get(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	/* Make sure this is called after checking for gc->get(). */
- 	ret = gc->get(gc, offset);
- 	if (ret > 1)
-@@ -3340,8 +3320,6 @@ static int gpiod_get_raw_value_commit(const struct gpio_desc *desc)
- static int gpio_chip_get_multiple(struct gpio_chip *gc,
- 				  unsigned long *mask, unsigned long *bits)
- {
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (gc->get_multiple) {
- 		int ret;
- 
-@@ -3695,8 +3673,6 @@ static int gpiochip_set_multiple(struct gpio_chip *gc,
- 	unsigned int i;
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (gc->set_multiple) {
- 		ret = gc->set_multiple(gc, mask, bits);
- 		if (ret > 0)
-diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
-index ce6273cc74f2..2179074d2362 100644
---- a/drivers/gpio/gpiolib.h
-+++ b/drivers/gpio/gpiolib.h
-@@ -28,7 +28,6 @@
-  * @chrdev: character device for the GPIO device
-  * @id: numerical ID number for the GPIO chip
-  * @owner: helps prevent removal of modules exporting active GPIOs
-- * @chip: pointer to the corresponding gpiochip, holding static
-  * data for this device
-  * @descs: array of ngpio descriptors.
-  * @valid_mask: If not %NULL, holds bitmask of GPIOs which are valid to be
-@@ -51,7 +50,6 @@
-  *                 process context
-  * @device_notifier: used to notify character device wait queues about the GPIO
-  *                   device being unregistered
-- * @srcu: protects the pointer to the underlying GPIO chip
-  * @chip_rp: revocable provider handle for the corresponding struct gpio_chip.
-  * @pin_ranges: range of pins served by the GPIO driver
-  *
-@@ -65,7 +63,6 @@ struct gpio_device {
- 	struct cdev		chrdev;
- 	int			id;
- 	struct module		*owner;
--	struct gpio_chip __rcu	*chip;
- 	struct gpio_desc	*descs;
- 	unsigned long		*valid_mask;
- 	struct srcu_struct	desc_srcu;
-@@ -79,7 +76,6 @@ struct gpio_device {
- 	rwlock_t		line_state_lock;
- 	struct workqueue_struct	*line_state_wq;
- 	struct blocking_notifier_head device_notifier;
--	struct srcu_struct	srcu;
- 	struct revocable_provider __rcu *chip_rp;
- 
- #ifdef CONFIG_PINCTRL
--- 
-2.53.0.rc2.204.g2597b5adb4-goog
-
+> 
+> v1:
+> - https://lore.kernel.org/all/20260116081036.352286-14-tzungbi@kernel.org
+> - https://lore.kernel.org/all/20260116081036.352286-15-tzungbi@kernel.org
+> - https://lore.kernel.org/all/20260116081036.352286-16-tzungbi@kernel.org
+> - https://lore.kernel.org/all/20260116081036.352286-17-tzungbi@kernel.org
+> - https://lore.kernel.org/all/20260116081036.352286-18-tzungbi@kernel.org

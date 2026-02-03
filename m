@@ -1,78 +1,78 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFC539E167
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Feb 2026 13:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D18326948
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Feb 2026 13:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770126947; cv=none; b=agbtE4VlmDQS3kmogJWHc0EbHIKuu268a2S7Z6hBWOmsI1Hh1K0uomE/31Owd5UPy6UR0Z83mw36eIvz+DAXYd36ZUWVKEV9Y0HU+kaovPuQ3kQqAfuPAjMHYGPdC7LjmwOBBmX2erstrvxMsY/rHNtvMQmxCzoljclV3ZqEfQg=
+	t=1770126949; cv=none; b=C7v8+pEF7nddGvDZsWBT1VFr/xarJA1MZqXONIJJXWVc15K4b74Vdzbxa6Oz4noaU3sgZ7cbCSJXMpXmLF1CDkTxIOK/DnjCzf92ylN+QHAbui47jBMI2tBMwsLNd1c+FJmgXRJuNpWu+9NLoT0ERckzMPuFepkmKtce/TYw+P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770126947; c=relaxed/simple;
-	bh=HUzZQqE9JK0+FE6Mnca8kqLiZQctwLbMXHrZxYtu/1Q=;
+	s=arc-20240116; t=1770126949; c=relaxed/simple;
+	bh=Xes+67Kf94eA4bNzKyiXPD/wS2arWWSD33HuGj8P008=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VhbL8avnHJmPnJ4KeJCc4QVderpl/ssOnjg0QK8A66FaIJK4qWoLorHvyb4+PrL/QS7Y5MCQuh4YDt8Q27efjnYVTXJDkrLE0FuvfnGE8FRtfzeRgMXlS7LaTy49kwjOCxDk3VKnEqolu7QMa0Jt+ST2Qrgxliv8Qgi2mm1O5BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LAR2p81I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QllUPBcJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LAR2p81I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QllUPBcJ; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=AsdBzQQgKQnwLOuEp3iJDNoZZLNJfVgAJSiX62jcm/dnbmvjd7e71CG4MxNXNW3c6q/cucVMpbu7EJuoFaP8FMtBVThTa8P4tCWjgmX9E4H/+ujveA9eqnF1TZJj1+GOIKV9NPturJH6u9mw8Pl701X/AaeI97kdgdc17uz32Fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JPalHk0p; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7wCLObgJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JPalHk0p; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7wCLObgJ; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LAR2p81I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QllUPBcJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LAR2p81I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QllUPBcJ"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JPalHk0p";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7wCLObgJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JPalHk0p";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7wCLObgJ"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7BA903E6D5;
-	Tue,  3 Feb 2026 13:55:29 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C4D775BCCC;
+	Tue,  3 Feb 2026 13:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770126929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1770126928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=m+pDbjxVqJIFwnaAB3M0jgbm3ql3GEtdjLFQ79q0pWw=;
-	b=LAR2p81II6uz5XH/lHruVaHwX3wZ1kX3WtmujLwDYM8xxN38bGlsYnj11YKs0QQ5g3CB4o
-	ZfTeKXMCxh5B50PdUFm6Ef7O9fUs4WZFJbbDAQs72/b4316xeBspbVbbfuWqIuZ6Msps+w
-	S6qETImMBjP+lHIk0YDG5765bb818ko=
+	bh=ld7t4qNNobtnHi99lbfrnBdwHcjxOvn6d3Vey/eHElY=;
+	b=JPalHk0pJ+7cU/tOVkrkSuwg1NwLcU5zXbki/QuqQIBinzNAoFdwqIO9IYDlFgKFkYslIX
+	xlDosQOAeKH82Lcj9SV5FT+8ubxiAqjqtUdXtlDyohFdBSmE2LHFaA0HqERZSC3o6iUloS
+	DuV+PGMrU1peuwZVIMlfrZcQSArKxe8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770126929;
+	s=susede2_ed25519; t=1770126928;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=m+pDbjxVqJIFwnaAB3M0jgbm3ql3GEtdjLFQ79q0pWw=;
-	b=QllUPBcJELlxYGwWkw6HPK7VreSSVHvdm8zeTb4hkmJr5rhMeySz78SMLZZzzcR0t8P7az
-	J6etTeNFWffuGiDA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=ld7t4qNNobtnHi99lbfrnBdwHcjxOvn6d3Vey/eHElY=;
+	b=7wCLObgJSNUiAGa3UZ0C1v/4Yi9kdaluyU9fGM/Rx20kEuUbmLGb08QoGjjvOUmS05x1zf
+	0m4dyXHaeMo8CIAw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770126929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1770126928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=m+pDbjxVqJIFwnaAB3M0jgbm3ql3GEtdjLFQ79q0pWw=;
-	b=LAR2p81II6uz5XH/lHruVaHwX3wZ1kX3WtmujLwDYM8xxN38bGlsYnj11YKs0QQ5g3CB4o
-	ZfTeKXMCxh5B50PdUFm6Ef7O9fUs4WZFJbbDAQs72/b4316xeBspbVbbfuWqIuZ6Msps+w
-	S6qETImMBjP+lHIk0YDG5765bb818ko=
+	bh=ld7t4qNNobtnHi99lbfrnBdwHcjxOvn6d3Vey/eHElY=;
+	b=JPalHk0pJ+7cU/tOVkrkSuwg1NwLcU5zXbki/QuqQIBinzNAoFdwqIO9IYDlFgKFkYslIX
+	xlDosQOAeKH82Lcj9SV5FT+8ubxiAqjqtUdXtlDyohFdBSmE2LHFaA0HqERZSC3o6iUloS
+	DuV+PGMrU1peuwZVIMlfrZcQSArKxe8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770126929;
+	s=susede2_ed25519; t=1770126928;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=m+pDbjxVqJIFwnaAB3M0jgbm3ql3GEtdjLFQ79q0pWw=;
-	b=QllUPBcJELlxYGwWkw6HPK7VreSSVHvdm8zeTb4hkmJr5rhMeySz78SMLZZzzcR0t8P7az
-	J6etTeNFWffuGiDA==
+	bh=ld7t4qNNobtnHi99lbfrnBdwHcjxOvn6d3Vey/eHElY=;
+	b=7wCLObgJSNUiAGa3UZ0C1v/4Yi9kdaluyU9fGM/Rx20kEuUbmLGb08QoGjjvOUmS05x1zf
+	0m4dyXHaeMo8CIAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 23BA83EA63;
-	Tue,  3 Feb 2026 13:55:29 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CF033EA63;
+	Tue,  3 Feb 2026 13:55:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KMpMB1H+gWlGDwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 03 Feb 2026 13:55:29 +0000
+	id WHRqGVD+gWlGDwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 03 Feb 2026 13:55:28 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tzungbi@kernel.org,
 	briannorris@chromium.org,
@@ -86,9 +86,9 @@ To: tzungbi@kernel.org,
 Cc: chrome-platform@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 08/12] firmware: google: Export coreboot table entries
-Date: Tue,  3 Feb 2026 14:52:27 +0100
-Message-ID: <20260203135519.417931-9-tzimmermann@suse.de>
+Subject: [PATCH v3 06/12] firmware: google: Init coreboot bus with subsys_initcall()
+Date: Tue,  3 Feb 2026 14:52:25 +0100
+Message-ID: <20260203135519.417931-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260203135519.417931-1-tzimmermann@suse.de>
 References: <20260203135519.417931-1-tzimmermann@suse.de>
@@ -126,212 +126,37 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 X-Spam-Level: 
 X-Spam-Flag: NO
 
-Move types for coreboot table entries to <linux/coreboot.h>. Allows
-drivers in other subsystems to use these structures.
+Using module_init()/device_initcall() is too late to initialize
+the coreboot bus, as there might already be drivers that depend
+on it.
+
+So far this hasn't been a problem, as coreboot controls all device
+creation. Initializing the coreboot bus earlier in subsys_initcall()
+will allow for external coreboot drivers to register themselves
+with device_initcall(). Prepares coreboot to support additional
+coreboot drivers from other subsystems.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 Acked-by: Julius Werner <jwerner@chromium.org>
 ---
- MAINTAINERS                                   |  1 +
- drivers/firmware/google/coreboot_table.c      | 10 +++
- drivers/firmware/google/coreboot_table.h      | 60 +----------------
- .../firmware/google/framebuffer-coreboot.c    |  2 -
- include/linux/coreboot.h                      | 66 +++++++++++++++++++
- 5 files changed, 78 insertions(+), 61 deletions(-)
- create mode 100644 include/linux/coreboot.h
+ drivers/firmware/google/coreboot_table.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cd371029629e..c0a8de9fb58d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10742,6 +10742,7 @@ L:	chrome-platform@lists.linux.dev
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git
- F:	drivers/firmware/google/
-+F:	include/linux/coreboot.h
- 
- GOOGLE TENSOR SoC SUPPORT
- M:	Peter Griffin <peter.griffin@linaro.org>
 diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
-index a031d6fe6bc5..c769631ea15d 100644
+index 882db32e51be..26d93781e64a 100644
 --- a/drivers/firmware/google/coreboot_table.c
 +++ b/drivers/firmware/google/coreboot_table.c
-@@ -22,6 +22,16 @@
+@@ -251,7 +251,7 @@ static void __exit coreboot_table_driver_exit(void)
+ 	bus_unregister(&coreboot_bus_type);
+ }
  
- #include "coreboot_table.h"
+-module_init(coreboot_table_driver_init);
++subsys_initcall(coreboot_table_driver_init);
+ module_exit(coreboot_table_driver_exit);
  
-+/* Coreboot table header structure */
-+struct coreboot_table_header {
-+	char signature[4];
-+	u32 header_bytes;
-+	u32 header_checksum;
-+	u32 table_bytes;
-+	u32 table_checksum;
-+	u32 table_entries;
-+};
-+
- #define CB_DEV(d) container_of(d, struct coreboot_device, dev)
- #define CB_DRV(d) container_of_const(d, struct coreboot_driver, drv)
- 
-diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
-index 17e9e5c3f6e1..616ca3903e5c 100644
---- a/drivers/firmware/google/coreboot_table.h
-+++ b/drivers/firmware/google/coreboot_table.h
-@@ -12,67 +12,9 @@
- #ifndef __COREBOOT_TABLE_H
- #define __COREBOOT_TABLE_H
- 
-+#include <linux/coreboot.h>
- #include <linux/device.h>
- 
--struct coreboot_device_id;
--
--/* Coreboot table header structure */
--struct coreboot_table_header {
--	char signature[4];
--	u32 header_bytes;
--	u32 header_checksum;
--	u32 table_bytes;
--	u32 table_checksum;
--	u32 table_entries;
--};
--
--/* List of coreboot entry structures that is used */
--/* Generic */
--struct coreboot_table_entry {
--	u32 tag;
--	u32 size;
--};
--
--/* Points to a CBMEM entry */
--struct lb_cbmem_ref {
--	u32 tag;
--	u32 size;
--
--	u64 cbmem_addr;
--};
--
--#define LB_TAG_CBMEM_ENTRY 0x31
--
--/* Corresponds to LB_TAG_CBMEM_ENTRY */
--struct lb_cbmem_entry {
--	u32 tag;
--	u32 size;
--
--	u64 address;
--	u32 entry_size;
--	u32 id;
--};
--
--/* Describes framebuffer setup by coreboot */
--struct lb_framebuffer {
--	u32 tag;
--	u32 size;
--
--	u64 physical_address;
--	u32 x_resolution;
--	u32 y_resolution;
--	u32 bytes_per_line;
--	u8  bits_per_pixel;
--	u8  red_mask_pos;
--	u8  red_mask_size;
--	u8  green_mask_pos;
--	u8  green_mask_size;
--	u8  blue_mask_pos;
--	u8  blue_mask_size;
--	u8  reserved_mask_pos;
--	u8  reserved_mask_size;
--};
--
- /* A device, additionally with information from coreboot. */
- struct coreboot_device {
- 	struct device dev;
-diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
-index 81aa522edb1e..fab3f28655d3 100644
---- a/drivers/firmware/google/framebuffer-coreboot.c
-+++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -21,8 +21,6 @@
- 
- #include "coreboot_table.h"
- 
--#define CB_TAG_FRAMEBUFFER 0x12
--
- #if defined(CONFIG_PCI)
- static bool framebuffer_pci_dev_is_enabled(struct pci_dev *pdev)
- {
-diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
-new file mode 100644
-index 000000000000..48705b439c6e
---- /dev/null
-+++ b/include/linux/coreboot.h
-@@ -0,0 +1,66 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * coreboot.h
-+ *
-+ * Coreboot device and driver interfaces.
-+ *
-+ * Copyright 2014 Gerd Hoffmann <kraxel@redhat.com>
-+ * Copyright 2017 Google Inc.
-+ * Copyright 2017 Samuel Holland <samuel@sholland.org>
-+ */
-+
-+#ifndef _LINUX_COREBOOT_H
-+#define _LINUX_COREBOOT_H
-+
-+#include <linux/types.h>
-+
-+/* List of coreboot entry structures that is used */
-+
-+#define CB_TAG_FRAMEBUFFER 0x12
-+#define LB_TAG_CBMEM_ENTRY 0x31
-+
-+/* Generic */
-+struct coreboot_table_entry {
-+	u32 tag;
-+	u32 size;
-+};
-+
-+/* Points to a CBMEM entry */
-+struct lb_cbmem_ref {
-+	u32 tag;
-+	u32 size;
-+
-+	u64 cbmem_addr;
-+};
-+
-+/* Corresponds to LB_TAG_CBMEM_ENTRY */
-+struct lb_cbmem_entry {
-+	u32 tag;
-+	u32 size;
-+
-+	u64 address;
-+	u32 entry_size;
-+	u32 id;
-+};
-+
-+/* Describes framebuffer setup by coreboot */
-+struct lb_framebuffer {
-+	u32 tag;
-+	u32 size;
-+
-+	u64 physical_address;
-+	u32 x_resolution;
-+	u32 y_resolution;
-+	u32 bytes_per_line;
-+	u8  bits_per_pixel;
-+	u8  red_mask_pos;
-+	u8  red_mask_size;
-+	u8  green_mask_pos;
-+	u8  green_mask_size;
-+	u8  blue_mask_pos;
-+	u8  blue_mask_size;
-+	u8  reserved_mask_pos;
-+	u8  reserved_mask_size;
-+};
-+
-+#endif /* _LINUX_COREBOOT_H */
+ MODULE_AUTHOR("Google, Inc.");
 -- 
 2.52.0
 

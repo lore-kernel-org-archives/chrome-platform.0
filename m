@@ -1,95 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF4A3D331A
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Feb 2026 16:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C00828BA95
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Feb 2026 03:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770137624; cv=none; b=n629hrXmEoN6cTLFfPALixu/pt4j1OAd9ri2fVtbow0Yot2zUUacu4xA7d0pmYuvFcu04cvnYtKeYEgehGLDcPkLDLJGYY9BAT0w68PyTQo11kuNZSTGlYJricZjJqBmYwBCw8/Z+fSjb/LuuxF2utjpBbWWkCXOsJbhVds0hhA=
+	t=1770176935; cv=none; b=fM67Ve41hYVVW8rhVw4UbezRDWKogcMev5n7BjBlHwVZf17jFqhjDRLMypFV0xua1DiDVDGgJ8QCFXARTWTgrwdANj6ssz96ozHOp/saR+M176klhTLzxqqWAkOqOiY4qD775OPNFbIr9QvcL48ifHiw1d0DWxjep2jAv4MVxyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770137624; c=relaxed/simple;
-	bh=In+xquHWoZBaw2PD6PDwd7Foyz7Q6UdduSfMTMauVfU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mVxi1p3aRgz3NPxUOWKo6HbcbVZoQJ5m94NiLnCuLX18byF6X3yyQXzqwWpjwYQjUk7oHrPdnCBgVcX6RA8etuuQEeDcpmXu458hvPqqkPf+5m3PZ8E65V+BKrKJftEaUQ/V853pDy2GNgY3/jAHrtxEaMEKLpGtaMwUc8SKXyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a3lXLVmW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770176935; c=relaxed/simple;
+	bh=UTEu/hhov6kTfiR5DLh9JMFg4NP96DCLLgYRQOyS6E4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N6tTIt15ryYoe91xoFExWAwXRjgzFR+T+ALUBxTw8olmCycHdPHNTX4Pkh9h5e6bROvojZuyIvpWkCiXvgFdRBN8pTQgZsgId62GgVGBL26P5LErN5GtpQ2NzDFz9jy5/pc9HWcwnLXW8uiBLuMn0S2N78fDI7uIgPaj7hUeuxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PJlN4GQo; arc=none smtp.client-ip=74.125.82.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a3lXLVmW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49418C116D0
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Feb 2026 16:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770137624;
-	bh=In+xquHWoZBaw2PD6PDwd7Foyz7Q6UdduSfMTMauVfU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=a3lXLVmW8XaVVyXFHP77Jh8kiXU9phxfs7k1HTPB3KQ4ZiobhKePdhMdEdhN7DXQ5
-	 UE9tKH0KVOb+EkRW12cv9v500DPMcgo674XPA5o9qgv10BewZcXvTEiito81sbiqz1
-	 qUYFlyAZTOplvsET76c5+JekJ1/imiqg60ghT647PlMjENwXHs/oxkass8KdFrx8SA
-	 Ls6+IIngna9AArC4qkyiCDekgMRFqBW89lFtR/fAyrqcTql27Wa64UVygw8G6hnWD9
-	 +/h3IZyG6OUv9Z2cslufFT0NYzzGsiDbZylzyy5Jkm1C4nKtN/eoR+H4weObKMM1f0
-	 lKh2PehlKZilA==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59deec3d8dcso7643454e87.3
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Feb 2026 08:53:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXyUue8ux173e9FCjR/tRsgYRH+5htiUPC6IQtsxBNdpEnztMbaf3CP++hQpUudHbiD9KeOF0S3mbyFzQYhfYE=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2iei5R7nLXnGQnTNDW5IjBGOWHeY0N12tiE1ACxRMfbFK8Wpw
-	WkLvWjxPhAgzTtejUhe6gHaeYSUnFgtUWNi4Oc7pAplTzskeQHfQxHrhBy3fF6ZZWvSKoMNHWlW
-	X/54WJ/wSw8xEGs0joMFt5T6fvP01P9gjVzGu5BilDA==
-X-Received: by 2002:a05:6512:15a2:b0:59b:6f90:4a2 with SMTP id
- 2adb3069b0e04-59e163ff132mr5847751e87.16.1770137622739; Tue, 03 Feb 2026
- 08:53:42 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PJlN4GQo"
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1233bb90317so411460c88.1
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Feb 2026 19:48:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1770176933; x=1770781733; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EpR6mUnl3ZtiluaVek+fSFgssF9GzB7lN+E8ezDh1H4=;
+        b=PJlN4GQo/XUtayD55ZeTaHjCEgKSkB4XVNB0HPJnj5zX1N2lMp6AC7zfGM/YUKefCW
+         F8xUrTWrL8doWKFV3TEfWoWKBfJoydTLyg7cQmxK3bwKN4lJZ0elCmSpNYislJul4r9/
+         T65PO1SNWruLfvEQLKXYjpwy5FhohpAkmzbv0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770176933; x=1770781733;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EpR6mUnl3ZtiluaVek+fSFgssF9GzB7lN+E8ezDh1H4=;
+        b=a8BpR5V3+qWY/ehSvGMe1dLSBQhC/D0CAUhBTk5ERSKJUFjQJtvL0HEVd+EiTjSTCW
+         UwUwqzE4YTeod2HSwuYOyzIfEFCGQ5MjyFYyGQadH4tLOHr+W3hlkoo74fWUQ7Vrn619
+         6xYuDdiCaD3wh4JWNGut9Lj8ojy4zOPT+Shjf/MXWBPBPXxSjELPuk1sWnzo4BC55E3i
+         97zK3UDTVu6hF2xVKHmK/ZxS/PdAF1Gz2o2OLvOdzNIgOUlK1Y6/pDvcNTxHehhy2Bnz
+         o1aPZwWQfL9AaxcwawQOTVby3ROq60exG304hhra+f7fOwvNR8eKDGh7IRbE/gQ+h7qT
+         SeDA==
+X-Gm-Message-State: AOJu0YwKVoWzZo1JcykmKOdwKzy2N75GtHwMm01k4BZt4hBU4QKHOZ55
+	tkdvOFXwWHpw/TBpwvyPgRpLhWC6dWdLhNm++sdwhmp/AomfE6OKEfjJX5a6DjCIE1oQuq0wuca
+	gpMs=
+X-Gm-Gg: AZuq6aJQq4RoXq727itoMXl2G4VjFrsrw9Zf2YQHa3QPw+cG2PDsM2Xpn91I5NVuZrH
+	XB+bWT/lUYHwM9/sNUs13cBcq0IAUt0n9jaISQ2ifGXIEEc1EI5Bv9WQxHXw9a39/MH5btYpOHJ
+	irYZP3wTLmmgCOiChEJziNfn6nyGQaUiFSBrkxTcbdG/BGJyCeA1gswKoArxRrPCsu0CNfvZQW0
+	xVJk3Z6MUJNbCOKp3opQwJwOmDjPUGpzA9QZmG8fTne/qXPfl180fLYeZ65F5+DruCnWf6iaxUY
+	L0S/9Xht8slDqXzyIELSkO7nsU++UDyhrlkuOxKLmtLW03ZZ23Tn4a9tPLPzPUuO9Rxx+CGhwHz
+	0HhkBTnindoR3Qv81PEQEuFZoj35J5fI48Jn9r524XpI+TCWyoMJFyWGd2hYnZfmPS1IlGaklhK
+	lOnczTa9IKD/AqF3bFpuhnKwI1nyyYoIRdgTIQ6FyrWvE=
+X-Received: by 2002:a05:7022:2512:b0:11a:fb0a:ceca with SMTP id a92af1059eb24-126ea92ee34mr2125127c88.16.1770176933162;
+        Tue, 03 Feb 2026 19:48:53 -0800 (PST)
+Received: from localhost ([2a00:79e0:2ebe:8:f344:7386:c61:daf2])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-2b832fe43f6sm815101eec.33.2026.02.03.19.48.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Feb 2026 19:48:52 -0800 (PST)
+From: Gwendal Grignou <gwendal@chromium.org>
+X-Google-Original-From: Gwendal Grignou <gwendal@google.com>
+To: tzungbi@kernel.org
+Cc: chrome-platform@lists.linux.dev,
+	Gwendal Grignou <gwendal@google.com>
+Subject: [PATCH] platform/chrome: lightbar: Remove [0]
+Date: Tue,  3 Feb 2026 19:48:48 -0800
+Message-ID: <20260204034848.697033-1-gwendal@google.com>
+X-Mailer: git-send-email 2.53.0.rc2.204.g2597b5adb4-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260203061059.975605-1-tzungbi@kernel.org>
-In-Reply-To: <20260203061059.975605-1-tzungbi@kernel.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 3 Feb 2026 17:53:29 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MdnzSEDD8tiioY9h8QmWA5k=h=DHMbvKkROQ9OFMKDycQ@mail.gmail.com>
-X-Gm-Features: AZwV_QiPVGWFUfBmIgY29grURrZuflz5CVbstkGa2ijfZYwFaDTE-cJ11YGJ5ng
-Message-ID: <CAMRc=MdnzSEDD8tiioY9h8QmWA5k=h=DHMbvKkROQ9OFMKDycQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] gpio: Adopt revocable mechanism for UAF prevention
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 3, 2026 at 7:11=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> w=
-rote:
->
-> This series transitions the UAF prevention logic within the GPIO core
-> (gpiolib) to use the 'revocable' mechanism.
->
-> The existing code aims to prevent UAF issues when the underlying GPIO
-> chip is removed.  This series replaces that custom logic with the
-> generic 'revocable' API, which is designed to handle such lifecycle
-> dependencies.  There should be no changes in behavior.
->
-> The series applies after:
-> - https://lore.kernel.org/all/20260129143733.45618-1-tzungbi@kernel.org
-> - https://lore.kernel.org/all/20260203060210.972243-1-tzungbi@kernel.org
->
-> Bartosz: the series was planned to send after -rc1 comes.  But I think
-> it'd be great to send out for your early review and testing if possible.
-> The series base on v6.19-rc8, driver-core-next, and gpio/for-next.
-> Please use the temporary integration testing branch
-> https://git.kernel.org/pub/scm/linux/kernel/git/tzungbi/chrome-platform.g=
-it/log/?h=3Dgpio_rev
-> if you'd like to.
->
+Variable arrays should be defined as [], not [0], otherwise
+the kernel complains:
 
-One high-level note: for this to be accepted into GPIO, the revocable
-API contract must state very clearly that revocable_try_access() works
-from process AND atomic context while also allowing sleeping inside
-revocable critical sections. I'm saying this because while we use
-naked SRCU, we can rely on the SRCU contract. Once we switch to
-revocable, if someone - for instance - comes up with an idea of
-replacing the internal primitives with rwsem, GPIO will break.
+memcpy  : detected field-spanning write (size 9) of single field "param->set_program_ex.data" at drivers/platform/chrome/cros_ec_lightbar.c:603 (size 0)
 
-Bartosz
+Fixes: d55493f6d2da ("platform/chrome: lightbar: Fix lightbar_program_ex alignment")
+Signed-off-by: Gwendal Grignou <gwendal@google.com>
+---
+ include/linux/platform_data/cros_ec_commands.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
+index bddc7568158e..8080a6fc6c8c 100644
+--- a/include/linux/platform_data/cros_ec_commands.h
++++ b/include/linux/platform_data/cros_ec_commands.h
+@@ -2028,7 +2028,7 @@ struct lightbar_program {
+ struct lightbar_program_ex {
+ 	uint8_t size;
+ 	uint16_t offset;
+-	uint8_t data[0];
++	uint8_t data[];
+ } __ec_todo_packed;
+ 
+ struct ec_params_lightbar {
+-- 
+2.53.0.rc2.204.g2597b5adb4-goog
+

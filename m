@@ -1,58 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6E63D413D
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Feb 2026 10:36:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DA93E95B8
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Feb 2026 12:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770201365; cv=none; b=lwDeMObSXNshQfTAiL9RJBBhstQqqlIm9gI5mOG7Brm7WPztzB/qcL+etZxMEmTmN9TxMJPGBtRIj2tT8NNGSMXug07PrXRWytNaJ1vMN9TfTdcsu6I1WiPQBf1RhG4sTndX7aRiwNNzpTnN7ZSwjUYhLGEuBOoT8im6GPH/Je0=
+	t=1770209927; cv=none; b=usRGOXl1sg3vW1fQNaYaTMJuaJwJ0NXdSAWFILb+q60jeh4TapAXM+TlMbwxLVpYhdQ+896hIm5L8qpSxaY/rScpDRC2bx3/D9fmCxvtJV5TCi9whjB0MmR1LJQZgQ9Jr6rwBLR2byAK6bz1x/BHfLjCUkUYQoigi/ggo/0xH+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770201365; c=relaxed/simple;
-	bh=ptoiRVAlZGzIJyLYt+jTEV9MYD0gUd7D7nxLeNRCiIg=;
+	s=arc-20240116; t=1770209927; c=relaxed/simple;
+	bh=ELhpneqwUCDgZ6KdocffVj0r0JmPKjyIsDF6WR0/XTo=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GA7xdkexb4zz2v5Uit0at3ozonArhETfQPWiRGApISVytI3sB14/vk0pqbdYpJsdA+xyTkAnkazQUUMqwQOH+lw2sq4OYi76PXHsTebmYWFihyiZv6GJjUlKMhaULSEChJVWGwOBHtzcUSARY8QvFaa67V+LgwKPWkFqcNAnkCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oqWKQBFc; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=TDuv26+s4Dks7gS/j0GI2v55kRHTvs7QuQC+5jWAqO/iCd/ZzMrI+vJtYE8ZpPpB0IZPJUPpM1s7dV42jYcScoPQUdHBSDC8tjX8kdkMF7vIhAatidKeQeqyHUC76m7UTXH0VhW/XSQ+hUHI3/gqVv1J5h5UZpzjXO9Dp8aNtQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kExNOxF7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oqWKQBFc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE4DDC16AAE
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Feb 2026 10:36:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kExNOxF7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0AD3C2BC87
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Feb 2026 12:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770201364;
-	bh=ptoiRVAlZGzIJyLYt+jTEV9MYD0gUd7D7nxLeNRCiIg=;
+	s=k20201202; t=1770209926;
+	bh=ELhpneqwUCDgZ6KdocffVj0r0JmPKjyIsDF6WR0/XTo=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=oqWKQBFcDJcd9f1QJy9XjVcA2AhXIvgR3hr3U79caPl44alCys5qm2+XEX3tgyW4l
-	 V+/BErkKPFstKGNeY39aDWJyx7dJi/qgGt+mXizf87eKJmtjjJfT4YnIvmlX/8j3Rn
-	 SdMaQYw/TrdP30BEfT3TjivfQXCLQQmxwQdFFgku8cjEzjqAJzwJFUEAqQ7kKIVdKX
-	 /N0MkioTnzlqoDvPMK2w+bsxSgdDdfM1RzIPxdvKG+kH1MQ7w1RkDHZb0eeRvUuS7G
-	 uqGOckrxqoHj2ACuXx6czvL6LAatrcNr0qsDVrNkNsnr+We6kmxk6lyyJ9cbHs7mmB
-	 ELFLsYKx7VqyQ==
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-126ea4e9694so5760424c88.1
-        for <chrome-platform@lists.linux.dev>; Wed, 04 Feb 2026 02:36:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXeaSUsKsvIuepcDnFvvUIh1KJrnYebvj2WMofgFlD5DWFVUEusofGn78gD19919QAui8Saq9T8I/59I45vhXE=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx5nEXpMQ1kcTAYakaSSLdLsjIH3wZifdzWF609e/H+IniFJVsG
-	9vBfa5NSNHhLqluxkFnGnv0OnNvegh4MOY2e+wUAwBU0wkIHfvkbVSdiUmmar8YCgOUX+gp9jQM
-	A7uKekEKQzEI+Vupxo9R3KcISAdS2Vu4TILBDHo769Q==
-X-Received: by 2002:a05:7022:1a85:b0:123:2c98:f6ac with SMTP id
- a92af1059eb24-126f477cf3fmr1038188c88.12.1770201364221; Wed, 04 Feb 2026
- 02:36:04 -0800 (PST)
+	b=kExNOxF7zq+JrMtYFmtYDQMOKqtxfxU12BcC4UoQDhGs5aFxUTAL6oYBW5i0HUWLj
+	 y8TMASe59IVA6VEGfpsGGEQPd3aJIUlB5S8VFaMPDYs4lZsRIC6UtNRNA7yNl+rhmB
+	 OI8pnvu3d/iK85Qz1WkXRgiNAP90cN9Zw+B9JexFDeoCnCmaKKNwyCy/+iRhp4I58R
+	 g25bBS3RPdT63znJj2Is+BA80/SgEh/wgFkpl539rCudXuC7u9/tmUstoXzYLN2/em
+	 Ewv/5pyo0XTmefckI4UgVuelrR+hc67WZi6oCougMMpZ5i7Gy/0toGRhrO0JWSUMxD
+	 BH++5rO0orwJw==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38316445a67so59425581fa.3
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Feb 2026 04:58:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUNFwDEuATPM4XsClRfovyUKWZAVe/AI2SW0M5FxkYsIUrydLNfoJ2azwveFl9YdvCc1PHahE1zaofHn79xl0s=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0omt50WrtYVOJdYxeGQ/FcL/RqffYhq6sgM4fd0LYPbjFXYR1
+	j6ViYgx5CVuTCdc9KFZk6L026MFQJcNm+kkfzffm/lDjduMGLoUIhbhRb4333//ytJQeXqk6Ysv
+	+rHinLxcpW4W/GdBCKI5RMUbOoJ7LdPVHJtcMgA3rjw==
+X-Received: by 2002:a2e:bd04:0:b0:386:1ce2:1194 with SMTP id
+ 38308e7fff4ca-38691d86a23mr8919481fa.31.1770209925273; Wed, 04 Feb 2026
+ 04:58:45 -0800 (PST)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 4 Feb 2026 04:36:00 -0600
+ HTTPREST; Wed, 4 Feb 2026 07:58:44 -0500
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 4 Feb 2026 04:36:00 -0600
+ HTTPREST; Wed, 4 Feb 2026 07:58:44 -0500
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260203061059.975605-5-tzungbi@kernel.org>
+In-Reply-To: <20260203061059.975605-8-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260203061059.975605-1-tzungbi@kernel.org> <20260203061059.975605-5-tzungbi@kernel.org>
-Date: Wed, 4 Feb 2026 04:36:00 -0600
-X-Gmail-Original-Message-ID: <CAMRc=McJjJNsrG7ZfWYQTBb2-8CgV4OVqZKhSFJDw=cTB0r=dA@mail.gmail.com>
-X-Gm-Features: AZwV_QjU2SVHMmU9hsEFQVuFDP83BW1jovz7xlKNYthT1RHWjVgH8VnPNfzupmc
-Message-ID: <CAMRc=McJjJNsrG7ZfWYQTBb2-8CgV4OVqZKhSFJDw=cTB0r=dA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/11] gpio: Ensure struct gpio_chip for gpiochip_setup_dev()
+References: <20260203061059.975605-1-tzungbi@kernel.org> <20260203061059.975605-8-tzungbi@kernel.org>
+Date: Wed, 4 Feb 2026 07:58:44 -0500
+X-Gmail-Original-Message-ID: <CAMRc=MdYeoMxNFYeX_9S-M286aUjnsxLyy9_apmfPR4NeqVouw@mail.gmail.com>
+X-Gm-Features: AZwV_Qh6Gi1pfyomIVbIDTzDh-vaqoE7doDZ1XfTeCeir74PnHIOe8829DAgfdg
+Message-ID: <CAMRc=MdYeoMxNFYeX_9S-M286aUjnsxLyy9_apmfPR4NeqVouw@mail.gmail.com>
+Subject: Re: [PATCH v2 07/11] gpio: Add revocable provider handle for struct gpio_chip
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -64,15 +64,47 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 3 Feb 2026 07:10:51 +0100, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> Ensure struct gpio_chip for gpiochip_setup_dev().  This eliminates a few
-> checks for struct gpio_chip.
+On Tue, 3 Feb 2026 07:10:54 +0100, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> The underlying chip can be removed asynchronously.  `gdev->srcu` is used
+> to ensure the synchronization before accessing `gdev->chip`.
+>
+> Revocable encapsulates the details.  Add revocable provider handle for
+> the corresponding struct gpio_chip in struct gpio_device so that it can
+> start to hide the synchronization details.
 >
 > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
 
-Same comment as patch 3. I don't like seeing both gpio_chip and gpio_device
-being passed to the same function. If you already dereferenced gpio_chip, pass
-it on its own and get the address of the associated devices from its member
-pointer.
+[snip]
 
-Bartosz
+> diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
+> index 3abb90385829..cd136d5b52e9 100644
+> --- a/drivers/gpio/gpiolib.h
+> +++ b/drivers/gpio/gpiolib.h
+> @@ -52,6 +52,7 @@
+>   * @device_notifier: used to notify character device wait queues about the GPIO
+>   *                   device being unregistered
+>   * @srcu: protects the pointer to the underlying GPIO chip
+> + * @chip_rp: revocable provider handle for the corresponding struct gpio_chip.
+>   * @pin_ranges: range of pins served by the GPIO driver
+>   *
+>   * This state container holds most of the runtime variable data
+> @@ -79,6 +80,7 @@ struct gpio_device {
+>  	struct workqueue_struct	*line_state_wq;
+>  	struct blocking_notifier_head device_notifier;
+>  	struct srcu_struct	srcu;
+> +	struct revocable_provider __rcu *chip_rp;
+>
+
+Why __rcu? This doesn't live in a different address space, only the internal
+resource it protects does. If anything - this could be __attribute__((noderef))
+but even that is questionable as this is an opaque structure.
+
+Bart
+
+>  #ifdef CONFIG_PINCTRL
+>  	/*
+> --
+> 2.53.0.rc2.204.g2597b5adb4-goog
+>
+>

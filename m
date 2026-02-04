@@ -1,66 +1,65 @@
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C00828BA95
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Feb 2026 03:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28821917FB
+	for <chrome-platform@lists.linux.dev>; Wed,  4 Feb 2026 03:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770176935; cv=none; b=fM67Ve41hYVVW8rhVw4UbezRDWKogcMev5n7BjBlHwVZf17jFqhjDRLMypFV0xua1DiDVDGgJ8QCFXARTWTgrwdANj6ssz96ozHOp/saR+M176klhTLzxqqWAkOqOiY4qD775OPNFbIr9QvcL48ifHiw1d0DWxjep2jAv4MVxyo=
+	t=1770177044; cv=none; b=ieyQAq8R2pyc26vG9rR8lkiKevlpjw/2pPfuBvcFtsnPiwtgeuZoR2L6YiMfwGVHCOOG8PsPrUM1GHNBQqdDqFvlLIWRlIIhgONXVamEeNvMr1hDhfR0Tvr4FqkckXYP4ttuJ986yBUsp+rxn2cVHtQo4vodoyHnFJlMtz9Qa8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770176935; c=relaxed/simple;
-	bh=UTEu/hhov6kTfiR5DLh9JMFg4NP96DCLLgYRQOyS6E4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N6tTIt15ryYoe91xoFExWAwXRjgzFR+T+ALUBxTw8olmCycHdPHNTX4Pkh9h5e6bROvojZuyIvpWkCiXvgFdRBN8pTQgZsgId62GgVGBL26P5LErN5GtpQ2NzDFz9jy5/pc9HWcwnLXW8uiBLuMn0S2N78fDI7uIgPaj7hUeuxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PJlN4GQo; arc=none smtp.client-ip=74.125.82.49
+	s=arc-20240116; t=1770177044; c=relaxed/simple;
+	bh=wNDx3ueSsS67Qtsq99nPdnOShsAeDwJ6MDh9qzitsYk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bz8TdFxHeMcYcEZkioQV+PcaElBK2zcDpJBkA580aMCJZikjcBx5KqpZUBBXjKqnt/kMAPPKW0LjFxaQrh51F4TblKziQNuEUy4Vy+08TNjb3dN54Jyb96Xb5YVO8yL8VbreGSxRZQkN7fjLjJHpuaBkZVkSAoCy0qEM3DgFkzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PK4ASQ70; arc=none smtp.client-ip=74.125.82.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PJlN4GQo"
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1233bb90317so411460c88.1
-        for <chrome-platform@lists.linux.dev>; Tue, 03 Feb 2026 19:48:53 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PK4ASQ70"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1248d27f2b9so7919619c88.0
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Feb 2026 19:50:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1770176933; x=1770781733; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1770177042; x=1770781842; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EpR6mUnl3ZtiluaVek+fSFgssF9GzB7lN+E8ezDh1H4=;
-        b=PJlN4GQo/XUtayD55ZeTaHjCEgKSkB4XVNB0HPJnj5zX1N2lMp6AC7zfGM/YUKefCW
-         F8xUrTWrL8doWKFV3TEfWoWKBfJoydTLyg7cQmxK3bwKN4lJZ0elCmSpNYislJul4r9/
-         T65PO1SNWruLfvEQLKXYjpwy5FhohpAkmzbv0=
+        bh=y5JV1ZuKwJQ2SZCKeFKKpYN+BosxusaExClwgnbGOr4=;
+        b=PK4ASQ70yX4bKwiD+sOVSYk1OOpu2zv26W8fCzNrRRC5YxgIpeQirwFty0YD7BxiLJ
+         3aIjaCTukyWnUj4/JrlanmmR6xJ4JF2QQhmFL5ANJ6i+eq+t5NXmdSHueG8un7Bg9xuS
+         aHskSiIj199ra2+ggI93yAWaqL4L0hgotARVs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770176933; x=1770781733;
+        d=1e100.net; s=20230601; t=1770177042; x=1770781842;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EpR6mUnl3ZtiluaVek+fSFgssF9GzB7lN+E8ezDh1H4=;
-        b=a8BpR5V3+qWY/ehSvGMe1dLSBQhC/D0CAUhBTk5ERSKJUFjQJtvL0HEVd+EiTjSTCW
-         UwUwqzE4YTeod2HSwuYOyzIfEFCGQ5MjyFYyGQadH4tLOHr+W3hlkoo74fWUQ7Vrn619
-         6xYuDdiCaD3wh4JWNGut9Lj8ojy4zOPT+Shjf/MXWBPBPXxSjELPuk1sWnzo4BC55E3i
-         97zK3UDTVu6hF2xVKHmK/ZxS/PdAF1Gz2o2OLvOdzNIgOUlK1Y6/pDvcNTxHehhy2Bnz
-         o1aPZwWQfL9AaxcwawQOTVby3ROq60exG304hhra+f7fOwvNR8eKDGh7IRbE/gQ+h7qT
-         SeDA==
-X-Gm-Message-State: AOJu0YwKVoWzZo1JcykmKOdwKzy2N75GtHwMm01k4BZt4hBU4QKHOZ55
-	tkdvOFXwWHpw/TBpwvyPgRpLhWC6dWdLhNm++sdwhmp/AomfE6OKEfjJX5a6DjCIE1oQuq0wuca
-	gpMs=
-X-Gm-Gg: AZuq6aJQq4RoXq727itoMXl2G4VjFrsrw9Zf2YQHa3QPw+cG2PDsM2Xpn91I5NVuZrH
-	XB+bWT/lUYHwM9/sNUs13cBcq0IAUt0n9jaISQ2ifGXIEEc1EI5Bv9WQxHXw9a39/MH5btYpOHJ
-	irYZP3wTLmmgCOiChEJziNfn6nyGQaUiFSBrkxTcbdG/BGJyCeA1gswKoArxRrPCsu0CNfvZQW0
-	xVJk3Z6MUJNbCOKp3opQwJwOmDjPUGpzA9QZmG8fTne/qXPfl180fLYeZ65F5+DruCnWf6iaxUY
-	L0S/9Xht8slDqXzyIELSkO7nsU++UDyhrlkuOxKLmtLW03ZZ23Tn4a9tPLPzPUuO9Rxx+CGhwHz
-	0HhkBTnindoR3Qv81PEQEuFZoj35J5fI48Jn9r524XpI+TCWyoMJFyWGd2hYnZfmPS1IlGaklhK
-	lOnczTa9IKD/AqF3bFpuhnKwI1nyyYoIRdgTIQ6FyrWvE=
-X-Received: by 2002:a05:7022:2512:b0:11a:fb0a:ceca with SMTP id a92af1059eb24-126ea92ee34mr2125127c88.16.1770176933162;
-        Tue, 03 Feb 2026 19:48:53 -0800 (PST)
+        bh=y5JV1ZuKwJQ2SZCKeFKKpYN+BosxusaExClwgnbGOr4=;
+        b=VSMcA437L2R6MSqsGEESdpG7fGPlqCXml5i2ODjD4gnBAUAZSO2X7vLbwA4L5POyOT
+         Dpc8c2PpU+bDnbEKLiwdEYEhGYyGWXLNal6krlPKJVNjmQZUqe0u6nKEaGw5ehPiKpug
+         hSNQH1HVzz3/w7SDahBs/qaGmqNFlT0Zemlj7i1urBIkwPKLWXG1q+oO5bBSmgClCW1i
+         5Y8XyIjdQE3+I+5XKvJHpl82n6EyNdOllIwAMHcWt8t68or+0+GaRsPi15f6BHv0b3sN
+         R+8Q1uzzzExC7eu67cBV6h0mqe3b7ZTKUrHzbjr63/MTg2NmiJhBBIN29bmYvLYk8YTW
+         QSxg==
+X-Gm-Message-State: AOJu0YwdyXti2DAZNOQk3Yc5K5ZYKCIigbrBO+N3+oIb8ljvUFqJpa78
+	Gu2LSfHCbc5HsYktiNDP4ffiD2tV0XI4fLQ7mZiTAfP/g8NpWffxl40UjoxOvx9Fqg==
+X-Gm-Gg: AZuq6aIv7/43slByYGtD4oY+y5y3tZ17ZKUcc938fWaBoW+PNMDepJ1Vprxdyu+CVy6
+	VAq1swqNvYwzww7ZkGWoOJSCOIqiGsb3/MEQ4dKVCoPEiFGl+vGVfpSWh+bG6xwBwIB3ymhNLaN
+	aPz/Nk0i1zTZtVgeStacMEfpEUKUddSPu6WP0gzyDDXe4suQndeK3RviHNKLWfSOIfOCj/kKgSe
+	J/9VoeJPG1KpO8pv5+KX7A6wzKYGXSlrW6SvcSaJpHeyUW6ERS7VzxmRJVFL/6kfjP0yy4wX2NR
+	PsTEVLoE3g3241JdiL1pA17Qa53kAdRgVmyP/lbVGV67+SwGuypXnXQ7d5F+5qBup5GtdCDnkdn
+	STOU6FXHb5bnxyYeTWmBoVcaJugkzFwh/7N+ekVVW6VwAi+P+M/gWbcpeoNZqrpdZFT4QX/hks3
+	EwJ85chGWUyRZYy4mf6EgBZ+enQ9ouIhBqlHubs/UmGQw=
+X-Received: by 2002:a05:7022:68a7:b0:11b:d211:3a64 with SMTP id a92af1059eb24-126f46f9179mr786023c88.0.1770177041874;
+        Tue, 03 Feb 2026 19:50:41 -0800 (PST)
 Received: from localhost ([2a00:79e0:2ebe:8:f344:7386:c61:daf2])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-2b832fe43f6sm815101eec.33.2026.02.03.19.48.52
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-126f4e04467sm891203c88.2.2026.02.03.19.50.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Feb 2026 19:48:52 -0800 (PST)
+        Tue, 03 Feb 2026 19:50:41 -0800 (PST)
 From: Gwendal Grignou <gwendal@chromium.org>
 X-Google-Original-From: Gwendal Grignou <gwendal@google.com>
 To: tzungbi@kernel.org
 Cc: chrome-platform@lists.linux.dev,
 	Gwendal Grignou <gwendal@google.com>
-Subject: [PATCH] platform/chrome: lightbar: Remove [0]
-Date: Tue,  3 Feb 2026 19:48:48 -0800
-Message-ID: <20260204034848.697033-1-gwendal@google.com>
+Subject: [PATCH] platform/chrome: lightbar: Optimize command size
+Date: Tue,  3 Feb 2026 19:50:36 -0800
+Message-ID: <20260204035036.697955-1-gwendal@google.com>
 X-Mailer: git-send-email 2.53.0.rc2.204.g2597b5adb4-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -70,30 +69,40 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Variable arrays should be defined as [], not [0], otherwise
-the kernel complains:
+Enabling tracing with:
+echo 1 > /sys/kernel/debug/tracing/events/cros_ec/cros_ec_request_start/enable
 
-memcpy  : detected field-spanning write (size 9) of single field "param->set_program_ex.data" at drivers/platform/chrome/cros_ec_lightbar.c:603 (size 0)
+To monitor the command and response size. The defaults are 194 and 128 respectively:
+cros_ec_request_start: version: 0, offset: 0, command: EC_CMD_LIGHTBAR_CMD, outsize: 194, insize: 128
 
-Fixes: d55493f6d2da ("platform/chrome: lightbar: Fix lightbar_program_ex alignment")
+Reduce the sizes to the expected subcommands.
+
 Signed-off-by: Gwendal Grignou <gwendal@google.com>
 ---
- include/linux/platform_data/cros_ec_commands.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/platform/chrome/cros_ec_lightbar.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index bddc7568158e..8080a6fc6c8c 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -2028,7 +2028,7 @@ struct lightbar_program {
- struct lightbar_program_ex {
- 	uint8_t size;
- 	uint16_t offset;
--	uint8_t data[0];
-+	uint8_t data[];
- } __ec_todo_packed;
+diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platform/chrome/cros_ec_lightbar.c
+index 2d1aa6edda1a..f69f2f6de276 100644
+--- a/drivers/platform/chrome/cros_ec_lightbar.c
++++ b/drivers/platform/chrome/cros_ec_lightbar.c
+@@ -461,6 +461,8 @@ static ssize_t sequence_store(struct device *dev, struct device_attribute *attr,
+ 	param = (struct ec_params_lightbar *)msg->data;
+ 	param->cmd = LIGHTBAR_CMD_SEQ;
+ 	param->seq.num = num;
++	msg->outsize = offsetof(typeof(*param), seq) + sizeof(param->seq);
++	msg->insize = 0;
+ 	ret = lb_throttle();
+ 	if (ret)
+ 		goto exit;
+@@ -516,6 +518,7 @@ static ssize_t program_store(struct device *dev, struct device_attribute *attr,
+ 	if (ret)
+ 		goto exit;
+ 	param = (struct ec_params_lightbar *)msg->data;
++	msg->insize = 0;
  
- struct ec_params_lightbar {
+ 	if (lb_version < 3) {
+ 		dev_info(dev, "Copying %zu byte program to EC", count);
 -- 
 2.53.0.rc2.204.g2597b5adb4-goog
 

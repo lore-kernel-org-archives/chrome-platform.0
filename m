@@ -1,223 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B8040B6D1
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Feb 2026 13:12:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EF435B644;
+	Thu,  5 Feb 2026 08:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770210754; cv=none; b=X2Y622qc7+WWkhYKSZ9dORG4Th6JAS0SRwPEbaGdMiRRF8nlAXUdJEX7yeQTb+moBp6cKBYRTrtfzun5b644uORn6I5HVFtCbunEmkudXP4zO2Qjgx5MpYvPeYyws40/R7q2kJGMBWdiiKEIWQXM434bG2WSo3SEWpTlm8AE3/M=
+	t=1770281499; cv=none; b=GrS8w8RQyP5oogclnHKElFcnEc+7A8iicBJTdFapreacuh1Bfrd1KJ9wbOqVuXtrTWplBRKMz2R8YhgCk41dQD4UjioeEHHYgKTx383c+J1zJwFBMKSrHlT5yD1W8mw1KoVrnwq8yoGWLFxa6NL9ExofwaeLxJKQk4Y7m9mLZfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770210754; c=relaxed/simple;
-	bh=5j+moHM2KtRpYQgWDekL56HBMTabiSEQYjC6JVstQ74=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DhwfJ8R4GM3Npg0hhpnelstcu5cBrk9jAx7EGMyffg+1WuckzixPxdQbp+e47mIhWYSTT7n1OZTJN0PlTlOkK0hjxi1lWrkbpK5/wL9w8+9HqLHs1qEuL4VjfNgpeVvNecKpyCmpB05SQypCEHlSuxfPTepH7PYCfVa7utUajxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bO32utGR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770281499; c=relaxed/simple;
+	bh=3gYcD8s2ae4bFtwEr9I/tEvXmqGVfIFmkeFLr6QDj08=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TPDXntiNkEJm9QjEqpY9+e+v4m6xLECXIOnT23RowFvssRwLBrsiYIkCME/f30U3KhTMXDwYDu4oSlImayD+T4+FDqXAmm4pAgdY7WL+TrUtE/VCBZqolDzn20LQbGvLOJ8lVOazKwEQdbkB9Ulz0os0Y+c6NyiNuzuLFN1j9Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KaTp2KwX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bO32utGR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 847EFC2BCB0
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Feb 2026 13:12:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KaTp2KwX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A291DC4CEF7;
+	Thu,  5 Feb 2026 08:51:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770210754;
-	bh=5j+moHM2KtRpYQgWDekL56HBMTabiSEQYjC6JVstQ74=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=bO32utGR3L5Lmp5h6fVzRhe79L5lVoStU5Ezp826SbubZeqVVIr9A5o6ONqSUt1vc
-	 slyznVKsoCA5rgPra7CIApFXTLC5+C+ufZB29lug7g9V1i5DfCLlcW0MIbfqG5FeC2
-	 J9DtCsJc1k0TuGVVEUZ+I87IW7qPfTjFBz/jWmKLRjNN7/ztqDVPo6nOfPi1KA2sa7
-	 63tZJqdG+Yf/7Lqaz/ju3HaFUyrk0GzEbAjh3DZLURPTvZdOouMnGiRcAHGRjBIUKo
-	 iaul3yF/67DoHQDszQo0n5AGdhMs6yUaC8UhbYnL5ZKUaT84gaw17SQUlpe/wJxYdv
-	 M6o6t6LxZz/Vw==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-385c2f88618so58214391fa.2
-        for <chrome-platform@lists.linux.dev>; Wed, 04 Feb 2026 05:12:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUvt+W2FuiLuSRkagQgxAD3lCpdRRhq8IbiPYSmZ45BBU21YM+57YbOXHkDmZU9tAWmVt8lcaLgnjb9xZiiwSI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBbgy5CYUUqsbFDXnwkbbsaargblpr2krEezyYccdIsoidJIlN
-	TK6ckngBkPprAdGEuNEB6OwsKpas9+8RTqiai1z3Lm51OpG5YFrRZ/djVSaroPRCEcvOGOtcIjB
-	fZBt/OtfcSdXo4fdIUd6+iMSc8k+lK9S9SxEq2TqW7w==
-X-Received: by 2002:a05:651c:3135:b0:383:27b9:caae with SMTP id
- 38308e7fff4ca-38691c54309mr13408971fa.9.1770210753084; Wed, 04 Feb 2026
- 05:12:33 -0800 (PST)
+	s=k20201202; t=1770281499;
+	bh=3gYcD8s2ae4bFtwEr9I/tEvXmqGVfIFmkeFLr6QDj08=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KaTp2KwXBnUoZ3XV4OhQXSc1+a4Pw+CXemtipPrLDP7c+dLI0nOTtxOG1Shof9TgU
+	 R/PpvvcSx5RYXtApZ0oQIV4XXIOTOhBOJQc5oKMImbgylGVRr0VN2zVs7hO+M+y4cK
+	 AkL9yhkGQIsaWLY+a6n1xRBPc36kk67mDW5jP5NDDB2M7tkQpviGXnuRmEogAR3Qcj
+	 rjJ5gS3jb2Okb582nFEeJtoXEGYwWUY1+TBf4r5Yw7FsS4mekWjUcAsf7jveE1XTH6
+	 rQQphAkK7XUw8yLYXaprjerdwzXg1/AM3WTO/MTT+cY2XJBcD0NOGtmmiZB0EsxenP
+	 7P+5qhL8vIycQ==
+Date: Thu, 5 Feb 2026 08:51:34 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Johan Hovold <johan@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linusw@kernel.org>
+Subject: Re: [PATCH v2 03/11] gpio: sysfs: Remove redundant check for struct
+ gpio_chip
+Message-ID: <aYRaFs6DmjDQ6aHq@google.com>
+References: <20260203061059.975605-1-tzungbi@kernel.org>
+ <20260203061059.975605-4-tzungbi@kernel.org>
+ <CAMRc=Mf=gUMEaeExH6mVrhMSNWbCchRfkrugr492Ccp-j3V8Ag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260116080235.350305-1-tzungbi@kernel.org> <20260116080235.350305-2-tzungbi@kernel.org>
-In-Reply-To: <20260116080235.350305-2-tzungbi@kernel.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 4 Feb 2026 14:12:20 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MeO9vD0SA1ZjPP_K-0FT8ePTNNoSRqfewQRc5dMR6-SBA@mail.gmail.com>
-X-Gm-Features: AZwV_Qjmn5KU3dAH1Ehw8ovrLbiT4k4_-88Pdn1EEDH0WExhMr5nRpFc8fQ3D7s
-Message-ID: <CAMRc=MeO9vD0SA1ZjPP_K-0FT8ePTNNoSRqfewQRc5dMR6-SBA@mail.gmail.com>
-Subject: Re: [PATCH v7 1/3] revocable: Revocable resource management
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=Mf=gUMEaeExH6mVrhMSNWbCchRfkrugr492Ccp-j3V8Ag@mail.gmail.com>
 
-On Fri, Jan 16, 2026 at 9:03=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> Some resources can be removed asynchronously, for example, resources
-> provided by a hot-pluggable device like USB.  When holding a reference
-> to such a resource, it's possible for the resource to be removed and
-> its memory freed, leading to use-after-free errors on subsequent access.
->
-> The "revocable" mechanism addresses this by establishing a weak reference
-> to a resource that might be freed at any time.  It allows a resource
-> consumer to safely attempt to access the resource, guaranteeing that the
-> access is valid for the duration of its use, or it fails safely if the
-> resource has already been revoked.
->
-> The implementation uses a provider/consumer model built on Sleepable
-> RCU (SRCU) to guarantee safe memory access:
->
-> - A resource provider, such as a driver for a hot-pluggable device,
->   allocates a struct revocable_provider and initializes it with a pointer
->   to the resource.
->
-> - A resource consumer that wants to access the resource allocates a
->   struct revocable which acts as a handle containing a reference to the
->   provider.
->
-> - To access the resource, the consumer uses revocable_try_access().
->   This function enters an SRCU read-side critical section and returns
->   the pointer to the resource.  If the provider has already freed the
->   resource, it returns NULL.  After use, the consumer calls
->   revocable_withdraw_access() to exit the SRCU critical section.  The
->   REVOCABLE_TRY_ACCESS_WITH() and REVOCABLE_TRY_ACCESS_SCOPED() are
->   convenient helpers for doing that.
->
-> - When the provider needs to remove the resource, it calls
->   revocable_provider_revoke().  This function sets the internal resource
->   pointer to NULL and then calls synchronize_srcu() to wait for all
->   current readers to finish before the resource can be completely torn
->   down.
->
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
+On Wed, Feb 04, 2026 at 04:33:50AM -0600, Bartosz Golaszewski wrote:
+> On Tue, 3 Feb 2026 07:10:50 +0100, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> > index a6dd07be126c..3137e6f1108a 100644
+> > --- a/drivers/gpio/gpiolib.c
+> > +++ b/drivers/gpio/gpiolib.c
+> > @@ -1281,7 +1281,7 @@ void gpiochip_remove(struct gpio_chip *gc)
+> >  	struct gpio_device *gdev = gc->gpiodev;
+> >
+> >  	/* FIXME: should the legacy sysfs handling be moved to gpio_device? */
+> > -	gpiochip_sysfs_unregister(gdev);
+> > +	gpiochip_sysfs_unregister(gdev, gc);
+> 
+> I understand the intention here but I really don't like passing both gc and
+> gdev here. We can get the address of the gpio_device from gpio_chip so why not
+> do this and pass only variable?
 
-[snip]
-
-> diff --git a/include/linux/revocable.h b/include/linux/revocable.h
-> new file mode 100644
-> index 000000000000..659ba01c58db
-> --- /dev/null
-> +++ b/include/linux/revocable.h
-> @@ -0,0 +1,69 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright 2026 Google LLC
-> + */
-> +
-> +#ifndef __LINUX_REVOCABLE_H
-> +#define __LINUX_REVOCABLE_H
-> +
-> +#include <linux/compiler.h>
-> +#include <linux/cleanup.h>
-> +
-> +struct device;
-> +struct revocable;
-> +struct revocable_provider;
-> +
-> +struct revocable_provider *revocable_provider_alloc(void *res);
-> +void revocable_provider_revoke(struct revocable_provider *rp);
-> +struct revocable_provider *devm_revocable_provider_alloc(struct device *=
-dev,
-> +                                                        void *res);
-> +
-> +struct revocable *revocable_alloc(struct revocable_provider *rp);
-> +void revocable_free(struct revocable *rev);
-> +void *revocable_try_access(struct revocable *rev) __acquires(&rev->rp->s=
-rcu);
-> +void revocable_withdraw_access(struct revocable *rev) __releases(&rev->r=
-p->srcu);
-> +
-> +DEFINE_FREE(access_rev, struct revocable *, if (_T) revocable_withdraw_a=
-ccess(_T))
-> +
-> +/**
-> + * REVOCABLE_TRY_ACCESS_WITH() - A helper for accessing revocable resour=
-ce
-> + * @_rev: The consumer's ``struct revocable *`` handle.
-> + * @_res: A pointer variable that will be assigned the resource.
-> + *
-> + * The macro simplifies the access-release cycle for consumers, ensuring=
- that
-> + * revocable_withdraw_access() is always called, even in the case of an =
-early
-> + * exit.
-> + *
-> + * It creates a local variable in the current scope.  @_res is populated=
- with
-> + * the result of revocable_try_access().  The consumer code **must** che=
-ck if
-> + * @_res is ``NULL`` before using it.  The revocable_withdraw_access() f=
-unction
-> + * is automatically called when the scope is exited.
-> + *
-> + * Note: It shares the same issue with guard() in cleanup.h.  No goto st=
-atements
-> + * are allowed before the helper.  Otherwise, the compiler fails with
-> + * "jump bypasses initialization of variable with __attribute__((cleanup=
-))".
-> + */
-> +#define REVOCABLE_TRY_ACCESS_WITH(_rev, _res)                           =
-       \
-> +       struct revocable *__UNIQUE_ID(name) __free(access_rev) =3D _rev; =
-         \
-> +       _res =3D revocable_try_access(_rev)
-> +
-> +#define _REVOCABLE_TRY_ACCESS_SCOPED(_rev, _label, _res)                =
-       \
-> +       for (struct revocable *__UNIQUE_ID(name) __free(access_rev) =3D _=
-rev;     \
-> +            (_res =3D revocable_try_access(_rev)) || true; ({ goto _labe=
-l; }))   \
-> +               if (0) {                                                 =
-       \
-> +_label:                                                                 =
-               \
-> +                       break;                                           =
-       \
-> +               } else
-> +
-> +/**
-> + * REVOCABLE_TRY_ACCESS_SCOPED() - A helper for accessing revocable reso=
-urce
-> + * @_rev: The consumer's ``struct revocable *`` handle.
-> + * @_res: A pointer variable that will be assigned the resource.
-> + *
-> + * Similar to REVOCABLE_TRY_ACCESS_WITH() but with an explicit scope fro=
-m a
-> + * temporary ``for`` loop.
-> + */
-> +#define REVOCABLE_TRY_ACCESS_SCOPED(_rev, _res)                         =
-               \
-
-Seeing this code used in GPIO, I would suggest a coding-style change
-before it makes its way into other places:
-
-revocable_try_access_with() looks better and is in line with most
-other macros. There's no reason for capitalisation IMO and it makes
-the code using it look like there was some issue with it, as if this
-was a WARN() or something.
-
-I'd suggest changing all these macros to using lowercase and queuing
-it for v7.0.
-
-Bartosz
-
-> +       _REVOCABLE_TRY_ACCESS_SCOPED(_rev, __UNIQUE_ID(label), _res)
-> +
-> +#endif /* __LINUX_REVOCABLE_H */
-> --
-> 2.52.0.457.g6b5491de43-goog
->
+Ack, will fix in the next version.

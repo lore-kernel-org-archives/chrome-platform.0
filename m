@@ -1,273 +1,104 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D90232826F
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Feb 2026 07:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2483570A0;
+	Fri,  6 Feb 2026 09:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770363846; cv=none; b=sc0UoaswOpIwo/t1o8NJeoOe3GT6RkB4q93qpb4dt24/KmFYA0VZEb9kCbNiEkT1TAighea6u1I7UNchQm4LTjnQ23JexvwTwPu8nV3owOJ6Z/IXcIg28PeP8Jf5eydbQAWKmzMPItFR/rvHmb40ifEF1OeoJGqoMeAJBKMmMhI=
+	t=1770369220; cv=none; b=DhXZ+jklxsHzOlbRQ3nNIKlHeGr++Dyf3f8yL9SYa+50Tfm3xbAPtpCRA2w+i5Eh6B5a9MuVDcci5EqNveZebJGS4HL3enVSIXS+tqjZQos/UIfLoCuyVTenYDMi8iOL+LGj5tnq20uYja3KsHSVsCd9+bIjv3Zs/rg1Tv0fjAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770363846; c=relaxed/simple;
-	bh=eXfUwd+mycItExoOqRQXhx9KaafT3G1lbpTCWmXfGDc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AtAwwl158+ku+Dr036/nL3vYRaBdDb8wpaNN7Rvn7AHxjUK5LUxzuoQ9xeubtbUyTQ3IVXh3P9WEbwho/s0GSDC3yScvp9XxJZM8Ag2GJe/2ZglGn6i1S1jtwXEqN33c3DUhbOBoedkakeUkVmmD+kYzGuM7hx90vvmOGVX534k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1zaX/phO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TjEzruYg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1zaX/phO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TjEzruYg; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1770369220; c=relaxed/simple;
+	bh=Ad+gFIapLDGeK2QdxKtz+WJu1GmvHE2AyaoW+Qo7jNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EZXwQBlJlp+jPN7zvlIOs1CKgSTJMijaynSyBtxmPkMBD179qYq8+WK6Eu+D8fduBXgr7tRCjfIqRZ0VHqH0cBHOKckBWmh9WAmgy6yiiOB20Q8oG7pjqMP2PVfJ/uLNugzrrQBMhatTweHUeCW2tjADD7eg8MewFYc8qC+DbQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BktlHtDv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1zaX/phO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TjEzruYg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1zaX/phO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TjEzruYg"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F99C3E70E;
-	Fri,  6 Feb 2026 07:44:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770363843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=81BSQIbHPnCy3J3OHUDUAdhPnc9eYE5b78Rh19yJHzc=;
-	b=1zaX/phOFHn/kCDHWziE4MjNWlmVKSyauD/U4TSB0T+CraiSyZcmuOkMcHUxwk/UHM4Vh/
-	3Libv3sjW/ODOWoPDrUzye7CmiPhznaJF3vrTwZ46PKATYl6QxjBU2eg2lA6FtsWKVpPux
-	/V5OARnhuwOizXg4ze4nRi4h3bMKM0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770363843;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=81BSQIbHPnCy3J3OHUDUAdhPnc9eYE5b78Rh19yJHzc=;
-	b=TjEzruYgpltGJLP6nJJf104e8ulBkJ0zV1nwzTgwC/AOFqvYQtEBEd31ZAHxeaCiesB2Po
-	M63558LAcIdCJKCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770363843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=81BSQIbHPnCy3J3OHUDUAdhPnc9eYE5b78Rh19yJHzc=;
-	b=1zaX/phOFHn/kCDHWziE4MjNWlmVKSyauD/U4TSB0T+CraiSyZcmuOkMcHUxwk/UHM4Vh/
-	3Libv3sjW/ODOWoPDrUzye7CmiPhznaJF3vrTwZ46PKATYl6QxjBU2eg2lA6FtsWKVpPux
-	/V5OARnhuwOizXg4ze4nRi4h3bMKM0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770363843;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=81BSQIbHPnCy3J3OHUDUAdhPnc9eYE5b78Rh19yJHzc=;
-	b=TjEzruYgpltGJLP6nJJf104e8ulBkJ0zV1nwzTgwC/AOFqvYQtEBEd31ZAHxeaCiesB2Po
-	M63558LAcIdCJKCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28E203EA63;
-	Fri,  6 Feb 2026 07:44:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IuSVCMObhWlIIAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 06 Feb 2026 07:44:03 +0000
-Message-ID: <0a85e1ab-e1d1-4a3a-8f3e-7478d814d400@suse.de>
-Date: Fri, 6 Feb 2026 08:44:02 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BktlHtDv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 022A5C116C6;
+	Fri,  6 Feb 2026 09:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770369220;
+	bh=Ad+gFIapLDGeK2QdxKtz+WJu1GmvHE2AyaoW+Qo7jNA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BktlHtDvn1B+0UQ3KDROvzT0wYm01I6ZTOs3ug11EsugNIok9sxjKpyofrR07qBMe
+	 YmPmIt5f/YGhrFvmpub9Vr3m3vaIfnb2MTFYydRbJcLfmQmobWSrcuzrCVyYR3VbLX
+	 CehCcrIRsNJX1EgA3lDhaTKbxBQuiQxRoqg1PXFHbIzf6eYk14Effovqfskcf0n7QZ
+	 8cNM5xDnZaigtaqV1xtDY+7Nlyy/Mtt3QGICPb819/vZUFWDtsQS9KUN8IagNSf3kg
+	 9mvbmMLL+7O50RP/T5aemAajii8T3mTESNNFdo7FWORv0bpl6eYLLLAEpstgU7jP4z
+	 sUGb7pzKqqoNw==
+Date: Fri, 6 Feb 2026 09:13:35 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Johan Hovold <johan@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>
+Subject: Re: [PATCH v2 07/11] gpio: Add revocable provider handle for struct
+ gpio_chip
+Message-ID: <aYWwv2Ip_dvS7E9w@google.com>
+References: <20260203061059.975605-1-tzungbi@kernel.org>
+ <20260203061059.975605-8-tzungbi@kernel.org>
+ <CAMRc=MdYeoMxNFYeX_9S-M286aUjnsxLyy9_apmfPR4NeqVouw@mail.gmail.com>
+ <aYRaNu-ZistKBPN-@google.com>
+ <CAMRc=MeyfAMVOMVtC3zobv5XXGtthJxYGsTogNzRK3uhKo1TvQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/12] drm/sysfb: corebootdrm: Add DRM driver for
- coreboot framebuffers
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
- samuel@sholland.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, chrome-platform@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <20260203135519.417931-1-tzimmermann@suse.de>
- <20260203135519.417931-12-tzimmermann@suse.de> <aYV4m5Q1U4Nc1qwm@google.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aYV4m5Q1U4Nc1qwm@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[chromium.org,redhat.com,sholland.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+In-Reply-To: <CAMRc=MeyfAMVOMVtC3zobv5XXGtthJxYGsTogNzRK3uhKo1TvQ@mail.gmail.com>
 
-Hi
+On Thu, Feb 05, 2026 at 05:57:15PM +0100, Bartosz Golaszewski wrote:
+> On Thu, Feb 5, 2026 at 9:52 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> >
+> > On Wed, Feb 04, 2026 at 07:58:44AM -0500, Bartosz Golaszewski wrote:
+> > > On Tue, 3 Feb 2026 07:10:54 +0100, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> > > > diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
+> > > > index 3abb90385829..cd136d5b52e9 100644
+> > > > --- a/drivers/gpio/gpiolib.h
+> > > > +++ b/drivers/gpio/gpiolib.h
+> > > > @@ -52,6 +52,7 @@
+> > > >   * @device_notifier: used to notify character device wait queues about the GPIO
+> > > >   *                   device being unregistered
+> > > >   * @srcu: protects the pointer to the underlying GPIO chip
+> > > > + * @chip_rp: revocable provider handle for the corresponding struct gpio_chip.
+> > > >   * @pin_ranges: range of pins served by the GPIO driver
+> > > >   *
+> > > >   * This state container holds most of the runtime variable data
+> > > > @@ -79,6 +80,7 @@ struct gpio_device {
+> > > >     struct workqueue_struct *line_state_wq;
+> > > >     struct blocking_notifier_head device_notifier;
+> > > >     struct srcu_struct      srcu;
+> > > > +   struct revocable_provider __rcu *chip_rp;
+> > > >
+> > >
+> > > Why __rcu? This doesn't live in a different address space, only the internal
+> > > resource it protects does. If anything - this could be __attribute__((noderef))
+> > > but even that is questionable as this is an opaque structure.
+> >
+> > For fixing a race on the pointer itself.  See also [1].
+> >
+> > [1] https://lore.kernel.org/all/20260129143733.45618-2-tzungbi@kernel.org
+> 
+> So we're just using a double RCU here? One to protect the resource and
+> another to protect the protector of the resource? I can't say I'm a
+> fan of this. I really want to like this interface but is there really
+> no way to hide the implementation details from the caller? Isn't this
+> the whole point? As it is: the user still has to care about an
+> RCU-protected pointer.
 
-Am 06.02.26 um 06:14 schrieb Tzung-Bi Shih:
-> On Tue, Feb 03, 2026 at 02:52:30PM +0100, Thomas Zimmermann wrote:
->> Add corebootdrm, a DRM driver for coreboot framebuffers. The driver
->> supports a pre-initialized framebuffer with various packed RGB formats.
->> The driver code is fairly small and uses the same logic as the other
->> sysfb drivers. Most of the implementation comes from existing sysfb
->> helpers.
->>
->> Until now, coreboot relied on simpledrm or simplefb for boot-up graphics
->> output. Initialize the platform device for corebootdrm in the same place
->> in framebuffer_probe(). With a later commit, the simple-framebuffer should
->> be removed.
->>
->> v3:
->> - comment on _HAS_LFB semantics (Tzung-Bi)
->> - fix typo in commit description (Tzung-Bi)
->> - comment on simple-framebuffer being obsolete for coreboot
->> v2:
->> - reimplement as platform driver
->> - limit resources and mappings to known framebuffer memory; no
->>    page alignment
->> - create corebootdrm device from coreboot framebuffer code
-> Changelog should be after "---" otherwise it becomes part of commit message.
+Will think about it but I have no better idea for now.
 
-I see. In DRM land, we usually keep the change log in the commit 
-message. I'll change it for the coreboot patches, but I'd rather keep it 
-for the DRM patches. I can split off the coreboot changes for this patch 
-into its own.
-
->
->> +static int corebootdrm_probe(struct platform_device *pdev)
->> +{
-> [...]
->> +	if (!fb) {
->> +		drm_err(dev, "coreboot framebuffer not found\n");
->> +		return -EINVAL;
->> +	} else if (!LB_FRAMEBUFFER_HAS_LFB(fb)) {
->> +		drm_err(dev, "coreboot framebuffer entry too small\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	/*
->> +	 * Hardware settings
->> +	 */
->> +
->> +	format = corebootdrm_get_format_fb(dev, fb);
->> +	if (!format)
->> +		return -EINVAL;
->> +	width = corebootdrm_get_width_fb(dev, fb);
->> +	if (width < 0)
->> +		return width;
->> +	height = corebootdrm_get_height_fb(dev, fb);
->> +	if (height < 0)
->> +		return height;
-> [...]
->> diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
->> index 5746b99a070d..b51665165f9f 100644
->> --- a/include/linux/coreboot.h
->> +++ b/include/linux/coreboot.h
->> @@ -14,6 +14,7 @@
->>   
->>   #include <linux/compiler_attributes.h>
->>   #include <linux/types.h>
->> +#include <linux/stddef.h>
-> Move it before types.h?  's' vs. 't'.
->
->> +/*
->> + * True if the coreboot-provided data is large enough to hold information
->> + * on the linear framebuffer. False otherwise.
->> + */
->> +#define LB_FRAMEBUFFER_HAS_LFB(__fb) \
->> +	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
->> +
-> To make sure I understand, do you mean:
->
-> - The __fb->size is possibly less than sizeof(struct lb_framebuffer).
->    LB_FRAMEBUFFER_HAS_LFB() is for checking the following fields
->    (e.g. fb->x_resolution) are available?
-
-Yes.
-
->
->      struct lb_framebuffer {
->      	u32 tag;
->      	u32 size;
->
->      	u64 physical_address;
->      	u32 x_resolution;
->      	u32 y_resolution;
->      	u32 bytes_per_line;
->      	u8  bits_per_pixel;
->      	u8  red_mask_pos;
->      	u8  red_mask_size;
->      	u8  green_mask_pos;
->      	u8  green_mask_size;
->      	u8  blue_mask_pos;
->      	u8  blue_mask_size;
->      	u8  reserved_mask_pos;
->      	u8  reserved_mask_size;
->      };
->
-> - If answer of the previous question is yes, the next question: does
->    LB_FRAMEBUFFER_HAS_LFB() needs to check up to `reserved_mask_size`?
->    As in the patch, it only accesses up to `blue_mask_size`.
-
-Well, it's a correctness thing. The reserved_mask fields have been part 
-of the structure since the first version in commit b700254aa5 ("Add 
-coreboot framebuffer support to libpayload"). I'd that expect that the 
-framebuffer entry is bogus if it does not contain these fields. If you 
-really want to leave them out, we can do that of course.
-
-Best regards
-Thomas
-
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+Ideally, I think the user doesn't need to interact with the RCU (even if it's
+annotated with __rcu) but revocable APIs should handle it correctly.

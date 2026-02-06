@@ -1,109 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA32343C050
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Feb 2026 16:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC6D6F2F2
+	for <chrome-platform@lists.linux.dev>; Fri,  6 Feb 2026 05:13:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770310650; cv=none; b=RnL/yZI6CxiKnOn9sjejE2x3cfVCVrmndHqctyEnx44Sv4NdYFpM5FP2YZHRv8sWidEFn2ehzkjjbRYjaDL37+FvDTGCPUXufTe+yOvYUotJBYTuhfWBG/O7qlAXISKdRz5bdieNbnL9rKDyaGb8kgc7VYsB7E/jXZBQIet2QkQ=
+	t=1770354829; cv=none; b=t0uwWPhWOChMEdZwR4tXZvlw/7Vf53N1DRWvI4kK9PwgV0O5nK3BDbRuhcnDdxK94QLM0AFioKwQvaNTXzbzJuHK8lZ8bCCcAi73b81y+mRYhspJZn4PGohh9MMW0h6w6Dv3X2JfHmfOtyPDzzZKPhS6YgAaoHFwI8XFumzDYxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770310650; c=relaxed/simple;
-	bh=Zw5WIY3J5ENJJDDygHQNWlZe7u7h9TLoc6XRCjylqHc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sy5d6wksEY10OdY4ej+zYlSyZ+t2T0lvossc3KW1S8AvYc4REoYGmLzjtF0mtJYfFTKE5ro2dMUBxoq8DB2FN17skxXojZHZ08znF/QZibAeGcj1t9o9y3AJ1LwwA70VV5jsyZljP9fj7Svv4Mm4u3ZEuPSOPWHqyjoP3QdwuSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WBA20aEa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770354829; c=relaxed/simple;
+	bh=SELwI8x2fY2Mg/K9mrj2wjwWIxG7k5ARqUF6zfTyb/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nvdewP2885JbZlds0Txr+W39Nykz3Uy3s1ANh3pn2FHytdPuBLrvage4u1inPU4k8IZAufT1sa53WKskTRAztZBjqIX32sEYYZl4HQ7MZNOylNnW+hZ9EDYoL3J8AR8+/aLGOkEABERSJFbdtYEqseU/xjZikRZoUcbspJD0E0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MEOSBYez; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBA20aEa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9063EC2BCB2
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Feb 2026 16:57:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MEOSBYez"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDAC3C116C6;
+	Fri,  6 Feb 2026 05:13:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770310650;
-	bh=Zw5WIY3J5ENJJDDygHQNWlZe7u7h9TLoc6XRCjylqHc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WBA20aEa7pPguk0UVf9KGsqoRzjmR6nXN8bdYdjWaPfEOk6DWNSUY6eO2nWg+u501
-	 zUopUjgvz4BAxevHMdkts1gyaFPm5QGa9UsNESEUoAHfvFqQxp2R79iMNAxEFf4/fi
-	 zrWUEYo91KnkwBnwzjT7sSY4hwiILbzCG7CcaJi0XtlOIz+rMBTcxRwODrkjlNCcLH
-	 O3njqK294Bjex+5Lff8qkn/oGTF68bci+HwF46chFWuav+R9/frDKsNbDniRrbaEeO
-	 RPHI8Ap08vlYQc/mvz+HCb10G6jCS7qYTZT7CoddKds5huWcT84D8lgPAhf5ziprlO
-	 Ofp7G3jD01UMQ==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59de38466c2so1608986e87.0
-        for <chrome-platform@lists.linux.dev>; Thu, 05 Feb 2026 08:57:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUaOBBA/YzbjHwF4MPUynWuA/Box9S1WZDoXrfr/2m0HZa5LqZlLFaAOzyhZjtuULqEvwuvSNvVH+lpSRfJ8AY=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+exlQU9o1mGA5UQYNghxPmAcKm2R9T3P7Jod2OYvei25Ok1a+
-	gUWVWSBOb5Jf/EWYviWQ8X1zEWWU2aIebohvE0Ci0apIAWfqf6HIk2nImBGnK8C9ckpMSq2YXxR
-	r7G1MnZY2QNTmYWUu81Fv/tOTX4xhk3i63L6XLctKnA==
-X-Received: by 2002:a05:6512:2242:b0:59d:fac0:3a14 with SMTP id
- 2adb3069b0e04-59e38c2cac2mr2718297e87.28.1770310649101; Thu, 05 Feb 2026
- 08:57:29 -0800 (PST)
+	s=k20201202; t=1770354828;
+	bh=SELwI8x2fY2Mg/K9mrj2wjwWIxG7k5ARqUF6zfTyb/Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MEOSBYezow6B4qu+aSRo44cthqiqEA3BlG3oZII+FnHbJlYPtj7Fx9XoNAvblLY7H
+	 FUxtbdhptk62hXOIOfCXtfLKokYj4726nXEHc46xK5vtLlC5XgBiIRWodDd20QFxam
+	 5GT5bfq+iwKi38wJw/pquV1S+b0MoWXKMDSYhgm1D3ZqOKMGILDzlZlxdEzCBLeyKl
+	 S4ndUVXN3i2Jrco/ecJuuvjb+DYl220QhLkTW6Od0OLnpeP5NXIMQoBXxydol7uews
+	 YDRQMOx1OxDaxvJ8MhNPafURvKkJGsEOp63IPh51Zaa0sM5b1CrlyL/3lINxt8xD4k
+	 VE1Ivt/Jd1PSQ==
+Date: Fri, 6 Feb 2026 05:13:44 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
+	samuel@sholland.org, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+	chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 09/12] firmware: google: Pack structures for coreboot
+ table entries
+Message-ID: <aYV4iOKmZgJc0hdb@google.com>
+References: <20260203135519.417931-1-tzimmermann@suse.de>
+ <20260203135519.417931-10-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260203061059.975605-1-tzungbi@kernel.org> <20260203061059.975605-8-tzungbi@kernel.org>
- <CAMRc=MdYeoMxNFYeX_9S-M286aUjnsxLyy9_apmfPR4NeqVouw@mail.gmail.com> <aYRaNu-ZistKBPN-@google.com>
-In-Reply-To: <aYRaNu-ZistKBPN-@google.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Thu, 5 Feb 2026 17:57:15 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MeyfAMVOMVtC3zobv5XXGtthJxYGsTogNzRK3uhKo1TvQ@mail.gmail.com>
-X-Gm-Features: AZwV_QhVt9fFlCIRZ6WCsWdzbxJzZZDt-WgXxzp0b0Kvg4TAPPrm4BYVxBO1jUo
-Message-ID: <CAMRc=MeyfAMVOMVtC3zobv5XXGtthJxYGsTogNzRK3uhKo1TvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 07/11] gpio: Add revocable provider handle for struct gpio_chip
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260203135519.417931-10-tzimmermann@suse.de>
 
-On Thu, Feb 5, 2026 at 9:52=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> w=
-rote:
->
-> On Wed, Feb 04, 2026 at 07:58:44AM -0500, Bartosz Golaszewski wrote:
-> > On Tue, 3 Feb 2026 07:10:54 +0100, Tzung-Bi Shih <tzungbi@kernel.org> s=
-aid:
-> > > diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
-> > > index 3abb90385829..cd136d5b52e9 100644
-> > > --- a/drivers/gpio/gpiolib.h
-> > > +++ b/drivers/gpio/gpiolib.h
-> > > @@ -52,6 +52,7 @@
-> > >   * @device_notifier: used to notify character device wait queues abo=
-ut the GPIO
-> > >   *                   device being unregistered
-> > >   * @srcu: protects the pointer to the underlying GPIO chip
-> > > + * @chip_rp: revocable provider handle for the corresponding struct =
-gpio_chip.
-> > >   * @pin_ranges: range of pins served by the GPIO driver
-> > >   *
-> > >   * This state container holds most of the runtime variable data
-> > > @@ -79,6 +80,7 @@ struct gpio_device {
-> > >     struct workqueue_struct *line_state_wq;
-> > >     struct blocking_notifier_head device_notifier;
-> > >     struct srcu_struct      srcu;
-> > > +   struct revocable_provider __rcu *chip_rp;
-> > >
-> >
-> > Why __rcu? This doesn't live in a different address space, only the int=
-ernal
-> > resource it protects does. If anything - this could be __attribute__((n=
-oderef))
-> > but even that is questionable as this is an opaque structure.
->
-> For fixing a race on the pointer itself.  See also [1].
->
-> [1] https://lore.kernel.org/all/20260129143733.45618-2-tzungbi@kernel.org
+On Tue, Feb 03, 2026 at 02:52:28PM +0100, Thomas Zimmermann wrote:
+> Pack the fields in the coreboot table entries. These entries are part of
+> the coreboot ABI, so they don't follow regular calling conventions. Fields
+> of type u64 are aligned to boundaries of 4 bytes instead of 8. [1]
+> 
+> So far this has not been a problem. In the future, padding bytes should
+> be added where explicit alignment is required.
+> 
+> v2:
+> - use aligned 64-bit type instead of __packed__ attribute (Julius)
 
-So we're just using a double RCU here? One to protect the resource and
-another to protect the protector of the resource? I can't say I'm a
-fan of this. I really want to like this interface but is there really
-no way to hide the implementation details from the caller? Isn't this
-the whole point? As it is: the user still has to care about an
-RCU-protected pointer.
+Changelog should be after "---" otherwise it becomes part of commit message.
 
-Bartosz
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Link: https://github.com/coreboot/coreboot/blob/main/payloads/libpayload/include/coreboot_tables.h#L96 # [1]
+> Suggested-by: Julius Werner <jwerner@chromium.org>
+> Acked-by: Julius Werner <jwerner@chromium.org>
+
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>

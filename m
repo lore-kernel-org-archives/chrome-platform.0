@@ -1,344 +1,85 @@
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-o98.zoho.com (sender4-pp-o98.zoho.com [136.143.188.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EE52D59E8
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Feb 2026 16:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770395119; cv=none; b=CtC9Pfn+nKAo3gEGYtp2soM+HzrAhdq3HRMjUNSe78B9pQdDXOQRMNHhrDGqOZBQy74frJ2lRfYLraxBrZ0SsadySOQnhlIxKXIv+anJRQAzHy4aZIBpxpRmS/PF60a9HmOqcZlfqz8GjseXXtWoZ212ORg5AaKzjmaT4EtCQzE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770395119; c=relaxed/simple;
-	bh=tYAFtqpNqJ2j6AfUbmbB/ETc0ACPv26cwfogADixaPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FJB58aQ+C/sC1dWxlJPeGHhPsBIFFSIa5NVGwmO1Oj1qfYqChYgEnDqlI3A+JzYKweiNZo6JI2EFXAzbD+ZNVid+618LkasqrjLLzjsHQW575yne2jleruhQdiCkaZqYX223PC5IKewIINIX9/eo5N40jIymGGH1r6nINJIXmcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fAvGefKw; arc=none smtp.client-ip=74.125.82.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E4915A864
+	for <chrome-platform@lists.linux.dev>; Sun,  8 Feb 2026 10:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.98
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770544870; cv=pass; b=l03+/7OJcENSel72fhQAOQAqUcw3KvKLvobo9Yptbyb+qYgQ0d9UJANCzuBv2xkMssH52a1k/fa/x2kTMOHXLN9TEoNT5GkWAqWGi7DTB0UewbEAiQiQyI59lPuQGwArk+j8T0W+SZ7u0JHXm9jDf2GIYVPpTlfPnt27YlYk910=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770544870; c=relaxed/simple;
+	bh=aYa3ygV+gKF5t5+MbLNxRSxIA+s/TeUk+oAP/BA4jC4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g0+vtDrd7FTeCBw6ojBOwAA/cYxTKAFRYZ3eqjTQP01MGX5RW3QT0iXHW2Z1Q1EMvk7QrF3+hT7o1Jwdc0fxCj9SaCkXJmxdnukBUpshR3Xf6Rl2x1OavuZkRoErFJgsUzVdKlRo+wW5xFgwcI0K6Ig4EemPVGJOYV7GBOb9bsY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=trunixcodes@zohomail.com header.b=LnZUPdvv; arc=pass smtp.client-ip=136.143.188.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAvGefKw"
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-126ea4e9694so4106997c88.1
-        for <chrome-platform@lists.linux.dev>; Fri, 06 Feb 2026 08:25:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770395118; x=1770999918; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CUWtbfsvW64YTIXL+5vxGulTQUN+A2ZBdXgHdgXDn/8=;
-        b=fAvGefKwlKKWNvk0nhJVeN4wss/da+2X+382wuKHMgMrWcuWKoVkeeWsuaspzwe9N4
-         Wgv4fAqOihCKZlfEfg67NmDhMx4r8geyCIJuWJvZ+6HjhHY1zK0SaFv4PTihNaTxdLwY
-         MXQ3NOwu9BVYXM8FgBgIQ6XMkJQSq9jPgKswwOswDPZQCq/+PFToPoCO8cgS/HE7VNEH
-         qvX560GB03fgMiQ0BY7Rk9fuCUnXfBINNBZitr7kX0l6YjEq8TU75D8YI80iiHjoqQiv
-         rHnecXzXcJYOwtd07/7utAA2KbzAv5JyOmbnJVh0LSAeC2UrkEZ7VlmPZTsErHdU2rS7
-         MCEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770395118; x=1770999918;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CUWtbfsvW64YTIXL+5vxGulTQUN+A2ZBdXgHdgXDn/8=;
-        b=YZG+R4s5E2caCjBT4Zm1Y7f17U8frXcdpK58SovyPLKGe8trQQVpGZxNlS4BmEsKSW
-         ORjbEmNU4w7ucAEU5Q7XnndMv6QiZbyQ/roj2euKt4zkCMS+EGAB+rgCEIsDLZN0xliu
-         8nSeSWq9EouCcWdgLDZNtDksUyUKva9CDgl46CqPWxoHYpywdD4eV90aNHwhxZYWsWP2
-         j5R+hS6qLuh6G9dUSe9nRdUiHmrOA1HhsP/TjcZSJyoFvWN4oe0wk95l/8grNr/6tspZ
-         uhvYQLBQa0CiV6BW3eGDOt41LZQj5xLcPVEBnETS5syMMytIHDymnsfoPWiwjhj1QwiB
-         U5IA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEbEqfttk7t+5TO5GlxaMIK1nHB1mLsr8yu1DBhtBvwUsjSKGPeI+ORhVuZ7RpSD6d7QpFN8Pp14eL4jxIp9k=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVspHiaY1TAlEs7dZFbDixksJrg2iwjRzzyZmhgsokvCn1GoNp
-	lvXOCYvbW+XB3JTG7IqxQJIVKAU0fdp1yXcSDfyFHsYIwRttaEVz961R
-X-Gm-Gg: AZuq6aLYYGmbRO+lsj9v3kR7PtHUM4QCrUqPNwgXlOmk3hZ7YJLsyIwADVwNcNo6cNh
-	zPvPpQnZvBVc8QG8DTATdX65QvomlLzqBw8/MggybIuCOMQmV4L1GL7cVVfGEeMKALNnUgml28f
-	K2vz844SP8OrS1FMSTQEFLjxeWtBVRRZCxr5Er6mYeL3rbREvCTvIIiRn+U6PwNR3jREA6+Tsq6
-	19zhJxAJuGhAW0TNkE9IZ1TIMasFbxgZnePMWisPJcx05I9NXHY9F6kyrBW9Dio296i+EW9Tv3O
-	AJ0yXD9NdvDx4s8FlKgQGMd2/7Uwvy4i5TvLWD8qcCQjxNCc1BCnUovmJ8VhB2dgPuCjKTkWFTg
-	6C0QIOUqcxdFbHuknbzBWyI0+3SpfNgOydQzT3WWQTNTWlB9vmfqgj1vm6cJ2S79H8TGcQL8New
-	c6116MC36avhWYWgis9j6IjV0EdAn49G4bMGw7XDT5ITTlmQnR5cSh
-X-Received: by 2002:a05:7022:252a:b0:124:9acd:3ef9 with SMTP id a92af1059eb24-12703f71728mr1777180c88.8.1770395117850;
-        Fri, 06 Feb 2026 08:25:17 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:959b:12e3:1522:2dbd])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-127041e61b9sm2880427c88.8.2026.02.06.08.25.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 08:25:17 -0800 (PST)
-Date: Fri, 6 Feb 2026 08:25:14 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Fabio Baltieri <fabiobaltieri@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/1] Input: cros_ec_keyb - add function key support
-Message-ID: <aYYTgxi0mcPVgpTr@google.com>
-References: <20260112093309.240905-1-fabiobaltieri@chromium.org>
- <20260112093309.240905-2-fabiobaltieri@chromium.org>
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=trunixcodes@zohomail.com header.b="LnZUPdvv"
+ARC-Seal: i=1; a=rsa-sha256; t=1770544867; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XDYNGGyX0rSo0cqodPS6P9mP488kamrRNoytlAKHJyhW5IeNEVeIWmQgPY7ws8GkQVa4QK2Dj1ze6m3AtKRdS1vWHB839alk9sBsPklq6Ey82TZ9jPBjgZitzS/hNg0HizOfRfAEcZWmxgRvVUgYWTJomGhoRCpOqLQmA6YpFeM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1770544867; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=rJ3SxVXTcIYFh1Y3XV7/IlX+YGPpH5Q5svecdfjxvDg=; 
+	b=jdXx9nrACg70E3VvQQ8UTavQkfcWPHU/q9FTR/k5aXCjJHMkwNwcUvMs1mcF9rcl8XNFOHfFwcf94uqxLHI7eqF6Z4t0wV6nfO89zfDdtt+tp2qQ950vv11e0TnorL8wkJeTkXioY4xz/QtcKc4eyCAdLF076O7GFL3LYX6J4XY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=trunixcodes@zohomail.com;
+	dmarc=pass header.from=<trunixcodes@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770544867;
+	s=zm2022; d=zohomail.com; i=trunixcodes@zohomail.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=rJ3SxVXTcIYFh1Y3XV7/IlX+YGPpH5Q5svecdfjxvDg=;
+	b=LnZUPdvvD2gqk8TDE1vR23X7Ubi4yjtlSqu01DKe8WIaX5tNvjD3VTXTTAl3KPyb
+	HqxsqwBQt3qlQ7LOGkt2a+5kdy/QE+/xklmUFdKACZhRzqfMPSYPiKeAkWjsQiqnesl
+	5LLyynu/eCbESO8l0KMCSWU+DcqBDrfuWIA2xTSs=
+Received: by mx.zohomail.com with SMTPS id 1770544865797603.3420520671159;
+	Sun, 8 Feb 2026 02:01:05 -0800 (PST)
+From: trunix-creator <trunixcodes@zohomail.com>
+To: bleung@chromium.org,
+	tzungbi@kernel.org
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	trunix-creator <trunixcodes@zohomail.com>
+Subject: [PATCH] platform/chrome: cros_ec_lightbar: fix const correctness of seqname array
+Date: Sun,  8 Feb 2026 02:00:49 -0800
+Message-ID: <20260208100049.46449-1-trunixcodes@zohomail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112093309.240905-2-fabiobaltieri@chromium.org>
+Content-Transfer-Encoding: 8bit
+Feedback-ID: rr08011227ba644a18692ccbecc9353b74000050dfc538c76b39b6b89e642e4e1cbd2727bcce1cebaf3cc35c:zu08011227462f611a3630a3de53c4abf200008b73b9fcd6eee2687042e16695238c99b454b4acb4a561ede0:rf08011226f15438ad667549bf40e7a16a0000520a7a7477cde10b8057a64d70c56f6624f8ee1561a90e74:ZohoMail
+X-ZohoMailClient: External
 
-Hi Fabio,
+The seqname array was declared as 'char const *seqname[]',
+And since the array is intended to be fully immutable, It is now corrected
+to 'const char * const seqname[]' to mark both the strings and the pointer array as read-only.
 
-On Mon, Jan 12, 2026 at 09:33:09AM +0000, Fabio Baltieri wrote:
-> Add support for handling an Fn button and sending separate keycodes for
-> a subset of keys in the matrix defined in the upper half of the keymap.
-> 
-> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> Reviewed-by: Simon Glass <sjg@chromium.org>
-> ---
->  drivers/input/keyboard/cros_ec_keyb.c | 174 +++++++++++++++++++++++---
->  1 file changed, 158 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> index 1c6b0461dc35..93540f0c5a33 100644
-> --- a/drivers/input/keyboard/cros_ec_keyb.c
-> +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> @@ -29,6 +29,11 @@
->  
->  #include <linux/unaligned.h>
->  
-> +/* Maximum size of the normal key matrix, this is limited by the host command
-> + * key_matrix field defined in ec_response_get_next_data_v3
-> + */
+This improves const correctness and matches the intended usage of the
+sequence name table.
 
-The comment format for multi-line comments is:
+Signed-off-by: trunix-creator <trunixcodes@zohomail.com>
+---
+ drivers/platform/chrome/cros_ec_lightbar.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-/*
- * Line 1
- * Line 2
- */
-
-> +#define CROS_EC_KEYBOARD_COLS_MAX 18
-> +
->  /**
->   * struct cros_ec_keyb - Structure representing EC keyboard device
->   *
-> @@ -44,6 +49,11 @@
->   * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
->   * @notifier: interrupt event notifier for transport devices
->   * @vdata: vivaldi function row data
-> + * @has_fn_map: whether the driver uses an fn function-map layer
-
-I do not believe this flag is needed. Always do FN processing. If there
-is no FN in the keymap it should work just fine.
-
-> + * @normal_key_status: active normal keys map
-> + * @fn_key_status: active function keys map
-
-I do not think you need to track state yourself. A key will be reported
-either from FN part of map or from normal one, so when you get a release
-for (row, col) you can check if FN-mapped key is active (using
-text_bit(<fn-combo-code>, idev->key)) and if it is not active then send
-release event for the normal key.
-
-> + * @fn_key_pressed: tracks the function key status
-> + * @fn_key_triggered: tracks where any function key fired
-
-Maybe it should be called fn_event_pending? You set it together with
-fn_key_pressed and clear if you get any other key press?
-
->   */
->  struct cros_ec_keyb {
->  	unsigned int rows;
-> @@ -61,6 +71,12 @@ struct cros_ec_keyb {
->  	struct notifier_block notifier;
->  
->  	struct vivaldi_data vdata;
-> +
-> +	bool has_fn_map;
-> +	u8 normal_key_status[CROS_EC_KEYBOARD_COLS_MAX];
-> +	u8 fn_key_status[CROS_EC_KEYBOARD_COLS_MAX];
-> +	bool fn_key_pressed;
-> +	bool fn_key_triggered;
->  };
->  
->  /**
-> @@ -166,16 +182,104 @@ static bool cros_ec_keyb_has_ghosting(struct cros_ec_keyb *ckdev, uint8_t *buf)
->  	return false;
->  }
->  
-> +/*
-> + * Process a function key state change, send an event report if appropriate.
-> + */
-> +static void cros_ec_keyb_process_fn_key(struct cros_ec_keyb *ckdev,
-> +					int row, int col, bool state)
-> +{
-> +	struct input_dev *idev = ckdev->idev;
-> +	int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
-> +
-> +	ckdev->fn_key_pressed = state;
-> +
-> +	if (state) {
-> +		ckdev->fn_key_triggered = false;
-> +	} else if (!ckdev->fn_key_triggered) {
-> +		/*
-> +		 * Send the original code if nothing else has been pressed
-> +		 * together with Fn.
-> +		 */
-> +		input_event(idev, EV_MSC, MSC_SCAN, pos);
-> +		input_report_key(idev, KEY_FN, true);
-> +		input_sync(idev);
-> +
-> +		input_event(idev, EV_MSC, MSC_SCAN, pos);
-> +		input_report_key(idev, KEY_FN, false);
-
-Why do we want this? If you want FN to behave like hardware switch you
-probably do not want to send KEY_FN at all?
-
-> +	}
-> +}
-> +
-> +/*
-> + * Return the Fn code for a normal key row, col combination, optionally set a
-> + * position code too.
-> + */
-> +static unsigned int cros_ec_keyb_fn_code(struct cros_ec_keyb *ckdev,
-> +					 int row, int col, int *pos)
-> +{
-> +	struct input_dev *idev = ckdev->idev;
-> +	const unsigned short *keycodes = idev->keycode;
-> +	int fn_pos = MATRIX_SCAN_CODE(row + ckdev->rows, col, ckdev->row_shift);
-> +
-> +	if (pos)
-> +		*pos = fn_pos;
-> +
-> +	return keycodes[fn_pos];
-> +}
-> +
-> +/*
-> + * Process the new state for a single key.
-> + */
-> +static void cros_ec_keyb_process_one(struct cros_ec_keyb *ckdev,
-> +				     int row, int col, bool state)
-> +{
-> +	struct input_dev *idev = ckdev->idev;
-> +	const unsigned short *keycodes = idev->keycode;
-> +	int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
-> +	unsigned int code = keycodes[pos];
-> +
-> +	dev_dbg(ckdev->dev, "changed: [r%d c%d]: byte %02x\n", row, col, state);
-> +
-> +	if (ckdev->has_fn_map) {
-> +		if (code == KEY_FN)
-> +			return cros_ec_keyb_process_fn_key(ckdev, row, col, state);
-> +
-> +		if (!state) {
-> +			if (ckdev->fn_key_status[col] & BIT(row)) {
-> +				code = cros_ec_keyb_fn_code(ckdev, row, col, &pos);
-> +
-> +				ckdev->fn_key_status[col] &= ~BIT(row);
-> +			} else if (ckdev->normal_key_status[col] & BIT(row)) {
-> +				ckdev->normal_key_status[col] &= ~BIT(row);
-> +			} else {
-> +				/* Discard, key press code was not sent */
-> +				return;
-> +			}
-> +		} else if (ckdev->fn_key_pressed) {
-> +			code = cros_ec_keyb_fn_code(ckdev, row, col, &pos);
-> +
-> +			ckdev->fn_key_triggered = true;
-> +
-> +			if (!code)
-> +				return;
-> +
-> +			ckdev->fn_key_status[col] |= BIT(row);
-> +		} else {
-> +			ckdev->normal_key_status[col] |= BIT(row);
-> +		}
-> +	}
-> +
-> +	input_event(idev, EV_MSC, MSC_SCAN, pos);
-> +	input_report_key(idev, code, state);
-> +}
->  
->  /*
->   * Compares the new keyboard state to the old one and produces key
-> - * press/release events accordingly.  The keyboard state is 13 bytes (one byte
-> - * per column)
-> + * press/release events accordingly.  The keyboard state is one byte
-> + * per column.
->   */
->  static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
->  			 uint8_t *kb_state, int len)
->  {
-> -	struct input_dev *idev = ckdev->idev;
->  	int col, row;
->  	int new_state;
->  	int old_state;
-> @@ -192,20 +296,13 @@ static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
->  
->  	for (col = 0; col < ckdev->cols; col++) {
->  		for (row = 0; row < ckdev->rows; row++) {
-> -			int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
-> -			const unsigned short *keycodes = idev->keycode;
-> -
->  			new_state = kb_state[col] & (1 << row);
->  			old_state = ckdev->old_kb_state[col] & (1 << row);
-> -			if (new_state != old_state) {
-> -				dev_dbg(ckdev->dev,
-> -					"changed: [r%d c%d]: byte %02x\n",
-> -					row, col, new_state);
-> -
-> -				input_event(idev, EV_MSC, MSC_SCAN, pos);
-> -				input_report_key(idev, keycodes[pos],
-> -						 new_state);
-> -			}
-> +
-> +			if (new_state == old_state)
-> +				continue;
-> +
-> +			cros_ec_keyb_process_one(ckdev, row, col, new_state);
->  		}
->  		ckdev->old_kb_state[col] = kb_state[col];
->  	}
-> @@ -582,6 +679,43 @@ static void cros_ec_keyb_parse_vivaldi_physmap(struct cros_ec_keyb *ckdev)
->  	ckdev->vdata.num_function_row_keys = n_physmap;
->  }
->  
-> +/* Returns true if there is a KEY_FN code defined in the normal keymap */
-> +static bool cros_ec_keyb_has_fn_key(struct cros_ec_keyb *ckdev)
-> +{
-> +	struct input_dev *idev = ckdev->idev;
-> +	const unsigned short *keycodes = idev->keycode;
-> +
-> +	for (int row = 0; row < ckdev->rows; row++) {
-> +		for (int col = 0; col < ckdev->cols; col++) {
-> +			int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
-> +
-> +			if (keycodes[pos] == KEY_FN)
-> +				return true;
-> +		}
-> +	}
-> +
-> +	return false;
-> +}
-
-Not needed.
-
-> +
-> +/*
-> + * Returns true if there is a KEY_FN defined and at least one key in the fn
-> + * layer keymap
-> + */
-> +static bool cros_ec_keyb_has_fn_map(struct cros_ec_keyb *ckdev)
-> +{
-> +	if (!cros_ec_keyb_has_fn_key(ckdev))
-> +		return false;
-> +
-> +	for (int row = 0; row < ckdev->rows; row++) {
-> +		for (int col = 0; col < ckdev->cols; col++) {
-> +			if (cros_ec_keyb_fn_code(ckdev, row, col, NULL) != 0)
-> +				return true;
-> +		}
-> +	}
-> +
-> +	return false;
-> +}
-
-I do not think this is needed either.
-
-Thanks.
-
+diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platform/chrome/cros_ec_lightbar.c
+index 8352e9732791..922758c2cec1 100644
+--- a/drivers/platform/chrome/cros_ec_lightbar.c
++++ b/drivers/platform/chrome/cros_ec_lightbar.c
+@@ -283,7 +283,7 @@ static ssize_t led_rgb_store(struct device *dev, struct device_attribute *attr,
+ 	return (ok && i == 0) ? count : -EINVAL;
+ }
+ 
+-static char const *seqname[] = {
++static const char * const seqname[] = {
+ 	"ERROR", "S5", "S3", "S0", "S5S3", "S3S0",
+ 	"S0S3", "S3S5", "STOP", "RUN", "KONAMI",
+ 	"TAP", "PROGRAM",
 -- 
-Dmitry
+2.43.0
+

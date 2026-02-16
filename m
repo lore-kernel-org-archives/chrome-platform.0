@@ -1,112 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1DF22B5AD
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 10:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600CA3321D4
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 16:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771237653; cv=none; b=iGU/farGiKYD09YsFd7Udsc64k4d+ov5nX7GmazQEgE16Hidd5VM7p00B8uXocN1TLo8uRGIh+/1Hz4BCo2RHUvYJOB1V87vYRn+hBcrTnOA3j/9L5jP7Eb2QkDcRtniUEjx+wlijwfDBdZasPcpIPuQFtR1R9hOt4tKmaGP6Jw=
+	t=1771259874; cv=none; b=MybZ4HcGB2+tSdOeidrk4ZZhHifD0lef1STGPur80nhozUAOrZkMtY1mVmcFDuW4Aqrr1x34DlAn4diZgqhg93FH8AF4xlDH08S2JLuAejRpFqO8PjRhSh7eT2FQtFa4TS9TTOcQR5r+kXDNZQE/XH1lSuhZplVoomWVNin/E50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771237653; c=relaxed/simple;
-	bh=7JgpOgwagDam1yDAgEgP9xXqPhTh6+mLYFekup3pOJE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KBfHZu2TqQbGDgLWcWrKwEg+ToOFwbxkrYOhA92pWIWZZnZCLNKFuCo12m5Y0x6HQn4Lvm06vi+uKlcurK3XzdqlONGIryAx8ZY3lYj8yBYdGo9woaz14oDgDp91McFNT1VIWcAiNPhf+82hw+/ORTB5cz8iDtUvTvh2t33cP2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QoVCZpcx; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1771259874; c=relaxed/simple;
+	bh=0YFt5L3EQYeiE8fs3QZfHq0TJ01fe9XjKhIj4SeKC94=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rys64wmWEdgGHHM6uCZL8bti+FkKn3peCiDC9EeQoV+7bPcmUaQf6nWd7Rsgje1AdECJLUvoHzCqw2EF6sMgdwTPbSMvJ7jYTXS/6+AEL2Hp5hXE5fdgEGTfdu/cWVFClLp4eN9Q2otfIisuY4S1RfmCz6kAlXrAZqskNTm5osQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gdcGK77Y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QoVCZpcx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771237651;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hk8CBoYpz3dwO5PhoMkU68RAZD40pLAZOBfvpSAMLv0=;
-	b=QoVCZpcxkMpHDDTySVYhoYfW9ukq81DXHgQr/qIMQI1yTkY9imYFzHZcRuiUc70WQn9PqP
-	buBhLLmNY3D2G/Eq2/zClJxw4PpOXu0kbZ7E11yGpFq4NBoOxkwoDURxOxvmDIYuhD9qdl
-	0aZRw97x6Tpxro3z5KfNaCb4E5Fjipk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-t7Ud2JzZPqShipm5PC6nMQ-1; Mon, 16 Feb 2026 05:27:29 -0500
-X-MC-Unique: t7Ud2JzZPqShipm5PC6nMQ-1
-X-Mimecast-MFC-AGG-ID: t7Ud2JzZPqShipm5PC6nMQ_1771237649
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4836c819456so37538625e9.3
-        for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 02:27:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771237649; x=1771842449;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hk8CBoYpz3dwO5PhoMkU68RAZD40pLAZOBfvpSAMLv0=;
-        b=IXLm4xh8Rlh03Jvrfd/HdFLtlH2zyw0I9SIqfZRCq89S9SwbmRt+dgjHVBOIWVZZ6K
-         rmFxrU6ws/1VNxNewQiPw156Ik9Dsz2sv9xT8v/GMC9mVit0X1kuPp3mfVuq5H1DCSKM
-         8mQl9iudgYWiPwx0f9gP4w+jDYC3qlxG/GWXrWyvjfuhoDvgVPaRBn7+jO07fFNUfIm6
-         PSSozHeQy654EsbRfZ0sgshVNiXae+OhZ2plnMXSmlIeZ+RWAvXLsqqOGhJUn23qRGyt
-         fN9SPKbBfeH3dt52dMOyjsIVmPHbnz6C3ZpyA0MkSRVNBI06+5Ran9O+KcO4jkQks/Vo
-         YHPg==
-X-Gm-Message-State: AOJu0YxjLTcEAVoUFHWjPDnLkOcz1SWfiqX+uudN1ONXH9PJGAX2KqS6
-	gGB65fyQCIrltYV8A6M/ma1rYdUdq7opy6Vh6iMa1rxhiNLedM62qJdnWlw3R2G/lzm2B0y9rWO
-	Fa7EMQPDI2sWXjgj6biIkc2asO6e4GUdW6SlIzzSv/HMH6PNB/U/RYWnHACSdp95scVuoSg==
-X-Gm-Gg: AZuq6aJTl+vFHTWtBb0sdex+orrpWqfNtzzzmHYmAIKBzcFoKtz3qN2qTeQWFmjjejN
-	e4l5jq6r0p6XyWZ+5GumIGKgo2fDYmSNuMwdhwWZVQdbDOvMpdchWUjUss2THj9pT9yalzj2TNl
-	IWfvMT1LYSm9ctx+DcFTitLRToOgGhVnpz47wW1rau6U2IgJvHLPjxf20Nt+7y3ppfhFCtd1h2b
-	Wi6zPhmQE0si2tMzKoqVtrKe2O0gGimhHEKApf8nCygwkNpwTaoTglW9vjQLzaDTl2dKQrUD9N8
-	vgJp+a5GinfkmwLorqIa2SXun9KSb8ZlRydMB+nzDF8rEPrhmOTolhgtg3mX4GailLdpo0Bpr5h
-	8wjdqyUnI06Is0OnAs//xDaXRqF2CnaEjIKMFymFvOanOMVhVzyrx0lAAH+aQKpTP5shemP/jTj
-	ctT7oN
-X-Received: by 2002:a05:600c:8b4c:b0:480:5678:1fdd with SMTP id 5b1f17b1804b1-4837105240amr173558665e9.12.1771237648676;
-        Mon, 16 Feb 2026 02:27:28 -0800 (PST)
-X-Received: by 2002:a05:600c:8b4c:b0:480:5678:1fdd with SMTP id 5b1f17b1804b1-4837105240amr173558365e9.12.1771237648269;
-        Mon, 16 Feb 2026 02:27:28 -0800 (PST)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483719b8e71sm236692635e9.2.2026.02.16.02.27.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 02:27:27 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
- briannorris@chromium.org, jwerner@chromium.org, samuel@sholland.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org, Thomas
- Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 12/12] drm/sysfb: corebootdrm: Support panel orientation
-In-Reply-To: <20260203135519.417931-13-tzimmermann@suse.de>
-References: <20260203135519.417931-1-tzimmermann@suse.de>
- <20260203135519.417931-13-tzimmermann@suse.de>
-Date: Mon, 16 Feb 2026 11:27:26 +0100
-Message-ID: <87bjhp6l0x.fsf@ocarina.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gdcGK77Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43339C19423
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 16:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771259874;
+	bh=0YFt5L3EQYeiE8fs3QZfHq0TJ01fe9XjKhIj4SeKC94=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=gdcGK77YiW3/cwAq/GELu8xWueAVzfj6uWQ4d+Rzl5pK6CBJ5wxN/Xz2wt80cxbjx
+	 w4cElP2BknCOUNR5EIecfCWccqfNwk3h6enubeN3wx+2SM9jrnOP7ROnmN88OSywKD
+	 cjvKFS5vZq/OXt+9mgMrU4uuVMRXYR1geVpEoSFgUfVCRTWGKrP0P/oJcUkRNo1o+4
+	 zJFv7yVGfDUO4IilhnL+8KDRtDJYdLvoInvyNc8zvBkJ0hf90iSE3nHm/1VrkkYDXY
+	 eVkzoJVtVHSGauFLNawCryfF2leka3umGYJAvA3N16KNp88qSrHv1w8d2ZtO9Ues5t
+	 xn+ZNsIYxqRHw==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59e607a3824so3417887e87.1
+        for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 08:37:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWLmUTm1BMu1W3U5dXGoFI4heGJzJzXtgJj2d1tS6q5na35YCNdbpKV9TzR0/k7wi4bwGkjsgdX185MoGf9014=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz696Xfk9ANvfC/e6huEQd9SQcgMF/jGsDKPAgrVoJYvuACo6cu
+	mj7eQXHtu/g6TD8zTQ/xqs+WNF/jQ6RaDuiocOOlGKl3YhIQrn/4SnRVu0eoqShUqWTYgnibWHm
+	oa7e5CwaDVhZ+dFKXo2B1agKAeA+qVrTAklyBH66g3Q==
+X-Received: by 2002:a05:6512:b02:b0:59e:4ce1:fe10 with SMTP id
+ 2adb3069b0e04-59f69c4e93dmr3612497e87.14.1771259871880; Mon, 16 Feb 2026
+ 08:37:51 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 16 Feb 2026 08:37:50 -0800
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 16 Feb 2026 08:37:50 -0800
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260213092307.858908-2-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: AdyY3IzQyvtdgSyOzqYTeskRMg2MI7sKTE752g-X-Yg_1771237649
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20260213092307.858908-1-tzungbi@kernel.org> <20260213092307.858908-2-tzungbi@kernel.org>
+Date: Mon, 16 Feb 2026 08:37:50 -0800
+X-Gmail-Original-Message-ID: <CAMRc=MehkJc-js=Wk9vBAcXOpazqjtYDLPUEhmbN8U7Wu2YpgA@mail.gmail.com>
+X-Gm-Features: AaiRm50BJf12deibLZSaH_InveKQYoLD86Ydy4bIVqFsywRt6lKDcedjAv_Vvxc
+Message-ID: <CAMRc=MehkJc-js=Wk9vBAcXOpazqjtYDLPUEhmbN8U7Wu2YpgA@mail.gmail.com>
+Subject: Re: [PATCH v8 1/3] revocable: Revocable resource management
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
+	Dan Williams <dan.j.williams@intel.com>, Linus Walleij <linusw@kernel.org>, 
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
-
-> Add fields and constants for coreboot framebuffer orientation. Set
-> corebootdrm's DRM connector state from the values. Not all firmware
-> provides orientation, so make it optional. Systems without, continue
-> to use unknown orientation.
+On Fri, 13 Feb 2026 10:23:05 +0100, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> The "revocable" mechanism is a synchronization primitive designed to
+> manage safe access to resources that can be asynchronously removed or
+> invalidated.  Its primary purpose is to prevent Use-After-Free (UAF)
+> errors when interacting with resources whose lifetimes are not
+> guaranteed to outlast their consumers.
 >
-> v3:
-> - comment on _HAS_ORIENTATION semantics (Tzung-Bi)
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Julius Werner <jwerner@chromium.org>
-> ---
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+[snip]
 
--- 
-Best regards,
+> diff --git a/include/linux/revocable.h b/include/linux/revocable.h
+> +
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+[snip]
 
+> +/**
+> + * struct revocable_consumer - A handle for resource consumer.
+> + * @rp: The pointer of resource provider.
+> + * @idx: The index for the SRCU critical section.
+> + */
+> +struct revocable_consumer {
+> +	struct revocable *rp;
+> +	int idx;
+> +};
+> +
+> +void revocable_get(struct revocable *rp);
+> +void revocable_put(struct revocable *rp);
+> +struct revocable *revocable_alloc(void *res);
+
+Is there any reason why we couldn't do:
+
+int revocable_init(struct revocable *rp, void *res);
+
+and then:
+
+struct gpio_device {
+	struct revocable rp;
+	...
+};
+
+revocable_init(&gdev->rp, gc);
+
+? It would be functionally equivalent to what we're doing now in GPIO.
+
+Bartosz

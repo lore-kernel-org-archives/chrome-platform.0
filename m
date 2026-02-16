@@ -1,226 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1501834D4F1;
-	Fri, 13 Feb 2026 09:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B27B2FFDD5
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 10:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770975096; cv=none; b=eRK7bk6OFlyoPRCf9wQGMewX9dI+qmMZFIXwSEWhGE9iAxfEk5nbrRdDMinsAC2sA4jRMj4D/P+4KYVhYsjRpeVJmq4V/urlreLRJ4ykQhKa2FUpiVRQIMPwrEEwYT7Mh8A0LhKz2iHw1DLhmZOcPr7wHBJCkqIqrhhCIX9zF3s=
+	t=1771237535; cv=none; b=hzo09HfHitT29EK+KE0XPq+SL4AhPbCqD2qZqrvHyOaWdWrNYwKr2Cf/bGvAu7BqDJoWO+eGtXqpdF+aViGboMjqnj66EEa8QGNuByXBkOr+QUHt6vYW3VOv7pf9ywi6JXiZcXYMDrBXFUEwPAZ+R0R9R3ukCrZPp/Ktbh8DnvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770975096; c=relaxed/simple;
-	bh=HELCfPtNvCvEoazpaboPAkrUFqcVe3WmgWs+WHvPHis=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qoq4UdfYFZ0kNv55m4v2xNFwI8Y7rm4njQskaRZ7nrAXD/2NzxYf9wYdFaP7v0l41B4FgZ5j4XEUacOlssJ+gN+dU+VN/PNNTCuE4RCsbFQCbJpLDsj8iaQKdQ1BHAT1Gu2BJ78KjoHeMM9CWSVHScNX6E7yAhgjiA2AB91GdwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PTeHzrz7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771237535; c=relaxed/simple;
+	bh=d8Viq65c3Tbe2umtsyi0kD+iC6Naf9TsV8lvDE1zvJs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=l0aJ0sEvMvQ+fvon3GMTeIUnr4AYl8NaPRgcQ0LoPx6EZxCAjBRG4NqgqCqzMXJDB4kULcQ2nhT3/++IIlptwwxH6sX0QznSCFUq34R6zQw32bV+9Y13WQaDofyL2r/mfN2U15OiBjwcvcqxRuaYXmCobp9F5hpOQ989U3gut0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Elgdwj62; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PTeHzrz7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1832EC2BC86;
-	Fri, 13 Feb 2026 09:31:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770975095;
-	bh=HELCfPtNvCvEoazpaboPAkrUFqcVe3WmgWs+WHvPHis=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PTeHzrz7fBmNzxotEJYS7hqWo2i21aU5yS451f2gH4/xkQC65J7JEaSfuZGwdEp5h
-	 qaRw7SH2+YHJ0Rk5gqCgL3oitiq+K51odE8tuTAeeEgp0d17UyPa0HZ8ae5wphzFaW
-	 lK+sU9wfAR3J5aTT+riG+cP75ynvcG2RU1WDeSQv+exRBfecv1A3VBDzrnN4sUCPi3
-	 i2lmYTCSj3ZBMF7fDJ2EZplvqZIUTErpa9VUGxj7axVVGeDT/Iy8GNjWPN2wynTXag
-	 AO7PGO4RDDfwNAOWi7Els9HNOtwzbfDr2Fs2QrmZ8tCRzve1DKP3RX4ohb0iPkfpDr
-	 FoBArUrhNA9Rw==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Johan Hovold <johan@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	chrome-platform@lists.linux.dev,
-	tzungbi@kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 11/11] gpio: Remove unused `chip` and `srcu` in struct gpio_device
-Date: Fri, 13 Feb 2026 09:29:58 +0000
-Message-ID: <20260213092958.864411-12-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.53.0.310.g728cabbaf7-goog
-In-Reply-To: <20260213092958.864411-1-tzungbi@kernel.org>
-References: <20260213092958.864411-1-tzungbi@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Elgdwj62"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771237532;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qkkyUWFiOiR4ybl48uLvGZuH0EeXWDQWG9ZNGd0RJ4M=;
+	b=Elgdwj6253W7LCzdQRjdf8YU+qqThcotLwhq119EgRI2wzmO5/mBEhAZUomdVNBocayTq7
+	yxaRCnVX+/6HfRNAHRp87qLgHItS1iwRXzU4sHMfHhzr3WKXJQsXM2D6hE2hNksGXEwkCc
+	4kB1dSoQqiQ8I0j4D1qV3PEUNB01QT0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-635-so7cRHPTNeK7is69Ea1AQg-1; Mon, 16 Feb 2026 05:25:31 -0500
+X-MC-Unique: so7cRHPTNeK7is69Ea1AQg-1
+X-Mimecast-MFC-AGG-ID: so7cRHPTNeK7is69Ea1AQg_1771237530
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4836cc0b38eso19681445e9.2
+        for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 02:25:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771237530; x=1771842330;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qkkyUWFiOiR4ybl48uLvGZuH0EeXWDQWG9ZNGd0RJ4M=;
+        b=NxZ7mhKHdaNX4lqWsykBGw2Js0Rkp49j7RRPFEi48toCW8WlTMmY+FvKSDDqm0p9d2
+         unNsIFUAyInUzSNySCPCvy9E4ypOwRD4puk0T6oTQZalBGhnpM7O7J8fQm/psSOxDWQo
+         eC8bq1qnTOG8Ng9UcqrQCl0id1VbH5JUfUCK49papt8VKDgmm/wrrj42cjAmU0iu7fUs
+         htWEXbMTcuLk3i9lHgbD2jj1dwGFt/7SRujNHu4s4mJR32lmLgr+FfoUGfGXX8xjXP7J
+         Ug2NGuRH/b+YMG/b03leRsxd3rzgf6ZZ55+1mrN4L3qD0RciiZ2tg739Kl4ltKglQYYf
+         3gQA==
+X-Gm-Message-State: AOJu0Yye8w9MHO6qIbAvYvfkvHpsrz6vf+HvkMMAg+AracE9ulqcJdHs
+	LreIXi2MylwRINSha+iREDqYmmD4OabZsZqTTkAaD5omI7qjZ71BD8e7sHu2+UGiXoDGvmkwI0f
+	VFs8CfILjVUoHWLhYE58FEheIx9NFk+BoXViWkFforusZKWYlYlvISNkxRo7BYiq3Sd4szg==
+X-Gm-Gg: AZuq6aL7S6KCZU5P3YQAuVNLj3+Fia15LtAdfMlEwGdARM8ptpFuGwbYKEuLM83ddmd
+	HgihoBif1wwEvJ0cpzVyqa9jIV0Qw2yXsiBPrv84hSESh5jCgIPYSAM47wQkVlrdGiyigy4cPHu
+	/96gYwZRXTlDNIBS+201TmG1tRqA1sqjZjHVGW+FZ86UkbDCJftIDt3x74fjfoWzwQprmCRvZHT
+	fXu2rdH0t/aCzi7krAs3HujvwFogpGaGDyJL692GeA3wJha7LBRVqcs/ooP+Tct051ArHG48tta
+	2aWMSOX40Q8pe+LvVbVJcBZ4F4aEBAPN7R819zuTusqgDOxGdwXkAupy3dAM9JLpPyhEtCgjYAJ
+	scMXNr3bv3aOa66SHr2wUKESKAiHSfKxqUD26ysygKhwMLUyAZIn39YJcdtzLTAvmE17T49BX/I
+	QcbSJb
+X-Received: by 2002:a05:600c:34c3:b0:483:3d42:d04f with SMTP id 5b1f17b1804b1-48373a7b7bcmr166696615e9.37.1771237529671;
+        Mon, 16 Feb 2026 02:25:29 -0800 (PST)
+X-Received: by 2002:a05:600c:34c3:b0:483:3d42:d04f with SMTP id 5b1f17b1804b1-48373a7b7bcmr166696295e9.37.1771237529230;
+        Mon, 16 Feb 2026 02:25:29 -0800 (PST)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48370a5ca56sm117723755e9.3.2026.02.16.02.25.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Feb 2026 02:25:27 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
+ briannorris@chromium.org, jwerner@chromium.org, samuel@sholland.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org, Thomas
+ Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 11/12] drm/sysfb: corebootdrm: Add DRM driver for
+ coreboot framebuffers
+In-Reply-To: <20260203135519.417931-12-tzimmermann@suse.de>
+References: <20260203135519.417931-1-tzimmermann@suse.de>
+ <20260203135519.417931-12-tzimmermann@suse.de>
+Date: Mon, 16 Feb 2026 11:25:26 +0100
+Message-ID: <87ecml6l49.fsf@ocarina.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: abbsSS9loaR6JXPoirKQfFcRGk8It1tfSqMngA4gs2E_1771237530
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
-`chip` and `srcu` in struct gpio_device are unused as their usages are
-replaced to use revocable.  Remove them.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-v3:
-- No changes.
+> Add corebootdrm, a DRM driver for coreboot framebuffers. The driver
+> supports a pre-initialized framebuffer with various packed RGB formats.
+> The driver code is fairly small and uses the same logic as the other
+> sysfb drivers. Most of the implementation comes from existing sysfb
+> helpers.
+>
+> Until now, coreboot relied on simpledrm or simplefb for boot-up graphics
+> output. Initialize the platform device for corebootdrm in the same place
+> in framebuffer_probe(). With a later commit, the simple-framebuffer should
+> be removed.
+>
+> v3:
+> - comment on _HAS_LFB semantics (Tzung-Bi)
+> - fix typo in commit description (Tzung-Bi)
+> - comment on simple-framebuffer being obsolete for coreboot
+> v2:
+> - reimplement as platform driver
+> - limit resources and mappings to known framebuffer memory; no
+>   page alignment
+> - create corebootdrm device from coreboot framebuffer code
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Julius Werner <jwerner@chromium.org>
+> ---
 
-v2: https://lore.kernel.org/all/20260203061059.975605-12-tzungbi@kernel.org
-- No changes.
+The driver looks good to me. I couldn't spot anything wrong on it.
 
-v1: https://lore.kernel.org/all/20260116081036.352286-24-tzungbi@kernel.org
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
- drivers/gpio/gpiolib.c | 26 +-------------------------
- drivers/gpio/gpiolib.h |  4 ----
- 2 files changed, 1 insertion(+), 29 deletions(-)
-
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index 2ba78add3417..01be9f6978f2 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -423,8 +423,6 @@ static int gpiochip_get_direction(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->get_direction))
- 		return -EOPNOTSUPP;
- 
-@@ -875,7 +873,6 @@ static void gpiodev_release(struct device *dev)
- 	ida_free(&gpio_ida, gdev->id);
- 	kfree_const(gdev->label);
- 	kfree(gdev->descs);
--	cleanup_srcu_struct(&gdev->srcu);
- 	kfree(gdev);
- }
- 
-@@ -1076,14 +1073,9 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
- 		goto err_free_gdev;
- 	gdev->id = ret;
- 
--	ret = init_srcu_struct(&gdev->srcu);
--	if (ret)
--		goto err_free_ida;
--	rcu_assign_pointer(gdev->chip, gc);
--
- 	ret = init_srcu_struct(&gdev->desc_srcu);
- 	if (ret)
--		goto err_cleanup_gdev_srcu;
-+		goto err_free_ida;
- 
- 	ret = dev_set_name(&gdev->dev, GPIOCHIP_NAME "%d", gdev->id);
- 	if (ret)
-@@ -1276,8 +1268,6 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
- 
- err_cleanup_desc_srcu:
- 	cleanup_srcu_struct(&gdev->desc_srcu);
--err_cleanup_gdev_srcu:
--	cleanup_srcu_struct(&gdev->srcu);
- err_free_ida:
- 	ida_free(&gpio_ida, gdev->id);
- err_free_gdev:
-@@ -1314,8 +1304,6 @@ void gpiochip_remove(struct gpio_chip *gc)
- 	synchronize_srcu(&gpio_devices_srcu);
- 
- 	/* Numb the device, cancelling all outstanding operations */
--	rcu_assign_pointer(gdev->chip, NULL);
--	synchronize_srcu(&gdev->srcu);
- 	revocable_revoke(gdev->chip_rp);
- 	gpio_device_teardown_shared(gdev);
- 	gpiochip_irqchip_remove(gc);
-@@ -2815,8 +2803,6 @@ static int gpiochip_direction_input(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->direction_input))
- 		return -EOPNOTSUPP;
- 
-@@ -2832,8 +2818,6 @@ static int gpiochip_direction_output(struct gpio_chip *gc, unsigned int offset,
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->direction_output))
- 		return -EOPNOTSUPP;
- 
-@@ -2921,8 +2905,6 @@ static int gpiochip_set(struct gpio_chip *gc, unsigned int offset, int value)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(unlikely(!gc->set)))
- 		return -EOPNOTSUPP;
- 
-@@ -3270,8 +3252,6 @@ static int gpiochip_get(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	/* Make sure this is called after checking for gc->get(). */
- 	ret = gc->get(gc, offset);
- 	if (ret > 1)
-@@ -3323,8 +3303,6 @@ static int gpiod_get_raw_value_commit(const struct gpio_desc *desc)
- static int gpio_chip_get_multiple(struct gpio_chip *gc,
- 				  unsigned long *mask, unsigned long *bits)
- {
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (gc->get_multiple) {
- 		int ret;
- 
-@@ -3668,8 +3646,6 @@ static int gpiochip_set_multiple(struct gpio_chip *gc,
- 	unsigned int i;
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (gc->set_multiple) {
- 		ret = gc->set_multiple(gc, mask, bits);
- 		if (ret > 0)
-diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
-index a254a57f37f5..6a97d9726c20 100644
---- a/drivers/gpio/gpiolib.h
-+++ b/drivers/gpio/gpiolib.h
-@@ -28,7 +28,6 @@
-  * @chrdev: character device for the GPIO device
-  * @id: numerical ID number for the GPIO chip
-  * @owner: helps prevent removal of modules exporting active GPIOs
-- * @chip: pointer to the corresponding gpiochip, holding static
-  * data for this device
-  * @descs: array of ngpio descriptors.
-  * @valid_mask: If not %NULL, holds bitmask of GPIOs which are valid to be
-@@ -51,7 +50,6 @@
-  *                 process context
-  * @device_notifier: used to notify character device wait queues about the GPIO
-  *                   device being unregistered
-- * @srcu: protects the pointer to the underlying GPIO chip
-  * @chip_rp: revocable provider handle for the corresponding struct gpio_chip.
-  * @pin_ranges: range of pins served by the GPIO driver
-  *
-@@ -65,7 +63,6 @@ struct gpio_device {
- 	struct cdev		chrdev;
- 	int			id;
- 	struct module		*owner;
--	struct gpio_chip __rcu	*chip;
- 	struct gpio_desc	*descs;
- 	unsigned long		*valid_mask;
- 	struct srcu_struct	desc_srcu;
-@@ -79,7 +76,6 @@ struct gpio_device {
- 	rwlock_t		line_state_lock;
- 	struct workqueue_struct	*line_state_wq;
- 	struct blocking_notifier_head device_notifier;
--	struct srcu_struct	srcu;
- 	struct revocable	*chip_rp;
- 
- #ifdef CONFIG_PINCTRL
 -- 
-2.53.0.310.g728cabbaf7-goog
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 

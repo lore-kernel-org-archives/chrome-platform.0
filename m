@@ -1,113 +1,210 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600CA3321D4
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 16:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88E0242D9D
+	for <chrome-platform@lists.linux.dev>; Tue, 17 Feb 2026 15:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771259874; cv=none; b=MybZ4HcGB2+tSdOeidrk4ZZhHifD0lef1STGPur80nhozUAOrZkMtY1mVmcFDuW4Aqrr1x34DlAn4diZgqhg93FH8AF4xlDH08S2JLuAejRpFqO8PjRhSh7eT2FQtFa4TS9TTOcQR5r+kXDNZQE/XH1lSuhZplVoomWVNin/E50=
+	t=1771343924; cv=none; b=MbKGjFphTy6rit81pfO+lZZsVPHgboHikjwmviJ6FdtofQv49kD+a+DAxxsumSXqVVqBLjxxSV+y+nBPLwtll+3dU0KuNp5Xtjq3IoNym19g067LWouKm7l5K6uulURiOHUjpK4Mcgh3YzrDJfp497OMs/PsujSKZfo56FxWpMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771259874; c=relaxed/simple;
-	bh=0YFt5L3EQYeiE8fs3QZfHq0TJ01fe9XjKhIj4SeKC94=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rys64wmWEdgGHHM6uCZL8bti+FkKn3peCiDC9EeQoV+7bPcmUaQf6nWd7Rsgje1AdECJLUvoHzCqw2EF6sMgdwTPbSMvJ7jYTXS/6+AEL2Hp5hXE5fdgEGTfdu/cWVFClLp4eN9Q2otfIisuY4S1RfmCz6kAlXrAZqskNTm5osQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gdcGK77Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771343924; c=relaxed/simple;
+	bh=JSihsk7ijLBvTyZTfyIqB7fl7SHphXSpreLsJ9wkvC8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uY0386rpMo+mt42c6xk2LZB2ttgRgfwZiVmw35xg1MNpOe78CFLbM+CimXqKGYWpHWSleYcQVm88hX3SCH1ihsRvPh1q65do3b4Scq1FD2/dN8ZbtF8KMh2+ptwi8UCfvMo3tjQh0ZMD0wqGt4NFZjlQc9/9Z25g5Pt4HdtcqK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lZNPcLRW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yyv0wogw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lZNPcLRW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yyv0wogw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gdcGK77Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43339C19423
-	for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 16:37:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771259874;
-	bh=0YFt5L3EQYeiE8fs3QZfHq0TJ01fe9XjKhIj4SeKC94=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=gdcGK77YiW3/cwAq/GELu8xWueAVzfj6uWQ4d+Rzl5pK6CBJ5wxN/Xz2wt80cxbjx
-	 w4cElP2BknCOUNR5EIecfCWccqfNwk3h6enubeN3wx+2SM9jrnOP7ROnmN88OSywKD
-	 cjvKFS5vZq/OXt+9mgMrU4uuVMRXYR1geVpEoSFgUfVCRTWGKrP0P/oJcUkRNo1o+4
-	 zJFv7yVGfDUO4IilhnL+8KDRtDJYdLvoInvyNc8zvBkJ0hf90iSE3nHm/1VrkkYDXY
-	 eVkzoJVtVHSGauFLNawCryfF2leka3umGYJAvA3N16KNp88qSrHv1w8d2ZtO9Ues5t
-	 xn+ZNsIYxqRHw==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59e607a3824so3417887e87.1
-        for <chrome-platform@lists.linux.dev>; Mon, 16 Feb 2026 08:37:53 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWLmUTm1BMu1W3U5dXGoFI4heGJzJzXtgJj2d1tS6q5na35YCNdbpKV9TzR0/k7wi4bwGkjsgdX185MoGf9014=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz696Xfk9ANvfC/e6huEQd9SQcgMF/jGsDKPAgrVoJYvuACo6cu
-	mj7eQXHtu/g6TD8zTQ/xqs+WNF/jQ6RaDuiocOOlGKl3YhIQrn/4SnRVu0eoqShUqWTYgnibWHm
-	oa7e5CwaDVhZ+dFKXo2B1agKAeA+qVrTAklyBH66g3Q==
-X-Received: by 2002:a05:6512:b02:b0:59e:4ce1:fe10 with SMTP id
- 2adb3069b0e04-59f69c4e93dmr3612497e87.14.1771259871880; Mon, 16 Feb 2026
- 08:37:51 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 16 Feb 2026 08:37:50 -0800
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 16 Feb 2026 08:37:50 -0800
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260213092307.858908-2-tzungbi@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lZNPcLRW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yyv0wogw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lZNPcLRW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yyv0wogw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 040123E7BE;
+	Tue, 17 Feb 2026 15:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771343921; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Dv6bhu/RyBxL2ZoHsQ49G4w86dvs557o9ltrUi3TGVg=;
+	b=lZNPcLRW1gj7V36CMDDh5C7tPddzHqZzG13zSMcnXrPtxRIh/csv7bLW47Hm4AaJBCTGXs
+	ydxqT9FZFk+WtABHQFlcTs1nTICLs7WFdFbmPgXTrww5/1Lzm9S0VgQ1zgQ8cx47+5TKAb
+	YriLfpo4hh5hNjWPusVct+1n/JoZKTU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771343921;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Dv6bhu/RyBxL2ZoHsQ49G4w86dvs557o9ltrUi3TGVg=;
+	b=yyv0wogwPQdZAK/pVQCvLvaozAJUk/p0ZQ90TH95v9maIaFSrrIinvC2B17IyIDXS/io90
+	beEWl+97mAgQ4OCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lZNPcLRW;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yyv0wogw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771343921; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Dv6bhu/RyBxL2ZoHsQ49G4w86dvs557o9ltrUi3TGVg=;
+	b=lZNPcLRW1gj7V36CMDDh5C7tPddzHqZzG13zSMcnXrPtxRIh/csv7bLW47Hm4AaJBCTGXs
+	ydxqT9FZFk+WtABHQFlcTs1nTICLs7WFdFbmPgXTrww5/1Lzm9S0VgQ1zgQ8cx47+5TKAb
+	YriLfpo4hh5hNjWPusVct+1n/JoZKTU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771343921;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Dv6bhu/RyBxL2ZoHsQ49G4w86dvs557o9ltrUi3TGVg=;
+	b=yyv0wogwPQdZAK/pVQCvLvaozAJUk/p0ZQ90TH95v9maIaFSrrIinvC2B17IyIDXS/io90
+	beEWl+97mAgQ4OCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94C623EA66;
+	Tue, 17 Feb 2026 15:58:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8m4aIzCQlGk9PgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 17 Feb 2026 15:58:40 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: tzungbi@kernel.org,
+	briannorris@chromium.org,
+	jwerner@chromium.org,
+	javierm@redhat.com,
+	samuel@sholland.org,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch
+Cc: chrome-platform@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v4 00/12] drm, coreboot: Add DRM coreboot driver
+Date: Tue, 17 Feb 2026 16:56:10 +0100
+Message-ID: <20260217155836.96267-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260213092307.858908-1-tzungbi@kernel.org> <20260213092307.858908-2-tzungbi@kernel.org>
-Date: Mon, 16 Feb 2026 08:37:50 -0800
-X-Gmail-Original-Message-ID: <CAMRc=MehkJc-js=Wk9vBAcXOpazqjtYDLPUEhmbN8U7Wu2YpgA@mail.gmail.com>
-X-Gm-Features: AaiRm50BJf12deibLZSaH_InveKQYoLD86Ydy4bIVqFsywRt6lKDcedjAv_Vvxc
-Message-ID: <CAMRc=MehkJc-js=Wk9vBAcXOpazqjtYDLPUEhmbN8U7Wu2YpgA@mail.gmail.com>
-Subject: Re: [PATCH v8 1/3] revocable: Revocable resource management
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
-	Dan Williams <dan.j.williams@intel.com>, Linus Walleij <linusw@kernel.org>, 
-	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Queue-Id: 040123E7BE
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 
-On Fri, 13 Feb 2026 10:23:05 +0100, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> The "revocable" mechanism is a synchronization primitive designed to
-> manage safe access to resources that can be asynchronously removed or
-> invalidated.  Its primary purpose is to prevent Use-After-Free (UAF)
-> errors when interacting with resources whose lifetimes are not
-> guaranteed to outlast their consumers.
->
+Coreboot implements framebuffer support via simple-framebuffer. Provide a
+dedicated DRM driver. Keep the simple-framebuffer code for now.
 
-[snip]
+For each firmware's provided framebuffer, we prefer a dedicated DRM driver
+tailored towards the platform's feature set. The coreboot framebuffer
+device currently creates a simple-framebuffer device for the provided
+framebuffer aperture. But simple-framebuffer is for DeviceTree nodes; not
+for coreboot. The simple-framebuffer infrastructure should be phased out
+for non-DT use cases. Coreboot is one of the final users of the code
+(besides n64).
 
-> diff --git a/include/linux/revocable.h b/include/linux/revocable.h
-> +
+Patches 1 to 5 start by fixing problems in the coreboot framebuffer
+implementation. There is a possible dangling pointer, the memory is
+marked as busy, the device hierarchy is incorrect, and a few minor things.
 
-[snip]
+Patches 6 to 9 prepare the coreboot support for use by external drivers.
+Specifically, structures for the entries os the coreboot payload table
+have to be exported.
 
-> +/**
-> + * struct revocable_consumer - A handle for resource consumer.
-> + * @rp: The pointer of resource provider.
-> + * @idx: The index for the SRCU critical section.
-> + */
-> +struct revocable_consumer {
-> +	struct revocable *rp;
-> +	int idx;
-> +};
-> +
-> +void revocable_get(struct revocable *rp);
-> +void revocable_put(struct revocable *rp);
-> +struct revocable *revocable_alloc(void *res);
+Patches 10 to 12 add corebootdrm, a DRM driver for the new
+coreboot-framebuffer platform device. Corebootdrm follows the pattern
+established by similar drivers. It also uses the same sysfb helpers. It
+is therefore fairly small. With patch 11, it has feature parity with
+simpledrm on the old simple-framebuffer. Patch 12 adds support for panel-
+orientation flags that coreboot makes available.
 
-Is there any reason why we couldn't do:
+Tested on an HP Chromebook with MrChromebox 4.16. Runs with Weston and
+fbcon. Xorg requires an additional patch available at [1].
 
-int revocable_init(struct revocable *rp, void *res);
+v4:
+- sort include statements
+- remove changelog from commit description in coreboot patch #9
+v3:
+- avoid packed types for coreboot headers
+- comment in various places
+- fix typos
+v2:
+- keep design of coreboot framebuffer code intact
+- fix bugs in the coreboot framebuffer code
+- rewrite corebootdrm as platform device
+- support panel orientation
 
-and then:
+[1] https://gitlab.freedesktop.org/tzimmermann/xserver/-/commit/0b326aad28549762ed2b0e2bedf8f8a42f1f6b3b
 
-struct gpio_device {
-	struct revocable rp;
-	...
-};
+Thomas Zimmermann (12):
+  firmware: google: framebuffer: Do not unregister platform device
+  firmware: google: framebuffer: Do not mark framebuffer as busy
+  firmware: google: framebuffer: Init memory resource with helper macro
+  firmware: google: framebuffer: Tie platform device to PCI hardware
+  firmware: google: framebuffer: Fix dependencies
+  firmware: google: Init coreboot bus with subsys_initcall()
+  firmware: google: Clean up include statements in coreboot_table.h
+  firmware: google: Export coreboot table entries
+  firmware: google: Pack structures for coreboot table entries
+  drm/sysfb: Generalize pixel-format matching
+  drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
+  drm/sysfb: corebootdrm: Support panel orientation
 
-revocable_init(&gdev->rp, gc);
+ MAINTAINERS                                   |   1 +
+ drivers/firmware/google/Kconfig               |   5 +-
+ drivers/firmware/google/cbmem.c               |   1 +
+ drivers/firmware/google/coreboot_table.c      |  13 +-
+ drivers/firmware/google/coreboot_table.h      |  59 +--
+ .../firmware/google/framebuffer-coreboot.c    | 126 +++--
+ drivers/firmware/google/memconsole-coreboot.c |   1 +
+ drivers/firmware/google/vpd.c                 |   1 +
+ drivers/gpu/drm/sysfb/Kconfig                 |  16 +
+ drivers/gpu/drm/sysfb/Makefile                |   1 +
+ drivers/gpu/drm/sysfb/corebootdrm.c           | 434 ++++++++++++++++++
+ drivers/gpu/drm/sysfb/drm_sysfb.c             |  24 +
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |   8 +-
+ drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c |  30 --
+ drivers/gpu/drm/sysfb/efidrm.c                |   8 +-
+ drivers/gpu/drm/sysfb/vesadrm.c               |   8 +-
+ include/linux/coreboot.h                      |  90 ++++
+ 17 files changed, 702 insertions(+), 124 deletions(-)
+ create mode 100644 drivers/gpu/drm/sysfb/corebootdrm.c
+ create mode 100644 include/linux/coreboot.h
 
-? It would be functionally equivalent to what we're doing now in GPIO.
 
-Bartosz
+base-commit: 0082025812a31eda451fb14f13f52683ed375c49
+-- 
+2.52.0
+

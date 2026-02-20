@@ -1,54 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F7930AD05
-	for <chrome-platform@lists.linux.dev>; Fri, 20 Feb 2026 07:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03B318BBAE
+	for <chrome-platform@lists.linux.dev>; Fri, 20 Feb 2026 07:52:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771573901; cv=none; b=F3+mmyDZT3RgLarfxdsx2foxP00Z6MfyyLZCuV5PRCk3dGvCpm7yZnSDMbqtWQplurg79BCk8cTjeeoIO+NzW47R4ofE3bbWqHGGhfVFYbzMSPZ6DrC80GGzHBS3EsN7Iw/EbYbRZRiEbqgq2Y7T/hoqmUjGQeBfUGJ0WlQx1FU=
+	t=1771573924; cv=none; b=O5AP/30uz1cSOEaRYqbpQrUeJgOpGqfjqjks15KjM3HfGaaRLS4eb7rXkut/Ja6IWUUUoEfOBgCb8ad91/Ea3qqfu0bB5GYpNSPPNRk4dJGqd/gMJOUHMQqLMo1RIcFBWCcWNTH6Ad+D3g6O8X97hg6Sqs3gt541esj3xnZLCYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771573901; c=relaxed/simple;
-	bh=oiflSM6gYbeTj0TmrVYHD4ZZM3D4l4EXVDqgwe/yO/k=;
+	s=arc-20240116; t=1771573924; c=relaxed/simple;
+	bh=QTanqqZ9R/o4VV9Z0PWcMC9w6NpgsBW34fGWnDXCvuU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y8w5Yc+Obvq3sHmQTjT8MEW5lL8mH2R4Rje6dPTZLanfLbJj7NdBSPle18vi9G9XaRejR58ovhlPA/MGDVl5b23yiNQIJIDrYfbTWN4PQ2bHz5E42/buQGeDKSLXMBUzT1E48PxyH0M5z1ckv4rMEoI32+BzjhFbh/0LmZomKVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QdnH8Yi8; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=huwNE4pS7gkNC26f35b4sk6uqvs7+qRsjLM0GVe7Xdfwn/TodmhI8eojTbyCQajTbFRJl/j3LTHb+jCsTYwjQu2KQOpB4KgpgzUZ90K3vPYFH2F/zfDeXbOmM0Cq5U6uT05kJwsAvI0ZC339Uf+LCEbGkHhd4mg5CTWMVdxjgMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WCmHBiWE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QdnH8Yi8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E28E6C116D0
-	for <chrome-platform@lists.linux.dev>; Fri, 20 Feb 2026 07:51:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WCmHBiWE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3378C4AF0B
+	for <chrome-platform@lists.linux.dev>; Fri, 20 Feb 2026 07:52:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771573900;
-	bh=oiflSM6gYbeTj0TmrVYHD4ZZM3D4l4EXVDqgwe/yO/k=;
+	s=k20201202; t=1771573924;
+	bh=QTanqqZ9R/o4VV9Z0PWcMC9w6NpgsBW34fGWnDXCvuU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=QdnH8Yi87tus1z4rJnCjzK+To2WMNrlPYBrJMBReSeHY5pn3nEhUvIuxat7WOBztG
-	 nDLu0OJBWbt6rRONoyitl1AOgnHYWj3hb052MXHbTLH3QWXXQgXLPU5XBhn1+AYHMP
-	 VT/EfSnvZbDFQCrJRxnZ+qEEYfcp0L0SpoBkektY/XIBYTHk4oyYLDzmtigKWZ/kiR
-	 XYojsjKUko13SOyORWeOH2dqQpiXU/G7qHA6OP1H/fVhGetUtE9/Fgm2l4TMGfeyNw
-	 LILerca1zwJXa6d6SVLn4mpzmWYIKcRK4L1fQ4cgJ3YpTfiFF0Z/WsKOddsT9y/u93
-	 YvdvppEGR++Tg==
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-649dbff9727so1863584d50.3
-        for <chrome-platform@lists.linux.dev>; Thu, 19 Feb 2026 23:51:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWLS6G8XDgoBXcyWiIHBW190weK1IhtqszGwPh4/T2tQeQRhKwwTKqYv1VGxj1/HYVVP67Gkk0nsL7zuOyCBj0=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzoxlKgODhkEd5Mhb/SqIecYJ5zXHVGMfDnymp/8JKm1U+CYZtE
-	ZRTd3bpRyKzIboWzy+b9zKQz8PlGjoU+Hjz/I2rQ/ZUldo2eY/5bUxSGnDr6tBEuuFDOIx8IKV+
-	mc0RbVfCr13dy+CXrvW74kcDOwTHfmkU=
-X-Received: by 2002:a05:690e:4189:b0:649:4906:770a with SMTP id
- 956f58d0204a3-64c21a40bf5mr14993420d50.8.1771573900157; Thu, 19 Feb 2026
- 23:51:40 -0800 (PST)
+	b=WCmHBiWEFZfHkzDUtWIS1eIQ7ZEHXKHUOt7dvZn3SWVbz4EBtaFvTQFy1X9BMvZth
+	 lXYDf4F5tYIrXC5HYqRI0jIAICl91aJ8gQrTIqB7RIO1YABA18hIZUKMKcHmLXHuYV
+	 WUWFISwfrd9j8qoJUz5Hg+NTEboadrUpfCQZuog4FYzs1ZtpLyGh5K7vYk1E6E0nCP
+	 oR6u5jTFLe2BzCo+NHF+5i/4xlEMyrJjUsrCEUKV1e2uiRjZcf2DuLu/8vY2d/G83X
+	 LqeefsG+Wcw1XORcbvHh/LpJbBnJhVrw8v0EtQUO9mpIE1zP2ZyuJp7o/qoVDlS7XO
+	 9Ic7/UzCM0c1A==
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7946a1f2430so16544027b3.1
+        for <chrome-platform@lists.linux.dev>; Thu, 19 Feb 2026 23:52:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX/q0u7fpBWK6skUfpHrbI6ZLpZdvzMkL6SkkPZlyrOn4RGyKPvJzzTQh87l8YgmYaRBrbCkJnMx3WI/WRJ9Ho=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqlWLNHasNpiDlXfJUG+4J7eJZ+A0EOd11XeDRLWSy6jqQvhJe
+	xN+n1UZjm8kqEWXTkq0kG/ueEApmwvbajCjcvZGQB0AtDuXteGDuWyjY7huLgwBJSXXNJmN5Cex
+	1Ny29q9gALP7uFEMP5wp56qMDfigaQrI=
+X-Received: by 2002:a05:690c:dd4:b0:798:1ac:8a6e with SMTP id
+ 00721157ae682-79801ac8ef3mr46855417b3.5.1771573923814; Thu, 19 Feb 2026
+ 23:52:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260213092958.864411-1-tzungbi@kernel.org> <20260213092958.864411-4-tzungbi@kernel.org>
-In-Reply-To: <20260213092958.864411-4-tzungbi@kernel.org>
+References: <20260213092958.864411-1-tzungbi@kernel.org> <20260213092958.864411-6-tzungbi@kernel.org>
+In-Reply-To: <20260213092958.864411-6-tzungbi@kernel.org>
 From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 20 Feb 2026 08:51:29 +0100
-X-Gmail-Original-Message-ID: <CAD++jLn6XxLp7hdBOHbvAJ2bxY4dnfiWDV_UVT+EAyaKmV3Naw@mail.gmail.com>
-X-Gm-Features: AaiRm51U0_fc9geEqiP5FW1MP92Ex0sMe_rh2hTztlhJlTdYXe4YiGdLqNQRa2Y
-Message-ID: <CAD++jLn6XxLp7hdBOHbvAJ2bxY4dnfiWDV_UVT+EAyaKmV3Naw@mail.gmail.com>
-Subject: Re: [PATCH v3 03/11] gpio: sysfs: Remove redundant check for struct gpio_chip
+Date: Fri, 20 Feb 2026 08:51:53 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=vskCOH0nEr8zLV3Lsvs=D21w_dAH75MX73ne1uEHVXg@mail.gmail.com>
+X-Gm-Features: AaiRm538oemFdXlRpuoNSZX2wWqwZzZmgmeNXenBk6UM2SaN1LwEPbpvlKpdqXc
+Message-ID: <CAD++jL=vskCOH0nEr8zLV3Lsvs=D21w_dAH75MX73ne1uEHVXg@mail.gmail.com>
+Subject: Re: [PATCH v3 05/11] gpio: cdev: Don't check struct gpio_chip in gpio_chrdev_open()
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
@@ -61,42 +61,18 @@ Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfound
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Tzung-Bi,
-
-thanks for your patch!
-
-This is semantically correct, so the comments are not about that.
-
 On Fri, Feb 13, 2026 at 10:31=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org>=
  wrote:
 
-> gpiochip_sysfs_unregister() is only called by gpiochip_remove() where
-> the struct gpio_chip is ensured.
+> It's harmless even if: chrdev_open() and cdev_device_del() run at the
+> same time, and gpio_chrdev_open() gets called after the underlying GPIO
+> chip has gone.  The subsequent file operations check the availability
+> of struct gpio_chip anyway.
 >
-> Remove the redundant check.
+> Don't check struct gpio_chip in gpio_chrdev_open().
 >
 > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-(...)
-
-> -void gpiochip_sysfs_unregister(struct gpio_device *gdev)
-> +void gpiochip_sysfs_unregister(struct gpio_chip *chip)
-
-Here it is chip
-
-> -static inline void gpiochip_sysfs_unregister(struct gpio_device *gdev)
-> +static inline void gpiochip_sysfs_unregister(struct gpio_chip *chip)
-
-And here.
-
-> @@ -1286,7 +1286,7 @@ void gpiochip_remove(struct gpio_chip *gc)
->         struct gpio_device *gdev =3D gc->gpiodev;
-
-But you can see that we call it "gc" (gpiochip).
-
-Chip is more ambiguous I think, can you use "gc" everywhere?
-
-Either way, because the patch is so nice:
 Reviewed-by: Linus Walleij <linusw@kernel.org>
 
 Yours,

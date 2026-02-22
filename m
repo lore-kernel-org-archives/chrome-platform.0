@@ -1,64 +1,64 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098AB2F872
-	for <chrome-platform@lists.linux.dev>; Sun, 22 Feb 2026 00:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E188215CD7E
+	for <chrome-platform@lists.linux.dev>; Sun, 22 Feb 2026 00:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771720648; cv=none; b=ON89JCOx2isKII6axqHdGw+7j2h/mZOsBzIJrMbwK8+XGkflDjQxRBFd5uAHrm+/UuPjB88epD4A6d1fYBEltadwh/sUKtFzpqWHHSBl7DBqFSghO4veMWUHCb3iBuf/eeEdZJHtENoQYdvlDIiF5qFDbI5jLWTzwmaR2tkncEU=
+	t=1771720649; cv=none; b=KnGTGXSEd49ZC9V+g4TsemMUfwjwTJ5+tZLQr4O8z2OWA/1D1QjSfimHmmoNdEYblNs47S1Z4PlRwM3L4UzqEBTN3qo0tS9XsQmv5ecBgXwHEZZTl8LyIn4/Xqr/4tYO6hSUWgVW4oWTqCAj/hAuypXTEKpz5bfBVYoc06W7Bm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771720648; c=relaxed/simple;
-	bh=RjgCz53FUSV7HP/cF2bEAdVK/kU9rXidWruaDkdCbk4=;
+	s=arc-20240116; t=1771720649; c=relaxed/simple;
+	bh=r0A2ny7fUmzrQIcNfjZ7JLTjyjv9jTD2LYXdPbqdGN0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QC2HhpbLnawA/EEtxPhcoOftJwsGzwSkJCiJO+tHZDHKKKzVjUdcV5TZNawsnoyEIyeaGTHa5NfmzN84YqnPUuozxT81an5rzyUIYJl+SNzLOplbaVJ4E4xrUkXQf7F4IIC7R1ts8OM/ZJEt3aOcmFTdfQcW+T6SkUH50xqnov0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iLgGxdV9; arc=none smtp.client-ip=74.125.82.171
+	 MIME-Version; b=fKiOTGq9uULpzSu1oyFUP0IzcLowEbdb9nry/mPs92d0xxcdLnig843EXAV2vF5wiJVRNRx4pjMCmM088yueo2yDVXK45RgJu+5YuoTZwK0u3oqGIbxVcM7nHHR3izS6ezOK6/kssN/opdaJBy0RkfWfMzFugysHAiYw0gCGnrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ntvOlMbB; arc=none smtp.client-ip=74.125.82.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iLgGxdV9"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2baab3137bcso2721687eec.0
-        for <chrome-platform@lists.linux.dev>; Sat, 21 Feb 2026 16:37:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ntvOlMbB"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2baa098ffc6so2987211eec.0
+        for <chrome-platform@lists.linux.dev>; Sat, 21 Feb 2026 16:37:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771720646; x=1772325446; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771720647; x=1772325447; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W0rQ7ex4h2z+8N7dHVq8qvk2wg1mn2OyvK9whQnScvY=;
-        b=iLgGxdV9wj7KaOWG1WQnXKj2v3Dxxapb8JI42Uuvxqs+Asm2LNaC731/GNLqW9Utoi
-         E8dJ82cvkSW/9tUNCXkT9nuyxnR+Jpky6EaV2jmKKlNF0+GrBliUh0jFn0FNUO0JWMGC
-         b5Csg8/BVGsqvg98tBxrN3uSXSsbSki30GyhIkqji26smvvkcB5xDdYQxvcMuLPQJ+Kx
-         KxyTh7WVsmKVkNv36zQ7R6QocXvTJ7Pa7aC1AdYCk+LCWx5xBSVOBb1dFcXGjojlM6Tq
-         IP0X+gVsJG8bfEZMVZD69bL2HkNrKcntRuOH7aI6v0yQQx/gR/VtqeCPFnnvMNaAd5qs
-         eZSw==
+        bh=HiffRHsDZVfAH6A/NkIUz5txjzfoEADk0TaeYHBIaa0=;
+        b=ntvOlMbB//jd5OJ1tww5hwxusi9/sX9GVNxYqi3091zs0A0V24gF5i2NVNmL+vEnZd
+         8HJ4dVPOPaokIM3Dz/x3ikMRzgip30d41IIBZ6qJmkINKDNpfdr2J17aSwfDDDh8l5fY
+         v5tb9QQS2VwzGyCJ6BCB1SC/cYDjlAbVIb5nObK/G/Euq2yUgdTA81v9nXUVQVYjV4VR
+         ZZ1OJy11nQHNkDhs0NSawQnup4Pj/xZ/6ibFhrpEnb7tnbnfhXo500zBKtTEFxcbIArz
+         VoEuuXr6ZS1WMIgvu87d61cHC7SBo6hv+xuZqLcA1iE5HRgE/7Bl9XUN0abvnJnWchj/
+         /EGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771720646; x=1772325446;
+        d=1e100.net; s=20230601; t=1771720647; x=1772325447;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=W0rQ7ex4h2z+8N7dHVq8qvk2wg1mn2OyvK9whQnScvY=;
-        b=Fr0zrlztHvgoYorbsHvcMa4lYLA6vYefT68XLjrhWwKm/ruOlmxpKW9Uk+ylFfMuAf
-         CCpdK5ueapbWJNsqKtfp5faY6swO4oQcsSL1lkkwU84J/g0irqbAd2SW3Orr5FxjOTQo
-         CBm/osKxXPAhW3B+qwJ8Z2NBo1Wu9OxzcOTopKpGV+ARk/QaqfLnbVYXcc++ZBt3kzvB
-         7ZYkbZDru0Gp3DdOn4RGt4XmEc3rm2M+2gPXcRzmnzKy3sRee51+Al0AmYyBuM3soMfU
-         wOBnH16J6/SrjUfGIaeFj6MHwHeLlhItibO3gzZDQuJjb5X5jm6Jj19U+8cwM336dzQC
-         pOYw==
-X-Forwarded-Encrypted: i=1; AJvYcCUGUV1yz1TlqWDdyA1MWRZuNsecJoQGynOfjW6VOXBTH/8+YNoSguiLzkHMFn7G1SrsfWRRczUsH6BUhq0qpXs=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwC7yBwKuWkpGqPEKdt00RI4aNOeK0gICuZSW1LxqFhalpazWnQ
-	BMgJLM3MYxH+GAQOhl09drlXakbLfRWq4gqQzSJMpj0yJ9qF47mjagWd
-X-Gm-Gg: AZuq6aJI+o8ywnMuOahqXmJrM2Rvb8PYdZpFl8w9KBkdNN3vm/tHppa+792k8z3l5Fr
-	+IF445EcztCG4BDTIg/u/wwHe9HUSheFtx4I8eS2ce3WXqukpLYPOeBB8+N8aNRv1cWFyXe31nE
-	7fQ/HcpjZvKRi4K1xlI4rQxP0hVCWj8bD0Cd5TzT+LarvObjoHWQr4RtmiP52TyEl3GiGeV8NBn
-	OwUynDXZkBJ/v6nB5rATukMCy64yftAH0Ljd0lp/KjH6jihk5BnkXQ2UaCoPOADkhhRrrCd7vNn
-	PPgWgY3D+jNT8393OMyWkqeJHLAKF+KpL+1NQJZitT+fDmvpsqIDMdj0Vm82lo2qg5VA1/lCBkj
-	Rz1GF0XUXUVjWeG3PGlguPhhA+EyDZ9Q5LiKd0v1e9BFHv1ZZkUQtPfuMPZH8jVMQTMJ73x7qwV
-	syDQj5yuoW0xqkpwOR5QT743qnwo9+FfC9kZpta6BWVRZtYWWoacaW3+295ku/nDfnoIedkRM9x
-	gE2IJ8L3fb/+g==
-X-Received: by 2002:a05:7301:608c:b0:2b7:13f5:43ac with SMTP id 5a478bee46e88-2bd7bae9fbfmr1697542eec.15.1771720646135;
-        Sat, 21 Feb 2026 16:37:26 -0800 (PST)
+        bh=HiffRHsDZVfAH6A/NkIUz5txjzfoEADk0TaeYHBIaa0=;
+        b=ZHYmKYvrCpS2AK9yO6ZlhfGZQ8FIYM3i9xer4AjuUBPuf0Bh2s8VQgl05UZHnMjze+
+         HrRJMVicfxPkN2jUCjAUklW2uzcPiyPU9SdibruxpsgZzf0nIse7xlstr2KLexInKFm4
+         pqXRzoaLOAMMgeSzmaoS39ndOUd0FYR8jXH8T6ee0290gkgqQFL1dHSLhIXdx8bIaDix
+         Ku2Cr+pz9cq/xNqFdnYImAHxp8fxy+5tK65t+sqdP6qEZjgidcBSgacFpK0NxPKzaB0v
+         YG/bMIMisOsGY0nUDfhkDwE2FrI0/ttis798ns4esNJEU2iCGNdFxOjSY4U78E140ukK
+         XwuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWjhlRWBSCrBRVlGZphWsQZjogenrJXiqHBAeyi6tzdvAz5ssUFE0hH1LGLr2zt2b+jSkDlxuRsmz26QW/LOhY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHvKSbn9v6nUrUcxMy4Cu+qS0diLlq59nNo4rR5qa5qPV94ClN
+	JEc1pFDQE7C8GNRikZ0Biyg+N99qxXs6Vd5q9qIyPb+yUea7fFoLuWKj
+X-Gm-Gg: AZuq6aJ3KL43UuTpeP7SXMxi8AalxTrEICD4fDWK3dJAbdg76TMPfQPnoBz/fk+gV9K
+	4nHHF9hiDK4dGbxnr6LsS8Eog26jazhUQEV7WW9h2/m3qqbGd1bwzM24z0ZEeRFmNgb4AVhQf2W
+	JgKd0Sl6e6xSD7EsOIDqsWCKas/jD6pwIVdnPB/24/FxVK4F5CLUyTuS+OfbfgM4c0LyHnaK3Qq
+	74qDsykBmsj+7t0fqriTYWWVCgC7No+joGQWjqM8qrkfYzEVio7Jbr+74j7dGrd776f/FajcLpp
+	YDfotVYkt2nkOq+MdZbWvLFWMs3fXHdRhfrB4tDMryQODTrzGXBrdqJ8LvSpnX2L37FbdSl/YqK
+	nn5coFMRjxzuR1cTge23jbVa+koFi3mHiduxu14VlcnBhP3offKsMN+jX2Q+6tnsahw/0FrDlSQ
+	0hhZSeSJla7Fj0Yq61z5JFOzc1f2mZ85bj+kekrwPDZ5UVGBUe8JYcHE99k2NICApsa9tC6VZO0
+	nM9oXflyIQHlw==
+X-Received: by 2002:a05:7300:3b03:b0:2ba:974c:4949 with SMTP id 5a478bee46e88-2bd7bd5e3c0mr1732505eec.34.1771720647138;
+        Sat, 21 Feb 2026 16:37:27 -0800 (PST)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:73d:b075:516c:4a69])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bd7dc167d3sm2383191eec.24.2026.02.21.16.37.25
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bd7dc167d3sm2383191eec.24.2026.02.21.16.37.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Feb 2026 16:37:25 -0800 (PST)
+        Sat, 21 Feb 2026 16:37:26 -0800 (PST)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Fabio Baltieri <fabiobaltieri@chromium.org>,
 	Benson Leung <bleung@chromium.org>
@@ -68,9 +68,9 @@ Cc: Guenter Roeck <groeck@chromium.org>,
 	linux-input@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/7] Input: cros_ec_keyb - use u8 instead of uint8_t
-Date: Sat, 21 Feb 2026 16:37:11 -0800
-Message-ID: <20260222003717.471977-3-dmitry.torokhov@gmail.com>
+Subject: [PATCH 4/7] Input: cros_ec_keyb - use BIT() macro instead of open-coding shifts
+Date: Sat, 21 Feb 2026 16:37:12 -0800
+Message-ID: <20260222003717.471977-4-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.53.0.345.g96ddfc5eaa-goog
 In-Reply-To: <20260222003717.471977-1-dmitry.torokhov@gmail.com>
 References: <20260222003717.471977-1-dmitry.torokhov@gmail.com>
@@ -82,52 +82,47 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the kernel u8/u16/u32 are preferred to the uint*_t variants.
+Using the macro clarifies the code.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/keyboard/cros_ec_keyb.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/input/keyboard/cros_ec_keyb.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index bdbfd219f2e8..2f78a19521ab 100644
+index 2f78a19521ab..fabbdbc22785 100644
 --- a/drivers/input/keyboard/cros_ec_keyb.c
 +++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -59,8 +59,8 @@ struct cros_ec_keyb {
- 	unsigned int cols;
- 	int row_shift;
- 	bool ghost_filter;
--	uint8_t *valid_keys;
--	uint8_t *old_kb_state;
-+	u8 *valid_keys;
-+	u8 *old_kb_state;
+@@ -277,8 +277,8 @@ static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev, u8 *kb_state, int l
  
- 	struct device *dev;
- 	struct cros_ec_device *ec;
-@@ -145,11 +145,11 @@ static const struct cros_ec_bs_map cros_ec_keyb_bs[] = {
-  * Returns true when there is at least one combination of pressed keys that
-  * results in ghosting.
-  */
--static bool cros_ec_keyb_has_ghosting(struct cros_ec_keyb *ckdev, uint8_t *buf)
-+static bool cros_ec_keyb_has_ghosting(struct cros_ec_keyb *ckdev, u8 *buf)
- {
- 	int col1, col2, buf1, buf2;
- 	struct device *dev = ckdev->dev;
--	uint8_t *valid_keys = ckdev->valid_keys;
-+	u8 *valid_keys = ckdev->valid_keys;
+ 	for (col = 0; col < ckdev->cols; col++) {
+ 		for (row = 0; row < ckdev->rows; row++) {
+-			new_state = kb_state[col] & (1 << row);
+-			old_state = ckdev->old_kb_state[col] & (1 << row);
++			new_state = kb_state[col] & BIT(row);
++			old_state = ckdev->old_kb_state[col] & BIT(row);
  
- 	/*
- 	 * Ghosting happens if for any pressed key X there are other keys
-@@ -259,8 +259,7 @@ static void cros_ec_keyb_process_key_fn_map(struct cros_ec_keyb *ckdev,
-  * press/release events accordingly.  The keyboard state is one byte
-  * per column.
-  */
--static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
--			 uint8_t *kb_state, int len)
-+static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev, u8 *kb_state, int len)
- {
- 	int col, row;
- 	int new_state;
+ 			if (new_state == old_state)
+ 				continue;
+@@ -411,7 +411,7 @@ static void cros_ec_keyb_compute_valid_keys(struct cros_ec_keyb *ckdev)
+ 		for (row = 0; row < ckdev->rows; row++) {
+ 			code = keymap[MATRIX_SCAN_CODE(row, col, row_shift)];
+ 			if (code && (code != KEY_BATTERY))
+-				ckdev->valid_keys[col] |= 1 << row;
++				ckdev->valid_keys[col] |= BIT(row);
+ 		}
+ 		dev_dbg(ckdev->dev, "valid_keys[%02d] = 0x%02x\n",
+ 			col, ckdev->valid_keys[col]);
+@@ -780,8 +780,7 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
+ 	idev->dev.parent = dev;
+ 	idev->setkeycode = cros_ec_keyb_setkeycode;
+ 
+-	ckdev->ghost_filter = device_property_read_bool(dev,
+-					"google,needs-ghost-filter");
++	ckdev->ghost_filter = device_property_read_bool(dev, "google,needs-ghost-filter");
+ 
+ 	err = matrix_keypad_build_keymap(NULL, ckdev->rows * 2, ckdev->cols,
+ 					 NULL, idev);
 -- 
 2.53.0.345.g96ddfc5eaa-goog
 

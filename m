@@ -1,169 +1,129 @@
 Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9FD1D61BC
-	for <chrome-platform@lists.linux.dev>; Sun, 22 Feb 2026 00:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A70784039
+	for <chrome-platform@lists.linux.dev>; Sun, 22 Feb 2026 00:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771720652; cv=none; b=ovK4yCIwiEkCIFzbSuhM3xsfATSPRXm1Mw+Qowba0/rShLpk6pKdLTWCS3W6wovDzzEgvygo8j6r1cTmvjqWXH+y/BiJ82EWs2+f3wzxVWUnru4HeivDgZu+FI/5BUJQlRuGr24NflBkY66teWAKTVlvpA8B5AWoICY0wbgrro4=
+	t=1771720759; cv=none; b=gCjfmEH1VwTz2pkg0HP0jL49VIc6DybUkYxYovG1fgopB0IKI+2NYEqUABz2TfyoSaT3+lg4Gbb317d6uJykdFLCSPKJok01m6xmCmM0K4nfkVDZPBquejBAjaAM88jLrmuyBZRfcw28aowLLYTLz8yV0TAwyhBhrL2UkmhDxG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771720652; c=relaxed/simple;
-	bh=/oWe9TBcbfGVgvA3YAwcI++qilYUs5G6I0MwqlEyTXQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RU6sJoPFLWUCo5iCJwGRdV9D6anws3tNPcGlxfNyTr2JXaY7noaJjDIWUO5ch24xYzf9RP0cSQMntr7/ZtAYVGgIwusRQIyr1pBQvNGvw5+Yaj0uocUS0a2LzqMvjrLUzHC8/enirhkdkhWHgvSgLgqxFwLmDGFByYceqbpXKe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AsQyuuxs; arc=none smtp.client-ip=74.125.82.47
+	s=arc-20240116; t=1771720759; c=relaxed/simple;
+	bh=/NrEAiERqs5xvAOfLmrFSIDyHlICGxMThAs8q6g1SwI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZdY0crL5U7cuWN0YJ83ZezET5IyUCcF8bJBCpIsie5ZuFs5qreni0n893azGKpQJZW5559QO5FMcxnxo+a7KxogUozEXUBXj/rGLb3RuUSv6zyhTuK6NBPwZz0oBjlxiWZpyHvZhA42deK8yLuCN84PU/LOBXSj6RMVV20PWjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mi5BWBmt; arc=none smtp.client-ip=74.125.82.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AsQyuuxs"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1271257ae53so3015913c88.1
-        for <chrome-platform@lists.linux.dev>; Sat, 21 Feb 2026 16:37:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mi5BWBmt"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12721cd256bso3643918c88.1
+        for <chrome-platform@lists.linux.dev>; Sat, 21 Feb 2026 16:39:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771720650; x=1772325450; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NCOB+xu4HpFhupd2ul95dO/R/350Wo1NOuKyLRfUoGY=;
-        b=AsQyuuxs8onB/sEasDQK7kxeskcTgWEByAblTDlk5XxyKkpbemmHPocjzJOhqEJ/U+
-         mIZvzEfqpsEeConFe5IBE6EkFYspHs4ztWQSXxBdPYCc90AKYmDh/XJqX2wVf6CFBQRW
-         cOawpax1bAwPt8oikOuk1XkE3PTE7R3Z8BtrpgYsg4iLk+ar1HUJCUfWT2UjntNChVOv
-         mRkmEktPmtAShV/J/C1KUZ58V62MSF2vmTbG783ysV9ZiXlU+P1RyNcFgrN4KQJu3K8k
-         LG2C9l+e2sRwxGrBFcxQkaQJJ96ChwfNGpHlNPJrjyDTBrySR/FmO0WlWq0QvWWLGV0M
-         y2uA==
+        d=gmail.com; s=20230601; t=1771720757; x=1772325557; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PKYjLrAHd5aTWbt8yMmjZEe0vbqg6p9D4PpS1+LirKA=;
+        b=Mi5BWBmtK8kUCiImtDwAwTbH6hy/64GpBRH1T4wDfMIrmRke7/bSjyq1SISkjMYrri
+         qsi8y4lkYgbW5D7KQyfhKsdMMaE+M7tQpGfgm+e2TpR6z3LH5sHx88Oq9dktesSVYOav
+         nJBgYSXQd5QkZVtI54wH8P+dLcaJFWBjZrdKK/tadJ3PIh1fGZYc8WwgRNgy1FmV2ixG
+         BM/vCUyneFo2jwIQHtMhRdf/UCgpv6v/in8UK9frXxiCVe0tE97GN+SFOGp0kmZeiB7g
+         iM2A+lZIJZPDkuM9PBWCJ2cxK30g2F5CH2sls3/YztFi3dcQ5eN08J4nR80zTm8fW/FJ
+         72LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771720650; x=1772325450;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NCOB+xu4HpFhupd2ul95dO/R/350Wo1NOuKyLRfUoGY=;
-        b=V1h7T5gnwv3P2LcEj3jqKtUpEyucc61snmZBoYis4e7biiGJodU4kl0RM9N8AIZcvo
-         +MIZaPHytF00t2xCDQmvbtvykvq/39CxOrq26Obf5mOaPvSgIf3F8d8ojByKJRP3qqDR
-         S+dG07zxJyutgGkv1N9tj0Pb7ouYZV7zM65C1Z94mmtxZfSbLSIoXKMRGFjW0Q4PKvUj
-         XFeKUsg3/56tzzMTkHZqP2WkKYuA+2lK29ZpPrL2Ibf2XBy8W8Z/vI3mZakTE3xC7dzC
-         hUd211g6409BXuTukFB7XC+8BpuTJQGS6MKDVHjWK5xTcBbEuwcIRO8MvZ2jOydfAKLj
-         3riw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/642JU5sTT32Pr7C4x85JoEeXMjKu+ODSqzlZT9yr2nmJDPaTOToDCzF+pakdxI5WzOWi3KBkL4MdpFKLBnI=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxlGPryUoYsn3ANxIBMHgP9egIrrp/JzTX13UI+aGTf/CWc+Fkc
-	/XB0JgqdVuBP7eXOgU5M8AwFpGOydlPcNajZs10ehbqBF2Fyq0CZZ6Y2
-X-Gm-Gg: AZuq6aIVXky6h3FfHO6Lyx/oeTNky3oZKUN4Fd8V6olwVS/RO3ePMSw4W7vxXl2Bv8d
-	UuKiV05ULQ9E080x//FKBkQuFFEJF5xQNXj4AB9IzRTtrVuDdk0mTi22A5gjcuV2kI9xEprZjKs
-	hKFMat0dru5Nd0+hN9PScC03bt/4bl02AN972TULaTzrQ0ZykNydfWV7TEP1ZhSol822ht605f3
-	qZjfc5bISbM20+4hKpnmcUGZy7Lz99Mhg9sdHoWv5ZLFBmlPgFltugzWpLEt4ks89CLGkXn5z1P
-	s4r3i6X4ygBr4GEy+cQ0rbzazcYI94DsdHF2rgJwv8TjeCnZ22MzFM/zzAp3oFfIkAGbtZBeypL
-	g4geWQNLq8fOiYw7WZkI0glvELkzjKSj1Aw4cu+jw5uEIlcr9hn3aUMe/N+OfA6xm8lqv+AghXO
-	Ld3iPctLoeJSuExnXdIuFGyXr7Tp+gI30iwCJC+fJZX37kEsasXAvx1Ue573pW4287hFRj8hito
-	xm2rp7jW4IwN9KbLa1tQsIL
-X-Received: by 2002:a05:7022:2482:b0:127:35af:143c with SMTP id a92af1059eb24-1276ad39a83mr1667574c88.37.1771720650227;
-        Sat, 21 Feb 2026 16:37:30 -0800 (PST)
-Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:73d:b075:516c:4a69])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bd7dc167d3sm2383191eec.24.2026.02.21.16.37.29
+        d=1e100.net; s=20230601; t=1771720757; x=1772325557;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PKYjLrAHd5aTWbt8yMmjZEe0vbqg6p9D4PpS1+LirKA=;
+        b=jQgrC2gz4IThRFAJuEcdBw6K8GlfaAXm/7mMo31R+QwbmN6QWS+3ALXrAznWNiFMKe
+         OLGvGmGTsbIeYeFmPdJI5k2eb0uhUjDvusYtAjgVsU8J489e5idBZm7iKbWk8fao3jQp
+         Sgm8jEeSoQFArbOlmXy/pD0DUHlmzaTJBXpv08kTd+10xz743OJ6hPYDiuA9lApLOmUL
+         35HoEFbXUuS+RTChD3arpPH98NgPKc1oEC6l/Lfz7CR3iX+M+K5kaBjXg70QmRlG4VuO
+         ihUapApFmO/SGHvDXLHamgt1LnjpfF2IrQnaCipao+W8g3bzJQx39QGU+63qEOfDHDsE
+         SmUw==
+X-Forwarded-Encrypted: i=1; AJvYcCV+GQa8GIPV9fk0w1ETx9kcR3Vsz8JPsymDO6nt8HjbC6n5Cn8hgGpRlj1KrH/3WdWNE9XZ+kB/efTgu2U8u4c=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1a6GPgxVACwwjAFDYnqlZgeUbZBFKE9A1/6pn878kyVCeW33D
+	Qbl+IqZqIExfSdVXHTnnw1IgnBvuWcYzkdz+o6oNLflTWfixKycf1xx4
+X-Gm-Gg: AZuq6aKJTLkLSUjaWkGPZVSVo3KGsOM9VOwi+vtTnAh//2KltkiaR+6WkzLCKo9Vl9Z
+	Qmq95ipU8PiDuKG6JNahtCdJEreP53gdulRyVL2XZ8Se0J5S7ToX4GsLSlR1/UmqO7ZRfXmkKLo
+	HLv6JXDSSZbXfmzU76aYqI7JKMb7JnNWFCucC7sx04DguM6qyyuh2ejXSvYk39RRdMsloJLY+xp
+	Qv+ptu1GdYq8PrNcOHr6WscHqbO/o1UaBYIzAXYryP5NRXsnZqFVwBnHxav8nBV/qx+EKaeU5aG
+	O5qpNlDvPuD9r3jRLDMnaBklVwJEANAIn/nkc+jh+WUHThjTaqJLb9vhaU/RjhjHkm7Y5i0QrJm
+	n6y5HAcK4ZyHYdjgErDpPVuD+f7U0fqw5t1WQsnuXk/5nfDJJelLy+mRxhzSyvqkHROCGR6CAtd
+	ove9JI0iUAPpTBj7ktBawRBYxE+eERv3mo3a9CBR0/efvEwOWkhgIZAV8x5UzofJo=
+X-Received: by 2002:a05:7022:a8b:b0:119:e569:f61b with SMTP id a92af1059eb24-1276acc2b9bmr1945251c88.20.1771720757247;
+        Sat, 21 Feb 2026 16:39:17 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:73d:b075:516c:4a69])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1276af8a657sm4086704c88.12.2026.02.21.16.39.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Feb 2026 16:37:29 -0800 (PST)
+        Sat, 21 Feb 2026 16:39:16 -0800 (PST)
+Date: Sat, 21 Feb 2026 16:39:14 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Fabio Baltieri <fabiobaltieri@chromium.org>,
-	Benson Leung <bleung@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>,
-	Simon Glass <sjg@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-input@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
+To: Fabio Baltieri <fabiobaltieri@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Simon Glass <sjg@chromium.org>, linux-input@vger.kernel.org, chrome-platform@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] Input: cros_ec_keyb - factor out column processing
-Date: Sat, 21 Feb 2026 16:37:15 -0800
-Message-ID: <20260222003717.471977-7-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.53.0.345.g96ddfc5eaa-goog
-In-Reply-To: <20260222003717.471977-1-dmitry.torokhov@gmail.com>
-References: <20260222003717.471977-1-dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v7 2/2] Input: cros_ec_keyb - add function key support
+Message-ID: <aZpPz34uC8EXK70j@google.com>
+References: <20260211173421.1206478-1-fabiobaltieri@chromium.org>
+ <20260211173421.1206478-3-fabiobaltieri@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260211173421.1206478-3-fabiobaltieri@chromium.org>
 
-Factor out column processing and eagerly skip processing columns that do
-not have any changes in them.
+Hi Fabio,
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/keyboard/cros_ec_keyb.c | 47 +++++++++++++++------------
- 1 file changed, 27 insertions(+), 20 deletions(-)
+On Wed, Feb 11, 2026 at 05:34:21PM +0000, Fabio Baltieri wrote:
+>  
+> +/* Returns true if there is a KEY_FN code defined in the normal keymap */
+> +static bool cros_ec_keyb_has_fn_key(struct cros_ec_keyb *ckdev)
+> +{
+> +	struct input_dev *idev = ckdev->idev;
+> +	const unsigned short *keycodes = idev->keycode;
+> +
+> +	for (int row = 0; row < ckdev->rows; row++) {
+> +		for (int col = 0; col < ckdev->cols; col++) {
+> +			int pos = MATRIX_SCAN_CODE(row, col, ckdev->row_shift);
+> +
+> +			if (keycodes[pos] == KEY_FN)
+> +				return true;
+> +		}
 
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index 02176aee0530..8cf9129f6198 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -254,6 +254,26 @@ static void cros_ec_keyb_process_key_fn_map(struct cros_ec_keyb *ckdev,
- 	input_report_key(idev, code, state);
- }
- 
-+static void cros_ec_keyy_process_col(struct cros_ec_keyb *ckdev, int col,
-+				     u8 col_state, u8 changed)
-+{
-+	for (int row = 0; row < ckdev->rows; row++) {
-+		if (changed & BIT(row)) {
-+			u8 key_state = col_state & BIT(row);
-+
-+			dev_dbg(ckdev->dev, "changed: [r%d c%d]: byte %02x\n",
-+				row, col, key_state);
-+
-+			if (ckdev->has_fn_map)
-+				cros_ec_keyb_process_key_fn_map(ckdev, row, col,
-+								key_state);
-+			else
-+				cros_ec_keyb_process_key_plain(ckdev, row, col,
-+							       key_state);
-+		}
-+	}
-+}
-+
- /*
-  * Compares the new keyboard state to the old one and produces key
-  * press/release events accordingly.  The keyboard state is one byte
-@@ -261,10 +281,6 @@ static void cros_ec_keyb_process_key_fn_map(struct cros_ec_keyb *ckdev,
-  */
- static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev, u8 *kb_state, int len)
- {
--	int col, row;
--	int new_state;
--	int old_state;
--
- 	if (ckdev->ghost_filter && cros_ec_keyb_has_ghosting(ckdev, kb_state)) {
- 		/*
- 		 * Simple-minded solution: ignore this state. The obvious
-@@ -275,24 +291,15 @@ static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev, u8 *kb_state, int l
- 		return;
- 	}
- 
--	for (col = 0; col < ckdev->cols; col++) {
--		for (row = 0; row < ckdev->rows; row++) {
--			new_state = kb_state[col] & BIT(row);
--			old_state = ckdev->old_kb_state[col] & BIT(row);
--
--			if (new_state == old_state)
--				continue;
--
--			dev_dbg(ckdev->dev, "changed: [r%d c%d]: byte %02x\n",
--				row, col, new_state);
-+	for (int col = 0; col < ckdev->cols; col++) {
-+		u8 changed = kb_state[col] ^ ckdev->old_kb_state[col];
- 
--			if (ckdev->has_fn_map)
--				cros_ec_keyb_process_key_fn_map(ckdev, row, col, new_state);
--			else
--				cros_ec_keyb_process_key_plain(ckdev, row, col, new_state);
--		}
--		ckdev->old_kb_state[col] = kb_state[col];
-+		if (changed)
-+			cros_ec_keyy_process_col(ckdev, col, kb_state[col],
-+						 changed);
- 	}
-+
-+	memcpy(ckdev->old_kb_state, kb_state, sizeof(ckdev->old_kb_state));
- 	input_sync(ckdev->idev);
- }
- 
+We can simply scan the bottom half of the map linearly, I think this is
+simpler.
+
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +/*
+> + * Returns true if there is a KEY_FN defined and at least one key in the fn
+> + * layer keymap
+> + */
+> +static bool cros_ec_keyb_has_fn_map(struct cros_ec_keyb *ckdev)
+> +{
+> +	if (!cros_ec_keyb_has_fn_key(ckdev))
+> +		return false;
+> +
+> +	for (int row = 0; row < ckdev->rows; row++) {
+> +		for (int col = 0; col < ckdev->cols; col++) {
+> +			if (cros_ec_keyb_fn_code(ckdev, row, col, NULL) != 0)
+> +				return true;
+
+Same here.
+
+I made a bunch of changes to your patch and then a bunch of changes to
+the driver in general. Please take a look.
+
+Thanks.
+
 -- 
-2.53.0.345.g96ddfc5eaa-goog
-
+Dmitry

@@ -1,66 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C182206AC;
-	Mon, 23 Feb 2026 04:41:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA95343D8F;
+	Mon, 23 Feb 2026 06:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771821677; cv=none; b=lBlW3Fa1fpYbZwkPrzQzwSa/QORKxWkiLPoNOgGlhkMDNsokWq3S+W3wCjcI9+K5MalSZafJmNitpByXi7K1BzrLXc+ZGmCQFX2p63uFo6+oUWOC25Qxle7wjykcUVLhWO9PhtK5/DloeqjYAAhxOLvLhrG3G2ckJ4YesMjs0Pk=
+	t=1771827483; cv=none; b=kv6XXXZu2ZqD2qrMnXxZkfRZGqZvWecwtq7hupbhupvUS/pWEy9wuq1aFWmtUNKCQ34daK4um4B5G+3IQh+nvcgyvvhAssBLVjYW0DzsiRBPFqfT6BEfmhvXTo5xHMbvoG8aRjF+I6WAq622fCGzQBpsKiOkaT4rX4MMHgWcyOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771821677; c=relaxed/simple;
-	bh=+vbRvTWnzjslPM7ZHa0Ey6LfIS5fIcWJU/+gSX36wIs=;
+	s=arc-20240116; t=1771827483; c=relaxed/simple;
+	bh=ItlWS5Z4cW4csf7ZfnlXYDv2AI0QknQHNEWwCRfKYIg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WVtUHsC9N1jB0TiiA9/cQUlwMJGUx2+BYaFwejEctLvvv1PiV7v/TnTHDETPtlaEZIRio0yoIJGruCzZtJD9O/ueZfxfHJffIBjJj12dnDwbO+3/QnqKC3LFFDLbsPKpxUHLd2bQdnpkewboCSTox0b3PER1TdXe7Z/SgTIW/Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvKz0t0k; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JGf5Rv6bNVdzcSeu1Gh2R9mxJ7Ca7ZmCH4YM2MjNjEfsFZlgOS4OIV301YZ6QFtR3gbDgni8uqniqpokbnOjqNrsguXqXqMDNl0Dr4PRiL+GZ4HX5mSlPmjXX8A1WugkB3AMWXiRuRUz3pFRig93QHXeqUKloG2U0SgW2yuMx/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UDh2y0+1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvKz0t0k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77A10C116C6;
-	Mon, 23 Feb 2026 04:41:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UDh2y0+1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0BBCC116C6;
+	Mon, 23 Feb 2026 06:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771821677;
-	bh=+vbRvTWnzjslPM7ZHa0Ey6LfIS5fIcWJU/+gSX36wIs=;
+	s=k20201202; t=1771827483;
+	bh=ItlWS5Z4cW4csf7ZfnlXYDv2AI0QknQHNEWwCRfKYIg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fvKz0t0kps2OCCkLft0GoXulCr0dif8s6FXfy34WUwVl8Azm4zKqTGNl+oY34Njxf
-	 LFpPKd3vSf4MjWy9URBrDVkiw1+yOXlicHJEF1zqU+A2/AQ3H2Ovi6yk+ax0sDk3hr
-	 lpPnm24n6/Rz600C6hP1fni+3ZmH/IITWno7JsSQwvUlTw+sMxtuwL2UIcEJeGYtP2
-	 ZpZQAOkfzayJjrYrnD5+EMC/CJaq+unJZ80JX32vt6a/MAQtX8w+ivYHAz1vJFIZ/G
-	 3dPHSzszgIIrlquD1XZ82Gsm7uIoiPGx4p8eodaO7wDDjia18IvfQ2yq+C5rFnsJm+
-	 U9JGQsJ/vQJDQ==
-Date: Mon, 23 Feb 2026 12:41:13 +0800
+	b=UDh2y0+1LNw4WW772osUysSJi1SsnXuAj/rPhLVZd2cb6lXer0W1iotHJU3DBfqxR
+	 PzsfYFXU1ISMGH/kcQzDD9g7ZE8eTuSpalaV2gwQFHsuXdaF/KKweg+LeVxpCpAs5y
+	 au1BakmbJfWEC/NfxHcGkV2bRcx2wmlkozxA6N4bECFI3x+k39Kb9JIZqjK3g4rOMH
+	 HYesOUdDtXIoXrgNngZs4QJ+Z4b4jkVOCo5hbq7cafygLAuF9kk88lfn6v5RTuLia3
+	 i+Yb48zuoBPlwYTLW2FgqROR9yTWC5f8GSVOGrF4x7J5Nc/VxZmfUEE7noB8PlItEs
+	 A8KwmpwWuotrQ==
+Date: Mon, 23 Feb 2026 14:17:58 +0800
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Fabio Baltieri <fabiobaltieri@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Simon Glass <sjg@chromium.org>,
-	linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/7] Input: cros_ec_keyb - simplify cros_ec_keyb_work()
-Message-ID: <aZvaaY_2iwtrWAxo@tzungbi-laptop>
-References: <20260222003717.471977-1-dmitry.torokhov@gmail.com>
- <20260222003717.471977-5-dmitry.torokhov@gmail.com>
- <aZre0qH8rMcSJsa6@tzungbi-laptop>
- <aZvOVKUkPBinrSvm@google.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Johan Hovold <johan@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	chrome-platform@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 03/11] gpio: sysfs: Remove redundant check for struct
+ gpio_chip
+Message-ID: <aZvxFqTLaGa-gHmA@tzungbi-laptop>
+References: <20260213092958.864411-1-tzungbi@kernel.org>
+ <20260213092958.864411-4-tzungbi@kernel.org>
+ <CAD++jLn6XxLp7hdBOHbvAJ2bxY4dnfiWDV_UVT+EAyaKmV3Naw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aZvOVKUkPBinrSvm@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD++jLn6XxLp7hdBOHbvAJ2bxY4dnfiWDV_UVT+EAyaKmV3Naw@mail.gmail.com>
 
-On Sun, Feb 22, 2026 at 07:49:54PM -0800, Dmitry Torokhov wrote:
-> On Sun, Feb 22, 2026 at 06:47:46PM +0800, Tzung-Bi Shih wrote:
-> > On Sat, Feb 21, 2026 at 04:37:13PM -0800, Dmitry Torokhov wrote:
-> > > @@ -376,12 +378,10 @@ static int cros_ec_keyb_work(struct notifier_block *nb,
-> > >  		pm_wakeup_event(ckdev->dev, 0);
-> > >  
-> > >  		if (ckdev->ec->event_data.event_type == EC_MKBP_EVENT_BUTTON) {
-> > 
-> > This can also be simplified: `event_data->event_type`.
+On Fri, Feb 20, 2026 at 08:51:29AM +0100, Linus Walleij wrote:
+> On Fri, Feb 13, 2026 at 10:31 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> > -void gpiochip_sysfs_unregister(struct gpio_device *gdev)
+> > +void gpiochip_sysfs_unregister(struct gpio_chip *chip)
 > 
-> Indeed, will update.
+> Here it is chip
+> 
+> > -static inline void gpiochip_sysfs_unregister(struct gpio_device *gdev)
+> > +static inline void gpiochip_sysfs_unregister(struct gpio_chip *chip)
+> 
+> And here.
+> 
+> > @@ -1286,7 +1286,7 @@ void gpiochip_remove(struct gpio_chip *gc)
+> >         struct gpio_device *gdev = gc->gpiodev;
+> 
+> But you can see that we call it "gc" (gpiochip).
+> 
+> Chip is more ambiguous I think, can you use "gc" everywhere?
 
-Feel free to use my R-b tag after applying the change:
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Ack, will fix in v4.

@@ -1,93 +1,202 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B403F365A11
-	for <chrome-platform@lists.linux.dev>; Mon, 23 Feb 2026 12:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771849456; cv=none; b=R0a2ftQMwkbMWx1ByhzVw8dk76C6NcwLxH2IX6OQ0U/JOtIKlDB6Kow5yP8Z7usYtO16pLxbBjhKYlPuBxnQ9GeSETOerSQOwYn29juQJm8AC8RGUbcoLLqvBrsWhipEE9ERWLCk/sx5Ug5taShTMce2at8QZHcIptIgq9oyi0w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771849456; c=relaxed/simple;
-	bh=1TDlDOmYb+z5xkrCSTxJg2Hro4ku/GuAYlkD3H61Gms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HSPGyqjx3uKWANjZXH3p0KlV6QLcf2pHFNBVz6Dd9GC9YbAgwYhWRxLLcqig9UR7AMAcoasGMf1sSPKxgIgaBimYqnoDUd3S77bbhyNNG6k9YfUdwo++5SufnsM867o2OulMNhayB9U9kgV6YNaTFUfaOOiT/hoEFv7z1/2Rbdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=C6sT1OKr; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9646E2459ED
+	for <chrome-platform@lists.linux.dev>; Mon, 23 Feb 2026 13:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771854758; cv=pass; b=Q4z09znv8noxoQ0UdH4MOlQNRktS4Pcp0Z/qV39eDFgH6180lme6yXRc4IytRnsA6txYun2a8KmYKLyo7KWJVeoSfEIZbsfKoyDPJQVrncrwOs9gDN+8sOD+dGNvIHYIX48jXcMDUj0gL3Hxb6GUc46qvYW8XR+N3JrR7ugUD0k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771854758; c=relaxed/simple;
+	bh=EzUfziwHN4t+6rCJqNdkZVs8Vyi2IIgFGGSz1ptRO/E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ri0C/Teo8kFDVANBXoAHt2W5OPsP5b0m62PId3rwym+SaFNLISNMaausx4ufJJD5e0DH9ALbBXu5BnTA7L96w5Hj0HkrqGngA8Xx3LxvvaZNnzLgGWqa0YHCkp+P/DNErwpbtddQNTrczVdWsDJ/fD21fwgyowO02cwvDtYKv1s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N97TUSmx; arc=pass smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="C6sT1OKr"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso48428995e9.0
-        for <chrome-platform@lists.linux.dev>; Mon, 23 Feb 2026 04:24:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N97TUSmx"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c6e5998f90dso1437243a12.1
+        for <chrome-platform@lists.linux.dev>; Mon, 23 Feb 2026 05:52:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771854757; cv=none;
+        d=google.com; s=arc-20240605;
+        b=d2/16HUk336TCaBceh6ZDIkenuMYsLQaWnGuzPl8TKISvXcEmIxHMZIUdsyPiKJPAo
+         XgUq1jduXM/cQ6YMb00E4pynT+bZ8E4g533ww0wCuJY1vScO+f/00ufHPmHOhm2VkLCv
+         JB86RqALABYBE6hiiBoUFCKRLsBdKAkWlaMM1ESDtWPX98XFou7osMJ641Sl2WJjdPJd
+         zOpGDf4BMZR/F94fm84MyxYKZCHiQEd38SHFfdoicALgP467ns8uH03zNebNol7s81S1
+         ECq3h3oBmSEdRYf5H15Kpw6kq4GQINBeGt3bSdvUGmAn7tgc7EEAj9/5BlANURPYpF+4
+         S3+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
+        fh=jg962ocgYggOg3cuK8AemebO9KRMkzy3CfH7mJkk1Q4=;
+        b=ExDR7wLwz1qxIvHzLmwib3xVT2auwtcNAb0cUHLETHD/4AmfTtdoV6WkOmOlH/d99G
+         lBDVzWT3RhVs1NuL46GYkeAYj0cNLPVgd004PZS7Nl0r0NOguiKJnh1xYcjd82rLK5BV
+         r2PQ0GCItIDd3gNaUarLW/mW+iKpmGiQYjVVGsewQpbe5xbLU2pEi4WqnOTuHgsajuYJ
+         PbpCECoBX5VElMBr1tXuvO3vNLzjzjwxkCZBtEqzBV8zUQQFufYSqqhWp2I6bpe19Rfn
+         1zLS4rrxMZ8ooZCYTgSbrN+WHoNW+GntUp9F7mZ+tOLbNym+Gum155z4ET9ZDjDe2pft
+         6cVQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1771849452; x=1772454252; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2yVlt+t2uIX/rNvX0LVoxha+PLrUtJBpnUZ+jxIJze4=;
-        b=C6sT1OKrFBdfIPWXQvTpaOBniGeWJgTuKfM2OMcOzDKb9B2KTq2AFx1cehZiw89pIo
-         GV7OrKC1yHtyRtpGwCpVGOhwcFvLzUXoN7siCTlmiwZ/rmlbFiT8unJucLNlZ+Q5eXUR
-         37Fnqu0CoXAJEwkWzN4CXvO/LKvfLcKF4r7hw=
+        d=gmail.com; s=20230601; t=1771854757; x=1772459557; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
+        b=N97TUSmxvm4VSQMgN58+Un7zQJEDgUaScgP8hLQN//LmDRNlj1RLMA8u4rZle7uYZc
+         e+n6/goLd/8uuQ/lxxdqVgFByjBe0CJgML4niVFh6HGAKY4Z512J7GP+oQUtzSp3ga/I
+         sZkE1nzgGACtcxzjHYfTKfzjQwcZwEIiTshPIAch55WXVQEdozTp4HmUYKTOw8o4GYT5
+         /ufpiazZYecLRoMLOT1/SZPg6ZUxIhqhmKrIyI2tNnrq1xpz5fhBap+ZfIZFJ6qZnXVt
+         hSmbFJy2s/NWO1nyUGCtHggqKPgHj2Tod5XKBcvmsyYkc9aPzGXI/HvcdxlmkzHfOYJy
+         PgAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771849452; x=1772454252;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2yVlt+t2uIX/rNvX0LVoxha+PLrUtJBpnUZ+jxIJze4=;
-        b=Vj0uzO4dOkNobsh3lIPfaDtXgFvGgNWCVHi7HnrqkgTzEatr1MvH/9ibQdNNnArr/W
-         o9DZuy3YZ7rpPlz3kmjhFzUgBJgcl8Yt39nt6PO9yDaXDfP5OllKHiYQ/JbTGFUPzgF8
-         yOtnOsz4vtB+qexkxitydE6p4G2CK8N3n5BfbTGkpr2NeimAwnlo9c0I55nXON3Jyh7P
-         cMj/8vMreydH+1QhTfwGZJMhn64lKgrQiVVWnGJ+BfeIa+RrwGSWvLgeDbfTJShh87+o
-         3Lio0csQbqSrEIu1w+Hwx/QJhiaOvUbhA2hFCAGhSfvUCVheq6GbC6u2ScLuBThQGx3o
-         aWLw==
-X-Forwarded-Encrypted: i=1; AJvYcCViv1HRtF4vKpma7qkf8fHW50CLcXHROl6oePO0TM0xsVNcyI4HvQiOt0sx3t5BRUIlAnVfYeJ8prsjkzUYQks=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBEUoK7wUH7Fq4oW/Ch/iwqgYq793oJUeYOh9fEREoS2rU1x+h
-	q1qzGrMUXUn19FkcCG7uOZryFAWtKFAAjAVp7N+pUGi1J2iOoalcqxD+oYiixDr8iw==
-X-Gm-Gg: AZuq6aKJN/TGiDxOtR1te3DVAL1lQmtEpu6cRKOJn7/SL4moE1OvIP/yf1F1MPk6N58
-	jj6snENv6sKcjh0cueH4F2pmIy2Dojt8j46VDx5yuTMXP7AICi7kP/HhzNAeRHECLSZMdmk/0VI
-	v1JRUfppe6Qf2egSQZtUha2zADex7SxDxWGxmP3wmM53qgjt55UrFzDdRFktHv1ILo8fd0KYYdq
-	6ySNiHgIshJIaOoR1/ZllmGb43VE8T2Nv8205i49dMGBI3+tV6QQ4Q0/QuOkQ1NSDOSrBFoqv1W
-	DbGi2OMib71RHHY5ci6IkHQLYeLtON26KO6BwLpZhLyjC4x4Ynlfrv+dXNRJ/PUCJofEcGH0SAE
-	/X8PVRfDYJ/wT7NKmWXwIJiPUcRmJMp9L4EC0nUNPX23laOUZZRWLZ9+Xn8SKzT5NM5jDa9m34p
-	CpquiHlCvN6BIgYWQYBd+USGW0w1pgqA==
-X-Received: by 2002:a05:600c:3150:b0:483:b3d7:2e87 with SMTP id 5b1f17b1804b1-483b3d72f25mr32318865e9.10.1771849452025;
-        Mon, 23 Feb 2026 04:24:12 -0800 (PST)
-Received: from google.com ([37.228.206.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b57e5db1sm16094365e9.7.2026.02.23.04.24.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 04:24:11 -0800 (PST)
-Date: Mon, 23 Feb 2026 12:24:09 +0000
-From: Fabio Baltieri <fabiobaltieri@chromium.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Simon Glass <sjg@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/7] Input: cros_ec_keyb - add function key support
-Message-ID: <aZxG6cJmAuAPpoi9@google.com>
-References: <20260222003717.471977-1-dmitry.torokhov@gmail.com>
- <20260222003717.471977-2-dmitry.torokhov@gmail.com>
+        d=1e100.net; s=20230601; t=1771854757; x=1772459557;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
+        b=fso4ovlnGTkb2B09V4mSYK7Q3oYeOfc0qMnwP1t338abxyeOkflUSjjVcGTmKyHXXx
+         7KyCgcaTSgyC7sW2Rmwp97zWub+ifKIShD+xbyauGUlmTVXGjnG3ZmHYd+Mpvx5vqHzr
+         IwWV4yY0H4Bwaz0omMOIjfk4gLOaZxuQyepmypFbRe4V/xmZUqHmJJva4Dsqi4qOTJcp
+         ZBdTN0KAORY2AOcmr8Pq+IwqD2xy2gBnkQlrRAPNN+QZgoWfbWPgHs2ccOa+HwXlon1o
+         Vbay1Gm/uaYEV4bzNwRvgWl3xtmHWNfoEfUtau5oq08dVANwT+EwI7HPPVy1yu/MJGPF
+         xm2g==
+X-Forwarded-Encrypted: i=1; AJvYcCVV/vlBBJsJY0ZEP2mdojhONsnYd0UzAm8nQJ6VYX/bHupowABiLfv3WYcf/++Hq3Wo0tOFnZDrTo+46hv1JN0=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwATkrEZvan6lr4sAJzs2J+ToV9HJOUt1K+HbH4VQenBHtwLj3e
+	HRMBYqLZg7Mq9kFV/Ynv0v1vYhMnLWFEQo86l6S/fxy5kVseOLjwOrGMbS/DrucTAhAZ4DZWxyt
+	Sh35U9rW3TMmuhbEfB/am+L9RKmYlBo4=
+X-Gm-Gg: ATEYQzxHJwZ3xsuPlczo/qoXJdzCpR7B1SmGNdSjBdEQCYvqrL0ejwSO2arX1XS8hW7
+	p9HvmHmiwTDcyK2SlLCIZdQwx/+bv5mwtWpWhYrEJzZzVjOkI/Ts0ft/D3cuke1FeY8lu/Edbk2
+	kAe32PukiR7oLjDTplXM1bNEPlJ3f5im6nFO7Ob1LFs/MJlYiDuHrbp3lUUM7S5DIOd0dF60GAm
+	yg5OHX+Q+88kE24hKg3myoEo0ItzCR5OQ71x72ZVbGb5feykOna8sKc7HghdN7sE4CAZj3Vl8n/
+	KKXMipCu
+X-Received: by 2002:a17:90b:5447:b0:356:4ea0:e9e2 with SMTP id
+ 98e67ed59e1d1-358ae8d3a09mr6084454a91.34.1771854756912; Mon, 23 Feb 2026
+ 05:52:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260222003717.471977-2-dmitry.torokhov@gmail.com>
+References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
+ <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
+ <aZwWMiYEvr3DXi3E@smile.fi.intel.com> <9dd377f6-3565-4c0c-8c98-1b5ac4982f5b@kernel.org>
+ <aZxES35K3hSX4KEx@smile.fi.intel.com>
+In-Reply-To: <aZxES35K3hSX4KEx@smile.fi.intel.com>
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+Date: Mon, 23 Feb 2026 15:52:25 +0200
+X-Gm-Features: AaiRm53PjY3r4YJJgRdEcXeF3wEcS_dn51myeI6Bp2rdVCy5EIQxm03JMpsksBU
+Message-ID: <CANhJrGPWxgFddKaqdFM+DGKYTXaPxeBZLMhxBfXT-ZU6SrsbPA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate workqueue
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>, 
+	Dan Carpenter <dan.carpenter@linaro.org>, Lee Jones <lee@kernel.org>, 
+	Dzmitry Sankouski <dsankouski@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, driver-core@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Feb 21, 2026 at 04:37:10PM -0800, Dmitry Torokhov wrote:
-> From: Fabio Baltieri <fabiobaltieri@chromium.org>
-> 
-> Add support for handling an Fn button and sending separate keycodes for
-> a subset of keys in the matrix defined in the upper half of the keymap.
-> 
-> Signed-off-by: Fabio Baltieri <fabiobaltieri@chromium.org>
-> Reviewed-by: Simon Glass <sjg@chromium.org>
-> Link: https://patch.msgid.link/20260211173421.1206478-3-fabiobaltieri@chromium.org
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+ma 23.2.2026 klo 14.13 Andy Shevchenko
+(andriy.shevchenko@linux.intel.com) kirjoitti:
+>
+> +Cc: devm-helpers maintainers/reviewers
+>
+> On Mon, Feb 23, 2026 at 12:52:14PM +0100, Krzysztof Kozlowski wrote:
+> > On 23/02/2026 09:56, Andy Shevchenko wrote:
+> > > On Mon, Feb 23, 2026 at 08:27:29AM +0100, Krzysztof Kozlowski wrote:
+> > >> Add a Resource-managed version of alloc_workqueue() to fix common
+> > >> problem of drivers mixing devm() calls with destroy_workqueue.  Such
+> > >> naive and discouraged driver approach leads to difficult to debug bugs
+> > >> when the driver:
+> > >>
+> > >> 1. Allocates workqueue in standard way and destroys it in driver
+> > >>    remove() callback,
+> > >> 2. Sets work struct with devm_work_autocancel(),
+> > >> 3. Registers interrupt handler with devm_request_threaded_irq().
+> > >>
+> > >> Which leads to following unbind/removal path:
+> > >>
+> > >> 1. destroy_workqueue() via driver remove(),
+> > >>    Any interrupt coming now would still execute the interrupt handler,
+> > >>    which queues work on destroyed workqueue.
+> > >> 2. devm_irq_release(),
+> > >> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
+> > >>
+> > >> devm_alloc_workqueue() has two benefits:
+> > >> 1. Solves above problem of mix-and-match devres and non-devres code in
+> > >>    driver,
+> > >> 2. Simplify any sane drivers which were correctly using
+> > >>    alloc_workqueue() + devm_add_action_or_reset().
+> > >
+> > >>  include/linux/workqueue.h                        | 32 ++++++++++++++++++++++++
+> > >>  kernel/workqueue.c                               | 32 ++++++++++++++++++++++++
+> > >
+> > > Hmm... We have devm-helpers.h. Why the new one is in workqueue.h?
+> > > Can we have some consistency here?
+> >
+> > Answering with update:
+> > I don't think this should go to devm-helpers.h. The definition is in
+> > workqueue.c, thus the declaration should be in corresponding header.
+> > It's logical and consistent.
+> >
+> > Otherwise, I could move it entirely - definition and declaration - to
+> > devm-helpers.h, but then the release (devm_destroy_workqueue()) will be
+> > essentially exported to everyone through the header.
+> >
+> > So kind of conflicting choices.
+>
+> Hmm... An alternative I see is more intrusive but should make it less
+> inconsistent: Treat the devm-helpers as devres like header for workqueue
+> and collect there all devm_*wq* related stuff with maybe something putting
+> back to / holding in the c-file.
+>
+> OTOH we may leave devm_destroy_workqueue() visible for now with a comment
+> saying do not use, it's internal or something like that.
+>
+> Hans, what would be your opinion as you IIRC is the author of devm-helpers.h?
+>
+> Matti, I also Cc'ed to you, you have usually non-standard thinkig and
+> insightful solutions (besides being reviewer of devm-helpers).
 
-Thanks, happy with the changes, gave it another run on my test setup
-with the whole patchset, all looking good.
+Thanks Andy for Cc'ing (and flattering!) me ;)
 
-Thanks,
-Fabio
+My personal opinion is that the devm-helpers.h as a "collect 'em all
+here" -place might not have been the best idea. Perhaps the original
+author didn't know what he was doing :) Problem lurking there is that
+such a file collecting misc devm -interfaces in one place, will end up
+slowing down the compilation while some people put effort on splitting
+the headers.
+
+Currently the devm-helpers.h contains only workqueue related
+devm-helpers. I'd consider renaming it to something like "devm-wq.h" -
+and then just stuffing the devm-wq stuff in it. Optionally, I'd
+considered adding all the wq-devm stiff from the devm-helpers.h to the
+regular workqueue headers - but I think this was not liked by
+everyone.
+
+So sorry, I have no helpful or strong opinion on this. Besides, You,
+Krzysztof and Hans all probably have better insight on this than I do.
+
+Yours,
+    -- Matti
+-- 
+
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
+
+Discuss - Estimate - Plan - Report and finally accomplish this:
+void do_work(int time) __attribute__ ((const));

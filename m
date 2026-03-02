@@ -1,139 +1,136 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95F738F622
-	for <chrome-platform@lists.linux.dev>; Mon,  2 Mar 2026 09:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772444222; cv=none; b=gUJD+hAg38dK/wvj7T7u5BFsi0n6QxtwUax1DaPaMzQGvvdb4YisYRQoZoShihCvQR15rElzhhLCoL5NcdYSkt2cWPClvqIO1ReMUkeEKps11JvMNlK2WyZwhLyAVuIfO5gTJV/ITComeTo/aE2hKtXjJmXZetEep4B0wJVVDpg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772444222; c=relaxed/simple;
-	bh=/NOp8y06KChdk8LJ/vG6dQWQel7PeHlNho48yaYgYOQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qCUf500BX6Zs+rAmqQ4eiQaBxhBj0M8zUqWkxZNqyJZ984NdK6t/fIouZroTdQnx6+KvoaqHIc84UHgrk/LqGiyionu4RZA2dFj57QrFA7W6Ns9lUJQNsRZLAfvxBo9X+Dql7eSoJ/tUJ2rLgQzO+4qGio+BYTuq1FmEnpepqGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MqgRPO4f; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432E1283FCF
+	for <chrome-platform@lists.linux.dev>; Mon,  2 Mar 2026 11:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772451086; cv=pass; b=bKu0V+DFNoxa9wpGLsr34ML4W44mG1RKXguAmZFWIiQoKpeKm54ajy+IJGoCIWymPVQriUF8hMMde+qUZ1BAFiyovv3sV0+0odKqUZKNbFjh7R49itK1LTTpyh9N+MHy2MrLtA/MhGaSuaAKyOTVzUWhv6lJBjKF6bSe8tK4Kag=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772451086; c=relaxed/simple;
+	bh=MIrebT36/abwugfBFswhZDckaWH+gbdfDnt3JmA9oBM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tLLxaGPj6vNLwG+h9hni9phcKas58of2kbWOxVxh1sYyZPq1vDgKEk8v4oIbN4P2+z9tz77r+QX8oZOp8+YM6olyeQBGYbogiN164nDx0bLfOIbX9vSSbpvzSGO7hfESLpbKyYa7H7RyP9I2D50J4anoHwyOfXA/axitPVuv788=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cRKL2UdD; arc=pass smtp.client-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MqgRPO4f"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-65c01595082so6539312a12.3
-        for <chrome-platform@lists.linux.dev>; Mon, 02 Mar 2026 01:36:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cRKL2UdD"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1270fc2bdf2so16428c88.0
+        for <chrome-platform@lists.linux.dev>; Mon, 02 Mar 2026 03:31:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772451083; cv=none;
+        d=google.com; s=arc-20240605;
+        b=T9og07hjI000B/JDXllB1HPJ0rjsPeFeEhMKSXu0jyH+UOcW2w08siZjHF9pqdz3Mo
+         0nXqBTrjD0ryfRoDize7glur3xYuAcTf6K7B6MhRhIK3gmzqQEmqb1BH8h1PgojQK1kf
+         VJH2XlAiNQUBJ9/vma967oPQgIaIVh9JAX0w9iKWRveL3ORddAM0J4zqoxB43hgINmt+
+         GE9cM1eQJibbzGXP74qYRkojzu1LvM2jCRANeW2R0GtOGINc9ogM0PjCz0N8dVbWqICK
+         MkJsG/crZxevxHfUpGULaYnxpkvILps85864P7c2XI3MbpMbAmEqEl/krCa8lANlQZcK
+         AWIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hRcH+v7tmIyTZLn4oUBFcSFT1/NFdo0CrZxQPruKMXE=;
+        fh=ssPTphfIw0oY9ruEgf2K7WYpKTf5T8UuUg+cF+Bc/lQ=;
+        b=cCXw74oOXOw9S7N+Po8fYYwWdr9MastwKOmgBd3U5giB8ySTbMA1zIw4FCjliEP8kl
+         L3IL76nQpWw8tVNVuXw4r2Z+SFxOCjaxdGg6nq1kPnb8Q44lifaZ+Sp6tgyfZkQeUALY
+         SKCJBhs6dX1KGtnBKo91tgiFhl2plYhl5yUJwq76We/pRd9/xyaUPM99Sm0u+APq9LX/
+         AhI70mo0IsHxdLv3hCzRJu1eQ2B/n2Ko7ku6OkP7aNKXTBXORmpyt8zkiwvJ5oZY7iYW
+         dUd7CRPZKz7c5bOKFgbf1Z4v2FihLpP9KqIeAV9kfMSwYIiaaYaSpWYTtV98fjkT3Qh3
+         bb4g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772444218; x=1773049018; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HzEgCqxvjH+3BmwidCaHmyf6O+HU7TyRw9v2I7ODIxw=;
-        b=MqgRPO4fF4Q+6ON9soJa4uVAxqZ4zLEht8u8fBABgD1l4fYXgAcDxDKgnnQ0PiS2Vj
-         ZSexbE4BHdoQ3cLa/XZjC5sq8oz+bE6I8R8NrXQiqktrHydRxL40XCBa1MdSCpC7fvWx
-         W4nahMsViIUlYwMvt/0UapqiPjpPz0zcVjpDjq3EsR6FGRHvLrbhiMd1MoXNT0EUMD6/
-         jxR13U7sYQzQ3lAHQd2kVBANgNlHk1z1VB1YD80qorM0PEKp3uTUF8yL4yx31ZcDXZlh
-         xAYGlQTLE01Q+ceYEWAgUFLree9SX9VC+nephmGMed561VJTLB/ehgA61nphc0V///KM
-         6ESA==
+        d=google.com; s=20230601; t=1772451083; x=1773055883; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hRcH+v7tmIyTZLn4oUBFcSFT1/NFdo0CrZxQPruKMXE=;
+        b=cRKL2UdDg3z40JetsZYsJ9i9H7et9FPz49wvfnyzXh3oORTsIRXt/cQCfj3uwmOavg
+         AK1qAXzXNHqjE0590wX/zHEuibEgFlxb18BKRDgijZ/JeLRBl9j9Q2MMUa5V8zibFA8U
+         M6cKUF4TtG13eQF/zrY+E+EhDzXCk9cNoOizhEl/i/VL5o1KaNjkG6wfi0WcI5HomzYb
+         p/fG2g2Q2DWOcr65ZzTnmCde3urDG6lXSHLHSwFwiM39L+Y0ju2YcCSsnnU+AjF4ZYuA
+         dJ9Ldxmk4jLppPFBsOPM1w6L5KgycKUfcLlzk4seU8YEUbUuyKrHeSvkjrJMVL5cGLmH
+         rNDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772444218; x=1773049018;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HzEgCqxvjH+3BmwidCaHmyf6O+HU7TyRw9v2I7ODIxw=;
-        b=Ly5YIKHf7EkqHPDSpN6FzeWpitBNgRK9YhT7STlM/qOyE9im7tRxj9gcbwTTnPE5D8
-         GJ0Yuob0r3Pazrta3ucNhImO/AxK3KW4rvW73XlORlUHSiN2/ioHwRzccDCCBp4n1XIC
-         Iim/wf/8D46RJIDxYw9iQoJ4+kqHxBKN6IMNG9mQjecqB+HjMMfveKX/T8gpOyEHfciD
-         fPyacTPAG8sNAsdIkcDs8I6Zet0fFkH2COyqdX+mzBB3BJnpL8nKK1jIhyynnu8Mziod
-         VpKeOAPV8fOh7r0R4ChyjK8nuge/b2JzX6k6wdMZaj/j2HTnPODFVFliutMzEOjWDNsH
-         I4Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCWeo/etzDBT3jKBpsiM10i4Uk8a44UjcfPDfbDkAUR1ICMKE+JNwTfxpDQYCqbb5VdajM+bxCG4jB4JhKFbCyA=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwAKDxM2aKPzBxziZCNxVdS8gO0mBhvJQG47zte/70UsNS7kUlc
-	yUvfjwQHeC8ct0rpAehMN+6XXaOOxH7f9843mEN12dLEJoXW01LA0+Rb
-X-Gm-Gg: ATEYQzyIJCISSAZrr+Kpob16whMYasBc9fMGRxS4oUlE8EIMcM+FAYsSxJ0pkBW4oln
-	qlHl5UyXmgD5ShOzujqWNzkeJw7sc7HoLX0oLZoUbwcbEE3Fn9sC/WEYr5up9Evw8WDmVBy5Hn1
-	6jZz+sPXRBJrJImaB8rnjPOGj9gB2Sj+1O8zoBMU5DpVr+/VhWprbsA8YflhFUgcpkuoZM+qaPm
-	/Td/0x7br7OpQhjVyGhwEAIa0apr9UaRbpe/mjnOfGlqjORcqd9/wayOHOvahAjlh6wNj4V907I
-	3vwJEZhyFV4H6G4KBvQbQq/jhcl9LNQmDibo3+7VN9tx0YLFlPIxVtPXfSyonnH78S+5mtQwQmM
-	2r+diFe5+7w1f+0jSH+oOCH0wdMYjw339G/mY5dZFq/L0W/xFN1sM1qp7iVJZ/vo+op4ffXO1o4
-	09uSzo+isTRWAU7GRnB6JSeSajcsM=
-X-Received: by 2002:a17:907:6d11:b0:b8f:9636:9acc with SMTP id a640c23a62f3a-b9376386bbemr716057866b.17.1772444217797;
-        Mon, 02 Mar 2026 01:36:57 -0800 (PST)
-Received: from [192.168.0.102] ([46.53.247.255])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935aec7091sm452340666b.58.2026.03.02.01.36.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 01:36:57 -0800 (PST)
-Message-ID: <cd1506b7-0438-4505-946e-4fc90961d3e3@gmail.com>
-Date: Mon, 2 Mar 2026 12:36:56 +0300
+        d=1e100.net; s=20230601; t=1772451083; x=1773055883;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hRcH+v7tmIyTZLn4oUBFcSFT1/NFdo0CrZxQPruKMXE=;
+        b=nwxs2wUt/rsYHcU/Mkp1E5ezpqqRaWiSCildUkvgdCde2A/UVkvyesDfNgaDwwkR7o
+         /XVa2PZdXrUF2Q0Darxa6sm/SYMITcNlvxltWqFVuTIXjpfLrEmmYQG12umWvXSzJQe/
+         TPSQofmpDVuO5yt/SUnE0nrdL14UfMpIzNQ30OFG9RhjFYP6NN7m69p9CJecTLQuBpK5
+         ofq+f0Y44FrLQEBqd0zp0R6HnG0F/m+sHEleyQI65cnTksT4NtsGE9MOmILYbTOtTOP5
+         97IX8CeYFeW1J2GUq8mFtWwRjzOudxLrYYFQV0xgb7+tfREDGm520Q2OsCZhrYay7WR0
+         EylQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV1/aT4/bsY4mzejCXp5BP8hgDlpZ7N1RFz9LfPmzGqy9aIDaNgqJNyx6yPVlpoabtfq5REiNp+/aiANR68kTI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxxP6ZkQepvTlGYwzOpHNA1p/bSr3jaUwOvM1L9EsC4uBMvUGxW
+	YXqmOeK7jvEc3oPB2invRaJQzFAfsu+1/iqlQqveIwQXsMoJ7uITPOtFHCX9538YlvsvhV85JJh
+	Po5peFZ6e3+6DczoY7l2j8VgmdYajPRL+BRqI94b/
+X-Gm-Gg: ATEYQzymT0gjUd9XvPM+NL8XgxBdz9VJQ1PlrV1bH9M+JmKNfmoZy1FeLS7bSdf1yNo
+	NkRG6D6QiXAnoubx/xyGKtv7HikUvNXubmR9RVH0KMo/aBTleKruBKftvw5GlNZSm3OvZ/o0UrN
+	ZILJ8K0DBxtbrTCo3ifHP2x1Ncn5sfgUugVpBEoDv1taW7zPuAV9mQMT0roRzgkXB4KQG13MDKo
+	6JrmnL7Uj5EVdyCmKK4atLy5LgXfE9qDvERodh1J4047bG1vVJx8DtVGLEMQumPwkuxARolYACX
+	cAnAGHOM3GJSzNiZec9Ggc3288xoi6Ynw6l8b7UlyBwCvZI=
+X-Received: by 2002:a05:701b:4194:20b0:120:5719:1853 with SMTP id
+ a92af1059eb24-12796e45d7dmr157828c88.17.1772451082766; Mon, 02 Mar 2026
+ 03:31:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 7/8] platform/chrome: cros_ec_typec: Thunderbolt
- support
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
- heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
- linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
-Cc: akuchynski@google.com, sboyd@kernel.org, pmalani@chromium.org,
- badhri@google.com, rdbabiera@google.com, dmitry.baryshkov@linaro.org,
- jthies@google.com, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
 References: <20241213233552.451927-1-abhishekpandit@chromium.org>
- <20241213153543.v5.7.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
-Content-Language: en-US
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-In-Reply-To: <20241213153543.v5.7.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20241213153543.v5.7.Ic61ced3cdfb5d6776435356061f12307da719829@changeid> <cd1506b7-0438-4505-946e-4fc90961d3e3@gmail.com>
+In-Reply-To: <cd1506b7-0438-4505-946e-4fc90961d3e3@gmail.com>
+From: Andrei Kuchynski <akuchynski@google.com>
+Date: Mon, 2 Mar 2026 12:31:11 +0100
+X-Gm-Features: AaiRm53KB1yuktTjhOlTzjSiqZ6UkY3SEYaZLnV06Gs1s3UIAvzs2gJSbxllh2U
+Message-ID: <CAD3SCTF7CG342tLe4ShMJHczrMUvnSRTxowt-EsGD1tt2TKmjw@mail.gmail.com>
+Subject: Re: [PATCH v5 7/8] platform/chrome: cros_ec_typec: Thunderbolt support
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, heikki.krogerus@linux.intel.com, 
+	tzungbi@kernel.org, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, sboyd@kernel.org, pmalani@chromium.org, 
+	badhri@google.com, rdbabiera@google.com, dmitry.baryshkov@linaro.org, 
+	jthies@google.com, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+	"akuchynski@chromium.org" <akuchynski@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Dzmitry,
 
-
-On 12/14/24 2:35 AM, Abhishek Pandit-Subedi wrote:
-> Add support for entering and exiting Thunderbolt alt-mode using AP
-> driven alt-mode.
-> 
-> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-> ---
+On Mon, Mar 2, 2026 at 10:36=E2=80=AFAM Dzmitry Sankouski <dsankouski@gmail=
+.com> wrote:
 >
-(...)
+>
+>
+> On 12/14/24 2:35 AM, Abhishek Pandit-Subedi wrote:
+> > Add support for entering and exiting Thunderbolt alt-mode using AP
+> > driven alt-mode.
+> >
+> > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> > ---
+> >
+> (...)
+>
+> > -     amode =3D typec_port_register_altmode(port->port, &desc);
+> > -     typec_altmode_set_drvdata(amode, port);
+> > -     amode->ops =3D &port_amode_ops;
+>
+> The last usage of port_amode_ops is deleted here. Is this a mistake?
+> AFAIU from kernel docs, port_amode_ops needed for alternate mode driver
+> to send vdm messages to partner. Now, when it's unused, how does
+> alternate modes work in this driver?
+>
 
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-> index 1bcaa7269395..1ac5798d887f 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -303,18 +303,19 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
->   
->   	/*
->   	 * Register TBT compatibility alt mode. The EC will not enter the mode
-> -	 * if it doesn't support it, so it's safe to register it unconditionally
-> -	 * here for now.
-> +	 * if it doesn't support it and it will not enter automatically by
-> +	 * design so we can use the |ap_driven_altmode| feature to check if we
-> +	 * should register it.
->   	 */
-> -	memset(&desc, 0, sizeof(desc));
-> -	desc.svid = USB_TYPEC_TBT_SID;
-> -	desc.mode = TYPEC_ANY_MODE;
-> -	amode = typec_port_register_altmode(port->port, &desc);
-> -	if (IS_ERR(amode))
-> -		return PTR_ERR(amode);
-> -	port->port_altmode[CROS_EC_ALTMODE_TBT] = amode;
-> -	typec_altmode_set_drvdata(amode, port);
-> -	amode->ops = &port_amode_ops;
+The assignment of the typec_altmode_ops struct pointer is still here;
+see the cros_typec_register_thunderbolt / typec_altmode_set_ops
+implementation.
 
-The last usage of port_amode_ops is deleted here. Is this a mistake?
-AFAIU from kernel docs, port_amode_ops needed for alternate mode driver 
-to send vdm messages to partner. Now, when it's unused, how does 
-alternate modes work in this driver?
+> > +             amode =3D cros_typec_register_thunderbolt(port, &desc);
 
-> +	if (typec->ap_driven_altmode) {
-> +		memset(&desc, 0, sizeof(desc));
-> +		desc.svid = USB_TYPEC_TBT_SID;
-> +		desc.mode = TBT_MODE;
-> +		amode = cros_typec_register_thunderbolt(port, &desc);
-> +		if (IS_ERR(amode))
-> +			return PTR_ERR(amode);
-> +		port->port_altmode[CROS_EC_ALTMODE_TBT] = amode;
-> +	}
->   
->   	port->state.alt = NULL;
->   	port->state.mode = TYPEC_STATE_USB;
+Thanks,
+Andrei

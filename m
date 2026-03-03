@@ -1,162 +1,152 @@
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C12D38F649
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Mar 2026 09:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772531664; cv=none; b=rbJl4vpHNLp/TsYniegaRhP0DJnsss1KIJWBvJXjShffWL5N2YdP6yrJP4QJ3c8NvlDzjeu2Ul6Gc0BSWAooenliZm5q3OLT0EhIoBfMRb6ydi4E46/iFv7m2pkq8MYl6hk8Tx3nYWWT5ceBBXlfmSfjOeeu08SnnobGtLym2vk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772531664; c=relaxed/simple;
-	bh=pgJmHooKXAvf4aWJh5i29+QfL79cL37SELTFnVcMG1c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dYHtUWlFHvD1YDpN8oHMAGp4zh/f5geVWoVpCPaC+bYLMljgWon0gjf7nxI03Wq1CxuF2wnQYa5zo7uZLaoMO62w3lzTP+PLmU460ixcGcEZVOADhHHIYOS/nnigfjTHi0pAII+rRA682hoVPw9p/aljN0ja8Undwvu4RF68bI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=IG0YPMVs; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3233AE18E
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Mar 2026 14:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772547255; cv=pass; b=J48spxV9v+GaKzznx8PETxSuyPfV9fUexL7aiIK4TDM9LJEX6vZE5uDimOrqmnNN47XQfQjRvDAhryeC5ujTjvwK9bgEsoK6RPXO02t63To6PmKrvvr+/m0NKYSk5N0RBs6Xsl6+xD4S43KDlXAoqunH7mPqnsNQhcmonknLxwA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772547255; c=relaxed/simple;
+	bh=t6SW1sm9M982cFygq5eOtkLajRDKQSWqroBktqJfdBI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ftZG8egDaK8LA/iYOG3bxhRMqbzJ4uTcTqhr4R1hoeSPtlEfngHwAS6N2gXzy5si+WtDIOVsifwZVYnvlwpOx0NhE8h0xkrVVt6dhxrxVRV9zkvh3STJToiTxDn/toqhUNcJcwcibjwaZInbcYQwTKwHgtsOqWgWI/5WdB5BiSY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ee8L4G4A; arc=pass smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="IG0YPMVs"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 359B060029A6;
-	Tue,  3 Mar 2026 09:54:13 +0000 (WET)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id 2yOSOUebgrsX; Tue,  3 Mar 2026 09:54:10 +0000 (WET)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 796766002998;
-	Tue,  3 Mar 2026 09:54:10 +0000 (WET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
-	s=mail2; t=1772531650;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/8dmdcZiHT4D1iZbcNbaraDeYcHiiXA19x6Hh9Bh1rM=;
-	b=IG0YPMVsUaU7p6Nqea+UNyFMljlu1+7KiYsvmiwKidtu8fDg8iRBiHe59rznx7lB3+sv5i
-	ysgIZNmVP6iGIA2Ud0IbHavP4yD0V4w6S7uvpQDgxMYkLAbEn3bPfXGnaEQom5UTaSw54Z
-	cthzKB0WUYj+3yiXEhucVKKpFWP6w2gmc7oqZqXzW+Cg0lXEGu+ED9NzVte++6XPaLvqRY
-	kpCGytQyOUmDgh6jtdT5hsRc5yn0/8L7hwZnLd0pckDiXmgBSWVYbUm8GXAj3mnykp22LY
-	zihxoKIua78ZODpx7mFi+vi7VeA2yrhmqAzfIrZnac5UMyJ61d7JYA6rmEB9PQ==
-Received: from [IPV6:2001:8a0:fbec:a900:2c09:2fb0:9be7:36e0] (unknown [IPv6:2001:8a0:fbec:a900:2c09:2fb0:9be7:36e0])
-	(Authenticated sender: ist187313)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id C6EDF36014A;
-	Tue,  3 Mar 2026 09:54:09 +0000 (WET)
-Message-ID: <cef799c2-1612-4e28-bae5-ab33cd9c3aa8@tecnico.ulisboa.pt>
-Date: Tue, 3 Mar 2026 09:54:09 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ee8L4G4A"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-389f933034cso77302631fa.2
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Mar 2026 06:14:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772547251; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MFjEHIg9KAs5EK2J1Yu2vLk/GEv/Y0nZ1UdM+EptaN++FLPre/0u7nkAfaG0XRg2Mv
+         7vmj8GuA3ZyJotK7suesUxjL3uZZYvn3tuYuHSQwaHNZ8QjYdpEeh+wMvBMabsjqKeIw
+         dO1BDAXgwzgwxzJVlZoIHIlJ5FYeaKQgFZTWA0b/ZBmPIeuGoJPcaGjUUh1cVbxwU+TG
+         RH0Fw54PeLgasvBSQ8E+djQ2ebFr8TIToe6xEL+Ypxyf/DmCm+mTXbtif8RC6Lwr9OSi
+         gUjBatgxzYYlLBX7sx9KDm8n0awrMFyTwt8oX9FPleEqJXpKSCNxcJqnmWDZBVR5tFtZ
+         30Sg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UsdCJXnxkTNbIWbjZLNJ5b3UIxV8qEBiWBR+b3b28Jk=;
+        fh=eSr+FM1Cv0nspn1FXVTbRk2ZD5L79eHba/Y9q7OVpJk=;
+        b=j94lrVf0kpLQpEkBqypR1msr+LzaekL8/seCNDlsatYiMt8fuZxFUAT3oulW02wi0c
+         GnhXkl0ifqe5sBeULYeI0A/K85DSLErVMzb1ILwiJma8+hLApkafT65KS6Z9iXl3wsUV
+         MI4V3dKvJM8I12VLjwp114nfffKOzWoVeuo7EK6rqDbWRECyVkhLktmYZkrwxo08xLEq
+         Q+zXZb9oZ0H8/H3l/i2uMzp7lD/Gb0OFMF+IaqWN3P08GWr+8+ZMlpSAn3Dc/a+N0ieD
+         CI5DV4w+rAUpfdLrnkBdPTHXYEZ1E83q4YqRqf8wAPNMn2qqI82dKhwbz5klq+S2UlUR
+         uRwQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772547251; x=1773152051; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UsdCJXnxkTNbIWbjZLNJ5b3UIxV8qEBiWBR+b3b28Jk=;
+        b=ee8L4G4AJS0lqr3Hr/KxJsJwDcCkhNo7ZBTSLEUQOHnz3gPRldM2RQlBcGTPs931ih
+         DS7UZDZzH5FuOZl42yNNqkLk8kT6SvndksWKUImuj9KA7getNm70zFVIvE0Q5804meND
+         fT8mXVLE22RlpZIs3KWaqAsgJr8m1QOS04sy9MS1sSjTO0+sRqp621S/MRNCtMle54VQ
+         ntuNUUBHFPTRX3/ADBTuw+XPEGnh/eYMLoA3F61UakW8bQwzOhiAT1DHj+oryVSedd4i
+         QQ4njEavTAw5ZI2x+qf+3A+uBXV+FfPFATEbyYe0j8W0n/3omIzL/MK+4+gPtanXOUPF
+         2u0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772547251; x=1773152051;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UsdCJXnxkTNbIWbjZLNJ5b3UIxV8qEBiWBR+b3b28Jk=;
+        b=VI8Jh/xIVvM2zoPmAet97IyBp/+UHm8OwCX0aaHS6kgSIxV2H6SxOmleSrpl9aCXZg
+         0Im7krlcgT3iaYkz0LWbCu3YTYTamwK9LNH+Gf24m7QkRAHT0oDBJSEfVyXQV+Y1g85I
+         qMVpibZIiaFq+Cs3chzfEsYn2+pqIhuBXrJvhYf9S1rOueMZ7q7dNWcGcqofNSYbjyKe
+         79NQKub3o2L/SLla5ZORb1/cTJ6oN7KCPqTInLV4VZJZM0iJkFPYcW5ELkKCS0MZUsH8
+         xtSEkEojbNw0ZIO5ewF6PTXamMAxZa6N+NgJrDcE4+a8JVU8V7D+nolvvLwMYyLWhGmd
+         vwyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVM0VFVKIZi0DjVwZStEFGaJOP44m7B2hgn7SD6lWLv8koVvBVOw6ZTVeD10yRtISW/J6oz3VmkJAEwrZJrPYY=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFRDdy+eJDhb5wNnQHCwT3RcdAQ3xLqQsS3Rr5K7ZT7IP4eYVf
+	Z5YREYmL5Zur+q4pVEhwcdO6chL70ibSONGIzppzBGG6nHSOS++MQShkM+cAFUec76KaTPr7RiG
+	1Ay17+Y6KKpWMTZv2s2PDWIpZowYl0Hg=
+X-Gm-Gg: ATEYQzyxk7K6C3Pz3rTTMrx67o29NFfFjQjzujVe6QPR8sGj9l7kdcTxXF9FkboT4qE
+	hk4WcKf/F5w6wrvz5KAT3czIn8320xrPvE7qKRq+KsFv8fWhjYF6DDWddIbXEEdSVRIY7kQ9rgW
+	LIWUjKmj8JInns9qLFgJ3BHHqAiXLMMBxo4iGA/hWHsqzknpHF5PyURg4lTCqARO6AQeJYrBiRQ
+	Uxdjqfd1QJiYdrIsw1PFtfcSaJrLuIW4r9Jv+3gYIx2rfuoczjbgF9ohIK3rgEAeRaGnEUguBhq
+	zaUM2wEjJd4SlwLj
+X-Received: by 2002:a2e:be89:0:b0:38a:217:5e98 with SMTP id
+ 38308e7fff4ca-38a02179e23mr103446121fa.38.1772547251117; Tue, 03 Mar 2026
+ 06:14:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Skip Type-C mux handling
- in EC-driven devices
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>,
- Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
- Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260205-smaug-type_c-v1-1-d6e556bf6640@tecnico.ulisboa.pt>
- <CAMMMRMf_Se9fbH50RSJvEfHCF6ds6TZfVzK4NJCs2UsViGAr1A@mail.gmail.com>
-Content-Language: en-US
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-In-Reply-To: <CAMMMRMf_Se9fbH50RSJvEfHCF6ds6TZfVzK4NJCs2UsViGAr1A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20241213233552.451927-1-abhishekpandit@chromium.org>
+ <20241213153543.v5.7.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
+ <cd1506b7-0438-4505-946e-4fc90961d3e3@gmail.com> <CAD3SCTF7CG342tLe4ShMJHczrMUvnSRTxowt-EsGD1tt2TKmjw@mail.gmail.com>
+In-Reply-To: <CAD3SCTF7CG342tLe4ShMJHczrMUvnSRTxowt-EsGD1tt2TKmjw@mail.gmail.com>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Tue, 3 Mar 2026 17:13:58 +0300
+X-Gm-Features: AaiRm51sYXlYeemsCl43cf-AXd-V666gWKpMA9rTX0bg7lcBRT3oFtT4DMyHm1Y
+Message-ID: <CABTCjFDeKjfi_7zx0jkss=BPL-M2oydTbz2Hu7KGFJsZj21Wiw@mail.gmail.com>
+Subject: Re: [PATCH v5 7/8] platform/chrome: cros_ec_typec: Thunderbolt support
+To: Andrei Kuchynski <akuchynski@google.com>
+Cc: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, heikki.krogerus@linux.intel.com, 
+	tzungbi@kernel.org, linux-usb@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, sboyd@kernel.org, pmalani@chromium.org, 
+	badhri@google.com, rdbabiera@google.com, dmitry.baryshkov@linaro.org, 
+	jthies@google.com, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org, 
+	"akuchynski@chromium.org" <akuchynski@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andrei, thanks for testing.
+=D0=BF=D0=BD, 2 =D0=BC=D0=B0=D1=80. 2026=E2=80=AF=D0=B3. =D0=B2 14:31, Andr=
+ei Kuchynski <akuchynski@google.com>:
+>
+> Hi Dzmitry,
+>
+> On Mon, Mar 2, 2026 at 10:36=E2=80=AFAM Dzmitry Sankouski <dsankouski@gma=
+il.com> wrote:
+> >
+> >
+> >
+> > On 12/14/24 2:35 AM, Abhishek Pandit-Subedi wrote:
+> > > Add support for entering and exiting Thunderbolt alt-mode using AP
+> > > driven alt-mode.
+> > >
+> > > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+> > > ---
+> > >
+> > (...)
+> >
+> > > -     amode =3D typec_port_register_altmode(port->port, &desc);
+> > > -     typec_altmode_set_drvdata(amode, port);
+> > > -     amode->ops =3D &port_amode_ops;
+> >
+> > The last usage of port_amode_ops is deleted here. Is this a mistake?
+> > AFAIU from kernel docs, port_amode_ops needed for alternate mode driver
+> > to send vdm messages to partner. Now, when it's unused, how does
+> > alternate modes work in this driver?
+> >
+>
+> The assignment of the typec_altmode_ops struct pointer is still here;
+> see the cros_typec_register_thunderbolt / typec_altmode_set_ops
+> implementation.
+>
 
-On 3/3/26 07:17, Andrei Kuchynski wrote:
-> Hi Diogo,
-> 
-> On Thu, Feb 5, 2026 at 11:04 AM Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
->>
->> Currently the code assumes that the EC firmware will leave Type-C mux
->> handling logic to the AP, exposing an interface to query and change the
->> mux state via a request from the AP. However, in devices such as Smaug
->> the EC automatically takes care of mux configuration and only USB role
->> switching needs to be handled by the AP. In fact, in such devices this
->> interface is not exposed by the EC making the whole process fail,
->> including role switching.
->>
->> Fix this by first separating Type-C mux handling and USB role switching,
->> explicitly querying the behaviour of the EC and execute each part
->> conditionally according to what the EC reported.
->>
->> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
->> ---
->>   drivers/platform/chrome/cros_ec_typec.c | 49 +++++++++++++++++++++++----------
->>   drivers/platform/chrome/cros_ec_typec.h |  2 +-
->>   2 files changed, 35 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
->> index b712bcff6fb2..bd7e6c365cab 100644
->> --- a/drivers/platform/chrome/cros_ec_typec.c
->> +++ b/drivers/platform/chrome/cros_ec_typec.c
->> @@ -751,11 +751,10 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
->>          }
->>
->>          /* No change needs to be made, let's exit early. */
->> -       if (port->mux_flags == resp.flags && port->role == pd_ctrl->role)
->> +       if (port->mux_flags == resp.flags)
->>                  return 0;
->>
->>          port->mux_flags = resp.flags;
->> -       port->role = pd_ctrl->role;
->>
->>          if (port->mux_flags == USB_PD_MUX_NONE) {
->>                  ret = cros_typec_usb_disconnect_state(port);
->> @@ -771,12 +770,6 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
->>          if (ret)
->>                  return ret;
->>
->> -       ret = usb_role_switch_set_role(typec->ports[port_num]->role_sw,
->> -                                       pd_ctrl->role & PD_CTRL_RESP_ROLE_DATA
->> -                                       ? USB_ROLE_HOST : USB_ROLE_DEVICE);
->> -       if (ret)
->> -               return ret;
->> -
->>          if (port->mux_flags & USB_PD_MUX_USB4_ENABLED) {
->>                  ret = cros_typec_enable_usb4(typec, port_num, pd_ctrl);
->>          } else if (port->mux_flags & USB_PD_MUX_TBT_COMPAT_ENABLED) {
->> @@ -822,6 +815,25 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
->>          return ret;
->>   }
->>
->> +static int cros_typec_set_role(struct cros_typec_data *typec, int port_num,
->> +                              struct ec_response_usb_pd_control_v1 *resp)
->> +{
->> +       enum usb_role cur_role = usb_role_switch_get_role(typec->ports[port_num]->role_sw);
->> +       enum usb_role role = resp->role & PD_CTRL_RESP_ROLE_DATA ? USB_ROLE_HOST :
->> +                                                                  USB_ROLE_DEVICE;
->> +       bool connected = resp->enabled & PD_CTRL_RESP_ENABLED_CONNECTED;
->> +       int ret;
->> +
->> +       if (!connected || cur_role == role)
->> +               return 0;
->> +
->> +       ret = usb_role_switch_set_role(typec->ports[port_num]->role_sw, role);
->> +       if (ret)
->> +               dev_err(typec->dev, "Failed USB role switch, err = %d\n", ret);
-> 
-> While testing on Brya, I've got a role switch failure:
-> cros-ec-typec GOOG0014:00: Failed USB role switch, err = -22
-> cros-ec-typec GOOG0014:00: Update failed for port: 1
-> 
-> Steps to reproduce: deactivate any alt-mode.
+It's the .vdm callback implementation(cros_typec_thunderbolt_vdm) confused
+me - as per docs, port driver's .vdm should be able to send and
+receive vdm commands, but cros_typec_thunderbolt_vdm don't do it, whereas
+port_amode_ops.vdm do.
 
-I'm unsure of what you mean by this, could you clarify?
+So port .vdm callback just imitates vdm exchange to satisfy the altmode dri=
+ver,
+while the real work is performed by .enter and .exit callbacks.
 
-Thanks,
-Diogo
+Old port_amode_ops can be deleted because unused.
 
-> Verified on the Brya platform.
-> 
-> This may be attributed to the altered sequence of mux and switch settings.
-> 
-> 
-> Thanks,
-> Andrei
+--=20
+
+Best regards,
+Dzmitry

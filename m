@@ -1,214 +1,287 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559E63A1CE7
-	for <chrome-platform@lists.linux.dev>; Wed,  4 Mar 2026 10:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772620255; cv=pass; b=tasfUv+4V6tDCd1+QhoEtReTFws5+aATkPpIyNce+kLc1pp/JKus8KQs7ObwOZgzlA2BuYcYMlwjfPwTi8N0nY4ztULB92o0RBICS1ZaVxGO3qLfguqRybJ3EMXOtfVUPa/WxYyeX0dxu7jEQcpdhPkmRMlOc3NjKWMKLJTXnyA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772620255; c=relaxed/simple;
-	bh=PfY+ZhtZaCzSTOaIOf1aQqM8+YHJuq1j7pcxrg9EBsE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OQmvvUk2V0n+lZKhUmA6fiCk+SPDja0SiNhiLYllWd220+nlF7UwvWyDuCvXx0P1RZwgQK7grYXWDDpK1lhU6kT1Wv9NDl9c7DHtz1UlviCpyzmemZIu8tDPQtE6zW2aB7wCwL9UvN23f6zkQpMuOeHpa84Anwfopv6BkB6bPDc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bjzQP5EB; arc=pass smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4443D5650;
+	Wed,  4 Mar 2026 18:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772649983; cv=none; b=DOHURWMS63Ip5BtKlfGoWB44iTWS7p8oeKImEZALJOpL9zKQpv8QtkyD+PhykG+lID5/9HP4bKaRhKjfWKYDgkLyP+yZZURkyaDSJ7kV4l9OYTVkYaDD/JzsPiTO45eUVtWsPy2LWHJ2FRVWkvMRJSGc/YV3PwO2KQFLu+/Ck8w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772649983; c=relaxed/simple;
+	bh=CUMzCv4iybUnbgKiUbGmNjI3qQhlJn7tyzQUrs/2W/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J3DONE23hdJKj68pAoPm7IdBTUiv+D6NnMpDYXDqxOiW5RoyahdfzKYep+KZlE30D0k9T+fl+gUUQaFxQWdRAS1I9YfvfEHaO4xP6jgl+aqEy/SdfPRKeYDO8LED4ot3qZ5oHsHzfd+CvAd6P63VsNFwxTeweneedQFSUYETv7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gufh1TiP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bjzQP5EB"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c6e77ace76aso2530901a12.3
-        for <chrome-platform@lists.linux.dev>; Wed, 04 Mar 2026 02:30:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772620253; cv=none;
-        d=google.com; s=arc-20240605;
-        b=elbGXmCxQarLrJqrMH21vd1UR6X0PIjSsrzT1aIjAHp7nvA6hjbukfhbN1iqD4b7Xh
-         qikzle03T3+bJk0/q8mTWfSD3hjqlLoHYDk1angIGJA0bW42Gt9K2l1vRafF678fCB4N
-         wRJ3kx2Qk5jzBY44Fg0G3VdK8hj77aLUDfVksCKTHRTYrfaTekGocr3iLgPtuX2e2ijx
-         kxFtiNeXS3PUwaH42YDzkgg+LGFiPojq3ej4Wl5n40yOa91NI07A5uAEH1XecNMXRQO8
-         Ta1UlDkYFaxRCzxaFHha7poEj9a3V9cTVt+9ChbYR6q7DSG5I7IfVmP8yDdIuj/K5LyJ
-         SR7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ul8EZRPh/FawI3SZV0nh3RJElBsdTFY32QjIJzSaI7c=;
-        fh=nNu2rvTf1lqzJEoBpixObHMLjo9JKf7sUw8J670WBiY=;
-        b=bBU6Qf67/VUhQxNSzqmQ1vY8o6rNFrzy/hw278j13+7FUhza5D+d0KaamwVahJo4U7
-         5PmySqB+/30UVCHT65W71Dp9nM2ksm4LxLVpZFhL7oLN0oD8n95/1VMnxvCuDxJHnDFJ
-         9WowqQ/uLQEYW6M25FMg4S/1373CH087d6xJSY9iZXDbQTl23VStSF0Yq7hQWRJLyT3t
-         ODAqH/qTrJr80XpDKiFwomqSEviCdBugt0a/iKqgxTaZYev4SviUpfTRtvFkfdxBCyVB
-         VT5sO3nmvBhQZwnZ3REs69F+1BQTT48PnjnXgyuMJ+B/iPaEZjlZ+Ib70jn+C2s9ZUy2
-         NI9Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1772620253; x=1773225053; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ul8EZRPh/FawI3SZV0nh3RJElBsdTFY32QjIJzSaI7c=;
-        b=bjzQP5EB8L+sY4jBFrdnXCFo0U0vZH8a1WOIivv2Gz6tkNIaD8/KajFmmugdNRLFBC
-         3aPoVhWzt+n6RcZKE5Alas3PQHRo5UbIoA1id6L3OoWRWg6CGk/xFEotviKpCegabDGQ
-         AdmFB0aaNt8zdQ9sGBM4K/YBtXyrsVrc4vkA4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772620253; x=1773225053;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ul8EZRPh/FawI3SZV0nh3RJElBsdTFY32QjIJzSaI7c=;
-        b=mVI+aUW4W/JB9MK9k+OkLj+6HGjQ6PEweixcfT4kwcz0Au+hPDc7CyabMi03k475WQ
-         eiBPnbc2I007MEz3LfW1v0Aj7hacWQFyvyZW2lo3VMbW39LUqHgSHKPdSS0/qMUq63Ao
-         DVGdpAWkw4VCS4UfI4z6IYh/nr6KMAgB4T4NqM5G9EzKqZrvHcH80ZjBoGwW2lweZW9u
-         v6vmf9/75rbJ6Lgc7u7CGu7Q3wJHcFivHk+hjfPKtGPhf7GwICus4SyvAyLHLs9//Ary
-         rf3ELytds+ZemYchemBZPU6Oq6gSoT/4kL3sTlCyej6uCuL7isZKjzHVSvtAK6ZPrDuR
-         +M/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWF4X5Rrjjnc47eteakBLTKty0gFMZwuSRrN2Qp823UMYRKeEzHNkHajCna7CbhlGuLgBGNf2IjJGIU2J2iVMg=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyj42iQb3B+fiZaOBVrNhzBY/PH36CF0hfzHN18k3qgzbo5F2Gp
-	cIwyZs1tH/6LnMfssSifcDk8TRnEEwsVxt8qWVm1AV5nBgrqbd2ZunUkvigBaStG5wx2/MK1yWu
-	DJskvMd1rRbPyYqK7pjEoMGjo4KFjuxqjtexKWpSk
-X-Gm-Gg: ATEYQzzLhxVfrI5++FwOoiax/UlIoH0urrElCTGXCR3h/CRiPrzWAMAsSO8MbC0URaV
-	yc3Lp+Ti2UZIRWqEUdoE7UisKKO3Ptncki3gjwP7lJbXV9MdjIna9XaHi/L3L3ElazSVzzfjdcq
-	VqJIwIS79pJrybjA5aJ9ht+jt1gVS4ziHk+ZN7AtUwquQFMBtmJI/QQXFAOkt3OP5JMtzTGfOsx
-	ejXru4wN8TH0/Fa2v+HYg5gYSwRTTdHmYnVHZn8KytURJMu1WG4Ry2iDhjCuaYB0a9Ex2YM9XMx
-	GS/bx1nkzErmG/jMsbXUMD3HmMvl4DpREg==
-X-Received: by 2002:a17:90b:2888:b0:359:7906:d996 with SMTP id
- 98e67ed59e1d1-359a6a66a94mr1612977a91.23.1772620252752; Wed, 04 Mar 2026
- 02:30:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gufh1TiP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31715C4CEF7;
+	Wed,  4 Mar 2026 18:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772649982;
+	bh=CUMzCv4iybUnbgKiUbGmNjI3qQhlJn7tyzQUrs/2W/k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Gufh1TiPJZXw2SfxI1KhK5x+7aateD5nIL8ub0OS8c0YmxsNwCDfl3G0t0h50rn83
+	 D/S3lDyi1qsEns2GdZ8A3ErCAF6eeMjDBCrZKJN8p+tbQOxGvncatlVXeZWtUqSVAG
+	 +SoXNb36dqk84y5MmkWqqSQpM7j1Ks6xSOKblbFbm5cH++dyW9R26iqNr9uIjuGWJr
+	 qOhX+0W0Uum8aG6UpasL967oZfwQzgv/q4mp7AKmk6p9I/6IPzoMHCL7mOyW9F/a4E
+	 1miLVUL2N+J3UHjgAek8PvIIqTjNFxdJYIv6kr46N6/MA0ZU8z5GrQVBE+uUEVVDNO
+	 dploXOg8mFtwg==
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+To: chrome-platform@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Linux ACPI <linux-acpi@vger.kernel.org>, Benson Leung <bleung@chromium.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>,
+ Enric Balletbo i Serra <eballetbo@kernel.org>,
+ Ravi Chandra Sadineni <ravisadineni@chromium.org>
+Subject:
+ [PATCH v1 6/6] platform/chrome: wilco_ec: event: Convert to a platform driver
+Date: Wed, 04 Mar 2026 19:45:52 +0100
+Message-ID: <2053315.yKVeVyVuyW@rafael.j.wysocki>
+Organization: Linux Kernel Development
+In-Reply-To: <2274474.Mh6RI2rZIc@rafael.j.wysocki>
+References: <2274474.Mh6RI2rZIc@rafael.j.wysocki>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260205-smaug-type_c-v1-1-d6e556bf6640@tecnico.ulisboa.pt>
- <CAMMMRMf_Se9fbH50RSJvEfHCF6ds6TZfVzK4NJCs2UsViGAr1A@mail.gmail.com> <cef799c2-1612-4e28-bae5-ab33cd9c3aa8@tecnico.ulisboa.pt>
-In-Reply-To: <cef799c2-1612-4e28-bae5-ab33cd9c3aa8@tecnico.ulisboa.pt>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Wed, 4 Mar 2026 11:30:40 +0100
-X-Gm-Features: AaiRm50lN_5aPITKd6-dE8gL6Ip_Tp1GKuH8-CQe_b3dolSkbVgUSni6zF6PS3w
-Message-ID: <CAMMMRMe0Od7jJ+nJdRn_P+gU-8aaFd4K-g-UKz2j43wNiqE-MA@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Skip Type-C mux handling
- in EC-driven devices
-To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Cc: Benson Leung <bleung@chromium.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 3, 2026 at 10:54=E2=80=AFAM Diogo Ivo <diogo.ivo@tecnico.ulisbo=
-a.pt> wrote:
->
-> Hi Andrei, thanks for testing.
->
-> On 3/3/26 07:17, Andrei Kuchynski wrote:
-> > Hi Diogo,
-> >
-> > On Thu, Feb 5, 2026 at 11:04=E2=80=AFAM Diogo Ivo <diogo.ivo@tecnico.ul=
-isboa.pt> wrote:
-> >>
-> >> Currently the code assumes that the EC firmware will leave Type-C mux
-> >> handling logic to the AP, exposing an interface to query and change th=
-e
-> >> mux state via a request from the AP. However, in devices such as Smaug
-> >> the EC automatically takes care of mux configuration and only USB role
-> >> switching needs to be handled by the AP. In fact, in such devices this
-> >> interface is not exposed by the EC making the whole process fail,
-> >> including role switching.
-> >>
-> >> Fix this by first separating Type-C mux handling and USB role switchin=
-g,
-> >> explicitly querying the behaviour of the EC and execute each part
-> >> conditionally according to what the EC reported.
-> >>
-> >> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> >> ---
-> >>   drivers/platform/chrome/cros_ec_typec.c | 49 +++++++++++++++++++++++=
-----------
-> >>   drivers/platform/chrome/cros_ec_typec.h |  2 +-
-> >>   2 files changed, 35 insertions(+), 16 deletions(-)
-> >>
-> >> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platfor=
-m/chrome/cros_ec_typec.c
-> >> index b712bcff6fb2..bd7e6c365cab 100644
-> >> --- a/drivers/platform/chrome/cros_ec_typec.c
-> >> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> >> @@ -751,11 +751,10 @@ static int cros_typec_configure_mux(struct cros_=
-typec_data *typec, int port_num,
-> >>          }
-> >>
-> >>          /* No change needs to be made, let's exit early. */
-> >> -       if (port->mux_flags =3D=3D resp.flags && port->role =3D=3D pd_=
-ctrl->role)
-> >> +       if (port->mux_flags =3D=3D resp.flags)
-> >>                  return 0;
-> >>
-> >>          port->mux_flags =3D resp.flags;
-> >> -       port->role =3D pd_ctrl->role;
-> >>
-> >>          if (port->mux_flags =3D=3D USB_PD_MUX_NONE) {
-> >>                  ret =3D cros_typec_usb_disconnect_state(port);
-> >> @@ -771,12 +770,6 @@ static int cros_typec_configure_mux(struct cros_t=
-ypec_data *typec, int port_num,
-> >>          if (ret)
-> >>                  return ret;
-> >>
-> >> -       ret =3D usb_role_switch_set_role(typec->ports[port_num]->role_=
-sw,
-> >> -                                       pd_ctrl->role & PD_CTRL_RESP_R=
-OLE_DATA
-> >> -                                       ? USB_ROLE_HOST : USB_ROLE_DEV=
-ICE);
-> >> -       if (ret)
-> >> -               return ret;
-> >> -
-> >>          if (port->mux_flags & USB_PD_MUX_USB4_ENABLED) {
-> >>                  ret =3D cros_typec_enable_usb4(typec, port_num, pd_ct=
-rl);
-> >>          } else if (port->mux_flags & USB_PD_MUX_TBT_COMPAT_ENABLED) {
-> >> @@ -822,6 +815,25 @@ static int cros_typec_configure_mux(struct cros_t=
-ypec_data *typec, int port_num,
-> >>          return ret;
-> >>   }
-> >>
-> >> +static int cros_typec_set_role(struct cros_typec_data *typec, int por=
-t_num,
-> >> +                              struct ec_response_usb_pd_control_v1 *r=
-esp)
-> >> +{
-> >> +       enum usb_role cur_role =3D usb_role_switch_get_role(typec->por=
-ts[port_num]->role_sw);
-> >> +       enum usb_role role =3D resp->role & PD_CTRL_RESP_ROLE_DATA ? U=
-SB_ROLE_HOST :
-> >> +                                                                  USB=
-_ROLE_DEVICE;
-> >> +       bool connected =3D resp->enabled & PD_CTRL_RESP_ENABLED_CONNEC=
-TED;
-> >> +       int ret;
-> >> +
-> >> +       if (!connected || cur_role =3D=3D role)
-> >> +               return 0;
-> >> +
-> >> +       ret =3D usb_role_switch_set_role(typec->ports[port_num]->role_=
-sw, role);
-> >> +       if (ret)
-> >> +               dev_err(typec->dev, "Failed USB role switch, err =3D %=
-d\n", ret);
-> >
-> > While testing on Brya, I've got a role switch failure:
-> > cros-ec-typec GOOG0014:00: Failed USB role switch, err =3D -22
-> > cros-ec-typec GOOG0014:00: Update failed for port: 1
-> >
-> > Steps to reproduce: deactivate any alt-mode.
->
-> I'm unsure of what you mean by this, could you clarify?
->
+From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 
-The cros_ec_typec driver supports DisplayPort and Thunderbolt alternate
-modes. During altmode activation or deactivation, the driver handles
-Embedded Controller (EC) events via the cros_typec_port_update.
+In all cases in which a struct acpi_driver is used for binding a driver
+to an ACPI device object, a corresponding platform device is created by
+the ACPI core and that device is regarded as a proper representation of
+underlying hardware.  Accordingly, a struct platform_driver should be
+used by driver code to bind to that device.  There are multiple reasons
+why drivers should not bind directly to ACPI device objects [1].
 
-The `active` sysfs attribute is used to initiate these processes; writing 0
-to `active` will exit DP or TBT alternate mode.
+Overall, it is better to bind drivers to platform devices than to their
+ACPI companions, so convert the ChromeOS Wilco Embedded Controller event
+ACPI driver to a platform one.
 
-Thanks,
-Andrei
+While this is not expected to alter functionality, it changes sysfs
+layout and so it will be visible to user space.
+
+Link: https://lore.kernel.org/all/2396510.ElGaqSPkdT@rafael.j.wysocki/ [1]
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ drivers/platform/chrome/wilco_ec/event.c | 66 ++++++++++++------------
+ 1 file changed, 34 insertions(+), 32 deletions(-)
+
+diff --git a/drivers/platform/chrome/wilco_ec/event.c b/drivers/platform/chrome/wilco_ec/event.c
+index f4500dd05f93..b6e935badc0e 100644
+--- a/drivers/platform/chrome/wilco_ec/event.c
++++ b/drivers/platform/chrome/wilco_ec/event.c
+@@ -38,6 +38,7 @@
+ #include <linux/io.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
++#include <linux/platform_device.h>
+ #include <linux/poll.h>
+ #include <linux/spinlock.h>
+ #include <linux/uaccess.h>
+@@ -198,7 +199,7 @@ struct event_device_data {
+ 
+ /**
+  * enqueue_events() - Place EC events in queue to be read by userspace.
+- * @adev: Device the events came from.
++ * @dev: Device the events came from.
+  * @buf: Buffer of event data.
+  * @length: Length of event data buffer.
+  *
+@@ -209,9 +210,9 @@ struct event_device_data {
+  *
+  * Return: 0 on success or negative error code on failure.
+  */
+-static int enqueue_events(struct acpi_device *adev, const u8 *buf, u32 length)
++static int enqueue_events(struct device *dev, const u8 *buf, u32 length)
+ {
+-	struct event_device_data *dev_data = adev->driver_data;
++	struct event_device_data *dev_data = dev_get_drvdata(dev);
+ 	struct ec_event *event, *queue_event, *old_event;
+ 	size_t num_words, event_size;
+ 	u32 offset = 0;
+@@ -222,14 +223,14 @@ static int enqueue_events(struct acpi_device *adev, const u8 *buf, u32 length)
+ 		num_words = ec_event_num_words(event);
+ 		event_size = ec_event_size(event);
+ 		if (num_words > EC_ACPI_MAX_EVENT_WORDS) {
+-			dev_err(&adev->dev, "Too many event words: %zu > %d\n",
++			dev_err(dev, "Too many event words: %zu > %d\n",
+ 				num_words, EC_ACPI_MAX_EVENT_WORDS);
+ 			return -EOVERFLOW;
+ 		}
+ 
+ 		/* Ensure event does not overflow the available buffer */
+ 		if ((offset + event_size) > length) {
+-			dev_err(&adev->dev, "Event exceeds buffer: %zu > %d\n",
++			dev_err(dev, "Event exceeds buffer: %zu > %d\n",
+ 				offset + event_size, length);
+ 			return -EOVERFLOW;
+ 		}
+@@ -262,12 +263,13 @@ static int enqueue_events(struct acpi_device *adev, const u8 *buf, u32 length)
+ static void event_device_notify(acpi_handle handle, u32 value, void *data)
+ {
+ 	struct acpi_buffer event_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+-	struct acpi_device *adev = data;
++	struct device *dev = data;
++	struct acpi_device *adev = ACPI_COMPANION(dev);
+ 	union acpi_object *obj;
+ 	acpi_status status;
+ 
+ 	if (value != EC_ACPI_NOTIFY_EVENT) {
+-		dev_err(&adev->dev, "Invalid event: 0x%08x\n", value);
++		dev_err(dev, "Invalid event: 0x%08x\n", value);
+ 		return;
+ 	}
+ 
+@@ -275,31 +277,31 @@ static void event_device_notify(acpi_handle handle, u32 value, void *data)
+ 	status = acpi_evaluate_object(adev->handle, EC_ACPI_GET_EVENT,
+ 				      NULL, &event_buffer);
+ 	if (ACPI_FAILURE(status)) {
+-		dev_err(&adev->dev, "Error executing ACPI method %s()\n",
++		dev_err(dev, "Error executing ACPI method %s()\n",
+ 			EC_ACPI_GET_EVENT);
+ 		return;
+ 	}
+ 
+ 	obj = (union acpi_object *)event_buffer.pointer;
+ 	if (!obj) {
+-		dev_err(&adev->dev, "Nothing returned from %s()\n",
++		dev_err(dev, "Nothing returned from %s()\n",
+ 			EC_ACPI_GET_EVENT);
+ 		return;
+ 	}
+ 	if (obj->type != ACPI_TYPE_BUFFER) {
+-		dev_err(&adev->dev, "Invalid object returned from %s()\n",
++		dev_err(dev, "Invalid object returned from %s()\n",
+ 			EC_ACPI_GET_EVENT);
+ 		kfree(obj);
+ 		return;
+ 	}
+ 	if (obj->buffer.length < sizeof(struct ec_event)) {
+-		dev_err(&adev->dev, "Invalid buffer length %d from %s()\n",
++		dev_err(dev, "Invalid buffer length %d from %s()\n",
+ 			obj->buffer.length, EC_ACPI_GET_EVENT);
+ 		kfree(obj);
+ 		return;
+ 	}
+ 
+-	enqueue_events(adev, obj->buffer.pointer, obj->buffer.length);
++	enqueue_events(dev, obj->buffer.pointer, obj->buffer.length);
+ 	kfree(obj);
+ }
+ 
+@@ -434,8 +436,8 @@ static void hangup_device(struct event_device_data *dev_data)
+ }
+ 
+ /**
+- * event_device_add() - Callback when creating a new device.
+- * @adev: ACPI device that we will be receiving events from.
++ * event_device_probe() - Callback when creating a new device.
++ * @pdev: Platform device that we will be receiving events from.
+  *
+  * This finds a free minor number for the device, allocates and initializes
+  * some device data, and creates a new device and char dev node.
+@@ -447,7 +449,7 @@ static void hangup_device(struct event_device_data *dev_data)
+  *
+  * Return: 0 on success, negative error code on failure.
+  */
+-static int event_device_add(struct acpi_device *adev)
++static int event_device_probe(struct platform_device *pdev)
+ {
+ 	struct event_device_data *dev_data;
+ 	int error, minor;
+@@ -455,7 +457,7 @@ static int event_device_add(struct acpi_device *adev)
+ 	minor = ida_alloc_max(&event_ida, EVENT_MAX_DEV-1, GFP_KERNEL);
+ 	if (minor < 0) {
+ 		error = minor;
+-		dev_err(&adev->dev, "Failed to find minor number: %d\n", error);
++		dev_err(&pdev->dev, "Failed to find minor number: %d\n", error);
+ 		return error;
+ 	}
+ 
+@@ -466,7 +468,7 @@ static int event_device_add(struct acpi_device *adev)
+ 	}
+ 
+ 	/* Initialize the device data. */
+-	adev->driver_data = dev_data;
++	platform_set_drvdata(pdev, dev_data);
+ 	dev_data->events = event_queue_new(queue_size);
+ 	if (!dev_data->events) {
+ 		kfree(dev_data);
+@@ -492,8 +494,9 @@ static int event_device_add(struct acpi_device *adev)
+ 		goto free_dev_data;
+ 
+ 	/* Install an ACPI notify handler. */
+-	error = acpi_dev_install_notify_handler(adev, ACPI_DEVICE_NOTIFY,
+-						event_device_notify, adev);
++	error = acpi_dev_install_notify_handler(ACPI_COMPANION(&pdev->dev),
++						ACPI_DEVICE_NOTIFY,
++						event_device_notify, &pdev->dev);
+ 	if (error)
+ 		goto free_cdev;
+ 
+@@ -508,12 +511,12 @@ static int event_device_add(struct acpi_device *adev)
+ 	return error;
+ }
+ 
+-static void event_device_remove(struct acpi_device *adev)
++static void event_device_remove(struct platform_device *pdev)
+ {
+-	struct event_device_data *dev_data = adev->driver_data;
++	struct event_device_data *dev_data = platform_get_drvdata(pdev);
+ 
+-	acpi_dev_remove_notify_handler(adev, ACPI_DEVICE_NOTIFY,
+-				       event_device_notify);
++	acpi_dev_remove_notify_handler(ACPI_COMPANION(&pdev->dev),
++				       ACPI_DEVICE_NOTIFY, event_device_notify);
+ 	cdev_device_del(&dev_data->cdev, &dev_data->dev);
+ 	ida_free(&event_ida, MINOR(dev_data->dev.devt));
+ 	hangup_device(dev_data);
+@@ -525,13 +528,12 @@ static const struct acpi_device_id event_acpi_ids[] = {
+ };
+ MODULE_DEVICE_TABLE(acpi, event_acpi_ids);
+ 
+-static struct acpi_driver event_driver = {
+-	.name = DRV_NAME,
+-	.class = DRV_NAME,
+-	.ids = event_acpi_ids,
+-	.ops = {
+-		.add = event_device_add,
+-		.remove = event_device_remove,
++static struct platform_driver event_driver = {
++	.probe = event_device_probe,
++	.remove = event_device_remove,
++	.driver = {
++		.name = DRV_NAME,
++		.acpi_match_table = event_acpi_ids,
+ 	},
+ };
+ 
+@@ -554,7 +556,7 @@ static int __init event_module_init(void)
+ 	}
+ 	event_major = MAJOR(dev_num);
+ 
+-	ret = acpi_bus_register_driver(&event_driver);
++	ret = platform_driver_register(&event_driver);
+ 	if (ret < 0) {
+ 		pr_err(DRV_NAME ": Failed registering driver: %d\n", ret);
+ 		goto unregister_region;
+@@ -572,7 +574,7 @@ static int __init event_module_init(void)
+ 
+ static void __exit event_module_exit(void)
+ {
+-	acpi_bus_unregister_driver(&event_driver);
++	platform_driver_unregister(&event_driver);
+ 	unregister_chrdev_region(MKDEV(event_major, 0), EVENT_MAX_DEV);
+ 	class_unregister(&event_class);
+ 	ida_destroy(&event_ida);
+-- 
+2.51.0
+
+
+
+

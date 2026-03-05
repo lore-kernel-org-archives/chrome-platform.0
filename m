@@ -1,95 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A40E3CB2C6;
-	Thu,  5 Mar 2026 16:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6501FBCA7;
+	Thu,  5 Mar 2026 19:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772728532; cv=none; b=AVUtuq8s8Q+JVOv/eF0QJZE23aVdPMFteWThXKkct8YfL4hGAzkw38q2PVud3jtUEis2c5x1Ug8hOQph/xD7aUCyCSG857pmCWd+jYuQhIoCnaETSvaE3zzxIRsvslBSJ//FTv/8I8MFP0Unk1oLSlB1nJdY9c68qk8fch8AwTY=
+	t=1772740070; cv=none; b=n+vtlygm4GI8Yb4P3fFFIfvuvKnygoXFyhrbg9/SDg3J36P3NDLKtukJwxlWpiMvQ8Pr6oBYsxqG1SstZYqWCFkt+5c0LLs30SqDl5MVkp17UrfhxVgVYNORBRNFzl5A2qHbxrZ/b7dg5PVIhNIxxlM5tl+uW3Jqv5KwFJYg/S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772728532; c=relaxed/simple;
-	bh=A39dx8IgDbBDMWu+k5CnSsJrn8XahSFGo7Cfk/Z3zvs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fz+sczIjCgRi5bPWvNGWP6bwxgtF2KE4cRGkXKQGZMLI5OTecFhBiq4mwPFerenVtysLJhDEQLPcMaM0dXBtI+7U46k+m5wtyWoC3TgZgsC49driuzUAIe+oiiLktdAKXAGuMtgDoLHX2jXuKfDiR/TLEwkBtXyGmsU2CbhnBVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aceg6+Iz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772740070; c=relaxed/simple;
+	bh=8f8Och5LlB1/S5AD7hi0oOFLMTyjXfHfvW0l0WXrifc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OiDLwxxH9l9CGKhiUo48+BBDHreSm1yenfUqF8kWrD7mEgyuwqwUQ6lv0gp+d+487/1ANVQbW1tQIQ1KU7rwBUBElpxrRdVSpRDUGioOjFooFcxRT47NXLQWw2EShih+NYe1h188uH/qUfZYJqe+5+Gy0FOWbh1T4ZaIVRUQep8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pn8o7jM3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aceg6+Iz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57315C116C6;
-	Thu,  5 Mar 2026 16:35:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pn8o7jM3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4ED8C116C6;
+	Thu,  5 Mar 2026 19:47:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772728532;
-	bh=A39dx8IgDbBDMWu+k5CnSsJrn8XahSFGo7Cfk/Z3zvs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Aceg6+Iz3njUgOfKW5omTk5BcUkrtAp0bCZb0SJutzILFymJkQZdEuDiBISkHbnh2
-	 fkJAAQYEKaPIu28chz/bqCR44+biaeBHq8gd5lbpz8WMuYCCvVh91h/X1kUAysUwqg
-	 wvZT9XE5f8+OotS1HEQnmp6h62szxrhSSxvXEnsi49Bs9Np16nnTDQ19Rn73LFIwYU
-	 K31AmZdNalFeyUWpe68mip31wglG4Qoi2L4PkKxiYHhVdC0wp/AJtNkiWuKGeTUvhd
-	 /MFR9DqcoF3QSVBF9Y6GvD4WcdGn7RoDk8mXNsmJBTs8NvRJeakUWpt9o/dy0on15E
-	 JfYkv62iehIoQ==
-Date: Fri, 6 Mar 2026 00:35:29 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Aaron Burton <aaron@infinitelytimeless.tech>
-Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-Subject: Re: cros_ec_lpcs breaking sleep mode on HP Elite Dragonfly
-Message-ID: <aamw0RnurTAZeN9l@tzungbi-laptop>
-References: <1015ded1-c3f2-4b0d-92b8-15f413d1242b@infinitelytimeless.tech>
+	s=k20201202; t=1772740070;
+	bh=8f8Och5LlB1/S5AD7hi0oOFLMTyjXfHfvW0l0WXrifc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=pn8o7jM3KK41tIPB4HSR7/vfP/Zz+dET6BoBPDo5NP3TDWmmJnBgzYqwUH18wuCBB
+	 efgjMXzMxYbj8przJt2WHuzBqr9A061dl7R5dwvJw5Bm+uta2Az4Nz9jFhH+l39iuj
+	 WBtuaT719QfEIR8c+obLfm1aDFZjvgG48d82WGBySmpSp+BUw72DlyZQvYdRnY0F6w
+	 d77ogvLLw+YNqovfEPnoqk5rivwXlv8X4THUI85yoogUkQiyU8UbkgskqxHsEYb1dz
+	 +oYeUhwJ+68dP0fZxRlQgdAl2Lx/mgofjiiScj6V7OeE+p7vG5wrxCkxrAWfyUI8Mt
+	 L9XDnCmT8kCdQ==
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: chrome-platform@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+ Linux ACPI <linux-acpi@vger.kernel.org>, Benson Leung <bleung@chromium.org>,
+ Enric Balletbo i Serra <eballetbo@kernel.org>,
+ Ravi Chandra Sadineni <ravisadineni@chromium.org>
+Subject:
+ [PATCH v2 2/6] platform/chrome: chromeos_tbmc: Drop wakeup source on remove
+Date: Thu, 05 Mar 2026 20:47:03 +0100
+Message-ID: <6151957.MhkbZ0Pkbq@rafael.j.wysocki>
+Organization: Linux Kernel Development
+In-Reply-To: <6259948.lOV4Wx5bFT@rafael.j.wysocki>
+References: <6259948.lOV4Wx5bFT@rafael.j.wysocki>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1015ded1-c3f2-4b0d-92b8-15f413d1242b@infinitelytimeless.tech>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 03, 2026 at 07:15:03PM -0800, Aaron Burton wrote:
-> I'm reaching out in regards to an issue I've been trying to troubleshoot
-> running Fedora (6.18.13-200.fc43.x86_64) on a HP Elite Dragonfly Chromebook.
-> I'm aware this is not relevant to ChromeOS, but I was hoping maybe I could
-> get some insight on this sleep mode issue I've been experiencing. This
-> affects basically every Linux distro I've tested thus far, where if I put
-> this Chromebook to sleep, it will immediately wake up. dmesg output when
-> attempting sleep mode:
+From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 
-AFAIK, the EC drivers used in ChromeOS shouldn't diverge significantly from
-the upstream kernel.
+The wakeup source added by device_init_wakeup() in chromeos_tbmc_add()
+needs to be dropped during driver removal, so add a .remove() callback
+to the driver for this purpose.
 
-> 
-> 
-> [ 1478.853982] PM: suspend entry (s2idle)
-> [ 1478.876379] Filesystems sync: 0.022 seconds
-> [ 1478.877848] Freezing user space processes
-> [ 1478.885201] Freezing user space processes completed (elapsed 0.007
-> seconds)
-> [ 1478.885217] OOM killer disabled.
-> [ 1478.885220] Freezing remaining freezable tasks
-> [ 1478.886503] Freezing remaining freezable tasks completed (elapsed 0.001
-> seconds)
-> [ 1478.933986] PM: Some devices failed to suspend, or early wake event
-> detected
-> [ 1478.961519] PM: resume devices took 0.027 seconds
-> [ 1478.961978] OOM killer enabled.
-> [ 1478.961980] Restarting tasks: Starting
-> [ 1478.963295] Restarting tasks: Done
-> [ 1478.963339] random: crng reseeded on system resumption
-> [ 1478.965350] PM: suspend exit
-> 
-> I've tried troubleshooting via /proc/acpi/wakeup by disabling each device
-> enabled one by one, then eventually everything listed, and putting it to
-> sleep via systemctl suspend, the machine still wakes up instantly without
-> any user input. I eventually stumbled across what was causing the issue and
-> it's related to the cros_ec_lpcs kernel driver as unloading the driver
-> allowed it to sleep properly, though this also has unwanted side effects
-> like the power LED no longer working and some issues with USB-C ports. I'd
-> like to find a proper fix for this Chromebook EC in the kernel driver,
-> though I don't have much experience debugging low-level kernel drivers. I'd
-> be more than happy to provide any debugging data to try to fix this issue if
-> possible.
+Fixes: 0144c00ed86b ("platform/chrome: chromeos_tbmc: Report wake events")
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
 
-I'm not sure if this helps, but a few ideas:
-- You could increase the kernel log verbosity (e.g., print DEBUG level
-  messages) to identify exactly which device failed to suspend.  It's likely
-  one of the cros_ec_lpc subdevices.
-- Have you checked if there are any relevant logs from the EC side (e.g.,
-  via ectool)?
+v1 -> v2: Fixes the Fixes: tag (Tzung-Bi Shih)
+
+---
+ drivers/platform/chrome/chromeos_tbmc.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/platform/chrome/chromeos_tbmc.c b/drivers/platform/chrome/chromeos_tbmc.c
+index d1cf8f3463ce..e248567c0a18 100644
+--- a/drivers/platform/chrome/chromeos_tbmc.c
++++ b/drivers/platform/chrome/chromeos_tbmc.c
+@@ -95,6 +95,11 @@ static int chromeos_tbmc_add(struct acpi_device *adev)
+ 	return 0;
+ }
+ 
++static void chromeos_tbmc_remove(struct acpi_device *adev)
++{
++	device_init_wakeup(&adev->dev, false);
++}
++
+ static const struct acpi_device_id chromeos_tbmc_acpi_device_ids[] = {
+ 	{ ACPI_DRV_NAME, 0 },
+ 	{ }
+@@ -110,6 +115,7 @@ static struct acpi_driver chromeos_tbmc_driver = {
+ 	.ids = chromeos_tbmc_acpi_device_ids,
+ 	.ops = {
+ 		.add = chromeos_tbmc_add,
++		.remove = chromeos_tbmc_remove,
+ 		.notify = chromeos_tbmc_notify,
+ 	},
+ 	.drv.pm = &chromeos_tbmc_pm_ops,
+-- 
+2.51.0
+
+
+
+

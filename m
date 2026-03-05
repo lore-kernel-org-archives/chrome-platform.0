@@ -1,96 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D8E3A963B
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Mar 2026 15:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A40E3CB2C6;
+	Thu,  5 Mar 2026 16:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772725971; cv=none; b=FTM5bovhw2OdFRgliwFhClya1gsv4RnI+UmEe3iKLR3VSGPhSkCCCnTUlNe8NysBn5aFgDMH0GVGprWj8lLRH+Qxf4O4QudiPsHKe0y3iHO2k4rPP15WoxVuBMo98cZJuYh227GncYo920GOKHjaQbZFjQCVg4bFVX2mjsGhyAA=
+	t=1772728532; cv=none; b=AVUtuq8s8Q+JVOv/eF0QJZE23aVdPMFteWThXKkct8YfL4hGAzkw38q2PVud3jtUEis2c5x1Ug8hOQph/xD7aUCyCSG857pmCWd+jYuQhIoCnaETSvaE3zzxIRsvslBSJ//FTv/8I8MFP0Unk1oLSlB1nJdY9c68qk8fch8AwTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772725971; c=relaxed/simple;
-	bh=RcOj/M7Bi2O0mPxHl+rl9Aneerb42P1SL12sHOnu6fk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wn6heddA/vYwKxkmuMALf3Ic+VIkQ8SoSgfDe8J3K4npSXvJ7wvlcWpLaQFjK+b5vvjbaDynoROA/GuEQ4TCpA889n6VZSmhZMaHpe6QongGX2mlPIEvhGgAa64p5XodcZkckXWuix+WYl06gas3NYlL4JaoTno0f63YZZFc2Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SoJgVU6C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772728532; c=relaxed/simple;
+	bh=A39dx8IgDbBDMWu+k5CnSsJrn8XahSFGo7Cfk/Z3zvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fz+sczIjCgRi5bPWvNGWP6bwxgtF2KE4cRGkXKQGZMLI5OTecFhBiq4mwPFerenVtysLJhDEQLPcMaM0dXBtI+7U46k+m5wtyWoC3TgZgsC49driuzUAIe+oiiLktdAKXAGuMtgDoLHX2jXuKfDiR/TLEwkBtXyGmsU2CbhnBVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aceg6+Iz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SoJgVU6C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD0B0C2BCB1
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Mar 2026 15:52:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aceg6+Iz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57315C116C6;
+	Thu,  5 Mar 2026 16:35:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772725970;
-	bh=RcOj/M7Bi2O0mPxHl+rl9Aneerb42P1SL12sHOnu6fk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SoJgVU6CjfTRCtVnkbD3qMQdN/okZRxqk1iTHsvP5idR+vj7WYCr+9Q9jWoxx+qVP
-	 otTyLAy+43cm1RbNhJQk5xafDnCnZ5ivx7BgEpuR17aES9WUeKeMEzSO6ggmqyGPFs
-	 o8m8oqZ52cpp9mKHDZ/H/tBfpqa5Mg404kdMhnW7bNUNhHHhG1jOkZ5mD0URsBYNZS
-	 w5K9Rz0iF2pXwCCyFfcjHvMNKQVs8juMlfsrv1qLd1YtC9kEpagHxMSmoBtj+GhaiM
-	 VdXl0lXcEyR/mtUhj58bV4Trf1jpUrR1hNfHXAdA5bnnuaTVjTEFgXQw5VXDUAJvDM
-	 l2KIQCf1akM5Q==
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-40ed9a23aaeso1347268fac.1
-        for <chrome-platform@lists.linux.dev>; Thu, 05 Mar 2026 07:52:50 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUbciSN2r8rsiPEIJB4az4yWhkqDCapkqELxm1yrhWuUR8Sk7KWOmAbfM0mml30qE/H5J9vIqxQVpdvt/cLI0w=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx9ovJuAIlAfe/M6/37cG50EDGXsgOEYBpz4Hh+v6DWuog5ZLn4
-	YrQ3RBAk/OqWb1wBAg487NIkNoXh+19BaIuEIN59u3LP2BY4ba+VMNq8TusTwvhVjiNp/DRtInJ
-	IZ04DRbrwjU2Tv5mwKwv/6L+eAqw3nnk=
-X-Received: by 2002:a05:6870:8a27:b0:404:383f:56bb with SMTP id
- 586e51a60fabf-416abad36fbmr3120377fac.35.1772725969914; Thu, 05 Mar 2026
- 07:52:49 -0800 (PST)
+	s=k20201202; t=1772728532;
+	bh=A39dx8IgDbBDMWu+k5CnSsJrn8XahSFGo7Cfk/Z3zvs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Aceg6+Iz3njUgOfKW5omTk5BcUkrtAp0bCZb0SJutzILFymJkQZdEuDiBISkHbnh2
+	 fkJAAQYEKaPIu28chz/bqCR44+biaeBHq8gd5lbpz8WMuYCCvVh91h/X1kUAysUwqg
+	 wvZT9XE5f8+OotS1HEQnmp6h62szxrhSSxvXEnsi49Bs9Np16nnTDQ19Rn73LFIwYU
+	 K31AmZdNalFeyUWpe68mip31wglG4Qoi2L4PkKxiYHhVdC0wp/AJtNkiWuKGeTUvhd
+	 /MFR9DqcoF3QSVBF9Y6GvD4WcdGn7RoDk8mXNsmJBTs8NvRJeakUWpt9o/dy0on15E
+	 JfYkv62iehIoQ==
+Date: Fri, 6 Mar 2026 00:35:29 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Aaron Burton <aaron@infinitelytimeless.tech>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+Subject: Re: cros_ec_lpcs breaking sleep mode on HP Elite Dragonfly
+Message-ID: <aamw0RnurTAZeN9l@tzungbi-laptop>
+References: <1015ded1-c3f2-4b0d-92b8-15f413d1242b@infinitelytimeless.tech>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <2274474.Mh6RI2rZIc@rafael.j.wysocki> <2553054.jE0xQCEvom@rafael.j.wysocki>
- <aamgGkgfFh-cQNfF@tzungbi-laptop> <CAJZ5v0jYk+RQu5RKUUh4caUE9vPQDgK1ss8B+=-HfPLZP6RsyQ@mail.gmail.com>
- <aammMeX3M83JZr6U@tzungbi-laptop>
-In-Reply-To: <aammMeX3M83JZr6U@tzungbi-laptop>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 5 Mar 2026 16:52:38 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jyp-sDTeM2sSYxocH23U6sXkUsQ9ROCu0aWABv8UoxMQ@mail.gmail.com>
-X-Gm-Features: AaiRm53pwBPvGJtM15fitb6rGcKT-IpUm1vGA7GqBjAHaxiTP10Q4LJsWkc5J5E
-Message-ID: <CAJZ5v0jyp-sDTeM2sSYxocH23U6sXkUsQ9ROCu0aWABv8UoxMQ@mail.gmail.com>
-Subject: Re: [PATCH v1 4/6] platform/chrome: chromeos_tbmc: Convert to a
- platform driver
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, chrome-platform@lists.linux.dev, 
-	LKML <linux-kernel@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Enric Balletbo i Serra <eballetbo@kernel.org>, 
-	Ravi Chandra Sadineni <ravisadineni@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1015ded1-c3f2-4b0d-92b8-15f413d1242b@infinitelytimeless.tech>
 
-On Thu, Mar 5, 2026 at 4:50=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> w=
-rote:
->
-> On Thu, Mar 05, 2026 at 04:34:26PM +0100, Rafael J. Wysocki wrote:
-> > On Thu, Mar 5, 2026 at 4:29=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.or=
-g> wrote:
-> > >
-> > > On Wed, Mar 04, 2026 at 07:44:26PM +0100, Rafael J. Wysocki wrote:
-> > > >  static void chromeos_tbmc_notify(acpi_handle handle, u32 event, vo=
-id *data)
-> > > >  {
-> > > > -     struct acpi_device *adev =3D data;
-> > > > +     struct device *dev =3D data;
-> > > > +     struct acpi_device *adev =3D ACPI_COMPANION(dev);
-> > > >
-> > > >       acpi_pm_wakeup_event(&adev->dev);
-> > >                              ^^^^^^^^^^
-> > > If I understand it correctly, I think this should also be changed to =
-`dev`?
-> >
-> > Yes, it should.
-> >
-> > Essentially, this needs to be the same device for which
-> > device_init_wakeup() has been called.
-> >
-> > Sorry for missing this.
-> >
-> > Do I need to resend the series with this fixes or would it be
-> > sufficient to send a v2 of this particular patch?
->
-> Please resend the series as v2, addressing the fix and the minor fix in
-> patch [2/6].
+On Tue, Mar 03, 2026 at 07:15:03PM -0800, Aaron Burton wrote:
+> I'm reaching out in regards to an issue I've been trying to troubleshoot
+> running Fedora (6.18.13-200.fc43.x86_64) on a HP Elite Dragonfly Chromebook.
+> I'm aware this is not relevant to ChromeOS, but I was hoping maybe I could
+> get some insight on this sleep mode issue I've been experiencing. This
+> affects basically every Linux distro I've tested thus far, where if I put
+> this Chromebook to sleep, it will immediately wake up. dmesg output when
+> attempting sleep mode:
 
-I will, thanks!
+AFAIK, the EC drivers used in ChromeOS shouldn't diverge significantly from
+the upstream kernel.
+
+> 
+> 
+> [ 1478.853982] PM: suspend entry (s2idle)
+> [ 1478.876379] Filesystems sync: 0.022 seconds
+> [ 1478.877848] Freezing user space processes
+> [ 1478.885201] Freezing user space processes completed (elapsed 0.007
+> seconds)
+> [ 1478.885217] OOM killer disabled.
+> [ 1478.885220] Freezing remaining freezable tasks
+> [ 1478.886503] Freezing remaining freezable tasks completed (elapsed 0.001
+> seconds)
+> [ 1478.933986] PM: Some devices failed to suspend, or early wake event
+> detected
+> [ 1478.961519] PM: resume devices took 0.027 seconds
+> [ 1478.961978] OOM killer enabled.
+> [ 1478.961980] Restarting tasks: Starting
+> [ 1478.963295] Restarting tasks: Done
+> [ 1478.963339] random: crng reseeded on system resumption
+> [ 1478.965350] PM: suspend exit
+> 
+> I've tried troubleshooting via /proc/acpi/wakeup by disabling each device
+> enabled one by one, then eventually everything listed, and putting it to
+> sleep via systemctl suspend, the machine still wakes up instantly without
+> any user input. I eventually stumbled across what was causing the issue and
+> it's related to the cros_ec_lpcs kernel driver as unloading the driver
+> allowed it to sleep properly, though this also has unwanted side effects
+> like the power LED no longer working and some issues with USB-C ports. I'd
+> like to find a proper fix for this Chromebook EC in the kernel driver,
+> though I don't have much experience debugging low-level kernel drivers. I'd
+> be more than happy to provide any debugging data to try to fix this issue if
+> possible.
+
+I'm not sure if this helps, but a few ideas:
+- You could increase the kernel log verbosity (e.g., print DEBUG level
+  messages) to identify exactly which device failed to suspend.  It's likely
+  one of the cros_ec_lpc subdevices.
+- Have you checked if there are any relevant logs from the EC side (e.g.,
+  via ectool)?

@@ -1,85 +1,87 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34A817A309
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Mar 2026 21:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5056535E958
+	for <chrome-platform@lists.linux.dev>; Thu,  5 Mar 2026 21:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772747177; cv=none; b=WL6wr/w8tNsFjCnFoE0WIPteT6M6bVq8K5VOshFqgimurY2Afd8G3ax49OLnJ2vIAGb7B5Qo2iZbwtWLXaIKlWykS4+JgFZ3WZgaeDohPjgBu+3EgnuOLw7xDxBsArXFFruZwOFz2kC5wLQbLPgYUuB0zRW0gB+XlOZXcTP0Ewo=
+	t=1772747180; cv=none; b=pEFoEDRNrkK1k+AvehK+T6FYKPf3iTDxO5qe5gbCKufsr1+iPmSCGj/SBkk6mrzJ8nPjjZfttyUb3ap69XO3e6gN7Otur0iGaqKbgbPvqQdQjGEkjiKt4nB0mSVMO0p6tPjrQyrs4bDo8R94RCaWsFsxCHlov2R8OO6bVP4WbWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772747177; c=relaxed/simple;
-	bh=97oQa5AwjxFqQNenF0OHDjBYeqUlG3QZw9SpgqUFg/A=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Twjj0tUJdcOLYp6HSDeZsjwMa+rPMU1IuFJy0hqXq/cjy3F2jPOcdmuDiY59mOLNVfy/iVIsT66BEqjKKSSL6Oj0BWPlqMaCb/EXhUKHCV+dfp8zt4bOOvLjxG1C+JyaM7fBTFeze9tk8rFXrx+060rvpqEsiXjd12U88bCeFSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hmyWobAZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XsWLmbzs; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1772747180; c=relaxed/simple;
+	bh=iyX0qmfaG81Rj41H7X2QPhit2JQzbYOp/KdP09pUD9I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=cJqbOA9r1hhNJRwJje4namTGjl/bcwwRMdFNePL31KPwEr1Sxuj0iphM6SGPABgbtlhKJVkJUFxQrkqW+n2rjrQKqp0iEpOapjlqc8OLJVXcleRMKfvKokrx0un7mNQTZCQ4mx5EbrCRGbg1M1VRMen190F2/0GQAjB23OJGYAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nNchSM+9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZaEYaoHb; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hmyWobAZ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XsWLmbzs"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 625KmVwr3136462
-	for <chrome-platform@lists.linux.dev>; Thu, 5 Mar 2026 21:46:15 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nNchSM+9";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZaEYaoHb"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 625Kmat71809332
+	for <chrome-platform@lists.linux.dev>; Thu, 5 Mar 2026 21:46:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=aB/qAvAOoxaYoPHOVqo1Lu
-	xW1bKORstF3vnraKsztao=; b=hmyWobAZWCng67anBwjrdkpCiiJKDGm4+8AGJW
-	HAs/GpY604tzpYZzSSGi8fBcsyUux9Y0TM1Jj45Y5UbASVkd7wSKZ9HgParcwsgl
-	7aTjFNtjiDogZGpPpaaSO2u4Y+AYob9kAR1rbNKVuoHPBRL4wEuOZY73I/elXT1/
-	68GdSedWfLo11zCR8nnmW781X/UZRaL/wGmARIkiV31omtZLyIM3wBhQAKjiCTRN
-	nujZ+jcQlLeuFeATf2+Xp+84QtjJLVBBdncDMYKzfna7j8Y+LDzUoEDmjrkmKRRo
-	Vo5hC9nRfjlTo60Y1kO02bvehZ/+xDnPEog1IqAjlxW/ZkSg==
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	w6k8+DCPmvVS0VzBd1DlzrWskZqznfWtGoXnFeE7JRQ=; b=nNchSM+9zrXqc//l
+	I9qvK5eJ8PrIe7ZtPyZPSreumwlr6NNn12k4VvWKWATdQJ4gO08lvE92ccQotyKu
+	/4GTyvQeyB6iFe2Kwb5j+IkAo93aq/k5Puobc1IH9/BIPzqkh0sT9EpwSc26y6It
+	3cl+xfxtYfsfXnFo/SdQNO5bsRVzEyGXMElogOpQo4IAjqmKqrx4IY/ZjUrqC2K2
+	xnpBmMq48g6kdDpE1HfWyqI6JH9/w94Qyd3cRgjJs5qfQL5+UwlOY2qIZQ4kh26O
+	V33uBXs1pbuT5oDwZuk91ZQ2XXwxR/cvm0GcZNXP9bpB06v/cLCwKZBYsGsw5mut
+	cDvlsw==
 Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cq1pk3hve-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqgp407mr-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <chrome-platform@lists.linux.dev>; Thu, 05 Mar 2026 21:46:14 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8c70ef98116so5768456685a.1
-        for <chrome-platform@lists.linux.dev>; Thu, 05 Mar 2026 13:46:14 -0800 (PST)
+	for <chrome-platform@lists.linux.dev>; Thu, 05 Mar 2026 21:46:17 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8cb37db8b79so6179409485a.3
+        for <chrome-platform@lists.linux.dev>; Thu, 05 Mar 2026 13:46:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772747174; x=1773351974; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aB/qAvAOoxaYoPHOVqo1LuxW1bKORstF3vnraKsztao=;
-        b=XsWLmbzsVu47qZXsECyGhgQW2VGMBhhbf62TYlJynYt+8Dq38+si3SZzwG24XW7VQP
-         t+K9S2OZrlAUW979jvAQ3zM8G6fE3cmIwUPmdhbPy+pE6XOvzY54pzm/lDk/BZVFEQ3M
-         LSWYTdolDlXjrr92tVicvuWN1TnLc064KaesbRsUjvDsa3nVWdXHNQjSXdFJw8iJ/qI/
-         H7SCGTZazdmUaBTYr8Jg1TdW2zgzMwYtLjXgvnavGXVmnDrsZ4WIXIE94zJtO0daBI9R
-         /DNVsUNTw1HU1j0SWocoDtIeZGEFGPEKo+4KRXaXksNhdRVNmUDSoenLuiagzA9fjJun
-         dVgA==
+        d=oss.qualcomm.com; s=google; t=1772747177; x=1773351977; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w6k8+DCPmvVS0VzBd1DlzrWskZqznfWtGoXnFeE7JRQ=;
+        b=ZaEYaoHbSIEQtUDqIxfvCm9A9ArEItOCEr48p+7BtzXTxJZOvc17qJ4fz7aAEj5wXO
+         OoBr+KfG/pByLYDNhtUhdrFO6Dib3H5HQlmilVhjTpNeCYHjenoAiyJBtlx2u2AfDTUs
+         7s9Cgk/ZtoQYSGZ49GW3GBpGk89ieSffzolCOFMLCawkccP39dZyHGSkk1+RMkMu74V5
+         ZxFyeCu1+lQyZlB+qWyzSVZcOLSAw14SWR8B1FmSk5bLUqZx8GP2rhHd1xYokyOj/U4q
+         CYn8wYHIX10LXBVp5EVgE8naFInrBNN2agdiinKZrF3a/7pUFTYeQAuQ4Nw+Nkplmc45
+         p96g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772747174; x=1773351974;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aB/qAvAOoxaYoPHOVqo1LuxW1bKORstF3vnraKsztao=;
-        b=S5snU4oph9kcz35Bk8xCwdDfv32hEjFywnZnvezb2kQ6WY8Sv05Ej2uUFZa5kwNjsU
-         4hur2yiIUBjdGYoju2brOzTQt2ogyeQKJd/HS8+u/m0pas/D9/vaaVJF1k6Ox1F90BPO
-         H4Wi24x8QtQUrAnJW1x80rGemCSA3A323ovmNRnMGfeeDowaru9+jLeM/1iiQHxsRPAk
-         LZALVJ+TyBckXkw8UKKM6M6icGl11r0NIpVQ2E2Fcw2IvBaRES7Swk2mSFou4grJjgRd
-         Y3LoRJ73LNzg7n8i9FBlYiJf/uH5nFfZ6tq/p3YphZ+4GqlLThfhNE+AaQdbDb7ZOAVn
-         w7hA==
-X-Forwarded-Encrypted: i=1; AJvYcCUvx4JbjsFrqKaZO+zq4OvhCVRtLQLFcgHnXdqUMNkINsXKM+fHAKaGyOr4cnw/ey1tAOptWFZC4lc6+8rMO80=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQG6GlwFMUNAGClZo5l0Y4R0+MveSG1JrUjUzNmSKlbvlMSIpS
-	n8uECkDFEfp9T2VcxsNVBGvfj2hUpWybjQHOGNKvxWNpzT332unYJyBAT645j0hNlNgqvErzaPU
-	rODmUCfdyFBwqo//20kv08AGdJwadmDPSqBn2IC/Y/p/HCYYHLbvRvCmq67b+Bpov82e8gdM=
-X-Gm-Gg: ATEYQzxg4Ue6gSUJ6S2kDreqj+5pGJ2SVgJBME4Mo0ZSaZzXBFOrdMmiOheheKtv4Kz
-	od3krrPBDDhgjCgfK+1pydk9UCp1RfEWnnrFki7P4jo4jklF1pCvVEksAAhJV6nPN0VuDFUV8kG
-	g0wleWTKeOxetvt+LILOM/DYKBR3LvA5eRIzjL2foyEEyoZ8q7TNfCwSbVzmrq7KXpTfCqG1zxO
-	BiWJpqTPZq1Y3KhdxUItR2CcXJ7QsIECDj0sUpKFElPeOJTnloCk/VoLXx8LWmiy68vqmH2w8QY
-	KMGWhZAbLg9inO9594a1uGvNRWCrt+G2Wih/yWEVqI81poxB32BuG0FXGHU8AM4OHEwp/jKHe5y
-	248N3t+z5at0EtK9ZzQ7ef89/1ir2I5JSUHJGduxSaXuR
-X-Received: by 2002:a05:620a:f0b:b0:8ca:3c67:8920 with SMTP id af79cd13be357-8cd6d515328mr507385a.69.1772747174131;
-        Thu, 05 Mar 2026 13:46:14 -0800 (PST)
-X-Received: by 2002:a05:620a:f0b:b0:8ca:3c67:8920 with SMTP id af79cd13be357-8cd6d515328mr504085a.69.1772747173657;
-        Thu, 05 Mar 2026 13:46:13 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772747177; x=1773351977;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=w6k8+DCPmvVS0VzBd1DlzrWskZqznfWtGoXnFeE7JRQ=;
+        b=SIWpukbwfbDqGqSl9mqqXmBet6W3QmJ8HBAzIJP82zgbMtPZ5acbtP9b3yGJiB+0L2
+         RbZG6W11OPyT+kvGMkg+qXDqEL8y+Lrg1B4FMDX74BmFsYOw9vPNhfZJIZefDvO7cMLc
+         /e/RL1As8vtja1yENXkGgaOBGfVq7T+Gr6fNyLHZtU8gOBUVSg9U/k2NL7yu9P60RyiY
+         qM5v98svJbx4MvgdLJ+WuoXk27hxRkzZ8r3Od/1eAghtqpnZg5gMcTWitiQBQVypHTj0
+         HVjAccoGWDEmJRm1kalA8qDxqLbMg85/oD46jR4PY8vqqXYU+in9IYiaPYwCiyZNGPwR
+         GRAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUNmiRbyt1T9KA/IYgPo/p1DQJz4LH9U0WL4HORSnritKSSK75vFJBb4i+hzvhLXZIcEid7pm8wlJm7lJ9/J8w=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrdkFGj/R/55QBV6MjnoaXuYkY3XWuWFVANUbKJc9g6eLzhRmE
+	m+8O9XCrcSpGFtu9rqDmpIn4//eWXUCzBrZUOvmBXLVux36m/Af3UmpPQ4vR9y1oT8fIN8e9TDU
+	pvKpXYRcAmAAGWI/mO4A5TFYKR8JCO6YqvA47J5hrgyeYbg9A0fegNFtIDt2lzQWE+/5opQQ=
+X-Gm-Gg: ATEYQzwW/f1YNyfdxHI0+HVpNPnNnUb8rSviHjOzYBvSMrSWXUFFVxM2wYgsw1Kee6V
+	qhJqTo9hrSihcoqr55vE9ri0cxdiW/ZJOmE9r+lwaJI5zHD/USINLGYlJu75wmJzDpQseo9QMK+
+	H7leMlFZLW6TsLIaGjG5j1z6xQCXT9j3IAR4tF9JDJY0R/1FyCteh/2EGknaqq6Ayi7PfG7uQ53
+	vuan4PJDpD7EuRnmodDGTzAc+JwJXb6gh46O8Bx3dEwdzH9kxHF5hf2YkO/b13kLp7QySxA95BU
+	25QsmMZlr3w3iIY1Aidncq+VCJ8qI2bTxnYNx/NITrBZWg/3VtzrNJCOyGAdCFyXDajGn1fLcGt
+	DZ9nzHp/bdhqA/A53aTtVNAi54shPAQUuCOc6TxxaPvjs
+X-Received: by 2002:a05:620a:4688:b0:8ca:d5cb:6839 with SMTP id af79cd13be357-8cd6d4eb0b2mr852685a.65.1772747176617;
+        Thu, 05 Mar 2026 13:46:16 -0800 (PST)
+X-Received: by 2002:a05:620a:4688:b0:8ca:d5cb:6839 with SMTP id af79cd13be357-8cd6d4eb0b2mr849485a.65.1772747176172;
+        Thu, 05 Mar 2026 13:46:16 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.219.94])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439ba2a58dasm28571575f8f.27.2026.03.05.13.46.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439ba2a58dasm28571575f8f.27.2026.03.05.13.46.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 13:46:12 -0800 (PST)
+        Thu, 05 Mar 2026 13:46:15 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v2 00/10] workqueue / drivers: Add device-managed allocate
+Date: Thu, 05 Mar 2026 22:45:40 +0100
+Subject: [PATCH v2 01/10] workqueue: devres: Add device-managed allocate
  workqueue
-Date: Thu, 05 Mar 2026 22:45:39 +0100
-Message-Id: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -88,11 +90,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIT5qWkC/13Myw6CMBCF4Vchs3bItKRcXPkehgWXURqFQitVQ
- /ruVhI3bib5JznfBo6tZgfHZAPLXjttphjykEA3NNOVUfexQZLMSUrCp7G3ZeWVsWc/Yl+pSrD
- igriFOJotX/RrB8917EG7h7Hv3ffi+/1R2T/lBRIKarMmp7JQZX4yzqXL2tw7M45pPFCHED6ua
- GndswAAAA==
-X-Change-ID: 20260220-workqueue-devm-d9591e5e70eb
+Message-Id: <20260305-workqueue-devm-v2-1-66a38741c652@oss.qualcomm.com>
+References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -112,120 +112,196 @@ Cc: Matti Vaittinen <mazziesaccount@gmail.com>, driver-core@lists.linux.dev,
         Sebastian Reichel <sebastian.reichel@collabora.com>,
         linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        stable@vger.kernel.org
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3030;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5216;
  i=krzysztof.kozlowski@oss.qualcomm.com; h=from:subject:message-id;
- bh=97oQa5AwjxFqQNenF0OHDjBYeqUlG3QZw9SpgqUFg/A=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpqfmYRxyzCwJtuMtPcmgwwLLBsg2Fv+yT512eQ
- cjU6/+PRz+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaan5mAAKCRDBN2bmhouD
- 1yMdD/0Rzss9RkGRF5nKqvTWC/cgAO+EIzsrFPQrQxvOIyduZBpdUjVFhj4xpZwybjIg8hJkNWW
- xK4MLqpSkM3FPPTnPvx7URqpkHMVFAzZpYFTxJCJaEg2QNz883y7WzgF3wPnB3nTAZGTD6SkHiw
- 7qtwhrzLR9KZ2RcmBf4P+zbHd6MvF/NjWgpbHf6/JHoSHF3D7e8fX1iWFI2fcYFTuoMLAXE0kD0
- DIJlbme/ltg9kAdbOfpnduvC0zZJ9DenyqGciETdu4u3+pyFeaL6kqJ+ncBGCmHcPyzVi10eaI5
- 1dNEaW7ewsE+9TQWQzObBBWmOjRQMHGxEdeZJeToxploMKivPdWsBXLsBA/1EqqMTztOp4L0SaH
- urVc6BYdSEDLI/M5jCBPYAga+DVAfmKi2usRylz7oQm4fKCHHnfFty7UHSZPRkCNWPLcfdbKzUO
- 5APGiClU7Lywgs35JbsNVrQ/bbXCjr+OyH2GoywqdFYNVQCmWzPbC/jdoEUPIIxI30hwJh8zG6B
- AM/3gg2VMporqUwUGLbaU2n5xY9zqlaJp+XsX9ghJgrZ0s5KuNb1zKhcVBFvwBgu9BObHEqMWh2
- xZ6pVDucGWY+fjqjq9elSwZ62SlrH5fyl+6CUcVJB2JSFwyaGA933iHQU0q2rvQlDwbd4FJ/ElD
- F32GZygtedFkMRQ==
+ bh=iyX0qmfaG81Rj41H7X2QPhit2JQzbYOp/KdP09pUD9I=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpqfmZqlqPt/O4g+aJVCPVwYCdNiMJivVoKJNv+
+ nfTlOEuLkCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaan5mQAKCRDBN2bmhouD
+ 12BuEACE9UGRO8qQNKFX1PzUCZ/Fq7vepWE4JCBJk0nfeFyl0KogKdTFRFTSJsUiy3dJS0tzFJW
+ 7WNmnOlxd7SbvQyXqVrx+RdQC5wbgOlI+Sol+ecKeyExdYtDYLCU6Owm28wDGtgEkTE9mJfiM9o
+ mUyXPEsHEcoqBmimZTT+FwLmUGknfHEglow4Am76QGjLX7IsZ3LhKVzM7Rj5iFP939x9p3Fk11w
+ b+DQjHaOHIrzD9Wa5iyoaD5SyIhn2ixaHFTdqx+km8ivIAkp2A0vJTGfQAcmeqXOmlcJSzg3fSv
+ yBMQ5Xz30FMatrz/Zrj9+z3clMPhYokj8lrGHYK0+YKKKrfu6VJaN9XKe9p1JJpWLxQ7M1cWPyt
+ rMMSWtOdvNnAqcUcfCchdEQeCIz4WkpMrfcQv/qQcaLUAyED27AZRfrVc+YMK0f3FZz8q4bzJMk
+ hqqq995Ee3ptNIv/y1mnunKPueHyuf8L7BiWhF6YA7c4fth+txTnuvKup5geymqojDZqRmq2WK7
+ H7jl8/lUbJeUYr4tXJpgcnKQOwns3MJFViLP5yUd38U6Wq0fz/CcCbhh5hF4ga3EPuYgPZjILVl
+ fkIsr48Wel9gwyvGlG14kKHUQ4hQe95Gr7l3enhfn4+YMk73kivz3PW3tYXfn3xR7L4J5bS1n+d
+ uBhhIvG9s2KLDyA==
 X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-X-Proofpoint-ORIG-GUID: IaLvp7usMXs6pGgxcWUMgNDmiaC1BZFc
-X-Authority-Analysis: v=2.4 cv=Gu9PO01C c=1 sm=1 tr=0 ts=69a9f9a6 cx=c_pps
+X-Proofpoint-ORIG-GUID: uv4XAEphj4gm_MzgEkxEv5qfQZwHKyDc
+X-Authority-Analysis: v=2.4 cv=LegxKzfi c=1 sm=1 tr=0 ts=69a9f9a9 cx=c_pps
  a=HLyN3IcIa5EE8TELMZ618Q==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
  a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=bC-a23v3AAAA:8 a=EUspDBNiAAAA:8 a=5RJr-VCCejNB9LTRrg8A:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=FO4_E8m0qiDe52t0p3_H:22
-X-Proofpoint-GUID: IaLvp7usMXs6pGgxcWUMgNDmiaC1BZFc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDE4NSBTYWx0ZWRfXwrlSEUjmJJdJ
- qNyx3u63XqeWlWmgEnPeZG/tIEAiqCh9jiZmYVavgbqDAb+TwVo3THM++DzqPymkXzdkzAveajS
- Wop94drit3Fk34B2mWGQDap2KWbRwOziVANkj+LAL5IN0K3i8lZO0ZLk51pEIMYqdAJFNABoU0d
- KAbaiHwy9r10KinYGJFXcVX4U5jdQvzhAxRtzzRIRy8E48g8TX9cX4iPXJWbzSSFHQ/P+9bj7Fb
- hRxeUDIhCVP5K5ydmnGfB6UrBwr1zhDormjhqz10YzCw8d69kwyKKYs4zYi5TvMQSmkbqkPi2EW
- CwAZTJtiCN4rku5zjXWRUALtWrIq0f9krb+MOMlFB8Ucbry0wGuPEO8DMlkT4E49JfRBelZOowh
- X48Sg1DdgkFdCDEHpacX+NWZQ8mSNmViokWl+JjLVAcF6rKelrsFARKbYkhGJOOhEb0Ldzrx933
- asIyFiRN0PHRlc60VFA==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=7xz5_SZBKAcHatMQKAYA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDE4NSBTYWx0ZWRfX7GmfrtgSXiIG
+ eswKPKI9IT/zqic0ynAfRnUnyowfGcGo/NueQkyrN2UfabFY7BXkGEMAQ2G5rNwIdU8qJLaxPMC
+ qXXOjWF2tS+AIj5Y4XfNUX9wSTD22Uh82VbL1l3jutnpHx6AT5Us/PlabvwNvddeXFeibLAmRIw
+ sDU5L+vdtyB8ceEfi+asmLBKwCiFEcta8KBMRii8/UbyMALqgeu5uiUhLK4KH378st6bz2/Sbwz
+ o5MuvENyp24p8+RWnuGbGlgSpJkcIBbg4Nb4n7YYayLP/yl/zctguieNJw5IRO6mNIo0tgJ/LKK
+ 70keJzt5Qn4fAUutX+JEQXIXUL3datDPRMTFXi7L0tQ6F3glPvAFVAJq4DlwUtjzB3+OgdT3VV1
+ nT/+9rKdF/998RY747jW9vpZczBYL6urfVJ5KZfek3QXdgmY95YBdzMutPh/QxKPY2A4IPKXyfj
+ 62sQvzR1BoUDPiEHZsA==
+X-Proofpoint-GUID: uv4XAEphj4gm_MzgEkxEv5qfQZwHKyDc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-05_06,2026-03-04_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0 adultscore=0
- impostorscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 malwarescore=0
+ clxscore=1015 impostorscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 bulkscore=0 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050185
 
-Merging / Dependency
-====================
-All further patches depend on the first one, thus this probably should
-go via one tree, e.g. power supply.  The first patch might be needed for
-other trees as well, e.g. if more drivers are discovered, so the best if
-it is on dedicated branch in case it has to be shared.
-
-Changes in v2:
-==============
-- See individual patches
-- Link to v1: https://patch.msgid.link/20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com
-
-Description
-===========
 Add a Resource-managed version of alloc_workqueue() to fix common
 problem of drivers mixing devm() calls with destroy_workqueue.  Such
 naive and discouraged driver approach leads to difficult to debug bugs
 when the driver:
 
 1. Allocates workqueue in standard way and destroys it in driver
-remove() callback,
+   remove() callback,
 2. Sets work struct with devm_work_autocancel(),
 3. Registers interrupt handler with devm_request_threaded_irq().
 
 Which leads to following unbind/removal path:
 
 1. destroy_workqueue() via driver remove(),
-Any interrupt coming now would still execute the interrupt handler,
-which queues work on destroyed workqueue.
+   Any interrupt coming now would still execute the interrupt handler,
+   which queues work on destroyed workqueue.
 2. devm_irq_release(),
 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
 
 devm_alloc_workqueue() has two benefits:
 1. Solves above problem of mix-and-match devres and non-devres code in
-driver,
+   driver,
 2. Simplify any sane drivers which were correctly using
-alloc_workqueue() + devm_add_action_or_reset().
+   alloc_workqueue() + devm_add_action_or_reset().
 
-Best regards,
-Krzysztof
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 ---
-Krzysztof Kozlowski (10):
-      workqueue: devres: Add device-managed allocate workqueue
-      power: supply: cw2015: Free allocated workqueue
-      power: supply: max77705: Drop duplicated IRQ error message
-      power: supply: max77705: Free allocated workqueue and fix removal order
-      power: supply: mt6370: Simplify with devm_alloc_ordered_workqueue()
-      power: supply: ipaq_micro: Simplify with devm
-      mfd: ezx-pcap: Drop memory allocation error message
-      mfd: ezx-pcap: Return directly instead of empty gotos
-      mfd: ezx-pcap: Avoid rescheduling after destroying workqueue
-      platform/chrome: cros_usbpd_logger: Simplify with devm
 
- Documentation/driver-api/driver-model/devres.rst |  4 ++
- drivers/mfd/ezx-pcap.c                           | 27 +++++--------
- drivers/platform/chrome/cros_usbpd_logger.c      | 18 ++++-----
- drivers/power/supply/cw2015_battery.c            |  3 +-
- drivers/power/supply/ipaq_micro_battery.c        | 50 ++++++++----------------
- drivers/power/supply/max77705_charger.c          | 36 ++++++-----------
- drivers/power/supply/mt6370-charger.c            | 13 +-----
- include/linux/workqueue.h                        | 22 +++++++++++
- kernel/workqueue.c                               | 28 +++++++++++++
- 9 files changed, 100 insertions(+), 101 deletions(-)
+All further patches depend on this one.
+
+Changes in v2:
+1. Drop devm_create_workqueue(), devm_create_freezable_workqueue() and
+   devm_create_singlethread_workqueue()
+
+2. Simplify with devm_add_action_or_reset()
+
+3. Do not export devm_destroy_workqueue()
+
+4. I did not move the declarations to devm-helpers.h because consensus
+   was not reached and I think it would not be accurate place. The main
+   alloc_workqueue() is here, so should be the devm- interface.
 ---
-base-commit: 9739e59909e70058fab7a131d7bee60d447ab732
-change-id: 20260220-workqueue-devm-d9591e5e70eb
+ Documentation/driver-api/driver-model/devres.rst |  4 ++++
+ include/linux/workqueue.h                        | 22 +++++++++++++++++++
+ kernel/workqueue.c                               | 28 ++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+)
 
-Best regards,
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index 7d2b897d66fa..017fb155a5bc 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -464,3 +464,7 @@ SPI
+ 
+ WATCHDOG
+   devm_watchdog_register_device()
++
++WORKQUEUE
++  devm_alloc_workqueue()
++  devm_alloc_ordered_workqueue()
+diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
+index fc5744402a66..66a94c171b0b 100644
+--- a/include/linux/workqueue.h
++++ b/include/linux/workqueue.h
+@@ -512,6 +512,26 @@ __printf(1, 4) struct workqueue_struct *
+ alloc_workqueue_noprof(const char *fmt, unsigned int flags, int max_active, ...);
+ #define alloc_workqueue(...)	alloc_hooks(alloc_workqueue_noprof(__VA_ARGS__))
+ 
++/**
++ * devm_alloc_workqueue - Resource-managed allocate a workqueue
++ * @dev: Device to allocate workqueue for
++ * @fmt: printf format for the name of the workqueue
++ * @flags: WQ_* flags
++ * @max_active: max in-flight work items, 0 for default
++ * @...: args for @fmt
++ *
++ * Resource managed workqueue, see alloc_workqueue() for details.
++ *
++ * The workqueue will be automatically destroyed on driver detach.  Typically
++ * this should be used in drivers already relying on devm interafaces.
++ *
++ * RETURNS:
++ * Pointer to the allocated workqueue on success, %NULL on failure.
++ */
++__printf(2, 5) struct workqueue_struct *
++devm_alloc_workqueue(struct device *dev, const char *fmt, unsigned int flags,
++		     int max_active, ...);
++
+ #ifdef CONFIG_LOCKDEP
+ /**
+  * alloc_workqueue_lockdep_map - allocate a workqueue with user-defined lockdep_map
+@@ -568,6 +588,8 @@ alloc_workqueue_lockdep_map(const char *fmt, unsigned int flags, int max_active,
+  */
+ #define alloc_ordered_workqueue(fmt, flags, args...)			\
+ 	alloc_workqueue(fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args)
++#define devm_alloc_ordered_workqueue(dev, fmt, flags, args...)		\
++	devm_alloc_workqueue(dev, fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args)
+ 
+ #define create_workqueue(name)						\
+ 	alloc_workqueue("%s", __WQ_LEGACY | WQ_MEM_RECLAIM | WQ_PERCPU, 1, (name))
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index a1bfabeaef41..5cc5e6a400c9 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -41,6 +41,7 @@
+ #include <linux/mempolicy.h>
+ #include <linux/freezer.h>
+ #include <linux/debug_locks.h>
++#include <linux/device/devres.h>
+ #include <linux/lockdep.h>
+ #include <linux/idr.h>
+ #include <linux/jhash.h>
+@@ -5909,6 +5910,33 @@ struct workqueue_struct *alloc_workqueue_noprof(const char *fmt,
+ }
+ EXPORT_SYMBOL_GPL(alloc_workqueue_noprof);
+ 
++static void devm_workqueue_release(void *res)
++{
++	destroy_workqueue(res);
++}
++
++__printf(2, 5) struct workqueue_struct *
++devm_alloc_workqueue(struct device *dev, const char *fmt, unsigned int flags,
++		     int max_active, ...)
++{
++	struct workqueue_struct *wq;
++	va_list args;
++	int ret;
++
++	va_start(args, max_active);
++	wq = alloc_workqueue(fmt, flags, max_active, args);
++	va_end(args);
++	if (!wq)
++		return NULL;
++
++	ret = devm_add_action_or_reset(dev, devm_workqueue_release, wq);
++	if (ret)
++		return NULL;
++
++	return wq;
++}
++EXPORT_SYMBOL_GPL(devm_alloc_workqueue);
++
+ #ifdef CONFIG_LOCKDEP
+ __printf(1, 5)
+ struct workqueue_struct *
+
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+2.51.0
 

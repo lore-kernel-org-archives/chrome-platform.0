@@ -1,43 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE42F21CC7B;
-	Fri,  6 Mar 2026 04:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3262E3A874F;
+	Fri,  6 Mar 2026 14:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772772399; cv=none; b=ZRhChClm+MoPhicqMDTUA8WZZNJ9jLy8TkGvMAn5LZpxmiWRKSAqaNcoG/3Acq9/zWnRYCs0f6A9PIjA2gy9D85dEj/x7tgjjRVyIaNko78h5CqjHNdTrbysNtFdEWfq2y27TSwb5DU5m0x+og9nluaoyi9J31+0ZYmfpGRkwPY=
+	t=1772807344; cv=none; b=sfTg8SPy/6kTk0Cnj4XMTdyEdJnw71ikrTZQeZbH4H9nO5aET9WLOIK2UfZrXTDN/98xxC47sPKYuE+qANQl6G6UKgDjAohOCWNUVF8ziwvuPJ3JPqoUb0LIZpZ99LAaGqAWUwRmvH2BxQ0Bo5f4MrkzoL54l/cwRaas1jMMt2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772772399; c=relaxed/simple;
-	bh=f79BlgSg2in5KMGVfAJr8z5EZZmUtj9u7hprpV0hlH8=;
+	s=arc-20240116; t=1772807344; c=relaxed/simple;
+	bh=hKQUf5WDJPETTYg6XgZVG0XAdpM/T+JEq/CFscr1Cys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hPO1xKLwFifR0GQb+g7MFVQ1efL+nxgwOBla19jypzgNH41PC7Dipd14lqhjFDWl/HXDcS4kdc6H6bfk+nBdGzK5O6b8gICKpzN/hJWyyLEsppiQvtZG8hTNtJxSWlG/cz5UtF0MR54CI059SrSjPebdkG26/A+f1Fnp2lncurM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nv9bdOZL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=sDdRIQEH8qDF+v5FZPD37eVIkrOoPUxQfjU9iab/2WJV6IIvmG0LZYAiCgytTl2zPnAak2ec5e5lK0kvg6PyqKSjA8IsjVFMvppCrFcf3a7/tAJSaaLD4sPQASvMF0p7GzN8LbsXPIaImzh31kV7JPW1Bj8mFofCZ2GyQl0SEPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IuzkZO1E; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nv9bdOZL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53D74C19422;
-	Fri,  6 Mar 2026 04:46:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772772399;
-	bh=f79BlgSg2in5KMGVfAJr8z5EZZmUtj9u7hprpV0hlH8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nv9bdOZLpVjJtVcYH4YKiEvY3dV9ExZsQN2de7AxOW2GHBJ6zwdKX30ZKsleR9gEz
-	 ZeGbHv+AoVy3wZ3gZzq9pUl0JSgFR1RCT4BLLOApv8arvwIDq48AbhyVAtSYmlQKYg
-	 wtPnK+TL4IxzjMISiKtQagsvKlkRTZH3d5xWLljTXS+CY9+70KdaktUAVp8+ZM6g5w
-	 HQEWrAb1Qw+Yf06V+7B3gMBGY9x61npLZLpMfokxGZwyao++pac/iTBQlkJn0BQ0Dz
-	 btyAJfPpYikc/CaT7+mRrISlCwqwfqJY7DLOAOcBDJf52cRDmAS9Jz3Y/uji2cfE9o
-	 EqfFaBhtEGkxQ==
-Date: Fri, 6 Mar 2026 04:46:36 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: chrome-platform@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	Linux ACPI <linux-acpi@vger.kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IuzkZO1E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772807344; x=1804343344;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hKQUf5WDJPETTYg6XgZVG0XAdpM/T+JEq/CFscr1Cys=;
+  b=IuzkZO1EJD/4tXc15zuuTyyzZVlNFdPYjAjEnW28dUdMDQ5VXjKGb9U9
+   blr8VwB/RR/jDLIniwejueBhPcSKPIu9jUKiCuYU14OLJRQHF0nkpTd/H
+   6dwEFH43CKqeMtk8dk5Qd1poHY+7l6jDBnVQW1EzeX7WVogbQ/zEVY9lm
+   Id9ut8UWgDE5sOC4LbsVKG0MCgTBgfYlhCrhd9u1JLiFCzoFDEZN/l8JO
+   pLyyFMw9/ahFhwUeyyJ+kftYVeWmZ9Du6NgVIt/kuJuo7ioeqs8IujHhb
+   mXceXIm3PEdtzUZoRHROo8LLhttddb4v892kTLyAkOCJHhejycCi00bT2
+   g==;
+X-CSE-ConnectionGUID: 1ZIHGI/WQayt85yFU+Xe6w==
+X-CSE-MsgGUID: +rnNsKZhR3O2EMSDJBQSxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73788754"
+X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
+   d="scan'208";a="73788754"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 06:29:03 -0800
+X-CSE-ConnectionGUID: MTr7+eJASyulE9m7KCUGvw==
+X-CSE-MsgGUID: CljKMFE5RsuatuijuZIEVg==
+X-ExtLoop1: 1
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.1])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 06:28:56 -0800
+Date: Fri, 6 Mar 2026 16:28:54 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Tobias Schrammm <t.schramm@manjaro.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+	Dzmitry Sankouski <dsankouski@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Benson Leung <bleung@chromium.org>,
-	Enric Balletbo i Serra <eballetbo@kernel.org>,
-	Ravi Chandra Sadineni <ravisadineni@chromium.org>
-Subject: Re: [PATCH v2 0/6] platform/chrome: Bind drivers to platform devices
- instead of ACPI ones
-Message-ID: <aapcLMIq-hk_Ze_Y@google.com>
-References: <6259948.lOV4Wx5bFT@rafael.j.wysocki>
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 00/10] workqueue / drivers: Add device-managed
+ allocate workqueue
+Message-ID: <aarkpqHShro9kE6-@ashevche-desk.local>
+References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -46,36 +78,55 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6259948.lOV4Wx5bFT@rafael.j.wysocki>
+In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Mar 05, 2026 at 08:34:58PM +0100, Rafael J. Wysocki wrote:
-> Hi All,
+On Thu, Mar 05, 2026 at 10:45:39PM +0100, Krzysztof Kozlowski wrote:
+> Merging / Dependency
+> ====================
+> All further patches depend on the first one, thus this probably should
+> go via one tree, e.g. power supply.  The first patch might be needed for
+> other trees as well, e.g. if more drivers are discovered, so the best if
+> it is on dedicated branch in case it has to be shared.
 > 
-> This is a v2 of
+> Changes in v2:
+> ==============
+> - See individual patches
+> - Link to v1: https://patch.msgid.link/20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com
 > 
-> https://lore.kernel.org/linux-acpi/2274474.Mh6RI2rZIc@rafael.j.wysocki/
+> Description
+> ===========
+> Add a Resource-managed version of alloc_workqueue() to fix common
+> problem of drivers mixing devm() calls with destroy_workqueue.  Such
+> naive and discouraged driver approach leads to difficult to debug bugs
+> when the driver:
 > 
-> addressing review comments on patches [2/6] and [4/6].
+> 1. Allocates workqueue in standard way and destroys it in driver
+> remove() callback,
+> 2. Sets work struct with devm_work_autocancel(),
+> 3. Registers interrupt handler with devm_request_threaded_irq().
 > 
-> The series description below still applies.
->
-> [...]
+> Which leads to following unbind/removal path:
+> 
+> 1. destroy_workqueue() via driver remove(),
+> Any interrupt coming now would still execute the interrupt handler,
+> which queues work on destroyed workqueue.
+> 2. devm_irq_release(),
+> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
+> 
+> devm_alloc_workqueue() has two benefits:
+> 1. Solves above problem of mix-and-match devres and non-devres code in
+> driver,
+> 2. Simplify any sane drivers which were correctly using
+> alloc_workqueue() + devm_add_action_or_reset().
 
-Applied to
+Thanks, this version LGTM, FWIW,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-[1/6] platform/chrome: Convert ChromeOS privacy-screen driver to platform
-      commit: d3c2872ae323ea45cc32ea0247f26c2189a481cb
-[2/6] platform/chrome: chromeos_tbmc: Drop wakeup source on remove
-      commit: 5d441a4bc93642ed6f41da87327a39946b4e1455
-[3/6] platform/chrome: chromeos_tbmc: Register ACPI notify handler
-      commit: de1260139dbd7610a2f25343c962569b8fe23f8f
-[4/6] platform/chrome: chromeos_tbmc: Convert to a platform driver
-      commit: a2676ead257f6cf12e458efc786a68d6ab7c1224
-[5/6] platform/chrome: wilco_ec: event: Register ACPI notify handler
-      commit: 25a06b7a3224161cf4b27049bea93cac21136460
-[6/6] platform/chrome: wilco_ec: event: Convert to a platform driver
-      commit: 27d58498f690ab39140678df918155a597b3a17a
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks!
+

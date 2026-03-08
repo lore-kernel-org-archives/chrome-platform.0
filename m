@@ -1,132 +1,261 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3262E3A874F;
-	Fri,  6 Mar 2026 14:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00E62652B7
+	for <chrome-platform@lists.linux.dev>; Sun,  8 Mar 2026 17:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772807344; cv=none; b=sfTg8SPy/6kTk0Cnj4XMTdyEdJnw71ikrTZQeZbH4H9nO5aET9WLOIK2UfZrXTDN/98xxC47sPKYuE+qANQl6G6UKgDjAohOCWNUVF8ziwvuPJ3JPqoUb0LIZpZ99LAaGqAWUwRmvH2BxQ0Bo5f4MrkzoL54l/cwRaas1jMMt2Y=
+	t=1772991919; cv=none; b=EizXOftTjODFtb0vxAmgiZ0UO44ERAnRNLDKjBbYy/B25v+eQNv7duWI792o6KThhZrxfJGZ7jAc10BILSruQdMNC15NVi+vmXwzHKnUVVKDxgTYZCTMMKOr1oGmsmliqrIEA0vt0D0e3y+79fS3srUkqHa29zIxzJlRNcVLFyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772807344; c=relaxed/simple;
-	bh=hKQUf5WDJPETTYg6XgZVG0XAdpM/T+JEq/CFscr1Cys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sDdRIQEH8qDF+v5FZPD37eVIkrOoPUxQfjU9iab/2WJV6IIvmG0LZYAiCgytTl2zPnAak2ec5e5lK0kvg6PyqKSjA8IsjVFMvppCrFcf3a7/tAJSaaLD4sPQASvMF0p7GzN8LbsXPIaImzh31kV7JPW1Bj8mFofCZ2GyQl0SEPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IuzkZO1E; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772991919; c=relaxed/simple;
+	bh=yrFUgIP7+VB2m83c7k5kHbOB7apeWVineCaA4kJBT5I=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=MlRxPrgmSxe6yhz7y90OpxMPCNDD85VOBedABRpajpGF26h5HznmbNOyTJBKNeWEEE5beHzzG5ZzmVxapmJAhTP6vbQv1Zwqwr8Xqo3kBzUQE2bZbupiXY0S8ydLIAFKc/FhbvFqTMhgmen1UZlpf7ATB+DbBQsqIoC/AzCFW4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=M/+WkjmN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=r6gUqcoh; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IuzkZO1E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772807344; x=1804343344;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hKQUf5WDJPETTYg6XgZVG0XAdpM/T+JEq/CFscr1Cys=;
-  b=IuzkZO1EJD/4tXc15zuuTyyzZVlNFdPYjAjEnW28dUdMDQ5VXjKGb9U9
-   blr8VwB/RR/jDLIniwejueBhPcSKPIu9jUKiCuYU14OLJRQHF0nkpTd/H
-   6dwEFH43CKqeMtk8dk5Qd1poHY+7l6jDBnVQW1EzeX7WVogbQ/zEVY9lm
-   Id9ut8UWgDE5sOC4LbsVKG0MCgTBgfYlhCrhd9u1JLiFCzoFDEZN/l8JO
-   pLyyFMw9/ahFhwUeyyJ+kftYVeWmZ9Du6NgVIt/kuJuo7ioeqs8IujHhb
-   mXceXIm3PEdtzUZoRHROo8LLhttddb4v892kTLyAkOCJHhejycCi00bT2
-   g==;
-X-CSE-ConnectionGUID: 1ZIHGI/WQayt85yFU+Xe6w==
-X-CSE-MsgGUID: +rnNsKZhR3O2EMSDJBQSxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73788754"
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="73788754"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 06:29:03 -0800
-X-CSE-ConnectionGUID: MTr7+eJASyulE9m7KCUGvw==
-X-CSE-MsgGUID: CljKMFE5RsuatuijuZIEVg==
-X-ExtLoop1: 1
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.1])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 06:28:56 -0800
-Date: Fri, 6 Mar 2026 16:28:54 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Tobias Schrammm <t.schramm@manjaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 00/10] workqueue / drivers: Add device-managed
- allocate workqueue
-Message-ID: <aarkpqHShro9kE6-@ashevche-desk.local>
-References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="M/+WkjmN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="r6gUqcoh"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id EA5C1140008A;
+	Sun,  8 Mar 2026 13:45:16 -0400 (EDT)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-02.internal (MEProxy); Sun, 08 Mar 2026 13:45:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1772991916;
+	 x=1773078316; bh=2zx5exB9jHDCNoCH36/G6J4X/4kxohEZ5etYuJS51ig=; b=
+	M/+WkjmNbteN3xolkVgP6I67M1ybHCfy6aj1rZC6pU9wk9xsiTmj9LVZgKzZw3rt
+	xgcax0pKcglhTTlnHoFWcEQG9mH+MzfBp5xPVRbLoErX8+0zwXnsN6copUAXmCAl
+	3SSY8SEKZD0JetSiXEAsoElZZp4uLBXcka1E995WXRRBtDfKtIeASdDwzo5csEa3
+	OljevfQ9CQR2LHCYoqHyDF/X7eUzf9KDst09n3f8Tiz/1l2ysGSY6E6SZWloAvqV
+	xxemK5LSW9LDViMwJSeoii3LhobOtXOnnI/RNV4aJBeUi4LenJLouAIeKYDR7xCD
+	VTDf7FI/IwIQLHTx7ZLP+A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1772991916; x=
+	1773078316; bh=2zx5exB9jHDCNoCH36/G6J4X/4kxohEZ5etYuJS51ig=; b=r
+	6gUqcohZZBJCWp736b2QhvwvvvVF244R31PCqiKOrGrMaEgnm0dLPB0gJ11zXLgL
+	XjROYXOYTXWV3SHEMbylZlZRga+ioAHmodVubmQOoHhALSxfRxqbO5N8v7p8/J+0
+	5bkL4XJ7J/SwFfsLw7N+mBz2wOaaJvqOSCXzIM963w6ZJXrrmDQBQU2+yCIuL1HD
+	ogjnDZPjZvd+Z1+ONxstgV9XoPe5ny+kFPkg7llaKqM8kVoYv5HKLwsZv4eT6ddk
+	T9vA26iASCi5wUdcJc70yzAs/9tAgFvSIP4iU8maLwDfWTOwNICDtpCI/p0tyd7Q
+	xeldNMkPj47JdVCAQRD2g==
+X-ME-Sender: <xms:rLWtac65gSKWzQ-HcFITpdXiDfber0_W_2DzOvrY6TT-fctBOjsJ3Q>
+    <xme:rLWtaYsEogfmyEWXWA5cPn1VuXGje98MVkyP9cE_rsM_58HWnnDDyK9YI2Nmgw7EG
+    wTx0XegttZg7fiCIryr87EUZ5ARDCFaiBqOwRZHyVrBv5Z1n338jQA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvjeehkedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfofgrrhhk
+    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
+    grqeenucggtffrrghtthgvrhhnpedtffevgfethfevteduvdefleevkedtuddvlefghefg
+    ieekffejteejveffkedthfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhhpvggrrhhsohhn
+    qdhlvghnohhvohesshhquhgvsggsrdgtrgdpnhgspghrtghpthhtohepudejpdhmohguvg
+    epshhmthhpohhuthdprhgtphhtthhopegslhgvuhhnghestghhrhhomhhiuhhmrdhorhhg
+    pdhrtghpthhtohepghhrohgvtghksegthhhrohhmihhumhdrohhrghdprhgtphhtthhope
+    guvghrvghkjhhohhhnrdgtlhgrrhhksehgmhgrihhlrdgtohhmpdhrtghpthhtohepihhk
+    vghprghnhhgtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvhhishhhnhhuohgtvhesgh
+    hmrghilhdrtghomhdprhgtphhtthhopehhrghnshhgsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehkrggsvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggvsehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehprghvvghlsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:rLWtaRQvnMxXXCs13bauf4Z4SKTgd-fhciP6Rcjb2U_kyTi9jmQWwg>
+    <xmx:rLWtaVfc4VFyCQzKB4cB5Ojgi3rALf6IsKJKiA7y-G-8AT3DGA4HcQ>
+    <xmx:rLWtadetFGi-jLNwcwoedxJxRv7RLwtUntr9vGbyKOkeR4rW0Rxypg>
+    <xmx:rLWtaT_KWTZgqMmV8N-8H211s7xkySWdya91kG7HvxJZVnRXyUyFkg>
+    <xmx:rLWtaeLP6oigrjP0rfU98DS3AQgPS37ObvBJbTiuMrDP_XZ1GTqJZGzd>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 58B8A2CE0072; Sun,  8 Mar 2026 13:45:16 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-
-On Thu, Mar 05, 2026 at 10:45:39PM +0100, Krzysztof Kozlowski wrote:
-> Merging / Dependency
-> ====================
-> All further patches depend on the first one, thus this probably should
-> go via one tree, e.g. power supply.  The first patch might be needed for
-> other trees as well, e.g. if more drivers are discovered, so the best if
-> it is on dedicated branch in case it has to be shared.
-> 
-> Changes in v2:
-> ==============
-> - See individual patches
-> - Link to v1: https://patch.msgid.link/20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com
-> 
-> Description
-> ===========
-> Add a Resource-managed version of alloc_workqueue() to fix common
-> problem of drivers mixing devm() calls with destroy_workqueue.  Such
-> naive and discouraged driver approach leads to difficult to debug bugs
-> when the driver:
-> 
-> 1. Allocates workqueue in standard way and destroys it in driver
-> remove() callback,
-> 2. Sets work struct with devm_work_autocancel(),
-> 3. Registers interrupt handler with devm_request_threaded_irq().
-> 
-> Which leads to following unbind/removal path:
-> 
-> 1. destroy_workqueue() via driver remove(),
-> Any interrupt coming now would still execute the interrupt handler,
-> which queues work on destroyed workqueue.
-> 2. devm_irq_release(),
-> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
-> 
-> devm_alloc_workqueue() has two benefits:
-> 1. Solves above problem of mix-and-match devres and non-devres code in
-> driver,
-> 2. Simplify any sane drivers which were correctly using
-> alloc_workqueue() + devm_add_action_or_reset().
-
-Thanks, this version LGTM, FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+X-ThreadId: AkcZMBcLD6IV
+Date: Sun, 08 Mar 2026 13:44:54 -0400
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Rong Zhang" <i@rong.moe>, "Lee Jones" <lee@kernel.org>,
+ "Pavel Machek" <pavel@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ "Benson Leung" <bleung@chromium.org>, "Guenter Roeck" <groeck@chromium.org>,
+ =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+ "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ "Hans de Goede" <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Ike Panhc" <ikepanhc@gmail.com>
+Cc: "Vishnu Sankar" <vishnuocv@gmail.com>,
+ "Vishnu Sankar" <vsankar@lenovo.com>, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Message-Id: <de19c814-c1b8-4916-a516-fdc4693d572f@app.fastmail.com>
+In-Reply-To: <baf1e52379ffaaa284a934520b377f5c68ac76a6.camel@rong.moe>
+References: <20260227190617.271388-1-i@rong.moe>
+ <b1d43b71-38c1-48cb-91ae-4598ecd2f588@app.fastmail.com>
+ <baf1e52379ffaaa284a934520b377f5c68ac76a6.camel@rong.moe>
+Subject: Re: [RFC PATCH 0/9] leds: Add support for hw initiated hw control trigger
+ transition
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
--- 
-With Best Regards,
-Andy Shevchenko
 
+On Thu, Mar 5, 2026, at 7:37 AM, Rong Zhang wrote:
+> Hi Mark,
+>
+> On Wed, 2026-03-04 at 15:05 -0500, Mark Pearson wrote:
+>> Hi Rong,
+>> 
+>> On Fri, Feb 27, 2026, at 2:05 PM, Rong Zhang wrote:
+>> > Hi all,
+>> > 
+>> > Some laptops can tune their keyboard backlight according to ambient
+>> > light sensors (auto mode). This capability is essentially a hw control
+>> > trigger. Meanwhile, such laptops also offer a shrotcut for cycling
+>> > through brightness levels and auto mode. For example, on ThinkBook,
+>> > pressing Fn+Space cycles keyboard backlight levels in the following
+>> > sequence:
+>> > 
+>> >   1 => 2 => 0 => auto => 1 ...
+>> > 
+>> > Recent ThinkPad models should have similar sequence too.
+>> > 
+>> > However, there are some issues preventing us from using hw control
+>> > trigger:
+>> > 
+>> > 1. We want a mechanism to tell userspace which trigger is the hw control
+>> >    trigger, so that userspace can determine if auto mode is on/off or
+>> >    turing it on/off programmatically without obtaining the hw control
+>> >    trigger's name via other channels
+>> > 2. Turing on/off auto mode via the shortcut cannot activate/deactivate
+>> >    the hw control trigger, making the software state out-of-sync
+>> > 3. Even with #1 resolved, deactivating the hw control trigger after
+>> >    receiving the event indicating "auto => 1" has a side effect of
+>> >    emitting LED_OFF, breaking the shortcut cycle
+>> > 
+>> > This RFC series tries to demonstrate a path on solving these issues:
+>> > 
+>> > - Introduce an attribute called trigger_may_offload, so that userspace
+>> >    can determine:
+>> >    - if the LED device supports hw control (supported => visible)
+>> >    - which trigger is the hw control trigger
+>> >    - if the hw control trigger is selected
+>> >    - if the hw control trigger is in hw control (i.e., offloaded)
+>> >      - A callback offloaded() is added so that LED triggers can report
+>> >        their hw control state
+>> > - Add led_trigger_notify_hw_control_changed() interface, so that LED
+>> >   drivers can notify the LED core about hardware initiated hw control
+>> >   state transitions. The LED core will then determine if the transition
+>> >   is allowed and turning on/off the hw control trigger accordingly
+>> > - Tune the logic of trigger deactivation so that it won't emit LED_OFF
+>> >   when the deactivation is triggered by hardware
+>> > 
+>> > The last two patches are included into the RFC series to demonstrate how
+>> > to utilize these interfaces to add support for auto keyboard backlight
+>> > to ThinkBook. They will be submitted separately once the dust settles.
+>> > 
+>> > Currently no Kconfig entry is provided to disable either interface. If
+>> > needed, I will add one later.
+>> > 
+>> > [ Summary of other approaches ]
+>> > 
+>> > < custom attribute >
+>> > 
+>> > Pros:
+>> > - simplicity, KISS
+>> > - no need to touch the LED core
+>> > - extensible as long as it has a sensor-neutral name
+>> >   - a sensor-related name could potentially lead to a mess if a future
+>> >     device implements auto mode based on multiple different sensors
+>> > 
+>> > Cons:
+>> > - must have zero influence on brightness_set[_blocking] callbacks
+>> >   in order not to break triggers
+>> >   - potential interference with triggers and the brightness attribute
+>> > - weird semantic (an attribute other than "brightness" and "trigger"
+>> >   changes the brightness)
+>> > 
+>> > < hw control trigger (this series) >
+>> > 
+>> > Pros:
+>> > - mutually exclusive with other triggers (hence less chaos)
+>> > - semantic correctness
+>> > - acts as an aggregate switch to turn on/off auto mode even a future
+>> >   device implements auto mode based on multiple different sensors
+>> >   - extensibility (through trigger attributes)
+>> > 
+>> > Cons:
+>> > - complexity
+>> > 
+>> > [ Previous discussion threads ]
+>> > 
+>> > https://lore.kernel.org/r/08580ec5-1d7b-4612-8a3f-75bc2f40aad2@app.fastmail.com
+>> > 
+>> > https://lore.kernel.org/r/1dbfcf656cdb4af0299f90d7426d2ec7e2b8ac9e.camel@rong.moe
+>> > 
+>> > Thanks,
+>> > Rong
+>> > 
+>> > Rong Zhang (9):
+>> >   leds: Load trigger modules on-demand if used as hw control trigger
+>> >   leds: Add callback offloaded() to query the state of hw control
+>> >     trigger
+>> >   leds: cros_ec: Implement offloaded() callback for trigger
+>> >   leds: turris-omnia: Implement offloaded() callback for trigger
+>> >   leds: trigger: netdev: Implement offloaded() callback
+>> >   leds: Add trigger_may_offload attribute
+>> >   leds: trigger: Add led_trigger_notify_hw_control_changed() interface
+>> >   platform/x86: ideapad-laptop: Decouple HW & cdev brightness for kbd
+>> >     backlight
+>> >   platform/x86: ideapad-laptop: Fully support auto kbd backlight
+>> > 
+>> >  .../obsolete/sysfs-class-led-trigger-netdev   |  15 ++
+>> >  Documentation/ABI/testing/sysfs-class-led     |  22 ++
+>> >  .../testing/sysfs-class-led-trigger-netdev    |  13 --
+>> >  Documentation/leds/leds-class.rst             |  72 ++++++-
+>> >  drivers/leds/led-class.c                      |  23 +++
+>> >  drivers/leds/led-triggers.c                   | 176 +++++++++++++++-
+>> >  drivers/leds/leds-cros_ec.c                   |   6 +
+>> >  drivers/leds/leds-turris-omnia.c              |   7 +
+>> >  drivers/leds/leds.h                           |   3 +
+>> >  drivers/leds/trigger/ledtrig-netdev.c         |  10 +
+>> >  drivers/platform/x86/lenovo/Kconfig           |   1 +
+>> >  drivers/platform/x86/lenovo/ideapad-laptop.c  | 194 ++++++++++++++----
+>> >  include/linux/leds.h                          |   6 +
+>> >  13 files changed, 492 insertions(+), 56 deletions(-)
+>> >  create mode 100644 Documentation/ABI/obsolete/sysfs-class-led-trigger-netdev
+>> > 
+>> > 
+>> > base-commit: a75cb869a8ccc88b0bc7a44e1597d9c7995c56e5
+>> > -- 
+>> > 2.51.0
+>> 
+>> Thanks for your work on this.
+>> 
+>> For the series: As it's a RFC, I'm not bothering with notes on any typo's or grammer stuff.
+>> 
+>> Overall I think the implementation works and I understand it better from our initial discussions. Thank you for putting this together.
+>> 
+>> I'm not a huge fan of the term offloaded - I would lean towards just calling it hw_control (or similar). But I see it was used in the ledtrig-netdev driver so I don't feel strongly about this.
+>> 
+>
+> FYI, "hw control" is a historical and internal term. I used it because
+> it's used a lot in the documentation to the doc consistent. Otherwise
+> "offload(ed)" should be used. See commit 44f0fb8dfe26 ("leds: trigger:
+> netdev: rename 'hw_control' sysfs entry to 'offloaded'").
+>
+> I admit that I was somewhat lost in the terminological soup and there
+> may be some room for rephrasing in my documentation and commit
+> messages.
+>
+Fair enough :) I think that overrides my mild preferences.
 
+Mark

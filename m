@@ -1,261 +1,177 @@
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+Received: from smtp2.tecnico.ulisboa.pt (smtp2.tecnico.ulisboa.pt [193.136.128.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00E62652B7
-	for <chrome-platform@lists.linux.dev>; Sun,  8 Mar 2026 17:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1343D1CB0
+	for <chrome-platform@lists.linux.dev>; Mon,  9 Mar 2026 15:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772991919; cv=none; b=EizXOftTjODFtb0vxAmgiZ0UO44ERAnRNLDKjBbYy/B25v+eQNv7duWI792o6KThhZrxfJGZ7jAc10BILSruQdMNC15NVi+vmXwzHKnUVVKDxgTYZCTMMKOr1oGmsmliqrIEA0vt0D0e3y+79fS3srUkqHa29zIxzJlRNcVLFyY=
+	t=1773070339; cv=none; b=fYTf2qFt0mkYfkHWqBsZAYoqFeYG4+U8qgmPe6FJ0AStHJADSoPbgneLjC1uqqb//wN6s37YsQrcPTdLTI1tBfmXl9R5mu9y6qniF18kzWtMDcrmrenokCjTtMVa9QW6LH5xxfw5z7z/VGJHkb1ovAHw9XczNw6Ve4RAG1XP9lU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772991919; c=relaxed/simple;
-	bh=yrFUgIP7+VB2m83c7k5kHbOB7apeWVineCaA4kJBT5I=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=MlRxPrgmSxe6yhz7y90OpxMPCNDD85VOBedABRpajpGF26h5HznmbNOyTJBKNeWEEE5beHzzG5ZzmVxapmJAhTP6vbQv1Zwqwr8Xqo3kBzUQE2bZbupiXY0S8ydLIAFKc/FhbvFqTMhgmen1UZlpf7ATB+DbBQsqIoC/AzCFW4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=M/+WkjmN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=r6gUqcoh; arc=none smtp.client-ip=103.168.172.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1773070339; c=relaxed/simple;
+	bh=DgCo5b+t8jNCnYz0nQONYvqtZwerOrR/Qi5Bp7phMLs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=am/gRZ7rQPDAcPGm5EZuyztChFDsEvU/zorbth7mTGVlfHciuPbrR2WdWUI935nrfObEF0rUS7THZZBOrsQYhiGlBa1c+e6u9z9pfZioaHvYzQrQ6UbYm0+7axjTzVYSj7tdFSpJDo2joK1Cq7JyoS6WoynxTtmqwbq6SCTR5uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt; spf=pass smtp.mailfrom=tecnico.ulisboa.pt; dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b=qVXuYum+; arc=none smtp.client-ip=193.136.128.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tecnico.ulisboa.pt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tecnico.ulisboa.pt
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="M/+WkjmN";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="r6gUqcoh"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id EA5C1140008A;
-	Sun,  8 Mar 2026 13:45:16 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-02.internal (MEProxy); Sun, 08 Mar 2026 13:45:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1772991916;
-	 x=1773078316; bh=2zx5exB9jHDCNoCH36/G6J4X/4kxohEZ5etYuJS51ig=; b=
-	M/+WkjmNbteN3xolkVgP6I67M1ybHCfy6aj1rZC6pU9wk9xsiTmj9LVZgKzZw3rt
-	xgcax0pKcglhTTlnHoFWcEQG9mH+MzfBp5xPVRbLoErX8+0zwXnsN6copUAXmCAl
-	3SSY8SEKZD0JetSiXEAsoElZZp4uLBXcka1E995WXRRBtDfKtIeASdDwzo5csEa3
-	OljevfQ9CQR2LHCYoqHyDF/X7eUzf9KDst09n3f8Tiz/1l2ysGSY6E6SZWloAvqV
-	xxemK5LSW9LDViMwJSeoii3LhobOtXOnnI/RNV4aJBeUi4LenJLouAIeKYDR7xCD
-	VTDf7FI/IwIQLHTx7ZLP+A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1772991916; x=
-	1773078316; bh=2zx5exB9jHDCNoCH36/G6J4X/4kxohEZ5etYuJS51ig=; b=r
-	6gUqcohZZBJCWp736b2QhvwvvvVF244R31PCqiKOrGrMaEgnm0dLPB0gJ11zXLgL
-	XjROYXOYTXWV3SHEMbylZlZRga+ioAHmodVubmQOoHhALSxfRxqbO5N8v7p8/J+0
-	5bkL4XJ7J/SwFfsLw7N+mBz2wOaaJvqOSCXzIM963w6ZJXrrmDQBQU2+yCIuL1HD
-	ogjnDZPjZvd+Z1+ONxstgV9XoPe5ny+kFPkg7llaKqM8kVoYv5HKLwsZv4eT6ddk
-	T9vA26iASCi5wUdcJc70yzAs/9tAgFvSIP4iU8maLwDfWTOwNICDtpCI/p0tyd7Q
-	xeldNMkPj47JdVCAQRD2g==
-X-ME-Sender: <xms:rLWtac65gSKWzQ-HcFITpdXiDfber0_W_2DzOvrY6TT-fctBOjsJ3Q>
-    <xme:rLWtaYsEogfmyEWXWA5cPn1VuXGje98MVkyP9cE_rsM_58HWnnDDyK9YI2Nmgw7EG
-    wTx0XegttZg7fiCIryr87EUZ5ARDCFaiBqOwRZHyVrBv5Z1n338jQA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvjeehkedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfofgrrhhk
-    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
-    grqeenucggtffrrghtthgvrhhnpedtffevgfethfevteduvdefleevkedtuddvlefghefg
-    ieekffejteejveffkedthfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhhpvggrrhhsohhn
-    qdhlvghnohhvohesshhquhgvsggsrdgtrgdpnhgspghrtghpthhtohepudejpdhmohguvg
-    epshhmthhpohhuthdprhgtphhtthhopegslhgvuhhnghestghhrhhomhhiuhhmrdhorhhg
-    pdhrtghpthhtohepghhrohgvtghksegthhhrohhmihhumhdrohhrghdprhgtphhtthhope
-    guvghrvghkjhhohhhnrdgtlhgrrhhksehgmhgrihhlrdgtohhmpdhrtghpthhtohepihhk
-    vghprghnhhgtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvhhishhhnhhuohgtvhesgh
-    hmrghilhdrtghomhdprhgtphhtthhopehhrghnshhgsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehkrggsvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggvsehkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehprghvvghlsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:rLWtaRQvnMxXXCs13bauf4Z4SKTgd-fhciP6Rcjb2U_kyTi9jmQWwg>
-    <xmx:rLWtaVfc4VFyCQzKB4cB5Ojgi3rALf6IsKJKiA7y-G-8AT3DGA4HcQ>
-    <xmx:rLWtadetFGi-jLNwcwoedxJxRv7RLwtUntr9vGbyKOkeR4rW0Rxypg>
-    <xmx:rLWtaT_KWTZgqMmV8N-8H211s7xkySWdya91kG7HvxJZVnRXyUyFkg>
-    <xmx:rLWtaeLP6oigrjP0rfU98DS3AQgPS37ObvBJbTiuMrDP_XZ1GTqJZGzd>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 58B8A2CE0072; Sun,  8 Mar 2026 13:45:16 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="qVXuYum+"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by smtp2.tecnico.ulisboa.pt (Postfix) with ESMTP id 3BEC92453EE;
+	Mon,  9 Mar 2026 15:25:05 +0000 (WET)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp2.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp2.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id 5TpKuxMcGeYE; Mon,  9 Mar 2026 15:25:02 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [IPv6:2001:690:2100:1::b3dd:b9ac])
+	by smtp2.tecnico.ulisboa.pt (Postfix) with ESMTPS id 6DB3E2453F2;
+	Mon,  9 Mar 2026 15:25:02 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+	s=mail2; t=1773069902;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vXUVgIbyiMmhG5POOJKCLgZvPCzanCBSxp9dSzLRDM4=;
+	b=qVXuYum+NtXN+OYxW95UUqr/6bmH9j4npukIwpuvOuziGA0UvwsC7ZZt79gyILb5q2r5yI
+	Y+oVMURhVABFjJMzxPdD2m84BqSr5SUW6EER1C7YJEkLFGqckmTXAptVqoxmlURuRuultv
+	28uRq1Y2AhEwVR/k6AY46e7VVpxR6+OhGfQ2sRlvi5q5Xys7baxS2uEMPs4D0PXtWF9Q4/
+	VlEuR76Mz76AhNeg0Wfp3q+HBp/N4TSQR2wNisHRDaRcBuJNs7UOfEymgsnk8ReGxmb3LP
+	xCr+NrXQL40aoRuBiFieWD+22vX/XsAWUhURpdZMy6Ej35szqvBH/OeZ5137Pg==
+Received: from [192.168.2.116] (unknown [148.63.39.39])
+	(Authenticated sender: ist187313)
+	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id A2738360235;
+	Mon,  9 Mar 2026 15:25:01 +0000 (WET)
+Message-ID: <c41aa917-5fca-488a-aa33-4c780544f43d@tecnico.ulisboa.pt>
+Date: Mon, 9 Mar 2026 15:25:01 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AkcZMBcLD6IV
-Date: Sun, 08 Mar 2026 13:44:54 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Rong Zhang" <i@rong.moe>, "Lee Jones" <lee@kernel.org>,
- "Pavel Machek" <pavel@kernel.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- "Benson Leung" <bleung@chromium.org>, "Guenter Roeck" <groeck@chromium.org>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
- "Hans de Goede" <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Ike Panhc" <ikepanhc@gmail.com>
-Cc: "Vishnu Sankar" <vishnuocv@gmail.com>,
- "Vishnu Sankar" <vsankar@lenovo.com>, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
-Message-Id: <de19c814-c1b8-4916-a516-fdc4693d572f@app.fastmail.com>
-In-Reply-To: <baf1e52379ffaaa284a934520b377f5c68ac76a6.camel@rong.moe>
-References: <20260227190617.271388-1-i@rong.moe>
- <b1d43b71-38c1-48cb-91ae-4598ecd2f588@app.fastmail.com>
- <baf1e52379ffaaa284a934520b377f5c68ac76a6.camel@rong.moe>
-Subject: Re: [RFC PATCH 0/9] leds: Add support for hw initiated hw control trigger
- transition
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Skip Type-C mux handling
+ in EC-driven devices
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>,
+ Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+ Jameson Thies <jthies@google.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260205-smaug-type_c-v1-1-d6e556bf6640@tecnico.ulisboa.pt>
+ <CAMMMRMf_Se9fbH50RSJvEfHCF6ds6TZfVzK4NJCs2UsViGAr1A@mail.gmail.com>
+ <cef799c2-1612-4e28-bae5-ab33cd9c3aa8@tecnico.ulisboa.pt>
+ <CAMMMRMe0Od7jJ+nJdRn_P+gU-8aaFd4K-g-UKz2j43wNiqE-MA@mail.gmail.com>
+Content-Language: en-US
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+In-Reply-To: <CAMMMRMe0Od7jJ+nJdRn_P+gU-8aaFd4K-g-UKz2j43wNiqE-MA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
 
-On Thu, Mar 5, 2026, at 7:37 AM, Rong Zhang wrote:
-> Hi Mark,
->
-> On Wed, 2026-03-04 at 15:05 -0500, Mark Pearson wrote:
->> Hi Rong,
->> 
->> On Fri, Feb 27, 2026, at 2:05 PM, Rong Zhang wrote:
->> > Hi all,
->> > 
->> > Some laptops can tune their keyboard backlight according to ambient
->> > light sensors (auto mode). This capability is essentially a hw control
->> > trigger. Meanwhile, such laptops also offer a shrotcut for cycling
->> > through brightness levels and auto mode. For example, on ThinkBook,
->> > pressing Fn+Space cycles keyboard backlight levels in the following
->> > sequence:
->> > 
->> >   1 => 2 => 0 => auto => 1 ...
->> > 
->> > Recent ThinkPad models should have similar sequence too.
->> > 
->> > However, there are some issues preventing us from using hw control
->> > trigger:
->> > 
->> > 1. We want a mechanism to tell userspace which trigger is the hw control
->> >    trigger, so that userspace can determine if auto mode is on/off or
->> >    turing it on/off programmatically without obtaining the hw control
->> >    trigger's name via other channels
->> > 2. Turing on/off auto mode via the shortcut cannot activate/deactivate
->> >    the hw control trigger, making the software state out-of-sync
->> > 3. Even with #1 resolved, deactivating the hw control trigger after
->> >    receiving the event indicating "auto => 1" has a side effect of
->> >    emitting LED_OFF, breaking the shortcut cycle
->> > 
->> > This RFC series tries to demonstrate a path on solving these issues:
->> > 
->> > - Introduce an attribute called trigger_may_offload, so that userspace
->> >    can determine:
->> >    - if the LED device supports hw control (supported => visible)
->> >    - which trigger is the hw control trigger
->> >    - if the hw control trigger is selected
->> >    - if the hw control trigger is in hw control (i.e., offloaded)
->> >      - A callback offloaded() is added so that LED triggers can report
->> >        their hw control state
->> > - Add led_trigger_notify_hw_control_changed() interface, so that LED
->> >   drivers can notify the LED core about hardware initiated hw control
->> >   state transitions. The LED core will then determine if the transition
->> >   is allowed and turning on/off the hw control trigger accordingly
->> > - Tune the logic of trigger deactivation so that it won't emit LED_OFF
->> >   when the deactivation is triggered by hardware
->> > 
->> > The last two patches are included into the RFC series to demonstrate how
->> > to utilize these interfaces to add support for auto keyboard backlight
->> > to ThinkBook. They will be submitted separately once the dust settles.
->> > 
->> > Currently no Kconfig entry is provided to disable either interface. If
->> > needed, I will add one later.
->> > 
->> > [ Summary of other approaches ]
->> > 
->> > < custom attribute >
->> > 
->> > Pros:
->> > - simplicity, KISS
->> > - no need to touch the LED core
->> > - extensible as long as it has a sensor-neutral name
->> >   - a sensor-related name could potentially lead to a mess if a future
->> >     device implements auto mode based on multiple different sensors
->> > 
->> > Cons:
->> > - must have zero influence on brightness_set[_blocking] callbacks
->> >   in order not to break triggers
->> >   - potential interference with triggers and the brightness attribute
->> > - weird semantic (an attribute other than "brightness" and "trigger"
->> >   changes the brightness)
->> > 
->> > < hw control trigger (this series) >
->> > 
->> > Pros:
->> > - mutually exclusive with other triggers (hence less chaos)
->> > - semantic correctness
->> > - acts as an aggregate switch to turn on/off auto mode even a future
->> >   device implements auto mode based on multiple different sensors
->> >   - extensibility (through trigger attributes)
->> > 
->> > Cons:
->> > - complexity
->> > 
->> > [ Previous discussion threads ]
->> > 
->> > https://lore.kernel.org/r/08580ec5-1d7b-4612-8a3f-75bc2f40aad2@app.fastmail.com
->> > 
->> > https://lore.kernel.org/r/1dbfcf656cdb4af0299f90d7426d2ec7e2b8ac9e.camel@rong.moe
->> > 
->> > Thanks,
->> > Rong
->> > 
->> > Rong Zhang (9):
->> >   leds: Load trigger modules on-demand if used as hw control trigger
->> >   leds: Add callback offloaded() to query the state of hw control
->> >     trigger
->> >   leds: cros_ec: Implement offloaded() callback for trigger
->> >   leds: turris-omnia: Implement offloaded() callback for trigger
->> >   leds: trigger: netdev: Implement offloaded() callback
->> >   leds: Add trigger_may_offload attribute
->> >   leds: trigger: Add led_trigger_notify_hw_control_changed() interface
->> >   platform/x86: ideapad-laptop: Decouple HW & cdev brightness for kbd
->> >     backlight
->> >   platform/x86: ideapad-laptop: Fully support auto kbd backlight
->> > 
->> >  .../obsolete/sysfs-class-led-trigger-netdev   |  15 ++
->> >  Documentation/ABI/testing/sysfs-class-led     |  22 ++
->> >  .../testing/sysfs-class-led-trigger-netdev    |  13 --
->> >  Documentation/leds/leds-class.rst             |  72 ++++++-
->> >  drivers/leds/led-class.c                      |  23 +++
->> >  drivers/leds/led-triggers.c                   | 176 +++++++++++++++-
->> >  drivers/leds/leds-cros_ec.c                   |   6 +
->> >  drivers/leds/leds-turris-omnia.c              |   7 +
->> >  drivers/leds/leds.h                           |   3 +
->> >  drivers/leds/trigger/ledtrig-netdev.c         |  10 +
->> >  drivers/platform/x86/lenovo/Kconfig           |   1 +
->> >  drivers/platform/x86/lenovo/ideapad-laptop.c  | 194 ++++++++++++++----
->> >  include/linux/leds.h                          |   6 +
->> >  13 files changed, 492 insertions(+), 56 deletions(-)
->> >  create mode 100644 Documentation/ABI/obsolete/sysfs-class-led-trigger-netdev
->> > 
->> > 
->> > base-commit: a75cb869a8ccc88b0bc7a44e1597d9c7995c56e5
->> > -- 
->> > 2.51.0
->> 
->> Thanks for your work on this.
->> 
->> For the series: As it's a RFC, I'm not bothering with notes on any typo's or grammer stuff.
->> 
->> Overall I think the implementation works and I understand it better from our initial discussions. Thank you for putting this together.
->> 
->> I'm not a huge fan of the term offloaded - I would lean towards just calling it hw_control (or similar). But I see it was used in the ledtrig-netdev driver so I don't feel strongly about this.
->> 
->
-> FYI, "hw control" is a historical and internal term. I used it because
-> it's used a lot in the documentation to the doc consistent. Otherwise
-> "offload(ed)" should be used. See commit 44f0fb8dfe26 ("leds: trigger:
-> netdev: rename 'hw_control' sysfs entry to 'offloaded'").
->
-> I admit that I was somewhat lost in the terminological soup and there
-> may be some room for rephrasing in my documentation and commit
-> messages.
->
-Fair enough :) I think that overrides my mild preferences.
+On 3/4/26 10:30, Andrei Kuchynski wrote:
+> On Tue, Mar 3, 2026 at 10:54 AM Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
+>>
+>> Hi Andrei, thanks for testing.
+>>
+>> On 3/3/26 07:17, Andrei Kuchynski wrote:
+>>> Hi Diogo,
+>>>
+>>> On Thu, Feb 5, 2026 at 11:04 AM Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
+>>>>
+>>>> Currently the code assumes that the EC firmware will leave Type-C mux
+>>>> handling logic to the AP, exposing an interface to query and change the
+>>>> mux state via a request from the AP. However, in devices such as Smaug
+>>>> the EC automatically takes care of mux configuration and only USB role
+>>>> switching needs to be handled by the AP. In fact, in such devices this
+>>>> interface is not exposed by the EC making the whole process fail,
+>>>> including role switching.
+>>>>
+>>>> Fix this by first separating Type-C mux handling and USB role switching,
+>>>> explicitly querying the behaviour of the EC and execute each part
+>>>> conditionally according to what the EC reported.
+>>>>
+>>>> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+>>>> ---
+>>>>    drivers/platform/chrome/cros_ec_typec.c | 49 +++++++++++++++++++++++----------
+>>>>    drivers/platform/chrome/cros_ec_typec.h |  2 +-
+>>>>    2 files changed, 35 insertions(+), 16 deletions(-)
+>>>>
+>>>> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+>>>> index b712bcff6fb2..bd7e6c365cab 100644
+>>>> --- a/drivers/platform/chrome/cros_ec_typec.c
+>>>> +++ b/drivers/platform/chrome/cros_ec_typec.c
+>>>> @@ -751,11 +751,10 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+>>>>           }
+>>>>
+>>>>           /* No change needs to be made, let's exit early. */
+>>>> -       if (port->mux_flags == resp.flags && port->role == pd_ctrl->role)
+>>>> +       if (port->mux_flags == resp.flags)
+>>>>                   return 0;
+>>>>
+>>>>           port->mux_flags = resp.flags;
+>>>> -       port->role = pd_ctrl->role;
+>>>>
+>>>>           if (port->mux_flags == USB_PD_MUX_NONE) {
+>>>>                   ret = cros_typec_usb_disconnect_state(port);
+>>>> @@ -771,12 +770,6 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+>>>>           if (ret)
+>>>>                   return ret;
+>>>>
+>>>> -       ret = usb_role_switch_set_role(typec->ports[port_num]->role_sw,
+>>>> -                                       pd_ctrl->role & PD_CTRL_RESP_ROLE_DATA
+>>>> -                                       ? USB_ROLE_HOST : USB_ROLE_DEVICE);
+>>>> -       if (ret)
+>>>> -               return ret;
+>>>> -
+>>>>           if (port->mux_flags & USB_PD_MUX_USB4_ENABLED) {
+>>>>                   ret = cros_typec_enable_usb4(typec, port_num, pd_ctrl);
+>>>>           } else if (port->mux_flags & USB_PD_MUX_TBT_COMPAT_ENABLED) {
+>>>> @@ -822,6 +815,25 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
+>>>>           return ret;
+>>>>    }
+>>>>
+>>>> +static int cros_typec_set_role(struct cros_typec_data *typec, int port_num,
+>>>> +                              struct ec_response_usb_pd_control_v1 *resp)
+>>>> +{
+>>>> +       enum usb_role cur_role = usb_role_switch_get_role(typec->ports[port_num]->role_sw);
+>>>> +       enum usb_role role = resp->role & PD_CTRL_RESP_ROLE_DATA ? USB_ROLE_HOST :
+>>>> +                                                                  USB_ROLE_DEVICE;
+>>>> +       bool connected = resp->enabled & PD_CTRL_RESP_ENABLED_CONNECTED;
+>>>> +       int ret;
+>>>> +
+>>>> +       if (!connected || cur_role == role)
+>>>> +               return 0;
+>>>> +
+>>>> +       ret = usb_role_switch_set_role(typec->ports[port_num]->role_sw, role);
+>>>> +       if (ret)
+>>>> +               dev_err(typec->dev, "Failed USB role switch, err = %d\n", ret);
+>>>
+>>> While testing on Brya, I've got a role switch failure:
+>>> cros-ec-typec GOOG0014:00: Failed USB role switch, err = -22
+>>> cros-ec-typec GOOG0014:00: Update failed for port: 1
+>>>
+>>> Steps to reproduce: deactivate any alt-mode.
+>>
+>> I'm unsure of what you mean by this, could you clarify?
+>>
+> 
+> The cros_ec_typec driver supports DisplayPort and Thunderbolt alternate
+> modes. During altmode activation or deactivation, the driver handles
+> Embedded Controller (EC) events via the cros_typec_port_update.
+> 
+> The `active` sysfs attribute is used to initiate these processes; writing 0
+> to `active` will exit DP or TBT alternate mode.
 
-Mark
+Thank you for the clarification. In any case err = -22 seems odd when the
+call to usb_role_switch_set_role() is not receiving any parameters that
+are obviously wrong. What is the underlying usb_role_switch
+implementation in your platform?
+
+Thanks,
+Diogo
+> 
+> Thanks,
+> Andrei

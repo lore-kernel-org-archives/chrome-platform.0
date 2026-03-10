@@ -1,80 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18FA28B7DA;
-	Tue, 10 Mar 2026 17:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192B1335BA7;
+	Tue, 10 Mar 2026 19:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773162328; cv=none; b=Oz9dvn1pVS7pqAVXyOTtWgo3MwsfDrhhKPLNwhAViatAEZUQgGJxXpBQOrP/njSnp8cWseiNDtxr6GRUc7eqm7PYysCuMybbExrQ2iIbLbaJvdR7GzSDk+ALlnKTaaZ4l2UEOWbx9c1lPbla4VRjXOxAjgQ6SnjiMWrIDcwaJo0=
+	t=1773169478; cv=none; b=t+U5CZvXBqRHuP7iDbrTiTfEQsSlLdiHpkhL9m+V7UFTXqg7lxwRzYJHCzpO0JILwH9jbyg0TZueivabXBP6sRdn7C3iYg8dyPdKKYjctu5mwbbpfrApbf/lfBSBt5DrC1qhvrs4czrR4FlnS6rxb1dVmTxMiYIn4RuFdsbPXqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773162328; c=relaxed/simple;
-	bh=8XCjPyMkbQAR6V06f2fG0uPF2MRjPbY71EQ3H3l08wc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=nW0C9Q0CKU+LHhYLKFESVnbNim66QSESUWmsqrje3oMFtGBf7JF2hflwet1+RKTH+Kl3pXKhq1I7covjJ47fXz7LVB6BhtpcFPRFEr230SiwJtdvCR3vRzwi5JlqVt1sQthm1U4/3p/tAHm8m+wAC9mW7C36QOwv01SAOTo59Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qZ5/ht5m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773169478; c=relaxed/simple;
+	bh=MKBMuX6Jgv8j9lnkNN3IB6bN9jJPfRUYsy8+5zPZwc8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZEY3UdRnf0WS8/I1w2DlgXWfExmZkqleLriKtZ63JgjdcIWsCZZGet3yr0o5iL5EAcgOS7soTEP5jGIiMP/2U7QW4GZYFJx2cvqo5hjbA7Jb4R0G1NfPl/OZVuZoLiGkIyypcp5uhI3GGTEbfM1h8DrcyagNl3C76czmjbEc0Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=21fKxXN7; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qZ5/ht5m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 696D5C19423;
-	Tue, 10 Mar 2026 17:05:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773162327;
-	bh=8XCjPyMkbQAR6V06f2fG0uPF2MRjPbY71EQ3H3l08wc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qZ5/ht5ms3Ah+oFoR/5B9Dny7+sVYRd64j9tx0UbyLTN5ydGYKcqcc8UYVYZmdo9h
-	 JculUWPgrSWBRgcKDmNLF4ARZwFYnylvvX9A0HBBAlTivNHNUgng7HGNn6NY08A199
-	 fPaNHAIfOE8WxNzV1SvFrHZeMyp5u9rC234fMx66Ak+fG2xlF02u2be/gaz/CKPGss
-	 T4YRI2hNojcq7tcDO5umYTA2VlMfcFrzrWnBxOth6JQ/nHHaI4EeMwA53uCNFERGHk
-	 Bx4LUhkAPLjF4+vNZT4IyHVTcylZU8ZeCZUFSusapGeLId7xjxCmhrQ5Fx9hicI94B
-	 kh+RHV00suSWA==
-Date: Tue, 10 Mar 2026 07:05:26 -1000
-Message-ID: <1e1412049d60bec19363c3121b19fd48@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Sebastian Reichel <sre@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Tobias Schrammm <t.schramm@manjaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Lee Jones <lee@kernel.org>,
- Dzmitry Sankouski <dsankouski@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>,
- Tzung-Bi Shih <tzungbi@kernel.org>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- driver-core@lists.linux.dev,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2 01/10] workqueue: devres: Add device-managed
- allocate workqueue
-In-Reply-To: <9a9cb7f8-54cc-4c43-a5a0-f022394351eb@oss.qualcomm.com>
-References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
- <20260305-workqueue-devm-v2-1-66a38741c652@oss.qualcomm.com>
- <aapTSyrkqqZ8j_XL@slm.duckdns.org>
- <9a9cb7f8-54cc-4c43-a5a0-f022394351eb@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="21fKxXN7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=rdTHQV2OPxzLPKXuuN4Ezq69juPYCD3tIrogYv0rWYA=; b=21fKxXN7DYjhymhDjtNIzZ8clP
+	pMa+NyyOqSfkUBGQjvx3eWqC2laOZxuGNGlqtckPH0npfxY/Mw1uMH/8LEwwaMC04iz5v9bbyJmLg
+	Z+Pkgtyv2YbxY4zvnNemlBi2LVN9AZFtnO6Leu9zSZZSricosK7HjkDTWyq9zCPeMTS4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1w02NQ-00B4dZ-NL; Tue, 10 Mar 2026 20:04:20 +0100
+Date: Tue, 10 Mar 2026 20:04:20 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Lee Jones <lee@kernel.org>
+Cc: Rong Zhang <i@rong.moe>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+	Pavel Machek <pavel@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Ike Panhc <ikepanhc@gmail.com>, Vishnu Sankar <vishnuocv@gmail.com>,
+	vsankar@lenovo.com, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [RFC PATCH 0/9] leds: Add support for hw initiated hw control
+ trigger transition
+Message-ID: <f3e2e601-ec12-46b4-8986-c2d997e48572@lunn.ch>
+References: <20260227190617.271388-1-i@rong.moe>
+ <20260310121024.GJ183676@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310121024.GJ183676@google.com>
 
-Hello,
+On Tue, Mar 10, 2026 at 12:10:24PM +0000, Lee Jones wrote:
+> I'd like for the netdev folks to take a look at this please.
 
-Applied the first patch to a dedicated branch. Please pull from:
+Before i get the rational of these patches....
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-7.1-devm-alloc-wq
+Have they been tested with CONFIG_PROVE_LOCKING enabled? My experience
+with networking is that it is very easy to get tied up in AB-BA
+deadlocks. You need the LED to be as dumb as possible, it is always
+logically 'below' the trigger. Having the LED calling up into the
+trigger generally gets you into trouble.
 
-Thanks.
-
---
-tejun
+	Andrew

@@ -1,104 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E39352FB0;
-	Mon, 16 Mar 2026 10:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957302951B3
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Mar 2026 11:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773656009; cv=none; b=mtpY8ZFph5U6au30xpf3ntUyl+ITkwr3cN0SPgSqXMcdoqHUFkLZpppSndT17sY43P25GvLNAptNsqDgyx++bQFBG0+DnDHOa00P66odSR5XzHKQAtIru5mClyQWR9T6VteogFeiLF09qF/lTR0alRtiD/wvV8S/7Xe9B1+RZxM=
+	t=1773659942; cv=none; b=GaveVvarCCDPM5bOOpbq8bJU36IYmec5UjTHWl8qpoY/W1rsU0IBBuX2TWEd45/9OeiyTXyw2AnRCWNMVCn9sY7G/+GO7HlZgBmamNqn8CAsNy6SOntHmlPMkl16lUOHMqBgYeKiMA1XEZauEn7NiFkuTnuokrbnLSl/z7fJR5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773656009; c=relaxed/simple;
-	bh=uvmNUVeW05PxXKT9g2Z+LxiEzXQO/dH0eTByg8eVn/E=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ssNTsGohgZYngPIs79aKxiZphKr37eV9Oypao/hVTuXQ+dAeJLNNugDscfclkgKtgOkKlLioayQ6pVXX9kEv2rIHSSc02M8GuB0KgkrR6REyq6AtZWzbu8AM4uhy+ODdzfBec/BD7pJn/GBjFxjfZvad4RyEy4PZs7+RrB+dk3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lYtnYR7z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773659942; c=relaxed/simple;
+	bh=pE6aBW5PWZbbitw0U2AKJCHXuOjvSiDQXNqow5+gO8M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nRfgNi/3rr1PkbixYwQ0PLFer/W9ZqoPl1HuMKgQLlkyRqAjT1I0L1cHXdnxGc4sscCNZG+6XXLi6/NrbhvTSHKWg0iwO+tBe9C/aFNRJtATit9nYYHsQhR3oEmAUIGyaSgVjOzqfagNxoXj44M8ZbZhcyWHo4LIUmuvTdjK8s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jDhDZWpe; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lYtnYR7z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11CAFC19421;
-	Mon, 16 Mar 2026 10:13:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773656009;
-	bh=uvmNUVeW05PxXKT9g2Z+LxiEzXQO/dH0eTByg8eVn/E=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=lYtnYR7zUf8+8AfVyh/A1n57n6tphcah6GFYj7Jo/9aIARfwXp8r6N6yEdvwIiYbA
-	 MxsfxmkmPUedlm8Clq0Ea6IoktbCDeemrI5SxPI05iqqaiJaFd1M5wKga64jjOdfqL
-	 u0UoX6DNe1pPlnr0HoWK09ICt0+LHOvFugc/iPJUaAIACExyipxDux3uhhfpyWSzmS
-	 iOaD+GXjRQJkb0kU7M6Ui6vq54TTDZLqzDErNCb/CV+DN4oRZQyjXrBfeDAyOZ/I0G
-	 GZ2uuCIhc4xw8jH17oTosyW78b3Sm8OyPtFEpmAIteJtNIbT3Vyi7Y14tl1CThSLp4
-	 dr7aI7fRPgSbg==
-Message-ID: <8fcc1419-266c-429e-b1bf-1799322eb69e@kernel.org>
-Date: Mon, 16 Mar 2026 11:13:24 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jDhDZWpe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773659940; x=1805195940;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pE6aBW5PWZbbitw0U2AKJCHXuOjvSiDQXNqow5+gO8M=;
+  b=jDhDZWpehz1EPWyJQuRs43VyaB59Shp4QeJkqBm9nLY4R6blKTPDVBBE
+   juHH072iGksaJ43FK0rQyN0lYtOeO2JIhbgcOROdt2n+TKw0e0ot3PoAB
+   8jrIHye09rnK892M9VJL/hwSrrM3yoSqm7WKPuZMALxnRtHTUiCNhL3Xh
+   aWdj+eGhhNMNOO21iaa20hV6oUMambFow7L6KB1lG6VUXUQKlkm9FA4bT
+   /ypZW6KjbHNkvfLytbfkwk+DNPobPh8UECo6rZH7HjhKhoDPfz0NNeEmf
+   j2nEl91iT7Q55zfqpQRaItMCIXPUE4/t2Rq5Dlf0SM3h8PEQUrTYXi1Ku
+   w==;
+X-CSE-ConnectionGUID: jojvZEfsRwS+MS1AtOmNBg==
+X-CSE-MsgGUID: gjE7k3yzT8qE9NrSYlttsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="74859259"
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="74859259"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 04:18:59 -0700
+X-CSE-ConnectionGUID: E2MwWpkJQNOfO5ddsF+RhA==
+X-CSE-MsgGUID: UgCg/HY5TB6FwcRY/0Q7Vw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="226559096"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.237])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 04:18:55 -0700
+Date: Mon, 16 Mar 2026 13:18:53 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Subject: Re: [PATCH v2 1/6] media: vidtv: Rename PI definition to PI_SAMPLES
+Message-ID: <abfnHSoZcKJUPAzd@ashevche-desk.local>
+References: <20251107201005.3156118-1-andriy.shevchenko@linux.intel.com>
+ <20251107201005.3156118-2-andriy.shevchenko@linux.intel.com>
+ <8fcc1419-266c-429e-b1bf-1799322eb69e@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 1/6] media: vidtv: Rename PI definition to PI_SAMPLES
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
- <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-References: <20251107201005.3156118-1-andriy.shevchenko@linux.intel.com>
- <20251107201005.3156118-2-andriy.shevchenko@linux.intel.com>
-Content-Language: en-US, nl
-In-Reply-To: <20251107201005.3156118-2-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8fcc1419-266c-429e-b1bf-1799322eb69e@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Andy,
-
-Just FYI: I'll take this patch. Regardless of the other patches in this series it does
-make sense. I haven't seen any updates to this series, is it abandoned?
-
-Regards,
-
-	Hans
-
-On 07/11/2025 21:02, Andy Shevchenko wrote:
-> The definition of PI in the driver is not the actual value in radians,
-> but rather degrees. Since we are going to have a value in radians
-> defined in a global header, rename this definition to avoid potential
-> collisions. No functional changes.
+On Mon, Mar 16, 2026 at 11:13:24AM +0100, Hans Verkuil wrote:
 > 
-> Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/media/test-drivers/vidtv/vidtv_s302m.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-> index 9da18eac04b5..b3217d643b1e 100644
-> --- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-> +++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-> @@ -45,7 +45,7 @@
->  #define FF_S302M_DEFAULT_PTS_OFFSET 100000
->  
->  /* Used by the tone generator: number of samples for PI */
-> -#define PI		180
-> +#define PI_SAMPLES		180
->  
->  static const u8 reverse[256] = {
->  	/* from ffmpeg */
-> @@ -259,10 +259,10 @@ static u16 vidtv_s302m_get_sample(struct vidtv_encoder *e)
->  		if (!ctx->last_tone)
->  			return 0x8000;
->  
-> -		pos = (2 * PI * ctx->note_offset * ctx->last_tone) / S302M_SAMPLING_RATE_HZ;
-> +		pos = (2 * PI_SAMPLES * ctx->note_offset * ctx->last_tone) / S302M_SAMPLING_RATE_HZ;
->  		ctx->note_offset++;
->  
-> -		return (fixp_sin32(pos % (2 * PI)) >> 16) + 0x8000;
-> +		return (fixp_sin32(pos % (2 * PI_SAMPLES)) >> 16) + 0x8000;
->  	}
->  
->  	/* bug somewhere */
+> Just FYI: I'll take this patch. Regardless of the other patches in this series it does
+> make sense.
+
+Thank you!
+
+> I haven't seen any updates to this series, is it abandoned?
+
+There is no consensus which names should be chosen. I have strong opinion about
+my choice, some do not agree with. Id est I like the idea to have PI as PI and
+not something longer and confusing. Same for 64-bit, just some short.
+
+My rationale is that, in most of the cases the 32-bit value will be used and
+having it as is would be nice.
+
+Another point is to have a macro that gives PI rounded to the chosen amount of
+digits (to avoid / 10 / 100 / et cetera in the users). I don't know how to
+implement that nicely, there is no loops or alike in C preprocessor.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 

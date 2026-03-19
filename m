@@ -1,86 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA21E329E46;
-	Wed, 18 Mar 2026 11:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639A538A729;
+	Thu, 19 Mar 2026 16:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773833122; cv=none; b=SEHPeWknGwMQF5fWSQPyRle/rsuq51APJXqy1HdkdvX3dZ8apGR8oduXjmWgsmCtM3zZbhI270fjhXcipeaI/Q6ibx2o9Yj2N0AbsuX9b1YVA6f+CqL4rO7rrKxKAL/8gWQSfwK8aymrZ9OIpMJpkmznmsEwzNqWnC3WBdF2U8I=
+	t=1773937286; cv=none; b=czq7a6bvVRkgB1r7Y1ytCZt/uFI+TdIq66CFBROKst+4Ecq2Z9EfjsOtkRGR80DSJbwdjOUggnpI64S43bfdTwFmyl9TuShVvbZIiN8Q+DYpK+kzz4OnXo28Hii4dBws2IJV69wYr/hIzNbYcqqskSsMpHPo34kS7M6m5SxMecY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773833122; c=relaxed/simple;
-	bh=a+Gwji0OKL5eQZIQ/6rN8rq0Dw4D0OuMlM5vMnc0Xhg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n4IdvjmiL+J3RRltwdpm9WPiC2c2spMXDKxvF+kc9QgnryaYynm8JhY/s0G25rZ9DdaxQoh0Uz6EmSQPqYtzhEmA3C3hZf1lM9SQRsPp8G9a8XcbGdv/aAc5SwEKmVySK70qOcVAGIZtRpo5tvPjQTzXKxDgCHXaVtbrsGgCzzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nt7dxDEI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773937286; c=relaxed/simple;
+	bh=SWuryUrLCruxqK7KPSnDrrfXYe0rzOzozifRFqJ4zdE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=oGO3IhgP3wMjBZVk4E7OYbzbmFaX/TlzpyMcInsWOcmpViGr2dqfxkV+h8r9nhhCejQcCqdHFPBvvnZZ4ARQTfOu4kHneuFd/aVO7BrjkhYXti0nW0M1N33YVhuj67j6UYTkk5TWGPXEsi4L8BGagsxE6XD8UR8uXDaOysdDyGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hef07Mus; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nt7dxDEI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B3C0C19421;
-	Wed, 18 Mar 2026 11:25:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hef07Mus"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D019C19424;
+	Thu, 19 Mar 2026 16:21:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773833122;
-	bh=a+Gwji0OKL5eQZIQ/6rN8rq0Dw4D0OuMlM5vMnc0Xhg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nt7dxDEILFsEmHtLmm5Aw6L4T8PJwTgbGQPy/8Vrbj0K9/AdettNQ6/Wbv4XTLk2M
-	 axWnE++xOMxvwDgfUfS6oRorqHTt7V8/nfTi9MGARjLsmVEVriLlgBTDHS/QPVOJFP
-	 gyQqiF8BWtQtLBHtDur/x+DApVGcglCkYgw9HS6wSowGWc0OT69S4ayZgkVKwGSx5u
-	 5QaCB6U7VR7WZ6Lw3b2TyrE89h/h5htQhPA1MO3BbpWTK5rB9YOE5bYrjRwUgsu+BZ
-	 yQKmXJR+4QPIux/7gBMmkjsY8tGf740l8LEzahKdCBiOG+TXqvEeX08w3LYK4Q4PCW
-	 zx7iqZRWr9X2A==
-Message-ID: <122318db-06e4-427b-a575-c84a3f55d2fc@kernel.org>
-Date: Wed, 18 Mar 2026 12:25:15 +0100
+	s=k20201202; t=1773937286;
+	bh=SWuryUrLCruxqK7KPSnDrrfXYe0rzOzozifRFqJ4zdE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hef07MusVcnp2t8J564ll1u+wYC0m2OUObIg5bVNiRf0DMkXUITgxK/oFxN6BCiA1
+	 KgL3T6+GrWN7m+5EdnN330/a/SUiUC0toYsQTDELmz8a+x+BFVVyOZ1wEU1L2Nx02y
+	 OC89WGOTkdpT56I6GVHGalJrrrG9RzVPNuPEwWUCI5mE0LaTCAXMA3wFg3CFUg4qpI
+	 nsYY82XrC4O+8O/nIzZmXsLQF85C7HkdNDSDrE1EyX5fSW2JiQsbQGz3ReUvx4AZt7
+	 1XGKMnUIz98LHRjJQ2oe3WxafNmRsX9xEjxbl9ig7li33yzfu1aNhwdiM1DJnnbN8j
+	 MUDhGgNciC/Rg==
+From: Lee Jones <lee@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Dzmitry Sankouski <dsankouski@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>, driver-core@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev, 
+ stable@vger.kernel.org
+In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v2 00/10] workqueue / drivers: Add
+ device-managed allocate workqueue
+Message-Id: <177393728021.2870619.1816530869958472742.b4-ty@kernel.org>
+Date: Thu, 19 Mar 2026 16:21:20 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: usb: Add binding for ChromeOS Pogo
- pin keyboard connector
-To: "Rob Herring (Arm)" <robh@kernel.org>, Stephen Boyd <swboyd@chromium.org>
-Cc: linux-arm-msm@vger.kernel.org, patches@lists.linux.dev,
- Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
- Bjorn Andersson <andersson@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org,
- Pin-yen Lin <treapking@chromium.org>, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org
-References: <20250225223038.879614-1-swboyd@chromium.org>
- <20250225223038.879614-2-swboyd@chromium.org>
- <174058524070.2499032.1136545857184253798.robh@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konradybcio@kernel.org>
-In-Reply-To: <174058524070.2499032.1136545857184253798.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-52d38
 
-
-
-On 2/26/25 4:54 PM, Rob Herring (Arm) wrote:
+On Thu, 05 Mar 2026 22:45:39 +0100, Krzysztof Kozlowski wrote:
+> Merging / Dependency
+> ====================
+> All further patches depend on the first one, thus this probably should
+> go via one tree, e.g. power supply.  The first patch might be needed for
+> other trees as well, e.g. if more drivers are discovered, so the best if
+> it is on dedicated branch in case it has to be shared.
 > 
-> On Tue, 25 Feb 2025 14:30:36 -0800, Stephen Boyd wrote:
->> Describe the set of pins used to connect the detachable keyboard on
->> detachable ChromeOS devices. The set of pins is called the "pogo pins".
->> It's basically USB 2.0 with an extra pin for base detection. We expect
->> to find a keyboard on the other side of this connector with a specific
->> vid/pid, so describe that as a child device at the port of the usb
->> device connected upstream.
->>
->> Cc: Rob Herring <robh@kernel.org>
->> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
->> Cc: Conor Dooley <conor+dt@kernel.org>
->> Cc: Benson Leung <bleung@chromium.org>
->> Cc: <devicetree@vger.kernel.org>
->> Cc: <chrome-platform@lists.linux.dev>
->> Cc: Pin-yen Lin <treapking@chromium.org>
->> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
->> ---
->>  .../usb/google,usb-pogo-keyboard.yaml         | 68 +++++++++++++++++++
->>  1 file changed, 68 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/usb/google,usb-pogo-keyboard.yaml
->>
-> 
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> [...]
 
-Rob, this has been stuck for a year. Could you please pick it up?
+Applied, thanks!
 
-Konrad
+[07/10] mfd: ezx-pcap: Drop memory allocation error message
+        commit: 33e0316783a205625b7c55a78041ddc0d5dce7c7
+[08/10] mfd: ezx-pcap: Return directly instead of empty gotos
+        commit: 444e11d9d9e56c994da8a253cdf7f33ac2eeb15b
+[09/10] mfd: ezx-pcap: Avoid rescheduling after destroying workqueue
+        commit: 356ee03f6ae7d04f90d8e2104660193c4f3a071c
+
+--
+Lee Jones [李琼斯]
+

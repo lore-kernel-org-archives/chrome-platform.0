@@ -1,85 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7E73603D1;
-	Fri, 20 Mar 2026 17:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE8C1E515;
+	Tue, 24 Mar 2026 00:12:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774027808; cv=none; b=mAb+yvslEFSK6wDgZxr4rUPr8xtme7x2FPuTiL37AK1I15yb9lkpxj8UDHOwsXC0Fy6lMgyI8xzVbHS4FHtXYb/+0eZkXjekhDCEnW8dR3Ba1G7OGdfyAIIOdoxqlnr7YdD8GvDi8qjhAX+4PEuLMwk+JaCqG7Y/nx7EGkubYQE=
+	t=1774311122; cv=none; b=Ncrb7A7zk3r9cnBKwbN01muhVMQQlia/b9aP4bIboMwrK7lVmIb7z4v6jRdryYn9a5dTURyOpUiFG5Hxuy3nxlMNx1X1uHb4grOOsONOZa0Xyu6msJiUkkWLjzbceV6wPO5e84vz/MRv1wwF5gX1HN9cZXlZTX6dwuj+dNzGBM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774027808; c=relaxed/simple;
-	bh=2ko2yr8EREI41gY4DKOmiWwlSx8gmD/iM6LkQEBVH6s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uRhObaILgyEKqy5hRNADLTMGnOBV3fgVfx/01F3x5zU3xZo+SU9hFucq7s8h9dJaAc3YuT7qd2s4fqrD8hdWa0o4C+po4GibxZ+lA3JQP7ajwt8m7mMIfNAybR6XA/JX/jb6vVbEV9yaktA+UMM84XyxoHATBPnHBfhruhElIe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5Hyus7h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774311122; c=relaxed/simple;
+	bh=BZbJm13p6v7uFdlnM0kKtK0kw8yT1avRjwVB64Na/7o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=dKnxRb8fLj8mRfOSoHc007YTUCyF9PrI3hY5ww/LrnjcWdpeLk6E4G1KAlH4t7kur5gWVqGKRggpul9Zzw23Xmm+ZSgBXh49P6RtPAo7ajI1WThgJm4l+lJRm4hmEEPTV9YCUYH6TXHJktRI3vmRRcmVmuERSUsR1+0PHN6Tnww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K5jrM1g2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5Hyus7h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0EACC4CEF7;
-	Fri, 20 Mar 2026 17:30:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K5jrM1g2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F343C4CEF7;
+	Tue, 24 Mar 2026 00:11:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774027808;
-	bh=2ko2yr8EREI41gY4DKOmiWwlSx8gmD/iM6LkQEBVH6s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t5Hyus7h1OdUrxx0x+UUtqbrgN8lkDQ8LWN/V+z41wiTXKEsaXd7szrUnj4RYzONF
-	 XxCMegAu/K2xz3l/nMnJybtiTDZ0biEz8APXwMTzCqfrnsOzeehBUHkObXJTBybTUD
-	 dsKA7G9uRscvqvNbT5smjEAGGaClM1ur80JyMLNTsz4GnM8efceBHXuuMHsCKqNKLa
-	 cdc2xdC6fZUoJ99TnwFIzhVvdl2U6BACfVQKJQQBdhQk9BEkJlB55OpmgZmq7AbgMp
-	 KLOpEeTbDgfbrKAuUoGyuW6g6ss7P696/kEpt8kWunU9dUMvrs5n/XYpIyToa5MHzB
-	 OfpikkvrDSZkg==
-Date: Fri, 20 Mar 2026 17:30:03 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 1/2] regulator: dt-bindings: cros-ec: Add regulator supply
-Message-ID: <20260320-shrubbery-nimbly-17e3bacf4ad6@spud>
+	s=k20201202; t=1774311121;
+	bh=BZbJm13p6v7uFdlnM0kKtK0kw8yT1avRjwVB64Na/7o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=K5jrM1g2tyqh02781ZCofBxdfOJa5AeuqQBRehpGadrtFJkHXqdcRGeht8LNeB8BZ
+	 wnlNZwrVhyrC/r2TLmI8LlwiO6e0sYpNbwVaLAK9WMg6TCUIVtlwIHp06aCXyVYq4w
+	 Gc2rlipBVnNSjWlhvUY+v6OnmjekBcEA9X+uUcMdDNCKsxudLZUiRRzuDrIAM52srd
+	 lsBYYTs0MXVixREYqFhtCQBIrFs3/YdCaT1n9zw6FHBXTvNpm/xEu0qmejb3DN2b3M
+	 riBxd2/y+jPldyolcFW4HpkUCsadZYycV7tAy2B0c8xFStC8JdkVjtThnv3MhDdYOE
+	 KcVPFoU266lzg==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Benson Leung <bleung@chromium.org>, 
+ Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+ chrome-platform@lists.linux.dev
+In-Reply-To: <20260320083135.2455444-1-wenst@chromium.org>
 References: <20260320083135.2455444-1-wenst@chromium.org>
- <20260320083135.2455444-2-wenst@chromium.org>
+Subject: Re: [PATCH 0/2] regulator: cros-ec: cleanup and add supplies
+Message-Id: <177430554501.811880.4959580213615516944.b4-ty@b4>
+Date: Mon, 23 Mar 2026 22:39:05 +0000
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nkY5dg21V/AsYkAX"
-Content-Disposition: inline
-In-Reply-To: <20260320083135.2455444-2-wenst@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-17187
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1447; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=BZbJm13p6v7uFdlnM0kKtK0kw8yT1avRjwVB64Na/7o=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpwdbOXyzix15AngIKGeCoU5IoLfda9/2BUmLmw
+ ParSdlB6laJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCacHWzgAKCRAk1otyXVSH
+ 0HbzB/9xIU3u7Z+zr1GTIUwKmtVL/HaOR+tHv7Dd1zvMFDjYaud3AO+A7Ou0rtX9wVSlclihAa0
+ qzz09CEtPbgiH0gIJ+QJ29LdkY0HZo90sOFp0pAnnPZjAlCNV7piky8z32ib4/4afkquTY0RDh1
+ 11FaOv8v2Phr6Ry4R1JzGFzJGn5Dy96V4xKfqpcKQXlpstbsY78YNaP9m7IkNRkuD2MKbRVp0dl
+ AS0XhuxxBp8nE/p5nA5njK6KcccA2blVW/0iw7gv7Ashx1uNrd/oxAZVLl4bPMyIW1YEUAxuWXd
+ KQ+yKgkhBCJRrhUpuS7BfJ76IXB9M7SnKdPfWnHLpuajuUyK
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Fri, 20 Mar 2026 16:31:31 +0800, Chen-Yu Tsai wrote:
+> regulator: cros-ec: cleanup and add supplies
+> 
+> Hi,
+> 
+> This series is part of a broader collection of regulator related
+> cleanups for MediaTek Chromebooks. This one covers the regulators
+> exposed by the ChromeOS Embedded Controller.
+> 
+> [...]
 
---nkY5dg21V/AsYkAX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Fri, Mar 20, 2026 at 04:31:32PM +0800, Chen-Yu Tsai wrote:
-> Even a regulator remotely controlled by the EC will have a power supply
-> input.
->=20
-> Add a property to describe the power supply input.
->=20
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-7.1
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+Thanks!
 
---nkY5dg21V/AsYkAX
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/2] regulator: dt-bindings: cros-ec: Add regulator supply
+      https://git.kernel.org/broonie/regulator/c/56b7c08a8b4b
+[2/2] regulator: cros-ec: Add regulator supply
+      https://git.kernel.org/broonie/regulator/c/411eb30f1382
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCab2EGwAKCRB4tDGHoIJi
-0t/+AQCAYxcTf4VwNykpGFfXOFK8EdQ2eUwyX9fEG0agtHSxwQD+MHHOSLzzbZVU
-ea5hroG7LS9S0Zp8Gm8G7Kd95VkBEQE=
-=Y7MT
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---nkY5dg21V/AsYkAX--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+

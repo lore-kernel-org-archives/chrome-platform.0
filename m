@@ -1,112 +1,155 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF0F264A9D
-	for <chrome-platform@lists.linux.dev>; Thu,  2 Apr 2026 07:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775116250; cv=none; b=ZEcRT7AB9GeQLe7CibrM1QtTrPt+K3665gv8c4bizflRIuPu1/idvkZNKuIV2PnL83e+JNzTrgvGeYTKgP7mQ2DyNB0EBubLWllRMiMnHjb8ypl6bsR5sMmkZNzi6TwscQbSyBbFHKOKiACADbLj9844pQtf3uDT4whdb7dJ+rA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775116250; c=relaxed/simple;
-	bh=czfxnmzXViuK8LYBCaMOU9PhSX26RAsbF2dVUQK+RL8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=M6kGji6DJHVb6TyjR6YfSIodBpDM2bzvZUK0aoaV8PQQLsQnSdgS3UsbROIZziiVeC5f9UWLU5yYhUOdJMsobuHe1kS5E89qb7aPIfQDDLAjDrjW8+RHnvuf8bD8qS0bsHYKldv7N10V8H3cpdqFA64DgalsC7UXkXFFFggkSY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com; spf=pass smtp.mailfrom=quanta.corp-partner.google.com; dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20230601.gappssmtp.com header.i=@quanta-corp-partner-google-com.20230601.gappssmtp.com header.b=KnnDn73Q; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quanta.corp-partner.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D2B311C35
+	for <chrome-platform@lists.linux.dev>; Fri,  3 Apr 2026 14:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775226123; cv=pass; b=G/ToJNiD3KIFafjQj64UaBHnsBWLaHQiQAAYr682IbykVjaBiEXnqBHKgH3y/Yztxj0Cxy84FNjjHv5kDG7+1+s78Ai8RuE3E9c6n5zNSKPEdJjq6wl9If6qxChjEMdToZ3WDqn3KpuiqAmz4u/+8J2uoT3uKXELIKDonG1IC2c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775226123; c=relaxed/simple;
+	bh=77Px9y3PACN7GbbO166UYs/MCsPCUymFm1lueR1C+IQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PNJa47SdD6OVmnCHeU+dKaWitn4kdNtM78riJbP7eRQVcLN4OhLgqgg8m0wsgrV5ormqy/kXRU6uzZmZ45V9b+iZxYqc4+zf5/r2PpVCngXLJTWq+UICZgq9h949JPjrquFpgJTP/zyhZcb6FQSbrteI4wZCCIkp8qfF/OG1EmQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XwKrt9Ed; arc=pass smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20230601.gappssmtp.com header.i=@quanta-corp-partner-google-com.20230601.gappssmtp.com header.b="KnnDn73Q"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ad9a9be502so3798305ad.0
-        for <chrome-platform@lists.linux.dev>; Thu, 02 Apr 2026 00:50:47 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XwKrt9Ed"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c06cb8004e8so737557a12.0
+        for <chrome-platform@lists.linux.dev>; Fri, 03 Apr 2026 07:22:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775226121; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VfTqtVqsSSgJkHjE/mnpSLcnfY6DlMnN/aOGNSvHn9bnETeCK8a63WdrWvoxxrIRaL
+         4HdIcs2yE55WFYWn7o816Z67UVmas+Ap/41zlj4QBzD0ppYpPZ6rwgvI/SCJ0RnnsQR8
+         w2OSks43RZOluOFX9+N2QcbdZ5Uxj7jUEQU7erWcke27YmD7J82RKxQ0yCoESS1eI5M3
+         9q7O0oiDepK2H8EwLXYEnneRdzhXsrTZCxb/4XBvyXTAsW9tLv4iqJt3UrLW7bCf1SWL
+         91ZM0ZIInwjssr4/pVVUVc3UlqGWvM/Enjmo0N+h7tl6CrZKv5WyvywJLcjfhVUJMtJy
+         V7lA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0SBDyvGEKLO7ufOaCEX2OwvcXKCybxnjCOTqas4F1V4=;
+        fh=Jsc6trT7XXGVT1SilpSRvubLbRC7hRr5C47cGxsu2zM=;
+        b=OemfFT11FwQrL1pp1viVBQ/ebXwxcE24lrBF3J34rAUONHRbzgnYJkvW7EYhEKJWVo
+         vyHq0ua/5dfc3poHKRvRBeAeRd8kBy6h67Mk6Rqom37MppYcDnDE4q4KcO14ucjIfPrk
+         R6K90QbcrH740qE2eYEoqigE3ChsmOYiAdqElrN1vMWdfncpaC92Py0noChNFtkQr18L
+         ZkZrC83zbN2qYYjj3Pt1phr1fU59S1SnTf+xHaId+CXYJVCo+lEReMM6grvFSMoU/9wk
+         tWKs53m6jGKznWAa0GUlLLL/E8OoQM6CFjLqgEiKPQWFhABGzM5ZXwttObPXDpoHy1ZI
+         ig7w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=quanta-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1775116247; x=1775721047; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=En+fua7i1xnlRCBY4EaRbPlqxfU5rNh3zfCWADN5kUk=;
-        b=KnnDn73QxfjJmoPFR6gyS4VFJL0wiqqksZTA+KzvuEQm6qg5FORiRfZMQheF6F5nr6
-         rBm52WX2VP6Kb0MVo60bGQIFElBMhnVVxo77dWZCDsR3clHPsn/zdrfCcbrosu6fE4HV
-         riHQOkvH9PI2Vo+D9oF+stgmYf8Tv/k8UII6jzVl8O+33+bLYh5fpXJJUIZnqDvesZGJ
-         LapW+JIarKzzhpW0Mxc6JcOKHVxVpkm3AiHcyOEbw1ZYZf+KIg+CBm2co0M97L0goFtB
-         yIaeceKSZPDy14V2FZVMKJLYLzuyfQ4u0/BdVTy3kaw2sJdHq4U/VdEvL76k9K1KjfJM
-         vJ/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775116247; x=1775721047;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1775226121; x=1775830921; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=En+fua7i1xnlRCBY4EaRbPlqxfU5rNh3zfCWADN5kUk=;
-        b=g1VF5QFebJ0kfkTWhxaNnRP2haVt1KFF7llveMmNe1gBtumKj3ZY+0+Olgq0P7dsTq
-         7jjSDM+6kLUMs9DVD4ewEzqf8hi1ozY8Og8kVo9q3ro82J7iyKx5WIKePnrR+6vVb+Di
-         RtvWLb+XZQ+6SCLJutVB1rWpWiEjd451dHTy0iegBFVw56emILhQJrIctHQk1owbbhcO
-         QOsLjnB4/VXlwDTRTnSX/4wEh051PlKFsXYVonBt/KlGU0TSvYNzVCE3swVJC97iiC3o
-         VXcE9Q0pl12qUipp+eP5ngTfraJNO9R7i08G2y0WWV+9xfFJC41uc1LKUWyWBfFtkGj7
-         qxUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWqr3V+AcqMmglXqExfnYWu2aq1LWWNw2gHOj4dmJjKrv1gPqI0EKYTY7RcfzrPze71OB5KdCEmeIdpiTpmIcE=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwgG71vsX07LdLfpD8UrftGtBLpgX4WAH8bmgJvLwiidG+yCWpd
-	kGL/lQbxQm5uiJAer0qOgUbfCmzqHgb6rIXQh8A2PjVOf59iPqbzeUmddCrfHieMyyA=
-X-Gm-Gg: AeBDietNsya1ugV/Kb39JSpQFzIwbnODV1PNJccg63zuCYcXY8trwR5AyLMgFlseWpA
-	uIMYsZ/J8IWF6/bGa3PSUp9Rf3g4bC8zUFGcrmygIQJeKcdN65Rg/n0E8xadRt/mS/ibuk2ZxCI
-	Ry4mp7dqbud5iKhzeh00/ZYwEWGS9JgPoJoBQ5flSOYBE8TIzAWSWw62B8JY1a2Et+O7b7FCHec
-	ZtyUX84IM1O2QIo++f2qzSW5DE0Dczuu989fhbWrW8I/6H9X89oAdvQIfuE3OID1SOLR1FRNkSd
-	om+KuNYPvHv77dE1jOeJYB9kx3Rx31BzOv9JgxOaaEI+zgvRLvVki8YPhwEw0xTtvY/xLimty79
-	1PG/wNzJQbayG7QBUmaH5fsdZ/YlTsP9gdz2DIYlVBiI36viasd6dgIyoUy/6UT3l7yVKRAAYq6
-	IapWq5gqGeus4iSSDQWoPEiRoGuwVlRbB7CpG5iGJV52PdMy25k1O7St+x9qn0rgqngiU+Z4s9U
-	SMyOWypSdU8/noIbGsHPQ==
-X-Received: by 2002:a17:903:2ec3:b0:2b0:66f7:f7cb with SMTP id d9443c01a7336-2b269a8ca44mr62732555ad.7.1775116247083;
-        Thu, 02 Apr 2026 00:50:47 -0700 (PDT)
-Received: from localhost.localdomain (211-75-10-161.hinet-ip.hinet.net. [211.75.10.161])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27478bc96sm19813955ad.33.2026.04.02.00.50.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 00:50:46 -0700 (PDT)
-From: Ken Lin <kenlin5@quanta.corp-partner.google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	chrome-platform@lists.linux.dev,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Guenter Roeck <groeck@chromium.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Kells Ping <kells.ping@quanta.corp-partner.google.com>
-Subject: [PATCH] media: platform: cros-ec: Add Kulnex and Moxoe to the match table
-Date: Thu,  2 Apr 2026 15:50:08 +0800
-Message-Id: <20260402154921.1.I71ce228a830321a80f99a9ad830d027132859e56@changeid>
-X-Mailer: git-send-email 2.25.1
+        bh=0SBDyvGEKLO7ufOaCEX2OwvcXKCybxnjCOTqas4F1V4=;
+        b=XwKrt9EdheWwvTvNoRgkv7GY4fUslf//kqcMu7mbtOrYIW4Ts118XEUvrmWLZkKuju
+         J0hAUDf1shQAdpCmQQtIJ9LRol7oTzY4eqro8UTUUelYdHn6GLzJSJQTfhpzpSVQgL8+
+         F+kbUjzZrvw18wzr15C7wYeSt3YfVH4LnmjLk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775226121; x=1775830921;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0SBDyvGEKLO7ufOaCEX2OwvcXKCybxnjCOTqas4F1V4=;
+        b=BbbvXaFvZPM2EzYDJFCIduBKYSTYrFRClNetv1eJc3V3W79k4V6MCNKlm8ny3QU2AW
+         omc/mtpd3sypqvw6nVYovODH6CEdRLxgRDKOILDsksa5IKknH0lf2T8Rljn+QoAl8RuL
+         hzcexMgf1Rr8lId55qzoy3QVd5WhhP8Mwtgvf0yCRF5FFGLIhAR2syeuCLhixwroEbk7
+         qGlLwg7ynKw0+Gzoo7YqpUkENMeiGus7pShOHP7HWKeelfaGoB0kODLhBVxncjPLhNVM
+         CpMJNZNSvyy34OydUK2c6OGjVB2rYpkepXgeP3PSi1mdfLUGGRG5bYBKE1POvtsW/R8a
+         jHTw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/bRJKEi+AB1BOBmRDZiRL4KR4P+oxWdnNJMLN664LGAVAakkb/T8Lr00hRAPZXr7wvJ1K9p39BC3Mdvd2+xA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YysRR1imMymerroD4D9i6o4NvujdFzy5zBSZbLClHv6GAPLHQoo
+	zZoZlxttLY/X07eFSfZ2XQEIkC+rwYY/zmWUogBKsipDknByzCNsRm5DhysG2azA9KS8ZZb6luJ
+	Dtf3PUZDXHF8pnRZf7c+iG/sqO2kof2sUkGwHO7B6
+X-Gm-Gg: ATEYQzwxSZhckC12Uv0RqR6RMg9Z0a61B8cReoqXm+Bzp8JnOmfr4VwcIU1cZc3xouP
+	SNrQeIH9+aT7CC6WOD6hzV9Q4hHhVSp0m7ESF14NG9Qvr+Qicunomzyy9/xSCdh88HQqlgYyQTD
+	xIjA5Sstg2h7EMzkK/+4cjxIIL8n8NoxoqdZHd0GALolVBHapNNiHps7K5X5Au1L7CE64/J5iFZ
+	9mQWxoFPOsVoP57kWklbTIr1GyJtrboPl5o+rpwFHrqPsUPDTKBpxZTTayRYbaEemoG9Cbbeu1z
+	D8GNeKpYjw+QYiiixob4d3Suub5gpZs58g==
+X-Received: by 2002:a05:6a20:7f98:b0:38b:de3d:d542 with SMTP id
+ adf61e73a8af0-39f2f268bb9mr2972587637.51.1775226121067; Fri, 03 Apr 2026
+ 07:22:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260129131928.794768-1-akuchynski@chromium.org> <aXwk_wzeF9UPd5DK@google.com>
+In-Reply-To: <aXwk_wzeF9UPd5DK@google.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Fri, 3 Apr 2026 16:21:47 +0200
+X-Gm-Features: AQROBzAJfqjnW-bOF5FhBzlaH24H_Se_0hBnk18YrH8MKbbHscp45DnbUvsgS2Y
+Message-ID: <CAMMMRMd_S2rk8WL+8ppDY0di8i6_3+ET9Hb3jC-Gm955RBRS2A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] platform/chrome: cros_ec_typec: Enforce
+ priority-based mode selection
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Google Kulnex and Moxoe device uses the same approach as Google Brask
-which enables the HDMI CEC via the cros-ec-cec driver.
+On Fri, Jan 30, 2026 at 4:27=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Thu, Jan 29, 2026 at 01:19:27PM +0000, Andrei Kuchynski wrote:
+> > The driver sets mode_selection bit for each Alternate mode, thereby
+> > preventing individual altmode drivers from activating their respective
+> > modes.
+> > Once the registration of all Alternate Modes is complete, the driver
+> > verifies if USB4 mode is supported by both the port and the partner and
+> > activates USB4 mode. In cases where USB4 is not supported, the driver
+> > invokes typec_mode_selection_start to initiate the mode selection proce=
+ss
+> > based on mode priorities.
+> > The driver communicates the current Type-C mode to the mode selection
+> > process via typec_altmode_state_update.
+>
+> I find the message doesn't help me too much for understanding the patch.
+> Can you rephrase them and assuming readers might not have too much contex=
+t?
+>
 
-Signed-off-by: Ken Lin <kenlin5@quanta.corp-partner.google.com>
----
+This patch is part of a larger series introducing the USB Type-C Mode
+Selection feature. The goal is to allow the kernel to manage and negotiate
+specific functional modes (like DisplayPort or Thunderbolt).
+https://lore.kernel.org/all/20260119131824.2529334-1-akuchynski@chromium.or=
+g/
+Apologies, I should have included the cover letter; it can be found at the
+link provided above. The series implements the mode selection feature and
+UCSI support.
+These specific patches provide the necessary support for cros_ec_typec.
 
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> > ---
+> >  drivers/platform/chrome/cros_ec_typec.c      | 39 +++++++++++++++++++-
+> >  drivers/platform/chrome/cros_typec_altmode.c |  8 +++-
+> >  2 files changed, 44 insertions(+), 3 deletions(-)
+>
+> The patch uses some exported symbols which aren't yet in upstream
+> (drivers/usb/typec/mode_selection.c).  Ideally, you should mention that i=
+n
+> either cover letter or note after "---".
+>
 
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 419b9a7abcceb..4b3f9bff6067a 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -334,6 +334,10 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Dirks", "0000:00:02.0", port_ab_conns },
- 	/* Google Moxie */
- 	{ "Google", "Moxie", "0000:00:02.0", port_b_conns },
-+	/* Google Kulnex */
-+	{ "Google", "Kulnex", "0000:00:02.0", port_b_conns },
-+	/* Google Moxoe */
-+	{ "Google", "Moxoe", "0000:00:02.0", port_b_conns },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
--- 
-2.25.1
+I should have included that detail. The mode selection feature is now
+integrated into the core from the main repository.
 
+> > +/* Delay between mode entry/exit attempts, ms */
+> > +static const unsigned int mode_selection_delay =3D 1000;
+> > +/* Timeout for a mode entry attempt, ms */
+> > +static const unsigned int mode_selection_timeout =3D 4000;
+>
+> The commit message probably needs some description about why these values=
+.
+
+These values match the UCSI implementation. The timeouts provide the EC
+enough time to complete previous operations; they aren't mathematically
+derived but based on test experience. We've tested them for six months and
+haven't seen any reason to change.
+
+Thank you for the review!
+Andrei

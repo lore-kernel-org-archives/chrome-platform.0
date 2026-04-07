@@ -1,144 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134FC3976B8
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Apr 2026 10:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B07E3A6EFB
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Apr 2026 12:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775557594; cv=none; b=Um9Oh4ITxEuCAlWNbaw4R3gDMStkZc2k/i4DXHWTwzg++AbxQaddE+4jnlYXhNJiaLce7Su2IPlOQ2cc/cbEUwtf8fiac/7oNvd33f+5iPTyxMiMmCE4UxyXe+3hMibzYBFzokpiHBh5fIldhqqrwA8+mOqFSvZAGDm63AzAtAM=
+	t=1775564612; cv=none; b=bMKlsffAAm2PO6l/3TxsSY8Z8I3on/CF1ChyVAK8SalVow35nFgE255OnkPR9azTVneMdlNGCa4R2uX8PubT5bzZVBrGeSYFUhnSA5emuuj9ma2+WEJSws6kdLtfNBc2PJExdK/eFvmW/MBfoQmlBTxbFbdayQN7aFW8PYvrnQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775557594; c=relaxed/simple;
-	bh=tv8x/Qt2ZuBfXFQYFFoWisjn2wtOxBDFPSw25fLKd6g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hweqUG0GRQJJ+2Q0ujXogwEOYmU2S7ErbRsutEGZ4S+qF7to/fAgHl7zcbJdIvccfXkr6xf71V/DZEiFP/7ZE7p4pG4Mrr8C4MHC1KDl9ZpcVPBeaKw1SOa81GiEy8FXiOXUSzCEx6zhVZTHE/LLFrRbbPtRY2AIipht9Kg+3tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KWG+dOLz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775564612; c=relaxed/simple;
+	bh=udq5QbeRCScW+LsK/TRGpVNCFeuozgsH3RVfc5Pvj3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HrWzeh5vh1v7+g7MEl23vwRwpf2Il3eEPISe2GvtzGL568lioT6ZCPfBgVkhprvUh/llZ5ZM5UNmZ4YYlmNF9v6HtyHzCCRhS7qjljZGP6M/Bjk9dsPmKaTqI0cCoRn3S6U8g7tP1bVd5Dfztlz+Nm5X9OtXkvw4aqbBL7Nvkn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/Z7DM5a; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KWG+dOLz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A184AC116C6;
-	Tue,  7 Apr 2026 10:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775557593;
-	bh=tv8x/Qt2ZuBfXFQYFFoWisjn2wtOxBDFPSw25fLKd6g=;
-	h=From:To:Cc:Subject:Date:From;
-	b=KWG+dOLzt/+NFn7v8NiYYhStLjGegBDm0UieCJuWiAUv+WHW3PT6s2KL416PhQVe3
-	 svjz63C6ACxbjMHYmkfXr0Gcfur8bMsmZQW5OLk3qvsWjn3AYiYqQ0rI5ChsZv7nIU
-	 ATj4vY7I8cja09UXPVAiKIpJVwMmLXz+6jy09VcxeSbuUkv+wdeeQx3D+sUfrRybcE
-	 0+sye2l1tCqVW5GXhZ7yI1hmNLhw2LwE3JZKFZYCj4hLcrY6oJ1Um4N4HJwI+6dH7B
-	 tmbnRpK5GdfugSMK/V08IYwKaB+vjVkUhPg8VXss4d4uaak1/nDcsH0nOqdR178XK6
-	 2y8uRC5AvFXpQ==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: bleung@chromium.org
-Cc: jwerner@chromium.org,
-	chrome-platform@lists.linux.dev,
-	tzungbi@kernel.org,
-	tfiga@chromium.org,
-	Gwendal Grignou <gwendal@chromium.org>
-Subject: [PATCH v4] platform/chrome: Resolve kb_wake_angle visibility race
-Date: Tue,  7 Apr 2026 10:26:15 +0000
-Message-ID: <20260407102615.1605317-1-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/Z7DM5a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775564611; x=1807100611;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=udq5QbeRCScW+LsK/TRGpVNCFeuozgsH3RVfc5Pvj3U=;
+  b=h/Z7DM5aeUwVez9/HKXHuw4TcFpRR+fTwb0R616SkxoQE671HeNrfTX0
+   BntpUUJo2dCKQ42K65zr6K4ddzuwrNnWHm9a2LPrfLxcsgGiAGCzbDINg
+   3C0fdrkVWYhCxO2DDCceUxSD9JMEe7FMXZVSS02Flx1AW7JuhfcP/VS1u
+   8c1JMyEqM+vxKsPc0JXzL4KagZT+kVhoGhdvYtuzZt2mlTYl+/1fBXqur
+   0CCJuyQgpV3Gl6aOgusGMRrwgQZCBPiLAnw5I60hvcOlt6IGuHp62Pt+l
+   4VoDLCXNKlrFhsvXDd3Ovu5CFnnu1vQjUDJtrXi49pqTuh0XqJdHuaSw7
+   Q==;
+X-CSE-ConnectionGUID: qq/qSO0MRjO1GNRDS5sevg==
+X-CSE-MsgGUID: 8iOGL6mHS22Cx6ZYrhNVSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="76420278"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="76420278"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 05:23:31 -0700
+X-CSE-ConnectionGUID: DPVsHRSKRxaJc40fhJ/89A==
+X-CSE-MsgGUID: kD9ZACXwT3ej17ecdX7ixw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="223856369"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa010.fm.intel.com with ESMTP; 07 Apr 2026 05:23:28 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 54CC195; Tue, 07 Apr 2026 14:23:27 +0200 (CEST)
+Date: Tue, 7 Apr 2026 15:22:38 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Jameson Thies <jthies@google.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	abhishekpandit@chromium.org, bleung@chromium.org,
+	akuchynski@chromium.org, gregkh@linuxfoundation.org,
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] usb: typec: cros_ec_ucsi: Load driver from OF and
+ ACPI definitions
+Message-ID: <adT3DiyjvDk0y9R9@kuha>
+References: <20260403223357.1896403-1-jthies@google.com>
+ <20260403223357.1896403-3-jthies@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260403223357.1896403-3-jthies@google.com>
 
-A race condition exists between the probe of cros-ec-sysfs and
-cros-ec-sensorhub.
+On Fri, Apr 03, 2026 at 10:33:27PM +0000, Jameson Thies wrote:
+> Add support for cros_ec_ucsi to load based on "google,cros-ec-ucsi"
+> compatible devices and "GOOG0021" ACPI nodes.
+> 
+> Signed-off-by: Jameson Thies <jthies@google.com>
 
-The `kb_wake_angle` attribute should only be visible if the sensor hub
-detects two or more accelerometers.  If cros_ec_sysfs_probe() runs
-before cros_ec_sensorhub_register() completes sensor enumeration, the
-sysfs attributes are created while `has_kb_wake_angle` is still false,
-hiding `kb_wake_angle` incorrectly.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Store the created attribute group pointer in `ec_dev->group`.  When
-the sensor hub completes sensor enumeration, it checks for this group
-and calls sysfs_update_group() to notify the sysfs core to re-evaluate
-attribute visibility.  This ensures the `kb_wake_angle` attribute
-visibility is correctly updated regardless of the driver probe order.
+> ---
+>  drivers/usb/typec/ucsi/cros_ec_ucsi.c | 26 ++++++++++++++++++++++++--
+>  1 file changed, 24 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/cros_ec_ucsi.c b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+> index 6bca2dce211c..251aa7251ce6 100644
+> --- a/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+> +++ b/drivers/usb/typec/ucsi/cros_ec_ucsi.c
+> @@ -5,11 +5,13 @@
+>   * Copyright 2024 Google LLC.
+>   */
+>  
+> +#include <linux/acpi.h>
+>  #include <linux/container_of.h>
+>  #include <linux/dev_printk.h>
+>  #include <linux/jiffies.h>
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_data/cros_ec_commands.h>
+>  #include <linux/platform_data/cros_usbpd_notify.h>
+>  #include <linux/platform_data/cros_ec_proto.h>
+> @@ -257,7 +259,6 @@ static void cros_ucsi_destroy(struct cros_ucsi_data *udata)
+>  static int cros_ucsi_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> -	struct cros_ec_dev *ec_data = dev_get_drvdata(dev->parent);
+>  	struct cros_ucsi_data *udata;
+>  	int ret;
+>  
+> @@ -265,9 +266,16 @@ static int cros_ucsi_probe(struct platform_device *pdev)
+>  	if (!udata)
+>  		return -ENOMEM;
+>  
+> +	/* ACPI and OF FW nodes for cros_ec_ucsi are children of the ChromeOS EC. If the
+> +	 * cros_ec_ucsi device has an ACPI or OF FW node, its parent is the ChromeOS EC device.
+> +	 * Platforms without a FW node for cros_ec_ucsi may add it as a subdevice of cros_ec_dev.
+> +	 */
+>  	udata->dev = dev;
+> +	if (is_acpi_device_node(dev->fwnode) || is_of_node(dev->fwnode))
+> +		udata->ec = dev_get_drvdata(dev->parent);
+> +	else
+> +		udata->ec = ((struct cros_ec_dev *)dev_get_drvdata(dev->parent))->ec_dev;
+>  
+> -	udata->ec = ec_data->ec_dev;
+>  	if (!udata->ec)
+>  		return dev_err_probe(dev, -ENODEV, "couldn't find parent EC device\n");
+>  
+> @@ -348,10 +356,24 @@ static const struct platform_device_id cros_ucsi_id[] = {
+>  };
+>  MODULE_DEVICE_TABLE(platform, cros_ucsi_id);
+>  
+> +static const struct acpi_device_id cros_ec_ucsi_acpi_device_ids[] = {
+> +	{ "GOOG0021", 0 },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(acpi, cros_ec_ucsi_acpi_device_ids);
+> +
+> +static const struct of_device_id cros_ucsi_of_match[] = {
+> +	{ .compatible = "google,cros-ec-ucsi", },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, cros_ucsi_of_match);
+> +
+>  static struct platform_driver cros_ucsi_driver = {
+>  	.driver = {
+>  		.name = KBUILD_MODNAME,
+>  		.pm = &cros_ucsi_pm_ops,
+> +		.acpi_match_table = cros_ec_ucsi_acpi_device_ids,
+> +		.of_match_table = cros_ucsi_of_match,
+>  	},
+>  	.id_table = cros_ucsi_id,
+>  	.probe = cros_ucsi_probe,
+> -- 
+> 2.53.0.1213.gd9a14994de-goog
 
-Co-developed-by: Gwendal Grignou <gwendal@chromium.org>
-Signed-off-by: Gwendal Grignou <gwendal@chromium.org>
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-This is an old patch and we still need it.  Revive the patch.
-
-v4:
-- Update the warning message if it fails to update the sysfs.
-- Fix kernel-doc error `groups` -> `group` per
-  https://lore.kernel.org/all/Y3bnYT6TXGXhkh%2FT@google.com/.
-- Rephrase the commit message.
-
-v3: https://lore.kernel.org/all/20210804213139.4139492-2-gwendal@chromium.org/
-
- drivers/platform/chrome/cros_ec_sensorhub.c | 6 +++++-
- drivers/platform/chrome/cros_ec_sysfs.c     | 5 +++--
- include/linux/platform_data/cros_ec_proto.h | 2 ++
- 3 files changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_sensorhub.c b/drivers/platform/chrome/cros_ec_sensorhub.c
-index 9bad8f72680e..f938c3fc84e4 100644
---- a/drivers/platform/chrome/cros_ec_sensorhub.c
-+++ b/drivers/platform/chrome/cros_ec_sensorhub.c
-@@ -122,8 +122,12 @@ static int cros_ec_sensorhub_register(struct device *dev,
- 		sensor_type[sensorhub->resp->info.type]++;
- 	}
- 
--	if (sensor_type[MOTIONSENSE_TYPE_ACCEL] >= 2)
-+	if (sensor_type[MOTIONSENSE_TYPE_ACCEL] >= 2) {
- 		ec->has_kb_wake_angle = true;
-+		if (ec->group && sysfs_update_group(&ec->class_dev.kobj,
-+						    ec->group))
-+			dev_warn(dev, "Unable to update sysfs");
-+	}
- 
- 	if (cros_ec_check_features(ec,
- 				   EC_FEATURE_REFINED_TABLET_MODE_HYSTERESIS)) {
-diff --git a/drivers/platform/chrome/cros_ec_sysfs.c b/drivers/platform/chrome/cros_ec_sysfs.c
-index f22e9523da3e..9d3767ab1548 100644
---- a/drivers/platform/chrome/cros_ec_sysfs.c
-+++ b/drivers/platform/chrome/cros_ec_sysfs.c
-@@ -405,7 +405,8 @@ static int cros_ec_sysfs_probe(struct platform_device *pd)
- 	struct device *dev = &pd->dev;
- 	int ret;
- 
--	ret = sysfs_create_group(&ec_dev->class_dev.kobj, &cros_ec_attr_group);
-+	ec_dev->group = &cros_ec_attr_group;
-+	ret = sysfs_create_group(&ec_dev->class_dev.kobj, ec_dev->group);
- 	if (ret < 0)
- 		dev_err(dev, "failed to create attributes. err=%d\n", ret);
- 
-@@ -416,7 +417,7 @@ static void cros_ec_sysfs_remove(struct platform_device *pd)
- {
- 	struct cros_ec_dev *ec_dev = dev_get_drvdata(pd->dev.parent);
- 
--	sysfs_remove_group(&ec_dev->class_dev.kobj, &cros_ec_attr_group);
-+	sysfs_remove_group(&ec_dev->class_dev.kobj, ec_dev->group);
- }
- 
- static const struct platform_device_id cros_ec_sysfs_id[] = {
-diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index de14923720a5..6ed1c4c5ce2e 100644
---- a/include/linux/platform_data/cros_ec_proto.h
-+++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -228,6 +228,7 @@ struct cros_ec_platform {
- /**
-  * struct cros_ec_dev - ChromeOS EC device entry point.
-  * @class_dev: Device structure used in sysfs.
-+ * @group: sysfs attributes groups for this EC.
-  * @ec_dev: cros_ec_device structure to talk to the physical device.
-  * @dev: Pointer to the platform device.
-  * @debug_info: cros_ec_debugfs structure for debugging information.
-@@ -237,6 +238,7 @@ struct cros_ec_platform {
-  */
- struct cros_ec_dev {
- 	struct device class_dev;
-+	const struct attribute_group *group;
- 	struct cros_ec_device *ec_dev;
- 	struct device *dev;
- 	struct cros_ec_debugfs *debug_info;
 -- 
-2.53.0.1213.gd9a14994de-goog
-
+heikki

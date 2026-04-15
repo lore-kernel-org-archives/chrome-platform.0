@@ -1,129 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F30837CD29;
-	Mon, 13 Apr 2026 04:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE5D3E51CB
+	for <chrome-platform@lists.linux.dev>; Wed, 15 Apr 2026 17:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776055301; cv=none; b=AfzVjvFNcXLTPYXIxiw11NdBgwVH9a47hAnp7ZiUf1kkRYxDmyEQJ439dVF9MV9QHADRuGOgkV+BzqW+FGPT9X8hGZ+hDwJxuf0nxz499DhhZPtb0Fhena7WOMJxdFqHaiaHEQA9/11MDaH5fl/kSPE6Wh+egRHQIA8Bl8Byaaw=
+	t=1776275459; cv=none; b=HbJkaDmv0UrFqzod+sHUamFngMyobAeHbuIMib4T9AXCLTyMrHOVQtCqx8P9gPtpOwpSI+WJbjnUgZBJn74bVKFItLOS0M7ugKUNxuBpqsqcHBvz72pSGVP3+zEOjldudhBJNFbNamdbKfWBSwowRvC5+ZpESN8kTAxj0c7f+iM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776055301; c=relaxed/simple;
-	bh=0Zb7wIflNXX+ehzh3RATsxalZkXD8FcTgAvMCJY/H3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iG+z4y9FEH/NSEQsCgnSk8njniIXaKGILmNL3FfNII5nkvmRP050w8/Fxg/i1sRrnPkT8qWVxL7Mqdghpbf4rbOuoId8dj17RpmAyvv9x0CGmlD2jVLr4M6Inp0b5HriegbbDkDBkOgzYMj9uH0BLDvi/cY4w9KzKF+MR5zVMIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kIwtPjmF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776275459; c=relaxed/simple;
+	bh=q9TGLRe1UVqxWGYdLDq7YnNCc4SCxzhTB9OScxICR6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U7jX+x7ZmD6h1+kkZ9+dW16jrp35X0uFZ3DWzitbinFOTp5/PTg3usv9XZHM+l9X5vuMRkevvRPRz2bBGNlUomsAb5mYa8e7UgHP5s8vrz8mPdn7D3fpbvT98tqTiiAErBPLNOykTRmA9Sn6PCLpM/2NnjzywqTAy9cHtNpu1NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W87F+ZaT; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kIwtPjmF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D91C3C2BCB0;
-	Mon, 13 Apr 2026 04:41:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776055300;
-	bh=0Zb7wIflNXX+ehzh3RATsxalZkXD8FcTgAvMCJY/H3s=;
-	h=Date:From:To:Cc:Subject:From;
-	b=kIwtPjmFwh5VmL2Bpg3Ocw+PB3u011iliFIrh6C7NJt2fVKDi1vXbZ8Suv6l5clg9
-	 tPQqBUwtuoMgN4UWwwjFMQ3IFCnj3/XgIGliJRcLU86TbUrqZp1HP4Qrmej8958T17
-	 90IPMJKBpHCmxBy3NZYS0MSF4hodOWRrQaNFYfH8joPoPIBEtNb/cj5YreW2/5P1IA
-	 OzleS7/eeY6y7NPwYmCVspanwt1Cb4KfsmWkvbvHUSDCEpQinSO1m0RWe6pCg7NHeV
-	 9irhdoE9bsWjMfU+Dbew+wq+r82tRFphK+WO92eYsUlrscXHBnj2p7kJSIUzrefLLa
-	 hX5yg5I79yGzQ==
-Date: Mon, 13 Apr 2026 04:41:37 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: bleung@chromium.org, chrome-platform@lists.linux.dev,
-	tzungbi@kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] chrome-platform updates for v7.1
-Message-ID: <adx0Aa1nOikgC521@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W87F+ZaT"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2b461310af5so15355165ad.1
+        for <chrome-platform@lists.linux.dev>; Wed, 15 Apr 2026 10:50:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776275456; x=1776880256; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gjx41/oJzSzCxjCOcBWOIoSBA7KLlVfstVe2P4xKOAc=;
+        b=W87F+ZaT2NcGzCUT7HuiXZcIPVbaL+gnc7k3b/RqD3F/XmKs0Bk4yI0kIdp3CZJHPs
+         AG8r1ezy9Bdwyv7T99io6P8osc3PdJ+9kyQ9bqUIFuK9aNvBvcy8/iQVhjW/pO9lSLjW
+         NZ0NylQvfSwCp7T1GwpG4VUFWPUiDolVk56uiTluBDACkF9knJ9Ouz0/le8P0Pme52IU
+         2g7OMQOr66zeBkX01mSkpqP9nMMnn5DfS7nRk5JoEiXjASetSLkbQ/zLHWDmAcVQh40Z
+         4Whf/5hgOlIv4kr6yIcCQrz1fzrrZZ5oEZoUYf1POj/Ew2nrSLsi25irv6sLJTB3KYCn
+         swqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776275456; x=1776880256;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gjx41/oJzSzCxjCOcBWOIoSBA7KLlVfstVe2P4xKOAc=;
+        b=YqDankvo5+IFKBRXxENE2fnvtHjI/ZAVffsP864OH++uO7BD2hEyCXcVIFMdgZynce
+         GR8UHNx8bt+YM3zJ+8V+o5Jx2kchzkUp16iHdXeuHvRp7fS4hI3SErDVUAarz2hscNHf
+         JtSSFhq1H7uQVD0B6nh0/iiVTfdgk1F8PHxlE/wIGiPX1ciCsm7+WjXtBZd+qcqe52hy
+         Y5ICc7wYoeb+h9evKyDOccpZvcHwxdoJyyiYE/S/ewn/jL81JuFNYEC6qoQcYbV3KD05
+         eWQd39nHeDUHrM1QzAcZUH0JoW8vaWjJMvRQAl2X1QJXaWUmABkbQ5BLgjkwKCaawxfD
+         4S5w==
+X-Forwarded-Encrypted: i=1; AFNElJ+Z4VHrBvWxZryaG+ryxA0kOKkBgi9FSKWY+jC6Zit0cGjoYQ2ZVqrCyQXk/6qoDXCMjvtqgv93UGiQBfHNSuY=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz4vvgoiDhPLlCyq3HGGrkDrH9KHDVRNMYwpA7XUAQMyH2laiqo
+	EEiZ/wWeFFxvniy9BjXDrrqK6deH9sG/DZ2s6VYR52LpmpuMm53CNYK3
+X-Gm-Gg: AeBDieuGpGeIXxhbIEdA8BNhPO4TlMsL9IoUP4ahpLOCcNIc3bQFGQf/daF5WRWJUr3
+	Iy83gSNsqtyv3QvVqK0tG9pwqUojR6jl5byiMyiQMNpDuyAjQo1HbksT8gefcDakxFBGJbSq+Nb
+	Pi7sZcNdpP7e6FxbHibraV8AAM2DM9etUkJ1xfB7FTsGo2yUVP+cZqirSzvn23NEAc2by75U0TC
+	28L1CeIQcDxqm15U8fk7ktV+XYqyFK/7fVBXAok7PsImyx3llBWzJf7CTEzAOYiS28Ng983eDmv
+	zSQC89tiP/uJbsswB8cQF17n7LHV+VSlXBfvLHN245Hpak8AGudHqWKDtvj9VG7GPxpliRvM51c
+	JZbTSi4wMKSMO2GhwVGgBeaCk1tHMGvdMT37W1OFj5H0D4syejiE8XnDmVe916PyDrsJitEUrRN
+	uvTQhWF55W56oqUc9NQkpgGpeBKRzWAG0iGrDY
+X-Received: by 2002:a17:903:3c6d:b0:2b2:4bbc:14b0 with SMTP id d9443c01a7336-2b5eab05edamr3733145ad.20.1776275456476;
+        Wed, 15 Apr 2026 10:50:56 -0700 (PDT)
+Received: from lgs.. ([2409:893d:1171:10e2:48dd:8f21:beaa:cec8])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b47826e248sm26728185ad.47.2026.04.15.10.50.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 10:50:55 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Olof Johansson <olof@lixom.net>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] platform/chrome: fix reference leak on failed device registration
+Date: Thu, 16 Apr 2026 01:50:38 +0800
+Message-ID: <20260415175038.3633384-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UUhGxiX99aiFqqbR"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+When platform_device_register() fails in chromeos_pstore_init(), the
+embedded struct device in chromeos_ramoops has already been initialized
+by device_initialize(), but the failure path returns the error without
+dropping the device reference for the current platform device:
 
---UUhGxiX99aiFqqbR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+  chromeos_pstore_init()
+    -> platform_device_register(&chromeos_ramoops)
+       -> device_initialize(&chromeos_ramoops.dev)
+       -> setup_pdev_dma_masks(&chromeos_ramoops)
+       -> platform_device_add(&chromeos_ramoops)
 
-Hi Linus,
+This leads to a reference leak when platform_device_register() fails.
+Fix this by calling platform_device_put() before returning the error.
 
-Please pull chrome-platform updates for Linux v7.1.
+The issue was identified by a static analysis tool I developed and
+confirmed by manual review.
 
-Thanks,
-Tzung-Bi
-------
+Fixes: 9742e127cd0dd ("platform/chrome: Add pstore platform_device")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ drivers/platform/chrome/chromeos_pstore.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
+diff --git a/drivers/platform/chrome/chromeos_pstore.c b/drivers/platform/chrome/chromeos_pstore.c
+index a6eed99507d4..9e6d14dbb1c2 100644
+--- a/drivers/platform/chrome/chromeos_pstore.c
++++ b/drivers/platform/chrome/chromeos_pstore.c
+@@ -127,8 +127,13 @@ static int __init chromeos_pstore_init(void)
+ 	/* First check ACPI for non-hardcoded values from firmware. */
+ 	acpi_dev_found = chromeos_check_acpi();
+ 
+-	if (acpi_dev_found || dmi_check_system(chromeos_pstore_dmi_table))
+-		return platform_device_register(&chromeos_ramoops);
++	if (acpi_dev_found || dmi_check_system(chromeos_pstore_dmi_table)) {
++		ret = platform_device_register(&chromeos_ramoops);
++		if (ret)
++			platform_device_put(&chromeos_ramoops);
++
++		return ret;
++	}
+ 
+ 	return -ENODEV;
+ }
+-- 
+2.43.0
 
-  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v7.1
-
-for you to fetch changes up to 168e4b208ca8c2e04de20cc6cb7e2fb035dc1ec8:
-
-  platform/chrome: cros_usbpd_logger: Simplify with devm (2026-03-20 02:57:04 +0000)
-
-----------------------------------------------------------------
-chrome-platform: Updates for v7.1
-
-* Improvements
-
-  - Reduce transmission size by dropping unnecessary data in
-    cros_ec_lightbar.
-  - Convert chromeos_privacy_screen, chromeos_tbmc, and wilco_ec/event
-    from ACPI drivers to platform drivers.
-
-* Fixes
-
-  - Drop wakeup source on remove() in chromeos_tbmc.
-
-* Cleanups
-
-  - Simplify workqueue usage with devm in cros_usbpd_logger.
-
-----------------------------------------------------------------
-Gwendal Grignou (1):
-      platform/chrome: lightbar: Optimize command size
-
-Krzysztof Kozlowski (2):
-      workqueue: devres: Add device-managed allocate workqueue
-      platform/chrome: cros_usbpd_logger: Simplify with devm
-
-Rafael J. Wysocki (6):
-      platform/chrome: Convert ChromeOS privacy-screen driver to platform
-      platform/chrome: chromeos_tbmc: Drop wakeup source on remove
-      platform/chrome: chromeos_tbmc: Register ACPI notify handler
-      platform/chrome: chromeos_tbmc: Convert to a platform driver
-      platform/chrome: wilco_ec: event: Register ACPI notify handler
-      platform/chrome: wilco_ec: event: Convert to a platform driver
-
-Tzung-Bi Shih (1):
-      Merge remote-tracking branch 'wq/for-7.1-devm-alloc-wq'
-
- Documentation/driver-api/driver-model/devres.rst  |  4 ++
- drivers/platform/chrome/chromeos_privacy_screen.c | 41 ++++++-------
- drivers/platform/chrome/chromeos_tbmc.c           | 55 +++++++++++------
- drivers/platform/chrome/cros_ec_lightbar.c        |  3 +
- drivers/platform/chrome/cros_usbpd_logger.c       | 18 +++---
- drivers/platform/chrome/wilco_ec/event.c          | 73 +++++++++++++----------
- include/linux/workqueue.h                         | 22 +++++++
- kernel/workqueue.c                                | 28 +++++++++
- 8 files changed, 161 insertions(+), 83 deletions(-)
-
---UUhGxiX99aiFqqbR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCadxz/wAKCRArxTEGBto8
-9P3tAP9ubTg1fSFOEnaLEp65DKipEzAWYQj86Hm+Cbw9VTc9/AEAsiyH+HVeaMF+
-kH4rpbj7lB7LTZBFbEsOo73hpMx6DgY=
-=8/pm
------END PGP SIGNATURE-----
-
---UUhGxiX99aiFqqbR--

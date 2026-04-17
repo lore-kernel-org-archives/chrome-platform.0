@@ -1,183 +1,186 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0232A3A6EF8
-	for <chrome-platform@lists.linux.dev>; Fri, 17 Apr 2026 09:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776417109; cv=pass; b=ADnwQ+n5tjKzsrX+hUTh3aKWFHOHlfjtNBXgRqHRqFZCkcwtzIpxkunbgTxdCXG5ZtDJD/HlbN6PzcUM/j9bJVf+audfagETdkxwOcD+J5nNCuqyoUjyHl9boFIJKxY6R5uuI+ozSXyQTNRmDE3dPIYaPWP4CwgXFf9KgJG16nE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776417109; c=relaxed/simple;
-	bh=hZqD33S6TaBeP1U8RwrHN4MgbX19/ibIMOcdz9Suo8U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sTWIezovP94FQgVv7IfCk4XyDWue3cROIb4M0IfGgLhC8gLLPIbNxrUQX1k9kPUmW0dXuAh3uFDWnKQmL4qprYg88zIGv44uZZYCetb8t4vpppPpwZT4tzN/B7tPEgy7kIAztBFGMHCxUe24INnM9/JDwKiCiLtBcoQ4DDsKbGc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q0p7Tq9m; arc=pass smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E8A1514F8
+	for <chrome-platform@lists.linux.dev>; Fri, 17 Apr 2026 21:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776461161; cv=none; b=pRojTfWVDI234l8vlbqiOJzAR69gi91MPuC2JbZ86JDUxrrsBtQSGSqbRIG+GbT9QT71GQHuzb0iO+ZFOxCBGgH9YY+4xbBPWT7S8/cBLbCod5VDkAoe5l108bJtNtTXAA+zBTRVLY6U7Rcmt4Z4ZZyvL7XnILkz4kWP0CqvMKI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776461161; c=relaxed/simple;
+	bh=cM9udh9m47+Gpj0oDvbKWKK6KeOdsP7t3oTK77nW7+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hxigU+9T9T5dK6L1TLu7nRMyu3emXa5o3xksKg8KCTnilZRpnuI0eUEvlZi3/BmseZVd0AOr9QKZ1Nw3tEMw6WBDM8KtgcV5+UOzcLpS/GOHVti7FUjatHX3bsoTLszQr2Br071H/Y5Q6SExnZXDVZ5hOc9b2CQSkGt9AXXEiOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YPXkyZE/; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q0p7Tq9m"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64e87a81639so456109d50.0
-        for <chrome-platform@lists.linux.dev>; Fri, 17 Apr 2026 02:11:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776417107; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hf1GXTF50VKG3LKhtmqs1i9BF0SAaCcVZiLV4P+Fk0Pe+laTJMkVy6wBE+yDW2/yVH
-         3pVyiNFwD70dpNQIIaMNcRDu6YQBubK/yKmSgPDX/Dk6FZiW/CDhv46I4Rb9SIgrNDtc
-         iuoBEBWuUb6oXH0+YNSYkAv5v/vfq05zvuk6HXHORcwIDzDivjLtoPdxjxVeAZWWd05f
-         EJe82HQ2pT64pZLbvNrw3wCFnTxLDUio7BDp2H5cdPzXLk6BkhUE9Kk6ByKG+msDDjyf
-         QE+Wtj7N35XpHb5Ts0/Mbo8b9ezjSS/mdrXMTKuC8kk56XoYNRRYNoZJ+asoGQI28DBB
-         DZxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZZNEHLjnCSi0dTY0sR3/yoFnjW7rryZybDVgQX7Z80k=;
-        fh=S8re+dmp6bKLHCTzxciDuSqshJqzjMqUSNCSrwui4Fg=;
-        b=LDTjCQ2jzxEWS0tM7Nlbly04OwqOPPhJZsY8q76SfCRLQ7zZJBu42Xi34wueomZRzF
-         CuvdY13Ha3x5Z+oaFmUxps3BpOyMMwQT/p6sWYVoHWeKmGVPI91VdbTnE+o5TPdE9IoH
-         pUOykRqxpHeyUbyD9RT4bjtsaRYA/DrTaMpXi+SGwA/n4ksUgsNpAInc1HEQickmZfI7
-         JUZRioL1JtXwLwfATFrBMVin69I5iFSWzdssKbrE8bu5MA5qhOl+vX09gpQNN4p6C/fC
-         Gnw9bYihPOfwjMFhUR0Xgax09N2l9/OKNw9vj1ElqzUkyQR2fKk7A/uq+fLQzBheEJlM
-         6u1Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YPXkyZE/"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12c565dd3a7so2007613c88.1
+        for <chrome-platform@lists.linux.dev>; Fri, 17 Apr 2026 14:25:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776417107; x=1777021907; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZZNEHLjnCSi0dTY0sR3/yoFnjW7rryZybDVgQX7Z80k=;
-        b=Q0p7Tq9mcKbWehC7s+FDYhZMZMNDgpkJUxm5V5Piq8V8c5Ft4gX+9yVEUbSOLkd4rD
-         LzVQ5sQn75MXCDV202YItEgRWMsxMwiY+7FJpctz3E6LXlk1l8ZAz9NGe0+KYW0/VMAe
-         eqTkq15DNNGTwGTtEoBn4YhoLNh2l8ySwQjOJtnzqEgHzWT5TZpAyCr18qMcLGwrUK4w
-         Ui/rUTdbHyJV64go0bvjXXVaoHneH/AN64bHH9xInE+okIlZpkTI8gEXOtIVA4/tctIW
-         qR4gWexs9DZ6h5fbh8nJKyr1p2FYDkLP0aVGJOHT5hpAJC596i0UQB6i1H2AN3cztpAV
-         Sofg==
+        d=chromium.org; s=google; t=1776461159; x=1777065959; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ErnZs3Q6bv+thvgwVa4Ah5gWyVYiLGdPrGb5UASYA1s=;
+        b=YPXkyZE/QDcZx7FjzmTmiuHclCcLFU0QLtvfvBevN81s+AL9CHwTL+LhrvswxduYqn
+         1pm1dIRPZNNviKo4/C+rykxehykXdXwtjucRijq5qDPyRHCdhebRDWAKgi9KxYrwExGP
+         F48ZxwTpRePoMXYNA23rJLfLdwWQ0aEGtNOFc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776417107; x=1777021907;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZZNEHLjnCSi0dTY0sR3/yoFnjW7rryZybDVgQX7Z80k=;
-        b=PmJbXGkuQQiAt7hoEK5tpJppgXgbiYEYVq7CC1IHJpCMyCr9VQi4xN4oit8ioylFcQ
-         Nb3nxWegUE047BiKe5t0Wl9bHcBpnUM/nLgdf53lzkC+9nCYAhPaPCvAJco42C6izn6W
-         ULCQofKXYtpWSsABWdBsmDb110KY7p/AZYaCv/uZn2xBmPeLZegE+1atJo5cLnEemxh/
-         42LTcpXzlbk5So9IO+Vbh4/nP9YFybpH1Sh+aEACGXtzFsEitug8+k3nsLL7/mCh+mbL
-         8bdj2dyZSTPPDeJc096ZwZVpvFSqWxRGZHGmxyHKKcZxsY7U5U9kJDr93HAU2BAjvq9o
-         aslQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9szjcs1R5qgU4uzgh1f6Lx12DjVKg9adxfMxHaoLU18sQrRlpkaMob44wjEg7Ql/gtGJHtACY5fB6CgUbbBz8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgGM5YZe3hGrLRYKcj0YuHPmqqpnQ+bHDsXrU7E8DyPdIIC0eI
-	Y+OyuznkxW4SRLBl6Lwyy2epILTwFV6yMvd/OGEhZup8VhHi+dne1AKLIM3ZCXukU4g2lIXwT+n
-	0mXVxM9I9vrZM7r5CEhYO/HIbjr6O86g=
-X-Gm-Gg: AeBDiev6NDCIV5zrCc4TmSLYUnWcMhSeUuWwqOrdfZMLUgBzEevZineavwKSoh7/FfJ
-	ck6BamISPJGmhj64r/eGryvCq18c3V6nx5tz0zilwINOM3t8evTSEijODY4BrvbfhHzupft7XHG
-	c4hNo5hvaU20WP1i1GNLGzkEANXzGC3IpDviovaTGgWeaNymu00YXCYJ/63h7yPsED7zCuWKOLN
-	VyfoqLPGs65gcrBLs4o0IxWuQ+Kmw2VkQoM8qhhw/6nEh86QyNjmiyJg+2xiJxB9dr5kcuqWH2d
-	F13d7MeDmaFQocRbP7Tf
-X-Received: by 2002:a05:690e:130e:b0:651:d634:6d32 with SMTP id
- 956f58d0204a3-6531085f25cmr1805344d50.20.1776417106750; Fri, 17 Apr 2026
- 02:11:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776461159; x=1777065959;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ErnZs3Q6bv+thvgwVa4Ah5gWyVYiLGdPrGb5UASYA1s=;
+        b=jdM2kml3r0IKZRv2i3t50BIKeh0pugRm+Jw58WbJNVi+KoEGPef+X1yPWlJLZPYjn4
+         02kqGrk52SjNW5+vei9PYoufnKFQR21Pc29Sm+TB9+QBe1FlBaPZZkXxzWrMdotJoGwV
+         Z5GDjqoeCPAe9lRhnVjQX5BBtRnym78vV02JbuvKGy868snr9M3SYIPGNByNghdwaY8W
+         P0UvwtomtsNNFRupMRkJTG98tkYEEYyht/2O2hRiHX3pv2Dv9UxO2lJSEVaZZQzA9VDQ
+         J9zBmo/ZecCfzt+t1r3GEAbhOtRarhS3TX0l4yTETx+2CaATLTjE6HwPMUAKF5AoaGcF
+         ZyNw==
+X-Forwarded-Encrypted: i=1; AFNElJ+vYnbdm3Jwn4HROJPtz9TJ2CUPK/z7UayOacyGcZqJqNduvGqEUzJBw6sxf+LQgbp1qlIDvEJefbD78CWX+oo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YygK7wISakTCc3nkD+Rjng7ur6KwV+kvKZoDtS2vZJZsTdyQfDZ
+	D54gMqF+dx/CzT0u/vzGT+QrAYBvbGXfUxRwYlkTe0/H74npKoag6f8VZBw6ScSUVQ==
+X-Gm-Gg: AeBDievxSLegByM8PWiLi4xj57fPCqHnNmELXkn0gOwN2OhNZqmFgsxCjPeOUGz6MQj
+	MiljE0XSNTM7hlpTR3tUGh6p1eVdF++sFGlpVrWIFgHuyJckZfQHujB9Wl8UEYmrq68uFILHBVh
+	f522FJqS6hJO8TUac/gueYUohwLM+95QeKoF4YabBWj/wX7GxxK3p1JZTec2NI//toO22/r8CgN
+	v4FpspEPdgLQPZYm7v9Xa1suUkmrvBuYEdAo1d3aGL3JgbdIur8W58QL+/DK9zWIZE0ORB1XMnn
+	/NGNINEhtDFmfAy5KxNCEEcx/x4nVlcnULxeCoLsDTL1rUxyDiq34Kq5cqTR6OlkXHr4plSpPjc
+	rcmgC7+wyXq2rfYF94il3GtUpAi4+qpsqbCdx6g2dwOUBVHwA90a/WgxobRXDHVkPCrvzuzhNeu
+	m1it19XcxuSEOTU6GmUZ/lBKq2aTmHDYa5FbFaxn9incCRLW1HvomwX7cFMrEf7G6peBwn5pk=
+X-Received: by 2002:a05:7022:383:b0:128:cf86:d1e8 with SMTP id a92af1059eb24-12c73fa708emr2682205c88.29.1776461158761;
+        Fri, 17 Apr 2026 14:25:58 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:a468:d4b1:9c3:f6c7])
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-12c74a185a8sm3892511c88.9.2026.04.17.14.25.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Apr 2026 14:25:57 -0700 (PDT)
+Date: Fri, 17 Apr 2026 14:25:55 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Chen-Yu Tsai <wenst@chromium.org>, Rob Herring <robh@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Doug Anderson <dianders@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: [regression] of: mis-parsing Depthcharge's /firmware
+Message-ID: <aeKlYzTiL0OB1y3g@google.com>
+References: <Z0NUdoG17EwuCigT@sashalap>
+ <c25e6a80-f6dc-4ef9-a90d-0fa09cbbc217@linaro.org>
+ <Z0NbeyTwxo-M4Lgi@sashalap>
+ <936bf452-3d1f-4940-9a91-69efcdc6985e@collabora.com>
+ <CAGXv+5FLkZbZVHNkfRWuT+OioZ0TG=u2WfaFCx-jZFi73QHnVg@mail.gmail.com>
+ <19ba4910-f909-41b4-ba62-c904bc37d41d@linaro.org>
+ <e77669ea-9edd-4321-8d17-4da40161b59d@linaro.org>
+ <Z0R6myuCR4Jpmc_y@sashalap>
+ <CAL_Jsq+QBweDZ+1=FXq7Hez=+mhiOxOvurr3rP0+3y_FCd49Ew@mail.gmail.com>
+ <20241209092809.GA3246424@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260415175038.3633384-1-lgs201920130244@gmail.com> <202604171609.wl8JLCit-lkp@intel.com>
-In-Reply-To: <202604171609.wl8JLCit-lkp@intel.com>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Fri, 17 Apr 2026 17:11:36 +0800
-X-Gm-Features: AQROBzCVBYydseR7J8ekLAtPw3aL9_q0Qe5MzF8i8S3g1XrJyVxsBCHjMaTpGHI
-Message-ID: <CANUHTR8SyfZouETXFpDv4ivzin+DC8OTDYhbSQ1cRaoNqYPduA@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: fix reference leak on failed device registration
-To: kernel test robot <lkp@intel.com>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Olof Johansson <olof@lixom.net>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241209092809.GA3246424@google.com>
 
-Hi,
+Hi all,
 
-On Fri, 17 Apr 2026 at 16:47, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Guangshuo,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on chrome-platform/for-next]
-> [also build test ERROR on chrome-platform/for-firmware-next linus/master v7.0 next-20260416]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/platform-chrome-fix-reference-leak-on-failed-device-registration/20260416-135638
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-> patch link:    https://lore.kernel.org/r/20260415175038.3633384-1-lgs201920130244%40gmail.com
-> patch subject: [PATCH] platform/chrome: fix reference leak on failed device registration
-> config: x86_64-randconfig-013-20260417 (https://download.01.org/0day-ci/archive/20260417/202604171609.wl8JLCit-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260417/202604171609.wl8JLCit-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202604171609.wl8JLCit-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/platform/chrome/chromeos_pstore.c:131:3: error: use of undeclared identifier 'ret'
->      131 |                 ret = platform_device_register(&chromeos_ramoops);
->          |                 ^
->    drivers/platform/chrome/chromeos_pstore.c:132:7: error: use of undeclared identifier 'ret'
->      132 |                 if (ret)
->          |                     ^
->    drivers/platform/chrome/chromeos_pstore.c:135:10: error: use of undeclared identifier 'ret'
->      135 |                 return ret;
->          |                        ^
->    3 errors generated.
->
->
-> vim +/ret +131 drivers/platform/chrome/chromeos_pstore.c
->
->    119
->    120  static int __init chromeos_pstore_init(void)
->    121  {
->    122          bool acpi_dev_found;
->    123
->    124          if (ecc_size > 0)
->    125                  chromeos_ramoops_data.ecc_info.ecc_size = ecc_size;
->    126
->    127          /* First check ACPI for non-hardcoded values from firmware. */
->    128          acpi_dev_found = chromeos_check_acpi();
->    129
->    130          if (acpi_dev_found || dmi_check_system(chromeos_pstore_dmi_table)) {
->  > 131                  ret = platform_device_register(&chromeos_ramoops);
->    132                  if (ret)
->    133                          platform_device_put(&chromeos_ramoops);
->    134
->    135                  return ret;
->    136          }
->    137
->    138          return -ENODEV;
->    139  }
->    140
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+(New subject; was "Re: [GIT PULL] Devicetree updates for v6.13")
 
-Yes, the build error is because in the first version I accidentally
-forgot to declare the local variable ret in chromeos_pstore_init().
+On Mon, Dec 09, 2024 at 05:28:09PM +0800, Chen-Yu Tsai wrote:
+> steelix.dtb is the same, plus the firmware now inserts #address-cells
+> and #size-cells under /firmware. This fix has landed for all future
+> ChromeOS devices via our main firmware branch [1].
+> 
+> AFAIK they also have a bad FDT END symbol. This was only recently
+> discovered and fixed for future devices [2].
+> 
+> 
+> ChenYu
+> 
+> [1] Gerrit: https://crrev.com/c/6051580
+> [2] Gerrit: https://review.coreboot.org/c/coreboot/+/85462
 
-Sorry for the oversight, and thanks for the report.
+This all comes back to bite us, since nobody went back to patch the
+existing Chromebook device trees, and now we've added a true regression
+on top:
 
-Also, the underlying issue here appears to be related to the
-platform_device_register() core/API behavior. We are currently
-discussing in another similar case whether the better fix, if any,
-should be made in the core/API code rather than in individual callers:
+In commit 6e5773d52f4a ("of/address: Fix WARN when attempting
+translating non-translatable addresses") we now reject devices without
+'#address-cells', and this breaks the DTs generated by bootloaders
+without Chen-Yu's https://crrev.com/c/6051580 fix (this is ... pretty
+much all Chromebooks). Specifically, Linux now refuses to add 'reg'
+resources to the /firmware/coreboot device, and we fail with:
 
-https://patchew.org/linux/20260415174159.3625777-1-lgs201920130244@gmail.com/
+[   11.886271] coreboot_table firmware:coreboot: probe with driver coreboot_table failed with error -22
 
-Once that discussion reaches a conclusion, we will revisit this and
-make the appropriate fix if needed.
+This is almost certainly a DTB ABI regression.
 
-Thanks,
-Guangshuo
+This was noticed here (OpenWrt supports some Chromium-based WiFi routers
+that use Depthcharge-based bootloaders from many years ago):
+
+https://github.com/openwrt/openwrt/issues/21243
+
+For now, I just patched up the OpenWrt DTS files like so:
+https://github.com/openwrt/openwrt/pull/22951
+
+But what should we do going forward? I note that Rob says "We may
+revisit this later and address with a fixup to the DT itself" in commit
+8600058ba28a ("of: Add coreboot firmware to excluded default cells
+list").
+
+That never happened, and a ton of Chromium devices are still broken.
+(They don't have WARNINGs, but /sys/firmware/vpd, etc., is still
+missing.)
+
+Can we patch of_bus_default_match() to accept an empty 'ranges' [1]? Or
+should I go patch every Chromium-device DTS file I can find? So far, I
+think I can get that done in 17 files in the upstream tree...
+
+Brian
+
+[1] From ePAPR:
+
+  "If the [ranges] property is defined with an <empty> value, it
+  specifies that the parent and child address 28 space is identical, and
+  no address translation is required."
+
+And:
+
+  "An ePAPR-compliant boot program shall supply #address-cells and
+  #size-cells on all nodes 16 that have children.
+
+  If missing, a client program should assume a default value of 2 for
+  #address-cells, and a value of 1 for #size-cells."
+
+So far, this does the trick, but I didn't review all the ramifications
+here.
+
+diff --git a/drivers/of/address.c b/drivers/of/address.c
+index 4034d798c55a..f86386c407d4 100644
+--- a/drivers/of/address.c
++++ b/drivers/of/address.c
+@@ -328,7 +328,15 @@ static int of_bus_default_flags_match(struct device_node *np)
+ 
+ static int of_bus_default_match(struct device_node *np)
+ {
+-	return of_property_present(np, "#address-cells");
++	int len;
++
++	if (of_property_present(np, "#address-cells"))
++		return true;
++
++	if (of_find_property(np, "ranges", &len) && len == 0)
++		return true;
++
++	return false;
+ }
+ 
+ /*

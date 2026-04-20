@@ -1,106 +1,159 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0703783AA
-	for <chrome-platform@lists.linux.dev>; Mon, 20 Apr 2026 02:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9CC334374
+	for <chrome-platform@lists.linux.dev>; Mon, 20 Apr 2026 12:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776652664; cv=none; b=U73eilyWWSkBjKkAdi06so15A2wWnr2CXjYjVWI2O58cbJd2NLBnPjcz42b0FDuXUKLh78KF//MLYFRmWhW1wmmZT8ytxBXkPKWfVekjQi+fOE0xNzJeUxn9y5q2KpXPmKCZsXG2kF0/mWHRPHht8lVUsbl+zaIZiFBh7U9aJU8=
+	t=1776689875; cv=none; b=joCZ9krNxZOS+Y/wCv2Q5pWgxpFthfWlZt8K2hwS72KL7soMM5EQLXVlGCA0mcX6QlExrvssuwYUWnchPkeT4tnYVEPZRnGLHk+hudl4DLz+q4rqpZSaRZ0aoawTYPVoxgVI5v9xkqCHCg6JmEiSg49kknGObRtdRa5tOL4w8Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776652664; c=relaxed/simple;
-	bh=ld8CEyg0rXDH8j591+SJR82yaUQyXvOHznc5li3fAvo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=heYV+CEt573XUsbl0zuq09MH+twZyZ+aeB75qiGU0YuR7S+3SFAxy6TnilEolqD4BlCgneUB0P6k6cOsZuzMK3T5nZVprtuXBntCnULzDX6CtJDCZ6Q9i9E3ea0l2lAutJr/73egh9jipRS7GgzMVL9sLRkKrZKuHKztpIYGXLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com; spf=pass smtp.mailfrom=quanta.corp-partner.google.com; dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20251104.gappssmtp.com header.i=@quanta-corp-partner-google-com.20251104.gappssmtp.com header.b=HEh6CIv3; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quanta.corp-partner.google.com
+	s=arc-20240116; t=1776689875; c=relaxed/simple;
+	bh=V7FPj1tNedM8iIeydBk5vJ5jEFd2bEmcvSkLalKsPgA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oYsDd0o500woiCkS4R4nMnQuiURUV3wufoK8XMqAYSvk8QUSjeqUXsHax6KTyAudGZ2kOq9LJVy936sn+APTvJq77x3j9WVWwv9dyXGKacZarSTXJ+2rjKAnJmMm+vtpeQl9mU4MYLrgZBhXVHxi2ij65c882nnO+mpfPSq7GE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AcB0x+5y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20251104.gappssmtp.com header.i=@quanta-corp-partner-google-com.20251104.gappssmtp.com header.b="HEh6CIv3"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2b0afa0210bso11038105ad.2
-        for <chrome-platform@lists.linux.dev>; Sun, 19 Apr 2026 19:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=quanta-corp-partner-google-com.20251104.gappssmtp.com; s=20251104; t=1776652662; x=1777257462; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yKHs/PNY/ofe4y8OFF1XE8lKpCR4K4vYDfp2ZW6ZepE=;
-        b=HEh6CIv3KvUmVIBuQuGZCl4U5O848qSYSsQraoREEjWmPiw9doWGi0ajrToQKCnsRo
-         nT+y3ZH67gsYBWQ4L3vdKSF6TK+lOU1kfn7KLfq4cqz67x4zIscJTjWXOqJ/Ju6hdtd4
-         FKLPxLu5zUqeSPKFyIRxVzK7dkN3JhsA/uLczUstWbIVa4qblgWshsEvU5ZO1uJiZfSw
-         Rcl/d5VowODz4C2sM/KmEqSv57AlYpDxtw8wTTq0BCtC2iM/bp78M3wB6HWauS//tMHq
-         YDl6mxRnLaHmdX7fNuuVZYApvPoKZ/KjmOzbU8FMSGbwtaaaBmaNwAk/y7mpLwj+6gGG
-         WGQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776652662; x=1777257462;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yKHs/PNY/ofe4y8OFF1XE8lKpCR4K4vYDfp2ZW6ZepE=;
-        b=pXWjU6EBVMMwBcnwtDlwD6V3E1m4lTiRDGuQXrmZ6CybeLY1PXQTmbH+/xOzFbPi72
-         Ni0nbxP05NnkxIIhp7GvpkuTVG8MFDupPP/m++1zFSPdhhou2cNX+kJKU0zCznphmgzl
-         47kESdORZqXG58yMUfnnV9S9yw7r27/+Jc6dkcm0DrwBNKLZyoGz5jdOrYfK9nsejVa4
-         PyuN/dn5bIo2Q9vWuHJev8UdMzFzm6tT7UquOCmbE8ISZTvYTpf77Yh4RM7n8+k5DcE+
-         pXYuAvxYntaam7p/7g1GT7HMYVVAcjNqzoL5m3QprWZNJokEiK1oEYvr226WypEAklet
-         DBiQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9M9z4bbQroXXzOskEhIukwCiBpifiI2p/6HWCm620NlXVeeZiqVO2detqByNHCoh2mlV8XtPkE8O2N9amvz38=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJPHgYbmnsVvRPpPdpmF3lmUMZAdgPapReCPyUVqcHZaqMDtCs
-	a+dfFowUyqrLUn4dQTu8oclQMyeIuG9fI4o1XeNL5+mW/M+Ag78o5nn+tSetT4g8VL4=
-X-Gm-Gg: AeBDiesBzkhHLmmnHDQre5Vy0aSRfqJfkmpnWB8nUieAqRQ2L9dikl5n4GlCrSZLUN4
-	5v3+dMnQGztvI/WmtwVyV+V3TTg70lvsbOrpl3HWEqALd/TjS0fux1Mb5jOhkg4iLWEOdAV+pz9
-	Xa5caumEjHG+1WPNf/RadHiyngdWziFrGsW5QZqEyU54mFD/sBPFKrFFev0P/lvI7WE++kBR5rm
-	HhhG11GnTIk2iZSMIUncKw8uczHccgCEI+HSrqlegHVFKtL1aDJQv+rawa6nEqj7qsFBseUpGBH
-	TECWaRVgux0RNr1NN00Lf8j+DMO0aNyrfGlfLjyVFPNRgC6btOO4krNlBN9rJNAMUEM3ctO6pDV
-	Hm7LWoJRKKNj/LdQMP3dUW7zaCuMxy3bHKn7naWcXiFPEGbfT0yFV0jL3r4MV6cAIp5nVn/7PHw
-	36ZMb67H3NhMTB8A7HznS0y8v3rSmIWmKQTqUNGRFx56ngqu2rQcIoRDS6biDuj+p0N4c6jcTSJ
-	wnD+OO5vvlpz0BQZZJuN6H+/Mngxy81ZXd1lTRAhA==
-X-Received: by 2002:a17:902:868f:b0:2b4:59bf:5728 with SMTP id d9443c01a7336-2b5f9f3ca68mr88397095ad.25.1776652662619;
-        Sun, 19 Apr 2026 19:37:42 -0700 (PDT)
-Received: from kells-Predator-PTX17-71.. (211-75-10-161.hinet-ip.hinet.net. [211.75.10.161])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab0cbaasm87313075ad.54.2026.04.19.19.37.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2026 19:37:42 -0700 (PDT)
-From: Kells Ping <kells.ping@quanta.corp-partner.google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: groeck@chromium.org,
-	Kells Ping <kells.ping@quanta.corp-partner.google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Ken Lin <kenlin5@quanta.corp-partner.google.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	chrome-platform@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: [PATCH] media: platform: cros-ec: Add Dirkson to the match table
-Date: Mon, 20 Apr 2026 10:37:14 +0800
-Message-ID: <20260420103713.1.I776a9d5aa44405b0083ab3ad3d44415a89bf21c4@changeid>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AcB0x+5y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBC5BC2BCC7
+	for <chrome-platform@lists.linux.dev>; Mon, 20 Apr 2026 12:57:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776689875;
+	bh=V7FPj1tNedM8iIeydBk5vJ5jEFd2bEmcvSkLalKsPgA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=AcB0x+5yK8zovu97jPpPqtQLolANMJ+gqGd+k1/iN7MbXEqgHquebk6W9duSyxBCZ
+	 WoY26lmrZeBmMi+6/HIAb2hNr/E84LrtMARh1sbKDt58L3Ywg4lvDY2jKaw6f5Udxu
+	 4gY6ChryeWG5azxUwiDoeE5zATL2FB+GhepIsgyTPNrJfwjfa4yOqhaZce5dSCp12D
+	 Fg+TAJkLvE+S/4lK+qdEzcQgJf1p7LN6ffpylojCIs1wr8DcHBD480DXpD4HPXaX8O
+	 vrfDo/jvJ9LuIM/d8EBFXQWGwFC+3GZmpFBpuPnRQ54k6r1k/xCBXuy9feFZ7+Dadm
+	 8iQXDCR/H2k7A==
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b9c3a9fe80fso376148066b.3
+        for <chrome-platform@lists.linux.dev>; Mon, 20 Apr 2026 05:57:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9atOlqmW7XC/fz1X8/sZl7SycTaEMWlk1y/xSKl7q8HPH4/m+MouZcmpCd1DoUcGiEWgfFeHy+VJJAebDinKc=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywo9nqXx9LmDj2A62EGbww4vskWk+WRH26Vxj+qCYl/d5z2f4ae
+	ngEE/OOrjB76Fwt7jKtwJcd7ccN+6tQv7uKbYm8IfIbEDHP8esTjZXFo7py3a/F76GVZJa7CXe8
+	ZkXd7VJts2kG8nIfoCjH1wfgFgkwNZw==
+X-Received: by 2002:a17:907:1682:b0:b9d:872f:f5b9 with SMTP id
+ a640c23a62f3a-ba41a91e1abmr709097466b.23.1776689873405; Mon, 20 Apr 2026
+ 05:57:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <Z0NUdoG17EwuCigT@sashalap> <c25e6a80-f6dc-4ef9-a90d-0fa09cbbc217@linaro.org>
+ <Z0NbeyTwxo-M4Lgi@sashalap> <936bf452-3d1f-4940-9a91-69efcdc6985e@collabora.com>
+ <CAGXv+5FLkZbZVHNkfRWuT+OioZ0TG=u2WfaFCx-jZFi73QHnVg@mail.gmail.com>
+ <19ba4910-f909-41b4-ba62-c904bc37d41d@linaro.org> <e77669ea-9edd-4321-8d17-4da40161b59d@linaro.org>
+ <Z0R6myuCR4Jpmc_y@sashalap> <CAL_Jsq+QBweDZ+1=FXq7Hez=+mhiOxOvurr3rP0+3y_FCd49Ew@mail.gmail.com>
+ <20241209092809.GA3246424@google.com> <aeKlYzTiL0OB1y3g@google.com>
+In-Reply-To: <aeKlYzTiL0OB1y3g@google.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 20 Apr 2026 07:57:40 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+UCYbKMXG5m8BRNVRA_03Ki8aGF0uoaDs8HHvOSCZ2Mg@mail.gmail.com>
+X-Gm-Features: AQROBzC2C_xA3b0Mjz0zbeaIOwFHYjnlA51sUwMWExHOdDIrYqslHpa-2xJeEdo
+Message-ID: <CAL_Jsq+UCYbKMXG5m8BRNVRA_03Ki8aGF0uoaDs8HHvOSCZ2Mg@mail.gmail.com>
+Subject: Re: [regression] of: mis-parsing Depthcharge's /firmware
+To: Brian Norris <briannorris@chromium.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Sasha Levin <sashal@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Doug Anderson <dianders@chromium.org>, 
+	Julius Werner <jwerner@chromium.org>, chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Google Dirkson device uses the same approach as the Google Brask
- which enables the HDMI CEC via the cros-ec-cec driver.
+On Fri, Apr 17, 2026 at 4:26=E2=80=AFPM Brian Norris <briannorris@chromium.=
+org> wrote:
+>
+> Hi all,
+>
+> (New subject; was "Re: [GIT PULL] Devicetree updates for v6.13")
+>
+> On Mon, Dec 09, 2024 at 05:28:09PM +0800, Chen-Yu Tsai wrote:
+> > steelix.dtb is the same, plus the firmware now inserts #address-cells
+> > and #size-cells under /firmware. This fix has landed for all future
+> > ChromeOS devices via our main firmware branch [1].
+> >
+> > AFAIK they also have a bad FDT END symbol. This was only recently
+> > discovered and fixed for future devices [2].
+> >
+> >
+> > ChenYu
+> >
+> > [1] Gerrit: https://crrev.com/c/6051580
+> > [2] Gerrit: https://review.coreboot.org/c/coreboot/+/85462
+>
+> This all comes back to bite us, since nobody went back to patch the
+> existing Chromebook device trees, and now we've added a true regression
+> on top:
+>
+> In commit 6e5773d52f4a ("of/address: Fix WARN when attempting
+> translating non-translatable addresses") we now reject devices without
+> '#address-cells', and this breaks the DTs generated by bootloaders
+> without Chen-Yu's https://crrev.com/c/6051580 fix (this is ... pretty
+> much all Chromebooks). Specifically, Linux now refuses to add 'reg'
+> resources to the /firmware/coreboot device, and we fail with:
+>
+> [   11.886271] coreboot_table firmware:coreboot: probe with driver corebo=
+ot_table failed with error -22
+>
+> This is almost certainly a DTB ABI regression.
+>
+> This was noticed here (OpenWrt supports some Chromium-based WiFi routers
+> that use Depthcharge-based bootloaders from many years ago):
+>
+> https://github.com/openwrt/openwrt/issues/21243
+>
+> For now, I just patched up the OpenWrt DTS files like so:
+> https://github.com/openwrt/openwrt/pull/22951
+>
+> But what should we do going forward? I note that Rob says "We may
+> revisit this later and address with a fixup to the DT itself" in commit
+> 8600058ba28a ("of: Add coreboot firmware to excluded default cells
+> list").
+>
+> That never happened, and a ton of Chromium devices are still broken.
 
-Signed-off-by: Kells Ping <kells.ping@quanta.corp-partner.google.com>
----
+The above just silenced the warning. If they are broken, then
+something else broke them.
 
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
- 1 file changed, 2 insertions(+)
+> (They don't have WARNINGs, but /sys/firmware/vpd, etc., is still
+> missing.)
+>
+> Can we patch of_bus_default_match() to accept an empty 'ranges' [1]? Or
+> should I go patch every Chromium-device DTS file I can find? So far, I
+> think I can get that done in 17 files in the upstream tree...
 
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 419b9a7abcce..6548d7373261 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -334,6 +334,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Dirks", "0000:00:02.0", port_ab_conns },
- 	/* Google Moxie */
- 	{ "Google", "Moxie", "0000:00:02.0", port_b_conns },
-+	/* Google Dirkson */
-+	{ "Google", "Dirkson", "0000:00:02.0", port_ab_conns },
- };
- 
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
--- 
-2.43.0
+Both.
 
+Though I'd rather the kernel fixup the DT rather than relax the
+parsing code for everyone. Then we know what platforms need this and
+don't let new ones in.
+
+>
+> Brian
+>
+> [1] From ePAPR:
+>
+>   "If the [ranges] property is defined with an <empty> value, it
+>   specifies that the parent and child address 28 space is identical, and
+>   no address translation is required."
+>
+> And:
+>
+>   "An ePAPR-compliant boot program shall supply #address-cells and
+>   #size-cells on all nodes 16 that have children.
+>
+>   If missing, a client program should assume a default value of 2 for
+>   #address-cells, and a value of 1 for #size-cells."
+
+ePAPR may say that, but that's not what the kernel implements,
+defaulting to 1 address cell (on !SPARC). dtc however does default to
+2 cells. Relying on defaults has been a warning in dtc essentially
+forever. I'd like to get rid of defaults in the kernel
+
+Rob

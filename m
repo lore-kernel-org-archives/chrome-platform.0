@@ -1,68 +1,87 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70963D2FF0
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Apr 2026 11:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8716635DA48
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Apr 2026 15:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776859163; cv=none; b=Vn1M1pH32X4GLdnrBYcrsq5HdOjCqwLQNIuTHniOujQo8DWUCE7fir1zWbSaPHQInPDD5iXPodu6Q2gYLFSDQMc1vKnbSoelq2O56cWWiGjE8AMPWuqOrJJCCuHnHIjMgp5WJV2PR1C1uoFRpEmq41x5f25JkvXkhe2yzCNa/Kc=
+	t=1776872621; cv=none; b=nc9c5P+s+aK9OeNLEpXHcNyd709/MzPg43TRFuzXKHuaMZsxn9A0oBwSjTew9jY8QP9BamkJ3EH4rK7EDYwfbvORe5bgjh8Bb7J2otOD6uYhuGeP9BEJGJb8q07VlXzxZykQyjO4bSmFBrQrQOSUycSClq/Iqw8J8LoDtJ43kc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776859163; c=relaxed/simple;
-	bh=PxxWuD2DAnmLuzpLFkG5DbUWJB0P/Lom4mu12j2Y8t8=;
+	s=arc-20240116; t=1776872621; c=relaxed/simple;
+	bh=Ax2QjoBCSP8zytbND0WCxmDoUuiovB4Ezv0zg39ipV4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bJcUTPboPc4NtyJgUpWr1yC6VJaIlapWlB7I5H96XNFVebHZTDIYWdR33YbRb3SF390jAr4JmC29YgkaynEVXjYPvJocnr0e1cn1U+AKwSrNP07k16ZUMbJB9zFhn+6LrsOmi0ZQZ6Y6rCQ9pn1lq5Gp2E8Gt9VkqjsdPa1XfIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dRDVGzbr; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=dfBcXt5zAIwht7iuB+p8yW70FXai8dTfoNTBRidnaDjZmHi7cNfx/5TKcH4uBmteZuvwp5hnjBqOQXRfn1RZw9tWVuaXNNNvwRdfzMYwMNlxHNlGHP3MkROJw1k4qAQyvutoIj6rZsvuP6JKXzKz2Nalv6o/N9o6CLz/nv67Jrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Svxg3/Wq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gYE5anvX; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dRDVGzbr"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ad9516a653so27316775ad.0
-        for <chrome-platform@lists.linux.dev>; Wed, 22 Apr 2026 04:59:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Svxg3/Wq";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gYE5anvX"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63MFfmwl3528274
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Apr 2026 15:43:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	+77oBS04XiL/gsqw6a/zALDqn3hE4Tj5LuU/BpBUPZs=; b=Svxg3/Wq9+l9tUpV
+	aC0N1sxiOUQ69FJ19GSuSf8FkLCTvsruvNv0jxK/p7X4+GAcYTMqc8ArpFMUnAX8
+	ozk3ULHO6h6H/OEHarximX8x0qFcXPs8Wi3YS9z1tvyCCX+IoPcYfshBYAkU4IhV
+	zWE9NugK2UDRW71VoM9yCjos3vZo7+/8OlwKGpY9B+wR+OHg3bR+9Hc2PAZn5n8H
+	T2qI3zi1CSPUzlcWN4QQDDPINht4DL+KUzWFRhI7Fk9tYnn2hBjYR+LDz5Ppew/o
+	SaJloRFK4F4zc94LWkAOqVCG0z5UB8K1mkRiCNXRlkU9K4jYbJwW5y7F5semv2Do
+	hevHIw==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dq16wr070-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Apr 2026 15:43:36 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50da529ff48so133163141cf.3
+        for <chrome-platform@lists.linux.dev>; Wed, 22 Apr 2026 08:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776859161; x=1777463961; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=yQdjvNpFoN4+Y1Foq/Arcrd5LT5ufq6D54+4yF+FPEo=;
-        b=dRDVGzbrq5+9nVC/MjHTm+vRV/yLYTGFSAAe2bjucvaHTfkPPxhL44ITEC168qBgY8
-         m2aTHXyf+aPIYlG5no7Ni9x49nLqrgkuAs38Csx0HdfmAgbEfggV43HgxP7ITVtuX8sS
-         JGC42AWYm/nXo9l9N6BhPy0B8DpwAJLQhY7AjMMXagFqE0d3tTPKoj7yq5NRxNZWUAz3
-         fPyrM1IA/RJeNJSTdPnMheVDeIEAi5sbZUHKm+/oheiqD0HLXYIOGwAtCjsjrDd8bogC
-         VkslEwiIUy6/5BhzDRK7uS1VJIFMTotVy/sA+P4pIFbWi5M/fUjY6NdphY4ltoySNOPW
-         qJkA==
+        d=oss.qualcomm.com; s=google; t=1776872616; x=1777477416; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+77oBS04XiL/gsqw6a/zALDqn3hE4Tj5LuU/BpBUPZs=;
+        b=gYE5anvXUFn1g33Y5gYEq07wo3dgIQkrQAMLHo3BSFitT2/XmpQGaktwasXSuXhvR1
+         cKw0eBpHMnBFl53RukmPGr4UA7tewsVHxdmrzgtam67fsJohS19MMFrImOTaWAn64e/8
+         nDWCD9lPblN+j/BsXoWZwYIQGCRdKxu9tjpe7UCRxpzIrn9MxTrj08vMMjpagjjBL8gh
+         HrIdbYJA6AQ64NHE4xAhu8D1cRg9T6uDV2kU04SlrzJwi3BIBxLR9pTR3PChu1C4ZbWP
+         XvXTQ0pv5qN6Zwj3wOaOhMEKnDgDcrQh6Be8OKcR++DVosDdicAcKHIiQlneY9ML8MPh
+         4jaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776859161; x=1777463961;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yQdjvNpFoN4+Y1Foq/Arcrd5LT5ufq6D54+4yF+FPEo=;
-        b=LfKz6ofW6TO9LOuFjbKNqouGa5pCtPhXsjTtfqEzbZSQNLU1VfrP/OsiPxop/GM6WC
-         gxVQbTEF1s2pf2Pd5U67Y2Y4RSuGsrOcb76LI6J1Qw6zDAgm5Ro1CSCnyEVFlZtZD+uG
-         ta45FCfpTTcVvPvUW8O7K6bKIf4io0J/rYoSRWSf3dvYurYz+wVlN2szq0/MKi/cEkOi
-         ENyk5NdF/5mMtZZzCUZ+SCi2Fw0nDZ/2/NBZHthK+bbC8Efxe0B3WP8ylGqr6dW1zdI2
-         p+wUgFuBks0bSyRhBWeLsjbxm4Y/6NS/vct9PqkDeNDGfOinPdcfplLTgM+KFLuqo5LT
-         LI6w==
-X-Forwarded-Encrypted: i=1; AFNElJ8PVveLlXAbCd4T/PCBfc/jTgZeuDev/6z7P6p7o6NOQsdwaw/ssVs9aOdcIBrhh3yB5DU+yc1QqOWTLHuxXg8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJc+AzhvBSynnNZaMgrgLeNfXtt9ACxU51On/guKaF0z1aTKIU
-	DlsMlmTQRt1Mi78kclKB84lfgJhZz7Pb3ALW3ta34XVj86BsCSKf6hI5
-X-Gm-Gg: AeBDieuUzINXjVaX/XatQVevluayzOj+jWaqp7VhospbJQZjAongMF+/INsab/HxAIs
-	SjcpI86MKN4iyPbSiA+/sEU0YdDDRQU3CkDjHGqgifEOc9LzmPgTr7RUlLgl3gBvHOKFLNPIAr5
-	SXJcCfT+R3uSyXTcPldKV3WQobP66QjGGNnbDvH5Nsuc6IZ/opvdXVB4hX2GehLkcsSH9/I+vJz
-	6KDyKBcFXWKW9xYOnZNwxBYXY0zJL4Ccj6mAKndbOIfeKmuk9fl88wBLNmTY4g0XHvwk4EdzHGR
-	30avLLchim7yU/tGaHhN1B3fpxX9ScAeQX+dHOFmvYX2Pkl9JXua1FUPLG/owWLuQdLKPm8O17N
-	Hj3TQBk2NKw9k3CN71t+aVSHvOLGICv8TjAMEsWkoNinTxYwNCVkrfd7AAkotMNJ9DANhTCZrXd
-	TpRG8mVTxsaIjkGnszTywJIfiIpTEGTus0l2/6NpKnaJ1h6zsoKqqJ5+vzmSqMjz1o3vf+0sdZt
-	LXuq9R5e8I=
-X-Received: by 2002:a17:903:8c4:b0:2b0:61c2:8e7a with SMTP id d9443c01a7336-2b5f9f1c601mr217544535ad.25.1776859161266;
-        Wed, 22 Apr 2026 04:59:21 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab0cdd1sm164231655ad.38.2026.04.22.04.59.19
+        d=1e100.net; s=20251104; t=1776872616; x=1777477416;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+77oBS04XiL/gsqw6a/zALDqn3hE4Tj5LuU/BpBUPZs=;
+        b=Qu21U61ckHtPRrYwMTZVM7DWPzlR1Hlt3iC65G7iBQaiacVtBwTcB2yEkkQ1Tvjd4p
+         QCo4CPAhg3mwY1mhG6a5IPqZYr7Z8s11YFhHIdclGoC5zCnNfUQkJI72FxdgbDyJ+EcY
+         e6OJQohfO+sTsAzeC0J043zZ9/F1GHZNBCM6vKIGzcOECO0rICtDKUD2wnVaCry2ipTh
+         M9qjq2EhrFWX2EuRqge9CQmfyULlmG6yV6uvRwM7Oz5v/VHrJsLzfe63Ytayfq64ZpTg
+         TTDQ9T46geIDBSl7l5yb/s/s7cxHSTCfPFAHFFCpRSARIe7OhSMB4/uHWRk9ZLOxtFG1
+         RfPA==
+X-Forwarded-Encrypted: i=1; AFNElJ8fMFHl6TJC7Hrg4OM3pn/1r1lO1628WWIxCWskaiiA7tQGM+6HAGWuF5APLfOOOTyX2amCvpQZE7dsSpUdSEI=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2CIrwkB6FNXjoEI7nYKvk6qjyuaagKWAVcVIqQYnmrAxtXe34
+	Q75ATWgYtSqXSKS7kJ3lUqvt+Z8eVO/Giq1TQbkm+6Cvkpuxz3HayesDfw38tEE/j45Jqol0iiU
+	Er4cB/qMAWVkRjPPQLrHR9viSevQQc4QT2y996BFD5vK5lUd8p5fJ599tb2FWCkEBbRptqis=
+X-Gm-Gg: AeBDieta6ExhmskVUvtM3PNwCqlfq5kmnFFUlrOwPlhKgTZAuGf9LNSZDIeN46tpqr3
+	3N4ICmcrG31WYZzW6A9HimuPBt3tR+9uTCKtPjyDVDaUQ2rurT+QBOFeXJUFNUYR+4LwfljT50r
+	UZdMdr6virEh5HbVFy4b7Gc4UJRFWmlHFM6EPt1C9wS5BNw17LhOSxGKgLR662gF4qt1SDwRagK
+	u47q9JgC4qV/lyhAfeuC1E56WvBK+xjcBKY8N61bCvsJ9bPrfczpm8GbOViOglrg/xKhePu/PQC
+	0Mi4KFCqlO1lBHcgn2yRoQ1MioF5b6ajCP7rg9Z6XGo35YKGYGlpvPJgUdogQwmHWN882JZKKHf
+	HU4PLNUq7gONpVRy8yV4FXp5zWkQuojL7dsVcH+NheDBc2XfwSSdZSsh4bBr6FKxtDBFWXASSw1
+	D2xz7UIO0JAokUz4g+dfE=
+X-Received: by 2002:ac8:7f55:0:b0:50e:defb:9dc2 with SMTP id d75a77b69052e-50edefba0b3mr156546311cf.27.1776872616316;
+        Wed, 22 Apr 2026 08:43:36 -0700 (PDT)
+X-Received: by 2002:ac8:7f55:0:b0:50e:defb:9dc2 with SMTP id d75a77b69052e-50edefba0b3mr156545681cf.27.1776872615792;
+        Wed, 22 Apr 2026 08:43:35 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:ae20:597c:99b8:d161? ([2a05:6e02:1041:c10:ae20:597c:99b8:d161])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fb78becdsm222848065e9.5.2026.04.22.08.43.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2026 04:59:20 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <7e4a008b-74c9-40fa-8fff-ee4fa830e3dd@roeck-us.net>
-Date: Wed, 22 Apr 2026 04:59:17 -0700
+        Wed, 22 Apr 2026 08:43:34 -0700 (PDT)
+Message-ID: <2ba6472b-4071-4576-855f-4e4e774e8375@oss.qualcomm.com>
+Date: Wed, 22 Apr 2026 17:43:32 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -72,139 +91,78 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 07/14] hwmon:: Use non-OF thermal cooling device
  register function
-To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>, rafael@kernel.org
+To: Guenter Roeck <linux@roeck-us.net>, rafael@kernel.org
 Cc: gaurav.kohli@oss.qualcomm.com, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Benson Leung <bleung@chromium.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, Avi Fishman <avifishman70@gmail.com>,
- Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>,
- Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
- Benjamin Fair <benjaminfair@google.com>, Heiko Stuebner <heiko@sntech.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Amit Daniel Kachhap <amit.kachhap@gmail.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Amit Kucheria
- <amitk@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org,
- "open list:CHROMEOS EC HARDWARE MONITORING" <chrome-platform@lists.linux.dev>
+        Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@codeconstruct.com.au>,
+        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Benson Leung <bleung@chromium.org>,
+        =?UTF-8?Q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Amit Kucheria
+ <amitk@kernel.org>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        "open list:CHROMEOS EC HARDWARE MONITORING" <chrome-platform@lists.linux.dev>
 References: <20260419182203.4083985-1-daniel.lezcano@oss.qualcomm.com>
  <20260419182203.4083985-8-daniel.lezcano@oss.qualcomm.com>
+ <7e4a008b-74c9-40fa-8fff-ee4fa830e3dd@roeck-us.net>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260419182203.4083985-8-daniel.lezcano@oss.qualcomm.com>
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <7e4a008b-74c9-40fa-8fff-ee4fa830e3dd@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIyMDE1MiBTYWx0ZWRfXx5GsdiCA4+sC
+ YlEv2Gmg0bxXSsBLVZN6oJogA3Z3QCPDBsMo8a6hK2e7pEIBgwT/Ud4JjOEg+AB7O0OmGfMr1Uh
+ L4CI3DGhVnYDJ+/H8OMWsqcWIQxIiEvVMdRzZERME0DKbDCalONPWWnI1rQd6p3xwZWUUdEWO+X
+ N1F7rmPLkaiiM+w4fTP7vYrWzvo3Pfwq9i7QoXblW6PVhEy+XAGvLxy0eeux/HNSbZkyBylf/jf
+ O4YNBYcuCiCJEpIBxnvGav/7BH5kx9Wre3DpuUBr6zd2nIGVSKr7/DjTXQ53LJJYEs0WajD35i0
+ 46Ktv3WdfcJvFznHWz9WxA+7I003cPB/kZj/7ltfBny37tw4ENu5cGNz1Wmj4dMOMPsI8UjApGk
+ Fefnk0BODlpltcAM4+UwMXY8Ng/Q2xkyuHeSPS8rNI2tpwjfj4MAM7FB/KkA2ByzJ3VSrwroYSE
+ eCQUH5W3e/q5MaBuDMw==
+X-Authority-Analysis: v=2.4 cv=dL+WXuZb c=1 sm=1 tr=0 ts=69e8eca8 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
+ a=_jlGtV7tAAAA:8 a=g8TOPbrVlzZQXTNCp-oA:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22 a=nlm17XC03S6CtCLSeiRr:22
+X-Proofpoint-GUID: RzO6K32rCdWz-f8Ajifa0bENgTxY-BjW
+X-Proofpoint-ORIG-GUID: RzO6K32rCdWz-f8Ajifa0bENgTxY-BjW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-22_01,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ adultscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604220152
 
-On 4/19/26 11:21, Daniel Lezcano wrote:
-> Make HWMON drivers which are not based on device tree to use the
-> corresponding non-OF functions.
+On 4/22/26 13:59, Guenter Roeck wrote:
+> On 4/19/26 11:21, Daniel Lezcano wrote:
+>> Make HWMON drivers which are not based on device tree to use the
+>> corresponding non-OF functions.
+>>
+>> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
 > 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
-
-> ---
->   drivers/hwmon/cros_ec_hwmon.c  | 4 ++--
->   drivers/hwmon/dell-smm-hwmon.c | 4 ++--
->   drivers/hwmon/mlxreg-fan.c     | 4 ++--
->   3 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-> index 6cf5ab0f4b73..77dd9f28962d 100644
-> --- a/drivers/hwmon/cros_ec_hwmon.c
-> +++ b/drivers/hwmon/cros_ec_hwmon.c
-> @@ -532,8 +532,8 @@ static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
->   
->   		cpriv->hwmon_priv = priv;
->   		cpriv->index = i;
-> -		cdev = devm_thermal_of_cooling_device_register(dev, NULL, type, cpriv,
-> -							       &cros_ec_thermal_cooling_ops);
-> +		cdev = devm_thermal_cooling_device_register(dev, type, cpriv,
-> +							    &cros_ec_thermal_cooling_ops);
->   		if (IS_ERR(cdev)) {
->   			dev_warn(dev, "failed to register fan %zu as a cooling device: %pe\n", i,
->   				 cdev);
-> diff --git a/drivers/hwmon/dell-smm-hwmon.c b/drivers/hwmon/dell-smm-hwmon.c
-> index 038edffc1ac7..47b373ea6db4 100644
-> --- a/drivers/hwmon/dell-smm-hwmon.c
-> +++ b/drivers/hwmon/dell-smm-hwmon.c
-> @@ -1161,8 +1161,8 @@ static int dell_smm_init_cdev(struct device *dev, u8 fan_num)
->   	if (cdata) {
->   		cdata->fan_num = fan_num;
->   		cdata->data = data;
-> -		cdev = devm_thermal_of_cooling_device_register(dev, NULL, name, cdata,
-> -							       &dell_smm_cooling_ops);
-> +		cdev = devm_thermal_cooling_device_register(dev, name, cdata,
-> +							    &dell_smm_cooling_ops);
->   		if (IS_ERR(cdev)) {
->   			devm_kfree(dev, cdata);
->   			ret = PTR_ERR(cdev);
-> diff --git a/drivers/hwmon/mlxreg-fan.c b/drivers/hwmon/mlxreg-fan.c
-> index 137a90dd2075..860de6cfd8a4 100644
-> --- a/drivers/hwmon/mlxreg-fan.c
-> +++ b/drivers/hwmon/mlxreg-fan.c
-> @@ -583,8 +583,8 @@ static int mlxreg_fan_cooling_config(struct device *dev, struct mlxreg_fan *fan)
->   		pwm->fan = fan;
->   		/* Set minimal PWM speed. */
->   		pwm->last_hwmon_state = MLXREG_FAN_PWM_DUTY2STATE(MLXREG_FAN_MIN_DUTY);
-> -		pwm->cdev = devm_thermal_of_cooling_device_register(dev, NULL, mlxreg_fan_name[i],
-> -								    pwm, &mlxreg_fan_cooling_ops);
-> +		pwm->cdev = devm_thermal_cooling_device_register(dev, mlxreg_fan_name[i],
-> +								 pwm, &mlxreg_fan_cooling_ops);
->   		if (IS_ERR(pwm->cdev)) {
->   			dev_err(dev, "Failed to register cooling device\n");
->   			return PTR_ERR(pwm->cdev);
-
+Thanks for the review

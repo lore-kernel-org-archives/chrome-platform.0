@@ -1,165 +1,155 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B1231F9A0
-	for <chrome-platform@lists.linux.dev>; Fri, 24 Apr 2026 08:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2C93382CF
+	for <chrome-platform@lists.linux.dev>; Fri, 24 Apr 2026 08:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777019620; cv=pass; b=ML7/jqbv/UtxG5bI0PH8Qgn2dpzWtvaX/cbNVmm8dFtw+5YzXHHllAsZafpL3f+GpcO+eltOJmpvp7BUD7jNp/0UnlxO3CNA2EztprpZ+Xc6A7UYuIFv/1RLixsV48qBSnyw+jxShSJ1MuTrgFk5neZQpn451nhoZL1zAfr1AIw=
+	t=1777019730; cv=pass; b=FYHnKvWpOkzLHUAuAdHUxblqDeFmb5LYV+UwCpw7iGq1jiYzBVhzWIrHOD1jg8d2kdwU69swBQM/iwVTc0VBznbHJg/thWoWkI+TaOfcCMgwFBYeHjUIi6h9jYkRROxMVGvOy+/YrYEKmYW3sMpfCeqzi/qOvhvvd33if54LDek=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777019620; c=relaxed/simple;
-	bh=o9Tc+LE2N3K3qGHeG1DTzY+Vz60zfABeiP7uGBhtwqU=;
+	s=arc-20240116; t=1777019730; c=relaxed/simple;
+	bh=Wb2NZyk9p3ZD1RGi+a3TbZh1s1hBC5hYX5GzQEEx/bY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tpmBMNYVz3g4IuY8bDYSAf/JkschnhCEFCKwNdeDvsEjezItWa7MLUzhyL8t9d1QYaJcosMEofEguViVL63DQaxKp1W57Czo9+CAS9wqGwLByzhTrgOzUPdpHejWupcr4rNqajZRHPzP4tzdUtBtvBmifuRiHnQniZaLEvKe6C0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z0Aq5TOk; arc=pass smtp.client-ip=74.125.224.43
+	 To:Content-Type; b=GRLDdZquZxBI3M5G4/2YWxrYSKZpoSW0u/4scpFIRawkXP4d9b/t7325hL8rkaNXXqSFOU3EPWP0n5hlrn7D8akogA8bmtinT8hhmJZFP0VCvqKQUDIiIgRyzHbT2DnUHRiiH0nB0/H+6nEmKJd6a+nKoOdD/3TfYXFRsxPEwRc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tbnu+e7y; arc=pass smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z0Aq5TOk"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-64937edbc9eso6687472d50.2
-        for <chrome-platform@lists.linux.dev>; Fri, 24 Apr 2026 01:33:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777019618; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tbnu+e7y"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-79a46ebe2beso77680577b3.2
+        for <chrome-platform@lists.linux.dev>; Fri, 24 Apr 2026 01:35:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777019726; cv=none;
         d=google.com; s=arc-20240605;
-        b=W21dLbeorHpyWHoFkJM+/KBz/8ZrV/FAZqVVOioqiUAcsvM1Hucbi4X62UXolke4pW
-         dbyeRa/W65eW39g4qAjkQ520XEARIVD5WzRw/+HDmU0T+oG6FhOvLWRKnNeZWi3M0C7n
-         g5qma4o39PN9ehURK48quAwDcpb8L61fjk52A83cgSErDkq5+kOV3O/JAbjrp+ydjpE5
-         DMx/ViBuOmqq+3vFCXnzJ/gGht2FZDJCr7j5ZU1y2qoPwgb7A8vwCD4rQMuylFqiyHd9
-         H0NRBk26pm8It1BJP2+Dxw+RddTNnNq9P8bJa20t19Ja9kQ8q90d6tA+3mEyJEE/SLCI
-         MThA==
+        b=cA1oB7rIrP2zTMTGBV4e3Ik4+9XuJpf50Z+Bp6qIvS/mw9iBxHNuCV2Hc7cjNlV3Zh
+         4ue/SPPs84F3jJUaj9OLduPgCUae31jIqIVi0xqkUZxogRzsLAU0YHModKNkGKSR1y2d
+         rHDs90xMU0YjokyZhpDsr89zE7H4O6dr4Uy6IuhPJegv5hA+ARme5+Q3WIWL9OeptsM7
+         mt0dLt8EGgoLlwP4f08iIGEE2xiBe82Dz1vg+BxPtl2nHE0d1W9I90fy+nt2f96XmzOA
+         /FXRiNrJ3/Xbq/6D0YgF+2PFluwNBdDVAdYAJ0R2s3wXjjo4D2ANU0xfslydaNkZ3TTk
+         oPfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=o9Tc+LE2N3K3qGHeG1DTzY+Vz60zfABeiP7uGBhtwqU=;
-        fh=AKK46nI06gTijcONf8JnxvjAo5Qp9y0UhURHNC3gfWg=;
-        b=iWOsp3XeXkZWTFOYs6zI9PLqfCcVAafB/JmCXzmEafCeqB7byA6rG57ex/bePHu1lZ
-         MEHoM8iZQQC6kiMGZ0hbfBowm7CVxXevsRYa+vKiMy8tWIyyQSQNSBmLF/dFI3aZE2/t
-         Dd9IeZwOBQFEPU1i5vesaFLb3b/r+NKcTu3FgAHiB0JuKxhszAksIl6BSw37xQwH/JIK
-         NwIGLBM86upKkUAM8hRQLtgBuzlaNVIEx71HzNr1KEpEF26Cynhsizq4Aboy0br+LVwz
-         1kJbWi2eeYt65+1ncIptiwUl4jmDLxX2rOrBlWmcbJWI7xf/fAvPmE2o7AVwAltUpFMK
-         GJDw==;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=Yf/8IqNQDaovdpOFSKcYce7f9qCZwLgafviBhsZ3I5w=;
+        fh=hg3yhbvMiPkvyTMUEB0j4E3RAnnx4a4TCF1COjfNEz0=;
+        b=J0Q0KVvCCgNSnFAK4302hIte4djaJG5ihlz0/hbmqhCMt/k6pX/Z2uHeGF089lRGwm
+         DYc/Qi6NDe60Td0bNaJiJErxgagCfYaZgpPUwuWwU4kWGJ9kA6sbF+blXN4wUo0oYc61
+         YSYupbYvbm6zAeUVfpEYySX6DNzEYj6ZxZaHN+WykOTDWGiHZLB8oL/1OdBrSVQxL0Hn
+         x+T5bWhaayKPdLIUhhH/FsBlfnd357+FmXtpxslCMMmC2ygvMM4Dy6P1BQa4OZhvhvY/
+         u5mTd6qLhtSXgVMWFiceCOtIRAwKDMye5GUz0W/zfIqJkJQzmJGMhIbknFwfVo0tFz3B
+         X5yA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777019618; x=1777624418; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=o9Tc+LE2N3K3qGHeG1DTzY+Vz60zfABeiP7uGBhtwqU=;
-        b=Z0Aq5TOkFE2lCqir58AMFuZ0Em6jJqNYS4MNbspqFrPz314/34jGyx9YfTPn9XCwO8
-         CX8++nO44GSF84m+FdVyYXpxWbLl1Rc7uCfwE6EeEO+5sfdMlzOZ6E1ADHQWbiVg/XTY
-         LpcbuBRXoFrHVWaWtyQ561++rhozq9ojv42l03qYMbLF62+aU86SdYY2R7xpe+Ami652
-         aCKhu/TO5COKNWrIomFeJCY+obtwuwleqOJm1qYncnhTfhMGtBGGjwQL7qrluHsZt8NA
-         iw/yFZ5IlYLBrc9GoFAz4jI8slVgXhZu7xfkeuZH9fCGxJOjHL84KZXzHRiydjtsxGna
-         HcEA==
+        d=gmail.com; s=20251104; t=1777019726; x=1777624526; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Yf/8IqNQDaovdpOFSKcYce7f9qCZwLgafviBhsZ3I5w=;
+        b=Tbnu+e7y2Hg4ApgEQjcMQIz57YhjnDJ17Um8RKQz8NlwE8IvQpXqcutNgX2CuH6R0w
+         coBtv5nwH8qb93qmHR2akSXoPyBTH1Rh26KaKox0Eh0SlYNpxDi0gfGjXDEWEoV7KXFp
+         QLWriEbHvwobAVLAD5coqYudUM9GUxWzzhby3PsSDerdS7HmxjK0uYMqn/FmSnaMF8VT
+         Gbo+Vj1Kk++yvQkWQqa4Omv5BS9P6dx4fEMZLvugRQzZhT6NRXVMgcrgOTCvoDtNFfyt
+         4f9YmNDTnvjQhvVJCauTBj3D35HpJ9cyVJZb2y1WpoiVej5+ZIoM9+Ca+GfoHd8ohn+7
+         rR5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777019618; x=1777624418;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o9Tc+LE2N3K3qGHeG1DTzY+Vz60zfABeiP7uGBhtwqU=;
-        b=H8/mm7TsQxtsBuff7HF750QIyWJVXfpf/6nMW3s2//m20E5YGnYHVHFe4dLoJ3uBBL
-         MjY0YMCA8ksls6LRnOgBzTsuI0vF+iMxRgRJ+po5av0dZHyZaavLr0IJn4fFJBjlF7S6
-         N2x358whF+ph8HmjjPGWPYUcx1DTmHLz538nsNLQZX+FvUzz0DaqoJqmFyoqtHx8ugV9
-         NDEnMbyJWJPYliXyz2FMA4UfS2HXKrlxtQxDuaL+T7Ma+4XMGcIaELdxPsJvstNMrkGr
-         K0POcao4TB22MsNU+9dxqzQrYlXZJg7ki0bLKH1d4GuEQXUJ+YQyHhxS7IknYE/i1pHI
-         dc5w==
-X-Forwarded-Encrypted: i=1; AFNElJ9ks8Hea7yAYpdrlZLrPBk4WqFCDxbNTeeVbZn0VrSVCUipbEZE9oeiJGSH6zq2F/SYnCy06j7N4kEMoRzupsU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyDlDYqMVMinGrAaZSALwJGDXaMtI28M/Kl+i1Q2+RQnRn9Ezpa
-	Ia3yyrrSc3fDgYQqHb2g+K/FN1AW8qnPD+eZFRF+WDKBYuDvuKYW6XUpdMGAG5gosVCzefLHoSs
-	ft6Ce0DyOA2uWUVDpZlPgfDO3MU/SdlQ=
-X-Gm-Gg: AeBDieviXRzseCERnzOMl4WoRKEyjFCsBY4gYlLHynPdYy3kxtcQgSjtwl0SNDOJKY6
-	ovvDfNqU/KxjjW14KqxQBwD9fyFqpgSg6+j0L2V4KfPFzinbr00tlwJ+qQ7a1UIjEiK3df8meLJ
-	bK3c9JKrIfJ/wKDhwiBjM5oyWTpWNfgXiFaNbZM1kLw9/XX46L9EXAyxHP03u5foI/iryRd4Xz+
-	1QK7dQwjhdngoxRX63OfX8TQzGwRoleI+el1Fph38YriQ8IYZTed1TDI7pmOoM7WbEfS1Gv6Lx/
-	d4G7yFKPtO1L/0xasfe2
-X-Received: by 2002:a53:bf0b:0:b0:653:9e2:105b with SMTP id
- 956f58d0204a3-65310863b78mr21753136d50.25.1777019617832; Fri, 24 Apr 2026
- 01:33:37 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777019726; x=1777624526;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Yf/8IqNQDaovdpOFSKcYce7f9qCZwLgafviBhsZ3I5w=;
+        b=Cka5VNuGXtmGm4mJCfAt+BVgbqm1fEVWzRBMEXAX6SeOOcHfRRSDx+0P3eXW9+Bo20
+         yPLt8Shg2jCrf/fvS6Wx1kr3exAievW9zSquefZUf//qgK/T8jTtAtBNTP4OBZLjGgCG
+         quqQnisurr55CwwytsBd5BVLKdCQZXPFfzKy8/oPLQseO7eCSUhc6pkL+v6rAsquMu4V
+         jl5ELcwmysL376Xgg4u25XZZHY6ovkHu4+zEVCcgbgwzTPH183qdkPZ8VAGeiYAoBzSY
+         vXop/u5WN7zLsrSkhxT6Yb1Zdyhn68HHFIMekXyM73OlW/9Ndn/tJDrBkNJr/e1s/Y8X
+         n9IQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9dx8oRTuOlyw9SC5o4wz/inaRpzFhr0k6U/XH7rl1/bX5ExnQY4kUvFE1y5TKRkSIuMrIuIecExfxY0E0B8EM=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx4nGwEqz1f/IjKbPKpUJjAClnajaBVWewdG9AZkwz51Kb7vcCN
+	agpovKwon+/itbaudiO59Ud7hBnTLqIPBsGUoLZXnUqkgteT9ueuOim58MQuVscu0qy39Wdk0vl
+	TWUNuyZDon1PrBRSNy2A9oju5QhBeZ3Y=
+X-Gm-Gg: AeBDieuLpm6OQgs8oMjo1dFv6jKq0Bi7LotFB08xnqwmUXZm9cG7etn+6YOeAKlvfmQ
+	b2j2v7KtqEnVtTDwRO95V8ZbNrJFCCmp/e5J7o7fmJnHeGWlJGmrymtbx9lz5g5GT8wrcKvRTg6
+	v+PwJD2XrNFn7noV1PJ3pMvWV3kYHzLXxwWewxOc+6lFhavjNzFz1vcBoawGbrewxzIDyCumuIt
+	r3j2/fGxx4PmqnRe68g+7Hm2Nhp5YXniE4yj6cQdVtDhoBse+H4r7cZb4XoaTlYzvIHt2nA27sq
+	iAaGrqIYZvJ88muaGbVvmYCwro8RGyY=
+X-Received: by 2002:a05:690c:6d84:b0:7a0:17f4:e761 with SMTP id
+ 00721157ae682-7b9ed00282amr317144297b3.45.1777019726201; Fri, 24 Apr 2026
+ 01:35:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260415175038.3633384-1-lgs201920130244@gmail.com>
- <CAOesGMghHi5bEcec9L6d1YUec0Cn5uEs8MrjdoT-zHSr-FJ8pQ@mail.gmail.com>
- <CANUHTR-XcTO4jy_TNe7tHcPPpVh_o_+-hgJtLBxN5MWupcvQ3A@mail.gmail.com> <CANUHTR-U+DDaWCKNUcNE2yScPkk6vVfnZ=GXpGtRt6SFYph_Ew@mail.gmail.com>
-In-Reply-To: <CANUHTR-U+DDaWCKNUcNE2yScPkk6vVfnZ=GXpGtRt6SFYph_Ew@mail.gmail.com>
+References: <20260415175707.3640225-1-lgs201920130244@gmail.com>
+In-Reply-To: <20260415175707.3640225-1-lgs201920130244@gmail.com>
 From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Fri, 24 Apr 2026 16:33:23 +0800
-X-Gm-Features: AQROBzAGvtdaL5hCS8cZfjfvqw_W2IJgQzt_3ZfVldCokq1dpuv5P3O6ftcEQ-M
-Message-ID: <CANUHTR-agWsWdZbjYUesvyp5OMqRrjbhg0zEbEgU67q8Br7b2w@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: fix reference leak on failed device registration
-To: Olof Johansson <olof@lixom.net>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
+Date: Fri, 24 Apr 2026 16:35:12 +0800
+X-Gm-Features: AQROBzBCfh8cC53ewJFLzjr4G6uwJAuOd39fpxEBr2W3Pept2Dd28_9YtSYr5pI
+Message-ID: <CANUHTR9_c=msO7mAax=Aj4U--GB=2ozserOvrTU8WueqdSMN8Q@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_lpc: fix reference leak on
+ failed device registration
+To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Guenter Roeck <groeck@chromium.org>, Thierry Escande <thierry.escande@collabora.com>, 
+	Gwendal Grignou <gwendal@chromium.org>, Enric Balletbo i Serra <eballetbo@kernel.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Olof, all,
+Hi,
 
-Just to follow up: please disregard this patch.
+Please disregard this patch.
 
-On Thu, 16 Apr 2026 at 18:21, Guangshuo Li <lgs201920130244@gmail.com> wrote:
+On Thu, 16 Apr 2026 at 01:57, Guangshuo Li <lgs201920130244@gmail.com> wrote:
 >
-> Hi Olof,
+> When platform_device_register() fails in cros_ec_lpc_init(), the
+> embedded struct device in cros_ec_lpc_device has already been
+> initialized by device_initialize(), but the failure path only reports
+> the error and unregisters the platform driver without dropping the
+> device reference for the current platform device:
 >
-> Thanks.
+>   cros_ec_lpc_init()
+>     -> platform_device_register(&cros_ec_lpc_device)
+>        -> device_initialize(&cros_ec_lpc_device.dev)
+>        -> setup_pdev_dma_masks(&cros_ec_lpc_device)
+>        -> platform_device_add(&cros_ec_lpc_device)
 >
-> On Thu, 16 Apr 2026 at 17:26, Guangshuo Li <lgs201920130244@gmail.com> wrote:
-> >
-> > Hi Olof,
-> >
-> > Thanks for the review.
-> >
-> > On Thu, 16 Apr 2026 at 05:47, Olof Johansson <olof@lixom.net> wrote:
-> > >
-> > >
-> > > This looks like slop to me. It doesn't even compile (there's no local
-> > > 'ret' variable in the function already).
-> >
-> > You're right, I missed declaring the local ret variable in this
-> > version, so it does not compile. Sorry for that mistake.
-> >
-> > > This is also a no-value fix, the chromeos_ramoops structure is static
-> > > data and not dynamically allocated. Please don't burden maintainers
-> > > with these kinds of "fixes".
-> > >
-> > >
-> > > -Olof
-> >
-> > My reasoning was based on the implementation of
-> > platform_device_register(): it calls device_initialize(), but if
-> > platform_device_add() fails, platform_device_register() returns the
-> > error directly without dropping the device reference initialized there.
-> > Based on that, I thought the caller might need to release that
-> > reference.
-> >
-> > That said, I understand your point that for this statically defined
-> > chromeos_ramoops device this is not a useful fix.
-> >
-> > Thanks,
-> > Guangshuo
+> This leads to a reference leak when platform_device_register() fails.
+> Fix this by calling platform_device_put() before unregistering the
+> platform driver.
 >
-> We are also discussing in another similar patch whether the
-> better fix, if any, should be in the API/core code rather than in
-> individual callers:
+> The issue was identified by a static analysis tool I developed and
+> confirmed by manual review.
 >
-> https://patchew.org/linux/20260415174159.3625777-1-lgs201920130244@gmail.com/
+> Fixes: 5f454bdf63536 ("platform/chrome: cros_ec_lpc: Register the driver if ACPI entry is missing.")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> ---
+>  drivers/platform/chrome/cros_ec_lpc.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> Thanks,
-> Guangshuo
+> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+> index 78cfff80cdea..cb3ff76d29e9 100644
+> --- a/drivers/platform/chrome/cros_ec_lpc.c
+> +++ b/drivers/platform/chrome/cros_ec_lpc.c
+> @@ -892,6 +892,7 @@ static int __init cros_ec_lpc_init(void)
+>                 ret = platform_device_register(&cros_ec_lpc_device);
+>                 if (ret) {
+>                         pr_err(DRV_NAME ": can't register device: %d\n", ret);
+> +                       platform_device_put(&cros_ec_lpc_device);
+>                         platform_driver_unregister(&cros_ec_lpc_driver);
+>                 }
+>         }
+> --
+> 2.43.0
+>
 
-After re-checking it, chromeos_ramoops is a static platform_device and it
-does not provide a dev.release callback. Therefore calling
+After re-checking it, cros_ec_lpc_device is a static platform_device and
+it does not provide a dev.release callback. Therefore calling
 platform_device_put() on the platform_device_register() failure path is
 not appropriate here and can trigger the missing release callback
 warning.
 
 This falls into the same static platform_device pattern pointed out in
-the other reviews. Also, as Olof noted, this version does not compile due
-to the missing ret declaration.
-
-I will drop this patch.
+the other reviews, so I will drop this patch.
 
 Sorry for the noise.
 

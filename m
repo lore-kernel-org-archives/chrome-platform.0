@@ -1,105 +1,136 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A785733123F
-	for <chrome-platform@lists.linux.dev>; Mon, 27 Apr 2026 19:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B27F2F7478
+	for <chrome-platform@lists.linux.dev>; Mon, 27 Apr 2026 21:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777316618; cv=pass; b=it0oR6SeDULW7GeQ3DppBYO8FkgblQTLes1MhPqjxWqOUhUlNJSClglwmoIB9j3tPMoNZec/hR+y1hEyUkJBuK8ToRvi9q3ceFQL9OsnigyWm2Q25br3Rh3Pj4Jey7IPtA4pTAnCaHy5H43fP6dgPA4o+nG0h6Gh7V6gGNuFxy8=
+	t=1777325808; cv=pass; b=dHdMXMeeP/zmZXPQid9W5CP6nl2i5ekdIgaSg5mev4i3CJ+Tz3emtluYlyKRkfxZeieoLdY+IMe3bqHGf2pMpq9PZScKQL0BJihqjLCPibmxPLqhLYr336dY0n7rJCjD0aSigYJ5wulnxqiKz+IDoJnUuknGyGs2FO3yEUq833A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777316618; c=relaxed/simple;
-	bh=qrAk2Ugdur8I1LF8nPq6o0cZ07+Y2miZE4zEPwxhJyo=;
+	s=arc-20240116; t=1777325808; c=relaxed/simple;
+	bh=cjmZnFyA9NYWFPO1CQzc/6AUJVUPJDPhUjHCK7RONAA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JHM3VyLZwpLv8V9OdJaA/wcF/E4lHaNoO0iTuzcNHzDGTtXt+Y72J2971T7bHUSomp9Dl6nJnfLMeqX7D4uGfsu2Q67ZIVCmRhQbfzsr7vNyaOQT4Uv8pY7XswkUP8sm61MbC1hxIce1cjXZkLe7iESKQTW8RzelpVoaUvoz2G4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DOQH+CJY; arc=pass smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=pjW7eKQEoo8e0OCrWO+Gpodr5lK4v/xCJ6ACfXhr15r3d4APqu/72dTymKTQyDRvEuyXc8wKtegHLUkYp1PJc2xZDXLGtbn0mgO+qtenZLCh333CpU0TeBUwyO/6KALyCFbOOhKNQy4vrwzuYzAPyNCKd96CaHT+yqMxqhAMQrs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eub9MJrZ; arc=pass smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DOQH+CJY"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4891ad5c074so22935e9.0
-        for <chrome-platform@lists.linux.dev>; Mon, 27 Apr 2026 12:03:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777316615; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eub9MJrZ"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12c726f46baso13558486c88.1
+        for <chrome-platform@lists.linux.dev>; Mon, 27 Apr 2026 14:36:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777325806; cv=none;
         d=google.com; s=arc-20240605;
-        b=FdkJEyuKQb/D0IHJn/jug/AZeamRuxtlpy8hXa93l5YkXJsaCETZ6BXjpHz0reFpb9
-         PLGKefM3kiwobSFfTA9z7ZA+LGF9eDq7lDinFP5mOG6ZwUD4kkFGCeQas0auPsnvDHKO
-         pxSi5wlEQDl3RynHRDn/Xh3b3kf5dDmVmOBpJAH+m7zNbwYr9DW1QMpN5zQy9UhwkGdr
-         lZmOU0npLI5ZeMrOA/H+QacpqYgtOoX8fcSlqfjeaUGfkor8Q+AfR9nY0XofFKnAKvGY
-         Wri6LNmUtroB4aNDF5uJ2ywdWjdIOh+bzSZ6wtJkRS3JuJxwfv4+sDoJAqDND1F8h4A8
-         qPzQ==
+        b=CXnT2VTzcktYGT4urBmhLLQSx11RiCds+kyr63ZQbcYjWe1LLQt0oLY+3ixTym73B0
+         5Gkqg9dAFhP82zy2ZZRYecMrg//53OQdXt0i/dMnvxRQKincuZO9hbYn7XyaFJ+tdN2v
+         B6xc5DbsvNTEzD4lGBVy4jmeRC9T4ntzXncbRw38VhWGBwauULSI2zzAqmrprv3AbfBs
+         yED7MAwDhY0IlYFC+VJyBd9EgcdZEsII0MmCXAWmAPPAviRSWaDY4kvU3v22Q8QgJGDY
+         TY6Ja+a1M4Tnyer1CGQsQczHnlof56IjFnEHG9wpSZM2v80bGPHWebv0Tn9qs9/4IINM
+         gbYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qrAk2Ugdur8I1LF8nPq6o0cZ07+Y2miZE4zEPwxhJyo=;
-        fh=R9IPaYifvRYiL87lLa7inNdLTrELYZcNV5TrfJmJvRU=;
-        b=dflziAM9RsAAtO1ZOGw23yQnSmEOdpES9Ma79rv1MtFTdvs0pdo5ZOIV3MNurpojWF
-         aVIZgT6N9eknSh+ymWFSxtEwGimfUQLxEBoax/jlt9HfBf87Yu8VmPRjwdTAtNR22gpz
-         AdQ2iu/mbzYvUhrTTnunegQ9I1+7asHZmY5vLw6akuaFmNRxXXC9hPnQajP3bBjKvfiq
-         sVZZHzLyuzEUSVKz0G9ULc5+4rnJx38tSUfmQ05N4Qeq3w/Zlj+oyQWPSbJYili3dT4t
-         1Aig9QAYqIT79KRSWqNF4Bp6pHBr6DGFHM3WCAt0D5m8TA+1cT33hzu3IcKCMghGKUBK
-         pG6g==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vDEE0Pc2X73kF5Bt2iCz7U8oBEcuDtZ0h0Vpbnv35uQ=;
+        fh=5oDLtIIKarR5WVXtz1Aj+dBV7tG1NPuLtqSXb4kg+2c=;
+        b=H4jWAb6xrk2WG87cDpV4usuAI31Oj8RZSFTqAZEDjTqHIV0yv1HvTFvS63Wozgkg8K
+         7zZqbksdAor9ZWh6pUpXGitQt4HC62+1JaCaFPtWjSr6H+ZDzLNRZpAeDJu+SxIoQNdA
+         48jNqQ8qEPyquhhaOzpIUuRKBNEkUAXP+RbQN7xesqH9CxEUXkDpG4KAOuGYHJYPxs6X
+         FDgzy9viZcLYSo/C6tPSxjQjvXbfsLwl9AoPxfeir96j+igrVWxwVRGSDCPEWRGUIDuV
+         o26du71MsQXqd5UgQTlJ5b2LNM/SStltOHOYQfaPF1aITRE3ejjhc7XWRKJS6QWnckFg
+         yf8Q==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777316615; x=1777921415; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qrAk2Ugdur8I1LF8nPq6o0cZ07+Y2miZE4zEPwxhJyo=;
-        b=DOQH+CJYzwvFOG/l9KKmULbRfDLtP2ZkgLB4PLGyoO1igrw2HYI2BDueOVLIlatT5t
-         EBKaypweWhlmu7eIbEQLmSNCXGDkf9x4iSl/Aug/6LLaC/mF/q76QvYHY1rAEJyRfJC7
-         /PrsCFkIkzNpLummzGTCtcZQwKjXT0n2fenFY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777316615; x=1777921415;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777325806; x=1777930606; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qrAk2Ugdur8I1LF8nPq6o0cZ07+Y2miZE4zEPwxhJyo=;
-        b=Z6bLWiLlNtPgNvYdoarOULxFzWTgGYJksQCGjRdvPAmK/aPHMFYO7nzlTztC6veAgD
-         qDdJL7V66OnEDrJUqaXtd0WCO8KVjy6jXoP4SFIV9iBsoMQrV6G3LF6MuGNM7rKdEelG
-         ZCQzZ+hAhfBn8xrMq2eo/aacYmJofse9de4O/Zd/AX/ytPd7W3Mulaq6RZgNoTwNtQP1
-         YxcfY9FeE/t1LTCjxncBFNsmZgXb8z8CMPp3TYtV55pUZv/BjBAPKSxFv9lWJBa90qlj
-         oA6UYjnFxta1e1a+1ICxgTGm9rQIe9p/89PjMnWCaAmi0UWoFP3rekf+60kLwHMg5LTI
-         4FLw==
-X-Forwarded-Encrypted: i=1; AFNElJ9CLtLN5xck/dgXahipG24bTLIBrNPAjVpE9bom7B2fG+5M70sURneGuv+5o6dOHbHSPX3TcuNbvng2krlBBUQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyw8J/1igmaOHYv9Lu6Mz25J6YmUPu0xPW/9/MNj1nGUd/fGP1A
-	0zMwdTV0fQpRJKsW33TvgzSRTNOgSECpKiH4WVgfOmtU1Dwo4WDcVuKK8EMvsxgOr3oRaA9gNC5
-	NUwn62Skb1M0LL+YSPAbS7x1C3Q2BcovVAKxoWZ1E
-X-Gm-Gg: AeBDievvX4x8b27Cc16dTbrq3QmWFZlZlyZx9YeNa2h7Fqk/axZ0x6lN2EnoBpw3R2K
-	GLXTXXo0dEt5GstKOPKFHCihHBIUXxG5ugeh9FyikVlw4d5pjnH1aXMn8HpYxJoBlcTWC4GYviI
-	2doACm3CMguUqsKAPccBiSxNJNLfFgT9JdJY0lzzqYDVNN2+syr/md0lBJKAhDTy/EqSy6uRBXv
-	Quc4eKGLe17kGZkjJWdY97+V3wHVQLTKMq1gz4chw8VEIS2AXW9gXauPKntl6JAyJsqDGVQusoO
-	/V2DoLqj76bL7qWj9mwjSot2Hw==
-X-Received: by 2002:a05:600c:a010:b0:48a:5d55:c194 with SMTP id
- 5b1f17b1804b1-48a774c26ebmr150035e9.7.1777316614744; Mon, 27 Apr 2026
- 12:03:34 -0700 (PDT)
+        bh=vDEE0Pc2X73kF5Bt2iCz7U8oBEcuDtZ0h0Vpbnv35uQ=;
+        b=Eub9MJrZaII48YFzGmvqZyVLCpla6i6Sh7kRymeyeBm6rjRk3tzGCCyILSp5tzHKf7
+         6VT4O+ZdgEVDSIpu+aLDXg5Y1KKNSFDzvC5QlqvoSgJzrmIC4r1iVVvZWAEV/D0aHLBn
+         MQ2ztRmaGmWvSm6/YGugJ67kmhL0BK30tgUXySuAuLs4bEtQa4lCOeIG9EWYmKRxKWh+
+         s2fl6sw1uSVlTp2e1f9HJ7vxp3AIDMyyDI3T1PWIBdp6SpJ1ooj7VxuiJ0xpbQP7zN15
+         KDGFJd9qxETqYjE8B/T7BV9sEzGu9FuuPy91jG8pi3cWwg1lEqlVtJfPxIvkCevyMQCo
+         4ylA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777325806; x=1777930606;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vDEE0Pc2X73kF5Bt2iCz7U8oBEcuDtZ0h0Vpbnv35uQ=;
+        b=JikeNirYAGjXVCfh9AIXu2EVUw4IHw+3G4BXhYZfd/gX4epWZUNuDINdgLo3B7UOu7
+         9Bi5f9dZNyruAnUC35ANPHR2bT0/ZP1gjbGfAy+zz/7xfnVlXuln5H1SsUQ2J7UxIbIY
+         9ELr90xXlhEwq2urVTeoY28fAWNxdRItydE6niQGsy0R30zGqfbpQ9mFD8gVJPBqdKd7
+         Njck4hL9diPXOTil1RcuPlAGx5UAv+sSUYlvl78c6o1dm18LbEt4oC2rLcl2UD14987T
+         L2WG2R3PR6SqvwTjnzzT2Jj83BkWpLigmBjiTulrXXoSvyYwmkkfkNmfdKhiJFIi7YcG
+         gGzw==
+X-Forwarded-Encrypted: i=1; AFNElJ97ACQf1yKHBO4DscIwb/xsz3ys+/EtAf2D0Ov2SB9RmFOFkI4/gGiybheHZw7ZVsh4EnoZONkYNgjfCP7bMWI=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yys3tj3k6cSKKpLgWxbMpBcPksiKYeg3u2nIzmcY+qfRIZcUyWR
+	K4mmQbN+HZRKTZQOl0SLSWfu+iukoj8a4AD+au4R8Mtupl8d2h+FZY2PjTsPhQggOd7ScFjuypD
+	QY0iA5N1gNgNStu0BCLbZHtUXB+o8RjE=
+X-Gm-Gg: AeBDiesWabFnuqqiFWLb3ziAVGNlt8Qk3tWI0HwKXfypoCwXh5LMjMvFM1trkz31BoV
+	nxtrvwVI5hasptEOrCa/dzNKx0KGvxAhA31hdqxUFa2UrgKH1af7D58ARmSKB3bkblPIaMJRpw/
+	0p3bL/88l8hpJtxChYUudRJ2OsnOU65SggqYnIwPolovkeJQ2Wujf2+GsWtUFR2o5z3kAPqnsaz
+	wwsTfXMrN0zukyAR7tk+/aZzoCDrEj+7vm+r0J/f3E9zli+b02XC0KtGg1HK508Dv6Fw4gp8/Fy
+	GOvOOzoMTNzAGw==
+X-Received: by 2002:a05:7300:1908:b0:2e6:ff79:e344 with SMTP id
+ 5a478bee46e88-2ed09fbb95bmr398461eec.9.1777325806516; Mon, 27 Apr 2026
+ 14:36:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260426220204.118399-1-titouan.ameline@gmail.com>
-In-Reply-To: <20260426220204.118399-1-titouan.ameline@gmail.com>
-From: Julius Werner <jwerner@chromium.org>
-Date: Mon, 27 Apr 2026 12:03:22 -0700
-X-Gm-Features: AVHnY4Ibo7FJrX4buAgGz_pkD6kB6J8sFkQR9bwC6Jiikff7iBGRhZrVKovFOco
-Message-ID: <CAODwPW8S2q+mcLY9xM+p6usqa+rXXj7nv0QBEve_4hywMtO65g@mail.gmail.com>
+References: <20260426220204.118399-1-titouan.ameline@gmail.com> <CAODwPW8S2q+mcLY9xM+p6usqa+rXXj7nv0QBEve_4hywMtO65g@mail.gmail.com>
+In-Reply-To: <CAODwPW8S2q+mcLY9xM+p6usqa+rXXj7nv0QBEve_4hywMtO65g@mail.gmail.com>
+From: Titouan Ameline <titouan.ameline@gmail.com>
+Date: Mon, 27 Apr 2026 23:36:34 +0200
+X-Gm-Features: AVHnY4Ip-rXe2iIBcqfFYRXusiCM7Gw_soVBXA1tm8px7aiQYJ9LpFn3N0jkjn0
+Message-ID: <CABvHBc7nPNoU2riE8ckT7gt5V=3PBXOKhjE2PrL+Os+Si0TytA@mail.gmail.com>
 Subject: Re: [PATCH] firmware: google: fix orphaned devices on partial
  populate failure
-To: Titouan Ameline de Cadeville <titouan.ameline@gmail.com>
-Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org, 
+To: Julius Werner <jwerner@chromium.org>
+Cc: tzungbi@kernel.org, briannorris@chromium.org, 
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Why does device_register() generally fail? Is it usually a problem
-with the device specifically (e.g. the device driver probe failed) or
-does it always indicate an issue with the core Linux device framework?
+Thanks for feedback. You are right that the distinction matters
 
-The coreboot table entries are generally independent of each other, so
-if one of them has a problem that doesn't mean we need to kill all the
-others. If there's a chance that later device_register() for other
-entries would still succeed, I'd say we should actually just continue
-the loop instead of returning immediately. If it is certain that later
-entries can also not succeed (e.g. because this error can only happen
-when the device framework ran out of some allocatable resource or
-something), then I think the current code makes sense that just exits
-with the devices we already managed to create.
+Looking at what device_register() can realistically return in this context:
+it calls device_add(),  which can fail with -ENOMEM during
+kobject/sysfs setup, or with -EEXIST if the device name already exists
+in sysfs.
+
+ -ENOMEM is systemic and means subsequent entries will also fail,
+while -EEXIST would be entry-specific
+so a duplicate name for one entry shouldn't prevent others from registering=
+.
+
+Given that, would the right approach be to continue the loop on
+entry-specific errors ( logging a warning), while still aborting and
+cleaning up on systemic ones like -ENOMEM? Or is the name collision
+case considered impossible here since names are derived from the
+tag/index and the table is only parsed once?
+
+If continuing on all errors is preferred for simplicity, I can rework
+the patch to skip failing entries rather than aborting, and drop the
+cleanup entirely.
+
+
+Le lun. 27 avr. 2026 =C3=A0 21:03, Julius Werner <jwerner@chromium.org> a =
+=C3=A9crit :
+>
+> Why does device_register() generally fail? Is it usually a problem
+> with the device specifically (e.g. the device driver probe failed) or
+> does it always indicate an issue with the core Linux device framework?
+>
+> The coreboot table entries are generally independent of each other, so
+> if one of them has a problem that doesn't mean we need to kill all the
+> others. If there's a chance that later device_register() for other
+> entries would still succeed, I'd say we should actually just continue
+> the loop instead of returning immediately. If it is certain that later
+> entries can also not succeed (e.g. because this error can only happen
+> when the device framework ran out of some allocatable resource or
+> something), then I think the current code makes sense that just exits
+> with the devices we already managed to create.

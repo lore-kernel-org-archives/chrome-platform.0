@@ -1,110 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2ECA3DBD76;
-	Mon, 27 Apr 2026 17:01:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777309285; cv=none; b=TuWodJoRd4MAlku8+UDHIzU5CG6AIJbRrUgoahmTJAAcf7wGLJcIJJZyDLHTGFpwnUd/nnOwoPD8IUrxnHvkvXxJymC1DqUbR1VcbOfH2cBx7t+qvI8xEfZGQFvt4g0/jE1QDrJx6r3toCqqPNVLWD+c9442IkgOXOc+V4Or7EM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777309285; c=relaxed/simple;
-	bh=MfCvo441KXKTtQIl/N5N/0zAstNSpFIEjB9s4Tuco/4=;
-	h=Subject:To:Cc:From:Date:Message-ID:MIME-Version:Content-Type; b=bilLLD8xdkxHLiG9FybXJGCCV2NHgVvuNi12MFNaE9dkZt3XAjABkDwKmx8IZ5NobktdyGFFYUZTswS8Lu7FkmT7kY8woiFxGXcmBVd6JMyxkHbebLTmrui9ZABjp49hDV7QAELdLWL8FWpmQnVafBJWgfPXSHO8TfHk1IUDtZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dFQH88x1; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474853E7164
+	for <chrome-platform@lists.linux.dev>; Mon, 27 Apr 2026 18:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777316166; cv=pass; b=WqSzh0TVjRsPlT/+8VCjpok2xF1nxn5X+wQDSON9dQqmgUTLTM5qgwtFs5DztHtKjODMqBfYCdSNH5t35rxEN7uATygkZkLtCGuneGgd2ZiXUSbfOrXPKTz/8Mfbon/d+5cimX5xxT57W5BTd1Q7QHX0zv5eTqo869OHqw3kRUA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777316166; c=relaxed/simple;
+	bh=eb3sWwf5IKoZQzOvkPaaI1IVQ2HjKkCnRKRFnGOH6+c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XS6e0Zg3s1h9dLDVl84YKeSNAc3/DpX0acxf51abDq5kzjmUqUyhv3+hdBBtUA5fpqDOR0H7jLlOqCImk5ejqoUIqlBCjL/lRg9IClLp0CLEtK8dFUUg8wWn4loYFnuAux+g4BMZxKKMLMERcxJjoFJhTf641mM4jIRdTCbtX/s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jj1MuY4x; arc=pass smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dFQH88x1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EF63C19425;
-	Mon, 27 Apr 2026 17:01:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777309285;
-	bh=MfCvo441KXKTtQIl/N5N/0zAstNSpFIEjB9s4Tuco/4=;
-	h=Subject:To:Cc:From:Date:From;
-	b=dFQH88x1X9Y2HPZPUGD1M0JRUPSDzMoi5huAtSzitDCHBYgmH++f1SbmNcfhSXSew
-	 EDb8q9KTy8xjrfS3IonljTOw9JyCfyz6yJQVjAlzsP5T0srsmwMyaFIORMD9o2eQ8T
-	 glVybPIWLkNMR5152QQEovVNOxZ3T9znbsdh4bwM=
-Subject: Patch "firmware: google: framebuffer: Do not mark framebuffer as busy" has been added to the 7.0-stable tree
-To: briannorris@chromium.org,chrome-platform@lists.linux.dev,gregkh@linuxfoundation.org,jwerner@chromium.org,samuel@sholland.org,tzimmermann@suse.de,tzungbi@kernel.org
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 27 Apr 2026 10:55:18 -0600
-Message-ID: <2026042718-shingle-harpist-a50c@gregkh>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jj1MuY4x"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4891ad5c074so21685e9.0
+        for <chrome-platform@lists.linux.dev>; Mon, 27 Apr 2026 11:56:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777316164; cv=none;
+        d=google.com; s=arc-20240605;
+        b=J0OULVT7yXK5P/qUbGGpucwjS/g5otIp8ap52COSRA5Vr6tc9etN9JcHMwO+JoGGct
+         Tx2cyBIFw0o6DXcRXdbzRN2YHQUDx96RgPeenqRHW5UOrGmsqa9QB7LrIBH0H8Ds0w18
+         q+2g8L5/ZHGPj5QaWLtESU2Drp36MFjmvi0sSzGLVH/F0xAnOp39qCTr0l1Uef71jDvG
+         /SkWAvTaIDNlKLYtANNxydMKtaydyLsVC+JrXS0Ii/t+nPmdQasmPCojOtjG6vrw+K+L
+         TiE4RROHkH/UlKB4LEVTvpR8/bezpzZHdFFaRg6yTumgMFcctAQD3i4NA6MoGLXg1Reb
+         8x9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=eb3sWwf5IKoZQzOvkPaaI1IVQ2HjKkCnRKRFnGOH6+c=;
+        fh=FOssTjM1pagetU2CxrKzrEu3QzEJPT7H81kDEpPQ5s8=;
+        b=P3NSFf84jgDUeB2jwPZ+QbLAZRmzkpJnr/YoPkX5nUmr58GFfcJxXhRfKsunl72NgA
+         K1EnbzUiz7pTqfCuwM7htskbJRJKR1jEjXXFW0EuJjAVKLvWiwrPCgZq+NMs80xU06v0
+         pzznrDiQ832RVu1vtplSM1X7ElHNVn9BP3hP/jqW50ducjPKhBkg8H3eHxnFkgbLJamO
+         MXlhbxSkiqBZNTkurACU4p2+ZJYD3hubOgrCNvDkFQaZCto3zbFkae3RqA+b411e6LK0
+         jd006MBj0SpipofOl9P/MOuFF5ZWgGXI56cmA13olE33VVmF2pVbeFqlrN53wXz9n3e9
+         K25g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1777316164; x=1777920964; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eb3sWwf5IKoZQzOvkPaaI1IVQ2HjKkCnRKRFnGOH6+c=;
+        b=jj1MuY4xktEalOX3zYSGmTxBo1hQzJohrpocDnGMdJ48nsFFv5uGhXjkLHEAuGPK7P
+         MUNywxKGIMb3/rceJogademUiLu44vaHflxlqmdOYihcNB+yEvofKnGiFM/t0bwWssu9
+         WETVUKx8kgmQ7EyP+S5AEmdP/bE+1xtDtUomE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777316164; x=1777920964;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eb3sWwf5IKoZQzOvkPaaI1IVQ2HjKkCnRKRFnGOH6+c=;
+        b=ENdmZCA3wqn6zqqPiHEJybprYN02TPdiZq4yHMXGyxR9GqTJ1G9PSx67xGJex9lYl0
+         JsQLRtG2johPx3c1hLwJCnuYY9x7I7CzYeEcNYAT2sakzQ0j0gHbuzVU3owltt0DoS8V
+         bbIF73uYDZ2ScGS2Y/863vjcIwAG+As3KwYZ5bOHbFBqDUVPSP1hNmklc0PHKsk8hBlq
+         3irUZHYlDfV8IXdfAVn/dENPjfSPZfRjCQLvJ0MR2F6A4Waqy5m9HJsW7sMqceFt0w3i
+         UkmafjWqEp6OFB5CU4dMX0zxGOJiFDopRtbiTy/LUQGQojlhVNHBiwn2SFobjUGvMw9F
+         QpsQ==
+X-Forwarded-Encrypted: i=1; AFNElJ89fqtKYAG6820LHVsviUjXys6wd062mTwycUE47bGPDARhL3wdkAISyTwbxzaGQGPyN/MXldEW6SBCbPjdDK4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7ODhswar42S3aSAoSp42yWvJcrjinn49xEUjfAbcuINP7h625
+	oycVfUz9g33uq4EchG6YGHPfLOVBFEaYSp5FxPr/cT9DehQCxiupoegALewmas7KW6NogcJDMsb
+	TDoz0G1+G93CeTJpFFdwioxPwSvikD208gSjhrdhm
+X-Gm-Gg: AeBDiesw8QOPVCEpEBHz+tw5Sltx2rfYVuxZu4UOBh2YWV+rWqW60pKl30lEwcZcjWR
+	DdsB05NaThVeIvkXfIF8TorWhCtRBjkqacoO6LlFRpx0j+EPiHZ4hTMQOZ9S//aMSBhVc2lBMdJ
+	hppsHQDnqzyhWofaKmuTKaoF56q/5HtwzlFinFPjbKEoYQC0rhDW+6DE7KpWVn5OmmCGtsm2KCC
+	jvAQ61rBoAeo/sh3KK4NIihuLTxRS+zVp0rZ4dL0E3VKZhuc7Fb12zQjn293FevR1rEdrOb86bA
+	VVNHThHiHnbiIu+dKS3RVTKlfxZp9ztqHdqI
+X-Received: by 2002:a7b:c311:0:b0:48a:5980:db10 with SMTP id
+ 5b1f17b1804b1-48a774cc1f8mr96355e9.13.1777316163233; Mon, 27 Apr 2026
+ 11:56:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore
+References: <20260426214739.117131-1-titouan.ameline@gmail.com>
+In-Reply-To: <20260426214739.117131-1-titouan.ameline@gmail.com>
+From: Julius Werner <jwerner@chromium.org>
+Date: Mon, 27 Apr 2026 11:55:51 -0700
+X-Gm-Features: AVHnY4JUnhdT68s_METnIA5QSV3ut8KRpYX49wB6CWXMAzopd7pcCjTVeqn_6sE
+Message-ID: <CAODwPW_N-ARU21zd57OhyUH6qCbC5AE67nFhT7AuwO9RFFEJ0w@mail.gmail.com>
+Subject: Re: [PATCH] firmware: google: add bounds checks in coreboot_table_populate()
+To: Titouan Ameline de Cadeville <titouan.ameline@gmail.com>
+Cc: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-
-This is a note to let you know that I've just added the patch titled
-
-    firmware: google: framebuffer: Do not mark framebuffer as busy
-
-to the 7.0-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     firmware-google-framebuffer-do-not-mark-framebuffer-as-busy.patch
-and it can be found in the queue-7.0 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From f3850d399de3b6142b02315227ef9e772ed0c302 Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 17 Feb 2026 16:56:12 +0100
-Subject: firmware: google: framebuffer: Do not mark framebuffer as busy
-
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit f3850d399de3b6142b02315227ef9e772ed0c302 upstream.
-
-Remove the flag IORESOURCE_BUSY flag from coreboot's framebuffer
-resource. It prevents simpledrm from successfully requesting the
-range for its own use; resulting in errors such as
-
-[    2.775430] simple-framebuffer simple-framebuffer.0: [drm] could not acquire memory region [mem 0x80000000-0x80407fff flags 0x80000200]
-
-As with other uses of simple-framebuffer, the simple-framebuffer
-device should only declare it's I/O resources, but not actively use
-them.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 851b4c14532d ("firmware: coreboot: Add coreboot framebuffer driver")
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Acked-by: Julius Werner <jwerner@chromium.org>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Brian Norris <briannorris@chromium.org>
-Cc: Julius Werner <jwerner@chromium.org>
-Cc: chrome-platform@lists.linux.dev
-Cc: <stable@vger.kernel.org> # v4.18+
-Link: https://patch.msgid.link/20260217155836.96267-3-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/firmware/google/framebuffer-coreboot.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/firmware/google/framebuffer-coreboot.c
-+++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -67,7 +67,7 @@ static int framebuffer_probe(struct core
- 		return -ENODEV;
- 
- 	memset(&res, 0, sizeof(res));
--	res.flags = IORESOURCE_MEM | IORESOURCE_BUSY;
-+	res.flags = IORESOURCE_MEM;
- 	res.name = "Coreboot Framebuffer";
- 	res.start = fb->physical_address;
- 	length = PAGE_ALIGN(fb->y_resolution * fb->bytes_per_line);
-
-
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
-
-queue-7.0/drm-nouveau-fix-u32-overflow-in-pushbuf-reloc-bounds-check.patch
-queue-7.0/firmware-google-framebuffer-do-not-mark-framebuffer-as-busy.patch
+Reviewed-by: Julius Werner <jwerner@chromium.org>

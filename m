@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6B835E928;
-	Mon, 27 Apr 2026 17:00:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2306D3DB65C;
+	Mon, 27 Apr 2026 17:01:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777309236; cv=none; b=EPkW2RN3NxPvUB7rDKXny7FC685doqlYYnjDpeghjmIGEmQa/IFEa9eSUWA1UnDpVtR7VAJivyQlyC4cUCOJeNUiRpD1jJ4w6kWSZSiH76rqBxAuUaq8fBPIzZru6KYvegMBxn+/J8FdU5i5cyu33lwf2bADfaeovxRv4CcFHg4=
+	t=1777309262; cv=none; b=m84MHfgIE3Fn/sQa+47RwN4xGKgaZkwN+1qXmzkvtkbcUhatVBF5fb14ByAD6xBu2ybrt2DqKLJh3ydHBAEMIRnpmDDv4pq3LJMVrVGgQ7vTcOwLM2ioJ8k7f49ZzPXjBHw0lkzNl8QzsIbSAbqtAf8Gn+c+lXSk85h8JRU8Zv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777309236; c=relaxed/simple;
-	bh=bTZpEAZwdffKz6kCIC1a+2hWXNxAzNL+74iJAU/6Yxg=;
-	h=Subject:To:Cc:From:Date:Message-ID:MIME-Version:Content-Type; b=Z+xc7DoxtMzohvHoBDf9YojyDvDAICey7qhlAJ3y5SfGT77Y6OphBtmWVaRkXY6QhmukiWdGhQw7yj0Ue2TuFD1308aPCke+I/bKcbhFmDD75Z6+KqtqZVsie/YUWoTZ7yJno+CghANutD5Hyx1svq/2g9rOPuurX1+m/iGv8uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LQNRgvdi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777309262; c=relaxed/simple;
+	bh=MDezOQfGi5YWLGCvaBHDrWq4RWp+885pPaMUQ9kzAog=;
+	h=Subject:To:Cc:From:Date:Message-ID:MIME-Version:Content-Type; b=cOowwxKDfm+/RBVx0u1IRGk08EPObcLtY2rGk4nUxeOm2hneMehAKKfK/PEt28LDNIBFxRsFwIIEQP87az6zVw8BwrglShw/C1S0Jeyj1t877o1J/62ykqeOI06RCraEOVHBpv28RwkwSARhtSNaWRuJMYYbfWjkz2wZAiF6yZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=k5p0jy6i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LQNRgvdi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5532C2BCB9;
-	Mon, 27 Apr 2026 17:00:35 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="k5p0jy6i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB07C19425;
+	Mon, 27 Apr 2026 17:01:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777309236;
-	bh=bTZpEAZwdffKz6kCIC1a+2hWXNxAzNL+74iJAU/6Yxg=;
+	s=korg; t=1777309262;
+	bh=MDezOQfGi5YWLGCvaBHDrWq4RWp+885pPaMUQ9kzAog=;
 	h=Subject:To:Cc:From:Date:From;
-	b=LQNRgvdiCwnYo4j7pY6MDdFrZnYY7uXgZy+PkAdgwyjaOKpy8IxRj4X4Dg2mY1/O0
-	 W6mmm+U4c4sUeI56OvxDJVK0MsoKMqQ4p9SKKhtdPIlmaYKAf5CIGU5ByCvNQF+k5w
-	 gSvBopck+l8Yi2qZkvFZuBIm2GxSpuezD5lSeJ84=
-Subject: Patch "firmware: google: framebuffer: Do not mark framebuffer as busy" has been added to the 6.12-stable tree
+	b=k5p0jy6iHYyJn+uhA2NsuwDxIS5AZgkR+Bu7vT94yminPrgk6OGbZGJBzzX5vAM2v
+	 YFF39DqKncR8gFeaqXRHk8ZTByocIHd7P6ME/Zby0onQqFGxAzceISJEIDMxbBYdx6
+	 XKHxiouqhPikzEIlQvJx491Io1TwoQE6fhYrlMbo=
+Subject: Patch "firmware: google: framebuffer: Do not mark framebuffer as busy" has been added to the 6.18-stable tree
 To: briannorris@chromium.org,chrome-platform@lists.linux.dev,gregkh@linuxfoundation.org,jwerner@chromium.org,samuel@sholland.org,tzimmermann@suse.de,tzungbi@kernel.org
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 27 Apr 2026 10:54:44 -0600
-Message-ID: <2026042743-latch-unmoved-4333@gregkh>
+Date: Mon, 27 Apr 2026 10:55:03 -0600
+Message-ID: <2026042703-blurb-suffice-bda0@gregkh>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -44,12 +44,12 @@ This is a note to let you know that I've just added the patch titled
 
     firmware: google: framebuffer: Do not mark framebuffer as busy
 
-to the 6.12-stable tree which can be found at:
+to the 6.18-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      firmware-google-framebuffer-do-not-mark-framebuffer-as-busy.patch
-and it can be found in the queue-6.12 subdirectory.
+and it can be found in the queue-6.18 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -93,7 +93,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/firmware/google/framebuffer-coreboot.c
 +++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -53,7 +53,7 @@ static int framebuffer_probe(struct core
+@@ -67,7 +67,7 @@ static int framebuffer_probe(struct core
  		return -ENODEV;
  
  	memset(&res, 0, sizeof(res));
@@ -106,5 +106,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.12/drm-nouveau-fix-u32-overflow-in-pushbuf-reloc-bounds-check.patch
-queue-6.12/firmware-google-framebuffer-do-not-mark-framebuffer-as-busy.patch
+queue-6.18/drm-nouveau-fix-u32-overflow-in-pushbuf-reloc-bounds-check.patch
+queue-6.18/firmware-google-framebuffer-do-not-mark-framebuffer-as-busy.patch

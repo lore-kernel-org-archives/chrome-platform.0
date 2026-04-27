@@ -1,132 +1,66 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D235B21D590
-	for <chrome-platform@lists.linux.dev>; Sun, 26 Apr 2026 22:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE40175A9A
+	for <chrome-platform@lists.linux.dev>; Mon, 27 Apr 2026 02:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777240936; cv=none; b=kyCjGH7ZYBthEM0N4b9Fty44pabXHs5mmBtIaT0tscPoCK+iuSeW8kX9RHbyq4Khl8wsWvP/M7nRGBzZ4AJ90f0nt+GBnMo5zp2MZmXY2It4co63wAJ7OYoJ4FmEYRVXM5bPyP++kOOBa4bFrNMqPFPSFfgFUwP15lekdHt2fbQ=
+	t=1777256857; cv=none; b=EHOc8HxOZpLcBBNXN/LthFJaGJawiJHoIAxjMiDkC6bvaFc85XPS9U6S9/uJfA1ghCkWEp+GI940ZHkTlWn4ptQn4wpAWE7CPPwFgEJPM4opanwl+v4HcqxkzNktXkskZecFnMnU6DntkhfTBuk4rFssuUtmHww/UMnTUi40E2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777240936; c=relaxed/simple;
-	bh=61AByAzdyXxdXcjubOg+g6KLsE5j7msf7Vxat0e/c2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eczCfcqj9f1NKQnI7NQ1Z+TEOQ9BSbr7ahhZl4zKSsDspRY7qBcCocIoe++TKnx3puPjOacyRQ25Wot/EqsTsnrY0Lx3RLgKn17j0dd9IzfS5Iv3ouZDq91kjhAvdH3/4Pi0z4tmw65qfXvnxJp/DwDzpWrUwBVR0Vlj1+nnipw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hfbcxXjs; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777256857; c=relaxed/simple;
+	bh=j9dch4Kf1i/DxjRle5T6ruVJLOXQqO+ocBIZ/hnIp/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wv7xIvXAiTVl4ZCHOWoSDGAXz4h6Dv1AOCHh/7i0hzIso6TG0g4BqWkgjoZAW3iVkfoYc4nkuJtgiz6GXoKloVF9raJsBRVgo0OJGrKyoRLaJl1ejhgZl/6fTtYSPnv0tteBcajTnAtDEmA+ofA2mVVQNM/h1/1ddwUX1DEka68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFEteD0a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hfbcxXjs"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso68472755e9.0
-        for <chrome-platform@lists.linux.dev>; Sun, 26 Apr 2026 15:02:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777240933; x=1777845733; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L/enPYJp1PIF5WBCrf4Mz0OhaMTY9ptocz//j8JgOEs=;
-        b=hfbcxXjscH573jZ13B8utmGjcT9RBbYQiCNLZlGiJ5IjMBjn0K6rYfV0JoW8Btcl+0
-         4jaicnwFuqfusdqpvqS0MuJwriz22ol/QhmUGRTWTnfCtR9yrNgqYMpjdnLWJzpnzMjw
-         CcnhZ4nt8oC5FKVhMcM7IXMsTbBbwxUj3aclwx0F1889FCV3lIMlbzmWPl+BoYDByMXn
-         T/laqHhz1SxPra1ddgiqROX7VdmpFv4hSrhMN3/vb7N9GMlIH2rlswRzoVqRtFnFSh8y
-         Ws4sJ2ty+VLJw2fUOckgKeP5Xh5zH1DQv4G3SGNiZHqx0UPicR344gKwvCwqEkGcyAVv
-         FNJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777240933; x=1777845733;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L/enPYJp1PIF5WBCrf4Mz0OhaMTY9ptocz//j8JgOEs=;
-        b=OnV+9f1v3SFle1CJmrcnk64JoLv6uJCIg/zTJ+SOLkAr2XRet8t6xIrKX8DsRsWT2j
-         +CLtpL+qT0lCUkY76SzqRbKd4E9eePu4GpmJSlpEoMu/oImTbZg37/ZQvFmbZEoNsfsa
-         J9Hj9477nrbUoihWpQ/U6QHseXCqZ+wXTXIDabrsfad0tqTnvidQHkhYFFVk6jPbPZcm
-         MaE/Bf09N61fEvmyyeWkalyYQs2ULF77X5//yUmPw9eVLFOK7Vq54n+D3FS1dNnq9BoT
-         OhJINhvMXZlh+jC9A7ZbbPdvM2Abm3GthJ5Nunry50R19DZDtCVZmPJONB4xnjh312wQ
-         Q3vQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9xJsIlJqpcV5pvcMtfCPv1kzlYw7DHuqJeWUbllalmfQxzdRjUKe/EB0NQAdZSi1uzVwVKAJ9soAZbU1kFPf0=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzS3pBU/OmrlHpk+tSgVVqL6CdUfDwH8h+/qYIeu71di2EH3Kt
-	f8RTR9s4xZMhAjvDbAmiJ4B+OVg2BYlC98TXSTKwDlQvP1ARHzS1/Kkr
-X-Gm-Gg: AeBDiet9qRl+aTOfBn9+JpTEvvgS8/ifKJcC6NDhVSzRgrj5RoEhsWnOvGWHAcbY8GZ
-	pO/iH0w/nJLGeQYg29Z1Z4CJz1zFRiJw5zwL4TQUPrd6fyC2lPwehn0CtNpntbXMuqtZbjrFFCm
-	Zwbm/k86580ubYQdgQHloUdXdAh30GyhZGkvuL5CQgEqlEKDfUP3VrQrsrzh9jsGIFKufFT+Lid
-	MnSOCa9cAK+V8D+NTzWPyvvJO+QPQfWBgJYxFYQzzAW4nRBioUxzQZwGxUQ9JFGQs0fIiwKFTJw
-	GtRfHybpQEeMys8FVeDSOhGLd1n0zaXqS/VRWK9c2Jv/f21OVO+FKxb6iqeDw42k4iBkrsR4wGr
-	86Z14fZavRGjXFCJ/65fxrJeCttouOZB1xdFHy/YgY26cnq+BYU40ZhwXdMQQ1TkvltrD6ITiS/
-	A0CmByDMKukBwqM416pLK26GZ+VgouduRkujTvxCpNLLF0PCpccYYsUSnL5G3fA7Pi2CFg
-X-Received: by 2002:a05:600c:4e4c:b0:48a:58ae:9938 with SMTP id 5b1f17b1804b1-48a58ae9f69mr375668595e9.19.1777240933036;
-        Sun, 26 Apr 2026 15:02:13 -0700 (PDT)
-Received: from nixos.numericable.fr (38.42.3.89.rev.sfr.net. [89.3.42.38])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a5c4b9e8dsm104272615e9.7.2026.04.26.15.02.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2026 15:02:12 -0700 (PDT)
-From: Titouan Ameline de Cadeville <titouan.ameline@gmail.com>
-To: tzungbi@kernel.org
-Cc: briannorris@chromium.org,
-	jwerner@chromium.org,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Titouan Ameline de Cadeville <titouan.ameline@gmail.com>
-Subject: [PATCH] firmware: google: fix orphaned devices on partial populate failure
-Date: Mon, 27 Apr 2026 00:02:04 +0200
-Message-ID: <20260426220204.118399-1-titouan.ameline@gmail.com>
-X-Mailer: git-send-email 2.44.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFEteD0a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A3C9C2BCAF;
+	Mon, 27 Apr 2026 02:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777256857;
+	bh=j9dch4Kf1i/DxjRle5T6ruVJLOXQqO+ocBIZ/hnIp/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QFEteD0aBQ7up/LsIzIXLE7Weba9io8erbzqt5BDKr+1vI98l5p7cgVFuAynCGGGO
+	 vmua1JPEydv7Sf3NsjhWzoqu8j+k0D7ScyN3ToypL2G0lZDLmp4upyLLtK8uD5W4wn
+	 Bet6BrIvfv1ESXLVAQ/LA1GDmge0XrKcx2t4AZLlnpB/t9aLB2DB9/TDKcNnsO/zi2
+	 QTO1CYqJlWwva9QyZGfjZgwonowpQDbm9YQx73qNjGDH/HRknylg63Rona20etZN6u
+	 kwanL1t3sDLK4qXVsCIXlZtPtEi66Kl29VR6T20bg6bIV76So+pPKaleOz8O1LT3L6
+	 vAI37gaFpqGJw==
+Date: Mon, 27 Apr 2026 02:27:34 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: bleung@chromium.org
+Cc: jwerner@chromium.org, chrome-platform@lists.linux.dev,
+	tfiga@chromium.org, Gwendal Grignou <gwendal@chromium.org>
+Subject: Re: [PATCH v4] platform/chrome: Resolve kb_wake_angle visibility race
+Message-ID: <ae7JlgtvSUuqfCWV@google.com>
+References: <20260407102615.1605317-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260407102615.1605317-1-tzungbi@kernel.org>
 
-coreboot_table_populate() registers devices one by one. If
-device_register() fails mid-loop, the function returns an error to
-coreboot_table_probe(), which returns it to the platform driver core.
-The platform driver core does not call remove() on probe failure, so
-devices registered before the failure are left orphaned on the coreboot
-bus with no cleanup path.
+On Tue, Apr 07, 2026 at 10:26:15AM +0000, Tzung-Bi Shih wrote:
+> A race condition exists between the probe of cros-ec-sysfs and
+> cros-ec-sensorhub.
+> 
+> The `kb_wake_angle` attribute should only be visible if the sensor hub
+> detects two or more accelerometers.  If cros_ec_sysfs_probe() runs
+> before cros_ec_sensorhub_register() completes sensor enumeration, the
+> sysfs attributes are created while `has_kb_wake_angle` is still false,
+> hiding `kb_wake_angle` incorrectly.
+> 
+> [...]
 
-Call bus_for_each_dev() to unregister all devices when populate fails.
+Applied to
 
-Signed-off-by: Titouan Ameline de Cadeville <titouan.ameline@gmail.com>
----
- drivers/firmware/google/coreboot_table.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
-index 233939e548b4..2ebf1497f60c 100644
---- a/drivers/firmware/google/coreboot_table.c
-+++ b/drivers/firmware/google/coreboot_table.c
-@@ -167,6 +167,12 @@ static int coreboot_table_populate(struct device *dev, void *ptr, resource_size_
- 	return 0;
- }
- 
-+static int __cb_dev_unregister(struct device *dev, void *dummy)
-+{
-+	device_unregister(dev);
-+	return 0;
-+}
-+
- static int coreboot_table_probe(struct platform_device *pdev)
- {
- 	resource_size_t len;
-@@ -203,17 +209,14 @@ static int coreboot_table_probe(struct platform_device *pdev)
- 
- 	ret = coreboot_table_populate(dev, ptr, len);
- 
-+	if (ret)
-+		bus_for_each_dev(&coreboot_bus_type, NULL, NULL,
-+				 __cb_dev_unregister);
- 	memunmap(ptr);
- 
- 	return ret;
- }
- 
--static int __cb_dev_unregister(struct device *dev, void *dummy)
--{
--	device_unregister(dev);
--	return 0;
--}
--
- static void coreboot_table_remove(struct platform_device *pdev)
- {
- 	bus_for_each_dev(&coreboot_bus_type, NULL, NULL, __cb_dev_unregister);
--- 
-2.44.2
+[1/1] platform/chrome: Resolve kb_wake_angle visibility race
+      commit: 79b1c32a3faf9ceae365f56de7e962b81fa8167d
 
+Thanks!

@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E4E3CE494;
-	Mon, 27 Apr 2026 13:47:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04F83CE4B9;
+	Mon, 27 Apr 2026 13:47:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777297655; cv=none; b=Offp8NFXDvmPW8IXE+94zrhxJAsWuywbf20mhINl0meYZwTNhtaJThbzw8iB63fEIk5UwbYNY8MjiSskzeiuidKZrY8HHZunOyt2oakyEsFZ0lpV5k3/jm8uEu837aZ/SBi26mxZuERROqSvaOe+wR1RICb1pYWwaQbKaHqD0xI=
+	t=1777297657; cv=none; b=SAb6L/eh6aTF6CtIgf4epHzKKxOucnW07K2UPzfGKUqNJb/52Y4m8vlrl8tCPmWZj6wq4tczeWb32o17nWDqTn1TmB84hFWRX13PBwZYX3lwbRrs+Axrg+hmnZmtUCstNC+YifKXyzi68EsUivQLCnto5s81Bk1poNT6uZmKkeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777297655; c=relaxed/simple;
-	bh=WEaOL63z243niqPDr3WH6aBBausSwFKU8g0g85xTb5o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gOq6ZIJwvTKj85b8zrJX2/OFYTgaDU1fNVhKWC9GDCS07eQ6N3WFh9tFZE0WGANfxhfY8gEfv/VJV9ZEZH5/QGNwbk4ygY+DNhT0MX6+zBTEvtwqKY2pDWJE0EyyyrxVJB36Iz1sizcc1de81/GXWqBRMPsP7upLBvvy3bqGZng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jDcTo4kC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777297657; c=relaxed/simple;
+	bh=RliJdwdCbhUsiPjzrU97YhxB0AGBgxUToL81YoxKXGo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qggwnDSPoHjYk5al6Wy7gwixJhEwGqW/iOKljmo0tZn82/1r1d8KlOIXsZdPaiXteozkhLqOMnxstvt/h2yA/mZGAvJaxx8dt4Yj3PYg09VKZQg0xN1odG2P2zvzfbZGSuq9lYCgKYIX592Ngk3nzA1jQxGm4PX+fadQZn9clyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XKW1w4Nn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jDcTo4kC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD23C19425;
-	Mon, 27 Apr 2026 13:47:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XKW1w4Nn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A427AC2BCB4;
+	Mon, 27 Apr 2026 13:47:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777297654;
-	bh=WEaOL63z243niqPDr3WH6aBBausSwFKU8g0g85xTb5o=;
-	h=From:To:Cc:Subject:Date:From;
-	b=jDcTo4kCmV7Avs3e8oBG+rs2DZT4KcwULV2ofiW16VTs7uq0lFpeKt2inxWdvoinQ
-	 vqbPK5qZmfu2zrdQAnBVa7Tt+kgvgY7dCNPDs7HKhMfjxNEun3gzUkHAxwCtYtC+5w
-	 1GBEiUNxRCX+2njeYQMMhdJzETEjPH+VYVKDWlwn7V+HWDGE1uGw47BPpNjeW+qf/i
-	 Z3739rzsPvLZWQb5VbOwpzSLV+p6x6nkEZfJX4YvR0AMwm5rbGwA/0V315a3sY+L22
-	 vZ3bfX3sAnSSvKleEGnk80LcKgmtZFZZsvUzHYSBPkVW7t+rz47WIFN0Xt64IV4cF3
-	 00K9Q4/IgaDag==
+	s=k20201202; t=1777297657;
+	bh=RliJdwdCbhUsiPjzrU97YhxB0AGBgxUToL81YoxKXGo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=XKW1w4NnYX/bTLqj9tJeuhtQSrICuT3yEd2qvgZNUiUEKF8SggGwFBaLlMsQ3uSCW
+	 XKKcl6F0R2d5OF3Y/HyOdEIOjCo284yUcpJ11K789WMy7jk1n6nvPcGVQJ4uC6jTN+
+	 ixjVFgXMZSJNsCZWnba4bxe/ClOf8s9fiVQ7Y6xfEz60e0rItb4JQUzPkEj5xgkSqc
+	 hxbjP+FYZuD9FHYxxubdNnKg5kKk9ONgbYGOZBb0Ibzz4uwd+CkSImjhBp6or0mXtX
+	 uBQVosX8WRSD7A4h3fbci5ulPR7NtUVyz502ckXlpeN5x2AZssKPNnHZHcO5j3xWJE
+	 lKknsqb7avrfw==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Arnd Bergmann <arnd@arndb.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -42,10 +43,12 @@ Cc: Benson Leung <bleung@chromium.org>,
 	Johan Hovold <johan@kernel.org>,
 	"Paul E . McKenney" <paulmck@kernel.org>,
 	Dan Williams <dan.j.williams@intel.com>
-Subject: [PATCH 0/8] char: misc: Introduce misc_sync to fix UAF
-Date: Mon, 27 Apr 2026 21:46:51 +0800
-Message-ID: <20260427134659.95181-1-tzungbi@kernel.org>
+Subject: [PATCH 1/8] char: misc: Simplify locking with guard()
+Date: Mon, 27 Apr 2026 21:46:52 +0800
+Message-ID: <20260427134659.95181-2-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260427134659.95181-1-tzungbi@kernel.org>
+References: <20260427134659.95181-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -54,45 +57,109 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series introduces misc_sync to address potential Use-After-Free
-errors when a device is deregistered while file operations are still in
-progress or files remain open.  It then adopts the mechanism in
-cros_ec_chardev driver.
+Use guard() to simplify locking in misc_{de,}register().
 
-- Patches 1 and 2 are independent refactors in the misc subsystem.
-  These are safe cleanups and should be fine to apply.
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+ drivers/char/misc.c | 32 +++++++++++---------------------
+ 1 file changed, 11 insertions(+), 21 deletions(-)
 
-- Patch 3 is the initial Proof-of-Concept for misc_sync.  It uses a
-  global lock to serialize file operations, so a performance downgrade
-  is expected.
-
-- Patch 4 is an improvement over the PoC that replaces the global lock
-  with SRCU for list traversal in the file operations, avoiding
-  performance bottlenecks.
-
-- Patches 5 to 7 are preparation steps in cros_ec_chardev driver.  They
-  introduce reference counting for platform driver data and an event
-  relayer.  This removes the direct access to `ec_dev->event_notifier`
-  in `cros_ec_chardev_release()`, which is a prerequisite for using
-  misc_sync safely in this driver.
-
-- Patch 8 switches cros_ec_chardev driver to use misc_sync.
-
-Tzung-Bi Shih (8):
-  char: misc: Simplify locking with guard()
-  char: misc: Introduce misc_find() helper
-  char: misc: Introduce misc_sync_register()
-  char: misc: Use SRCU to protect list traversal
-  platform/chrome: cros_ec_chardev: Introduce chardev_data
-  platform/chrome: cros_ec_chardev: Move data to chardev_pdata
-  platform/chrome: cros_ec_chardev: Add event relayer
-  platform/chrome: cros_ec_chardev: Use misc_sync_register()
-
- drivers/char/misc.c                       | 228 +++++++++++++++++-----
- drivers/platform/chrome/cros_ec_chardev.c | 113 ++++++++---
- include/linux/miscdevice.h                |  10 +
- 3 files changed, 272 insertions(+), 79 deletions(-)
-
+diff --git a/drivers/char/misc.c b/drivers/char/misc.c
+index 726516fb0a3b..e2bea4f01851 100644
+--- a/drivers/char/misc.c
++++ b/drivers/char/misc.c
+@@ -36,6 +36,7 @@
+ 
+ #include <linux/module.h>
+ 
++#include <linux/cleanup.h>
+ #include <linux/fs.h>
+ #include <linux/errno.h>
+ #include <linux/miscdevice.h>
+@@ -209,7 +210,6 @@ static const struct file_operations misc_fops = {
+ int misc_register(struct miscdevice *misc)
+ {
+ 	dev_t dev;
+-	int err = 0;
+ 	bool is_dynamic = (misc->minor == MISC_DYNAMIC_MINOR);
+ 
+ 	if (misc->minor > MISC_DYNAMIC_MINOR) {
+@@ -220,32 +220,26 @@ int misc_register(struct miscdevice *misc)
+ 
+ 	INIT_LIST_HEAD(&misc->list);
+ 
+-	mutex_lock(&misc_mtx);
++	guard(mutex)(&misc_mtx);
+ 
+ 	if (is_dynamic) {
+ 		int i = misc_minor_alloc(misc->minor);
+ 
+-		if (i < 0) {
+-			err = -EBUSY;
+-			goto out;
+-		}
++		if (i < 0)
++			return -EBUSY;
+ 		misc->minor = i;
+ 	} else {
+ 		struct miscdevice *c;
+ 		int i;
+ 
+ 		list_for_each_entry(c, &misc_list, list) {
+-			if (c->minor == misc->minor) {
+-				err = -EBUSY;
+-				goto out;
+-			}
++			if (c->minor == misc->minor)
++				return -EBUSY;
+ 		}
+ 
+ 		i = misc_minor_alloc(misc->minor);
+-		if (i < 0) {
+-			err = -EBUSY;
+-			goto out;
+-		}
++		if (i < 0)
++			return -EBUSY;
+ 	}
+ 
+ 	dev = MKDEV(MISC_MAJOR, misc->minor);
+@@ -258,8 +252,7 @@ int misc_register(struct miscdevice *misc)
+ 		if (is_dynamic) {
+ 			misc->minor = MISC_DYNAMIC_MINOR;
+ 		}
+-		err = PTR_ERR(misc->this_device);
+-		goto out;
++		return PTR_ERR(misc->this_device);
+ 	}
+ 
+ 	/*
+@@ -267,9 +260,7 @@ int misc_register(struct miscdevice *misc)
+ 	 * earlier defaults
+ 	 */
+ 	list_add(&misc->list, &misc_list);
+- out:
+-	mutex_unlock(&misc_mtx);
+-	return err;
++	return 0;
+ }
+ EXPORT_SYMBOL(misc_register);
+ 
+@@ -283,13 +274,12 @@ EXPORT_SYMBOL(misc_register);
+ 
+ void misc_deregister(struct miscdevice *misc)
+ {
+-	mutex_lock(&misc_mtx);
++	guard(mutex)(&misc_mtx);
+ 	list_del_init(&misc->list);
+ 	device_destroy(&misc_class, MKDEV(MISC_MAJOR, misc->minor));
+ 	misc_minor_free(misc->minor);
+ 	if (misc->minor > MISC_DYNAMIC_MINOR)
+ 		misc->minor = MISC_DYNAMIC_MINOR;
+-	mutex_unlock(&misc_mtx);
+ }
+ EXPORT_SYMBOL(misc_deregister);
+ 
 -- 
 2.51.0
 

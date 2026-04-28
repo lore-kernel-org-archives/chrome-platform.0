@@ -1,178 +1,167 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72CFE3D522F
-	for <chrome-platform@lists.linux.dev>; Tue, 28 Apr 2026 20:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5056235A952
+	for <chrome-platform@lists.linux.dev>; Tue, 28 Apr 2026 20:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777406876; cv=none; b=WX2PiCkAPQyrwyvPZ1FLOshkuE7Yp1M2dnFnAftz7HSiQ2QhHGW2V7SZg4hk0t7S95zSYvrYQvOheE1nm1juD6m6HhSfk6sTcOBlGHjsUJ1k8FBXMgBybMT1R9XdOFzdy0aKZW8zv94ylpk/AmNXcpcS8H+qHjQVsDe2aBp7Jl0=
+	t=1777407666; cv=none; b=G2NJlNPzhGoBPS6PzVNUd0oaoe87BATT9YwqJQNi/gGnfaSS7Liv4BuANwjkSnHzOKRhVDtwK8Q9SABGoF5p52nKiVAiZfewN1dv9rAulSUF/98vcFhOU+u+b48tvULqgCObsLNffPv4XSm2ODgoue3OzXuShXhZbKA821TyzQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777406876; c=relaxed/simple;
-	bh=U4+LflP710DVR4kB1UOr2zgqsKpE/7u4FQUoCfyFE04=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DFIv9mxO/aE/+pbzCO+CMs55ykiT0TTmSYeldkFfEdt5xJc05NcxrtcJDhtwPmwORB0R6lWhcuS37zcPijnGcPZ84/ZmQd+qIZptu6BugtXPl/cnn11nVvJbH1kTIUrLP2bsByLmftOBMArCwS59xVGIhat7SpFQ1V1IhqKP1SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hTiRiuRb; arc=none smtp.client-ip=74.125.82.52
+	s=arc-20240116; t=1777407666; c=relaxed/simple;
+	bh=b3y0XwETp/+cTkGRrG43RAGkVJDpjROsO7uB28sz0+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X3J/DBxfCDFzMhTNrIdHAEVPE6q1RifeNFD96NYGK8Eu9FGo7ns2UHlbdauqKE3f6Cdqgq0OBTDqlcXFQ+QJhgmPRL9Pki6aP+guqNU7a+qpTzfhOw8S1KnkvCg+7NDw23ELmlqEuB6NP8oApZbWbROkJOGNZijL+pKz5C00ZRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NcLAuzRA; arc=none smtp.client-ip=74.125.82.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hTiRiuRb"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12dcdcd54adso2004885c88.1
-        for <chrome-platform@lists.linux.dev>; Tue, 28 Apr 2026 13:07:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NcLAuzRA"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c45281a06so16339111c88.1
+        for <chrome-platform@lists.linux.dev>; Tue, 28 Apr 2026 13:21:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777406873; x=1778011673; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gK+EAT4GmZMdYdv/TPcw5cMAUzBnAuCqdYs+Qlpxwc0=;
-        b=hTiRiuRbXQVzOpZcgpmByocwh90vXZ6FSQva4U0VL0XUlI3Y44c7LbCcwKQEf8uUj4
-         yxemXbiKZcGDs2ZeMlDk2Ol0MTeW7wtwdXwNBam8S7EhYCjmJRh8hPYeSdSQMToVN04d
-         rix/GV1q94e5uK82WBFQ11pUzltsYgNVkShl0=
+        d=chromium.org; s=google; t=1777407663; x=1778012463; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wAYKdy6rZGHPp+6vTJbxhAN2mtySYtF/dy0uwVb4Go4=;
+        b=NcLAuzRACABpYgwE1KydsqAejVYWEGMbOcLr3JFg4m5sm/BKXvZgaRlDEl2Amnh2Xl
+         N/vbArml8T1zVppKUTK4+aRz6UrXXXXnyPZK+H6KBYwLCuUhkas/VL5raB371ZfWpNiR
+         Xd802Ms7D4xrN+RsanDdHrDrNeMp3+37AXe7U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777406873; x=1778011673;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gK+EAT4GmZMdYdv/TPcw5cMAUzBnAuCqdYs+Qlpxwc0=;
-        b=TJx/0IxcsLeyBHU4HwNG6nQgqwW/hLekKfjHHAEj3cO9y7pmhpd3yIDUllE40YKrbB
-         YNCMiZAPnFkywEFEur59SK3rQvEu8KdOovmEInC5lk3ZmLmkHuTay9OCem8iy0+cXr4M
-         TlD+xHfuVRkrNkt8E0qMIc2bRgFAYGli/aV5+D6LCH1UZ1b7FyVQqaAaGa0Kiwa4jbWd
-         AJgVlC4VEuSJAAr4zjvqLCmmyZcy83/9O0rsUD8NYgNE0siC5dpzUp+CbuTC1uCRi23V
-         8KIbKmvS0IH3ihdNLhXbY0Dpg3LcY+cg84W/oULcvlwoNVQtyPeWBCZtQKgCd68bRFsU
-         dbuQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8moURzw+NBZzPzw6ifrTvtc4IiTch9W+9H5507IzCbW1JeUMWPUPHMrah6iRgGk13vmfvsbdQrCq0o1mEeu8U=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOypyy+L4cCZVOZc6sfavCRRfpJi5ncnTQX8UA8OlrbVM7+l3U
-	ATpOPE7mUPmnyy3exj6Mr1r9O/1NTFCISIfKgfUFMEIuv0wx71aQWYSEM3weiA/j2w==
-X-Gm-Gg: AeBDievh0ikribEBS8Bk9P8HhEf/9gRM33HQWr5OwnZEKGEc/QDojpWTbuX1EZodQe7
-	Y6PbnMV2QcdbDrYaTq04FYHeZQMkAkifD9ViJg5fQtPwJSfpJE8PcCwtCiXW3QXWy3O7/qnv+O3
-	Q+MoE5og9LiDXMF91PdwlQhalvIx7z7fXPHiTbL543bL4V3L5NF8Gds1J7SxFbocKUrvFlzamX7
-	mfsgWdCy37zXQvdnMs8flsmvr+P5H69/Y+NTZT055t+8LSmaf5irEkcFbyT9ELiLNcaMUdLJ2TW
-	0shx89R2xRJDjmHpevt1R565heRGEMEpRpgjzYArkCoY0E/5hK6JeNtxJ3X0M1AIZj3GxiWsgY1
-	wROZh5QWQbSOrCphAj6eOP7vApAwnL4XQ/vcOP4tOaKBIHxPDgeGamFimtgMDH3SqhWZrtQMukW
-	3+1EnQTtAYbjw5lasNyBqFX9eJWI4xhfSx3jPD08JT5UbnXkfkIwgbeqFdLgKgqMZ+N3QQB866
-X-Received: by 2002:a05:7022:b96:b0:128:ccaf:85d5 with SMTP id a92af1059eb24-12ddd959d36mr2219620c88.15.1777406872635;
-        Tue, 28 Apr 2026 13:07:52 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777407663; x=1778012463;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wAYKdy6rZGHPp+6vTJbxhAN2mtySYtF/dy0uwVb4Go4=;
+        b=TYwphExAS9n5H8IT/jZeci4yZHWRzfOf4PKCGyOfhlqRaLW0QFKe1iFob65VVAnXQp
+         WvPFCoaEYJ3Elv9f5jyowzu4tWmxf8y1k9Hu0MDdQ3EXie3YqZJeYJlWaIZUAQR5KVqV
+         ysjekze9SVZrDuiRAJr/zzEJpgROygVusOsuAFyCbj2CIPVVOrYFv7lXCL8sI6ar0td/
+         yQ6iIJONJ+9o+MJrmP7OmwAb5jc/bS/+UMZHGtfMUja7B3xGaQiJoT6aVDw9AryVIGCV
+         toWho6juAU0KrPpZj4hKwYYJV8E+wPW6HC+yIyB8I5q5JxNm/ZjyV0t4F4zjMHFVpueH
+         COEg==
+X-Forwarded-Encrypted: i=1; AFNElJ9oHGljw27JeH7XUHjH5zoepxyfzt/SH5b/L4q30LRlcmviT3NEzuAZIe2S0x2OzX9SF3ywrDn5d/46uMVbGWQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw45ltmzNArIsxtlqRLWW2ytFEv96l+nuukyn7JGhgKzrjDZuKz
+	BYaneaC26mxs8KGdlwW/Qxqf4RVlY7HEWO9xrqpPTjd3RecLawNZoYFMZ6fhgqGb/w==
+X-Gm-Gg: AeBDieuzvYCRo8vSEhH7mSiNkQqIS5JvivIOM+uPVfizmnx9fTsjbuvOFOSkGziGXvR
+	GK7bA+bIaCeH97IFnBlWLYXvbXUppvh+PrEZWBanWQ7ob4N5+4kJOmGoR3eM/gcEB6fmOwb0GaR
+	iJ3gLnm5If8aPy+IZIk5J7WXBmLqV41a6d7tLTcVbGOuRE5Kg9i3apXICFOqQRZ5nR0QhrtE6yN
+	pT771RKBTUEdoce5DRcibwWJvznQsJyV/6WsfGVPmKbldrwZt2RAPv3WPVsFUXw/AK2IrR05M2U
+	Nru4fmjxecLbut1TwMkqVbL4U6WmLv8MwkYoTiy9OD4Mw2tEJjTGVU66IenbFtAIV9ZlOrVeBDt
+	+5NghFAaFWcWXXMnjVvH/eRrESkg8gGtJ0kqzALyk+NdVkBSZJW2+xaHyc6uS/VdPEUI8NWX+Il
+	BDADSU5w2lm6XbOD1Ktk0Fa1C0Xv5FWh/yXw6PEJGJAAkKaULstdIOu3rUYkSghMpHSG+56SDKb
+	rrY0fmH+iQ=
+X-Received: by 2002:a05:7022:6607:b0:128:d967:4678 with SMTP id a92af1059eb24-12ddd99c410mr1729142c88.23.1777407663085;
+        Tue, 28 Apr 2026 13:21:03 -0700 (PDT)
 Received: from localhost ([2a00:79e0:2e7c:8:4ff5:9607:c7e5:48f3])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-2ed0a10678csm3167991eec.24.2026.04.28.13.07.50
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-12ddd933044sm2821511c88.5.2026.04.28.13.21.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2026 13:07:52 -0700 (PDT)
+        Tue, 28 Apr 2026 13:21:02 -0700 (PDT)
+Date: Tue, 28 Apr 2026 13:21:00 -0700
 From: Brian Norris <briannorris@chromium.org>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
+To: Rob Herring <robh@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Sasha Levin <sashal@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: devicetree@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
 	Doug Anderson <dianders@chromium.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	chrome-platform@lists.linux.dev,
-	Brian Norris <briannorris@chromium.org>,
-	linux-rockchip@lists.infradead.org,
 	Julius Werner <jwerner@chromium.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	cros-qcom-dts-watchers@chromium.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] arm64: dts: qcom: Add #{address,size}-cells to Chromium-based /firmware
-Date: Tue, 28 Apr 2026 13:06:59 -0700
-Message-ID: <20260428200712.2660635-8-briannorris@chromium.org>
-X-Mailer: git-send-email 2.54.0.545.g6539524ca2-goog
-In-Reply-To: <20260428200712.2660635-1-briannorris@chromium.org>
-References: <20260428200712.2660635-1-briannorris@chromium.org>
+	chrome-platform@lists.linux.dev
+Subject: Re: [regression] of: mis-parsing Depthcharge's /firmware
+Message-ID: <afEWrApcO-SRP5Th@google.com>
+References: <e77669ea-9edd-4321-8d17-4da40161b59d@linaro.org>
+ <Z0R6myuCR4Jpmc_y@sashalap>
+ <CAL_Jsq+QBweDZ+1=FXq7Hez=+mhiOxOvurr3rP0+3y_FCd49Ew@mail.gmail.com>
+ <20241209092809.GA3246424@google.com>
+ <aeKlYzTiL0OB1y3g@google.com>
+ <CAL_Jsq+UCYbKMXG5m8BRNVRA_03Ki8aGF0uoaDs8HHvOSCZ2Mg@mail.gmail.com>
+ <aeaTSYyaqQjuP29U@google.com>
+ <CAL_Jsq+qmHV8VJ1J61nUupNBZSQrqzwCV3oOjkeqc0VFBt2aDQ@mail.gmail.com>
+ <aeaussSE6_TN7xk4@google.com>
+ <20260421193038.GA1502234-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260421193038.GA1502234-robh@kernel.org>
 
-Chromium/Depthcharge bootloaders may dynamically add a few device nodes
-to a system's DTB under a /firmware node. A typical DT looks something
-like the following:
+Hi Rob,
 
-/ {
-        firmware {
-                ranges;
+Thanks for your thoughts. I delayed a bit since I wasn't really sure
+what the right conclusion was and wanted to give it some thought.
 
-                coreboot {
-                        compatible = "coreboot";
-                        reg = <...>;
-                        ...;
-                };
-        };
-};
+On Tue, Apr 21, 2026 at 02:30:38PM -0500, Rob Herring wrote:
+> On Mon, Apr 20, 2026 at 03:54:42PM -0700, Brian Norris wrote:
+> > You say it's not novel, but then you say the only existing code is
+> > either:
+> > 
+> > 1) completely different, and only applicable to powerpc or
+> > 2) only on your local tree.
+> > 
+> > That sounds novel to me :)
+> > 
+> > Anyway, I'm more inclined to lean on my #1 and/or #2 than to write a
+> > whole new fixup layer. But maybe #1 can be replaced in the future if we
+> > come to really want/need a generic fixup layer in the future.
+> 
+> The problem with #1 is a) new platforms can then repeat the same mistake 
+> and b) we'll forget what platforms needed some work-around and whether 
+> we still need to maintain such a work-around. Well, I might not forget, 
+> but the next DT maintainer (applications welcome!) even won't know. For 
+> example, I have know clue if we still need to carry some of the 
+> work-arounds embedded into the interrupt parsing code. That all 
+> predates me. The only way I find out is breaking them (I'll never 
+> understand why people still run PowerMacs from the 1990s).
 
-Notably, the /firmware node has an empty 'ranges', but does not have
-address/size-cells.
+Ack to most of this. I'll note that it's possible to write unit tests
+for this, if we go for the in-kernel route though, so hopefully that'd
+give maintainers a bit more visibility.
 
-Commit 6e5773d52f4a ("of/address: Fix WARN when attempting translating
-non-translatable addresses") started requiring #address-cells for a
-device's parent if we want to use the reg resource in a device node.
-This leads to errors like the following:
+> Calling the fixup code a layer is an exageration. It's on my kernel.org 
+> tree in the dt/fixup-infrastruct branch. And look, guess what issue it 
+> was that it has a fixup for.
 
-[    7.763870] coreboot_table firmware:coreboot: probe with driver coreboot_table failed with error -22
+OK! I spoke in ignorance then. I really haven't explored the device tree
+construction / unflattening logic, so it was new to me.
 
-Add appropriate #{address,size}-cells to work around the problem.
+If it really comes to patching the kernel itself, I'll consider pulling
+in your patch. On first glance, it looks good, and not that complex even
+to an outsider like me.
 
-Note that Google has also patched the Depthcharge bootloader source to
-add {address,size}-cells [1], but bootloader updates are typically
-delivered only via Google OS updates. Not all users install Google
-software updates, and even if they do, Google may not produce updated
-binaries for all/older devices.
+> > (Frankly, if we do #2, #1 and #3 will probably both be redundant and
+> > unnecessary. I don't know of any case here where we're relying on strict
+> > DTB ABI compatibility with no opportunity to update some of the DTS
+> > sources.)
+> 
+> Shrug. I thought the ABI was a concern here. It's ultimately up to the 
+> maintainers and users of a given platform whether or not they care about 
+> the ABI.
 
-[1] https://lore.kernel.org/all/20241209092809.GA3246424@google.com/
-    https://crrev.com/c/6051580 ("coreboot: Insert #address-cells and
-    #size-cells for firmware node")
+I'm usually on the receiving end of people complaining about ABI. It
+seems like we bend over backwards in a lot of places (drivers, driver
+frameworks) to maintain some idea of DTB ABI, while in practice, the ABI
+is almost never a strict concern for anything I've dealt with -- 98% of
+the DTB is generated from in-kernel DTS sources that match the kernel.
 
-Closes: https://lore.kernel.org/all/aeKlYzTiL0OB1y3g@google.com/
-Fixes: 6e5773d52f4a ("of/address: Fix WARN when attempting translating non-translatable addresses")
-Signed-off-by: Brian Norris <briannorris@chromium.org>
----
+($subject case is actually the closest we get to DTB ABI concerns,
+because it involves the small part of the DTB that is generated by a
+program that is independent from the kernel tree. But even there, it's
+possible to fix the issue in the kernel-provided source.)
 
- arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi   | 5 +++++
- arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi | 5 +++++
- 2 files changed, 10 insertions(+)
+So it seems to me like maybe it's best to just ignore the ABI concern,
+patch the DTS and call it a day. I've done that here:
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-index b398f69917f0..cd4a0e281cf8 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-@@ -99,6 +99,11 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	firmware {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+	};
-+
- 	/* FIXED REGULATORS - parents above children */
- 
- 	/* This is the top level supply and variable voltage */
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
-index 5c5e4f1dd221..58ea0532c0fb 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280-herobrine.dtsi
-@@ -25,6 +25,11 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	firmware {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+	};
-+
- 	/*
- 	 * FIXED REGULATORS
- 	 *
--- 
-2.54.0.545.g6539524ca2-goog
+  https://lore.kernel.org/all/20260428200712.2660635-1-briannorris@chromium.org/
+  [PATCH 0/7] dts: Add /firmware/#{address,size}-cells to Chromium-based DTs
 
+If someone finds reason we should still go back to fix the kernel
+itself, I can resurrect the fixup logic in addition.
+
+Thanks,
+Brian

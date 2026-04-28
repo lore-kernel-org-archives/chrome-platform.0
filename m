@@ -1,74 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3861394786;
-	Tue, 28 Apr 2026 02:45:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06F93D3337
+	for <chrome-platform@lists.linux.dev>; Tue, 28 Apr 2026 08:16:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777344302; cv=none; b=V8FepVWldbfuBJYlngY6IcByfkGq71O9IpmhWwTgZptMDtniWUgqRQ3lo+pmZFrccAM2Quy6SA+OMmhxw3U+8/UTitpD/Stz7G/835U/r5VakyoHib8vstFmDaaKqiiaxvU5lTPSCYb5C20+Zj9Ofb5vnUbrdSFgixHXOcppc4E=
+	t=1777364170; cv=none; b=Aqy0K1AVr+OY5QBSEpmRojSXzXpCCexMel90FuB2gKB6a4AhM9J7PXSkAkfQSIMOFEP0zIv6VCfGcA1IETydPzvyxgy+zSfqd2qzxP6I8OLtgRqzjnyo6G2FONDhDuuiRpE5vNfTxDXSqQdivJ5d454m6B65F8ye/CTUny8IAhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777344302; c=relaxed/simple;
-	bh=v0MzbtTf1ZHqfSXYCLMrRWhMNKBtIe1krG4+L/OtlrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g/AbEmeM/7I7jFYBE+HFonVBenpx6zPFDi4DEiE5CfMfSivxoYue5N+twhyogLV8jh7C/AeuIX+K6gJCqdMQMUYPUN9mVMz246eWg3YJf4UoqtvEM4NWP8U3KBgnMZ3C9itEbymviVI0a44XcjpPkHsHby8nGpncm5NsYQ8tIhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aey4K0Pa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777364170; c=relaxed/simple;
+	bh=bq8HV6bZ3WcAcFCsC2OjX+q9RAprj5qn+EQSHi6y6+k=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iC0odRotk3AjN06gewVVmKbsx8VO/nIwjzZW73q00UI1CjlacId5cxS7JHO844pmyRvhMRqybZL1EoKaEOuwpnBWj/SDairbU9z6dPF3/amdRzrDvkg3HSai0DEoC6HAliwl6F3z2gPXH23xOhmrzlh2AJWkG+fVJvBuOJSsNAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qIBWvKmq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aey4K0Pa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7869BC19425;
-	Tue, 28 Apr 2026 02:45:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qIBWvKmq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5749DC2BCC6
+	for <chrome-platform@lists.linux.dev>; Tue, 28 Apr 2026 08:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777344302;
-	bh=v0MzbtTf1ZHqfSXYCLMrRWhMNKBtIe1krG4+L/OtlrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aey4K0PauBGwPXjcjVHpANnm3z6CN9lT4NtRNW6UYzgZxT7O8TgFMZ8lMNIWGfsTz
-	 vY8QvPu6fd1M0ReIBODHb+GViFc/4vb8894AVIftf22fSNRNuIPaO7CyFfCUUkALA3
-	 YieABdGuHa/yxuoTOu4BZOcOv6GA79xYUlL/6H6086oKZnFVjP/ZZvzIabMmgHxIRF
-	 5GQ7XnvDBchXevgb7h6G+JLmJZDH8OZTiQpRZ7pGwFuvxhCSUHH3wnAYoeuAUYeYs9
-	 vm5sgk3f19W1csGj+QLMyr8b3m0jnE732o0wHpFn0FntT1z8J4u9DTEzCv7WOPzOE2
-	 lAGo1cuIbKXHg==
-Date: Tue, 28 Apr 2026 02:44:59 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Titouan Ameline de Cadeville <titouan.ameline@gmail.com>
-Cc: briannorris@chromium.org, jwerner@chromium.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware: google: add bounds checks in
- coreboot_table_populate()
-Message-ID: <afAfK_uK0tir4a9z@google.com>
-References: <20260426214739.117131-1-titouan.ameline@gmail.com>
+	s=k20201202; t=1777364170;
+	bh=bq8HV6bZ3WcAcFCsC2OjX+q9RAprj5qn+EQSHi6y6+k=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=qIBWvKmquz27t+Go2V5gNIPUUhN+84xp0X8Niq5t1XbT4ItMvfvOGJAJ66U6cuOhx
+	 48nM5MUbOP/xZ4/VARPnd4M14YZj/fj5PdoKwkfwI+CQnB91OAh4Xgs0NU/zYAQK/O
+	 IHsPsU9BXs79FxUrL2xP/vqQTB2+ErlGF04q7Fnk8aHpvSCmy9F4cwEDZQX+X5QNGz
+	 hc1TGeVUYVl/L04D9x9LRg8wiiGR3A2zDfn/h6vnjFtYn89vPJK6WiiJaQRwuMV/j7
+	 bE2yLJlgXcWthuZ3WMubdJagLxyUcR9JeUGeneDEEyTROyN4DF4JaGAvJIQk84ws1R
+	 lKqg0/tcwHkdQ==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a3fcb2c718so9616867e87.0
+        for <chrome-platform@lists.linux.dev>; Tue, 28 Apr 2026 01:16:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/H1Hw5yb5ltZRqsFnJNrEBW64e9KdjCKk0E2vBiWmtjM4o0y+vBpEUZ3Q7dFqjAhfmpe4pjCI50PKpMx2JUg8=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4MsXl8DD7n30pSvfc2q2+Ff6hFuvRhwImdmI7yG4qJFaCPoTm
+	TBokBZ9OXF2YCslk0BdSHx0DcK6GAYfO0FvAVMDsIfs9+63B/rZ7J61UoZRO+ssuIyYIDYxyPra
+	19rrLSg28IH1toTGEfRID5lGiQyq9ZLPyj9eWRVWFcQ==
+X-Received: by 2002:a05:6512:33c9:b0:5a4:19de:eb70 with SMTP id
+ 2adb3069b0e04-5a74661dc65mr839483e87.28.1777364168951; Tue, 28 Apr 2026
+ 01:16:08 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Apr 2026 01:16:07 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Apr 2026 01:16:07 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260427135841.96266-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260426214739.117131-1-titouan.ameline@gmail.com>
+References: <20260427135841.96266-1-tzungbi@kernel.org>
+Date: Tue, 28 Apr 2026 01:16:07 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MdnrKaEgFZod7DZC2FkigeQW6DogfODwmsZO=LS0Zie+w@mail.gmail.com>
+X-Gm-Features: AVHnY4LPpc6CD92dyZC7ll_n7sufI8xvpfzAcz25gEttk1XdSLAYMTRwT5j_PwM
+Message-ID: <CAMRc=MdnrKaEgFZod7DZC2FkigeQW6DogfODwmsZO=LS0Zie+w@mail.gmail.com>
+Subject: Re: [PATCH v9 0/9] drivers/base: Introduce revocable
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
+	Dan Williams <dan.j.williams@intel.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Apr 26, 2026 at 11:47:39PM +0200, Titouan Ameline de Cadeville wrote:
-> coreboot_table_populate() iterates over firmware-provided table entries
-> with no validation that the entries stay within the mapped memory region.
-> A corrupt table with a large entry->size advances ptr_entry past the
-> mapped region, causing an out-of-bounds read on the next iteration.
-> 
-> Add a check before dereferencing ptr_entry to ensure the entry header
-> is readable, and a second check after reading entry->size to ensure the
-> full entry stays within the mapped region.
-> 
-> Pass len from coreboot_table_probe() into coreboot_table_populate() to
-> make the mapped region size available for validation.
+On Mon, 27 Apr 2026 15:58:32 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> This series introduces the "revocable" mechanism, a synchronization
+> primitive designed to prevent Use-After-Free errors.
+>
+> - Patch 1 introduces the revocable which is an implementation of ideas
+>   from the talk [1].
+>
+> - Patch 2 adds KUnit test cases.
+>
+> - Patches 3 to 7 transitions the UAF prevention logic within the GPIO
+>   core (gpiolib) to use the "revocable" mechanism.
+>
+>   The existing code aims to prevent UAF issues when the underlying GPIO
+>   chip is removed.  They replace that custom logic with the generic
+>   "revocable" API, which is designed to handle such lifecycle
+>   dependencies.  There should be no changes in behavior.
+>
+> - Patches 8 to 9 uses "revocable" mechanism to fix an UAF in
+>   cros_ec_chardev driver.  Alternatively, [2] is a series for fixing the
+>   same issue without using "revocable".
+>
+> Since v9, there are two ways to manage the resource provider handle.
+> - Embedded allocation: patches 3 to 7 might be the potential user.
+> - Dynamic allocation: patches 8 to 9 might be the potential user.
+>
+> [1] https://lpc.events/event/17/contributions/1627/
+> [2] https://lore.kernel.org/all/20260427134659.95181-1-tzungbi@kernel.org
+>
+> ---
+> v9:
+> - Rebase onto v7.1-rc1.
+> - Remove the selftests patch as it makes less sense to test revocable
+>   APIs via kselftests.
 
-To be fair, the `len` is also from the firmware.  If it's corrupted as well,
-the out-of-bounds read could still happen.
+May I suggest kunit for that purpose?
 
-> 
-> [...]
-
-Applied to
-
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-firmware-next
-
-[1/1] firmware: google: add bounds checks in coreboot_table_populate()
-      commit: 7b1a1af4556a4f95ef273e91435fe804cbfcd223
-
-Thanks!
+Bart

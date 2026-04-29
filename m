@@ -1,170 +1,206 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7A5382360
-	for <chrome-platform@lists.linux.dev>; Wed, 29 Apr 2026 04:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777436280; cv=pass; b=AHWL3TV+f0BpLcKtqn6ITEoVBkhYcHL1O2JyBN3Oe43NrfDUGEXT0PczaXqEmHFSoeAICxIcgBvbfAVZKaX0XrE84eQ5NV+6x6cAGhluf5Mc3O99prUf9FVl5WMClcn/fNUIzCgCz4h33RXBzQlPHqAwKZlucMg6ZDtv8f14KhA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777436280; c=relaxed/simple;
-	bh=AzwVlyIqYxfmPExGHlhzDdBcn2kCaAcRsyV/IiibDeo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kUV7nblf4es4ajYsyi0MNwT3Gd8ekgbKFAr2oxJWldDByBZNCWxLM10rndcvP+kj0H/4CPlq0onQ4J7f4YiAZfNjcsZw1a+DjbzvCvxDQHhVXDt8EtRc0rxxWsmLkBMG1z8Gbx5LU+0XFi1moaR1ntLoSsmOFhkCn4ygYeUcJ6M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cHQ8dPOp; arc=pass smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F22401486
+	for <chrome-platform@lists.linux.dev>; Wed, 29 Apr 2026 16:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777479291; cv=none; b=BgggZ0ZWq5lFpI7wCAVfDyhjKoDUijUPjRxedAoxRgq4l8gq8PmLJFdWiPh1tygKt/ZrUeJaffsYA4tGsyQJLkiN1RccxlpR9jtKVZhu59jXTg3E8kiKp+/nhPzZLBA0i4oY+HBOcrRX75GCxMZVICypu6NQD4szYtK+uUruBaE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777479291; c=relaxed/simple;
+	bh=j+dZZjvhX3/uWmfqgcfNW8B38xnfwi9TQ/BZm/YnRHQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=trPYbb1tTM0Bw01t3TnwRz9WSZu2tb1wohpTbwlpDt3vRNXxvxnXctAQDsV4E+RAMb2VMRFPlrCz8u7n+0evyZkWMzy+5GxuiF/ToUQ4ZydUz4J0X1LeJia5u+AP5OhX11grCJWwA5TY9FQydmcyYUGP4Eigu62yw5YWTh/yA7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XzAoSMb9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=T2fel9lj; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cHQ8dPOp"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-38e7b0903cdso109753921fa.3
-        for <chrome-platform@lists.linux.dev>; Tue, 28 Apr 2026 21:17:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777436274; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XpQLXa2gyu4vl0Uf8RTA6Q1f+qiaEGI3vu8FkSI9yP51WBYimb+nNcCFTI/+bcZ1YM
-         u6nfBaQs7ZwLGCPVPScPgACT10rQnBs8cgzPnKt5ISIV/RbtOMGja2YPZEvBQStmqqBY
-         bwYr28eiUrPUuCMhmzgPfLv2QEabJXia4QNq3WvIOLikTACS2Z3+mdHEXyvSB6CJIJ5K
-         lShUAc7YuhfnpNZ1/vfWpap4+EiDMPz8rUwKfn7S2tl+/JqIZwqpLxYq22y0Ez8Gf4S9
-         0CU8CxWZNbnaIon+61u4CL6imeFOc+Erry0vMPURaUhQMs/T6yuMiMxUeDGh7jHpHBaz
-         8LYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=OGT5/UW9QnYnxFplrWMvYfyGjM/y+JrwSoKrwJn5UdU=;
-        fh=ycTwloiOx6ej2CkP2OGLVEna3P1uu6yE74sdhb7ETgQ=;
-        b=Zm6xN2ejhT+A0ERZctI8GuMyxesZ3ukvcDWYUOTFRflGlqmuhzT011Prv/ec1Up4Xr
-         7257OIwK/anxLzf9oHmO/UXo8Q3Igpt63vUxedwqBudTGJnBqCtRTwyL4aX/5bx9pd3D
-         HCr7WESMRl1xLOmB8zBNxJoeuAcLlV6MLDgxDfrWnP9cee5lyGaPCsjKHqLXOntSQIVU
-         MV62iaga4KzsE+32qSz1bs6HjUmELO7twgOZ5VENVHw/jlI9TE1fLdQBvuVx3YBHgqIl
-         qqRgYrzvyoQeU0gLHDswmPn56g4rUvazlRLOh61m06dH3OEtbl2r8pfvRIAvVR+AjNBn
-         h57Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XzAoSMb9";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="T2fel9lj"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63TFOCTY1728671
+	for <chrome-platform@lists.linux.dev>; Wed, 29 Apr 2026 16:14:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=QzXG7s0ro7q
+	CMWOD8nEVlnf4H7DSkLvufeY3TSsikco=; b=XzAoSMb94Jjx2djznZFI/GiHPzd
+	0wpZslkvTKqC4BPh//sY/9WpNVsBGp0oPuKHEbotnnc6k0UYD/fHTfOuu54JNhu0
+	lPpo2S1c2EFe7EK5QsyhN0NlJXCKdj6MZ0VON0KiIOh46xG5MN+QWzHBl7uEU3WR
+	BlHj7KH2YT38M2YkTYO2LyfcgR81kQZF42xIX6WPewnd8dOPXvca3VIszrjbBVRn
+	3VtfAeLClAoAz8MWBStYLSLZk9O/O0zoOJ9CMXt+dpYD5dbStbuyoRi1LVwnJhV8
+	OQJSWjnIYFtB+I0U1wMPhBNgR93rI5rDKpTdFOuGqciqkCdtwVx7JjAAMog==
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4due5ksw3a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <chrome-platform@lists.linux.dev>; Wed, 29 Apr 2026 16:14:48 +0000 (GMT)
+Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-56d849e9277so23751642e0c.1
+        for <chrome-platform@lists.linux.dev>; Wed, 29 Apr 2026 09:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777436274; x=1778041074; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1777479287; x=1778084087; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OGT5/UW9QnYnxFplrWMvYfyGjM/y+JrwSoKrwJn5UdU=;
-        b=cHQ8dPOpy2Kug1Lq+2L7VltuGQCFp9DRXciks1QWfxS49LLa3SDUL5YFJ6E8OkTCsX
-         B5JJzGaFjQgBI9zYAKJxFoaSZW2jNW5MIeH+bYjIiyg9iLe7ghVrC/QAkfdjFgBu7q4y
-         Zi3IK7Of9wEYYH8KEtgDyf47WFL27xUDHnsV4=
+        bh=QzXG7s0ro7qCMWOD8nEVlnf4H7DSkLvufeY3TSsikco=;
+        b=T2fel9ljY5/13QX/46AQcHnl8WNSCkXEI2yAR3JIjWvzVXElU7ZF1+0FWjGXdWF8YV
+         CllnAeBM4cDXxfc9u0ZChcZHVpct6SPdQT744mJrO7EJXAKTxK2u9Fnk82MLsd1Kjezt
+         NlSlywik3WmLLv6x15p8tHF+1ki8Xrroh3JVTZbzdEqtpJ+s9x7X6N5uCSodxw3oKbat
+         Rj/qi+L4fwG4cA3Ppi0sqfUJOmws0u5VJSPTqX0RljUIy65BCRhwYK3sVciHS6MhkXIg
+         1jB34I/gBAA5uZDIkZDC6vTL+CGkxFmvjIScDYeEiSZl0hkwXxLHRSxg5elzkg98IHj5
+         ebQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777436274; x=1778041074;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1777479287; x=1778084087;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=OGT5/UW9QnYnxFplrWMvYfyGjM/y+JrwSoKrwJn5UdU=;
-        b=hkB7opLQJwlHitlhWy+pK6urGDGZyzW2FWokTUmqqjAWt2qYZOz+c7d5QYDgfYMxLI
-         tmPhYRzPINmUPc1HTYWRHpLL/GZe/lLqCJHEaXBqT0mIKBru17KAWnG8lyT22tVZ24IT
-         mxXorqQ1HtXFJqVzdStydLNf7z5x8nYwVR/eUsVWeSsh+X+esyeLHcMVlxWYOtKp3jWi
-         OOZi7cQhv2zVmdLEnCXrlUhwD9MBtCd4briUNefQQAFMZa3P1/tvzdozxVAxevxdJt7z
-         sn8LxXcp53qnPKmDm9T4+BaXxfYFfYbum6uVS4gDk7cq9p97WSDLJD6x/a4PlFElyCtU
-         y7ZQ==
-X-Forwarded-Encrypted: i=1; AFNElJ96IhaFWExxvtLvcXNkTSPj0CY4ED75eN/l9Mv+vYYdkAHZN/zTZdCtq83i/jeWM1eJxbxgJsrVVQzOrJzEHXQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxdaNNSPyTesmrsVPXYoEjIVxNp+NZfQ4pCJd17jCU6SfzMhLYv
-	pp6WIiL/C9EtJRlmzDtHBo/y7tFjnKtMlaKoQD8+dyS0RuAbkwUuFcEDnx3UAT75xizbFkupNp+
-	HVjIpSwWETcs+NIT7dIE7rBE+RgugJPrpHGrTPD8G
-X-Gm-Gg: AeBDieubifXfw3z8tEPMr13cEY8pWAaHQ6/cIEGNphHjr6Sx9nipyOyarsMVuC9NOZN
-	+9NBKGmASyzEV4E4AHdOGnEKUUieQUk4kmd2fA4QS+urIBaLv325H69k2VmzIxO6jM4ToDJevRZ
-	3rmrbXN3tSbSMH2sZ/nhFbuxMn7yD6NaDZuU8eL7BQOUsZqyIf9GhWX9Q8AyZ7BUPqox4Aem9Iy
-	YspiYr9b6Dkk7OQooVATvr889QR5aJmXVVl0X4v8YN7/Nl20dBoPtdI6nOM+BOYyaW6dBI9pOL8
-	oKaFOSAbnfdxBf61Sw==
-X-Received: by 2002:a05:6512:3b21:b0:5a7:46f1:d96a with SMTP id
- 2adb3069b0e04-5a749cf6fd8mr890120e87.13.1777436274082; Tue, 28 Apr 2026
- 21:17:54 -0700 (PDT)
+        bh=QzXG7s0ro7qCMWOD8nEVlnf4H7DSkLvufeY3TSsikco=;
+        b=jb+qwmKtc44bcONPW0YuofzwgiyTmhcKTvH3xzznDYg1/Oe9Ji+MTbxOo9iFZI8C39
+         j9BvLtTB8kAPaFmFLMSWPqTDHPPC7gmW7TCcypJP0eex5F96gsw4UWx5v9z9Lngq9wK7
+         5xP63ykP9CpFeMzPo+oJ3nbvpWGXouGSBiOZaCy7NGTkhZQvAouGdJuL+VaHH01nAX8F
+         YhMg5cARvioUax0htS4SbCAywZf6uK17KqWv/esYfF0BTlbVgwR27wnH5wlGi/0si382
+         ki338J5yfhR3MQRP849494eoF1fcmY7xqp5AQF5Q3lWmGXfseA/GMKuZwoVr6lgkkEOW
+         ZSbQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8dSMgW3bkmck25LWxUnirdUQ1v+ePlWB+gm0fC+8Qq8yQPSnaL3PQkl3gfhO7euXrCjozivCiHoytYPUblR5Y=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxV4eub18JwU1j7wcNwM4SWYGajXqUQ8NkpmgF9OvvBXO9qbXYU
+	GUNQzrUIVeMsIB0T8l1CPfNCwn/odCdM+pujNzRUqI23czXYTSjfjT1cfN1dKLSkqP2UWM84YpI
+	K/46A/rIMJmj9UJKLW9HSEvKgbWwnuh1Ps2I2k1/m5HV4F8rCuR4eJQHYr63CONW4hWEuJN0=
+X-Gm-Gg: AeBDieubOA8Gw/cttuDxQFyOSzGgPg+rEytStu2HqfM8aFGcRrSGEgkBjPaVN03Kj6x
+	p4ZKCExniqCH++2smQu7KhCysH8WtQAzCN7VsAI1qHIqI9qA0Pq3xQ5KRT2smSIy3GDDU6aRjlR
+	LXpsPhWleQ/YfskDpTkFjCGwpjwaG/W4GoI18n7zFEhtwjhlusn2iAY9JUsyo1mBEWuIcpR8P9p
+	i1gqlXAR2hbr7YgR9UClgjRyrzZIlAlcIpxR7P7pbfOffOkeOWKvL14mvFFQsy00xrNO9tBrxtX
+	RRHW8XMr7GeeRtNZe3xEwCVcV8bUg7ITrLL22Wc5++WKsO/mwtm+C5BUzM9Hw1pVgsVXhUpu7WU
+	jLZnz+Y9bEeSlxGtaqUhWo+/+wDTaOIIFDDb1K9V47SJ7lRVU1Igs9XOXVQc9
+X-Received: by 2002:a05:6122:288c:b0:56f:1bbb:83d6 with SMTP id 71dfb90a1353d-573a566e5f1mr5070859e0c.10.1777479287105;
+        Wed, 29 Apr 2026 09:14:47 -0700 (PDT)
+X-Received: by 2002:a05:6122:288c:b0:56f:1bbb:83d6 with SMTP id 71dfb90a1353d-573a566e5f1mr5070740e0c.10.1777479286228;
+        Wed, 29 Apr 2026 09:14:46 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:ae20:597c:99b8:d161])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a81ed659dsm2438525e9.2.2026.04.29.09.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 09:14:45 -0700 (PDT)
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+To: rafael@kernel.org, daniel.lezcano@kernel.org
+Cc: gaurav.kohli@oss.qualcomm.com, Zhang Rui <rui.zhang@intel.com>,
+        Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@codeconstruct.com.au>,
+        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Benson Leung <bleung@chromium.org>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        chrome-platform@lists.linux.dev (open list:CHROMEOS EC HARDWARE MONITORING)
+Subject: [PATCH v3 04/11] hwmon:: Use non-OF thermal cooling device register function
+Date: Wed, 29 Apr 2026 18:14:17 +0200
+Message-ID: <20260429161430.3802970-5-daniel.lezcano@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260429161430.3802970-1-daniel.lezcano@oss.qualcomm.com>
+References: <20260429161430.3802970-1-daniel.lezcano@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260428200712.2660635-1-briannorris@chromium.org> <20260428200712.2660635-2-briannorris@chromium.org>
-In-Reply-To: <20260428200712.2660635-2-briannorris@chromium.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 29 Apr 2026 13:17:42 +0900
-X-Gm-Features: AVHnY4JKvPmufJ1LEj4mzB6PnqIoSu-1P7-pbmF9YGak1q31h2Rrygv9WVJBRdY
-Message-ID: <CAGXv+5EPpB92d=ttP9ezOipL6=bC6WYpQakkd5L-weDjLpkrFA@mail.gmail.com>
-Subject: Re: [PATCH 1/7] arm64: dts: rockchip: Add #{address,size}-cells to
- Chromium-based /firmware
-To: Brian Norris <briannorris@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	devicetree@vger.kernel.org, Doug Anderson <dianders@chromium.org>, 
-	linux-arm-kernel@lists.infradead.org, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	chrome-platform@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	Julius Werner <jwerner@chromium.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDE2MiBTYWx0ZWRfXyqDV+qXSBh+Y
+ ue8YazER6B5oVz/ZWp//q8h7KPF7v1Zqc871YHHHeMyS8PtIGUGL55rNVaEfu+S//HzAPneYCaA
+ b1qtkQfa1aVg1cRdNwdzxqjzc0mJBh8M/BHWp6Gcz4bNe7jiIHNjLJE5JwIbhoG/Z1v4Es0/XoX
+ O9lycnjGinFT0dyw8ylYH6RBLUogDpHDyHnzggfvTu3P9WXJTH/OpMbIVR2SuRUEFmMJoHbBdjN
+ pZvKJrDB03hMgINZkI9HmbLciRfwrhKy02DiBlKVkX0oki0p65cFDm1RpUlpqrfhgtnTEUyqiku
+ QfmkWI1DLsnnKzePzEHBfTFMGhXFeoCDydSjUq+KCWNJWZSPEF35Uaog4ZM/wq9zbtt/2bI//bz
+ E+VmJuwObJ8Hdsf/OZxxkmuQwArisawotfMXo1CUp7tFiDlUSMYqq9Cy1X0axLVxVZKdy9cYhTb
+ HqavN3xWgwO0WnIU8BQ==
+X-Proofpoint-GUID: swQFABAFA49n7jBHbdCN3cDHzggNYINQ
+X-Proofpoint-ORIG-GUID: swQFABAFA49n7jBHbdCN3cDHzggNYINQ
+X-Authority-Analysis: v=2.4 cv=CL4amxrD c=1 sm=1 tr=0 ts=69f22e78 cx=c_pps
+ a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=3WHJM1ZQz_JShphwDgj5:22 a=EUspDBNiAAAA:8 a=_jlGtV7tAAAA:8
+ a=ggIEzLyBpZPC2L1Vao8A:9 a=hhpmQAJR8DioWGSBphRh:22 a=nlm17XC03S6CtCLSeiRr:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-29_01,2026-04-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 adultscore=0 suspectscore=0
+ lowpriorityscore=0 impostorscore=0 spamscore=0 clxscore=1015 malwarescore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604290162
 
-On Wed, Apr 29, 2026 at 1:12=E2=80=AFPM Brian Norris <briannorris@chromium.=
-org> wrote:
->
-> Chromium/Depthcharge bootloaders may dynamically add a few device nodes
-> to a system's DTB under a /firmware node. A typical DT looks something
-> like the following:
->
->   ## From a RK3399 Gru/Kevin Chromebook:
->   # find /sys/firmware/devicetree/base/firmware
->   /sys/firmware/devicetree/base/firmware
->   /sys/firmware/devicetree/base/firmware/coreboot
->   /sys/firmware/devicetree/base/firmware/coreboot/ram-code
->   /sys/firmware/devicetree/base/firmware/coreboot/compatible
->   /sys/firmware/devicetree/base/firmware/coreboot/board-id
->   /sys/firmware/devicetree/base/firmware/coreboot/reg
->   /sys/firmware/devicetree/base/firmware/coreboot/name
->   /sys/firmware/devicetree/base/firmware/chromeos
->   /sys/firmware/devicetree/base/firmware/chromeos/readonly-firmware-versi=
-on
->   /sys/firmware/devicetree/base/firmware/chromeos/active-ec-firmware
->   /sys/firmware/devicetree/base/firmware/chromeos/firmware-version
->   /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-sto=
-rage
->   /sys/firmware/devicetree/base/firmware/chromeos/vboot-shared-data
->   /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-siz=
-e
->   /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-off=
-set
->   /sys/firmware/devicetree/base/firmware/chromeos/hardware-id
->   /sys/firmware/devicetree/base/firmware/chromeos/compatible
->   /sys/firmware/devicetree/base/firmware/chromeos/firmware-type
->   /sys/firmware/devicetree/base/firmware/chromeos/fmap-offset
->   /sys/firmware/devicetree/base/firmware/chromeos/name
->   /sys/firmware/devicetree/base/firmware/ranges
->   /sys/firmware/devicetree/base/firmware/name
->
-> The /firmware node has an empty 'ranges', but does not have
-> address/size-cells.
->
-> Commit 6e5773d52f4a ("of/address: Fix WARN when attempting translating
-> non-translatable addresses") started requiring #address-cells for a
-> device's parent if we want to use the reg resource in a device node.
-> This leads to errors like the following:
->
-> [    7.763870] coreboot_table firmware:coreboot: probe with driver corebo=
-ot_table failed with error -22
->
-> Add appropriate #{address,size}-cells to work around the problem.
->
-> Note that Google has also patched the Depthcharge bootloader source to
-> add {address,size}-cells [1], but bootloader updates are typically
-> delivered only via Google OS updates. Not all users install Google
-> software updates, and even if they do, Google may not produce updated
-> binaries for all/older devices.
->
-> [1] https://lore.kernel.org/all/20241209092809.GA3246424@google.com/
->     https://crrev.com/c/6051580 ("coreboot: Insert #address-cells and
->     #size-cells for firmware node")
->
-> Closes: https://lore.kernel.org/all/aeKlYzTiL0OB1y3g@google.com/
-> Fixes: 6e5773d52f4a ("of/address: Fix WARN when attempting translating no=
-n-translatable addresses")
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
+Make HWMON drivers which are not based on device tree to use the
+corresponding non-OF functions.
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Acked-by: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/hwmon/cros_ec_hwmon.c  | 4 ++--
+ drivers/hwmon/dell-smm-hwmon.c | 4 ++--
+ drivers/hwmon/mlxreg-fan.c     | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+index 6cf5ab0f4b73..77dd9f28962d 100644
+--- a/drivers/hwmon/cros_ec_hwmon.c
++++ b/drivers/hwmon/cros_ec_hwmon.c
+@@ -532,8 +532,8 @@ static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
+ 
+ 		cpriv->hwmon_priv = priv;
+ 		cpriv->index = i;
+-		cdev = devm_thermal_of_cooling_device_register(dev, NULL, type, cpriv,
+-							       &cros_ec_thermal_cooling_ops);
++		cdev = devm_thermal_cooling_device_register(dev, type, cpriv,
++							    &cros_ec_thermal_cooling_ops);
+ 		if (IS_ERR(cdev)) {
+ 			dev_warn(dev, "failed to register fan %zu as a cooling device: %pe\n", i,
+ 				 cdev);
+diff --git a/drivers/hwmon/dell-smm-hwmon.c b/drivers/hwmon/dell-smm-hwmon.c
+index 038edffc1ac7..47b373ea6db4 100644
+--- a/drivers/hwmon/dell-smm-hwmon.c
++++ b/drivers/hwmon/dell-smm-hwmon.c
+@@ -1161,8 +1161,8 @@ static int dell_smm_init_cdev(struct device *dev, u8 fan_num)
+ 	if (cdata) {
+ 		cdata->fan_num = fan_num;
+ 		cdata->data = data;
+-		cdev = devm_thermal_of_cooling_device_register(dev, NULL, name, cdata,
+-							       &dell_smm_cooling_ops);
++		cdev = devm_thermal_cooling_device_register(dev, name, cdata,
++							    &dell_smm_cooling_ops);
+ 		if (IS_ERR(cdev)) {
+ 			devm_kfree(dev, cdata);
+ 			ret = PTR_ERR(cdev);
+diff --git a/drivers/hwmon/mlxreg-fan.c b/drivers/hwmon/mlxreg-fan.c
+index 137a90dd2075..860de6cfd8a4 100644
+--- a/drivers/hwmon/mlxreg-fan.c
++++ b/drivers/hwmon/mlxreg-fan.c
+@@ -583,8 +583,8 @@ static int mlxreg_fan_cooling_config(struct device *dev, struct mlxreg_fan *fan)
+ 		pwm->fan = fan;
+ 		/* Set minimal PWM speed. */
+ 		pwm->last_hwmon_state = MLXREG_FAN_PWM_DUTY2STATE(MLXREG_FAN_MIN_DUTY);
+-		pwm->cdev = devm_thermal_of_cooling_device_register(dev, NULL, mlxreg_fan_name[i],
+-								    pwm, &mlxreg_fan_cooling_ops);
++		pwm->cdev = devm_thermal_cooling_device_register(dev, mlxreg_fan_name[i],
++								 pwm, &mlxreg_fan_cooling_ops);
+ 		if (IS_ERR(pwm->cdev)) {
+ 			dev_err(dev, "Failed to register cooling device\n");
+ 			return PTR_ERR(pwm->cdev);
+-- 
+2.43.0
+

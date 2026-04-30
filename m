@@ -1,82 +1,82 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07892C3255
-	for <chrome-platform@lists.linux.dev>; Fri,  1 May 2026 00:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A91371881
+	for <chrome-platform@lists.linux.dev>; Fri,  1 May 2026 00:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777593648; cv=none; b=Jefht85mO6dWtlFyvXK1xzA5yz9ft2CPbwrqV2/3RLtAvM0I9zNInqJ6VTX35YkVmuYphrWt01BoEWVw0rSHnKHuJkpI8Qdq0WAmrjqz+ZTPcRoB1VI5uCpKiFA17H33ohCcCHpEMq8KqSJUwogJvKJqnwl1Hq9raLJOQNoVgeM=
+	t=1777593663; cv=none; b=gPgcv0gnhlsg64LuwQ+RJJvFp9roNaDmjJy2/mBMk2gI1YDyIXxPsxBV+oHvqj5W8NlciXEUEi0YWROI1xc9sK7O8xtZ9S+fILVrteGDoJ6ehWdpjLdjsIfOui9+HCUkJiCrCviCq6Yj1EDXpB0VztKNNCiZJw/919ZJTVyJYxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777593648; c=relaxed/simple;
-	bh=1iYFrQZWmKEVWrScCekgHrk90TTezLU+zo9EhcJOGkk=;
+	s=arc-20240116; t=1777593663; c=relaxed/simple;
+	bh=sQxuhOfm4oyjjyHRHwYJHnDekKF9G661/WNU4U8f4VY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H7YrBlHYqyb1d7+K4lIi9MZWteeMW7OKZ5kau+30wrxplVqsM0XVu/YpyTZ1P4F/yrF3iYgPj79hpvB7Jl4xz9YJkgOXrwGnUyAe6QN/U7wFDZlLIaube0cWSC3y4CwRZC7cSWuMn6XKLqusXpAEYepVWFVfgJAdgphmnW68hbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Y6Up8B15; arc=none smtp.client-ip=209.85.208.50
+	 To:Cc:Content-Type; b=E7/QC6tDxAtGFhIqdog1QPyl2UGnyO+bBHwKhg2yRMpuI8lln0HRTLABIog6nlN3/LimA5G01WzgTwMfwrPaGLqJNkUgQugpiRGQ2I3Kmowykjf0iIu3hE5IWjxcjbyzdLIMz/gmS3Mt+SVVMpE9nLFhN1vL0WbYGHFfr7FJbhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=a8byW2Ms; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y6Up8B15"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-67b8d9c26bbso639315a12.2
-        for <chrome-platform@lists.linux.dev>; Thu, 30 Apr 2026 17:00:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="a8byW2Ms"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b9c603ec2dfso193214566b.1
+        for <chrome-platform@lists.linux.dev>; Thu, 30 Apr 2026 17:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777593642; x=1778198442; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1777593658; x=1778198458; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6+mZxHBvv1WgYnS9amllda9wyu/ABf+laADAiAQpVXA=;
-        b=Y6Up8B15J4qi8OJqptMnkDSYHA088eVc8OslS3DuHoWTe8MPjd37IzwnnU1LlSwX8P
-         WEOzqvJLwOpe1vinc+FQDcrXYs28/GGzYjzyDc3MI+WSKtewvgdzV/mvh0Tr8PSYJpjC
-         ji6k4A6v8wgxhpEkSxEZQCKoTlbc8OMQSdIBo=
+        bh=Z/X8TMTxizrgbcCVq8AAcQ8SrqTljyGddB0DA+TirOI=;
+        b=a8byW2MsleKVDQ/0PxpUx36r0nrzFzM0Xrdijt/zvDuBVQp4/B8MtsqIPo8fagWzww
+         4lZKBppt+EjvAcQlFjWcvhBPALf/FuMVwtWScG/WArHZCWUPaKWaU9i7YT/Sn7Kk8x4z
+         texrY15AkLqTX/DrwnUMzoBoQUK19oCKMBUNI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777593642; x=1778198442;
+        d=1e100.net; s=20251104; t=1777593658; x=1778198458;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6+mZxHBvv1WgYnS9amllda9wyu/ABf+laADAiAQpVXA=;
-        b=dXlXidHsFjOWbHF26TchT0/QOutHrMlSia3CB93J78HBHm7q2zAaT8PbDS+jeqOL8d
-         iQGokbl8ipg9l4aLLRt32rqy0rn/CPeh6O2CopM55gEEPBrZAUY3CU+6eR5Lw6KsgtUg
-         I7vRPDC9VT/4wMntyywHebjlwft2eBX6RbwRtnAgIOusFagXnJ6uUmWE3XFpTRghKmfd
-         oGU85MRqwZM+nnC0q1lhOEDSwKqrqfFc6r/bfHS455CtX4L+5zw9gRgKSMKF9ReslJQy
-         4u3Ac/C3E8c41z5XnS+5TMiW4/438lOaApcc2x4/iiRXPJPiykoFLu7wSWK45Jp+zVMT
-         ZC2w==
-X-Forwarded-Encrypted: i=1; AFNElJ/xpoO0emOJVYNeyHJtgeJdLW6iyLTmFsF72FadDhPrqMiv+7pgd8EzVsHfIz2bLpE/LRCRhwUyPDlxUDjguvc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvD3uyKlATY43KL1SuZYnrwb0BozQ/T3fR0iH6B7iGxFwpe729
-	d6IfQTHHSw/TSYuciiYaL+xRg5bhQrFPd9LiUKqp2eBh4oOzwQsnifD51jGbpnh2FcFU9U89M43
-	IQMuxWS5G
-X-Gm-Gg: AeBDieuhGYDp8pKAX3Wk66fpa9FF3AL5M9WepXlrfDQQD5317W0abmsQY/UKiT/V7Pz
-	BrZF24QzTSZdXslrKcWqGtUFhn3wo7EMhbEJKjOn8LGQ86gcsAisP/r9qV/goBhVo9xcijqZU7s
-	HYgnDuopUqJBGc6XOnTmnWUICEMvP7lRa9iTSaN2xiAmBMVW68qlq1xpUnvOE2Pmm7hg12nKmNe
-	/KKIxxA7KyU5naaiauNS8pcM+yRTQv8ezGPFQzBcs33e63b4pknWAZytqJDyBbuJ+aSarlfwNxh
-	9POBEfX9Y73CkPKZzNAeeXyqt4AKri9QMLjMmHK/ockZBEG+W2mLXCuGlMoBnpR2gpZM7v/XCTQ
-	xAPk1cMJL6kMiMmDZ57iCL0XgFJ9m7115aG3h4ahTpI5VwEPk77YDs0kVT1V0VZD0/8GQ6HtGXT
-	71zfecGO2G9pFwklbtMsU0tBJdOuz2qxEH4xozJDbXmyVsQUCGSTTgbeMzzm/YLTFAeHQKf4P2
-X-Received: by 2002:a05:6402:500f:b0:672:75b2:e8dc with SMTP id 4fb4d7f45d1cf-67b5d84ae0amr2825487a12.24.1777593641897;
-        Thu, 30 Apr 2026 17:00:41 -0700 (PDT)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67b86e97f4bsm419602a12.13.2026.04.30.17.00.41
+        bh=Z/X8TMTxizrgbcCVq8AAcQ8SrqTljyGddB0DA+TirOI=;
+        b=i58BNL5JkYvcP6XbMBgvO1+Chvc2iLKZLIbc0/XWn8FyA4/Mm26Wu0eAaoszR9P4lD
+         bgQz3EbkwfZQUqg3Me9VlhbpNZVbuQK1aZ1zjHT6iT7OAGFK4qrHorWYRMGwNw0BoXpp
+         6n+DL/tSB9FYNjb3MtmZZmhlnaHaAsVCUVz4m/n64bEP4ALrLrT0LGc9MXUzHap1ANyz
+         YVGjev10nxxr45SlydeDZDbYIAPJMnBctPmXvRbT67VK33Q2jl1icrj7fdAn5TkuobK9
+         w5ii0vaN5JLOC/bWh/zswkag2yExvzgV5bkXYtvzCztAYeCG2IhoFFjqgZ1VC0TZFx4A
+         ZT+g==
+X-Forwarded-Encrypted: i=1; AFNElJ9KLGWxljiAdBrqwWH4JSpWQflVK4JoEyai6EDTfnoxxq7x+GZhKD1MgknFahtOI3nVt4YhEj78Ozh/LN0b354=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+IsVGc1XHaGyWkVWWgq3Iis4tFlib0XaYPSCjruer2Yogd9ri
+	3J1OgnmK80ZZBQvwl74xi0jjkx7aOyoNhLS0KlnIHAXwigfz9/KMcBeDFFeqblJnvmTx3k/7K6e
+	nqFZNLx4m
+X-Gm-Gg: AeBDieuq32HCtcWCltjNjYKri3BxV/KPmJX+3kSdrWcXfuPWMrFMCToccbTKfKYdSKU
+	0bxTglV+Paqra3K7mtTTPL9eni01V4rnQ/naxIIEUoQ+lhHwLFGFP4FCsyr4miagY/n48w6/O4v
+	qJVP2yYCHFMd8/O8DxTZTMfgmskstq6rw5D7OU0u+Q0idhlpSGY+ELt4kDmDpsS+iLEwwtwuDjI
+	ArGLAXQv5E+8QLM3TcDOGnU06AzQeLks5oEMVnSXHoVSJGcOqjZ0EA7e60Dfn+WpZYlNSGBw66G
+	47YC/JrwLIcqyb/MDvosxOlgpRTQqnr5IDKfNqKRyPn8lmbV9H3xip2AszbRPM/C9Oq1rWLqw+b
+	D9Uk6DgIuH0bdn9yrgZ+z9woJ6/cwgW76zk3ybKq2aQQ39L4lihICJTYc5EpO0swAFOa9jFztN4
+	aM0xUU32HcFtfTDQzibgnA12nJ4obM4QcOmKU6UZXmVzvnLuo519YUbRD/crhjwdKKIOgVzia1
+X-Received: by 2002:a17:907:70e:b0:bad:255d:b5bc with SMTP id a640c23a62f3a-bbaca1f8a2bmr330967066b.39.1777593657626;
+        Thu, 30 Apr 2026 17:00:57 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bbe6db6f18csm48389066b.57.2026.04.30.17.00.57
         for <chrome-platform@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 17:00:41 -0700 (PDT)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-67845996252so2712916a12.3
-        for <chrome-platform@lists.linux.dev>; Thu, 30 Apr 2026 17:00:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/Vvb25zLwMSdMzc0pdYfLGYH4jMoTXxLmg1uRWDhzqD6mu0ktCkr5YwkF2mW53bLGU5qZ6J3geAPpK3AddzMs=@lists.linux.dev
-X-Received: by 2002:a05:600c:8483:b0:487:2671:fb8f with SMTP id
- 5b1f17b1804b1-48a83d73324mr83882365e9.8.1777593300707; Thu, 30 Apr 2026
- 16:55:00 -0700 (PDT)
+        Thu, 30 Apr 2026 17:00:57 -0700 (PDT)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ba36357195bso197867366b.0
+        for <chrome-platform@lists.linux.dev>; Thu, 30 Apr 2026 17:00:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9+/TcWLBZcjpv0Af16enpYOFkYQlXyTz75k1d/tPh/Q4H4Rnbe7j48IbEdXrpju1KeDAi0B+PzJPkFcktOiA4=@lists.linux.dev
+X-Received: by 2002:a05:6000:26cb:b0:43d:6fb7:fedb with SMTP id
+ ffacd0b85a97d-4493ec61e55mr8612204f8f.36.1777593293572; Thu, 30 Apr 2026
+ 16:54:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260428200712.2660635-1-briannorris@chromium.org> <20260428200712.2660635-7-briannorris@chromium.org>
-In-Reply-To: <20260428200712.2660635-7-briannorris@chromium.org>
+References: <20260428200712.2660635-1-briannorris@chromium.org> <20260428200712.2660635-6-briannorris@chromium.org>
+In-Reply-To: <20260428200712.2660635-6-briannorris@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 30 Apr 2026 16:54:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Whp6JADcVOZ11Jr=5THGrCe9cWZhX0ye54wQ84GtUOwg@mail.gmail.com>
-X-Gm-Features: AVHnY4Jn8yjvVDQMrk9sfxS2s1IXmKHM3MKByZAYOfzP-smNW0WjILYj0XY4G5A
-Message-ID: <CAD=FV=Whp6JADcVOZ11Jr=5THGrCe9cWZhX0ye54wQ84GtUOwg@mail.gmail.com>
-Subject: Re: [PATCH 6/7] arm64: dts: nvidia: Add #{address,size}-cells to
+Date: Thu, 30 Apr 2026 16:54:42 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UcDrakNVEZW24hCRizyh-VkgCGiZaPd3z+QyPoYzU=YA@mail.gmail.com>
+X-Gm-Features: AVHnY4KLFGb62k1dRvCKyy7EF6W0tPNO3zKHC2HCyssJ_nJGpMzpFc_-TEUNEXc
+Message-ID: <CAD=FV=UcDrakNVEZW24hCRizyh-VkgCGiZaPd3z+QyPoYzU=YA@mail.gmail.com>
+Subject: Re: [PATCH 5/7] arm64: dts: mediatek: Add #{address,size}-cells to
  Chromium-based /firmware
 To: Brian Norris <briannorris@chromium.org>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -144,8 +144,12 @@ n-translatable addresses")
 > Signed-off-by: Brian Norris <briannorris@chromium.org>
 > ---
 >
->  arch/arm64/boot/dts/nvidia/tegra132-norrin.dts | 5 +++++
->  arch/arm64/boot/dts/nvidia/tegra210-smaug.dts  | 5 +++++
->  2 files changed, 10 insertions(+)
+>  arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi     | 5 +++++
+>  arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi   | 5 +++++
+>  arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi | 5 +++++
+>  arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi  | 5 +++++
+>  arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi | 5 +++++
+>  arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi  | 5 +++++
+>  6 files changed, 30 insertions(+)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>

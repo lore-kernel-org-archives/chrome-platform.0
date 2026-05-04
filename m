@@ -1,158 +1,128 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156BB378D7B
-	for <chrome-platform@lists.linux.dev>; Fri,  1 May 2026 00:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D6C392C39
+	for <chrome-platform@lists.linux.dev>; Mon,  4 May 2026 10:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777593667; cv=none; b=BJxCM9j51cPd+eAOHBHKUsjfSHZ8pUYJ8KzhpQKHDgecSkemuD1X0+eutyNtxbBS4EnHix8PF0EC8qEf72XZ3viVl5gA52heD6AY/8yVygfxknVPkBI75IO0da+2STa/GgZrvhOvPYU/kGTZC9E2RSeQirwrLf1Io0XwXsl2jmA=
+	t=1777889340; cv=none; b=UnfZSIOuZT6rbDwPyEJVPYiptPZ/0tGm9uzyx1aKq8k4f3Lf7MxILBXCSXlUMFjteUbluSp9Km2ww/RGLoEZZqlF/51ClVFgrxvA4Xsx25CAXCoJqTQAAbbS+fQGWn8IRO26YJkeAHMcWLxiZa7q0egn32HkJ1TMpGdVrN+rZDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777593667; c=relaxed/simple;
-	bh=AAia2qkIDmebyJmcu5PDgIuA9G3bwKwbRmrU6wAzc8o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OMUmG7LsrNin3/MulR/X/QkYoK9pTK4JFU13gGXsp0nJhyQtf7ftHSskiHjkjVggiWDjRScRcnGeFSnEWguMwef+PTkG/J7oTEVOFXIHiQPCOjVZ2RUaqP19ynAPBTpJSXXQePNHVdzEXu1ZVeUIcyjV0/m6NDege6xNcwX3upU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Eqpikabb; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1777889340; c=relaxed/simple;
+	bh=Cy4wsn1PZK5S/bvm2NwxmGupgmnGnk0WNR3lAlPVFs0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Z3nMO6qCWuJlNneEelVNR7Q2l6yYFodI1OzU15KWleftJiG2wvrBbiegYDSNSjmHnc0UIf8OL+SizxwXXSQUuwakmVN//E48DEh5MJn7d7zhiQnzgIEi+CK0jenKM46fUjW30KV7BpDKTi08REzKfsZzTe1ojeE4HLj6fL1t6hE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rq3V6WZJ; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Eqpikabb"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38ddd8d3b7fso12771421fa.3
-        for <chrome-platform@lists.linux.dev>; Thu, 30 Apr 2026 17:01:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rq3V6WZJ"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a62f43b76aso3404834e87.3
+        for <chrome-platform@lists.linux.dev>; Mon, 04 May 2026 03:08:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777593661; x=1778198461; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777889333; x=1778494133; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DmXN7WSIeoo9s9Ua/S5/Car8IH3Zms7BcEHEOsscCUg=;
-        b=Eqpikabb7MOfTjUHqc6NGiW9SpbLqay+Pdrzp07Ug5rGsRI3TC/WO/ZjcSR1cgDojt
-         bEuiWkm6yPNChMmRLODnbCP6ITSHBYC1J7O2at3a7BNTL4DfxelgDbczjJhDmiQulr7r
-         MaEmEyR51gCDlH/NzZ23bDQjyFv/95QSuf+ZY=
+        bh=/NFXtpfnoiIuj26mCFxMjJStgQUFP3eBujw2rICs2aY=;
+        b=Rq3V6WZJlGTNpfV8KRUeaIKdSKN65uAA7HpRMwTkqF4DPyG97bkuANdsYwOPHxjWoz
+         EoyRcx+t/QFAXDttYa371CXWxp+Gqf0SY74IMzpSzcrlDi5KR8NsLl+DXAmy+U2gI2Ay
+         VYUcEI/Gmirw5TA6QHimfvvOpeOAtaAtCkZMm9KCTV4Jfg/cmX+Z4QB7LwmQ/9Qu8uqe
+         JIXOAJC9kH+JDI5zHlqbovV1Xf0HkUXqvjBJjBwa/2Cu/THWbhTtsyNeZo8qgoVC4K6X
+         6pxc41bgFNOdBThRZDKvXnuO7TKrCobFncDq6XtKyAnXqpjWGT8qS+3UYTX8UpihTn94
+         +ZcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777593661; x=1778198461;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1777889333; x=1778494133;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DmXN7WSIeoo9s9Ua/S5/Car8IH3Zms7BcEHEOsscCUg=;
-        b=XsO9ZqV51GeBesxj9rHaM9fCjLpXZZYX7mVwZ/6Op9fU8Kmsg4PPsmUYJyJjCPASyh
-         ieWV2YMUAcHj3KEv893GKG/DD1mLiGWyXZcLajWoncwUsXLDUcNujzmHiU5mkmapcFGN
-         +v1ZpXRV12iemkDZZknO0NQ9lp7li7p2sqWLD8wmuk8wjgXGTkpi6AzmJktRF9Ylv6VQ
-         i7dt4tauvlH3gmQP9G55TXyjEZsRu/9fY80iwZc21ZPaEReQwt6AfElI+keqks/Mdzq3
-         1OxTinl9W0Tihp+iR/clG3itYb3y2BxBNzrbTNWvF/kQ4lAThKvt5e2J0/fXvxWmt06Q
-         TbuQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/YSOLSViBA20JKTGrvF+cb7McTxoNN30pwJAb90zRzF34LhfYUugf0Oda6bNkZSdo0aIqMEqEYbiEhCdxXoyc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzuKJP+Nh5CQMFKI64duOz1AuMQClwSyy5ci3SgEq2NwqJP8Kch
-	7J4JFznYFtSQ0O5qA4sIefRkvwRylZpvVxFSYQM7pBg0eH7niUQD4F+asmei/4hORzPdkwuWlEi
-	48KEMtMb3
-X-Gm-Gg: AeBDiestJm/5wZwn0qlQCbOVuR8UPQWJ+kpx2AkOdFZbQLx62StXVjAjfMcnD8zhfQK
-	VaOdZF3a5m+YzsMakluoyvhAwaVqZZ2u/1lIbB3CnU5XF6B8Evynf6T92qVjVOrbEq1MFfB2kOQ
-	CNYHZtqk/HxpfHIEntniSWjb1eh+nVVsCfu22s14rVPaM4C/iMjqB79E4115TKTRGCcydtJ6NX6
-	aOHaFkgbiOZS/7jUgY+UteX08HN2+rLHdB5JQ5ju3O/877lwSTPESSWQQ0Bmvbb2Zu0xCyT9y1Y
-	/RNU7r0IP2gh+88hMy1uvx18aJQLkrrnwPBgbbydD/4XjF3fSjlJvauuTCrGFG1RC0rYBg/PQ8e
-	YDmJVRmoqO61jSmhSr/72ZVaofFlz4xmYwG3UeeJ5LyxmSAIR1Zu2V7FG+vC4snoj1vlfN745M2
-	aQvSVhXI+ubW08j9LnLvxeiFDnmmI50Fg5T7X29n46313eUPWeodlkSlQW72jBEAqv1PiIrbmee
-	vbv
-X-Received: by 2002:a05:651c:3252:b0:38a:3ad8:6f32 with SMTP id 38308e7fff4ca-3936447cc89mr2360441fa.30.1777593660780;
-        Thu, 30 Apr 2026 17:01:00 -0700 (PDT)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39361090d81sm3789211fa.9.2026.04.30.17.01.00
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 17:01:00 -0700 (PDT)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38e84ed22bdso16953081fa.2
-        for <chrome-platform@lists.linux.dev>; Thu, 30 Apr 2026 17:01:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8mzBf2HR6sH9sMif3oqXYMrMU+LX9mJphPG7uRDuQ/m/XRaOxRr2QDzXe2ydl8NRVIG50j0qlf/Fhb3FY8rxU=@lists.linux.dev
-X-Received: by 2002:a05:6000:2905:b0:43f:e16f:3cc3 with SMTP id
- ffacd0b85a97d-44a88058b32mr1086350f8f.22.1777593286514; Thu, 30 Apr 2026
- 16:54:46 -0700 (PDT)
+        bh=/NFXtpfnoiIuj26mCFxMjJStgQUFP3eBujw2rICs2aY=;
+        b=q0ZsUwxPvcd/2mr4dUvR49Yu2Yw0seeMcSS56SoD4khM15ZpSmsIB1Iyve2lubG26m
+         svMmRcuw/L9C+0tLR35X7PBAnfZN1rj2HzSu/eNlsfN+Xi9mqQLCBgEvAqWEIK7DmIbS
+         8DLeemNPkedqwYjzfyHdAzLrp50WHemUgE8sp7AJbvf2qreEh4hBaM4ggrOHwRmKftvU
+         gUudszAVRzCQyvK4A+j8PhtlcnHQq3WEcj1TnXnqKlak+K+Q7NbJuezNdXQUgqU4+WLx
+         vADK5zHnmf2BWsaUliHu14zA7fHBQ28ZtisCiA+g9GWgFOsnsXTIkvknkMqKMVjE9+cb
+         sYeQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/hbxCZ+jBP8bCtIac0Uwl1Jg9+tFuBOVgrETkJkOt3aC5NZDucXVplCtCVZPMXQzeOYO+CEv15wZMY92Zb0DE=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy8F75B+HQ4pWoc9TXv4HAIMz/H3z5ccygGZpm0rGzVDmPacJto
+	XLeryo16/fxV89b3CTiPXVSkCJTTiXj9WRWtj2z7Ny45Fp3YDeFRfZMV
+X-Gm-Gg: AeBDievkknCfvxV5RtASZgjX3hbeCY8WPGwk/2c7Q3jRqBSSm8L27Fx3eVGrCPehk2n
+	sQVYkW33EbSCUR5y6h7AoAcwIxVajZ/4h50d5vn8zwHcFQVtK/a9s/k9kuLOxwp/6Qm2GG0v2kU
+	zywKS3IW56UpT4pD86/LuUDD5qhOyeHErZNmiugMbtgXhsdl5AClVorQsWR7TPDA7mnrmJy3eCU
+	gM6rbr4Ds6zTpt/jUF9NGEc3VSwEwMomw8Qyh0jZFEKaLlEHUq9AzeD2sJ3/jZcnD/8i4odvP71
+	EhR3dL81mAyVAIvLY16w4XpZjEKg8BHb0WCY8Ok1ngQM7blEF5N19X35wi+NjJzvJD/gu1J0Bpy
+	JZI039TUo2xZSmOlru5iHb9TYLelFvBqvB5/HBVyU3NUrCdgIT3kHOU7UfrmWyn/EQoP7J/akFZ
+	hEsf1MSmtQQaIDI4+axCKqyBT7VvnJeHASnLqrxqsg7iKB3fNyHnyCH/1RCdjq/6AD3nRRNKiIS
+	KssXwCigA==
+X-Received: by 2002:a05:6512:31cf:b0:5a2:bf50:763d with SMTP id 2adb3069b0e04-5a8631c8222mr3274301e87.38.1777889332874;
+        Mon, 04 May 2026 03:08:52 -0700 (PDT)
+Received: from va-HP-Pavilion-Desktop-595-p0xxx.mshome.net ([193.0.150.248])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a86645ae7csm1979099e87.79.2026.05.04.03.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 03:08:52 -0700 (PDT)
+From: Vastargazing <vebohr@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Vastargazing <vebohr@gmail.com>,
+	stable@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	Thierry Escande <thierry.escande@collabora.com>,
+	Enric Balletbo i Serra <eballetbo@kernel.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH 2/5] platform/chrome: cros_ec_lpc: fix reference leak on failed device registration
+Date: Mon,  4 May 2026 13:08:44 +0300
+Message-ID: <990a6407ff9b143bde6ea2bd8b32e9346ab756c1.1777889235.git.vebohr@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1777889235.git.vebohr@gmail.com>
+References: <cover.1777889235.git.vebohr@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260428200712.2660635-1-briannorris@chromium.org> <20260428200712.2660635-5-briannorris@chromium.org>
-In-Reply-To: <20260428200712.2660635-5-briannorris@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 30 Apr 2026 16:54:35 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XrPJwCC3bUJVQJGPwO3HifNOkK4tFd+xwNac_36kHvqg@mail.gmail.com>
-X-Gm-Features: AVHnY4IqCV1PxHRIY-OTvaBqqWEOfyPxbcpa8ZWBIyLwROAiOEZ_SsblLMHW3zY
-Message-ID: <CAD=FV=XrPJwCC3bUJVQJGPwO3HifNOkK4tFd+xwNac_36kHvqg@mail.gmail.com>
-Subject: Re: [PATCH 4/7] ARM: dts: samsung: Add #{address,size}-cells to
- Chromium-based /firmware
-To: Brian Norris <briannorris@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev, 
-	linux-rockchip@lists.infradead.org, Julius Werner <jwerner@chromium.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, cros-qcom-dts-watchers@chromium.org, 
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+When platform_device_register() fails in cros_ec_lpc_init(), the embedded
+struct device has already been initialized by device_initialize() inside
+platform_device_register(). The error path unregisters the driver but
+returns without dropping the device reference:
 
-On Tue, Apr 28, 2026 at 1:07=E2=80=AFPM Brian Norris <briannorris@chromium.=
-org> wrote:
->
-> Chromium/Depthcharge bootloaders may dynamically add a few device nodes
-> to a system's DTB under a /firmware node. A typical DT looks something
-> like the following:
->
-> / {
->         firmware {
->                 ranges;
->
->                 coreboot {
->                         compatible =3D "coreboot";
->                         reg =3D <...>;
->                         ...;
->                 };
->         };
-> };
->
-> Notably, the /firmware node has an empty 'ranges', but does not have
-> address/size-cells.
->
-> Commit 6e5773d52f4a ("of/address: Fix WARN when attempting translating
-> non-translatable addresses") started requiring #address-cells for a
-> device's parent if we want to use the reg resource in a device node.
-> This leads to errors like the following:
->
-> [    7.763870] coreboot_table firmware:coreboot: probe with driver corebo=
-ot_table failed with error -22
->
-> Add appropriate #{address,size}-cells to work around the problem.
->
-> Note that Google has also patched the Depthcharge bootloader source to
-> add {address,size}-cells [1], but bootloader updates are typically
-> delivered only via Google OS updates. Not all users install Google
-> software updates, and even if they do, Google may not produce updated
-> binaries for all/older devices.
->
-> [1] https://lore.kernel.org/all/20241209092809.GA3246424@google.com/
->     https://crrev.com/c/6051580 ("coreboot: Insert #address-cells and
->     #size-cells for firmware node")
->
-> Closes: https://lore.kernel.org/all/aeKlYzTiL0OB1y3g@google.com/
-> Fixes: 6e5773d52f4a ("of/address: Fix WARN when attempting translating no=
-n-translatable addresses")
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> ---
->
->  arch/arm/boot/dts/samsung/exynos5250-snow-common.dtsi | 5 +++++
->  arch/arm/boot/dts/samsung/exynos5250-spring.dts       | 5 +++++
->  arch/arm/boot/dts/samsung/exynos5420-peach-pit.dts    | 5 +++++
->  arch/arm/boot/dts/samsung/exynos5800-peach-pi.dts     | 5 +++++
->  4 files changed, 20 insertions(+)
+  cros_ec_lpc_init()
+    -> platform_device_register(&cros_ec_lpc_device)
+       -> device_initialize(&cros_ec_lpc_device.dev)   /* kref = 1 */
+       -> platform_device_add(&cros_ec_lpc_device)     /* fails */
+    <- platform_driver_unregister() called, but kref still 1
 
-As per:
+Per platform_device_register() kernel-doc:
 
-http://lore.kernel.org/r/afExm9HeB-FMmP4P@google.com
+  NOTE: _Never_ directly free @pdev after calling this function, even if
+  it returned an error! Always use platform_device_put() to give up the
+  reference initialised in this function instead.
 
-This patch shouldn't land.
+Fix this by calling platform_device_put() before unregistering the driver.
+
+Fixes: 5f454bdf6353 ("platform/chrome: cros_ec_lpc: Register the driver if ACPI entry is missing.")
+Cc: stable@vger.kernel.org
+Assisted-by: GitHub Copilot (Claude Sonnet 4.5)
+Signed-off-by: Vastargazing <vebohr@gmail.com>
+---
+ drivers/platform/chrome/cros_ec_lpc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+index 78cfff80cdea..cb3ff76d29e9 100644
+--- a/drivers/platform/chrome/cros_ec_lpc.c
++++ b/drivers/platform/chrome/cros_ec_lpc.c
+@@ -892,6 +892,7 @@ static int __init cros_ec_lpc_init(void)
+ 		ret = platform_device_register(&cros_ec_lpc_device);
+ 		if (ret) {
+ 			pr_err(DRV_NAME ": can't register device: %d\n", ret);
++			platform_device_put(&cros_ec_lpc_device);
+ 			platform_driver_unregister(&cros_ec_lpc_driver);
+ 		}
+ 	}
+-- 
+2.51.0
+

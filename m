@@ -1,100 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FDA3DEAC3;
-	Mon,  4 May 2026 14:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1AF48CFC;
+	Tue,  5 May 2026 02:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777904386; cv=none; b=JUFpvU+ITzNlqBevv3g4uUdzkez9rzqqBhvufvCvHIu1kJHR30WPSDvQTKDFyWxlmqy17H7C3C7DhZ5/VnxSooZP0RmvlzWtTYZqo5qXWFU8Ax2u3zUf+OtCuKLhT46ZSwVraVEOMgb6r0rtvPzzHCThJBXdaGzO5dyRIIaAxwc=
+	t=1777948816; cv=none; b=TDR45BmTWDfFARCUKTObK34Ar8n3Ce4jWlrVS1uotZ5YDG6LwN+UzIcG57oaeULQPFJn4UaMfu5QXVI1zQiW7Y1L/AUZaO06vxDg9UP0TgBy2/1PoHQ66ze4CCdfdRxE0KxhxmXgvuinCxsUnqKmrNO2xgbL4qTwMEdji4cvD5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777904386; c=relaxed/simple;
-	bh=BVB3m2/AUyUOnBCAmF5LeUpM17d41btXnGCcpNXBj7U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=suTBK2BLJ7F2Wx/IzGBB2nXOzIb7Q6VRIm02L8rp2/RNUPDVondld0ofn3BcbjV+lLTVAbQzaFxcudzl0wXPnG7imhQH2IT6y+/NJ76kBkc8fOKZhocUlpp0mPiQOE7TZBpGJMUm9DTqIoiYEDRi8GxGmc+30slfNixlcHiIJmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dHiB2jzb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777948816; c=relaxed/simple;
+	bh=ihgA1wo34NsZYw3ri/jBt7HIjW7TeICDf51s44eFhmk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rPIMngDc9MSEcoyH4qfG5BqeVPL0XCGhpZZ5OZ2IFltzeYzCg34ST2Dm7kM1Gk0T2lUk5UsBqqCKw4waqitExHzvQKbUwGJn9YUUEXH9hEZDCHew/nJHiWUe5dAt/ZhCTIzclYfyE4YAZun2n4VC6qUNb3yZL9bQHNuvzdpxO08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RubHhpyA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dHiB2jzb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE90C2BCB8;
-	Mon,  4 May 2026 14:19:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777904385;
-	bh=BVB3m2/AUyUOnBCAmF5LeUpM17d41btXnGCcpNXBj7U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dHiB2jzbKtmP4ZBmcwUQeVge5qxYgpYoqfF6px57WTdgem5Yrc5hSCB5v1hHHfzuE
-	 4XCw3DzcS2AEAhlkvmGcTrP4/pVf3futRsyICID+PKmZXaglgk7egmhsRGBfiJaIAF
-	 972LZZt83Z8SiHcICKYAq/9S0CLpGuHrnIFg3ePU=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Julius Werner <jwerner@chromium.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Brian Norris <briannorris@chromium.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RubHhpyA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCD3FC2BCB8;
+	Tue,  5 May 2026 02:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777948816;
+	bh=ihgA1wo34NsZYw3ri/jBt7HIjW7TeICDf51s44eFhmk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RubHhpyAWfF1vDlIQODbKhhYT38z/uoEOgU01BoSzZ6L2MnBRkzV0JGx+RcmMIcQ+
+	 8NPoGnGgYHKjgnppcbHt8T+9yDdnzuhSxrivrpLmddBTCMQEdqTo+WTGYEky4VWKTp
+	 mNXRfzLB7GcBKw7BPYLAhhhC8d+lK7Bv1RZhl8iRMyO+EqqgG+3a4GaQX5osxmtro1
+	 OVy1+Ax5uTlmZe+KuoTDtapaENqX4rtUQqwjoLM4CU5mlzfTLiaecu0mXFs9uZAxMp
+	 R7mDNhF882UzyCExsZQVhwjeJ/fEJl2XG9P6lclvlGCPa7wfu+637Degb66NKlQ1Y8
+	 Q8ouDWFf7UDng==
+Date: Tue, 5 May 2026 02:40:12 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Vastargazing <vebohr@gmail.com>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	Thierry Escande <thierry.escande@collabora.com>,
+	Enric Balletbo i Serra <eballetbo@kernel.org>,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH 6.12 019/215] firmware: google: framebuffer: Do not mark framebuffer as busy
-Date: Mon,  4 May 2026 15:50:38 +0200
-Message-ID: <20260504135130.877833486@linuxfoundation.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260504135130.169210693@linuxfoundation.org>
-References: <20260504135130.169210693@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+Subject: Re: [PATCH 2/5] platform/chrome: cros_ec_lpc: fix reference leak on
+ failed device registration
+Message-ID: <aflYjKLxQW8iIG6W@google.com>
+References: <cover.1777889235.git.vebohr@gmail.com>
+ <990a6407ff9b143bde6ea2bd8b32e9346ab756c1.1777889235.git.vebohr@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <990a6407ff9b143bde6ea2bd8b32e9346ab756c1.1777889235.git.vebohr@gmail.com>
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+On Mon, May 04, 2026 at 01:08:44PM +0300, Vastargazing wrote:
+> When platform_device_register() fails in cros_ec_lpc_init(), the embedded
+> struct device has already been initialized by device_initialize() inside
+> platform_device_register(). The error path unregisters the driver but
+> returns without dropping the device reference:
+> 
+>   cros_ec_lpc_init()
+>     -> platform_device_register(&cros_ec_lpc_device)
+>        -> device_initialize(&cros_ec_lpc_device.dev)   /* kref = 1 */
+>        -> platform_device_add(&cros_ec_lpc_device)     /* fails */
+>     <- platform_driver_unregister() called, but kref still 1
+> 
+> Per platform_device_register() kernel-doc:
+> 
+>   NOTE: _Never_ directly free @pdev after calling this function, even if
+>   it returned an error! Always use platform_device_put() to give up the
+>   reference initialised in this function instead.
+> 
+> Fix this by calling platform_device_put() before unregistering the driver.
+> 
+> Fixes: 5f454bdf6353 ("platform/chrome: cros_ec_lpc: Register the driver if ACPI entry is missing.")
+> Cc: stable@vger.kernel.org
+> Assisted-by: GitHub Copilot (Claude Sonnet 4.5)
+> Signed-off-by: Vastargazing <vebohr@gmail.com>
+> ---
+>  drivers/platform/chrome/cros_ec_lpc.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
+> index 78cfff80cdea..cb3ff76d29e9 100644
+> --- a/drivers/platform/chrome/cros_ec_lpc.c
+> +++ b/drivers/platform/chrome/cros_ec_lpc.c
+> @@ -892,6 +892,7 @@ static int __init cros_ec_lpc_init(void)
+>  		ret = platform_device_register(&cros_ec_lpc_device);
+>  		if (ret) {
+>  			pr_err(DRV_NAME ": can't register device: %d\n", ret);
+> +			platform_device_put(&cros_ec_lpc_device);
+>  			platform_driver_unregister(&cros_ec_lpc_driver);
+>  		}
+>  	}
 
-------------------
+The patch is identical to [1].  See also [2].
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit f3850d399de3b6142b02315227ef9e772ed0c302 upstream.
-
-Remove the flag IORESOURCE_BUSY flag from coreboot's framebuffer
-resource. It prevents simpledrm from successfully requesting the
-range for its own use; resulting in errors such as
-
-[    2.775430] simple-framebuffer simple-framebuffer.0: [drm] could not acquire memory region [mem 0x80000000-0x80407fff flags 0x80000200]
-
-As with other uses of simple-framebuffer, the simple-framebuffer
-device should only declare it's I/O resources, but not actively use
-them.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 851b4c14532d ("firmware: coreboot: Add coreboot framebuffer driver")
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Acked-by: Julius Werner <jwerner@chromium.org>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Brian Norris <briannorris@chromium.org>
-Cc: Julius Werner <jwerner@chromium.org>
-Cc: chrome-platform@lists.linux.dev
-Cc: <stable@vger.kernel.org> # v4.18+
-Link: https://patch.msgid.link/20260217155836.96267-3-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/firmware/google/framebuffer-coreboot.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/firmware/google/framebuffer-coreboot.c
-+++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -53,7 +53,7 @@ static int framebuffer_probe(struct core
- 		return -ENODEV;
- 
- 	memset(&res, 0, sizeof(res));
--	res.flags = IORESOURCE_MEM | IORESOURCE_BUSY;
-+	res.flags = IORESOURCE_MEM;
- 	res.name = "Coreboot Framebuffer";
- 	res.start = fb->physical_address;
- 	length = PAGE_ALIGN(fb->y_resolution * fb->bytes_per_line);
-
-
+[1] https://lore.kernel.org/chrome-platform/20260415175707.3640225-1-lgs201920130244@gmail.com/
+[2] https://lore.kernel.org/chrome-platform/CANUHTR9_c=msO7mAax=Aj4U--GB=2ozserOvrTU8WueqdSMN8Q@mail.gmail.com/

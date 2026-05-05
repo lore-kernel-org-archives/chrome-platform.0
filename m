@@ -1,155 +1,133 @@
-Received: from mail-pj1-f99.google.com (mail-pj1-f99.google.com [209.85.216.99])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2F43EF650
-	for <chrome-platform@lists.linux.dev>; Tue,  5 May 2026 15:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.99
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777995290; cv=none; b=TeYEyoQNYhWWfbxuRvP0LTWkwMQjPC4xS7+/Hsv/c7t6U9oqxxDPHReAViVPTjAfjN//8sb74Kps223wRfhbKg/BAeWmaZC4SsYA6WFfYv9dUf9J5KuNTOSI3PI7WIlHDDwGOlX2tsK1Liq6rYZhuY6PYjI4mLlb/gf7MaT23pk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777995290; c=relaxed/simple;
-	bh=g50FWd240XxxeHR0wZZltMJw7SH0rpOeuhOkFOG+fy4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=PZgYyHfwmCj4CWLFvxqRO2LmMGm+88lYUOWfRmXWhMfImvpTqNdA12YOo02+TfgRInq2jggcS4SQg2YDJ8iQuADwzz6C9/MGpVWu2xwiPhjaAaQjKWDC/TtztRznj1qKC5bHhwa+fyaBKWIMiVIAuqK5DMR90xjlkhN5YxHezMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=QjgcqCQP; arc=none smtp.client-ip=209.85.216.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE84E4A33E2
+	for <chrome-platform@lists.linux.dev>; Tue,  5 May 2026 17:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778002784; cv=pass; b=iEajM5nrSfYiJG8LS9ns10Q+lqaO47nuS+Ix06eNFsUdQteM2W92wu/mJ1Ew0mWnS5r0Bm/1NoQTXhV508fyoPV6JF9d6OaOColE36+bWNEH7zDr28Zc/cJePGdZG9QbCbR6mywrAc8Jeb4VZKFTcgz/jhpdSVTUQLnFEVmGPvM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778002784; c=relaxed/simple;
+	bh=ndjRAJm3WzNlqQxhRRMI7QmuE7dHkDlI2JoUdx6DXIU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=izZ4hpJHQtdQNhIs1ieU3QKBNRizA59XesScB+1QS+QEqfvcB2X5EPUl9MK+Dh1yfMtYKUOgZvS1kEKbllp9D8IURjOEQCc4yQ29nuIrzhK0UeNiJQArCldKPa6T/r7t0bI03a4JTrgXt/WIY/ZTu0NqRc0uR3DN+exHpfOQ+TE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Us9bpS5V; arc=pass smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="QjgcqCQP"
-Received: by mail-pj1-f99.google.com with SMTP id 98e67ed59e1d1-364ff382b0bso4208531a91.2
-        for <chrome-platform@lists.linux.dev>; Tue, 05 May 2026 08:34:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777995287; x=1778600087;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kA0xbWBKz7CEhEmimLuZzTtRlEkl5OY8Zl0ZAfchvHM=;
-        b=CeV4QL4E6rRfp1w7yutfRs1ZX8D8t6eYZ+wqFZMEyXMcLL+4BQUwa+HG3jgyuP2uEl
-         yMLiuXpYVpbQGF1wkKawx/HZcEjOzcjg1F60o6xYM3s3Vsh4PAs4+MBEEtfEkGunTpVG
-         d58JQYmeJNZEGjOenhKnGvLxVQ83DwI4raWY6jfi5727Mjtf36tSqQpTJAOqrnZaleHB
-         MTxoB82ByGea+7KiJ739YdVPL5sDyz79r+D+a5NbqUtDW4rcFOCRk61axGmjLruXutvj
-         cesVitQZN2j24U+Ia0ZmpTatfQ5D2sEXuBv6uAsJwg+J+nTlaDuGUizM5rfYWO6tAYlR
-         ctrA==
-X-Forwarded-Encrypted: i=1; AFNElJ+qpA0gtSBlt0fnm70VWnK5i3xRMHp26LUQWtuTFJtIMs2A7vZP/n4o4cXmXGRYb4Hoqb55/l0Z3J9xHLihgrE=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzs4TXY2cx8Ij/KH+/Eaf3Kf/+RUYSBkiXWpmmm3mMtL/Q/icwk
-	bwhmU0tR78Rbju4keG9RzRMoW1svDogMOMQokt/cswAciiId19j6oG6L7Z1a3knlEM/36TcR0hN
-	/mXMKn6zHL6wyB6N4TrYpdehacDXpZ/NFkMcZO9anKrrEAZt9caP43+vycump0lqoLZzYqHuZPK
-	GPYAnkCFtoYWIeOifQ1AEhzBRkrz5x/ZjU1Dm/fmZeOtys5p06SmL9ebdEYlVZoIqXwgogyt184
-	DcsuF3IV3S7dO1THLq1OJsjoTvR
-X-Gm-Gg: AeBDietyqTJIs+BbemfrjJFr5rPeGQjQ3rKRaofdqP8ErMUL2TMPLgYCVPWHYEG5uJT
-	oXUR//Og3M+0gmSg4pEHNYT1OhnYhChunu5eqt1JzrotY0oKP4T+bmy6TYR84iWp342NAEEGyrq
-	qPOJqYQIqSf1pcSveooJUPcNtP6ET9EO8QtZ3Mb1zoNaZcv9QhovFj/oAsqrrQ7WnzZ+FiRwZlR
-	AAzeBen7kAbAzm5v8kmljcQ6YXecWG6cfDzg0Eyp2wpeabbVf4H8pjTlhdgoF3MNnaRgtOWxhDC
-	bXZ/eHUY77qo7vuKassHdXPQM3TUSIKvpeuyuljQB2eiybi/6dYMw6r1TmGvMXal3dFXLlMwFNw
-	aOlMItLGHxReP7GqsK72mkz9ZG1u4lOW9oi5dMXsS0ybS3Hxl0gbH6jInMy2cT4/ABB3eQzrDP6
-	WC1rmdrlzlYXd3CfAZb3uZ
-X-Received: by 2002:a17:90b:5707:b0:35b:b52d:f34d with SMTP id 98e67ed59e1d1-3650cd85e4amr14074305a91.5.1777995287481;
-        Tue, 05 May 2026 08:34:47 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com ([144.49.247.127])
-        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2b9cab67ce6sm8938775ad.35.2026.05.05.08.34.46
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 05 May 2026 08:34:47 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-2c16233ee11so7115262eec.1
-        for <chrome-platform@lists.linux.dev>; Tue, 05 May 2026 08:34:46 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Us9bpS5V"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-364ef7a759bso99209a91.1
+        for <chrome-platform@lists.linux.dev>; Tue, 05 May 2026 10:39:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778002782; cv=none;
+        d=google.com; s=arc-20240605;
+        b=C9N0OCQMmSbPvVz9Irf8slVfN45Ez9Bf/tOM6/OrQqRCPB9VuyCFzx82phmh1sjk3R
+         zRWDf+N8ir0OGRWlFm0Ulh0NG7PU98+Fb4N9R1BZvWyI3E7SNIMHd0IVphK8GughJX8U
+         Z+lfm0zmhhlPtFfCm2QbmYkJERHLJ+61vibLQb2b0F2LKZSql7X7PXDO6uISM1zNrXB4
+         jFQgpyZisNNsU2GDZpQgg+YltjTfChDRtqxU8mRrXXBlVYDtc0O/8cfRksk2jKhPqE7E
+         p7NYnpZv/Ng4U9vEDrcQVQS5vwXaO4DCsU8ja87mkORvFrNwPLGrtXWr5m1D43dJnyS9
+         lCiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AIMU3lf9kc8EsYHBmuDo0jAnXxQba7uzrH34U2ph1no=;
+        fh=pJ3lwpIE0QPqfaap0m1Xyhy0XeNkv4vsYeyXufcMjpw=;
+        b=brIAwcfkuXZ629Yx5ZwCdhtUxcQ/D0E/t5//wgXvjuBjjEwftxXinA0ak3FpeyNF9Y
+         rTLnE1H5dVRDvY0P/Kkk8Zqk2g968+CXwtlREgilCA1qJ4rePzipPysjDeDafygDab4/
+         Fa+KDoVT0UZc+KUOdomjG6xZO7tOR4rEfoB9NLj40aErrOyn2Wgd1zsg368cce0xjcqP
+         UgwGxr59UzSKLOXS1QxVp0cZ1XP5/XChgKn/vsEkB4EUh76VkXq3M9mWNmXLfhoh/1hn
+         hbDmrWQ+jEw6L+7/y4pcXeqhfBns1UA7H1LlKGHGc/zRICzSg99+Qd9j5+nfUpBZ2YTk
+         lOxg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1777995285; x=1778600085; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=kA0xbWBKz7CEhEmimLuZzTtRlEkl5OY8Zl0ZAfchvHM=;
-        b=QjgcqCQPc4PQB9gaDir1Rf8R2/CGXR4wrd48IiH+5ELryRyYv902Rz2KmrzgzEBRuJ
-         GqAu+XfQr3AnZgRfAAAX8hYP8cYGxcv0QXFUd9LLO3he1yQyK2NsugF87srpcjAO3cLZ
-         L/QMCYCnDM9od/xwNKgTWR1ps04glzUGnqgvo=
-X-Forwarded-Encrypted: i=1; AFNElJ++6GPkP2jwOkjAz8feu/ogycRVeSdEYnSHqsXDgKLtFmAtir0gUgcCw544n3D7ePAtp7ZEYJYtkrvXiftIts0=@lists.linux.dev
-X-Received: by 2002:a05:7301:1001:b0:2dd:2d70:8aba with SMTP id 5a478bee46e88-2efb78d70ccmr6578844eec.4.1777995285440;
-        Tue, 05 May 2026 08:34:45 -0700 (PDT)
-X-Received: by 2002:a05:7301:1001:b0:2dd:2d70:8aba with SMTP id 5a478bee46e88-2efb78d70ccmr6578827eec.4.1777995284858;
-        Tue, 05 May 2026 08:34:44 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3bc6a79esm24306770eec.26.2026.05.05.08.34.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2026 08:34:43 -0700 (PDT)
-Message-ID: <8f1380f4-6ef8-4fc8-b72e-4df7b6b3cbad@broadcom.com>
-Date: Tue, 5 May 2026 08:34:41 -0700
+        d=chromium.org; s=google; t=1778002782; x=1778607582; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AIMU3lf9kc8EsYHBmuDo0jAnXxQba7uzrH34U2ph1no=;
+        b=Us9bpS5VVHzTAkmKgNrYaKLaovU0HUHTmskkpD/7ZuOCkQw5GqBFWGXnshXuG1gRg5
+         8onlBdfGsVmyjxylqX8hVADiyVl3uSPWCdk4k4p/UJm6qRo9FSkuZQ0/PfKfAXz0Y+wc
+         zQj5/ORfJYhD4E9cRo93L6FhIG3lq9r4gI0hE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778002782; x=1778607582;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AIMU3lf9kc8EsYHBmuDo0jAnXxQba7uzrH34U2ph1no=;
+        b=sZOyWH8VmU5ODiPYd5rOuQMxb5IGzTEViwU5f6f6BfCj6gdsvd2WArWiMAop4Uq4Lv
+         lv6a3rek012PIpb2vCfmf677zuWZ05C1EhTesSyDScj+LyqW04whhcZerVqPzC5XhxRg
+         0O3XufTmTSBGNSwF12fT0RYDAKmnskvqodzEOsXkeSKg6xUjA2B4lfbEauaCovTpa6R1
+         W29Gu5DdWTXjKilX84q2idKl863MWSpNAg5kI7OaCs2wBKN8CsXnMupqgYSoi3efB2XY
+         yCB0bhz+zLkUB3G0qSzXtzSv6y3hg/25V80zrPb2ePyBAzrnXQ0CChcyaL/qyOrV8EXF
+         tfQQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8/Pw5Vl+kG3hP5icQV/UCMenxWlxUj1BnKOWJzbCpYTryB37VcjQyFXMuMiuG9d8CdxRJgfixh8GvYg5ZtyeE=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxc5Z7UHSOgJ3OCEKzNhZ5WhdKtYX+Sr+C9i1Z+QNamQWrHRVeG
+	7IcmzuFcsBLsFxUw7u9a2j27GlTZLs1ECGCW/pKhZQU49jolsQtxLwEZjBdtaxfWp3SRGkhxdAf
+	1DP/5moXpwqVVP9Chldbtu7NwxD1oG0Ywbw69Rc0L
+X-Gm-Gg: AeBDiesjCIxnF8zPifBfuqa+7rT6mmExY6p6Gvh7QZG8dtSFdiVvvOkmNzx4/+A470k
+	PYgH7j9/z+EyfneLnCAy421vW0IQWLm1Nz1N0BOvW+CuyPSa6kHz8TvsTiGyQ3y6n5f9vkneqNl
+	Eo/cT8wNboxJWrWOPnumUgfxk8zdDqjge6N6jsOrOrAzDGh09fBBO1eWtAJtBbMaVQduwb6euHg
+	Z3SCM56Q/aver8VC7KcD+/CT0kw/NSttlZz0sHlyx7r9IAf12vS+XpnXGJdWjrvHCODQvBUdQIQ
+	KPn0OBH6NkPZHVFQMcBtE/AMf2dNQ6BzDfx11m2HmtDtPkMYvD0WAOn5zJE=
+X-Received: by 2002:a17:90b:3e89:b0:35a:10b6:1208 with SMTP id
+ 98e67ed59e1d1-365728811fcmr3768761a91.14.1778002782151; Tue, 05 May 2026
+ 10:39:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] leds: Move MODULE_DEVICE_TABLE next to the table itself
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- William Zhang <william.zhang@broadcom.com>,
- Anand Gore <anand.gore@broadcom.com>, Kursad Oney
- <kursad.oney@broadcom.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
- <rafal@milecki.pl>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-References: <20260505102846.186219-2-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US, fr-FR
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20260505102846.186219-2-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+References: <20260505053403.3335740-1-tzungbi@kernel.org>
+In-Reply-To: <20260505053403.3335740-1-tzungbi@kernel.org>
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Date: Tue, 5 May 2026 10:39:30 -0700
+X-Gm-Features: AVHnY4L5fAq0tv1FZEX3wyukvmRw8Qh8kutB15RbJtcaQeRmgpHJfLeGTjyl_8A
+Message-ID: <CANFp7mX51VHCvcEhKnydWOTpa2havzCwVAvAESo2L2k8EP+7oQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Init mutex in Thunderbolt registration
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Jameson Thies <jthies@google.com>, 
+	Andrei Kuchynski <akuchynski@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/5/26 03:28, 'Krzysztof Kozlowski' via BCM-KERNEL-FEEDBACK-LIST,PDL 
+On Mon, May 4, 2026 at 10:34=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
 wrote:
-> By convention MODULE_DEVICE_TABLE() immediately follows the ID table it
-> exports, because this is easier to read and verify.  It also makes more
-> sense since #ifdef for ACPI or OF could hide both of them.
-> 
-> Most of the privers already have this correctly placed, so adjust
-> the missing ones.  No functional impact.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>
+> cros_typec_register_thunderbolt() missed initializing the `adata->lock`
+> mutex.  This leads to a NULL dereference when the mutex is later
+> acquired (e.g. in cros_typec_altmode_work()).
+>
+> Initialize the mutex in cros_typec_register_thunderbolt() to fix the
+> issue.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 3b00be26b16a ("platform/chrome: cros_ec_typec: Thunderbolt support=
+")
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 > ---
->   drivers/leds/blink/leds-bcm63138.c | 2 +-
+>  drivers/platform/chrome/cros_typec_altmode.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platf=
+orm/chrome/cros_typec_altmode.c
+> index 557340b53af0..66c546bf89b5 100644
+> --- a/drivers/platform/chrome/cros_typec_altmode.c
+> +++ b/drivers/platform/chrome/cros_typec_altmode.c
+> @@ -359,6 +359,7 @@ cros_typec_register_thunderbolt(struct cros_typec_por=
+t *port,
+>         }
+>
+>         INIT_WORK(&adata->work, cros_typec_altmode_work);
+> +       mutex_init(&adata->lock);
+>         adata->alt =3D alt;
+>         adata->port =3D port;
+>         adata->ap_mode_entry =3D true;
+> --
+> 2.54.0.545.g6539524ca2-goog
+>
 
-For the above:
+Thanks for the fix.
 
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
--- 
-Florian
+Reviewed-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>

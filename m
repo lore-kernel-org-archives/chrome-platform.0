@@ -1,246 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A80385515
-	for <chrome-platform@lists.linux.dev>; Tue,  5 May 2026 12:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41C131F999
+	for <chrome-platform@lists.linux.dev>; Tue,  5 May 2026 13:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777985746; cv=none; b=GcH9jm2hbQU2smmuz1hoHMvK2gh6oTxoAQvruFZM0Kij9UsDPZI0mePqWQER306yauOpwr4Ipz6qdvDdz8jcqHqR9FMVgeCCgi+WcrgwdhBZaYPQph8FiixaOmuqanCHIJIxKFxHqGGTWvJByLEjymROC+EH8TzDAObUoFkeun0=
+	t=1777987206; cv=none; b=CoTfDhmgPKzS+bXsG8Mk8XBCu6wU3Legb95A963oMfDBLPONc2xYY7dL7y1K7fXqdZNi3Q3yvR+p0DmsgWG/BL1Rqo6ho4eZoEcLuvK81CbJ5vO705Q1cGycteckjR9KNjzkK9rL99LsC6iaUCJ3giYA+P4RAH/mM/bQyr9ho3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777985746; c=relaxed/simple;
-	bh=UnN0jOPebvT4ULqsOFlg4D3U21PYxFyl5bPxVCb+01s=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ssIWZH8K1npVHkbAuOW7r2pC7IFDEVIrYnNk3mJem9tcq/djV3cDdq81y9t82b6UKaF/GJfJnZgZC3VvXewL/xJBn/3BAxWzXMZEv2nlUR4TznMie+xI2M4/DZcw5ICwjToiHnPKP59RJ1zGYEreTKpndSTnptdWv/fwjpDBGzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRlsSHll; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777987206; c=relaxed/simple;
+	bh=ibbhpUEspwDnILnKp6x/633TsOLMgM9F3dwGA03ePeQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PeTvkCZQHuZbdzCqe2mkG+AR5sSGCLkkBOJiUv7qQ+b6hWMrg5QZ4eB/UOk0TBwAx55Giqwxo+8POadeQgXbWE3y5ppX339/pMQt68Pfv+Kl3HGrOrQiHzOaOjDhHdyI6N5w/fuv3VCUvIUxDxL+1xiW8lcbgnvrp1h5PV/IkfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dAOeJmvh; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRlsSHll"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27790C2BCB9
-	for <chrome-platform@lists.linux.dev>; Tue,  5 May 2026 12:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777985746;
-	bh=UnN0jOPebvT4ULqsOFlg4D3U21PYxFyl5bPxVCb+01s=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=IRlsSHllZD8/BQuRnRn6ONlKN4qlDzwn3ekAO14LWzEJKCcUgI2hurnCRL8xzBFNx
-	 suQqXUngXfqglxi1QUCGF1Lwi3ZpTdfesFOXzVp1Et8Q0WKfeu/5ZGctL32HnbrX9q
-	 TpoECMP8Tg7fzz1nmrdfpWWZlhXiNGWIUTzWvIfzymVHbUFar08jvGg4Gl8UUzBLCj
-	 5Zvda88au5BJ/JevMqoA5jwIsPGCbR3d5dsL4dkDaaqeXd4hGZkEJOljjtwC+aLq3T
-	 5/a9CTzBICrHDbhmKUuRBaOoubGld68PchNtFSBKrOvSUt+EDLar9MfjnWnz12+cNI
-	 7Gu09GrBtLbgQ==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a10d130b37so5232951e87.0
-        for <chrome-platform@lists.linux.dev>; Tue, 05 May 2026 05:55:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9cXBikyQIO5uQgqhTIQxgi3pmFXhQH9EJxhZHTPpUWSQMdFp/6CbGZeRCnN1/5id2/TuZmaeG6sFXPyj2FA4o=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFFUISiUMBW+OkfoIQxQyLUU2eJYk55WZgTkhdZPEaXTzr2Rx8
-	IX52X+vkyaUaUHHwkXo69DRiEBeGkSfSKYR678Nm2booVSLoKFJpXRYT/yZb9yh/yynqwaA8jXH
-	sYLDSspEhn0dNY2yHUaZTcLFDzxzRpFIp/GB66KXlJQ==
-X-Received: by 2002:a05:6512:2396:b0:5a8:6def:7e38 with SMTP id
- 2adb3069b0e04-5a87e8a74afmr1340645e87.15.1777985744792; Tue, 05 May 2026
- 05:55:44 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 May 2026 05:55:40 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 May 2026 05:55:40 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260427135841.96266-2-tzungbi@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dAOeJmvh"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12dbd0f7ecaso11564027c88.0
+        for <chrome-platform@lists.linux.dev>; Tue, 05 May 2026 06:20:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777987204; x=1778592004; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/hZDbpmJBO/sT/pu/TH8yzpFbPIu2coGqQ48qccMAdc=;
+        b=dAOeJmvhdhzpUyZwOBae+S1Ou5mFR+5g46FWQNCVN+s0X45mCxkX/T+AwrIDuWJMyt
+         qLrlgwb29fhSHzqLbbXLrDPGFH35jb8fwajGLHy/FuMmx1/gYZ27/X0fUuy53VrqopTl
+         UYVaTkctQORc5rr/KM0PGlD/ghMTHI+pomTw6ijv/rvPut79PWpd5v2+EGZYZTYsvqS9
+         47IUG/bqEYBrHrBnDctn5f1vFAQqB20qGL3dY2J0fmZt5f/S/om1jJ7XueaRT2Pyy+Ko
+         FXP2yhH0pGIgE0gnVJ72UByes7Z8WfdVqMVEB1zWhiie2D5ZOE9COIj+UnkmOyX8deig
+         7/rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777987204; x=1778592004;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/hZDbpmJBO/sT/pu/TH8yzpFbPIu2coGqQ48qccMAdc=;
+        b=DrxfBHBaTOSy9d1Nx5ridYiFnSPOlhloMd4954VtTVD5NSt6lawWw1goJcX8GCbh6H
+         5Czp2QnSvyN03fe3mJmvaDaUCtzNbYgT9nqMDPIRg1t5YVYP4DAnifJRcHiXWpdSxWO7
+         XJ1x5L8FgTHzLYaJK/DoF4on5dNFYf349PNTMT+W9OAf84QP77LS1lFo/uRfR5Jf0upM
+         m1RdZdcef3s9rnhkj6yWNTkioUAoEvXs1SLFU8l7YbdwqVoTch+BqNlnvYY04sXThlWm
+         t9CoEJSPXUTd7vgBQ3JhtmE8gKH4xcMbUBAhRsCqYd6fBPCvEKvO5m+svi+GWZ3t8zL8
+         sg/Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8uYj/7xsJZPneeLDquVDrdM1obpbFJrT99CiIiWMLfAX3K9bQZO4Ny71SuBEQHX5kYiKqazQNY/YzShngdhyc=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaL1xuIPoE+875s09tm9gB7NTv0X3Tr6+pYRQCagoW2TANKi3c
+	7VWFiLoaiFeTUKKeu6h4oiyD7SUlleKKEJTW4ePk0kour+lRtG3kLu1M
+X-Gm-Gg: AeBDievxeNBu5Dm3txf03D5gLHquLCK2SsFyG6oI+qk0yve2CgyxBQJ/pZNqHaCSPXK
+	j2QK4xdOQb6zvbIyDsCBrXFNCdEtea0rZCBYY40+AeChsud+RrwGJohT+WEEgmxGk8q26SQF6xv
+	xE2CJ1NWvID74qqzl61KatwT2BncVIYTw7dsfv/FkddTNy1MaqiRV8zJE+93fq9M2eCo4nAgf8q
+	eYrav6H6+u5ZcrjDJxu2StjOUuHW8+tCaW6i6ASN+Kc6Uhpw5eTetUrMzZZhPlg+ucQoJQ2kr3U
+	kGlRVIXYRnJw92JnUlH3FLI9kNMr2mTBzascGb9/7PE1bzvMRTYIf/8fF2fvzMqf+fHRTzq/ICP
+	wdljgm7QOTKwf7Kf7vaz2S80N7PfNrWW/WBtVp40B+cLcNG0IwhGvQobjxn9Azd8xJ92qiANTPr
+	OiTHTnL0ctKQg+h1UDmmqsO2a1+rGeVrVoJ1VUV/ixYRiDMmA=
+X-Received: by 2002:a05:7022:791:b0:12d:de3f:d845 with SMTP id a92af1059eb24-12dfd878a73mr6644320c88.40.1777987203611;
+        Tue, 05 May 2026 06:20:03 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df843f04esm17670938c88.13.2026.05.05.06.20.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 06:20:03 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 5 May 2026 06:20:02 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Henrik Rydberg <rydberg@bitmath.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>, Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] hwmon: Move MODULE_DEVICE_TABLE next to the table itself
+Message-ID: <f0aca43d-6fa2-4e24-aee1-17943fab6b62@roeck-us.net>
+References: <20260505102923.189289-2-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260427135841.96266-1-tzungbi@kernel.org> <20260427135841.96266-2-tzungbi@kernel.org>
-Date: Tue, 5 May 2026 05:55:40 -0700
-X-Gmail-Original-Message-ID: <CAMRc=McG41iHWfY+3U4Xp6YNFCwbt_zAUE-2417LrQVrTfdWjA@mail.gmail.com>
-X-Gm-Features: AVHnY4JHhyoRRLQHDzVdkZddcUWNNiJ_tsC-WyKv8TzUklOV0hBAVmtSZU68jtM
-Message-ID: <CAMRc=McG41iHWfY+3U4Xp6YNFCwbt_zAUE-2417LrQVrTfdWjA@mail.gmail.com>
-Subject: Re: [PATCH v9 1/9] revocable: Revocable resource management
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
-	Dan Williams <dan.j.williams@intel.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260505102923.189289-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-On Mon, 27 Apr 2026 15:58:33 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> The "revocable" mechanism is a synchronization primitive designed to
-> manage safe access to resources that can be asynchronously removed or
-> invalidated.  Its primary purpose is to prevent Use-After-Free (UAF)
-> errors when interacting with resources whose lifetimes are not
-> guaranteed to outlast their consumers.
->
-> This is particularly useful in systems where resources can disappear
-> unexpectedly, such as those provided by hot-pluggable devices like
-> USB.  When a consumer holds a reference to such a resource, the
-> underlying device might be removed, causing the resource's memory to
-> be freed.  Subsequent access attempts by the consumer would then lead
-> to UAF errors.
->
-> Revocable addresses this by providing a form of "weak reference" and
-> a controlled access method.  It allows a resource consumer to safely
-> attempt to access the resource.  The mechanism guarantees that any
-> access granted is valid for the duration of its use.  If the resource
-> has already been revoked (i.e., freed), the access attempt will fail
-> safely, typically by returning NULL, instead of causing a crash.
->
-> It uses a provider/consumer model built on Sleepable RCU (SRCU) to
-> guarantee safe memory access:
->
-> - A resource provider, such as a driver for a hot-pluggable device,
->   allocates a struct revocable and initializes it with a pointer
->   to the resource.
->
-> - A resource consumer that wants to access the resource allocates a
->   struct revocable_consumer containing a reference to the provider.
->
-> - To access the resource, the consumer uses revocable_try_access().
->   This function enters an SRCU read-side critical section and returns
->   the pointer to the resource.  If the provider has already freed the
->   resource, it returns NULL.  After use, the consumer calls
->   revocable_withdraw_access() to exit the SRCU critical section.  There
->   are some macro level helpers for doing that.
->
->   The API provides the following contract:
->
->   - revocable_try_access() can be safely called from both process and
->     atomic contexts.
->   - It is permitted to sleep within the critical section established
->     between revocable_try_access() and revocable_withdraw_access().
->   - revocable_try_access() and the matching revocable_withdraw_access()
->     must occur in the same context.  For example, it is illegal to
->     invoke revocable_withdraw_access() in an irq handler if the matching
->     revocable_try_access() was invoked in process context.
->
-> - When the provider needs to remove the resource, it calls
->   revocable_revoke().  This function sets the internal resource
->   pointer to NULL and then calls synchronize_srcu() to wait for all
->   current readers to finish before the resource can be completely torn
->   down.
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
+On Tue, May 05, 2026 at 12:29:22PM +0200, Krzysztof Kozlowski wrote:
+> By convention MODULE_DEVICE_TABLE() immediately follows the ID table it
+> exports, because this is easier to read and verify.  It also makes more
+> sense since #ifdef for ACPI or OF could hide both of them.
+> 
+> Most of the privers already have this correctly placed, so adjust
+> the missing ones.  No functional impact.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-...
+Applied.
 
-> diff --git a/include/linux/revocable.h b/include/linux/revocable.h
-> new file mode 100644
-> index 000000000000..2bcf23f01ace
-> --- /dev/null
-> +++ b/include/linux/revocable.h
-> @@ -0,0 +1,214 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright 2026 Google LLC
-> + */
-> +
-> +#ifndef __LINUX_REVOCABLE_H
-> +#define __LINUX_REVOCABLE_H
-> +
-> +#include <linux/cleanup.h>
-> +#include <linux/compiler.h>
-
-I don't think you need this header.
-
-> +#include <linux/kref.h>
-> +#include <linux/srcu.h>
-> +
-> +/**
-> + * enum revocable_alloc_type - The allocation method for a revocable provider.
-> + * @REVOCABLE_DYNAMIC: The struct revocable was dynamically allocated using
-> + *                     revocable_alloc() and its lifetime is managed by
-> + *                     reference counting.
-> + * @REVOCABLE_EMBEDDED: The struct revocable is embedded within another
-> + *                      structure.  Its lifetime is tied to the parent
-> + *                      structure and is not reference counted.
-> + */
-> +enum revocable_alloc_type {
-> +	REVOCABLE_DYNAMIC,
-> +	REVOCABLE_EMBEDDED,
-> +};
-
-Maybe we don't need this public enum at all, we could just use a different
-release callback for kref_put() depending on how the revocable was allocated?
-
-The enum is not used elsewhere so it doesn't make sense to document it as if it
-was part of the revocable API.
-
-> +
-> +/**
-> + * struct revocable - A handle for resource provider.
-> + * @srcu: The SRCU to protect the resource.
-> + * @res:  The pointer of resource.  It can point to anything.
-> + * @kref: The refcount for this handle.
-> + * @alloc_type: The memory allocation type.
-> + */
-> +struct revocable {
-> +	struct srcu_struct srcu;
-> +	void __rcu *res;
-> +	struct kref kref;
-> +	enum revocable_alloc_type alloc_type;
-
-This could be replaced with the pointer to the release callback, assigned
-by revocable_alloc()/revocable_init() respectively.
-
-> +};
-> +
-> +/**
-> + * struct revocable_consumer - A handle for resource consumer.
-> + * @rev: The pointer of resource provider.
-> + * @idx: The index for the SRCU critical section.
-
-Should any of these be accessed directly by the user? Maybe document them
-as __private?
-
-> + */
-> +struct revocable_consumer {
-> +	struct revocable *rev;
-> +	int idx;
-> +};
-
-I'd rename it to struct revocable_handle which indicates better what it is:
-it's a handle *owned* by the consumer.
-
-> +
-> +void revocable_get(struct revocable *rev);
-> +void revocable_put(struct revocable *rev);
-> +
-> +struct revocable *revocable_alloc(void *res);
-> +void revocable_revoke(struct revocable *rev);
-> +int revocable_embed_init(struct revocable *rev, void *res);
-> +void revocable_embed_destroy(struct revocable *rev);
-> +
-> +void revocable_init(struct revocable *rev, struct revocable_consumer *rc);
-> +void revocable_deinit(struct revocable_consumer *rc);
-
-If we hid the release logic, we could drop revocable_embed_destroy() and use
-the same refcounting functions for both variants. I'd suggest the following:
-
-For refcounting (same for both variants):
-
-	void revocable_get(struct revocable *rev);
-	void revocable_put(struct revocable *rev);
-
-For dynamic variant:
-
-	struct revocable *revocable_alloc(void *res);
-
-For embedded:
-
-	int revocable_init(struct revocable *rev, void *res);
-
-For handles:
-
-	void revocable_handle_init(struct revocable *rev, struct
-revocable_consumer *rc);
-	void revocable_handle_deinit(struct revocable_consumer *rc);
-
-Does it make sense?
-
-Other (try_access_*, etc.) helpers look good. And the API in general looks
-pretty good to me too.
-
-Bart
+Thanks,
+Guenter

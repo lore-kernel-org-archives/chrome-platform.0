@@ -1,43 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2638014B08A;
-	Wed,  6 May 2026 02:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E9D72627;
+	Wed,  6 May 2026 02:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778034498; cv=none; b=qGGbdzIYtDfp4uCKLeTZzTNGrgPImy5akHkNwk38pfY7rHAEbH4APJXnTv3KdF7u1WCdJLAuLoSjvmXTu2arD6WO3aVdVhabl4NdOpSEDCjwuYhw16ShMKOR3bBVwLBLX8R79xsPGF1OGZ//vuoE2qhz+ra1LIxV/8d/BeMkP3Y=
+	t=1778035804; cv=none; b=AxLfiGiVK1WOpL4nd0HtJ9Vk+AQqDF68tZHQXNJWPka0GMZ0BP8u8mwc/2y9aCDlYxvRi5D4tp/anVutu5aZ2Q2dy1VGqGBKLMQXPpTunq1V9+wAdXw6aDj+Kd5FEXIOBfdvcF2hrJCpggt95PgG8c0e4hLV6RahKmVl0//oJ2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778034498; c=relaxed/simple;
-	bh=DZ9nkG1RwN5rYhQ0DxOeLA1xUg02CRqZFiVnaR3tmZo=;
+	s=arc-20240116; t=1778035804; c=relaxed/simple;
+	bh=9Zp6weps/5i0bic4zLcKMfZvfoo875xrUuifN3/il+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nF9Oim0EUATv0eoFqxPVKsTou+mAm0ogLoW/Yh6Ehj0p43bfC4KXCkrU6yzUsvJSVg7WmyeuI+Jm4uCQouXgChGFqnmvLUPX6jlVJfsuD0FimA/8cF4tBjb3nJQU6LNaH9FEhZA5XgwxcmzriyeKx0gtbLgA5wqmVPFxUTyZjl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5yeoWWv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ipqloIpled+jSGMTQOoYjWeb4/UAhExXr9xTXfBMQ0COvBM8gDq2b6sUe3ud/FAnp1qW06nt4VQqCLpcNCS5MqmIFCjds02j1kiXMjGBpWFYYkSRAhhDK8ZrfXBcFJHiHr1l7IKhVSSlKjNBDj0fdDvryG7+XGk9pZ1npk/JFlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BFSVwFmu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5yeoWWv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D387C2BCB4;
-	Wed,  6 May 2026 02:28:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BFSVwFmu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7820C2BCB4;
+	Wed,  6 May 2026 02:50:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778034497;
-	bh=DZ9nkG1RwN5rYhQ0DxOeLA1xUg02CRqZFiVnaR3tmZo=;
+	s=k20201202; t=1778035804;
+	bh=9Zp6weps/5i0bic4zLcKMfZvfoo875xrUuifN3/il+U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A5yeoWWvgm2QXqprRhxmapmPQlqChtyE7ds1FBXUdAl4vCzDu/elWS2Am9sD6LWZ6
-	 0wjlAQy1DuNYE5nIyCJY3ZfF1CUdSODcmnJMK5HnjYmW9vMjLeyZ3Eu/6pyTpH/Iug
-	 FlY1gLXqUCOWmjSasH9Dy527UYxRi1RzIR4Up40Bsm8dMbuSlP8GUzX+9AmJpwSaZm
-	 khq+crgXr1FJ7nNggNVge32oriYuLX/iKY6H+wXRFf0oiMmfAk46b0HKUl0JjVqIAc
-	 /pBWvGexl6d/eStUua6bwmj0n/jDKCGM7X0UX7VNohDqxG5aMjAUosmeE3SZXJ8S0O
-	 JzSXyYsR6xcXQ==
-Date: Wed, 6 May 2026 02:28:14 +0000
+	b=BFSVwFmuFDrQZSHs0jRdNiiat100r3VhPb+RdSmbPZaeyzbXt3kjIc5204csi3fmv
+	 8DmvceFufkt0gK0cBt2vTmWAducwVcTkbB0cfPVXqDS3jvgw2kDv6M1M9OaVAdNz6V
+	 YsIti6u8JHQxWeOJBLabNU67GtpsDY0kIoLnxiQyXT68PfBn1uQcKjV32oTtDcrW/N
+	 VvWyRoPAhsu3Y5iRq9BcNdXMtAUYnj8rN4QeXp1ONTbwV/JI9R3RXLTW1xaKut/4G/
+	 OggD4wSBMLUGEFNFp9NrZiGdyg6oWSKpdQ3IOeKA1s+Aa9S4+XDRJoSLz2MqpsBMLN
+	 4fIb61GXo4wZA==
+Date: Wed, 6 May 2026 02:49:59 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Benson Leung <bleung@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Andrei Kuchynski <akuchynski@chromium.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Init mutex in
- Thunderbolt registration
-Message-ID: <afqnPhTMJkcWFRdL@google.com>
-References: <20260505053403.3335740-1-tzungbi@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	William Zhang <william.zhang@broadcom.com>,
+	Anand Gore <anand.gore@broadcom.com>,
+	Kursad Oney <kursad.oney@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] leds: Move MODULE_DEVICE_TABLE next to the table itself
+Message-ID: <afqsV2bejC5Mr7_o@google.com>
+References: <20260505102846.186219-2-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -46,23 +52,22 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260505053403.3335740-1-tzungbi@kernel.org>
+In-Reply-To: <20260505102846.186219-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-On Tue, May 05, 2026 at 05:34:03AM +0000, Tzung-Bi Shih wrote:
-> cros_typec_register_thunderbolt() missed initializing the `adata->lock`
-> mutex.  This leads to a NULL dereference when the mutex is later
-> acquired (e.g. in cros_typec_altmode_work()).
+On Tue, May 05, 2026 at 12:28:45PM +0200, Krzysztof Kozlowski wrote:
+> By convention MODULE_DEVICE_TABLE() immediately follows the ID table it
+> exports, because this is easier to read and verify.  It also makes more
+> sense since #ifdef for ACPI or OF could hide both of them.
 > 
-> Initialize the mutex in cros_typec_register_thunderbolt() to fix the
-> issue.
+> Most of the privers already have this correctly placed, so adjust
+              ^ d
+
+> the missing ones.  No functional impact.
 > 
-> [...]
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
+>  drivers/leds/blink/leds-bcm63138.c | 2 +-
+>  drivers/leds/leds-cros_ec.c        | 2 +-
 
-Applied to
-
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-7.1
-
-[1/1] platform/chrome: cros_ec_typec: Init mutex in Thunderbolt registration
-      commit: 525cb7ba6661074c1c5cc3772bccc6afab6791ef
-
-Thanks!
+For leds-cros_ec.c,
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

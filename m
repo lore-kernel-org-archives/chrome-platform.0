@@ -1,49 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E9D72627;
-	Wed,  6 May 2026 02:50:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067E3253B73;
+	Wed,  6 May 2026 02:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778035804; cv=none; b=AxLfiGiVK1WOpL4nd0HtJ9Vk+AQqDF68tZHQXNJWPka0GMZ0BP8u8mwc/2y9aCDlYxvRi5D4tp/anVutu5aZ2Q2dy1VGqGBKLMQXPpTunq1V9+wAdXw6aDj+Kd5FEXIOBfdvcF2hrJCpggt95PgG8c0e4hLV6RahKmVl0//oJ2I=
+	t=1778035823; cv=none; b=jlSt1bp1G8PcO2DZSeByiCRpJskFrquTCi6TYphuWv9ylSslFcb/WdUixloC4hMg8lgdcspZVTy0THDaAljd3xyznVN9bYr6XQD61rPIFxZjUPaTjo646ClNTKL7ppKyY+1aeUDwIUN06hiVzsmBov/FGOaPrMo/XoOWPmlZ+9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778035804; c=relaxed/simple;
-	bh=9Zp6weps/5i0bic4zLcKMfZvfoo875xrUuifN3/il+U=;
+	s=arc-20240116; t=1778035823; c=relaxed/simple;
+	bh=kVEEx9O0ENsEOII1fvf3wtaDnOxQI6FjpuFBQC05fYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ipqloIpled+jSGMTQOoYjWeb4/UAhExXr9xTXfBMQ0COvBM8gDq2b6sUe3ud/FAnp1qW06nt4VQqCLpcNCS5MqmIFCjds02j1kiXMjGBpWFYYkSRAhhDK8ZrfXBcFJHiHr1l7IKhVSSlKjNBDj0fdDvryG7+XGk9pZ1npk/JFlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BFSVwFmu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GuM6HkASFFcCy3NnH5Sj6boaFTRgx2DyydIf0VF0hGM5jAu5xnkfHa+4tyh7x4ofzPLkz+UJort37HtEJBQ9TRdEFl/22LE3NAZ/vXJ6I10Lun6TaWEht+5bKuyw2R8P2Epc8b7ds94Tt8HR3Y/4UMVi3sD/Whha/2jolvUCKcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lyd/V2gr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BFSVwFmu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7820C2BCB4;
-	Wed,  6 May 2026 02:50:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lyd/V2gr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90B1DC2BCB4;
+	Wed,  6 May 2026 02:50:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778035804;
-	bh=9Zp6weps/5i0bic4zLcKMfZvfoo875xrUuifN3/il+U=;
+	s=k20201202; t=1778035822;
+	bh=kVEEx9O0ENsEOII1fvf3wtaDnOxQI6FjpuFBQC05fYM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BFSVwFmuFDrQZSHs0jRdNiiat100r3VhPb+RdSmbPZaeyzbXt3kjIc5204csi3fmv
-	 8DmvceFufkt0gK0cBt2vTmWAducwVcTkbB0cfPVXqDS3jvgw2kDv6M1M9OaVAdNz6V
-	 YsIti6u8JHQxWeOJBLabNU67GtpsDY0kIoLnxiQyXT68PfBn1uQcKjV32oTtDcrW/N
-	 VvWyRoPAhsu3Y5iRq9BcNdXMtAUYnj8rN4QeXp1ONTbwV/JI9R3RXLTW1xaKut/4G/
-	 OggD4wSBMLUGEFNFp9NrZiGdyg6oWSKpdQ3IOeKA1s+Aa9S4+XDRJoSLz2MqpsBMLN
-	 4fIb61GXo4wZA==
-Date: Wed, 6 May 2026 02:49:59 +0000
+	b=Lyd/V2grP7v4Hbmy3Lxrf6P819ZJWmaWqtjmxA7RLmsorJhkiShCePL+0OWhFpyOb
+	 Sdv8r5xT7xeT8vQGl/PpXerDUr//QnQJk0hNNo6W6+fhhXcaCLbTgekb8XkoCDsD8l
+	 52SJmeVGk2awbRnGr6iQZqSCDq0hiktYh54VNXvL+c9o42dXZgAXOXWy2QDElzQPmY
+	 2839+qcWnorhPlVIioP3TuqEiLWjzQvovTQc5fErFWqvcjNim0yEpe6CYYusb1jc9P
+	 8rcehbzmSXbELvo9KkXrpGX1urP2+RMQ8GWlwFdsRsTJr8JcuafSFOvPpOZfOxuq3q
+	 GfGGBIrv9tDPg==
+Date: Wed, 6 May 2026 02:50:19 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	William Zhang <william.zhang@broadcom.com>,
-	Anand Gore <anand.gore@broadcom.com>,
-	Kursad Oney <kursad.oney@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
 	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] leds: Move MODULE_DEVICE_TABLE next to the table itself
-Message-ID: <afqsV2bejC5Mr7_o@google.com>
-References: <20260505102846.186219-2-krzysztof.kozlowski@oss.qualcomm.com>
+	Guenter Roeck <groeck@chromium.org>,
+	Sebastian Reichel <sre@kernel.org>, chrome-platform@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] power: supply: cros_charge-control: Move
+ MODULE_DEVICE_TABLE next to the table itself
+Message-ID: <afqsaxBA6AzcV_bK@google.com>
+References: <20260505102752.182089-2-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -52,9 +46,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260505102846.186219-2-krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260505102752.182089-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-On Tue, May 05, 2026 at 12:28:45PM +0200, Krzysztof Kozlowski wrote:
+On Tue, May 05, 2026 at 12:27:52PM +0200, Krzysztof Kozlowski wrote:
 > By convention MODULE_DEVICE_TABLE() immediately follows the ID table it
 > exports, because this is easier to read and verify.  It also makes more
 > sense since #ifdef for ACPI or OF could hide both of them.
@@ -65,9 +59,5 @@ On Tue, May 05, 2026 at 12:28:45PM +0200, Krzysztof Kozlowski wrote:
 > the missing ones.  No functional impact.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> ---
->  drivers/leds/blink/leds-bcm63138.c | 2 +-
->  drivers/leds/leds-cros_ec.c        | 2 +-
 
-For leds-cros_ec.c,
 Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

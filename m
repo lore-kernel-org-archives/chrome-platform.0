@@ -1,66 +1,96 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908182356D9
-	for <chrome-platform@lists.linux.dev>; Wed,  6 May 2026 06:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD9F40DFB4;
+	Thu,  7 May 2026 02:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778048402; cv=none; b=Mun4RRlJtVM6HkgA3cBiZNGiZD40vbfz3HeGdUJOdr2eKwRZzOBN8PS90dcHWmV1LyNq35VsGhnYuGVO6dywLXxWSnP1Lqogelz6dZ5ni6cnwHVfQTKS03XQ3vV9KLX8TF4rCbfmSpLesXhIdZYEXzf2Hnf6LalLi0CqXsuEKO0=
+	t=1778122084; cv=none; b=V5zUYSl+xRLvQ5xxiQ9Af2WX5UVh1AGGhmKK2cHcQCTpHoeP/8nD2Q6MoNS4TNC6RwqKJYMJ8b7lIkyMsUCWxAuatBjOAVSNLNbg/vd0U/iy8egBZekmrlUEv+/I2eOVbn1Am5n/fttOLQbJbGdj7thxIMa71xkBrd9pyUVFwcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778048402; c=relaxed/simple;
-	bh=OAR1MXoDX3oDzJIB2viWM1MLByiBueRmSn1HrDL8EYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uN5nvH/h4SFH0+7sfmGHkLN9hsOgQUJfY3v17VOhvuYms7/XKEOSfkl6dNhU9gnJc65Y0EZf8X3wZhtSZfu8MPH4vFfLgH9D0uJ37oJZGCqf5O+lXegMTV9PLNl4qnO1urFsRBIeg8paaupvvXxOTH9uUJYlmdQVJNFQxIBcWks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Y0Js75dI; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1778122084; c=relaxed/simple;
+	bh=8EPAW6ErHmoOr8qCZOVJ6qo9djsdclG8ON2NvBldRtw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AiI/e6PWe7sB5SKPDOAewFPrnHWUDCXUdFumkwXVthTgpELTHtzD+DAhKwy8AqVxUYyyMrk166STee8fwOMgUbjWEfWqOd404IaOPiT6ziW62OByLrk9Rziue+Bj9kNwH76aYEToZN+Ot7pzK4iRZdfVal1TK1SgZZy/MPJjcK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u/wjV19Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Y0Js75dI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1778048397;
-	bh=OAR1MXoDX3oDzJIB2viWM1MLByiBueRmSn1HrDL8EYA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y0Js75dI0oJ0pebRI207JBKuCTwaawnfrauLc9KJMotV55BmV+TtegqPZbTdAYBC6
-	 VmbLbqBUx//PeizdnMllWAD9b8zzGsQfCMRJZ1cbbs5QTrdJqEmS4Cx5rtQ8r+xCKy
-	 0UQ2gC/oNtH4B+CP23+QzFlpLFnTnazehKzx1Jz8=
-Date: Wed, 6 May 2026 08:19:57 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Henrik Rydberg <rydberg@bitmath.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Benson Leung <bleung@chromium.org>, 
-	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>, linux-hwmon@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] hwmon: Move MODULE_DEVICE_TABLE next to the table itself
-Message-ID: <12d0ce1b-9d64-4cf6-9588-1f58d162bde5@t-8ch.de>
-References: <20260505102923.189289-2-krzysztof.kozlowski@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u/wjV19Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 560C8C2BCB0;
+	Thu,  7 May 2026 02:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778122084;
+	bh=8EPAW6ErHmoOr8qCZOVJ6qo9djsdclG8ON2NvBldRtw=;
+	h=Date:From:To:Cc:Subject:From;
+	b=u/wjV19ZArMalW3Vrds1bRLUpGxyGhja9w0+K9VYvsel/IJmTFHn5oVVLSZg8DXc9
+	 OJx3vkAwPORGGH6p18eKJ144JXZyaOd2KDeKDF3Up1O2wihO6HYF0hd2CLecGEosxn
+	 VRumr2XKwuo4uo8h/bRAzkP9Wg+mF+HRf6Ad1ZD4bzKWIY0tOUwSrgqdvJSCKwEWk/
+	 6uErWxMO4eZaycoM0YJclB9Uqjfuu5IDBreKsn1vJxVHCur9quyaCguJ/2Y0Hnj1wJ
+	 wWCjSqpKjRCx/2n3sAjMtsEjrihT8y/44c7cKy/V6agCn3XnVWQLsnxkKb0T2c7tkC
+	 1z3YfmFpiO91w==
+Date: Thu, 7 May 2026 02:48:01 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: torvalds@linux-foundation.org
+Cc: bleung@chromium.org, chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] chrome-platform fixes for v7.1-rc3
+Message-ID: <afv9YX5moYvK6w63@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/r24mmEiP0JXfmBX"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260505102923.189289-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-On 2026-05-05 12:29:22+0200, Krzysztof Kozlowski wrote:
-> By convention MODULE_DEVICE_TABLE() immediately follows the ID table it
-> exports, because this is easier to read and verify.  It also makes more
-> sense since #ifdef for ACPI or OF could hide both of them.
-> 
-> Most of the privers already have this correctly placed, so adjust
-> the missing ones.  No functional impact.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Acked-by: Thomas Weißschuh <linux@weissschuh.net> # cros_ec_hwmon.c
+--/r24mmEiP0JXfmBX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> ---
->  drivers/hwmon/applesmc.c            | 2 +-
->  drivers/hwmon/cros_ec_hwmon.c       | 2 +-
->  drivers/hwmon/intel-m10-bmc-hwmon.c | 2 +-
->  drivers/hwmon/nsa320-hwmon.c        | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+Hi Linus,
 
-(...)
+Please pull chrome-platform fixes for Linux v7.1-rc3.
+
+Thanks,
+Tzung-Bi
+------
+
+The following changes since commit 168e4b208ca8c2e04de20cc6cb7e2fb035dc1ec8:
+
+  platform/chrome: cros_usbpd_logger: Simplify with devm (2026-03-20 02:57:04 +0000)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-fixes-v7.1-rc3
+
+for you to fetch changes up to 525cb7ba6661074c1c5cc3772bccc6afab6791ef:
+
+  platform/chrome: cros_ec_typec: Init mutex in Thunderbolt registration (2026-05-06 02:14:33 +0000)
+
+----------------------------------------------------------------
+chrome-platform: Fixes for v7.1-rc3
+
+* Fixes
+
+  - Fix a NULL dereference in cros_ec_typec.
+
+----------------------------------------------------------------
+Tzung-Bi Shih (1):
+      platform/chrome: cros_ec_typec: Init mutex in Thunderbolt registration
+
+ drivers/platform/chrome/cros_typec_altmode.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+--/r24mmEiP0JXfmBX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCafv9XgAKCRArxTEGBto8
+9I4eAQCrhVCudHF9IRZ09krFTabqbqXpURD+fsMLmbfQF0zuXwD/RvLXIqwGUxqw
+CsGcUI563Y7U9T6ncWmjSS3bYEwYuws=
+=UMuV
+-----END PGP SIGNATURE-----
+
+--/r24mmEiP0JXfmBX--

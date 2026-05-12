@@ -1,73 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FC447D956;
-	Tue, 12 May 2026 08:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726BD481664;
+	Tue, 12 May 2026 08:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778573623; cv=none; b=RDFD6fQQNpBiV0XvvqcPDIYk33qaoRdLCOJ5p3RRu2rTu+Szn3Qk3nQyH3OZvSXB4X2jzysGQ0JYpBhw1JJOaMKM16CXEFbcujjKeC7u7sNGVgd9jAOvOzUqLGItREk02JjJ9Asy0Nd27lTFB002foKeQs1WU/XwZK1bMAyTIEM=
+	t=1778574985; cv=none; b=N4WZ2lOFeTOczGNzUsF7NwPOt/rY4ZJu0uPE3knff/gWW/pafzO7KGzRXjvNT8j06jd82A0XhCCzp6AfwwEaw5Q6Wh695Q7krET48p8sex4+dlvl7AcIEmzk0ekFQUXs4zJspF9ihfeLSUINpobkjXXQReExX+l5XWfTiBEA7qE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778573623; c=relaxed/simple;
-	bh=LhqCYVgT3yV0S7qR971FbwcbD5l8XuZu5owCnX0sS5k=;
+	s=arc-20240116; t=1778574985; c=relaxed/simple;
+	bh=1faRd0h0qROCxzA1jK/FqDN9ymT0agjcJZ/rWTV6ajc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Att2MOE4jXAkd1qnggX9ebEEVWDS2NlkvrTyCFEbWvuY77QqVl58uIEN9qjXLS/C7SeUsVrJ/hM2eVRxJqjnpwGyqKGr3vUO3akRAuggngbwAIXoyADs/OvZzbtdxuWYSwk5CvnjNLhUsKfDmiE1VhvQfjQSIl/ZN2K3T1/ZrnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cf5rQQz2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OB+196okgIu3SOy2UYVhMLCRmToSZKxGvbri7q6ao6fLhHgtLM2rXY6Zb75IvyPSACW8LIfSUYmaJ52PzpUg4HGYWN2vkhiNvWPkRYRxMD4rRj4UMYLRY3dbkqy3/MZ1F5YXklXaf6vPjbd6yOB/XGR4DQ1W+vHn85DDwgFVlPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=szMVbBJR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cf5rQQz2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A8EC2BCB0;
-	Tue, 12 May 2026 08:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778573622;
-	bh=LhqCYVgT3yV0S7qR971FbwcbD5l8XuZu5owCnX0sS5k=;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="szMVbBJR"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3161CC59;
+	Tue, 12 May 2026 10:36:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1778574974;
+	bh=1faRd0h0qROCxzA1jK/FqDN9ymT0agjcJZ/rWTV6ajc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cf5rQQz2qHO9WgzbP2R69BVDbXWkoDO4OKaSIeTSh5mYkfJtVp0JIWDUPJZrzbSMt
-	 bmmE8KmQuQa3FFIOnQjFB/2vT55Gbai2BGUG3xyYfZDSirRlyEWNhluxTOla4223jw
-	 ITzDZuV9ESvKNSXEG2aYU2OuLdBbKebsPDxOlObGLPO87nFGVWy/YNecRi3mBZZ9lI
-	 n+TxIu7CfZyjvf20lth2RjmPxSVQM9HJURcdEVaKQ5GT+HEdXN75N+xzJZVtXCxZT4
-	 OtRpDa+kfdU48cIGYfBWNLRGImUwi9MKw9EbIt3D+A2gVGZcthvAV08CV4kMWEeVV2
-	 DddQIsiD3/7Iw==
-Date: Tue, 12 May 2026 08:13:37 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
+	b=szMVbBJRuobz+jlQZ1NsZPIOXNtCb4kd2JLIBISlP91bRkbPqbc2hMWE/zjF6g5+m
+	 E/hMSJzWUmJTUWb3QMpKz54jnt167mXq3yrb+VHxks8EB9QJpfWBeJPr5OjY/xRqI/
+	 aIAUSJiSeR9gY4tTt4zSWTNqU4ngCN/6dSviaetc=
+Date: Tue, 12 May 2026 11:36:20 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
 	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Johan Hovold <johan@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Walleij <linusw@kernel.org>
-Subject: Re: [PATCH v10 7/9] gpio: Remove unused `chip` and `srcu` in struct
- gpio_device
-Message-ID: <agLhMUtdCPqLb736@google.com>
+	Johan Hovold <johan@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v10 8/9] platform/chrome: Protect cros_ec_device
+ lifecycle with revocable
+Message-ID: <20260512083620.GA4128@killaraus.ideasonboard.com>
 References: <20260508105448.31799-1-tzungbi@kernel.org>
- <20260508105448.31799-8-tzungbi@kernel.org>
- <CAMRc=MfZL2ZEmNEdVd6NeZJDjTzh_MbDy2kU+AYi-CmgRnWZmw@mail.gmail.com>
+ <20260508105448.31799-9-tzungbi@kernel.org>
+ <20260508115309.GA9254@nvidia.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMRc=MfZL2ZEmNEdVd6NeZJDjTzh_MbDy2kU+AYi-CmgRnWZmw@mail.gmail.com>
+In-Reply-To: <20260508115309.GA9254@nvidia.com>
 
-On Mon, May 11, 2026 at 06:18:21AM -0700, Bartosz Golaszewski wrote:
-> On Fri, 8 May 2026 12:54:46 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> > `chip` and `srcu` in struct gpio_device are unused as their usages are
-> > replaced to use revocable.  Remove them.
-> >
-> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > ---
+On Fri, May 08, 2026 at 08:53:09AM -0300, Jason Gunthorpe wrote:
+> On Fri, May 08, 2026 at 06:54:47PM +0800, Tzung-Bi Shih wrote:
+> >  struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
+> > @@ -47,6 +49,15 @@ struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
+> >  	if (!ec_dev)
+> >  		return NULL;
+> >  
+> > +	ec_dev->its_rev = revocable_alloc(ec_dev);
+> > +	if (!ec_dev->its_rev)
+> > +		return NULL;
+> > +	/*
+> > +	 * Drop the extra reference for the caller as the caller is the
+> > +	 * resource provider.
+> > +	 */
+> > +	revocable_put(ec_dev->its_rev);
+> > +
+> >  	ec_dev->din_size = sizeof(struct ec_host_response) +
+> >  			   sizeof(struct ec_response_get_protocol_info) +
+> >  			   EC_MAX_RESPONSE_OVERHEAD;
 > 
-> I'm thinking that all the GPIO patches could actually be squashed into one. Is
-> there any technical reason for the split or is it just for easier review?
+> FWIW I am still very much against seeing any revokable concept used
+> *between two drivers*. That will turn the kernel's lifetime model into
+> spaghetti code.
 
-Correct, they are separated only for easier review.  Would you prefer I
-squash the 5 patches into a single patch?
+I agree, I really think it will become a huge mess that we will
+massively regret.
+
+/me feels like Cassandra
+
+> Your other series where you only have to change
+> drivers/platform/chrome/cros_ec_chardev.c just confirms how wrong this
+> approach is.
+> 
+> Given you say this is such a bug I think you really should be sending
+> a series that is patches 5 through 7 from the other series and a
+> simple rwsem instead of misc_deregister_sync() to deal with this bug
+> ASAP. No need to complicate a simple bug fix in a driver with all
+> these core changes.
+> 
+> Once the bug is fixed you can continue to try to propose more general
+> solutions.
+
+-- 
+Regards,
+
+Laurent Pinchart

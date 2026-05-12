@@ -1,106 +1,88 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726BD481664;
-	Tue, 12 May 2026 08:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F72383995
+	for <chrome-platform@lists.linux.dev>; Tue, 12 May 2026 10:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778574985; cv=none; b=N4WZ2lOFeTOczGNzUsF7NwPOt/rY4ZJu0uPE3knff/gWW/pafzO7KGzRXjvNT8j06jd82A0XhCCzp6AfwwEaw5Q6Wh695Q7krET48p8sex4+dlvl7AcIEmzk0ekFQUXs4zJspF9ihfeLSUINpobkjXXQReExX+l5XWfTiBEA7qE=
+	t=1778582481; cv=none; b=OTRttsqqoauyZHb/bv1FXY+/M6nAdzjkszX3a+b8d4cBfa45bTT5cm+0ue6LPn0xxZl3cvnNcfko1/DOYIRSgZXosWgYc7ByWJfxIwBmmMD7t1lslvI1xolEunvIg8DElboZ7D/IQnW3oDxJNKfLmiAR2+C2W6P8kF03/UurLSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778574985; c=relaxed/simple;
-	bh=1faRd0h0qROCxzA1jK/FqDN9ymT0agjcJZ/rWTV6ajc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OB+196okgIu3SOy2UYVhMLCRmToSZKxGvbri7q6ao6fLhHgtLM2rXY6Zb75IvyPSACW8LIfSUYmaJ52PzpUg4HGYWN2vkhiNvWPkRYRxMD4rRj4UMYLRY3dbkqy3/MZ1F5YXklXaf6vPjbd6yOB/XGR4DQ1W+vHn85DDwgFVlPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=szMVbBJR; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1778582481; c=relaxed/simple;
+	bh=6rn6swVEd4vz3eMIfj5QGTwkv7LO3sqUKZ5oWnbq0/E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oo1JCtcv/XQ1Uxk39QviTM3ehA5KAgvOkFhjGv0dpQywkHPClwv02eZHYAQsq+MEpKwy2HSw2nmZujuFXo6KtNeyq6PSay6IB+pH/3ad88ZWK0WDMKZEZ+Pe60xAQP+HsrQq9BSgmkr7LRMYPU5JyGjCSnJ9ehQQtXsQqY0Z9PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vLVMFPIQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="szMVbBJR"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3161CC59;
-	Tue, 12 May 2026 10:36:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778574974;
-	bh=1faRd0h0qROCxzA1jK/FqDN9ymT0agjcJZ/rWTV6ajc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=szMVbBJRuobz+jlQZ1NsZPIOXNtCb4kd2JLIBISlP91bRkbPqbc2hMWE/zjF6g5+m
-	 E/hMSJzWUmJTUWb3QMpKz54jnt167mXq3yrb+VHxks8EB9QJpfWBeJPr5OjY/xRqI/
-	 aIAUSJiSeR9gY4tTt4zSWTNqU4ngCN/6dSviaetc=
-Date: Tue, 12 May 2026 11:36:20 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Johan Hovold <johan@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v10 8/9] platform/chrome: Protect cros_ec_device
- lifecycle with revocable
-Message-ID: <20260512083620.GA4128@killaraus.ideasonboard.com>
-References: <20260508105448.31799-1-tzungbi@kernel.org>
- <20260508105448.31799-9-tzungbi@kernel.org>
- <20260508115309.GA9254@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vLVMFPIQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9D45C2BCFC
+	for <chrome-platform@lists.linux.dev>; Tue, 12 May 2026 10:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778582481;
+	bh=6rn6swVEd4vz3eMIfj5QGTwkv7LO3sqUKZ5oWnbq0/E=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=vLVMFPIQHRfktrDv7ivdZCnIqnoPrUXJqHgOCVjidd8uxP583CNT0W4Y/jZv8812X
+	 WBw4FvFy9NLfpZcXshrU+OwV9yDOt4Ks2gPWHDvgyIKeMhHLU3S8vGnvwKhvBmlCmd
+	 YCO9QEsKF4kxLbRP0+LVexkT5KOQ8hk7uMO4dU0nBevOC9fFvrMA7JFePlwL2aAqAD
+	 YKxEiJ0hpxHkOI1f5kgJ7nHyE2QedZS7zQrX/KwzpXbR7tGraF3THasj0iANSK/4Rn
+	 9AhKC0HFMZKWnc8LEOi+ShUALvGtac8qmbz8DpqQomPQsv3mdrB/+cpbuKzoAQzLT6
+	 fp1ctjlPMfhgg==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-393d07e8938so49576611fa.2
+        for <chrome-platform@lists.linux.dev>; Tue, 12 May 2026 03:41:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ99hTOBfuSja8/mZNXGyJOek5ue26GdC+bLam16W/+Di+9wmLT6DPFGCN005O0aKKVFi/pxk8xN29KUHCAv56s=@lists.linux.dev
+X-Gm-Message-State: AOJu0YweHLZ4FyE8VE2mu3/V/aTPjibVE2AT2S3N7Ao1GrEwLBNYyMqu
+	VhHdgmURpQP7cVGFkynRDO4220jr3wTHVLnrny+6jFl5CRfKoGQdZzpIMdnisGUhtsbNkqya/Fs
+	fEedUmvVzxtygSsFYX+7Fg7te9sC3XDIceSq4SAdBRQ==
+X-Received: by 2002:a05:651c:1510:b0:394:2b4:ca36 with SMTP id
+ 38308e7fff4ca-39402b50876mr51082121fa.30.1778582480236; Tue, 12 May 2026
+ 03:41:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260508115309.GA9254@nvidia.com>
+References: <20260508105448.31799-1-tzungbi@kernel.org> <20260508105448.31799-8-tzungbi@kernel.org>
+ <CAMRc=MfZL2ZEmNEdVd6NeZJDjTzh_MbDy2kU+AYi-CmgRnWZmw@mail.gmail.com> <agLhMUtdCPqLb736@google.com>
+In-Reply-To: <agLhMUtdCPqLb736@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 12 May 2026 12:41:07 +0200
+X-Gmail-Original-Message-ID: <CAMRc=Mexm1dCrPXWnn2u_1m5DWgUq0oe2g-kxPLYdZAoqGfscw@mail.gmail.com>
+X-Gm-Features: AVHnY4Le85TmEBOcRzfa3PaLA6tGozvfWg_wHD7L_EU0Rpneaj3lVgF7-u0sNmM
+Message-ID: <CAMRc=Mexm1dCrPXWnn2u_1m5DWgUq0oe2g-kxPLYdZAoqGfscw@mail.gmail.com>
+Subject: Re: [PATCH v10 7/9] gpio: Remove unused `chip` and `srcu` in struct gpio_device
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij <linusw@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 08, 2026 at 08:53:09AM -0300, Jason Gunthorpe wrote:
-> On Fri, May 08, 2026 at 06:54:47PM +0800, Tzung-Bi Shih wrote:
-> >  struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
-> > @@ -47,6 +49,15 @@ struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
-> >  	if (!ec_dev)
-> >  		return NULL;
-> >  
-> > +	ec_dev->its_rev = revocable_alloc(ec_dev);
-> > +	if (!ec_dev->its_rev)
-> > +		return NULL;
-> > +	/*
-> > +	 * Drop the extra reference for the caller as the caller is the
-> > +	 * resource provider.
-> > +	 */
-> > +	revocable_put(ec_dev->its_rev);
-> > +
-> >  	ec_dev->din_size = sizeof(struct ec_host_response) +
-> >  			   sizeof(struct ec_response_get_protocol_info) +
-> >  			   EC_MAX_RESPONSE_OVERHEAD;
-> 
-> FWIW I am still very much against seeing any revokable concept used
-> *between two drivers*. That will turn the kernel's lifetime model into
-> spaghetti code.
+On Tue, May 12, 2026 at 10:13=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org>=
+ wrote:
+>
+> On Mon, May 11, 2026 at 06:18:21AM -0700, Bartosz Golaszewski wrote:
+> > On Fri, 8 May 2026 12:54:46 +0200, Tzung-Bi Shih <tzungbi@kernel.org> s=
+aid:
+> > > `chip` and `srcu` in struct gpio_device are unused as their usages ar=
+e
+> > > replaced to use revocable.  Remove them.
+> > >
+> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > > ---
+> >
+> > I'm thinking that all the GPIO patches could actually be squashed into =
+one. Is
+> > there any technical reason for the split or is it just for easier revie=
+w?
+>
+> Correct, they are separated only for easier review.  Would you prefer I
+> squash the 5 patches into a single patch?
 
-I agree, I really think it will become a huge mess that we will
-massively regret.
+Yes, I think it's less churn that way.
 
-/me feels like Cassandra
-
-> Your other series where you only have to change
-> drivers/platform/chrome/cros_ec_chardev.c just confirms how wrong this
-> approach is.
-> 
-> Given you say this is such a bug I think you really should be sending
-> a series that is patches 5 through 7 from the other series and a
-> simple rwsem instead of misc_deregister_sync() to deal with this bug
-> ASAP. No need to complicate a simple bug fix in a driver with all
-> these core changes.
-> 
-> Once the bug is fixed you can continue to try to propose more general
-> solutions.
-
--- 
-Regards,
-
-Laurent Pinchart
+Bartosz

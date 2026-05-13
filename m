@@ -1,284 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010026.outbound.protection.outlook.com [52.101.193.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED25357D0E;
-	Wed, 13 May 2026 09:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778663520; cv=none; b=goy9Y7v+NM66G+TPiPAh7FY0pwf51XkmY9/NvXMGWyAr1kat/W0ELSc/uDelj3XX3hIkH0rtn4e46DA5YPqeDxWzj9myCmdDITpWuc18QaGd5wv6MJ5tZmw8Jly1Ux2mah+mA9woUAlpMjshA0MEHqHv5LVVS1EcG0bVP1CN6tc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778663520; c=relaxed/simple;
-	bh=6VrA4lInkEZim0QbZieKFauE6Qiqk5WJluu39mLQ5Y4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mZB/EOZMkGNY0Q2eauGrfDaG43WNiIfDsTxKrJhjijMKHFxylZUfE1HONbX+G105GdQs3/m2WSW5AHAyzNejbQ/d59KD/49StGSYbn9KLhi3MLAIPxGCYN3KLuIM/2SGArYxWiQUB3rhsY5qJYok0pi9FD5bFY1IjpV8cbSvqsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/JdOihV; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78673FA5C7;
+	Wed, 13 May 2026 11:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.26
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778673073; cv=fail; b=G8eShz1wwhVHIjS707W0I06BWFkTgvCguwvI+to1rIulewFM3IB0dluuZA7loStQd8KmiS6wMHF9L+fW2ZscofrOUBZHMLC7a2hA08IWffIt2W74Yv/okmsOjo2J8r1yQ9bTkn3m0whIeEyfLyufnYwsv40NUdJeQ7BfilPqHc8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778673073; c=relaxed/simple;
+	bh=GzXpYSD7Wpn8LBBlY0MP1lHk8/QUvu01FbW2Qsb1gKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ntpdfd8u1nrJlYs6pF4CP8dj4F7Fk+ENHj+uRjPhH/TmfUygwpLKY+Js+MMIhEJ7/TGblKAINEAyaWrLhFF+sWXuiOAJdZDgRHskKau2aPm5SeoYNrZ8SFtFc+Jb8jfyMgYneKZV6IC9vmc2Kik1mIg0L8Yy1IO6poQ3h3ldbI8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=edVPhUHQ; arc=fail smtp.client-ip=52.101.193.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/JdOihV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44EE1C2BCB7;
-	Wed, 13 May 2026 09:11:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778663519;
-	bh=6VrA4lInkEZim0QbZieKFauE6Qiqk5WJluu39mLQ5Y4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p/JdOihVh55NVtzU0RS2ert0KdPa8c+iYubOX8wAcgtHVAprXCvxS55gwdwROUxUX
-	 ldjxseHvddTG8ZLdRwRzpdWzcWAFl4Mqz3SAJ8s3DoYolL80FFmc3AGPvFwJXuw4y4
-	 PmZeGp8gLpbHFbWrUxfDZnPum+yXuzgjO8QYfHO1aOq0WkFBcD6Vi5dIfORssOtNKM
-	 bptPKdmWFCUJWbyr6lCpvxPB4jVf6EXGXdIeENY2X6er1CswjnjIzy15ocPz1wrcF5
-	 LFmY7fPPoI8L4VRaqfHrvA3sZUdwvAAahL1mbiJQ+ZPWCNs9olNnyNgYi5068fM2Cy
-	 zIPDevDnRi5sQ==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>,
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="edVPhUHQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bPs1HHb+vkVjmkZ8Tkw3XFK2eT6pMYnEWVv2uUmGz3DaAKGi1Aax8CvaTwVorEHz04hOmKcugE+//ji7Yf3IFylAw2EN29gYK50ofmSxhPv6U9qpo9t40hHOb+nEb0imEoorvreAQuypqT44c+zcBUEeiFY4JQOaMixzjCJSDYkDUUbro99alev3TVJnp4oWuzsIq4eyU2bIWkZCSO43bzaIf/XTOdn6vIEQjGu1RMr7ZZqkqZrZB2V4G4kKcHVNJb+ZcN7gve6MiytztBcZGPLmAYBZDaHmZ08DaDQGbnWjONW8MLXM4uTLi4OdgWUwm4PUIAYNOrU3wIqUNL/VRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+0N+9xjt/ffLfSW7wWoaZHl7IwTBG0enAXkzyXkvdfU=;
+ b=Krtk+iJNo8WI5Wq3s+ISHQDXfyys265o8swEToASaijenetdu1M4m2RWCsEo1LM4+ryts1ZuuP4CkJcl3Uc19Aqnczc/6wTnXbdsV9s2rBMZNoz329/dZFOWbqo+o8HqoxyBr3TtYyppGJkJHRPvjJ2bpn7lEKhINVjN0u/TlaPA/DvXMnChYIgH36AeDKylGyzbvXmuGd2i6QocERFpRe1jz73ZQLfXvIhLwKpjJypvaSd5Z98+fxHGYEeD209UZUfj7svZa/1+T07lNjxVAlWxZkNcvlwRkIN+sPV1UfH9kW/ksJVHGhrnpX1iuwXIlisiU0M0JRCDI+Fd1Yu60A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+0N+9xjt/ffLfSW7wWoaZHl7IwTBG0enAXkzyXkvdfU=;
+ b=edVPhUHQfKgRZ4W8HJ/5MjnMLQTfqy/+E8+SKxmZk63yxS4H9cWgLLycYDNIcp2K7CI7ZrxA31541g6izj2WWhYEiaWpOw/C3sqUprcjMiJqHdjcWR+RpKh3f0pgYXzNZKYWe3k7Bpy/D4w5v4uXKWhRnujhLJ5JybPr1na6PixnU/z9ooJsIrkEoPgIO36PWEw0wEnPCkf2O7DQ01fhYUbaq7fmMrXn6HwUCVg+pxgfHuVwRclsFc16oUzWiVDOp4zOu8mK1XQLvhEm25a99/MtRQYYx1Jez97PS10L9/TJGpP/XrfWRuCTSPYMf0/cI93xJuq3AZv2m28vgXwDjw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by DM6PR12MB4154.namprd12.prod.outlook.com (2603:10b6:5:21d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Wed, 13 May
+ 2026 11:51:04 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9913.009; Wed, 13 May 2026
+ 11:51:04 +0000
+Date: Wed, 13 May 2026 08:51:02 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>,
-	tzungbi@kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
+	Linus Walleij <linusw@kernel.org>,
+	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
 	Johan Hovold <johan@kernel.org>,
 	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: [PATCH v11 5/5] platform/chrome: cros_ec_chardev: Consume cros_ec_device via revocable
-Date: Wed, 13 May 2026 17:10:43 +0800
-Message-ID: <20260513091043.6766-6-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260513091043.6766-1-tzungbi@kernel.org>
+Subject: Re: [PATCH v11 4/5] platform/chrome: Protect cros_ec_device
+ lifecycle with revocable
+Message-ID: <20260513115102.GF7655@nvidia.com>
 References: <20260513091043.6766-1-tzungbi@kernel.org>
+ <20260513091043.6766-5-tzungbi@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260513091043.6766-5-tzungbi@kernel.org>
+X-ClientProxiedBy: BLAPR03CA0155.namprd03.prod.outlook.com
+ (2603:10b6:208:32f::13) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM6PR12MB4154:EE_
+X-MS-Office365-Filtering-Correlation-Id: c3c09024-2e5f-4b17-b8ef-08deb0e5e942
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|366016|7416014|56012099003|18002099003|22082099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	C6YJROaNBZylH/JiGQdU07/E2mYN0AqZPubHpbQRz0AVunLCynPdoQ+EnnxUEIew7kCv4BJySo7kAXM1nrD440gwIn0MD6dj7yZhIbFUBEnIVAYnCWTjinXgP10eP+paIWOrtCUrsl6k/r1/tYZ7Uk9Zr+BhkSeOrC1L+alOKZKLoauIPPEASNw3h6F1NQ5HOd0HVamjDbFduL7x8px6MgDwkqVDXEIjQy+vDiPGsilVqDMOxTRdXxWbLYmI7ODtJEh/YWg+sfKHyTtwcSnLJkiyt8Zh525KK+ftmzh810MX4LhdXh2LuE45mFlWsQHiAoK+E02aVHi2QDPTKc2aIxpcUM46Mga2EGp3+h2Zmw2Lzlv7CKLCTvv7WUZjjD3IhpBgip8jfOEULyod1182pIAjwzG0xhoa960eadVw5YqwvmrU7Eeo1wYQGDx5kZpGZVcW4WsmsLEDFyotVXu9NS7jB9EVbshpFGdbWZ1bOkM52cen4dQ7o7oVBqyu7Pb3FsM1V98Xdvh6urOZWzw4BSHux7960EwxoBVGcGJveXOMuoQR77rfFlNbIWF7rX/tSgAoGJ0aq+7CNysDKtZ9u/qSelfTX4X7Cld9CxRfHpJIfQPf0LOpWRVmZRailElVUIS2HOh0YhCMbgkEUyqhG/MDrnDDgH9itGkmRSL0sHC6gbhNSskS2g/lGXRUzKCT
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014)(56012099003)(18002099003)(22082099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Jb9QbnQrVWGJdYXx2fnu8YuX1+ATfSSXqX0ejYV51SwKlhA4d4pexRpITuqA?=
+ =?us-ascii?Q?0PDz80OanXr1NpLcUee65+JtTXXHMk28lVIZp/K7GZxSvV7hrw+senG7hHSS?=
+ =?us-ascii?Q?7pdib73+DU9GQqzc6qBxqZokYX177ct/OJ+6S70Vyu0jtU7g3CvFYSFLwfNk?=
+ =?us-ascii?Q?kTKzEmJmsxD16MTyCIVK9s+q9W0JUS40z+EYL/vqgYgV1LnwPFZHeL112N22?=
+ =?us-ascii?Q?7agnPxMkcxifO4ZI5NeEEj/lplVkdvbWVsDaJf/ATfmuFjb9nJkLHcnVEUOt?=
+ =?us-ascii?Q?wHw88p5z3AxdJJFunD9iJ0Pf54ajZSIcfUTk4Lm9wf55TziLqabGjpfMCigP?=
+ =?us-ascii?Q?mbS7bn1eMAph5kWeyWyoWe4W2Z9zXEnKosBJvVvcf/jwr7QMbA4LcQ41x9YA?=
+ =?us-ascii?Q?dgfjNxwcrIbxJLNI7u4UdrM5IfITaZB5PbHR2NO+LKT98RA9z0Wyjr5yA63q?=
+ =?us-ascii?Q?X19qOKxgXZnPUyNvwEOftmdZ3mNX44pp+AUG0Vfhm10dRLooEoWh+Q5RBnLS?=
+ =?us-ascii?Q?fJx4NaTQ1S4rd8LjqAnGWMuEGgvkOu7LYzZ1O+uOL+eq5DaCT4KE8vQj64rJ?=
+ =?us-ascii?Q?HVDVyaq6o5l2XHmQb+FbUnqwVcLJIdRaoA/BW5zAc2mrQPA0YYH14c6FUMZ4?=
+ =?us-ascii?Q?CcPXKVnheFiN/j3nZcaV01iPJ9zfcKRglKnPkr5k8NpqlAXDc8vLw2/rJC8v?=
+ =?us-ascii?Q?+PM/Iky39mmLZSiUX+sIjOP2rNoZhVuvq2m8EFWyH6REdp2avzw06Fph2PJ5?=
+ =?us-ascii?Q?Z4tIrFfgCNsO3fjk/J4yZBn98mHIhzcmdSZa7rb3OcqS+Y2LibVundpZGPl1?=
+ =?us-ascii?Q?oLi9BhaD+WGJFM0Wuc/wmL+go4GTCCYaPpCx455IgcZDtudgQuInQOCRa7Gc?=
+ =?us-ascii?Q?tjpukgTzRc1aKXtD4kDMjxckXHeSOZgd3AZ8ajrSnqMqGT/12CIs0H39tFeS?=
+ =?us-ascii?Q?DOM2xsOJvXm1EBuTSoBoP0x6VZl18vBjt0ZDgN3k6DsKdslxMFmUdS0B/LpS?=
+ =?us-ascii?Q?PU6mR5ZZ10nXtBZoGGoPmJMxolRDXBq+rj8M3ZDaPv1OJP0VRHNO4MWj630K?=
+ =?us-ascii?Q?fG1J7AoyvKZrFOhibM2aPDTimA6ardjWIq9ZwyQj9EyFvpWCERipJFZD88+6?=
+ =?us-ascii?Q?8S3I9mFQElz05aZfsmzVfkFBK+DPBImU5DUprMHGgdBLRP4zL96z75rOfIHL?=
+ =?us-ascii?Q?Ui240WyLkbAmzw6gFvS6n0ZiTMRy2uxRDzcljok/q4VBdV3IGUvgDrCGAbEb?=
+ =?us-ascii?Q?rkz9NuPbEIoi5pd7iZvzfCkAZdtfT1+EVJhnsrk3aw1UKX/L88XYN3V5uQ+F?=
+ =?us-ascii?Q?ongmDhA4ZiArNykErTqX7h0wogM3kAyPSiUDfdlU9da3/qzIOW5bALHnu6Ot?=
+ =?us-ascii?Q?dOr7kZzA51Aq3uXReKCiTVtxscy00tQD8Hn3WOdV2bCAT9mcR9L9ozcuRQ/s?=
+ =?us-ascii?Q?2AhGWL4qvCSnAcBz2copMyl4eiPd46lWDZPW5bq/DxcOJrWO11entDyrgPUV?=
+ =?us-ascii?Q?7FvwGOAfOJkMh9YV2dYgSfIl4/kfOdycq9NtPKvJTGk06K6gfZvM1BN/lsUh?=
+ =?us-ascii?Q?/6gcl64csRArm9egXvh33s7nqk7mAejMNPZPCr+38APOXiLPJB74j3fskzs3?=
+ =?us-ascii?Q?MoBFsHBsdbp8EJt+abMXO71OHHJPP8nAuAUXKYI/NrbkaXCMxSL1u3NUn1Yo?=
+ =?us-ascii?Q?tsO5kXoj3JXtCLCgakKFeb8g7ssZr/ZpN2zsAx/AHgd3f61c?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3c09024-2e5f-4b17-b8ef-08deb0e5e942
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 11:51:04.2487
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g3SYRCtthVbrUXj6p6dB0EvGKvdD2yf5R86gJd/ElNza/txxyq5VZ1Is7BsIWjG9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4154
 
-The cros_ec_chardev driver provides a character device interface to the
-ChromeOS EC.  A file handle to this device can remain open in userspace
-even if the underlying EC device is removed.
+On Wed, May 13, 2026 at 05:10:42PM +0800, Tzung-Bi Shih wrote:
+> The cros_ec_device can be unregistered when the underlying device is
+> removed.  Other kernel drivers that interact with the EC may hold a
+> pointer to the cros_ec_device, creating a risk of a use-after-free
+> error if the EC device is removed while still being referenced.
+> 
+> To prevent this, leverage the revocable and convert the underlying
+> device drivers to resource providers of cros_ec_device.
+> 
+> ---
+> v11:
+> - No changes.
 
-This creates a classic use-after-free vulnerability.  Any file operation
-(ioctl, release, etc.) on the open handle after the EC device has gone
-would access a stale pointer, leading to a system crash.
+Two people are opposing this and yet no changes? Why haven't you
+followed my advice to fix the bug in this driver in the obvious way?
 
-To prevent this, leverage the revocable and convert cros_ec_chardev to a
-resource consumer of cros_ec_device.
-
----
-v11:
-- No changes.
-
-v10: https://lore.kernel.org/all/20260508105448.31799-10-tzungbi@kernel.org
-- No changes.
-
-v9: https://lore.kernel.org/all/20260427135841.96266-10-tzungbi@kernel.org
-- New to the series.
-- Change revocable API usages accordingly.
-
-v4 - v8:
-- Doesn't exist.
-
-v3: https://lore.kernel.org/all/20250912081718.3827390-6-tzungbi@kernel.org
-- Use specific labels for different cleanup in cros_ec_chardev_open().
-
-v2: https://lore.kernel.org/all/20250820081645.847919-6-tzungbi@kernel.org
-- Rename "ref_proxy" -> "revocable".
-- Fix a sparse warning by removing the redundant __rcu annotation.
-
-v1: https://lore.kernel.org/all/20250814091020.1302888-4-tzungbi@kernel.org
-
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- drivers/platform/chrome/cros_ec_chardev.c | 80 +++++++++++++++++------
- 1 file changed, 61 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-index 002be3352100..c597dc92d519 100644
---- a/drivers/platform/chrome/cros_ec_chardev.c
-+++ b/drivers/platform/chrome/cros_ec_chardev.c
-@@ -22,6 +22,7 @@
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_device.h>
- #include <linux/poll.h>
-+#include <linux/revocable.h>
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <linux/uaccess.h>
-@@ -32,7 +33,7 @@
- #define CROS_MAX_EVENT_LEN	PAGE_SIZE
- 
- struct chardev_priv {
--	struct cros_ec_device *ec_dev;
-+	struct revocable *rev;
- 	struct notifier_block notifier;
- 	wait_queue_head_t wait_event;
- 	unsigned long event_mask;
-@@ -55,6 +56,7 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
- 	};
- 	struct ec_response_get_version *resp;
- 	struct cros_ec_command *msg;
-+	struct cros_ec_device *ec_dev;
- 	int ret;
- 
- 	msg = kzalloc(sizeof(*msg) + sizeof(*resp), GFP_KERNEL);
-@@ -64,12 +66,19 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
- 	msg->command = EC_CMD_GET_VERSION + priv->cmd_offset;
- 	msg->insize = sizeof(*resp);
- 
--	ret = cros_ec_cmd_xfer_status(priv->ec_dev, msg);
--	if (ret < 0) {
--		snprintf(str, maxlen,
--			 "Unknown EC version, returned error: %d\n",
--			 msg->result);
--		goto exit;
-+	revocable_try_access_with_scoped(priv->rev, ec_dev) {
-+		if (!ec_dev) {
-+			ret = -ENODEV;
-+			goto exit;
-+		}
-+
-+		ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-+		if (ret < 0) {
-+			snprintf(str, maxlen,
-+				 "Unknown EC version, returned error: %d\n",
-+				 msg->result);
-+			goto exit;
-+		}
- 	}
- 
- 	resp = (struct ec_response_get_version *)msg->data;
-@@ -92,10 +101,15 @@ static int cros_ec_chardev_mkbp_event(struct notifier_block *nb,
- {
- 	struct chardev_priv *priv = container_of(nb, struct chardev_priv,
- 						 notifier);
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev;
- 	struct ec_event *event;
--	unsigned long event_bit = 1 << ec_dev->event_data.event_type;
--	int total_size = sizeof(*event) + ec_dev->event_size;
-+	unsigned long event_bit;
-+	int total_size;
-+
-+	revocable_try_access_or_return_err(priv->rev, ec_dev, NOTIFY_DONE);
-+
-+	event_bit = 1 << ec_dev->event_data.event_type;
-+	total_size = sizeof(*event) + ec_dev->event_size;
- 
- 	if (!(event_bit & priv->event_mask) ||
- 	    (priv->event_len + total_size) > CROS_MAX_EVENT_LEN)
-@@ -166,7 +180,8 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	priv->ec_dev = ec_dev;
-+	priv->rev = ec_dev->its_rev;
-+	revocable_get(priv->rev);
- 	priv->cmd_offset = ec->cmd_offset;
- 	filp->private_data = priv;
- 	INIT_LIST_HEAD(&priv->events);
-@@ -178,6 +193,7 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 					       &priv->notifier);
- 	if (ret) {
- 		dev_err(ec_dev->dev, "failed to register event notifier\n");
-+		revocable_put(priv->rev);
- 		kfree(priv);
- 	}
- 
-@@ -251,11 +267,13 @@ static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
- static int cros_ec_chardev_release(struct inode *inode, struct file *filp)
- {
- 	struct chardev_priv *priv = filp->private_data;
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev;
- 	struct ec_event *event, *e;
- 
--	blocking_notifier_chain_unregister(&ec_dev->event_notifier,
--					   &priv->notifier);
-+	revocable_try_access_or_skip_scoped(priv->rev, ec_dev)
-+		blocking_notifier_chain_unregister(&ec_dev->event_notifier,
-+						   &priv->notifier);
-+	revocable_put(priv->rev);
- 
- 	list_for_each_entry_safe(event, e, &priv->events, node) {
- 		list_del(&event->node);
-@@ -273,6 +291,7 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- {
- 	struct cros_ec_command *s_cmd;
- 	struct cros_ec_command u_cmd;
-+	struct cros_ec_device *ec_dev;
- 	long ret;
- 
- 	if (copy_from_user(&u_cmd, arg, sizeof(u_cmd)))
-@@ -299,10 +318,17 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- 	}
- 
- 	s_cmd->command += priv->cmd_offset;
--	ret = cros_ec_cmd_xfer(priv->ec_dev, s_cmd);
--	/* Only copy data to userland if data was received. */
--	if (ret < 0)
--		goto exit;
-+	revocable_try_access_with_scoped(priv->rev, ec_dev) {
-+		if (!ec_dev) {
-+			ret = -ENODEV;
-+			goto exit;
-+		}
-+
-+		ret = cros_ec_cmd_xfer(ec_dev, s_cmd);
-+		/* Only copy data to userland if data was received. */
-+		if (ret < 0)
-+			goto exit;
-+	}
- 
- 	if (copy_to_user(arg, s_cmd, sizeof(*s_cmd) + s_cmd->insize))
- 		ret = -EFAULT;
-@@ -313,10 +339,12 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- 
- static long cros_ec_chardev_ioctl_readmem(struct chardev_priv *priv, void __user *arg)
- {
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev;
- 	struct cros_ec_readmem s_mem = { };
- 	long num;
- 
-+	revocable_try_access_or_return(priv->rev, ec_dev);
-+
- 	/* Not every platform supports direct reads */
- 	if (!ec_dev->cmd_readmem)
- 		return -ENOTTY;
-@@ -370,11 +398,25 @@ static const struct file_operations chardev_fops = {
- #endif
- };
- 
-+static void cros_ec_chardev_free(void *data)
-+{
-+	struct revocable *rev = data;
-+
-+	revocable_put(rev);
-+}
-+
- static int cros_ec_chardev_probe(struct platform_device *pdev)
- {
- 	struct cros_ec_dev *ec = dev_get_drvdata(pdev->dev.parent);
- 	struct cros_ec_platform *ec_platform = dev_get_platdata(ec->dev);
-+	struct revocable *rev = ec->ec_dev->its_rev;
- 	struct miscdevice *misc;
-+	int ret;
-+
-+	revocable_get(rev);
-+	ret = devm_add_action_or_reset(&pdev->dev, cros_ec_chardev_free, rev);
-+	if (ret)
-+		return ret;
- 
- 	/* Create a char device: we want to create it anew */
- 	misc = devm_kzalloc(&pdev->dev, sizeof(*misc), GFP_KERNEL);
--- 
-2.51.0
-
+Jason

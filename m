@@ -1,46 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566773E1CEB;
-	Thu, 14 May 2026 14:23:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D010410D2F;
+	Thu, 14 May 2026 14:43:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778768590; cv=none; b=BRXLDeVN7lkTQdk0juVo1C35nctMo08d9Jx19N+3+Ri4Tkp81O4ThEDphvL3gspSKHwBnet2B8jQeu8teq+YDFa4ovheHWshaiW1WWwf+xeG/4CsN2M0KMW0szAq8jj3dYcN8JNs+YCRPPDqb5E1eWsyX2ySnXKzD/qD13O0yZY=
+	t=1778769818; cv=none; b=b3/il4XibzL+1aWJB/IfAUJxWMz7xamYRsAGHLZxZ4YVr6Hji79hokZg8ixA05JtEUD1ex2N8j9HJSLxxyk8FKrwysU9OXJk9ZBVpfii9PUacmYtRHxo/eln5oWOVJduUTj/PhNtWoPfnCKLbgJVGkNA1BXvrEiXzgTVp41WdtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778768590; c=relaxed/simple;
-	bh=rzTJYXpvDBf9HEZuU4QMthbII4DkGinZBLZlBEqhnMA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=M643tvHGk+kKB6wohFBFcpMYoFvNIXI3Q47bSG53qPWVhDSZ3Ge8ZTjE4ZYqhoi3boUndxwSn0P0EBkPbjT6x1UjUIz/w96HVsqkbo8hJlqzOMlqAZMawkEOOgVzqlY7Vm8zIbLLx623HnFxWSE4fPFm6QKAB0kw7x3EzrK5OqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQ26yPYj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778769818; c=relaxed/simple;
+	bh=vYgSx3dmEm0ZEEAz8YRdNmK7l9u7//QUaR05wrA5BAY=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=g8J0I0DiBEc4NMXNpGR+U6NkCvYXC3j8pcGWa84p2FXZorJRteyVLgA71W9c6cdoXlf5BTqkfR2Y23k9bCZ00/1ZZjynLY4jH1HThgk9U9s7/W58O2B36zcwr6KamZX62EAgYlxywij9CEcyX5ljtEoCyv20U6AyavvBJGZEDoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ai1tpI3a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQ26yPYj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 278F1C2BCC7;
-	Thu, 14 May 2026 14:23:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ai1tpI3a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 264C6C2BCC9;
+	Thu, 14 May 2026 14:43:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778768590;
-	bh=rzTJYXpvDBf9HEZuU4QMthbII4DkGinZBLZlBEqhnMA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZQ26yPYj6KCmThtalI/xn6XyEEjr8rFAwX/ZYFLY+5k+SlktgvicOjyOwGasvbIBW
-	 ayWjqgpfXlMgh2Lzo3MzNvxp1CjCGTtAOHM/Hj1pkS3TdASFIKNwfTOZzu4RwwCxXN
-	 /10hVdV5jOB59o4rtoEkftK/Zq2/u/GUJTZJi0y6/cvClBtqksF/M7ldqOumynYvIq
-	 FVXmUoQvEEUNmqq8sMt0pILoUvHwgq/wtxOKbe6O93vz7/mE8w72yaKvcx2/+GWTad
-	 rIPGDWwspnqftqRuoQ3E22VViFtR/HgPv9yO5vxNkVTMwunY54B0BlL+PyST2ZsjjO
-	 MoVh8qvIOogIg==
+	s=k20201202; t=1778769818;
+	bh=vYgSx3dmEm0ZEEAz8YRdNmK7l9u7//QUaR05wrA5BAY=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=Ai1tpI3aDfb2QvDeKsYxG3EdOoJNoxxp3mZVlKehdBzqRg794VxG0iOi7DInbQjWW
+	 5f7sbtOVr5xR7igPW5+7ocZgBoGkbeWY41tUlYkYy036HiHvi5Xs8swWgwYVVODiLT
+	 iywtq+BIUTGl4070jjcMHZP0k1maSkiHqT3UhS7D4rVmooCHZzXV30ZHuhpqDK6mut
+	 8k2XvUQaYrhCMMxAVuWRJrQ8ovotO45zAb6nC8OX0wv6KQuCrfEuOtsUcvN1OVvg/W
+	 eedSkrToE1ol0TTOq8FVlmPCvszgYlT8iLPls+ufdK/azJKbFmTUtUd6nACCOlmxz0
+	 LplWwo3DueAWg==
 From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
- Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Guenter Roeck <groeck@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Logan Gunthorpe <logang@deltatee.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20260427131721.1165078-1-akuchynski@chromium.org>
-References: <20260427131721.1165078-1-akuchynski@chromium.org>
-Subject: Re: (subset) [PATCH] mfd: cros_ec: Delay dev_set_drvdata() until
- probe success
-Message-Id: <177876858789.2780693.17487530492427297246.b4-ty@b4>
-Date: Thu, 14 May 2026 15:23:07 +0100
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ William Zhang <william.zhang@broadcom.com>, 
+ Anand Gore <anand.gore@broadcom.com>, 
+ Kursad Oney <kursad.oney@broadcom.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260505102846.186219-2-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260505102846.186219-2-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH] leds: Move MODULE_DEVICE_TABLE next to the
+ table itself
+Message-Id: <177876981488.2795269.15417552684114266100.b4-ty@b4>
+Date: Thu, 14 May 2026 15:43:34 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -51,21 +55,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.16-dev-ad80c
 
-On Mon, 27 Apr 2026 13:17:21 +0000, Andrei Kuchynski wrote:
-> If ec_device_probe() fails, cros_ec_class_release releases memory for the
-> cros_ec_dev structure. However, because the drvdata was already set,
-> sub-drivers like cros_ec_typec can still retrieve the stale pointer via the
-> platform device. This leads to a use-after-free when cros_ec_typec attempts
-> to access &typec->ec->ec->dev on a device that has already been released.
-> Move dev_set_drvdata() to ensure that the pointer is only made available
-> once all initialization steps have succeeded.
+On Tue, 05 May 2026 12:28:45 +0200, Krzysztof Kozlowski wrote:
+> By convention MODULE_DEVICE_TABLE() immediately follows the ID table it
+> exports, because this is easier to read and verify.  It also makes more
+> sense since #ifdef for ACPI or OF could hide both of them.
+> 
+> Most of the privers already have this correctly placed, so adjust
+> the missing ones.  No functional impact.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] mfd: cros_ec: Delay dev_set_drvdata() until probe success
-      commit: 3c3a92cf6f3305505c6a98569f784ecdae8a909a
+[1/1] leds: Move MODULE_DEVICE_TABLE next to the table itself
+      commit: 7c3d6730e8f03220f48e70ba9d4c05296aa83fae
 
 --
 Lee Jones [李琼斯]

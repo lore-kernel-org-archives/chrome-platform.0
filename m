@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408E5233134;
-	Sat, 16 May 2026 14:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3272C27FD51;
+	Sat, 16 May 2026 14:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778941835; cv=none; b=OAXAL83c0kCKRRoURkVn63dKAaLq73ZZofqifaaxMCcGqRZ5cfmrd0qd3vEkIUEiam2pFgHpUpcyGE4ZJWOuNN0Dsu9x78OW3vTcc4dB9Pb/RrNfP5Cg+/9t6xfUxjkhklpXVPoHvtZ4mtBc2MFeWPqVrfR+b5HhotN+WNRwUP4=
+	t=1778941837; cv=none; b=nHLkIh/gCSty0b3ZiV/1CfG/EEhJArUl269c/wfHMtUZ4k3Hn0+SC3wNzoag8L8b7DJDQPqEQ8dXe6fFXgiRtp2JhtnpydKRbNNkOPCz9I6RSWdglcGD5Dp8k+M+oBFMyOEzRFUX9TwIRa4jflGZt5p3XEQD+87XGqz33w8nfvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778941835; c=relaxed/simple;
-	bh=VVsCzi9JRAyCI85I2LQVrymlO2oNojGM46uwiptdU/s=;
+	s=arc-20240116; t=1778941837; c=relaxed/simple;
+	bh=XZSsGTNI11K6aBtp7x0IktNr37oxC/+W8z0Aa/axUk4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DNeHFSKqZgItbd9j50bdyczXMSfgkUNuLnpuuXSx4FNJBog1aU0RHi3x3+VCA8z5Qhvi0ry+CUQNpl8IMx2j4h79cFPwn1qpAQt0cqbNIcLv7wR2C5IS6u+w7WCVEvaZ7DAbhZKbQSsOxuXbyQ618m+z0Apt1MwIax4zASkzcY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RLckhdAV; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=QVNQTy1OCRMPBHaDmxgfPGfimEfSL42wKI3rbaa9/bATJ1pABGKZC6ulgERB0CZieljXN2hhvO8+JtYKer8T17ncSxWmag7QuG0LuJbY/7VKIJqfTdISskKO+iz5I7zZdPUFJ0SspI9tYQNg4Y4lPhRQQGHazT1m/eescn0TNSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T9h9VHkn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RLckhdAV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5408CC19425;
-	Sat, 16 May 2026 14:30:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T9h9VHkn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E698C2BCB3;
+	Sat, 16 May 2026 14:30:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778941834;
-	bh=VVsCzi9JRAyCI85I2LQVrymlO2oNojGM46uwiptdU/s=;
+	s=k20201202; t=1778941836;
+	bh=XZSsGTNI11K6aBtp7x0IktNr37oxC/+W8z0Aa/axUk4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RLckhdAVE3ufWrw09OyOe7pnvte9vsozaWGH9XECQXUVgBs7E0bQf2ryUlttR6v6l
-	 ty/f+OOGyBV7u61B08YvzoBcUUikcFX3NFl6CXmzvd8UBX8MtyXgOHnITCHdpNUhG5
-	 B13KRz+Th5/x5rVntct6FlsI8VFogp8ip6hsyWlUwNq3LIb7TSiQz+SwzX4i6oimtT
-	 nwqLkC8SBsYk/KBExX/uBxBZFpzQXGm8GoMrzoWfq439ZDNAknLRFVBLrZTq0lrkJm
-	 fRlnOZS2ZNUx8cLoC3tZy4J3kFMgrMczpUDA8kP51HB8deN9Zf0Q2AUf0ism3zIRmN
-	 PCXJxqNyvChRA==
+	b=T9h9VHknKfpehH7oV1jMjgxduBZ76vSuPcA3eZdjydXQoVXtEFVZPkhj3WpcowHGb
+	 BiKFms9UIbdieBaI7+tHGCaAO+7dv7fl1Kz83fe0dPYRRasm1Ykm3viEZbw2OOpXUR
+	 rBACKlOIpTVXgVKIjsK++eyiVyTxrkEAH8mKwX91Ts2VJ+Go19XcEQflhPnQpqvtdj
+	 Y5FwZWAHtWO+pwfr9OoveyNOJo7cEWptbyh9Z5sv1o0J7Uz9atfENyFc5ZYKFzlN41
+	 5Au3PrkA78Mp4cOwABLu7lmbTY9gsyLQLicO645RUDOm1c3sSQzRY65DDp4hyMhKtc
+	 qi/8Tpjf3HaOw==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Benson Leung <bleung@chromium.org>,
 	Jason Gunthorpe <jgg@nvidia.com>,
@@ -33,9 +33,9 @@ To: Benson Leung <bleung@chromium.org>,
 Cc: tzungbi@kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] platform/chrome: cros_ec_chardev: Move data to chardev_pdata
-Date: Sat, 16 May 2026 22:30:15 +0800
-Message-ID: <20260516143017.18560-3-tzungbi@kernel.org>
+Subject: [PATCH v2 3/4] platform/chrome: cros_ec_chardev: Add event relayer
+Date: Sat, 16 May 2026 22:30:16 +0800
+Message-ID: <20260516143017.18560-4-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260516143017.18560-1-tzungbi@kernel.org>
 References: <20260516143017.18560-1-tzungbi@kernel.org>
@@ -47,150 +47,118 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move `ec_dev` and `cmd_offset` from `chardev_priv` to `chardev_pdata` as
-they are per-device properties but not per-open-file properties.
+Introduce an event relayer mechanism.  Instead of each open file
+registering directly with `ec_dev->event_notifier`, the platform device
+registers a single relayer notifier.  Individual files then register
+with a local subscribers list in `chardev_pdata`.
 
-Hold a reference to `chardev_pdata` for each open file to ensure the
-data remains valid even if the underlying platform device is removed.
+This allows the driver to safely disconnect from the event chain
+`ec_dev->event_notifier` during cros_ec_chardev_remove(), preventing
+events from being delivered to open files after the device is removed,
+while still allowing those files to be closed safely later.
 
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+This is an implementation of the idea from [1].
+
+[1] https://lore.kernel.org/all/20251117153301.GD10864@nvidia.com/
 ---
 v2:
 - No changes.
 
-v1: https://lore.kernel.org/all/20260427134659.95181-7-tzungbi@kernel.org
+v1: https://lore.kernel.org/all/20260427134659.95181-8-tzungbi@kernel.org
 
- drivers/platform/chrome/cros_ec_chardev.c | 36 +++++++++++++----------
- 1 file changed, 20 insertions(+), 16 deletions(-)
+ drivers/platform/chrome/cros_ec_chardev.c | 32 ++++++++++++++++++++---
+ 1 file changed, 29 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-index e7012e44a006..352d61a2f3c6 100644
+index 352d61a2f3c6..7e046fc56998 100644
 --- a/drivers/platform/chrome/cros_ec_chardev.c
 +++ b/drivers/platform/chrome/cros_ec_chardev.c
-@@ -38,6 +38,8 @@
- struct chardev_pdata {
- 	struct miscdevice misc;
+@@ -40,6 +40,8 @@ struct chardev_pdata {
  	struct kref kref;
-+	struct cros_ec_device *ec_dev;
-+	u16 cmd_offset;
+ 	struct cros_ec_device *ec_dev;
+ 	u16 cmd_offset;
++	struct blocking_notifier_head subscribers;
++	struct notifier_block relay;
  };
  
  static void chardev_pdata_release(struct kref *kref)
-@@ -48,13 +50,12 @@ static void chardev_pdata_release(struct kref *kref)
+@@ -49,6 +51,17 @@ static void chardev_pdata_release(struct kref *kref)
+ 	kfree(pdata);
  }
  
++static int cros_ec_chardev_relay_event(struct notifier_block *nb,
++				       unsigned long queued_during_suspend,
++				       void *_notify)
++{
++	struct chardev_pdata *pdata = container_of(nb, typeof(*pdata), relay);
++
++	blocking_notifier_call_chain(&pdata->subscribers, queued_during_suspend,
++				     _notify);
++	return NOTIFY_OK;
++}
++
  struct chardev_priv {
--	struct cros_ec_device *ec_dev;
  	struct notifier_block notifier;
  	wait_queue_head_t wait_event;
- 	unsigned long event_mask;
- 	struct list_head events;
- 	size_t event_len;
--	u16 cmd_offset;
-+	struct chardev_pdata *pdata;
- };
- 
- struct ec_event {
-@@ -77,10 +78,10 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
- 	if (!msg)
- 		return -ENOMEM;
- 
--	msg->command = EC_CMD_GET_VERSION + priv->cmd_offset;
-+	msg->command = EC_CMD_GET_VERSION + priv->pdata->cmd_offset;
- 	msg->insize = sizeof(*resp);
- 
--	ret = cros_ec_cmd_xfer_status(priv->ec_dev, msg);
-+	ret = cros_ec_cmd_xfer_status(priv->pdata->ec_dev, msg);
- 	if (ret < 0) {
- 		snprintf(str, maxlen,
- 			 "Unknown EC version, returned error: %d\n",
-@@ -108,7 +109,7 @@ static int cros_ec_chardev_mkbp_event(struct notifier_block *nb,
- {
- 	struct chardev_priv *priv = container_of(nb, struct chardev_priv,
- 						 notifier);
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev = priv->pdata->ec_dev;
- 	struct ec_event *event;
- 	unsigned long event_bit = 1 << ec_dev->event_data.event_type;
- 	int total_size = sizeof(*event) + ec_dev->event_size;
-@@ -173,8 +174,7 @@ static struct ec_event *cros_ec_chardev_fetch_event(struct chardev_priv *priv,
- static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- {
- 	struct miscdevice *mdev = filp->private_data;
--	struct cros_ec_dev *ec = dev_get_drvdata(mdev->parent);
--	struct cros_ec_device *ec_dev = ec->ec_dev;
-+	struct chardev_pdata *pdata = container_of(mdev, typeof(*pdata), misc);
- 	struct chardev_priv *priv;
- 	int ret;
- 
-@@ -182,18 +182,20 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	priv->ec_dev = ec_dev;
--	priv->cmd_offset = ec->cmd_offset;
-+	priv->pdata = pdata;
-+	kref_get(&pdata->kref);
- 	filp->private_data = priv;
- 	INIT_LIST_HEAD(&priv->events);
- 	init_waitqueue_head(&priv->wait_event);
+@@ -190,7 +203,7 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
  	nonseekable_open(inode, filp);
  
  	priv->notifier.notifier_call = cros_ec_chardev_mkbp_event;
--	ret = blocking_notifier_chain_register(&ec_dev->event_notifier,
-+	ret = blocking_notifier_chain_register(&pdata->ec_dev->event_notifier,
+-	ret = blocking_notifier_chain_register(&pdata->ec_dev->event_notifier,
++	ret = blocking_notifier_chain_register(&pdata->subscribers,
  					       &priv->notifier);
  	if (ret) {
--		dev_err(ec_dev->dev, "failed to register event notifier\n");
-+		dev_err(pdata->ec_dev->dev,
-+			"failed to register event notifier\n");
-+		kref_put(&priv->pdata->kref, chardev_pdata_release);
- 		kfree(priv);
- 	}
- 
-@@ -267,11 +269,11 @@ static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
- static int cros_ec_chardev_release(struct inode *inode, struct file *filp)
- {
+ 		dev_err(pdata->ec_dev->dev,
+@@ -271,7 +284,7 @@ static int cros_ec_chardev_release(struct inode *inode, struct file *filp)
  	struct chardev_priv *priv = filp->private_data;
--	struct cros_ec_device *ec_dev = priv->ec_dev;
  	struct ec_event *event, *e;
  
--	blocking_notifier_chain_unregister(&ec_dev->event_notifier,
-+	blocking_notifier_chain_unregister(&priv->pdata->ec_dev->event_notifier,
+-	blocking_notifier_chain_unregister(&priv->pdata->ec_dev->event_notifier,
++	blocking_notifier_chain_unregister(&priv->pdata->subscribers,
  					   &priv->notifier);
-+	kref_put(&priv->pdata->kref, chardev_pdata_release);
+ 	kref_put(&priv->pdata->kref, chardev_pdata_release);
  
- 	list_for_each_entry_safe(event, e, &priv->events, node) {
- 		list_del(&event->node);
-@@ -314,8 +316,8 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- 		goto exit;
- 	}
- 
--	s_cmd->command += priv->cmd_offset;
--	ret = cros_ec_cmd_xfer(priv->ec_dev, s_cmd);
-+	s_cmd->command += priv->pdata->cmd_offset;
-+	ret = cros_ec_cmd_xfer(priv->pdata->ec_dev, s_cmd);
- 	/* Only copy data to userland if data was received. */
- 	if (ret < 0)
- 		goto exit;
-@@ -329,7 +331,7 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- 
- static long cros_ec_chardev_ioctl_readmem(struct chardev_priv *priv, void __user *arg)
- {
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev = priv->pdata->ec_dev;
- 	struct cros_ec_readmem s_mem = { };
- 	long num;
- 
-@@ -399,6 +401,8 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, pdata);
+@@ -403,6 +416,14 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
  	kref_init(&pdata->kref);
-+	pdata->ec_dev = ec->ec_dev;
-+	pdata->cmd_offset = ec->cmd_offset;
+ 	pdata->ec_dev = ec->ec_dev;
+ 	pdata->cmd_offset = ec->cmd_offset;
++	BLOCKING_INIT_NOTIFIER_HEAD(&pdata->subscribers);
++	pdata->relay.notifier_call = cros_ec_chardev_relay_event;
++	ret = blocking_notifier_chain_register(&pdata->ec_dev->event_notifier,
++					       &pdata->relay);
++	if (ret) {
++		dev_err(&pdev->dev, "failed to register event notifier\n");
++		goto err_put_pdata;
++	}
  
  	pdata->misc.minor = MISC_DYNAMIC_MINOR;
  	pdata->misc.fops = &chardev_fops;
+@@ -412,10 +433,13 @@ static int cros_ec_chardev_probe(struct platform_device *pdev)
+ 	ret = misc_register(&pdata->misc);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to register misc device\n");
+-		goto err_put_pdata;
++		goto err_unregister_notifier;
+ 	}
+ 
+ 	return 0;
++err_unregister_notifier:
++	blocking_notifier_chain_unregister(&pdata->ec_dev->event_notifier,
++					   &pdata->relay);
+ err_put_pdata:
+ 	kref_put(&pdata->kref, chardev_pdata_release);
+ 	return ret;
+@@ -425,6 +449,8 @@ static void cros_ec_chardev_remove(struct platform_device *pdev)
+ {
+ 	struct chardev_pdata *pdata = platform_get_drvdata(pdev);
+ 
++	blocking_notifier_chain_unregister(&pdata->ec_dev->event_notifier,
++					   &pdata->relay);
+ 	misc_deregister(&pdata->misc);
+ 	kref_put(&pdata->kref, chardev_pdata_release);
+ }
 -- 
 2.51.0
 

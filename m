@@ -1,63 +1,62 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012001.outbound.protection.outlook.com [52.101.48.1])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011013.outbound.protection.outlook.com [40.93.194.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F4D2D7DD7
-	for <chrome-platform@lists.linux.dev>; Thu, 21 May 2026 13:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859091DF73A
+	for <chrome-platform@lists.linux.dev>; Thu, 21 May 2026 14:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779371919; cv=fail; b=KRspPxxaibZrGRr+1Zkz3ASGs1qknTBJRwFGWKuuUK1is6ccrfmYmoas7He6HYgE4vBzyDryoBgPUbMS2+n2FsXk6yk1bB+wvo8JyE+5KzTi2ATPeZgfS6MTUiEZY8kJ8CGP4Z/QzGy7zJjdCxqfe8baG4t4IuKENVbIVN579xo=
+	t=1779372417; cv=fail; b=XTgApkpA13/5WKROFQy2DB0dbtkKO71WDEQypFU3quVBF5rQxSFkTxf2qACiVyO08KknNeh7vWGCE875TYNYOV30PTkIIg3dRU4vtFT9gk+ocvdh7QB8mZW71U9lf5M0b7PshTw+MCo+MZcw0VpqCAjJPk0YG5mBpn9f+SLcA60=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779371919; c=relaxed/simple;
-	bh=uyLoa/0Xv4bBBivF4VbvWIq9Nj7WChYanfaGqauUaE4=;
+	s=arc-20240116; t=1779372417; c=relaxed/simple;
+	bh=Pu+fwXJFW3dirLQNBiYl6bAPF8l3FJaIZiljUJHxLEU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=mxjsGaFDcrJjVDbsHR0DgR7TPURnsUxq3Zno3AffS76tAa9qlwRqinvFySe670RiqXxoC/qg3SC3WLkf746mhbw9z1lYHocXQgt5qRt8cyx6RSKDtw5eCg/9Scx1qbx6/sP4Q5BFmg9AveqCFNHaN6P/kOjKFYaOPDXaM8OMp7c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fTAsvhQ2; arc=fail smtp.client-ip=52.101.48.1
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ULNscdWdO3z9s4LU5WkqdBYNlithsIw7o1sdCFqJygY5AVZbF1EC1iavCPfamoeVCzI/OWR6s8/TiZuViFgD64pD8uAUKKq3IW1agIMOYvANHzo1qsrTwtJYi05BouTt4+3oYPwE7IDP6xjsBJ4bxDRrHHKGy4Brg1/H91Q1gSw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BsX7JstF; arc=fail smtp.client-ip=40.93.194.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fTAsvhQ2"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BsX7JstF"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kti49Jr2KXQkZTuvVqxwEQnzgSdK9QNH7iO6nRyzo/OLfH1gNQOpOrdH9LLKorCqOkLrUbq8oqQQ+HPiC6pk9v0KdCl41Fbc6DgqVuOjAG34BJM0yyRFC6SPUSTreGVDiPU8VDK7hZy/fvV6LReRoIM/zLvCKYyBp5jFds0/e6bpluC0ik5X2m0cStCKFq1C/TMMC1r5zj0tDMY517gH3zTrK2pa8kqG0sA1KtlftK19ndjCVyYdodjVKciKH0wydhU0oir+mKgD5prIpF79HAuM1ZRqSdWQIRv/dycVJjjSwuc9Bu4XsJazam0KXS7+JS7Axzcjs/OZuFWqlK9KSQ==
+ b=H+8oKxHXyFtYZvmAKMw4o74ulb3WBuDo04yfGnEpFG6L1CsY72v20KkW0t5R7O1YAdRUAguNQF+LByseH6OgysoKdUfdkGrMxFLm2Cez7OnU/UrcC2Dlor+PIWL8D7gsUQtjdLzf+zQtXQa4kIUEe17c4V3mWVkMKxUUpFt6FRAOqhCExqedVzI8zcLSKz0sNxDYi0eUKm5AkFlAXfR3cZ7j9XnhXE9+5tTEiqIZM5OVvqR0G4+G0HbIPR+IfHgn6cOBpn/SHfyveIUWE1MNlrab5dyCeNsdaYtK35aKaKyjtPT1cnZKsALfvxk47JPt2SI/dqPCLv++dZgYroM2lg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I35lc+nbKDVB2c4SavBt8JulyNtXVllU9DG0GgydGKg=;
- b=DxParRxqotOi8L4UPFZWBJNXZzcJTKmoMmy787VDvjfUmhlQrEpcEK9qATwGwMaCuQVMeKY6ScEniZQMVvN+Uk4sCHr8daCJS+qUHX4rFvJIaDzMnAz6Kmw4JOC8hn1F6+0QAGzWjEC+1kW/9E0lAuSGEaR8RDpAprPzEUOb+xuVaulpInAcu17gTY1x3cVEkI+c0XZovhRo7iEHXaRBAHq0B20q01OzJhGITBJiCtgDV5UymDgDepgKluI12Uf5FTSxBIUvLOOjjb7FFaO0ihbV//oxs1QJEVSDG/Xf0dPFRkkrSpJuq7lN+s6ERkWpTNVAHBX+1KfGptr+l7HKsg==
+ bh=Ocl3CI22lwn1s+3E8rMZKusIX3+JuIwZhqTMExhPTXM=;
+ b=Y486Ae0GKVpD/gg648TGbWf3WLVQsIjES4h8GqE2dTHccibbgUsRRTkJRakD3EJavLQBbqMlgnYtr4R10pkiEX4O5OTBXFUjwkmWRSXgQS46NtCcGs680noBJKOOnoCOMRgmkzFD6YhDbzwWKtJfz+N2D9PdoQnGNbXGcoXVYgE6mDi6HaElv4qQHmbE9KNbmr3wVgKpyAv+iM7s/fvDpPJyJUvMke1eUMSZqThd6wWB3brfYrxs54GTenmdBQG2VXx3ftZzo2V504qs0+8M2Wu6fKpvaoCC/igspBqNY9sDqsORFluQvzmQ1l4xRfftKIiYwrxAuzN5rZ4shgMwoA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I35lc+nbKDVB2c4SavBt8JulyNtXVllU9DG0GgydGKg=;
- b=fTAsvhQ2zD8tfTRWMz7d5PERVL/GxrmjnElepXqe9RCIcK5oevLPTQ803qLn5X4P2Q/3sio/qbiOEfYPNit7rW5QmJxumzT3bRt1h4m6K+GWQ5kHD4melm87Gmg0V57FCRDZXcCJOrUKzv/w+hqeSNYKz8y4z46YTZgRYeV8H4hz1ol33dXJ8OLtvc6I//h2Dqa39V2kuZFxKmHC5l0aSyLTN9H4sVJUcGrOZKdJAareT6lfzzIrP1gksMnJ8S9xkcmxPj943bcrdvZliMK8aV+JK19W6Cy8c4+8E8pBgoRtVc8u/zPEUxmWzTY7P7PWS2xUmAIyw2kpYIt2+Bqh+Q==
+ bh=Ocl3CI22lwn1s+3E8rMZKusIX3+JuIwZhqTMExhPTXM=;
+ b=BsX7JstF02dYbnHJi4BvtvhXA0f58/BPlWyKYqPD71dhmb+BtUc0L+EyaTkEbzwbumzivpd1H8t8ATJRqn8T1Ne0kYcBZMRaEMkdtwg98+hF+3UzDSsRXQcnd5Y8tR55sSZlIZPwaifO40TOHF7V6J65SP5+GX07ioVl0AnWYG1YnyIEiFJOZxsv6q/Kw8AjTLSqRyEA+8A/WZgXjj1lKYJ2UmoXr/Nhs3qjlQgzYcZD/7F/ySp/5eZUZEEOCkPw9XK5nFIjh8EuFwDOm8Djy2o9E8mLbiEwfyQ401luEvfjjLD4MGKpNnbQCbx1jbMheZRCMZ6fzCM5EuYpVrIkOQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by MN6PR12MB8567.namprd12.prod.outlook.com (2603:10b6:208:478::12) with
+ by PH8PR12MB7447.namprd12.prod.outlook.com (2603:10b6:510:215::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Thu, 21 May
- 2026 13:58:31 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Thu, 21 May
+ 2026 14:06:47 +0000
 Received: from LV8PR12MB9620.namprd12.prod.outlook.com
  ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
  ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.21.0048.013; Thu, 21 May 2026
- 13:58:31 +0000
-Date: Thu, 21 May 2026 10:58:30 -0300
+ 14:06:47 +0000
+Date: Thu, 21 May 2026 11:06:46 -0300
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] platform/chrome: cros_ec_chardev: Introduce rwsem
- for protecting ec_dev
-Message-ID: <20260521135830.GH3602937@nvidia.com>
+Subject: Re: [PATCH v2 0/4] platform/chrome: cros_ec_chardev: Fix a potential
+ UAF
+Message-ID: <20260521140646.GI3602937@nvidia.com>
 References: <20260516143017.18560-1-tzungbi@kernel.org>
- <20260516143017.18560-5-tzungbi@kernel.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260516143017.18560-5-tzungbi@kernel.org>
-X-ClientProxiedBy: MN2PR11CA0001.namprd11.prod.outlook.com
- (2603:10b6:208:23b::6) To LV8PR12MB9620.namprd12.prod.outlook.com
+In-Reply-To: <20260516143017.18560-1-tzungbi@kernel.org>
+X-ClientProxiedBy: BN9PR03CA0085.namprd03.prod.outlook.com
+ (2603:10b6:408:fc::30) To LV8PR12MB9620.namprd12.prod.outlook.com
  (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -66,196 +65,74 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|MN6PR12MB8567:EE_
-X-MS-Office365-Filtering-Correlation-Id: 90f7b852-74e4-4846-10d6-08deb7410aba
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|PH8PR12MB7447:EE_
+X-MS-Office365-Filtering-Correlation-Id: 426359d6-830c-40cb-12c5-08deb742322f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|22082099003|18002099003|56012099003|11063799006|4143699003|6133799003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|18002099003|56012099003|22082099003|6133799003|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	DN01EnqBU5uiot9p1//gW/hmo7f0VddJ0CiGjb2Xyr3Hdh0GS1KWllPPBOjsVaFc1g1CbQqKrRjwPAmv5BUJF7zNOJsZIPFpHA04FQBDndSZFTpH1NLVIdLer5OenfOXvl0NUrTJy09qEF8uIjs630EA97ZJN+OA4/EKJzwv4q1Q2ur6aBkfSnN1frmZYcMBM+wx2zPLU1NNNqLtK/MEoIQwIGJpWsEN6238lMVSi59nsCPU7SAewdGjbzuvU5auL/6TI3FIcNm0T5SjcsYOHbmRd/d2P6u2fmDPgPTmyyql5HuI64WJOUYvNNZ8G5DHBL4u6Vfee+JNKZSp9+maxgz44XjvbL3gAC4HCZBTs9nMTMag3XwrXD/5RN1CKXWoRKSmcpPUJ3RpAIfH5cl8Ac07/Erqn9T25MxYpJz/RAyrqrr1Fwmz3NKkM1nP+v9tw/3JmOS9BvCN4mVE1/NI3CkyPpvi9+6ztXf9roF/oOfLDUpcpB1ANIasMOUdMvnHBc45AL3YJc0bdNvV5JLvSwvwz4v3rMgDGlNZurMyF8EXsD4Nb1jELeBQ53F0/JXgcEC5mZrjOnpYcuTRvzcMmILSXEkKp4Bly+5MRPJ0IHyyCWVUHyDGJLzpOp6kkofK6vCbsifdrn1MFajEhyOaBGzMmxKW9pagTZ97iSo+BiHpALHyGwfOeXVvXiCu/Kv+
+	UVoE1AckaIvGd9YxXG9iKZ6ebO0Nm7dJ8E/9oCxSG04abVr1cNkaZC+xGIZhbIw6QkffdjF9tvXZ1N/DmenWQU3Q+3obC4HzpYhW05FMI6lTZt30/Eyg0ar+aOmVrgGxMYh6SrbuG1QGi/qrh5ZYvmLPulfwbS8ZrhZ5VLi5Zn56eJjv0xAzfJT9nWmBQMVjIPWKOCmzJQ3r8RFsOGtS9f8P0rYfH9ntJAayleynHuZFJXvtKb/6TKeoHJnhS6Nd9sifD6UyLUQ+74aUSkIS6Faib6YuDzx3Hwz+arj8YMel+nSJJVcIXzHvNMY3S/17vMpK5QcOABQNVRgM+9RFWwBfT0VdmYasP8/XXD6G8k1lUvl0VOZ5k0RXf9AzMwqbaI0bC4XxU2YR6orKTwK+B1nwrjVhaZi/fPV1eWSvo6J9OR18xhSTJntm+XpcpW8YQ7UWH4TzAS0OSMnpM4WS+mUWKaCPkQ0iOpMVxVXkNC8tCEnWAMcAMlqlVBqx7iumXKIMcTNlQjZCkSYtR3gs+L+AnXX/bbNUCt/K1ceLfgA9MCa3lDVazxCuosHxlLjrlCvpx/dfdWEUjYUaskHm2IHz6eiBRIM/e3+Ng3kNa2ZYjbGauxC4w7O0P/T1XbZAs1J88nvmYU9uWMRbSCokReYN0BKFLBpDnQ6xpgBKQHMOyAXWXQ2XZbazm026HUrK
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(22082099003)(18002099003)(56012099003)(11063799006)(4143699003)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(18002099003)(56012099003)(22082099003)(6133799003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7oWqeqOjRjJMzul1x674FwKoNKfS/EBvuQ1m1/kXAEesTQrh6jZOi1tE7NRQ?=
- =?us-ascii?Q?91HNYVKsTxgbdZcIDAQ9Gxa2yV7CN5myqtUC7xksM1OIRXxrF2RXrgfF2ki9?=
- =?us-ascii?Q?wRoCjUoppnUhw8t8ShxEG5wd7dma85iP8xDDYUrrTg+HAjeNwSgw7ulpPMv1?=
- =?us-ascii?Q?1I9iJwQAiEloYGaVc6aYJ2rf86KjJpi5susHzz65PldgHH0yH9L423VKXCpf?=
- =?us-ascii?Q?nzeTRFe7v+KU6s28j6dKNWayw+zw6DAP0oJ9JvBOUfHZGvaYCIjpekdiWFLw?=
- =?us-ascii?Q?tQJcjl6eXUfMkfUQpQwpwapO6I6MjCc45nGAYnQhqddKrb8Vjq2MsoqElJga?=
- =?us-ascii?Q?9YUAopaQkcYiy86NcDN7CQh6GX4Y742rq2yhU4nkm3kWG1ins6SJ4PuEXNz9?=
- =?us-ascii?Q?y4j4RhNBW/nwPj0ntJ5hB0ToWd3K5wJlgYqFIN0I8eUWVHVq5JGEJpQJEp/4?=
- =?us-ascii?Q?ut0EagyxL33EPedPtYN79v4vYYLk9gdBeTSnwiL3MepYUgqh46bNr21dXW2P?=
- =?us-ascii?Q?hz+QM3qgcghYtnUhURkCYx3Jfa7Xiqrx20xexJsJRDVZKAZNjZz4YSLn+xnd?=
- =?us-ascii?Q?N78dIj72aRFxhMHL3Zb6kQgVc70ToWCd6WaPWWEPyYCB9ZXxX8HVn1xuWdgL?=
- =?us-ascii?Q?ZoeHHTjDHxE7lL+nSsnva9osBTEh+tyYn6waIIc+rWbYjfwqxE3uhOzogSv6?=
- =?us-ascii?Q?IXoOnXlTbU1UJQqSrjTK3ZudDNKZipSzEU1REbkirwDALU+EIwdhJ1lHIXBS?=
- =?us-ascii?Q?cwMJGuZ7VM38cHF7odYAdhdMhMDsyfWJ9tfcVrEAcxiQdAl9gbxjUa9QGZNZ?=
- =?us-ascii?Q?udAWmJMlxytH/+wMw7H5n9qmYmDuAbQwFWAIGQKv5ZG+dWny57275SiSOMax?=
- =?us-ascii?Q?AXUlYDcyymlsHksdW0X5aosAprxv+U6y0nOlQ6kuQXXRhZlCIJmdXlhUphz+?=
- =?us-ascii?Q?/VXtzF1EbgVLCU+hXQBt7FjCR9u98wklAFkvdfEKYmwZmg3R+RcgwN7fJ1oN?=
- =?us-ascii?Q?h/OW4KoiMa8oLHhTr5zthaDDi3MdT75yK6nBjTnOBTUzp/KOlIBGLgSt9Dr+?=
- =?us-ascii?Q?EkGltstJ4AXryRyWdueyUhYLXhKvnGMjBq9GOrE1vcY6jL8XK6soJpsPPFqB?=
- =?us-ascii?Q?JmHEuMjJr+UfoUgwwKnIS2HGwo6NIqBw7pEYzt9AC9cEUq2wELeguZy2YBtp?=
- =?us-ascii?Q?R6ygHCkmRoeWAgK62HqJ/mjiC6PPoD74xSv31vmKbImADuZqM6mGudmkIKNT?=
- =?us-ascii?Q?rWTXEb8CpDDKWdz9xewRQHV6kYSFczGGJEkwmvlUInokf9fn5r3L19AljOq1?=
- =?us-ascii?Q?io9etTk5MCNyZQ12jwyOoznd5yJiPTU0XeFXQMCUZcBbQxrzYccJpO2hcbmG?=
- =?us-ascii?Q?YVdv83sVUl7Zs62IYzJV6A1/dA3CisQxtb7PL+CUdoQXYbTD4L+sfWrU/jjs?=
- =?us-ascii?Q?onpiDYuSDf+0jLtxxoodyVKj39tz8gJTo49NTRmrWnm6YXZOZ9W8Z3fthhRz?=
- =?us-ascii?Q?+iL5Y+jIyHFZ5k73nQmnwKw+lHS2UZ5K/DY+2hcGAy+7AU0df6pKyQe9HCSb?=
- =?us-ascii?Q?+hno5BMb7xeKgl/8M8AQPg7xcHHQp2dp1cZBD6omElSStJIUFYP5fbeqd5fj?=
- =?us-ascii?Q?9TUAFmFIcYohMg+SAN4Z2soL9ogfqlSJGshQIFvlsXEJRdSJZawO+03J1Pe4?=
- =?us-ascii?Q?9jpVom9eIqREG8SZn8GRd/CFs8O9rydjlwe3qtB+gy0J5AeI?=
+	=?us-ascii?Q?JqR53WNFOOxyhRvLlm0Ss5l10qE5lb0BkEqcWCpFlKi7c8fbZXGOi9wx9LZ2?=
+ =?us-ascii?Q?ugcYe3eo4yBGrZrdf0s2TdSXkHAPOtEzvmy5TbctM1L2nDmHG+TG/VmxU/ev?=
+ =?us-ascii?Q?+i780xhuBFBXMdxwyiGcnBc8z8bSwdQREL6VTXpXqeZ8PJPrKkI7oLfrFZVX?=
+ =?us-ascii?Q?9j/10WQDmenJIj7LYBgOkVJcbumYeey4qEpPeYRuCmXFEVwNL7iVQwRAcz/s?=
+ =?us-ascii?Q?JVJiEQRGj1EiKAITNRX6mLhYIGuXr7fsDHg56ryMsjy7nQz2fxpNHi9Wz8B7?=
+ =?us-ascii?Q?F6WT/7CdyqQL64oMj90a/9yKIWEGpHyM9QxikMDzjTanJ+T5nAJq5ZtIqH1S?=
+ =?us-ascii?Q?zQrFgr1+KXmqA4TJpUxfR6sUrymbZPSeoHHB0hr1PNTTj51XcdkZfSIDxkG6?=
+ =?us-ascii?Q?+5YviZQkKRQD0OnFftWYs2VDPliSoJm/+Mh4FIXhg1QtdJruomwoidnmRreB?=
+ =?us-ascii?Q?akML+NcZQHqe1rNli/QDegnGir+5iskbrhzS1AdnJVAsY4L7WR2u7D11d5sk?=
+ =?us-ascii?Q?A2pJ3l0Kn+zwIhtAY75MPIvBAp3HVmA4p7Fq05GvAmnu8VI1XCP6oejvuZ+R?=
+ =?us-ascii?Q?KRb6uHDMA7DWVOxsoSaTa+JiBAtRw7Mh4L86kUEnZiXbQjX4r0CQrpsHBH7s?=
+ =?us-ascii?Q?20wMaba6WPpWIa//eyWmCIIP7NWr/83gq2oLn8e6LSrl558dLMBX9ETFjUog?=
+ =?us-ascii?Q?Ez3cdbiUBL5m34Nxaqs9XaLm0TFe1yXKm3N5U5ZWS6oLuutysKaLdrrM5RwZ?=
+ =?us-ascii?Q?rW6aANHNWDAhhG0xSRk7I0yVDhxjCf4UsWQFXre+S2q/ILw+w2QjhjLpE+aN?=
+ =?us-ascii?Q?iGgSrFCUXmzHXt/H59sUzOzE3yyrBYEVGEJvybSdmnTTYT4ZlUnlRATMNAKj?=
+ =?us-ascii?Q?zxwLqB2FDVK+U8pw8wHK6eVWSFQpwaX6TuRBAZN+cYMy/SmKZEBQdk9HuNqo?=
+ =?us-ascii?Q?30zm7wA4HH4pd/FiAkAQbpe7DDKL4g0g+xxONvK+4sGrTj0tkMI9f5d3lDQT?=
+ =?us-ascii?Q?wsKb/L/0X5AJJQe1LTjO9R29fGaD3Eoqr7NLbv5BioOQnIC8+NDne3PpJ2xT?=
+ =?us-ascii?Q?nhIBAZ4S0seUlvJz9Na2xd5V/RgLV9LWZVgZHPn+pybtHmiiD3b4iRHw9+pY?=
+ =?us-ascii?Q?tsodJQVXAiBHREqscw7M62l3kkYs43DaJkDu0vqR16IcBK10zh4sgBOL2636?=
+ =?us-ascii?Q?qyLyfyym7R6pHw6OH24Ct4Ong+mECf40PO/cMC4nv43UWfuJYxuQ7RQzC8hX?=
+ =?us-ascii?Q?veMmZ6wLlEBlEO/i7P8wEFkiO6xoEa9gH7mOvbj8BN1j3rn4ZAbs62A16l7L?=
+ =?us-ascii?Q?SIiwsffzEd2f9cgBTQRko7SbUV5PSxTz+gKJREWTtgReA6X6EGe1l1/RBPs8?=
+ =?us-ascii?Q?YdNX+VTIJ8iFNpn7jC6tpxSTOrD12TGy9Tv16LECzpjFKr5+VCYQ6/UYb/+V?=
+ =?us-ascii?Q?2PRzGxqyFcM8SZ2n3SSctH6d/uRtPs4t9rrLui8aWzqNNO7ZodH7ZuSa7TTt?=
+ =?us-ascii?Q?AOOl4+pePNyi0TPWSlJaOIfrf8+JD0AsdHuxZSRsH3YoeVRXuGeAY6wrlBhC?=
+ =?us-ascii?Q?GQ3mA9mmn1hM3sYe5MIdAoLnMRHPo7/fGfOpgnJCniaSWNVKcSsfGEgmb0q2?=
+ =?us-ascii?Q?lbSKXX/3Z6+x0u4TZchXIXE3FQHlvw3snkZJ6QPuQIw5gJTBao/F/Sg4JEhv?=
+ =?us-ascii?Q?hZ317Zrdc3UhjOuSQ7jkHeR8Khkzi/rFJ04DejJrL39FP/IT?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90f7b852-74e4-4846-10d6-08deb7410aba
+X-MS-Exchange-CrossTenant-Network-Message-Id: 426359d6-830c-40cb-12c5-08deb742322f
 X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 13:58:31.5546
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 14:06:47.2928
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CYzchlGFrWdOK7iBL6ZhKs1L0/VBGkOpsaVBKQQplTrHjkUW3JSw2rkwSK8n8Ljk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8567
+X-MS-Exchange-CrossTenant-UserPrincipalName: S9oLXlZpF1VW0NnABA+M+OPfzt76B+jrVZIU+72pJ23Q1oAdOMgcRaFPv6S3W6W2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7447
 
-On Sat, May 16, 2026 at 10:30:17PM +0800, Tzung-Bi Shih wrote:
-> @@ -94,12 +96,19 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
->  	msg->command = EC_CMD_GET_VERSION + priv->pdata->cmd_offset;
->  	msg->insize = sizeof(*resp);
->  
-> -	ret = cros_ec_cmd_xfer_status(priv->pdata->ec_dev, msg);
-> -	if (ret < 0) {
-> -		snprintf(str, maxlen,
-> -			 "Unknown EC version, returned error: %d\n",
-> -			 msg->result);
-> -		goto exit;
-> +	scoped_guard(rwsem_read, &priv->pdata->ec_dev_sem) {
+On Sat, May 16, 2026 at 10:30:13PM +0800, Tzung-Bi Shih wrote:
+> This series addresses a potential Use-After-Free error when a device is
+> deregistered while file operations are still in progress or files remain
+> open in cros_ec_chardev.
+> 
+> - Patches 1 to 3 are preparation steps in cros_ec_chardev driver.  They
+>   introduce reference counting for platform driver data and an event
+>   relayer.  This removes the direct access to `ec_dev->event_notifier`
+>   in `cros_ec_chardev_release()`.
+> - Patch 4 introduces a rwsem for protecting `ec_dev` to prevent the UAF
+>   error.
 
-I would not use scoped_guard here, especially since it isn't used
-consistently
+Other than my fairly minor remarks on the last patch this whole thing
+looks good to me
 
-> +		if (!priv->pdata->ec_dev) {
-> +			ret = -ENODEV;
-> +			goto exit;
-> +		}
-> +
-> +		ret = cros_ec_cmd_xfer_status(priv->pdata->ec_dev, msg);
-> +		if (ret < 0) {
-> +			snprintf(str, maxlen,
-> +				 "Unknown EC version, returned error: %d\n",
-> +				 msg->result);
-> +			goto exit;
-> +		}
->  	}
->  
->  	resp = (struct ec_response_get_version *)msg->data;
-> @@ -122,10 +131,18 @@ static int cros_ec_chardev_mkbp_event(struct notifier_block *nb,
->  {
->  	struct chardev_priv *priv = container_of(nb, struct chardev_priv,
->  						 notifier);
-> -	struct cros_ec_device *ec_dev = priv->pdata->ec_dev;
-> +	struct cros_ec_device *ec_dev;
->  	struct ec_event *event;
-> -	unsigned long event_bit = 1 << ec_dev->event_data.event_type;
-> -	int total_size = sizeof(*event) + ec_dev->event_size;
-> +	unsigned long event_bit;
-> +	int total_size;
-> +
-> +	guard(rwsem_read)(&priv->pdata->ec_dev_sem);
-> +	if (!priv->pdata->ec_dev)
-> +		return NOTIFY_DONE;
-> +	ec_dev = priv->pdata->ec_dev;
-> +
-> +	event_bit = 1 << ec_dev->event_data.event_type;
-> +	total_size = sizeof(*event) + ec_dev->event_size;
->  
->  	if (!(event_bit & priv->event_mask) ||
->  	    (priv->event_len + total_size) > CROS_MAX_EVENT_LEN)
-> @@ -206,8 +223,11 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
->  	ret = blocking_notifier_chain_register(&pdata->subscribers,
->  					       &priv->notifier);
->  	if (ret) {
-> -		dev_err(pdata->ec_dev->dev,
-> -			"failed to register event notifier\n");
-> +		scoped_guard(rwsem_read, &pdata->ec_dev_sem) {
-> +			if (pdata->ec_dev)
-> +				dev_err(pdata->ec_dev->dev,
-> +					"failed to register event notifier\n");
-> +		}
-
-open is in a context where dev_dev has to be valid, don't add
-pointless locking.
-
-If you want to have an assertion it should just be this at the top of the function:
-
-	if (WARN_ON(!priv->pdata->ec_dev))
-		return -ENXIO;
-
-> @@ -330,10 +350,18 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
->  	}
->  
->  	s_cmd->command += priv->pdata->cmd_offset;
-> -	ret = cros_ec_cmd_xfer(priv->pdata->ec_dev, s_cmd);
-> -	/* Only copy data to userland if data was received. */
-> -	if (ret < 0)
-> -		goto exit;
-> +
-> +	scoped_guard(rwsem_read, &priv->pdata->ec_dev_sem) {
-> +		if (!priv->pdata->ec_dev) {
-> +			ret = -ENODEV;
-> +			goto exit;
-> +		}
-
-Same remark, don't use scoped_guard. Each fops should simply start
-with:
-
-	guard(rwsem_read)(&priv->pdata->ec_dev_sem);
-	if (!priv->pdata->ec_dev)
-		return -ENXIO;
-
-There is no point in trying to carefully partially do some part of the
-ioctl of the driver has been removed.
-
->  static long cros_ec_chardev_ioctl_readmem(struct chardev_priv *priv, void __user *arg)
->  {
-> -	struct cros_ec_device *ec_dev = priv->pdata->ec_dev;
-> +	struct cros_ec_device *ec_dev;
->  	struct cros_ec_readmem s_mem = { };
->  	long num;
->  
-> +	guard(rwsem_read)(&priv->pdata->ec_dev_sem);
-> +	if (!priv->pdata->ec_dev)
-> +		return -ENODEV;
-> +	ec_dev = priv->pdata->ec_dev;
-
-And it should be placed close to the top of the fop, not down inside
-every child function.
-
-Your mental model is still thinking about "revocable" this is really
-entering a driver bound context at the start of every fop. Then
-everything during the fop gets to assume the driver bound invariant.
-
-
-> @@ -451,6 +485,8 @@ static void cros_ec_chardev_remove(struct platform_device *pdev)
->  
->  	blocking_notifier_chain_unregister(&pdata->ec_dev->event_notifier,
->  					   &pdata->relay);
-> +	scoped_guard(rwsem_write, &pdata->ec_dev_sem)
-> +		pdata->ec_dev = NULL;
-
-This seems out of order.
-
-  	misc_deregister(&pdata->misc);
-
-^^ Is first because it stops new fops from being created
-
- +	scoped_guard(rwsem_write, &pdata->ec_dev_sem)
- +		pdata->ec_dev = NULL;
-
-^^ Stops existing fops from running
-
-Then you can go on to destroy the notifier chain and so on as there is
-now no concurrent touches to pdata.
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
 Jason

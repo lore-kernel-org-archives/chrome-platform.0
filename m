@@ -1,183 +1,154 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E0841B343
-	for <chrome-platform@lists.linux.dev>; Fri, 22 May 2026 15:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037B01F4611
+	for <chrome-platform@lists.linux.dev>; Mon, 25 May 2026 01:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779464706; cv=none; b=NHMIK0Bj7DbTT3i1oyZ/g+zYU1s+wBMbKaYFPrmKeEDeV3+PoLIISTwoiCwNHGuzglT7AeYSE0vUu8wKgM3a848LVS1haKwhyHbTAFuWfqt8byqEqxbGjuR7une5eCUsh+YwrWdXUvSSttRnYxlwUQoLEcUZ/i93yaqRBGFT1Ps=
+	t=1779673188; cv=none; b=orOknm2Hi05mNmGkCgM24LWCQaBWbi6Kh7aM2tUYhGgwqDv7EarxdBi9PZjJvuDLEK7NEV+uBFGIp7eIaGVoFNgiIceGtHHpyEnUTJ4odG6TgiiSyAMu83yRXCPpyyg0005r/V79dLZojBh7FfIu0Wx5C3Jnw1Dogc2/T9s8yXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779464706; c=relaxed/simple;
-	bh=eyYt1g/Y58tXmMeO8f3HJ9YXJ3oT3Rw0BmK7dmkQ8PY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MbhirOYPCzr4iwZzLFsZxC1lqNAmkdDZoggxhzjThjnquZdxHH3HxDAP/Jmqmz4ECIYQnU9bAUyxDO3CuDGELTo2CpGk6X2zVW/ncUMC+1X8OdI3IbG/K9zMpzlPjHB4c3pzrXs9fhVecB/d+Wfsdpv/df2gZcjbecjbXZZptd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dh16jxZD; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1779673188; c=relaxed/simple;
+	bh=SuM+0HC7hGWwJTXikbJW5wAJ2RsorksevrifGcg2M1E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kDGlT1aXg0wFJJYdD9iiVOKTJW12ry3v2f2xFyyI0XXij1wfK/ae/NTRyveeNMofo+egUWpwDWuvrpi1MMKal8/SWKWk1HCB04evMYzaTcFGau2dxMEkQPotzN2l1e7O3G4+KGkxF+3SZm+FQSlJBCVAojdWkPGzJz51DaYtg58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=enUe4yOv; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dh16jxZD"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bd124546379so1198022066b.3
-        for <chrome-platform@lists.linux.dev>; Fri, 22 May 2026 08:45:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="enUe4yOv"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-4854d5cc708so2091900b6e.2
+        for <chrome-platform@lists.linux.dev>; Sun, 24 May 2026 18:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1779464702; x=1780069502; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sn9ZWX/LHdvsmMbuXtFnELWJ9oecMT6d7N6qyRp7Au0=;
-        b=dh16jxZDMa+fH/+pL044v/auZmEAA4cVCIZWyTPPIapMqe5N5F30aZYJVtBH1ZtCbH
-         xBYftGr8yg2MoUoJUsm/Si+rb943NxwVrL/VXw8pC0T6SyxYUR7GPgd6fleRfsnX1TZ8
-         PISCr8c4vekeYL9KaI+ImSS7MU4Rj75czPKNo=
+        d=baylibre.com; s=google; t=1779673185; x=1780277985; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ugzb2uhvCgbHvggVe5Xy5Mt/HBvzlMq1ELLD59c9p5s=;
+        b=enUe4yOvPzf4Q8I2vK+aZtrOuyup8e44ixuq6EX6qq5SppJaDeMo6ReTa398wXasG3
+         J86kL6HRtFTMt+x2aUMb4q+JC+TkhrqrOY3sZp5+QqKdqrZCz6SQ0JwcM3oO/bU2mWku
+         eONFRI9KUIncNJJZjHmrm/6aC9iIUCYQxEVqPnVGJ9O0FRtGxcgL9islOKtt0MA0BSsP
+         9X6XQA6tkUQHeD8TTQnKSNkw69wuQrurD1bVeyaCkFdBkC5jY4M7EYFnP8B66sk+d53R
+         7awEKth1oWgGdY5/yrkOchf09CXG6PI5vWaDb0DOg1gSU0+Lv5qso6UsV6lqa3BYao2Q
+         DgiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779464702; x=1780069502;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1779673185; x=1780277985;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sn9ZWX/LHdvsmMbuXtFnELWJ9oecMT6d7N6qyRp7Au0=;
-        b=M6lJiOrw+xzM5+pFoz1Rc6a5o0O3Z9e9lJmlSKQVmWEKCFF5Bp7av7BbDUz21A7wI6
-         Oesvsx4oAeahb0FIy7l+fwzkhhBNltN5Vj67BfyLqhOTiF4e7BdiAocV6LdR0+OTT/Yw
-         ujU2+aooaQUMGTnUsJA3/uCknFHV443ZxvwnMzxXoUO3Z7UooYqHQqRtkMkeUHqA40bN
-         e82ZnLsiKpwdXSPMRUtpA1qfB27+F/b28wLkoE9ZnFHInI1V3TRokvIUCia4dczZNggo
-         4GZ+hftCyCPu5PzjhEfKa2ZU4F1h4x4MpgcA/TsFraf8F8AJ1JyCo1mvRxP+dXxhuYTL
-         ZR+w==
-X-Forwarded-Encrypted: i=1; AFNElJ9TzgIxmWFFMGs12/mdHI8LrO5yfXAI7Ks6dXAAJucxq0KhhyRLhOQcUw39xpWtyHeN0IpOdivc4NSlHWCiGd0=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLqS1YEPdHpvKztKE0Dqj+EDtkay5Pd7xOchNAsL5631d1td+t
-	3rBiKSWAbIhcBb/duAH4Cd7I95cY52A68tX+kKtXQF6UpE3Pqt49rDPGb+jeFQuMdw==
-X-Gm-Gg: Acq92OHFJPrn9WpZXQ+R6sjsQxkAndB/zfZZVoe0DbquEcinzGND55ZaSGWrWmy7Yor
-	sz49faruRtj6S1cv6RqyunTkK3c5pWy+njdqjUqjVLfKi0/KjozOJe1Aku9MQkpVMuCFIUFCRpQ
-	3+WVok/0cFholKe2vm4d/6d2CH2nGqxb7aNlkNNxHoheSAP556crM/QmMIAwZ96O19CWggtYWTV
-	RetWOBz/CQLuSca0PcY4u9ZTOxLWtWZ6PeCfXoebzLGJ52ne1CmAJpwWgo+wVC6IweIg46XyE0P
-	8OOhqhhDPn1bYV+rDV77yFwmM2hKT7BQCGj8o1lZ9eLredid5Y325F1jzjUxFpkclJrdTzOYOoC
-	OTR0c4GokobcrmQh2r1GtKzcds7XCTuqNkVdnxNMRiL38x96EUDY/ddgUzyHCbBxUVwCwqGLadu
-	P6cUfTIcABTndQxaALWm6ows5eSY3bkpQ35mfFpZa+3tX18hO3cJ0Mj+X1UGOwYOZNzeAkmWBK2
-	NKShIt2g7vVxyn9IpXA
-X-Received: by 2002:a17:907:b80c:b0:bde:137a:45a8 with SMTP id a640c23a62f3a-bde137a477fmr90203466b.39.1779464701838;
-        Fri, 22 May 2026 08:45:01 -0700 (PDT)
-Received: from akuchynski.c.googlers.com.com (208.220.32.34.bc.googleusercontent.com. [34.32.220.208])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bddc62d635bsm68907266b.47.2026.05.22.08.45.01
+        bh=Ugzb2uhvCgbHvggVe5Xy5Mt/HBvzlMq1ELLD59c9p5s=;
+        b=gNa0Bq74Mcimi4EJDQkowFA31wchpF7HFOPiEFdKurLlTS8219V7z9PK4I8Fhfxa7M
+         VWLgM4n/h5JGadCiLVPE13KKYurbr58CRL0NiY1VZ3dAnMjntG9nY4A3OPO7FX86KBSe
+         Y9sWc52WJ35oVOcACseTvvnqn8Z1ORiUE1EiajxedvACh7QJ9XNbu7XiWqQbumq0gZh3
+         Bcm4hNUYQLVEE9xVkb44srnNUeCgDg5Js3iYizKOaLdOthRsREufXI2Z4vG0EFgDNBK8
+         B+mHorv89D3pwjB2OaLjsfGMNjsbBaQ6j3Ijounc/8Z29YdjZZUgRVJpwKtEiyzfZMWQ
+         ox0w==
+X-Forwarded-Encrypted: i=1; AFNElJ/pPK8wPqDcmQkZ32x+cKuVpCjHvE3pWNCD8bzpFnvljgwMhFuaHesuNE+jNZJOEbrWteJAFyOoJEqRhegtWb4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKo6nLbRCvJ5MvwdZC2D6m9GGakC8EaMbctriCHhdk62nCTS9l
+	HlD6eRnKb4Ba5h2iM+3ApOYkHh6SpwFjvct8IkOS/+bncb5J4P0+aRd0KMuQvLHtnNQ=
+X-Gm-Gg: Acq92OHTrwhH9vj5A6wx0nMfbWRwja7HTYA2ac+/Z6SN1bJwJxadYac7fjZ1wn3IC/z
+	rh0QzWUB7kT6XzYNuX5k6xrNCYV9zs1zeVzr0QGjKi4+7HyDx0hi7f4Eg+TPrqqcESjfCPmcDT7
+	aW6cwwCU1f89q1PMfrepVb5gYEwbYXBZO72fpW+P1ZZuLN7A3YsbkPONTmtX6jfApUPStwODNJW
+	AwscpigWaxc589S5tpV46u0eUycaKQ1tauKkoOLMkZ+3yW3tbWGcg6oYVP4V/9w/1FAY93TEeSH
+	FdA6pI+e7A7VSaxe9yIjnrqc28aq+6bj5LgJFSJ1qzepOqKfhsRMmFQuQchiCNl4aBxsEkE7WUv
+	YG71sHtRadf6xT8Fo72QC8c6/26zfRDvPbwgOABSlYU5WeSxaln5M67uYlwfVOvD2B1Ve00TCbn
+	STWPQYt+fqHjwLYjNLT8poMAfS/fSRAcFts9a4HCM=
+X-Received: by 2002:a05:6808:6d91:b0:482:6617:d48c with SMTP id 5614622812f47-4854a3fa3ecmr7151437b6e.25.1779673184828;
+        Sun, 24 May 2026 18:39:44 -0700 (PDT)
+Received: from [127.0.1.1] ([2600:8803:e7e4:500:713b:3006:84c3:c1bb])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e6060b2dffsm6250206a34.0.2026.05.24.18.39.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 08:45:01 -0700 (PDT)
-From: Andrei Kuchynski <akuchynski@chromium.org>
-To: Lee Jones <lee@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Guenter Roeck <groeck@chromium.org>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH] mfd: cros_ec: Read EC features during probe to catch transfer error
-Date: Fri, 22 May 2026 15:44:56 +0000
-Message-ID: <20260522154456.1448170-1-akuchynski@chromium.org>
-X-Mailer: git-send-email 2.54.0.746.g67dd491aae-goog
+        Sun, 24 May 2026 18:39:44 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+Subject: [PATCH v2 0/9] iio: timestamp declaration cleanup
+Date: Sun, 24 May 2026 20:38:32 -0500
+Message-Id: <20260524-iio-timestamp-cleanup-v2-0-c37c9408b7f7@baylibre.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNQQ6CMBBFr0Jm7ZhOEwFdeQ/Doq2DjAFK2kIkh
+ LsLeACXL3n//QUiB+EIt2yBwJNE8f0G+pSBa0z/YpTnxqCVztWFChTxmKTjmEw3oGvZ9OOAxFz
+ qWpVkCgXbdghcy+foPqofx9G+2aU9thuNxOTDfBxPtHv/PiZChTnV9qpKR+SKuzVzKzbw2fkOq
+ nVdvxzXaOTPAAAA
+X-Change-ID: 20260517-iio-timestamp-cleanup-1ee82f081a70
+To: Jyoti Bhayana <jbhayana@google.com>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev, 
+ David Lechner <dlechner@baylibre.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2400; i=dlechner@baylibre.com;
+ h=from:subject:message-id; bh=SuM+0HC7hGWwJTXikbJW5wAJ2RsorksevrifGcg2M1E=;
+ b=owEBbQGS/pANAwAKAcLMIAH/AY/AAcsmYgBqE6gdwg4bNuqtGlue/M8kGDelpLpEt8ocyZess
+ h3XIm/Xy7KJATMEAAEKAB0WIQTsGNmeYg6D1pzYaJjCzCAB/wGPwAUCahOoHQAKCRDCzCAB/wGP
+ wCjwB/0d574jaJgFsVylSeUV+cUbUscg33m5FcKKHwaNx155nm1c9St0Sx1qnegu8MScNk7qlwA
+ IZrN6rt/OLuCilqv0tZ+d1G6OCOddqTXnSLNEqVwi2QcSqspOnK3p8s4LEmU2hfDTma2HoLK07a
+ 8uSQMkAKzKpihnbPSkv3DYVtXrwxkJS+s07b+b5m6RHgvNbI9hkAvvuSQ7yMGTv4bIiqSAjKf3W
+ qEkUeE59f1oEoAAMCxzXop6HfJqY98nUdiw/+3H4Fiyw4fLZjpNQio3yNnqF29RH6WhY9cmozex
+ MpuyplJC3Mf1xx9foHj3P6/L2IeIXEPXOysM7TmEc4r56XXQ
+X-Developer-Key: i=dlechner@baylibre.com; a=openpgp;
+ fpr=8A73D82A6A1F509907F373881F8AF88C82F77C03
 
-cros_ec_check_features() does not return an error if the underlying
-EC_CMD_GET_FEATURES command fails. Consequently, when the Fingerprint
-device fails to respond, the probe function ignores the failure and falls
-back to installing it as 'cros_ec' device instead of 'cros_fp'.
-This leads to a sysfs duplicate filename collision later when the real
-'cros_ec' device attempts to register:
+While looking around the code, I noticed that there are a lot of places
+were we are manually filling all of the fields of an IIO timestamp.
 
-  cros-ec-spi spi5.0: EC failed to respond in time
-  cros-ec-dev.19.auto: cannot get EC features: -110
-  sysfs : cannot create duplicate filename '/class/chromeos/cros_ec'
-        : sysfs_do_create_link_sd+0x94/0xdc
-        : ec_device_probe+0x150/0x4f0
+This is error-prone (as seen in the first patch) and more verbose than
+it needs to be.
 
-Fix this by extracting the feature reading logic into a new helper function
-cros_ec_read_features() and calling it during ec_device_probe().
-If the transfer fails, abort the broken device initialization.
+Thanks to Andy's patch, we can just make the macro a compound literal
+so it can be used directly in assignments and initializers.
 
-Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/mfd/cros_ec_dev.c                   |  4 +++
- drivers/platform/chrome/cros_ec_proto.c     | 30 +++++++++++++++------
- include/linux/platform_data/cros_ec_proto.h |  2 ++
- 3 files changed, 28 insertions(+), 8 deletions(-)
+Changes in v2:
+- Include Andy's compound literal patch.
+- Drop explicity compound literal in later patches.
+- Link to v1: https://patch.msgid.link/20260517-iio-timestamp-cleanup-v1-0-61fb908c11c7@baylibre.com
 
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index 39430dd44e30c..7810b1c871849 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -203,6 +203,10 @@ static int ec_device_probe(struct platform_device *pdev)
- 	ec->features.flags[1] = -1U; /* Not cached yet */
- 	device_initialize(&ec->class_dev);
- 
-+	retval = cros_ec_read_features(ec);
-+	if (retval < 0)
-+		return retval;
-+
- 	for (i = 0; i < ARRAY_SIZE(cros_mcu_devices); i++) {
- 		/*
- 		 * Check whether this is actually a dedicated MCU rather
-diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index 1d8d9168ec1aa..724d1313f6b21 100644
---- a/drivers/platform/chrome/cros_ec_proto.c
-+++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -946,6 +946,27 @@ u32 cros_ec_get_host_event(struct cros_ec_device *ec_dev)
- }
- EXPORT_SYMBOL(cros_ec_get_host_event);
- 
-+/**
-+ * cros_ec_read_features() - Read EC features
-+ *
-+ * @ec: EC device.
-+ *
-+ * Return: >= 0 on success, negative error number on failure.
-+ */
-+int cros_ec_read_features(struct cros_ec_dev *ec)
-+{
-+	int ret = cros_ec_cmd(ec->ec_dev, 0, EC_CMD_GET_FEATURES + ec->cmd_offset,
-+			      NULL, 0, &ec->features, sizeof(ec->features));
-+
-+	if (ret < 0) {
-+		dev_warn(ec->dev, "cannot get EC features: %d\n", ret);
-+		memset(&ec->features, 0, sizeof(ec->features));
-+	}
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(cros_ec_read_features);
-+
- /**
-  * cros_ec_check_features() - Test for the presence of EC features
-  *
-@@ -960,17 +981,10 @@ EXPORT_SYMBOL(cros_ec_get_host_event);
- bool cros_ec_check_features(struct cros_ec_dev *ec, int feature)
- {
- 	struct ec_response_get_features *features = &ec->features;
--	int ret;
- 
- 	if (features->flags[0] == -1U && features->flags[1] == -1U) {
- 		/* features bitmap not read yet */
--		ret = cros_ec_cmd(ec->ec_dev, 0, EC_CMD_GET_FEATURES + ec->cmd_offset,
--				  NULL, 0, features, sizeof(*features));
--		if (ret < 0) {
--			dev_warn(ec->dev, "cannot get EC features: %d\n", ret);
--			memset(features, 0, sizeof(*features));
--		}
--
-+		cros_ec_read_features(ec);
- 		dev_dbg(ec->dev, "EC features %08x %08x\n",
- 			features->flags[0], features->flags[1]);
- 	}
-diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-index 6ed1c4c5ce2ef..a1ccecf5e1f83 100644
---- a/include/linux/platform_data/cros_ec_proto.h
-+++ b/include/linux/platform_data/cros_ec_proto.h
-@@ -271,6 +271,8 @@ int cros_ec_get_next_event(struct cros_ec_device *ec_dev,
- 
- u32 cros_ec_get_host_event(struct cros_ec_device *ec_dev);
- 
-+int cros_ec_read_features(struct cros_ec_dev *ec);
-+
- bool cros_ec_check_features(struct cros_ec_dev *ec, int feature);
- 
- int cros_ec_get_sensor_count(struct cros_ec_dev *ec);
--- 
-2.54.0.746.g67dd491aae-goog
+---
+Andy Shevchenko (1):
+      iio: Convert IIO_CHAN_SOFT_TIMESTAMP() to be compound literal
+
+David Lechner (8):
+      iio: common: scmi_sensors: simplify timestamp channel definition
+      iio: adc: dln2-adc: simplify timestamp channel definition
+      iio: adc: at91_adc: simplify timestamp channel definition
+      iio: adc: cc10001_adc: simplify timestamp channel definition
+      iio: adc: stm32-adc: simplify timestamp channel definition
+      iio: common: cros_ec_sensors: simplify timestamp channel definition
+      iio: light: cros_ec_light_prox: simplify timestamp channel definition
+      iio: pressure: cros_ec_baro: simplify timestamp channel definition
+
+ drivers/iio/adc/ad7606.c                              |  2 +-
+ drivers/iio/adc/at91_adc.c                            | 12 +++---------
+ drivers/iio/adc/cc10001_adc.c                         | 10 ++--------
+ drivers/iio/adc/dln2-adc.c                            | 12 +-----------
+ drivers/iio/adc/max11410.c                            |  2 +-
+ drivers/iio/adc/stm32-adc.c                           | 10 +---------
+ drivers/iio/common/cros_ec_sensors/cros_ec_activity.c |  8 +-------
+ drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c  |  8 +-------
+ drivers/iio/common/scmi_sensors/scmi_iio.c            | 13 +------------
+ drivers/iio/light/cros_ec_light_prox.c                |  8 +-------
+ drivers/iio/pressure/cros_ec_baro.c                   |  8 +-------
+ include/linux/iio/iio.h                               |  6 +++---
+ 12 files changed, 17 insertions(+), 82 deletions(-)
+---
+base-commit: e1a29334a9c043defe7a9363fa76d399d3fdfbec
+change-id: 20260517-iio-timestamp-cleanup-1ee82f081a70
+
+Best regards,
+--  
+David Lechner <dlechner@baylibre.com>
 

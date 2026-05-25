@@ -1,102 +1,70 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C2B8472
-	for <chrome-platform@lists.linux.dev>; Mon, 25 May 2026 01:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6043286AC;
+	Mon, 25 May 2026 03:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779673755; cv=none; b=exjEbVLEvxg4rH1DPYbdioXRRYxyTAQXDxGnv7NFVQnmhx1mVDyJ/llX9OMSZ9kNdR3iwt3pHdNb+GlWpzHEsKeb95eir3EvDVX+n8StcDJ6vxs08nBzja+P2jZMAYdDiocay6YUiPGCGft2Ap+pwVnHU3Ojsn2oDK9Yhs8AkBI=
+	t=1779680968; cv=none; b=MAhvohL3xGqUV4DVnbikvD/VXdm/F1fNzpXmPMTnPijAJKhTTIR2eSAikIzAaoIun/b8K2t+cTEJbhq54B53JnUo9/ICGguuwRutjAX5aPCsxj3KQZwFjfEsbmOkEsmgqosad0yFp1ZOxyk3BTWVtjxW13h++vHOdEa0vydTORU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779673755; c=relaxed/simple;
-	bh=cDaGDI3r+xzke3jPoXhYv5x6ipCPebf/2XgP43K54Yg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u6w6nlLSWuCRq6MTSDzOKncGnnR6AiEIBnzlWEgMaaRnvxdsr/TR6YorH97rtbY7qKAKZqkUUI9+U6ynf4T8Q+ocZZAChUQSvppwn7f5fIiyZ4ygg/Q5fpYildeWp0iclLsAh7ZtTQEiwpL6S/Ta98UGlc9g1x+m7YK/idemxjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=MkSzQeCW; arc=none smtp.client-ip=209.85.210.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1779680968; c=relaxed/simple;
+	bh=i0SnrtvajEwJuye5s0IGMZ8eSN8TN5KA6CG/BViPlrI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a/xi3DQQ0ZsPi+lEmFdRa6jpcGgQhhRmIm8Ggi9RIADYNs9fGjHZ2WwtjqiWRo2tEz27uz3Y8Cf3/qlZnZZQn2lhXjzkmcfGiqg7FiYz371s/DtfF65QOAx3FSDH5s2+cXKskVojy/YIhd4bogFuvNiFQMeKx+qaJmYPH5uQfPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kTrs8tiZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="MkSzQeCW"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7df05fc49e5so9423245a34.3
-        for <chrome-platform@lists.linux.dev>; Sun, 24 May 2026 18:49:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1779673753; x=1780278553; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QSxXz0fJUl/u0yNVKSTnYM+nC+klyCfC7mCOal5YHEI=;
-        b=MkSzQeCWvH7Xpy/R3HePmMh739IYL7Jr+cPtz5zRpXSn49hrlOeZyJEB/o6UFGa4fA
-         x7WG4KI7kI2PURmiDxGIaaTCLt7+Rck8HyT4G38gUH/myQgo9NAPNk8mNht6fXpMIzcE
-         9Ki+BAYzPiwKBcpOt5QTIruGxBoAIdv9ZRRIwTIYgQiRXSlgxBmk7MELMTVqPJNC0IXG
-         L1MuzPHNtFfklMKpwALod5dT9g3QfVrWPmI7Czi3uoh7aBeOejOWWVh5kP9Pp8IO5elj
-         SxuXz2m1UwSaqeExa/R38VtdvOWW3rcjLNc8nvTIpLXDzZTPcLLpgPJWeqFNNt8abLWZ
-         +JLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779673753; x=1780278553;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QSxXz0fJUl/u0yNVKSTnYM+nC+klyCfC7mCOal5YHEI=;
-        b=aUkCExLjlJr/552HyyaxRN3Cgk7zoZOBVHmjSCbefl4kSMoXRlXjxj4LR+06te1snw
-         nWhh7TbC2lI4P8Z3jr7gz9Jimh3dNSWt0Ua76lyqGNOD1e8MiSJtcCe88u+Uu1GxZoxM
-         58bq+VdKMjaHOQ0sRzA9GkDAVnJmF3xHkK1f8R+Nwgk9NirkZGfammRVA3aUoLnavbm7
-         0BE2KXoXlQ9LtWSqt0EF3b/z4qlP12oTivak6KSpruDjJ4DPKnZxGwWrbkILeyhzdRRC
-         AglIO8sA7Rl7+/sIXp4jtPqqMydl+gkvxqyxxpek4wA7IkglueL5ty53pvUlXeCQQIwG
-         xwHg==
-X-Forwarded-Encrypted: i=1; AFNElJ/cjqfBPuj5I1ZcS7sJ0odkJvVpF8h4PQM5PxQjGrVPEHhkqB2zA8vAu0UP/e6VgYLEPC3c9UuOZu5ltCMvifY=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRQn69TZ2eXtQD8MjweA63ujTWC+nn7IIWLkkyGpwBath0qB1m
-	fU3G1eiGu55vAPg7LHK0TkRd5UahLs+n+Y5T/xbm/H6wtSsPMIfA8MB3JkaMhD6ZoFM=
-X-Gm-Gg: Acq92OFG87o9HRqVMoOqZLDCodT2LuF7H81EjhjGS/nq6oAR0rnplS/GzZCID5YX32u
-	5QwEXA7yWyIHjfveB7ScndTNHPsUQOsgIvUOgZQajY/NatZoeuS9h/Gm1FTR/QOECQ7XERbIH9A
-	4oRDGfSY9scASIDf74XCUNT7PZtjDcBwpK9ockBLwUuCkOAShYhUp0VVcqzjCphKGPMtlVCnJBF
-	gUYPL7jqrN7DvUAYgta574SXn4EchVoqtVq/8mxfPIRqblMi6q2ZxAJ2t4iitt4l4JrwYq5E6Te
-	9PQJIFAEBn21d44YV2khGV9IZBMaNf2sHqxuh5GmBdybcLsmg/3sDGdMdGZIozwbUilgSnHn6jp
-	EtqfSVIM0wPIPunKjdV5ie1O4PenUHlp2S3LeGCcU+ZoG6RgZ6oDVFGuDk+oP5XIplwFsayNOiG
-	j++Sd8GSxL1qZiz4lSE7h6iF9XdplFnuvUA1t5PJaqPPn/GM8FdzoVZEPnNTPB1u/Hwjq0XyydJ
-	w==
-X-Received: by 2002:a05:6830:6682:b0:7dc:dd58:50a1 with SMTP id 46e09a7af769-7e5fee5ef73mr8197143a34.15.1779673753669;
-        Sun, 24 May 2026 18:49:13 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:713b:3006:84c3:c1bb? ([2600:8803:e7e4:500:713b:3006:84c3:c1bb])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e606459dadsm6267227a34.4.2026.05.24.18.49.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 May 2026 18:49:12 -0700 (PDT)
-Message-ID: <3c12da03-6c62-4045-b831-e7b07c0ecb5d@baylibre.com>
-Date: Sun, 24 May 2026 20:49:11 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kTrs8tiZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 695131F000E9;
+	Mon, 25 May 2026 03:49:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779680966;
+	bh=VmfHiSSX9pSEAT1r9wN+mvvb23xhJIwxelTkM1RYGRQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kTrs8tiZPnAkKO8hIlmxeY1ykhm1GRKoOQt+EBD8rhlt4kQ47Q3dlw1JMgk2j3U2u
+	 rY4F3G4ADVFXoWcQzIcLx2FREjKzO6HQoLKgEUv4yWEU+foXOksmqAi+WW+Jfe06XR
+	 bg72jt2EEvo2MxhIsVypZ5SzwcgR8YR0L3i0+Q3LWoJU7rX4p9rCqW8PTdBEBo95UA
+	 fu3bEbjkU7Z14evjtOmGNS7PxiqimuZ3JkrvurOPhVuNtfQ4XslFC0+FrMeCdiTfk1
+	 n6gntDMfXZZNXC4jkF/Y9s0JlaQxTAE4eavYj+zQz3tcwdAb/OIQkPCvp/TGaSn9wY
+	 bcEhP+Sa0hy0w==
+Date: Mon, 25 May 2026 03:49:23 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mfd: cros_ec: Read EC features during probe to catch
+ transfer error
+Message-ID: <ahPGwygHpf_gMRYl@google.com>
+References: <20260522154456.1448170-1-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel
- definition
-To: Jyoti Bhayana <jbhayana@google.com>, Jonathan Cameron <jic23@kernel.org>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20260525014654.2399354-1-dlechner@baylibre.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260525014654.2399354-1-dlechner@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260522154456.1448170-1-akuchynski@chromium.org>
 
-On 5/24/26 8:46 PM, David Lechner wrote:
-> Use IIO_CHAN_SOFT_TIMESTAMP() to define the timestamp channel instead of
-> manually filling in the struct iio_chan_spec fields. This makes the code
-> less verbose and mistake-prone.
+On Fri, May 22, 2026 at 03:44:56PM +0000, Andrei Kuchynski wrote:
+> cros_ec_check_features() does not return an error if the underlying
+> EC_CMD_GET_FEATURES command fails. Consequently, when the Fingerprint
+> device fails to respond, the probe function ignores the failure and falls
+> back to installing it as 'cros_ec' device instead of 'cros_fp'.
+> This leads to a sysfs duplicate filename collision later when the real
+> 'cros_ec' device attempts to register:
 > 
-FYI, there was a server error when doing b4 send, so this last patch
-didn't get sent with the rest. I missed the [PATCH v2 9/9] when editing
-it manually to send again.
+>   cros-ec-spi spi5.0: EC failed to respond in time
+>   cros-ec-dev.19.auto: cannot get EC features: -110
+>   sysfs : cannot create duplicate filename '/class/chromeos/cros_ec'
+>         : sysfs_do_create_link_sd+0x94/0xdc
+>         : ec_device_probe+0x150/0x4f0
+> 
+> Fix this by extracting the feature reading logic into a new helper function
+> cros_ec_read_features() and calling it during ec_device_probe().
+> If the transfer fails, abort the broken device initialization.
+> 
+> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>

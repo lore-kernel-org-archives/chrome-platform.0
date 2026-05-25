@@ -1,104 +1,95 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31E4267AF2
-	for <chrome-platform@lists.linux.dev>; Mon, 25 May 2026 01:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3882776026
+	for <chrome-platform@lists.linux.dev>; Mon, 25 May 2026 01:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779673205; cv=none; b=ViqKfGqSGUH90ZpdiDYpPaqkPvrK0MT1x7qIzzb6HY87o26vxeKmPum0Fbpo0Z+NakG95oAP+pfjdwe0O0mOPodbMSY0+ksBlGHJQg/fi0nGiF+tBwLX2GwWbBzOBOAVUejjyTeh5yG4u53Yfl39CwmwpiA6lR9kcdaNvpL9i8o=
+	t=1779673630; cv=none; b=j7nG/M/atbWYuK/c+LEuNC3zznb/orEJWlIHgQSqXc5sAvXYBTsxb2xPZ1tR2RKf4NrqwMxAdN3rdsMsBJIVrx89d1cbsrTSXwnIwYnxBvXrZMyIO+EXvBOKGwnMnwLeNiVAVmF5PjrNrKpLPBf5Z+EaDiXkkjlseCTQQtVdwoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779673205; c=relaxed/simple;
-	bh=7C8/5+5gnNT6M2AlhPrzghavej9n+bAnqS/RcFC9G6U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FIER84oNWCyDK8QUk+oIXyGSTEPiPEdqxyUV4x7WUO0glMEYgbv17qz2gDBKVbAftGKqlALIRPM3CzVhCaILI3hh37KJu0lfNP8paCdmNwxDQnoGyGdIsCL4a1yzh6vOyqdFMq7cIXUeVq8hVVLnyTPmb8FuI5jlt969gy8kXnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=YyWg6b7F; arc=none smtp.client-ip=209.85.210.45
+	s=arc-20240116; t=1779673630; c=relaxed/simple;
+	bh=1GvdRYTbe4ysj0bbOqJt39+jueckOj4wJjySGOcUdLc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cIv8c24wKeACEZR9INdmOEdpKAHC94V5lwLv3T3BeannN02MQH4PybGu/Pc1rW8AYt2YcSoT/tzfKJMSQ2XTe3ztAI1pVS6unkvA8WpTwaTQiUgWfXPy7/Q8I3TQm4bPbo+45p7yc5KDGb4EtciotvjcbLyvKakMkexv75fXu+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=f8J9Vd0q; arc=none smtp.client-ip=209.85.167.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="YyWg6b7F"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7e615b4c2a7so445244a34.2
-        for <chrome-platform@lists.linux.dev>; Sun, 24 May 2026 18:40:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="f8J9Vd0q"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-484cf882ce5so6646009b6e.1
+        for <chrome-platform@lists.linux.dev>; Sun, 24 May 2026 18:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1779673203; x=1780278003; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lh3E+qhv3/kQfv40DBxNDJmOjlWOJTi5Ytzn7Ux4m5k=;
-        b=YyWg6b7FGZdcrTdUTYfaMCssDwIzDgLLr9PW3pZt1gtd99/v20SPL4p8R9GsKm+xvq
-         8NTDC1YvrHcChXO9G8bapsiwqkUd2oswA2hI6EAw91cprAxrNZZ2YtJ+Vh1Xpo2rgp8a
-         Mevfif4Yh0Q0DvYgFWtQ26x7ou4r2A8ZJ/z1S8zxi8b7/4w+RdDWHI3Di4Si2cC862Sc
-         JZGePKbJO0mdh52pzdDz5cwXasJ2GG5cn2QxL2MdTsuA31Dkd5JWUAFpsG57/5vjRk08
-         LlSYq7LT1T+vpcrnlsnReY6iRERdvlgzWU6zaJnTSdS3MznM4uDV/BLNxAeRCoZer+Er
-         ecgA==
+        d=baylibre.com; s=google; t=1779673628; x=1780278428; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dl/suvXhKsrJ4+KHwf1f2NduFgl57g1mFMb6s3BomEY=;
+        b=f8J9Vd0qdhyVrU3lyWmunFJ/K5fwwNnBfyD0IbNEXNxjo+Cd4YN/zakW9CD/q+qBWS
+         sR53xBBVeqAhJUJ/THoS9ABysosySIgcGdwXd5CotNznNwSPl8Av/lE4iHOPn9rFiW/I
+         21Ko/PgEUif8XBiXHOPKAi6TxJPADLbXYkt8dQDKe7kQR+9bpBC6rULUn5oRqI7We/cS
+         7B/PRNrxId5KPN91d+1gvrgblHx5nfGNkIyDUIm+9Xw1z6/g04QY1AE86eCZqhX7rmZQ
+         Mm1NCbinbJILQ1ziDaz0hC7YMlrZ5cMKpUpvh5faWWHPedfELL3NbNKj8WqptDXgDI9e
+         yKsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779673203; x=1780278003;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Lh3E+qhv3/kQfv40DBxNDJmOjlWOJTi5Ytzn7Ux4m5k=;
-        b=XXd4/rLB9OkywPO8z4jWkYuhsqWCkC5wO8QAjQSAISdDlJxVylERC8mF98NYw58HiI
-         ixtwM1zMBP5HZ/smWZfyr4y20TugUjtHm1iz8UG1KqmrlNLQWl28crgmv5q4ht7DUKgz
-         uNpfo2euZvgMo1WISbRB3iHW/FMEfGxZHXZ+YSwZC3G+NuuMV9tsQRSaddGKU/Sfbdc6
-         SAPs2ZOtIvxLJLkU9421ZMNc5nLD1DFrLBN7pZueNukcG0WJ/vPUAOrMpvGiLF6cN4Pz
-         A8I3o8JJ00/UIf8pczLkmobzAkt8j+YCr+dL5ApjQVzDYj0oPePLjpainc2LkMx0jX46
-         +zdw==
-X-Forwarded-Encrypted: i=1; AFNElJ8xfunn0DzjoiC0/16gVw//gqvDe1W5MOs5hrwa/ElvcxW9Gc/Rk49Hs9Dv4KhdtiA4zwcULcuH8v7JU4LuthY=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/awTEzslxSjcjJhrIV9V6NGLGQcSNXl5LlCeYYgXnQ9ErZmhq
-	//KlxzfMOjuXk5iewKz0i5qbh0fljc8XZd68306bIcbnWEr4z7B7eSY5pPVGYGP1ABs=
-X-Gm-Gg: Acq92OFNYR+cmpbav0l1TuywvPBG04Nu7AkJqyvcVj/Eu3Lc+7YZH/f5CBQzlrNc9WP
-	Wh6vTWV5S/RADk9hf9VPxqOS9I/eWuRLN2Rd8osARZSUOTdbSLthT8YjEMW6EaKFCEt55WwIQYA
-	dVOpDOMWkIpA3W+Q88JeypkkGRTLcwV2xr1OI2Km72xtoGCxfQNS7C0Swgd1IqDGSuKc3uVy9Dw
-	J8PBZRO2THEpdsjZUS0N4B0KnvLxVaPj9q2f/DT2FOBFbjpgoWsPg4v6JQQIjpg24p1EoVqC2zX
-	+5P/RFoQ7l71h4cUqpIwkfbLl7Gq8OYjGyL+JU2/eWtSymFLJQYPChPXtnrDI6EycHTg5rCrWal
-	uQmE8f44dOepB4sCtTxRmyJeAcg68W5lzJEg+hAXcqP3uifut/zZdD+IkNsTyNlh0k2lz5bfLpu
-	rL3PPG+bzhsai4BofasHCbX1oiwUxT
-X-Received: by 2002:a05:6830:6b0d:b0:7d7:da05:f2d2 with SMTP id 46e09a7af769-7e5fee1654emr7987729a34.16.1779673202703;
-        Sun, 24 May 2026 18:40:02 -0700 (PDT)
-Received: from [127.0.1.1] ([2600:8803:e7e4:500:713b:3006:84c3:c1bb])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e6060b2dffsm6250206a34.0.2026.05.24.18.40.00
+        d=1e100.net; s=20251104; t=1779673628; x=1780278428;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Dl/suvXhKsrJ4+KHwf1f2NduFgl57g1mFMb6s3BomEY=;
+        b=etEqljJ9MYk4NmwHjSLT5uMnGfCTBUVZbjzfUcCrszvMLoy8gPnpRxd7scoQFFQLh/
+         jave2twxQSAoN1H5DWQTFr9HXf5VT5PltC96V1J70ENY3G/IJTKfj2aa5wVPFF7uPSpa
+         xcgCXutIW+ooE6olng/slBaQRwyJWSm/66ljNRnpCb+XEJ6O9tNm3iUvv2z4LdhbAcHZ
+         c9YydnN0QwHZ4+8+bxr/KOTFn1R8OLUS4LHq+cX1L+e2nNQbY3gTflBb/Yoc+VpqW8de
+         Xdv+BDLMW/lO8jDDBDDZf66aF+bFx4fSXJwUbdjK/Vt0leGhOq5NU7xwfkXYM9bLQFJt
+         SlRw==
+X-Forwarded-Encrypted: i=1; AFNElJ9sIT6qIWE+HqlT8GBqNYDabUCBX8ewfXIba+w1DR3c6wxawZD2U7ULp3DOhOKRsuR4JpFRx2QYoeySWaKHvC4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyl3P3DP9LPeZTfB7102ZxscTLpC0MX6ujQoV+MxmyH8nQ7a3lt
+	1GEt7TmKWdLW6xpxCrr1JMCwMw+hhRhDB0uaEZJpYeIZS+LNzOn1XOkbGMtBucnxO40=
+X-Gm-Gg: Acq92OFJgqHIrSaXWVo6KecoJrx6hNoRg0FzZbDEaLD9Oety/SgvKtyfia3y2XVmHkT
+	lqCGz1EuqaE9e9fvp1V2oiQRQrilqDRQY/fjrV0kLGRynzT/6i/cS1HDiADx9cjqtCWBxz7EnsV
+	AkcaAvgLdyG1ngzCtLll6M/OSM+u0QsvhcWlMv8Oi7aY5UcMjzJ9tNWL8Wnioc75auh4tyL32tC
+	gw/Qtn9TKLF1WiZRfkswokuOKN7SThj0v6aiUJNfeeccsGjPDBdsY/QRN8LbwA6nML8jS7F7G1X
+	0pzzaa9g18kHo8lexNOSWyUbyWCuZQ7/GhCbaCpVxDt0szVMBuEAF30tFd7CJX64PZTtrvi9Jmx
+	qdpS3/uLSkx9PlK0+MHdCvOzKMpkwiyM4u79oIUA03pT8pyKiuS8fNaT06V8oo9gEJQ8FaGUIlR
+	EctVm51sqH9PpMj8dtZAXOOOhH5UkOHBfsnCrx
+X-Received: by 2002:a05:6808:4fe7:b0:455:f0e4:4f89 with SMTP id 5614622812f47-48549cfca75mr7320262b6e.3.1779673628014;
+        Sun, 24 May 2026 18:47:08 -0700 (PDT)
+Received: from freyr.lan ([2600:8803:e7e4:500:713b:3006:84c3:c1bb])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43b6350ad38sm9263431fac.1.2026.05.24.18.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2026 18:40:00 -0700 (PDT)
+        Sun, 24 May 2026 18:47:06 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
-Date: Sun, 24 May 2026 20:38:40 -0500
-Subject: [PATCH v2 8/9] iio: light: cros_ec_light_prox: simplify timestamp
- channel definition
+To: Jyoti Bhayana <jbhayana@google.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	chrome-platform@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel definition
+Date: Sun, 24 May 2026 20:46:52 -0500
+Message-ID: <20260525014654.2399354-1-dlechner@baylibre.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260524-iio-timestamp-cleanup-v2-0-c37c9408b7f7@baylibre.com>
+References: 
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260524-iio-timestamp-cleanup-v2-8-c37c9408b7f7@baylibre.com>
-References: <20260524-iio-timestamp-cleanup-v2-0-c37c9408b7f7@baylibre.com>
-In-Reply-To: <20260524-iio-timestamp-cleanup-v2-0-c37c9408b7f7@baylibre.com>
-To: Jyoti Bhayana <jbhayana@google.com>, 
- Jonathan Cameron <jic23@kernel.org>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev, 
- David Lechner <dlechner@baylibre.com>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1075; i=dlechner@baylibre.com;
- h=from:subject:message-id; bh=7C8/5+5gnNT6M2AlhPrzghavej9n+bAnqS/RcFC9G6U=;
- b=owEBbQGS/pANAwAKAcLMIAH/AY/AAcsmYgBqE6hSvUsVar0/xUDDV+QUJ/9QMjDeZul6qiVC8
- FnvZCNDU8CJATMEAAEKAB0WIQTsGNmeYg6D1pzYaJjCzCAB/wGPwAUCahOoUgAKCRDCzCAB/wGP
- wGyxB/0Qj/N6aCMaKcrDRbJ5BmZ+vj037ba3Q6iW+PZkKjvGsd9n4PoFI7wD6diSeSxvG2GERAV
- 0x7y5cPwTJeGgFrLU4Qo8z9NcqmY/opoPqkC68DGf1g4gTHMT2AFHuEgfGeY7XqOwhRn02ByyZ7
- +BgbYfMmx9PIrdrvLqgkhF11SndRrlvItLg165vQBWRtZa5DSb8jybr8+fyduA8COR7s0xmuXU5
- PQaOeq17CpIVkbeYd+2zJNY5zR//JrrRaAgbcQ1iXR86OAIlopDA2T+cAjRX1sezQfNGetxEBw8
- nhehymX7MVyKCKWxDzyMp+MovU+rt5IIKdRMjaV9OqcsI0Pj
-X-Developer-Key: i=dlechner@baylibre.com; a=openpgp;
- fpr=8A73D82A6A1F509907F373881F8AF88C82F77C03
+Content-Transfer-Encoding: 8bit
 
 Use IIO_CHAN_SOFT_TIMESTAMP() to define the timestamp channel instead of
 manually filling in the struct iio_chan_spec fields. This makes the code
@@ -108,14 +99,14 @@ Also drop obvious comment while we're at it.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/iio/light/cros_ec_light_prox.c | 8 +-------
+ drivers/iio/pressure/cros_ec_baro.c | 8 +-------
  1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/iio/light/cros_ec_light_prox.c b/drivers/iio/light/cros_ec_light_prox.c
-index 815806ceb5c8..d09dea9c0782 100644
---- a/drivers/iio/light/cros_ec_light_prox.c
-+++ b/drivers/iio/light/cros_ec_light_prox.c
-@@ -223,14 +223,8 @@ static int cros_ec_light_prox_probe(struct platform_device *pdev)
+diff --git a/drivers/iio/pressure/cros_ec_baro.c b/drivers/iio/pressure/cros_ec_baro.c
+index c6b950c596c1..6cbde48d5be3 100644
+--- a/drivers/iio/pressure/cros_ec_baro.c
++++ b/drivers/iio/pressure/cros_ec_baro.c
+@@ -170,14 +170,8 @@ static int cros_ec_baro_probe(struct platform_device *pdev)
  		return -EINVAL;
  	}
  
@@ -130,8 +121,7 @@ index 815806ceb5c8..d09dea9c0782 100644
 +	*channel = IIO_CHAN_SOFT_TIMESTAMP(1);
  
  	indio_dev->channels = state->channels;
- 
-
+ 	indio_dev->num_channels = CROS_EC_BARO_MAX_CHANNELS;
 -- 
 2.43.0
 

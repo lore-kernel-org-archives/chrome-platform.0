@@ -1,136 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EB2305693;
-	Thu, 28 May 2026 06:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4060D33F5B1
+	for <chrome-platform@lists.linux.dev>; Thu, 28 May 2026 06:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779950464; cv=none; b=Q1n3a/H2ok+GbgrMVItNXlk0PQ2GQxjIereE9yYXxbt0z/zOOrVrQntSoVse4ZPaX5DxUExOi8cWXAkPMB0vvn/3Hd3BJGEP+cL882EUOraJHR/mOmV3NJ57TQAyxPAr0GNbgFzPPnCYckr3R17LN9SZEXomHvtZoDuqt7AxwSo=
+	t=1779950913; cv=none; b=toiZlzaDcTNmJLYbWZbHolnb4UzZeacNJsE/UpMO+10TmelOZhPq1Tbht5LmTG3GRHi8vkVi6+ngzuUEcOegIbYUVl8zarMZB/R8GEuS8lN+J7Wk4xBOCtbB4LVHZBrphEGv2VM2+4wNx37rldMBYN5WKkJ0IBStVIalM33U2+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779950464; c=relaxed/simple;
-	bh=SioP6jDgWCwXbGQVSvOG90A2ONx8D8JxSS4hvLLdlx8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kuMtYi1s3yTdDIPZYWo6s5yhz8duQuY6kahAxjGYTizpVF00xlWyC/TCF05WA3s/WZcr70BKVgPOB/DfLzPQUyb/FXxDy6IjO0W16dw8g2zk1B4lxlL7R3aqxXFLMav2ivocLEsak9LaqeC1kSupHnEeIb4BDRhydxC0Hv92aiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxRZbt4z; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779950913; c=relaxed/simple;
+	bh=ctSZqEB1mlU+XvYe9FpEXZw3i6PMNlg9mOrPLqs/9M4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OnH8xs3bsaAQtCCWTWQ+eYx9CYGwY4vNgGB/YySCjoYfgd5hnfR+/U5mvdhn7tnQ68g4reEcfi0lWQ/FTfS4NNg2sgIUQ1VraNM4jMe344VwVLi/3HTAoChn1V6FVT31QQ9zEFXMF3LFINDOBdVGTgLAC+96WZGllyTNfawkFFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=KOUrhdjb; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxRZbt4z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779950463; x=1811486463;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SioP6jDgWCwXbGQVSvOG90A2ONx8D8JxSS4hvLLdlx8=;
-  b=YxRZbt4zrpjHYSMq94PCJYaOeufPTmR7FHfPMi6wbqx2p8ZnB09P6p/C
-   MNlkksZRsN+jQXwJa8dBMTAvoSS469qDS8rrQnwTGhIamGG3+cHJ8hjO7
-   skEffHJejIYEu2O7y/VzvcbHn/Uynuow+1+AY+rUYRnqAAPMSOvzjmAej
-   1fxUeWze7fCbuI7ijvcZZBQFQvELJ0olVwbKSTp14zeI9gEvRHrXoj8nX
-   0GqY42xmUk/WNruwK+LjtbQnO1b34yjpw57vtJd2KuhijIIYLvKnvaDHy
-   kc0d6MEOe1CuqH/vWeDgpggOgyKqodSOxFc8ms/DMFco7/fVIH6FS8QtN
-   g==;
-X-CSE-ConnectionGUID: xIYK7GMFRT2ScoLlgE8yuQ==
-X-CSE-MsgGUID: CNr9jQcXRNuwdiYzaSGWKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="92263273"
-X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="92263273"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 23:41:03 -0700
-X-CSE-ConnectionGUID: AD0JX70CQtC2uKqoWuRP1w==
-X-CSE-MsgGUID: xnwTCWx8SKiOK0BVLFC32w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="239892506"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 May 2026 23:40:58 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wSUQJ-000000005dK-33pH;
-	Thu, 28 May 2026 06:40:55 +0000
-Date: Thu, 28 May 2026 14:40:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Lechner <dlechner@baylibre.com>,
-	Jyoti Bhayana <jbhayana@google.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="KOUrhdjb"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4904fd4f6aeso46629625e9.2
+        for <chrome-platform@lists.linux.dev>; Wed, 27 May 2026 23:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1779950910; x=1780555710; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ImRGRn+Fhpb0WqEiONhradFoxfKocbbhNboCMBAjm1U=;
+        b=KOUrhdjbfThoSRPgJRDNEkbDotP1ZlXMpVRRWWWgXqFetMxfJ3U2wB9zo/j+AmPSd8
+         oa7d8ZkMfr0hhEy94lRK9INX7yFPwLg5y2pC1FHIwTn3XDP/i0DE6hBaDCTJ2p2+bsS+
+         yhflwJtV0V/4T085bRQvFfT5M6uNG0mygqbpS+s659519lBx51xzUrbUHHqGksE7TrfG
+         v2o255bKN4nQ0L8GG5zaFljC+iMjMYvBzAQN+jXDUY7pJO3UTis5ZxuPaR6dIULn6Ulf
+         S1nWZ3+pzBiE6rWDpPiaB5tUzprs0GdjhHWNA2GzWHyaSAmc3mrd975XH05N9wpZxwA0
+         F2GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779950910; x=1780555710;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ImRGRn+Fhpb0WqEiONhradFoxfKocbbhNboCMBAjm1U=;
+        b=p/Z6sPuzT1fgJRDtt0+ygbA4x87GUumUsMgs4LnY7+wipGLHTqMDnW/wH090PsUCFO
+         Sn36NMHau6gUAM65hoO5DtIJd27nr59xm7OT8VeCsUYP28BWtixpP8ie5lP9r+0oKaC8
+         Zf1G3lWRI9Q8O32RKqXpyU9c50hr82ncZwhymF+PllqWLFjYywsJS1ILHXU37eJCYzUb
+         Ef8LAmCHUfk6d5Uehig5HVV7YgNJWXD0DwC8JR3u380AAPlCUnN+6GBS74qFYHimGpZH
+         L23NdYcaOLThdzhUwPBSxwtEy7tSfItFndP4L3J0H/kXxo+vCf0MG59cC9kymYUNqjae
+         j3xg==
+X-Forwarded-Encrypted: i=1; AFNElJ+1ay2sDacEtX4Z+9or/Vobzv0Rp9JWhSzGekq0opK71ZxjA/ISDpjpAITDGxnmaMggQbNZRDGWLnh2WxkkM3A=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzoVdmKlNJVaTEaZZfj1ZPyVr0OoSFmMeJQhmCkV5NkKPoAXgRH
+	TFKltSKmms1VMheGCufCKhm5NFBP7rqD1rbBJfUM3g6r53FrPmjCnPZiJ1O++d0bSmE=
+X-Gm-Gg: Acq92OH/NQb/K8fw9ipJQ0tgE+VgYcIxarvgzWOgyE3GCuG5yr7NH6adXiWtP5Ovb+6
+	xX1o7030y8wUUauGLQ49PxS07C/+P0kcp4I/kQ5KvJjdlfs9PKgu/eCN2wfpO4Y7p9PpJDhvuHk
+	FmkKNsad9k8VPAqrMR0bq4LeTkFSYkopqUJAXwVWJ9sD5AeR1vCjpZNZtofqRrcu5hpx5YbTRy8
+	JM/Xr2ZAZxy2gluV2ackzuIz6VWwmggbJIQazpLR2lkwAzHRT6/e+t1/iniVw+ursie12b+Q8eg
+	jw00QZhC3OkqB5oaIRY4w5Z/OB12gh9xqVyWFD5TAMbZrrw6LiRkvNxsWZ6Vc4TuGQ7U8ZAf/xl
+	HK4s0VKp+JY1QnrlPPlo0cIWsHv97PW1G63/P3h2cNOimEVmjkHPpc0B4Z5kUe/jKf8nNRwa9vP
+	e4ka0hNx97akGsOCI7n9zx0YP6IA1xXIiMzTASBF4HKPVoSIbYpY5QrTQF9+psTE0AFfpINF/Me
+	UhCa1zFxEOZGytYea9GhOe8GQ==
+X-Received: by 2002:a05:600c:6995:b0:490:482c:4384 with SMTP id 5b1f17b1804b1-490482c44ddmr429872215e9.24.1779950909709;
+        Wed, 27 May 2026 23:48:29 -0700 (PDT)
+Received: from localhost (p200300f65f47db04e95e43453a0d1648.dip0.t-ipconnect.de. [2003:f6:5f47:db04:e95e:4345:3a0d:1648])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4908d80952asm13777795e9.1.2026.05.27.23.48.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 23:48:29 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-rtc@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Linus Walleij <linusw@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel
- definition
-Message-ID: <202605281432.a64fe4iY-lkp@intel.com>
-References: <20260525014654.2399354-1-dlechner@baylibre.com>
+	Karel Balej <balejk@matfyz.cz>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	=?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+	linux-samsung-soc@vger.kernel.org
+Subject: [PATCH v1 0/3] rtc: Use named initializers for platform_device_id arrays
+Date: Thu, 28 May 2026 08:48:09 +0200
+Message-ID: <cover.1779950275.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260525014654.2399354-1-dlechner@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2956; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=ctSZqEB1mlU+XvYe9FpEXZw3i6PMNlg9mOrPLqs/9M4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqF+Up8pYbtZoUCw3r8+fOJGekG5PZPwptdY0eL tFdqigjF+OJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCahflKQAKCRCPgPtYfRL+ TjgYCAChrHD2kpobkQDS/kOb03ZK4sw2ENh4cFJRBLYOasAIuMF3//D2JUL2ZbhP6+lWhluNIn0 ezNtZga4/I3VHz4htYqJ88jImRuMyg8IiWCGrVoEESkPCftK4VlmnStBfSm5b5mBjSdOz9YTcqm ucxuQ548hWFvNdEw9T2W/1NND6t3KJbrRntNSQMDvkOM6Z2kpas4+wLMBWN0xK6IX1mkWUV1zNP wucjVeqV3zSbA1ROQEw1dSTomgIW6qg6vXbkKx66Yl9O+Ew6aBOPnYbET8HgyuX7pRy6s57sbjC WUAPAlIvVPAhOrsmeSO8svYa2NisfNk0lzzlqth0+Tm4g7Iz
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-Hi David,
+Hello,
 
-kernel test robot noticed the following build errors:
+this series targets to use named initializers for platform_device_id
+arrays. In general these are better readable for humans and more robust
+to changes in the respective struct definition.
 
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v7.1-rc5 next-20260527]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This robustness is needed as I want to do
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-pressure-cros_ec_baro-simplify-timestamp-channel-definition/20260525-134550
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20260525014654.2399354-1-dlechner%40baylibre.com
-patch subject: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel definition
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/reproduce)
+	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+	--- a/include/linux/mod_devicetable.h
+	+++ b/include/linux/mod_devicetable.h
+	@@ -610,4 +610,7 @@ struct dmi_system_id {
+	 struct platform_device_id {
+		char name[PLATFORM_NAME_SIZE];
+	-	kernel_ulong_t driver_data;
+	+	union {
+	+		kernel_ulong_t driver_data;
+	+		const void *driver_data_ptr;
+	+	};
+	 };
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605281432.a64fe4iY-lkp@intel.com/
+which allows dropping several casts and eases porting CHERI to mainline
+linux. A possible follow-up change is the following example:
 
-All errors (new ones prefixed by >>):
+	diff --git a/drivers/rtc/rtc-max77686.c b/drivers/rtc/rtc-max77686.c
+	index 375565a3bddf..31b641bd8962 100644
+	--- a/drivers/rtc/rtc-max77686.c
+	+++ b/drivers/rtc/rtc-max77686.c
+	@@ -760,8 +760,7 @@ static int max77686_rtc_probe(struct platform_device *pdev)
+	 
+		mutex_init(&info->lock);
+		info->dev = &pdev->dev;
+	-	info->drv_data = (const struct max77686_rtc_driver_data *)
+	-		id->driver_data;
+	+	info->drv_data = id->driver_data_ptr;
+	 
+		ret = max77686_init_rtc_regmap(info);
+		if (ret < 0)
+	@@ -866,10 +865,10 @@ static SIMPLE_DEV_PM_OPS(max77686_rtc_pm_ops,
+				 max77686_rtc_suspend, max77686_rtc_resume);
+	 
+	 static const struct platform_device_id rtc_id[] = {
+	-	{ .name = "max77686-rtc", .driver_data = (kernel_ulong_t)&max77686_drv_data },
+	-	{ .name = "max77802-rtc", .driver_data = (kernel_ulong_t)&max77802_drv_data },
+	-	{ .name = "max77620-rtc", .driver_data = (kernel_ulong_t)&max77620_drv_data },
+	-	{ .name = "max77714-rtc", .driver_data = (kernel_ulong_t)&max77714_drv_data },
+	+	{ .name = "max77686-rtc", .driver_data_ptr = &max77686_drv_data },
+	+	{ .name = "max77802-rtc", .driver_data_ptr = &max77802_drv_data },
+	+	{ .name = "max77620-rtc", .driver_data_ptr = &max77620_drv_data },
+	+	{ .name = "max77714-rtc", .driver_data_ptr = &max77714_drv_data },
+		{ }
+	 };
+	 MODULE_DEVICE_TABLE(platform, rtc_id);
 
-   In file included from include/linux/iio/buffer.h:10,
-                    from drivers/iio/pressure/cros_ec_baro.c:9:
-   drivers/iio/pressure/cros_ec_baro.c: In function 'cros_ec_baro_probe':
->> include/linux/iio/iio.h:356:38: error: expected expression before '{' token
-     356 | #define IIO_CHAN_SOFT_TIMESTAMP(_si) {                                  \
-         |                                      ^
-   drivers/iio/pressure/cros_ec_baro.c:174:20: note: in expansion of macro 'IIO_CHAN_SOFT_TIMESTAMP'
-     174 |         *channel = IIO_CHAN_SOFT_TIMESTAMP(1);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+increasing readability due to less casting which also improves type safety.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (The Capable Hub) (3):
+  rtc: Drop unused assignment of platform_device_id driver data
+  rtc: ab8500: Simplify driver_data handling
+  rtc: Use named initializers for platform_device_id arrays
+
+ drivers/rtc/rtc-88pm886.c  |  2 +-
+ drivers/rtc/rtc-ab8500.c   |  5 ++---
+ drivers/rtc/rtc-bd70528.c  |  8 ++++----
+ drivers/rtc/rtc-cros-ec.c  |  4 ++--
+ drivers/rtc/rtc-max77686.c | 10 +++++-----
+ drivers/rtc/rtc-max8997.c  |  4 ++--
+ drivers/rtc/rtc-max8998.c  |  4 ++--
+ drivers/rtc/rtc-s5m.c      | 12 ++++++------
+ drivers/rtc/rtc-tps6594.c  |  4 ++--
+ 9 files changed, 26 insertions(+), 27 deletions(-)
 
 
-vim +356 include/linux/iio/iio.h
+base-commit: e7d700e14934e68f86338c5610cf2ae76798b663
+-- 
+2.47.3
 
-00c5f80c2fad53 include/linux/iio/iio.h   Peter Rosin      2016-11-08  355  
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12 @356  #define IIO_CHAN_SOFT_TIMESTAMP(_si) {					\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  357  	.type = IIO_TIMESTAMP,						\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  358  	.channel = -1,							\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  359  	.scan_index = _si,						\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  360  	.scan_type = {							\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  361  		.sign = 's',						\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  362  		.realbits = 64,					\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  363  		.storagebits = 64,					\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  364  		},							\
-07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  365  }
-1d892719e70e47 drivers/staging/iio/iio.h Jonathan Cameron 2011-05-18  366  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki

@@ -1,151 +1,119 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B5F3ACEE1
-	for <chrome-platform@lists.linux.dev>; Thu, 28 May 2026 10:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1673EFD04;
+	Thu, 28 May 2026 13:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779962999; cv=none; b=RFj3SxYGf+IKghe4/StjMYDSAF8dVcVqFtAKm8kRaZe2aAZkjc1ZGCnx5bev46XgjUclGFcsRl11S99H7XIHKCkoGrHCcgldDajhF/xToXXXOZYGEy0nDHS9EXM8xGdX7bnkYEEb2cRytwfCjA5jf328xW430Wf4F6UohmyoIMo=
+	t=1779973800; cv=none; b=ddkSLMQ58WWRb3gD1Q0RUP8u35R7eoMOggHj4xxCjCT7JeZ+02aAuLibxy/E9ZZtOyesD5uMprAT1KJT069gn42D6wxu342SqGJpqHiiG75o43oQv9xCynOmMFAcYITzL7ZV2JhILsLhUYn+GwThHs5JO7BaYx1Gs/mHpDcwSY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779962999; c=relaxed/simple;
-	bh=jDJJEw1aEW13FPk5Ox8KXXR1xi9c6g3zuF8G653rRWI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZuZMupAyHndrnWGwuKYQA5QSJdDv/OWXMN3zYm/XG6WJUpNJbvvRbxUvVJQ7cMvTZ7SnsAqsZj/Gh4MyWV/1Tv5gSZ7QkG30qvd+8Yqsm5ldytIp6B8PvMDOcUuOS+IBFybelIB9KIL9dQ/a671ieGgT4tNsziY9N5mONJNzOoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Tfn8GDp6; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1779973800; c=relaxed/simple;
+	bh=M4GHMGyh8NthM4VVBxzPmfqsz7fLmnq5IxpVMD3tP0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p2/Zl0M2f2+EVq0Qf2+Bzq/Ol0G7E/ldZi1RnJZtVriK5nzHyFsJH45XD6UfJ0afUpcPvcSl6hXXRbKx161VwvCgdjgUG+jX3WzZ78l6wu8R2RXa9Piv8PiS/iVCEiw2ct+wgAR4Y8RGbxNf8VvaOzDkXa4qYLF+GVHY231jsJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FScYaL+n; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Tfn8GDp6"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so66495205e9.1
-        for <chrome-platform@lists.linux.dev>; Thu, 28 May 2026 03:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1779962995; x=1780567795; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3dEoQrHmxD3QAsur3ni9bkWOs/bYRX+l4pg8imj6MVM=;
-        b=Tfn8GDp6NUm5T8oJU5XF275VO17Z1Q61QsFtUjaAipDcJjZ+z4TDdwguBWAymC9w5C
-         blTcFeD8e71xJEK6roFbvgplx7eJSOf4zH9t1bF1jVtHPH1T/EB1UO7NTZ5oVOX+KRKb
-         TGL9FAlGVrQ4RLfDuYvomTx+EIhUlkB8SQwMI2vB3i1RMD5G0Q5RrnLagbcRxdDyfikA
-         Tt2t9pvTpuCHxc5yxPQiAJtQjHhfXce95lj7Bp8eeyg61AlH/KnEhySwWrFC/gSfIJ+O
-         3H3ydiQJLzJKjFGu0CZbDbTKvM6XjSoUaPEsKBO/GlHs1Genv7psVR9mpapl0jagpS8a
-         YusQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779962995; x=1780567795;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3dEoQrHmxD3QAsur3ni9bkWOs/bYRX+l4pg8imj6MVM=;
-        b=jaWK8ENt3Xy5takHr/nMxcg3xEJdr0sO36T0KBemIA4TqEf7nEy/p3+yg78ayhaYup
-         4wKnuzt7iCi68l3axhZe1WPsZce2vycr0gZ/a7n3Mtvm5GjK2QFvAxbVBQfqe7IID4AJ
-         hUqF0vAWXppA4Un+gFDS/ZxZLowrjnf4toN5CrWfGTmkh1Fd4NUXBEGnq41WkkisaGvx
-         UY9bw4Sf73HHKfvTvCyIRuhkSpMTfqy+XCqa2zRMTpKPXsflrNctjVarOfLfFoaVKVJn
-         bKip6faBeOOXFucKhC/NvjyLaG6heeeanNAZsNJYbK5Zz1tGtzm3bCfD06QVNHsg7peY
-         XAzg==
-X-Forwarded-Encrypted: i=1; AFNElJ/AzbDVFH5MMH8nPVtlHQj+BscpN/tm9bbeLUP6kG6gXXt/nY7xxdL9i88SMmohCoxsPblXW6u77g+PcnXj5Lw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwD8aCjhOAxD+BI2qaTq99Z/GuVkvAOGeq1RxzZzS6LGW1cR1vw
-	cYb16D8B2c7hHuxl5p/FILZLa9OJ95e/fRRsbfE0qo6phaBiKDvPRhZvV3rCw6e15ic=
-X-Gm-Gg: Acq92OFldmhDJPj/SYfuWUk8zP7/X3beit3WmN1853dpY9Z+cMH2ckK6EVlepnlTSSV
-	b10MCIWPIu9zMDTPFRpzhFBVIpb7CMgkOKCRT0OU0P+2CQOeYTfcJx92Da0YgkE8fD4qz6aZSTP
-	rFZjCthTiVb2DjtJbfOBNtXJJu4EJ9CU1sLPH5Mz55oQOZW4sFhXoZCxS/G2TJXO4B0S2/AKto8
-	glLCT+GJzMImNOvvJ9KTYTcS2Gp9aItLv69/5SjCLP4dv16pBov8wpGOZHL2GUP3VejyMWkUU5C
-	1KxXva0cNxaZPqUeo6ettIyGfLRb6m82r9GE0bFIPxQfVnLt02pdTJQCAM62U2s+CstqzUjQeeD
-	/tRwISVo8E0TcgKmkGyG5Sf80XxVY/crZlSb/SNKwzrp1XD8XfJhjn1BGOQ4uoKOXiEsetx0ocg
-	Z962t5u1y5pyNCT4+1LFe0QFilvmDd/2M+lo9EEKKoViJ3baApPXskW5P3NhY2BFPUw0LNKOpgu
-	aP5AJ9dRlI/nlG0fzIBt/CMMw==
-X-Received: by 2002:a05:600c:528c:b0:48a:79d8:a8d6 with SMTP id 5b1f17b1804b1-490947a4918mr14900895e9.7.1779962994786;
-        Thu, 28 May 2026 03:09:54 -0700 (PDT)
-Received: from localhost (p200300f65f47db04e95e43453a0d1648.dip0.t-ipconnect.de. [2003:f6:5f47:db04:e95e:4345:3a0d:1648])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49092654e10sm28651945e9.7.2026.05.28.03.09.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 03:09:53 -0700 (PDT)
-Date: Thu, 28 May 2026 12:09:53 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, linux-gpio@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	=?utf-8?B?QW5kcsOp?= Draszik <andre.draszik@linaro.org>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-omap@vger.kernel.org
-Subject: Re: [PATCH v1 0/3] gpio: Use named initializers for
- platform_device_id arrays
-Message-ID: <ahgUGOsIxlFrf9mD@monoceros>
-References: <cover.1779893336.git.u.kleine-koenig@baylibre.com>
- <177995803708.5037.5318741720946502441.b4-ty@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FScYaL+n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21A771F000E9;
+	Thu, 28 May 2026 13:09:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779973798;
+	bh=r0QrpkQCV7e0TWVW6fG/E9wzE1TJ4SiymmotkEZ+8oA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=FScYaL+nQtn59lt3XFAAA9o4Yg6kEl4brpFw1LEWS7IHxDUz4mtHZtTtzkom60O/I
+	 CkE+aQiTiJHwB3PdgrJ3kjmvauHOSobrvqXYrhhhhXyK7BA+MkznIG/BU2DyQtkFKR
+	 Lr3Y8UgujM5kp9B11rrCi5LFCc+kWInO+/aNjtG5B2Aa7xo7HyNgXnEwbxFJn4SEnS
+	 x31KCBgSewijLLjX6s4w2feHYNefrNyuvrdKt1sntsxdpMpZYXUpgPDDrqVfW55S0B
+	 r6eF+hFt6UGOJqgXbtviEa1MkTylc8TVYTV+kTRSYpzYCirZM9pbLqd5MBhHhNC7g8
+	 qAonuPStPCxVA==
+Date: Thu, 28 May 2026 14:09:47 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: David Lechner <dlechner@baylibre.com>, Jyoti Bhayana
+ <jbhayana@google.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Benson Leung
+ <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel
+ definition
+Message-ID: <20260528140947.12c73152@jic23-huawei>
+In-Reply-To: <202605281432.a64fe4iY-lkp@intel.com>
+References: <20260525014654.2399354-1-dlechner@baylibre.com>
+	<202605281432.a64fe4iY-lkp@intel.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2z3wzt7537jwqmcu"
-Content-Disposition: inline
-In-Reply-To: <177995803708.5037.5318741720946502441.b4-ty@oss.qualcomm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Thu, 28 May 2026 14:40:51 +0800
+kernel test robot <lkp@intel.com> wrote:
 
---2z3wzt7537jwqmcu
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1 0/3] gpio: Use named initializers for
- platform_device_id arrays
-MIME-Version: 1.0
+> Hi David,
+> 
+> kernel test robot noticed the following build errors:
+> 
+For the record, this is a side effect of some email trouble David had.
+It's meant to be in a series with the patch that makes that macro
+a compound literal.
 
-Hello Bartosz,
+> [auto build test ERROR on jic23-iio/togreg]
+> [also build test ERROR on linus/master v7.1-rc5 next-20260527]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-pressure-cros_ec_baro-simplify-timestamp-channel-definition/20260525-134550
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> patch link:    https://lore.kernel.org/r/20260525014654.2399354-1-dlechner%40baylibre.com
+> patch subject: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel definition
+> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605281432.a64fe4iY-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/linux/iio/buffer.h:10,
+>                     from drivers/iio/pressure/cros_ec_baro.c:9:
+>    drivers/iio/pressure/cros_ec_baro.c: In function 'cros_ec_baro_probe':
+> >> include/linux/iio/iio.h:356:38: error: expected expression before '{' token  
+>      356 | #define IIO_CHAN_SOFT_TIMESTAMP(_si) {                                  \
+>          |                                      ^
+>    drivers/iio/pressure/cros_ec_baro.c:174:20: note: in expansion of macro 'IIO_CHAN_SOFT_TIMESTAMP'
+>      174 |         *channel = IIO_CHAN_SOFT_TIMESTAMP(1);
+>          |                    ^~~~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +356 include/linux/iio/iio.h
+> 
+> 00c5f80c2fad53 include/linux/iio/iio.h   Peter Rosin      2016-11-08  355  
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12 @356  #define IIO_CHAN_SOFT_TIMESTAMP(_si) {					\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  357  	.type = IIO_TIMESTAMP,						\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  358  	.channel = -1,							\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  359  	.scan_index = _si,						\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  360  	.scan_type = {							\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  361  		.sign = 's',						\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  362  		.realbits = 64,					\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  363  		.storagebits = 64,					\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  364  		},							\
+> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  365  }
+> 1d892719e70e47 drivers/staging/iio/iio.h Jonathan Cameron 2011-05-18  366  
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-On Thu, May 28, 2026 at 10:47:55AM +0200, Bartosz Golaszewski wrote:
-> On Wed, 27 May 2026 16:57:26 +0200, Uwe Kleine-K=F6nig (The Capable Hub) =
-wrote:
-> > this series targets to use named initializers for platform_device_id
-> > arrays. In general these are better readable for humans and more robust
-> > to changes in the respective struct definition.
-> >=20
-> > This robustness is needed as I want to do
-> >=20
-> > 	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devic=
-etable.h
-> > 	--- a/include/linux/mod_devicetable.h
-> > 	+++ b/include/linux/mod_devicetable.h
-> > 	@@ -610,4 +610,7 @@ struct dmi_system_id {
-> > 	 struct platform_device_id {
-> > 		char name[PLATFORM_NAME_SIZE];
-> > 	-	kernel_ulong_t driver_data;
-> > 	+	union {
-> > 	+		kernel_ulong_t driver_data;
-> > 	+		const void *driver_data_ptr;
-> > 	+	};
-> > 	 };
-> >=20
-> > [...]
->=20
-> I fixed your SoB as requested and fixed up patch 2/3 as one of the driver=
-s it
-> touched no longer exists in my tree.
-
-Right, I noticed that conflict when rebasing my stack to next-20260527
-and assumed you'd cope for that.
-
-Thanks!
-Uwe
-
---2z3wzt7537jwqmcu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoYFG4ACgkQj4D7WH0S
-/k5FBQf+Ibzmukpa6UhZfcZUhGe0XaS6TZpmFiyy9QMJVqt3bKHdEafowQgl32yf
-5w0pLkWFfORjHv+FEfH+wollsB7//hBHnEOT2nlVo2tI9s4lxfmJlJBAQYUSOPIs
-vKiKxxRT5p4uRCRhV1JWg2TBVimsUw9GG2tTXHK9jOMI2SU3iYsKoSbmQLN9Rctw
-k7N3zinvmqjGvYrYWYSdwN8ocBYa0b4JZGH2N3QabvS92i9doS2RMU46QIoCixGR
-OLNW6wEonHxnaNjpK36WFWNH/6tXbxKMuWBDM9R3xtDtWoaLDHnMOQNCSsGVMqOI
-9uMi39yy5eMdBL5EINcaVkZvXFD54A==
-=ul7F
------END PGP SIGNATURE-----
-
---2z3wzt7537jwqmcu--

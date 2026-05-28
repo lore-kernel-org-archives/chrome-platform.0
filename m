@@ -1,119 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1673EFD04;
-	Thu, 28 May 2026 13:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18A435C1A9;
+	Thu, 28 May 2026 21:52:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779973800; cv=none; b=ddkSLMQ58WWRb3gD1Q0RUP8u35R7eoMOggHj4xxCjCT7JeZ+02aAuLibxy/E9ZZtOyesD5uMprAT1KJT069gn42D6wxu342SqGJpqHiiG75o43oQv9xCynOmMFAcYITzL7ZV2JhILsLhUYn+GwThHs5JO7BaYx1Gs/mHpDcwSY8=
+	t=1780005169; cv=none; b=g8PqrUrOZyC9DzdDEqCyoh+Hm7YQWhzfX+apZXl8GH7lMBhff34MVthikJGthDyzccRqvkZnq4+Rjth7e5A2jl/110v8a0Hfw4W30JuX1bTfCxt7HS7YEQFh0/NmH3AA0rWkpM8rr7Cs7RYSoPuKhB+ZKmPlZyHAq4yARp1Qyqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779973800; c=relaxed/simple;
-	bh=M4GHMGyh8NthM4VVBxzPmfqsz7fLmnq5IxpVMD3tP0I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p2/Zl0M2f2+EVq0Qf2+Bzq/Ol0G7E/ldZi1RnJZtVriK5nzHyFsJH45XD6UfJ0afUpcPvcSl6hXXRbKx161VwvCgdjgUG+jX3WzZ78l6wu8R2RXa9Piv8PiS/iVCEiw2ct+wgAR4Y8RGbxNf8VvaOzDkXa4qYLF+GVHY231jsJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FScYaL+n; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780005169; c=relaxed/simple;
+	bh=/c2Rgqzrmas2dx/niYDh3W5RnelxgQMb8+Rlx0FWgJw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fGJzpy1SoNH7tMLTOFv9dPp1N/9b17G78RRRauvYDOD/qIFrDZ4D0srSRi4NS8dnwm5Z/U0Y+KEiOyiLkprX0SLtOosLHvyJxB/NI9/KZE8VS0yBoNBB8tP+J27jBhpaXTJeYC9OeHA+j3NzLLE3ysrLxSA8gFtacRx1kKiPc/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dSrZbO0O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FScYaL+n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21A771F000E9;
-	Thu, 28 May 2026 13:09:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dSrZbO0O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C88461F000E9;
+	Thu, 28 May 2026 21:52:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779973798;
-	bh=r0QrpkQCV7e0TWVW6fG/E9wzE1TJ4SiymmotkEZ+8oA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=FScYaL+nQtn59lt3XFAAA9o4Yg6kEl4brpFw1LEWS7IHxDUz4mtHZtTtzkom60O/I
-	 CkE+aQiTiJHwB3PdgrJ3kjmvauHOSobrvqXYrhhhhXyK7BA+MkznIG/BU2DyQtkFKR
-	 Lr3Y8UgujM5kp9B11rrCi5LFCc+kWInO+/aNjtG5B2Aa7xo7HyNgXnEwbxFJn4SEnS
-	 x31KCBgSewijLLjX6s4w2feHYNefrNyuvrdKt1sntsxdpMpZYXUpgPDDrqVfW55S0B
-	 r6eF+hFt6UGOJqgXbtviEa1MkTylc8TVYTV+kTRSYpzYCirZM9pbLqd5MBhHhNC7g8
-	 qAonuPStPCxVA==
-Date: Thu, 28 May 2026 14:09:47 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: David Lechner <dlechner@baylibre.com>, Jyoti Bhayana
- <jbhayana@google.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Benson Leung
- <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel
- definition
-Message-ID: <20260528140947.12c73152@jic23-huawei>
-In-Reply-To: <202605281432.a64fe4iY-lkp@intel.com>
-References: <20260525014654.2399354-1-dlechner@baylibre.com>
-	<202605281432.a64fe4iY-lkp@intel.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1780005168;
+	bh=P8dQxia5J1MmyVM4Wf+kPysZJUtiLa+FQRPlQG2Mos4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=dSrZbO0O93XdYJoAuUqJjm3qKi3YT+FSmh7gAfFm0uRSiW61McQLiH7hL6SchZWl7
+	 yMhTFsLgDfL/SIJV38B9ZuUyHqtJ5d5kwvbl4Wefe635KU/LIm2z1I70Fg9uoN04zh
+	 WAVBB8zzqlFaFhJ46LlgnFRiDg+11IJOKqyUcSsx7mbecr++7Qkl0nohtarstxiRmi
+	 33f2D4Z0zxDmPmjOrtD40kRtrrUU0zUdDb1fdfMcOxF+D4ESwwN0oIIF2QSp2WoqU/
+	 YNw8IMaJ8hAFr3LWjf6EggRItNXPAc8L6Owhx2kjWi8Ua5jjzELBZPU6M+XUNmEjL0
+	 9xNEmlSu8PF+g==
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Brian Norris <briannorris@chromium.org>
+Cc: devicetree@vger.kernel.org,
+	Doug Anderson <dianders@chromium.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	Julius Werner <jwerner@chromium.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	cros-qcom-dts-watchers@chromium.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 0/7] dts: Add /firmware/#{address,size}-cells to Chromium-based DTs
+Date: Thu, 28 May 2026 23:52:42 +0200
+Message-ID: <178000515404.195040.3052014015963581433.b4-ty@b4>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260428200712.2660635-1-briannorris@chromium.org>
+References: <20260428200712.2660635-1-briannorris@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 28 May 2026 14:40:51 +0800
-kernel test robot <lkp@intel.com> wrote:
+From: Thierry Reding <treding@nvidia.com>
 
-> Hi David,
-> 
-> kernel test robot noticed the following build errors:
-> 
-For the record, this is a side effect of some email trouble David had.
-It's meant to be in a series with the patch that makes that macro
-a compound literal.
 
-> [auto build test ERROR on jic23-iio/togreg]
-> [also build test ERROR on linus/master v7.1-rc5 next-20260527]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Tue, 28 Apr 2026 13:06:52 -0700, Brian Norris wrote:
+> Chromium/Depthcharge bootloaders may dynamically add a few device nodes
+> to a system's DTB under a /firmware node. A typical DT looks something
+> like the following:
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-pressure-cros_ec_baro-simplify-timestamp-channel-definition/20260525-134550
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-> patch link:    https://lore.kernel.org/r/20260525014654.2399354-1-dlechner%40baylibre.com
-> patch subject: [PATCH] iio: pressure: cros_ec_baro: simplify timestamp channel definition
-> config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260528/202605281432.a64fe4iY-lkp@intel.com/reproduce)
+>   ## From a RK3399 Gru/Kevin Chromebook:
+>   # find /sys/firmware/devicetree/base/firmware
+>   /sys/firmware/devicetree/base/firmware
+>   /sys/firmware/devicetree/base/firmware/coreboot
+>   /sys/firmware/devicetree/base/firmware/coreboot/ram-code
+>   /sys/firmware/devicetree/base/firmware/coreboot/compatible
+>   /sys/firmware/devicetree/base/firmware/coreboot/board-id
+>   /sys/firmware/devicetree/base/firmware/coreboot/reg
+>   /sys/firmware/devicetree/base/firmware/coreboot/name
+>   /sys/firmware/devicetree/base/firmware/chromeos
+>   /sys/firmware/devicetree/base/firmware/chromeos/readonly-firmware-version
+>   /sys/firmware/devicetree/base/firmware/chromeos/active-ec-firmware
+>   /sys/firmware/devicetree/base/firmware/chromeos/firmware-version
+>   /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-storage
+>   /sys/firmware/devicetree/base/firmware/chromeos/vboot-shared-data
+>   /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-size
+>   /sys/firmware/devicetree/base/firmware/chromeos/nonvolatile-context-offset
+>   /sys/firmware/devicetree/base/firmware/chromeos/hardware-id
+>   /sys/firmware/devicetree/base/firmware/chromeos/compatible
+>   /sys/firmware/devicetree/base/firmware/chromeos/firmware-type
+>   /sys/firmware/devicetree/base/firmware/chromeos/fmap-offset
+>   /sys/firmware/devicetree/base/firmware/chromeos/name
+>   /sys/firmware/devicetree/base/firmware/ranges
+>   /sys/firmware/devicetree/base/firmware/name
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605281432.a64fe4iY-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/linux/iio/buffer.h:10,
->                     from drivers/iio/pressure/cros_ec_baro.c:9:
->    drivers/iio/pressure/cros_ec_baro.c: In function 'cros_ec_baro_probe':
-> >> include/linux/iio/iio.h:356:38: error: expected expression before '{' token  
->      356 | #define IIO_CHAN_SOFT_TIMESTAMP(_si) {                                  \
->          |                                      ^
->    drivers/iio/pressure/cros_ec_baro.c:174:20: note: in expansion of macro 'IIO_CHAN_SOFT_TIMESTAMP'
->      174 |         *channel = IIO_CHAN_SOFT_TIMESTAMP(1);
->          |                    ^~~~~~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +356 include/linux/iio/iio.h
-> 
-> 00c5f80c2fad53 include/linux/iio/iio.h   Peter Rosin      2016-11-08  355  
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12 @356  #define IIO_CHAN_SOFT_TIMESTAMP(_si) {					\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  357  	.type = IIO_TIMESTAMP,						\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  358  	.channel = -1,							\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  359  	.scan_index = _si,						\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  360  	.scan_type = {							\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  361  		.sign = 's',						\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  362  		.realbits = 64,					\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  363  		.storagebits = 64,					\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  364  		},							\
-> 07d4655b410a4d include/linux/iio/iio.h   Jonathan Cameron 2013-11-12  365  }
-> 1d892719e70e47 drivers/staging/iio/iio.h Jonathan Cameron 2011-05-18  366  
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> [...]
 
+Applied, thanks!
+
+[3/7] ARM: dts: nvidia: Add #{address,size}-cells to Chromium-based /firmware
+      commit: e6d097f575338738ba597b1d836e7fe655babd7c
+
+Best regards,
+-- 
+Thierry Reding <treding@nvidia.com>

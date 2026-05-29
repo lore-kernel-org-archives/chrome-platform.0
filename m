@@ -1,64 +1,62 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA38835E1D1
-	for <chrome-platform@lists.linux.dev>; Fri, 29 May 2026 10:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F301BD9D0
+	for <chrome-platform@lists.linux.dev>; Fri, 29 May 2026 10:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780049923; cv=none; b=lI2tBZxCtBaYMLM5bhzQGTqRTCiR+NAsWxYbwSX0+u3f7wcJ828JOU41dxVIzwj0oxc6CoVcXMheenWbouSr/sBErAUDLJQb6syCkeHlePfWrknTw/EjruTpmgrrYnlsuDKiUFmNphi3duM8h0oX8onnuljdnX05doLRUgghcRY=
+	t=1780049924; cv=none; b=ieFjcLKa2fEVX51Q69xyv6RX53HNUFfu18x+UTuJd1TQtWY2xRV+O8jMNqxDG1vOHesfT+Jsiw05BG7TlNk1h2wY8mCPfaKFFpoSeKBAHbHfyvkon7uw3D5bEEYyREK7d8JaT9jPtDS34F21K97R92PNfHBnJnjiiIz2uQ56qx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780049923; c=relaxed/simple;
-	bh=ZGeJDqlQ5zn3sDwaZY5Ll8gY7osGz8I1jAxqo5Bjml8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oRqGXrq5tUBVuYUfptsQm9lYSHwFtIKjfFSO9Bp4mt26kBkFZOuEsd3WjvyqPOJydw03BHqLdwIRdXRFXBA+yM+mhLqeW9e04PFmrtfpyWd79m+vbGoDnGm9hyJrdSanNjiVfFVEnr+juibdC7eIpOepbVg+CpdDuWziQHV96+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=RY0F0bxH; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1780049924; c=relaxed/simple;
+	bh=HR0BG2x5gStI8qVvDgUBsjfK17M95+4vrnDaD2QTsYk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lUuAjUk5/4J+tXc7QgeYjZCN2ynHECaQLAQeOXv7HIyqntWede1wXfaM6N/7CJlSNZVq8l0PGEbAL+WQt9seM/rr4IaXImpDCpZNbPKN9ujV96O0oGmR487MV9SN6aPemMAxP+51C/2jsf8gWx2rjk+/Scg9zb4jCqGsc9TSDpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=anZB5nmx; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="RY0F0bxH"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45ee1a56328so1856574f8f.3
-        for <chrome-platform@lists.linux.dev>; Fri, 29 May 2026 03:18:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="anZB5nmx"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-44e1860558fso8569472f8f.0
+        for <chrome-platform@lists.linux.dev>; Fri, 29 May 2026 03:18:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1780049920; x=1780654720; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zy7L9tmuyHwxiGGTZsJP9P4FkDNJKuKhgUpt1VqiYIk=;
-        b=RY0F0bxH3NOrPWiorLsD5dLXkb6b201yDL6Es/BIRItF6tVuSf9SZfmHsGZKgd1K1B
-         07et5Rsxi/VIpi6fMod+gXFenP0zyHIBbUnWQ7ZvthynmBzMzBbHwPGv1b6TgUKm8Jj+
-         26xy0ml3y8nplJSv8+A+oal5Xnvxos0sublAcyWAvh3Hkj2nFejRE33ypp7X3D9bpab5
-         23rGZNzILgOKwv/bP94+/eeFLeIS9MBeMTqsy3XYDMmFwVaqA/FxTF8COWpgQjGMaFto
-         xLB9KGM4dU5/EV9Zrog7cfB2pPDL8zEBz0ZJWR2jA4CMZkc2Mj6PXLtAFZEy1mm5FGlP
-         cHMw==
+        d=baylibre.com; s=google; t=1780049919; x=1780654719; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gRuenZrko78jZddy0UFWO+BRki0zaXyQrkNHtJpBvQk=;
+        b=anZB5nmxohmHhx0MeKzlf0ac3ussNCFyihbkn5KFtVLLH8Ey4M/boSc9Bu572OZZyb
+         JvqRVyaS0MRAsmVRGufFBDTnHE/uYbM72TMvNmR5K6suNuaUzw74XuCqP0Phe1uc2bet
+         T3SiEXVDVXpvMnn0RdvQq8SspDNioKN3ze3Q++KOaVvv1krXoMnTaxcvTD5mEMlt1ast
+         aidnNTVNX6gulYdmYn1+Z8ODQ/4fVnYNQuTyPvHF7/CWKT39MLKSWQL8zRgxXZwmkT+t
+         +vdBE+Q9aIamzqQbzYZ89ZfvkairAkU1NSN3WkFM9yjAmGE0yz1ErZZLN7g4SrzvJk71
+         A22g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780049920; x=1780654720;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Zy7L9tmuyHwxiGGTZsJP9P4FkDNJKuKhgUpt1VqiYIk=;
-        b=bznayh5e4gOEHoG+kT35UlGChA0OulYY9+wW9s7T9sSZT/YrvOeHpMSdO2vncnFZPV
-         WHjlCYyS8/qQgJqmvutDf/r01dg5DpN19YbB7bYhDyXuNfiJKeoaNUiHOLS/Tm06LZdw
-         SvS2Wu0hlDWQ7+S3Hl4xp6KeAG1bm7k+3FW+u+fpcBDPRfN03rB+gSb2cUDSOY12RH8r
-         M50oytnqQ9wc5H9xZN4bjIaHMqYCsa7OVUKSWiWYg5+E3eVdHKc97pLcbEF5J7Yura5L
-         z/KqXMPapAHC1tZ4g9sSNWfKNrtXXoQEBpL/2CS2lbzXRbLGQbApUOt8o3q+5ADB6FUQ
-         WF4A==
-X-Forwarded-Encrypted: i=1; AFNElJ+5HhaDcGc2LJUMBnrcd6v5XmdmJESLqCkQQSsaVcoPxe45pNJ+YUE4wPF/U2IVJpHkQkEzah7L/I9/gc5JDok=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRE/fDyAnZSEGMN8G/yQauURdiAMOebhQ3w6/6rOCpG6epSrOd
-	LKIj693jKXJBAVdUJfOzL9XPNI4bBxvp/H+rOhOO1SgYh5H9WKf/paieGt2rL+t9QCk=
-X-Gm-Gg: Acq92OGk+ldSORt0W+AJgUMxtwGRzqI3+B9EP0b0VzBe6YHW3xBgQP/U+5FjE2Pu3tt
-	v6bQGEmvimMCyeklWaB1BrrABlhOtdFZ+u2vj9aFzZSwk3ElmMHnaFPHVD0v6O5TDp168507b9n
-	QdmonK6fZ3hepHxCxj3c33RGW9k/cPNp8FSInS/M6u/9v5cjhK5sIcO6sVonSMto/oDj1FuSWK8
-	68nGwpTAV2uT2MjJa3dKJQ7GmSDhWf/l/A2xq2E1cVKhqWXx7e6q2gR4wvXECQDtrLrBCyEYhaP
-	vBSUB+iPsnzCtc6EX2weLcgOj2cS2raRi9gFi2kNnWb/bqA8rh7K3jY4UPVkeankRWiaFrtS22u
-	FfrnLGZEfIJaTLJ1CrC/5um/MyesKqqwqXuwPplLqUteNBHpV0oL8n812oZ3dyZburDSfJ+BOj1
-	DdYIG5Oh+XmqhNBWTtwmeC6xyu0TZ/LPzeIblt5UGfZ+2rqLZDQhrnXnlnSP1YlWBDP/hOzXoe0
-	4HRs350HMrh7TuCvUeygowbffLjis0lYWxf
-X-Received: by 2002:a5d:59c8:0:b0:452:11f9:bc40 with SMTP id ffacd0b85a97d-45ef13fdda9mr3781185f8f.2.1780049920296;
-        Fri, 29 May 2026 03:18:40 -0700 (PDT)
-Received: from localhost (p200300f65f47db043f932d8b97293bf6.dip0.t-ipconnect.de. [2003:f6:5f47:db04:3f93:2d8b:9729:3bf6])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-45ef34b7d6bsm2713604f8f.10.2026.05.29.03.18.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20251104; t=1780049919; x=1780654719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gRuenZrko78jZddy0UFWO+BRki0zaXyQrkNHtJpBvQk=;
+        b=dUjZhiLFzI4o7Y4AL45hH4UAU0FBb8AJfiYybcfCkqYPjQ31DgoGFKT7KVoB1xsUQT
+         BQR3wpwbZQCDopzgj8FkFua65F2iRKvP2fzdUYSMF4rdKwoZEzF4wImZupSvVFbV4Z7T
+         bmsE3lXmg07WNsuetZGfYhkY6hjkN7sxkQdN1usSrq5DPK42k5Jbcma9rJF6vihuCeig
+         eF+4j09nax4t7Wqeyw8TiZNelyK0NW+EFgjCdLvSYTWbiu3bG2Mf2xdootXQJsb/ilyB
+         AGUa9T2rd+Rv5isqInTw3gFAF9en381u0mP/9UsgGmurOByD6DkDr0KMTogfPFY5GPOJ
+         VVHA==
+X-Forwarded-Encrypted: i=1; AFNElJ9DPjc5RqBN3Cc3ukP8sC6sOMzExrYhMzTxiu5k4I1UxdJm1b5xXLonWuQ5qgiMg2nlpqPjxPIrTunYnM54nCw=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzCRwoCNSdGlBbA5Kz7t5QmpgWcbP8bTKnnvu9/A9B077h+jMy/
+	F3GfM1YbPvzopahPSsDX9dFh2FUoS0Y6B393vXMe31/oCpeHAOWwBhpCsrl4iU+K2W4=
+X-Gm-Gg: Acq92OH0p+hqUOniVEeYsjsBsp03US9NkydI271QzPNWKADIofOY9VrIwc/XXl7Qj34
+	WjS3ryMjfqlko3f4VPQfUaNb985HPxOJzhmEutBCH/u6TGfLi1lD0fgaODCSzy1Rrpc2bZA81kW
+	JlyZ0coKPmjqun73YWc1V5dSvyzgkgDuJ79uuqlRicnOfM27NHEO3ExyCel7y7wS0SYm9nZAELe
+	IoM8WesqHuzotHfyYkLfIHMjkAP5tGX1oSuTvzsCRGUf/fbZysDnqxpJxWto/WOwf9AkQv2lWL8
+	S5vovfL5Dl4sRK4RrdOj/0X+oiQFh3P6+fC0UtKm9n4LYGwwV5DSIKTQGi9y3tLXLW1IzcPgbJ4
+	TmltdZZtBQBesc/+BH5XzRGG5mEepFjT5dyC8plgLobFhhjYXsLy9qDw9XDGXOnj/JFwYSEF8oT
+	KKPCA/qH7Etc+Vz/dvo2bXLgZUHL6xz84ervTUnPbevXMboRi5jB1CUBWz25FdBY1pgbXLbi9Qx
+	6G+25kuCgbhUysXT5HwEe2oPg==
+X-Received: by 2002:a5d:6f03:0:b0:45e:ef4a:8192 with SMTP id ffacd0b85a97d-45ef14aeca6mr4456766f8f.38.1780049919017;
         Fri, 29 May 2026 03:18:39 -0700 (PDT)
+Received: from localhost (p200300f65f47db043f932d8b97293bf6.dip0.t-ipconnect.de. [2003:f6:5f47:db04:3f93:2d8b:9729:3bf6])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-45ef354cd7csm2359192f8f.18.2026.05.29.03.18.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 03:18:38 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
 To: Sebastian Reichel <sre@kernel.org>
 Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
@@ -72,13 +70,28 @@ Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH v1 1/6] power: Drop unused assignment of platform_device_id driver data
-Date: Fri, 29 May 2026 12:18:16 +0200
-Message-ID:  <ba3589f74a12d86fb02ecb9fa2e89532188c22a0.1780048925.git.u.kleine-koenig@baylibre.com>
+	linux-mediatek@lists.infradead.org,
+	Hans de Goede <hansg@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Yixun Lan <dlan@kernel.org>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Amit Sunil Dhamne <amitsd@google.com>,
+	Samuel Kayode <samkay014@gmail.com>,
+	linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev,
+	asahi@lists.linux.dev,
+	imx@lists.linux.dev,
+	Chen-Yu Tsai <wens@kernel.org>
+Subject: [PATCH v1 0/6] power: Use named initializers for platform_device_id arrays
+Date: Fri, 29 May 2026 12:18:15 +0200
+Message-ID: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
-References: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -86,143 +99,134 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5195; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=ZGeJDqlQ5zn3sDwaZY5Ll8gY7osGz8I1jAxqo5Bjml8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqGWfqtfq+9A3frNKKJCHEbGuIcYTcFXCF2IHyc kqICPrBt4uJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCahln6gAKCRCPgPtYfRL+ ThgQB/0SfE9NuMu7Hd3egut28Uzkkhz9VNhori5S7ABqbeVTWxqb+jUq/TBLBj/5pw6lSBgy3Qz cgzdMp0Z4as+qcuVdCLEf1Vx9Kw7QLHEfEN67xWIV19vtfkQKBzTW/eVYE3Mvk7uRHi88Yf2xc/ ISOMROlVD0YJH0HMpWnlmT+JcSFH9VRMMWZN5ijf0iwLw5P9jmZzvQCbxP7OnHbhQI2bOrcklBo VCLTD6+DS091zAY12+nLJcdNWPQ+ecoroE4BejwRFKfdH1WAOlcZPn8tlsj7c/tmCfoBlFfjR4z gJd3h2J+BsSB749HYL7PAg/+OCFMcYkyBlIu5J51njvCBZ9h
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5698; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=HR0BG2x5gStI8qVvDgUBsjfK17M95+4vrnDaD2QTsYk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqGWfoDIuZ0g/W2ypE62dFHULfUWoyzPSByuJOy zumyQmeqqeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCahln6AAKCRCPgPtYfRL+ TsKPB/9mAyfp+pLZiIDxZa/Gq+SSHanqJrTQwpZ9rQFWh6BTlVwAzfy9/iK3DTaEC0m73vbGFfQ SrrV9RH9jd6SuuSNJEy+P030qdvrNgwnqe9+Kw6h9Ox1Xf/WbmVgbFqiAvBlC9bWaxNYlaSXA6b k6D0JHKSjZPpHgGWSl8de58GW9wTOhD4G7APcHqvig2ElcuxKXGEJMbDiI5C+wM6c/uNZYGDKQH Gyln8usdt6LIe+L24f+S0WZZOkN5b75oBqE1U4SirbgWSV0oQR/VgR5R3MVvLMMrmyqPiFaaawD fWqFsf8PmmOgcfZvBQ4ZGzTElp/ezMarN1H6m653QUtXR1kb
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-The driver explicitly set the .driver_data member of struct
-platform_device_id to zero without relying on that value. Drop this
-unused assignments.
+Hello,
 
-While touching this array unify spacing, use a named initializer for
-.name and drop trailing commas after the list terminators.
+this series targets to use named initializers for platform_device_id
+arrays. In general these are better readable for humans and more robust
+to changes in the respective struct definition.
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
- drivers/power/reset/qemu-virt-ctrl.c           | 2 +-
- drivers/power/supply/charger-manager.c         | 4 ++--
- drivers/power/supply/cros_charge-control.c     | 4 ++--
- drivers/power/supply/cros_peripheral_charger.c | 4 ++--
- drivers/power/supply/cros_usbpd-charger.c      | 4 ++--
- drivers/power/supply/max77693_charger.c        | 2 +-
- drivers/power/supply/max8997_charger.c         | 2 +-
- drivers/power/supply/mt6360_charger.c          | 4 ++--
- 8 files changed, 13 insertions(+), 13 deletions(-)
+This robustness is needed as I want to do
 
-diff --git a/drivers/power/reset/qemu-virt-ctrl.c b/drivers/power/reset/qemu-virt-ctrl.c
-index 01409dfe2265..aa8355270b2c 100644
---- a/drivers/power/reset/qemu-virt-ctrl.c
-+++ b/drivers/power/reset/qemu-virt-ctrl.c
-@@ -103,7 +103,7 @@ static int qemu_virt_ctrl_probe(struct platform_device *pdev)
- }
+	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+	--- a/include/linux/mod_devicetable.h
+	+++ b/include/linux/mod_devicetable.h
+	@@ -610,4 +610,7 @@ struct dmi_system_id {
+	 struct platform_device_id {
+		char name[PLATFORM_NAME_SIZE];
+	-	kernel_ulong_t driver_data;
+	+	union {
+	+		kernel_ulong_t driver_data;
+	+		const void *driver_data_ptr;
+	+	};
+	 };
+
+which allows dropping several casts and eases porting CHERI to mainline
+linux. A possible follow-up change is the following example:
+
+	diff --git a/drivers/gpio/gpio-pxa.c b/drivers/gpio/gpio-pxa.c
+	index 5d61053e0596..03bc8e859d73 100644
+	--- a/drivers/gpio/gpio-pxa.c
+	+++ b/drivers/gpio/gpio-pxa.c
+	@@ -534,7 +534,7 @@ static struct irq_chip pxa_muxed_gpio_chip = {
+	 static int pxa_gpio_nums(struct platform_device *pdev)
+	 {
+		const struct platform_device_id *id = platform_get_device_id(pdev);
+	-	struct pxa_gpio_id *pxa_id = (struct pxa_gpio_id *)id->driver_data;
+	+	struct pxa_gpio_id *pxa_id = id->driver_data_ptr;
+		int count = 0;
+	 
+		switch (pxa_id->type) {
+	@@ -708,14 +708,14 @@ static int pxa_gpio_probe(struct platform_device *pdev)
+	 }
+	 
+	 static const struct platform_device_id gpio_id_table[] = {
+	-	{ .name = "pxa25x-gpio",	.driver_data = (unsigned long)&pxa25x_id },
+	-	{ .name = "pxa26x-gpio",	.driver_data = (unsigned long)&pxa26x_id },
+	-	{ .name = "pxa27x-gpio",	.driver_data = (unsigned long)&pxa27x_id },
+	-	{ .name = "pxa3xx-gpio",	.driver_data = (unsigned long)&pxa3xx_id },
+	-	{ .name = "pxa93x-gpio",	.driver_data = (unsigned long)&pxa93x_id },
+	-	{ .name = "mmp-gpio",		.driver_data = (unsigned long)&mmp_id },
+	-	{ .name = "mmp2-gpio",		.driver_data = (unsigned long)&mmp2_id },
+	-	{ .name = "pxa1928-gpio",	.driver_data = (unsigned long)&pxa1928_id },
+	+	{ .name = "pxa25x-gpio",	.driver_data_ptr = &pxa25x_id },
+	+	{ .name = "pxa26x-gpio",	.driver_data_ptr = &pxa26x_id },
+	+	{ .name = "pxa27x-gpio",	.driver_data_ptr = &pxa27x_id },
+	+	{ .name = "pxa3xx-gpio",	.driver_data_ptr = &pxa3xx_id },
+	+	{ .name = "pxa93x-gpio",	.driver_data_ptr = &pxa93x_id },
+	+	{ .name = "mmp-gpio",		.driver_data_ptr = &mmp_id },
+	+	{ .name = "mmp2-gpio",		.driver_data_ptr = &mmp2_id },
+	+	{ .name = "pxa1928-gpio",	.driver_data_ptr = &pxa1928_id },
+		{ }
+	 };
  
- static const struct platform_device_id qemu_virt_ctrl_id[] = {
--	{ "qemu-virt-ctrl", 0 },
-+	{ .name = "qemu-virt-ctrl" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(platform, qemu_virt_ctrl_id);
-diff --git a/drivers/power/supply/charger-manager.c b/drivers/power/supply/charger-manager.c
-index 1b0239c59114..fa7518e9d72f 100644
---- a/drivers/power/supply/charger-manager.c
-+++ b/drivers/power/supply/charger-manager.c
-@@ -1649,8 +1649,8 @@ static void charger_manager_remove(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id charger_manager_id[] = {
--	{ "charger-manager", 0 },
--	{ },
-+	{ .name = "charger-manager" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, charger_manager_id);
- 
-diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/supply/cros_charge-control.c
-index 53e6a77e03fc..b489325be816 100644
---- a/drivers/power/supply/cros_charge-control.c
-+++ b/drivers/power/supply/cros_charge-control.c
-@@ -320,8 +320,8 @@ static int cros_chctl_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id cros_chctl_id[] = {
--	{ "cros-charge-control", 0 },
--	{}
-+	{ .name = "cros-charge-control" },
-+	{ }
- };
- 
- static struct platform_driver cros_chctl_driver = {
-diff --git a/drivers/power/supply/cros_peripheral_charger.c b/drivers/power/supply/cros_peripheral_charger.c
-index f132fad288cb..9f67a6dbd94e 100644
---- a/drivers/power/supply/cros_peripheral_charger.c
-+++ b/drivers/power/supply/cros_peripheral_charger.c
-@@ -369,8 +369,8 @@ static int __maybe_unused cros_pchg_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(cros_pchg_pm_ops, NULL, cros_pchg_resume);
- 
- static const struct platform_device_id cros_pchg_id[] = {
--	{ DRV_NAME, 0 },
--	{}
-+	{ .name = DRV_NAME },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, cros_pchg_id);
- 
-diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
-index 7d3e676a951c..308e1d4e6dd8 100644
---- a/drivers/power/supply/cros_usbpd-charger.c
-+++ b/drivers/power/supply/cros_usbpd-charger.c
-@@ -707,8 +707,8 @@ static SIMPLE_DEV_PM_OPS(cros_usbpd_charger_pm_ops, NULL,
- 			 cros_usbpd_charger_resume);
- 
- static const struct platform_device_id cros_usbpd_charger_id[] = {
--	{ DRV_NAME, 0 },
--	{}
-+	{ .name = DRV_NAME },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, cros_usbpd_charger_id);
- 
-diff --git a/drivers/power/supply/max77693_charger.c b/drivers/power/supply/max77693_charger.c
-index 027d6a539b65..76c58b32a374 100644
---- a/drivers/power/supply/max77693_charger.c
-+++ b/drivers/power/supply/max77693_charger.c
-@@ -788,7 +788,7 @@ static void max77693_charger_remove(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id max77693_charger_id[] = {
--	{ "max77693-charger", 0, },
-+	{ .name = "max77693-charger" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(platform, max77693_charger_id);
-diff --git a/drivers/power/supply/max8997_charger.c b/drivers/power/supply/max8997_charger.c
-index 1ec3535a257d..19da9eff0372 100644
---- a/drivers/power/supply/max8997_charger.c
-+++ b/drivers/power/supply/max8997_charger.c
-@@ -268,7 +268,7 @@ static int max8997_battery_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id max8997_battery_id[] = {
--	{ "max8997-battery", 0 },
-+	{ .name = "max8997-battery" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(platform, max8997_battery_id);
-diff --git a/drivers/power/supply/mt6360_charger.c b/drivers/power/supply/mt6360_charger.c
-index 77747eb51667..69955f255091 100644
---- a/drivers/power/supply/mt6360_charger.c
-+++ b/drivers/power/supply/mt6360_charger.c
-@@ -841,8 +841,8 @@ static const struct of_device_id __maybe_unused mt6360_charger_of_id[] = {
- MODULE_DEVICE_TABLE(of, mt6360_charger_of_id);
- 
- static const struct platform_device_id mt6360_charger_id[] = {
--	{ "mt6360-chg", 0 },
--	{},
-+	{ .name = "mt6360-chg" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, mt6360_charger_id);
- 
+increasing readability due to less casting. Also this results in the
+compiler warning:
+
+	drivers/gpio/gpio-pxa.c: In function ‘pxa_gpio_nums’:
+	drivers/gpio/gpio-pxa.c:537:38: error: initialization discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+	  537 |         struct pxa_gpio_id *pxa_id = id->driver_data_ptr;
+	      |                                      ^~
+
+which is a good thing as adding the needed const to fix this warning
+improves type safety. (Sorry, no driver below drivers/power benefits
+here, so the example is from a different subsystem.)
+
+Patch #5 is just an unrelated change where I spotted the patch
+opportunity while preparing this series. It's included here just for my
+convenience and could be applied independently.
+
+If you consider the last patch mostly churn, just drop it.
+
+There are no dependencies between the patches, the only file that is
+touched in more than one patch is drivers/power/supply/mt6360_charger.c
+and even if these (i.e. patches #1 and #5) are reordered, git should be
+able to cope with that without conflicts.
+
+Note that this series is only build tested, and there is the possibility
+that I failed to spot driver data usage that render patches #2 and/or #3
+wrong. So a deeper look on at least those two won't hurt.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (The Capable Hub) (6):
+  power: Drop unused assignment of platform_device_id driver data
+  power: supply: max14577: Drop driver data in of and platform device id
+    arrays
+  power: supply: max17042: Drop driver data in of and platform device id
+    arrays
+  power: Use named initializers for platform_device_id arrays
+  power: supply: mt6360_charger: Use of match table unconditionally
+  power: Unify code style for platform_device_id arrays
+
+ drivers/power/reset/qemu-virt-ctrl.c           |  2 +-
+ drivers/power/reset/spacemit-p1-reboot.c       |  4 ++--
+ drivers/power/reset/tps65086-restart.c         |  2 +-
+ drivers/power/supply/axp288_charger.c          |  2 +-
+ drivers/power/supply/axp288_fuel_gauge.c       |  2 +-
+ drivers/power/supply/bd71828-power.c           |  8 ++++----
+ drivers/power/supply/charger-manager.c         |  4 ++--
+ drivers/power/supply/cros_charge-control.c     |  4 ++--
+ drivers/power/supply/cros_peripheral_charger.c |  4 ++--
+ drivers/power/supply/cros_usbpd-charger.c      |  4 ++--
+ drivers/power/supply/macsmc-power.c            |  2 +-
+ drivers/power/supply/max14577_charger.c        | 12 +++++-------
+ drivers/power/supply/max17042_battery.c        | 14 +++++++-------
+ drivers/power/supply/max77693_charger.c        |  2 +-
+ drivers/power/supply/max77759_charger.c        |  2 +-
+ drivers/power/supply/max8997_charger.c         |  2 +-
+ drivers/power/supply/max8998_charger.c         |  2 +-
+ drivers/power/supply/mt6360_charger.c          |  6 +++---
+ drivers/power/supply/pf1550-charger.c          |  2 +-
+ drivers/power/supply/rt5033_charger.c          |  2 +-
+ 20 files changed, 40 insertions(+), 42 deletions(-)
+
+
+base-commit: f7af91adc230aa99e23330ecf85bc9badd9780ad
 -- 
 2.47.3
 

@@ -1,32 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F0142189F
-	for <chrome-platform@lists.linux.dev>; Fri, 29 May 2026 20:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280034218B5
+	for <chrome-platform@lists.linux.dev>; Fri, 29 May 2026 20:32:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780086730; cv=none; b=VevTBqRPllDmHD8Hw9PxamgbyeWMRNrJi5gIwvxM1KG603lfCQwjXBhTglV2qRBFTREer1QgAFA56PlUjcv0/xZrOfakhOO3mSU1tlaeXMsuoz3egp9gokpEyrT7GLVqLJ9ScNCCzNqBcqxN+6TxhKDPaqFV3ny8H9EvNX8nFa4=
+	t=1780086730; cv=none; b=ZYxcDaMlw3O+OhncpB9B8ekxQn5n8Vx65bbLEzSap9lc2DIq+TjRKZsTq1lkgiAvGIEwQe3Lm/aFn+pPbDMbIT2HNnMbZaIFufmaxeXQYwID293TSeCbNkq9rPRPt6GkBWVqaNFLYT75mU3PQlp/QW2kXeEEZWzyeVrDQHA9bIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780086730; c=relaxed/simple;
-	bh=9dhz5D1a0Ksv2nfOCHB6O5HOpDxXY+m49njNGjn9knQ=;
+	bh=QZvBUP1hs/bohg2wpRQ1DiYUpKav0hya0+CvfYNx0H0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OFHx1/bMHgkLJtS60OH3YBa5HdIoxyutQlO6Hl8w9366cSLAf+BwqkUbvsFkPB28/gACqep6nJV1VDzaqn4phZBrY/qblErpXvaAgekBVB2w+I2ycJ8M6xo630Cf0kvvIfL1I7qSUeGCuEM/je/wg/IS836ubd/kOk4R8Mv2yzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=jET+S+XO; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=P5R1r4RjsxON+zEPLFkAvgKpfHxgjTghUzvKq4c731n2a+jVM3vQBy428j+disy3Tl35ykL3c9pPZzOIVBVds7G4hn4iNCoV6gZLJpUeg2r34/U2OdrnwYEJQ+ep/APRh/CPA8YhZY8qSlJd0H60a4a/Wrt2QxPUvExaQznepzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=D06kodnv; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="jET+S+XO"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="D06kodnv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1780086726;
-	bh=9dhz5D1a0Ksv2nfOCHB6O5HOpDxXY+m49njNGjn9knQ=;
+	s=mail; t=1780086727;
+	bh=QZvBUP1hs/bohg2wpRQ1DiYUpKav0hya0+CvfYNx0H0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jET+S+XOKIwlGDn3p9uF4Bqxygg9yWYu2JyjNw1ktmSRfMVJvFWd7RT9rRILEwCZE
-	 44P/Yq9s0HQf0zc5raGKh5NggeTjL5Up9o6zAthO656A1V4mso484LoCy5QSwD4ocb
-	 SYMif3iZodMf/t0LPi4dD0dj/Ye7Mbtdt5N0RXno=
+	b=D06kodnvV46PJ10fqgMLc95Z69+PWsi83QkCrEJacQaFTvBODDeDypcCitX8J2Zev
+	 I6Z/N6f9/vO9AztWnsGKGDwsgbak4TPCoxwGhFUv2bdNsLdlLfLG1Qbdk1mL2ZgTpi
+	 vPXBQTwG5u74FmnYCBpcoRaaPOrMXJzwcy/9uVZ8=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Fri, 29 May 2026 22:31:52 +0200
-Subject: [PATCH 1/5] hwmon: (cros_ec) Implement custom kelvin to celsius
- conversions
+Date: Fri, 29 May 2026 22:31:56 +0200
+Subject: [PATCH 5/5] hwmon: (cros_ec) Allow modification of fan curves
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,7 +34,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260529-cros_ec-hwmon-fan-curve-v1-1-da6792b3830f@weissschuh.net>
+Message-Id: <20260529-cros_ec-hwmon-fan-curve-v1-5-da6792b3830f@weissschuh.net>
 References: <20260529-cros_ec-hwmon-fan-curve-v1-0-da6792b3830f@weissschuh.net>
 In-Reply-To: <20260529-cros_ec-hwmon-fan-curve-v1-0-da6792b3830f@weissschuh.net>
 To: Guenter Roeck <linux@roeck-us.net>, Benson Leung <bleung@chromium.org>, 
@@ -44,66 +43,138 @@ Cc: Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev,
  linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780086726; l=2067;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780086726; l=4312;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=9dhz5D1a0Ksv2nfOCHB6O5HOpDxXY+m49njNGjn9knQ=;
- b=t6zV1I7u0qOz71i5ZZNII8yQZZHNU+cgLiLNE+o04Ee69DBaUNYOQ/vMHLWC8AMxOdmizsz97
- lG/f6RXJBFRCddiP8rAfUPMyuI2M70uKcsdngpqgfwp6YXbRxo1m70+
+ bh=QZvBUP1hs/bohg2wpRQ1DiYUpKav0hya0+CvfYNx0H0=;
+ b=BoF9oYNY5sX5IFEw40Hio3ttzYXeEvRjjyW7S4GYoDMs/hK2stzPIgKWEqxffWPu+MDaIIrRj
+ /0PCHiamk+8D0W1B36ENM7O9BhaREmQnALbqWzbRT+EINhb0TZpwc4e
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-The ChromeOS EC APIs use integers representing degrees kelvin for
-temperatures. The default conversions from linux/units.h will then
-always convert these integer degrees celsius with a 150 millidegree
-offset. This is a bit confusing, as it also differs from other CrOS EC
-tooling. Internally the EC uses a kelvin to celsius offset of a round
-273, so the current conversion is also not entirely accurate.
+The fan curves used by the embedded controller can be configured.
 
-Implement a custom conversion which preserves round values.
+Expose this through the standard hwmon sysfs ABI.
+
+Only allow the curves to be made more aggressive than the current ones.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/hwmon/cros_ec_hwmon.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ Documentation/hwmon/cros_ec_hwmon.rst |  2 +-
+ drivers/hwmon/cros_ec_hwmon.c         | 68 +++++++++++++++++++++++++++++++++--
+ 2 files changed, 67 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
+index 7a8683227252..a3d0e43c8833 100644
+--- a/Documentation/hwmon/cros_ec_hwmon.rst
++++ b/Documentation/hwmon/cros_ec_hwmon.rst
+@@ -48,4 +48,4 @@ PWM fan control
+     in the thermal framework as well.
+ 
+ Fan curves:
+-   If supported by the EC. Reading only.
++   If supported by the EC. Reading and writing.
 diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-index 7c308b0a4b9e..f1b6c9c2d2a3 100644
+index 731143f8c6b2..fb73a00ebeeb 100644
 --- a/drivers/hwmon/cros_ec_hwmon.c
 +++ b/drivers/hwmon/cros_ec_hwmon.c
-@@ -147,9 +147,23 @@ static bool cros_ec_hwmon_is_error_temp(u8 temp)
- 	       temp == EC_TEMP_SENSOR_NOT_CALIBRATED;
+@@ -8,9 +8,11 @@
+ #include <linux/device.h>
+ #include <linux/hwmon.h>
+ #include <linux/hwmon-sysfs.h>
++#include <linux/kstrtox.h>
+ #include <linux/math.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
++#include <linux/overflow.h>
+ #include <linux/platform_device.h>
+ #include <linux/platform_data/cros_ec_commands.h>
+ #include <linux/platform_data/cros_ec_proto.h>
+@@ -135,6 +137,22 @@ static int cros_ec_hwmon_get_thermal_config(struct cros_ec_device *cros_ec, u8 i
+ 	return 0;
  }
  
-+/* This differs slightly from the variant in units.h to avoid rounding inconsistencies. */
-+#define CROS_EC_HWMON_ABSOLUTE_ZERO_MILLICELSIUS (-273000)
-+
-+static long cros_ec_hwmon_kelvin_to_millicelsius(long t)
++static int cros_ec_hwmon_set_thermal_config(struct cros_ec_device *cros_ec, u8 index,
++					    const struct ec_thermal_config *config)
 +{
-+	return t * MILLIDEGREE_PER_DEGREE + CROS_EC_HWMON_ABSOLUTE_ZERO_MILLICELSIUS;
++	struct ec_params_thermal_set_threshold_v1 req = {};
++	int ret;
++
++	req.sensor_num = index;
++	req.cfg = *config;
++	ret = cros_ec_cmd(cros_ec, 1, EC_CMD_THERMAL_SET_THRESHOLD,
++			  &req, sizeof(req), NULL, 0);
++	if (ret < 0)
++		return ret;
++
++	return 0;
 +}
 +
-+static long cros_ec_hwmon_millicelsius_to_kelvin(long t)
-+{
-+	return DIV_ROUND_CLOSEST(t - CROS_EC_HWMON_ABSOLUTE_ZERO_MILLICELSIUS,
-+				 MILLIDEGREE_PER_DEGREE);
-+}
-+
- static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
+ static int cros_ec_hwmon_read_temp_threshold(struct cros_ec_device *cros_ec, u8 index,
+ 					     enum ec_temp_thresholds threshold, u32 *temp)
  {
--	return kelvin_to_millicelsius((((long)temp) + EC_TEMP_SENSOR_OFFSET));
-+	return cros_ec_hwmon_kelvin_to_millicelsius((((long)temp) + EC_TEMP_SENSOR_OFFSET));
+@@ -417,14 +435,60 @@ static ssize_t temp_auto_point_temp_show(struct device *dev, struct device_attri
+ 	return sysfs_emit(buf, "%ld\n", cros_ec_hwmon_kelvin_to_millicelsius(temp));
  }
  
- static bool cros_ec_hwmon_attr_is_temp_threshold(u32 attr)
-@@ -228,7 +242,7 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
- 								cros_ec_hwmon_attr_to_thres(attr),
- 								&threshold);
- 			if (ret == 0)
--				*val = kelvin_to_millicelsius(threshold);
-+				*val = cros_ec_hwmon_kelvin_to_millicelsius(threshold);
- 		}
- 	}
++static ssize_t temp_auto_point_temp_store(struct device *dev, struct device_attribute *attr,
++					  const char *buf, size_t size)
++{
++	struct sensor_device_attribute_2 *sattr = to_sensor_dev_attr_2(attr);
++	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
++	struct ec_thermal_config config;
++	u32 *temp_field;
++	s64 temp;
++	int ret;
++
++	ret = kstrtos64(buf, 10, &temp);
++	if (ret)
++		return ret;
++
++	temp = cros_ec_hwmon_millicelsius_to_kelvin(temp);
++
++	if (overflows_type(temp, config.temp_fan_off))
++		return -ERANGE;
++
++	guard(hwmon_lock)(dev);
++
++	ret = cros_ec_hwmon_get_thermal_config(priv->cros_ec, sattr->index, &config);
++	if (ret)
++		return ret;
++
++	if (cros_ec_hwmon_attr_is_temp_fan_off(sattr))
++		temp_field = &config.temp_fan_off;
++	else /* temp_fan_max */
++		temp_field = &config.temp_fan_max;
++
++	/* Only allow values which are more aggressive than the current ones */
++	if (temp > *temp_field)
++		return -EINVAL;
++
++	*temp_field = temp;
++
++	if (config.temp_fan_off > config.temp_fan_max)
++		return -EINVAL;
++
++	ret = cros_ec_hwmon_set_thermal_config(priv->cros_ec, sattr->index, &config);
++	if (ret)
++		return ret;
++
++	return size;
++}
++
+ #define CROS_EC_HWMON_TEMP_AUTO_POINT_ATTRS(_idx)					\
+ 	static SENSOR_DEVICE_ATTR_2_RO(temp ## _idx ## _auto_point1_pwm,		\
+ 				       temp_auto_point_pwm,  0, (_idx) - 1);		\
+ 	static SENSOR_DEVICE_ATTR_2_RO(temp ## _idx ## _auto_point2_pwm,		\
+ 				       temp_auto_point_pwm,  1, (_idx) - 1);		\
+-	static SENSOR_DEVICE_ATTR_2_RO(temp ## _idx ## _auto_point1_temp,		\
++	static SENSOR_DEVICE_ATTR_2_RW(temp ## _idx ## _auto_point1_temp,		\
+ 				       temp_auto_point_temp,  0, (_idx) - 1);		\
+-	static SENSOR_DEVICE_ATTR_2_RO(temp ## _idx ## _auto_point2_temp,		\
++	static SENSOR_DEVICE_ATTR_2_RW(temp ## _idx ## _auto_point2_temp,		\
+ 				       temp_auto_point_temp,  1, (_idx) - 1)		\
  
+ #define CROS_EC_HWMON_TEMP_AUTO_POINT_ATTRS_PTRS(_idx)					\
 
 -- 
 2.54.0

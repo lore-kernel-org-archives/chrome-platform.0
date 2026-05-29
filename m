@@ -1,232 +1,141 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F301BD9D0
-	for <chrome-platform@lists.linux.dev>; Fri, 29 May 2026 10:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16FF82E92B3
+	for <chrome-platform@lists.linux.dev>; Fri, 29 May 2026 12:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780049924; cv=none; b=ieFjcLKa2fEVX51Q69xyv6RX53HNUFfu18x+UTuJd1TQtWY2xRV+O8jMNqxDG1vOHesfT+Jsiw05BG7TlNk1h2wY8mCPfaKFFpoSeKBAHbHfyvkon7uw3D5bEEYyREK7d8JaT9jPtDS34F21K97R92PNfHBnJnjiiIz2uQ56qx4=
+	t=1780059370; cv=none; b=EghCsWXsffzf/a/IdEzuiORivlGJn0aFyPcNqraidyLcx2i9My9qJhQae2DlarF48m57g131N+3rAlaZm2/1QJn22BptJv/Bzv15KWgCh8WK+BaPaXOvmQcai0FYb/3WaGz2d5ZlpjC/dsJusaa6qdzgi4QYm/9kKcDiM1jjJ04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780049924; c=relaxed/simple;
-	bh=HR0BG2x5gStI8qVvDgUBsjfK17M95+4vrnDaD2QTsYk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lUuAjUk5/4J+tXc7QgeYjZCN2ynHECaQLAQeOXv7HIyqntWede1wXfaM6N/7CJlSNZVq8l0PGEbAL+WQt9seM/rr4IaXImpDCpZNbPKN9ujV96O0oGmR487MV9SN6aPemMAxP+51C/2jsf8gWx2rjk+/Scg9zb4jCqGsc9TSDpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=anZB5nmx; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1780059370; c=relaxed/simple;
+	bh=0QxfIEC8qyuYWwOAb2WgzCIMH4/1O2Q1V9Anr+5ikEY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D6GGbnzAd1uwmO7sJWdmV6R4CcXdLcTOpIs0FQ/vg6WmgqsCB0Sl3JIwN4IqJ9WBhTTRR4ZZx4jA6IFO6qc4jK43O12iZnv8kgBY8kwXRzPHJ+7nyLZP8TnL1xCeufmeuADlMqoRr77oCTg4swWx+P1VdYABfVxKVdv60o5ZtLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ocxpLU7J; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="anZB5nmx"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-44e1860558fso8569472f8f.0
-        for <chrome-platform@lists.linux.dev>; Fri, 29 May 2026 03:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1780049919; x=1780654719; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gRuenZrko78jZddy0UFWO+BRki0zaXyQrkNHtJpBvQk=;
-        b=anZB5nmxohmHhx0MeKzlf0ac3ussNCFyihbkn5KFtVLLH8Ey4M/boSc9Bu572OZZyb
-         JvqRVyaS0MRAsmVRGufFBDTnHE/uYbM72TMvNmR5K6suNuaUzw74XuCqP0Phe1uc2bet
-         T3SiEXVDVXpvMnn0RdvQq8SspDNioKN3ze3Q++KOaVvv1krXoMnTaxcvTD5mEMlt1ast
-         aidnNTVNX6gulYdmYn1+Z8ODQ/4fVnYNQuTyPvHF7/CWKT39MLKSWQL8zRgxXZwmkT+t
-         +vdBE+Q9aIamzqQbzYZ89ZfvkairAkU1NSN3WkFM9yjAmGE0yz1ErZZLN7g4SrzvJk71
-         A22g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780049919; x=1780654719;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gRuenZrko78jZddy0UFWO+BRki0zaXyQrkNHtJpBvQk=;
-        b=dUjZhiLFzI4o7Y4AL45hH4UAU0FBb8AJfiYybcfCkqYPjQ31DgoGFKT7KVoB1xsUQT
-         BQR3wpwbZQCDopzgj8FkFua65F2iRKvP2fzdUYSMF4rdKwoZEzF4wImZupSvVFbV4Z7T
-         bmsE3lXmg07WNsuetZGfYhkY6hjkN7sxkQdN1usSrq5DPK42k5Jbcma9rJF6vihuCeig
-         eF+4j09nax4t7Wqeyw8TiZNelyK0NW+EFgjCdLvSYTWbiu3bG2Mf2xdootXQJsb/ilyB
-         AGUa9T2rd+Rv5isqInTw3gFAF9en381u0mP/9UsgGmurOByD6DkDr0KMTogfPFY5GPOJ
-         VVHA==
-X-Forwarded-Encrypted: i=1; AFNElJ9DPjc5RqBN3Cc3ukP8sC6sOMzExrYhMzTxiu5k4I1UxdJm1b5xXLonWuQ5qgiMg2nlpqPjxPIrTunYnM54nCw=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCRwoCNSdGlBbA5Kz7t5QmpgWcbP8bTKnnvu9/A9B077h+jMy/
-	F3GfM1YbPvzopahPSsDX9dFh2FUoS0Y6B393vXMe31/oCpeHAOWwBhpCsrl4iU+K2W4=
-X-Gm-Gg: Acq92OH0p+hqUOniVEeYsjsBsp03US9NkydI271QzPNWKADIofOY9VrIwc/XXl7Qj34
-	WjS3ryMjfqlko3f4VPQfUaNb985HPxOJzhmEutBCH/u6TGfLi1lD0fgaODCSzy1Rrpc2bZA81kW
-	JlyZ0coKPmjqun73YWc1V5dSvyzgkgDuJ79uuqlRicnOfM27NHEO3ExyCel7y7wS0SYm9nZAELe
-	IoM8WesqHuzotHfyYkLfIHMjkAP5tGX1oSuTvzsCRGUf/fbZysDnqxpJxWto/WOwf9AkQv2lWL8
-	S5vovfL5Dl4sRK4RrdOj/0X+oiQFh3P6+fC0UtKm9n4LYGwwV5DSIKTQGi9y3tLXLW1IzcPgbJ4
-	TmltdZZtBQBesc/+BH5XzRGG5mEepFjT5dyC8plgLobFhhjYXsLy9qDw9XDGXOnj/JFwYSEF8oT
-	KKPCA/qH7Etc+Vz/dvo2bXLgZUHL6xz84ervTUnPbevXMboRi5jB1CUBWz25FdBY1pgbXLbi9Qx
-	6G+25kuCgbhUysXT5HwEe2oPg==
-X-Received: by 2002:a5d:6f03:0:b0:45e:ef4a:8192 with SMTP id ffacd0b85a97d-45ef14aeca6mr4456766f8f.38.1780049919017;
-        Fri, 29 May 2026 03:18:39 -0700 (PDT)
-Received: from localhost (p200300f65f47db043f932d8b97293bf6.dip0.t-ipconnect.de. [2003:f6:5f47:db04:3f93:2d8b:9729:3bf6])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-45ef354cd7csm2359192f8f.18.2026.05.29.03.18.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 03:18:38 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Sebastian Reichel <sre@kernel.org>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	=?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Hans de Goede <hansg@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Yixun Lan <dlan@kernel.org>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Amit Sunil Dhamne <amitsd@google.com>,
-	Samuel Kayode <samkay014@gmail.com>,
-	linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev,
-	asahi@lists.linux.dev,
-	imx@lists.linux.dev,
-	Chen-Yu Tsai <wens@kernel.org>
-Subject: [PATCH v1 0/6] power: Use named initializers for platform_device_id arrays
-Date: Fri, 29 May 2026 12:18:15 +0200
-Message-ID: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ocxpLU7J"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68DAD20E3;
+	Fri, 29 May 2026 05:56:02 -0700 (PDT)
+Received: from [10.57.26.238] (unknown [10.57.26.238])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19FFC3FB3E;
+	Fri, 29 May 2026 05:56:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1780059367; bh=0QxfIEC8qyuYWwOAb2WgzCIMH4/1O2Q1V9Anr+5ikEY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ocxpLU7JwcuFGJNzN52Odm0/9BAn+vFuXL4dL3SP0K9Ycz25oxgomjRgE2vfGn+7x
+	 fdUro768IWnWcg1hZ8/X6pd+pLdb+uO7r0QttFPxl3OZxgcIhKskHQ68rYS20sB8sS
+	 pe9KxdyjtNBsrE0SkjGCfY7PP+sZBiDo9TODVQYk=
+Message-ID: <312d7b76-66a4-48e1-b8dd-23082b68de41@arm.com>
+Date: Fri, 29 May 2026 13:55:59 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5698; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=HR0BG2x5gStI8qVvDgUBsjfK17M95+4vrnDaD2QTsYk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqGWfoDIuZ0g/W2ypE62dFHULfUWoyzPSByuJOy zumyQmeqqeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCahln6AAKCRCPgPtYfRL+ TsKPB/9mAyfp+pLZiIDxZa/Gq+SSHanqJrTQwpZ9rQFWh6BTlVwAzfy9/iK3DTaEC0m73vbGFfQ SrrV9RH9jd6SuuSNJEy+P030qdvrNgwnqe9+Kw6h9Ox1Xf/WbmVgbFqiAvBlC9bWaxNYlaSXA6b k6D0JHKSjZPpHgGWSl8de58GW9wTOhD4G7APcHqvig2ElcuxKXGEJMbDiI5C+wM6c/uNZYGDKQH Gyln8usdt6LIe+L24f+S0WZZOkN5b75oBqE1U4SirbgWSV0oQR/VgR5R3MVvLMMrmyqPiFaaawD fWqFsf8PmmOgcfZvBQ4ZGzTElp/ezMarN1H6m653QUtXR1kb
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-
-Hello,
-
-this series targets to use named initializers for platform_device_id
-arrays. In general these are better readable for humans and more robust
-to changes in the respective struct definition.
-
-This robustness is needed as I want to do
-
-	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-	--- a/include/linux/mod_devicetable.h
-	+++ b/include/linux/mod_devicetable.h
-	@@ -610,4 +610,7 @@ struct dmi_system_id {
-	 struct platform_device_id {
-		char name[PLATFORM_NAME_SIZE];
-	-	kernel_ulong_t driver_data;
-	+	union {
-	+		kernel_ulong_t driver_data;
-	+		const void *driver_data_ptr;
-	+	};
-	 };
-
-which allows dropping several casts and eases porting CHERI to mainline
-linux. A possible follow-up change is the following example:
-
-	diff --git a/drivers/gpio/gpio-pxa.c b/drivers/gpio/gpio-pxa.c
-	index 5d61053e0596..03bc8e859d73 100644
-	--- a/drivers/gpio/gpio-pxa.c
-	+++ b/drivers/gpio/gpio-pxa.c
-	@@ -534,7 +534,7 @@ static struct irq_chip pxa_muxed_gpio_chip = {
-	 static int pxa_gpio_nums(struct platform_device *pdev)
-	 {
-		const struct platform_device_id *id = platform_get_device_id(pdev);
-	-	struct pxa_gpio_id *pxa_id = (struct pxa_gpio_id *)id->driver_data;
-	+	struct pxa_gpio_id *pxa_id = id->driver_data_ptr;
-		int count = 0;
-	 
-		switch (pxa_id->type) {
-	@@ -708,14 +708,14 @@ static int pxa_gpio_probe(struct platform_device *pdev)
-	 }
-	 
-	 static const struct platform_device_id gpio_id_table[] = {
-	-	{ .name = "pxa25x-gpio",	.driver_data = (unsigned long)&pxa25x_id },
-	-	{ .name = "pxa26x-gpio",	.driver_data = (unsigned long)&pxa26x_id },
-	-	{ .name = "pxa27x-gpio",	.driver_data = (unsigned long)&pxa27x_id },
-	-	{ .name = "pxa3xx-gpio",	.driver_data = (unsigned long)&pxa3xx_id },
-	-	{ .name = "pxa93x-gpio",	.driver_data = (unsigned long)&pxa93x_id },
-	-	{ .name = "mmp-gpio",		.driver_data = (unsigned long)&mmp_id },
-	-	{ .name = "mmp2-gpio",		.driver_data = (unsigned long)&mmp2_id },
-	-	{ .name = "pxa1928-gpio",	.driver_data = (unsigned long)&pxa1928_id },
-	+	{ .name = "pxa25x-gpio",	.driver_data_ptr = &pxa25x_id },
-	+	{ .name = "pxa26x-gpio",	.driver_data_ptr = &pxa26x_id },
-	+	{ .name = "pxa27x-gpio",	.driver_data_ptr = &pxa27x_id },
-	+	{ .name = "pxa3xx-gpio",	.driver_data_ptr = &pxa3xx_id },
-	+	{ .name = "pxa93x-gpio",	.driver_data_ptr = &pxa93x_id },
-	+	{ .name = "mmp-gpio",		.driver_data_ptr = &mmp_id },
-	+	{ .name = "mmp2-gpio",		.driver_data_ptr = &mmp2_id },
-	+	{ .name = "pxa1928-gpio",	.driver_data_ptr = &pxa1928_id },
-		{ }
-	 };
- 
-increasing readability due to less casting. Also this results in the
-compiler warning:
-
-	drivers/gpio/gpio-pxa.c: In function ‘pxa_gpio_nums’:
-	drivers/gpio/gpio-pxa.c:537:38: error: initialization discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
-	  537 |         struct pxa_gpio_id *pxa_id = id->driver_data_ptr;
-	      |                                      ^~
-
-which is a good thing as adding the needed const to fix this warning
-improves type safety. (Sorry, no driver below drivers/power benefits
-here, so the example is from a different subsystem.)
-
-Patch #5 is just an unrelated change where I spotted the patch
-opportunity while preparing this series. It's included here just for my
-convenience and could be applied independently.
-
-If you consider the last patch mostly churn, just drop it.
-
-There are no dependencies between the patches, the only file that is
-touched in more than one patch is drivers/power/supply/mt6360_charger.c
-and even if these (i.e. patches #1 and #5) are reordered, git should be
-able to cope with that without conflicts.
-
-Note that this series is only build tested, and there is the possibility
-that I failed to spot driver data usage that render patches #2 and/or #3
-wrong. So a deeper look on at least those two won't hurt.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (The Capable Hub) (6):
-  power: Drop unused assignment of platform_device_id driver data
-  power: supply: max14577: Drop driver data in of and platform device id
-    arrays
-  power: supply: max17042: Drop driver data in of and platform device id
-    arrays
-  power: Use named initializers for platform_device_id arrays
-  power: supply: mt6360_charger: Use of match table unconditionally
-  power: Unify code style for platform_device_id arrays
-
- drivers/power/reset/qemu-virt-ctrl.c           |  2 +-
- drivers/power/reset/spacemit-p1-reboot.c       |  4 ++--
- drivers/power/reset/tps65086-restart.c         |  2 +-
- drivers/power/supply/axp288_charger.c          |  2 +-
- drivers/power/supply/axp288_fuel_gauge.c       |  2 +-
- drivers/power/supply/bd71828-power.c           |  8 ++++----
- drivers/power/supply/charger-manager.c         |  4 ++--
- drivers/power/supply/cros_charge-control.c     |  4 ++--
- drivers/power/supply/cros_peripheral_charger.c |  4 ++--
- drivers/power/supply/cros_usbpd-charger.c      |  4 ++--
- drivers/power/supply/macsmc-power.c            |  2 +-
- drivers/power/supply/max14577_charger.c        | 12 +++++-------
- drivers/power/supply/max17042_battery.c        | 14 +++++++-------
- drivers/power/supply/max77693_charger.c        |  2 +-
- drivers/power/supply/max77759_charger.c        |  2 +-
- drivers/power/supply/max8997_charger.c         |  2 +-
- drivers/power/supply/max8998_charger.c         |  2 +-
- drivers/power/supply/mt6360_charger.c          |  6 +++---
- drivers/power/supply/pf1550-charger.c          |  2 +-
- drivers/power/supply/rt5033_charger.c          |  2 +-
- 20 files changed, 40 insertions(+), 42 deletions(-)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/10] hwmon: Use non-OF thermal cooling device
+ registration API
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>, rafael@kernel.org,
+ daniel.lezcano@kernel.org
+Cc: Zhang Rui <rui.zhang@intel.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Benson Leung <bleung@chromium.org>, =?UTF-8?Q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, Avi Fishman <avifishman70@gmail.com>,
+ Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>,
+ Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+ Benjamin Fair <benjaminfair@google.com>, Heiko Stuebner <heiko@sntech.de>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Amit Kucheria
+ <amitk@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org,
+ "open list:CHROMEOS EC HARDWARE MONITORING" <chrome-platform@lists.linux.dev>
+References: <20260526140802.1059293-12-daniel.lezcano@oss.qualcomm.com>
+ <20260526140802.1059293-15-daniel.lezcano@oss.qualcomm.com>
+Content-Language: en-US
+From: Lukasz Luba <lukasz.luba@arm.com>
+In-Reply-To: <20260526140802.1059293-15-daniel.lezcano@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-base-commit: f7af91adc230aa99e23330ecf85bc9badd9780ad
--- 
-2.47.3
 
+On 5/26/26 15:08, Daniel Lezcano wrote:
+> Some HWMON drivers register cooling devices using the OF helper
+> devm_thermal_of_cooling_device_register() with a NULL device node.
+> 
+> With the introduction of a dedicated non-OF registration API,
+> switch these users to devm_thermal_cooling_device_register()
+> to make the intent explicit and avoid relying on OF-specific helpers.
+> 
+> This is a pure refactoring with no functional change.
+> 
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+>   drivers/hwmon/cros_ec_hwmon.c  | 4 ++--
+>   drivers/hwmon/dell-smm-hwmon.c | 4 ++--
+>   drivers/hwmon/mlxreg-fan.c     | 4 ++--
+>   3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+> index 6cf5ab0f4b73..77dd9f28962d 100644
+> --- a/drivers/hwmon/cros_ec_hwmon.c
+> +++ b/drivers/hwmon/cros_ec_hwmon.c
+> @@ -532,8 +532,8 @@ static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
+>   
+>   		cpriv->hwmon_priv = priv;
+>   		cpriv->index = i;
+> -		cdev = devm_thermal_of_cooling_device_register(dev, NULL, type, cpriv,
+> -							       &cros_ec_thermal_cooling_ops);
+> +		cdev = devm_thermal_cooling_device_register(dev, type, cpriv,
+> +							    &cros_ec_thermal_cooling_ops);
+>   		if (IS_ERR(cdev)) {
+>   			dev_warn(dev, "failed to register fan %zu as a cooling device: %pe\n", i,
+>   				 cdev);
+> diff --git a/drivers/hwmon/dell-smm-hwmon.c b/drivers/hwmon/dell-smm-hwmon.c
+> index 038edffc1ac7..47b373ea6db4 100644
+> --- a/drivers/hwmon/dell-smm-hwmon.c
+> +++ b/drivers/hwmon/dell-smm-hwmon.c
+> @@ -1161,8 +1161,8 @@ static int dell_smm_init_cdev(struct device *dev, u8 fan_num)
+>   	if (cdata) {
+>   		cdata->fan_num = fan_num;
+>   		cdata->data = data;
+> -		cdev = devm_thermal_of_cooling_device_register(dev, NULL, name, cdata,
+> -							       &dell_smm_cooling_ops);
+> +		cdev = devm_thermal_cooling_device_register(dev, name, cdata,
+> +							    &dell_smm_cooling_ops);
+>   		if (IS_ERR(cdev)) {
+>   			devm_kfree(dev, cdata);
+>   			ret = PTR_ERR(cdev);
+> diff --git a/drivers/hwmon/mlxreg-fan.c b/drivers/hwmon/mlxreg-fan.c
+> index 137a90dd2075..860de6cfd8a4 100644
+> --- a/drivers/hwmon/mlxreg-fan.c
+> +++ b/drivers/hwmon/mlxreg-fan.c
+> @@ -583,8 +583,8 @@ static int mlxreg_fan_cooling_config(struct device *dev, struct mlxreg_fan *fan)
+>   		pwm->fan = fan;
+>   		/* Set minimal PWM speed. */
+>   		pwm->last_hwmon_state = MLXREG_FAN_PWM_DUTY2STATE(MLXREG_FAN_MIN_DUTY);
+> -		pwm->cdev = devm_thermal_of_cooling_device_register(dev, NULL, mlxreg_fan_name[i],
+> -								    pwm, &mlxreg_fan_cooling_ops);
+> +		pwm->cdev = devm_thermal_cooling_device_register(dev, mlxreg_fan_name[i],
+> +								 pwm, &mlxreg_fan_cooling_ops);
+>   		if (IS_ERR(pwm->cdev)) {
+>   			dev_err(dev, "Failed to register cooling device\n");
+>   			return PTR_ERR(pwm->cdev);
+
+
+Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>

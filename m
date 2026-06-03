@@ -1,130 +1,95 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E82F3D5658
-	for <chrome-platform@lists.linux.dev>; Wed,  3 Jun 2026 17:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F969325701;
+	Wed,  3 Jun 2026 20:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780507422; cv=none; b=sTqc5s4sZAS8P6Z+tCmxPWRlLbp5iinNU3Lnx8YWlZ/mFyCU82G0sNTPC97N5QEyuW/x+FAjfbQIFtsmgUpRjEDzQx6xPe543Gg2AMG21EIyCxDm+F1P7AvfGDGdWtuArybl5m/Tcvbm06h0xgINjpz0ngIwsHua1bAYAIUpgTc=
+	t=1780519623; cv=none; b=sMMSQtHyLsgzyO8YE+AVKWNPIQJke3RJUaDm+QbxW2hQrxxXVBi/CFkSaxudTN/MyIWdO9FtrIaOS5LX7r68LTD3PqlI90YT8JQYAAtd/3sxhLAc9fhan/NURbyKX2qgfvJnn6krk4D3fNm+HDxd3GcriSPvH3kzz1D8chGIFe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780507422; c=relaxed/simple;
-	bh=ZHGFNjdms5o72NHG5mqWdI+YKiAUtQqIG0qM2Nu/sBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZVadXrKa8hc5ACY5ajrm6EBO1dx1db/J20cNE9GSVJAlELF9Tm64WUl7sjq0j/TNnSCHXogsQ+nu6+1gAPx5xJmO2yVJhDPCO4I3JeKnuEyOdlaLt0slP8IqTmU6uhqwA7k+aXOkdPD/qrROhGXiO7ZnbHaK4gY9LnRRPNjxgpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EwdVS4gF; arc=none smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EwdVS4gF"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-304f0039c02so52072eec.1
-        for <chrome-platform@lists.linux.dev>; Wed, 03 Jun 2026 10:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1780507420; x=1781112220; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SrzBV/CHeC4K43UCwv6a0kN1Tfy/GhWE6NmP1fIYMXI=;
-        b=EwdVS4gFGmBKTTfqeNmQHKsf0mB38bNZb7wSewGXtZVNbSoDR0ZP7WdV96/BTSmB+J
-         WjfAt0rRjFIg4utynJ4l1v1gUt99V5x/asL0RvMbiTbvIRc7HHxbNYTKGMosqU53cwKF
-         NNWMIKVBaVU8kEQOoAx2tFQ1VxdXu8X3V+aiM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780507420; x=1781112220;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SrzBV/CHeC4K43UCwv6a0kN1Tfy/GhWE6NmP1fIYMXI=;
-        b=LEsuzcZBfLdLlYLWIzhxwcM3c5VZDfAz6hUKZSL5f8NPJMfdRUw5q8hrNEkZ8TYah1
-         805YDYtacawOUOZT967PfPubiwOnFE9C3N3pwauQEpaSAXXHjN5d0kwdOdEtmf6yqd85
-         k4SDpCHDBuKZtG2J/PE/h/WBwYdqSXcf84RTsG3uM1Qr5qUyJ2ucYZOPv3EPbOiyvyqj
-         cwExg7GnkizDybVR/PiWkWrHnF3lTaQ+xQCWib9nDNcbcAsVFUC17x9O1IoViZSxl0nH
-         /0KHIf5wHB8RHkLpPsqAWOSx8wdYIZwlGWLzYpHF1v6/BjQPpY2+Fz0tLV1WYJJ9pzDC
-         RjkA==
-X-Forwarded-Encrypted: i=1; AFNElJ9YR1G9KkbLHDiDsqhxl0rbXzLkF5gKys4jTNnpirmvdsTTokMgeYVXEB3vAzvz8vbT0byXgTadB/K49YRHVls=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhyVN0i5HquXmYlpDaGFXj20ODbsirl/Xpe+C6li74OrLR816N
-	6DBCu1FiMW9zJ8oUUKTfwbBKBhWUMt86NJpsD/Wa8guojmiR8n4TN+cATGu1hLuDiw==
-X-Gm-Gg: Acq92OFCPjwtLcfC9EkhfAPeTamdtbICrystpNArLyPzIT53oLkC2Q9VU9oHzOPUIu1
-	qfWKVvgA5kqcCDqCEk2SfbfipcqY6ewyJZSSPG4kw5Iky4Svmko4uqpo55xSxFdCCVHFaDaUCN2
-	8PMiV2vPCCSHgmWc4DG9/OfWxDOqwBCzaUx4puXLLqYeBqoJ69rhxX1hewI/tviK5omlKfbn3Nw
-	9uoeLgUCWfMU1FSovqllegBVDa21oY2z3KqenwSFoliNqn/zFEUURpo8yIctEuZ2+b8Hf2nQFg9
-	dHoYwuKwBaU2NVhwbdnFr+IkFXd2123T25C1PCJuDs7yGkXbIUW54R8hRBTSQCg9BJzoKomUU87
-	PYekwjiJ4Ev5nrqBsm3S0BoAK9dJzHDtdxJR0MJ9Ny3lb8oXoGlN3RbtThBKm43F9QaswqtK7ar
-	hM1btdwGUsw5/5rx5UczensHlsky+j1xTp07hm7iJfsDbcqtdA3wYLRjP8pydllWWf12YJM4Ro
-X-Received: by 2002:a05:7301:128b:b0:2ea:b7a9:580d with SMTP id 5a478bee46e88-3074fa80739mr2310951eec.9.1780507420313;
-        Wed, 03 Jun 2026 10:23:40 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e7c:8:c444:80f4:5ace:a65c])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-3074d9fde90sm4323779eec.0.2026.06.03.10.23.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 10:23:39 -0700 (PDT)
-Date: Wed, 3 Jun 2026 10:23:37 -0700
-From: Brian Norris <briannorris@chromium.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Bjorn Andersson <andersson@kernel.org>
-Cc: devicetree@vger.kernel.org, Doug Anderson <dianders@chromium.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
-	Julius Werner <jwerner@chromium.org>,
-	cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>
-Subject: Re: [PATCH 0/7] dts: Add /firmware/#{address,size}-cells to
- Chromium-based DTs
-Message-ID: <aiBjGekXkr2nIf-w@google.com>
-References: <20260428200712.2660635-1-briannorris@chromium.org>
+	s=arc-20240116; t=1780519623; c=relaxed/simple;
+	bh=29MCDtinOnbJzWYEVVZoMaJT+rK9yT6ne6Y6YbJz5Ak=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nH92pVgaH/BIrUyvRCRFMrIFiisp75Hg2+x4R2E3LUtf/hhTPRXHOXwr7J6Rv0+2bYOOf5+ROzwd50RnGMFzFqvCnWLEk+u8vbQMsyOy3ApsccWhKWp7nbSrygTD57FVfTOW8XvN1ECpTnC2Jda2aRI8WOTb6cxrdyzkTiijOew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 470E71F00893;
+	Wed,  3 Jun 2026 20:47:02 +0000 (UTC)
+Received: by venus (Postfix, from userid 1000)
+	id BDB17180C6E; Wed, 03 Jun 2026 22:46:59 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Sebastian Reichel <sre@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, Hans de Goede <hansg@kernel.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+ Purism Kernel Team <kernel@puri.sm>, Yixun Lan <dlan@kernel.org>, 
+ Andreas Kemnade <andreas@kemnade.info>, 
+ Matti Vaittinen <mazziesaccount@gmail.com>, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Amit Sunil Dhamne <amitsd@google.com>, Samuel Kayode <samkay014@gmail.com>, 
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+ asahi@lists.linux.dev, imx@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>
+In-Reply-To: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
+References: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
+Subject: Re: (subset) [PATCH v1 0/6] power: Use named initializers for
+ platform_device_id arrays
+Message-Id: <178051961974.2666348.7125017575893735399.b4-ty@collabora.com>
+Date: Wed, 03 Jun 2026 22:46:59 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428200712.2660635-1-briannorris@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14.3
 
-(Trim address list)
 
-Hi Bjorn, AngeloGioacchino,
-
-On Tue, Apr 28, 2026 at 01:06:52PM -0700, Brian Norris wrote:
-...
-> The /firmware node has an empty 'ranges', but does not have
-> address/size-cells.
+On Fri, 29 May 2026 12:18:15 +0200, Uwe Kleine-König (The Capable Hub) wrote:
+> this series targets to use named initializers for platform_device_id
+> arrays. In general these are better readable for humans and more robust
+> to changes in the respective struct definition.
 > 
-> Commit 6e5773d52f4a ("of/address: Fix WARN when attempting translating
-> non-translatable addresses") started requiring #address-cells for a
-> device's parent if we want to use the reg resource in a device node.
-> This leads to errors like the following:
+> This robustness is needed as I want to do
 > 
-> [    7.763870] coreboot_table firmware:coreboot: probe with driver coreboot_table failed with error -22
+> 	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+> 	--- a/include/linux/mod_devicetable.h
+> 	+++ b/include/linux/mod_devicetable.h
+> 	@@ -610,4 +610,7 @@ struct dmi_system_id {
+> 	 struct platform_device_id {
+> 		char name[PLATFORM_NAME_SIZE];
+> 	-	kernel_ulong_t driver_data;
+> 	+	union {
+> 	+		kernel_ulong_t driver_data;
+> 	+		const void *driver_data_ptr;
+> 	+	};
+> 	 };
 > 
-> This series adds appropriate #{address,size}-cells to the device trees
-> used on Arm Chromebooks to work around the problem.
-...
+> [...]
 
-> Brian Norris (7):
->   arm64: dts: rockchip: Add #{address,size}-cells to Chromium-based
->     /firmware
->   ARM: dts: rockchip: Add #{address,size}-cells to Chromium-based
->     /firmware
->   ARM: dts: nvidia: Add #{address,size}-cells to Chromium-based
->     /firmware
->   ARM: dts: samsung: Add #{address,size}-cells to Chromium-based
->     /firmware
->   arm64: dts: mediatek: Add #{address,size}-cells to Chromium-based
->     /firmware
->   arm64: dts: nvidia: Add #{address,size}-cells to Chromium-based
->     /firmware
->   arm64: dts: qcom: Add #{address,size}-cells to Chromium-based
->     /firmware
+Applied, thanks!
 
-Patch 1 and 2 (Rockchip) and 3 and 6 (Nvidia) are applied to linux-next.
-Patch 4 is obsolete / unnecessary. That leaves patch 5 (Mediatek) and 7
-(Qualcomm).
+[1/6] power: Drop unused assignment of platform_device_id driver data
+      commit: 75a0e1e0b86078687c3c6a05107a98c7e59a65a8
+[2/6] power: supply: max14577: Drop driver data in of and platform device id arrays
+      commit: 37258ad1f3a52ea442c32b3c92ad7146e74050c7
+[4/6] power: Use named initializers for platform_device_id arrays
+      commit: e28f7498dd819878b8acacb89c4c073a646feea0
+[5/6] power: supply: mt6360_charger: Use of match table unconditionally
+      commit: eb7ed650e5960fc303130704d1e29d18a7d0e1df
+[6/6] power: Unify code style for platform_device_id arrays
+      commit: e3f669bed32287ae72c05a4ddab4a6687b0e62ca
 
-Bjorn (Qualcomm) and AngeloGioacchino (Mediatek), any thoughts? I can
-resend them separately if that helps somehow.
+Best regards,
+-- 
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
-Regards,
-Brian

@@ -1,296 +1,192 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011036.outbound.protection.outlook.com [52.101.125.36])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CB44418E4;
-	Wed,  3 Jun 2026 22:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780525815; cv=fail; b=dibdk13u4kkRddF67xo8gcaIlzz/5KdeMokzfXOfKpP8dteIQYJIJ+gGI3O35b68Q/3gbPDkXyfP7p24VAN2+UWnDdDsjR5tn+fV8mBM/lU0VAyQzN6wGQidzisk96tX/ROhvgUylyJbhBykmZhYTKeTqN2Gu5ipfbSFme1O7kE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780525815; c=relaxed/simple;
-	bh=WTS5ddFEdnOSo9/IV5+3mQLL8kJAv06vfsAF0SDG5gs=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=ECzf5FEymJWLDJ4RvCMf/HpBcApuZ74NycOrcT+OjssviSJb1bxBF9zJbShJ2cOVPvujITJDOW4+eJyCr7dVAfwVgPZD4kBiixnm4gcf8uUpct3iWT1HUxSKIr9ji+Sbz91kg2G9gnzoVCgR+jhJqQLriqOBXbXUL2XfaOTax5Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ULF/oiWs; arc=fail smtp.client-ip=52.101.125.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A4749551D
+	for <chrome-platform@lists.linux.dev>; Wed,  3 Jun 2026 22:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780527555; cv=none; b=l+hikUY5Pc3CDjJ2LJk2qyr8l3NeX5BJSZhmirRZ1jzJDBPrBrlKu+mktTdrzcP6Ch/K3gL3BROJLxSlJFKVUvOuQDrx09llyuI8ZVICGj0VhHF0JLF/M6hVpkZ5E+aN+KhqEYqmLKSMsM5H2k6c0dBcvzzGEi1tmbHJlZyTCQs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780527555; c=relaxed/simple;
+	bh=RoiQDo2vHkOIYi8QYhXjdnc885eNLNOiDk6hnbsmcV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dyNwa5qmEqE9JxQ2Ea9C7mVKmW13UgonFXzElVeFGOU2KKyN9jPmv2OmwvU/aJK1sRk1Pb+145IQFYD3ArtMglAsjh8Gl0pODtkvjpLFjWN4t4RX95eszPuSY2lgeH3Vl7XcBcHsj2vkwOk0wvpLj9m8ZhlAT4I9soHm/WHQxCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JUsHQt0D; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZfyggLfU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ULF/oiWs"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LiDlgTOjquM/2FE5w5nqTPrFknXxRQZP/CGzYppoHfAaqwgYMbOmu3M8v9wE1vxp+RvIyJ/EtYz1GyL4XKb4DRCZgnII91tczhuEndI2P0WEBgOOtGvXTVe4E/IRu6afZ1nB/IXc3OdcsoyBUalSAvZVs05YkhBs4YalBTkgl7/+Nc13KXP8V8FYculSePWX4fFitda4ACghvbbrSIMac+Rift6XingS9pXBYLO03duoKDb6t9//3ZkbFrC5Nr+Ys5Udhz0uDWaoxPGd8La8jmfHH+CTy0FhnKxffCJ8TuTv00LCOinNbLCWnQEuS0fnVXvLY2i/32S33Pd2Phjvqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qbXB38SUTgltPz28Qrbj5oXXKCfe23ekoxc3LjZrCj4=;
- b=Uk5ZvW2XjrhF55mroyq9r1J1MXZTRDnVmt25JPun6SVbPHEYuwjv88KO7KKpl2Jwl5VtK2ye4POVjCE3N6usuAFFN1Bj8+G0eklBRrFQWdOCF1evYoqc8+xj/m479ApBx/2fMKLQaYiBAv95GfvNQl/hKXHILo3GEMetWxC6Ta8Ke//elW0NTgk9FMgbiPbie/AkRnciQKd8H0685AVCBMc+TE8pdpFMcnidh3jDcTemNXBsB5t1gvDmt+pbKm8/tXlH6YYkV+QXOB2fN6TT7Zm+JSUbhYkKKNrPjWCjI+I//bxDxzdX7d1yomx0cPJb8SPUpP7itGRW5yiPjeeNig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qbXB38SUTgltPz28Qrbj5oXXKCfe23ekoxc3LjZrCj4=;
- b=ULF/oiWs23LHbBNk+vejikbK1FT5bQkDAWfG4U8i/7Z+VlzWKWx55Ko/bNbZtsuGZwDZUw4FqRWehWPb98eAhsdF5oeTBECaBpMGkl+EqZqReIig2ErCwptcVO6Bx6g7CGjTgMgD6zN3Jr7P4oauU5V7KTPAC601ibJ1aGB+3Yc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by OSAPR01MB7280.jpnprd01.prod.outlook.com (2603:1096:604:142::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 22:30:10 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
- 22:30:10 +0000
-Message-ID: <87se7345qm.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: "Alvin =?UTF-8?B?xaBpcHJhZ2E=?=" <alsi@bang-olufsen.dk>,
-	"J.M.B.\
- Downing" <jonathan.downing@nautel.com>,
-	"Martin =?UTF-8?B?UG92acWhZXI=?="
- <povik+lin@cutebit.org>,
-	"Nuno =?UTF-8?B?U8Oh?=" <nuno.sa@analog.com>,
-	"Uwe\
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= (The Capable Hub)"
- <u.kleine-koenig@baylibre.com>,
-	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue
- <alexandre.torgue@foss.st.com>,
-	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,
-	Arnaud Pouliquen
- <arnaud.pouliquen@foss.st.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Bartosz
- Golaszewski <brgl@kernel.org>,
-	Ben Bright <ben.bright@cirrus.com>,
-	Benson
- Leung <bleung@chromium.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Binbin
- Zhou <zhoubinbin@loongson.cn>,
-	Bram Vlerick
- <bram.vlerick@openpixelsystems.org>,
-	Charles Keepax
- <ckeepax@opensource.cirrus.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Cheng-Yi
- Chiang <cychiang@chromium.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Daniel Mack
- <daniel@zonque.org>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Frank Li
- <Frank.Li@nxp.com>,
-	Fred Treven <fred.treven@cirrus.com>,
-	Geert
- Uytterhoeven <geert+renesas@glider.be>,
-	Guenter Roeck
- <groeck@chromium.org>,
-	Guoqing Jiang <guoqing.jiang@canonical.com>,
-	Haojian
- Zhuang <haojian.zhuang@gmail.com>,
-	HariKrishna Sagala
- <hariconscious@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Hsieh Hung-En
- <hungen3108@gmail.com>,
-	James Ogletree <jogletre@opensource.cirrus.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet
- <jbrunet@baylibre.com>,
-	Jihed Chaibi <jihed.chaibi.dev@gmail.com>,
-	Jonathan
- Hunter <jonathanh@nvidia.com>,
-	Kevin Cernekee <cernekee@chromium.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Kirill
- Marinushkin <k.marinushkin@gmail.com>,
-	Kiseok Jo
- <kiseok.jo@irondevice.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Kunihiko
- Hayashi <hayashi.kunihiko@socionext.com>,
-	Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Lars-Peter Clausen
- <lars@metafoo.de>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Luca Ceresoli
- <luca.ceresoli@bootlin.com>,
-	M R Swami Reddy <mr.swami.reddy@ti.com>,
-	Mark
- Brown <broonie@kernel.org>,
-	Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>,
-	Masami Hiramatsu
- <mhiramat@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Max
- Filippov <jcmvbkbc@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre
- <nicolas.ferre@microchip.com>,
-	Nicolas Frattaroli
- <frattaroli.nicolas@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Oder
- Chiou <oder_chiou@realtek.com>,
-	Olivier Moysan
- <olivier.moysan@foss.st.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Peter
- Rosin <peda@lysator.liu.se>,
-	Piotr Wojtaszczyk
- <piotr.wojtaszczyk@timesys.com>,
-	Qianfeng Rong <rongqianfeng@vivo.com>,
-	Ray
- Jui <rjui@broadcom.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Samuel Holland
- <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Scott Branden
- <sbranden@broadcom.com>,
-	Sen Wang <sen@ti.com>,
-	Sharique Mohammad
- <sharq0406@gmail.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Shengjiu Wang
- <shengjiu.wang@gmail.com>,
-	Steven Eckhoff
- <steven.eckhoff.opensource@gmail.com>,
-	Support Opensource
- <support.opensource@diasemi.com>,
-	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding
- <thierry.reding@kernel.org>,
-	Tim Bird <tim.bird@sony.com>,
-	Troy Mitchell
- <troy.mitchell@linux.spacemit.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>,
-	Vishwas A Deshpande
- <vishwas.a.deshpande@ti.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Xiubo Li
- <Xiubo.Lee@gmail.com>,
-	Yixun Lan <dlan@kernel.org>,
-	Zhang Yi
- <zhangyi@everest-semi.com>,
-	chrome-platform@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	spacemit@lists.linux.dev
-Subject: Re: [PATCH 02/83] ASoC: codecs: framer-codec: don't use array if single pattarn
-In-Reply-To: <20260603140939.091f126f@bootlin.com>
-References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
-	<87zf1nhqxx.wl-kuninori.morimoto.gx@renesas.com>
-	<20260603140939.091f126f@bootlin.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 3 Jun 2026 22:30:09 +0000
-X-ClientProxiedBy: TY4PR01CA0115.jpnprd01.prod.outlook.com
- (2603:1096:405:379::17) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JUsHQt0D";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZfyggLfU"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 653Leq9G3240997
+	for <chrome-platform@lists.linux.dev>; Wed, 3 Jun 2026 22:59:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=ONnM8cPGqCvQUEArvOdVRHLA
+	7AjrNnYCfdYyBl3uu6Q=; b=JUsHQt0DxYLPJKgSTR9tREQC+/92i/jaL10JeZka
+	jx+w7LeQXnnmF1WukUK+kcEWnvuxt/l+kFvuthhHCI4AaDnS76xdU7CZe4PJzwyz
+	K4pbBszfCfx+alv7S7iFmtT9ExLdFXbo7XeJLWvND6VGIKR9I6rEOyaIC7iQ90Xg
+	9iCkzFtDeVSeFE9jXjV05X+B3ZHU8eGLF3uNdxHjQ9Y5yb4DSJt1nRiG8no/6vX1
+	96gpOiH9tdw6cUja413gftwtc/vaKQ+VyGGi+jsd9T/Go18S/qq31wYXJCMNU+uF
+	jhitbT5yARcAW7GDcsEOVJ2x/bh93aalFtYzYhWqyr/g6Q==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ejvd0872d-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <chrome-platform@lists.linux.dev>; Wed, 03 Jun 2026 22:59:12 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-9639f945fbbso56933241.3
+        for <chrome-platform@lists.linux.dev>; Wed, 03 Jun 2026 15:59:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1780527552; x=1781132352; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ONnM8cPGqCvQUEArvOdVRHLA7AjrNnYCfdYyBl3uu6Q=;
+        b=ZfyggLfUBUmgJ6VNyhL0G7WpEADDRzkyrcKxJkbXn7rwpDbKvFI4nLIuF+OQvXUEOH
+         oM7Aq9PM0IU6Mwq/4hgKyf7XLJ/ctfg6n6qMJVsMLIBwyYG/HmJVDhPF3/2P+NKnDGvE
+         qH9z8YSWqUhnM6v201PHoAPT0m3mB46YAGaYSegVpZa8L52NL54jbLGJ1QTQcfkTdzij
+         yoJH7Sj1KWaczMmmKo3TlWsF7EWgBOy/2zpSULEcVZvAuhPvswrj9ExcjusrwNypa9je
+         XjTjVHHRS2veqyvnFrD0nM0i5/4c/A1ING1cUQvJDoRPH+X0EYMdjfF+DuADPmg/T0AH
+         uggw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780527552; x=1781132352;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ONnM8cPGqCvQUEArvOdVRHLA7AjrNnYCfdYyBl3uu6Q=;
+        b=oKznUhnJBNah56UNySHCflrNRZen3NoOLtSP7ugpZ3U6JdNFite3zJ125gUpVaNzIH
+         mjxJcaTU3Avj8hSNoI+bk0X7foQnx5KwezzoZrehRlGiVClz5IV/oBiqT1iZC9oW8WMP
+         jJrIPA03qi/LiRfmWhC69VhnBzGQANQIKLIf+x/N8cDyZ/rj6Lzf3SEcMUK8AJQLkGWK
+         Zs92OQdA2cmGXNqjsIw8IJOZwBm7Epn1IPH4piYXipMSeAUpYkukcmfFk2ylMKCjs/vn
+         xTmLZy5x2iK7Wy/Rz7xphIgtnTFde6ZAi7R4RS97WLg8AxHFTd6mwi4jTVQcqZ1Hurut
+         KdEw==
+X-Forwarded-Encrypted: i=1; AFNElJ9Vc5PWUv6SskbaE7lMfMuui8ZOX+cAY+nrpVyHvLUmua4/Up7kkt8i5NMbHiN6VK4xpin1keZbXCSP5mH3s64=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnOp9Bq3984Ix2whJowJqAAvBOWhJSkQYZyG74v7wilVKs4Hil
+	PTuE4O3gNbvJPuBFDLmlshkzsthvFPwZ/syIh+MhDDsCPrdW0p3vOgR3E3BSaMjAzaNWZMDJwFe
+	iUxkN53cdvb90WHRGcbpfOlkKsq8Aa2jC8Cd25YBWNLEQzHPC1Lazf9BI5rFys74JE2niwvc=
+X-Gm-Gg: Acq92OGxCt4hLqoKZxRSavAFUiPQpiXK3fNb4x3Q1KfpGEMgYBi8ihZ4pNNFWfJFcyL
+	UhyGLibkMoUNSLBhLPsY8TDMJZKtgdYqul+MFHV11DayMacVwrcBhNySLxQf0DCrfIJ10wcF2sr
+	+oaIPFDO2Ddy7bubYm2etd7Wu2cFCPP83HsHAkqPFAmRTgeHYo0ayd/RuRxuGXYigRthn0vRXda
+	ZQYH+0mBaNbVAvgp2uqEiIhDbLQUqPUZezVjGMDDbL/oo8kyId9VCcAwLlRIbsjAcWBDja9LRpz
+	8LZ2s7avFAkCF8TQaOCdOi9hOWO4cO9h87f0MR9bf6cJt1pa/lvYno/fdfcU/WVNN/ElhZB9rhe
+	eMddE9XP+90inKW+QZrSD/1r6kdm0LPeXof9iRwzBxv0IDU5LLBYzN7r+jgvK/8RmkDHNq2omrb
+	rdeSzdMRacv4rexSIACz8qGlokuuqSwQr3cdgyzdBGAGEqXw==
+X-Received: by 2002:a05:6102:644b:b0:6d8:89a0:4ae4 with SMTP id ada2fe7eead31-6ec43376b39mr3216899137.18.1780527551689;
+        Wed, 03 Jun 2026 15:59:11 -0700 (PDT)
+X-Received: by 2002:a05:6102:644b:b0:6d8:89a0:4ae4 with SMTP id ada2fe7eead31-6ec43376b39mr3216884137.18.1780527551258;
+        Wed, 03 Jun 2026 15:59:11 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b97ac29sm880386e87.52.2026.06.03.15.59.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 15:59:08 -0700 (PDT)
+Date: Thu, 4 Jun 2026 01:59:07 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Brian Norris <briannorris@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, devicetree@vger.kernel.org,
+        Doug Anderson <dianders@chromium.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Tzung-Bi Shih <tzungbi@kernel.org>, chrome-platform@lists.linux.dev,
+        linux-rockchip@lists.infradead.org,
+        Julius Werner <jwerner@chromium.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 7/7] arm64: dts: qcom: Add #{address,size}-cells to
+ Chromium-based /firmware
+Message-ID: <pfo7vpd3ooiyfuo3wjom7qzknnnkiyel2kdu5fjqqrq5nccysq@e63rs7lgdfl4>
+References: <20260428200712.2660635-1-briannorris@chromium.org>
+ <20260428200712.2660635-8-briannorris@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSAPR01MB7280:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12607daf-5c35-4ee7-4d86-08dec1bfabd8
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|4143699003|11063799006|56012099006|38350700014|22082099003|18002099003|41080700001;
-X-Microsoft-Antispam-Message-Info:
-	TzHfVoj7TpgdvJ0HaGWwBMagVB+iozqFbkXG3tqI/A+k0Q2rZwkMIB5Xx3ck6auLWKhc7o6+wZ4bwSxnZ9ogH8It4qEBWtw1aIsCJd11CygAQ1F4yyZtNvDSoIIp/lIJC85yb94H4WAHP87hQmsft9/ZyUOn3u/CUHqDhFepHbaIPsFIb71BPNQJk6n3dUf49wwd18j/MdGNOBeG3yJaspINvLZL1noqZINg8S/AQF66DylY/EzUUU6WtLvxbhfMDQFrznaVBzSrubhuIXUejOSR+c/RiKsDaMADknHbfX8sEqhCY233XPCJzjOD9CdgdkYMdVF6qd1DDRfSpj7Xp7eAliJrUvjQ/pz6evXYjVra64yWF9m9XZ1+TbBFnAsTRXg/DbGpN7JsR+8mfK6CF2bccqF8N7qBst00qqedEkfIQ1U8hK3lJJItYdngZMgQTYsREmzb4lQzLDoSqgNrwRc3SCyed1/YcNEtOnSyIlHKk8jXB9nHhKph5kqYOX62GmzM2lnh2humnTqNrV8Me8AJg7DL48c3WTJnupZdYNHrs0q5J21E6JYzQH5ECf7zt0RE6FBXRLn6c1axLC4DFTEMsCc6qEh0NGBWcMhwF32fZSOdZjVzcuVOmv4QlGmJXGjwUrTnCYHijp7U3rBpcGiAKjewtJQEieXKxU5wUwRU8ci7adSQI2R/1W3Qwx9z7u5upyIbtWXK1p56WD+7WayH0vfH6e8OkUyTrBR6oqpwrW5uuMy1KVIg/4z89G5fGC2T/5vZdSWTCG3Q78Uy/w==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(4143699003)(11063799006)(56012099006)(38350700014)(22082099003)(18002099003)(41080700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lijGfEg2qt0pQmb+mOI2PAFjEPX5cvZTcz81IkTfz7udR+nM8t7IJasJJUvA?=
- =?us-ascii?Q?BkFvJ2fR+7rRjtqcfD9WtFILE68AkGFRGZgLf+1/SGECmnVxZTGtHkc6n0m5?=
- =?us-ascii?Q?z0ZmomtME2rKjn6+MJD9N1bX8ZQ9Lhg9LlSzvEIgIogY1EY+b97qbuWHWwzu?=
- =?us-ascii?Q?S+UNO0yTdFJuHat548RBYCSdywiq+Z/aiBuj/gixLL5aT9Solk26WkaJ/bbJ?=
- =?us-ascii?Q?BRByFu8MTY0oYso1I89HeeJ853ISSyvLqom7RqMbchmyPsggg4AHeP/2oWcw?=
- =?us-ascii?Q?D1tK2woenELOe9S4eZ9XvzhydxAXzlNL+Rzz3pU+o+7hw/SSOQibgCq9n87p?=
- =?us-ascii?Q?vWUm+czOwilM92gdCGaHmfngiAxHQd/dhheYlSTWMIXI02ijWSlIdMUORkdS?=
- =?us-ascii?Q?udpFHyuEIi0ewq5VVw1l36NqBWxtG+Z0xLIWIx0RnujNhxGbNXWTN1GKsKfS?=
- =?us-ascii?Q?7XSE5aTWUrfyJXvrKPKTbjgVKymunDlyBj7OpewOFWqREFbCj0C72+mQhowz?=
- =?us-ascii?Q?TxPXra3+QqOtEu/zl1AvgtUsn8pSYyGsbYNwegoxsrQD9YJVaUSr3IBRgmjw?=
- =?us-ascii?Q?j339RbHAgPrcu/nAR4xIxBQA2sO1rWWLmZ4EpFbk+ez2Q9o8zf+2nmbW5Ns5?=
- =?us-ascii?Q?9cEnW9dpfldeBEzGc9JuDspkKKrrijTOSplwLQ8RZFmkYzQwehu9tniQD1fB?=
- =?us-ascii?Q?oPyFA1Av8VrlDRZlhcUvyOSJ/4BbSED1f46A1jDRWU6rFVpdf2Kbth6RF9/q?=
- =?us-ascii?Q?3WfjMI4zS19/1BQ8GOEsS9eNRRrgYp61eMrbbYS3KH7uu6qQ3uoWlYrECcCA?=
- =?us-ascii?Q?Q/Pmp+hY9uWiP+nw2MJ93u/CE3MoqRww5y0rRajWvu1cWKwFsGQzUIfTtJaI?=
- =?us-ascii?Q?+lAtn+RdnSEN9yJ+SygTCHCAJJGKAJeHtvQsco0xD7CqYsRgq+lgFYgHl/MC?=
- =?us-ascii?Q?XhtHQOOwosIbVUeqVBLqW7WY4dhQzkfnD3oKDnWS8UNSU7P6NE7csts1roqm?=
- =?us-ascii?Q?cwfCaguCX9ky4q5Vmq1nvNR49bPEfeO14KCv08n0/TGWf3SgNVQm+jvIrO72?=
- =?us-ascii?Q?l0ry2ZVaIJhpJtkwS6Mz4dCchmJq80SlX1x6k9dwK8/ojdWJmNMXofvuLUDC?=
- =?us-ascii?Q?aydCDmVSal2VKz4C3hWRuUnGuGEIbqj0lpnSr3UyFou9GNxpg76Ghv1gH2wG?=
- =?us-ascii?Q?Cq31PW8EfXdtNBNvh8NB8A4fk1gzCEzu7/HxlqdYG4eT/mDCA59Yvi6z7aHq?=
- =?us-ascii?Q?9VvX53yqqG1rwPmdot49PgNfjS8KIdh8h8Y8fMmQ99WvWfVoa0BE791bvRip?=
- =?us-ascii?Q?iFJaBEa+yYEn5uCnfV0uXVDNrd/FnYaqBEBiGjtxdlV6NRTGvvH3lhISs4cD?=
- =?us-ascii?Q?pkCYlUo1S6rmoBUNu0GUZdWMfVemPowbfDSp6Ek777P6jfkyLWKtGtP9El0p?=
- =?us-ascii?Q?9Ghr+8TeF4ys/ILqWWMYXAnyMkRKaa2R+HzDia5nyC603B4UnX+9qkBcGfqS?=
- =?us-ascii?Q?KJCfdec5Bt1Eb44J33SLn7MJ8cYUqoSK7n9vCOnznTI7bqdM3VkPFoVwQRwj?=
- =?us-ascii?Q?b/fF7s4jePi+DBbVhWEgeJvi1XzngYhHJqpwFNUrpGp3IaC0g43/7p8064ZW?=
- =?us-ascii?Q?f4i7tmukWnPoQnaGAg/RfmYYuuJzXINCh6wMSsWz221+nQwNIX1JeervuiKF?=
- =?us-ascii?Q?q6SqRaPYePYZhToevnWWbbFBruSKi1cGVMvNACGEgRdLxUXPnmVvjVHdKyBx?=
- =?us-ascii?Q?5euAeZDvxxCg2LmKfL4PNJ+TJ2Qrl4I=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12607daf-5c35-4ee7-4d86-08dec1bfabd8
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 22:30:10.0343
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EyC61S6I4F1H/JUrqLmYIDVpFK/SlSm13DNt6xUltouV4dvhcRjKpd8NRDA+hLX49R6tOu3NrKhHMj8PEAtVUobxHahqkGQLa4wogB/tn+T5ZY2VVwdW9b3Hw9vVFBbs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB7280
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428200712.2660635-8-briannorris@chromium.org>
+X-Proofpoint-GUID: h8eq5D23rq5yU2Y-bWkCvUZTa3TwDDDC
+X-Authority-Analysis: v=2.4 cv=M8h97Sws c=1 sm=1 tr=0 ts=6a20b1c0 cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=VwQbUJbxAAAA:8
+ a=1XWaLZrsAAAA:8 a=MUleZ9s-AAAA:8 a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8
+ a=iD_vE5mCeOLV2fS3_3cA:9 a=CjuIK1q_8ugA:10 a=o1xkdb1NAhiiM49bd1HK:22
+ a=f0F4d6ZXEnSYrzQLsEx4:22
+X-Proofpoint-ORIG-GUID: h8eq5D23rq5yU2Y-bWkCvUZTa3TwDDDC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDIyNCBTYWx0ZWRfX7LsVDNWLXlqi
+ xewF7qPO6LcnpG5LV55Y1IFH5UIJKSxqcUTHrY8WItkrcD8R9W0h+WTw2IQKOM83fPWEzsnT5JL
+ vPK6kE/2F/P3Zkq0U0M+C2kSQi8LPytV/OQRFTmwRd6gSKW+2kVOMOmxjj8YKndvROT994e6thV
+ Vya6pKhlJxTMekF+jILNWFj0Ud0RrpetxpBfqLRacGYv/Ho0cSz4aOoROH+uCbYLnE8l/85zt9L
+ OZZEmhO8eu7NrivikT5dkaFnLaALMJ+0squ1+bQQ542TjiwVnxkD/roEH0W1/7yyp1EyjJo0I0O
+ E+RBHlv2mcqG2QZQ2CHVLWDyRDnZmvIAaShcPT9j6dRZgp09jG6Wlb3vpL8v7639qjBpPpfe4oS
+ MNnaJvodfmm3nfNDtzlbsHgmKwmHlohx8A9qV3Z0dtceSoKH2yioYqCtsJFOQPBWwVSontVckL/
+ w87mp+s8HknQmEToLiQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-03_06,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 malwarescore=0 suspectscore=0 spamscore=0
+ impostorscore=0 phishscore=0 lowpriorityscore=0 clxscore=1011 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030224
 
+On Tue, Apr 28, 2026 at 01:06:59PM -0700, Brian Norris wrote:
+> Chromium/Depthcharge bootloaders may dynamically add a few device nodes
+> to a system's DTB under a /firmware node. A typical DT looks something
+> like the following:
+> 
+> / {
+>         firmware {
+>                 ranges;
+> 
+>                 coreboot {
+>                         compatible = "coreboot";
+>                         reg = <...>;
+>                         ...;
+>                 };
+>         };
+> };
+> 
+> Notably, the /firmware node has an empty 'ranges', but does not have
+> address/size-cells.
+> 
+> Commit 6e5773d52f4a ("of/address: Fix WARN when attempting translating
+> non-translatable addresses") started requiring #address-cells for a
+> device's parent if we want to use the reg resource in a device node.
+> This leads to errors like the following:
+> 
+> [    7.763870] coreboot_table firmware:coreboot: probe with driver coreboot_table failed with error -22
+> 
+> Add appropriate #{address,size}-cells to work around the problem.
+> 
+> Note that Google has also patched the Depthcharge bootloader source to
+> add {address,size}-cells [1], but bootloader updates are typically
+> delivered only via Google OS updates. Not all users install Google
+> software updates, and even if they do, Google may not produce updated
+> binaries for all/older devices.
+> 
+> [1] https://lore.kernel.org/all/20241209092809.GA3246424@google.com/
+>     https://crrev.com/c/6051580 ("coreboot: Insert #address-cells and
+>     #size-cells for firmware node")
+> 
+> Closes: https://lore.kernel.org/all/aeKlYzTiL0OB1y3g@google.com/
+> Fixes: 6e5773d52f4a ("of/address: Fix WARN when attempting translating non-translatable addresses")
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
+> ---
+> 
 
-Hi Herve
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> > Because it is confusable during debugging ASoC FW update, tidyup
-> > auto format style not to use array if single pattern case.
-> > 
-> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > ---
-(snip)
-> Just a typo in the commit title:
-> s/pattarn/pattern/
+> 
 
-Oops, thank you for pointing it.
-Will fix in v2
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+-- 
+With best wishes
+Dmitry

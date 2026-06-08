@@ -1,154 +1,100 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FDE31B824
-	for <chrome-platform@lists.linux.dev>; Mon,  8 Jun 2026 15:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D023358DA
+	for <chrome-platform@lists.linux.dev>; Mon,  8 Jun 2026 21:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780934022; cv=none; b=JGwR1+MY1lfye6oyh4rdrhrWPMVTdEeyFTjJzIhB7O3wRMkAz6M5O38jr7GBnUSUxQJ/EWOAcp1b32fTyetSrIHOf0sQnSzLgZ7H1U82wJX2Yu3YJBQhVJB1cBrOelA48tKiDLLVyHBHNnVxSF1GvqjUkxpj9L8S+0+sUrHS4WI=
+	t=1780953328; cv=none; b=uAqdoN3TeU7UUdJOBCCLjyRmIhDR104kDKrXtcoXOpWmH4429exanB8HO2tNcHMuwC0xfs2/lgYnXzYyHOed3hAMzMAVQ8XwMkkkQhUx2Tn0HXsS/hwacfBBzzybX4M/mCPenZECl/ahoSYHPjt9dyTuRFqvELq+OuS9meJTeIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780934022; c=relaxed/simple;
-	bh=Gsdkj7Xwjn/mxP4dcUshnWSdQPSCwBmj0okkEY70A+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k9J2n6gHwduP+1sDlHgaffLsZfKJIhz0LQD1kQ0lTty098TVoGJSwFev4l20RZKnRMzlkQk7U4yZBcd0X2GzB0dO2a34yo36Q419OWvyGNH3jMimKLH7COVw0u2BDZAimJGauawka7zhjDyNRTXjTStBVuZ7zHUMdm3GbkOi1Ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=UD4WQgj0; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1780953328; c=relaxed/simple;
+	bh=aWR2UQzIE/IzR/eEmWU3JUKtuYhJTUQMogLSd3rO4GU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pgc48voSP1YpWnziAoZN4gVoLT3DssWj5bQAWno2scMKkfAeqOcuu8WICsyu3X5iXEVezrItaFNrJJZmT3APuK7IyHWzgxjQPwNHLbhOYUdzN+HahiXuBZobZZON9fQ40yoCu5knzdmkQgxni3HUszZ2HotCW4R+gi2hpwMSG4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KDZSoIX9; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="UD4WQgj0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1780934012;
-	bh=Gsdkj7Xwjn/mxP4dcUshnWSdQPSCwBmj0okkEY70A+o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UD4WQgj0/ug4woY/AAuvMWRRMRlpcV3Lh6SRzcNBtRec7tFeBKyobfKRPoo9Y6wLw
-	 /pkyw/aCZDq6dhR61dCCd6Hxzk7C6/IbSZruBt6v3Nll6sTSSrDEs2I/sdKpI17iZG
-	 79xBDdb8fp515hnmDn1X1qUtbbb0uqFmlK7xknxY=
-Date: Mon, 8 Jun 2026 17:53:29 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Armin Wolf <W_Armin@gmx.de>, Benson Leung <bleung@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Guenter Roeck <groeck@chromium.org>, 
-	chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] hwmon: (cros_ec) Allow modification of fan curves
-Message-ID: <bfacbd84-4fcd-4e84-bdda-8bcb900ca6c9@t-8ch.de>
-References: <20260529-cros_ec-hwmon-fan-curve-v1-0-da6792b3830f@weissschuh.net>
- <20260529-cros_ec-hwmon-fan-curve-v1-5-da6792b3830f@weissschuh.net>
- <87825203-0bbb-46a4-8939-a904f5a546ab@gmx.de>
- <6a4a2d2c-4717-4cc9-8dd3-05f8b0905865@t-8ch.de>
- <8b8f5a9f-4a44-4e93-9ff6-c2e13a6b8797@gmx.de>
- <243e6f71-b777-478c-802a-d8f3ed47b3fc@roeck-us.net>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KDZSoIX9"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-68d234218bcso9300911a12.2
+        for <chrome-platform@lists.linux.dev>; Mon, 08 Jun 2026 14:15:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1780953324; x=1781558124; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=liJ0XnvvXc9RDrimRSxouXGvqmG/EtupjrLSMKcFoYQ=;
+        b=KDZSoIX9whFX3GqrgiSyMhHZQPgUaZRWQPU+Y4BkSPGldWKkZCHRBvkwe/a9saPuxE
+         wstvO4/Kcdv2wXzWKiML2nW9Pf9kDE9R87FBUH8PkpPY6M521UP7Aksy/mxVcD4+gc+N
+         /3Mio7hLmQNtbGyiZoCLTya+o3S+Y8ypPvR/M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780953324; x=1781558124;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=liJ0XnvvXc9RDrimRSxouXGvqmG/EtupjrLSMKcFoYQ=;
+        b=KjLFSASbWcmfA1GTz/aZ06qmk/MdeVKbuaU0jVJWjWb9YXQbs1CjrwTTVqXvai5u/8
+         GStaXoJ5GGyZ4qWG0aaNdYq2TUWsHSUt30TQC1nvCjW81eqp8+eTJ1XwraceIu+f2hn1
+         CHoUTYLXkk2j23ehFLwJmil0UNhnj96XmP2rLAiFhKrvzfWUnWvQyT4pmhQ8xYSvaZCC
+         yjqxV9bQ8N40WyWti3IWqlHlvP78QwnuIyKH6ovWlNP7i55Oo05b/Xx2MRoTufQ7ekAh
+         L0YfrdV6WuvcWinPU1rVtKRni8K4WNNmrPvA2qqdY03IAmR8vgJ2iC56wi/PholEu+Zp
+         Zqug==
+X-Forwarded-Encrypted: i=1; AFNElJ9zY0hmTb3KmsqHsSTWKSNABTIQHNDsFclDFCXwwVauKfequUxjzSMHPFzLJ9EedCixU7FJFkL4nxJlgOGzEK8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YywaTEKfwlp5W/tWp35eiwNX16RdvYE5QOLVVpI4AyUdnD6L7Es
+	haq/8/wg+SMTTdNKeKg/eRTL10pjnnUV6hM5nm6WwVOzuRLfP3mmgXoPGH135LuOyA==
+X-Gm-Gg: Acq92OGvkJmxEqVp209D9VHszbJ9IfQU2I7L5P2663gNmgUxoCX/gyPRaihW/iPVX0T
+	0BEvmUYC7A1XrRZi5+xkRFW4WytHGNP5Nop912vaJuqdGxC0PHSEY6La1B0kS4HWkYg/fBzLb5h
+	W6GLpuijmrrsX8A+B96cJejM6u7oiV9krJm/8n3My8ICYillyNquMuNJCY4IMSg6eMBqLwc4Pq+
+	BmE/0avVtlIh5fGLzloECngCfK90KbkeEo3naUhmjwM4rtt6KJtVHLWJCmhxN11F6hbI+S2LWq9
+	By6XNMjZhwxBC/FI5Mq7TDGdtjd2KFkBG7grRzvM5eIreI8/2wCCgsdonbQbHtP+p1rVuC5/dl7
+	qMspaZx+KTiffRjjSuE/QsXGGi6TLOmk8XgNpFkrZy1Zd69meBUAvhR/LM5IyRqZbtkdLj2df2b
+	qOxFVrol4nr2voIhEh2kW0FGzAB4zSX2I4G3QxMWHu8Zxuu9keUSMyli10fzqVoMDRVb20Yh7dW
+	DwFZbW57cWcTvXVV9iwATvYanzxhX8jS4s+WXMg9A==
+X-Received: by 2002:a17:906:f5aa:b0:bec:6c5c:cced with SMTP id a640c23a62f3a-bf372159bf0mr923311066b.28.1780953324448;
+        Mon, 08 Jun 2026 14:15:24 -0700 (PDT)
+Received: from akuchynski.c.googlers.com.com (208.220.32.34.bc.googleusercontent.com. [34.32.220.208])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf0517712a7sm931041566b.4.2026.06.08.14.15.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2026 14:15:23 -0700 (PDT)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Lee Jones <lee@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Subject: [PATCH v2 0/2] mfd: platform/chrome: Catch EC feature read errors during probe
+Date: Mon,  8 Jun 2026 21:15:16 +0000
+Message-ID: <20260608211518.2214740-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.54.0.1064.gd145956f57-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <243e6f71-b777-478c-802a-d8f3ed47b3fc@roeck-us.net>
 
-On 2026-06-08 06:34:43-0700, Guenter Roeck wrote:
-> On 6/4/26 03:33, Armin Wolf wrote:
-> > Am 04.06.26 um 11:04 schrieb Thomas Weißschuh:
-> > > On 2026-05-30 18:37:32+0200, Armin Wolf wrote:
-> > > > Am 29.05.26 um 22:31 schrieb Thomas Weißschuh:
-> > > 
-> > > (...)
-> > > 
-> > > > > +static ssize_t temp_auto_point_temp_store(struct device *dev, struct device_attribute *attr,
-> > > > > +                      const char *buf, size_t size)
-> > > > > +{
-> > > > > +    struct sensor_device_attribute_2 *sattr = to_sensor_dev_attr_2(attr);
-> > > > > +    struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-> > > > > +    struct ec_thermal_config config;
-> > > > > +    u32 *temp_field;
-> > > > > +    s64 temp;
-> > > > > +    int ret;
-> > > > > +
-> > > > > +    ret = kstrtos64(buf, 10, &temp);
-> > > > > +    if (ret)
-> > > > > +        return ret;
-> > > > > +
-> > > > > +    temp = cros_ec_hwmon_millicelsius_to_kelvin(temp);
-> > > > > +
-> > > > > +    if (overflows_type(temp, config.temp_fan_off))
-> > > > > +        return -ERANGE;
-> > > > > +
-> > > > > +    guard(hwmon_lock)(dev);
-> > > > > +
-> > > > > +    ret = cros_ec_hwmon_get_thermal_config(priv->cros_ec, sattr->index, &config);
-> > > > > +    if (ret)
-> > > > > +        return ret;
-> > > > > +
-> > > > > +    if (cros_ec_hwmon_attr_is_temp_fan_off(sattr))
-> > > > > +        temp_field = &config.temp_fan_off;
-> > > > > +    else /* temp_fan_max */
-> > > > > +        temp_field = &config.temp_fan_max;
-> > > > > +
-> > > > > +    /* Only allow values which are more aggressive than the current ones */
-> > > > > +    if (temp > *temp_field)
-> > > > > +        return -EINVAL;
-> > > > 
-> > > > i think it would be more practical for users to increase and later decrease the fan curve values.
-> > > > Could the driver copy the original fan curve configuration and use that instead? This would also
-> > > > require to restore the original fan curve during shutdown and removal.
-> > > 
-> > > That would be possible. We would would have to expose these limits
-> > > through a new UAPI as otherwise the user has no way to know about them.
-> > > Restoring the original on shutdown shouldn't be necessary, as the EC
-> > > will reset the curves at shutdown anyways.
-> > 
-> > (And what about kexec?)
-> > 
-> > Ok, i myself would also interested in having a UAPI for communicating fan curve constraints to userspace as i am planning to add a similar feature to the uniwill-laptop driver.
-> > 
-> > I can think of two approaches:
-> > 
-> > 1. Clamp the values into the supported range, userspace will have to read back the written value to know the current setting.
-> > 
-> 
-> ... which is widely used in hwmon drivers, so it is not special.
-> We don't usually expect userspace to know the valid attribute range.
+This series fixes a sysfs duplicate name collision that occurs when the
+Fingerprint device fails to respond during probe, causing it to
+incorrectly fall back to the generic 'cros_ec' name.
 
-That works for me.
+Changes in v2:
+- Split into a 2-patch series.
+- Carried over Acked-by from Tzung-Bi Shih for Patch 1.
+- Fixed an ec->class_dev resource leak by utilizing 'goto failed;'.
+- Moved class_dev initialization to prevent a missing release()
+  callback warning on the error path.
 
-What should be clamp to, though?
-The range active during probe or the currently active one?
+Andrei Kuchynski (2):
+  platform/chrome: cros_ec_proto: Introduce cros_ec_read_features helper
+  mfd: cros_ec: Read EC features during probe to catch transfer error
 
-> > 2. Introducing a new tempX_auto_pointY_temp_min attribute to communicate the constraint to userspace.
-> > 
-> > Guenter, do you have a preference for one of the approaches? Personally
-> > i would prefer approach number 2.
-> > 
-> 
-> Again, we don't usually provide constraints for limit attributes
-> to userspace. Otherwise we would need separate _min and _max attributes
-> for literally every limit attribute. That would add a lot of complexity
-> for little if any gain.
+ drivers/mfd/cros_ec_dev.c                   | 18 ++++++++-----
+ drivers/platform/chrome/cros_ec_proto.c     | 30 +++++++++++++++------
+ include/linux/platform_data/cros_ec_proto.h |  2 ++
+ 3 files changed, 35 insertions(+), 15 deletions(-)
 
-One constraint that exists today is the range accepted by kstrtol(),
-which can return -ERANGE. Not that I want to argue that this is an
-issue and requires change, just pointing it out.
+-- 
+2.54.0.1032.g2f8565e1d1-goog
 
-> Worse, almost all attributes do not just have min/max constraints but
-> step size constraints as well. Hardware does not typically accept values
-> in millisecond/millivolt etc. but have varying step sizes. How would you
-> express that ? The hardware won't accept a temperature of, say, 27.123
-> degrees C. Hwmon drivers are expected to adjust that to the next supported
-> value. That means userspace has to read the value back to know that value
-> anyway. Or do you plan to provide the step size to userspace as well ?
-> What would you do if the step size is non-linear ?
-
-To me the step size argument is slightly different than the range one.
-The difference between the values provided by the user and the one
-actually used ones should be fairly small, while for the range it may be
-much larger. Not that it makes a difference here.
-
-> On top of that, _min and _max attributes are already associated with
-> limits. I would find it confusing if new attributes would redefine that
-> naming scheme to supported ranges.
-
-Ack.
-
-(...)

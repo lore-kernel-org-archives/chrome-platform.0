@@ -1,66 +1,66 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF499382374
-	for <chrome-platform@lists.linux.dev>; Tue,  9 Jun 2026 20:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73521380FEC
+	for <chrome-platform@lists.linux.dev>; Tue,  9 Jun 2026 20:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781038315; cv=none; b=RsfOosg+mSBWjvcUwf2xkQj4Zy9/8qWX9QHNxTVSL7+Krx17429hbliogsfso/xIgcbK8aK5a0FZS1TvYP9xrssvx3Z5ce5DIeSCULMXLv7T/crsfzL0ZkrCR/U2TB75K6Ag0icwtZFvN2YQhGRqlRWQzxecHfPlqACvYL2CdIs=
+	t=1781038341; cv=none; b=ObbUvlwBc6EssjRGFLEsucgr+7Rj/p+JkJ/b2eNCtzGFXl6u9HArnHgm5JslI/Ip17+/2sQo3MUZ80CluDE/KXJpVQkx+DFDJBFkT8mtViiXyp/iTKEG5CH9omy5z1GtIdwP323JT/yKWsgyt96E7nbZPeta+yQ35XW98W3L42I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781038315; c=relaxed/simple;
-	bh=q09taP5tBk4Lcw407r6hewZnj85tQkEpw7jC0qG36Vs=;
+	s=arc-20240116; t=1781038341; c=relaxed/simple;
+	bh=QuEeBa+wbqYa0B6U12VFToTuGukpNf8dRdb/S/MFtXU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h2YxrPMqSXqe/b/8FamhQ9L4Y1+Yj7Ddj+NN80cW2hr68+mxl8FBIqQ2SjS5PBOqHTv0YJLaUUtJGIDMb1XwM1ntgnrSV0zQW0o9fKaEi8r/tvXsc5+gCPm/LDKHVb+roeYTsxV06kKQxwFQliyl7cFdkUmHpHFRkGY94QVgD30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AhiFnP9y; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=mjeYSdaeRAHql2eDWiM0i+naLNwucLjYnG6vhAN3fL+sn6euwRe0yWF5/0E0pJQX3NcV+jHAC6dW46iRYtdpG8KEqy8Ec99gwp5JoUVJqRQOwjWSMhTEdzUSn1oCNKLa+NYngUVdsqvl5QKcSQ5Q62jpe3sIN7CEFUt+hXsiAMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=USJCDwHi; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AhiFnP9y"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2bf1f074a12so62058005ad.0
-        for <chrome-platform@lists.linux.dev>; Tue, 09 Jun 2026 13:51:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="USJCDwHi"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8423f1e2f8eso4580276b3a.1
+        for <chrome-platform@lists.linux.dev>; Tue, 09 Jun 2026 13:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781038314; x=1781643114; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781038340; x=1781643140; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ikKWrgQ/DAI1p7i6Ea9OKMWeL/DQ2eJ+hNZTL5L35eg=;
-        b=AhiFnP9yrMZdeaJkeTU2tajcCrsCvu5zpZpFnX26F6yW04d9GHuIZTzyOwcj3/CTls
-         +0HI4RMmD1KgCUEEK/na19y2t3bU+2sY/L5Yic5TYt8zpcnARNmG0Nl34UmsFgSEUpF4
-         QBEb0d/zhTwFACh9sCVoMUVNC6XBnsfwRS4LtdF+Z+tyzD/VhxWPb/sDWEOrIpVV1yJ4
-         M7PAfqCrfovoezvBMBXKbZuT/ccx/r+HOe6k24nzhR3qzO6QuJ7YxDOHUQEpjMQDJNTs
-         lXA5MH3aTJ6el0m1m/bxiaUr1nPgaDnpUdri9WB6oDF0J+p9iEsb6GIhzOSsEe/KvYGv
-         lcfg==
+        bh=loC7SSrXc6ZQAZOnLHFVy77pgXEW+A5qr9azR6ZFnAo=;
+        b=USJCDwHi3kfnPPssm7rqB7Z8hE6MnpZHkKhv9p/VSOsgTbvxlvbnKQITnJYIfGmcxA
+         c5de442hcvqX0JPzN6PdBNYhS3/g1KFx+rrga7RKp0qASCqgXx9NJrHfvuQ1egHlAEp9
+         W/pkTV5VNs68vC+nFIex8+SM008pNcqFjmo1rMVqGMv9nfbx+0k9Ymda9PQtEtr9wTTV
+         0he59/wUN593srdnJShm9t09OBakih+8MlCMBCZoHz9wkAD9v4b+rE8Mm9A3YE/txqiK
+         uQRFACZevaUERQrrglxqaKlgJcqRyF4CI/uS87+nVjB0kx97b0/2nRSU5KFZGJzte/tO
+         jEjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781038314; x=1781643114;
+        d=1e100.net; s=20251104; t=1781038340; x=1781643140;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ikKWrgQ/DAI1p7i6Ea9OKMWeL/DQ2eJ+hNZTL5L35eg=;
-        b=kUsPgU/EmOTTHHGA8lO9M8/R9/e0ozKkyMFWhtjZk7gjn8/vRKW+Hh9q1wpKxWIUsw
-         DtEn2trxMw2m/BF8yahgeOyCqEAZ+/KBLm8uvmw9Uc5ueXHKHd1KlSm2PrnXc+0NuS22
-         746t1JhpFGXaS9fEqg4rkaQbKrcpm7u4FgC/dkiQ7OknKYoqC/fkVyKs2AlIaxmMZBIP
-         FvcTQgKqI+whpVyOEBjqVjhyeJFz2EU/uufNKGzh2TTakkX+brsDsvLaTmn7lkwyRqVY
-         Z+6rO3MoIrww2zKVkIZ0qAC4+iKLhEYpMUO1x/JacXEKcnZizFnBsqQUVcnnsWh1HV8s
-         i2Jw==
-X-Forwarded-Encrypted: i=1; AFNElJ/rTr/p7Ips8gD9PEK2byprKcxepmeCgQu25sqewh0oaQ4bH8FvilT3H6ePnVnRRRHfZCDcqWJSKnMfL08SQ/A=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMooXRl7U2+YU8Y4Jwn0aA0q993rY4LM4JwvMr9Rcm8/rjuOZ1
-	RaVv1ZlfBsBOmCN6y1tAcfLYtP82im6RRTFJYSSR4Y6PZp2E67KUrXgB
-X-Gm-Gg: Acq92OHZoO28r9L7gZKm5mPAhjKprXMd5XJqZH2cgI0Wyr+iidMT+vKxvAPVInl0P3C
-	gvkas15KGhAWpR84qX4P3t2ZELH5PSD0SFubHxSjEuM63TANLafoxcZjPvANzzdUk85u8O08KU9
-	f0+DFeOzt2qA9L8VCyAfAu1THWCJ4FTX4s6JiggNmY3N6kcabjQpLKtvdcLlPWlumgmYkO6RL1s
-	ggBSufmlVZ3zseNQ6iNulGSSfOoYeSnD8Xh3JjzpbS0q/feLUfEL1qH1fotwGQBWRmWwQC1jvS3
-	crcftY328/6PYQuIgLbjtteUwYbmp/gnlFBIbpm/yqgDQNNnTXdSRyOmMOJ2gNI/VJ5LloKf3eJ
-	+vo9+6261926lHPSOADRJc7YjcLgYp5W4qishh4BvQksCh0S2wZXHduMpR845AwMzNUgaON7lZw
-	fBH3m/CvroOXATSMbEusIQtNCWCej2l2B1EX4GKTF4UCrvBII=
-X-Received: by 2002:a17:903:291:b0:2c0:c940:dc32 with SMTP id d9443c01a7336-2c1e821dde8mr260514775ad.16.1781038314139;
-        Tue, 09 Jun 2026 13:51:54 -0700 (PDT)
+        bh=loC7SSrXc6ZQAZOnLHFVy77pgXEW+A5qr9azR6ZFnAo=;
+        b=pdSkW3wo66r0Kza/UgqHw/L2OctNOSg8GsnoGp9MMphO2EpY3xOh/OMk2ja67RtKQO
+         ti9DSQxD85Vsgg7xUHBwKii4zAwy3TxCy9hhpANcAVOq6v0+D22MPuLUmrTXkLzsAoKA
+         Lc1CS5ww4zn29BxXsy1wHp2rpTQ+Tro8aDV5fqc9Q77+BaGr99yvQ4dYI6n0cPn64iWT
+         5ftqHuqF7GyH6DV1eQSSa+KatpNHRslJ5Bp9uPkyzAnhjJTYKXFbGqUiEsFdcfCWLgir
+         fWDMWtHR0QWpwW5Y2z64YPlVlbOTBCsBXhvFcO6QQ1gfE6ju2uPC6dw7aQ8Uod3CiP2/
+         1URA==
+X-Forwarded-Encrypted: i=1; AFNElJ/380OiNQSb/FCpfVZzWemwVIYlorO/c7lgbBF24xdKoNpcghmzq0gVGLx9BGUoZAqL3ww0bnY2qqVGBm0M1qg=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmoiMs/dEpdjWm4g1K81u1TKX2r4nR/f49KooskSh7jgftaAam
+	fvvKr9R4np8hCvfbNZ1Hle7MTI0NB76hJ50aTjhM1tfLfKOKQ0UypfAM
+X-Gm-Gg: Acq92OGvqlTQRU/2JPHurSzsFCPv5s/yYIPkFMylmOYHWUPo/X2fSwgFrHgKYKX09eT
+	GCqMfJJmqwnrpZdX2dQ68arrNAXbvID0Zp1yLkgndPYBZvJNRh7Xz41uO8pazEqWzCnVgrA44km
+	5rYjjMot1K5xuceI+P03hpCOGucA+3U8JiBnXcN/pIra2xELirsobtPEJwFmwccCZUsCblcgbv2
+	j+lE/48SfGXA//bge9pg7EKIJadZqPvw6rFj8MfZ8VyIG94xCNtxrFiWOiQ876IJmWeGudNXTb0
+	9g3PBPl8mS/ScAVSDJuzkV5Vw0Siqbmakm/nJ3ymF6ZeBAvRHq2a6ZyCaARnk4EvyRGIpxvshMW
+	knTmTY74ayeFjWi6y8Nbuq4t2DMbkMoeBZ9AWqphy8o7Uf9qsIAjUffkBNPB8zNW7sx9sOrZKKL
+	kq4hBE6NopvkMPW6u7R5XMT1HObuEZk5syEMbuZNGWztGTsng=
+X-Received: by 2002:a05:6a00:813:b0:842:55b6:f5a1 with SMTP id d2e1a72fcca58-842b0d8a604mr21446917b3a.6.1781038339820;
+        Tue, 09 Jun 2026 13:52:19 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16649c302sm216009535ad.73.2026.06.09.13.51.53
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84282378986sm22879033b3a.22.2026.06.09.13.52.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 13:51:53 -0700 (PDT)
+        Tue, 09 Jun 2026 13:52:19 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 9 Jun 2026 13:51:53 -0700
+Date: Tue, 9 Jun 2026 13:52:18 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
 Cc: Benson Leung <bleung@chromium.org>,
@@ -68,11 +68,11 @@ Cc: Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/5] hwmon: (cros_ec) Prepare the addition of custom
- groups
-Message-ID: <457271f3-b8e0-460a-9537-2127c252769e@roeck-us.net>
+Subject: Re: [PATCH 3/5] hwmon: (cros_ec) Split out
+ cros_ec_hwmon_get_thermal_config()
+Message-ID: <2839056c-0827-42ed-9475-e84bed8d18a5@roeck-us.net>
 References: <20260529-cros_ec-hwmon-fan-curve-v1-0-da6792b3830f@weissschuh.net>
- <20260529-cros_ec-hwmon-fan-curve-v1-2-da6792b3830f@weissschuh.net>
+ <20260529-cros_ec-hwmon-fan-curve-v1-3-da6792b3830f@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -82,12 +82,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260529-cros_ec-hwmon-fan-curve-v1-2-da6792b3830f@weissschuh.net>
+In-Reply-To: <20260529-cros_ec-hwmon-fan-curve-v1-3-da6792b3830f@weissschuh.net>
 
-On Fri, May 29, 2026 at 10:31:53PM +0200, Thomas Weiﬂschuh wrote:
-> An upcoming change will add a custom sysfs attribute group.
+On Fri, May 29, 2026 at 10:31:54PM +0200, Thomas Weiﬂschuh wrote:
+> Some upcoming changes require access to the raw
+> 'struct ec_thermal_config'.
 > 
-> Set up the scaffolding for that.
+> Split out the logic to get it from the EC into a new helper.
 > 
 > Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
 

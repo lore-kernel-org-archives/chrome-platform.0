@@ -1,99 +1,217 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C7F382374
-	for <chrome-platform@lists.linux.dev>; Tue,  9 Jun 2026 20:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AAA318ECD;
+	Fri, 12 Jun 2026 08:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781038436; cv=none; b=fJ5ZiJDmBfOFGIFq1Yfza7XlbQNh1bqpuFlN+e/G9DXhTlIkq9IHFZYXs4NZHPZR+v6n9c3IjGwoP3rgnTE2oMZCrySGWcgI+w1wrxhEkV6bhA/+10srPKFFHkLMG4OGG2UuPZSMj9PcxE9dX9RFiYdggT05AIvVCdaoigycztg=
+	t=1781251232; cv=none; b=PvXVYmpbUcrQE1OGdKLSgN4XJz9saTFxgdk+MBbdMc1UO9gb0o0agL0tOLal66RO7mQE2hYIybUUUhhKqvCNryGSNbtkLMb8w2nV/QvvFpKHR7h4pqiL/Ph0SjUcbaUI4ic6lJMmzVw36KnqKAqWuIZ0MU/FI3y5p5/d/uAjPCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781038436; c=relaxed/simple;
-	bh=Qw/3uIxuvhR9pkkQn0Fun90WWrW+XXIONdsi/Hw7s9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r0pv7onMnQjVEMA6TOJwGVWrsJ8i/Ct/d65rd4N+sRx4jfQI0FlKO9Zs3LFsqVxYE1SJwzm+HyqkgdyIR8+rP8YLYBHcsX6cvwr39Lkng+o+HWzlvhnPwCDWaSu8RzxPC26RUE0Bpxj6b4ff/YboIf6iZ4M/BfmwwriH0XnYZq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q1+aCzzY; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781251232; c=relaxed/simple;
+	bh=eOfAUxxd0vwvLdWPmp6cSZfaXxJluAzVRJ5WSChiCJQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ktI4Fxg1z8l87xgd2zvvjgoodhHWkOcDXNBehndjU7wy6E3AFRTMozyg8s5lNBwTXqa5dmcsWDBO3t4iJpqzJVmK/Plo5x202IuZ8fv+Wse0csqto7nDn9K7o6uha9rhOGdG0xrbCTX7s6fDMvejib9AW0P4g/sNoPTem/FPc2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=HnxcstSQ; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=A8hXz6rK; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q1+aCzzY"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-36ba285e98bso5970950a91.2
-        for <chrome-platform@lists.linux.dev>; Tue, 09 Jun 2026 13:53:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781038435; x=1781643235; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RZ90DIeQT+39qjB/FIaskdYlqdzdVSYmD3rl7EwwUds=;
-        b=q1+aCzzYBSWTJSlt2U1lVEcwHP83Kp5ZooearNQLMD6GnmHI38EvfwxGwDKknZp4il
-         nO9cuzf+hfnPxGuyIsANjlxxZohOFos5f9YZDWsHqYUpZvM++lk1cwk0ZXkM9OrlQMlv
-         C3mfRry0fK8ytk+KTeMcmOgyG3Fycv/pAC9Tpx5CdizR3P5L5yvvnsPdIXQGkhWwAZE2
-         JgzHetRUSUBF7JPY4ci0pWCRHsk9uuG6VZXDSwmboeHdJ9hmjjhdEquXxl44GrY1R/sC
-         rBeoCemdUi7kaK97zDaO2rmEre22XI3pDk/MZfUO4Gv5YoCrx1jlATP5uHfm83T0OuFo
-         CN5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781038435; x=1781643235;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RZ90DIeQT+39qjB/FIaskdYlqdzdVSYmD3rl7EwwUds=;
-        b=Zs4QPWZDJ7a8A0Enu9m2WDf+hE+v09KDKzHryZWYy2XKOr1MfryVgXVb5fGZUYjlKA
-         TKJ2WieMIlOm/9HvtkjgmrDSv3osr4wgadqhHy4RKc55MNSKM6dxEspJx3dSvcCDQ0hn
-         091pwfGyFHxj522jARsrfkbURMM4bGqcSZPQT71MowVE9+9XEHuWr9tfKwl99JsPTXbx
-         tOohWFyVJNQt6ViyAv7WIu24SPSN9qaw118MP7A79du+G8zX4MKv47gWT7irawQB9j1m
-         V7mS3+KxXmnCYuhRyzR+U/1HzQ8cH0GfAAh3gydvXq2jA2uUp6S/bn+ZR1zAeZ8vUK+J
-         fzSA==
-X-Forwarded-Encrypted: i=1; AFNElJ/1iFDiryThXO4y/YxID+cwhgrwZsdhW4uN3rLyvFck1VY3RZ1qxKinZBgg3VwxXeHwW++MrsgZbdbn+acxFZ8=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdDCWpN/wsjhGFTAvOb0S4HhHr7mn+lm7nxa6QyGEp9mh75dfp
-	6Fxj57D+e4WcaSiNcqdDioosYxDn7B1O9V1M8lyHzi5gvdBq0cffXG88
-X-Gm-Gg: Acq92OEB6ltLmcj/gC6gulPkt2GIfFD+0sgZ0N7Ts4xy1fyCP/xnZhFc1hyYteFHxEF
-	+v3yhOrxhKeLu+EYIdr/MwH75kaolOcrjJkvICRkVcKPi+kUt6DIdQoete7u211Ezu4C4pa2z11
-	Vzq88u17vDoXVnPH4WRIGUhlB/Ngto45Ll+lZj9yBWNR7XUgMPrE6naKpbdJdv7cfU8CJrqwSBv
-	ECgyf+aG8bs1ETVC0xIInfulVTbBuDJ8IzYqI4v1PR0LNd2rdymcTO0bbhIUFnvZJKbTg6zw+o7
-	iryd3QcVc11ll8hZZv/i0NxhxpAWdRhtxNuYy/eE3dwWNPjKHO/LCMR0axY1R0fp9G8CwdQgsHw
-	D90xJBm52HCYfXM73ZshOBXgyujxSUN+KcITTSgoUVGdl6ktRvOKtTL2Dhbn7PCa6HWsSaJfLSm
-	TInCnFiBTJDcJjQKUWGDxznbFQYqmY8Gn8AUOVbgLFSTvIOe8=
-X-Received: by 2002:a17:90b:5890:b0:36b:bb66:fbc3 with SMTP id 98e67ed59e1d1-370eec11205mr22415053a91.4.1781038434724;
-        Tue, 09 Jun 2026 13:53:54 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f710ee4f3sm21059611a91.13.2026.06.09.13.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 13:53:54 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 9 Jun 2026 13:53:53 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] hwmon: (cros_ec) Add support for displaying fan
- curves
-Message-ID: <3a3a7d58-010f-4754-bd07-a7f34b21a83e@roeck-us.net>
-References: <20260529-cros_ec-hwmon-fan-curve-v1-0-da6792b3830f@weissschuh.net>
- <20260529-cros_ec-hwmon-fan-curve-v1-4-da6792b3830f@weissschuh.net>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="HnxcstSQ";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="A8hXz6rK"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gcBlJ4Zmjz9sfB;
+	Fri, 12 Jun 2026 10:00:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781251228;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Zd/2XDt2d2T1aPB/6R7gW+LW/fbzlRJAGN7Vftc84uY=;
+	b=HnxcstSQGahrPu6/38rPtq+pxbaZIJXWxygZnNR3P/B6xGZfCFfDQYnv68J04qRkG/GknB
+	00FbreLTxPk6H3IpucWVa0LKzqXp2IULBae4W9ZeHOdlaiSvuiY6Cx1Kmd5GCGXFTymhVy
+	Giar8rAXDlgeLpMQmOdlxsygZYCe1r0HLe7HjL3PzQIr6/y+/rnSuUn8XeW2w+040yhfRY
+	Tb6WJTTaJeLAxfnAm8pY/MtMO3YULOwR0ojrM1Vg+rt89u00vVucWD3x02Lhcdc7Mg0PpL
+	fAGic9m5ZORNHbmz0WY3PjWJ7sG++pNFZfDXmAoKwVnxr4SIFLogHmbsDv2v0w==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781251227;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Zd/2XDt2d2T1aPB/6R7gW+LW/fbzlRJAGN7Vftc84uY=;
+	b=A8hXz6rKAZz4uLXDhOE/3bQ3ZjrCt+RK2quKj5LkyxedCqZG1U5Ozwwpxxani2IaMvpgpQ
+	o6KYsABVPDS3RIDp/iWD75aJEEaO+yt33HcIYDZFxECrGd16cWxefOZ0/7FetoG7l+6Mgb
+	9rPp6HTaJUIqBpaF1yxYMWpOsUPG6fCiGdO3Ybhy9bv4s2azlvBzCXuZ6rF+8VB05ZZ+FX
+	lEoYZmH87oiWw8ksws1poKPhN6/P7fV2dQV5XBnUO7JBX7k2ZAndVRNlPBBYRdrVXAQ5ew
+	bjfWQh7POVFSOioa3M8w/4XzmP6ctcgOQOX469OGiAGb1LRnDHONrjyDz8eePg==
+To: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	linux-rdma@vger.kernel.org,
+	Jean Delvare <jdelvare@suse.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org (open list),
+	linux-iio@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH v2] Documentation: ABI: fix brackets and bracelets
+Date: Fri, 12 Jun 2026 09:49:18 +0200
+Message-ID: <20260612074916.169195-3-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260529-cros_ec-hwmon-fan-curve-v1-4-da6792b3830f@weissschuh.net>
+X-MBO-RS-META: kijqz7wworgbase6brz36s98ebuhqia5
+X-MBO-RS-ID: cbc2a1a76c0e45f6b7f
 
-On Fri, May 29, 2026 at 10:31:55PM +0200, Thomas Weiﬂschuh wrote:
-> The automatic fan control mode of the embedded controller uses fan
-> curves with two trigger points to calculate the target fan speed.
-> All temperature sensors affect all fans.
-> 
-> Expose these fan curves through the standard hwmon sysfs ABI.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+Fix missing and needless brackets and bracelets.
+Fix minor grammar issues.
 
-Applied.
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+[v1] -> [v2]
+change from removing single bracket to adding missing bracket
+add recipients
+ Thanks Jonathan for researching the e-mail addresses.
+use proper english punctuation in changelog
+"is 64 bit counter" -> "is a 64-bit counter"
 
-Thanks,
-Guenter
+---
+ Documentation/ABI/stable/sysfs-class-infiniband      |  8 ++++----
+ Documentation/ABI/testing/sysfs-bus-iio              | 10 +++++-----
+ Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192   |  2 +-
+ Documentation/ABI/testing/sysfs-firmware-dmi-entries |  2 +-
+ Documentation/ABI/testing/sysfs-firmware-gsmi        |  2 +-
+ Documentation/ABI/testing/sysfs-uevent               |  2 +-
+ 6 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/ABI/stable/sysfs-class-infiniband b/Documentation/ABI/stable/sysfs-class-infiniband
+index 694f23a03a28..7ba116103429 100644
+--- a/Documentation/ABI/stable/sysfs-class-infiniband
++++ b/Documentation/ABI/stable/sysfs-class-infiniband
+@@ -148,17 +148,17 @@ Description:
+ 		**Data info**:
+ 
+ 		port_xmit_data: (RO) Total number of data octets, divided by 4
+-		(lanes), transmitted on all VLs. This is 64 bit counter
++		(lanes), transmitted on all VLs. This is a 64-bit counter
+ 
+ 		port_rcv_data: (RO) Total number of data octets, divided by 4
+-		(lanes), received on all VLs. This is 64 bit counter.
++		(lanes), received on all VLs. This is a 64-bit counter.
+ 
+ 		port_xmit_packets: (RO) Total number of packets transmitted on
+ 		all VLs from this port. This may include packets with errors.
+-		This is 64 bit counter.
++		This is a 64-bit counter.
+ 
+ 		port_rcv_packets: (RO) Total number of packets (this may include
+-		packets containing Errors. This is 64 bit counter.
++		packets containing Errors). This is a 64-bit counter.
+ 
+ 		link_downed: (RO) Total number of times the Port Training state
+ 		machine has failed the link error recovery process and downed
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+index d8d6d85235b0..4ea5598e7cd2 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio
++++ b/Documentation/ABI/testing/sysfs-bus-iio
+@@ -917,7 +917,7 @@ Description:
+ 
+ 		Note the driver will assume the last p events requested are
+ 		to be enabled where p is how many it supports (which may vary
+-		depending on the exact set requested. So if you want to be
++		depending on the exact set requested). So if you want to be
+ 		sure you have set what you think you have, check the contents of
+ 		these attributes after everything is configured. Drivers may
+ 		have to buffer any parameters so that they are consistent when
+@@ -973,7 +973,7 @@ Description:
+ 
+ 		Note the driver will assume the last p events requested are
+ 		to be enabled where p is however many it supports (which may
+-		vary depending on the exact set requested. So if you want to be
++		vary depending on the exact set requested). So if you want to be
+ 		sure you have set what you think you have, check the contents of
+ 		these attributes after everything is configured. Drivers may
+ 		have to buffer any parameters so that they are consistent when
+@@ -1528,9 +1528,9 @@ Description:
+ 		the unused bits, so to get a clean value the bits value must be
+ 		used to mask the buffer output value appropriately. The storagebits
+ 		value also specifies the data alignment. So s48/64>>2 will be a
+-		signed 48 bit integer stored in a 64 bit location aligned to a 64
+-		bit boundary. To obtain the clean value, shift right 2 and apply a
+-		mask to zero the top 16 bits of the result.
++		signed 48-bit integer stored in a 64-bit location aligned to a
++		64-bit boundary. To obtain the clean value, shift right 2 and apply
++		a mask to zero the top 16 bits of the result.
+ 		For other storage combinations this attribute will be extended
+ 		appropriately.
+ 
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192 b/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192
+index 28be1cabf112..d44eb5f8728b 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192
++++ b/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192
+@@ -16,7 +16,7 @@ Description:
+ 		In bridge applications, such as strain gauges and load cells,
+ 		the bridge itself consumes the majority of the current in the
+ 		system. To minimize the current consumption of the system,
+-		the bridge can be disconnected (when it is not being used
++		the bridge can be disconnected (when it is not being used)
+ 		using the bridge_switch_en attribute.
+ 
+ What:		/sys/bus/iio/devices/iio:deviceX/in_voltage2-voltage2_shorted_raw
+diff --git a/Documentation/ABI/testing/sysfs-firmware-dmi-entries b/Documentation/ABI/testing/sysfs-firmware-dmi-entries
+index b6c23807b804..ed7d9d06a9ff 100644
+--- a/Documentation/ABI/testing/sysfs-firmware-dmi-entries
++++ b/Documentation/ABI/testing/sysfs-firmware-dmi-entries
+@@ -93,7 +93,7 @@ Description:
+ 		  /sys/firmware/dmi/entries/15-0/system_event_log
+ 
+ 		and has the following attributes (documented in the
+-		SMBIOS / DMI specification under "System Event Log (Type 15)":
++		SMBIOS / DMI specification under "System Event Log (Type 15)"):
+ 
+ 		- area_length
+ 		- header_start_offset
+diff --git a/Documentation/ABI/testing/sysfs-firmware-gsmi b/Documentation/ABI/testing/sysfs-firmware-gsmi
+index 7a558354c1ee..3b3c3ae6f458 100644
+--- a/Documentation/ABI/testing/sysfs-firmware-gsmi
++++ b/Documentation/ABI/testing/sysfs-firmware-gsmi
+@@ -19,7 +19,7 @@ Description:
+ 		/sys/firmware/gsmi/vars:
+ 
+ 			This directory has the same layout (and
+-			underlying implementation as /sys/firmware/efi/vars.
++			underlying implementation) as /sys/firmware/efi/vars.
+ 			See `Documentation/ABI/*/sysfs-firmware-efi-vars`
+ 			for more information on how to interact with
+ 			this structure.
+diff --git a/Documentation/ABI/testing/sysfs-uevent b/Documentation/ABI/testing/sysfs-uevent
+index 0b6227706b35..c15e18c47a0e 100644
+--- a/Documentation/ABI/testing/sysfs-uevent
++++ b/Documentation/ABI/testing/sysfs-uevent
+@@ -8,7 +8,7 @@ Description:
+ 
+                 Recognized extended format is::
+ 
+-			ACTION [UUID [KEY=VALUE ...]
++			ACTION [UUID [KEY=VALUE ...]]
+ 
+                 The ACTION is compulsory - it is the name of the uevent
+                 action (``add``, ``change``, ``remove``). There is no change
+-- 
+2.54.0
+

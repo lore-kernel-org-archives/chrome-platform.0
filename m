@@ -1,92 +1,81 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA4E3E7173
-	for <chrome-platform@lists.linux.dev>; Fri, 12 Jun 2026 12:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185D2349B0A
+	for <chrome-platform@lists.linux.dev>; Fri, 12 Jun 2026 21:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781268705; cv=none; b=tovxWl1O1qrbajCJfsqpr2NQDkzAYpeBnIC3LJq7MJ9dbkEWX6J6MtLUIUdRtWybW3SwjTUw0vKgkRn7knMzyYemsuy3XUhTpxQRJ5NQDIpOOO4Qja08fbCtVKQ+nPl0aFf6xmsc5JpMQX5kqVQaMP1YYsIhiykjguo57NSKz8Y=
+	t=1781298088; cv=none; b=rPp+lOmELFu/OMbKzoxGYjvBwcI2nbhGT1gHGOnVtWXbxdBFmaZpTjvBjZZCsZ/zf7GuevIw9k4RCVcxptTDatW6dgd0xoFCqHbB3QTLPlrEAuGOPund4/Yi1AP5kcDzUEtVHzHP4ZrIuL/t7n6lbUTA5dR0KKc8dSBH8c5uX+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781268705; c=relaxed/simple;
-	bh=HD0KglOaapnPFNl6xAFn4EC0PydFCGPzCu6AtaoIelU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sEIncDagHEri+Dfdpgo1qqqVRq23tqOVbU6yHsnVyjQaR0BPqz9xJLnFF88+BN1pLl6ADqahBLNMUG8zgOxgxJhwmF7m3vH89A+M29TlmaBUMBtGD4c7iHVcn/V3jsIxv3md4Gfu1W+HLvPctR4dSAxzPWOZJAS1bSLMgJXEmZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uQCklQva; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xroWfx1F; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1781298088; c=relaxed/simple;
+	bh=oburyEKCpXuDVftVaENWbOpIpPIMNuQ/fY9WHnBXP7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ry327AgDri2idxZDYNhDAC1UHagwLOwg4EYFNba/XQeEpwMWGN2xXD56T532xjI1fBZPWsQcryQi8s/0pEgMOVYAjKZG09U9RBB5gkUbCJJlRaB5yJBVByKejb2pb9HCvBi4MqoPwUrT4jXUFGn0E+o33nuf2cbHyt9fWdngcNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NHmLJNZn; arc=none smtp.client-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uQCklQva";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xroWfx1F"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gcKCG3DFyz9tgl;
-	Fri, 12 Jun 2026 14:51:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781268698;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=B9r+RyUa7CXOpevgqedTIVlaSZeLXRwts+ei0YcXF9Q=;
-	b=uQCklQva58oYXcKlnndNGwbREoxoC6+qZVBfIcf498Xj2G5bx/2VbQ9x/NKtHfnzO52qdL
-	0cJlpBFQYI4mw6u4VWslDyAhHv1R/IqlciIXdwODF0NosKhbDV3EzQICvqM+6qG09NLVFP
-	jz2u8czZsBv2YazFOr+VnfA6nebJKEdR1X/RynvPIjnBAzPlr5YHBzFkmWvNjS38P8UuI1
-	tfls9jnA5+um2w33BBqjOfQ5InvENvxOCYactwXRbDd6hw7J2PaLEGlBUP3gjEvznh6E5i
-	nLxS307/+X7Z9iuiQBqXOhQx5G08s6SHLp8Yiw1pjJ/xjFzajCqkk85zONlv/A==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=xroWfx1F;
-	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781268696;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=B9r+RyUa7CXOpevgqedTIVlaSZeLXRwts+ei0YcXF9Q=;
-	b=xroWfx1FOjvfXkoNqe9WBLRDQFRz+TnEpoWt5FdhGyfxvmhH29qCHuGnqH3Rh6usHAgYOD
-	X2vRBzfMfaSv0BjR2NWpjVvFjstbLsVdT2w//ZG6JP/DFOWzZ1ZyTW8ujopri9Y44UA38p
-	ikSfXfh8YqAg5CC9luUjmBSbRhOkHctcNCNGxi+P1qiMlKPpBWW73s84hYLaopi/+A6IL0
-	xIpnhfXTZnWOyy9tjYNPSdSxra8HOdMP12SDff/wk9/DCOoV3HlC2NVLk9veSktwki1Zlu
-	DAp9j+G+q1cBQmCS7uQvVdM0XvWd+qjNvHn99yTOKi68HjNC1124lNbmk9unqQ==
-To: Tzung-Bi Shih <tzungbi@kernel.org>,
-	Brian Norris <briannorris@chromium.org>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NHmLJNZn"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-3078e0dcd67so1715861eec.0
+        for <chrome-platform@lists.linux.dev>; Fri, 12 Jun 2026 14:01:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1781298086; x=1781902886; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=v3tk2vHn7Go7waOK/uRrEz+o2vjWboPz0LvibdeAgOA=;
+        b=NHmLJNZn1g+KMvP3q5yedHN9IUx0P0LETkgp7vByZTeGOdomAa35OpMdDd2Qu0xv/Y
+         zaayIdoVlmHzgtbhR8Rd/yZqTH58+BsoBFLy/eOF8D6+QelaguGt9QIBKd9D2oCwtjwX
+         GxCEXS6mTmit0SrZEwImKH8SuSxRDsjTUHhaQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781298086; x=1781902886;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v3tk2vHn7Go7waOK/uRrEz+o2vjWboPz0LvibdeAgOA=;
+        b=eXi7A8/sbZcE/0+Aosts3EwzCEIPi0TCNwGzqgOK2HnRMJgDRipjfVdXNuE6JszAPk
+         UBRF9I//5gSgQ7eQeCA0Lq7TCLKiIIkc+wkb/8pWW63zvEJHV8ST8fXwV9Fz4ENOolHt
+         lVg7pI0ht/VDGjYeRsdWjWIVu4kH2/m0zyNOx2yGwnNxjh1DX1wrjpnQoziuzBXp9ozM
+         U1BDMptn9XMi2hd5ycMwOA8vcQqM1VDqI3PW+Yue8/Y563VMjNrJP0qnP5dx59IonJfl
+         nF3Wq1IEn2Ybis9eQAlOZtxx6xiBE6MopwBLA+hi6P37rtzyj34sSSiIuhOqUiXo3ff7
+         RVGw==
+X-Forwarded-Encrypted: i=1; AFNElJ9H18Kskf6ioyXUKj1u+yekZF6Tz5WZLd215+xmb7zm71ghbq+uVD93jfOFyfn0chawPaTAkZHeBQYtsHEdut0=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzgG6+rQs/2xxRc6BGgOAFkOFMwhtRFWPpI7EcN9MnHip9utQ7s
+	XaS/SiaGhvO5gildQL7GI+/nzLoMkL+KHTeq0EMUT6cXduf/tCO+TBk1aSlEJbZAcA==
+X-Gm-Gg: Acq92OH1n3f0KFQuudnI8kolL9wrxRBQ/M0t1A5bw28/LNpOV+a360NYmNKROyo+EIJ
+	pftAbif1xRRjTtJo4T4LuBcuWbW/K/bcZi4LNe0Bldgqe+7lHjtDbEZR1ABhcZshAL3gAZxF+Bj
+	+1Jq6nPwedsXB+Ae5ZZ5sIoduVYhsIbiJNCU8h7muy0YPOgEaiE7HG1xatguMQVruldWV98eX4B
+	NWMkkNpJoquAsy5HnNV+FKi0r2o59vRXIE9kVa6XbIUh5rI21pmDZSfupykPf++GhDJwwT+pymF
+	nuKV+W5GKBYLrVu1BKHrxFun3qbdFpGDhm3M6gTe8qjuOYj9DS2R9pGrQGgb6ddVb8VBiE4Atav
+	X6MscuMeIA9sGhPyBr/O6Ow40Atp2PFJB6xqQyMEiF6O0G4059xtasbDtuNztlAEQkS1mIms202
+	l/3vUmrZokgrsPP+8Szj6fKdJwqtzl7kzg2RAykXxdtKWCeecV/DtHkgneNARmTw==
+X-Received: by 2002:a05:693c:3945:b0:307:91f5:93f7 with SMTP id 5a478bee46e88-3092b94dc86mr777141eec.0.1781298086050;
+        Fri, 12 Jun 2026 14:01:26 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:c879:81a7:2a21:9ff9])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-3081eb8d3c9sm4829604eec.26.2026.06.12.14.01.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jun 2026 14:01:25 -0700 (PDT)
+Date: Fri, 12 Jun 2026 14:01:23 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
 	Julius Werner <jwerner@chromium.org>,
 	chrome-platform@lists.linux.dev
-Cc: Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH] docs: ABI: testing: minor cleanup
-Date: Fri, 12 Jun 2026 14:51:12 +0200
-Message-ID: <20260612125111.187072-2-manuelebner@mailbox.org>
+Subject: Re: [PATCH] docs: ABI: testing: minor cleanup
+Message-ID: <aixzo68Oq4M9cZXf@google.com>
+References: <20260612125111.187072-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 9ieo4u58a6ciqhhskebokzo3wxexz9ef
-X-MBO-RS-ID: 03ddfe4f4d9095c11a1
-X-Rspamd-Queue-Id: 4gcKCG3DFyz9tgl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260612125111.187072-2-manuelebner@mailbox.org>
 
-Add missing ')'.
+On Fri, Jun 12, 2026 at 02:51:12PM +0200, Manuel Ebner wrote:
+> Add missing ')'.
+> 
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/ABI/testing/sysfs-firmware-gsmi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-firmware-gsmi b/Documentation/ABI/testing/sysfs-firmware-gsmi
-index 7a558354c1ee..3b3c3ae6f458 100644
---- a/Documentation/ABI/testing/sysfs-firmware-gsmi
-+++ b/Documentation/ABI/testing/sysfs-firmware-gsmi
-@@ -19,7 +19,7 @@ Description:
- 		/sys/firmware/gsmi/vars:
- 
- 			This directory has the same layout (and
--			underlying implementation as /sys/firmware/efi/vars.
-+			underlying implementation) as /sys/firmware/efi/vars.
- 			See `Documentation/ABI/*/sysfs-firmware-efi-vars`
- 			for more information on how to interact with
- 			this structure.
--- 
-2.54.0
-
+Reviewed-by: Brian Norris <briannorris@chromium.org>

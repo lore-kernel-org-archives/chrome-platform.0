@@ -1,205 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DD5367296;
-	Fri, 12 Jun 2026 10:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA4E3E7173
+	for <chrome-platform@lists.linux.dev>; Fri, 12 Jun 2026 12:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781260571; cv=none; b=VDHXC3iLt/3cLR/eMQVcSjv3bBHPAWQkhF/io4F9sqzRkS0d/YyWjvv3xUK+ngq6rH3zJAuUJA54vHJIoMakGEPJtP8r6Cq8+1za3uqgOtbNZd9tm6B2UOZzEI2cfyzPlGxL06xplggwnL3cP54r4bXWgnyxr8yXzux2g1nRc/I=
+	t=1781268705; cv=none; b=tovxWl1O1qrbajCJfsqpr2NQDkzAYpeBnIC3LJq7MJ9dbkEWX6J6MtLUIUdRtWybW3SwjTUw0vKgkRn7knMzyYemsuy3XUhTpxQRJ5NQDIpOOO4Qja08fbCtVKQ+nPl0aFf6xmsc5JpMQX5kqVQaMP1YYsIhiykjguo57NSKz8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781260571; c=relaxed/simple;
-	bh=91FxiJV0N6BmdAmvTdC5cs67r+8PYu041zNku9q03f4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k5+RXBPLHsIJAnn9v2lPn3hMtoOoXSYXqV8wTapp8dzyCf4usqKuCz3XObg51ka1dczSCXpVUYkaHP+hOX4m2NZ8ARYoc+9IRnpeEPpBwoTFsKPbzpF5hta5jkT3TbaSQqpgZeWVlsO0apypysDJG2jQCZQVFxQc1CyjjmUKTYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CC1V4yX/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781268705; c=relaxed/simple;
+	bh=HD0KglOaapnPFNl6xAFn4EC0PydFCGPzCu6AtaoIelU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sEIncDagHEri+Dfdpgo1qqqVRq23tqOVbU6yHsnVyjQaR0BPqz9xJLnFF88+BN1pLl6ADqahBLNMUG8zgOxgxJhwmF7m3vH89A+M29TlmaBUMBtGD4c7iHVcn/V3jsIxv3md4Gfu1W+HLvPctR4dSAxzPWOZJAS1bSLMgJXEmZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uQCklQva; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xroWfx1F; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CC1V4yX/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04F6E1F000E9;
-	Fri, 12 Jun 2026 10:36:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781260569;
-	bh=O+SMa7id15Wth7GsodU20nw/Xw2vDDaUwg6RH/UuNDY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=CC1V4yX/m7C0c2G9l1EVCxLTDxtaeL/CQu6ZrHz3tdfM/fEnAw4AMO+Zihb/o+AO0
-	 ogQ0l4mvt0YCNo6GJLidH0brquaBFublaY6/Ye7i37aLuswQRGh74skt3pej27hh1Q
-	 tP+0YwF8vABMNODWjTOkzSb6VLhi/9XtJfpL0I6sOllhgcEdU+Ds7yY3qYZiB1Pxf3
-	 7P5wWz18glxwwRkc5QOxpLvhgPdmF33DWGaAsjBCafLJv5QaBJrnhHcVNIe9PPYnTp
-	 EWQqp1+c8gweY0jBgMgnQiRGLzBTkklhHlVHIdr6NUQHeUzDpu/TiqSrYdYzFiTvh4
-	 r9CnfvBFTaiOw==
-Date: Fri, 12 Jun 2026 11:35:59 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Manuel Ebner <manuelebner@mailbox.org>
-Cc: David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>, Leon
- Romanovsky <leonro@nvidia.com>, linux-rdma@vger.kernel.org, Jean Delvare
- <jdelvare@suse.com>, Tzung-Bi Shih <tzungbi@kernel.org>, Brian Norris
- <briannorris@chromium.org>, Julius Werner <jwerner@chromium.org>,
- chrome-platform@lists.linux.dev, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org (open list), linux-iio@vger.kernel.org, Randy
- Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] Documentation: ABI: fix brackets and bracelets
-Message-ID: <20260612113559.1675cb66@jic23-huawei>
-In-Reply-To: <20260612074916.169195-3-manuelebner@mailbox.org>
-References: <20260612074916.169195-3-manuelebner@mailbox.org>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uQCklQva";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xroWfx1F"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gcKCG3DFyz9tgl;
+	Fri, 12 Jun 2026 14:51:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781268698;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=B9r+RyUa7CXOpevgqedTIVlaSZeLXRwts+ei0YcXF9Q=;
+	b=uQCklQva58oYXcKlnndNGwbREoxoC6+qZVBfIcf498Xj2G5bx/2VbQ9x/NKtHfnzO52qdL
+	0cJlpBFQYI4mw6u4VWslDyAhHv1R/IqlciIXdwODF0NosKhbDV3EzQICvqM+6qG09NLVFP
+	jz2u8czZsBv2YazFOr+VnfA6nebJKEdR1X/RynvPIjnBAzPlr5YHBzFkmWvNjS38P8UuI1
+	tfls9jnA5+um2w33BBqjOfQ5InvENvxOCYactwXRbDd6hw7J2PaLEGlBUP3gjEvznh6E5i
+	nLxS307/+X7Z9iuiQBqXOhQx5G08s6SHLp8Yiw1pjJ/xjFzajCqkk85zONlv/A==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=xroWfx1F;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781268696;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=B9r+RyUa7CXOpevgqedTIVlaSZeLXRwts+ei0YcXF9Q=;
+	b=xroWfx1FOjvfXkoNqe9WBLRDQFRz+TnEpoWt5FdhGyfxvmhH29qCHuGnqH3Rh6usHAgYOD
+	X2vRBzfMfaSv0BjR2NWpjVvFjstbLsVdT2w//ZG6JP/DFOWzZ1ZyTW8ujopri9Y44UA38p
+	ikSfXfh8YqAg5CC9luUjmBSbRhOkHctcNCNGxi+P1qiMlKPpBWW73s84hYLaopi/+A6IL0
+	xIpnhfXTZnWOyy9tjYNPSdSxra8HOdMP12SDff/wk9/DCOoV3HlC2NVLk9veSktwki1Zlu
+	DAp9j+G+q1cBQmCS7uQvVdM0XvWd+qjNvHn99yTOKi68HjNC1124lNbmk9unqQ==
+To: Tzung-Bi Shih <tzungbi@kernel.org>,
+	Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH] docs: ABI: testing: minor cleanup
+Date: Fri, 12 Jun 2026 14:51:12 +0200
+Message-ID: <20260612125111.187072-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 9ieo4u58a6ciqhhskebokzo3wxexz9ef
+X-MBO-RS-ID: 03ddfe4f4d9095c11a1
+X-Rspamd-Queue-Id: 4gcKCG3DFyz9tgl
 
-On Fri, 12 Jun 2026 09:49:18 +0200
-Manuel Ebner <manuelebner@mailbox.org> wrote:
+Add missing ')'.
 
-> Fix missing and needless brackets and bracelets.
-> Fix minor grammar issues.
-> 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-I guess I was unclear in my v1 review. This needs to be split up by subsystem
-to which a patch applies.  Each change will probably take a different route to
-upstream as other changes in these files that may clash will generally be routed
-via the appropriate subsystem.
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+ Documentation/ABI/testing/sysfs-firmware-gsmi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The two IIO files can be one patch, but others should all be one
-patch per file touched.
-
-Thanks,
-
-Jonathan
-
-> ---
-> [v1] -> [v2]
-> change from removing single bracket to adding missing bracket
-> add recipients
->  Thanks Jonathan for researching the e-mail addresses.
-> use proper english punctuation in changelog
-> "is 64 bit counter" -> "is a 64-bit counter"
-> 
-> ---
->  Documentation/ABI/stable/sysfs-class-infiniband      |  8 ++++----
->  Documentation/ABI/testing/sysfs-bus-iio              | 10 +++++-----
->  Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192   |  2 +-
->  Documentation/ABI/testing/sysfs-firmware-dmi-entries |  2 +-
->  Documentation/ABI/testing/sysfs-firmware-gsmi        |  2 +-
->  Documentation/ABI/testing/sysfs-uevent               |  2 +-
->  6 files changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/Documentation/ABI/stable/sysfs-class-infiniband b/Documentation/ABI/stable/sysfs-class-infiniband
-> index 694f23a03a28..7ba116103429 100644
-> --- a/Documentation/ABI/stable/sysfs-class-infiniband
-> +++ b/Documentation/ABI/stable/sysfs-class-infiniband
-> @@ -148,17 +148,17 @@ Description:
->  		**Data info**:
->  
->  		port_xmit_data: (RO) Total number of data octets, divided by 4
-> -		(lanes), transmitted on all VLs. This is 64 bit counter
-> +		(lanes), transmitted on all VLs. This is a 64-bit counter
->  
->  		port_rcv_data: (RO) Total number of data octets, divided by 4
-> -		(lanes), received on all VLs. This is 64 bit counter.
-> +		(lanes), received on all VLs. This is a 64-bit counter.
->  
->  		port_xmit_packets: (RO) Total number of packets transmitted on
->  		all VLs from this port. This may include packets with errors.
-> -		This is 64 bit counter.
-> +		This is a 64-bit counter.
->  
->  		port_rcv_packets: (RO) Total number of packets (this may include
-> -		packets containing Errors. This is 64 bit counter.
-> +		packets containing Errors). This is a 64-bit counter.
->  
->  		link_downed: (RO) Total number of times the Port Training state
->  		machine has failed the link error recovery process and downed
-> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-> index d8d6d85235b0..4ea5598e7cd2 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-iio
-> +++ b/Documentation/ABI/testing/sysfs-bus-iio
-> @@ -917,7 +917,7 @@ Description:
->  
->  		Note the driver will assume the last p events requested are
->  		to be enabled where p is how many it supports (which may vary
-> -		depending on the exact set requested. So if you want to be
-> +		depending on the exact set requested). So if you want to be
->  		sure you have set what you think you have, check the contents of
->  		these attributes after everything is configured. Drivers may
->  		have to buffer any parameters so that they are consistent when
-> @@ -973,7 +973,7 @@ Description:
->  
->  		Note the driver will assume the last p events requested are
->  		to be enabled where p is however many it supports (which may
-> -		vary depending on the exact set requested. So if you want to be
-> +		vary depending on the exact set requested). So if you want to be
->  		sure you have set what you think you have, check the contents of
->  		these attributes after everything is configured. Drivers may
->  		have to buffer any parameters so that they are consistent when
-> @@ -1528,9 +1528,9 @@ Description:
->  		the unused bits, so to get a clean value the bits value must be
->  		used to mask the buffer output value appropriately. The storagebits
->  		value also specifies the data alignment. So s48/64>>2 will be a
-> -		signed 48 bit integer stored in a 64 bit location aligned to a 64
-> -		bit boundary. To obtain the clean value, shift right 2 and apply a
-> -		mask to zero the top 16 bits of the result.
-> +		signed 48-bit integer stored in a 64-bit location aligned to a
-> +		64-bit boundary. To obtain the clean value, shift right 2 and apply
-> +		a mask to zero the top 16 bits of the result.
->  		For other storage combinations this attribute will be extended
->  		appropriately.
->  
-> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192 b/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192
-> index 28be1cabf112..d44eb5f8728b 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192
-> +++ b/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192
-> @@ -16,7 +16,7 @@ Description:
->  		In bridge applications, such as strain gauges and load cells,
->  		the bridge itself consumes the majority of the current in the
->  		system. To minimize the current consumption of the system,
-> -		the bridge can be disconnected (when it is not being used
-> +		the bridge can be disconnected (when it is not being used)
->  		using the bridge_switch_en attribute.
->  
->  What:		/sys/bus/iio/devices/iio:deviceX/in_voltage2-voltage2_shorted_raw
-> diff --git a/Documentation/ABI/testing/sysfs-firmware-dmi-entries b/Documentation/ABI/testing/sysfs-firmware-dmi-entries
-> index b6c23807b804..ed7d9d06a9ff 100644
-> --- a/Documentation/ABI/testing/sysfs-firmware-dmi-entries
-> +++ b/Documentation/ABI/testing/sysfs-firmware-dmi-entries
-> @@ -93,7 +93,7 @@ Description:
->  		  /sys/firmware/dmi/entries/15-0/system_event_log
->  
->  		and has the following attributes (documented in the
-> -		SMBIOS / DMI specification under "System Event Log (Type 15)":
-> +		SMBIOS / DMI specification under "System Event Log (Type 15)"):
->  
->  		- area_length
->  		- header_start_offset
-> diff --git a/Documentation/ABI/testing/sysfs-firmware-gsmi b/Documentation/ABI/testing/sysfs-firmware-gsmi
-> index 7a558354c1ee..3b3c3ae6f458 100644
-> --- a/Documentation/ABI/testing/sysfs-firmware-gsmi
-> +++ b/Documentation/ABI/testing/sysfs-firmware-gsmi
-> @@ -19,7 +19,7 @@ Description:
->  		/sys/firmware/gsmi/vars:
->  
->  			This directory has the same layout (and
-> -			underlying implementation as /sys/firmware/efi/vars.
-> +			underlying implementation) as /sys/firmware/efi/vars.
->  			See `Documentation/ABI/*/sysfs-firmware-efi-vars`
->  			for more information on how to interact with
->  			this structure.
-> diff --git a/Documentation/ABI/testing/sysfs-uevent b/Documentation/ABI/testing/sysfs-uevent
-> index 0b6227706b35..c15e18c47a0e 100644
-> --- a/Documentation/ABI/testing/sysfs-uevent
-> +++ b/Documentation/ABI/testing/sysfs-uevent
-> @@ -8,7 +8,7 @@ Description:
->  
->                  Recognized extended format is::
->  
-> -			ACTION [UUID [KEY=VALUE ...]
-> +			ACTION [UUID [KEY=VALUE ...]]
->  
->                  The ACTION is compulsory - it is the name of the uevent
->                  action (``add``, ``change``, ``remove``). There is no change
+diff --git a/Documentation/ABI/testing/sysfs-firmware-gsmi b/Documentation/ABI/testing/sysfs-firmware-gsmi
+index 7a558354c1ee..3b3c3ae6f458 100644
+--- a/Documentation/ABI/testing/sysfs-firmware-gsmi
++++ b/Documentation/ABI/testing/sysfs-firmware-gsmi
+@@ -19,7 +19,7 @@ Description:
+ 		/sys/firmware/gsmi/vars:
+ 
+ 			This directory has the same layout (and
+-			underlying implementation as /sys/firmware/efi/vars.
++			underlying implementation) as /sys/firmware/efi/vars.
+ 			See `Documentation/ABI/*/sysfs-firmware-efi-vars`
+ 			for more information on how to interact with
+ 			this structure.
+-- 
+2.54.0
 

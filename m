@@ -1,87 +1,146 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D253B2D38
-	for <chrome-platform@lists.linux.dev>; Mon, 15 Jun 2026 06:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD523D25B6;
+	Mon, 15 Jun 2026 09:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781505132; cv=none; b=CDOZdSkUbZh+uQUXHxEuJ671S3X2/SC6jH7HGsyWHvrZ7GE6l5TcZdqpwEEb/N/SuygUeMZw+1uvBrWW3HHt89wbJP3aqIW9pzZD3SAJyOMB+TfkLvhYxAMR0kdz1Vx0p2QHpptUpGB4NuoiKglEJ2EBQgKnbB1zLD6dUG6nV8k=
+	t=1781514248; cv=none; b=mTHpV4S8RLWcD0en2Y+4C4b24Y5xOYXO3gxl1ygyqMcTvguNCFUrUcquX2dAf4yK9mHpPz0fmN3A1I1Zrl3XxJwh1674ATh99qJnk8u9+VPNXeQihKKfNlw3fxpgNcNRCnWmcm41gZEYjgBQCLnl4rOAEM9vw4VkOoPf+sCzmdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781505132; c=relaxed/simple;
-	bh=x/HdhKvwF8D8c0nKeHfZDMvBouPETNuUz6C+RxKWOsM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R1zm8Qok15Yv/+j+qsnkbX4ToMDfDwbDtu1zzpIXlV0zHw86u10XCaBm/ObhEBiSVHC2uVkTgAz+CKBR9o7/Avxx2/Aj+K6HvVmu+AZ6egyOSEzzkclPU2yN8zHnq6BG//UknIa7cUZpt6dqKa634bX+ZH4OA9LtIyIMWdqj9TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowAAndchnnC9qOXGTEw--.34120S2;
-	Mon, 15 Jun 2026 14:32:07 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: pengpeng@iscas.ac.cn
-Subject: [PATCH] platform/chrome: cros_ec_debugfs: unregister panic notifier on remove
-Date: Mon, 15 Jun 2026 14:32:00 +0800
-Message-ID: <20260615063200.43185-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1781514248; c=relaxed/simple;
+	bh=Jofc1H+1312/IfX3WE9//NhWj3CD9rDK2y4SwuQZcMg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=X/q27LGaUU7iyiOcBqER/uLazIUmy9vPqNPt+GICI+dDK60k//5yTq4OO8FT4hP6Qz7WQseTjuxyt2b1VlkzlHO+SJVcE/JgxCr9THLrYPGSU08YYvpByIsg0bOFcRem7fPRHYyJmwM5m1xg2MlwiKnWHCu1lPphAgXJnbHzR1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/5JN659; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/5JN659"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B475EC2BCB4;
+	Mon, 15 Jun 2026 09:04:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781514247;
+	bh=Jofc1H+1312/IfX3WE9//NhWj3CD9rDK2y4SwuQZcMg=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=i/5JN6598bIH3/2zQrAXf0sZMjTXRa76W2XkdR3IUWADvfVSdN9lWJe4+GWN8yQEI
+	 VWvda8E118eKmFFDfj+3TzpBzO5DppLACVdioeIofCuAay2Mtd/VrvlQ6Igl4d/tAZ
+	 mOJBHldC30+KefNFnh5P4mhTTjJp8cbANskkfILrj0MzghxkGfXUNlewP6C7+TruyJ
+	 f/s8V1+aZQDvlzHQB02zP6HZmiXBx+7+MWsUFFFc1ZHd5jZbgV3t20yzPbtwZ0V6KI
+	 FwUfyPY1wf28qT0xhif+hIPQRLhD0QypAsiVUJss7UEMEVGB8CD0DzurMBGyrN7qcs
+	 1rcGrIHDJHErA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F34CD98DA;
+	Mon, 15 Jun 2026 09:04:07 +0000 (UTC)
+From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
+Date: Mon, 15 Jun 2026 04:04:07 -0500
+Subject: [PATCH] power: supply: cros_usbpd-charger: bound the EC-reported
+ port count
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAndchnnC9qOXGTEw--.34120S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7try7ZrW8WrykWw45Xr1fWFg_yoW8JFyfpa
-	ykWa13Gw4jka15GrW5Ga1UuFyfC3s3Xry7XryUua45Z3s8try3tryvyay5trW8tryIqw12
-	vrs5ta48G3W7XF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkG14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUDpnQUUU
-	UU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260615-b4-disp-e0930b21-v1-1-c9ffbac7c9bb@proton.me>
+X-B4-Tracking: v=1; b=H4sIAAbAL2oC/x3MQQqAIBBA0avIrBtQx4S6SrTQnGo2JQoRRHdPW
+ r7F/w9ULsIVRvVA4UuqnEeD6RQsezg2RknNYLX12pseo8MkNSPrgXS0Bim5NXiTeiKCluXCq9z
+ /cprf9wPHlSpYYgAAAA==
+To: Benson Leung <bleung@chromium.org>, Sebastian Reichel <sre@kernel.org>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781514246; l=3500;
+ i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
+ bh=yPt7u+U8eCmHsmxpMUGj6fRYLczl25g094dvindrHeU=;
+ b=7ytic+wtqut+SKPmmLRIyueeBWkUWnu2RDPlY8dKa2D5gez8KoMEziHBuK+q6Vv8Y4217lWaY
+ mCUkEHmkKpAA16/+cZUb/N5nSWUpqPneb9cSvIE7wiAgWFrUylJrMNy
+X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
+ pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
+X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
+ auth_id=814
+X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
+Reply-To: hexlabsecurity@proton.me
 
-cros_ec_debugfs_probe() registers a panic notifier whose callback
-recovers struct cros_ec_debugfs with container_of() and can schedule or
-flush the console log work.
+From: Bryam Vargas <hexlabsecurity@proton.me>
 
-cros_ec_debugfs_remove() removes debugfs state and cleans up the console
-log buffer, but it leaves the notifier registered.  A later panic
-notification can therefore call back into freed debugfs state.
+cros_usbpd_charger_probe() reads two port counts from the EC and uses
+one of them, num_charger_ports, as the loop bound when populating a
+fixed-size array:
 
-Unregister the panic notifier before tearing down the debugfs and log
-state.
+	struct port_data *ports[EC_USB_PD_MAX_PORTS];	/* 8 entries */
+	...
+	for (i = 0; i < charger->num_charger_ports; i++)
+		charger->ports[charger->num_registered_psy++] = port;
 
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Both num_usbpd_ports (from EC_CMD_USB_PD_PORTS) and num_charger_ports
+(from EC_CMD_CHARGE_PORT_COUNT) are u8 values reported by the EC. The
+only validation is a sanity check that compares the two EC-reported
+values against each other:
+
+	if (num_charger_ports < num_usbpd_ports ||
+	    num_charger_ports > num_usbpd_ports + 1)
+		return -EPROTO;
+
+It never checks either count against EC_USB_PD_MAX_PORTS, the size of
+the ports[] array. A malfunctioning, malicious or compromised EC that
+reports num_usbpd_ports == num_charger_ports == N for any N > 8 (for
+example both 255) passes this check, and the loop then writes N pointers
+into the 8-entry ports[] array embedded in the devm_kzalloc()'d
+charger_data, overflowing it by up to 255 - 8 = 247 entries (~1976
+bytes): a slab out-of-bounds write.
+
+Reject a port count larger than the ports[] array can hold.
+
+Fixes: f68b883e8fad ("power: supply: add cros-ec USBPD charger driver.")
+Cc: stable@vger.kernel.org
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
 ---
- drivers/platform/chrome/cros_ec_debugfs.c | 2 ++
- 1 file changed, 2 insertions(+)
+I reproduced the out-of-bounds write with an in-kernel test that drives
+the cros_usbpd_charger_probe() geometry verbatim under KASAN - a
+devm_kzalloc()'d charger_data with the 8-entry ports[] array, the
+EC-value cross-check, and the population loop - with the device-supplied
+port counts:
 
-diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-index d10f9561990c..a19de7d418fe 100644
---- a/drivers/platform/chrome/cros_ec_debugfs.c
-+++ b/drivers/platform/chrome/cros_ec_debugfs.c
-@@ -530,6 +530,8 @@ static void cros_ec_debugfs_remove(struct platform_device *pd)
- {
- 	struct cros_ec_dev *ec = dev_get_drvdata(pd->dev.parent);
+  num_charger_ports = num_usbpd_ports = 12, no bound:
+    BUG: KASAN: slab-out-of-bounds in ...probe
+    Write of size 8 ... cache kmalloc-128 ... 0 bytes to the right of the
+    allocated 128-byte region   (ports[8..11] past the 8-entry array)
+  with this patch (count > EC_USB_PD_MAX_PORTS rejected): -EPROTO, no
+    KASAN report.
+  a well-formed count (<= EC_USB_PD_MAX_PORTS) is unaffected, no report.
+
+The full device range - both counts reported as 255, writing 247
+pointers (~1976 bytes) past the array - reproduces the same way under
+userspace AddressSanitizer on both -m32 and -m64.
+---
+ drivers/power/supply/cros_usbpd-charger.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
+index 7d3e676a951c..d639957f9775 100644
+--- a/drivers/power/supply/cros_usbpd-charger.c
++++ b/drivers/power/supply/cros_usbpd-charger.c
+@@ -589,10 +589,12 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
  
-+	blocking_notifier_chain_unregister(&ec->ec_dev->panic_notifier,
-+					   &ec->debug_info->notifier_panic);
- 	debugfs_remove_recursive(ec->debug_info->dir);
- 	cros_ec_cleanup_console_log(ec->debug_info);
- }
+ 	/*
+ 	 * Sanity checks on the number of ports:
+-	 *  there should be at most 1 dedicated port
++	 *  there should be at most 1 dedicated port, and the count is
++	 *  reported by the EC, so it must not exceed the ports[] array.
+ 	 */
+ 	if (charger->num_charger_ports < charger->num_usbpd_ports ||
+-	    charger->num_charger_ports > (charger->num_usbpd_ports + 1)) {
++	    charger->num_charger_ports > (charger->num_usbpd_ports + 1) ||
++	    charger->num_charger_ports > EC_USB_PD_MAX_PORTS) {
+ 		dev_err(dev, "Unexpected number of charge port count\n");
+ 		ret = -EPROTO;
+ 		goto fail_nowarn;
+
+---
+base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
+change-id: 20260615-b4-disp-e0930b21-3d4fa61d5333
+
+Best regards,
 -- 
-2.50.1 (Apple Git-155)
+Bryam Vargas <hexlabsecurity@proton.me>
+
 

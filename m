@@ -1,81 +1,148 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185D2349B0A
-	for <chrome-platform@lists.linux.dev>; Fri, 12 Jun 2026 21:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139DF175A97;
+	Mon, 15 Jun 2026 03:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781298088; cv=none; b=rPp+lOmELFu/OMbKzoxGYjvBwcI2nbhGT1gHGOnVtWXbxdBFmaZpTjvBjZZCsZ/zf7GuevIw9k4RCVcxptTDatW6dgd0xoFCqHbB3QTLPlrEAuGOPund4/Yi1AP5kcDzUEtVHzHP4ZrIuL/t7n6lbUTA5dR0KKc8dSBH8c5uX+M=
+	t=1781493372; cv=none; b=bYC2Km+DsFpcDOdyMyo24qWXYr789MM12UMNweikrh89ObXNyHeOXQIoyOcl7iXgeCpwdhpXJ4Sllzl0tR8NWRxxI7f4qJxjAOQQzRmRKvRnRWujZXxdMh9aHn/hA2zUCenMWsUgcTnNO2cGbuyC0qmF9NIuwpSWsIwk7CeHx14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781298088; c=relaxed/simple;
-	bh=oburyEKCpXuDVftVaENWbOpIpPIMNuQ/fY9WHnBXP7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ry327AgDri2idxZDYNhDAC1UHagwLOwg4EYFNba/XQeEpwMWGN2xXD56T532xjI1fBZPWsQcryQi8s/0pEgMOVYAjKZG09U9RBB5gkUbCJJlRaB5yJBVByKejb2pb9HCvBi4MqoPwUrT4jXUFGn0E+o33nuf2cbHyt9fWdngcNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NHmLJNZn; arc=none smtp.client-ip=74.125.82.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1781493372; c=relaxed/simple;
+	bh=ApIjV+1QW6j9FJsoG9JvJ7XiOt/o7IGiYjjc0Izx8GY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VsQKvJi9XuPrsJV3zSG224y7QulKbRh8obYvNEIYHfYO2ueSl9yRlqSSIf7xzNE5n8T1wPUra6e5leqtuRcMGgLxZWpjdMYnn3vzgwqf/ggrPNPRAVwSgTxSlwFhp+xTiIlW1Tc427CegyRmY0rCwPPJgtN/Hp+q+/MzmFIQnIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jRJYQXmg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NHmLJNZn"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-3078e0dcd67so1715861eec.0
-        for <chrome-platform@lists.linux.dev>; Fri, 12 Jun 2026 14:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1781298086; x=1781902886; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v3tk2vHn7Go7waOK/uRrEz+o2vjWboPz0LvibdeAgOA=;
-        b=NHmLJNZn1g+KMvP3q5yedHN9IUx0P0LETkgp7vByZTeGOdomAa35OpMdDd2Qu0xv/Y
-         zaayIdoVlmHzgtbhR8Rd/yZqTH58+BsoBFLy/eOF8D6+QelaguGt9QIBKd9D2oCwtjwX
-         GxCEXS6mTmit0SrZEwImKH8SuSxRDsjTUHhaQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781298086; x=1781902886;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v3tk2vHn7Go7waOK/uRrEz+o2vjWboPz0LvibdeAgOA=;
-        b=eXi7A8/sbZcE/0+Aosts3EwzCEIPi0TCNwGzqgOK2HnRMJgDRipjfVdXNuE6JszAPk
-         UBRF9I//5gSgQ7eQeCA0Lq7TCLKiIIkc+wkb/8pWW63zvEJHV8ST8fXwV9Fz4ENOolHt
-         lVg7pI0ht/VDGjYeRsdWjWIVu4kH2/m0zyNOx2yGwnNxjh1DX1wrjpnQoziuzBXp9ozM
-         U1BDMptn9XMi2hd5ycMwOA8vcQqM1VDqI3PW+Yue8/Y563VMjNrJP0qnP5dx59IonJfl
-         nF3Wq1IEn2Ybis9eQAlOZtxx6xiBE6MopwBLA+hi6P37rtzyj34sSSiIuhOqUiXo3ff7
-         RVGw==
-X-Forwarded-Encrypted: i=1; AFNElJ9H18Kskf6ioyXUKj1u+yekZF6Tz5WZLd215+xmb7zm71ghbq+uVD93jfOFyfn0chawPaTAkZHeBQYtsHEdut0=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgG6+rQs/2xxRc6BGgOAFkOFMwhtRFWPpI7EcN9MnHip9utQ7s
-	XaS/SiaGhvO5gildQL7GI+/nzLoMkL+KHTeq0EMUT6cXduf/tCO+TBk1aSlEJbZAcA==
-X-Gm-Gg: Acq92OH1n3f0KFQuudnI8kolL9wrxRBQ/M0t1A5bw28/LNpOV+a360NYmNKROyo+EIJ
-	pftAbif1xRRjTtJo4T4LuBcuWbW/K/bcZi4LNe0Bldgqe+7lHjtDbEZR1ABhcZshAL3gAZxF+Bj
-	+1Jq6nPwedsXB+Ae5ZZ5sIoduVYhsIbiJNCU8h7muy0YPOgEaiE7HG1xatguMQVruldWV98eX4B
-	NWMkkNpJoquAsy5HnNV+FKi0r2o59vRXIE9kVa6XbIUh5rI21pmDZSfupykPf++GhDJwwT+pymF
-	nuKV+W5GKBYLrVu1BKHrxFun3qbdFpGDhm3M6gTe8qjuOYj9DS2R9pGrQGgb6ddVb8VBiE4Atav
-	X6MscuMeIA9sGhPyBr/O6Ow40Atp2PFJB6xqQyMEiF6O0G4059xtasbDtuNztlAEQkS1mIms202
-	l/3vUmrZokgrsPP+8Szj6fKdJwqtzl7kzg2RAykXxdtKWCeecV/DtHkgneNARmTw==
-X-Received: by 2002:a05:693c:3945:b0:307:91f5:93f7 with SMTP id 5a478bee46e88-3092b94dc86mr777141eec.0.1781298086050;
-        Fri, 12 Jun 2026 14:01:26 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e7c:8:c879:81a7:2a21:9ff9])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-3081eb8d3c9sm4829604eec.26.2026.06.12.14.01.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jun 2026 14:01:25 -0700 (PDT)
-Date: Fri, 12 Jun 2026 14:01:23 -0700
-From: Brian Norris <briannorris@chromium.org>
-To: Manuel Ebner <manuelebner@mailbox.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
-	Julius Werner <jwerner@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: Re: [PATCH] docs: ABI: testing: minor cleanup
-Message-ID: <aixzo68Oq4M9cZXf@google.com>
-References: <20260612125111.187072-2-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jRJYQXmg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B24761F000E9;
+	Mon, 15 Jun 2026 03:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781493370;
+	bh=qj6kL+Y5j43uUoqZPHaczIFfyHC6VZoa6PTH+jFUTmE=;
+	h=Date:From:To:Cc:Subject;
+	b=jRJYQXmgKRsHWAUTvtPuzP7ZBwbR9Nd49F5WXkhd8SWte8ysCRd5ExykQayz3iFkI
+	 VQD0Qnx+H/a0I/PufRMJExBHHS69hrbE1X5YxrsB7LprZhfzDnLabia0OR5+xL110M
+	 vmEwkEPnMi1jDEJKBiRHcuiAqIF24DahfZSXtVPvrQTRS+vuIUoRYpMTj/Eauztie0
+	 mqXKVlc8ZAK1twEat+PDPfvNxhVMqyC3bHzSrzE0hVmZZbLwHxamBhbOvfXGkY06km
+	 hkXXcL1KI4mvDJUDlFUAZHgoMd/ILl8tpL5VkjD2zaat57eqYEj7R/naTE3ISEVjLr
+	 co/rR/XTsjHOg==
+Date: Mon, 15 Jun 2026 03:16:07 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: torvalds@linux-foundation.org
+Cc: bleung@chromium.org, chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] chrome-platform updates for v7.2
+Message-ID: <ai9ud-vLUe2pj9M2@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/L2SVxQ7IjN3l+bi"
 Content-Disposition: inline
-In-Reply-To: <20260612125111.187072-2-manuelebner@mailbox.org>
 
-On Fri, Jun 12, 2026 at 02:51:12PM +0200, Manuel Ebner wrote:
-> Add missing ')'.
-> 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 
-Reviewed-by: Brian Norris <briannorris@chromium.org>
+--/L2SVxQ7IjN3l+bi
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Linus,
+
+Please pull chrome-platform updates for Linux v7.2.
+
+Thanks,
+Tzung-Bi
+------
+
+The following changes since commit 5d6919055dec134de3c40167a490f33c74c12581:
+
+  Linux 7.1-rc3 (2026-05-10 14:08:09 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git t=
+ags/chrome-platform-v7.2
+
+for you to fetch changes up to 883f968dcbb08a155101e3a943557530d4ac0463:
+
+  platform/chrome: Prevent build for big-endian systems (2026-06-02 03:14:1=
+0 +0000)
+
+----------------------------------------------------------------
+chrome-platform: Updates for v7.2
+
+* Improvements
+
+  - Use named initializers for struct i2c_device_id.
+
+* Fixes
+
+  - Fix a probe race between cros_ec_sensorhub and cros_ec_sysfs.
+  - Check for the presence of ACPI_COMPANION() for drivers converted
+    from acpi_driver to platform_driver to avoid issues where
+    device_match_driver_override() might forcibly match the driver to
+    the device.
+  - Fix a possible UAF in cros_ec_chardev.
+  - Prevent build for big-endian systems as CHROME_PLATFORMS drivers are
+    only running and testing under little-endian systems.
+
+* Cleanups
+
+  - Drop some redundant bits in cros_kbd_led_backlight and Kconfig.
+
+----------------------------------------------------------------
+Rafael J. Wysocki (3):
+      platform/chrome: chromeos_privacy_screen: Check ACPI_COMPANION()
+      platform/chrome: chromeos_tbmc: Check ACPI_COMPANION()
+      platform/chrome: wilco_ec: event: Check ACPI_COMPANION()
+
+Thomas Wei=DFschuh (5):
+      platform/chrome: cros_kbd_led_backlight: Drop max_brightness from dri=
+ver data
+      platform/chrome: cros_kbd_led_backlight: Pass keyboard_led as paramet=
+er
+      platform/chrome: cros_kbd_led_backlight: Drop CONFIG_MFD_CROS_EC_DEV =
+ifdeffery
+      platform/chrome: Remove superfluous dependencies from CROS_EC
+      platform/chrome: Prevent build for big-endian systems
+
+Tzung-Bi Shih (5):
+      platform/chrome: Resolve kb_wake_angle visibility race
+      platform/chrome: cros_ec_chardev: Introduce chardev_data
+      platform/chrome: cros_ec_chardev: Move data to chardev_pdata
+      platform/chrome: cros_ec_chardev: Add event relayer
+      platform/chrome: cros_ec_chardev: Introduce rwsem for protecting ec_d=
+ev
+
+Uwe Kleine-K=F6nig (The Capable Hub) (1):
+      platform/chrome: Use named initializers for struct i2c_device_id
+
+ drivers/platform/chrome/Kconfig                   |   2 +-
+ drivers/platform/chrome/chromeos_privacy_screen.c |   3 +
+ drivers/platform/chrome/chromeos_tbmc.c           |   6 +-
+ drivers/platform/chrome/cros_ec_chardev.c         | 146 +++++++++++++++++-=
+----
+ drivers/platform/chrome/cros_ec_i2c.c             |   2 +-
+ drivers/platform/chrome/cros_ec_sensorhub.c       |   6 +-
+ drivers/platform/chrome/cros_ec_sysfs.c           |   5 +-
+ drivers/platform/chrome/cros_hps_i2c.c            |   2 +-
+ drivers/platform/chrome/cros_kbd_led_backlight.c  |  28 ++---
+ drivers/platform/chrome/wilco_ec/event.c          |   8 +-
+ include/linux/platform_data/cros_ec_proto.h       |   2 +
+ 11 files changed, 150 insertions(+), 60 deletions(-)
+
+--/L2SVxQ7IjN3l+bi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCai9udwAKCRArxTEGBto8
+9CBqAQDRewVMm80Q3LM926rHHeyCcbCpZQIT7PtGHgfEkv+dAQEAnloDUM+eJd1T
+PClAUyfTgejQu2ScVyAqIM0trk3lDAQ=
+=nNYz
+-----END PGP SIGNATURE-----
+
+--/L2SVxQ7IjN3l+bi--

@@ -1,68 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EBD37AA94
-	for <chrome-platform@lists.linux.dev>; Tue, 16 Jun 2026 01:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C952D386C24;
+	Tue, 16 Jun 2026 02:11:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781573990; cv=none; b=JWdSByZWZ4M0y9Mw7a3s9XAN0cqvDxfuFE7ZDNppzQpmaG9U8TB9L5jmpLKRKO+navJO+gaRwzP/w0L+2os3pfh52V5AZW1Mic/PaetS9ToA8MKzK1bPyzCBXTVEhulbrwgpVhAR09lAJ4rZleQXlUehKE89opWT96xTdO5yuXU=
+	t=1781575904; cv=none; b=FebDpap/FnbhPQ9u9X/Jee18FBRS7ZACAjLa4BNoMzb+wNHZWXbgDI+PZYrdOZDZJoOBoebVyoVDSmb3+lc8wCs8dLcUc9vb6E6kliIoYUIlWpWYYYYa2lkPk0ffhCv6G1zrsEWs426sqZ6D3ozvM4nN9gCH/a4YxWE+8RUBfGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781573990; c=relaxed/simple;
-	bh=yzEFAagkbPKBWqTFJokrHcJDKIVrtUgkmZfVFXv5G2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yr2hne/lDyHo5KbvpEKApbRY0oZlnAg1irrVtBpyp/xuXB9elO1NGMp/hTE+NsP68tdeP7iF6pQS2c1uRlafg/Rn3cmqWvY1WaI+Nb3J1tEOjATjbFNDOI7+tz+Nv4EjsAxFxx/SBc1erMRVwpQ2hvDWoRhXBVlyHjxLkx2omZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DD6yLE4t; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781575904; c=relaxed/simple;
+	bh=xd80DAf8IHzwoPgOsunTFNo852ShXzlyrckrW25Q1a0=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=owWAXX6Z1EsF23gy7uHc/Isiboj6CMPjlRLkDwtlOV+tvJhSH38LkGNr+aywmVz5yiiJK1gHLiCbqa51Yohm+RZLJHvfmCCF4hDMRWCciLqWKxunQww6dok6tZaUxqVFbbn8gg+BU6t8mSFNnyOk9sm1f3rgBfkUhyqtTmqRIq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hqkF+sj+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DD6yLE4t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8E4C1F000E9;
-	Tue, 16 Jun 2026 01:39:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hqkF+sj+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CB5A1F000E9;
+	Tue, 16 Jun 2026 02:11:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781573989;
-	bh=We26mUxPAGTf22jC3G9uEXqYp17pTIiN79gxfnsk0J4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DD6yLE4tkE7Tlzo1qhN055TolXBAJPM//knbM62xBaDBODvq6Z31op1VzifscFGOT
-	 UEKDLYd2Ts/TpsBXlymOhLPYf+8W3CHga55x4flxfsL6/9l4HLxPCI79h86TqquYXB
-	 aF/CwmnV1uqSpgDQCbYV/JxYW6e6OWNnJ0SkKqKAgXJqffhvO0OvcmrrnnuL52u7MF
-	 Bfy6uYrkd8vzR6ZxvdBcO8sCnaoWtzesNRZtchC+YIEe4Lr5chRQ/0Ppa0X8GGObfN
-	 DUiFfyJIQbZh9ThkEaovBf814Q6th4bvnL7Tp066OcBfV6qnqGLHKrnVgrFrjmmafT
-	 EDGaMivImwdrw==
-Date: Tue, 16 Jun 2026 01:39:46 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: Guenter Roeck <groeck@chromium.org>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Sung-Chi Li <lschyi@chromium.org>, chrome-platform@lists.linux.dev,
-	Benson Leung <bleung@chromium.org>
-Subject: Re: [PATCH] platform/chrome: cros_ec: remove reference to
- nonexistent CONFIG_SLEEP_TIMEOUT_MS
-Message-ID: <ajCpYqXs8-yi6Mw-@google.com>
-References: <20260616001411.66231-1-enelsonmoore@gmail.com>
+	s=k20260515; t=1781575903;
+	bh=hlHMRdFi8ccvI3YOo5tORlb51pZemyd8Yj12iSsEGBQ=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=hqkF+sj+z6do8GfC5bj94hhk4pfouRHlxHijD7Gl6Nh8L5jHyUiZwuXZk65ZZUtKW
+	 wyQnxRZnUmZcvQb/QKs/h2q2w7qNaVsCcJKqlnGw+WmtrOwWZae9gBnDg5vLpCBhCC
+	 8rac5n5AEGX9oUgENA4Vro/fZv3j/yFVyXXkCl5CVXLPHWgI1QDlxJWdDQS4MCNS/3
+	 L0OQvPGdPcWES9gWpe8gsoCkYDi7jvkbqA53U1Ipjr3yp2Ev6gb5Z82Wx36Tt5UdRX
+	 3o5l7RVeARkaBWEFEbkYSBZDcS0P3DNJuJnMm79R4Lb1ZYhRfndQY9UCsjirUQz0Bg
+	 SyWyzuNd4ppiw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939B13839A26;
+	Tue, 16 Jun 2026 02:11:39 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform updates for v7.2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <ai9ud-vLUe2pj9M2@google.com>
+References: <ai9ud-vLUe2pj9M2@google.com>
+X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
+X-PR-Tracked-Message-Id: <ai9ud-vLUe2pj9M2@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v7.2
+X-PR-Tracked-Commit-Id: 883f968dcbb08a155101e3a943557530d4ac0463
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 2b5f5609ae9b218c9ee0cdb7f624ddb03d44cf84
+Message-Id: <178157589822.390807.1516411749984332964.pr-tracker-bot@kernel.org>
+Date: Tue, 16 Jun 2026 02:11:38 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, bleung@chromium.org, chrome-platform@lists.linux.dev, tzungbi@kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260616001411.66231-1-enelsonmoore@gmail.com>
 
-On Mon, Jun 15, 2026 at 05:14:07PM -0700, Ethan Nelson-Moore wrote:
-> A comment in <linux/platform_data/cros_ec_commands.h> refers to
-> CONFIG_SLEEP_TIMEOUT_MS, which has never existed in the kernel. Simply
-> remove this reference, as the default timeout is defined immediately
-> below the comment.
-> 
-> Discovered while searching for CONFIG_* symbols referenced in code but
-> not defined in any Kconfig file.
+The pull request you sent on Mon, 15 Jun 2026 03:16:07 +0000:
 
-Thanks for the patch.
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v7.2
 
-NACK.  This file is intended to stay in sync with the EC firmware header[1].
-While the CONFIG_SLEEP_TIMEOUT_MS is indeed unfortunate for a non-Kconfig
-macro in the kernel, we have historically kept it for consistency with the
-firmware code[2]."
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/2b5f5609ae9b218c9ee0cdb7f624ddb03d44cf84
 
-[1] https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/main/include/ec_commands.h#5248
-[2] https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/main/include/config.h#7178
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

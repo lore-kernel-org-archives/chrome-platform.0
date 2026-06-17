@@ -1,63 +1,63 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E323930674D
-	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 10:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A153F5BE1
+	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 10:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692391; cv=none; b=Vo8H+Wm/SRMqGjZ5XLokHclzfW23aFxWlpXqjeiav9ESWbypEVGRkFAyxaRtwk5rvKoge2iwVtQQ/Dbc1CiwFXAx2m64PbMkcOKdsYKsp+JpDGJiGcWVjNgig5/IuQhzIh2I13ukdhwTZTOcheZt6z1zX7khWDA5u/6WGFfCu9U=
+	t=1781692401; cv=none; b=hHu34oBzpikxDFnhA33SPg3kZSm7IOIzI8TfzbhoU6w2gUXWbz2QbAP5Akg21QOi/X4PElnEqUWdeEAFckZT637BfW33sYZsL+jRDof3s78mX4pZZ8s659zXMaA/2C1DhKqdbalrWKPN1pFXShLCh5vxFQPOCeD0k1mR4kVuk2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692391; c=relaxed/simple;
-	bh=wDcPckElgAa4leEaZuFHYXPup44IDtUb56bKeLoBSxQ=;
+	s=arc-20240116; t=1781692401; c=relaxed/simple;
+	bh=fUlQ+FnQe8ks2Bsyu9vc+jCVXkfhxC4s7oFtyOeVt8k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JOGLpNj2jTrA+Wjhy05mAklfEPu052tk2iVmd2ITWDjvbF75irivcPNhJNNIUOf44OXu2j/FIUnjAunfemXiXbJzyI29rifKrfvC/8z231b9BeNnxzroS5nYNA9UC5zMM6Fb1a/ahkXPwOE9znQoDBlDKQ1C9fh6L0IAHfj/Jjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y/eNRwcc; arc=none smtp.client-ip=74.125.82.170
+	 MIME-Version; b=VOdTg3gj1k/N8aqFPEZ5WH877/vIZ2VVX/dRM90Z8/S4ojQRyGyV4mYFFSHU8xc+lo6VGklMNLU2pHBgBaFWVwOqMrwsfUZdP6fCqTkDm6JNTekTfXT7UtKIiXdGH+ZymudPZSsFvDhFX+YaGtZz18F+MoLbx8zNWZGFVDm9UJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hs6fe/JF; arc=none smtp.client-ip=74.125.82.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y/eNRwcc"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-30bb7d20ad9so2331916eec.1
-        for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 03:33:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hs6fe/JF"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-30b9e755555so4890149eec.1
+        for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 03:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692389; x=1782297189; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781692399; x=1782297199; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+xBbIRxBXS5OYYxHEW50Za3vbeVn2bnT2ZgYpZa7ur4=;
-        b=Y/eNRwccpHhWe44KsXzfgPP2c8Hcu/YuWM3IZmLQnDumnqDKX5xxPznNyJKXJY0xpW
-         pCscLzFPX/e4rcdtKnBZTgl4hPY6+wTxxNi4HyHIdMmCkjbba6XnEmJ3Ip3X5vobb6ag
-         LUS5riZ8A9uRrgFCJxDy8+rPiYwNnyZ+0yyaQmEKJPc34fnz22B34LmrZldeqGvzYL4x
-         RVA9RHQFTHDQd/IZ9346nwV+knYC7Fh+qLC82v52p1xQJLyXehQVrNounyrbg3KGeFQ/
-         jNTqevjWwhlaHZ8Ov9lFAth+S3OdQbLkTajz8c6nmPh26strMhLdisQUuXpy2CmUsyMZ
-         angA==
+        bh=RRug9eLPJsGmAP+VJnwvB7OkJ9sFAbmMJ4eYi6JABvc=;
+        b=Hs6fe/JF+YLeQw+nyxBwH5I+DG/7uwZj5t3VbNCdDoM+EEliW4ciKjjNK6KoGzQ9zT
+         cQBJX/sXUlG7909vyIQPd/GA4EDWxmrX7XFDq2PTfnrLTFRTYRFUk/8o1IogpgHY8UWc
+         0o+R53xq7GzZS0cpUpcGs/EfswF/PJcNBRQhA+WfFNZgEg9mPonBwJRAYauP0ATsQfep
+         hlCsUTYd9yRuvv6TtEck5Ktb+CZzorzf1fiJY5u1eMZqfBhkYaupj1CdiF0pfdbaq1pQ
+         J9bf2PkznW6NehOToa/HXo09KhUZuSElgbaymOWM8+i2p1sRNDrxR6mqjPEdzpENFk8z
+         VnaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692389; x=1782297189;
+        d=1e100.net; s=20251104; t=1781692399; x=1782297199;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+xBbIRxBXS5OYYxHEW50Za3vbeVn2bnT2ZgYpZa7ur4=;
-        b=Y5XStZX0gL0ZbGqNLiBYz8P0aaNOYxXl9Vj/OX7oENrr4IONmGpI/0LP7dzC/PEAv3
-         ZKz+3eyZdfYCqayHSfNnPqtrTAAUmrv9FQybgwUPeaRAWvoBNiSp6CGEao4H5aj3+kim
-         lZN+HN1tqNa4ydpeXbRsWPPXIZsjLkXuiC8Rhf1ePrO4lOFCo2/DAg/s5FbaPFQj/Ktd
-         M2ifZ4WARwJPpKBOqnHduD6LCY6tGw7Ut3eqX7/e50Ask5yZtRcj3YV8XA86lXbHAs2Q
-         g94V0IXkx+kn+3b0iHA9OD41CLAVYSKzip2NNwodv6VdKdoWeb/rGB6q/AgA2W3U24NW
-         cBPg==
-X-Forwarded-Encrypted: i=1; AFNElJ9f029uZJG+XN2SVDl9YvykjMmpZx9DASvf6f/AElim/24FgVqaTNcZjuJAQUCYf3tvQs6aWcaZI0EUOEIfSHU=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxwpjpi6xpG3705TubIVTMRmx7QJX6VIwAWpUcOmX7InQZIYBW6
-	WFFx33WZELjttLNHBRoqrbpYorGSgKnzAMDPWVC7fKTyHg1ojb7aEq6j
-X-Gm-Gg: AfdE7cmJMJiLm1u3Uhn7/IL36TNVNlCTkZmsOpDyE2wE9zPwl8NCJujz1F8k4CDO0q3
-	z5EhUxYxYejZZcuQ10mL3uvJi8hzdQrNMjz8WcfMhb6WynVLLgd4D/USPeawhwrLgCRlxFaFLOw
-	MJvQAE6hPRI38M2z1UCdgmFvvcQH+6CjYYN5K/dQ7rWyxtY174H8SJMvmBqprJYWcsUDMbnoC4W
-	aTnU+whwCKv56ecA8o2vB0LJfyeKzZo4Dq0HjsCb4/mUq0RPcX5DgJJkpwQN4uQ0cYBjDjA7D5x
-	uQMpvaLaz0A1w7EuJInGfVmLjKAIhCFlePDYBE2N8iid/pn08i9+NMQZbQCYNEAUMOLE6pF0RqC
-	PjZLaPqNy/QENuRZNs31fepoTQFsQJ0J+zG9LKj6cEP16d5aq98GqAZuapM7Hcof+2DfChZztVK
-	WQ8mkF923mQPb+NQt2eivGJSJliZbJScwWA3B7MzioeFitFYY=
-X-Received: by 2002:a05:693c:2d94:b0:2ed:2942:34ab with SMTP id 5a478bee46e88-30bc990c00amr1603108eec.3.1781692389024;
-        Wed, 17 Jun 2026 03:33:09 -0700 (PDT)
+        bh=RRug9eLPJsGmAP+VJnwvB7OkJ9sFAbmMJ4eYi6JABvc=;
+        b=M23YO1XJ61CbwJfaI8hFlezh9dqPGV3WkJQ1fTnXJclRPZAVjHNxQLbpRUI/bBVk9S
+         XhW/4tsk1IiCulZZ6jt8TJfu5F65VVEb2ykUTOj58AAMnVnOS3Z1/brVCbvb8NZddmtt
+         WWG2mNnzB6SOHcjFqLnTGD7vq40/7zKV9MVSR+gDYn9DtFKPhxwzTFmB6Ez/jM1VCMR1
+         pMEU8SCiiuHJpPaqWGe9v+H6lFxQ7tMEPoCTVMJkjbEhUpR/tNEdby5O9keaPjdcV/3K
+         2tKqTua0P/hRRnFQvvY/SDsTYg4WrQZKZZazL1Fc3SevZi8Bk2jaz/qk+P3pOKeB0sWJ
+         qNGw==
+X-Forwarded-Encrypted: i=1; AFNElJ/nYPmEdYNKtbGDWfdU9H70mN//EVDdFxTIIQubkI+ITCvuWa9wGfHo8rxOyRw/eKhyjHfIwt6mZUfk1rfSGNA=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwFXqOnoC+IT832lwdDETDTjxF1KfCeMKp1qWpqvuD4lEsSf9sy
+	9E+Sv3u8+a5KC8aB+CLoL6p0gGRuw6V3Hj9fVzizzSAE0c7UhYmxOD/o
+X-Gm-Gg: AfdE7clJYO62n+IaeZUVWmzjjrJMmnsRh746snhYA3XzDC9LK3IcrRhFiySpHQ5FFrI
+	pVxq0WBelacr7ocX0aNDcGJG776X9KwrjbHchE+2DN80J+W7MDY7fXOAu6VChTsuZE89sA9wa0l
+	z8JkrajJgPjoHTF+qSYkQ7iWhwiZNvDod0pU0n50by8I0s8U0cJvLAMl5p30rgPDDHuk312nERo
+	TsTf5JRGF4zwnfOgy2YG52snrIfi5pYpC6K+5IRU2rotJ4f98zy1MS/Bu6NrcgaV4ezfo+tJnjW
+	ixb8ZgAGsEzgpke6NHEyKDXy7/L7F2We2hF/0PJ4/UPIKdszQnBXLdbwgvqE/gx+VkMupojuWfh
+	GLhfJxS1Ve7Nlh1i+fdkrTB18QMh1FpNnp4AlHMWbpVQTWdgTlblfD4+Q+g3rDjDRRPbMhQqggo
+	B7BORV2yWsCtUQCWf0Ebu3knLOHijBIwJuwXl291PkAOd0dUQ=
+X-Received: by 2002:a05:7300:30d2:b0:304:5bee:f59d with SMTP id 5a478bee46e88-30bca0ab339mr1950409eec.29.1781692399061;
+        Wed, 17 Jun 2026 03:33:19 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.33.01
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.33.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:33:08 -0700 (PDT)
+        Wed, 17 Jun 2026 03:33:18 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 01/78] ASoC: codecs: ab8500: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:31:18 +0700
-Message-ID: <20260617103235.449609-2-phucduc.bui@gmail.com>
+Subject: [PATCH 02/78] ASoC: codecs: ak4613: Use guard() for mutex locks
+Date: Wed, 17 Jun 2026 17:31:19 +0700
+Message-ID: <20260617103235.449609-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -115,53 +115,118 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/ab8500-codec.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ sound/soc/codecs/ak4613.c | 72 +++++++++++++++++++--------------------
+ 1 file changed, 35 insertions(+), 37 deletions(-)
 
-diff --git a/sound/soc/codecs/ab8500-codec.c b/sound/soc/codecs/ab8500-codec.c
-index 6e8ef9cd1b31..20beb830fd62 100644
---- a/sound/soc/codecs/ab8500-codec.c
-+++ b/sound/soc/codecs/ab8500-codec.c
-@@ -989,9 +989,8 @@ static int sid_status_control_get(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct ab8500_codec_drvdata *drvdata = dev_get_drvdata(component->dev);
+diff --git a/sound/soc/codecs/ak4613.c b/sound/soc/codecs/ak4613.c
+index 3e0696b5abf5..413ef55b918a 100644
+--- a/sound/soc/codecs/ak4613.c
++++ b/sound/soc/codecs/ak4613.c
+@@ -384,7 +384,7 @@ static void ak4613_dai_shutdown(struct snd_pcm_substream *substream,
+ 	struct ak4613_priv *priv = snd_soc_component_get_drvdata(component);
+ 	struct device *dev = component->dev;
  
--	mutex_lock(&drvdata->ctrl_lock);
-+	guard(mutex)(&drvdata->ctrl_lock);
- 	ucontrol->value.enumerated.item[0] = drvdata->sid_status;
--	mutex_unlock(&drvdata->ctrl_lock);
+-	mutex_lock(&priv->lock);
++	guard(mutex)(&priv->lock);
+ 	priv->cnt--;
+ 	if (priv->cnt < 0) {
+ 		dev_err(dev, "unexpected counter error\n");
+@@ -392,7 +392,6 @@ static void ak4613_dai_shutdown(struct snd_pcm_substream *substream,
+ 	}
+ 	if (!priv->cnt)
+ 		priv->ctrl1 = 0;
+-	mutex_unlock(&priv->lock);
+ }
+ 
+ static void ak4613_hw_constraints(struct ak4613_priv *priv,
+@@ -507,10 +506,9 @@ static int ak4613_dai_startup(struct snd_pcm_substream *substream,
+ 	struct snd_soc_component *component = dai->component;
+ 	struct ak4613_priv *priv = snd_soc_component_get_drvdata(component);
+ 
+-	mutex_lock(&priv->lock);
++	guard(mutex)(&priv->lock);
+ 	ak4613_hw_constraints(priv, substream);
+ 	priv->cnt++;
+-	mutex_unlock(&priv->lock);
  
  	return 0;
  }
-@@ -1014,7 +1013,7 @@ static int sid_status_control_put(struct snd_kcontrol *kcontrol,
- 		return -EIO;
- 	}
+@@ -599,42 +597,42 @@ static int ak4613_dai_hw_params(struct snd_pcm_substream *substream,
+ 	 */
+ 	ret = -EINVAL;
  
--	mutex_lock(&drvdata->ctrl_lock);
-+	guard(mutex)(&drvdata->ctrl_lock);
- 
- 	sidconf = snd_soc_component_read(component, AB8500_SIDFIRCONF);
- 	if (((sidconf & BIT(AB8500_SIDFIRCONF_FIRSIDBUSY)) != 0)) {
-@@ -1025,7 +1024,8 @@ static int sid_status_control_put(struct snd_kcontrol *kcontrol,
- 		} else {
- 			status = -EBUSY;
- 		}
--		goto out;
-+		dev_dbg(component->dev, "%s: Exit\n", __func__);
-+		return status;
- 	}
- 
- 	snd_soc_component_write(component, AB8500_SIDFIRADR, 0);
-@@ -1043,9 +1043,6 @@ static int sid_status_control_put(struct snd_kcontrol *kcontrol,
- 
- 	drvdata->sid_status = SID_FIR_CONFIGURED;
- 
--out:
--	mutex_unlock(&drvdata->ctrl_lock);
+-	mutex_lock(&priv->lock);
+-	if (priv->cnt > 1) {
+-		/*
+-		 * If it was already working, use current priv->ctrl1
+-		 */
+-		ret = 0;
+-	} else {
+-		/*
+-		 * It is not yet working,
+-		 */
+-		unsigned int channel = params_channels(params);
+-		u8 tdm;
 -
- 	dev_dbg(component->dev, "%s: Exit\n", __func__);
+-		/* STEREO or TDM */
+-		if (channel == 2)
+-			tdm = AK4613_CONFIG_MODE_STEREO;
+-		else
+-			tdm = AK4613_CONFIG_GET(priv, MODE);
+-
+-		for (i = ARRAY_SIZE(ak4613_iface) - 1; i >= 0; i--) {
+-			const struct ak4613_interface *iface = ak4613_iface + i;
+-
+-			if ((iface->fmt == fmt) && (iface->width == width)) {
+-				/*
+-				 * Ctrl1
+-				 * | D7 | D6 | D5 | D4 | D3 | D2 | D1 | D0  |
+-				 * |TDM1|TDM0|DIF2|DIF1|DIF0|ATS1|ATS0|SMUTE|
+-				 *  <  tdm  > < iface->dif >
+-				 */
+-				priv->ctrl1 = (tdm << 6) | (iface->dif << 3);
+-				ret = 0;
+-				break;
++	scoped_guard(mutex, &priv->lock) {
++		if (priv->cnt > 1) {
++			/*
++			 * If it was already working, use current priv->ctrl1
++			 */
++			ret = 0;
++		} else {
++			/*
++			 * It is not yet working,
++			 */
++			unsigned int channel = params_channels(params);
++			u8 tdm;
++
++			/* STEREO or TDM */
++			if (channel == 2)
++				tdm = AK4613_CONFIG_MODE_STEREO;
++			else
++				tdm = AK4613_CONFIG_GET(priv, MODE);
++
++			for (i = ARRAY_SIZE(ak4613_iface) - 1; i >= 0; i--) {
++				const struct ak4613_interface *iface = ak4613_iface + i;
++
++				if ((iface->fmt == fmt) && (iface->width == width)) {
++					/*
++					 * Ctrl1
++					 * | D7 | D6 | D5 | D4 | D3 | D2 | D1 | D0  |
++					 * |TDM1|TDM0|DIF2|DIF1|DIF0|ATS1|ATS0|SMUTE|
++					 *  <  tdm  > < iface->dif >
++					 */
++					priv->ctrl1 = (tdm << 6) | (iface->dif << 3);
++					ret = 0;
++					break;
++				}
+ 			}
+ 		}
+ 	}
+-	mutex_unlock(&priv->lock);
  
- 	return status;
+ 	if (ret < 0)
+ 		goto hw_params_end;
 -- 
 2.43.0
 

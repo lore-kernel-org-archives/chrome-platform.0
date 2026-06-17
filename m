@@ -1,48 +1,48 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E9525C80E
-	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 16:49:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11BF48094C
+	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 16:49:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781714950; cv=pass; b=s46jyEu5jCkjI5zq8QyvF8Xc6bfCZqo8U1U24bdgfb9a42P7GYIOYtOQ31jK+fp1qAQ4cgb93QbTnNONEqKnECcDfYEVc0DxvBx3xTzyjWACJBOdx3dTDKmRFZjRwJKFalIRaIqoVfC2O0KlOotfqYdvbBWuSCmPkp+ijIYsbE8=
+	t=1781714959; cv=pass; b=BaE1oYA4xG6r5dk7z9qU6QGOUCHmPwaujaG1CjOkVRa87BlWquVuXgAH91cK9tx8hd+BnFcJsPILMy3FjNrI8T+dkFQ67eGdxquiRUP3CO3Tafr9K8gb408NR28fbjIE2mkWFK9Rk9UhpKSw9hQQhQGdaC7x1TIPEbjx6XORIbw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781714950; c=relaxed/simple;
-	bh=AZ2SXdaMwlRCWSyIw9Ul8XaJWjmOk9nawcSM/8r2skM=;
+	s=arc-20240116; t=1781714959; c=relaxed/simple;
+	bh=3OooTjGvHAgUqoPXJKC54feW9kUvT6QF0t3yuHq17IU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Bg1Xbin8EJtATxiEejyj8ZnZwKMhEr3M6ZykQayz9HS3P6A059aUTomKMbEZ8V3WKAlnZxOP7IyjdJJ/3pwxUKtGsrvtm8armbY7xTx60t8DnhoztSrGAe6kNu3wpzs7bR0LUVPp5Nnlb9CFcxI6zDJLp9AcUGgURUtjQeQVjao=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=Os7rcHiq; arc=pass smtp.client-ip=136.143.188.15
+	 In-Reply-To:To:Cc; b=lWPeSttwaix6QAu4vQV1hGLVhqG9Ze/F06Lt8ZOX9Q2vpd7+82dXE3RRT11nGk9qj2iUHrsFbJaESME8q7AQEidHyl3V5gy8mJarPdyn27J4zzPD1J2jGcB8PSF4MRX/FPdRZZym9Nh7lTLY88kWZfk55dIy1NgSoBRB27h6+Jc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=Gr3eJh4L; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="Os7rcHiq"
-ARC-Seal: i=1; a=rsa-sha256; t=1781714945; cv=none; 
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="Gr3eJh4L"
+ARC-Seal: i=1; a=rsa-sha256; t=1781714953; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=ZDnLFiWcOE3synxwlk5MHRewZCklIxVg1J25FHdC/YoR1OwVTr16I0U//TXfr7Btr2jMA8Oxg6pkuOfSC3Z6v1mqaihWHhssaWtYQ7zQ/rQOkSicReiDeuS5pUXQfkRWldZ9QK6IravYFH0hn3dNfIFlJduhKNesNdR1gWP39xo=
+	b=cX79YDWN7ITYRyqTPKEP3tp4BYRnlif1o9/UuEV2zdHOrZ7iAwIN5OHhwxNkMVWYL7uI9Ls0duEh2jbHg/9Pekv9ZYPtlps+y8wjjf5BUmhNz/d5xzu0HXxwWCr/pwXC5UUhGx68TVrB8qwcuyi8/0WCAK+hnYSTuIzjR+znlpI=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781714945; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=1urKI1XlBDMQbdnzJHGlOn7r85vcxGWkLy92ZcHwPvU=; 
-	b=DFYVOKjJNJzeu2einP9po5KTheb3EA+MUwqWl4gKEAAZJwQmDlCuy1mz6kStMUci1JK//iXtMOu9aImrqnVUgy9y7z050pZ29TyDA0ZccghUyKKoTIgnhkNFJu5eUUAQF1nIdQ6x+ASZo/Vt7+sk7BI0WAFK/vVh+/NhzdFUHQc=
+	t=1781714953; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=zsumvDUH6kJRxb9+a0rdMaHG2cBXc9VLurrnZsbYFfg=; 
+	b=OwhawjuAuPS5lD8QL9htOXvWOxwHlBw6xyf2EeQHOdpbdFXfrBJNSyYEepKJruVh6ssEPWIRT6dfyTj6hXQA60T91zONlb53fm0VFkIiBgabZqRbvK8QXWXjN+ji87MOuCAsSexZC2uTzcSaxlUFoX2vCDqyWmBz553qEWgRNNU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781714945;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781714953;
 	s=zmail2048; d=rong.moe; i=i@rong.moe;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=1urKI1XlBDMQbdnzJHGlOn7r85vcxGWkLy92ZcHwPvU=;
-	b=Os7rcHiq5IY/W660ALPixsnIoZocGJYJG3fcWAcAhM1kTef40y+Ub6c3LBmBqIQw
-	AfxKSrfOh/2pXx8F8krB1kP1wruil14c6DbAM768WTE4eP6g4nwGRajADdSicAIyvAR
-	SQ0R2PQz1UNf7NdxHt1NnZmy4SJUGvdZDG0G5uIYcCckMIa9pKdO0kpMmXnJU5wZ+7I
-	uaUZg3o+sPYVD/1OuKaLSftIjm45ePQ26abHy4omLgtbNR+7y5mIKms9Ez4/gJ5b26i
-	C5tIQ+0o3UzNtEhKoUcAgdXjLUbSrfVu5UTe5QxrjBmJBszn3JowljcTtQp6LdvegJ3
-	JxXvobYxjw==
-Received: by mx.zohomail.com with SMTPS id 17817149433206.93374078460954;
-	Wed, 17 Jun 2026 09:49:03 -0700 (PDT)
+	bh=zsumvDUH6kJRxb9+a0rdMaHG2cBXc9VLurrnZsbYFfg=;
+	b=Gr3eJh4LRVyl+BxUP2JYSlGvKyFFCs4VqFZPE5uQBt5gL8xA4TgTMbrwlE+D7cX/
+	sz50/TpQH4/GQd2Nk9Hy7MVB10/ic4K6PP/OPVCyM2rNhZYE9WzCQj29rz3q3R1SOZ9
+	/NBY6WvR7CpHug9K/7uZT2M3RjMv8Bm5aBepyms0qadACdpeeQRv4tS2syX2S/2jS3N
+	NQPldij5Gum0vwrDE8kPjoBKr927LDCoQGkCPjq5R86QvMVb136z/2p1F7147j+Ioyr
+	2lvgmROKFOoIvKWeuffQF5xEeUVinW/jyNYLEnV6/wGi/kLXJaM0GmwpCQ61nKzF8T1
+	EHliT9jtSg==
+Received: by mx.zohomail.com with SMTPS id 1781714951074630.2937626780465;
+	Wed, 17 Jun 2026 09:49:11 -0700 (PDT)
 From: Rong Zhang <i@rong.moe>
-Date: Thu, 18 Jun 2026 00:47:55 +0800
-Subject: [PATCH RFC v2 1/9] leds: Add callback offloaded() to query the
- state of hardware control trigger
+Date: Thu, 18 Jun 2026 00:47:56 +0800
+Subject: [PATCH RFC v2 2/9] leds: cros_ec: Implement offloaded() callback
+ for trigger
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260618-leds-trigger-hw-changed-v2-1-c28c44053cf3@rong.moe>
+Message-Id: <20260618-leds-trigger-hw-changed-v2-2-c28c44053cf3@rong.moe>
 References: <20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe>
 In-Reply-To: <20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
@@ -73,47 +73,38 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
 X-Mailer: b4 0.16-dev-d5d98
 X-ZohoMailClient: External
 
-There are multiple triggers implementing hardware control. However, the
-LED core doesn't really know the hardware control state since the
-coordination is done directly between the trigger and the LED device.
-
-Add an offloaded() callback so that the LED core can query the hardware
-control state.
+"chromeos-auto" is a private hardware control trigger which always stays
+in hardware control. Implement offloaded() callback with its return
+value to be always true to reflect this.
 
 Signed-off-by: Rong Zhang <i@rong.moe>
 ---
- Documentation/leds/leds-class.rst | 5 +++++
- include/linux/leds.h              | 1 +
- 2 files changed, 6 insertions(+)
+ drivers/leds/leds-cros_ec.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
-index 5db620ed27aa..84665200a88d 100644
---- a/Documentation/leds/leds-class.rst
-+++ b/Documentation/leds/leds-class.rst
-@@ -235,6 +235,11 @@ LED driver must implement the following API to support hw control:
-                 Returns a pointer to a struct device or NULL if nothing
-                 is currently attached.
+diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
+index bea3cc3fbfd2..f48e3cf6ccf6 100644
+--- a/drivers/leds/leds-cros_ec.c
++++ b/drivers/leds/leds-cros_ec.c
+@@ -86,12 +86,18 @@ static int cros_ec_led_trigger_activate(struct led_classdev *led_cdev)
+ 	return cros_ec_led_send_cmd(priv->cros_ec, &arg);
+ }
  
-+LED trigger must implement the following API to support hw control:
-+    - offloaded:
-+                return a boolean indicating if the trigger is offloaded to
-+                hardware.
++static bool cros_ec_led_trigger_offloaded(struct led_classdev *led_cdev)
++{
++	return true;
++}
 +
- LED driver can activate additional modes by default to workaround the
- impossibility of supporting each different mode on the supported trigger.
- Examples are hardcoding the blink speed to a set interval, enable special
-diff --git a/include/linux/leds.h b/include/linux/leds.h
-index b16b803cc1ac..7332034a43c8 100644
---- a/include/linux/leds.h
-+++ b/include/linux/leds.h
-@@ -485,6 +485,7 @@ struct led_trigger {
- 	const char	 *name;
- 	int		(*activate)(struct led_classdev *led_cdev);
- 	void		(*deactivate)(struct led_classdev *led_cdev);
-+	bool		(*offloaded)(struct led_classdev *led_cdev);
+ static struct led_hw_trigger_type cros_ec_led_trigger_type;
  
- 	/* Brightness set by led_trigger_event */
- 	enum led_brightness brightness;
+ static struct led_trigger cros_ec_led_trigger = {
+ 	.name = "chromeos-auto",
+ 	.trigger_type = &cros_ec_led_trigger_type,
+ 	.activate = cros_ec_led_trigger_activate,
++	.offloaded = cros_ec_led_trigger_offloaded,
+ };
+ 
+ static int cros_ec_led_brightness_set_blocking(struct led_classdev *led_cdev,
 
 -- 
 2.53.0

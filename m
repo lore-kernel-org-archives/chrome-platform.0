@@ -1,174 +1,156 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605C51E8320
-	for <chrome-platform@lists.linux.dev>; Tue, 16 Jun 2026 15:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDB536C5B2;
+	Wed, 17 Jun 2026 04:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781623520; cv=none; b=oRRQqGSh+An5OfdZZ/w+puKvJ4GwKgBvFN3fHTdBWq5oOcvEpxVihhJ1NTOXVSSIroAe9Bkz3dcWRWnqT2JFUrGhbbiwVW/l9TJXtZia0aufU108IfMgnI25pR7/5my4ky2K5Eo8Y59zeI2FBQkVrRAiUJBHhlIfBvau3ljlPX4=
+	t=1781672386; cv=none; b=hI4TP49C8qyrinDhsEEdeA/WLjH62wd/tx3CFZAObz+nbOYH5fOU6haKgiu+lqjXVSIW3xkf38ufcGBRA/03/qJoDgiUWvrKI9BmfyWmTTVdl9JRaQV0ciQvpkcGGHRSpJIBqbqRC3qeUkrDP5Wy2uiAq81MLOYu2B5WKqjrBLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781623520; c=relaxed/simple;
-	bh=8Do0/Gmhw6ltI9mpVBm/qlIPlAc9kV/2B7BnKQhmBas=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UjkJHqMjxITrGeGE4H5HXWFSz7moeTozAeXYxCPHjZyDS2KY7i945wkBD7gGS1SvZQ5WZjak2ZunQVOTGg67LNQx7qQJh4AdkakNH+7wvlmgJI33oopdTNeT+q1CzpKszraD/f+3sJBJoq/rXox+DuWEI75yYedCuF/vjXEI3Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=mo4lJTK1; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1781672386; c=relaxed/simple;
+	bh=l/Fk+JyOYgAMqTDacByIVhp11LO6kD2UWi/aLQrCZ6s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Rgv4sWp0M4i33NL6UaNXtENrKeHl/Ojn3QmOmcSFVb+77stNfTAWmbRyBlaBBqgtfeTgpq/yLzEnty7Q/XghMzsaNjpj8JQMFCgVzVGERAFUynKJYcvhqlInwP2Kkr/eLLocXsgE43g1wRr9Spj4MPW0XlS9SEAEcByWpGMve+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yr3STMBO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="mo4lJTK1"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45eee266c6cso4179840f8f.1
-        for <chrome-platform@lists.linux.dev>; Tue, 16 Jun 2026 08:25:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781623517; x=1782228317; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wP/c0gNpqY5LNcbKDFRKj9Q6nBUrqhFWzOWi/LSGp7M=;
-        b=mo4lJTK1uR670Bw6CNOuB/9oGgiu/tIHlS6r40dwWQEuAg2DN2nPcyxksF1yg/tiQE
-         J63ODC/yj1tJO+atYHtkiO+uKgwf0n2MqJjxLLBwk1QbaNxiinyzQMKq8yieixlQTh+H
-         dBEsUYmC1OMkGqQYu6qiXMCuOsYYI6pW6M5WZo6o6tP0iwI7jzGwDw8K5tyQ9ur/oTxH
-         5dW0eH1FN+wZpLO+MrDRKP1XLwHvEjohrMY2SRY/XQu9R8+mqQbJQ7CZwuU2PnEWaCvK
-         vFunQhfsaM5Xwt0bPSB8U8REm/B40z4jxOMvEIvXZJoMkO1w6ZmDCFEiKBF6Lv52xLrD
-         eCKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781623517; x=1782228317;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wP/c0gNpqY5LNcbKDFRKj9Q6nBUrqhFWzOWi/LSGp7M=;
-        b=dWycONUPYu0fuXasJ+23Lb8hTjHqzYBEZqmAkz6powVgGhMrhp8oimcvZZXz+zlD3b
-         Rqgc7FwYlVBMYVu4aoU7faFRdAzSLw1CgzHCrJqr72dCicImkO3w4ZF3IurgpDZQq7B6
-         F8+m9i8M6QiKn5eVEkU12O3lSH/kmxDuBkSJfcb9F8FhJuQwmVR9s6yGvdTSLRfJ7Ewu
-         2j2U6/nsJ5gGctH1s31DACOXj/KU7Ce+T/srDfUwNp/Kdj+bMZ8HNCjw/QoN7zAHQOy/
-         yLCMR0DWaZUFDhIKMX3PrCvAplLhacng968SJRSiQ+mTHPKCzod6mAfSv7St1+2f1HYw
-         DPgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8d7F2AmcTEMN46hcK08R8OX2hjIf70+qanXWh0Ruv1VGOPk607wsitUXaFbeP6O0F2UlXaPyQKGCtwVj1YIUo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YySllVK6olIgWhwrEEg8y2ePw2kugfFIAN6AtgXk+5JjvUcvzOL
-	Y3PQO4TBIlb4mLGnWoNySO0ukHLUn2kVOS5IrJuaKIXLDRJVn0xjVnnd2Bp3LyFjlcA=
-X-Gm-Gg: Acq92OHVr/XokX1PXgz7i3Y3mEgeHiHpstmjFJSsheSfamQfThztjfS8x5l1f4MWt9T
-	KhTnZwpfL+9FcxP6y0pbglOjJQdKfb2QZct8VRIk4it5sHHdI99jJHn4IKSq7AwH5sPshilK0kQ
-	Yy2JLyaQlR+neQXPZwG+gTX3PhFGQ1Fea/yHXmgDC1fjsy+z//gU6H8E3D6b/+be2Q5mtzS2bi2
-	ICIQ1Gro0OjIG05F49OWZcXf4UH7q67vJtDhxOB+MMgaupwOFRSa4urrz+zik3Oc0wUu1XnkMs6
-	rnkO0LuY7zZJ0ENJzRYeKdBExwU27TChjDzN9ILsqPciycLuLl3Kgvxwe7WMMekbFipyGeJz8DA
-	QLd+knkWgB7V0421KuLtD45fmZcQUO6+G5MMl6osCIbKgbN5XIO0ohaz3hID6VhCt3Azr29OY0j
-	DXbimg12JZR7FaTIKZOLFc8w5179iAafsv0/jj3nbI5Vo8ppcltcptF6HEfoeQSntoKmOyB7Ky+
-	O3bWjL2KxXY2UM=
-X-Received: by 2002:a05:6000:2210:b0:45e:ee20:b897 with SMTP id ffacd0b85a97d-46074a87ca2mr23613397f8f.6.1781623516607;
-        Tue, 16 Jun 2026 08:25:16 -0700 (PDT)
-Received: from localhost (p200300f65f47db04ed78e379f226b032.dip0.t-ipconnect.de. [2003:f6:5f47:db04:ed78:e379:f226:b032])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4620b3ed0d2sm1816788f8f.22.2026.06.16.08.25.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 08:25:15 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: Lukasz Majczak <lma@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-watchdog@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] watchdog: Use named initializers for platform_device_id arrays
-Date: Tue, 16 Jun 2026 17:25:10 +0200
-Message-ID:  <22bc09d0c9c8dfe75a205b0a9ccc98ccfba1de10.1781622532.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yr3STMBO"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A816FC2BCB0;
+	Wed, 17 Jun 2026 04:59:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781672385;
+	bh=l/Fk+JyOYgAMqTDacByIVhp11LO6kD2UWi/aLQrCZ6s=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Yr3STMBOrvgRsexzdTeGYUxoiwUMYw4KQFU4wM89tW3YJtcs2yg6G8ZLif2zTbFSk
+	 3p4BUR4e9zTK57B69OEWa6ded1EMOL+SD0b6YR12Cmvv+9/TxUCUl1c38qGcdhUCnM
+	 +McSVPfwhL6ShIwI+9S0j+0QbueQmjauBXRfJebkp9wIU9D8hIF3P1oBpLKq1K79Uk
+	 lZdXXypdIRZNUB6K1YpldN6QlcpzLbcjmmpRKwm7ub2r+eSKdQu+ZuoJTx3oZ4y5+z
+	 C9rIyHKTgbn0btWgg5fsfKSvo5s6+fVQusei7jjgZkmJ5tM5qp5/cRNHkxLP3LH1Hp
+	 8zKfw4QZJk1xw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CF90CD98EE;
+	Wed, 17 Jun 2026 04:59:45 +0000 (UTC)
+From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
+Date: Tue, 16 Jun 2026 23:59:45 -0500
+Subject: [PATCH v2] power: supply: cros_usbpd-charger: bound the
+ EC-reported port count
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3508; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=8Do0/Gmhw6ltI9mpVBm/qlIPlAc9kV/2B7BnKQhmBas=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqMWrWWE0nZRp4GqdbQXe4aP4fME3UWtjjcmwvO 8WKqbamVhqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCajFq1gAKCRCPgPtYfRL+ Tv38B/9T700anrvQRxS1B18P2WEvmz9ayzQirez2YoCgbiAkQckIoPGISOelfxOqYiNLLmTcArX GrVLYvSpkdnxRrwVcZTYM/bmRpSacgTsM9yzlSczdb+zeJaPfMWuMhZbKRAJbpFBh5rvfJSNjv9 ZbxN3R1fYMPQTg/nZSFpeu7F7jOAGyjV9krX0DFClTYlnP0DEa4cJIvIrlQ42AMBFs2hrt1ptx9 2zQOE/LSObjBDsQSaCpJDgGe1bt7HsenggHr18bS/LNLLac90VMLeeYz90lFRma9HAq7JKMy+Qq xjYuTPaNWVkBPWqKLNiSv6x82xz1WEHq7T1Q+uWEKV7RZLJn
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260616-b4-disp-5e197080-v2-1-8aa5bffce945@proton.me>
+X-B4-Tracking: v=1; b=H4sIAMApMmoC/x3MTQqAIBBA4avIrBtQacy6SrToZ6rZlChEIN49a
+ fkt3suQOAonGFSGyI8kua8K2yhYz/k6GGWrBqut0844XFrcJAUkNn2nvcaW9tnTYpnIQM1C5F3
+ efzlOpXy8PTAlYgAAAA==
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Sebastian Reichel <sre@kernel.org>
+Cc: chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org, 
+ Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781672384; l=3873;
+ i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
+ bh=vPz9/pW6U5P0Sxc9eiv+I7NjKeYRGkRNB5Df/kBDu5I=;
+ b=NFsa2KOzhEQDsjkdSRtr8D8fNJ9soVqK/oPxzxazG+t/t2oN4lmyUrYz7UGO+lA65sqpMHbht
+ 572k5ZGKGfiAAVlwiKrUuOrDA8v1L4TKHUJuDDDJI6Ag3IuQrYYxCZI
+X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
+ pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
+X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
+ auth_id=814
+X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
+Reply-To: hexlabsecurity@proton.me
 
-Named initializers are better readable and more robust to changes of the
-struct definition. This robustness is relevant for a planned change to
-struct platform_device_id replacing .driver_data by an anonymous union.
+From: Bryam Vargas <hexlabsecurity@proton.me>
 
-For one driver drop the unused assignment to .driver_data instead.
+cros_usbpd_charger_probe() reads two port counts from the EC and uses
+one of them, num_charger_ports, as the loop bound when populating a
+fixed-size array:
 
-While touching these arrays unify spacing and usage of commas.
+	struct port_data *ports[EC_USB_PD_MAX_PORTS];	/* 8 entries */
+	...
+	for (i = 0; i < charger->num_charger_ports; i++)
+		charger->ports[charger->num_registered_psy++] = port;
 
-There is no effect on the compiled arrays.
+Both num_usbpd_ports (from EC_CMD_USB_PD_PORTS) and num_charger_ports
+(from EC_CMD_CHARGE_PORT_COUNT) are u8 values reported by the EC. The
+only validation is a sanity check that compares the two EC-reported
+values against each other:
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+	if (num_charger_ports < num_usbpd_ports ||
+	    num_charger_ports > num_usbpd_ports + 1)
+		return -EPROTO;
+
+It never checks either count against EC_USB_PD_MAX_PORTS, the size of
+the ports[] array. A malfunctioning, malicious or compromised EC that
+reports num_usbpd_ports == num_charger_ports == N for any N > 8 (for
+example both 255) passes this check, and the loop then writes N pointers
+into the 8-entry ports[] array embedded in the devm_kzalloc()'d
+charger_data, overflowing it by up to 255 - 8 = 247 entries (~1976
+bytes): a slab out-of-bounds write.
+
+Reject a port count larger than the ports[] array can hold.
+
+Fixes: f68b883e8fad ("power: supply: add cros-ec USBPD charger driver.")
+Cc: stable@vger.kernel.org
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
-Hello,
+v2:
+ - Reword the added comment per Tzung-Bi Shih: drop the redundant "the
+   count is reported by the EC" and name the bound, EC_USB_PD_MAX_PORTS.
+   No functional change.
+ - Add Reviewed-by: Tzung-Bi Shih.
+ v1: https://lore.kernel.org/all/20260615-b4-disp-e0930b21-v1-1-c9ffbac7c9bb@proton.me
 
-this is similar in spirit as the i2c patches merged during the current
-merge window:
+I reproduced the out-of-bounds write with an in-kernel test that drives
+the cros_usbpd_charger_probe() geometry verbatim under KASAN - a
+devm_kzalloc()'d charger_data with the 8-entry ports[] array, the
+EC-value cross-check, and the population loop - with the device-supplied
+port counts:
 
-c574bdb52409 ("watchdog: ziirave_wdt: Use named initializers for struct i2c_device_id")
-54c726fbb533 ("watchdog: sc1200: Drop unused assignment of pnp_device_id driver data")
+  num_charger_ports = num_usbpd_ports = 12, no bound:
+    BUG: KASAN: slab-out-of-bounds in ...probe
+    Write of size 8 ... cache kmalloc-128 ... 0 bytes to the right of the
+    allocated 128-byte region   (ports[8..11] past the 8-entry array)
+  with this patch (count > EC_USB_PD_MAX_PORTS rejected): -EPROTO, no
+    KASAN report.
+  a well-formed count (<= EC_USB_PD_MAX_PORTS) is unaffected, no report.
 
-but for platform_device_id.
+The full device range - both counts reported as 255, writing 247
+pointers (~1976 bytes) past the array - reproduces the same way under
+userspace AddressSanitizer on both -m32 and -m64.
+---
+ drivers/power/supply/cros_usbpd-charger.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Best regards
-Uwe
-
- drivers/watchdog/cros_ec_wdt.c  |  4 ++--
- drivers/watchdog/max63xx_wdt.c  | 14 +++++++-------
- drivers/watchdog/max77620_wdt.c |  6 +++---
- 3 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/watchdog/cros_ec_wdt.c b/drivers/watchdog/cros_ec_wdt.c
-index 9ffe7f505645..180784e92f2f 100644
---- a/drivers/watchdog/cros_ec_wdt.c
-+++ b/drivers/watchdog/cros_ec_wdt.c
-@@ -179,8 +179,8 @@ static int __maybe_unused cros_ec_wdt_resume(struct platform_device *pdev)
- }
+diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
+index 7d3e676a951c..45a87f5baac6 100644
+--- a/drivers/power/supply/cros_usbpd-charger.c
++++ b/drivers/power/supply/cros_usbpd-charger.c
+@@ -589,10 +589,13 @@ static int cros_usbpd_charger_probe(struct platform_device *pd)
  
- static const struct platform_device_id cros_ec_wdt_id[] = {
--	{ DRV_NAME, 0 },
--	{}
-+	{ .name = DRV_NAME },
-+	{ }
- };
- 
- static struct platform_driver cros_ec_wdt_driver = {
-diff --git a/drivers/watchdog/max63xx_wdt.c b/drivers/watchdog/max63xx_wdt.c
-index 21935f9620e4..a9db6118fdfa 100644
---- a/drivers/watchdog/max63xx_wdt.c
-+++ b/drivers/watchdog/max63xx_wdt.c
-@@ -246,13 +246,13 @@ static int max63xx_wdt_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id max63xx_id_table[] = {
--	{ "max6369_wdt", (kernel_ulong_t)max6369_table, },
--	{ "max6370_wdt", (kernel_ulong_t)max6369_table, },
--	{ "max6371_wdt", (kernel_ulong_t)max6371_table, },
--	{ "max6372_wdt", (kernel_ulong_t)max6371_table, },
--	{ "max6373_wdt", (kernel_ulong_t)max6373_table, },
--	{ "max6374_wdt", (kernel_ulong_t)max6373_table, },
--	{ },
-+	{ .name = "max6369_wdt", .driver_data = (kernel_ulong_t)max6369_table },
-+	{ .name = "max6370_wdt", .driver_data = (kernel_ulong_t)max6369_table },
-+	{ .name = "max6371_wdt", .driver_data = (kernel_ulong_t)max6371_table },
-+	{ .name = "max6372_wdt", .driver_data = (kernel_ulong_t)max6371_table },
-+	{ .name = "max6373_wdt", .driver_data = (kernel_ulong_t)max6373_table },
-+	{ .name = "max6374_wdt", .driver_data = (kernel_ulong_t)max6373_table },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, max63xx_id_table);
- 
-diff --git a/drivers/watchdog/max77620_wdt.c b/drivers/watchdog/max77620_wdt.c
-index d3ced783a5f4..5fa891818e8d 100644
---- a/drivers/watchdog/max77620_wdt.c
-+++ b/drivers/watchdog/max77620_wdt.c
-@@ -236,9 +236,9 @@ static int max77620_wdt_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id max77620_wdt_devtype[] = {
--	{ "max77620-watchdog", (kernel_ulong_t)&max77620_wdt_data },
--	{ "max77714-watchdog", (kernel_ulong_t)&max77714_wdt_data },
--	{ },
-+	{ .name = "max77620-watchdog", .driver_data = (kernel_ulong_t)&max77620_wdt_data },
-+	{ .name = "max77714-watchdog", .driver_data = (kernel_ulong_t)&max77714_wdt_data },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, max77620_wdt_devtype);
- 
+ 	/*
+ 	 * Sanity checks on the number of ports:
+-	 *  there should be at most 1 dedicated port
++	 *  there should be at most 1 dedicated port, and the count must
++	 *  not exceed the maximum number of supported ports
++	 *  (EC_USB_PD_MAX_PORTS).
+ 	 */
+ 	if (charger->num_charger_ports < charger->num_usbpd_ports ||
+-	    charger->num_charger_ports > (charger->num_usbpd_ports + 1)) {
++	    charger->num_charger_ports > (charger->num_usbpd_ports + 1) ||
++	    charger->num_charger_ports > EC_USB_PD_MAX_PORTS) {
+ 		dev_err(dev, "Unexpected number of charge port count\n");
+ 		ret = -EPROTO;
+ 		goto fail_nowarn;
 
-base-commit: 4fa3f5fabb30bf00d7475d5a33459ea83d639bf9
+---
+base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
+change-id: 20260616-b4-disp-5e197080-45fa85b2e551
+
+Best regards,
 -- 
-2.47.3
+Bryam Vargas <hexlabsecurity@proton.me>
+
 

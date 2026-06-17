@@ -1,63 +1,63 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84983F9A08
-	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 10:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DFB3F8232
+	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 10:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692731; cv=none; b=VUeguvHLkVHGDWAAenolFyZK5JBCMlzZQPeSMZXmLrLKkrh/NbspwMLpqmU3t/Hek7NBqmv0T9o7RF8W08bvcOflZJpFFGG7curHCEM4+Czs170U6fYI5oIK3YS3ucZgmSeb9sPEjHbFfOJ5HVmp3i3ASg/Ft6lXbRv+YBnrGPU=
+	t=1781692739; cv=none; b=ULs2zuXAQiM9KQw9ZO8zF8cr5/hHkF7YGdsK0jflGQi0P5Gk/lsnugmsh+c6EWKFp4gz3i/E5mJBwjg+0ECqRkydzT1msLYVgCLJefK6OyEiyPDoxrTw0tE5u13L7ihbCF4tTLmR8kFlgQ3Lrq/XiDjYalcxWIP/pJuzfcj9M8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692731; c=relaxed/simple;
-	bh=OOjMBd7CyBdHcAZuYiDu+E3s9djgXa4ysbiJU+FU92s=;
+	s=arc-20240116; t=1781692739; c=relaxed/simple;
+	bh=NLE+EBpHa+LlzJ3PP970fGwtuk6PJS4PH4FnLXZPSYo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bjSFou4PbFAUp4IHd9lODJWXSvesDTTwcly8pJ1HWSRO+H9cK0+6LJmKyTDFoAcKBusSIN4LDCMmBjOI0BnCUtVjK1Hd280Rbtc/8CBKnVdnjp/ZT0LxniJmZIehZF6afa8qissG9zA50y+9u/RIRGBpgzF6nuZJOTySms0LerU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=USZ1WwUr; arc=none smtp.client-ip=74.125.82.173
+	 MIME-Version; b=tP5X5Ok/G0tQI/IHw0QA3OuOfVpfcNJr4oL7VDKp/iWr16hKPdPNOXxwBzLmwYmtUproEKQV5DigTvajprsLdsKPviYpuSVh2eZFl5UFPUhKti4x3eFCcqiIv+S7j25W5iQlirWeX/jlV1A3alWeiMVozItJuYql10Ac47DPmvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KWx5YoGc; arc=none smtp.client-ip=74.125.82.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="USZ1WwUr"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-304d8362a58so603177eec.1
-        for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 03:38:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KWx5YoGc"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-3042a388168so431256eec.1
+        for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 03:38:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692729; x=1782297529; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781692738; x=1782297538; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oCUXvrbdh2cMObj7Yx72xMWUVLVGbJrlQPkt6NyxLyU=;
-        b=USZ1WwUrx8f3nVZlnO45ahmZYpdygxi2JKQwKT1quTPu5ct8OdR9iaCkub/hWsuAvI
-         oXQbfjr1Omo+dwIpYxTUHsDQcb+YoaoUZSLsIHzfJnZaHr9cYieA1ddPHgS8WKrPsRjm
-         +HrqsnYtiEyp27J7gogigzOjfczENlOuash4h+0VWCeVmZB9JPG9RsRW7sWUZCu11Xy2
-         iWg1En3vVJ+q6rNEpGt3UkxK+AKakn6hZdKcr4bzyEllVnnsH3j8C5203U8Pxpo6Y3ez
-         1Q9XADHCRVCJE60Gx4iD49TSAxuMhZaesV2xDVIp/ecSvM3xKLkIHNpBujj5uUpp0J2T
-         N/wQ==
+        bh=epc5Wva+vACuqNkvuJqfLpmPSMQ45/U3Q2IUahrXd8Y=;
+        b=KWx5YoGc7l/QbG9I5wE6bPpa0BuIvuOebNsVRjVDDZttdi5s880Yuyq6EsJmCYOrX0
+         NNLpacKALnboi0Rx0xqyz9hiZWbDMoFt5EffhcicMPPdlrB2v4pdEcuS9u3ER4lZtTuV
+         ORb6/jGBwhlAbz2y97af3a8E7JkS/zLjURNlAWKh2q9kT+JqiU5WPZDibSf60Ncm9s3M
+         20tMXHkOY8ewR7aD/ZYYdZDJ++StzTSwoW/FdAr7NvHmdUzArFXh8rNvPz6kDYbHnQgr
+         sG8gGGHQN2LUaHJ/Q/lNDNhhLC9iekyMcVe9hdm/hYXlkskkxB8N2vy4XEjj4l6rNRx7
+         sB5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692729; x=1782297529;
+        d=1e100.net; s=20251104; t=1781692738; x=1782297538;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=oCUXvrbdh2cMObj7Yx72xMWUVLVGbJrlQPkt6NyxLyU=;
-        b=dDBIYZ5oD/+kUYX/TkyQ3QhA26IrNbQQiL9cko+hQ5pONO5M7rDEZhdDAeJZHdDqdB
-         wK+Q68X+TpcRf+NvLeH6H4e0dVCPIVk322jVNEYdCuasJBQt4PAusWy5lGDwsmwLvQDt
-         7jzgF2DE1yUPYK7xkGRqVLhm7nCnXJf421cxRSpGD7mt1kCpeSgNfR/eqhJazo83+gIk
-         5PlqRbfXregIBZBz/ZADUbqqb49nBOgfUVVumNDbkzVpGuHFnHDW8c3Zor20yBd7VD7P
-         3gWPBlmhsHd/k5Tjs6sHfU7td6Z5M+3oyqj+IHJN4ZGW0jjN/nt1wI3LjkkLaMiPLM6l
-         c0gQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+EQzmuuqnwBdA0ZSB5LiecBhDu0XVibsBtncF0xGJTRoxHX9Qy386GPl8moj2hduadE1boQXFYWXjm2KIPs7c=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcENh6FUv8CPSN9Da9Zn2tQdORsgKPuipSaXee3IMAd3uY9P/1
-	Px6i2paBJNqS2+LftBJqWZK+ZQrcwP5QIR6SkEch9FkQj2EpJVjr2Sxn
-X-Gm-Gg: AfdE7cnFDTlnXT0sdvpgQT3kBk/ssHYRQCJE5SZjWbw+99wPNYX1up9oEX1GrNZLrxx
-	GyJ6dIF2FRLsJDTlVzlmkw4Phk05OezXg3Gxz7wdR/q7P4Nj2/22xT4/2AQ7q4AUUYUwwpBj441
-	VxIIkd8Le22o3chTCGCgWPfxV5dCAVfJ3mP7oeoVhWo+DVLcelldnqRsCMoHD2n4L2JIOWjn6ct
-	5HcC3l/wPuYdH1BtXQQ7PI6he3n6awSk7Z9b2Z4CLdw8EsEpbk+PIifhdyCxtIlbZwYV44dapQa
-	xEE8vHqRdoz68tpAfhVxpBAbYcSa3SAUf0lizSEsn9M8WVjRozfZRdZ+lDAEsFWgl7at9SfU5FN
-	udFz0Nq5vWYc8yCvbzUnTGtPbeofZBY65mmEqRvJc2J/Dss3+PTBjSrIEDLeotIOtasqXtpW22o
-	PUsaERQSg1bdxQoL7BEQrVtq4d1mOxMusyUfEKwpJYWA3Kshg=
-X-Received: by 2002:a05:7300:3aa8:b0:30b:df3b:fe94 with SMTP id 5a478bee46e88-30bdf3c0705mr265671eec.3.1781692728927;
-        Wed, 17 Jun 2026 03:38:48 -0700 (PDT)
+        bh=epc5Wva+vACuqNkvuJqfLpmPSMQ45/U3Q2IUahrXd8Y=;
+        b=aPEB0M/Bs522JnsbayMsjmvNMS6u5sM0EnruKiddm3OkVtpJa8/k83Fym828P4CaFE
+         MRqn4Ro/bfbH5/AiTTP98pRrbHaqinmPC2kMUrtOcNWHScxAiVbOoRBeepIO7VZ2gYjQ
+         /DOXRgrSJbq9BqVobx2R4v4UghFwcqHm++uvhvJwMwc0g++oY9zmGa4sJnHiJrq29/j7
+         y5tfkITNlymfIIxCZGNGGexZ0usQxXLiUSnIeyD+E1VKVSaWSK9Xt/T8IRnQtVAsArUK
+         yT3ONTItz4QhfUnrdkkRDrIF8GOcUu1XahTCiXEpFSZqgYmMkLptFZSZBTMNCzCElk/Y
+         qF2w==
+X-Forwarded-Encrypted: i=1; AFNElJ+D+7sXjPiX4xWJgX6ECK5VS87DayL73wWNaSMGkH7rsWRuJZ0uyTdCIyyUhhXy36cVUtRIQ3aLRrvJiokPcfs=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmewcKtA6twbfU0gOFzCW3vMXMfI3lbnnhF7qyrQOemzfOJm/n
+	n7eflocEoNorTYntCdEKteXBnlImCopT0R2/zpbXZJdkqIqTTJW8VZ1w
+X-Gm-Gg: AfdE7cnBRD5Vkd6slbcQrF5uszrjOMl2CHTN/PcUDJTAqjNGKaO4zhV9ngGhI/Jzlbc
+	eEy4dlX6kPFSyRWIaCDbMu7JkCblUm4dXMXKp8a4ub23T77Y4PuYgcWoh1RHOCML7DkRWHME29K
+	ppMfZu8tgd06Ilkuqh2/Ze9HFWKu6SJi1oSmmv7rbo/aCTPKBLzwdKmRpK9Y1txR3iKKzo0byv8
+	PfS2LSyPNfSl1B790+y3yYwYBIMBdl7cXeyYJl68M+Mxe02XCYEi7VJk+CkYr5nURHGXi6VZA4M
+	sFmMxyqBsdQkjT1kjhDU5/4Wm6/Qq+9SyD1DuONGn309ipdAOu7z1qd3xwGJDQr2yEY5yfKqESA
+	F2D66SLAtX9fLRNdvaTaxFB0/vNkgEJavUgYJnMet1dt9VclxFq/YRA2J93lYv9TZd//fk5MluJ
+	Dzl8GQcqUIHGnhrt3649dH5DqrGiOhCa+FvuJBNY6BuDzlK3g5G+OlgzLX6w==
+X-Received: by 2002:a05:7300:6420:b0:304:bd90:b88f with SMTP id 5a478bee46e88-30bcf5ff5abmr1293252eec.9.1781692737916;
+        Wed, 17 Jun 2026 03:38:57 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.38.40
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.38.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:38:48 -0700 (PDT)
+        Wed, 17 Jun 2026 03:38:57 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 37/78] ASoC: codecs: mt6359-accdet: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:31:54 +0700
-Message-ID: <20260617103235.449609-38-phucduc.bui@gmail.com>
+Subject: [PATCH 38/78] ASoC: codecs: pcm512x: Use guard() for mutex locks
+Date: Wed, 17 Jun 2026 17:31:55 +0700
+Message-ID: <20260617103235.449609-39-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -115,87 +115,85 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/mt6359-accdet.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ sound/soc/codecs/pcm512x.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/sound/soc/codecs/mt6359-accdet.c b/sound/soc/codecs/mt6359-accdet.c
-index ed34cc15b80e..5feefd0cad75 100644
---- a/sound/soc/codecs/mt6359-accdet.c
-+++ b/sound/soc/codecs/mt6359-accdet.c
-@@ -398,14 +398,13 @@ static void mt6359_accdet_work(struct work_struct *work)
- 	struct mt6359_accdet *priv =
- 		container_of(work, struct mt6359_accdet, accdet_work);
+diff --git a/sound/soc/codecs/pcm512x.c b/sound/soc/codecs/pcm512x.c
+index fdef98ce52f1..f4206f49f5b6 100644
+--- a/sound/soc/codecs/pcm512x.c
++++ b/sound/soc/codecs/pcm512x.c
+@@ -399,10 +399,9 @@ static int pcm512x_digital_playback_switch_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct pcm512x_priv *pcm512x = snd_soc_component_get_drvdata(component);
  
--	mutex_lock(&priv->res_lock);
-+	guard(mutex)(&priv->res_lock);
- 	priv->pre_accdet_status = priv->accdet_status;
- 	check_jack_btn_type(priv);
+-	mutex_lock(&pcm512x->mutex);
++	guard(mutex)(&pcm512x->mutex);
+ 	ucontrol->value.integer.value[0] = !(pcm512x->mute & 0x4);
+ 	ucontrol->value.integer.value[1] = !(pcm512x->mute & 0x2);
+-	mutex_unlock(&pcm512x->mutex);
  
- 	if (priv->jack_plugged &&
- 	    priv->pre_accdet_status != priv->accdet_status)
- 		mt6359_accdet_jack_report(priv);
--	mutex_unlock(&priv->res_lock);
+ 	return 0;
  }
+@@ -414,7 +413,7 @@ static int pcm512x_digital_playback_switch_put(struct snd_kcontrol *kcontrol,
+ 	struct pcm512x_priv *pcm512x = snd_soc_component_get_drvdata(component);
+ 	int ret, changed = 0;
  
- static void mt6359_accdet_jd_work(struct work_struct *work)
-@@ -416,7 +415,7 @@ static void mt6359_accdet_jd_work(struct work_struct *work)
- 	struct mt6359_accdet *priv =
- 		container_of(work, struct mt6359_accdet, jd_work);
+-	mutex_lock(&pcm512x->mutex);
++	guard(mutex)(&pcm512x->mutex);
  
--	mutex_lock(&priv->res_lock);
-+	guard(mutex)(&priv->res_lock);
- 	if (priv->jd_sts == M_PLUG_IN) {
- 		priv->jack_plugged = true;
- 
-@@ -450,7 +449,6 @@ static void mt6359_accdet_jd_work(struct work_struct *work)
- 
- 	if (priv->caps & ACCDET_PMIC_EINT_IRQ)
- 		recover_eint_setting(priv);
--	mutex_unlock(&priv->res_lock);
- }
- 
- static irqreturn_t mt6359_accdet_irq(int irq, void *data)
-@@ -459,7 +457,7 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
- 	unsigned int irq_val = 0, val = 0, value = 0;
- 	int ret;
- 
--	mutex_lock(&priv->res_lock);
-+	guard(mutex)(&priv->res_lock);
- 	regmap_read(priv->regmap, ACCDET_IRQ_ADDR, &irq_val);
- 
- 	if (irq_val & ACCDET_IRQ_MASK_SFT) {
-@@ -474,7 +472,6 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
- 					       1000);
- 		if (ret) {
- 			dev_err(priv->dev, "%s(), ret %d\n", __func__, ret);
--			mutex_unlock(&priv->res_lock);
- 			return IRQ_NONE;
+ 	if ((pcm512x->mute & 0x4) == (ucontrol->value.integer.value[0] << 2)) {
+ 		pcm512x->mute ^= 0x4;
+@@ -430,13 +429,10 @@ static int pcm512x_digital_playback_switch_put(struct snd_kcontrol *kcontrol,
+ 		if (ret != 0) {
+ 			dev_err(component->dev,
+ 				"Failed to update digital mute: %d\n", ret);
+-			mutex_unlock(&pcm512x->mutex);
+ 			return ret;
  		}
- 		regmap_update_bits(priv->regmap, ACCDET_IRQ_ADDR,
-@@ -498,7 +495,6 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
- 			if (ret) {
- 				dev_err(priv->dev, "%s(), ret %d\n", __func__,
- 					ret);
--				mutex_unlock(&priv->res_lock);
- 				return IRQ_NONE;
- 			}
- 			regmap_update_bits(priv->regmap, ACCDET_IRQ_ADDR,
-@@ -521,7 +517,6 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
- 			if (ret) {
- 				dev_err(priv->dev, "%s(), ret %d\n", __func__,
- 					ret);
--				mutex_unlock(&priv->res_lock);
- 				return IRQ_NONE;
- 			}
- 			regmap_update_bits(priv->regmap, ACCDET_IRQ_ADDR,
-@@ -540,7 +535,6 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
- 
- 		queue_work(priv->jd_workqueue, &priv->jd_work);
  	}
--	mutex_unlock(&priv->res_lock);
  
- 	return IRQ_HANDLED;
+-	mutex_unlock(&pcm512x->mutex);
+-
+ 	return changed;
  }
+ 
+@@ -1465,7 +1461,7 @@ static int pcm512x_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 	int ret;
+ 	unsigned int mute_det;
+ 
+-	mutex_lock(&pcm512x->mutex);
++	guard(mutex)(&pcm512x->mutex);
+ 
+ 	if (mute) {
+ 		pcm512x->mute |= 0x1;
+@@ -1475,7 +1471,7 @@ static int pcm512x_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 		if (ret != 0) {
+ 			dev_err(component->dev,
+ 				"Failed to set digital mute: %d\n", ret);
+-			goto unlock;
++			return ret;
+ 		}
+ 
+ 		regmap_read_poll_timeout(pcm512x->regmap,
+@@ -1488,7 +1484,7 @@ static int pcm512x_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 		if (ret != 0) {
+ 			dev_err(component->dev,
+ 				"Failed to update digital mute: %d\n", ret);
+-			goto unlock;
++			return ret;
+ 		}
+ 
+ 		regmap_read_poll_timeout(pcm512x->regmap,
+@@ -1499,9 +1495,6 @@ static int pcm512x_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 					 200, 10000);
+ 	}
+ 
+-unlock:
+-	mutex_unlock(&pcm512x->mutex);
+-
+ 	return ret;
+ }
+ 
 -- 
 2.43.0
 

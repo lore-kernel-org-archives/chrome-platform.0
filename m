@@ -1,48 +1,48 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8B84A2E00
-	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 16:49:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0A84BC03C
+	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 16:49:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781714968; cv=pass; b=UJdgHY5Fah1E3JpikOWITOBZeC3FNSd6HX1qQq3eWbTV+EMTWVG96PY3grQgWXRSi3uTBWA7J2lrH4V15K06geV2iiuJJO2y3CV8GccWNQhnHeq5DZANpkOS4ZK+r+ZLXsDz/quyyfvGZwV/frIfmRqAZAfqyaG8B0ssnwI2Utw=
+	t=1781714974; cv=pass; b=eUsQK4UTOdhbBZCDvkwoQwu1jfgu+whphgu1B56x/rWurMSAcZte9juNgxUcI/sIbJ/rOLjr0yDBePIiiMtY6VeHzbPJtL+B5tt+yRlZzMnL1nEpkHbcrP4nqHMc27s/wEpnP6SVKlQ8+hCBO8zPIugTSHXHPe+Iw1tztzQQC6I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781714968; c=relaxed/simple;
-	bh=ZP9P6SXV+zuHMP+JVdjWfHpIisx1DMrRt704wkQ2p4M=;
+	s=arc-20240116; t=1781714974; c=relaxed/simple;
+	bh=5Tt1avTvetKbimJ8doPSMz7cZ2c520kmdvjnH/OU8ww=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OYZwsoqjpnmoR1IecH0GE+78fBJV2xXuQHD4sUfbzh0SvJw2mJLeuQ5DNeYExcINVdG9HXyoy4nuq4wlieEtYxHHMhuFZS5MkeAQeQvVSmdfp4KWnn56m/5g9191NZvahmCTfLTJKDvS8Xjx2zvRj9OOv1cQTF8c/LimFbUylDU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=MqkaYaNU; arc=pass smtp.client-ip=136.143.188.15
+	 In-Reply-To:To:Cc; b=UNiJA3zkz8QN7o75gFBeqChaNm4933ZLqCyfcfi0xAn1cDg2NEq1ZFPvw4dNyHRMqNfeMDDQ2oSKCsly4ja8+CApeKCg1NWqgQfEep2gOp6COBFkxmjMH4Zv0RfAMZ3MT8I9NVXvmGRqLDlVZVsbVNplF1bGvHUJ6VpUsQf2nwU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=D67mXQ02; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="MqkaYaNU"
-ARC-Seal: i=1; a=rsa-sha256; t=1781714961; cv=none; 
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="D67mXQ02"
+ARC-Seal: i=1; a=rsa-sha256; t=1781714967; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=VDpK0XWPJftD/uTtoliDGJ2O9N+kLIXXVgSq0iDQ2Va+U2O9uTRmUC/EPG+EcuPpTLqB89e2dx45NQGchIaAd26C/ETXQxm64lf06WF+lSbqLUeid02AeUz4u5YauKlC446yHhkdN7Zak2+5k1pmqNUWTPgA2Uuh0znt90z36U8=
+	b=TL9u8AJXPfcRsk28KFsRHlFke0J3p+U/NShsHaeOCrI6bI2K112I/sv72h1O0QZ3W7wyf+xN/MMD+92Exslb28ZARAjClnXDZHs6bWDqTI/xAjgJxNbGJaQbswNyaGlwTTZDSR8Wivprv1Zu5wH8rFax/LZ78ceXVUrzws4WRcU=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781714961; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PhoVugwDNU/FeKe8y0ZmQX29g90NFaUwNkY8ZRMfKtI=; 
-	b=eSzm2tHdr34WVjkwmR0lJgUi9RaYIRgDAz9CaPoE9fl6AjTZguKQ5YbNAE49reWFCjjatGnV4AekGQWh72kpzACSHPiovZeNqrptko3lhKIvTNLjvKIuiHnqOPTsB18AN2HM7/rxa/0JY9aGiwMWoH//40eUAHh6IEkLyBslgKM=
+	t=1781714967; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=IiSpZGlgQmvWC/OMVHpgWka2FRzjW2m2+L5T4ZGPX2I=; 
+	b=mMnXN1QkTyoxOeVxaL73xjczGKolev8FK4APv7UTuPYGHfdYFYTpnMqVi2GiyRqcqDA8iiBa4B6SAPy4Ve8wptqIhxyuU2CsoC1ZcOtafNI5KTZPrMRTff1BmwB3OeI6EFebAgHFfdmga13PpmrfB0Dy++C7LuJ+f7KLh4nNkCI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=rong.moe;
 	spf=pass  smtp.mailfrom=i@rong.moe;
 	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781714961;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781714967;
 	s=zmail2048; d=rong.moe; i=i@rong.moe;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=PhoVugwDNU/FeKe8y0ZmQX29g90NFaUwNkY8ZRMfKtI=;
-	b=MqkaYaNUVUHQxeTG3Djp0Pr+MmdOY8ufILLF7kyUWCIrZiTD9dAiEaoiBb5XA/qD
-	sQHc6VHUFtPMvo1SVebbvsCuSKcrHat7nhnUXxM7Fr0U4YzX6URT25QabOTl1+RwykG
-	OpBsfY0xYPgZLP055NTrK2viNh8SwKg3LskZQCpSgoeV+kaM97nf0A4Rx9NkhvBgDmQ
-	osQwTIBzmlWJ6E++Ovh/eyiIEfFG4mfZWB3oAuKAbaBoDk6FtUtZJ15l3Imd81MT06K
-	fTX0MzrGm1keXNYSlGGAjUtfaV0NMbca7vWU16blF/0jHvsY9PFd5wYdeGz32b47Suh
-	6SYGzmvkKg==
-Received: by mx.zohomail.com with SMTPS id 1781714959308119.96136874819672;
-	Wed, 17 Jun 2026 09:49:19 -0700 (PDT)
+	bh=IiSpZGlgQmvWC/OMVHpgWka2FRzjW2m2+L5T4ZGPX2I=;
+	b=D67mXQ02elmD1mLSIo+ndvcncDAeZSGkJfRdUYIIhsOnpmz5JFPDCAYsz2kpgjoM
+	0bJbLnMRdgYhYbl/A9dckycaKxOKOhtqN9PZ0108RW7KOY6y2Jp8P1letnvaQdsGwDm
+	SKPHfOBnRzPpLp/wHRkLx/Von8NzGY1gFZkBP4AkysKZ6PUtq2nA9+JJVA3K6KvWk7c
+	Obus7UqGX9UuCLO+P9AvBbOKBzhywJuN7bHdaEE7c4icXzoyT1xHOMN1lyEvB+bbrWL
+	HRhuVX17UNkoJRaUlPC4jW9OTZYUJfwMOVPEEw0X26P6iQT1+ysTi4phmaPuknKRjMY
+	gYhqij9HAg==
+Received: by mx.zohomail.com with SMTPS id 1781714965764635.0802752412651;
+	Wed, 17 Jun 2026 09:49:25 -0700 (PDT)
 From: Rong Zhang <i@rong.moe>
-Date: Thu, 18 Jun 2026 00:47:57 +0800
-Subject: [PATCH RFC v2 3/9] leds: turris-omnia: Implement offloaded()
- callback for trigger
+Date: Thu, 18 Jun 2026 00:47:58 +0800
+Subject: [PATCH RFC v2 4/9] leds: trigger: netdev: Implement offloaded()
+ callback
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260618-leds-trigger-hw-changed-v2-3-c28c44053cf3@rong.moe>
+Message-Id: <20260618-leds-trigger-hw-changed-v2-4-c28c44053cf3@rong.moe>
 References: <20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe>
 In-Reply-To: <20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe>
 To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
@@ -73,47 +73,38 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
 X-Mailer: b4 0.16-dev-d5d98
 X-ZohoMailClient: External
 
-"omnia-mcu" is a private hardware control trigger which always stays in
-hardware control mode. Implement offloaded() callback with its return
-value to be always true to reflect this.
-
-Meanwhile, declare it as a hardware control trigger as it's forgotten
-before.
+"netdev" can run in hardware control according to hardware capabilities
+and trigger options. Implement offloaded() callback to provide its
+hardware control state to the LED core.
 
 Signed-off-by: Rong Zhang <i@rong.moe>
 ---
- drivers/leds/leds-turris-omnia.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/leds/trigger/ledtrig-netdev.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
-index 25ee5c1eb820..8e016ca86403 100644
---- a/drivers/leds/leds-turris-omnia.c
-+++ b/drivers/leds/leds-turris-omnia.c
-@@ -195,10 +195,16 @@ static void omnia_hwtrig_deactivate(struct led_classdev *cdev)
- 			err);
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index 64c078e997f2..a26109ca4b1c 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -754,10 +754,18 @@ static void netdev_trig_deactivate(struct led_classdev *led_cdev)
+ 	kfree(trigger_data);
  }
  
-+static bool omnia_hwtrig_offloaded(struct led_classdev *cdev)
++static bool netdev_trig_offloaded(struct led_classdev *led_cdev)
 +{
-+	return true;
++	struct led_netdev_data *trigger_data = led_get_trigger_data(led_cdev);
++
++	return trigger_data->hw_control;
 +}
 +
- static struct led_trigger omnia_hw_trigger = {
- 	.name		= "omnia-mcu",
- 	.activate	= omnia_hwtrig_activate,
- 	.deactivate	= omnia_hwtrig_deactivate,
-+	.offloaded	= omnia_hwtrig_offloaded,
- 	.trigger_type	= &omnia_hw_trigger_type,
+ static struct led_trigger netdev_led_trigger = {
+ 	.name = "netdev",
+ 	.activate = netdev_trig_activate,
+ 	.deactivate = netdev_trig_deactivate,
++	.offloaded = netdev_trig_offloaded,
+ 	.groups = netdev_trig_groups,
  };
  
-@@ -251,6 +257,7 @@ static int omnia_led_register(struct i2c_client *client, struct omnia_led *led,
- 	 * by LED class from the linux,default-trigger property.
- 	 */
- 	cdev->default_trigger = omnia_hw_trigger.name;
-+	cdev->hw_control_trigger = omnia_hw_trigger.name;
- 
- 	/* Put the LED into software mode */
- 	ret = omnia_cmd_write_u8(client, OMNIA_CMD_LED_MODE, OMNIA_CMD_LED_MODE_LED(led->reg) |
 
 -- 
 2.53.0

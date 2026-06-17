@@ -1,63 +1,63 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B2E472785
-	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 10:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323603D8132
+	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 10:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692599; cv=none; b=oooWtggZM25xLrrKU65nxFeuUG2xXY0uoCObwLA+8dsJPr5rgF3wwCax7t8XYP3lnQN0KiuTKvx2u/9knlGYBfPoVwjzpdijI3DwOwIImYUSEVmtX/y9Lq4FtR/jCjWRzejQ8c2FnMRqXC0POYYogeHsb7aTH2EWop9vr5/cTH4=
+	t=1781692605; cv=none; b=RoUpy5x4FYky7b8sj6Aa7uedgn9qocSMLwUqudjADxjqwj6cUXplPrI/z6h0ICAHxoF8GpLRHPy2RQxs8hVCIzEgZmKqlWH6WOY4aEz9X1jxAxzCkEOwgSLIZGTiUSrRokgdPOXYJ9dUYPlQNStBn+YUzdXh5iYxHu4YXgTxKmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692599; c=relaxed/simple;
-	bh=f1BYheWpgYmqvxFP+LuNBK9MoGzL9oHfU4zeAFfLjtQ=;
+	s=arc-20240116; t=1781692605; c=relaxed/simple;
+	bh=aVdb6b0m2JyHDBBXnuACsuL9yrvdbLrDAn8rXRP7U1g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=db0yPPn/jjfCGr8oD95WHh+++7GuBpl2gyprGJt7J6Unz5Akgck7NmoNYPRWu2OLg31FgL0+a1ZoWjowtvnMjhQ7jJszzKu9CJl3yNr7ln+4dNa087Q0ymgiDMLF4auPqGaJnG29MlpUvmDXOe/6FTejrqlVlQlDkKCXpz1G/5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MMY3TfuY; arc=none smtp.client-ip=74.125.82.53
+	 MIME-Version; b=HDuowEgdt8WCkbewPUKic18vOX8huzPZF8myvkjbDdwrxTvSTQTw8cs7Gb9TfCzsAH72OFUD8VLV2Qp7eVZh0K7kS7zy+rijVr4zbwxmft0+VQeJyRHkTIb74NkjmwlvmXycPlLArr7XZEoWtTp8keGsNwwy9HCPKA4mE4cjkeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6ea2Cwu; arc=none smtp.client-ip=74.125.82.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MMY3TfuY"
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-137335bc3caso6885372c88.0
-        for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 03:36:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6ea2Cwu"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-304f590dd91so6360198eec.0
+        for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 03:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692592; x=1782297392; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781692601; x=1782297401; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZLoxnhSs+1o+EbkqMlV4TtbB/c6QxxOb6So3gGVF6YM=;
-        b=MMY3TfuYcAJhN07L6ynbheizELeL+643adsvfEsk+yqQPPCg9KDDjl1rMANAMjXU8F
-         cWvkQ2LL1t/7YkIs4EsFJZINLzOS7tyJY/TV5wHQhAtKPUkFn/9FFKv14XaPJyi1dtAJ
-         jsZxYjvDkhINZf2pMqbsgmViK4Sl4kkFCQKJHZMY9fKNfp1JLwov6lGIwroKqZM5kL77
-         pDWXffMEQVJ6qYZhV6vCKvkzFUVxuCaLb6N3a3Jbdyjy2ZphozUSDptx2WAvV1rY147o
-         vU0oNwyb0nWltTEffgpgn8LhdTLnyB8Atu1LhWbNVINp6gyFu5h+5q2K75In2YUao6dz
-         O57Q==
+        bh=PNurP/9D2C90fingnCx+/RnV4Jx+m6H05P+75zIDvK8=;
+        b=F6ea2CwuKedD8ntyR2waDZ6dAnVKBTj2CnFNjV32/9kqtxkONkJQmYChNCuKVzNG8X
+         z690WuVcSGRod4tqkCat89vgzppOvcDJyqoF7EKeHIvKOy0i1Ap6IdJYOG+9EmabDrvO
+         FN9ARGAXLcwfdIsm+WNUhpl2boJBbFPxxl0S29BjM+fRIdj7ksU66FBSXJ6tvzB4WrYR
+         iitaCektr5Jm9/2CTijcg7YQ6306ettb3aTl+CpWCPLJHNqpyk1AOqEO1ky4lW6zF1fr
+         /Y4WwFfaomMVSLWEe80ZEtFDzxySTR8wxOoXaFu1OoDIHrzUVBBGYGzBlMZy0Gt1sTYE
+         iJZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692592; x=1782297392;
+        d=1e100.net; s=20251104; t=1781692601; x=1782297401;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZLoxnhSs+1o+EbkqMlV4TtbB/c6QxxOb6So3gGVF6YM=;
-        b=U1Yapningo/jhfq0z3SE3pCjOw5uAuGc20Okxh34vG6jUmf3un54OlixdKK5DAfU0I
-         1h9miTNC5LK/PMHdktj1OlElpO8welLWOC6kJG6N4LI2/0ZdyUfQrNNkpc3yJ0dVhp2i
-         zYZHPGSJE4tYhY4p61Mg53jIF9mYTRN9xErUQ1sRsBXQR4o2Xf9pqjA4SVxoUL7v2HnN
-         yaSgvixU8lohQ+vcI4GzqK36ZgwgKtnjatUzLPYVTvP0AC4OMqFguMhfqdHbCQoHRjxQ
-         pvUQ03YVehlFjXoQchR9Mn8QyBgAJnogK2hKqcFIxQhRBDtiSrqx8SPyaiBdS6RZkgR8
-         Vf+Q==
-X-Forwarded-Encrypted: i=1; AFNElJ++QQ+nH21slQS4BxOOA0d1GlqPjkKKskjMQAQ4qdslIzZEs5izTboLgyCFnJjkSP4s7GSpuRSTjGWeF9T33Pk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YygvO6QFg32DfzCJOZQ8378kDTx6/j3bmdOTTeKKpQ0gi4nomk1
-	PdbOrmhNXQwkDpe8GPc5pDDzIbMbRl6Oig6UL785TjEDzcy6Ye4/0bS7
-X-Gm-Gg: Acq92OGobL9GYOxBTtQZ7kItHcHqwvtOOZKeIPgLlaHVq1SoaBKouFmLyYczNTVOWDZ
-	01ZAGLaivd+rzfOQr0FVMqSI6ptDquXodIPK0TnP8cMQBv5KA6kqU+TowHTzhfvjEzaaW/xDF60
-	VpoRp4rsVzP4+OwLDtuydNPS+UqyxTuV7Jm9arQZyqGAI7yd7HBzRwLJ77kG9hWn4o8egab0lCe
-	UBzpHjMXNT/YimZE8Re+3iGc/kzlD6d2aebr2dfCHGmMsHqEK7buJNx7T6xHl/YX3QU6w9gySu4
-	iF9dJYx57GbHzdvztMltU6Br/RaDAFPuMhzT/ZJQqkH5GtkcbF4GWruk/dVaOUvwlvwPCS6UfFs
-	Ou1h1iDgYejK7JqtNZLMoSTftLMe6fRaGTQ6jcRV1l7eO77dxq5USrnqh7FOhHQkBAK8ibxF2jM
-	cM+j6rnIaeEHp4FsBs8+E6JcWORNmga/gdQid7l9qUSYt4yEs=
-X-Received: by 2002:a05:7022:fd08:b0:137:f532:e360 with SMTP id a92af1059eb24-1398f62354dmr1205523c88.3.1781692592243;
-        Wed, 17 Jun 2026 03:36:32 -0700 (PDT)
+        bh=PNurP/9D2C90fingnCx+/RnV4Jx+m6H05P+75zIDvK8=;
+        b=Joue7VQFQiXCXxeX0PXgqeR3HFGrcZJg9NNE16dRfsVYWYi1aQJCFQqyJMMALkVbAs
+         oseut9VxT4OmEyPSrcZW3JgLvnqsN4EJ/050M7M3hhL0N4Ta35U1nnxVZQYjiCRV5vZC
+         QiwteajkEz/r0v+LOs7QlWSk8AY8k6t8QdJDjzKxkp872PE+oz/nfnEjpVvtQnjZFrlL
+         7HpOtDhf9xzvzJwo2l9Fdny53ifSbA7ZL2zMsQN/0vWwVicZ304DsJzuNYAkO0eunGR6
+         aKYfyW0+z3g9G55I06p6J1EEvjzUf7HxOTUrl00Gxasg2ODSNfi61y37mW0dfAe8au5Q
+         FL9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+y0pm9kQYBuYBZ9PdscCnooYf5CzfXOpG3HyRz9dg38LJFUMx4dpCSU1cpxxMcVrohM0miDaEk573YAAz+cWo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwFf4qHzYVK+p3ql2O6DSCVozbx+MVoWGvOzV/JjCUBsUozgqb1
+	PpCIN/LP0Hz/HwhF7Swoec+kDsLjBrn11p9vvsyUvxdoyzoyUfxxNeqf
+X-Gm-Gg: AfdE7cndWZnd4EmskA+p8aSRPfCzYb8/DqOcZelqjNjqKmOn7de+Pfm8djhtnzrCO2u
+	/6oeFg1ee24Y/bMijiAwwlTv4CezHlFWQya/dbmsbn3KNgJ0f24ibX8ufjdwql0bExuXMtILeqY
+	10xGYTuUHvyifCCGURt3Oxxd/t/njFMUg5cUdqbKJknSQ2EqrsUz0273HRGKEkqBZlu0VRGZkCc
+	t5SrUl0PrFDpbsk6acsPYDskvQ1Ct+Ll7+OArOmS4Bq2AsQ+g57LBQhdtRCQXnUjabvlj6ToM5N
+	kBaQhhQ57JWNcAPYzNt1HngGidwhuJZgWL0kIvWe6xKtmLKXDao5xp2YoDu1p60QdPu7kj3+RWf
+	SERTohAmOr68oHnrY5ZUn4qOqWbRZJqutEiVNa0zj9V8aCHWH4Q7rSfg7imZamwb4DjFhVV1YhW
+	4pOfafO1yQtZbWApxBWa7EWoJ7YGayA6/n2G1e1gd3vShNzLw=
+X-Received: by 2002:a05:7300:72d5:b0:2d2:96e8:1bf5 with SMTP id 5a478bee46e88-30bc992dbe8mr1692072eec.3.1781692601209;
+        Wed, 17 Jun 2026 03:36:41 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.36.24
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.36.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:36:31 -0700 (PDT)
+        Wed, 17 Jun 2026 03:36:40 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 23/78] ASoC: codecs: cs48l32: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:31:40 +0700
-Message-ID: <20260617103235.449609-24-phucduc.bui@gmail.com>
+Subject: [PATCH 24/78] ASoC: codecs: cs2072x: Use guard() for mutex locks
+Date: Wed, 17 Jun 2026 17:31:41 +0700
+Message-ID: <20260617103235.449609-25-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -115,69 +115,31 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/cs48l32.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ sound/soc/codecs/cx2072x.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/cs48l32.c b/sound/soc/codecs/cs48l32.c
-index 086ed0f57a85..d45e339f76a7 100644
---- a/sound/soc/codecs/cs48l32.c
-+++ b/sound/soc/codecs/cs48l32.c
-@@ -236,15 +236,13 @@ static int cs48l32_rate_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_v
- 	int ret;
+diff --git a/sound/soc/codecs/cx2072x.c b/sound/soc/codecs/cx2072x.c
+index 83c6cbd40804..93fbd21dc51c 100644
+--- a/sound/soc/codecs/cx2072x.c
++++ b/sound/soc/codecs/cx2072x.c
+@@ -1408,7 +1408,7 @@ static int cx2072x_jack_status_check(void *data)
+ 	unsigned int type = 0;
+ 	int state = 0;
  
- 	/* Prevent any mixer mux changes while we do this */
--	mutex_lock(&cs48l32_codec->rate_lock);
-+	guard(mutex)(&cs48l32_codec->rate_lock);
+-	mutex_lock(&cx2072x->lock);
++	guard(mutex)(&cx2072x->lock);
  
- 	/* The write must be guarded by a number of SYSCLK cycles */
- 	cs48l32_spin_sysclk(cs48l32_codec);
- 	ret = snd_soc_put_enum_double(kcontrol, ucontrol);
- 	cs48l32_spin_sysclk(cs48l32_codec);
+ 	regmap_read(cx2072x->regmap, CX2072X_PORTA_PIN_SENSE, &jack);
+ 	jack = jack >> 24;
+@@ -1434,8 +1434,6 @@ static int cx2072x_jack_status_check(void *data)
+ 	/* clear interrupt */
+ 	regmap_write(cx2072x->regmap, CX2072X_UM_INTERRUPT_CRTL_E, 0x12 << 24);
  
--	mutex_unlock(&cs48l32_codec->rate_lock);
+-	mutex_unlock(&cx2072x->lock);
 -
- 	return ret;
- }
- 
-@@ -2242,7 +2240,6 @@ static int cs48l32_dai_set_sysclk(struct snd_soc_dai *dai,
- 	struct cs48l32_dai_priv *dai_priv = &cs48l32_codec->dai[dai->id - 1];
- 	unsigned int base = dai->driver->base;
- 	unsigned int current_asp_rate, target_asp_rate;
--	bool change_rate_domain = false;
- 	int ret;
- 
- 	if (clk_id == dai_priv->clk)
-@@ -2284,19 +2281,18 @@ static int cs48l32_dai_set_sysclk(struct snd_soc_dai *dai,
- 
- 		if ((current_asp_rate & CS48L32_ASP_RATE_MASK) !=
- 		    (target_asp_rate & CS48L32_ASP_RATE_MASK)) {
--			change_rate_domain = true;
--
--			mutex_lock(&cs48l32_codec->rate_lock);
- 			/* Guard the rate change with SYSCLK cycles */
--			cs48l32_spin_sysclk(cs48l32_codec);
--		}
--
--		snd_soc_component_update_bits(component, base + CS48L32_ASP_CONTROL1,
--					      CS48L32_ASP_RATE_MASK, target_asp_rate);
--
--		if (change_rate_domain) {
--			cs48l32_spin_sysclk(cs48l32_codec);
--			mutex_unlock(&cs48l32_codec->rate_lock);
-+			scoped_guard(mutex, &cs48l32_codec->rate_lock) {
-+				cs48l32_spin_sysclk(cs48l32_codec);
-+				snd_soc_component_update_bits(component,
-+							      base + CS48L32_ASP_CONTROL1,
-+							      CS48L32_ASP_RATE_MASK,
-+							      target_asp_rate);
-+				cs48l32_spin_sysclk(cs48l32_codec);
-+			}
-+		} else {
-+			snd_soc_component_update_bits(component, base + CS48L32_ASP_CONTROL1,
-+						      CS48L32_ASP_RATE_MASK, target_asp_rate);
- 		}
- 	}
- 
+ 	dev_dbg(codec->dev, "CX2072X_HSDETECT type=0x%X,Jack state = %x\n",
+ 		type, state);
+ 	return state;
 -- 
 2.43.0
 

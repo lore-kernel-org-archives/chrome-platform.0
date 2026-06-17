@@ -1,152 +1,293 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4708E3A0E85;
-	Wed, 17 Jun 2026 05:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68EC3B993A
+	for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 10:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781674948; cv=none; b=PaH8gXLDpU0L8Us1KlwBi1Nusr83AMd2hyqmfk0IWBNsZE1q5GEd9yTw6F9FJ0+5fx83exAnANHwcx7IBvzI9o729PF0dPQGh1r9XfDyso6DTzjSJkjw4NYlMSgSiF12ZhY688xHs9bfldFArgQkOmf/dH4/ATBSgaHmzM/4ygE=
+	t=1781690673; cv=none; b=sECbbfdlAhhsxUS1tYQVQvYBUmANQDBtFqEsk6zp2Vj4g18ghQiS47+rr9oeeJF+0yJyaXuOpXIAdIJ12avQFg+vI/s71i4M0rRGhKN9IMofHau0af9yeRmEYc7ZUpN8a0B8tdHlfN1dnyPVA/qNaewQ6I+ve/tuy4BFAgdbfSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781674948; c=relaxed/simple;
-	bh=u6o3ctTpQ4KHgX1clYG4XK6giuzF9+sm+RZzoiUd3XA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sEqiN529vStOayq9aLpOQ5TWGZto216dcT2KUJwlEkjaGFpfUO9CbLKiCdv5TEuE7Nat/uPpCBl8njsh1jNGwobJN3FbpHEwBqdVhs5Sim7AWB3Le8mQteiiIksFed9NlAXfRyJsni3f2JxUGMkdDdLKAQWz2S8B8mD5Y2wKxS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YBDKHKNO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1781690673; c=relaxed/simple;
+	bh=4s0FTdhbkGY/zOo2qdydmIxkiH9oAib72E8B+UogNjg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ojr+DR7APr0g0uSLgFo/DmI3wCAGh1qbMeSAXWS07Z9LZ33LRNDIF+VN9ipDaGtJDH6xIIepEGBiSfXHTUKTujSIqoAE8O+oTn4ac+UL1TehePejitJAGRmHwvOULHgPboxIxazj5UwGAg8gm1Fziwdwxo7I1DnoHNaSczRXLVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=UZnszwSF; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YBDKHKNO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D0997C2BCB8;
-	Wed, 17 Jun 2026 05:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1781674947;
-	bh=u6o3ctTpQ4KHgX1clYG4XK6giuzF9+sm+RZzoiUd3XA=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=YBDKHKNOBdpkvXb4nTA5jVgFgc2sWWbTgYXF6O45XxzEBMqDUP//M9eEKAabUArY9
-	 XAZ9J7m/OlRF/7jg4atvyUIsUbm9emkgg9X5asnzOCx7u4T9YqBx1AtoCLlEnkzjnv
-	 HatMdWL52ifCJ7ivTiiIfVTz99QLDOjpz1WaR86zOB/xR17wpIuULRYGgN0pokTP5z
-	 ViqqgHSsfHdoBdqKg4LFW7HAhic13cmfkB2dLGm3KFibSrvq7lHp6x1a6XukWR0AVi
-	 wKl0jUUE1MXIFhtEB0zScL9Md5uc4AP9oMzoPYVMvMNtnXOsDZAzNAbQbQsn0kUldu
-	 abIsTo7+m8q3A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B75DCD98E2;
-	Wed, 17 Jun 2026 05:42:27 +0000 (UTC)
-From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
-Date: Wed, 17 Jun 2026 00:42:27 -0500
-Subject: [PATCH v2] platform/chrome: sensorhub: bound the EC-reported
- sensor number
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="UZnszwSF"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-461a5a39da1so1347250f8f.2
+        for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 03:04:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1781690668; x=1782295468; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8iywNsFgB0k0R82k+cCh7krqrwnke0rbuWO4aE9FcJ8=;
+        b=UZnszwSF31iPsHqDD/s6UndXGZbu/O8sTrIn2Nu+Dwg8Kd2VMRSXnllkNBZzHxH/uP
+         FxGkWY+lhK3XpwQv/HqEteDTG8Mc/NMc7tVNQCQeJXV7bvHmWmjWNmWh5LuWp2GWSdhs
+         I2Csq41q2XXRaeoC294tSMwIKugqEu0aabhJu28PjkVh0kL9j8X+dLfcBoy9T7rEtdLm
+         /uJc8/k4tNxuPdn8xonsWaGA4nOtOGhmLd7kr1tuSAUR4Q6lwC4XFaw6602FxYh0TSiC
+         gq8xHbUs/gDdZ/Xcq09sOBMVYbmYpqF7Oo4hShSyyrzp5oj0TbEYGJlBGn+IT1XPUwC8
+         eKsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781690668; x=1782295468;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8iywNsFgB0k0R82k+cCh7krqrwnke0rbuWO4aE9FcJ8=;
+        b=juMnLhT4QKH8ATS/q1MMj7oZOBic4Fjq0VGbsRU2sQdWHJQvFwPl8WGSpfk4Tc2DjR
+         hRngjH/L8NtMZkLzgax5NMr1QjtlTOJfdbr62LiXTbpnxfdyTVmKT9NGOyHSHHkA6XdD
+         PFBDZUqJJPzKsZBG8Cmj0ZO8CBdWJNyFZHNhUa20GR3EkYdFsi6E40A+kagJ9gsweZh4
+         NLyuqWNn04yMzWqsHHc/yenOydqZHO6EyfVrnI3O5WxzTYkrZrFlHQIxT0BF6wB91MiH
+         czbYjlxFlp5rImG/tQn6b3Av5EM+XV5/arEmMapzkFif89CyqzFQX5WVHvsYYvhSzBJM
+         qFGQ==
+X-Forwarded-Encrypted: i=1; AFNElJ95lncFhnFHrzU1rqkzYQYQI5mU4c/u+klcQnJvi+PXY0vFMV8wzRrJtvTx5Nh8e9LrJ8sKMszg7WLS/zkoKJM=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwdOkeYEfxPd+ha7a6GaZJQRYM/S26o/tJLrM/8L0nlErVu/lRf
+	1unDz7yT60PEwktIMZ95uX7p/tDIZpM74dEmq1PDaQNNgIdauuTKAsOYho9gQK4YdVg=
+X-Gm-Gg: AfdE7cmWGwUIszI1npOBsoq7y5/5286jDlcTGpj0JM5LPW6wUS4cI2pIcKr4Dh6pzXy
+	geuvOsGc4Jrw2ExAUlz3aIs/+1nyVkZCLI80w1xN9py8i22a6/Nf/VwFz2lDHz37Nv23lUvhv83
+	N/93UN/lat0uXhH+0RmkjGr1seo6Uhxo1pNmAmUFR4eLfSXAjJi8Jd7Hebr+wHD8vugspXh5cgC
+	Ocp4o1g9s7HNb3if3YCUSx3P+f2Mswjm2zjopb7BG7sJuTp8GHmUrDos3HwEk3/CQuX/cvb8qSx
+	ZMRxbiMCDqxPYD5jfsY5HnKVbT/uhhPrVOqTx2zrrTKsprDzs0TFHNa1kmbsoy+EQ47dnVpZ63v
+	cRwESI9TUBv58D9x1A/itbRlnjILx5cSjKSQZBTYf3lWrFdrLgDyOfYKPlGksahm/woRKwRcPpT
+	adPKXXz4ITz3DOTZuJhJG5TQKs1ZQZDPru9Uox5y8/FxQFtE++OjN4t3MUREJco/1zZ8spprMLM
+	Jqy
+X-Received: by 2002:a5d:46ce:0:b0:461:c779:1e45 with SMTP id ffacd0b85a97d-46235e9bae2mr3776968f8f.2.1781690668099;
+        Wed, 17 Jun 2026 03:04:28 -0700 (PDT)
+Received: from localhost (p200300f65f47db04bc2080ea3c93ea6d.dip0.t-ipconnect.de. [2003:f6:5f47:db04:bc20:80ea:3c93:ea6d])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-462236047c8sm7932612f8f.10.2026.06.17.03.04.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 03:04:27 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	=?utf-8?q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Jameson Thies <jthies@google.com>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	Liao Yuanhong <liaoyuanhong@vivo.com>,
+	Kees Cook <kees@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] platform/chrome: Drop unused assignment of platform_device_id driver data
+Date: Wed, 17 Jun 2026 12:04:13 +0200
+Message-ID:  <5b72bac661bdf1c874bea4b91ce3c2eccc84bba1.1781690554.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260617-b4-disp-4e176cdc-v2-1-160f9ffa463e@proton.me>
-X-B4-Tracking: v=1; b=H4sIAMIzMmoC/x3MTQqAIBBA4avErBvwD8OuEi1Mp5pNiUIE4t2Tl
- t/ivQqFMlOBeaiQ6eHC99WhxgHC6a+DkGM3KKGssHLCzWDkktCQnGyIAZ3UmoLZyCkPPUuZdn7
- /5bK29gGzF8q0YgAAAA==
-To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Guenter Roeck <groeck@chromium.org>, Gwendal Grignou <gwendal@chromium.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781674946; l=4373;
- i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
- bh=+D/PnruFsIeMzAqKfIW8Z1wCZ7XJX8si17RTg+XTyfE=;
- b=FOIOYxrBhzBEcf6CNQrhn1ohxz4y0fQUvz08G2DOPZLYTLxzdw9keG1oTtHFysVAPkX0yJ1Ob
- MIoskgSuBWeCG3k79OZPdOBqA3SsbLPKFN34dddN4AZHQRt8X2ewUoy
-X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
- pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
-X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
- auth_id=814
-X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
-Reply-To: hexlabsecurity@proton.me
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7578; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=4s0FTdhbkGY/zOo2qdydmIxkiH9oAib72E8B+UogNjg=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqMnEfneevwVJjwmsk0YiJ5LNfZ7BwNRlq62m+q 2ejV9Muf22JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCajJxHwAKCRCPgPtYfRL+ Tu9XB/0bjdovv1HbrolJOgV8/slMZbvruZWQmOIRSh5peEiPber8ity+0T34bV61623exQUc6cS z9bddSNmZgT5TtDhMqAIk0k7hOifwJbFvSQEHSwZUQJ/u16QY1eKWAxL0W2PspYtDHRPTnPPGrH 11/SFAT+qxOAKuIGHCk3llxlOfuDAMVNHk0i3c3VWvhQZk6wGC2cq4MvsJh6u9+ZuHHLBwnOjUP 3m3GSPN3cXCmVbRAOktxSjACLp9GbWYGMCsJHI06/l+sAR4qliHQWMh0oWiXTKYwPOhFf3ewODT iHcPeiTBuL+EvXgXcjgFaaZ8JqA8T+6aeOgHy3zAbpPishmJ
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-From: Bryam Vargas <hexlabsecurity@proton.me>
+The drivers explicitly set the .driver_data member of struct
+platform_device_id to zero without relying on that value. Drop these
+unused assignments.
 
-Each EC FIFO event carries a sensor number (in->sensor_num, an 8-bit
-value). cros_ec_sensorhub_ring_handler() validates the FIFO event count,
-the per-read count and the ring bound, but not the per-event sensor
-number. cros_ec_sensor_ring_process_event() then uses it unchecked to
-index sensorhub->batch_state[], which is allocated with only
-sensorhub->sensor_num entries, so a sensor number of sensor_num or larger
-is an out-of-bounds read and write of batch_state[] - in the ODR and
-FLUSH paths and, via cros_ec_sensor_ring_check_for_past_timestamp(), as
-an out-of-bounds read that is fed back into the event timestamp.
+While touching these arrays use a single space in the list terminator
+consistently.
 
-Validate the sensor number in the ring handler, where each event is read
-from the EC, and drop a malformed event before it is used. This is the
-bound cros_sensorhub_send_sample() already applies on the push path,
-hoisted to the point where the EC data enters the kernel so it also
-covers the batch_state[] indexing in cros_ec_sensor_ring_process_event()
-and sensor_mask |= BIT(in->sensor_num) in the handler.
-
-Fixes: 93fe48a58590 ("platform/chrome: cros_ec_sensorhub: Add median filter")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 ---
-v2 (per Tzung-Bi Shih's review):
-- Move the check from cros_ec_sensor_ring_process_event() into the FIFO
-  read loop of cros_ec_sensorhub_ring_handler(), so the sensor number is
-  validated where each event is read from the EC. This is the source
-  Tzung-Bi pointed to and it covers every later use of the sensor number.
-- Shorten the comment.
-- Left the existing cros_sensorhub_send_sample() bound in place. With the
-  handler check it can no longer fire, so it is now redundant; I can drop
-  it as a separate cleanup patch if preferred.
-- Kept Fixes: 93fe48a58590. batch_state[] and every unchecked
-  batch_state[in->sensor_num]/[sensor_id] access (and sensor_mask |=
-  BIT(in->sensor_num)) were introduced by the median-filter commit; at
-  145d59baff59 ("Add FIFO support") there is no batch_state[] and the only
-  ring-path use of the sensor number, cros_sensorhub_send_sample() ->
-  push_data[], was already bounded. Both commits are in v5.7-rc1, so the
-  stable backport range is unchanged either way; happy to switch to
-  145d59baff59 if you prefer.
+ drivers/platform/chrome/cros_ec_chardev.c        | 4 ++--
+ drivers/platform/chrome/cros_ec_debugfs.c        | 4 ++--
+ drivers/platform/chrome/cros_ec_lightbar.c       | 4 ++--
+ drivers/platform/chrome/cros_ec_sensorhub.c      | 4 ++--
+ drivers/platform/chrome/cros_ec_sysfs.c          | 4 ++--
+ drivers/platform/chrome/cros_ec_vbc.c            | 4 ++--
+ drivers/platform/chrome/cros_kbd_led_backlight.c | 4 ++--
+ drivers/platform/chrome/cros_usbpd_logger.c      | 4 ++--
+ drivers/platform/chrome/cros_usbpd_notify.c      | 4 ++--
+ drivers/platform/chrome/wilco_ec/core.c          | 4 ++--
+ drivers/platform/chrome/wilco_ec/debugfs.c       | 4 ++--
+ drivers/platform/chrome/wilco_ec/telemetry.c     | 4 ++--
+ 12 files changed, 24 insertions(+), 24 deletions(-)
 
-I reproduced the out-of-bounds access with an in-kernel test that drives
-the batch_state[] indexing verbatim under KASAN (CONFIG_KASAN=y), plus a
-userspace AddressSanitizer model of the same geometry on both 32- and
-64-bit. batch_state is devm_kcalloc(sensor_num, 40 bytes); the EC FIFO
-sensor number is an 8-bit field, so it can index up to 255 - roughly
-9.8 KB past the end of a typical (handful-of-sensors) allocation.
-
-  - In-kernel (7.1.0-rc5 + KASAN): an event with sensor_num just past the
-    allocation tripped a slab-out-of-bounds Write in the ODR-flag path
-    (batch_state[n].last_len = 0); the patched arm and an in-bounds
-    control arm completed cleanly with no KASAN report.
-  - ASan model (-m32 and -m64): a sensor number of 200/255 produced a
-    heap-buffer-overflow WRITE 8000/10200 bytes past the alloc on both
-    ABIs; the patched arm and the in-bounds arm were clean.
-
-Reproducer (kernel module + ASan model) available on request.
----
- drivers/platform/chrome/cros_ec_sensorhub_ring.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-index a10579144c34..64e9615ed6f4 100644
---- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-+++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-@@ -890,6 +890,14 @@ static void cros_ec_sensorhub_ring_handler(struct cros_ec_sensorhub *sensorhub)
+diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
+index 47e03014dcbe..2565510ecaa7 100644
+--- a/drivers/platform/chrome/cros_ec_chardev.c
++++ b/drivers/platform/chrome/cros_ec_chardev.c
+@@ -485,8 +485,8 @@ static void cros_ec_chardev_remove(struct platform_device *pdev)
+ }
  
- 		for (in = sensorhub->resp->fifo_read.data, j = 0;
- 		     j < number_data; j++, in++) {
-+			/* Skip event if sensor_num from EC is out of bounds. */
-+			if (in->sensor_num >= sensorhub->sensor_num) {
-+				dev_warn_ratelimited(sensorhub->dev,
-+						     "Invalid sensor number %u from EC\n",
-+						     in->sensor_num);
-+				continue;
-+			}
-+
- 			if (cros_ec_sensor_ring_process_event(
- 						sensorhub, fifo_info,
- 						fifo_timestamp,
+ static const struct platform_device_id cros_ec_chardev_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, cros_ec_chardev_id);
+ 
+diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
+index d10f9561990c..4b8ae51bfaa9 100644
+--- a/drivers/platform/chrome/cros_ec_debugfs.c
++++ b/drivers/platform/chrome/cros_ec_debugfs.c
+@@ -558,8 +558,8 @@ static SIMPLE_DEV_PM_OPS(cros_ec_debugfs_pm_ops,
+ 			 cros_ec_debugfs_suspend, cros_ec_debugfs_resume);
+ 
+ static const struct platform_device_id cros_ec_debugfs_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, cros_ec_debugfs_id);
+ 
+diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platform/chrome/cros_ec_lightbar.c
+index f69f2f6de276..d7e9928e263d 100644
+--- a/drivers/platform/chrome/cros_ec_lightbar.c
++++ b/drivers/platform/chrome/cros_ec_lightbar.c
+@@ -684,8 +684,8 @@ static SIMPLE_DEV_PM_OPS(cros_ec_lightbar_pm_ops,
+ 			 cros_ec_lightbar_suspend, cros_ec_lightbar_resume);
+ 
+ static const struct platform_device_id cros_ec_lightbar_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, cros_ec_lightbar_id);
+ 
+diff --git a/drivers/platform/chrome/cros_ec_sensorhub.c b/drivers/platform/chrome/cros_ec_sensorhub.c
+index f938c3fc84e4..58eb28d6e118 100644
+--- a/drivers/platform/chrome/cros_ec_sensorhub.c
++++ b/drivers/platform/chrome/cros_ec_sensorhub.c
+@@ -268,8 +268,8 @@ static SIMPLE_DEV_PM_OPS(cros_ec_sensorhub_pm_ops,
+ 		cros_ec_sensorhub_resume);
+ 
+ static const struct platform_device_id cros_ec_sensorhub_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, cros_ec_sensorhub_id);
+ 
+diff --git a/drivers/platform/chrome/cros_ec_sysfs.c b/drivers/platform/chrome/cros_ec_sysfs.c
+index 9d3767ab1548..46e8ac7f94af 100644
+--- a/drivers/platform/chrome/cros_ec_sysfs.c
++++ b/drivers/platform/chrome/cros_ec_sysfs.c
+@@ -421,8 +421,8 @@ static void cros_ec_sysfs_remove(struct platform_device *pd)
+ }
+ 
+ static const struct platform_device_id cros_ec_sysfs_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, cros_ec_sysfs_id);
+ 
+diff --git a/drivers/platform/chrome/cros_ec_vbc.c b/drivers/platform/chrome/cros_ec_vbc.c
+index 5ee8adaa6564..9cb4631e1227 100644
+--- a/drivers/platform/chrome/cros_ec_vbc.c
++++ b/drivers/platform/chrome/cros_ec_vbc.c
+@@ -135,8 +135,8 @@ static void cros_ec_vbc_remove(struct platform_device *pd)
+ }
+ 
+ static const struct platform_device_id cros_ec_vbc_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, cros_ec_vbc_id);
+ 
+diff --git a/drivers/platform/chrome/cros_kbd_led_backlight.c b/drivers/platform/chrome/cros_kbd_led_backlight.c
+index 80dc52833dc9..7f7483d58170 100644
+--- a/drivers/platform/chrome/cros_kbd_led_backlight.c
++++ b/drivers/platform/chrome/cros_kbd_led_backlight.c
+@@ -221,8 +221,8 @@ MODULE_DEVICE_TABLE(acpi, keyboard_led_acpi_match);
+ #endif
+ 
+ static const struct platform_device_id keyboard_led_id[] = {
+-	{ "cros-keyboard-leds", 0 },
+-	{}
++	{ .name = "cros-keyboard-leds" },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, keyboard_led_id);
+ 
+diff --git a/drivers/platform/chrome/cros_usbpd_logger.c b/drivers/platform/chrome/cros_usbpd_logger.c
+index d343e1ab6f08..54f04a43cba0 100644
+--- a/drivers/platform/chrome/cros_usbpd_logger.c
++++ b/drivers/platform/chrome/cros_usbpd_logger.c
+@@ -249,8 +249,8 @@ static SIMPLE_DEV_PM_OPS(cros_usbpd_logger_pm_ops, cros_usbpd_logger_suspend,
+ 			 cros_usbpd_logger_resume);
+ 
+ static const struct platform_device_id cros_usbpd_logger_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, cros_usbpd_logger_id);
+ 
+diff --git a/drivers/platform/chrome/cros_usbpd_notify.c b/drivers/platform/chrome/cros_usbpd_notify.c
+index c90174360004..bdf3b2ab17a7 100644
+--- a/drivers/platform/chrome/cros_usbpd_notify.c
++++ b/drivers/platform/chrome/cros_usbpd_notify.c
+@@ -233,8 +233,8 @@ static void cros_usbpd_notify_remove_plat(struct platform_device *pdev)
+ }
+ 
+ static const struct platform_device_id cros_usbpd_notify_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, cros_usbpd_notify_id);
+ 
+diff --git a/drivers/platform/chrome/wilco_ec/core.c b/drivers/platform/chrome/wilco_ec/core.c
+index 9f978e531e1f..0b13f4509091 100644
+--- a/drivers/platform/chrome/wilco_ec/core.c
++++ b/drivers/platform/chrome/wilco_ec/core.c
+@@ -152,8 +152,8 @@ static const struct acpi_device_id wilco_ec_acpi_device_ids[] = {
+ MODULE_DEVICE_TABLE(acpi, wilco_ec_acpi_device_ids);
+ 
+ static const struct platform_device_id wilco_ec_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, wilco_ec_id);
+ 
+diff --git a/drivers/platform/chrome/wilco_ec/debugfs.c b/drivers/platform/chrome/wilco_ec/debugfs.c
+index 0617292b5cd7..69f8ac4d64dd 100644
+--- a/drivers/platform/chrome/wilco_ec/debugfs.c
++++ b/drivers/platform/chrome/wilco_ec/debugfs.c
+@@ -266,8 +266,8 @@ static void wilco_ec_debugfs_remove(struct platform_device *pdev)
+ }
+ 
+ static const struct platform_device_id wilco_ec_debugfs_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, wilco_ec_debugfs_id);
+ 
+diff --git a/drivers/platform/chrome/wilco_ec/telemetry.c b/drivers/platform/chrome/wilco_ec/telemetry.c
+index cadb68fa0a40..ac4c5943da1f 100644
+--- a/drivers/platform/chrome/wilco_ec/telemetry.c
++++ b/drivers/platform/chrome/wilco_ec/telemetry.c
+@@ -410,8 +410,8 @@ static void telem_device_remove(struct platform_device *pdev)
+ }
+ 
+ static const struct platform_device_id telem_id[] = {
+-	{ DRV_NAME, 0 },
+-	{}
++	{ .name = DRV_NAME },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, telem_id);
+ 
 
----
-base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
-change-id: 20260617-b4-disp-4e176cdc-9133ec4be92a
-
-Best regards,
+base-commit: 4fa3f5fabb30bf00d7475d5a33459ea83d639bf9
 -- 
-Bryam Vargas <hexlabsecurity@proton.me>
-
+2.47.3
 

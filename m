@@ -1,249 +1,122 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439082FFDE3
-	for <chrome-platform@lists.linux.dev>; Thu, 18 Jun 2026 04:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931C9EED8;
+	Thu, 18 Jun 2026 05:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781758533; cv=none; b=hcZ5iAN8v7mJW0V8jzWPDRU0Tul9uY3vynY+o6h8FSYD+ZdxYqxGFgSpmDj2R8EiUSS3Zpi+c7A3LTyRpW9X+hkDZ8BR4/dhPTtPbuxQAf3Tni+dAhaQjc92bxSBn9ZSoWS9l/do1MssKLKZJtmWdjdOgZoFtpYS8WzPgCqwe80=
+	t=1781761589; cv=none; b=dBEa2JFCUHFja9QVTFwx/+sjtGLQl6jLvGKBIo9aVjwVBPd/Fvn0cvlF+cj28n9fTnhSQuxFI0EmAcec9Izl0TSph33wEum4qpLPVwGZ0oYmA5ePvrbq97ID252977JSH6cDppmF21Udf++kaZGEyFK47loHcknWIg6KOyfNKzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781758533; c=relaxed/simple;
-	bh=cEEwdeqT05k4doLemATHwf5AlO6Et0xiKaGg6yMA/CQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eFZrduadyUn09+kTS9Dk17Lts3NNPETwIHoVp3JwHjXOPrUzXwyYUuKhMi1uyYzAnB5HxGkhOrtkop/lkxCYxKDLqpqDURt8IG5LAnFxfs2JvZCSlbW3QXfz7hqniRFvbPSifM3TJmPaOvrIU231apf1jycxuzEI0Q1czA2rJWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VNljRrEA; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781761589; c=relaxed/simple;
+	bh=YSTczGwxYr9KyveovZCitgFz9bhQfVOBBKddJI7TzAo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=udlVoxuZPIJmKxd3DE3fc/qQmqYBvzdujvzLXxy5rzNPN8CuG3UH3h1vqCyX/TWbP9QF/ZplSt3ZZdSPRcqC9NcenO/u/p56vDUfYb/fRhlwPJ8iqquJyekRjlMV3WOx0FxNKMtCSaXLaOl+uY8d5/2Z2GbVaTwrKNbJcbwtODQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rNrNrJRB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VNljRrEA"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8453a67659fso234167b3a.1
-        for <chrome-platform@lists.linux.dev>; Wed, 17 Jun 2026 21:55:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781758532; x=1782363332; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GCE4R2BOhT+27QO4acZRvKfk/kBv2Crz43/hbhSMkK8=;
-        b=VNljRrEAtteDRbd2P08viEWHbpQLXjIKHTZlT9VCTxzlDS2wWtxnHfGCUeoIyJxNrV
-         SaqfutOXu7pXeOT8bPHVQDJK0DaSj7+iabN0NVLpqIiMRlwDuO8nSLYhY1epqTYY7EcZ
-         UsaIeUtCT9yZmRR7L5xYCpV6IkRCjpFWmdeU6NWMi8B5Wyl1OErpMIyeRMHw1pjYdfjO
-         JTiuBPl0Un/fPxgwDrkRREqLI0b0UvAxhwODaijFdvgcRHh0IZrWmbK6tDB1wRR+e/I9
-         l+SvStYlNG2jP/J9YYpb53VvGt7e14tExeOlGlQEVYV/PDi10wEm8F+fXZJfsetvEC6D
-         knSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781758532; x=1782363332;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GCE4R2BOhT+27QO4acZRvKfk/kBv2Crz43/hbhSMkK8=;
-        b=RGDm37R0rcBu5ja0iDCkoXQw/Lpx3+xJ6RNFKXGSCe1M9u3jaZ5j1+CKe8w2yar86V
-         +Gh+fxALeqKkOwCxEjFBcUSuHKwzQ+oHYBq6gzaJuryNruzcdKLJLdkrhg+0hP+XFZUQ
-         vNWucULb5t3MsgCKEVsKii8SsbP8i1/BZwda8mMHKkllGwrosFxtyY9W7xVAK5kXPnFU
-         NRDPZaRSFh9K3A291T9PKYUFiJ8zUSRDIE8vv4sv78pQ79/RIujVyzKXKwjgj3ctKdsl
-         XLEr1QcLe38uCsxlmaVlepWkVOp6j3Ka0L6Wh9jNXT+QIKfGTqXbVfv0ng6RhKWopjBX
-         hqZg==
-X-Forwarded-Encrypted: i=1; AFNElJ95kZY95baEgeCQgFyorIbedBidSkdtgb7p/B0Ms5KhEvBnuCF9q4gk4t7bWgK7SBcB+0/yZqTJ9HPHz+oNfa4=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwRWRWavtZAZbYXknp+cdig45nYLPX3iCdSKYWGbfOqdU9u5wwj
-	r1qcS7Tvx/p8JcuNBEJ9YcQZgljOVWComR4UPvxMZ3bCr5gxMuG3Dgkq
-X-Gm-Gg: AfdE7cnLY/BeAw99t3iMtv52B8mqFOSJAbNj8K1yUmsc6003bUOGVF+K5sfYxMoKdXk
-	BOZl+p5bGzCm4ifkfpWs5zjRwY5W6gp7FIEBO2G4zAwZ3M1MON6TQcvYdshZEvqaFXq8nPH+nhw
-	/SyO1PzXWHS8U06UvvvZk2sj2m6kQd6twvvu12shMUl+DvnlxT9a9dd/bTAtrSYHFHX65FVveus
-	cBxov/VU5X7wfL+DAZ97TuGtIvoBbGU85P0uujQA0DgIUosQX3O15+waNUwaHE7OAI7yWGljhmE
-	KTIIs12ywG1R4UMb5guaq4Bs55dPkkjf5SJIXgw9CtmppVv77hieTho9Ub+MPD3KuENlgEZTPkB
-	9qmfc9j95Wx6yqS2IeOXaV8PorQ3W6HGJyqVpiIOJ4ZVJiSLfJU/Zz/3+S3TD0h/35anpAA46IV
-	EyKYtcaSTk6DjYvgL8YmYSJK6wCUWwOo2n9wkvMTyWTtDHdnE=
-X-Received: by 2002:a05:6a00:238c:b0:835:3d5e:1dd3 with SMTP id d2e1a72fcca58-8453b3a65e0mr2118875b3a.42.1781758531503;
-        Wed, 17 Jun 2026 21:55:31 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434acfd7ecsm18024767b3a.25.2026.06.17.21.55.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 21:55:31 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	povik+lin@cutebit.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Nick Li <nick.li@foursemi.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	nuno.sa@analog.com,
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
-	patches@opensource.cirrus.com,
-	chrome-platform@lists.linux.dev,
-	asahi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 56/78] ASoC: codecs: tas2783: Use guard() for mutex locks
-Date: Thu, 18 Jun 2026 11:54:45 +0700
-Message-ID: <20260618045507.21339-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
-References: <20260617103235.449609-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rNrNrJRB"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E9DCC2BCB0;
+	Thu, 18 Jun 2026 05:46:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781761589;
+	bh=YSTczGwxYr9KyveovZCitgFz9bhQfVOBBKddJI7TzAo=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=rNrNrJRB5PLihArtwkm2EkFPWOng+o9IrJfLGRfxQjvaSbjDxKOifLft0ll2StNHd
+	 oNctQj+ebNR0Z9+p2/NDJN3aCq+787m/E/vd5SN/DDPm/o+A38lUJ0kSseIHJA6JFk
+	 Bnc2zZ1pZzXbgiZY5kUvqAZlQhltYUK0bStWhtiEyDMIXOpp+Pf/5OcBODvj9rr5AR
+	 4paudJ8NNt7Wg4qqGsUr+0U4XNOm8j/+DMHokHfjKsiPbIAV0z+moZxQdg6y+fAtDL
+	 xhlYTrcTmbVZPzycqU0u0EUwDn9F8Dr8eSGCXZD81K5KiyaHGZhLMyosPPUtSPlWk1
+	 Twosy6fQF360Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB8ACD98F2;
+	Thu, 18 Jun 2026 05:46:28 +0000 (UTC)
+From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
+Date: Thu, 18 Jun 2026 00:46:28 -0500
+Subject: [PATCH v3] platform/chrome: sensorhub: bound the EC-reported
+ sensor number
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260618-b4-disp-adb3f790-v3-1-3a164ed63cbd@proton.me>
+X-B4-Tracking: v=1; b=H4sIADOGM2oC/x3MTQqAIBBA4avErBsw+7OuEi1Mx5qNhQMRSHdPW
+ n6L9zIIJSaBucqQ6GbhMxa0dQXusHEnZF8MWulBDY3BrUPPcqH1WxvGSaENjTaOpp56ByW7EgV
+ +/uWyvu8HKJG7X2IAAAA=
+To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
+ Gwendal Grignou <gwendal@chromium.org>, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781761587; l=2341;
+ i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
+ bh=kRkQQ2XtenLBQgIAfyc88UeRnsxPWIzaMvsDGjnhD3I=;
+ b=oJcZC6eYCe5So+WpqJwGJnz45a8YJVhOj88O65r6GJWx07CRPjNdU8btfNh7r1C08KxpZZgR5
+ BP9AaT4x/K0BLmGp5nObPRp632D3j1B0+u4AOUyFklVDXWQbbrH8AFG
+X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
+ pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
+X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
+ auth_id=814
+X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
+Reply-To: hexlabsecurity@proton.me
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+From: Bryam Vargas <hexlabsecurity@proton.me>
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+Each EC FIFO event carries an 8-bit sensor number (in->sensor_num).
+cros_ec_sensorhub_ring_handler() validates the FIFO event count, the
+per-read count and the ring bound, but not the sensor number, which
+cros_ec_sensor_ring_process_event() then uses unchecked to index
+sensorhub->batch_state[] - allocated with only sensorhub->sensor_num
+entries. A sensor number of sensor_num or larger is an out-of-bounds
+read and write of batch_state[].
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Validate the sensor number in the ring handler, where each event is read
+from the EC, and drop a malformed event before it is used.
+
+Fixes: 145d59baff59 ("platform/chrome: cros_ec_sensorhub: Add FIFO support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
- sound/soc/codecs/tas2783-sdw.c | 89 ++++++++++++++++------------------
- 1 file changed, 43 insertions(+), 46 deletions(-)
+v3 (per Tzung-Bi Shih's review):
+- Fixes: -> 145d59baff59 ("Add FIFO support") as requested.
+- Added Tzung-Bi's Reviewed-by.
+- Trimmed the commit message.
+No code change from v2 (single bound in the FIFO read loop).
 
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index 7d70e7e3f24f..763663daf3e1 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -691,12 +691,12 @@ static s32 tas2783_update_calibdata(struct tas2783_prv *tas_dev)
- 		return 0;
- 	}
+The out-of-bounds write was reproduced under KASAN with an in-kernel test
+driving the batch_state[] indexing, plus a 32/64-bit AddressSanitizer
+model of the same geometry; reproducer available on request.
+---
+ drivers/platform/chrome/cros_ec_sensorhub_ring.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
+index a10579144c34..64e9615ed6f4 100644
+--- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
++++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
+@@ -890,6 +890,14 @@ static void cros_ec_sensorhub_ring_handler(struct cros_ec_sensorhub *sensorhub)
  
--	mutex_lock(&tas_dev->calib_lock);
--	ret = tas2783_validate_calibdata(tas_dev, tas_dev->cali_data.data,
--					 tas_dev->cali_data.read_sz);
--	if (!ret)
--		tas2783_set_calib_params_to_device(tas_dev, tmp_val);
--	mutex_unlock(&tas_dev->calib_lock);
-+	scoped_guard(mutex, &tas_dev->calib_lock) {
-+		ret = tas2783_validate_calibdata(tas_dev, tas_dev->cali_data.data,
-+						 tas_dev->cali_data.read_sz);
-+		if (!ret)
-+			tas2783_set_calib_params_to_device(tas_dev, tmp_val);
-+	}
- 
- 	return ret;
- }
-@@ -764,27 +764,27 @@ static void tas2783_fw_ready(const struct firmware *fmw, void *context)
- 		goto out;
- 	}
- 
--	mutex_lock(&tas_dev->pde_lock);
--	while (offset < (img_sz - FW_FL_HDR)) {
--		offset += tas_fw_get_next_file(&buf[offset], file);
--		dev_dbg(tas_dev->dev,
--			"v=%d, fid=%d, ver=%d, len=%d, daddr=0x%x, fw=%p",
--			file->vendor_id, file->file_id,
--			file->version, file->length,
--			file->dest_addr, file->fw_data);
--
--		ret = sdw_nwrite_no_pm(tas_dev->sdw_peripheral,
--				       file->dest_addr,
--				       file->length,
--				       file->fw_data);
--		if (ret < 0) {
--			dev_err(tas_dev->dev,
--				"FW download failed: %d", ret);
--			break;
-+	scoped_guard(mutex, &tas_dev->pde_lock) {
-+		while (offset < (img_sz - FW_FL_HDR)) {
-+			offset += tas_fw_get_next_file(&buf[offset], file);
-+			dev_dbg(tas_dev->dev,
-+				"v=%d, fid=%d, ver=%d, len=%d, daddr=0x%x, fw=%p",
-+				file->vendor_id, file->file_id,
-+				file->version, file->length,
-+				file->dest_addr, file->fw_data);
-+
-+			ret = sdw_nwrite_no_pm(tas_dev->sdw_peripheral,
-+					       file->dest_addr,
-+					       file->length,
-+					       file->fw_data);
-+			if (ret < 0) {
-+				dev_err(tas_dev->dev,
-+					"FW download failed: %d", ret);
-+				break;
+ 		for (in = sensorhub->resp->fifo_read.data, j = 0;
+ 		     j < number_data; j++, in++) {
++			/* Skip event if sensor_num from EC is out of bounds. */
++			if (in->sensor_num >= sensorhub->sensor_num) {
++				dev_warn_ratelimited(sensorhub->dev,
++						     "Invalid sensor number %u from EC\n",
++						     in->sensor_num);
++				continue;
 +			}
-+			cur_file++;
- 		}
--		cur_file++;
- 	}
--	mutex_unlock(&tas_dev->pde_lock);
- 
- 	if (cur_file == 0) {
- 		dev_err(tas_dev->dev, "fw with no files");
-@@ -917,22 +917,22 @@ static s32 tas_sdw_hw_params(struct snd_pcm_substream *substream,
- 		dev_err(tas_dev->dev,
- 			"clear latch failed, err=%d", ret);
- 
--	mutex_lock(&tas_dev->pde_lock);
--	/*
--	 * Sometimes, there is error returned during power on.
--	 * So added retry logic to ensure power on so that
--	 * port prepare succeeds
--	 */
--	do {
--		ret = regmap_write(tas_dev->regmap,
--				   SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23,
--						TAS2783_SDCA_CTL_REQ_POW_STATE, 0),
--						TAS2783_SDCA_POW_STATE_ON);
--		if (!ret)
--			break;
--		usleep_range(2000, 2200);
--	} while (retry--);
--	mutex_unlock(&tas_dev->pde_lock);
-+	scoped_guard(mutex, &tas_dev->pde_lock) {
-+		/*
-+		 * Sometimes, there is error returned during power on.
-+		 * So added retry logic to ensure power on so that
-+		 * port prepare succeeds
-+		 */
-+		do {
-+			ret = regmap_write(tas_dev->regmap,
-+					   SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23,
-+							TAS2783_SDCA_CTL_REQ_POW_STATE, 0),
-+							TAS2783_SDCA_POW_STATE_ON);
-+			if (!ret)
-+				break;
-+			usleep_range(2000, 2200);
-+		} while (retry--);
-+	}
- 	if (ret)
- 		return ret;
- 
-@@ -965,14 +965,11 @@ static s32 tas_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
- 
- 	sdw_stream_remove_slave(tas_dev->sdw_peripheral, sdw_stream);
- 
--	mutex_lock(&tas_dev->pde_lock);
--	ret = regmap_write(tas_dev->regmap,
-+	guard(mutex)(&tas_dev->pde_lock);
-+	return regmap_write(tas_dev->regmap,
- 			   SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23,
- 					TAS2783_SDCA_CTL_REQ_POW_STATE, 0),
- 			   TAS2783_SDCA_POW_STATE_OFF);
--	mutex_unlock(&tas_dev->pde_lock);
--
--	return ret;
- }
- 
- static const struct snd_soc_dai_ops tas_dai_ops = {
++
+ 			if (cros_ec_sensor_ring_process_event(
+ 						sensorhub, fifo_info,
+ 						fifo_timestamp,
+
+---
+base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
+change-id: 20260618-b4-disp-adb3f790-af128ce95e5c
+
+Best regards,
 -- 
-2.43.0
+Bryam Vargas <hexlabsecurity@proton.me>
+
 

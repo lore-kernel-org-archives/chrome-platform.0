@@ -1,101 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2453C6A2B;
-	Thu, 18 Jun 2026 09:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEE93E5A18;
+	Thu, 18 Jun 2026 10:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781775107; cv=none; b=TJkLUHh/EUC7XOe1q+OC7W/Nm+uHGKOgeoj891TafT/HG72CADTZEM/NFU5UUWsIwdStGmS9W8UHWcTN3nvrKBbaX9fvTU6rgBkjXgRViyK72AxNJFIBFrlfmw7hsfuoyTHoyPHPW1Ssj59ckfw/rz/st3q5S4stGPwp9X8fJGE=
+	t=1781777967; cv=none; b=FwpsK6BeURcY0vvJyBUCeQpcilMta/mZLf83HxRXeBxv/Zj7UvgqpAB4LJo/lzN7gyGhMbtvGoxa5HifsNhTAhGBQd0Qgtuw1OCQZV5umdpj797AvqCm9YCIGnIHbETFba5g0UR1gm66Y+bV2xG8HzIJjtl1kgjZRFEeY7v0MHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781775107; c=relaxed/simple;
-	bh=FnZ/u0pGfRUQzQh885B322gyTjogLXop2SPW58gItkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UfGhQKU0OpsU+JH/G/Gp+BW3QcmyV4+3feJryp7XFTIE2gZm7mf9Cak/ZRBzaOTWKigL886D0q0Xy0aMC4H8gQrgTVrNNpsZnSneINR1aoOdWE+bYz7i5PMZavGIUl1TVM7OqvV7kftIcbMDBoGvsjKM6s/yNZO/rPaTmBomeZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4+C6IMt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781777967; c=relaxed/simple;
+	bh=8Mcydhro1EQOrm5osOZpAWTi5DUtUM3BYZKMBUyg4Pk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SrDYTPqW6tf6mo4zwxnbQJbQPu+K7C6kgKPr6pdQQlciqWlC3TsLsBkOSpoyV10WifPMZ/D6kx6GpscNCSEklde4kDGKB4XiI587wkwnlrUW0/r9MeozDDKreoBlIZFdj5Qo9aPgMlKptXOpNSjNisiPBcPrc1HBcWsQiTaruZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=nK7bb7ZR; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4+C6IMt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 033641F000E9;
-	Thu, 18 Jun 2026 09:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781775106;
-	bh=+0OkRrKAsiUKSFk5RtbLaD9VtS4CfLBKSMLbv13VqV4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=N4+C6IMtQTa/IgK1G2zEfkyfyEbpT+a2VTBjI5C8AK0dE/9GzyrYW5P1c4HbOMJmR
-	 k8mGwahauTXhLIDhSkCfcYjMKtw4eCbVF5OQ7WkwozeK7lcG9WHb5SygtRqcGKIjlq
-	 15NWZU1HcFGXrB/b2uEUBH91mmtmssokMsOv1GdPhJzxFksQB+uX8aFIn8m8TyyYjq
-	 T691SkDuuhOASKIYSd8Eo3n+3iOqE+R1NWFZSfhTxstNQP5OCrzkhCmflF9BSSOTvq
-	 cylP7YnCX2PrEDFyflqbAj9J+if7bB2g910gBoL/tgtMGwy7e/xOem5LZ80NQ43/H7
-	 eDS0e7ASNY95w==
-Date: Thu, 18 Jun 2026 09:31:43 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Andrei Kuchynski <akuchynski@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] mfd: cros_ec: Read EC features during probe to
- catch transfer error
-Message-ID: <ajO6_zXQKxbdCxhz@google.com>
-References: <20260608211518.2214740-1-akuchynski@chromium.org>
- <20260608211518.2214740-3-akuchynski@chromium.org>
- <20260618084037.GA1672911@google.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="nK7bb7ZR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1781777956; x=1782037156;
+	bh=8Mcydhro1EQOrm5osOZpAWTi5DUtUM3BYZKMBUyg4Pk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=nK7bb7ZRz/raM9vKiEuw2B8SB72kmXNIWSGb1I9kKZSg3V7AhryINDsgV9HdiqsF8
+	 qkPFddqGClntpGCOx1/zZUPfa/Y97PArNKbUadPeQ6xRFZBqUcT3TX871YfQ7/1nzg
+	 I4FS+iqDiTf5n3QB20JA2iIQEWNd3S/UW9nNwJhBnpnQoYfOxHCXwnvaJwhHqMQNFd
+	 bMrMvJFtKSj+WCI4fQP3eHb2/1sc7LQE15VSmd8wkXT1pKnexeWl4xVE73RugBu5RO
+	 dKt96ljAPrGuSpLmoQM7Wg/4cYFJ8CgKmMUUUwAjqKMDJ7+xXGqVMjI+HZwkp3vEam
+	 buBKd6G/48d7A==
+Date: Thu, 18 Jun 2026 10:19:10 +0000
+To: majordomo@vger.kernel.org
+From: Clint <t1m3band1t@proton.me>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, povik+lin@cutebit.org, Charles Keepax <ckeepax@opensource.cirrus.com>, Support Opensource <support.opensource@diasemi.com>, Nick Li <nick.li@foursemi.com>, Herve Codina <herve.codina@bootlin.com>, Srinivas Kandagatla <srini@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, Lars-Peter Clausen <lars@metafoo.de>, nuno.sa@analog.com, Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
+	patches@opensource.cirrus.com, chrome-platform@lists.linux.dev, asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, bui duc phuc <phucduc.bui@gmail.com>
+Subject: Re: [PATCH 05/78] ASoC: codecs: aw87390: Use guard() for mutex locks
+Message-ID: <5TNHQg1ajwrqUAIsNxt-sPNM5rRRTZgaIB6ssPE1Wymu_gKMW58Xm1iE3BkLh8pyvSGSBb-sxBK-2r_Hveh59vOyQofKZ_C630-gdnT4uMw=@proton.me>
+In-Reply-To: <20260617103235.449609-6-phucduc.bui@gmail.com>
+References: <20260617103235.449609-1-phucduc.bui@gmail.com> <20260617103235.449609-6-phucduc.bui@gmail.com>
+Feedback-ID: 162116597:user:proton
+X-Pm-Message-ID: 621a7e4fd1b7e784c26703ddbd3c88a4c50a0740
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618084037.GA1672911@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 18, 2026 at 09:40:37AM +0100, Lee Jones wrote:
-> On Mon, 08 Jun 2026, Andrei Kuchynski wrote:
-> 
-> > cros_ec_check_features() does not return an error if the underlying
-> > EC_CMD_GET_FEATURES command fails. Consequently, when the Fingerprint
-> > device fails to respond, the probe function ignores the failure and falls
-> > back to installing it as 'cros_ec' device instead of 'cros_fp'.
-> > This leads to a sysfs duplicate filename collision later when the real
-> > 'cros_ec' device attempts to register:
-> > 
-> >   cros-ec-spi spi5.0: EC failed to respond in time
-> >   cros-ec-dev.19.auto: cannot get EC features: -110
-> >   sysfs : cannot create duplicate filename '/class/chromeos/cros_ec'
-> >         : sysfs_do_create_link_sd+0x94/0xdc
-> >         : ec_device_probe+0x150/0x4f0
-> > 
-> > Fix this by explicitly calling the newly introduced cros_ec_read_features()
-> > function. If the transfer fails, abort the broken device initialization.
-> > Move the initialization of class_dev before this call to prevent a missing
-> > release() callback warning on the error path.
-> > 
-> > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> > ---
-> >  drivers/mfd/cros_ec_dev.c | 18 +++++++++++-------
-> >  1 file changed, 11 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> > index 39430dd44e30c..a8c6300248d59 100644
-> > --- a/drivers/mfd/cros_ec_dev.c
-> > +++ b/drivers/mfd/cros_ec_dev.c
-> > @@ -203,6 +203,17 @@ static int ec_device_probe(struct platform_device *pdev)
-> >  	ec->features.flags[1] = -1U; /* Not cached yet */
-> >  	device_initialize(&ec->class_dev);
-> >  
-> > +	/*
-> > +	 * Add the class device
-> > +	 */
-> > +	ec->class_dev.class = &cros_class;
-> > +	ec->class_dev.parent = dev;
-> > +	ec->class_dev.release = cros_ec_class_release;
-> > +
-> > +	retval = cros_ec_read_features(ec);
-> 
-> This depends on the other patch.
-> 
-> Once it's been Reviewed / Acked, I'd be happy to take both and submit an IB.
+unsubscribe linux-kernel
+unsubscribe linux-sound
+unsubscribe linux-arm-kernel
 
-FWIW: I gave my A-b tag in v1 and it has been carried to [PATCH v2 1/2]
-platform/chrome: cros_ec_proto: Introduce cros_ec_read_features helper.
+
+Clint
+
+-------- Original Message --------
+On Wednesday, 06/17/26 at 20:34 phucduc.bui@gmail.com wrote:
+From: bui duc phuc <phucduc.bui@gmail.com>
+
+Clean up the code using guard() for mutex locks.
+Merely code refactoring, and no behavior change.
+
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/codecs/aw87390.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/sound/soc/codecs/aw87390.c b/sound/soc/codecs/aw87390.c
+index 020213e0ca4b..88110e720f85 100644
+--- a/sound/soc/codecs/aw87390.c
++++ b/sound/soc/codecs/aw87390.c
+@@ -225,11 +225,10 @@ static int aw87390_profile_set(struct snd_kcontrol *k=
+control,
+ =09struct aw87390 *aw87390 =3D snd_soc_component_get_drvdata(codec);
+ =09int ret;
+
+-=09mutex_lock(&aw87390->lock);
++=09guard(mutex)(&aw87390->lock);
+ =09ret =3D aw87390_dev_set_profile_index(aw87390->aw_pa, ucontrol->value.i=
+nteger.value[0]);
+ =09if (ret) {
+ =09=09dev_dbg(codec->dev, "profile index does not change\n");
+-=09=09mutex_unlock(&aw87390->lock);
+ =09=09return 0;
+ =09}
+
+@@ -238,8 +237,6 @@ static int aw87390_profile_set(struct snd_kcontrol *kco=
+ntrol,
+ =09=09aw87390_power_on(aw87390->aw_pa);
+ =09}
+
+-=09mutex_unlock(&aw87390->lock);
+-
+ =09return 1;
+ }
+
+@@ -280,14 +277,12 @@ static int aw87390_request_firmware_file(struct aw873=
+90 *aw87390)
+ =09=09return ret;
+ =09}
+
+-=09mutex_lock(&aw87390->lock);
++=09guard(mutex)(&aw87390->lock);
+
+ =09ret =3D aw88395_dev_cfg_load(aw87390->aw_pa, aw87390->aw_cfg);
+ =09if (ret)
+ =09=09dev_err(aw87390->aw_pa->dev, "aw_dev acf parse failed\n");
+
+-=09mutex_unlock(&aw87390->lock);
+-
+ =09return ret;
+ }
+
+--
+2.43.0
+
+
+

@@ -1,122 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931C9EED8;
-	Thu, 18 Jun 2026 05:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F3C3B1EFE;
+	Thu, 18 Jun 2026 08:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781761589; cv=none; b=dBEa2JFCUHFja9QVTFwx/+sjtGLQl6jLvGKBIo9aVjwVBPd/Fvn0cvlF+cj28n9fTnhSQuxFI0EmAcec9Izl0TSph33wEum4qpLPVwGZ0oYmA5ePvrbq97ID252977JSH6cDppmF21Udf++kaZGEyFK47loHcknWIg6KOyfNKzE=
+	t=1781772043; cv=none; b=tcyB9L0/4snvYHKSf+b95c8jw2Y2gIg4rygl3O9TsGgdvKv31lKpYmobk4N9RWocwX04ehuEUo4ImN8aeusX6rMkfd1TCFHk2U2kEJQ5m0SULeTjBxJXlKm8WrlfUDK5GjTMxIpOVsh/cGPFAQog3zXYOA+LU8ui+V+P/QAVlbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781761589; c=relaxed/simple;
-	bh=YSTczGwxYr9KyveovZCitgFz9bhQfVOBBKddJI7TzAo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=udlVoxuZPIJmKxd3DE3fc/qQmqYBvzdujvzLXxy5rzNPN8CuG3UH3h1vqCyX/TWbP9QF/ZplSt3ZZdSPRcqC9NcenO/u/p56vDUfYb/fRhlwPJ8iqquJyekRjlMV3WOx0FxNKMtCSaXLaOl+uY8d5/2Z2GbVaTwrKNbJcbwtODQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rNrNrJRB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1781772043; c=relaxed/simple;
+	bh=m/x3t1EwXKfQnF8D/EE1mE91etARjfR2JAtKwz1Zc/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=INRxG1ReSuKx7vg3ajgY90Rv75HUR3fTN5LLzo4+bYzPE2H7FcM/eWi4Ymq2WQoE/cxpb07lMxJrwSSBsl8PHAN8knU2LUPETOyo1F4XtlSJcycKMnxWp1f7b7lkjtJdh0c0PkBFPb8XuQkWVzVV207OiE6fiFwkOlVYHU5MKho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CKZes8CG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rNrNrJRB"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E9DCC2BCB0;
-	Thu, 18 Jun 2026 05:46:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1781761589;
-	bh=YSTczGwxYr9KyveovZCitgFz9bhQfVOBBKddJI7TzAo=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=rNrNrJRB5PLihArtwkm2EkFPWOng+o9IrJfLGRfxQjvaSbjDxKOifLft0ll2StNHd
-	 oNctQj+ebNR0Z9+p2/NDJN3aCq+787m/E/vd5SN/DDPm/o+A38lUJ0kSseIHJA6JFk
-	 Bnc2zZ1pZzXbgiZY5kUvqAZlQhltYUK0bStWhtiEyDMIXOpp+Pf/5OcBODvj9rr5AR
-	 4paudJ8NNt7Wg4qqGsUr+0U4XNOm8j/+DMHokHfjKsiPbIAV0z+moZxQdg6y+fAtDL
-	 xhlYTrcTmbVZPzycqU0u0EUwDn9F8Dr8eSGCXZD81K5KiyaHGZhLMyosPPUtSPlWk1
-	 Twosy6fQF360Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB8ACD98F2;
-	Thu, 18 Jun 2026 05:46:28 +0000 (UTC)
-From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
-Date: Thu, 18 Jun 2026 00:46:28 -0500
-Subject: [PATCH v3] platform/chrome: sensorhub: bound the EC-reported
- sensor number
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CKZes8CG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B74681F000E9;
+	Thu, 18 Jun 2026 08:40:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781772042;
+	bh=ADKgt6OmdSQftpGxREjRImVRevD2+bK0DbWDcomubSc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CKZes8CG/LSQ0WluKwo4Ghg1ex8VaBCxj//V79tIffnFeKGiCC5wt+NxDQphX6aHm
+	 xctc971Y1H1+tkogyvTzjisyWN650oj3SE/XxkYWnxyiUpGjm5tR63u1yD7LF6X8rG
+	 qpdq2xpPQYA1OgCqGOcNMesG68LHN9jSflrDX0hrzI4eaWXur2K3WsbpTmsyjQPznD
+	 J9ur/XMt4oJeeH0nYXB0a+5A+l2QN8NIUi6eByImMSPLIflItpAHRX7mTDVIDvAXyn
+	 8CFCz9g41pezqaZJsYRaCVg9uhIClPUqg+On8olG4Sf+ROTMCav/Wk1mIK3fmxt5c6
+	 HLfEoE6xZzgUg==
+Date: Thu, 18 Jun 2026 09:40:37 +0100
+From: Lee Jones <lee@kernel.org>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] mfd: cros_ec: Read EC features during probe to
+ catch transfer error
+Message-ID: <20260618084037.GA1672911@google.com>
+References: <20260608211518.2214740-1-akuchynski@chromium.org>
+ <20260608211518.2214740-3-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260618-b4-disp-adb3f790-v3-1-3a164ed63cbd@proton.me>
-X-B4-Tracking: v=1; b=H4sIADOGM2oC/x3MTQqAIBBA4avErBsw+7OuEi1Mx5qNhQMRSHdPW
- n6L9zIIJSaBucqQ6GbhMxa0dQXusHEnZF8MWulBDY3BrUPPcqH1WxvGSaENjTaOpp56ByW7EgV
- +/uWyvu8HKJG7X2IAAAA=
-To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chrome-platform@lists.linux.dev, Guenter Roeck <groeck@chromium.org>, 
- Gwendal Grignou <gwendal@chromium.org>, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781761587; l=2341;
- i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
- bh=kRkQQ2XtenLBQgIAfyc88UeRnsxPWIzaMvsDGjnhD3I=;
- b=oJcZC6eYCe5So+WpqJwGJnz45a8YJVhOj88O65r6GJWx07CRPjNdU8btfNh7r1C08KxpZZgR5
- BP9AaT4x/K0BLmGp5nObPRp632D3j1B0+u4AOUyFklVDXWQbbrH8AFG
-X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
- pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
-X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
- auth_id=814
-X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
-Reply-To: hexlabsecurity@proton.me
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260608211518.2214740-3-akuchynski@chromium.org>
 
-From: Bryam Vargas <hexlabsecurity@proton.me>
+On Mon, 08 Jun 2026, Andrei Kuchynski wrote:
 
-Each EC FIFO event carries an 8-bit sensor number (in->sensor_num).
-cros_ec_sensorhub_ring_handler() validates the FIFO event count, the
-per-read count and the ring bound, but not the sensor number, which
-cros_ec_sensor_ring_process_event() then uses unchecked to index
-sensorhub->batch_state[] - allocated with only sensorhub->sensor_num
-entries. A sensor number of sensor_num or larger is an out-of-bounds
-read and write of batch_state[].
+> cros_ec_check_features() does not return an error if the underlying
+> EC_CMD_GET_FEATURES command fails. Consequently, when the Fingerprint
+> device fails to respond, the probe function ignores the failure and falls
+> back to installing it as 'cros_ec' device instead of 'cros_fp'.
+> This leads to a sysfs duplicate filename collision later when the real
+> 'cros_ec' device attempts to register:
+> 
+>   cros-ec-spi spi5.0: EC failed to respond in time
+>   cros-ec-dev.19.auto: cannot get EC features: -110
+>   sysfs : cannot create duplicate filename '/class/chromeos/cros_ec'
+>         : sysfs_do_create_link_sd+0x94/0xdc
+>         : ec_device_probe+0x150/0x4f0
+> 
+> Fix this by explicitly calling the newly introduced cros_ec_read_features()
+> function. If the transfer fails, abort the broken device initialization.
+> Move the initialization of class_dev before this call to prevent a missing
+> release() callback warning on the error path.
+> 
+> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> ---
+>  drivers/mfd/cros_ec_dev.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+> index 39430dd44e30c..a8c6300248d59 100644
+> --- a/drivers/mfd/cros_ec_dev.c
+> +++ b/drivers/mfd/cros_ec_dev.c
+> @@ -203,6 +203,17 @@ static int ec_device_probe(struct platform_device *pdev)
+>  	ec->features.flags[1] = -1U; /* Not cached yet */
+>  	device_initialize(&ec->class_dev);
+>  
+> +	/*
+> +	 * Add the class device
+> +	 */
+> +	ec->class_dev.class = &cros_class;
+> +	ec->class_dev.parent = dev;
+> +	ec->class_dev.release = cros_ec_class_release;
+> +
+> +	retval = cros_ec_read_features(ec);
 
-Validate the sensor number in the ring handler, where each event is read
-from the EC, and drop a malformed event before it is used.
+This depends on the other patch.
 
-Fixes: 145d59baff59 ("platform/chrome: cros_ec_sensorhub: Add FIFO support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-v3 (per Tzung-Bi Shih's review):
-- Fixes: -> 145d59baff59 ("Add FIFO support") as requested.
-- Added Tzung-Bi's Reviewed-by.
-- Trimmed the commit message.
-No code change from v2 (single bound in the FIFO read loop).
+Once it's been Reviewed / Acked, I'd be happy to take both and submit an IB.
 
-The out-of-bounds write was reproduced under KASAN with an in-kernel test
-driving the batch_state[] indexing, plus a 32/64-bit AddressSanitizer
-model of the same geometry; reproducer available on request.
----
- drivers/platform/chrome/cros_ec_sensorhub_ring.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> +	if (retval < 0)
+> +		goto failed;
+> +
+>  	for (i = 0; i < ARRAY_SIZE(cros_mcu_devices); i++) {
+>  		/*
+>  		 * Check whether this is actually a dedicated MCU rather
+> @@ -220,13 +231,6 @@ static int ec_device_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  
+> -	/*
+> -	 * Add the class device
+> -	 */
+> -	ec->class_dev.class = &cros_class;
+> -	ec->class_dev.parent = dev;
+> -	ec->class_dev.release = cros_ec_class_release;
+> -
+>  	retval = dev_set_name(&ec->class_dev, "%s", ec_platform->ec_name);
+>  	if (retval) {
+>  		dev_err(dev, "dev_set_name failed => %d\n", retval);
+> -- 
+> 2.54.0.1032.g2f8565e1d1-goog
+> 
 
-diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-index a10579144c34..64e9615ed6f4 100644
---- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-+++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-@@ -890,6 +890,14 @@ static void cros_ec_sensorhub_ring_handler(struct cros_ec_sensorhub *sensorhub)
- 
- 		for (in = sensorhub->resp->fifo_read.data, j = 0;
- 		     j < number_data; j++, in++) {
-+			/* Skip event if sensor_num from EC is out of bounds. */
-+			if (in->sensor_num >= sensorhub->sensor_num) {
-+				dev_warn_ratelimited(sensorhub->dev,
-+						     "Invalid sensor number %u from EC\n",
-+						     in->sensor_num);
-+				continue;
-+			}
-+
- 			if (cros_ec_sensor_ring_process_event(
- 						sensorhub, fifo_info,
- 						fifo_timestamp,
-
----
-base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
-change-id: 20260618-b4-disp-adb3f790-af128ce95e5c
-
-Best regards,
 -- 
-Bryam Vargas <hexlabsecurity@proton.me>
-
-
+Lee Jones

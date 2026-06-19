@@ -1,79 +1,79 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A470D34572B
-	for <chrome-platform@lists.linux.dev>; Fri, 19 Jun 2026 08:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDDE3321C2
+	for <chrome-platform@lists.linux.dev>; Fri, 19 Jun 2026 08:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781857250; cv=pass; b=No2ki2tMMeG1GLOFLHZmkILaznbqU+PgOtJW4vzc4aKx1QoG+tmTOvfMuZyuhlLv/6D+qH6osXUf7vRzOqkV+RQtExRU8iakBNGgumC/MOlBWNhks1bH/G/PzsMRKnN7yRJ6i85VpsWu5GZFpNn0Bo8IkpXEewAW062kVovcL9k=
+	t=1781857588; cv=pass; b=PNsJ5NWLUOT8FtdHmk3439AV/W+oCKjXGCYmqEW79V2e7+G8GRJe1an6w75rpVPrWvnGA5kAxsr1oLSJ2gswFIW9kNWtMtsN4wxBziAq5qdpAyRUByjnY6W/hlOlQxoRf0Hb7C6wwJ4M4Mf23aDgLiAPNcMSp3ezE+lOMXZbUwc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781857250; c=relaxed/simple;
-	bh=QiRZKCM1EqNiRsnzfvDpC39UOIdXQjIxqxCEPl5e4OU=;
+	s=arc-20240116; t=1781857588; c=relaxed/simple;
+	bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qidNwuI74LWakptVBUuAMIVq+J5J3sHpW4+8k8dhzMCdEvCQaK3BCHH+t19SWAczxOKcA30rB0XIY54lmL8DCcmn+bTDRu9xqsodx1gWxjTBiwx6bdq/eTgCEO12aSR5I08SYwLLer5MBSpEViGCe/5M135lj/gYFoMTt1v0sEA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T59s5yp0; arc=pass smtp.client-ip=209.85.210.182
+	 To:Cc:Content-Type; b=t80KNRWC0jGK8v3tAdJREokoiSot841V6YJ4NZU8oGZT6gOQ/ZKqxFQ5VZ/xuJXxJsSX4cAxnfumLmR7UaL7z2yBhOAw/Pell8Jh92baqEBHIuy4u0oFf+qUFYoYwbGbczF7tdWAyh+T2kxaMRPKvK2Tj5Ubu5yIEcjfNSCdBlE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWHbdNA+; arc=pass smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T59s5yp0"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-84231305a80so1071647b3a.0
-        for <chrome-platform@lists.linux.dev>; Fri, 19 Jun 2026 01:20:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781857249; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWHbdNA+"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-37c8e7c8137so979173a91.1
+        for <chrome-platform@lists.linux.dev>; Fri, 19 Jun 2026 01:26:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781857586; cv=none;
         d=google.com; s=arc-20240605;
-        b=Kw45fe2KTCy3MEjViJ3mapb1v5nWhIFS34mAPLO+AweF2UZ4nZ/02fY39d5MdE04nP
-         Qp5bxRpnZpT55e6fTRkJcEP8oq3hARg1+sxB2x6u/DI24ofLxa0OYUtt2FQKp2nysr1/
-         rnp+acmvt7bsvsWNrKT9KzoRIrUgjpLtS1kDiaf8Rsx0xJ/sARUEq66cs6bIp9m7LpiO
-         KPfG/XDYuPyBSQYiQYneMlrfe9F7ljVOW+FL3M/k++BaUKJHgffAUKJoCd35Q6xgjMn/
-         WyBy3Ja31duT1bJjo9wNzrKOdcsjk4rfUCNv6AcNF5fMttM5XQqO3vQKxn+lQ9ASERSp
-         BtEA==
+        b=JvklLC9VGkwt48zzz/yTSbVwTg1EKimKpWL0Lf9S7WE6Sj5SfCyFcw1+6dOWXdw2x3
+         RVkv1XEhShf1Gt1EtfOGT7v6aihnFqQHxdonwAPLjtSPhN7UkuqUrGKCcwC26XkLdgWb
+         5m3NP5XWDviyj8/BP+lYOIxnjZZYR8aGvgn6DG9EdswKeuVSeHUF7srqur4uThpoBm42
+         Ef/TYU9tHNpA6gkumlg1kqOTivEpAh1VUSPTDvv3L14ELLq6ultXxzbJLZkWRrqIM9/I
+         K90AQyHheFTicQTf6NrQAOIgwPz78qisp2E6BqzMUAwi16wulDbE0DXeWKnWZ5WTQCK2
+         rVFg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=QiRZKCM1EqNiRsnzfvDpC39UOIdXQjIxqxCEPl5e4OU=;
-        fh=8qSYFm7ENH2XeodoZWoBUDS/4OO7Waurm/vWGKEGUOk=;
-        b=cB5x49onesl7jpAT8BGAKw2Q9HYnh/8akp+ic/d/5TIp3JUeDfJQfOswNrp8s7TT7i
-         cIDppkcLKGc05Wi74sbhzEwHT6axgFiYOFjQ/RRKXLuf2L8EBeYffoQXSoq6mi9gTnJw
-         w+oPjWpbmJ+b9ikdFzSWL05YZzaZkW+XdBlxB0haIjIlcxQnWY7KcNAKf3ZIbo405v2w
-         Sdn+ZYyV1NCV8VuoHUUe3ThIWoxjKGJpELXfHu71ojujfNpz6SWFgpb82PfJs0tkA43x
-         vsYO2rnJGFCljoQ1pk04ZBOM5L2xg2mBBiAbR7rJ6gIsw/45RQ5xS1RqFxhFhiYHgh5c
-         KSNw==;
+        bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
+        fh=GdkgGBXEAjI1GSeYDabVUK9pXVR/csC8+ADepyP+HzU=;
+        b=i3zaRWoSuqjyjrbJNU7GMvrbz9JxrHI49+xs6qAMa8CsN7+pOuN9ihfHR+WgV24Uew
+         9CxcN3w8m3JEzaDGFnVDxhUBQB66cYdLGVPhGBafFbP4VexqDDszkJLuzGNpUppkBKbJ
+         ni3r4t5SZFx8ss7FVXIvrAZ/RdxYng7++sLzVPFzD1AfEEr1Dw7e3ErMrjGdHR2BRkbi
+         znpR0QcjzvuNNFqo6j8nZke06E21AFpQEgXaWDGgY+X4YndbgRnb8SQvkRlGMFntfM4c
+         6yZGe6yp2vQDUP6/xVDsMniWhKKiPqxwyhuWm9j8JaQMW+oK7eOdAUOQqXrouCFerlid
+         qeVA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781857249; x=1782462049; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781857586; x=1782462386; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QiRZKCM1EqNiRsnzfvDpC39UOIdXQjIxqxCEPl5e4OU=;
-        b=T59s5yp0dcVrKaQ8iSu8k8hxOuC9H5mzrmDWAXIlVD8OUxP0y8hs1DTcTneIvoGFGj
-         PBrm+AQnoDEY7tt4PxVW0ZuFDTnOY1jocwN3px8SKQxxfaln8PUzoLg5GT3Zikp9FgCR
-         fCDjl2FcwwtqzWkzBMdouLkprdkQQee75MTO2cDulftWeCvMl8/Kvs7kAmntMeDdACup
-         l1oBT41CNtyBGgDb7rnswcopLJqT7BjbRQGbhx2NmLsbAyjKidFOyolOOnKKJN+asche
-         1+HcVVyV0z3Roonjni2CYD40X+c1CHVUDDEH+H29143g30BVGTKpKmTycSW9aGyDZzLX
-         OHag==
+        bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
+        b=mWHbdNA+bnPAqTyUInTrbiF3MPjls5CMktbE/xjaVcYA7dIeXp/r/OF3JqfkpNK23a
+         JqSEasf8jOVMimTO9KytbvMdBRvpqxesMTyAfBe3apubeWV0KoxMVSJaKK4QWp6gX+Nd
+         OXxuLUuuRan3Q0Ce8DONNRlIKX4ZMhvtuz0p0TtRmOk6jVC03J9zeuQBcwfc20pzumJt
+         XlozdSIet/15VMaWlc57FEkacYlRxIVttqzCvoEYg/I5c4KD7SwXYzAi7/0VzqY5u9Jy
+         eiwrZDc2fe3LikhwYPjkubL5KFIWHiMztfJvuF+7CvasHODtCMRW4smMjnZAgurODStV
+         sZuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781857249; x=1782462049;
+        d=1e100.net; s=20251104; t=1781857586; x=1782462386;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QiRZKCM1EqNiRsnzfvDpC39UOIdXQjIxqxCEPl5e4OU=;
-        b=Gd5r4kCER1HmY8xS7VrcOhF5o2M+EW0l0K64ZgWg1AG8jPtZQCAhe9FVRG3QPv8i2C
-         aL2SNwqqsZvRfo9waxDcndlrU0aDUY23c6Z++a2RS14Wbfz7WGngAWxM0xQ06nLiyJaO
-         JFOaJHxmPU8rfKk65SBFUgt5iiKvNevtJuYA4zSbanf2mutS3Qe259QVYUGIa3Y/Xd+w
-         ihy5EE5j6sNRzpV6QmEgEHCK1IUa5ltk4AqpVehRUD9bfxrmKPzTAvvv/XKejhdKgMeq
-         1MtLg5tn6Vpv//YHQXHsPkIxoO3kz3bbnjmjsLCOAKi4QQzsI9fJAA46GtjEaZRxwikd
-         JbqQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9bfxHOdxmpz8BOBRrRU/TUJ/1O26Y5cgO8M90or0IuY4OlWAzyH54pgqB8EsxPXAyQmWkcPfNUDRPpD7ERjYk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRuEJE/Q+z9vRIkXl4zrUHD7s58k1tbupuNo8gO+j5mxD9DHsE
-	zF9/DrEU4VgcEhmF5R8rsC47/04LDfzCab/pi7p6Zwlj7jq8p8c6oUtLBPXHz+msyYwfI+WAE3f
-	2jZAgEAcs133l96kExyK76SmBopT41SM=
-X-Gm-Gg: AfdE7clgTxAt6y2JSF2g00AX2d3igwC1p9EEpFwV73GLET2AD2QwbrT2FhD57q4UXkD
-	pnXEWZlpKBjmvXCaPHaPoqbG3gBCFVVkoKTfl23CFV3WM5zuMKH3StkgEaFje28+giWw8FIR9Iz
-	+3KNCt8GPR4pYLRwB12TQP8A8sn1fPp++4f8SnFXriNukuHajMOcQcZnfAgiCXzriZmEOE5275W
-	MvcfenQVsC0OVYPJwc2vz//7Dvi6q0JTljunBIitFSjSlmvFRJtxQfLja4UjOn7YPQNszELA5ZJ
-	DQHpzR5katMU2IS8qslzpUNtHgH2TFRIwUbeAQ==
-X-Received: by 2002:a05:6a00:3cc7:b0:842:6a97:52fb with SMTP id
- d2e1a72fcca58-845507cb50emr2639722b3a.18.1781857248942; Fri, 19 Jun 2026
- 01:20:48 -0700 (PDT)
+        bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
+        b=Kft6N5KBxZJKGjpgtUh6jaShKMEYM6upSQogeYKMlfkUBvVFz+0/cSuqu0Lmis5y3T
+         EPjwPITWhJMo7hHpAbw1AdyH4XCzTJaToe53R67VpOFguYGoVWC60sBNIVvN0LfbTaCj
+         n9uU8t8Tg5AcXl2GHbwuw+inLX3p8Imjxk3uav3HC29AK76vLEd6gaYHgG7GMC3O8si4
+         0LXUr8ib0NRgtVuOtk2xmGzPTX91Y8LnQr8oUg5DqMXc610xuGO3KaeGQrAxlV1ld7Bh
+         inHAZYrNapQ4ynWrfXBBfHhalXcfWDtdkeuSkagn2D2zT/Kql9w+CMaN7V6b8C7yUJ+Y
+         UD6w==
+X-Forwarded-Encrypted: i=1; AFNElJ9INXl5zwnepl8+Flia3XZa0Kb1ozof5hK6uAQDNmHtJgnfGPoZntV+ZUv3b9ki9ZU15usVXzNXi7O18ZgJcac=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzkO5Z+MPUf7TFr8qVL4aJj1uDQ73V7ot5xDAt5Pb4Ev/gjLtzH
+	oq2FOV3xL5L9h/9ylTMJA6cAetdQWjAGbCUCw/dgK3/NtjnpwU+1TNksUpIqjT5V9NgJiufY0US
+	V6uPSbC4CFWx4lwinQXk8ErK7nHvIW9M=
+X-Gm-Gg: AfdE7clOeedx1U3q7Ulo3KyWuw14z2fSRsU3QHrTqwntRYTgDDJQr6kjIvfZsBlycVm
+	pazsmvNJyCQkDQqrW8WcHUopUv6uaUUtzdEYyuCJ7beKy5AXEIC23gA9SPGVRWnomoBAnyq9oqL
+	Jt0ymeKa0h/CIEk2/CdSk3Zq09WByuSQcOBu1jkhSBPlXc9mTgga7bpbAxTs0WghzGt/I3klBI6
+	4QIrhI6Lk0cxRES7EJWv40DFqyZhx2zjoHgcctqnMwKBhoQdJwFIYJpNR+9D7zPb2I9mTmOPMpD
+	b6zdxavRbTFZVFBrmMFHmEwHfaU=
+X-Received: by 2002:a17:90b:35c4:b0:36d:cc9b:2f67 with SMTP id
+ 98e67ed59e1d1-37d1e8d2625mr1979109a91.19.1781857585816; Fri, 19 Jun 2026
+ 01:26:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -81,23 +81,22 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
- <20260617103235.449609-16-phucduc.bui@gmail.com> <ajJ9rbHTspXHo6Ou@opensource.cirrus.com>
- <20260617140209.3f89706c@pumpkin>
-In-Reply-To: <20260617140209.3f89706c@pumpkin>
+ <20260617103235.449609-12-phucduc.bui@gmail.com> <ajNud7QkwF369lBY@google.com>
+In-Reply-To: <ajNud7QkwF369lBY@google.com>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 19 Jun 2026 15:20:37 +0700
-X-Gm-Features: AVVi8Ce6D0PT5nT0JZlv3l3sVJ8JLAPJbKAWX5-seLq2FMr-NiEk00n-taoSGeE
-Message-ID: <CAABR9nG+6gOj4KnWmTyykgGN93xy6jKQh+-_f8Xxn=Jkv28vBA@mail.gmail.com>
-Subject: Re: [PATCH 15/78] ASoC: codecs: cs42l43: Use guard() for mutex locks
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+Date: Fri, 19 Jun 2026 15:26:14 +0700
+X-Gm-Features: AVVi8CddXW5ZNLmY1o-M3ykiX-yfQTjv2vw19gnq_6wH9bwOdl1r4oKcoEQ6Mfw
+Message-ID: <CAABR9nGVAiUpnmnoszLiNDC9ooXx8e9YFmMhv5aWLfaik8tjHg@mail.gmail.com>
+Subject: Re: [PATCH 11/78] ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Cheng-Yi Chiang <cychiang@chromium.org>, 
 	Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, 
 	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	povik+lin@cutebit.org, Support Opensource <support.opensource@diasemi.com>, 
-	Nick Li <nick.li@foursemi.com>, Herve Codina <herve.codina@bootlin.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	povik+lin@cutebit.org, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Support Opensource <support.opensource@diasemi.com>, Nick Li <nick.li@foursemi.com>, 
+	Herve Codina <herve.codina@bootlin.com>, Srinivas Kandagatla <srini@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
 	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
 	Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, 
@@ -109,32 +108,12 @@ Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Mark Brown <broonie@kernel.o
 	linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Charles, David,
+Hi Tzung-Bi,
 
-Thanks for the review.
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-> >
-> > I believe you have to use scoped_guard here, as there is a return
-> > from the function above, if memory serves it attempts to release
-> > the mutex on that path despite it being above the guard.
->
-> Indeed.
-> I believe clang will complain.
-> That makes these mechanical conversions of existing code dangerous churn.
->
-> While using guard() (etc) can make it easier to ensure the lock is released
-> when functions have multiple error exits, I'm not convinced it makes the
-> code any easier to read (other people may disagree).
->
 
-I built the code with both GCC and Clang and didn't see any warnings.
-
-My understanding was that the early return exits the function before
-the guard is instantiated, so it should not affect the guard's cleanup
-handling.
-
-Could you explain what issue you are referring to? I may be missing
-something.
+Thanks for reviewing the patch.
 
 Best regards,
 Phuc

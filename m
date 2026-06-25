@@ -1,117 +1,99 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1829A27AC45
-	for <chrome-platform@lists.linux.dev>; Thu, 25 Jun 2026 05:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782364646; cv=pass; b=LvTQuxvu5Y9p/M+ScHg57evFzVIW1lzPjraymxdDMiLZpitAv5L3X/mIX+XS7weBv3CDMCI4Qsqf3uSP8oq47Nrk8YH3LT/P1D3U6I3JqJPbvF/4QFHzCRSLLm9G0bgOJd+GJEKKJTyQvVuXmuwJd7mRgfY6aStptO/d3P+7fNY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782364646; c=relaxed/simple;
-	bh=HHw+sdpvABEoEOwqeP7iGnOnbePC3NyJ/C5IJwToKhk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=REgz1VtJw2ro2gx5XHUX06JqgAKPuvRdW+Gb9AvS2Dih1lS1lWpgvltin/rjcI3235LC2ylPZyK926pA8XNzrSBOvtYGAjBcKvQk8AfjZRP4YVyptLs0hnl7ijpb1sEezkLeDjP58Tgik14DJ7LzjCzxJtJWjLG7dEI5H1r9Mzc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGtiJ7h+; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BC23BED79
+	for <chrome-platform@lists.linux.dev>; Thu, 25 Jun 2026 06:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782367750; cv=none; b=lGl7C7G2TF5JW/hsIL3C8e5uRGIUMxNnaNsmjEja+qK9/lhAmjpDD7hgxeNF/L/qq8LMpTwQtnVjDAL2/QY2w6KhwZu5PYsuvZCffvJAWJ/odi5kctuoD6eE+NaalOrIk5pyZGDpLcQTRAcS/obPD04RpLflsbkpu6MJ2ksMgP0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782367750; c=relaxed/simple;
+	bh=AKv+KVE+8wqw4nK8QUIvuPl/3wmCpybIicyTFHJcLzI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=df2Jpsidl2cTn8jYm2t/hyRlPQGztbaaONDykcKuMMW0tH/rYqtJmoSmQoIU48Gc8Y7P3V1o3g1Q560T2MHunumkEbdmRNCwwpKkmlcIUBVnMj+NWxmIX49EjXQPgCfSQt1Z23V4vC4B+o3iLd3LXuPutNBHZkQ9cXB4wYZTAMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=h0ZGygWZ; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGtiJ7h+"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-46a0741a09bso613677f8f.0
-        for <chrome-platform@lists.linux.dev>; Wed, 24 Jun 2026 22:17:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782364643; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WMHNst7V75JdXQnFG2YpomqOLtdD8jTtDs3yhJijD4GzOs3Beva7n4+EM/6G9ORZqo
-         G68jG5jwZ8IUY7bUfdVvqEPPsKFFXGNJH37rZJijhVbNr4gn/Mln14DWux5OK6GL2N2d
-         gfUvMv/PgFigEKC/ox3opophx33uazwqPuRjHemkIRPS3RVF9mrHB7M0GVuVylmaiSS4
-         3iK4roi5BjpXb85gAJutLcY8On0k5KVAL1yyF4jwFq3SBU+qKlc0XXirPC547pl6oS7R
-         QJHE20s7Ws9XlKXjfk+JPGxRL5tpsR+hEzTuKTu49SCoLioA1a/ytBfsny4aNkDOA2hv
-         5/Ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=HHw+sdpvABEoEOwqeP7iGnOnbePC3NyJ/C5IJwToKhk=;
-        fh=w6I7KU6ElfcuHJ+dnxKZUG5dA7iUjOBRWIgYU/V3HQk=;
-        b=ngo20K3CP11B8qaYPa2CyhPkkutgCVlYdPAqRV9xopGHeECcvJx0/aWS3G5pBLUAk9
-         K351uuPRGJH6cVDwo0l/QGhiY/w9NtDkttn6t7rCeiQjiVZr84PqQefGa7UCHhtpfPrv
-         MVdLgDUwfX+wVlIpqTxIY64HtAXOLmc7ewke67+HaZknoCDhyyRltxkHwD5RvI88+kjT
-         1ns65jgRHfmAxxgS7fbT3BVcy6ei7uerBBgSrcvTei8POuieXf6CFP62JyqVh1y5o+J0
-         sl/ZKyjfwmQafQtV9zGaa6xoBoVTxuXuvp04DKLyhktbGr6NLn12mJsIKZCbE67eSwxv
-         5O9Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="h0ZGygWZ"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-37dedd62b90so374548a91.1
+        for <chrome-platform@lists.linux.dev>; Wed, 24 Jun 2026 23:09:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782364643; x=1782969443; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HHw+sdpvABEoEOwqeP7iGnOnbePC3NyJ/C5IJwToKhk=;
-        b=YGtiJ7h+/N7Wa1L7qKT33q0w+uK8tk+gYhRoPmcfk1lZrnQEqeYzzR/eHxRG+fgaFe
-         /H1b/cf5z8zJvF4+anrTassIKaMIBR5halTuJkyc1uAFgKSBTKT1nvKWw+BhaGCgraos
-         9fov93Z7snNJamB0HnCJY0kQnhwrv2uoFBfyLuUI0tGfxKdLLrFu4nz//9qOIPv0voRk
-         SAi/cJWiZJf4HmK8Q4yERaN0+R2/CDuqPiPPuUFNJgl/mnA0FSzWwTpTae+VKfSmzwhk
-         DOvaMJlYsvtOLvRt5xKaJ8L09hJkLfqkM2cL5u7BY1j6Ftr/ahe036RSQ4yyaIvJjCko
-         3JWA==
+        d=chromium.org; s=google; t=1782367747; x=1782972547; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KIhE6ku6meAbw0BvyicR03G3QMAyG8gmL8NOCMACOv4=;
+        b=h0ZGygWZ7egYpp0C/BmwSFBNc7SkY8m9pD2hRZ8ZWCwssflKZkXgXsT3ZpvOHv8J1P
+         RQXVJWwyjcSx33/ff+suVwOnnr13OCyZv0aZHl/LWCgj1JA6+Nv90nbMMgmyZQo60N8C
+         kfA6vPifjDMVEauU5cft74ATnLDPXcUilBOpM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782364643; x=1782969443;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1782367747; x=1782972547;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HHw+sdpvABEoEOwqeP7iGnOnbePC3NyJ/C5IJwToKhk=;
-        b=hYfp2qnoenetA0kEZUUCHi6+i77SBaqeR8IMxSC012CBlmIOKS3xSUgLvaQWGtDXwb
-         hK111LCYN6P3Ae8kM0AlocM+0cfpc5YJINeqFL3ZqaIHhpnDMvmvTNEfkwoGjvZ/yahv
-         c4OI0Ougxx8YfFk7+e/UtqdGoRv2eDGkKVG5mqYL8lfdiPAj3Bf0hRgEFtHZr9PGidr9
-         43NT/7kZOUZdpQZaQuZ99D/kdP+L7Qf2X/BkX8fo9Iwl6qzu6hwmxW+yF1YkTD7bdd2G
-         /hs2foojG7zpHpuyVgiQ1M0KsqkR4SCNlLVwEAX6ncJhpNY6+Db4nZnGcuJ8pMPS+fvm
-         /5yg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq/TkJPQvn9G9MzVv2SCvLcfKGOpjQDI+MN+cr5nX8RPmCGlj2XZV0XaaW06kNJuQeUpafi/prDjyVkW7hcVRk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzE3E1A147l+IPe1Sk1Rmd3qKNyEsUE/zN53xYhGxuxy3FbGnjJ
-	7ZzlduUL1VtQtry48h6Rgf0gVUflbeLBZSEjdWXXtKA5cRNgpCkLwO1V1ZZrN+c3ibMLpjoQH60
-	O3NmjTNW6njcrvuQnSsIpBzlkk+sPT9w=
-X-Gm-Gg: AfdE7clOLaJIWVE19H7owbeRun4cJJ0p88SY2Z+zWyXgWchopmGMYXYWZ+2Sx/L7ofQ
-	LJ5Ue1HAKEJV3u6vpYqLAdcOqgL4JRIPBokkiy8sc1E56QBzFNGTRDie2LcZ7Vth6t+qndt7Iky
-	gNKkB39BWErkZgAARnEdSSWuAt9YR0R/GuhyS+KwKi5SKINwDNFbCjhWR1CNI7/2nkINoj8PV4k
-	rTfzmmpI/CX9gxtl3AZkKwOm3BcSdfNg17WR0ouIB9q+8/jWZK2RvQhanNo+CnKUYEPZPRY3aOf
-	w/56OQ==
-X-Received: by 2002:a05:6000:29db:b0:46d:d5da:f0ac with SMTP id
- ffacd0b85a97d-46dd5daf220mr501700f8f.47.1782364643329; Wed, 24 Jun 2026
- 22:17:23 -0700 (PDT)
+        bh=KIhE6ku6meAbw0BvyicR03G3QMAyG8gmL8NOCMACOv4=;
+        b=ftBXeoWpnxkOkn3YyacJrTZDeVYJrE0zSeZubowcl0adjCFRIlPxm5lsvDsPnSTFVh
+         cvS2vLzPr3gp6mf64G/4HiqXfm1bDnjBG0ZDsQeTNWLGTZX8ipEkt81IwWQCWE2DlnBX
+         56Fx71Zp/had51mQZtq9ySF/N8jYwovFExdJApQcP5Edmu7eulfZK0HAE9vuGT4rdAEw
+         xEzOnKm6o5A2NzZJA6SyMc3b+cr1KRcT2si/Goc0SxCkPMTFimI0szRgjlLoeKcbKN01
+         1r+areqePdBbqDPjIjKg231rYpHFKQmHPzdW1bspWvWr2QdGCcQEd33lqpcQVWz0XCax
+         noug==
+X-Forwarded-Encrypted: i=1; AHgh+RqFs1KzdxFR8wXpRLoJbI+FAOV93/B5RdpsM6rNGolUhnKb/FUGBvs+WMKLkjYly3Ff5y3QxOBCIeRwFybYVVQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyq8xblCq0djPL98wxLJLFs/zhAViHyb0caaD1tQnK1xKD0lf+v
+	qAAzcOTKccXtmm5Yv+DCDwNVVoJLLQWLIvonTAbsuBS1YUfscrT/W58UuNPdfeKMlg==
+X-Gm-Gg: AfdE7ck2YMXgQxdgaE5ybUPg2rbGJBhoC0KzluOU3+8Lfd3dQiUFa5SLObiM1uObKPl
+	24mQTp5e4eAKYvMhwykn/uasSPZs95sLbIK8kq4O7fjtmb2Qa11i+bKez5sbzxFVZpCdP5e05Wp
+	EF60MgsSxoIJmqPfhEXZwe4OclbLFRmExcoo5neWi2plJF6+/w+LQU7djEDfKS8EWsAUTkR/tzD
+	opOuGzG+LgIoOx3MPzNIE8986TtUddm2PBArmoCyCbZkgQPfSAr4UZrLv4x8jtvVUSW7w8jTFl/
+	tBUEizHgOsenjx5fu9YY63uvJOVQcQLmJLA0bVreDcNiSeq3tu5vTeV6XrUJ9G+bFpwOEFQYgjL
+	+W4BUj+IIS5gpSj8uiijr9X2ihcOT6w2ewr1zSGS4PN2MtnvgSGMytfacFsCs0fC4TXJBQXEkLV
+	ombQ0NOSGdTpgyzYV+qwg5p2NMCGYSwhYQM5QSwTiYkACfW1S7We5iGbXIHXgxWeo0vmmf9Q==
+X-Received: by 2002:a17:90b:2f87:b0:35f:b9f1:fded with SMTP id 98e67ed59e1d1-37df9163af0mr982075a91.12.1782367746870;
+        Wed, 24 Jun 2026 23:09:06 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:df79:389c:8c8d:21c2])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37df411ddf7sm1102814a91.16.2026.06.24.23.09.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2026 23:09:05 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH] platform/chrome: of_hw_prober: Use dumb trackpad prober for Spherion
+Date: Thu, 25 Jun 2026 14:08:58 +0800
+Message-ID: <20260625060859.1020483-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <178229037114.3009621.14045345257767446805@maoyixie.com> <ajwgjQQsuj1AYJXz@google.com>
-In-Reply-To: <ajwgjQQsuj1AYJXz@google.com>
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-Date: Thu, 25 Jun 2026 13:17:12 +0800
-X-Gm-Features: AVVi8CfeliAcMGaeNtgRn7tiSxamumf_A5jimjvKKVWUosVSpLvg5KkmqfTw84k
-Message-ID: <CAHPEe=EwiUwKP06fp+wMYPLcivzYoUvb=id26V79D_F5-6uWog@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: reject out-of-bounds PD
- cap count
-To: Benson Leung <bleung@google.com>
-Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
-	Andrei Kuchynski <akuchynski@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Kaixuan Li <kaixuan.li@ntu.edu.sg>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Andrei,
+The trackpad power supply on Spherion is the system common 3.3V power
+rail. This is always on as long as the main processor is running.
 
-> Are we only rejecting `out-of-bounds PD cap count` here?
+Switch to the dumb trackpad prober since it does not need to manage
+the power rail.
 
-Yes, just the PD cap count for now. That is the only one that feeds a
-write, the memcpy into the stack array caps_desc.pdo[PDO_MAX_OBJECTS].
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+ drivers/platform/chrome/chromeos_of_hw_prober.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The same path trusts a few read counts too.
-cros_typec_register_altmodes() reads svids[] and mode_vdo[6] using
-svid_count and mode_count. cros_typec_handle_vdm_response() passes
-resp.vdm_data_objects to typec_altmode_vdm() with no check against the
-fixed resp.vdm_response[]. cros_typec_parse_pd_identity() is already capped
-at VDO_MAX_OBJECTS.
+diff --git a/drivers/platform/chrome/chromeos_of_hw_prober.c b/drivers/platform/chrome/chromeos_of_hw_prober.c
+index f3cd612e5584..8562a0e89dc6 100644
+--- a/drivers/platform/chrome/chromeos_of_hw_prober.c
++++ b/drivers/platform/chrome/chromeos_of_hw_prober.c
+@@ -100,7 +100,7 @@ static const struct hw_prober_entry hw_prober_platforms[] = {
+ 	}, {
+ 		.compatible = "google,spherion",
+ 		.prober = chromeos_i2c_component_prober,
+-		.data = &chromeos_i2c_probe_hana_trackpad,
++		.data = &chromeos_i2c_probe_dumb_trackpad,
+ 	}, {
+ 		.compatible = "google,squirtle",
+ 		.prober = chromeos_i2c_component_prober,
+-- 
+2.55.0.rc0.799.gd6f94ed593-goog
 
-I scoped this to the write so it stays small and backportable. If you
-prefer, I can send patches for the other three.
-
-Thanks,
-Maoyi

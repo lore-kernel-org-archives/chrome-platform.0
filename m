@@ -1,99 +1,118 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BC23BED79
-	for <chrome-platform@lists.linux.dev>; Thu, 25 Jun 2026 06:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782367750; cv=none; b=lGl7C7G2TF5JW/hsIL3C8e5uRGIUMxNnaNsmjEja+qK9/lhAmjpDD7hgxeNF/L/qq8LMpTwQtnVjDAL2/QY2w6KhwZu5PYsuvZCffvJAWJ/odi5kctuoD6eE+NaalOrIk5pyZGDpLcQTRAcS/obPD04RpLflsbkpu6MJ2ksMgP0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782367750; c=relaxed/simple;
-	bh=AKv+KVE+8wqw4nK8QUIvuPl/3wmCpybIicyTFHJcLzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=df2Jpsidl2cTn8jYm2t/hyRlPQGztbaaONDykcKuMMW0tH/rYqtJmoSmQoIU48Gc8Y7P3V1o3g1Q560T2MHunumkEbdmRNCwwpKkmlcIUBVnMj+NWxmIX49EjXQPgCfSQt1Z23V4vC4B+o3iLd3LXuPutNBHZkQ9cXB4wYZTAMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=h0ZGygWZ; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6A9368D6D
+	for <chrome-platform@lists.linux.dev>; Thu, 25 Jun 2026 11:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782387780; cv=pass; b=YM+ITmHzWLs1XQ2leIvCrn3pgq+bE9/tJyDWPgB1rSryL+ROkgrNzkXMD6A/Awt2ZoZTOOPR9kYF8AwD+9bFrTLMwcVUAUSnwgqkSg8YE2NZhD2a4rZThbjEpE3p1vIH1GS0uxhRkkHE5I5rxqiMf4KtjfuCymbpN1BStC5qQNA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782387780; c=relaxed/simple;
+	bh=YS0ScEyb+Lt46/Yx1vO1IQ1u3zBwb87wTDPGR3ZFRZ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t3ifMTk05ABBlAl8QI1fBwe1YjEaawiuHs2wM1XJ1qvZcE0CJjUOOWyn7oceaTmAITU9TVWHeSWLuI/mFwQcEwu5SoFux19loDjcunGJc1MkrJmvVZB5nphtB7/9f81oAIK3ksSjinr8x7wvupTudYFYbXf7+7+XuPA0R6I5Wlg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=j8yE28tX; arc=pass smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="h0ZGygWZ"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-37dedd62b90so374548a91.1
-        for <chrome-platform@lists.linux.dev>; Wed, 24 Jun 2026 23:09:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="j8yE28tX"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c6fcfcdb2bso16404305ad.1
+        for <chrome-platform@lists.linux.dev>; Thu, 25 Jun 2026 04:42:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782387778; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iICIB01m67owy+ZgGKrvkwPiF8Q0YLfs/fMh1t2N/u2s1IZXefLgaiSEzMYU6LB4bm
+         qlxO5dSsv+/kAUS+RujscIj9HBaLzQovmTiMbyIDVnO3rXQbTZxWbWHb+YTZZMs5B4Wk
+         wNNTixZklf7qnPxRcEM6+dNqTBGCgulb30kn2giHdYXncdOsWiDj+VWOP5kQErwnooy5
+         V1KIyhVomM9D394DKMgiQxRKptmy4II7LZ3r9b1+s2AUNbNwjWDegio7ps+TurPwj78m
+         AZBx3ifDhOg1oHwL/ojK694ZMfbEIVW2Z8U3pCLwAdgDz4ua63lUESvhVHDCzC+IKT6I
+         FcZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YS0ScEyb+Lt46/Yx1vO1IQ1u3zBwb87wTDPGR3ZFRZ4=;
+        fh=1ztsq6ZDctKcOGsuNCmjwivefW8HTSLvXCzFYkaxqSM=;
+        b=G31MHMMsTW3Udr/U1uEo92feadRWbCON2c+fu/AxCMnVOAWdMDfyt03fOGQ3i4XPaP
+         e65LQGnCykJbh9Ll33fbAa4jzcuqAz6219ubwJwhfVqHYb465jtGjuebrddSMDhhf5CY
+         xzJAwnKttFnFD6ji3MEuc+HkrJHm/ShpG9ZjZKSdPPL3MjVor5aaLFI3WLPquj2QUq89
+         6mWWCcAN38PN/+IAfs7q51P6Mw2LWMKAiTz126rvNgNQlnCWkgm1SuB8x9vy6Gwd/SSm
+         So9+yrqpj0ZpZKn0bBCIP4D9KOZ/0hRXvOW3EWEMioQhr1Vei48tS+0dfqCQ1QQ6KLJs
+         qs2Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1782367747; x=1782972547; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KIhE6ku6meAbw0BvyicR03G3QMAyG8gmL8NOCMACOv4=;
-        b=h0ZGygWZ7egYpp0C/BmwSFBNc7SkY8m9pD2hRZ8ZWCwssflKZkXgXsT3ZpvOHv8J1P
-         RQXVJWwyjcSx33/ff+suVwOnnr13OCyZv0aZHl/LWCgj1JA6+Nv90nbMMgmyZQo60N8C
-         kfA6vPifjDMVEauU5cft74ATnLDPXcUilBOpM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782367747; x=1782972547;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1782387778; x=1782992578; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KIhE6ku6meAbw0BvyicR03G3QMAyG8gmL8NOCMACOv4=;
-        b=ftBXeoWpnxkOkn3YyacJrTZDeVYJrE0zSeZubowcl0adjCFRIlPxm5lsvDsPnSTFVh
-         cvS2vLzPr3gp6mf64G/4HiqXfm1bDnjBG0ZDsQeTNWLGTZX8ipEkt81IwWQCWE2DlnBX
-         56Fx71Zp/had51mQZtq9ySF/N8jYwovFExdJApQcP5Edmu7eulfZK0HAE9vuGT4rdAEw
-         xEzOnKm6o5A2NzZJA6SyMc3b+cr1KRcT2si/Goc0SxCkPMTFimI0szRgjlLoeKcbKN01
-         1r+areqePdBbqDPjIjKg231rYpHFKQmHPzdW1bspWvWr2QdGCcQEd33lqpcQVWz0XCax
-         noug==
-X-Forwarded-Encrypted: i=1; AHgh+RqFs1KzdxFR8wXpRLoJbI+FAOV93/B5RdpsM6rNGolUhnKb/FUGBvs+WMKLkjYly3Ff5y3QxOBCIeRwFybYVVQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyq8xblCq0djPL98wxLJLFs/zhAViHyb0caaD1tQnK1xKD0lf+v
-	qAAzcOTKccXtmm5Yv+DCDwNVVoJLLQWLIvonTAbsuBS1YUfscrT/W58UuNPdfeKMlg==
-X-Gm-Gg: AfdE7ck2YMXgQxdgaE5ybUPg2rbGJBhoC0KzluOU3+8Lfd3dQiUFa5SLObiM1uObKPl
-	24mQTp5e4eAKYvMhwykn/uasSPZs95sLbIK8kq4O7fjtmb2Qa11i+bKez5sbzxFVZpCdP5e05Wp
-	EF60MgsSxoIJmqPfhEXZwe4OclbLFRmExcoo5neWi2plJF6+/w+LQU7djEDfKS8EWsAUTkR/tzD
-	opOuGzG+LgIoOx3MPzNIE8986TtUddm2PBArmoCyCbZkgQPfSAr4UZrLv4x8jtvVUSW7w8jTFl/
-	tBUEizHgOsenjx5fu9YY63uvJOVQcQLmJLA0bVreDcNiSeq3tu5vTeV6XrUJ9G+bFpwOEFQYgjL
-	+W4BUj+IIS5gpSj8uiijr9X2ihcOT6w2ewr1zSGS4PN2MtnvgSGMytfacFsCs0fC4TXJBQXEkLV
-	ombQ0NOSGdTpgyzYV+qwg5p2NMCGYSwhYQM5QSwTiYkACfW1S7We5iGbXIHXgxWeo0vmmf9Q==
-X-Received: by 2002:a17:90b:2f87:b0:35f:b9f1:fded with SMTP id 98e67ed59e1d1-37df9163af0mr982075a91.12.1782367746870;
-        Wed, 24 Jun 2026 23:09:06 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:df79:389c:8c8d:21c2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37df411ddf7sm1102814a91.16.2026.06.24.23.09.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 23:09:05 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	chrome-platform@lists.linux.dev
-Subject: [PATCH] platform/chrome: of_hw_prober: Use dumb trackpad prober for Spherion
-Date: Thu, 25 Jun 2026 14:08:58 +0800
-Message-ID: <20260625060859.1020483-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
+        bh=YS0ScEyb+Lt46/Yx1vO1IQ1u3zBwb87wTDPGR3ZFRZ4=;
+        b=j8yE28tXa07ZjGJ/QZKg8AsT0pjmwPSnPLQnXtmt7k1ppVq6ll2vbPGNM6GTsBNb9g
+         JtwJGLSvyQoo6h+XsiXGt8wHUgqaza38uxAqg+PI7nJQhAD+ne20DV1kYSYbYzj9VREa
+         /rr1HQoTOyw9ax/GGI4vT456xKXgsvs3jEOEU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782387778; x=1782992578;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YS0ScEyb+Lt46/Yx1vO1IQ1u3zBwb87wTDPGR3ZFRZ4=;
+        b=erQ/tYs6eA2Qzw8REuCoN3rteOIzT0Lsa1Pmc1g6u798+cDNKmeEDsYKmm1b3ST1cp
+         /6C/PoVw2PE8Uyz47VIwcw5pB9ZAZ39uLpu6/b5a8QskckuWuzFYqpCOFfQy+umKA2tX
+         8TRXFWpaMc6o7BkOuf+6cO5GcFxUkVfF4V6Nk6oJPog5y4xOD7+M8851vRSr5il9Ipzg
+         cxglHAYzqUk43/rfOKSp1sbRGD+TV2hc+Vfax8/SYTzwT8B5zachsceyU2MfnE5b9Cy/
+         2JJ9GAlbZ86FowAHjlgc+yFagdRaY6ekdQHoX2egJ+bEJh0dT7smv1CtAwqz26ouiIh/
+         /LWA==
+X-Forwarded-Encrypted: i=1; AHgh+RoDv0I3O3C4IpnvDYXiBMDEtsh4M8WA9OtuTvMJz070bLW+Arf8Xl7kPJicMoFVtNOd5f9C/lRt8OMMQ9Da5O8=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvWnJEVzr3QFlXKgJxFggK4TESbcW+QQNvPVgwIc2tOTAqE/Vm
+	+PSiek95RWeqzCaz0vt7YfktwMxajk0DsAkCJPhSnHn+b0FfMNf8ekGYAfC2KZZr2RHw3MFQ0Nc
+	3nyiqu/9ET+R0sef7Ckujw8T92NHW1tgqUdvmr/Vw
+X-Gm-Gg: AfdE7ckEx/YMYLfa3kMUPiRiMziCtrCojZwYhjdfFscMgJ0lGSng84p1nVYW3Q0vKK6
+	bBUii8b8S0lSh7iYDmUMc2GJH08ifw9op6q+L8HVuKjRMroJ7vqWIbCD6NgDh/Y67YEEOZilx6g
+	jOMuSxjNVV+wsVzGSLehb6KKQgxe6yuPeXH8v5mskUrFSSrjMmT6wnMS/qQbecaK38pSw8U6+wN
+	gEUdNonq4Yklhoi2o4EtggkSTRcTiKEoxNkjqUYlUqDMG6SjSoMtE0/ow3sRYKryRB2qZg67Axc
+	l3OSvhf2Z1v/Sgt6MgbIaYlFSkI=
+X-Received: by 2002:a17:903:1b6c:b0:2c7:f7de:484 with SMTP id
+ d9443c01a7336-2c7fc8adf2emr25915335ad.32.1782387778594; Thu, 25 Jun 2026
+ 04:42:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <178229037114.3009621.14045345257767446805@maoyixie.com>
+ <ajwgjQQsuj1AYJXz@google.com> <CAHPEe=EwiUwKP06fp+wMYPLcivzYoUvb=id26V79D_F5-6uWog@mail.gmail.com>
+In-Reply-To: <CAHPEe=EwiUwKP06fp+wMYPLcivzYoUvb=id26V79D_F5-6uWog@mail.gmail.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Thu, 25 Jun 2026 13:42:47 +0200
+X-Gm-Features: AVVi8Cdskms72eGWIlt-CScM2hRR43YqlVAlforBlNEbpWWkzXHZQH8tL1UJJ8k
+Message-ID: <CAMMMRMfYghbH9VR9zXhYWwEJwz6vEtmpv+yd3b1XcQ--EpU9vQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: reject out-of-bounds PD
+ cap count
+To: Maoyi Xie <maoyixie.tju@gmail.com>
+Cc: Benson Leung <bleung@google.com>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, 
+	Jameson Thies <jthies@google.com>, Guenter Roeck <groeck@chromium.org>, 
+	Kaixuan Li <kaixuan.li@ntu.edu.sg>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The trackpad power supply on Spherion is the system common 3.3V power
-rail. This is always on as long as the main processor is running.
+On Thu, Jun 25, 2026 at 7:17=E2=80=AFAM Maoyi Xie <maoyixie.tju@gmail.com> =
+wrote:
+>
+> Hi Andrei,
+>
+> > Are we only rejecting `out-of-bounds PD cap count` here?
+>
+> Yes, just the PD cap count for now. That is the only one that feeds a
+> write, the memcpy into the stack array caps_desc.pdo[PDO_MAX_OBJECTS].
 
-Switch to the dumb trackpad prober since it does not need to manage
-the power rail.
+If the goal is to protect the stack, why not add this check to the
+cros_typec_register_partner_pdos() function?
+Furthermore, as the name of this function suggests, it should handle all
+PDO-related data.
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- drivers/platform/chrome/chromeos_of_hw_prober.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+At the moment, you are suggesting to ignore all ec_response_typec_status
+values (not just PDO counts) without clearing any events.
 
-diff --git a/drivers/platform/chrome/chromeos_of_hw_prober.c b/drivers/platform/chrome/chromeos_of_hw_prober.c
-index f3cd612e5584..8562a0e89dc6 100644
---- a/drivers/platform/chrome/chromeos_of_hw_prober.c
-+++ b/drivers/platform/chrome/chromeos_of_hw_prober.c
-@@ -100,7 +100,7 @@ static const struct hw_prober_entry hw_prober_platforms[] = {
- 	}, {
- 		.compatible = "google,spherion",
- 		.prober = chromeos_i2c_component_prober,
--		.data = &chromeos_i2c_probe_hana_trackpad,
-+		.data = &chromeos_i2c_probe_dumb_trackpad,
- 	}, {
- 		.compatible = "google,squirtle",
- 		.prober = chromeos_i2c_component_prober,
--- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
+Thanks,
+Andrei

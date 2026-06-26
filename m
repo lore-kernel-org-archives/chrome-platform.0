@@ -1,76 +1,84 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1601E8320
-	for <chrome-platform@lists.linux.dev>; Thu, 25 Jun 2026 13:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC972E091B
+	for <chrome-platform@lists.linux.dev>; Fri, 26 Jun 2026 06:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782392466; cv=none; b=O0uZFHqJmn2BPkLcLzS8WJAOaZhb7u3ANeQkkbGHmECuzkStqJrltCC+s0Obaxp6foj3DmA+9v5wQ7xeHrlW7KTZyjvXfRGXoyMeBjUBMeh6YV0DmUwfpdIjHWWw6hPe9TL7DBCQ2YAGpZX4g4jTAuPwZHHCYWDuWudOU+Zo70g=
+	t=1782454430; cv=none; b=jplfRWdfN/ulBZdYM/j2S1G5M4kpNPVscQEQpVWdEJ3+iQxGl+nPFrnf0jqjbvkwVBCOAZySbLUx1qpVXyRocjJHHvePSWWnTtIyA3Jo1N7WRodsvQKw3tUsqi/KdAR6KZ6XmJiZnyXbFt91ACeYvojNpLMoF7DQ27/bRrKXbhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782392466; c=relaxed/simple;
-	bh=1DoHU2Y2T/dGE4r5M5PYq6CElw0caXU9dLez6zNboDc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D6jdFMdrgiH9IrPCMSV47qz5+zA0mOPLAPVUvDHNdbtmAQSU299NzvmpQDKLlM/nPt0/BUWVvTFVNsmX0rcRDGITErrBC1vjUNJCkgbbJwobNkgMQDagq1BCqZs1RhMVUlgK+NYxDSVJrxzl8hhhBp+Dr4hHay+dgxNKld2cB60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ge/nKonK; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1782454430; c=relaxed/simple;
+	bh=R6SYI3hSlHmFpqmI6l4ZS+xTVB2si9oTQsINCx6aWdI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DkIQ83ewqZvLM+mafkfLOrmnxRMJJAMb3dq231S6u6Qe9fo3VFfyfYY/rTNOc6E8YRqPdSJzc2a4twiv0YTE6KmSmlsQZJmTAHehyqsDzXh0hkYbTQxDW21vLsIpcEC/7R+c9mzrbQAwPETQhO4XpdSktTEmPynNIkQkNCmt8p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mUsibfYU; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ge/nKonK"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-37d82f3a244so1331439a91.2
-        for <chrome-platform@lists.linux.dev>; Thu, 25 Jun 2026 06:01:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mUsibfYU"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-37d55e8d3e3so320364a91.0
+        for <chrome-platform@lists.linux.dev>; Thu, 25 Jun 2026 23:13:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782392464; x=1782997264; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782454428; x=1783059228; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pQ81Cocrtw2dDH5NGikw9uURRBGajDc7MNQcdofYB2U=;
-        b=Ge/nKonKmQUqU5c44Ra85+UWCtxWV/IedgqtMJ8ln5Wsn8bt/UcHFWOayYVHtsRSMS
-         I4dKPIC/TgPJ0HuDeROxiZcyefjZc50utZo392DareVU+Wpt7YLxawtgk2Y7MHocFgkK
-         ITy5kFjqcKQ15sQgfYFirOk39BSlTXpZTQypK7lJ7Qu+TAXBtDC3/e3q4K339HzOVH+P
-         3kvAeZEbCPyZiZPexVhwX8gez7CnxAoVJijC0tUuBzSEjE6DEQOHHPArn6q8uBRofMqM
-         5QcsX37wdlhfBdZN2ca6Q7+AQgQUMdTxTUD8kLZM58KWDRYE/iBHCYkvcZe7KTEtnrBD
-         Gstg==
+        bh=V/0td7aWGEXYKguHC2/uXp2GMai6pr3CtkzjBaJbjro=;
+        b=mUsibfYUKpL2fwpijJB9Kig40UTZiWIhfK5srqKYV0FNKYd248LOggdbWwutu+INS6
+         xEWKUCYhyB9jXBwSq6KA1100B5I1Ik8WApHqq17QiAR6yz6/7XzguGK2Jua7fjTGRQGu
+         XfGmaHv89KZI/6cuxju0KgV94W8ePTVGxCN4oST9nCkUAlXLIl5tb0fCX6iXwPM2/RsA
+         s3brCkZhP5dwpna11iR9BW3WTenWZK3J31X0oibMQ3G1MgaXHvw75HqLXMxfgk9m7LIf
+         oI10qYLONOYphdmf/1yv92+C9kVaq9yVgr8MJLDaP/Od9Jw7DT9g7p/1P3h2hR1OzdQn
+         mkHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782392464; x=1782997264;
+        d=1e100.net; s=20251104; t=1782454428; x=1783059228;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pQ81Cocrtw2dDH5NGikw9uURRBGajDc7MNQcdofYB2U=;
-        b=sr0zz3E7OHtlsqTTc3yLbpUeUQfPwD0aXQCNnDu7J+QTbhCh1INvTOPFwZ/0YWXwXA
-         KsU3Re5e/WDZIm5SJWvoOVPcrwCxbMsBmYbHwXD9hl7zaTGOPt4CzYToC5+lg3BKloS2
-         O+TaRHqfxDcoilO9eC310WwoZOKQzElR+6gDGsMk/0HtRxhGvjWcirLSNe9OnejWVSwf
-         1wXhDV4A4gIrCg2c63l9JGPRXoCI8pbrbIZnbjkST91Rx41exdMfLzKsfHhtz2POfT6U
-         diWXL06ZLmSiR7LGmgqVqmzevKGQCOh+GyVo9bhV4ablBBLn9ELseietC8rG5M2cjo5Z
-         A5Vw==
-X-Forwarded-Encrypted: i=1; AHgh+RquCExwNQVrsSux7N5jMlNYxzzMpXjeoWsw5srFoOC3/TbYh772LNlv9LIHEZoqyGS2J3OZn0jLvmAuvI0Gi/M=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxp9sjSmbJQS83YvRn49b3CperWCSolxa5SsmHrO7D7yKWouYHa
-	sIqFqQvO2gygOiWXjZ3ANtKEU1mZgGg+vzUxubKfYWE9L9fLY2KB6XbD
-X-Gm-Gg: AfdE7ck1yFswZk1Ut5RUXuTVgGBJtoZEHR6Jnox637v8onraRwRhFdlKSRM79hRjR3c
-	d1txVleP9h4hMlBlaqalbcG0M5GgJZb3t6LPu0w/DJ2jhKeYjjHIwzBBfxzfPB1oEyEVZoNPQm0
-	8/2rs9eRRj1NZkLPxupfKXdIGh9OV/Ugoxo69t2B0PywggF6alXWsA6KjGUNRWTtxW7/uJtfP/e
-	n+YkRyuffwYk+NNt0/mdvgrk34BH13SC5QRbaLGGy3no1yltjWhlzo4pG4dTiEG1eHZpLURMcy7
-	lvAwJD+EMMm81bmAeErWSQJo8HwBuY2Fzw1fi7WAO7omjRP6LrNaBhoYwi8qpt34s2tXezM5yFk
-	pX8+CE2v9yJWioJne0kL/Jm9cklsuvJSif12X+dPo4Tfplo6bF4SCoS+DhPd4HoPEExsGbCg/OJ
-	uoedRHjKck+ELsiil3o6k0mmmhs3MjydRKTQ/UDQ1hL1NTM3X7
-X-Received: by 2002:a17:90a:d005:b0:37d:f6d8:b50e with SMTP id 98e67ed59e1d1-37df9f5a4f3mr2454393a91.9.1782392463741;
-        Thu, 25 Jun 2026 06:01:03 -0700 (PDT)
-Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c92bd556e39sm1654223a12.32.2026.06.25.06.01.00
+        bh=V/0td7aWGEXYKguHC2/uXp2GMai6pr3CtkzjBaJbjro=;
+        b=rbd+xww7IjwkSITdOj5AVv1cBCgDB44HlvPyCmF5g3W6AGcIW+jF55VNSjZx8SXmgf
+         UeGkGYKqU7a05ObXfhMsBqMt04FJhqqj/hUgvVbB2NpESCfmgYr9+9+5jSaPN2KDlAhd
+         vF7n0eev3mfOQYKqp72gViVzetgEmWxd5Hb0b7aje8tqns314LW1Sk2ZohIZEPYBKDSv
+         pDoqRJtez4vtga1lF2/wzyGXHuJOAi97TzIU6/aHeLtRgnXhDecim4ZNvm6+hvo/pgMn
+         ziGCJcfzWMcSM/3+1uu9RbxFlczeaZY0rrpfI8RVj4jiVrqcEkmJM1D5m2XuXF7gK5hZ
+         WP3w==
+X-Forwarded-Encrypted: i=1; AHgh+RrIVR46Z0DPUZKxajqKZ+GKHHX+j877emEzjrTNfN0lKUr5D3amObJv5MrEbgFf/YqmT+2Lpr4icQ7CFoGRmug=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAt8Cjl8L2bNd9UT4jSda1Xaf4bBRcUp+jq2Idg2E0KU4lXOAU
+	6dB4BBWneizSGlJwiO8CjHvw/KZwpwtWuff9hKHNXBB3rrZbM64q8vQi
+X-Gm-Gg: AfdE7cnriwufNqAYXAnoMtbzSI0SgvUqW1DQStoTCwm+YeOJ5jsuQNNI1j41F/Ys8B0
+	5SAOTFkvm3U0CtzdYD+YrogiTztIbcbIxEpV6nDQ6eQ+SXs3czWetASX0MGtfxioUfsNuXdrRSm
+	hKthGFz2oqxGU9ZdPlcaJbpsA7Wci8r3nn1jtpCA1M4mCzFc3q3wTVlro0xQonYzq2olPHRAxjU
+	U8bW2/385o5QSz7zhKa6RGUQRhkhfgvLW04rcZ2mDkGBUcaQn5IcSIlBkPVGl7Kim4bMNG8u9uW
+	z2K+xOcT7XoB2Q8Up3HuXilWMuLGJVXX3wPo1Vqs+RgJnm5l/25tjlmn2BlVmoU7h1mBooAP4Gt
+	5ctEEBD55B2ouEoRE5GfP+D3vZ1vVdsUgFd3WaKylTNpyvfui8QYkM+t2GJl36+fs1uy15OqyHT
+	4pqXucM2H5ykRU7W8VkcSENHsQTQreZsIAUD/lUisghLN+cUo=
+X-Received: by 2002:a17:90b:5387:b0:36b:769c:c037 with SMTP id 98e67ed59e1d1-37df90a85cemr3835851a91.5.1782454428422;
+        Thu, 25 Jun 2026 23:13:48 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37e12da6ec4sm302051a91.2.2026.06.25.23.13.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 06:01:03 -0700 (PDT)
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-To: Benson Leung <bleung@chromium.org>,
+        Thu, 25 Jun 2026 23:13:48 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>
-Cc: Maoyi Xie <maoyixie.tju@gmail.com>,
-	Kaixuan Li <kaixuan.li@ntu.edu.sg>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Cheng-Yi Chiang <cychiang@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	povik+lin@cutebit.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] platform/chrome: cros_ec_typec: reject out-of-bounds PD cap count
-Date: Thu, 25 Jun 2026 21:00:56 +0800
-Message-Id: <20260625130056.3378097-1-maoyixie.tju@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	asahi@lists.linux.dev,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 00/24] ASoC: codecs: Use guard() for mutex & spin locks
+Date: Fri, 26 Jun 2026 13:13:05 +0700
+Message-ID: <20260626061329.23264-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -79,61 +87,78 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-cros_typec_register_partner_pdos() copies the partner PDOs from the EC
-TYPEC_STATUS response into the fixed caps_desc.pdo[PDO_MAX_OBJECTS] array.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-	memcpy(caps_desc.pdo, resp->source_cap_pdos,
-	       sizeof(u32) * resp->source_cap_count);
-	...
-	memcpy(caps_desc.pdo, resp->sink_cap_pdos,
-	       sizeof(u32) * resp->sink_cap_count);
+Hi all,
 
-PDO_MAX_OBJECTS is 7. source_cap_count and sink_cap_count are u8 fields
-from the EC. The only check is that they are not both zero. If either is
-larger than 7, the memcpy writes past the end of the array on the stack.
-A count of 255 overflows it by about 1 KB. The EC source arrays are only
-seven entries wide. A larger count reads past them too.
+This series converts mutex and spinlock handling in ASoC codec drivers
+to use the guard() and scoped_guard() helpers.
 
-The ChromeOS EC firmware caps these counts today, so a compliant setup
-does not hit this. The kernel should still validate these values rather
-than trust them.
+This series is split out from a larger 78-patch series to improve
+reviewability and allow for incremental review:
+https://lore.kernel.org/all/20260617103235.449609-1-phucduc.bui@gmail.com/
 
-Validate the counts in cros_typec_register_partner_pdos() next to the
-memcpy. Skip the PDO registration if either count is above PDO_MAX_OBJECTS.
-The rest of cros_typec_handle_status() still runs so events are handled
-and cleared.
+The changes are purely refactoring and have no functional impact.
 
-Fixes: 348a2e8c93d3 ("platform/chrome: cros_ec_typec: Register partner PDOs")
-Suggested-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Suggested-by: Andrei Kuchynski <akuchynski@chromium.org>
-Co-developed-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
-Signed-off-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
-Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
----
-v2: Move the check into cros_typec_register_partner_pdos() next to the
-    memcpy it guards. v1 put it at the top of cros_typec_handle_status()
-    and returned early. That skipped the rest of the status handling and
-    left events uncleared.
+Compile-tested only.
 
-v1: https://lore.kernel.org/r/178229037114.3009621.14045345257767446805@maoyixie.com
+Best regards,
+Phuc
 
- drivers/platform/chrome/cros_ec_typec.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+bui duc phuc (24):
+  ASoC: codecs: ab8500: Use guard() for mutex locks
+  ASoC: codecs: ak4613: Use guard() for mutex locks
+  ASoC: codecs: arizona-jack: Use guard() cleanup helpers
+  ASoC: codecs: arizona: Use guard() for mutex locks
+  ASoC: codecs: aw87390: Use guard() for mutex locks
+  ASoC: codecs: aw88081: Use guard() for mutex locks
+  ASoC: codecs: aw88166: Use guard() for mutex locks
+  ASoC: codecs: aw88261: Use guard() for mutex locks
+  ASoC: codecs: aw88395: Use guard() for mutex locks
+  ASoC: codecs: aw88399: Use guard() for mutex locks
+  ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
+  ASoC: codecs: cs-amp-lib: Use guard() for mutex locks
+  ASoC: codecs: cs35l56: Use guard() and PM runtime scope helpers
+  ASoC: codecs: cs42l42: Use guard() cleanup helpers
+  ASoC: codecs: cs42l43: Use guard() and PM runtime scope helpers
+  ASoC: codecs: cs42l84: Use guard() for mutex locks
+  ASoC: codecs: cs43130: Use guard() for mutex locks
+  ASoC: codecs: cs47l15: Use guard() for mutex locks
+  ASoC: codecs: cs47l35: Use guard() for mutex locks
+  ASoC: codecs: cs47l85: Use guard() for mutex locks
+  ASoC: codecs: cs47l90: Use guard() for mutex locks
+  ASoC: codecs: cs47l92: Use guard() for mutex locks
+  ASoC: codecs: cs48l32: Use guard() for mutex locks
+  ASoC: codecs: cs2072x: Use guard() for mutex locks
 
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index c0806c562bb9..50a68819ceb7 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -1119,6 +1119,12 @@ static void cros_typec_register_partner_pdos(struct cros_typec_data *typec,
- 	if (!resp->source_cap_count && !resp->sink_cap_count)
- 		return;
+ sound/soc/codecs/ab8500-codec.c           |  12 ++-
+ sound/soc/codecs/ak4613.c                 |  83 +++++++++--------
+ sound/soc/codecs/arizona-jack.c           |  39 ++++----
+ sound/soc/codecs/arizona.c                |  26 +++---
+ sound/soc/codecs/aw87390.c                |  10 +--
+ sound/soc/codecs/aw88081.c                |  18 ++--
+ sound/soc/codecs/aw88166.c                |  24 +++--
+ sound/soc/codecs/aw88261.c                |  21 ++---
+ sound/soc/codecs/aw88395/aw88395.c        |  24 +++--
+ sound/soc/codecs/aw88395/aw88395_device.c |  40 +++------
+ sound/soc/codecs/aw88399.c                |  15 ++--
+ sound/soc/codecs/cros_ec_codec.c          |  18 ++--
+ sound/soc/codecs/cs-amp-lib.c             |  11 ++-
+ sound/soc/codecs/cs35l56-shared.c         |  19 ++--
+ sound/soc/codecs/cs42l42.c                |  54 +++++------
+ sound/soc/codecs/cs42l43-jack.c           | 104 +++++++++-------------
+ sound/soc/codecs/cs42l43.c                |  16 ++--
+ sound/soc/codecs/cs42l84.c                |  10 +--
+ sound/soc/codecs/cs43130.c                |  72 +++++++--------
+ sound/soc/codecs/cs47l15.c                |  11 ++-
+ sound/soc/codecs/cs47l35.c                |  11 ++-
+ sound/soc/codecs/cs47l85.c                |  11 ++-
+ sound/soc/codecs/cs47l90.c                |  11 ++-
+ sound/soc/codecs/cs47l92.c                |  11 ++-
+ sound/soc/codecs/cs48l32.c                |  29 +++---
+ sound/soc/codecs/cx2072x.c                |   5 +-
+ 26 files changed, 305 insertions(+), 400 deletions(-)
 
-+	if (resp->source_cap_count > PDO_MAX_OBJECTS ||
-+	    resp->sink_cap_count > PDO_MAX_OBJECTS) {
-+		dev_warn(typec->dev, "Invalid PDO count from EC, port: %d\n", port_num);
-+		return;
-+	}
-+
- 	port->partner_pd = typec_partner_usb_power_delivery_register(port->partner, &desc);
- 	if (IS_ERR(port->partner_pd)) {
- 		dev_warn(typec->dev, "Failed to register partner PD device, port: %d\n", port_num);
+-- 
+2.43.0
+

@@ -1,137 +1,174 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB083EBF01
-	for <chrome-platform@lists.linux.dev>; Fri, 26 Jun 2026 12:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782478649; cv=pass; b=NYePbR61MmaIEJV10fg1S2nCrkyX+7uwyTi92G6zu60qBPgyDduZJliAoIX1D3MzZxbmhfladnJHoKEiwGQTftXLce5HmA+EbpXsPbgA1oYM96/x/y7QkYCIJ0wQjyQSzCF+rDg1IstCGBC5XIcQTPRcW5L3wogHF2m6oBMfeQc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782478649; c=relaxed/simple;
-	bh=8sC/X8kFjJJJ17yx82agnNOpLpbjIzUNwznUcxru8No=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lWIQ/EPO83O9JvfSTACuWtdMGR3hu7rUTvZ4MDWWlIeStoz2bjvqD1bsnI2Eac+k60HqWZ/J0tbq8Rp3acQfg9bmbAy8x3Mwjf2ose2roepQllu9aQD3o8L7+LigU3ien86CVwqCDvrmZ+D25zKtfF8S3dfHF6fKlLydqMzDHck=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J0UX1j3m; arc=pass smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B513B47CB
+	for <chrome-platform@lists.linux.dev>; Fri, 26 Jun 2026 18:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782498772; cv=none; b=aJkrrEvYpCJ/ggAYntxTYyYaIVuwF/DInSL8pLg3UbbtZwkwMmfjHlnQjGdYCNPLX2dnu8YsMMkxamAtOOGzbdKlm1y/lGxPWN1hMhGCFSlill818S81ytg+SMhoPW5xz5f9IqDqxgIg/CkSOVkliVL24xy7yd1r98aYRBTtdBM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782498772; c=relaxed/simple;
+	bh=qWVeFXV/b46sEnDgc7WPG0MAzRYDPZ3XT3mpcYSBxrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OMv8vILDZVBTkPn9nsV9iUPi+fbZp7y2WXhG7g5d4uq527MvBH9jX5DRXrYlV5mdujLnjJ93U6EjW/+a57fTBzbtG3icLEMzDT6ECPa/MFtl4ZzNkcQPbnQWI2Bg9og5USAkJPUQD6C/SY3SNRnsF3YIH7yG1gEbtME/qdBkLbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vR3flqSs; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J0UX1j3m"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c88b8fe9059so321113a12.3
-        for <chrome-platform@lists.linux.dev>; Fri, 26 Jun 2026 05:57:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782478647; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cbDedjm4bOfUg4a35tNL1ilAOeMpsx8FUY2pm1kuKd6LJbh5rQjlPhIOzNJVXGXSL6
-         0V7qVPq+J56ky+RKtn9PZmjmjYjESUIdnKI4JpIITxb/koAmmW8plic3AzXuf341760y
-         +/RzjqqZu5DSZcwbnwH1R1PwoLezUEGLbx+uCsJ/GtTEFFskAbghtDSVYxQfED5shMxv
-         ThTQuWO6w/DbtYi0RywwtNHZQE/2RMPnv5wrVaLGCASY2E+4SjMPKfH9VPDl2CLyq7Bn
-         TmyVTl2dH9+29dCzk7O5r/Urbw0Lewgyxcj/6/0DrpwC4wckOvcmEqB/epXkxsSnrcPh
-         897w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=tZgJt3XD/Oh5GCeIKGuzpoEzx154Xmg96jamGMCE9ck=;
-        fh=XEtAyev4y/ViftnqlXbhFqzvvexjULreiWTQVD7plLE=;
-        b=bxXTpGoX1dddpFgVoHLtPw1AOMNC3/2Ok7BwM3viy4M+nacNvg8ay3/tzq+1r6Aj9j
-         vbrLRql0doTR/ruQTQj6Zbl5GfcaLbvKzQRw0m2ZyqQfQ8HllXMYyAJDjYiE/szgwqFM
-         4vLtWk1ynubxzc0T0ldBFj+/idUgax4AjBnLPHgb2awwf0DJ4hRJ1nOdTJGCyU+78HXH
-         9dI++TK8haMM5GrKOTE748zNh5uIx8WdOcBMUWSJAnnntE3aTisx/wvul5JieG4bT/Lx
-         bcUD69Ew97qPn5ihQsrBryEfOyDADRZIiMBu+KFi1DxSG5Op5dee7EqlIbblrgrZUzHW
-         dlKg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vR3flqSs"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2c9878bbe88so1768725ad.0
+        for <chrome-platform@lists.linux.dev>; Fri, 26 Jun 2026 11:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782478647; x=1783083447; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tZgJt3XD/Oh5GCeIKGuzpoEzx154Xmg96jamGMCE9ck=;
-        b=J0UX1j3mjQh+GVl+il1cdabPSMVBV4AxORGcYjdaVh8LsVfsj3DVMElPq+ZmIDBy4g
-         61ODzY35ShmZKJZEDeCobENh8tVmBXigNa+T0xctDyPhDjzyCoV8ID01xNBzygKebZaz
-         VtryoBQGiCuaO0acomh6djIaCdBI2WMqEJZ0EYmnjFrkzcunBhAQXg3iJtfjFf1JJJfV
-         DN9ySVPMpGPozvjWYFnPx9S9hCBszK1KRm1doKxIHhdUirPP0STTgBj5qBySBkBripSI
-         YQ2AvojrM05GUxaEfJl5idilSNe8ZwDDbwAKx0FG7HXY9cbnOrNpzG00mlSsI8rA8Dhe
-         DJhA==
+        d=google.com; s=20251104; t=1782498770; x=1783103570; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=F5iRXh9pMrYUUv4kaKZyGm378pwkxZvl04HUf2Y2obM=;
+        b=vR3flqSs3iMRQY5T9zy7+r8Ys8Wwv7K2sWmhP8R6SaQZrN4z/lL+wO/43VwuKjeR3b
+         eT2JeDg++N1sQWZk4dzki+sZfUVowvROMGTp2Zp+qSFX9wVGk4oZYrKLOysfaIlKK8fP
+         Os+bte3iXaIiDekwxCLgBHuY2qis/YjItrXLJTWXxNs2CWaXLS5SGGTA1R7IJ6WXe8Od
+         TL15E+0QHc3Dhw75s2qFAqxmwVsAUOI0MCIzwmcrW0DDBMLrVRev0nrnXizXkaUbRu4P
+         +TqAwWOr09os2Q4rWaGD4cIDHtePM8eqD6HJVqkwISWLnyde7lKVhdugREeGqD09kNQa
+         TQ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782478647; x=1783083447;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tZgJt3XD/Oh5GCeIKGuzpoEzx154Xmg96jamGMCE9ck=;
-        b=UKBv9mZbory0e0bf+e2RiZmuyhbY5jelSUop0ayTpedIw14j2IHFPqn/pkUgZ/JG6A
-         p0hnos7iHkzTebNFvbdxZgTUZ2h5dwlagcDurz+MflU9j7UtE30inf59xyfZ/MeWL/XN
-         2fSWvWrXAZ+CXXBnoRsPNAcEFyZ2ro3u+J9x4WRULv31iB1375H5KwyDA1o9IwxQ56TN
-         JxDOFhdb7xcrSMf4pHAoUyCdEkFA658UzpfWyetQKWKtnprxr9ETfyy2fDBObqYNFTLy
-         8C2gHgUTwX8REqEJHvQi45roFju77IUN5JBoXx9AH5g/36HiLJHfaYqzvcKPijJlosuf
-         eTfg==
-X-Forwarded-Encrypted: i=1; AFNElJ9tJeirQx7jWJ15xvVLu0J6LxLiXaLRG/VmaQGeCOd1ifLUYLdGsAS/jYQJ7exJQ66/WveIZSvCTIAom+DFkws=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuPTKvt9O3rCh7K/XGxayh/FcT6eDdar1JwF17BcARPcjJ5NQS
-	Zc5yoGMXe8NGOp9QrvJFYDIiGhGrA4Dz8xZlKV76KuPGgucFuNwmmjcAzT27B4Zv+Yt6IogxVMf
-	w6vx4mSHlftEqzSIRt5MZb15fORtpKWY=
-X-Gm-Gg: AfdE7cnbwJEgfoasMWSzdwHtSI+VnXtycv0vqw4YmeHmSsioK2BboTiDgqmKIKQdk4U
-	jRxNMY+GRFtRQVV8rV/bw3UyezNJPIQk7I6XRjwACh18oVhxIpD0pTbtS0z5lwnWK/FAGwUkt6s
-	6hLwNxaIhQ/LVHQutm0diaUaxNXjW6tcE5wHCsCLj9UpMqUcgC8oAcfzKcCfr4fJd9302029iDs
-	zF6dAzjI/4p0mXhqEXL5mLkZuimFiXhdfUAhcoYj0NYZTeyN0GQKoFJk21px12W0YQT/Pxj6MJS
-	1OQ8vK50OJ55v0j1SKrjpeOUWSNAIG2MpnDgOkj1saAAP9SfaEVUdZ6wSkxx
-X-Received: by 2002:a05:6a00:390b:b0:845:6252:f69b with SMTP id
- d2e1a72fcca58-845b3b09722mr8163064b3a.46.1782478647492; Fri, 26 Jun 2026
- 05:57:27 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782498770; x=1783103570;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F5iRXh9pMrYUUv4kaKZyGm378pwkxZvl04HUf2Y2obM=;
+        b=Izrnj8GdFJXZ4+kHUvkqNFpQuG84Z1QqcSQhFY2XD1w6GpS6sQfJ93Frp8jFqYcEXy
+         qWFxc4HuB0XAB3Dejm5TMbGCyaY12KVoVQOFmYIsU9RzLppkLoueRPFdtrZwYZxqV1sU
+         /HYBEyOBQA5hbyDwqxhv2uOjqPyI04lLZOgj39vMOsl0LtkoPX3W3uqhxOn8HjXi92dz
+         MJI66NDW0B5qCX47VdlJO2y17yN21aAoDoSxlNRjlPpQ29U4WRXmFoTkDz6o+S0MPkGX
+         yWiZTMZvY84+IlcOthkpSGQox7ec5Yc2h5+AuaUpaPDrSgULuNybNIcletPCYWwmVlJa
+         zV/Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rpg93mNIo6BkePoBeGSprJC/m9Iej1Hwc//LuRCbcI75HErF/vkgmHni/Yy/nCt1nZTxvpwCuOkyZNGael4BKE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNOMtR2grjmat46/gfSFB4PHq2gJAKDNKDXUM33JhziotAE8qQ
+	FuS+OEDr0IPGBZm/hXBBon1IIb6MMih9N3Ahq6J/Fsw7tY5Yes4I0Tyd8+5qlaI7BQ==
+X-Gm-Gg: AfdE7cnoKjlD/m76+PUbjTX/VyAWEG79VcRhJh64iLOJsufAunmLUW1M2cd6EoXxAaj
+	unoL68WlYUcWUxoB1UEsjfGwBeub6k9z+kvW2j4pNaggHYjzAEJggpJ2dqfUrk0sah2tTMb2S9U
+	G7W9RvNLeMuzbjmvHgyOfym7WHFswvxXGo3R/ErS5wWCWiK6xRGlx/Vr2kZHfY3NbX4TIv2Sr+P
+	6DuTX7LflHeQO92705ywm0aUdN/v52n++rdzM/4AiFh6+JB6UseUmH2vEBkmoXt7gUm7MMu7WzY
+	Mv7eCzQxW3q+7KzVpj+7+ub/JKdLdfndaFGKw+vQifkkLwlG6bVbafZ/IQNP89/QVg8wzqK60NX
+	1mf3RXwfS302UINPjQl0pxGQJyfnRMh5HH1FOo0FAxaI3gNUfuyYSXDIkBeuk+muN30ZgT3ndWo
+	8f/NgbeGS2UkODaGF8f6YLVmMt5wGtP8mAIhigRp/Ejhr6q1yw
+X-Received: by 2002:a17:903:90d:b0:2c1:41f8:7ef5 with SMTP id d9443c01a7336-2c7c3ff85b9mr138052725ad.22.1782498769659;
+        Fri, 26 Jun 2026 11:32:49 -0700 (PDT)
+Received: from google.com (211.37.230.35.bc.googleusercontent.com. [35.230.37.211])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f64cfdcbsm43503655ad.62.2026.06.26.11.32.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 11:32:46 -0700 (PDT)
+Date: Fri, 26 Jun 2026 18:32:43 +0000
+From: Benson Leung <bleung@google.com>
+To: Maoyi Xie <maoyixie.tju@gmail.com>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Kaixuan Li <kaixuan.li@ntu.edu.sg>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] platform/chrome: cros_ec_typec: reject out-of-bounds
+ PD cap count
+Message-ID: <aj7Fy83HFkIBS53N@google.com>
+References: <20260625130056.3378097-1-maoyixie.tju@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260626061329.23264-1-phucduc.bui@gmail.com> <20260626061329.23264-16-phucduc.bui@gmail.com>
- <aj5a7pgaDoN30Gs5@opensource.cirrus.com>
-In-Reply-To: <aj5a7pgaDoN30Gs5@opensource.cirrus.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 26 Jun 2026 19:57:15 +0700
-X-Gm-Features: AVVi8Cf6eb5dnLbYsqjVNTri5x3c-YQFHB_0iF60ES0iQWHt02WjGfax8ERd-Y8
-Message-ID: <CAABR9nG9jDfK_wqS4Akfz5GL6HvZ-RkpPuYx4Q=vMn5jH_0foA@mail.gmail.com>
-Subject: Re: [PATCH 15/24] ASoC: codecs: cs42l43: Use guard() and PM runtime
- scope helpers
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, David Rhodes <david.rhodes@cirrus.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Cheng-Yi Chiang <cychiang@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Benson Leung <bleung@chromium.org>, Richard Fitzgerald <rf@opensource.cirrus.com>, povik+lin@cutebit.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@opensource.cirrus.com, chrome-platform@lists.linux.dev, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="W5LVQOzyA6UIaTVT"
+Content-Disposition: inline
+In-Reply-To: <20260625130056.3378097-1-maoyixie.tju@gmail.com>
 
-> > ---
-> > -     if (!jack)
-> > -             goto done;
-> > +     if (!jack) {
-> > +             regmap_update_bits(cs42l43->regmap, CS42L43_HS_BIAS_SENSE_AND_CLAMP_AUTOCONTROL,
-> > +                                CS42L43_JACKDET_MODE_MASK |
-> > +                                CS42L43_S0_AUTO_ADCMUTE_DISABLE_MASK |
-> > +                                CS42L43_HSBIAS_SENSE_TRIP_MASK, autocontrol);
-> > +             regmap_update_bits(cs42l43->regmap, CS42L43_PDNCNTL,
-> > +                                CS42L43_RING_SENSE_EN_MASK, pdncntl);
-> > +             dev_dbg(priv->dev, "Successfully configured accessory detect\n");
-> > +
-> > +             return 0;
->
-> I really don't like this duplicating of code blocks, it takes us
-> to a situation we always need to remember to update both blocks
-> in sync which feels like it makes reviewing future patches very
-> error prone.
->
 
-Hi Charles,
+--W5LVQOzyA6UIaTVT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I understand your concern about duplicating the code.
+On Thu, Jun 25, 2026 at 09:00:56PM +0800, Maoyi Xie wrote:
+> cros_typec_register_partner_pdos() copies the partner PDOs from the EC
+> TYPEC_STATUS response into the fixed caps_desc.pdo[PDO_MAX_OBJECTS] array.
+>=20
+> 	memcpy(caps_desc.pdo, resp->source_cap_pdos,
+> 	       sizeof(u32) * resp->source_cap_count);
+> 	...
+> 	memcpy(caps_desc.pdo, resp->sink_cap_pdos,
+> 	       sizeof(u32) * resp->sink_cap_count);
+>=20
+> PDO_MAX_OBJECTS is 7. source_cap_count and sink_cap_count are u8 fields
+> from the EC. The only check is that they are not both zero. If either is
+> larger than 7, the memcpy writes past the end of the array on the stack.
+> A count of 255 overflows it by about 1 KB. The EC source arrays are only
+> seven entries wide. A larger count reads past them too.
+>=20
+> The ChromeOS EC firmware caps these counts today, so a compliant setup
+> does not hit this. The kernel should still validate these values rather
+> than trust them.
+>=20
+> Validate the counts in cros_typec_register_partner_pdos() next to the
+> memcpy. Skip the PDO registration if either count is above PDO_MAX_OBJECT=
+S.
+> The rest of cros_typec_handle_status() still runs so events are handled
+> and cleared.
+>=20
+> Fixes: 348a2e8c93d3 ("platform/chrome: cros_ec_typec: Register partner PD=
+Os")
+> Suggested-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Suggested-by: Andrei Kuchynski <akuchynski@chromium.org>
+> Co-developed-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
+> Signed-off-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
+> Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
 
-My reasoning is that duplicating this block once lets us eliminate 12
-`goto` labels,
-which I think makes the overall flow easier to follow. To me, that's a
-reasonable trade-off.
+Reviewed-by: Benson Leung <bleung@chromium.org>
 
-If you have a cleaner approach that avoids both the duplicated block
-and the 12 `goto` labels,
-I'd be happy to adopt it.
 
-Best regards,
-Phuc
+> ---
+> v2: Move the check into cros_typec_register_partner_pdos() next to the
+>     memcpy it guards. v1 put it at the top of cros_typec_handle_status()
+>     and returned early. That skipped the rest of the status handling and
+>     left events uncleared.
+>=20
+> v1: https://lore.kernel.org/r/178229037114.3009621.14045345257767446805@m=
+aoyixie.com
+>=20
+>  drivers/platform/chrome/cros_ec_typec.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
+hrome/cros_ec_typec.c
+> index c0806c562bb9..50a68819ceb7 100644
+> --- a/drivers/platform/chrome/cros_ec_typec.c
+> +++ b/drivers/platform/chrome/cros_ec_typec.c
+> @@ -1119,6 +1119,12 @@ static void cros_typec_register_partner_pdos(struc=
+t cros_typec_data *typec,
+>  	if (!resp->source_cap_count && !resp->sink_cap_count)
+>  		return;
+>=20
+> +	if (resp->source_cap_count > PDO_MAX_OBJECTS ||
+> +	    resp->sink_cap_count > PDO_MAX_OBJECTS) {
+> +		dev_warn(typec->dev, "Invalid PDO count from EC, port: %d\n", port_num=
+);
+> +		return;
+> +	}
+> +
+>  	port->partner_pd =3D typec_partner_usb_power_delivery_register(port->pa=
+rtner, &desc);
+>  	if (IS_ERR(port->partner_pd)) {
+>  		dev_warn(typec->dev, "Failed to register partner PD device, port: %d\n=
+", port_num);
+
+--W5LVQOzyA6UIaTVT
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCaj7FywAKCRBzbaomhzOw
+ws7cAQC5ndIkEaBQ8kq3zFUNXs4fuP/TD4ObikCfE/4G3cHKdgEAnLxUUYmXJdIJ
+DuAaMN/x5U5zQMc6DtqaGcckaUmAYgA=
+=z7p8
+-----END PGP SIGNATURE-----
+
+--W5LVQOzyA6UIaTVT--

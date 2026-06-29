@@ -1,63 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89B340D58A;
-	Mon, 29 Jun 2026 02:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA201DF6C
+	for <chrome-platform@lists.linux.dev>; Mon, 29 Jun 2026 03:02:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782701703; cv=none; b=jP32/G5oMVll6MfSkBTKMzyscE8jMcOv8lilnx2HKN1JNil0jdu0oO/6vGxbDV/7u2AcT6wR5JW8zTXpeAxVzKSGr8a2MM+ULv4eZRLrsP8JKD63kJzKuM6pVvdT8UNP1AjGW84wIRyoza75itb8CAec/LAy7DOkHX7u4DfBkCg=
+	t=1782702144; cv=none; b=JR2M33h2dvr7ScAHyALs6a1iO5rWFlIAcAHGPx99rcKY6811/en7EMsknwH8ZvXeykklPfYFt8uK/dcsQ4giE8VabX+zo3/7vRD3/g+IvgtRIVmvRupM/WmdZweUCjsL704UyY6gl6hl1dVDesHnFf6XaZYADwh/6OqNrxl/zzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782701703; c=relaxed/simple;
-	bh=EavLWV+fQshO3DGkmM4KU/DsA+8+iIx29AvqAgsTjNQ=;
+	s=arc-20240116; t=1782702144; c=relaxed/simple;
+	bh=i2/yRiSksc7TXlQJ4QYXWjDzygl+LHTEAX730qvojWo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RsnHtOQqsvh6YE7sXSnXv8D7WmGG7Bb+4pqi4zoTEEHUgDMOnljpo7WZx5SgfJaWvXaImyZvhtI11YCowoUTD/4h3Khk+97KLr+zM5fVS98hRKoauGdQ50u0jQHwHvkEzJBqVr+2ySjybAa3RrwimGxpG5ss6TN0PEtrjuUn0Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XffkLkh0; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=b2sYgfuDcqIAuCxt3qRkk0mhS0h2/mS4AX3ipYywYWeS4m1aIlV4WvrFeElLVWygeis+in3JxjUlEdEnaSpRGijLJ13Cb7fBYnBff3gNYJ66KQCk2wL+Fw/sy0d5tJ1PE0HYlxXJbhXxbZ+WNZfmyVE5Hat7K7cLCeNZ0huFnUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NrQ15SVl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XffkLkh0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF2F21F000E9;
-	Mon, 29 Jun 2026 02:55:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NrQ15SVl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B0661F000E9;
+	Mon, 29 Jun 2026 03:02:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782701702;
-	bh=D139c9TymHMx1zFEjt8YFIezPDK/6ZH0RIFJg2wbOqs=;
+	s=k20260515; t=1782702143;
+	bh=ge+HwM3cOBj/2unsLmtjGjipyGQixa+Ot1WCZ1gfy+U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XffkLkh0doz+5hOR8lVqxXjta/6DQl44tNmZSnu4aA+yDzXKmPOkCnQNsRajp6XK1
-	 JQsApif+RvpL4/XBpuW0uv8ANX3S6O8FzcGUpjAXcFED5eGWm4qCbcboPwd53MH4Pg
-	 573Z2wy8qbqDQunDRR+EcbovuidCi1BjjXC2IA0AJyxyagkQre1qf70bb6tXVf3tx9
-	 FS/hMC2Gz0rV2vyUC8o/IYoXH1YhJfFEq6v4uROoS53nRBxx4mXHusvX50g9cA6eqy
-	 lDBF6PeQbWmlBdmh11s9mQHlsBrfv+nTmkYEdQ2x0icBZK75yov3FSzoHg5Wfn19z1
-	 CcgQcI1xVqp/A==
-Date: Mon, 29 Jun 2026 02:54:59 +0000
+	b=NrQ15SVlTEVzWHdMXF7uUJu97XPTCL6R4X3q2XnuZCNC+pNQ3vEdt6E43Eiaxb7Qv
+	 EkAvaHPr1tCXf8j/t6iVs5aD8dfSoE1Fype69b5tbc2k6NeNJDH4dG0b/sK4xIIleL
+	 SgMKFFqoJBT/Trpmb751s0D2qKV1EflgBGRn9UXL8KsIR+pDjFjh96DNR4RHzL9wIM
+	 hk569ynv7LqVvj57x0eEDjivL2RNR67q4vvlzDSwBU3QLaqGZTwxp1BBLPqzRccnhu
+	 pzrsr0EJ1cTlaAV/UPAKt4ZeBU9t/049AW9ykYtN80oDUbwrbbZHCAjZZQQslU6LaP
+	 bX64gXBYmFAEA==
+Date: Mon, 29 Jun 2026 03:02:20 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Benson Leung <bleung@chromium.org>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	Liao Yuanhong <liaoyuanhong@vivo.com>, Kees Cook <kees@kernel.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] platform/chrome: Drop unused assignment of
- platform_device_id driver data
-Message-ID: <akHeg4wxvUiPpsKN@google.com>
-References: <5b72bac661bdf1c874bea4b91ce3c2eccc84bba1.1781690554.git.u.kleine-koenig@baylibre.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH] platform/chrome: of_hw_prober: Use dumb trackpad prober
+ for Spherion
+Message-ID: <akHgPBS7_EjxWMeC@google.com>
+References: <20260625060859.1020483-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5b72bac661bdf1c874bea4b91ce3c2eccc84bba1.1781690554.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <20260625060859.1020483-1-wenst@chromium.org>
 
-On Wed, Jun 17, 2026 at 12:04:13PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
-> The drivers explicitly set the .driver_data member of struct
-> platform_device_id to zero without relying on that value. Drop these
-> unused assignments.
+On Thu, Jun 25, 2026 at 02:08:58PM +0800, Chen-Yu Tsai wrote:
+> The trackpad power supply on Spherion is the system common 3.3V power
+> rail. This is always on as long as the main processor is running.
 > 
-> While touching these arrays use a single space in the list terminator
-> consistently.
+> Switch to the dumb trackpad prober since it does not need to manage
+> the power rail.
 > 
 > [...]
 
@@ -65,7 +57,7 @@ Applied to
 
     https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-[1/1] platform/chrome: Drop unused assignment of platform_device_id driver data
-      commit: 200691f509fb77be78cd4b2d38b4e540a454bec3
+[1/1] platform/chrome: of_hw_prober: Use dumb trackpad prober for Spherion
+      commit: 10a1e8c3539039c4c9de4783a683e8e01a3dee8d
 
 Thanks!

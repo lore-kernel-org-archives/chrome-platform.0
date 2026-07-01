@@ -1,137 +1,175 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CAA331214
-	for <chrome-platform@lists.linux.dev>; Tue, 30 Jun 2026 23:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0876736213D
+	for <chrome-platform@lists.linux.dev>; Wed,  1 Jul 2026 07:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782860858; cv=none; b=Df2agwz3B1YZ6kUsZrl0XYQlRoHB1XLKi6H77D2nvVb7HlM4rUgsshIBST8MAtc1EsxEFSPo0EvUgT4TtTGF8VpBe4HNbfVh0ogZphsHWvXAK/lMQqmoX4dJkz+UwAvkvgjBYgvz890rCE0xEb/5pXCmqKYjwUF8W5TwqoootCI=
+	t=1782890466; cv=none; b=FkXKoNUK5He1Fc07EhhABGKP6k9xzhxfo/n/Il2b5U8o/mRIFoirnf4NX7X4UdPHBLfGywBVIwKsGV63el7wJLFu/6PqtpciUFARg3b88+adEffR0lFPOMCbQXwzK22A9ATd6p/XbE9VtG0JNa6dyyBQBuhZ9oTgrC510z7oI2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782860858; c=relaxed/simple;
-	bh=3OA8qHvCQBNwM6PHuoZPIH4mDqqaedVoVXMNlo97b40=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TdmrW7q2+iU443IMHHyaucj/LanKJTqrA5Zx5QsS0XO1d5Ew+fWdrwnEtEIkijTDhPNC2Ua5XPTyTwxcTvJxeWaPbR/CKvdDDKgplRE/e/DR9qZ3QQ2Aqqb88B8TLVPJ9bngnGiR33lH2/6TNLo88lrTIuGv1kCsPUDRU4PsGAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A0lc25A8; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782890466; c=relaxed/simple;
+	bh=W1QYZgvHMmZEEf+ItAaO/ZyVo+mc5W7D44Zvo+uW7xo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LIizhkXJSbYDSe+NA2dz51ZGq3WqSlcOZazqUsu3D1HyhtqkbPnti5C/Lmxk2Xp5r/9YlPhflTNYN1zNPSCFE+UbleKWgAuMGAAVmxRAdaL2Kx+B5oDNPaO8AN/235e3RbCziKIxsncFjV/ameW0Ytp4ofjBjZ12jpZLjF6HJ6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=S1cnaju1; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A0lc25A8"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2c6b67d5fa1so222835ad.2
-        for <chrome-platform@lists.linux.dev>; Tue, 30 Jun 2026 16:07:37 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="S1cnaju1"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-92b21f65b60so129913685a.1
+        for <chrome-platform@lists.linux.dev>; Wed, 01 Jul 2026 00:21:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782860856; x=1783465656; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gSHQq9lz2uT/CCkNnFTD2/+zrLE3tP+kqFCFI7YQj6o=;
-        b=A0lc25A84UAj6X5X3d/8gPxr9zuHcsRC37DsSGurx8CY9QEc1US5q2g1hn1rmVPU+V
-         9lYWEGXurKzNEh8TO+3qprV6QSFWNwg7cv8JmPqwfrqKFTFG51G6iQ6zt+pYe79E8jmW
-         h9BW3fYvogkWKNSD7BzkN5sJT58eC9i5RtZrtsL7VxfjnmwhwlBgYQIE7MYv2OPILCw8
-         /YMh0BB6tobGKl4mElmJJp1uX569E7bMEuinL0gk6nnB6SELqWGyRieRH1k0k3n34xT4
-         fVYgONw14lVQkANqGDSF1uPDHx/rerhXxm0s6YGuywiWWnMrMIUUUKUde9LUFCKZyQfY
-         u8oA==
+        d=chromium.org; s=google; t=1782890464; x=1783495264; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qxtJSXEBg59t1yDSTVQFD26bxCNMBASOW7RR7Tr3TMQ=;
+        b=S1cnaju1gFs+GXGOTfJpldpC7bIgusAlM5i51GvY8PVbEBZkz+UrilP2g4cPwf+ShM
+         ivdRFbKI+sCdMcCvjnPEl1uYzbHMK0kGuikSIfvc/NXN1+8h21syPZJIk326v1eVDvhX
+         LsOgmovqX0MzY2dx8met4k87Z5G+BLBAGL46M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782860856; x=1783465656;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gSHQq9lz2uT/CCkNnFTD2/+zrLE3tP+kqFCFI7YQj6o=;
-        b=gxWR5wej9ilLUjuufLW4dqGbADisITLgKXLnt5s8BHBNRMBoVZ3IPtpquejc26JXMr
-         M7mSavgpA4fJxdazutM2cPIqQY+O2LlCpaF5me7/7iT1A7xCa4bY/AToAogSmpp1jq7G
-         Kh1jevrQgwIRhDrmsOLN4bFVuehwrFTDOjMln7lBcSa8jk+XxRGj6Y6qtmnkS8SetQVF
-         sF0gVSBS5PlFT3APnTP3QP3WuCGWQ/Lm2rYmdgAp7OumSoUjgiy4G4mIPtqywbV/KbJO
-         aUOf+aAKwL2JWil89dEP2t0SXI5MCr9Xez+GBcsKGa0cip1nUCaDZKviPsqnHavSTGyf
-         BGEA==
-X-Forwarded-Encrypted: i=1; AHgh+RrFBjzt2mKDa82MD7Ujh3Ua2KOHhbc76jDXLfHsYmB8V3HCfoEZBIUAovfvTc5FmwxSbvC0iTF7lonn61U86vk=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQrwHTzeIlYwpK1vSXK8jnLZFt1ugtGli0Ro3VkRyjxNQGOa/L
-	NviW0dYEi4gcdaLZoY+Duza5IrmbZ+PhIbhRYQoU0/4dLrCImd6SGT4X
-X-Gm-Gg: AfdE7clyLS1ea8SMsj3HYhyIeHXE3MZMVACpFCZord4EEVShBoin2vYnd3blCErqaru
-	YMwxgEtuYohlnOEHsZqXysZhmLsmd7/OngwePaFkAyWPHn/1OibF78Q21YO4sg61y/TpB5uL0Hc
-	tBnbTjsqGTjWC3WsiAuxOVBmR9Hc5bShxZy3lsd2l3mqPGiUi7OgOKH39FIKj2vy/E8uk6j5Pwv
-	hxAIl9//ZyuFqOsLp5BQoKAEOYLNHGsSLfRgaXO+90A1yW8URp5q0HzANp29m7O8TnKlEfr1nyq
-	/S7671WwYk1GYfVWms8rolnoBCicUnCRkWTcdy8RoBVqQzbecflgJh5DL3IVsE9H0fQo2t/qHB1
-	5UTh+22/NC3KIz0KfmEWRyU1bRkNY3CXJeE8cXkom7SZ4kXohQ5BkZQKLlUCZ0h2waEBPyUd0hL
-	FwT/rYBNtVo5rF9tfuT8ckBpnFQA==
-X-Received: by 2002:a17:902:f788:b0:2c8:1c2d:b9c6 with SMTP id d9443c01a7336-2ca2e715005mr45995405ad.22.1782860856349;
-        Tue, 30 Jun 2026 16:07:36 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca37a71053sm22270565ad.8.2026.06.30.16.07.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 16:07:35 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 30 Jun 2026 16:07:35 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] hwmon: (cros_ec) Implement custom kelvin to celsius
- conversions
-Message-ID: <638242a7-0be7-4596-870b-026f44e409c8@roeck-us.net>
-References: <20260630-cros_ec-hwmon-overflow-v1-0-3d2ecd3eb0f2@weissschuh.net>
- <20260630-cros_ec-hwmon-overflow-v1-1-3d2ecd3eb0f2@weissschuh.net>
+        d=1e100.net; s=20251104; t=1782890464; x=1783495264;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qxtJSXEBg59t1yDSTVQFD26bxCNMBASOW7RR7Tr3TMQ=;
+        b=gMX81JInNkbikyrip0ZJtNSKP8Dic+2k0gXrQgx29Bdl5Fgsctov9WG7rj3JtFmlwo
+         BMg2fGyhYBw45qWYEAupUDXemm10stO80XuyfVXsUjg/Z9xiOLMtu5zVNoZVxtQN/NDd
+         3yb/si1fLcZMtmRbf9REmaf29LLeH7/RF4PV3BA3mMvThgXAYgMXDyij8gMVjMaw2EYu
+         +xaICLwE6uAl2Uk2sB7YTws2u+F0BiYUlAL8is+nyg5DWlG05VmNDOJcTF6QhkOvZqln
+         DpQktvtZTyhrOdiKWSW0PdS6H/ot2H5aRjmaHZX5fE3eJ2gq7zO/SNAvCaYBvEI9HNc5
+         pAzA==
+X-Forwarded-Encrypted: i=1; AFNElJ//uKBWRrB3zAxkW0WcPm+LIiGVKHIONzGjDB0v77DYVE9bA7LM2j92j6I+3C4gLxfpONOH2vr1fL8yndTlbCU=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywh/gNKKXQiQmfzAFiGoLxURhMi2L48n79l/Fy+XYb7DppB21L0
+	xQ14i4HzgZLkHEz+gppYRHEMSP1IDjumZs5bhcyeGKRCbWBTO2lTSgYl3YJnXtqG99bw/XemDLp
+	WhsCFSQ==
+X-Gm-Gg: AfdE7cmW9dGOyrf/oNE22uWiL019DFKhd0YNZZ04ULsmOr/uPq7lqRIxhpyCHvpiWPl
+	blxRX/ttqSAUMDRHQVeKYP+0fDLIZCNlqMkhyXXvCaLXbPJ9GczAgkgsngYgVYBnvgudo2MARtm
+	A5s41tRrx6m5GbyHlr03bp7Iwhx7FfG5bOUpSrq2EvOKBaKZ9KZGe6WsOqK6lu8etQs/qRPCwzx
+	1f8Uq/PDNe/bG8GCh7ioalHN+kBLEH2DI9akKjMXA+U38Cizwnh+13mlbgkKMZpktfS9es6qYJT
+	myah3ovvRD1Qreb7yaIA7kk/nNpvyOXE24vqSZdSWjFfAskVcIi1u4lEHUN7nAHcte9+jQico6e
+	WBuQQe+oQ989wXS3TOrcAXfUjLc2ae1DSJn26inDAH4yV8Tlg4G95YV1dXa7aDEsfcI36YBuIcv
+	g+2nzErF/FMfAfSmMUb8tz6TMYdT8a6qGF7kYHXQRM0/cSbPiFo50=
+X-Received: by 2002:a05:620a:4149:b0:91e:df9f:7804 with SMTP id af79cd13be357-92e698364d6mr695053385a.38.1782890463736;
+        Wed, 01 Jul 2026 00:21:03 -0700 (PDT)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com. [209.85.160.180])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e62371ba1sm493839485a.42.2026.07.01.00.21.02
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jul 2026 00:21:03 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-51c10e86e52so135761cf.1
+        for <chrome-platform@lists.linux.dev>; Wed, 01 Jul 2026 00:21:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8rRdYs5NmHLmJk9mnK244lB+MF7dT2KdZsO3EKJKhIQN0Ix/18gty6JCvdtOvs8nE2/Kd1DMKF7YDyXfeAdeA=@lists.linux.dev
+X-Received: by 2002:a05:622a:1313:b0:51c:97f:83a6 with SMTP id
+ d75a77b69052e-51c24a9ffbdmr3434201cf.17.1782890461579; Wed, 01 Jul 2026
+ 00:21:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260630-cros_ec-hwmon-overflow-v1-1-3d2ecd3eb0f2@weissschuh.net>
+References: <20260629092414.3028387-1-tzungbi@kernel.org>
+In-Reply-To: <20260629092414.3028387-1-tzungbi@kernel.org>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Wed, 1 Jul 2026 16:20:44 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5D7MqL-dK8Q12f6fsXz1tWmuXSA81XPMMqjKG==taxzOA@mail.gmail.com>
+X-Gm-Features: AVVi8CfGLT2uPnmHoT8zXBwVu-nm9TQcEH8fKLZpwP0RHBR28Zf-Rzdxiz8JUyA
+Message-ID: <CAAFQd5D7MqL-dK8Q12f6fsXz1tWmuXSA81XPMMqjKG==taxzOA@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: sensorhub: Fix memory overread in ring handler
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev, 
+	suleiman@chromium.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 30, 2026 at 10:57:51PM +0200, Thomas Weiﬂschuh wrote:
-> The ChromeOS EC APIs use integers representing degrees kelvin for
-> temperatures. The default conversions from linux/units.h will then
-> always convert these integer degrees celsius with a 150 millidegree
-> offset. This is a bit confusing, as it also differs from other CrOS EC
-> tooling. Internally the EC uses a kelvin to celsius offset of a round
-> 273, so the current conversion is also not entirely accurate.
-> 
-> Implement a custom conversion which preserves round values.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+Hi Tzung-Bi,
 
-Applied.
 
-Thanks,
-Guenter
-
+On Mon, Jun 29, 2026 at 6:24=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> `max_response` and `sensor_num` are read from different EC commands:
+>
+> - `max_response` is from cros_ec_get_proto_info().
+>     ec_dev->max_response =3D info->max_response_packet_size -
+>                                     sizeof(struct ec_host_response);
+>
+> - `sensor_num` is from cros_ec_get_sensor_count().
+>     sensor_num =3D cros_ec_get_sensor_count(ec);
+>
+> With a malfunctioning EC firmware, it is possible that the `msg->insize`
+> (i.e., `fifo_info_length` in the context) could be clamped in
+> cros_ec_cmd_xfer() because `msg->insize` is greater than `max_response`.
+>
+>     int fifo_info_length =3D
+>             sizeof(struct ec_response_motion_sense_fifo_info) +
+>             sizeof(u16) * sensorhub->sensor_num;
+>
+> This means the number of read bytes could be less than expected.  As a
+> result, the subsequent memcpy() in cros_ec_sensorhub_ring_handler()
+> overreads the `resp->fifo_info` buffer.
+>
+> Check the return value of cros_ec_cmd_xfer_status() and clamp the length
+> passed to memcpy() to the actual number of bytes read.
+>
+> Fixes: 145d59baff59 ("platform/chrome: cros_ec_sensorhub: Add FIFO suppor=
+t")
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 > ---
->  drivers/hwmon/cros_ec_hwmon.c | 12 ++++++++++--
+>  drivers/platform/chrome/cros_ec_sensorhub_ring.c | 12 ++++++++++--
 >  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-> index ea24056ae646..44291799dd8e 100644
-> --- a/drivers/hwmon/cros_ec_hwmon.c
-> +++ b/drivers/hwmon/cros_ec_hwmon.c
-> @@ -147,9 +147,17 @@ static bool cros_ec_hwmon_is_error_temp(u8 temp)
->  	       temp == EC_TEMP_SENSOR_NOT_CALIBRATED;
->  }
->  
-> +/* This differs slightly from the variant in units.h to avoid rounding inconsistencies. */
-> +#define CROS_EC_HWMON_ABSOLUTE_ZERO_MILLICELSIUS (-273000)
+
+Thanks for the patch. Please see my comments inline.
+
+>
+> diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/p=
+latform/chrome/cros_ec_sensorhub_ring.c
+> index 64e9615ed6f4..4b4adc38485c 100644
+> --- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
+> +++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
+> @@ -825,11 +825,19 @@ static void cros_ec_sensorhub_ring_handler(struct c=
+ros_ec_sensorhub *sensorhub)
+>                 sensorhub->msg->outsize =3D 1;
+>                 sensorhub->msg->insize =3D fifo_info_length;
+>
+> -               if (cros_ec_cmd_xfer_status(ec->ec_dev, sensorhub->msg) <=
+ 0)
+> +               ret =3D cros_ec_cmd_xfer_status(ec->ec_dev, sensorhub->ms=
+g);
+> +               if (ret < 0)
+
+I think it would be much safer to just error out if ret !=3D fifo_info_leng=
+th:
+ - The data read here is used later in the code. Filling the array
+with zeroes would cause the code to act on some data that doesn't
+match the real hardware state, potentially leading to other buggy
+behaviors,
+ - We silently mask bad EC behavior.
+
+We should probably also add a rate-limited print here to leave a trace
+in the logs.
+
+Best,
+Tomasz
+
+>                         goto error;
+>
+>                 memcpy(fifo_info, &sensorhub->resp->fifo_info,
+> -                      fifo_info_length);
+> +                      min(fifo_info_length, ret));
 > +
-> +static long cros_ec_hwmon_kelvin_to_millicelsius(long t)
-> +{
-> +	return t * MILLIDEGREE_PER_DEGREE + CROS_EC_HWMON_ABSOLUTE_ZERO_MILLICELSIUS;
-> +}
-> +
->  static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
->  {
-> -	return kelvin_to_millicelsius((((long)temp) + EC_TEMP_SENSOR_OFFSET));
-> +	return cros_ec_hwmon_kelvin_to_millicelsius((((long)temp) + EC_TEMP_SENSOR_OFFSET));
->  }
->  
->  static bool cros_ec_hwmon_attr_is_temp_threshold(u32 attr)
-> @@ -228,7 +236,7 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
->  								cros_ec_hwmon_attr_to_thres(attr),
->  								&threshold);
->  			if (ret == 0)
-> -				*val = kelvin_to_millicelsius(threshold);
-> +				*val = cros_ec_hwmon_kelvin_to_millicelsius(threshold);
->  		}
->  	}
->  
+> +               if (ret < fifo_info_length) {
+> +                       dev_info_ratelimited(sensorhub->dev,
+> +                                            "Read less FIFO info: size %=
+d - expected %d\n",
+> +                                            ret, fifo_info_length);
+> +                       memset((u8 *)fifo_info + ret, 0, fifo_info_length=
+ - ret);
+> +               }
+>
+>                 /*
+>                  * Update collection time, will not be as precise as the
+> --
+> 2.55.0.rc0.799.gd6f94ed593-goog
+>

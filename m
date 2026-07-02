@@ -1,117 +1,104 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7695355048
-	for <chrome-platform@lists.linux.dev>; Thu,  2 Jul 2026 04:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67622C0268
+	for <chrome-platform@lists.linux.dev>; Thu,  2 Jul 2026 08:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782966065; cv=none; b=iNyPlbPo1jBi37pAhSNCQQ06YzTIkyG8NwIjFIJDDJErHZw8fVQCS+mGa8VQ1SoCVZ89AmSPnTK2J5ml0/T/ZJ1epYdL7qEsqsJNqT8F3biPU6xFUPSqvxKfA93sR3F9J/EC8JqSfPQprV8ToXomRTc+UgxjgO3NfyNE9iB5ttw=
+	t=1782980895; cv=none; b=jwKnOJJMGVnYd03yby7cSyf4a60Tg1hrdGqp9Aoq2YQ3IoGARlIfhJa0Mc14WtY1tcVhO19TXysl+LVds2zZzRQ+ffu4a6zwYCDuX2wtqZJNioKhmg9+AJLH8C7Md/UKNqywdRIUz5HH/jtB+oj+OaoeYhJJyaclJI4vYJX2Lzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782966065; c=relaxed/simple;
-	bh=XLQQx3d6kGS4PSmwpnvkbJ1gEOE1tFn00X90BmohfsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h8WjR45BPhTQ5RS0aEfVp1ToexQWk0aOCdA0R715g2dwbNZXrn1bdW/aMWpMaVSTyX4pfkyUKMKQNb8tLjSsL4fGWWP5V9EZkC8UjyTMjoerb/4y896aiUdEyDI+BYxLDAQeW4NEUocmGvXwj792HZSciHLYb2QwQPvy4hAyOLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
-	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 61A77200B5C;
-	Thu, 02 Jul 2026 06:21:00 +0200 (CEST)
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1wf8v6-005gkb-0y;
-	Thu, 02 Jul 2026 06:21:00 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1wf8v6-0000000DC9x-0ede;
-	Thu, 02 Jul 2026 06:21:00 +0200
-Date: Thu, 2 Jul 2026 06:21:00 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
-Cc: Sebastian Reichel <sre@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org,
-	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>,
-	Guenter Roeck <groeck@chromium.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	chrome-platform@lists.linux.dev, avaneesh.dwivedi@oss.qualcomm.com,
-	umang.chheda@oss.qualcomm.com, faiyaz.mohammed@oss.qualcomm.com
-Subject: Re: [PATCH v11 0/7] Introduction of PSCR Framework and Related
- Components
-Message-ID: <akXnLLl_nq2G8EGI@pengutronix.de>
-References: <20250618120255.3141862-1-o.rempel@pengutronix.de>
- <3309e88e-e189-42ea-b74e-346aec1b4b5f@oss.qualcomm.com>
- <729b0e26-bdbc-42f9-8245-79b2942272c2@oss.qualcomm.com>
- <akJaAesz35Ml3iW4@pengutronix.de>
- <4b5321e8-05c8-4f3f-bc22-d3776e008151@oss.qualcomm.com>
+	s=arc-20240116; t=1782980895; c=relaxed/simple;
+	bh=we/i+eiPaXMHvL8U3R7szJgPd33VzcrtucL1oOleASA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CvWTEI4+lQZXlTLZcAH2mL4sH/FZaT0R4MyY4/lNTnbpGjCV1l6eoMCpNMBWP1MjCsBuYeROtyW/iy8pE14eVyzM05lERtb3vG2jtWNMVKmhZ8msA68vc+kO3q02Hxk/Qjaz/KWUgAyVqyAkVVlB98mN0AMD7UC0nrLheqsvmIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSA/NKl9; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSA/NKl9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AADA1F000E9;
+	Thu,  2 Jul 2026 08:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782980893;
+	bh=lgpq5mpiypaFwykhQGDBnwAXCIle7+PYkkbUc7DPYtA=;
+	h=From:To:Cc:Subject:Date;
+	b=cSA/NKl90fMCuqkFhxuEbGRfOcxzUPMsKxh81Kk9uwmNTDr1WtTHaqmDHpRhxwjAm
+	 JYdQGcWWxIq61L0Z6b+n9IiV6+YDA1Gk2vcCn9sLaQnlQ2q3iqkb7eLhUhNfiZVqAC
+	 fAIin49wMvWabHbIRxJ8E8EDLEqsBFcIIFR8c7hrDMbKMbi/Y5FQX+4wxFWu9GLB1E
+	 skiLaTe+BI9EDoZkiIKrguXzA5WyIRV0eOHjoHhSxFmQ67vK8Yr8gO7+Nj10A5Zjh9
+	 utXYJJJG/VK9FeDo4oOoeVnG75JS4LZjDfO/wzNsF1XaQcGMdPjfW98FkFJbta3+BR
+	 z1t+MHpqnGFJQ==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Benson Leung <bleung@chromium.org>
+Cc: tzungbi@kernel.org,
+	chrome-platform@lists.linux.dev,
+	tfiga@chromium.org,
+	suleiman@chromium.org
+Subject: [PATCH v2] platform/chrome: sensorhub: Fix memory overread in ring handler
+Date: Thu,  2 Jul 2026 08:27:45 +0000
+Message-ID: <20260702082745.1014968-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4b5321e8-05c8-4f3f-bc22-d3776e008151@oss.qualcomm.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Hi Faruque,
+`max_response` and `sensor_num` are read from different EC commands:
 
-On Wed, Jul 01, 2026 at 06:26:37PM +0530, Faruque Ansari wrote:
-> Hi Oleksij,
-> 
-> On 29-Jun-26 5:11 PM, Oleksij Rempel wrote:
-> > Hi Faruque,
-> Thank You for sharing your rational behind and idea behind this framework !
-> IMO it would be better to have a single framework to represent all the
-> reboot reasons of a system and not just the reboot reasons caused because of
-> errors
-> Ex capturing reboot reasons like ota, bootloader,recovery etc ... currently
-> nvmem reboot driver does not expose a sysfs/ABI which user app can use to
-> infer reboot reason ...
-> Also, it would be extend this framework to also support firmware triggered
-> reboot reasons  ...
-> Do you have any plan to extend this framework to support userspace triggered
-> reboot reasons as well like bootloader, recovery, ota etc ?
-> And also extend the framework to support vendor specific reboot reasons
-> which can be triggered by firmware  ?
+- `max_response` is from cros_ec_get_proto_info().
+    ec_dev->max_response = info->max_response_packet_size -
+                                    sizeof(struct ec_host_response);
 
-I have nothing against it. My imagination was limited only by some of
-existing problems :)
+- `sensor_num` is from cros_ec_get_sensor_count().
+    sensor_num = cros_ec_get_sensor_count(ec);
 
-> We can co-work to extend this framework  ?
+With a malfunctioning EC firmware, it is possible that the `msg->insize`
+(i.e., `fifo_info_length` in the context) could be clamped in
+cros_ec_cmd_xfer() because `msg->insize` is greater than `max_response`.
 
-Sure. Should I put it somewhere on git, so you can try your changes
-on top of it?
+    int fifo_info_length =
+            sizeof(struct ec_response_motion_sense_fifo_info) +
+            sizeof(u16) * sensorhub->sensor_num;
 
-> On representating nvmem cell to the framework  - if not DT what is your plan
-> to represent it ?
->
-> How would framework discover the nvmem cell if its not DT based ?
+This means the number of read bytes could be less than expected.  As a
+result, the subsequent memcpy() in cros_ec_sensorhub_ring_handler()
+overreads the `resp->fifo_info` buffer.
 
-I'll need to re-spin it and send a new version.
+Check the return value of cros_ec_cmd_xfer_status() and abort if the
+number of bytes read does not match the expected length.
 
-Are you on linux plumbers conference this year?
+Fixes: 145d59baff59 ("platform/chrome: cros_ec_sensorhub: Add FIFO support")
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+v2:
+- Abort if the number of bytes read doesn't match the expected length.
 
-Best Regards,
-Oleksij
+v1: https://lore.kernel.org/all/20260629092414.3028387-1-tzungbi@kernel.org
+---
+ drivers/platform/chrome/cros_ec_sensorhub_ring.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
+index a10579144c34..988ecef93342 100644
+--- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
++++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
+@@ -825,8 +825,15 @@ static void cros_ec_sensorhub_ring_handler(struct cros_ec_sensorhub *sensorhub)
+ 		sensorhub->msg->outsize = 1;
+ 		sensorhub->msg->insize = fifo_info_length;
+ 
+-		if (cros_ec_cmd_xfer_status(ec->ec_dev, sensorhub->msg) < 0)
++		ret = cros_ec_cmd_xfer_status(ec->ec_dev, sensorhub->msg);
++		if (ret < 0)
++			goto error;
++		if (ret != fifo_info_length) {
++			dev_warn_ratelimited(sensorhub->dev,
++					     "Mismatch read length: size %d - expected %d\n",
++					     ret, fifo_info_length);
+ 			goto error;
++		}
+ 
+ 		memcpy(fifo_info, &sensorhub->resp->fifo_info,
+ 		       fifo_info_length);
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.55.0.rc0.799.gd6f94ed593-goog
+

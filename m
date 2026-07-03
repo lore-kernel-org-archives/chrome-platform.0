@@ -1,63 +1,63 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B09370ADE
-	for <chrome-platform@lists.linux.dev>; Fri,  3 Jul 2026 05:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE663364929
+	for <chrome-platform@lists.linux.dev>; Fri,  3 Jul 2026 05:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783058221; cv=none; b=ttz7rL0BW62GpIFDx/O6kCSh9biv3AYZ99nmJ9aGyEcL7QVtutiTHecuWrOHk7MT86T4NdIu9NOQ13Cf8+/TIhcbuc8vvXY/goaguSID9yD3x/kROg0IT/MOD8RaaIs+s2DqGDhINsXRUiG2pLnxVlTiTxFtmwuEBOXf1+5logY=
+	t=1783058230; cv=none; b=RpO5T8fpQ7RUw/1bWtF+ZIPAfyMVz7XBGRW3eOxx6b7pYQdlEa27K3bSjkR/BjB3B46g9/DjdgVcU+PXzUYMvShQixQz41WoCF0Tou4uE73SQzYOcMMOihU5EfJTJ5rY06nOkNjetX4TdhdoCJIWOaL5rCmmIV0Chrw630RotYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783058221; c=relaxed/simple;
-	bh=em96/ZARght/3otyju63pfWEB2uPboKH1/9p2lcucSI=;
+	s=arc-20240116; t=1783058230; c=relaxed/simple;
+	bh=AZ+/sprSGNWOJL5QjLJaSpFH0m8wxH+sukCBtJYoNfk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BSw8xNfwrhu+SjFFfTpRJCE66ODjPlsnTyHgY27lpidsdYBrdmNZiWVtyaImg5Ub8UXBKRqKnQ4hyYWZmARh8MCtv69da4dhYDYQj7O+SssrpLr0aoPHV1kwZ5/jBBddJAxLG4i2MD5MezROKSHpi36f38IXWpXbjJ8TvG/WcjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5hTl4b9; arc=none smtp.client-ip=209.85.210.172
+	 MIME-Version; b=tcMD2Valq0LEUXBfU+PzMaYYG7Todsd2wFo2o1Fg0ihhc4gIwdncSp25JSt9JPsfU9glUzBIg5ftrNyHYRdVstW1IrM1iAVtmdeQNWK8yyx+KnEvuWlE5uxKSDC1k8xATjD/PDLXfuJh+WRU4+QOOlahwnHUaID0pGhBYTL6uDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jm9LzHFT; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5hTl4b9"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8479f1a86ecso102138b3a.1
-        for <chrome-platform@lists.linux.dev>; Thu, 02 Jul 2026 22:57:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jm9LzHFT"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-847a483e344so168428b3a.0
+        for <chrome-platform@lists.linux.dev>; Thu, 02 Jul 2026 22:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783058219; x=1783663019; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783058228; x=1783663028; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VpJFy3k7fzvXeipnHRzRqJbquUwprfOCJ0cYmFTrF80=;
-        b=B5hTl4b9RcuzabhiFcEPgY7IvqBep43mhEcJW//4OQRtPm8gMH363qg7SKMG0r6tUd
-         VcXWNXlvuGRHjHxSYZ27aLj7m+dYqr9b17beS1oCrkMetOci6HwWrT7G6Va4Id/+R+e+
-         cunfvK8UkAAqRTNc35sNVHeaCemWbUABdn9f1NmIXcKY6z7KYjOySY1839EqBODJbiKX
-         TyMgh/ykRa0KVRim3hdDiwMamVplLetFeThhWVYfGR3NDVLlFc3PM7+6B2VIHT2ASWgM
-         MelVqIkzh9lu5Ft/6zR7p40ckDo1UEPC3SPaKd7NLwdLBh8pndzXNmJPhDsU32x/petv
-         W7Bg==
+         :message-id:reply-to;
+        bh=kZrDdEV0nAN9w+kfhy3H3xNzSuMWcMiDn5csKMrOHzc=;
+        b=jm9LzHFTBAypash9py4CXNVvpw0LkfpgB1lol5c0rdeM2zHiKjm/p3orzdOzNKezYp
+         jTxWRSeGf6TCBuP2w6nphLMSSmoba7iUSTnikhmHyvbGKl3jt3fe8F454hTcfgzehIEW
+         TpDx0Os6ugSCiBamy/Ze9MLPdo9TwjuprsBsfbZJFtLP/VI18N1ByGrUSOGrImzBxer1
+         q7AwZaIuzFOQbgfhLsecdN3BLO7flU0G1oGwZfiNQYMur5rU7qLxlPF5xPsHsRx2nEcK
+         /6fZnxXMfUism8YNVABXDZbq+YY722Zew8AsYE3hI0EEUlHgnvfOt9YrgO87lzLE5EYX
+         DmHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783058219; x=1783663019;
+        d=1e100.net; s=20251104; t=1783058228; x=1783663028;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VpJFy3k7fzvXeipnHRzRqJbquUwprfOCJ0cYmFTrF80=;
-        b=G6wXCVAq/cRhyl2HsLZQQ/cq+sSDO/aNysPPxSPJDiizQJVhb8hprl/RHtd6Rn/ge2
-         S4/TsVGgX3IPCmuSLuneSC3HaLzK+p/irhNnps3wv0yRyYWeeuG1+NJGtY+h0DUw3ytK
-         ++cJHU618KG9dit3yYOfCFcgNR+90Ilf16whLCtUBZpII9gOZoWcDFKgi1+ylr83LhBX
-         LWm4A1CBFI/RyZrhMrZ76MJrQlLa4Zwy4GJY9NTteyHlPiAH7Ncw0e2sphQOPzM4QHcd
-         h/qR1+CRb9w1rUdkVqOUnU6QdfpqqNco1H8IjzqM3LpTGTWNIpyv+cwBbIuTopFEmQnb
-         S1qw==
-X-Forwarded-Encrypted: i=1; AFNElJ/6G2DtGx7oxTE9KMmdQ6o0WQVpmXNMsSroBz2zZD03vVsWrCWxTX3eh3HBv4MoNdWqlImIW9Hx0qyHT2N3IkU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdN9hsfi9FfhYsOyJkL/P24FVg+cLuvj3oDX8gVY+HkISjQ5WF
-	Hm0RZuLaU1MwXZr7ei0ex72NfQWjtYWqWCu/sQZaQiLDe1pTicm66H2C
-X-Gm-Gg: AfdE7cnh8cibzaLbKiW0U5tqiu+3OilPY+bSxJM2qdRDWyrpqcOEuAk4YS2C7VVAA3T
-	sWsMmyZIgcFkh3O1sDtyKN8pfxGaP0XPLcZNhfnqzfW78SW+WdfvVcN+yCyBFLzEQJEJzlhfY2N
-	GhCfbgLeAVEZp6njf6uvZ+51MgpqpSox29uLjhsJVhPQfzXEni6eXJMBbFLUwBHjzgNxF/TwM5P
-	vtKnLJA9sS/HjFEgX+LSy6btQylPyOAaZ6DYzyMCfRuZ1iAaII1D7szQ3kKmTLTxu8m9HUyiuM8
-	UfzLhOFNzwm0Qn4tbfhnrMFzyeETroks/snvCFDXKp1tg7FB68P9nEA0pCUJ4xPIA0726IAGiGl
-	Q68Gts+YN3IRuE7Lh5V3Pe5itBxl2MQzkTBE/oVGwf9ruE8u/l8pgoKPZjLlmAw57XxVFoakrbm
-	dqVWXC/s9XIY1kfTjZoXzmCvebSRB54nR1fDNR6KUdRupOHFA=
-X-Received: by 2002:a05:6a00:9286:b0:847:823c:bdf5 with SMTP id d2e1a72fcca58-847c5140069mr7767376b3a.37.1783058219463;
-        Thu, 02 Jul 2026 22:56:59 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kZrDdEV0nAN9w+kfhy3H3xNzSuMWcMiDn5csKMrOHzc=;
+        b=IASzHTwxxr2J6zeFyphJTZn6JM1DgkyMDRiQc4vP7EpP6dnwQ3tUMPDgQCw1Ca9RK6
+         lVMIEz6Sru4eao7A9UbpD/HkcuW2oiAAa9HSZbr7Eh5H267zgnSmXqFJU9/KP3jfjbVJ
+         D0KrtZ1lDUzPFkRkbFAiiEp4SVpmbrGN1B2CjnmHFjlyQBlYPPUOtdEBjdQ/TEcYXdKV
+         g0/APKGNFYOs3zPb5KOM0UvtdlZivmfj0/O2ju8FY8RlCpdU3eteFZpAUO3kYS/kdkJY
+         yGysIrVpTdWMNlX/Ws4EItMzJG4pjuiY7r1/gFz+PGNuzeklr9n6GXjjIoYwwFkYWii1
+         s07g==
+X-Forwarded-Encrypted: i=1; AHgh+RoEpeZ1WGJ3zyamSJYprYlA99u9rjSNYHxH4R2cWOJV6NCc6lHT7Hhuf+Dy+QzPdokd0fmsVdzHWJ5vAt33KSw=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXFk1bR8gx9Vj4jGlcI9/4CcDkkuz+OTXHU9wj4SRhZPvchNgq
+	HNhEo/dpDzM5IdGVAWcCHhpkIk1Tm2HqAFD+cI+JZq7q2he7ZLN93WbX
+X-Gm-Gg: AfdE7cn6TDW6HpqvktuJjxURPZu75jD/uPuDiaVG/LpdVP3gdSzIhjp2TAXrfS1m3Ua
+	QxWrqb7DIhgHOhxhHBceHdAB62Ul4GTXdt+iYg0yG0moRrfHH+ibz0bG5rwxzXgivyC8FI/rq6s
+	/Reytsexiu07BmqwBZMWu197uLXxR+qTkGJXyQX5VSwrs+WnWxnEB2QpdMpPaqBzcv/AJ70A0zM
+	ntQ0qMpveXaAukQU3l7g+UihlC/PZ0OMbYM956teFKBep4FUQ/qmFevDQ9OA4+QN9gGBywvmGFV
+	8HWvy4sbJrcYezPbiNcbWYUUcIt8zRDXUHKthNPU4GNwE31bBsTrpI33MHz14mMx9tTjDjyVYZi
+	l+l6RjLB1DVyItxCEuJCkB8ZKyvKsVRyfopkSEaYhumjnq811/HuRSGynaHl0wAkY+Y3wjI1D0X
+	DSLJth00rb9FrhoS0Kw54zgDpQ5yYH0Sz9oHD5TXIZEeo22QU=
+X-Received: by 2002:a05:6a00:1708:b0:845:cf86:947e with SMTP id d2e1a72fcca58-847e18f5069mr2725220b3a.27.1783058227975;
+        Thu, 02 Jul 2026 22:57:07 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb94b3e6sm2340028b3a.33.2026.07.02.22.56.52
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb94b3e6sm2340028b3a.33.2026.07.02.22.57.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 22:56:59 -0700 (PDT)
+        Thu, 02 Jul 2026 22:57:07 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -93,9 +93,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	chrome-platform@lists.linux.dev,
 	asahi@lists.linux.dev,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 17/24] ASoC: codecs: cs43130: Use guard() for mutex locks
-Date: Fri,  3 Jul 2026 12:53:48 +0700
-Message-ID: <20260703055355.244898-18-phucduc.bui@gmail.com>
+Subject: [PATCH v2 18/24] ASoC: codecs: cs47l15: Use guard() for mutex locks
+Date: Fri,  3 Jul 2026 12:53:49 +0700
+Message-ID: <20260703055355.244898-19-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260703055355.244898-1-phucduc.bui@gmail.com>
 References: <20260703055355.244898-1-phucduc.bui@gmail.com>
@@ -112,126 +112,47 @@ From: bui duc phuc <phucduc.bui@gmail.com>
 Clean up the code using guard() for mutex locks.
 Merely code refactoring, and no behavior change.
 
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/cs43130.c | 72 +++++++++++++++++++-------------------
- 1 file changed, 36 insertions(+), 36 deletions(-)
+ sound/soc/codecs/cs47l15.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-index e7b06f962790..48d88dad4ceb 100644
---- a/sound/soc/codecs/cs43130.c
-+++ b/sound/soc/codecs/cs43130.c
+diff --git a/sound/soc/codecs/cs47l15.c b/sound/soc/codecs/cs47l15.c
+index da64e0a1db28..2f30dd834709 100644
+--- a/sound/soc/codecs/cs47l15.c
++++ b/sound/soc/codecs/cs47l15.c
 @@ -6,6 +6,7 @@
-  *
-  * Authors: Li Xu <li.xu@cirrus.com>
-  */
+ //                         Cirrus Logic International Semiconductor Ltd.
+ //
+ 
 +#include <linux/cleanup.h>
  #include <linux/module.h>
  #include <linux/moduleparam.h>
- #include <linux/kernel.h>
-@@ -818,26 +819,26 @@ static int cs43130_dsd_hw_params(struct snd_pcm_substream *substream,
- 	unsigned int required_clk;
- 	u8 dsd_speed;
+ #include <linux/device.h>
+@@ -1285,9 +1286,8 @@ static int cs47l15_component_probe(struct snd_soc_component *component)
  
--	mutex_lock(&cs43130->clk_mutex);
--	if (!cs43130->clk_req) {
--		/* no DAI is currently using clk */
--		if (!(CS43130_MCLK_22M % params_rate(params)))
--			required_clk = CS43130_MCLK_22M;
--		else
--			required_clk = CS43130_MCLK_24M;
-+	scoped_guard(mutex, &cs43130->clk_mutex) {
-+		if (!cs43130->clk_req) {
-+			/* no DAI is currently using clk */
-+			if (!(CS43130_MCLK_22M % params_rate(params)))
-+				required_clk = CS43130_MCLK_22M;
-+			else
-+				required_clk = CS43130_MCLK_24M;
-+
-+			cs43130_set_pll(component, 0, 0, cs43130->mclk, required_clk);
-+			if (cs43130->pll_bypass)
-+				cs43130_change_clksrc(component, CS43130_MCLK_SRC_EXT);
-+			else
-+				cs43130_change_clksrc(component, CS43130_MCLK_SRC_PLL);
-+		}
+ 	snd_soc_component_init_regmap(component, madera->regmap);
  
--		cs43130_set_pll(component, 0, 0, cs43130->mclk, required_clk);
--		if (cs43130->pll_bypass)
--			cs43130_change_clksrc(component, CS43130_MCLK_SRC_EXT);
--		else
--			cs43130_change_clksrc(component, CS43130_MCLK_SRC_PLL);
-+		cs43130->clk_req++;
-+		if (cs43130->clk_req == 2)
-+			cs43130_pcm_dsd_mix(true, cs43130->regmap);
- 	}
+-	mutex_lock(&madera->dapm_ptr_lock);
+-	madera->dapm = snd_soc_component_to_dapm(component);
+-	mutex_unlock(&madera->dapm_ptr_lock);
++	scoped_guard(mutex, &madera->dapm_ptr_lock)
++		madera->dapm = snd_soc_component_to_dapm(component);
  
--	cs43130->clk_req++;
--	if (cs43130->clk_req == 2)
--		cs43130_pcm_dsd_mix(true, cs43130->regmap);
--	mutex_unlock(&cs43130->clk_mutex);
--
- 	switch (params_rate(params)) {
- 	case 176400:
- 		dsd_speed = 0;
-@@ -881,26 +882,26 @@ static int cs43130_hw_params(struct snd_pcm_substream *substream,
- 	unsigned int required_clk;
- 	u8 dsd_speed;
+ 	ret = madera_init_inputs(component);
+ 	if (ret)
+@@ -1317,9 +1317,8 @@ static void cs47l15_component_remove(struct snd_soc_component *component)
+ 	struct cs47l15 *cs47l15 = snd_soc_component_get_drvdata(component);
+ 	struct madera *madera = cs47l15->core.madera;
  
--	mutex_lock(&cs43130->clk_mutex);
--	if (!cs43130->clk_req) {
--		/* no DAI is currently using clk */
--		if (!(CS43130_MCLK_22M % params_rate(params)))
--			required_clk = CS43130_MCLK_22M;
--		else
--			required_clk = CS43130_MCLK_24M;
-+	scoped_guard(mutex, &cs43130->clk_mutex) {
-+		if (!cs43130->clk_req) {
-+			/* no DAI is currently using clk */
-+			if (!(CS43130_MCLK_22M % params_rate(params)))
-+				required_clk = CS43130_MCLK_22M;
-+			else
-+				required_clk = CS43130_MCLK_24M;
-+
-+			cs43130_set_pll(component, 0, 0, cs43130->mclk, required_clk);
-+			if (cs43130->pll_bypass)
-+				cs43130_change_clksrc(component, CS43130_MCLK_SRC_EXT);
-+			else
-+				cs43130_change_clksrc(component, CS43130_MCLK_SRC_PLL);
-+		}
+-	mutex_lock(&madera->dapm_ptr_lock);
+-	madera->dapm = NULL;
+-	mutex_unlock(&madera->dapm_ptr_lock);
++	scoped_guard(mutex, &madera->dapm_ptr_lock)
++		madera->dapm = NULL;
  
--		cs43130_set_pll(component, 0, 0, cs43130->mclk, required_clk);
--		if (cs43130->pll_bypass)
--			cs43130_change_clksrc(component, CS43130_MCLK_SRC_EXT);
--		else
--			cs43130_change_clksrc(component, CS43130_MCLK_SRC_PLL);
-+		cs43130->clk_req++;
-+		if (cs43130->clk_req == 2)
-+			cs43130_pcm_dsd_mix(true, cs43130->regmap);
- 	}
- 
--	cs43130->clk_req++;
--	if (cs43130->clk_req == 2)
--		cs43130_pcm_dsd_mix(true, cs43130->regmap);
--	mutex_unlock(&cs43130->clk_mutex);
--
- 	switch (dai->id) {
- 	case CS43130_ASP_DOP_DAI:
- 	case CS43130_XSP_DOP_DAI:
-@@ -988,14 +989,13 @@ static int cs43130_hw_free(struct snd_pcm_substream *substream,
- 	struct snd_soc_component *component = dai->component;
- 	struct cs43130_private *cs43130 = snd_soc_component_get_drvdata(component);
- 
--	mutex_lock(&cs43130->clk_mutex);
-+	guard(mutex)(&cs43130->clk_mutex);
- 	cs43130->clk_req--;
- 	if (!cs43130->clk_req) {
- 		/* no DAI is currently using clk */
- 		cs43130_change_clksrc(component, CS43130_MCLK_SRC_RCO);
- 		cs43130_pcm_dsd_mix(false, cs43130->regmap);
- 	}
--	mutex_unlock(&cs43130->clk_mutex);
- 
- 	return 0;
+ 	wm_adsp2_component_remove(&cs47l15->core.adsp[0], component);
  }
 -- 
 2.43.0

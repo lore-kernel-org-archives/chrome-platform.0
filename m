@@ -1,125 +1,116 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AF43CF21F
-	for <chrome-platform@lists.linux.dev>; Fri,  3 Jul 2026 11:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D6D2EEE86
+	for <chrome-platform@lists.linux.dev>; Sat,  4 Jul 2026 23:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783079798; cv=none; b=toirmN/iXLg2Cn5z/V8nWWfIM/++w425XMrnuaeIJlTX/5WQA5dy79CFHsO4Y7SOhG1ve/nxGUtZbXIhqOrzvIIUHjvBLjCRGVtgl0hCwEmhqtBHJa2fAxpRh7FfrwEsFnvod2Fr6ax4uwoYsmGKSehVCdDSXaY0xsZr0W6IcxQ=
+	t=1783208664; cv=none; b=EegD/1vT4S4QpkKSPHrhigSxcX8w15m3ATLCyx71PJDiiph5R0Q3+fcKgm98X3zuTjH6FmTx+n+HJ5bhwII9kCK26A4AjsQ7Wi+FZP+IedQtxiR8KED2H2cvT5qZw5sD6KQ3i/Zk1XH3UaLft0dbMWiwHhD1jL0viglUmruwGy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783079798; c=relaxed/simple;
-	bh=df+Oxwu59Tqkfv1QyLsVXk0WC83aGGx+cVeZR7rfgTc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ui+om6l1c1DCgqucCMr5R+WNOcSA9uUXBheU/DyOPMigUrpnzKI/uk5c5LClsOU5m+6lYa8XyW4KF28clM7CRpCJ9yYDQThLwwueLTwq7tcqqshGkph9JPjwhz3zeq9wJxDYFWsjbLyeU6RtU9UmsZwngUe1obIoJ6fhey7SRZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bh6i29UM; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1783208664; c=relaxed/simple;
+	bh=XIsNZqam6KN+ptafPrdhyS2Xv8HOzf1ASRI1tweH4UI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kdStBj20Q1G/aHwBf7H8NkwWNSsxcUdAOYYlZxJBgqNIY7sH/Unwh9fRjPvZDfueX4j9LxoKK+tZ1xi0bquYi4ijhAKmkF1pexXcUYMm/AwN89uEeOiUp0CJlpGQH1eSjpraUH6sY9nQrZCeLMX7S7FuWBR1aCzZV5sQQ72r4H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eoS+ykhW; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bh6i29UM"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c9672e02e05so274234a12.3
-        for <chrome-platform@lists.linux.dev>; Fri, 03 Jul 2026 04:56:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eoS+ykhW"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cac59f8b64so19800115ad.0
+        for <chrome-platform@lists.linux.dev>; Sat, 04 Jul 2026 16:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1783079796; x=1783684596; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+wQQi5qAJUnUkHX1saOq3zIx6e8dXlHzf8E6xF+VOzM=;
-        b=bh6i29UMQDk0sR57eKBmqGjtUjVCExdOXnH94rHZfpRLwJRnio2msBj4ILnzSOEenA
-         8uOi07f4ORXJPnLDCTa7ObVLj6owXllkkQTYAh/pMTKmUIrpdwCVI7ZtfNMENsl7t5WF
-         4FMyazMwwpzknz48pnPhwOZAw3iIODIvsMF3I=
+        d=gmail.com; s=20251104; t=1783208662; x=1783813462; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ijJ32Xash5Jt49SnX7A5/BLB4XwCy86Iuli9undALZU=;
+        b=eoS+ykhWhWuzFpksgkaWlyhkN0UNka01LQ28ZNx6iuBazF6hPw6fM7BzSBKuaEavpE
+         9etUk7pYXM0pvT53fsHf5lX99ElTly0DYvblJz4wWaQjrWYIj5CTrIEzxxlhqWTp2bP3
+         iaSCaZDjRAtHesR/7WLDrdESuDXOHX92CyYPIkT5LrwzKY4d/+bBKF34GrbnE47FaMqP
+         wjY2fiWkGuxRebqvImnrt8d4iC6KVEeoH82mxhdVs2PzEuGfqzUoCZobj5muGlY3Lo8e
+         WvX6lwPfeYwcgyDA6o85uNsVecBaTHx1cPleTTeB1N5UoNw5bBS7MMlXUtGhWETbntfV
+         2oUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783079796; x=1783684596;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+wQQi5qAJUnUkHX1saOq3zIx6e8dXlHzf8E6xF+VOzM=;
-        b=mijwUgbMQWcOwAXJzUZN5hmlcVcOOS5DPq3hWOU/MeCCr+VljkuBKOpe83ZbZMYn89
-         nx8FsoGkKmqWFeqCxuMoqjNCDAR6fSlegc3BSxybn8z2TZv8MB7q9gJixRsGZ4S71Qdu
-         KJrIT77xJlNfK7aGGj4GiK9JhI9EAZkrUZEUk/gaTed6gGMG9CiM34R989hqrdqGdZjq
-         LxhPu4uB9vhJi1uB29tHEcaT0DMbHSp5gu+4m0oJUxmryO7vwHRtiO8ndWFjL/kU87HY
-         B4IbOR72u2J1aAAreZNMSnOxeVbd/Tt5wrK0YWCEPioxV/oeNb9PrVS/LAWdRJ+d/CTB
-         18lw==
-X-Forwarded-Encrypted: i=1; AFNElJ/lfwCAVXLH63SIQ70t/kGQuugOKkQlv+7oNct0UxKsygttyK8SJ7AIq/bJA7ALAKZuOOJilcJOq9+T1dKb388=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFYGd2WIZ8HLqt2vQTkbNOL/U0ALDM+naHPiaFv0+pHXg0i7GL
-	4GDQEO8/+VdwVMmVC8T9zm/hL4je/fC8RfaqVMjo7pTTH1YywCg+cVF5uyA1f2eoAQ==
-X-Gm-Gg: AfdE7cmFJNySe9AbeCJ9m3ggvgimLKhGjKfWwIBqRHCZBptcUoccSazZFDVz//sd13V
-	ayvcKwgCJ/9R8WQ+FaYtC0Nuctg2bmSAztmmEvTI/VEADD1rTuHk6IgVSnC/nTnGnstUGaZQKO4
-	L3Rj9ASaovU+Yurtiee1bO9xBi5ybPfVKzvSdDIn+G6h4PQTkct0PYyQHfMIm2bI0P1BaS/4qfR
-	qfkUiO9l0k9oxKyVy578GXgqPoVlGPlhFaRD2GVPx51i87ilIuNzW2lGrusuzdwbbcebPRV9K74
-	+m2BtEBt+rH6/F2taMDuHFPgIp2R5LXfPs1qNvmsKGsOvdFvD85/vAKdTwUGhv7FtIsgrub/vlz
-	RNKPoT8sO6ktwqMNVM3z3Dk+UTeep8PJDBEBlYtJuFQXtYptFcKwKoTnJCA0AdZMnkOwvNzP1cN
-	S3/cu9+4yULOd23deEXKXmmzBMjMSUSLFLNdESJ4JwZgWth9FNvr8xYvADiqwD9B3zyooAibAxF
-	JKC2WtP
-X-Received: by 2002:a05:6a21:b88:b0:3bf:6222:2e7e with SMTP id adf61e73a8af0-3bfed0e254cmr11946730637.4.1783079795734;
-        Fri, 03 Jul 2026 04:56:35 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:7bc5:6c83:76cd:cbd6])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9e8bd30ca5sm2569540a12.0.2026.07.03.04.56.32
+        d=1e100.net; s=20251104; t=1783208662; x=1783813462;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ijJ32Xash5Jt49SnX7A5/BLB4XwCy86Iuli9undALZU=;
+        b=KVtDUltTXqR9GE3Yc8NGjCMbe3vpouSxLuxQzJo3JbnLQIjTLYCcKCa4w5Q43q3LYz
+         GTPFY7LAd3BentyfNSXGaXV9UG083Rth6WJcofQjNRVzo0q68qjdXY34TyyLibGx55A7
+         lZsStTeQE/LSk/ijZgIw3ebeTxCQM2O6AcIB7FIxde+dIm+Mz5xqIaNuspVcrwRxVDNF
+         42bKPFiJ3S+Z+4qQp53CeS7tijt6UXLugwkN0QGqZM6VuTgAyIjHQCx2qy4jXkNYoaIB
+         mFv1e1KPyotNz3GXSDKztRrVC2wT3H6Eq0pdYdX8/oPzEB7pUNOmbeNyfiKqRPMO9Z/y
+         Pl9A==
+X-Forwarded-Encrypted: i=1; AHgh+RrIifw+RnjQBlXlMllYIR4AwlyfEfyt+qjEQa97xrQLq0RTDliHwDHADDlf/BwdOo8jedfQ/PSKapOePeCxDOs=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjYvEg2QfvIO+Rq5J5IsaUOUVw0zF4BwJvr6HdmV1uu0FZHFH0
+	CBB2RWEjfKUfPwgaeoMcjxjkCKAbXan0dsIqv2h3J/RTBk6IIG8uoMaV
+X-Gm-Gg: AfdE7ckJ5HzS1b4dpLRBUX5TscV/Ljhs52RLHlx+ggepV3RXsm33WycU/5szZpv6RI1
+	Lm/oT6JFsJ+NxuKCW8Ive8GjQVeBv/LisbzC0QIWIq2FigCiLfmc44SrTwU9FCmuJgACLbBDXti
+	P40eC66zcTuu8Mql2VBulRSbTV8zhQDrTaxIBQtgu+kENBR5hZDKNz5ZX3YQ/Ya/QDMpa7ytcVy
+	Fa5/nHCW/OAOVXYLALNAhBYndawkrKeIzbXYLudu2G25lLwullfc+fZVqueKVXVGNFk2CAJ55bJ
+	0Qlgv7tegp6vC3/qUzHnJlz3Wj/PdX5fsZ4K3ZSTDaQ1MdoXjuJbk8+x4Aks2v+h1s0a3KL3QP5
+	d4LBXXRLhb6l/dk5rCIh3wwwol/En2uGoUgaZ1p9idj6O4AVSvVMleKIs83XX2ErQxnln+GPpQW
+	HG58e6/exdM++SmhPV8XOJqKWHxDlPH96XFjTBTxJvRbKcZ0AIFVvZwJtrmvLIsGzq
+X-Received: by 2002:a17:902:db05:b0:2ca:6c8:abd8 with SMTP id d9443c01a7336-2cbb74ff24dmr43520125ad.12.1783208662110;
+        Sat, 04 Jul 2026 16:44:22 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:3f90:534a:314e:e11d])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c7ef188sm34410696c88.2.2026.07.04.16.44.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 04:56:35 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	linux-mediatek@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable+noautosel@kernel.org
-Subject: [PATCH v2 7/7] arm64: dts: mediatek: mt8192-asurada-spherion: Add Synaptics trackpad's supply
-Date: Fri,  3 Jul 2026 19:56:00 +0800
-Message-ID: <20260703115601.1323491-8-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
-In-Reply-To: <20260703115601.1323491-1-wenst@chromium.org>
+        Sat, 04 Jul 2026 16:44:21 -0700 (PDT)
+Date: Sat, 4 Jul 2026 16:44:18 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, linux-input@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] Input: elan_i2c - Wait for initialization after
+ enabling regulator supply
+Message-ID: <akmZOC_J2ZTl4zLX@google.com>
 References: <20260703115601.1323491-1-wenst@chromium.org>
+ <20260703115601.1323491-2-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260703115601.1323491-2-wenst@chromium.org>
 
-The Synaptics trackpad, like the Elan trackpad option, is fed from the
-system 3.3V power rail. Add it to the trackpad device node.
+Hi Chen-Yu,
 
-Also add the correct post-power-on delay, even though in practice it is
-not required. The Synaptics trackpad requires 100ms after power-on (or
-deasserting the reset, whichever comes later) to fully initialize. The
-power is always on and the reset pin is not routed out, so the
-implementation could try skipping the delay.
+On Fri, Jul 03, 2026 at 07:55:54PM +0800, Chen-Yu Tsai wrote:
+> Elan trackpad controllers require some delay after enabling power to
+> the controller for the hardware and firmware to initialize:
+> 
+>   - 2ms for hardware initialization
+>   - 100ms for firmware initialization
+> 
+> Until then, the hardware will not respond to I2C transfers. This was
+> observed on the MT8173 Chromebooks after the regulator supply for the
+> trackpad was changed to "not always on".
+> 
+> Add proper delays after regulator_enable() calls. To avoid impacting
+> the boot time of existing devices that have the power rails always on,
+> skip the delay if the regulator supply was already enabled. In this
+> case the regulator is either always on, was on by default at power up,
+> or was left on by some other driver, such as the I2C OF component
+> prober. Either way the controller has had ample time to initialize.
 
-Cc: <stable+noautosel@kernel.org> # Without driver changes only lengthens probe time
-Fixes: 925ebc0cd55c ("arm64: dts: mt8192-asurada-spherion: Add Synaptics trackpad support")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-I think this shouldn't be backported, as backporting it without the
-driver enhancements just delays the trackpad probing with no real
-gains.
----
- arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts | 2 ++
- 1 file changed, 2 insertions(+)
+Unfortunately we do not know that [it had ample time]. For this code be
+reliable we need to record the time at which given regulator was turned
+on and then execute/adjust the delay as needed. Until we have it we need
+to assume the regulator was enabled at the time of regulator_enable()
+call.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts b/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-index 163960f58db5..147a8e9a3a71 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-@@ -90,6 +90,8 @@ trackpad@2c {
- 		hid-descr-addr = <0x20>;
- 		interrupts-extended = <&pio 15 IRQ_TYPE_LEVEL_LOW>;
- 		wakeup-source;
-+		vdd-supply = <&pp3300_u>;
-+		post-power-on-delay-ms = <100>;
- 		status = "fail-needs-probe";
- 	};
- };
+I am not concerned with increased boot time too much given the driver is
+set up for asynchronous probing.
+
+Thanks.
+
 -- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
+Dmitry

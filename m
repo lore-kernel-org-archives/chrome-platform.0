@@ -1,237 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C84237B02B
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Jul 2026 15:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF1622541C
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Jul 2026 16:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783437109; cv=none; b=HsgbV0BIkYHnRbDaj8CzdpBWjQ07LRPtVPpA8ihk/E4HHPAeBdL+3UlAXY3w/LTMq9xxX6izNi3yTRgZNrkyBjijuTJA+j7RZTf7U2iSLVnrG+rQayutkIcpD57Uitf+qbIHhaxmwLfwPQLNEtxEhyzAEs8wbTWp5B4EzcPpksQ=
+	t=1783443146; cv=none; b=QH+BUoDB6bG8Q9cRIV/LCv9RzpVsBdGFjI3cK4DTHTUAq4OF1DWbZwI+ffU9KM+nU+Ad7V1sGF6QYdLJc68wUsO5E3Sg1we/g0E8oRLKKgzWQzkdZYfNNYMOHxf7g4gwaKF8JNHUmAHki+RNk25rzORAlfQW+u2YZbiuNNqbr6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783437109; c=relaxed/simple;
-	bh=BPDu49MWJLe0dgSMMODpK1n9EZ49AScos5sJRdO392Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T6SamIzrxP/fQ42kNM+zokFcucYk0mqhf2NsAYQfaMPAIJ/N/HEG+hRGKuz5fekYv81nkr3RvLsF1W3sE+38NR/jDt2040eA+rVs74hIg3kIbs+Eg7AYpYMeTEw5/QOM4jEI2RmgYl9dsfoOKvQqzTP8hVIr8ZKdMJR+950e2gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G8WbqiiW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783443146; c=relaxed/simple;
+	bh=S9akPf+DegVaj9HNVeK9vMrAnXzC3uRuJr7h/bUwRYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mUa1y0JVaQCQYfmYGOqwTs4udp0MdNJ+folvSfR9C23VqXX8G77MYWsPq5CuEWKwwyVDZCzvjG3HM9wXwy9trOzPiolJSCSrIG/u6Kmbu06/RdlpH6Il+c+0fmK97r4JQFGxcq/YBYnovUE4yFFIT2NFP2ZwDD0uzyc0YizFf5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=eo0587uf; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G8WbqiiW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7998F1F000E9;
-	Tue,  7 Jul 2026 15:11:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783437108;
-	bh=eFQmRarClkNM/hYxWY1nrMtb12UYKkrr+Li1uKdzt/8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=G8WbqiiW4sgr6w+tV1MQwuj48+N2sMqHR466SP8k2G36ASiDYoniyuf6g1+CnX5Vx
-	 tywVJrjaARiQOAEIuAn92xxkTRG/zVz0U+YtTz+1oWuP20Kz3zo/3T/iEN0tCZnjah
-	 FgjH6WpEZ6x4u/vnyyVj3eYRLzkej4gzEAP/bxxwWIzlG+PL2SmiX+FK8wwsQHnDP9
-	 E7loNvPcl8QXpViUu1MkFuN0ChdA26Wyw0kpsjGh+4S1CE4Uoc63fhRty+nHD5PPs9
-	 DYW2DlxcHFI80RaS/N2R8f8HWMdr6LmNtYeadCO+tA1BcIeaTmGm1tzEf0aw2gD7Ny
-	 Hmjp02y6zoGzQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 07 Jul 2026 17:11:14 +0200
-Subject: [PATCH v2 07/37] drm/bridge: cros-ec-anx7688: Add atomic bridge
- state handlers
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="eo0587uf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1783443143;
+	bh=S9akPf+DegVaj9HNVeK9vMrAnXzC3uRuJr7h/bUwRYk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eo0587ufepS5Wk/tWdfigsUBpp84dAEKbsNUMvXhupiTiDUrXbA0qqt4LcjZDQNRX
+	 EfaoCFHUyj3vqzwAboyHHo3I1JOpq7EBjy5HNYm+Su8nTckBNEZNEdObRhVZFjUM54
+	 qF51dEqt74HTYtZXwtIukgM8nP/bo9N8FgHWVc+w=
+Date: Tue, 7 Jul 2026 18:52:22 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: (cros_ec) Handle temperature conversion
+ overflows
+Message-ID: <2b1c29c8-bf87-4113-ba1e-63e1b1d1ff51@t-8ch.de>
+References: <20260630-cros_ec-hwmon-overflow-v1-0-3d2ecd3eb0f2@weissschuh.net>
+ <20260630-cros_ec-hwmon-overflow-v1-2-3d2ecd3eb0f2@weissschuh.net>
+ <7b5145a6-7054-40c7-af49-1f2415d1b83f@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260707-drm-all-atomic-bridges-v2-7-21d03cbca446@kernel.org>
-References: <20260707-drm-all-atomic-bridges-v2-0-21d03cbca446@kernel.org>
-In-Reply-To: <20260707-drm-all-atomic-bridges-v2-0-21d03cbca446@kernel.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, dri-devel@lists.freedesktop.org, 
- Maxime Ripard <mripard@kernel.org>, Benson Leung <bleung@chromium.org>, 
- Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4080; i=mripard@kernel.org;
- h=from:subject:message-id; bh=BPDu49MWJLe0dgSMMODpK1n9EZ49AScos5sJRdO392Q=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFm+4sJMTzt15thO3ftM0+uY8V5BYaPKUOsjDXs9dN04V
- 0ervNPrmMrCIMzJICumyPJEJuz08vbFVQ72K3/AzGFlAhnCwMUpABNJPcZYn3nAZXmj2vT5LN+k
- j1x/v2sKZ32uO+uGhEiH5nJRu9YbvTK1NQ5mWatu2fw45SytOFedsYZr1cetedqbVj2OEeQJbd8
- b82jr8ZdJbBFu3h/NFH5yXtl63YyZ46x73zWbAqPaV2803gMA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7b5145a6-7054-40c7-af49-1f2415d1b83f@roeck-us.net>
 
-The cros-ec-anx7688 bridge doesn't implement any enable or disable
-callbacks, but is still missing the atomic state handlers.
+On 2026-06-30 16:06:04-0700, Guenter Roeck wrote:
+> On Tue, Jun 30, 2026 at 10:57:52PM +0200, Thomas Weißschuh wrote:
+> > The calculations converting between the different temperature units can
+> > overflow, resulting in incorrect data.
+> > 
+> > Detect these overflows and report them.
+> > 
+> 
+> I did not see how this can happen in practice, so I asked an AI agent.
+> Its response is below.
+>
+> Given that, I am not going to apply this patch. I am all for checking
+> against overflows, but only if they are real.
 
-In order to remove the legacy bridge callback support from the DRM
-bridge core, add them.
+They can happen on 32-bit architectures. 
+So my idea was to have a single shared algorithm for which the compiler
+will nicely optimize away the impossible cases.
 
-Generated by the following Coccinelle script:
+(More below)
 
-@ is_bridge @
-identifier funcs;
-@@
+> ---
+> Yes, an overflow is possible, but only on 32-bit architectures.
+>   
+>   Here is the breakdown of why this happens and its limitations:
+>   
+>   ### 1.  cros_ec_hwmon_read_temp_threshold 
+>   
+>   The function  cros_ec_hwmon_read_temp_threshold  populates the  threshold  variable using  resp.temp_host[threshold] , which is an array of  uint32_t .
+>   
+>   In  cros_ec_hwmon_read , this  u32  threshold is passed to the conversion function which takes a  long t :
+>   
+>     static bool cros_ec_hwmon_kelvin_to_millicelsius_overflow(long t, long *ret)
+>     
+>   • On a 32-bit system:  long  is a 32-bit signed integer with a
+>   maximum value of  2,147,483,647 . If the EC hardware returns a bogus
+>   or uninitialized positive  u32  value (e.g.,  3,000,000 ), the
+>   multiplication  t * MILLIDEGREE_PER_DEGREE  ( 3,000,000 * 1000 =
+>   3,000,000,000 ) will exceed  LONG_MAX  and cause a signed integer
+>   overflow.                                                           
 
- struct drm_bridge_funcs funcs = {
-	...,
- };
+This is the case I want to handle.
 
-@ has_create_state depends on is_bridge @
-identifier funcs, f;
-@@
+>   • On a 64-bit system:  long  is a 64-bit integer. The maximum
+>   possible  u32  value multiplied by  1000  is  4,294,967,295,000 ,
+>   which comfortably fits within the 64-bit limit of  9.22 x 10^18 . An
+>   overflow here is mathematically impossible.                                                                                                                                                            
+And the compiler knows this and optimizes away the overflow checks.
 
-struct drm_bridge_funcs funcs = {
-  ...,
-  .atomic_create_state = f,
-  ...,
-};
+>   
+>   ### 2. A Quirky Edge Case on 32-bit
+>   
+>   If the EC returns a standard error state like  0xFFFFFFFF , the
+>   implicit cast from  u32 threshold  to  long t  on a 32-bit system
+>   will result in  t = -1 .
 
-@ update_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
+This "standard error" state does not apply to these values.
+'0' means 'disabled', all other values are normal values.
 
- struct drm_bridge_funcs funcs = {
-+	.atomic_create_state = drm_atomic_helper_bridge_create_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	...,
- };
+>   Interestingly, the new  check_mul_overflow(-1, 1000, ret)  check
+>   will not trigger, because  -1000  fits perfectly inside a 32-bit
+>   long . Instead, it will silently return a bogus value of  -274000 
+>   (which corresponds to -274°C). The patch does not actually prevent
+>   this specific "incorrect data" case.                                                                                                
 
-@ update_pre_enable_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
+This is a bug in my code. I'd like to fix it like below, so the compiler
+can optimize this away on 64-bit, too.
 
- struct drm_bridge_funcs funcs = {
- 	...,
--	.pre_enable = f,
-+	.atomic_pre_enable = f,
- 	...,
- };
+                        if (ret == 0) {
++                               if (overflows_type(threshold, long))
++                                       *val = LONG_MAX;
++
+                                if (cros_ec_hwmon_kelvin_to_millicelsius_overflow(threshold, val))
+                                        *val = LONG_MAX;
 
-@ update_pre_enable_impl depends on update_pre_enable_struct @
-identifier update_pre_enable_struct.f;
-identifier b;
-@@
+>   ### 3.  cros_ec_hwmon_temp_to_millicelsius 
+>   
+>   For the standard temperature readings (where  temp  is a  u8 ), an
+>   overflow is impossible on all architectures.
+>   The maximum value of  u8  is 255. When the offset of 200 is added,
+>   the maximum base is 455. Multiplying  455 * 1000  is  455,000 ,
+>   which easily fits in a 32-bit (and even 16-bit) integer. The patch
+>   author is clearly aware of this, which is why the patch asserts its
+>   impossibility via  BUILD_BUG() :                                                                                                   
+>   
+>         if (check_add_overflow(temp, EC_TEMP_SENSOR_OFFSET, &ret))
+>             BUILD_BUG();
+>     
+>         if (cros_ec_hwmon_kelvin_to_millicelsius_overflow(ret, &ret))
+>             BUILD_BUG();
 
--void f(struct drm_bridge *b)
-+void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
- {
-	...
- }
+That is correct. The idea is again to share one conversion function
+between all users to avoid code duplication.
 
-@ update_enable_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
+>   ### Conclusion
+>   
+>   The patch's claim that calculations "can overflow" is accurate, but
+>   the scope of the fix is limited strictly to threshold registers
+>   running on 32-bit systems, and it will still emit bogus negative
+>   temperatures for unsigned integer values larger than  LONG_MAX
+>   (such as  0xFFFFFFFF ).
 
- struct drm_bridge_funcs funcs = {
- 	...,
--	.enable = f,
-+	.atomic_enable = f,
- 	...,
- };
+I'll also mention that the overflow only affects 32-bit systems
+and that the compiler will optimize away the checks on 64-bit.
 
-@ update_enable_impl depends on update_enable_struct @
-identifier update_enable_struct.f;
-identifier b;
-@@
+Does that make sense?
 
--void f(struct drm_bridge *b)
-+void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
- {
-	...
- }
 
-@ update_disable_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
-
- struct drm_bridge_funcs funcs = {
- 	...,
--	.disable = f,
-+	.atomic_disable = f,
- 	...,
- };
-
-@ update_disable_impl depends on update_disable_struct @
-identifier update_disable_struct.f;
-identifier b;
-@@
-
--void f(struct drm_bridge *b)
-+void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
- {
-	...
- }
-
-@ update_post_disable_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
-
- struct drm_bridge_funcs funcs = {
- 	...,
--	.post_disable = f,
-+	.atomic_post_disable = f,
- 	...,
- };
-
-@ update_post_disable_impl depends on update_post_disable_struct @
-identifier update_post_disable_struct.f;
-identifier b;
-@@
-
--void f(struct drm_bridge *b)
-+void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
- {
-	...
- }
-
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
----
-To: Benson Leung <bleung@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>
-Cc: chrome-platform@lists.linux.dev
----
- drivers/gpu/drm/bridge/cros-ec-anx7688.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/cros-ec-anx7688.c b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-index a35dae9b56e2..da16c793e3ba 100644
---- a/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-+++ b/drivers/gpu/drm/bridge/cros-ec-anx7688.c
-@@ -3,10 +3,11 @@
-  * CrOS EC ANX7688 HDMI->DP bridge driver
-  *
-  * Copyright 2020 Google LLC
-  */
- 
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_print.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/regmap.h>
-@@ -90,10 +91,13 @@ static bool cros_ec_anx7688_bridge_mode_fixup(struct drm_bridge *bridge,
- 
- 	return totalbw >= requiredbw;
- }
- 
- static const struct drm_bridge_funcs cros_ec_anx7688_bridge_funcs = {
-+	.atomic_create_state = drm_atomic_helper_bridge_create_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.mode_fixup = cros_ec_anx7688_bridge_mode_fixup,
- };
- 
- static int cros_ec_anx7688_bridge_probe(struct i2c_client *client)
- {
-
--- 
-2.54.0
-
+Thomas

@@ -1,99 +1,96 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD49366806
-	for <chrome-platform@lists.linux.dev>; Tue,  7 Jul 2026 03:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDC6374A08
+	for <chrome-platform@lists.linux.dev>; Tue,  7 Jul 2026 04:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783396766; cv=pass; b=M8wrtCU+Vdf3q4LwSYf4Zf59Obeu+B9dB54lw6OGJtg+7Bqoqz9vrmiq/wf/Eq+pMbVTqPqm3FWdYtgV2pYy6nMU3sthRBYQYAMh5U6ymO5VjYvxTl1714bGWlfvxVnww9XhYHMEcBMwnCCVQSidiHmd3RAbqom4OHepOnckns0=
+	t=1783399252; cv=pass; b=KVYm9RNJ9QB9Jh6ZUZQOrTl0wD05XV9zMYuo87Eo88gbGg9/O3ZQwB3DCP7c44BukcJ3Mj5lANILD37epEqWUjNWVzgACsYcHbmWjPL9iywAwAyY8bH9WnmUPEtT/NRQsEQlC6yWwONcbIdjt1O8TqL2G2oaqiZ4sIg5Nw3tP9Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783396766; c=relaxed/simple;
-	bh=wW8FF8+t4BgI1+HOCLwaZSpb11rd33pHFXZP6vFe5NE=;
+	s=arc-20240116; t=1783399252; c=relaxed/simple;
+	bh=pOlCq3UH6N22anVd0FdFVZcCqdVlilTCIIH1x5vVKWg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QSNKbJ2se0Z//AYFQnLanUxB47N9AFQ5xxigbSeRI/sHzMmE64pNl26d2EtU8eP5iwUWn52q8ea95CIRPUmqzpbqZ9yn3jLHrMAcpCSZf//L7+jo3wk1TYAWHeC6+nUUiUalfUyYMAf9U2TN3R7DH9ECvw3BFEY8YYgD9dr1eeM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jmgycP8X; arc=pass smtp.client-ip=209.85.210.171
+	 To:Cc:Content-Type; b=LMkTZRTjPH5FU7BfwTcRsapKSimuGUQnROR9aupPNMCJjdUb0lbVNR2ptVQCi9P8ywxnlURUDOmIOn3A1yHYN5aKL5jiDKdDokb+qznu5BqyJvNpJPTgZZHqcgIMJFGu6feCTdEEfXEnVbPbyXtky50lwDUyVsF/5XbgD59MdpY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qq3ds+Uv; arc=pass smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jmgycP8X"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8475eca3a66so5404703b3a.2
-        for <chrome-platform@lists.linux.dev>; Mon, 06 Jul 2026 20:59:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783396764; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qq3ds+Uv"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cca0c5799eso16203005ad.0
+        for <chrome-platform@lists.linux.dev>; Mon, 06 Jul 2026 21:40:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783399251; cv=none;
         d=google.com; s=arc-20260327;
-        b=BedBFuarAc63JLfSp8Qc/FkQOaYowqkCpPDjTdJLL3ECEFmR3qrWW9VWNCctqWpXe4
-         5dBZplzxoKb05paj7lPo2MxzYXfDf7mOn9C4u7fIvSU4ReEdOxcJJfZS7Ji7INd4znH4
-         pqQ7G90neSWUzegikiaOnOUqUNrAbR/m7v2PKbmZg7fyG2uMLD4HyxlePxPXvBwIkMDH
-         YGkbeYBs5dKO8RyTunW1xX1o+wVG84yERq/VLx8ZFFZmmXnjwyTcMmEraLuNUsLwr0+n
-         vGKumMoHq3vXISz9KiizBNxzfPvtSk/+7WpDvYu6QaXPSw2tAbqMw7lpW1dGtV2FIc6o
-         98ng==
+        b=bLkvKVOsLZz/6np6S7aWdXdefSYunb9LPDygroCMVvIsUcWw8T0DWGwYCfZORBt5Po
+         EQB7cCzYFmbQZpm2qzfOEX/ZWiF+BZ7PnATDAHH/lVXYxBrBgfqMcoDDuhDsTkjuNAHF
+         OwYn71MgZ2F+YOXs6pIswlD6ePvLnfbI1wjUFMT+x5T2lRlR0gFW+t+RvY27PhWIcg22
+         +/D3BmFJfBVmTSOGFTg2cscTGGiHawPUjeZT4lBw/PIfxAxbfaAlnRaQRUdWQV76wxl5
+         0MhPwG8IUqThJfWrme/JvNhC2pQ3NCRwddezZJH7rbDD0AQyTQa7bFDf1m+CjdOVdKTQ
+         hJMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=wW8FF8+t4BgI1+HOCLwaZSpb11rd33pHFXZP6vFe5NE=;
-        fh=V1yaSRmqKeAP5/tNc6iUo2OZs+qo5X4Qwm8fxG7yiSo=;
-        b=a1RGTvsty25mcKKIYew9EAnaGLeFlnU+7nLYMWWbUTjzKQ/JSGps31B47tQaXhGDFR
-         +EuGka7EtDdC/J8NqZMF1hhRqQAirNBQc6ghFlK8WJYmeUl/dE7/yUXXvcZaFyB+zvqf
-         ICeGjLNlIgcYE2Q+nuSPeMwTRZeyen4OkJMlMKWeH6TU+AGzq6zIdL7cuMG51lXpYuoR
-         pNy9ZJcVNUeVKnkzf/HQroGX/FnvC8/6biyq1QXpzy6uQGsN6DYOxPoohYwL692WpfxW
-         xwAvrCmB7Xrm9L+PiNemAQDnqKKmeaE39/15CbDGr0yNJpTj0uN36+swMMIpyWRhsXvv
-         E1Ng==;
+        bh=pOlCq3UH6N22anVd0FdFVZcCqdVlilTCIIH1x5vVKWg=;
+        fh=PsBVE8WM0klCG5xPJ3mYM1XL18RPEOiRdKfAVXRvOpk=;
+        b=PrNco6YukredATuOBSRwTsOjfi73A8F/X1OeJHRFgVYeBvNKoU9HyyMRb09O5MSRK1
+         C9kynfD7Q6j84PJv0gsVsY/qTMEtiSuZfkaMkh8kPUCb7el9UCedUCURBHY2OwDvUx2Z
+         aBzNVK2mwemgf5JORvl0s2aTU90KBDjR/UkFYC6yjrsaQ3YDe1IcaavG4RHMqb/CnFcQ
+         rmuCEBh8cElwHaG5Vty/b/y0EBg76WY0AjRlnvLcf9VBLJa0NwobzriqShU8gobbmcmC
+         blVYiq0H4t2RrRmiPRfouZe8l5+wApzpfT0SEeSHwf+p8BcipwBus/mG+NNtsmW1ImdL
+         n4cw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783396764; x=1784001564; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783399251; x=1784004051; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wW8FF8+t4BgI1+HOCLwaZSpb11rd33pHFXZP6vFe5NE=;
-        b=jmgycP8XfkjrqOaxFxfYdBHPRluf8gHmHblb8fHWHbyHRcXfWNeS+ehlkmHCqCeeCO
-         4GH9Vygm9U82c8TnvoHFEV2DAJ2TaOyYoC1vVKueVAYPXQorQ7cvHuiKTWYId17H2sqS
-         NffyFTN2BHgNt7AadadZVWKEAIT5NqNrIKgvGG9i3QCJ5RN1XrhRximkfYSfvL9F4Mxo
-         DpHv8Eq5m668ZadcDDZzMiRUyGJynjcV4JHMqn7mPvkmmIGhUG5WX86Qcz7gp/LpqtlZ
-         aW2NRyYCyvVG2O+fNSUt/By2Mz2vJcZ6QL6BTKIo1MYhdvsY7lO9g4b0oyDklZbIX0ua
-         9feA==
+        bh=pOlCq3UH6N22anVd0FdFVZcCqdVlilTCIIH1x5vVKWg=;
+        b=qq3ds+UvxzPJFGAztBadtmZ6D1RG9jpQScTxWB82HWiQBm5YSnwvxIaSX9SyqzSHuZ
+         jrgjJ14mErCYYKUJtJuB6+xsPOfFFj7hDPDlmgYqfUPK5G9ch6LhjnagR1FVY10iV1NG
+         i6Yk/o6/Fi92hVZiTTszFkQzOfXmj86IoCCIxGoW1ahQS6T9IukfQZys27kePquvXg32
+         hXCkMHCY4c9xyDg5+ClmbDGtS1NkSe3zcNvXgEKZX0dXQxN+Oa+Zw0WDc1LBwm/bbTI9
+         xY+y3bjcGZ1bJmkzoBVjih3hUugTvMVwSd2ZogolSLujztRr5AbTJ30X/sadfiXc9kVa
+         VFAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783396764; x=1784001564;
+        d=1e100.net; s=20251104; t=1783399251; x=1784004051;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=wW8FF8+t4BgI1+HOCLwaZSpb11rd33pHFXZP6vFe5NE=;
-        b=accGDfaOj35zUNE9XdclNl6hvAN7VkYCacHM8xB2JumhLAl49yR7epPav1THBPeQbY
-         vMAyNaECkWrN67k5LURB10HEzhMmlpa96hz26clqgqUJTj+vpNKDCeot83PWcKhRK/ay
-         HfreNKjD9O39DA51H57VO8QxefcJDVHUuEQJy6yi5qm1x1Sp8Yq+MT6wM5I+hAeGDD+R
-         nhMWJfMEuYXIy+WcJ2Alm3r2pBjGgIcehTUDi/2G5hZhNKFQyZ6ZZGT1Zvqc2nzwQtUW
-         7MDMsidQWWujTwF4YY51I0REa9EBVp1M2ZZibXX4JXa461waecWBxy/1ZGsT7D8LTwCa
-         FeDg==
-X-Forwarded-Encrypted: i=1; AHgh+RpQ0tO9PwdP4QnhJm5mRNgv0Ar7G/AUpwpkbnMpHKgolSRy15KMbZLC4xVnUtVq8dnPBrAzfJCrAPKiQZScamo=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz17U1AO/98l36NnmEwro49Zs7/DTN8j2bImm/Xl3uiUozL3NGn
-	0ws933v3xvz5gAQpQGxeUGuMx+snPZ0YMV4feq5IZwD5Zw+IrUA3eZJEqe9/9zu16k4B0eqGN1m
-	B+5u2gd9g34z3qJT49uhOU2hIgbx3e5Y=
-X-Gm-Gg: AfdE7cl6zoK+VgyLna4azAge8JCdwq4sd8NpncmJ388qKWgbykBN8RjXKUAw0q+yiqm
-	kjRlx9D3NFe0YVWUnzeLExuLZ71ph3oLV8HML3SFOBvfWNpit8hHWiZdQD03Y2U+aWD6UTzSUvy
-	0+q9SQDLAwb7v4VEq1HYtn4nEGq/81c8iMjylMbgaN1t0DlbqWZRkQb6/nHxGdUT3o2HlCir11u
-	2jnH5Ahka0Fr9iBW1AepbFY33ceXSHH+zTntpPz5rMeKFnMA99wj1+MonWHhfkej1O2VUcRhQC4
-	tzhw+5ani5Qy1LEadBLgsVfkfITTnHthLiJEzg==
-X-Received: by 2002:a05:6a00:9098:b0:848:2f77:e2da with SMTP id
- d2e1a72fcca58-8482f77f285mr926489b3a.67.1783396764389; Mon, 06 Jul 2026
- 20:59:24 -0700 (PDT)
+        bh=pOlCq3UH6N22anVd0FdFVZcCqdVlilTCIIH1x5vVKWg=;
+        b=kS019i07OAwL957NiG3dluoSjFw8+fSC+sRHj3FeKz/+5D1ewREdlNzC4h9mTfMl3y
+         yKHDl7IU9hItJY5jboN6P0aqNYtjLthqtcGk/pJHKwx/rduC7BSn0+ZlCuuZjLqhT6G5
+         Ia97ObTFkFIriTqMC77G7tSfpFNur8oTokIOEGmY3bqIg2qE7q9xr+BLUYnlZMIWeQl+
+         rFhl/GxlsXXmM7Cr4d/DSNZ+nnkueHX5I4fcXcS4rsOWXCdrFIoAgGap8Cq5aFwxmLMu
+         3vUxTfyAfi1GvBr0KQqIz1h3rgzNc0xkNqVhg236g45S5ZR33dY5gv/di+E6lm6p+l4d
+         eWYQ==
+X-Forwarded-Encrypted: i=1; AHgh+RosDN0H8nMNOeKTmdkdgPR6zlO34vul+b7vkxcEnDtYCKg2Ju6kXIdrFwL8/UVqC+wB2VGVCwvOMdWvMjGztcE=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNmWgukz8uCUnhyot48IeQa667jGSCtzFaWj8Cx+ucJ1Sl6xbq
+	RO6OaqQfZAwYzX5XbzTCFdD+LWaXExjsYoB2k4UliWmLMSExCXKKnD4PnaHUOGYbnJSGfOnewgr
+	b1IG4XstWsRDdMu9LgsODKH+cM0SarHo=
+X-Gm-Gg: AfdE7cldmsz1bFYSLuJUHAm3/+K5z/UL11XunfhjNKukRe4U+sIL3iuzkZo8pOjOjqu
+	6JT0Drm+ncdSQHs0Q6v+0Wy478z0BhXbc5j+XLPLEu6mJBFNYL3Zmg84pCPDnyOOemS1NI1FVYA
+	zBVcioVOMtmC5MUQ65QIjyjX63FZcrXYlcyyM2ENtCfLhCkc9ho0LXsMBbxyZ0xs+O/G5lSufde
+	DeGezFFUsNmsYQ97o9655XjWbT82iTnpfuVK5S4zXEfGB12EnLnYjPylAhRy4bj5KmDqFH3awJT
+	HvEwTIDePylw2Gtuux82x16tMNI=
+X-Received: by 2002:a17:903:120f:b0:2c8:1f57:d2f7 with SMTP id
+ d9443c01a7336-2ccbf0569edmr35053655ad.24.1783399250287; Mon, 06 Jul 2026
+ 21:40:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260703055355.244898-1-phucduc.bui@gmail.com>
- <20260703055355.244898-16-phucduc.bui@gmail.com> <akurCIxgAE8DIaX1@opensource.cirrus.com>
-In-Reply-To: <akurCIxgAE8DIaX1@opensource.cirrus.com>
+References: <20260703055355.244898-1-phucduc.bui@gmail.com> <71b1c1a0-fcef-4102-8ab6-146a2c372adb@intel.com>
+In-Reply-To: <71b1c1a0-fcef-4102-8ab6-146a2c372adb@intel.com>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 7 Jul 2026 10:59:11 +0700
-X-Gm-Features: AVVi8Cdr5GH5D3WCL3jF5XnsYudncDmTeKJyjdqU4Gu_BSkC_ifMDT-rWPN5IPQ
-Message-ID: <CAABR9nFpFR5JpU4BK_mc37sVzi9qF67Pp9y7Zqu0-uj+e44iyg@mail.gmail.com>
-Subject: Re: [PATCH v2 15/24] ASoC: codecs: cs42l43: Use guard() and PM
- runtime scope helpers
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, David Rhodes <david.rhodes@cirrus.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+Date: Tue, 7 Jul 2026 11:40:38 +0700
+X-Gm-Features: AVVi8CcQCZizGEeAayJz9voLwANrNZWRykbsEcNpz8Fp4dCchth8iHayuEhTJkI
+Message-ID: <CAABR9nE=KGshxBg2mEF9gsXzv0WStXf2MPLeye-kTg+_SL7+jQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/24] ASoC: codecs: Use guard() for mutex & spin lock
+ - part 1
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
 	Cheng-Yi Chiang <cychiang@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
 	Benson Leung <bleung@chromium.org>, Richard Fitzgerald <rf@opensource.cirrus.com>, povik+lin@cutebit.org, 
 	u.kleine-koenig@baylibre.com, kuninori.morimoto.gx@renesas.com, 
@@ -105,22 +102,21 @@ Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
 	Teguh Sobirin <teguh@sobir.in>, Val Packett <val@packett.cool>, Luca Weiss <luca.weiss@fairphone.com>, 
 	wangdicheng <wangdicheng@kylinos.cn>, linux-sound@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
-	chrome-platform@lists.linux.dev, asahi@lists.linux.dev
+	chrome-platform@lists.linux.dev, asahi@lists.linux.dev, 
+	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	David Rhodes <david.rhodes@cirrus.com>, Charles Keepax <ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Charles,
+Hi Cezary,
 
-Thank you for your review!
+Thanks for your review and for the Reviewed-by tag.
 
+> However, I'm not the one who will run the functional tests for these and
+> from review-perspective, the patchset overall looks OK:
 >
-> iret only really made sense with the goto, might as well drop
-> the variable and return IRQ_NONE directly.
+> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 
->
-> Same in cs42l43_button_release().
->
-
-I'll address your comments and send a v3.
+I'll add it to the next revision.
 
 Best regards,
 Phuc

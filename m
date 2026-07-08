@@ -1,63 +1,63 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A982E4534A9
-	for <chrome-platform@lists.linux.dev>; Wed,  8 Jul 2026 12:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D48451064
+	for <chrome-platform@lists.linux.dev>; Wed,  8 Jul 2026 12:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783515148; cv=none; b=MPWpe6gF8PZEVsp3V7Edgepp6Hvvp2/7HTdlXHgymB7qiLNv0JiX+u87HflkpLkVtaCtnoXfi8V+T6bz1OilhMDjrtDtX9PRdYdmj5HTBkkDqKhbOY9Xs9fBKwkeTC9wRx2BrhS9zadXxPvieH+IMJz7uLhxPLSLaChPaCQrLJM=
+	t=1783515154; cv=none; b=OTsWtJJIOdJb4wkLlZK97LkDIewTuOy/Amw82e0aFhJ+6lPwyxgMIU+b+Qo5xQ+7GZ2IcRhqCovXhcjj5OW+Zu693M8STRfz3YdM30R/KMKZJPQgnI6/042apObcj5f4VIwrAj+guchYjabgPykHmkR6bcdEUtJhoRJ0NL2NhcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783515148; c=relaxed/simple;
-	bh=iujKk9bCIGuTcK8Ojd7Zm5ocecEi8z5wuDQtiqlX2xU=;
+	s=arc-20240116; t=1783515154; c=relaxed/simple;
+	bh=t0c54/72hct8lbrFEg8NJtCjqHP1Kp8F2lBkIgrtZPE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ERoCKqWdw3s93UZEP+iZKjQYFiU/0urL9AJQf5/fEVTi8dWsGaBr66IdKTxSl7S8hLx4AUSFSiEmX4PGJE3+cHB0bygfcY8NoNU8AlZJyHK5qxmr1AjOOawGEDQxFUFt6u/0N/+gh59d0Ydzne0WKXREFyxn3fWvPBwkY8vljUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OQy17AYs; arc=none smtp.client-ip=209.85.216.54
+	 MIME-Version; b=AUfHjQzKctI2QuepawxTI6FM5hHprnIQEqjPQrU+zagd/yypicZSEkHvFZ7oDo1pmIJEYqa0nwfoykpB6v8RLLoVOCA8YdWu3qNGYH3M6hi6GZb6vyXxMWM/fKwfvvO05hMg9xugMG5bFWNWEVsJtbAV3FR5GmcbEWECQBZmeYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=My4sXujn; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQy17AYs"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso764733a91.1
-        for <chrome-platform@lists.linux.dev>; Wed, 08 Jul 2026 05:52:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="My4sXujn"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so519665a91.2
+        for <chrome-platform@lists.linux.dev>; Wed, 08 Jul 2026 05:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783515146; x=1784119946; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783515153; x=1784119953; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=yoNhNhzB0q9E8EMX37oWxySCZEPTsjo22vi8mip+Rjs=;
-        b=OQy17AYsJrhGC+qNGd6piGfAmILF23rneSMW2hHLpzjScM5PMRPlSymM0ukC/lf/gc
-         YC0G5vJFfDRXLKPNLEJMxuA9TLEgVAjClM2OAsRhuJzm20QuGI8Wve24y0FNrITGyf8P
-         60br6XNaK7uajAuPXLwgmRURIy4cfKzD5t/uG3jL/0JBiNSMSZzNn9do+46ay0DCsNqh
-         L6hgvBSVxaOm1hHiZJ/OXp8aDdq4lWb57Zk8lqr7Y7CF8EJsu4cKP6owa/IBUBwU880M
-         JGO+1FCuADxnHw3kRBZbzw2+7+H40Kh+Owjrl8xRrx53WZD3q9q5Hk3Ch9RyfIWr8vle
-         h+YA==
+        bh=rMOhkYiBFQ4A6LLL8zx28PZmR8rjf52ku2Lvlz5rAJo=;
+        b=My4sXujnmMiA61YrfT7AJ4kWaRyh3riL8zFH8R31XSlmKuYHq9B5cewErFz/pGCJep
+         mqasMOITjb/W7SdisfWTivTiPql/M1/OLdEeTtqwipP1WFpl3/rfUggD/EZu7ZVyFh4n
+         CGdrWCH255PVDhXwcmt9lXfyIoBmZqTOg6VcAEMgNP8LJjSCTx084K8NPKkdBHm0afrs
+         CyRks75JaCnBZqbdJZN8UjvbJ4VgBOUeEZfMZN3VJ15kPURnDtJ2zkDdi+lZzd3ayfeF
+         eX9vdn1XTuYLpVb4mf0xxPXhiwL767/NOp9NrXe7AgdrshYwzVmO3XgWiOFO3MNDk1mP
+         URQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783515146; x=1784119946;
+        d=1e100.net; s=20251104; t=1783515153; x=1784119953;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yoNhNhzB0q9E8EMX37oWxySCZEPTsjo22vi8mip+Rjs=;
-        b=n5j9MGOq2ZISBnbETsj0Y0DK0UMcYf6luKRZPLGX3jJae6apU6zRJ2KdSjUZtL1nhr
-         pQNDZXKya3y/pk4WHWHn0fu6t8mlKGnHN6ZMSP/cHe6nepP+F5OWASRSI2cDEBL7TaHg
-         tDxVYP/tV1KoE+4g0p/fOWCMagqTSnQmQ3RLBbdI47HB/2+2QWxsyVJLww6yV01p6buS
-         ivNWboIejKgzAr6ke5xUztKmDq71Gy45BH3RZIcVbY72JjFKQDS6OpcE6zWnU+OYsJOe
-         /fOqjsS7QJHwSOVwYjo+vBBNBPPMvgUOl37kjZCKoS9sLCd4ZI/3vqIXWzfP6ppZc9Wt
-         tbpA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp7DNdeXYA77jKvYcbR5WicHQ11BRI3uy/kcg2nxQdumAhgn9YnZ67v42Q1RKmj3ein/Bonbore6pZGhEmQsTA=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwARPGUaak3RMHbFiOLf1i+YR+uHa68mYvrBRNWJL56MmRZ6ykY
-	d1+JwDGQwl1lJAYRISGFXIeHBqrOqWurccxb/6fgmGEtvkpxxeV1eYRJ
-X-Gm-Gg: AfdE7ckmok7NedSjup5u75/BezKB0oqfJavTxx3XWxsZgRnayoyJ6EFjif7+8r6yQWx
-	M45Gqer8F9nef1ZE26ecN8VYiLoxAE2Rjl7igoNn3xurQ2GFmc8sG0HeaOWW3ZoZ3yqIAJZ2Dua
-	/YwLvUjjC56MOH8VKeFNz+q0+nIohbmq/0wXtDzjsWbmkZHex8ZUPnG4kymd0wcmrHOGhx+CjFb
-	mcNR0k9900LSOaBvjx28JUgD2Q0Tz1yE821B1rttGGOy8HZGNDzd+tN6uuGBtpp2bURg0fS/0ib
-	aWEP0fzITg6uWHcZUY/cKnieLMRIHam8R6ELioiWSnOLKFdazopoGBLW8j9lduguBl/3qsKRgAj
-	8uqhGlr2ryXwtRpAFEsn9bBxgxhATvytka7uHmvtqJZ4pnzuIH09303jmfEXuy+nrGndifiwzUL
-	lIkiLPGs/VivCd9Tu6v6B7oXj0arp79OjXv69w8t9AXFpEDTE=
-X-Received: by 2002:a17:90b:2d05:b0:381:29f2:481b with SMTP id 98e67ed59e1d1-38940150106mr2633548a91.11.1783515145911;
-        Wed, 08 Jul 2026 05:52:25 -0700 (PDT)
+        bh=rMOhkYiBFQ4A6LLL8zx28PZmR8rjf52ku2Lvlz5rAJo=;
+        b=pl/a5bEj0jkcVBTzBWlMVHRRQP52EHNDfvYpPj/wMEMyTG0sEU210AakibyA2fB0xJ
+         QpuuwDbEHu3RptJTpzfAmbDhRGJXCJ9v5u29CDKwiF3+5Hk1ZNBVfHqvLrwFHRvc0t02
+         8utys0n0WiJtKfIGoS68e4JlR6P4UtRj1d18I7z/heusLn7Cx/y0gHI4gw6bnH6CYwRx
+         jyL7xjLAJGOed+4YkWjZzChUBRvfDqsUzHg4I8H1lJznCfdEHXXi0Rp1MlugSiDYloSS
+         quEz0B9Wk4Mdk69pbAHkKuUt6+cBGA4WjZp8LAzrullLpPjrIab88eJVJXWFvU2f0Qoe
+         Qtow==
+X-Forwarded-Encrypted: i=1; AHgh+RrdSYxuYqg7SZ2cHGgEptYuEADnExkkzANKUCPsZjdL1Ewyn3sOQwn8rBZH1cNuyRxWyO8xNynVc7oWgUhMLic=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvMJKFBaX34fZ46QY8bmZiTr+SaAHzzXbg0ZW5XhjLNfMpmAQs
+	8Wt2L1xkz/7QZM9uiDnbZjmjbOVggxs9OsfaFMQDjIoZdZyz76h/B/Sm
+X-Gm-Gg: AfdE7ckOq/vnvcYRRb9ZtThhH3I/xRQYqmgHjM2GaiVN65VB0JBiB+2q3bJBGOcPee/
+	YMDUyBt7uPZKmEidu8eii336nTLAoN15yVs3VbtW/+43vBodc3rRVeiMM2Qr/G7IIsN4Fbd2Acw
+	5SQGCQtaGqIHQ+TJk+/pA26t8ICV0hFznB8Zv4ezZS715qTmLJxegMXnvX5kd0CMoMbsPp4kX4Z
+	0XQeEAQPkoDVbfQ7GM2aFmvErCrp7tVt4vd5+5vgf2mOdGSnCCL01HCfaF8FPL5tjSTcmv9h+L5
+	0zcVMcvt8kjfSLUx5TxkBkYgn0j5C5iywvjrH7OzjPznW1qdHzwaqL5ssbkQbtwGses6EgMyLAv
+	h0xNHfkqloqi0tv9bpIDXcupuokgfF6RrRYuJX3vIBy+3RVA3yflWZmr/EyGhtc56DjaVa6Sx8m
+	FvgIKQAAC/wjg6XmM0yjaLozW5udiEnAcAta46/4Jxz2F9TGk=
+X-Received: by 2002:a17:90a:c2cb:b0:387:e0db:bc2c with SMTP id 98e67ed59e1d1-389420ac578mr2725220a91.34.1783515153137;
+        Wed, 08 Jul 2026 05:52:33 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d20a2f2fsm2784349a91.13.2026.07.08.05.52.19
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d20a2f2fsm2784349a91.13.2026.07.08.05.52.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 05:52:25 -0700 (PDT)
+        Wed, 08 Jul 2026 05:52:32 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	asahi@lists.linux.dev,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v4 15/24] ASoC: codecs: cs42l43: Use guard() and PM runtime scope helpers
-Date: Wed,  8 Jul 2026 19:49:52 +0700
-Message-ID: <20260708125002.202515-16-phucduc.bui@gmail.com>
+Subject: [PATCH v4 16/24] ASoC: codecs: cs42l84: Use guard() for mutex locks
+Date: Wed,  8 Jul 2026 19:49:53 +0700
+Message-ID: <20260708125002.202515-17-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260708125002.202515-1-phucduc.bui@gmail.com>
 References: <20260708125002.202515-1-phucduc.bui@gmail.com>
@@ -110,438 +110,67 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Convert mutex locking to guard(mutex) and replace explicit runtime
-PM handling with runtime PM scope helpers.
-This simplifies the control flow by removing explicit cleanup paths
-and unnecessary 'goto' labels.
+Clean up the code using guard() for mutex locks.
+Merely code refactoring, and no behavior change.
 
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
+ sound/soc/codecs/cs42l84.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-Changes in v4:
- Added Reviewed-by tags from  Charles.
-Changes in v3: 
- Remove temporary variables and return directly.
-Changes in v2:
- Switched to a helper function to avoid code duplication, 
- while keeping the guard() conversion since it eliminates 12 goto labels.
-
- sound/soc/codecs/cs42l43-jack.c | 138 ++++++++++++++------------------
- sound/soc/codecs/cs42l43.c      |  16 ++--
- 2 files changed, 65 insertions(+), 89 deletions(-)
-
-diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
-index 934666295ee3..1f0a5c5cac8a 100644
---- a/sound/soc/codecs/cs42l43-jack.c
-+++ b/sound/soc/codecs/cs42l43-jack.c
-@@ -6,6 +6,7 @@
- //                         Cirrus Logic International Semiconductor Ltd.
+diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
+index f2a58163de0e..36533a13319d 100644
+--- a/sound/soc/codecs/cs42l84.c
++++ b/sound/soc/codecs/cs42l84.c
+@@ -10,6 +10,7 @@
  
- #include <linux/build_bug.h>
+ #include <linux/bitfield.h>
+ #include <linux/bits.h>
 +#include <linux/cleanup.h>
- #include <linux/completion.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
-@@ -67,6 +68,21 @@ static int cs42l43_find_index(struct cs42l43_codec *priv, const char * const pro
- 	return -EINVAL;
- }
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/kernel.h>
+@@ -281,10 +282,9 @@ static int cs42l84_set_jack(struct snd_soc_component *component, struct snd_soc_
+ 	struct cs42l84_private *cs42l84 = snd_soc_component_get_drvdata(component);
  
-+static void cs42l43_apply_accdet_config(struct cs42l43_codec *priv,
-+					unsigned int autocontrol,
-+					unsigned int pdncntl)
-+{
-+	struct cs42l43 *cs42l43 = priv->core;
-+
-+	regmap_update_bits(cs42l43->regmap, CS42L43_HS_BIAS_SENSE_AND_CLAMP_AUTOCONTROL,
-+			   CS42L43_JACKDET_MODE_MASK | CS42L43_S0_AUTO_ADCMUTE_DISABLE_MASK |
-+			   CS42L43_HSBIAS_SENSE_TRIP_MASK, autocontrol);
-+	regmap_update_bits(cs42l43->regmap, CS42L43_PDNCNTL,
-+			   CS42L43_RING_SENSE_EN_MASK, pdncntl);
-+
-+	dev_dbg(priv->dev, "Successfully configured accessory detect\n");
-+}
-+
- int cs42l43_set_jack(struct snd_soc_component *component,
- 		     struct snd_soc_jack *jack, void *d)
- {
-@@ -80,31 +96,34 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 
- 	dev_dbg(priv->dev, "Configure accessory detect\n");
- 
--	ret = pm_runtime_resume_and_get(priv->dev);
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(priv->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
- 	if (ret) {
- 		dev_err(priv->dev, "Failed to resume for jack config: %d\n", ret);
- 		return ret;
- 	}
- 
--	mutex_lock(&priv->jack_lock);
-+	guard(mutex)(&priv->jack_lock);
- 
- 	priv->jack_hp = jack;
- 
--	if (!jack)
--		goto done;
-+	if (!jack) {
-+		cs42l43_apply_accdet_config(priv, autocontrol, pdncntl);
-+		return 0;
-+	}
- 
- 	ret = device_property_count_u32(cs42l43->dev, "cirrus,buttons-ohms");
- 	if (ret != -EINVAL) {
- 		if (ret < 0) {
- 			dev_err(priv->dev, "Property cirrus,buttons-ohms malformed: %d\n",
- 				ret);
--			goto error;
-+			return ret;
- 		}
- 
- 		if (ret > CS42L43_N_BUTTONS) {
- 			ret = -EINVAL;
- 			dev_err(priv->dev, "Property cirrus,buttons-ohms too many entries\n");
--			goto error;
-+			return ret;
- 		}
- 
- 		ret = device_property_read_u32_array(cs42l43->dev, "cirrus,buttons-ohms",
-@@ -112,7 +131,7 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 		if (ret < 0) {
- 			dev_err(priv->dev, "Property cirrus,button-ohms malformed: %d\n",
- 				ret);
--			goto error;
-+			return ret;
- 		}
- 	} else {
- 		priv->buttons[0] = 70;
-@@ -124,7 +143,7 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 	ret = cs42l43_find_index(priv, "cirrus,detect-us", 50000, &priv->detect_us,
- 				 cs42l43_accdet_us, ARRAY_SIZE(cs42l43_accdet_us));
- 	if (ret < 0)
--		goto error;
-+		return ret;
- 
- 	hs2 |= ret << CS42L43_AUTO_HSDET_TIME_SHIFT;
- 
-@@ -134,7 +153,7 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 				 &priv->bias_ramp_ms, cs42l43_accdet_ramp_ms,
- 				 ARRAY_SIZE(cs42l43_accdet_ramp_ms));
- 	if (ret < 0)
--		goto error;
-+		return ret;
- 
- 	hs2 |= ret << CS42L43_HSBIAS_RAMP_SHIFT;
- 
-@@ -142,7 +161,7 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 				 &priv->bias_sense_ua, cs42l43_accdet_bias_sense,
- 				 ARRAY_SIZE(cs42l43_accdet_bias_sense));
- 	if (ret < 0)
--		goto error;
-+		return ret;
- 
- 	if (priv->bias_sense_ua)
- 		autocontrol |= ret << CS42L43_HSBIAS_SENSE_TRIP_SHIFT;
-@@ -154,7 +173,7 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 				       &priv->tip_debounce_ms);
- 	if (ret < 0 && ret != -EINVAL) {
- 		dev_err(priv->dev, "Property cirrus,tip-debounce-ms malformed: %d\n", ret);
--		goto error;
-+		return ret;
- 	}
- 
- 	/* This tip sense invert is set normally, as TIPSENSE_INV already inverted */
-@@ -170,7 +189,7 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 				 &priv->tip_fall_db_ms, cs42l43_accdet_db_ms,
- 				 ARRAY_SIZE(cs42l43_accdet_db_ms));
- 	if (ret < 0)
--		goto error;
-+		return ret;
- 
- 	tip_deb |= ret << CS42L43_TIPSENSE_FALLING_DB_TIME_SHIFT;
- 
-@@ -178,7 +197,7 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 				 &priv->tip_rise_db_ms, cs42l43_accdet_db_ms,
- 				 ARRAY_SIZE(cs42l43_accdet_db_ms));
- 	if (ret < 0)
--		goto error;
-+		return ret;
- 
- 	tip_deb |= ret << CS42L43_TIPSENSE_RISING_DB_TIME_SHIFT;
- 
-@@ -199,7 +218,7 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 					 NULL, cs42l43_accdet_db_ms,
- 					 ARRAY_SIZE(cs42l43_accdet_db_ms));
- 		if (ret < 0)
--			goto error;
-+			return ret;
- 
- 		ring_deb |= ret << CS42L43_RINGSENSE_FALLING_DB_TIME_SHIFT;
- 
-@@ -207,7 +226,7 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 					 NULL, cs42l43_accdet_db_ms,
- 					 ARRAY_SIZE(cs42l43_accdet_db_ms));
- 		if (ret < 0)
--			goto error;
-+			return ret;
- 
- 		ring_deb |= ret << CS42L43_RINGSENSE_RISING_DB_TIME_SHIFT;
- 		pdncntl |= CS42L43_RING_SENSE_EN_MASK;
-@@ -228,23 +247,9 @@ int cs42l43_set_jack(struct snd_soc_component *component,
- 			   CS42L43_HSBIAS_RAMP_MASK | CS42L43_HSDET_MODE_MASK |
- 			   CS42L43_AUTO_HSDET_TIME_MASK, hs2);
- 
--done:
--	ret = 0;
--
--	regmap_update_bits(cs42l43->regmap, CS42L43_HS_BIAS_SENSE_AND_CLAMP_AUTOCONTROL,
--			   CS42L43_JACKDET_MODE_MASK | CS42L43_S0_AUTO_ADCMUTE_DISABLE_MASK |
--			   CS42L43_HSBIAS_SENSE_TRIP_MASK, autocontrol);
--	regmap_update_bits(cs42l43->regmap, CS42L43_PDNCNTL,
--			   CS42L43_RING_SENSE_EN_MASK, pdncntl);
--
--	dev_dbg(priv->dev, "Successfully configured accessory detect\n");
--
--error:
--	mutex_unlock(&priv->jack_lock);
--
--	pm_runtime_put_autosuspend(priv->dev);
-+	cs42l43_apply_accdet_config(priv, autocontrol, pdncntl);
- 
--	return ret;
-+	return 0;
- }
- 
- static void cs42l43_start_hs_bias(struct cs42l43_codec *priv, bool type_detect)
-@@ -369,22 +374,22 @@ irqreturn_t cs42l43_button_press(int irq, void *data)
- {
- 	struct cs42l43_codec *priv = data;
- 	struct cs42l43 *cs42l43 = priv->core;
--	irqreturn_t iret = IRQ_NONE;
- 	unsigned int buttons = 0;
- 	unsigned int val = 0;
- 	int i, ret;
- 
--	ret = pm_runtime_resume_and_get(priv->dev);
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(priv->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
- 	if (ret) {
- 		dev_err(priv->dev, "Failed to resume for button press: %d\n", ret);
--		return iret;
-+		return IRQ_NONE;
- 	}
- 
--	mutex_lock(&priv->jack_lock);
-+	guard(mutex)(&priv->jack_lock);
- 
- 	if (!priv->button_detect_running) {
- 		dev_dbg(priv->dev, "Spurious button press IRQ\n");
--		goto error;
-+		return IRQ_NONE;
- 	}
- 
- 	// Wait for 2 full cycles of comb filter to ensure good reading
-@@ -395,12 +400,12 @@ irqreturn_t cs42l43_button_press(int irq, void *data)
- 	/* Bail if jack removed, the button is irrelevant and likely invalid */
- 	if (!cs42l43_jack_present(priv)) {
- 		dev_dbg(priv->dev, "Button ignored due to removal\n");
--		goto error;
-+		return IRQ_NONE;
- 	}
- 
- 	if (val & CS42L43_HSBIAS_CLAMP_STS_MASK) {
- 		dev_dbg(priv->dev, "Button ignored due to bias sense\n");
--		goto error;
-+		return IRQ_NONE;
- 	}
- 
- 	val = (val & CS42L43_HSDET_DC_STS_MASK) >> CS42L43_HSDET_DC_STS_SHIFT;
-@@ -423,45 +428,32 @@ irqreturn_t cs42l43_button_press(int irq, void *data)
- 
- 	snd_soc_jack_report(priv->jack_hp, buttons, CS42L43_JACK_BUTTONS);
- 
--	iret = IRQ_HANDLED;
--
--error:
--	mutex_unlock(&priv->jack_lock);
--
--	pm_runtime_put_autosuspend(priv->dev);
--
--	return iret;
-+	return IRQ_HANDLED;
- }
- 
- irqreturn_t cs42l43_button_release(int irq, void *data)
- {
- 	struct cs42l43_codec *priv = data;
--	irqreturn_t iret = IRQ_NONE;
- 	int ret;
- 
--	ret = pm_runtime_resume_and_get(priv->dev);
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(priv->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
- 	if (ret) {
- 		dev_err(priv->dev, "Failed to resume for button release: %d\n", ret);
--		return iret;
-+		return IRQ_NONE;
- 	}
- 
--	mutex_lock(&priv->jack_lock);
--
--	if (priv->button_detect_running) {
--		dev_dbg(priv->dev, "Button release IRQ\n");
--
--		snd_soc_jack_report(priv->jack_hp, 0, CS42L43_JACK_BUTTONS);
-+	guard(mutex)(&priv->jack_lock);
- 
--		iret = IRQ_HANDLED;
--	} else {
-+	if (!priv->button_detect_running) {
- 		dev_dbg(priv->dev, "Spurious button release IRQ\n");
-+		return IRQ_NONE;
- 	}
- 
--	mutex_unlock(&priv->jack_lock);
-+	dev_dbg(priv->dev, "Button release IRQ\n");
-+	snd_soc_jack_report(priv->jack_hp, 0, CS42L43_JACK_BUTTONS);
- 
--	pm_runtime_put_autosuspend(priv->dev);
--
--	return iret;
-+	return IRQ_HANDLED;
- }
- 
- void cs42l43_bias_sense_timeout(struct work_struct *work)
-@@ -471,13 +463,14 @@ void cs42l43_bias_sense_timeout(struct work_struct *work)
- 	struct cs42l43 *cs42l43 = priv->core;
- 	int ret;
- 
--	ret = pm_runtime_resume_and_get(priv->dev);
-+	PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(priv->dev, pm);
-+	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
- 	if (ret) {
- 		dev_err(priv->dev, "Failed to resume for bias sense: %d\n", ret);
- 		return;
- 	}
- 
--	mutex_lock(&priv->jack_lock);
-+	guard(mutex)(&priv->jack_lock);
- 
- 	if (cs42l43_jack_present(priv) && priv->button_detect_running) {
- 		dev_dbg(priv->dev, "Bias sense timeout out, restore bias\n");
-@@ -490,10 +483,6 @@ void cs42l43_bias_sense_timeout(struct work_struct *work)
- 				   CS42L43_AUTO_HSBIAS_CLAMP_EN_MASK,
- 				   CS42L43_AUTO_HSBIAS_CLAMP_EN_MASK);
- 	}
--
--	mutex_unlock(&priv->jack_lock);
--
--	pm_runtime_put_autosuspend(priv->dev);
- }
- 
- static const struct reg_sequence cs42l43_3pole_patch[] = {
-@@ -895,9 +884,8 @@ int cs42l43_jack_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *u
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct cs42l43_codec *priv = snd_soc_component_get_drvdata(component);
- 
--	mutex_lock(&priv->jack_lock);
-+	guard(mutex)(&priv->jack_lock);
- 	ucontrol->value.integer.value[0] = priv->jack_override;
--	mutex_unlock(&priv->jack_lock);
+ 	/* Prevent race with interrupt handler */
+-	mutex_lock(&cs42l84->irq_lock);
++	guard(mutex)(&cs42l84->irq_lock);
+ 	cs42l84->jack = jk;
+ 	snd_soc_jack_report(jk, cs42l84->hs_type, SND_JACK_HEADSET);
+-	mutex_unlock(&cs42l84->irq_lock);
  
  	return 0;
  }
-@@ -913,17 +901,13 @@ int cs42l43_jack_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *u
- 	if (override >= e->items)
- 		return -EINVAL;
+@@ -831,7 +831,7 @@ static irqreturn_t cs42l84_irq_thread(int irq, void *data)
+ 	u8 current_ring_state;
+ 	int i;
  
--	mutex_lock(&priv->jack_lock);
-+	guard(mutex)(&priv->jack_lock);
+-	mutex_lock(&cs42l84->irq_lock);
++	guard(mutex)(&cs42l84->irq_lock);
+ 	/* Read sticky registers to clear interrupt */
+ 	for (i = 0; i < ARRAY_SIZE(stickies); i++) {
+ 		regmap_read(cs42l84->regmap, irq_params_table[i].status_addr,
+@@ -902,8 +902,6 @@ static irqreturn_t cs42l84_irq_thread(int irq, void *data)
+ 				break;
+ 			}
  
--	if (!cs42l43_jack_present(priv)) {
--		mutex_unlock(&priv->jack_lock);
-+	if (!cs42l43_jack_present(priv))
- 		return -EBUSY;
--	}
+-			mutex_unlock(&cs42l84->irq_lock);
+-
+ 			return IRQ_HANDLED;
+ 		}
  
--	if (override == priv->jack_override) {
--		mutex_unlock(&priv->jack_lock);
-+	if (override == priv->jack_override)
- 		return 0;
--	}
- 
- 	priv->jack_override = override;
- 
-@@ -983,7 +967,5 @@ int cs42l43_jack_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *u
- 				    cs42l43_jack_override_modes[override].report);
+@@ -919,8 +917,6 @@ static irqreturn_t cs42l84_irq_thread(int irq, void *data)
+ 		}
  	}
  
--	mutex_unlock(&priv->jack_lock);
+-	mutex_unlock(&cs42l84->irq_lock);
 -
- 	return 1;
- }
-diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-index f0d6ff0b2976..68ec56f18b60 100644
---- a/sound/soc/codecs/cs42l43.c
-+++ b/sound/soc/codecs/cs42l43.c
-@@ -8,6 +8,7 @@
- #include <linux/bitops.h>
- #include <linux/bits.h>
- #include <linux/build_bug.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/err.h>
-@@ -1208,14 +1209,12 @@ static void cs42l43_spk_vu_sync(struct cs42l43_codec *priv)
- {
- 	struct cs42l43 *cs42l43 = priv->core;
- 
--	mutex_lock(&priv->spk_vu_lock);
-+	guard(mutex)(&priv->spk_vu_lock);
- 
- 	regmap_update_bits(cs42l43->regmap, CS42L43_INTP_VOLUME_CTRL1,
- 			   CS42L43_AMP1_2_VU_MASK, CS42L43_AMP1_2_VU_MASK);
- 	regmap_update_bits(cs42l43->regmap, CS42L43_INTP_VOLUME_CTRL1,
- 			   CS42L43_AMP1_2_VU_MASK, 0);
--
--	mutex_unlock(&priv->spk_vu_lock);
+ 	return IRQ_HANDLED;
  }
  
- static int cs42l43_shutter_get(struct cs42l43_codec *priv, unsigned int shift)
-@@ -1602,7 +1601,7 @@ static int cs42l43_pll_ev(struct snd_soc_dapm_widget *w,
- 	struct cs42l43 *cs42l43 = priv->core;
- 	int ret;
- 
--	mutex_lock(&cs42l43->pll_lock);
-+	guard(mutex)(&cs42l43->pll_lock);
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_PRE_PMU:
-@@ -1627,8 +1626,6 @@ static int cs42l43_pll_ev(struct snd_soc_dapm_widget *w,
- 		break;
- 	}
- 
--	mutex_unlock(&cs42l43->pll_lock);
--
- 	return ret;
- }
- 
-@@ -2566,13 +2563,10 @@ static int cs42l43_set_sysclk(struct snd_soc_component *component, int clk_id,
- {
- 	struct cs42l43_codec *priv = snd_soc_component_get_drvdata(component);
- 	struct cs42l43 *cs42l43 = priv->core;
--	int ret;
- 
--	mutex_lock(&cs42l43->pll_lock);
--	ret = cs42l43_set_pll(priv, src, freq);
--	mutex_unlock(&cs42l43->pll_lock);
-+	guard(mutex)(&cs42l43->pll_lock);
- 
--	return ret;
-+	return cs42l43_set_pll(priv, src, freq);
- }
- 
- static int cs42l43_component_probe(struct snd_soc_component *component)
 -- 
 2.43.0
 

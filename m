@@ -1,85 +1,103 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415F83C5DD4
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jul 2026 07:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09533E5A08
+	for <chrome-platform@lists.linux.dev>; Fri, 10 Jul 2026 08:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783669347; cv=none; b=QNubxojqDYGfwVJCbDHJ3EKHb193aJKHTP0o5LfvOx7xnImch/5hNr7ozOiRfnhTqUZW6Y1g57yPF+8kV8UhfNPi2tv53kyH+ewadKuNWpO5XhgSWXxKpKNtyEL8KdHI0mTTqQc6LB2smF0Thw1zrLu4dJz/6yk06B0Ell+Yk0Y=
+	t=1783670595; cv=none; b=IqAOG8smY653C3tpp8N1IHYLAzqOW3/2FeERIW1vmUwQU2mQWNdBkC8Wvc0NYGFgJpb7XjIVU6NOUalYpfEHBiOur8gmRw1gSPB0X3Rk99pWPrbhLjLVtqX5fG4LEwAod5PE5ukaXyRHVR9y+ihVTsLSpBEoC0NzhxFQyUqzzUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783669347; c=relaxed/simple;
-	bh=PNx+7lHV68d843Y5/+sK2JBzg9dRL2pzRtxGkZKEOS8=;
+	s=arc-20240116; t=1783670595; c=relaxed/simple;
+	bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oz/DHVYs6uk/S0GZ+D16mJYqpEFj5k8bicmK6hYfX2jUNHwRLFbnK9+9o62+AKTh26jsEJLJUhvuhU6TKJOyXczCBMhvtBiWGbpXPVHsI3/KBdjAAHFT3mNeRPuWepXtk7RPm709lPZMuia/5Hxmc5dnjDAj3taZS7IPmUdTZoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=QpJGEDmt; arc=none smtp.client-ip=209.85.128.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=eqW/bLxdBxKut3eWI09otM+UN3OncsyA8EBJo3d4UwVONLDVXUKiJMa/nRgWWsolqXXCwyyJaZcxjtjSdE1NNOrZFS1HGo1vzh4q+6MqKq5sXhtGO+S9bEI6a1tu6QmFIovLsb/OgTWurx9Qm8lVo9jlb3BbHqQle6Ui1KQUYBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=IljZosE6; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="QpJGEDmt"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-493b779003fso2496435e9.3
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Jul 2026 00:42:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="IljZosE6"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493c2c0b9a8so5191985e9.1
+        for <chrome-platform@lists.linux.dev>; Fri, 10 Jul 2026 01:03:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783669345; x=1784274145; darn=lists.linux.dev;
+        d=baylibre.com; s=google; t=1783670591; x=1784275391; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=PNx+7lHV68d843Y5/+sK2JBzg9dRL2pzRtxGkZKEOS8=;
-        b=QpJGEDmt36Y/TxslrmoE6bXShb9s691Z4fw1HGZJ/F130A0D3xUUz61Ch34Pj0idg4
-         1bkOnbh2a/9BgdvzxrAOoRT1GjQzAxGgfCn9TZePh06YKjVSexjwZ0TA9MJj4dPqWCP4
-         cAVDETlOPt67EjbOKdQZ3ftf2syRlmF3Vh/kYxDvMam2EIpgOvdZhLhjBVliFGP06ReN
-         F++++HyxlNjTDyXbsrloLscy8TrHWaOpNfsY9ZeUIMVnZgWrhR02MavFNUNWqDXoQ2U2
-         5W8lMcyuZ11MgI4KVUacakZiX8SSF1++DSEjVp6r5QwuVE9K4argSNtTz5T59LCWv1Lb
-         5vrQ==
+        bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
+        b=IljZosE6QWRG5Wb6zWVuDa5ameLKZX0nKC4pnbAkoFHk+hBfnZ1zUxEDNqgLIlKvmZ
+         BS+/7Bs30OLBnKXLntvHmhvZeyAGXgpN9nr+0pJm+6gl/Qp5AVFtt+dlpwNQcd2XpFWM
+         R6VX2Zl3ZP96P/vokbQQE2BHDcinlac/Va3ZNebvhxuOuCmjfguRXgHnjA9TSACLqDF/
+         5QwtJxsxzF91ZJ6y6z2fvQAnNdZfHfD03GimcSypb525rsMn5JALpfc6bD5E8zxIZ5z2
+         MYqgXJJMPNYZqJnQazx92TZOtraPpQxDE4xCeEBI1SDN8uNZ6bJqyy8QFsCw/NVGa29P
+         dwAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783669345; x=1784274145;
+        d=1e100.net; s=20251104; t=1783670591; x=1784275391;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PNx+7lHV68d843Y5/+sK2JBzg9dRL2pzRtxGkZKEOS8=;
-        b=OpJ/Fz1OIWyLVvGnkHidEvmO6lhdeSMDiBgjtAaPjPWJ6CVj49Ep6HMVhGx1aY5b6G
-         Z/jWtwY2w5Ay9UDYDqQNcQ1NWr/L+G6u/Xa7Vf3Jm3Llg5L2O8Z+/+Kc4+MvbBhXZSf0
-         1VISW2j2xFLdX3Ea7xGizym4qVJfN0vJS35Dg0g0/6kzQP9htKm8KniiNN2se0m0fb2E
-         nBmrIZqOXOkVQXBQoA7q18d6Ss/KT6qjrrkz3vEV4PnEdBv4pT9DAHNcKta5/QcpINwL
-         C6Ruf9nYPXB7Uh7S21TQ2Qxd29GAMooERXQf3l83LMKg3MT9zVVnNs2DEvy2Nr36RyqT
-         8o4g==
-X-Forwarded-Encrypted: i=1; AHgh+RpUTVHrI7EwaeYF0Xf4SQ2IyvMBiS5GZJ/ZcIj89BbK/BIPsPe4sr/6s5ABF/Dp0dmDGPOtZlBUacRdB4t422w=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwocmGv+EwBAnqfdn2j435kwCWIPrQihLCvWYqsh6XY7bk1Kdl3
-	DVb8IKb1UFCd1IPCckNyr/q39Xs/cmk2NasDPGT3LIh6phsVOYdHoF/rz+ANotNLzRE=
-X-Gm-Gg: AfdE7cmnIJHMSId+WQk3RHxQY4ge9MYTSPIq/jaHgK6zEFHCVfvwfKcDJ2QSBy8cFPC
-	Um0p/E8dQMaxoXisxelpsnZJUFhf4Df8j8sHGi/Aisc+7076j9qOKWRMyDyV16ulhBAzuWdbcX5
-	+oU2Ht10o0Z0vIYAgcQu00ul/Ai4vn2jcKZZEnAfmbVxM91ykmhSOpqOMBga5MFUe6P7zBNBSNe
-	YJjUZEZeGQFRUmORkAq9dWAi8I+SaC4LCUHub5ymPMdK7oSVeMUDJiekk35laREMHzjLOCmIMUk
-	yJ6VUqupCRn4SWVh4HnghVk+8XodHfiolOB+Cv6r39FkbgnHUvJKDBjgSL5c4NpuIJJKSmipjm5
-	dTWkl+OWYvlBWI+v6Ptgn5IgvUc3C68kcRBKjiyx8FOqoqCXQ8RlflFGj8r/WcVZ0kYnuMLoc2i
-	Y1/lQYQiTtaQUtM/IbWOhdxBVkkHkFfhyAN86ky5NlUP4PPhuddeJ+YEq3LL4Pyg2RWwsW4J+1p
-	qBn
-X-Received: by 2002:a05:600c:19d0:b0:493:cce0:3724 with SMTP id 5b1f17b1804b1-493e68aed4dmr89123555e9.4.1783669344235;
-        Fri, 10 Jul 2026 00:42:24 -0700 (PDT)
+        bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
+        b=aecSg3uYKnCNijEg1BykFkoc+LYZXIAu05dgULMbH7Sc8TuBelystS4M6Wbmrm8mr0
+         0OX0DVUKn5a72oXiuOg1RaJrvOOHuXnVx4JHopUc1rm6ulGaQ6UvNE/kvJkdHXqlZiir
+         C/r2sGuOLdNhxuC0UAptUK76hnwEJA7paLcF5ApXvmKJ8jbsCbgum6p7/sGBYE3RVf98
+         TixYRSpcj/z4RZ3oSbSUR5nR3Fk71ukjN7qHq4oKv2pY3RjTSWimj1PqItMeIXBK9jqZ
+         kzTSKBlkVGh6hBfzhRPzU4CA3P/2Ntq/VAEefanbY1QpOWrbQNMVIzPhP8yilfzACP3W
+         HxHQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqBd8HapWnMUSXQZSU1xrGZGmCwxKxEbWAlJebatDGn9GxdMP77cyEHi9s9ZuIIaAtgYlVwh4H3J42FZuSlN6A=@lists.linux.dev
+X-Gm-Message-State: AOJu0YznSlALh0F5zf45geclQgDP65KE8WvbQyz5LCnJikt0Y0U4VCJG
+	t5+p83kc2Qc/EA6IVkHEO1IOeU3XfAtqHhEELZTh4lV57jj/vsEA1KTcVlnOTx7fr9E=
+X-Gm-Gg: AfdE7cleBSoPXqVcPpiWee0+r5COfXbYSQeK8BvJc8SYVk5Z48/0JendTBRnM4JWOkX
+	aqrU6prPbcYsNKZ7Ba0qwOKIDL7AeqMYTvZVphetepWb3iFtF1Dg5U/W11WA9zyhpSxqfFzZ/1x
+	GP4PQIhLKikMlhwZ9/S+vyN07N4qmeFfl20l/K4KdP1VC0gtxD0jCtP8S1RN7a1yA1wLsTfgFy/
+	a3jlW3oDOFrZibdvGRB32MkCwnFR94ahoqkC0ZYyeX95l/CKSEFKmKGKD2ASGXD1Bz+AB1P7Rfl
+	qg+4WClOR3eGxZfdWDnjQX3sfWO2gvBpO4XzopE90sRA/EHFSbLHebLZdt5lLVFolFx8wZecIsI
+	78eEXe3XCPaES/YynfIalTavrpkUXtQDu2wHtgDUbjy98gT0xR4Fqh9hOL7tX9pvRwRCIF6lu3C
+	UVXzZbGjWsXoqGZgZwMNPuqW3vlXxKnBTU++cCa2X+aEG+HuwDByClS4h/wVLDMqvi9+CgTDp6p
+	6Kj
+X-Received: by 2002:a05:600c:e557:20b0:493:c0ec:9a5f with SMTP id 5b1f17b1804b1-493e68ddd9bmr75755495e9.19.1783670590951;
+        Fri, 10 Jul 2026 01:03:10 -0700 (PDT)
 Received: from localhost (p200300f65f47db04fbea22a44ee9ba38.dip0.t-ipconnect.de. [2003:f6:5f47:db04:fbea:22a4:4ee9:ba38])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493eb6d5055sm116795385e9.5.2026.07.10.00.42.23
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9e4d6e4csm55102028f8f.10.2026.07.10.01.03.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 00:42:23 -0700 (PDT)
-Date: Fri, 10 Jul 2026 09:42:22 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Sean Rhodes <sean@starlabs.systems>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Corentin Chary <corentin.chary@gmail.com>, 
-	"Luke D. Jones" <luke@ljones.dev>, Denis Benato <denis.benato@linux.dev>, 
-	Prasanth Ksr <prasanth.ksr@dell.com>, Jorge Lopez <jorge.lopez2@hp.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Joshua Grisham <josh@joshuagrisham.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, linux-kernel@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com, 
-	Brian Norris <briannorris@chromium.org>, Julius Werner <jwerner@chromium.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, 
-	Titouan Ameline de Cadeville <titouan.ameline@gmail.com>, Kees Cook <kees@kernel.org>, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v3 3/3] firmware: coreboot: Add CFR firmware attributes
- driver
-Message-ID: <alCiUSL-fd6SWOYr@monoceros>
-References: <cover.1783663929.git.sean@starlabs.systems>
- <b12a36d80e48972fb06b25add0acbe39879f05ca.1783663929.git.sean@starlabs.systems>
+        Fri, 10 Jul 2026 01:03:10 -0700 (PDT)
+Date: Fri, 10 Jul 2026 10:03:09 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: linux-pwm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>, 
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Michael Walle <mwalle@kernel.org>, 
+	Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
+	Alexey Charkov <alchark@gmail.com>, Sean Anderson <sean.anderson@linux.dev>, 
+	Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+	linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v1 0/5] pwm: Unify arrays of various *_device_id
+Message-ID: <alCm-J1wRBnhoH0C@monoceros>
+References: <cover.1783263835.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -87,40 +105,52 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bxqrjw36ykfsjfpj"
+	protocol="application/pgp-signature"; boundary="iuf5svn2mmf3pdwc"
 Content-Disposition: inline
-In-Reply-To: <b12a36d80e48972fb06b25add0acbe39879f05ca.1783663929.git.sean@starlabs.systems>
+In-Reply-To: <cover.1783263835.git.ukleinek@kernel.org>
 
 
---bxqrjw36ykfsjfpj
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--iuf5svn2mmf3pdwc
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
 Content-Disposition: inline
-Subject: Re: [PATCH v3 3/3] firmware: coreboot: Add CFR firmware attributes
- driver
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 0/5] pwm: Unify arrays of various *_device_id
 MIME-Version: 1.0
 
-On Fri, Jul 10, 2026 at 07:12:46AM +0100, Sean Rhodes wrote:
-> +#include <linux/mod_devicetable.h>
+Hello,
 
-Please don't add new users for this header file. Only use those
-<linux/device-id/*.h> that you actually need (if any).
+On Sun, Jul 05, 2026 at 05:14:12PM +0200, Uwe Kleine-K=F6nig (The Capable H=
+ub) wrote:
+> this series is part of a preparation for changing .driver_data (and
+> similarily named members) of *_device_id to an anonymous union.
+> See e.g.
+> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre=
+=2Ecom/
+> for the idea behind it. I also grabbed the opportunity to unify the
+> coding style for all these arrays while going through these.
+>=20
+> The patch series is based on pwm/for-next + "pwm: pxa: Depend on OF and
+> simplify accordingly" [1].
 
-Thanks
+Applied the series with s/iff/if (and only if)/ in the of_device_id
+style patch.
+
+Best regards
 Uwe
 
---bxqrjw36ykfsjfpj
+--iuf5svn2mmf3pdwc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpQolwACgkQj4D7WH0S
-/k64kwf+L5t1vitcPdLcsV50bKYh1DhQc9fdgSuIYKy5CNHJqp+w5M8mIikO4k2m
-C46FJ55QyKeOc0ziUm5SFqMGtL8Rgrbkk/QQ6lks0pQzVqoqj+nTIMOQFgPDVYlt
-2tPZOAl3eQm8Os/U+Ab9lVd0Ykz//klmoWYSam+IAaERiqKO5ZNSgj6dKFg5XJYC
-zcRIOg78dn/hAzujZa0dwDmTaG87IT7qI2YPXZyWKSBE/FUmrkr8Ac5wW3J+GdfD
-v+0FrK4IlDu2yJPo1/eYYq7K5mFnlsh2U5czOPR/Tsb+WfXqlWre9ZNn/na5XItv
-fR7JQtx3zIeGqXXpHO5Vxwffj5ajdA==
-=E9cL
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpQpzoACgkQj4D7WH0S
+/k4qdwgAk8w911oLsA5aqycP2AV5trJAC5zx53mJ8LxbKoImqWjYyvmd9Kb5YCt2
+LPeZPEPqg6LIhPMbDp91hBWArDL5UUUJ5OfgC8/i0zK1+zWS0B+UPtXUGxzQOkwk
+stkrTAN5eVW7rhVy1AtT4N+EJVm4Y8958RVsmNi75/idP+gmhs7RdJg8zMdhrVVy
+M7XB5Q1zxVcmhsx5TDStZ8tzeFMsDbMqz0s0xVECWSq50U70IwD0Scn0a1BN68kQ
++fZQMwGT3KhdqqmLJV44puWQoDqj8OwGeAuWJQykzluefOFNtRHtRhurlZQAUOrv
+W4X++IXkqXbyyTO72ousttS/RpH5ig==
+=4YUW
 -----END PGP SIGNATURE-----
 
---bxqrjw36ykfsjfpj--
+--iuf5svn2mmf3pdwc--

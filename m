@@ -1,118 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C9C38E8CE
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jul 2026 19:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B996D3932DA
+	for <chrome-platform@lists.linux.dev>; Sat, 11 Jul 2026 09:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783712768; cv=none; b=ShtMsSIlykU9jKFRQT+PQs8XmgwxCDK5bNnWRdEFcFTmpXtjmxtfK9VdI+oXEHn29oY7AVvydJtWXkbBGMSthelsxK8Uj7AMgEtuJMsszaqwoTLzDYwh7W0Gl56dWqelVh+zm4l2xgmXEEL31AGw9zvAVjkDQPA08NclGtluJ6k=
+	t=1783763971; cv=none; b=b99U6U/z2vFmBZWiHV0gvfEKU+E+Dbk9CnnYTL4Tyv7XUoywTtXVyC3h/Awk4giQUfT+ZSeEcRI3lKbACMyiqPDISp9S9LU/MFVgLFHhPlGCZFJmmWukrnerZ0eHC5U8B3bUrUjNHjyeGsO12RNlbHy2B7vDZGO4iPMONmUjtUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783712768; c=relaxed/simple;
-	bh=sZDwGaUkGBLrMyNSIpb3kLYEJV1iPNS+5Pn9t9xv6aE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z5CerGp9Qe+MZfPmNAT0N5WMzwqt/+U6D8yeLXg0UrR3jZ1BX7upSiY4t549BKf2w+Dl+9qhcbSevvArDoAqEdCW728aab1UncBf+0cJjrvLf5p5ur1wIIEp1rH6jNCNZStpOrXszA78qAuwn97xv9LYt8gEnSAdu1HbIBsDE5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HkSsEg0f; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783763971; c=relaxed/simple;
+	bh=dMQ1lUCssYuYB0g5dtX2VVlawMxWhQ8Jiw8sj/VeuN8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FdTErXUY5bO4eplhcKbZ8EaS1bD30s5WCN5IY20PlimQtW33ir/rlgURDRmUMtf8DZQIL0c5kHxGxzzUbXCAmkmRM2t6UvFI8Pt8Ox4O+9fBlX0pc0JOTBRMke3DzO2GdiOjWDOJJ0KQTGFySdaNNd8UAU7gyu68S4zOnnfxpbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=JEtPA5Tp; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HkSsEg0f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCE931F0156B
-	for <chrome-platform@lists.linux.dev>; Fri, 10 Jul 2026 19:46:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783712766;
-	bh=sZDwGaUkGBLrMyNSIpb3kLYEJV1iPNS+5Pn9t9xv6aE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=HkSsEg0fbPswpwBbq7msyQoTQ/fzpUpBAWCJeyoo47JBrl1F4fLCAocKnijbpM/p6
-	 GDbOtWqNLNjYAx3W000zcCbmXpLxeTYg1+fMSzkuksy7ydBzM8bj7gC6WXw6wQdRD6
-	 vVdMHXz0K1GVFdtb/usTM0mXhAL+ZZsfcP7DWwsuADXRD4a5scfpg85ktfSdSrmGEW
-	 RX91BEivy4ThHjiAFPD10y6OZy6KCaoROgurcEirnNXtZytmK4+Y7XIXkAVzwQgQnS
-	 tWsz1C57JTWtsEG565sIfsiTVX1EO3rFjDmmROr8HMl9MVJMK0AKwMlgTnovI0C4jj
-	 cqjPm+xX37wIg==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5aeb11c7347so1082962e87.0
-        for <chrome-platform@lists.linux.dev>; Fri, 10 Jul 2026 12:46:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rr8wAtxNI7qHXCGDB4qWd7e9gHeKBgfbVFVr/NOutz2kdanM3iN+fu8NYZEF3Tq0vhJNmZhMeZ2HSLvxqt6/7s=@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywlkk+U5mrkdVkZSkGwAOW3wtzOctNd3UlF4qtJAPQAxpP3kG1r
-	JhrDi0rNOwcc2WZAKWfaFBrDXFu/kgKlo+PBvOwgz8CXeTDQl86lsbmRaGlhv4RQiAeVlPlf34z
-	Geh0rhC3LMJ8pY0N5fQz+qB22slNtvls=
-X-Received: by 2002:a05:6512:32cf:b0:5ae:b792:7f1e with SMTP id
- 2adb3069b0e04-5b0236a3891mr89821e87.30.1783712764308; Fri, 10 Jul 2026
- 12:46:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="JEtPA5Tp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1783763961;
+	bh=dMQ1lUCssYuYB0g5dtX2VVlawMxWhQ8Jiw8sj/VeuN8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=JEtPA5Tp9CihFXAByX+ln8wFQTirG8N1pXheW6PfU4tA5Ak+002D3b0oL/as9zKma
+	 ke1axLvadIRM9n26XdoPh19lFiVuejIC8qHFI77P6+b4wDJmK9BRhZPWEVEHJs6J1V
+	 x4p8j18QsB0W3slMJgDnBrcyybtAaDQ8/Zcsk9P8=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sat, 11 Jul 2026 11:59:06 +0200
+Subject: [PATCH 2/3] hwmon: (cros_ec) Store the hwmon device in
+ cros_ec_hwmon_priv
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1783615311.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <cover.1783615311.git.u.kleine-koenig@baylibre.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 10 Jul 2026 21:45:51 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkJthrzmVCDE=BopUDMECBpMtPOpCJ9S0CKWRg--Zfz3A@mail.gmail.com>
-X-Gm-Features: AUfX_mx_vh7ziiGHTkkaiMBQb1TjjZ8vahBxzqeJira0tID9YqDdR27A_6wUme0
-Message-ID: <CAD++jLkJthrzmVCDE=BopUDMECBpMtPOpCJ9S0CKWRg--Zfz3A@mail.gmail.com>
-Subject: Re: [PATCH v3 00/23] mfd: Use named initializers for arrays of *_device_data
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Lee Jones <lee@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, mfd@lists.linux.dev, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	linux-mediatek@lists.infradead.org, Qunqin Zhao <zhaoqunqin@loongson.cn>, 
-	linux-crypto@vger.kernel.org, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
-	Colin Foster <colin.foster@in-advantage.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Zha Qipeng <qipeng.zha@intel.com>, 
-	Thomas Richard <thomas.richard@bootlin.com>, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, Xu Yilun <yilun.xu@intel.com>, 
-	Tom Rix <trix@redhat.com>, Michael Hennerich <michael.hennerich@analog.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	James Ogletree <jogletre@opensource.cirrus.com>, Fred Treven <fred.treven@cirrus.com>, 
-	Ben Bright <ben.bright@cirrus.com>, Support Opensource <support.opensource@diasemi.com>, 
-	Andy Shevchenko <andy@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	=?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Samuel Kayode <samkay014@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org, 
-	imx@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	linux@ew.tq-group.com, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Tim Harvey <tharvey@gateworks.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Saravanan Sekar <sravanhome@gmail.com>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, linux-samsung-soc@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-rockchip@lists.infradead.org, Peter Tyser <ptyser@xes-inc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260711-cros_ec-hwmon-locking-v1-2-cb6d0fdbb2d3@weissschuh.net>
+References: <20260711-cros_ec-hwmon-locking-v1-0-cb6d0fdbb2d3@weissschuh.net>
+In-Reply-To: <20260711-cros_ec-hwmon-locking-v1-0-cb6d0fdbb2d3@weissschuh.net>
+To: Guenter Roeck <linux@roeck-us.net>, Benson Leung <bleung@chromium.org>
+Cc: Sung-Chi Li <lschyi@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783763961; l=1686;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=dMQ1lUCssYuYB0g5dtX2VVlawMxWhQ8Jiw8sj/VeuN8=;
+ b=/6S1kv5sEnl2udIrX3KqyZmocpWG+79Lb1xc9Bca4NciQteyqGy4JWSQAqVwjyxZwG6rllfji
+ Ic4XYhOIDTnA1eAga3YARj5sJzswokYkba0p2c1LJbkazZUlLzwn3vU
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Thu, Jul 9, 2026 at 6:59=E2=80=AFPM Uwe Kleine-K=C3=B6nig (The Capable H=
-ub)
-<u.kleine-koenig@baylibre.com> wrote:
+The upcoming locking scheme for thermal devices will require access
+to the hwmon device.
 
-> The objective for this series is to prepare mfd for changing
-> of_device_id and the others to make driver_data a union, see
-> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre=
-.com/
-> for the idea behind it.
+Add it do the priv struct.
 
-The series:
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/hwmon/cros_ec_hwmon.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Yours,
-Linus Walleij
+diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+index f9b19da50472..fb5daa9f80d1 100644
+--- a/drivers/hwmon/cros_ec_hwmon.c
++++ b/drivers/hwmon/cros_ec_hwmon.c
+@@ -25,6 +25,7 @@
+ 
+ struct cros_ec_hwmon_priv {
+ 	struct cros_ec_device *cros_ec;
++	struct device *hwmon_dev;
+ 	const char *temp_sensor_names[EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SENSOR_B_ENTRIES];
+ 	u8 usable_fans;
+ 	bool fan_control_supported;
+@@ -556,7 +557,6 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+ 	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
+ 	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
+ 	struct cros_ec_hwmon_priv *priv;
+-	struct device *hwmon_dev;
+ 	u8 thermal_version;
+ 	int ret;
+ 
+@@ -580,10 +580,10 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+ 	priv->temp_threshold_supported = is_cros_ec_cmd_available(priv->cros_ec,
+ 								  EC_CMD_THERMAL_GET_THRESHOLD, 1);
+ 
+-	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
+-							 &cros_ec_hwmon_chip_info, NULL);
+-	if (IS_ERR(hwmon_dev))
+-		return PTR_ERR(hwmon_dev);
++	priv->hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
++							       &cros_ec_hwmon_chip_info, NULL);
++	if (IS_ERR(priv->hwmon_dev))
++		return PTR_ERR(priv->hwmon_dev);
+ 
+ 	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
+ 
+
+-- 
+2.55.0
+

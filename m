@@ -1,32 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8216392C48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69C039282B
 	for <chrome-platform@lists.linux.dev>; Sat, 11 Jul 2026 09:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783763971; cv=none; b=KWMGg0XmFs9OUTS2iJlX9f8j3fW+VoXc/kGBaQ/jLkP6IYXNZ8lCmkk8Np06tJk/2GZt+jOZfb0lBgN7h73DqSpD46KIQyUkIC78U110d/Zjz3MSzy+zRQBEecLzea03wloMzTMZREwgvnwFtZ2tfCjDWcburZGGrMWyMSVr9OI=
+	t=1783763977; cv=none; b=Y/2zNzLaA95JEb47f4KQOZ7Om+14rhq9AQJMqPssOv0Ijo5DDoFo5u0w6JPPCvDYuFqEFoLDnNaj4wcDGjk1K6mYfM7KwIXgqnp7GXuQOoiblVE14o3gt2TecAcjvRk032ZSzzvlRG3U/BAWBhSmgMl69TICfkt4+AbiAMOGYwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783763971; c=relaxed/simple;
-	bh=tqbkpfATa5Revg8z89qrY8SWITwBCXJC91QU01Py5EI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SBPKmb0QbzIWfQs3pX082ysgvZwpOylRhAw83P+n4E8c62ra7QOysnBHIdCGCjDxK6JQsr/1u5mJWYOrpuOuOMJsqcNM1e6X1q5rNXcL0qteAQKZop/VwWtKl5pdKLEmpXdDkvDD5CW8GeVZZ8R7XbWVVSqcm1TKAJx/IDd8Mjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=MbLARKB1; arc=none smtp.client-ip=159.69.126.157
+	s=arc-20240116; t=1783763977; c=relaxed/simple;
+	bh=jthXYdBVWqNR/7CFQ6yzASpbT1+pG2syGHyOYibktD4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=TZgzllgvt00Edskm3TamRvUdprFtvQ+RmvOjlrmrQMABnSObyB0EMX7AtzGJQv4QwCyLSZ0isF9kLTuPoOuW3eAYJZBVsiQP2+AOqasePOrrlMu5IUPBIhqxStjT49zs2rxL+rA9tvZK7lq6Pw6qQUWG9H4qotmrIwRgY9LGDH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Z1MwexPo; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="MbLARKB1"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Z1MwexPo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1783763961;
-	bh=tqbkpfATa5Revg8z89qrY8SWITwBCXJC91QU01Py5EI=;
-	h=From:Subject:Date:To:Cc:From;
-	b=MbLARKB1xgqVlouaRo9v84KtFReQMLWOelIh/qYKiS4tThjXYf0/qmSl0iyqBDbQf
-	 nOWDfe6VWy/Kzzzd5IJh+ijY1V4B0D/ttT//GA7LMeCc1N5gyu+JcMJAFkn2ujwTlL
-	 fywu6f55jrgTRXFM8XjeYxYbb4WpZaQ84KlJ8TRI=
+	s=mail; t=1783763962;
+	bh=jthXYdBVWqNR/7CFQ6yzASpbT1+pG2syGHyOYibktD4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Z1MwexPoxOElfkNQmn/RXHR24h0OpqUT35bvLsJbl7wX04XhZg79QvHwuwL81ScBU
+	 Jljo7hZWk/6LRAlsgMs7LyASvpDn2yjIjG+RN0rwi5h8mOR3hKZe+/rQcJ0fIcDnEQ
+	 445Ggc1+yQUvGdjx4AdPj4sAgrVzV9FYKfXfYQHk=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH 0/3] hwmon: (cros_ec) Synchronize EC access from the
- thermal device callbacks
-Date: Sat, 11 Jul 2026 11:59:04 +0200
-Message-Id: <20260711-cros_ec-hwmon-locking-v1-0-cb6d0fdbb2d3@weissschuh.net>
+Date: Sat, 11 Jul 2026 11:59:05 +0200
+Subject: [PATCH 1/3] hwmon: (cros_ec) Register the thermal devices after
+ the hwmon ones
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -35,46 +35,60 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ6CMBBA4auQWTtJaU0TvIoxBqYDjD+t6SiYE
- O5uheW3eG8B5SyscKoWyDyJSooF9aECGts4MEooBmusN94ZpJz0yoTj/EwRH4nuEgcMzlrvQld
- Tc4TSvjL38t2+58tu/XQ3pvd/Buv6A+Kem/Z5AAAA
-X-Change-ID: 20260630-cros_ec-hwmon-locking-d32263db1c94
+Message-Id: <20260711-cros_ec-hwmon-locking-v1-1-cb6d0fdbb2d3@weissschuh.net>
+References: <20260711-cros_ec-hwmon-locking-v1-0-cb6d0fdbb2d3@weissschuh.net>
+In-Reply-To: <20260711-cros_ec-hwmon-locking-v1-0-cb6d0fdbb2d3@weissschuh.net>
 To: Guenter Roeck <linux@roeck-us.net>, Benson Leung <bleung@chromium.org>
 Cc: Sung-Chi Li <lschyi@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
  chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org, 
  linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783763961; l=871;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783763961; l=1446;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=tqbkpfATa5Revg8z89qrY8SWITwBCXJC91QU01Py5EI=;
- b=PdzLrfLh8xtkU54YjkUln9KILAI0hxnXceLaNYjFd64hXFV+IkOoIxjWQlWx08NM0pH2Jvjcf
- TtowSya0G8eC0TAnOIY2/GR4Ysi5KOPKQy8APUDAewNvFr+2ul5XAb5
+ bh=jthXYdBVWqNR/7CFQ6yzASpbT1+pG2syGHyOYibktD4=;
+ b=9FPU4EdehkkD/g70WArz0Cgm2TsuEjVr5ZBaiYda19TZp5U7r8ngmTc+jHsIZjzKFkzc+JI0T
+ j/AOObrmRTKDPNbY4ZtdJO49Lgig/k0lBMyFt1uRv62MsiIxqqKDoKD
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
 To guarantee consistency for the read-modify-write access in
 cros_ec_hwmon_cooling_set_cur_state(), locking is necessary.
+The locking will use standard hwmon device locks, which requires
+the hwmon device to be ready before the fan devices are set up.
 
-Use the existing hwmon device lock to do so.
-
-Sung-Chi: Could you test this? I do not have access to hardware which
-triggers this code path.
+Reorder the initialization so this works.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-Thomas Weißschuh (3):
-      hwmon: (cros_ec) Register the thermal devices after the hwmon ones
-      hwmon: (cros_ec) Store the hwmon device in cros_ec_hwmon_priv
-      hwmon: (cros_ec) Synchronize EC access from the thermal device callbacks
+ drivers/hwmon/cros_ec_hwmon.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
- drivers/hwmon/cros_ec_hwmon.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
----
-base-commit: ca078d004cf58137bcf8cb24a8b271397431ba58
-change-id: 20260630-cros_ec-hwmon-locking-d32263db1c94
+diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+index 44291799dd8e..f9b19da50472 100644
+--- a/drivers/hwmon/cros_ec_hwmon.c
++++ b/drivers/hwmon/cros_ec_hwmon.c
+@@ -579,13 +579,17 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+ 	priv->fan_control_supported = cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
+ 	priv->temp_threshold_supported = is_cros_ec_cmd_available(priv->cros_ec,
+ 								  EC_CMD_THERMAL_GET_THRESHOLD, 1);
+-	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
+ 
+ 	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
+ 							 &cros_ec_hwmon_chip_info, NULL);
++	if (IS_ERR(hwmon_dev))
++		return PTR_ERR(hwmon_dev);
++
++	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
++
+ 	platform_set_drvdata(pdev, priv);
+ 
+-	return PTR_ERR_OR_ZERO(hwmon_dev);
++	return 0;
+ }
+ 
+ static int cros_ec_hwmon_suspend(struct platform_device *pdev, pm_message_t state)
 
-Best regards,
---  
-Thomas Weißschuh <linux@weissschuh.net>
+-- 
+2.55.0
 

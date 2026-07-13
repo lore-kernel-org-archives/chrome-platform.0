@@ -1,94 +1,115 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69C039282B
-	for <chrome-platform@lists.linux.dev>; Sat, 11 Jul 2026 09:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843D0345731;
+	Mon, 13 Jul 2026 04:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783763977; cv=none; b=Y/2zNzLaA95JEb47f4KQOZ7Om+14rhq9AQJMqPssOv0Ijo5DDoFo5u0w6JPPCvDYuFqEFoLDnNaj4wcDGjk1K6mYfM7KwIXgqnp7GXuQOoiblVE14o3gt2TecAcjvRk032ZSzzvlRG3U/BAWBhSmgMl69TICfkt4+AbiAMOGYwY=
+	t=1783917736; cv=none; b=kTqnMVGc3tRRc4RmuLOOD3YpNXEd7azFMemmZE/gfj6cw8lKQ/KidjXsqIbU0OCMyQSVINHNKWykq3Kx3bbdKWRuA0XA/XknR6atxcMiw25wiqV1qnOaTbhPo7AIcvJdSqoRreGG1L1WO+rAJUUKn/I1zWKI++Ha2BJ82AM8gAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783763977; c=relaxed/simple;
-	bh=jthXYdBVWqNR/7CFQ6yzASpbT1+pG2syGHyOYibktD4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TZgzllgvt00Edskm3TamRvUdprFtvQ+RmvOjlrmrQMABnSObyB0EMX7AtzGJQv4QwCyLSZ0isF9kLTuPoOuW3eAYJZBVsiQP2+AOqasePOrrlMu5IUPBIhqxStjT49zs2rxL+rA9tvZK7lq6Pw6qQUWG9H4qotmrIwRgY9LGDH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Z1MwexPo; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1783917736; c=relaxed/simple;
+	bh=0qM6TOq2Q6eMbKN9l998qkzrExTTGOP02hneV5TuAl0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kWPQpC2ncRsqYpjJcCa5zMUxfIK8/4pP8bTtJ7GrhfieIoPMUUwYXeXcsMM3TlRBeuWWwey1JE8dCcgik7gOPFDIZ+V99r7+N0QgYV6GN0dpzy2NjpOH4rEFlRuGP0E5jcq0dPmXUvAWY0sWKVqqhUG6zMCpLKZO2ox6aYKIVh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fhYRyDOa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Z1MwexPo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1783763962;
-	bh=jthXYdBVWqNR/7CFQ6yzASpbT1+pG2syGHyOYibktD4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Z1MwexPoxOElfkNQmn/RXHR24h0OpqUT35bvLsJbl7wX04XhZg79QvHwuwL81ScBU
-	 Jljo7hZWk/6LRAlsgMs7LyASvpDn2yjIjG+RN0rwi5h8mOR3hKZe+/rQcJ0fIcDnEQ
-	 445Ggc1+yQUvGdjx4AdPj4sAgrVzV9FYKfXfYQHk=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 11 Jul 2026 11:59:05 +0200
-Subject: [PATCH 1/3] hwmon: (cros_ec) Register the thermal devices after
- the hwmon ones
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fhYRyDOa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 980ED1F000E9;
+	Mon, 13 Jul 2026 04:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783917732;
+	bh=7u9GMZSkBgHVLej6Lyyn/rxsdaHXgfpwafrr0NwU31w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fhYRyDOa7DOmlP/n5oQYRuE6s62+Dcxlm/FS5Ml4QEcdpFToV4uYGwt05NFY6SdFh
+	 YvvblcoNdCemNG8lD3ttONbz8cFjNoxlfAxpeaAFrGZrCLmKd10MYzZT7Sv6GhPRKv
+	 EmExM5JsfWYYDIR2n9M97uPIQcdOJAGvirXL6E4u9rOg+m+BDdAshfMLKaVQDdrY4E
+	 mibNXm5U9eoHC5h++7lioFPgFFaXUTgizKtifHLBSsIqLyEKqH7ltu+iUwUZES8mqM
+	 IZbuqv63xKQgQuXy3O3ZlSJirbsuFN/+V+Ag9mL9wNecI19GPvktzlfQoAzWoplly1
+	 KSBv00HSpZzwQ==
+Date: Mon, 13 Jul 2026 04:42:06 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Sean Rhodes <sean@starlabs.systems>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D. Jones" <luke@ljones.dev>,
+	Denis Benato <denis.benato@linux.dev>,
+	Prasanth Ksr <prasanth.ksr@dell.com>,
+	Jorge Lopez <jorge.lopez2@hp.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Joshua Grisham <josh@joshuagrisham.com>,
+	Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Titouan Ameline de Cadeville <titouan.ameline@gmail.com>,
+	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	Dell.Client.Kernel@dell.com, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v4 3/3] firmware: coreboot: Add CFR firmware attributes
+ driver
+Message-ID: <alRsnvNAECpMu0Y7@google.com>
+References: <CABtds-39j-1r+XOB9gZPXFuiBumL3PjEco+2OFzz3CfXJqDjQw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260711-cros_ec-hwmon-locking-v1-1-cb6d0fdbb2d3@weissschuh.net>
-References: <20260711-cros_ec-hwmon-locking-v1-0-cb6d0fdbb2d3@weissschuh.net>
-In-Reply-To: <20260711-cros_ec-hwmon-locking-v1-0-cb6d0fdbb2d3@weissschuh.net>
-To: Guenter Roeck <linux@roeck-us.net>, Benson Leung <bleung@chromium.org>
-Cc: Sung-Chi Li <lschyi@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- chrome-platform@lists.linux.dev, linux-hwmon@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783763961; l=1446;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=jthXYdBVWqNR/7CFQ6yzASpbT1+pG2syGHyOYibktD4=;
- b=9FPU4EdehkkD/g70WArz0Cgm2TsuEjVr5ZBaiYda19TZp5U7r8ngmTc+jHsIZjzKFkzc+JI0T
- j/AOObrmRTKDPNbY4ZtdJO49Lgig/k0lBMyFt1uRv62MsiIxqqKDoKD
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABtds-39j-1r+XOB9gZPXFuiBumL3PjEco+2OFzz3CfXJqDjQw@mail.gmail.com>
 
-To guarantee consistency for the read-modify-write access in
-cros_ec_hwmon_cooling_set_cur_state(), locking is necessary.
-The locking will use standard hwmon device locks, which requires
-the hwmon device to be ready before the fan devices are set up.
+On Fri, Jul 10, 2026 at 11:40:24AM -0500, Sean Rhodes wrote:
+> diff --git a/drivers/firmware/coreboot/coreboot-cfr.c
+...
+> +#include <linux/array_size.h>
+> +#include <linux/bitops.h>
+> +#include <linux/cleanup.h>
+> +#include <linux/ctype.h>
+> +#include <linux/efi.h>
+> +#include <linux/err.h>
+> +#include <linux/io.h>
+> +#include <linux/kdev_t.h>
+> +#include <linux/kobject.h>
+> +#include <linux/limits.h>
+> +#include <linux/list.h>
+> +#include <linux/device-id/coreboot.h>
 
-Reorder the initialization so this works.
+Keep the list sorted.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/hwmon/cros_ec_hwmon.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
+> +#include <linux/sysfs.h>
+> +#include <linux/types.h>
+> +
+> +#include <linux/firmware_attributes.h>
 
-diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-index 44291799dd8e..f9b19da50472 100644
---- a/drivers/hwmon/cros_ec_hwmon.c
-+++ b/drivers/hwmon/cros_ec_hwmon.c
-@@ -579,13 +579,17 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
- 	priv->fan_control_supported = cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
- 	priv->temp_threshold_supported = is_cros_ec_cmd_available(priv->cros_ec,
- 								  EC_CMD_THERMAL_GET_THRESHOLD, 1);
--	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
- 
- 	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
- 							 &cros_ec_hwmon_chip_info, NULL);
-+	if (IS_ERR(hwmon_dev))
-+		return PTR_ERR(hwmon_dev);
-+
-+	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
-+
- 	platform_set_drvdata(pdev, priv);
- 
--	return PTR_ERR_OR_ZERO(hwmon_dev);
-+	return 0;
- }
- 
- static int cros_ec_hwmon_suspend(struct platform_device *pdev, pm_message_t state)
+Why this needs to be separated from the above list?
 
--- 
-2.55.0
+> +struct coreboot_cfr_drvdata {
+> +	struct device *class_dev;
+> +	struct kset *attrs_kset;
+> +	struct list_head settings;
+> +	/* Serializes EFI variable writes and the matching runtime apply hook. */
+> +	struct mutex lock;
+> +	bool pending_reboot;
+> +};
+> +
+> +static struct coreboot_cfr_drvdata *coreboot_cfr_data;
 
+Can't this be some drvdata so that it doesn't need to be global?
+
+> +static char *coreboot_cfr_string_dup(const struct lb_cfr_varbinary *str)
+> +{
+> +	const char *data = (const char *)str + sizeof(*str);
+
+(const char *)(str + 1)?  As the patch uses similar pattern otherwhere.

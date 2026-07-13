@@ -1,63 +1,63 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5F73612F1
-	for <chrome-platform@lists.linux.dev>; Mon, 13 Jul 2026 05:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D570436166A
+	for <chrome-platform@lists.linux.dev>; Mon, 13 Jul 2026 05:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783921535; cv=none; b=AZlc9JqyoLiYh+M03diYHKujcqgebiyL8xOcQgu7eGFiPshLEbYQjKA5D7S5N6V4K2BRyp1esvZtaWW0XPRLcfScQvZ95W3D6BdV9nL+pcD6fwhECGgRaQakEUVDfQ5ghBMPDg8o/n1gMaU2FdFFIBtXueCtCac481a31t3km3Y=
+	t=1783921539; cv=none; b=kWJDQI7vaNboACJ77ZMlmvRojwEkPmIY/XcBrsvIoJgib7h57zq0awdntd/I9XFSmwZawg0TfMn3aVpA+7nYj+tHyLBOfwAvLA5wcX1ZPDhsYh2fHEh+KfY0Eluf26wtNcSQd+7HkRhb7nQVnB30lYvlH8jI1EL+rzHZ3Oo23bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783921535; c=relaxed/simple;
-	bh=QY2qCsT5gS4+FUURGOFQWBEwlDJ5AoZzDXv74k/9cSQ=;
+	s=arc-20240116; t=1783921539; c=relaxed/simple;
+	bh=S94oCv1sKaRXNelLqy1bWkF805oLPsDh6WzmdJMTiEI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sxO3jYUS+WHRIHTFDADFyfMmZE5hJEZMswn7ktfNKcp2MihnuXdmivNF1lxU/rRrY1VkPDWylbhJA+1GFZrN710OqAogTnCE/KZ2xi/WChdDrE0wliBuJBpvH/5BOsZud0DEHEEq+Al7jWbUSh25HmBbKiyvB1Uqby3e59eVxaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b=Qudjm+Ei; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version; b=dsukHfsW7Y9lSbF5YJrIw4ph4T3Ms+MtXS8Bz7dQlOivVinHClMSmdcg3TTaENMVUo0lpVKQhqcAVja8lQQZNZ6A96by7WSFKWy4veVRzlcK7oe410k1gksZNqcseNkUSnX1gl7MGKMarN0KRvXOuFZm7j1VPIZZU2jfe1Sa5CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b=i+aCw3Qp; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b="Qudjm+Ei"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4758bd3731bso1806551f8f.0
-        for <chrome-platform@lists.linux.dev>; Sun, 12 Jul 2026 22:45:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b="i+aCw3Qp"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47f3b39f2a1so600434f8f.2
+        for <chrome-platform@lists.linux.dev>; Sun, 12 Jul 2026 22:45:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=starlabs-systems.20251104.gappssmtp.com; s=20251104; t=1783921532; x=1784526332; darn=lists.linux.dev;
+        d=starlabs-systems.20251104.gappssmtp.com; s=20251104; t=1783921533; x=1784526333; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EnOZE3fkSqZ4ELC1ntUIknKBMd0F4RA56k/w3JH2jic=;
-        b=Qudjm+EiHxawF5zsPyYD5v/ucyNpv1jUfifqpE8WfrEw8kM2RSgzXqAj2PSLWj7L4Q
-         AOK5+g6aK9gk1AScuyvSXqfryOOAAD1Nmh7VydHpZrQA35ZuUv8QC2kBapZXFn0c/Hvi
-         zUxWeJg94XtLpGvl+YA+gVsvqtHRWsDbEBnp/p9cI1QyKh8S/VXXv/oLL91BIm7F8IM2
-         Yd48fDVS8dK7btCotFkpszD3fiEv2pZlYTr2EcEa6JOJiy8g7xEJS1jfXMn8Q/QauH+f
-         W0AWoaSlxMqwJ7TYDeDimK+QHdeJXAQpzn3NOjjBg9gCFB2LcoZzVPzDg09nCCgS88gK
-         jXMw==
+        bh=yDPDBXQwUcNBWvjxJSXqQoGjnan8r5wipzaZZQnvLug=;
+        b=i+aCw3QpzNHceSPpmQnshuix8yyo8TS5PKoabmIsLJkDpC5dNmtgawSAl+JayJWj+Y
+         fktbfWmXBwJSfjgfbu+D+GYxoc+F2L57+hqzCorLvs6PP8yBpr/AMGEEUtHZcfbBIr4a
+         zrOTMRmxL3OzUdcFcY0iJ1VGa6jad58ngF7Py+sWExkg+RlqhGfN+mr7AK9EIxsZ27q5
+         maPdzq20AzKaKR3bP5ICjEevZJKIeOIIUGTav7Jqbstbcoe52rRizLs7r1W4HkODnGqC
+         +Kwwi0VnpinIry3JRQ0oxKUS+bDgoZD7eYOSll74hg7tVkHT7bFdegUYvjBPRHo2D6UQ
+         7ZrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783921532; x=1784526332;
+        d=1e100.net; s=20251104; t=1783921533; x=1784526333;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EnOZE3fkSqZ4ELC1ntUIknKBMd0F4RA56k/w3JH2jic=;
-        b=EQqgms7UpdSzIPrbtsvsiNwJVwFnMdvCTjfBPpwPvytq3rdaKucxfCl0THWSuMOd5E
-         09VIpp2gyZqC9CT374MYRqF1+PexhTbr0KyOZ//33Km/J2GW20vjv+unHWcBZh6TS9lN
-         3RA+6B2RhIg1o6hAXl+Mm37NjrcxKCL9PoDzGsGFzsRvSvRcujp4ENixv8aZaQc0Krkm
-         VJIsHIdAxPxFQUliaA9BTHAtBLQg28vm62UUv1AEDohDEi1bB+Qe8Wt8itdE+AWSPLih
-         rbFDAJbYCquuEptUt0zksEu7CTdOwNzTFXlBafYbKIGJ1N4ut5XRIjkga6lkubbmuEP8
-         g54w==
-X-Forwarded-Encrypted: i=1; AHgh+RozLxkqk2+W/rFp/PNYOzLr0uTyj06O6lFMK+2eXGFD9GiHmZi0im0wOGBjuGf/0tlTR13PCymQGn1LyTHZoRo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbQV1IqmTMwY1oNpFQ6jijyqa/KCm+cIe2+L6BZELwwMJyR+xB
-	28wUJqsDMmXolDt6fyqAhQS36WDdk0tf4t6XURrUz18vsF1MkOEcxIqyWD+8gYopGw==
-X-Gm-Gg: AfdE7clae5AnsCpFbFF/NNrvHOLFv8XelFXPU5AIXLhvK13bLg2CPXTytl2evvscxgy
-	NB1HInB+UXMOt+eJCSrzr6Ve0B4+Gq8KQZGr/bPqvbhr34FSv0dNCOPaSCqtaanNZN9/LczX2nf
-	WdE8Fdnf4a/nQRd+NeeraUxh/h9bshcBVcNGWKFEzoSjk1h7B8zMB0JKwXQGpEhDUD3KwnwaKTu
-	cmN2RbrEy4oa/JRDT2WD1KHGD2cjZuCzn9D8ouzwRV7SVGPQpeqJjB+HUf10anWbyYdYoHdNeGq
-	dRNHc2vwE4dbf77FeFXOB5coCI0jLlR5e9HVhFEnfaRbbcp4DqS7fb6/bqLPmrX362dJCmgD7wf
-	kR21U7uYAypk3V+vYeNDCx/z0xWotM+Ws76Heg1OXyNkzHwzI020BBWt8caCBy2NXQK3LsffmpY
-	UUU8dK8lgAQrn/fnXju68sHRQdWwxOmoLOEuOLTYQ=
-X-Received: by 2002:a05:6000:604:b0:473:66e2:37d4 with SMTP id ffacd0b85a97d-47ef6990c98mr14434699f8f.27.1783921531810;
-        Sun, 12 Jul 2026 22:45:31 -0700 (PDT)
+        bh=yDPDBXQwUcNBWvjxJSXqQoGjnan8r5wipzaZZQnvLug=;
+        b=TDY4mldCXdX3hBlpA9MNOV6nUvHMP1pp64PXNQJ7xjt5cx0sNIj1msaT6aMDTrBh/O
+         Roek/0XqCowlDZFn+DpePprnttzt7GZ5e3Jyo5pCwk33aXxh7WKR/1BPuUWcve1PzND+
+         2c2Z30eXeBaywmnTCqJRus4XfyTuzIuvWUMvMcDKkbVaKoyNhKUGySML/UPsvHpS1YEl
+         Gp4ZqR8y4cEjAMjeM2D04EwKUvr7OvyQN/WTJCFI3frCeSP8P6ym4ngjSSapSyzB4P68
+         WMerLn1Jq7Yeo2lB0BzkzQ2p1E0T6s+apdxaH/s9FZibtLmlD0+t74ssDiHmddYNfj9u
+         fFBQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqxvsnMGXGAixSKKghMhhmsgRXcuAuvMjszpPlv3GJzVpUjO1N3S0faIJZee4V/XCwewNVUhgxNwM2QYyoJ1Ig=@lists.linux.dev
+X-Gm-Message-State: AOJu0YygPYJtMCCBzpl7zOOuUsW2wcmUUOqQIgOAE4rkvefj5jzG3W8Q
+	fkYoQqKZdxG8xBD+YiYiIUGSWDerXIhPTxlxjOg7j11XHsY/asLa3y3dZ9iuqt1CLA==
+X-Gm-Gg: AfdE7clh9vDqDys4EphHPPaun/WDRAvuKEu+nmCl60V3PJmUrtIgqU0URluSBZrb5LZ
+	TIoHywleiBNGZZlxaAPRnfhh1qgHjEjvwtQL2VGYZ29t8oEtujzabFBAW5KtlJQ/nylORZ93gFp
+	7B66SnIBhFoTE0gHBfCag7OdV0F881gbxBil7dPqtVnTYGWi5+ewL6bSeo+R3BNfMZcnbQ0Whxj
+	APaxz+NGS0skWvx6jaZBbuJ0niIQuh2nsibr1UeSInRtVFM3GXpttkcUfzPdt6Q617WgDDimKSh
+	hGPNRg8EKco7y0hRKxnNdafG1GLgfxXBAtC3ZZQsQgCu8XjJF8QL/n1DGohSlQS0Gw0NtLgTk7d
+	wEB6tL7m7cmZOSJ6NvIUoWu11/hBmsgWemy0wDig4kfWIGh6gXFpkV0VP78k4lbFOir0rdXoeoS
+	PZcjeySBap1IA7lUOQuor2XABm4hfhBOOd7RL+J4Y=
+X-Received: by 2002:a5d:5f83:0:b0:44a:be4:d0e4 with SMTP id ffacd0b85a97d-47f2dccb3bemr7730694f8f.25.1783921533141;
+        Sun, 12 Jul 2026 22:45:33 -0700 (PDT)
 Received: from horizon ([217.155.46.38])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0f21328sm83474963f8f.32.2026.07.12.22.45.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0f21328sm83474963f8f.32.2026.07.12.22.45.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 22:45:31 -0700 (PDT)
+        Sun, 12 Jul 2026 22:45:32 -0700 (PDT)
 From: Sean Rhodes <sean@starlabs.systems>
 To: tzungbi@kernel.org
 Cc: hansg@kernel.org,
@@ -85,9 +85,9 @@ Cc: hansg@kernel.org,
 	platform-driver-x86@vger.kernel.org,
 	Dell.Client.Kernel@dell.com,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH v5 2/3] firmware: Rename google firmware directory to coreboot
-Date: Mon, 13 Jul 2026 06:45:25 +0100
-Message-ID: <20260713054526.2902319-3-sean@starlabs.systems>
+Subject: [PATCH v5 3/3] firmware: coreboot: Add CFR firmware attributes driver
+Date: Mon, 13 Jul 2026 06:45:26 +0100
+Message-ID: <20260713054526.2902319-4-sean@starlabs.systems>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260713054526.2902319-1-sean@starlabs.systems>
 References: <CABtds-0uN8WW2SkDzwYf8cbQGZnx=Y8Nocs-ebMYB0KWOiX_Kw@mail.gmail.com>
@@ -100,188 +100,1161 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Most drivers in drivers/firmware/google are coreboot table drivers rather
-than Google-specific firmware drivers. Rename the directory to coreboot
-and update the Kconfig prompt, build path and maintainer entry.
+coreboot can publish a CFR tree in its coreboot table to describe
+firmware setup options. Add a firmware-attributes driver for that table
+entry under the coreboot firmware driver directory.
 
-Keep the existing CONFIG_GOOGLE_* symbols to avoid user configuration
-churn in this mechanical move.
+The driver exposes runtime EFI variable-backed boolean, enum and integer
+settings through the firmware-attributes ABI. It only registers settings
+with readable runtime EFI variables, skips suppressed, volatile,
+dependency-gated and non-runtime options, and keeps read-only or inactive
+options read-only in sysfs.
 
+For settings with an APM_CNT runtime-apply record, write the EFI variable
+and ask firmware to apply the setting immediately on x86. If firmware
+reports a failure, restore the old EFI variable value. Settings without a
+runtime apply hook, or non-x86 builds, keep the EFI variable update and
+set pending_reboot.
+
+Tested on a Star Labs Byte with firmware 26.07 and the driver built as a
+module against Linux 6.17: runtime APM_CNT apply was verified with
+power_led, and reboot-needed behavior was verified with debug_level.
+
+Link: https://doc.coreboot.org/drivers/cfr.html
+Link: https://doc.coreboot.org/drivers/cfr_internal.html
 Signed-off-by: Sean Rhodes <sean@starlabs.systems>
 ---
- MAINTAINERS                                                 | 4 ++--
- drivers/firmware/Kconfig                                    | 2 +-
- drivers/firmware/Makefile                                   | 2 +-
- drivers/firmware/{google => coreboot}/Kconfig               | 6 +++---
- drivers/firmware/{google => coreboot}/Makefile              | 0
- drivers/firmware/{google => coreboot}/cbmem.c               | 0
- drivers/firmware/{google => coreboot}/coreboot_table.c      | 0
- drivers/firmware/{google => coreboot}/coreboot_table.h      | 0
- .../firmware/{google => coreboot}/framebuffer-coreboot.c    | 0
- drivers/firmware/{google => coreboot}/gsmi.c                | 0
- drivers/firmware/{google => coreboot}/memconsole-coreboot.c | 0
- .../firmware/{google => coreboot}/memconsole-x86-legacy.c   | 0
- drivers/firmware/{google => coreboot}/memconsole.c          | 0
- drivers/firmware/{google => coreboot}/memconsole.h          | 6 +++---
- drivers/firmware/{google => coreboot}/vpd.c                 | 0
- drivers/firmware/{google => coreboot}/vpd_decode.c          | 0
- drivers/firmware/{google => coreboot}/vpd_decode.h          | 0
- 17 files changed, 10 insertions(+), 10 deletions(-)
- rename drivers/firmware/{google => coreboot}/Kconfig (94%)
- rename drivers/firmware/{google => coreboot}/Makefile (100%)
- rename drivers/firmware/{google => coreboot}/cbmem.c (100%)
- rename drivers/firmware/{google => coreboot}/coreboot_table.c (100%)
- rename drivers/firmware/{google => coreboot}/coreboot_table.h (100%)
- rename drivers/firmware/{google => coreboot}/framebuffer-coreboot.c (100%)
- rename drivers/firmware/{google => coreboot}/gsmi.c (100%)
- rename drivers/firmware/{google => coreboot}/memconsole-coreboot.c (100%)
- rename drivers/firmware/{google => coreboot}/memconsole-x86-legacy.c (100%)
- rename drivers/firmware/{google => coreboot}/memconsole.c (100%)
- rename drivers/firmware/{google => coreboot}/memconsole.h (82%)
- rename drivers/firmware/{google => coreboot}/vpd.c (100%)
- rename drivers/firmware/{google => coreboot}/vpd_decode.c (100%)
- rename drivers/firmware/{google => coreboot}/vpd_decode.h (100%)
+ MAINTAINERS                              |    6 +
+ drivers/firmware/coreboot/Kconfig        |   13 +
+ drivers/firmware/coreboot/Makefile       |    1 +
+ drivers/firmware/coreboot/coreboot-cfr.c | 1065 ++++++++++++++++++++++
+ 4 files changed, 1085 insertions(+)
+ create mode 100644 drivers/firmware/coreboot/coreboot-cfr.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 07bdba98b1b1..8cf2766d515d 100644
+index 8cf2766d515d..a00f54e0324e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -11068,14 +11068,14 @@ S:	Maintained
- F:	Documentation/networking/device_drivers/ethernet/google/gve.rst
- F:	drivers/net/ethernet/google
+@@ -6665,6 +6665,12 @@ F:	tools/testing/selftests/cgroup/test_hugetlb_memcg.c
+ F:	tools/testing/selftests/cgroup/test_kmem.c
+ F:	tools/testing/selftests/cgroup/test_memcontrol.c
  
--GOOGLE FIRMWARE DRIVERS
-+COREBOOT FIRMWARE DRIVERS
- M:	Tzung-Bi Shih <tzungbi@kernel.org>
- R:	Brian Norris <briannorris@chromium.org>
- R:	Julius Werner <jwerner@chromium.org>
- L:	chrome-platform@lists.linux.dev
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git
--F:	drivers/firmware/google/
-+F:	drivers/firmware/coreboot/
- F:	include/linux/coreboot.h
- 
- GOOGLE TENSOR SoC SUPPORT
-diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
-index 78a239f8bbef..4df0a0ad18b8 100644
---- a/drivers/firmware/Kconfig
-+++ b/drivers/firmware/Kconfig
-@@ -293,7 +293,7 @@ endif # TURRIS_MOX_RWTM
- source "drivers/firmware/arm_ffa/Kconfig"
- source "drivers/firmware/broadcom/Kconfig"
- source "drivers/firmware/cirrus/Kconfig"
--source "drivers/firmware/google/Kconfig"
-+source "drivers/firmware/coreboot/Kconfig"
- source "drivers/firmware/efi/Kconfig"
- source "drivers/firmware/imx/Kconfig"
- source "drivers/firmware/meson/Kconfig"
-diff --git a/drivers/firmware/Makefile b/drivers/firmware/Makefile
-index 385b6e8b7fc6..7a8fc3eeb3f0 100644
---- a/drivers/firmware/Makefile
-+++ b/drivers/firmware/Makefile
-@@ -30,7 +30,7 @@ obj-y				+= broadcom/
- obj-y				+= cirrus/
- obj-y				+= meson/
- obj-y				+= microchip/
--obj-$(CONFIG_GOOGLE_FIRMWARE)	+= google/
-+obj-$(CONFIG_GOOGLE_FIRMWARE)	+= coreboot/
- obj-y				+= efi/
- obj-y				+= imx/
- obj-y				+= psci/
-diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/coreboot/Kconfig
-similarity index 94%
-rename from drivers/firmware/google/Kconfig
-rename to drivers/firmware/coreboot/Kconfig
-index b78c644fa253..b248bafe8b6b 100644
---- a/drivers/firmware/google/Kconfig
++COREBOOT CFR FIRMWARE ATTRIBUTES DRIVER
++M:	Sean Rhodes <sean@starlabs.systems>
++L:	chrome-platform@lists.linux.dev
++S:	Maintained
++F:	drivers/firmware/coreboot/coreboot-cfr.c
++
+ CORETEMP HARDWARE MONITORING DRIVER
+ L:	linux-hwmon@vger.kernel.org
+ S:	Orphan
+diff --git a/drivers/firmware/coreboot/Kconfig b/drivers/firmware/coreboot/Kconfig
+index b248bafe8b6b..e935a31e508d 100644
+--- a/drivers/firmware/coreboot/Kconfig
 +++ b/drivers/firmware/coreboot/Kconfig
-@@ -1,10 +1,10 @@
- # SPDX-License-Identifier: GPL-2.0-only
- menuconfig GOOGLE_FIRMWARE
--	bool "Google Firmware Drivers"
-+	bool "coreboot firmware drivers"
- 	default n
- 	help
--	  These firmware drivers are used by Google servers,
--	  Chromebooks and other devices using coreboot firmware.
-+	  These firmware drivers are used by devices running coreboot
-+	  firmware, including Chromebooks and some Google servers.
- 	  If in doubt, say "N".
+@@ -44,6 +44,19 @@ config GOOGLE_COREBOOT_TABLE
+ 	  device tree node /firmware/coreboot.
+ 	  If unsure say N.
  
- if GOOGLE_FIRMWARE
-diff --git a/drivers/firmware/google/Makefile b/drivers/firmware/coreboot/Makefile
-similarity index 100%
-rename from drivers/firmware/google/Makefile
-rename to drivers/firmware/coreboot/Makefile
-diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/coreboot/cbmem.c
-similarity index 100%
-rename from drivers/firmware/google/cbmem.c
-rename to drivers/firmware/coreboot/cbmem.c
-diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/coreboot/coreboot_table.c
-similarity index 100%
-rename from drivers/firmware/google/coreboot_table.c
-rename to drivers/firmware/coreboot/coreboot_table.c
-diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/coreboot/coreboot_table.h
-similarity index 100%
-rename from drivers/firmware/google/coreboot_table.h
-rename to drivers/firmware/coreboot/coreboot_table.h
-diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/coreboot/framebuffer-coreboot.c
-similarity index 100%
-rename from drivers/firmware/google/framebuffer-coreboot.c
-rename to drivers/firmware/coreboot/framebuffer-coreboot.c
-diff --git a/drivers/firmware/google/gsmi.c b/drivers/firmware/coreboot/gsmi.c
-similarity index 100%
-rename from drivers/firmware/google/gsmi.c
-rename to drivers/firmware/coreboot/gsmi.c
-diff --git a/drivers/firmware/google/memconsole-coreboot.c b/drivers/firmware/coreboot/memconsole-coreboot.c
-similarity index 100%
-rename from drivers/firmware/google/memconsole-coreboot.c
-rename to drivers/firmware/coreboot/memconsole-coreboot.c
-diff --git a/drivers/firmware/google/memconsole-x86-legacy.c b/drivers/firmware/coreboot/memconsole-x86-legacy.c
-similarity index 100%
-rename from drivers/firmware/google/memconsole-x86-legacy.c
-rename to drivers/firmware/coreboot/memconsole-x86-legacy.c
-diff --git a/drivers/firmware/google/memconsole.c b/drivers/firmware/coreboot/memconsole.c
-similarity index 100%
-rename from drivers/firmware/google/memconsole.c
-rename to drivers/firmware/coreboot/memconsole.c
-diff --git a/drivers/firmware/google/memconsole.h b/drivers/firmware/coreboot/memconsole.h
-similarity index 82%
-rename from drivers/firmware/google/memconsole.h
-rename to drivers/firmware/coreboot/memconsole.h
-index aaff2b72b606..58899c2abaaa 100644
---- a/drivers/firmware/google/memconsole.h
-+++ b/drivers/firmware/coreboot/memconsole.h
-@@ -7,8 +7,8 @@
-  * Copyright 2017 Google Inc.
-  */
++config COREBOOT_CFR
++	tristate "coreboot CFR firmware attributes"
++	depends on EFI
++	depends on GOOGLE_COREBOOT_TABLE
++	select FW_ATTR_CLASS
++	help
++	  This driver parses the coreboot CFR table and exposes runtime EFI
++	  variable-backed options through the firmware-attributes sysfs
++	  interface.
++
++	  If you have a system running coreboot with CFR runtime
++	  configuration support, say Y or M here.
++
+ config GOOGLE_MEMCONSOLE
+ 	tristate
+ 	depends on GOOGLE_MEMCONSOLE_X86_LEGACY || GOOGLE_MEMCONSOLE_COREBOOT
+diff --git a/drivers/firmware/coreboot/Makefile b/drivers/firmware/coreboot/Makefile
+index 8151e323cc43..1b9d0c0e7593 100644
+--- a/drivers/firmware/coreboot/Makefile
++++ b/drivers/firmware/coreboot/Makefile
+@@ -2,6 +2,7 @@
  
--#ifndef __FIRMWARE_GOOGLE_MEMCONSOLE_H
--#define __FIRMWARE_GOOGLE_MEMCONSOLE_H
-+#ifndef __FIRMWARE_COREBOOT_MEMCONSOLE_H
-+#define __FIRMWARE_COREBOOT_MEMCONSOLE_H
- 
- #include <linux/types.h>
- 
-@@ -33,4 +33,4 @@ int memconsole_sysfs_init(void);
-  */
- void memconsole_exit(void);
- 
--#endif /* __FIRMWARE_GOOGLE_MEMCONSOLE_H */
-+#endif /* __FIRMWARE_COREBOOT_MEMCONSOLE_H */
-diff --git a/drivers/firmware/google/vpd.c b/drivers/firmware/coreboot/vpd.c
-similarity index 100%
-rename from drivers/firmware/google/vpd.c
-rename to drivers/firmware/coreboot/vpd.c
-diff --git a/drivers/firmware/google/vpd_decode.c b/drivers/firmware/coreboot/vpd_decode.c
-similarity index 100%
-rename from drivers/firmware/google/vpd_decode.c
-rename to drivers/firmware/coreboot/vpd_decode.c
-diff --git a/drivers/firmware/google/vpd_decode.h b/drivers/firmware/coreboot/vpd_decode.h
-similarity index 100%
-rename from drivers/firmware/google/vpd_decode.h
-rename to drivers/firmware/coreboot/vpd_decode.h
+ obj-$(CONFIG_GOOGLE_SMI)		+= gsmi.o
+ obj-$(CONFIG_GOOGLE_COREBOOT_TABLE)        += coreboot_table.o
++obj-$(CONFIG_COREBOOT_CFR)		+= coreboot-cfr.o
+ obj-$(CONFIG_GOOGLE_FRAMEBUFFER_COREBOOT)  += framebuffer-coreboot.o
+ obj-$(CONFIG_GOOGLE_MEMCONSOLE)            += memconsole.o
+ obj-$(CONFIG_GOOGLE_MEMCONSOLE_COREBOOT)   += memconsole-coreboot.o
+diff --git a/drivers/firmware/coreboot/coreboot-cfr.c b/drivers/firmware/coreboot/coreboot-cfr.c
+new file mode 100644
+index 000000000000..a03d5a0f1fdb
+--- /dev/null
++++ b/drivers/firmware/coreboot/coreboot-cfr.c
+@@ -0,0 +1,1065 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * coreboot CFR firmware attributes driver.
++ *
++ * Parses LB_TAG_CFR_ROOT records from the coreboot table and exposes
++ * runtime EFI variable-backed options through the firmware-attributes class.
++ */
++
++#include <linux/array_size.h>
++#include <linux/bitops.h>
++#include <linux/cleanup.h>
++#include <linux/ctype.h>
++#include <linux/device.h>
++#include <linux/device-id/coreboot.h>
++#include <linux/efi.h>
++#include <linux/err.h>
++#include <linux/firmware_attributes.h>
++#include <linux/io.h>
++#include <linux/kdev_t.h>
++#include <linux/kobject.h>
++#include <linux/limits.h>
++#include <linux/list.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/slab.h>
++#include <linux/string.h>
++#include <linux/sysfs.h>
++#include <linux/types.h>
++
++#include "coreboot_table.h"
++
++#define DRIVER_NAME "coreboot-cfr"
++
++#define LB_TAG_CFR_ROOT		0x47
++#define CFR_VERSION		0
++
++enum cfr_tags {
++	CFR_TAG_OPTION_FORM		= 1,
++	CFR_TAG_ENUM_VALUE		= 2,
++	CFR_TAG_OPTION_ENUM		= 3,
++	CFR_TAG_OPTION_NUMBER		= 4,
++	CFR_TAG_OPTION_BOOL		= 5,
++	CFR_TAG_VARCHAR_OPT_NAME	= 7,
++	CFR_TAG_VARCHAR_UI_NAME		= 8,
++	CFR_TAG_RUNTIME_APPLY		= 13,
++};
++
++enum cfr_option_flags {
++	CFR_OPTFLAG_READONLY	= BIT(0),
++	CFR_OPTFLAG_INACTIVE	= BIT(1),
++	CFR_OPTFLAG_SUPPRESS	= BIT(2),
++	CFR_OPTFLAG_VOLATILE	= BIT(3),
++	CFR_OPTFLAG_RUNTIME	= BIT(4),
++};
++
++enum cfr_runtime_apply_method {
++	CFR_RUNTIME_APPLY_NONE		= 0,
++	CFR_RUNTIME_APPLY_APM_CNT	= 1,
++};
++
++struct lb_cfr {
++	u32 tag;
++	u32 size;
++	u32 version;
++	u32 checksum;
++} __packed;
++
++struct lb_cfr_varbinary {
++	u32 tag;
++	u32 size;
++	u32 data_length;
++} __packed;
++
++struct lb_cfr_enum_value {
++	u32 tag;
++	u32 size;
++	u32 value;
++} __packed;
++
++struct lb_cfr_runtime_apply {
++	u32 tag;
++	u32 size;
++	u32 method;
++	u32 id;
++} __packed;
++
++struct lb_cfr_numeric_option {
++	u32 tag;
++	u32 size;
++	cb_u64 object_id;
++	cb_u64 dependency_id;
++	u32 flags;
++	u32 default_value;
++	u32 min;
++	u32 max;
++	u32 step;
++	u32 display_flags;
++} __packed;
++
++struct lb_cfr_option_form {
++	u32 tag;
++	u32 size;
++	cb_u64 object_id;
++	cb_u64 dependency_id;
++	u32 flags;
++} __packed;
++
++#define COREBOOT_CFR_OPT_SKIP_FLAGS \
++	(CFR_OPTFLAG_SUPPRESS | CFR_OPTFLAG_VOLATILE)
++
++#define COREBOOT_CFR_OPT_READ_ONLY_FLAGS \
++	(CFR_OPTFLAG_READONLY | CFR_OPTFLAG_INACTIVE)
++
++#define COREBOOT_CFR_EFI_ATTRS \
++	(EFI_VARIABLE_NON_VOLATILE | EFI_VARIABLE_BOOTSERVICE_ACCESS | \
++	 EFI_VARIABLE_RUNTIME_ACCESS)
++
++#define COREBOOT_CFR_APM_CNT_PORT	0xb2
++#define COREBOOT_CFR_APM_STS_PORT	0xb3
++#define COREBOOT_CFR_APM_APPLY_CMD	0xe3
++
++static efi_guid_t coreboot_cfr_guid = EFI_GUID(0xceae4c1d, 0x335b, 0x4685,
++					       0xa4, 0xa0, 0xfc, 0x4a,
++					       0x94, 0xee, 0xa0, 0x85);
++
++enum coreboot_cfr_setting_type {
++	COREBOOT_CFR_SETTING_ENUM,
++	COREBOOT_CFR_SETTING_NUMBER,
++	COREBOOT_CFR_SETTING_BOOL,
++};
++
++struct coreboot_cfr_enum {
++	char *label;
++	u32 value;
++};
++
++struct coreboot_cfr_setting {
++	struct kobject kobj;
++	struct list_head node;
++	struct coreboot_cfr_drvdata *drvdata;
++	enum coreboot_cfr_setting_type type;
++	char *name;
++	char *display_name;
++	struct coreboot_cfr_enum *values;
++	unsigned int n_values;
++	u32 default_value;
++	u32 min;
++	u32 max;
++	u32 step;
++	u32 runtime_apply_method;
++	u32 runtime_apply_id;
++	bool read_only;
++};
++
++struct coreboot_cfr_drvdata {
++	struct device *class_dev;
++	struct kset *attrs_kset;
++	struct list_head settings;
++	/* Serializes EFI variable writes and the matching runtime apply hook. */
++	struct mutex lock;
++	bool pending_reboot;
++};
++
++static struct coreboot_cfr_setting *to_coreboot_cfr_setting(struct kobject *kobj)
++{
++	return container_of(kobj, struct coreboot_cfr_setting, kobj);
++}
++
++static bool coreboot_cfr_string_is_valid_name(const char *name)
++{
++	return name && name[0] && !strchr(name, '/');
++}
++
++static char *coreboot_cfr_string_dup(const struct lb_cfr_varbinary *str)
++{
++	const char *data = (const char *)(str + 1);
++	size_t len = str->data_length;
++
++	if (len && !data[len - 1])
++		len--;
++
++	return kmemdup_nul(data, len, GFP_KERNEL);
++}
++
++static const struct coreboot_table_entry *
++coreboot_cfr_child_entry(const void *base, size_t len, u32 tag)
++{
++	const struct coreboot_table_entry *entry;
++	size_t off = 0;
++
++	while (off < len) {
++		if (len - off < sizeof(*entry))
++			return NULL;
++
++		entry = base + off;
++		if (entry->size < sizeof(*entry) || entry->size > len - off)
++			return NULL;
++
++		if (entry->tag == tag)
++			return entry;
++
++		off += entry->size;
++	}
++
++	return NULL;
++}
++
++static const struct lb_cfr_varbinary *
++coreboot_cfr_child_string(const void *base, size_t len, u32 tag)
++{
++	const struct lb_cfr_varbinary *str;
++	const struct coreboot_table_entry *entry;
++
++	entry = coreboot_cfr_child_entry(base, len, tag);
++	if (!entry)
++		return NULL;
++
++	if (entry->size < sizeof(*str))
++		return NULL;
++
++	str = (const struct lb_cfr_varbinary *)entry;
++	if (str->data_length > entry->size - sizeof(*str))
++		return NULL;
++
++	return str;
++}
++
++static const struct lb_cfr_runtime_apply *
++coreboot_cfr_child_runtime_apply(const void *base, size_t len)
++{
++	const struct lb_cfr_runtime_apply *runtime_apply;
++	const struct coreboot_table_entry *entry;
++
++	entry = coreboot_cfr_child_entry(base, len, CFR_TAG_RUNTIME_APPLY);
++	if (!entry)
++		return NULL;
++
++	if (entry->size < sizeof(*runtime_apply))
++		return ERR_PTR(-EINVAL);
++
++	runtime_apply = (const struct lb_cfr_runtime_apply *)entry;
++	if (runtime_apply->method == CFR_RUNTIME_APPLY_APM_CNT &&
++	    runtime_apply->id > U8_MAX)
++		return ERR_PTR(-EINVAL);
++
++	return runtime_apply;
++}
++
++static efi_char16_t *coreboot_cfr_efi_name(const char *name)
++{
++	size_t len, i;
++
++	len = strlen(name);
++	if (len >= EFI_VAR_NAME_LEN)
++		return ERR_PTR(-ENAMETOOLONG);
++
++	efi_char16_t *efi_name __free(kfree) =
++		kcalloc(len + 1, sizeof(*efi_name), GFP_KERNEL);
++	if (!efi_name)
++		return ERR_PTR(-ENOMEM);
++
++	for (i = 0; i < len; i++) {
++		if (!isascii(name[i]))
++			return ERR_PTR(-EINVAL);
++		efi_name[i] = name[i];
++	}
++
++	return no_free_ptr(efi_name);
++}
++
++static int coreboot_cfr_read_value(const struct coreboot_cfr_setting *setting,
++				   u32 *value, u32 *attrs)
++{
++	unsigned long size = sizeof(__le32);
++	efi_char16_t *efi_name;
++	efi_status_t status;
++	__le32 data;
++	u32 attr;
++
++	efi_name = coreboot_cfr_efi_name(setting->name);
++	if (IS_ERR(efi_name))
++		return PTR_ERR(efi_name);
++
++	status = efivar_get_variable(efi_name, &coreboot_cfr_guid, &attr,
++				     &size, &data);
++	kfree(efi_name);
++	if (status != EFI_SUCCESS)
++		return efi_status_to_err(status);
++
++	if (size != sizeof(data))
++		return -EINVAL;
++
++	if (!(attr & EFI_VARIABLE_RUNTIME_ACCESS))
++		return -EOPNOTSUPP;
++
++	*value = le32_to_cpu(data);
++	if (attrs)
++		*attrs = attr;
++
++	return 0;
++}
++
++static int coreboot_cfr_write_efi_value(struct coreboot_cfr_setting *setting,
++					u32 value, u32 attrs)
++{
++	efi_char16_t *efi_name;
++	efi_status_t status;
++	__le32 data;
++
++	efi_name = coreboot_cfr_efi_name(setting->name);
++	if (IS_ERR(efi_name))
++		return PTR_ERR(efi_name);
++
++	data = cpu_to_le32(value);
++	status = efivar_set_variable(efi_name, &coreboot_cfr_guid, attrs,
++				     sizeof(data), &data);
++	kfree(efi_name);
++	if (status != EFI_SUCCESS)
++		return efi_status_to_err(status);
++
++	return 0;
++}
++
++static int coreboot_cfr_apply_runtime(struct coreboot_cfr_setting *setting)
++{
++#ifdef CONFIG_X86
++	u8 status;
++
++	if (setting->runtime_apply_method != CFR_RUNTIME_APPLY_APM_CNT ||
++	    !setting->runtime_apply_id)
++		return -EOPNOTSUPP;
++
++	outb((u8)setting->runtime_apply_id, COREBOOT_CFR_APM_STS_PORT);
++	outb(COREBOOT_CFR_APM_APPLY_CMD, COREBOOT_CFR_APM_CNT_PORT);
++	status = inb(COREBOOT_CFR_APM_STS_PORT);
++	if (status)
++		return -EIO;
++
++	return 0;
++#else
++	return -EOPNOTSUPP;
++#endif
++}
++
++static int coreboot_cfr_write_value(struct coreboot_cfr_setting *setting,
++				    u32 value)
++{
++	u32 attrs;
++	u32 old;
++	int ret;
++	bool changed = false;
++
++	if (setting->read_only)
++		return -EACCES;
++
++	scoped_guard(mutex, &setting->drvdata->lock) {
++		ret = coreboot_cfr_read_value(setting, &old, &attrs);
++		if (ret)
++			return ret;
++
++		if ((attrs & COREBOOT_CFR_EFI_ATTRS) != COREBOOT_CFR_EFI_ATTRS)
++			return -EOPNOTSUPP;
++
++		if (old == value)
++			return 0;
++
++		ret = coreboot_cfr_write_efi_value(setting, value, attrs);
++		if (ret)
++			return ret;
++		changed = true;
++
++		ret = coreboot_cfr_apply_runtime(setting);
++		if (ret == -EOPNOTSUPP) {
++			/* EFI changed; firmware will consume it after reboot. */
++			setting->drvdata->pending_reboot = true;
++			ret = 0;
++		} else if (ret) {
++			int restore_ret;
++
++			restore_ret = coreboot_cfr_write_efi_value(setting, old, attrs);
++			if (restore_ret)
++				ret = restore_ret;
++			else
++				changed = false;
++		}
++	}
++
++	if (changed)
++		kobject_uevent(&setting->drvdata->class_dev->kobj, KOBJ_CHANGE);
++	return ret;
++}
++
++static const char *
++coreboot_cfr_label_from_value(const struct coreboot_cfr_setting *setting,
++			      u32 value)
++{
++	unsigned int i;
++
++	for (i = 0; i < setting->n_values; i++) {
++		if (setting->values[i].value == value)
++			return setting->values[i].label;
++	}
++
++	return NULL;
++}
++
++static int coreboot_cfr_parse_value(struct coreboot_cfr_setting *setting,
++				    const char *label, u32 *value_out)
++{
++	unsigned int i;
++
++	for (i = 0; i < setting->n_values; i++) {
++		if (!sysfs_streq(label, setting->values[i].label))
++			continue;
++
++		*value_out = setting->values[i].value;
++		return 0;
++	}
++
++	return kstrtou32(label, 0, value_out);
++}
++
++static bool coreboot_cfr_value_is_valid(struct coreboot_cfr_setting *setting,
++					u32 value)
++{
++	u32 delta;
++
++	if (setting->type != COREBOOT_CFR_SETTING_NUMBER)
++		return coreboot_cfr_label_from_value(setting, value);
++
++	if (value < setting->min || value > setting->max)
++		return false;
++
++	if (!setting->step)
++		return true;
++
++	delta = value - setting->min;
++	return delta % setting->step == 0;
++}
++
++static ssize_t type_show(struct kobject *kobj, struct kobj_attribute *attr,
++			 char *buf)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++
++	if (setting->type == COREBOOT_CFR_SETTING_NUMBER)
++		return sysfs_emit(buf, "integer\n");
++
++	return sysfs_emit(buf, "enumeration\n");
++}
++
++static ssize_t display_name_language_code_show(struct kobject *kobj,
++					       struct kobj_attribute *attr,
++					       char *buf)
++{
++	return sysfs_emit(buf, "en_US.UTF-8\n");
++}
++
++static ssize_t display_name_show(struct kobject *kobj,
++				 struct kobj_attribute *attr, char *buf)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++
++	return sysfs_emit(buf, "%s\n", setting->display_name);
++}
++
++static ssize_t possible_values_show(struct kobject *kobj,
++				    struct kobj_attribute *attr, char *buf)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++	ssize_t len = 0;
++	unsigned int i;
++
++	for (i = 0; i < setting->n_values; i++) {
++		len += sysfs_emit_at(buf, len, "%s%s", i ? ";" : "",
++				     setting->values[i].label);
++		if (len >= PAGE_SIZE)
++			return len;
++	}
++
++	len += sysfs_emit_at(buf, len, "\n");
++	return len;
++}
++
++static ssize_t min_value_show(struct kobject *kobj, struct kobj_attribute *attr,
++			      char *buf)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++
++	return sysfs_emit(buf, "%u\n", setting->min);
++}
++
++static ssize_t max_value_show(struct kobject *kobj, struct kobj_attribute *attr,
++			      char *buf)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++
++	return sysfs_emit(buf, "%u\n", setting->max);
++}
++
++static ssize_t scalar_increment_show(struct kobject *kobj,
++				     struct kobj_attribute *attr, char *buf)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++
++	return sysfs_emit(buf, "%u\n", setting->step);
++}
++
++static ssize_t default_value_show(struct kobject *kobj,
++				  struct kobj_attribute *attr, char *buf)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++	const char *label;
++
++	if (setting->type == COREBOOT_CFR_SETTING_NUMBER)
++		return sysfs_emit(buf, "%u\n", setting->default_value);
++
++	label = coreboot_cfr_label_from_value(setting, setting->default_value);
++	if (!label)
++		return sysfs_emit(buf, "%u\n", setting->default_value);
++
++	return sysfs_emit(buf, "%s\n", label);
++}
++
++static ssize_t current_value_show(struct kobject *kobj,
++				  struct kobj_attribute *attr, char *buf)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++	const char *label;
++	u32 value;
++	int ret;
++
++	ret = coreboot_cfr_read_value(setting, &value, NULL);
++	if (ret)
++		return ret;
++
++	if (setting->type == COREBOOT_CFR_SETTING_NUMBER)
++		return sysfs_emit(buf, "%u\n", value);
++
++	label = coreboot_cfr_label_from_value(setting, value);
++	if (!label)
++		return -EINVAL;
++
++	return sysfs_emit(buf, "%s\n", label);
++}
++
++static ssize_t current_value_store(struct kobject *kobj,
++				   struct kobj_attribute *attr,
++				   const char *buf, size_t count)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++	u32 value;
++	int ret;
++
++	ret = coreboot_cfr_parse_value(setting, buf, &value);
++	if (ret)
++		return ret;
++
++	if (!coreboot_cfr_value_is_valid(setting, value))
++		return -EINVAL;
++
++	ret = coreboot_cfr_write_value(setting, value);
++	if (ret)
++		return ret;
++
++	return count;
++}
++
++static struct kobj_attribute type_attr = __ATTR_RO(type);
++static struct kobj_attribute display_name_language_code_attr =
++	__ATTR_RO(display_name_language_code);
++static struct kobj_attribute display_name_attr = __ATTR_RO(display_name);
++static struct kobj_attribute possible_values_attr = __ATTR_RO(possible_values);
++static struct kobj_attribute min_value_attr = __ATTR_RO(min_value);
++static struct kobj_attribute max_value_attr = __ATTR_RO(max_value);
++static struct kobj_attribute scalar_increment_attr = __ATTR_RO(scalar_increment);
++static struct kobj_attribute default_value_attr = __ATTR_RO(default_value);
++static struct kobj_attribute current_value_attr = __ATTR_RW(current_value);
++
++static struct attribute *coreboot_cfr_setting_attrs[] = {
++	&type_attr.attr,
++	&display_name_language_code_attr.attr,
++	&display_name_attr.attr,
++	&possible_values_attr.attr,
++	&min_value_attr.attr,
++	&max_value_attr.attr,
++	&scalar_increment_attr.attr,
++	&default_value_attr.attr,
++	&current_value_attr.attr,
++	NULL,
++};
++
++static umode_t coreboot_cfr_attr_is_visible(struct kobject *kobj,
++					    struct attribute *attr, int n)
++{
++	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
++
++	if (setting->type == COREBOOT_CFR_SETTING_NUMBER &&
++	    attr == &possible_values_attr.attr)
++		return 0;
++
++	if (setting->type != COREBOOT_CFR_SETTING_NUMBER &&
++	    (attr == &min_value_attr.attr || attr == &max_value_attr.attr ||
++	     attr == &scalar_increment_attr.attr))
++		return 0;
++
++	if (setting->read_only && attr == &current_value_attr.attr)
++		return 0444;
++
++	return attr->mode;
++}
++
++static const struct attribute_group coreboot_cfr_setting_group = {
++	.attrs = coreboot_cfr_setting_attrs,
++	.is_visible = coreboot_cfr_attr_is_visible,
++};
++
++static void coreboot_cfr_free_setting(struct coreboot_cfr_setting *setting)
++{
++	unsigned int i;
++
++	for (i = 0; i < setting->n_values; i++)
++		kfree(setting->values[i].label);
++
++	kfree(setting->values);
++	kfree(setting->display_name);
++	kfree(setting->name);
++	kfree(setting);
++}
++
++static void coreboot_cfr_setting_release(struct kobject *kobj)
++{
++	coreboot_cfr_free_setting(to_coreboot_cfr_setting(kobj));
++}
++
++static const struct kobj_type coreboot_cfr_setting_ktype = {
++	.release = coreboot_cfr_setting_release,
++	.sysfs_ops = &kobj_sysfs_ops,
++};
++
++static ssize_t pending_reboot_show(struct kobject *kobj,
++				   struct kobj_attribute *attr, char *buf)
++{
++	struct coreboot_cfr_drvdata *data;
++
++	data = dev_get_drvdata(kobj_to_dev(kobj->parent));
++
++	return sysfs_emit(buf, "%d\n", data->pending_reboot);
++}
++
++static struct kobj_attribute pending_reboot_attr = __ATTR_RO(pending_reboot);
++
++static int coreboot_cfr_copy_bool_values(struct coreboot_cfr_setting *setting)
++{
++	static const struct coreboot_cfr_enum bool_values[] = {
++		{ .label = "Disabled", .value = 0 },
++		{ .label = "Enabled", .value = 1 },
++	};
++	unsigned int i;
++
++	setting->values = kcalloc(ARRAY_SIZE(bool_values), sizeof(*setting->values),
++				  GFP_KERNEL);
++	if (!setting->values)
++		return -ENOMEM;
++
++	for (i = 0; i < ARRAY_SIZE(bool_values); i++) {
++		setting->values[i].label = kstrdup(bool_values[i].label,
++						   GFP_KERNEL);
++		if (!setting->values[i].label)
++			return -ENOMEM;
++		setting->values[i].value = bool_values[i].value;
++		setting->n_values++;
++	}
++
++	return 0;
++}
++
++static int coreboot_cfr_count_enum_values(const void *base, size_t len)
++{
++	const struct coreboot_table_entry *entry;
++	size_t off = 0;
++	int count = 0;
++
++	while (off < len) {
++		if (len - off < sizeof(*entry))
++			return -EINVAL;
++
++		entry = base + off;
++		if (entry->size < sizeof(*entry) || entry->size > len - off)
++			return -EINVAL;
++
++		if (entry->tag == CFR_TAG_ENUM_VALUE)
++			count++;
++
++		off += entry->size;
++	}
++
++	return count;
++}
++
++static int coreboot_cfr_copy_enum_values(struct coreboot_cfr_setting *setting,
++					 const void *base, size_t len)
++{
++	const struct lb_cfr_enum_value *enum_value;
++	const struct lb_cfr_varbinary *label;
++	const struct coreboot_table_entry *entry;
++	size_t off = 0;
++	int count;
++
++	count = coreboot_cfr_count_enum_values(base, len);
++	if (count <= 0)
++		return count ?: -EINVAL;
++
++	setting->values = kcalloc(count, sizeof(*setting->values), GFP_KERNEL);
++	if (!setting->values)
++		return -ENOMEM;
++
++	while (off < len) {
++		entry = base + off;
++		if (entry->tag != CFR_TAG_ENUM_VALUE) {
++			off += entry->size;
++			continue;
++		}
++
++		if (entry->size < sizeof(*enum_value))
++			return -EINVAL;
++
++		enum_value = base + off;
++		label = coreboot_cfr_child_string(enum_value + 1,
++						  enum_value->size - sizeof(*enum_value),
++						  CFR_TAG_VARCHAR_UI_NAME);
++		if (!label)
++			return -EINVAL;
++
++		setting->values[setting->n_values].label =
++			coreboot_cfr_string_dup(label);
++		if (!setting->values[setting->n_values].label)
++			return -ENOMEM;
++
++		setting->values[setting->n_values].value = enum_value->value;
++		setting->n_values++;
++		off += entry->size;
++	}
++
++	return 0;
++}
++
++static int coreboot_cfr_setting_is_usable(struct coreboot_cfr_setting *setting)
++{
++	u32 value;
++	int ret;
++
++	ret = coreboot_cfr_read_value(setting, &value, NULL);
++	if (ret)
++		return ret;
++
++	if (!coreboot_cfr_value_is_valid(setting, value))
++		return -EINVAL;
++
++	return 0;
++}
++
++static int coreboot_cfr_register_setting(struct coreboot_cfr_drvdata *data,
++					 struct coreboot_cfr_setting *setting)
++{
++	int ret;
++
++	ret = kobject_init_and_add(&setting->kobj, &coreboot_cfr_setting_ktype,
++				   &data->attrs_kset->kobj, "%s", setting->name);
++	if (ret) {
++		kobject_put(&setting->kobj);
++		return ret;
++	}
++
++	ret = sysfs_create_group(&setting->kobj, &coreboot_cfr_setting_group);
++	if (ret) {
++		kobject_put(&setting->kobj);
++		return ret;
++	}
++
++	list_add_tail(&setting->node, &data->settings);
++	return 0;
++}
++
++static int coreboot_cfr_add_numeric_option(struct coreboot_cfr_drvdata *data,
++					   const struct lb_cfr_numeric_option *option)
++{
++	const struct lb_cfr_varbinary *name;
++	const struct lb_cfr_varbinary *display_name;
++	const struct lb_cfr_runtime_apply *runtime_apply;
++	const void *child_base = option + 1;
++	struct coreboot_cfr_setting *setting;
++	size_t child_len = option->size - sizeof(*option);
++	int ret;
++
++	if (!(option->flags & CFR_OPTFLAG_RUNTIME))
++		return 0;
++
++	if (option->flags & COREBOOT_CFR_OPT_SKIP_FLAGS)
++		return 0;
++
++	if (option->dependency_id)
++		return 0;
++
++	setting = kzalloc_obj(*setting, GFP_KERNEL);
++	if (!setting)
++		return -ENOMEM;
++
++	INIT_LIST_HEAD(&setting->node);
++	setting->drvdata = data;
++	setting->default_value = option->default_value;
++	setting->min = option->min;
++	setting->max = option->max;
++	setting->step = option->step ?: 1;
++	setting->read_only = option->flags & COREBOOT_CFR_OPT_READ_ONLY_FLAGS;
++
++	runtime_apply = coreboot_cfr_child_runtime_apply(child_base, child_len);
++	if (IS_ERR(runtime_apply)) {
++		ret = PTR_ERR(runtime_apply);
++		goto err_put_setting;
++	}
++
++	if (runtime_apply && runtime_apply->method == CFR_RUNTIME_APPLY_APM_CNT &&
++	    runtime_apply->id) {
++		setting->runtime_apply_method = runtime_apply->method;
++		setting->runtime_apply_id = runtime_apply->id;
++	}
++
++	name = coreboot_cfr_child_string(child_base, child_len,
++					 CFR_TAG_VARCHAR_OPT_NAME);
++	if (!name) {
++		ret = -EINVAL;
++		goto err_put_setting;
++	}
++
++	setting->name = coreboot_cfr_string_dup(name);
++	if (!setting->name) {
++		ret = -ENOMEM;
++		goto err_put_setting;
++	}
++
++	if (!coreboot_cfr_string_is_valid_name(setting->name)) {
++		ret = -EINVAL;
++		goto err_put_setting;
++	}
++
++	display_name = coreboot_cfr_child_string(child_base, child_len,
++						 CFR_TAG_VARCHAR_UI_NAME);
++	if (display_name)
++		setting->display_name = coreboot_cfr_string_dup(display_name);
++	else
++		setting->display_name = kstrdup(setting->name, GFP_KERNEL);
++	if (!setting->display_name) {
++		ret = -ENOMEM;
++		goto err_put_setting;
++	}
++
++	switch (option->tag) {
++	case CFR_TAG_OPTION_BOOL:
++		setting->type = COREBOOT_CFR_SETTING_BOOL;
++		setting->min = 0;
++		setting->max = 1;
++		setting->step = 1;
++		ret = coreboot_cfr_copy_bool_values(setting);
++		break;
++	case CFR_TAG_OPTION_ENUM:
++		setting->type = COREBOOT_CFR_SETTING_ENUM;
++		ret = coreboot_cfr_copy_enum_values(setting, child_base,
++						    child_len);
++		break;
++	case CFR_TAG_OPTION_NUMBER:
++		setting->type = COREBOOT_CFR_SETTING_NUMBER;
++		if (!setting->min && !setting->max)
++			setting->max = U32_MAX;
++		else if (setting->max < setting->min)
++			setting->max = U32_MAX;
++		ret = 0;
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	if (ret)
++		goto err_put_setting;
++
++	ret = coreboot_cfr_setting_is_usable(setting);
++	if (ret) {
++		ret = 0;
++		goto err_put_setting;
++	}
++
++	ret = coreboot_cfr_register_setting(data, setting);
++	if (ret)
++		return ret;
++
++	return 0;
++
++err_put_setting:
++	coreboot_cfr_free_setting(setting);
++	return ret;
++}
++
++static int coreboot_cfr_parse_records(struct coreboot_cfr_drvdata *data,
++				      const void *base, size_t len)
++{
++	const struct coreboot_table_entry *entry;
++	const void *child_base;
++	size_t child_len;
++	size_t off = 0;
++	int ret;
++
++	while (off < len) {
++		if (len - off < sizeof(*entry))
++			return -EINVAL;
++
++		entry = base + off;
++		if (entry->size < sizeof(*entry) || entry->size > len - off)
++			return -EINVAL;
++
++		switch (entry->tag) {
++		case CFR_TAG_OPTION_FORM:
++			if (entry->size < sizeof(struct lb_cfr_option_form))
++				return -EINVAL;
++
++			child_base = base + off + sizeof(struct lb_cfr_option_form);
++			child_len = entry->size - sizeof(struct lb_cfr_option_form);
++			ret = coreboot_cfr_parse_records(data, child_base,
++							 child_len);
++			if (ret)
++				return ret;
++			break;
++		case CFR_TAG_OPTION_ENUM:
++		case CFR_TAG_OPTION_NUMBER:
++		case CFR_TAG_OPTION_BOOL:
++			if (entry->size < sizeof(struct lb_cfr_numeric_option))
++				return -EINVAL;
++			ret = coreboot_cfr_add_numeric_option(data, base + off);
++			if (ret)
++				return ret;
++			break;
++		default:
++			break;
++		}
++
++		off += entry->size;
++	}
++
++	return 0;
++}
++
++static void coreboot_cfr_unregister_settings(struct coreboot_cfr_drvdata *data)
++{
++	struct coreboot_cfr_setting *setting, *tmp;
++
++	list_for_each_entry_safe(setting, tmp, &data->settings, node) {
++		sysfs_remove_group(&setting->kobj, &coreboot_cfr_setting_group);
++		list_del(&setting->node);
++		kobject_put(&setting->kobj);
++	}
++}
++
++static int coreboot_cfr_probe(struct coreboot_device *dev)
++{
++	const struct lb_cfr *root = (const struct lb_cfr *)dev->raw;
++	struct coreboot_cfr_drvdata *data;
++	size_t payload_len;
++	int ret;
++
++	if (dev->entry.size < sizeof(*root))
++		return -EINVAL;
++
++	if (root->tag != LB_TAG_CFR_ROOT || root->version != CFR_VERSION)
++		return -EINVAL;
++
++	if (root->size < sizeof(*root) || root->size > dev->entry.size)
++		return -EINVAL;
++
++	if (!efivar_is_available())
++		return -EPROBE_DEFER;
++
++	data = devm_kzalloc(&dev->dev, sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	INIT_LIST_HEAD(&data->settings);
++	ret = devm_mutex_init(&dev->dev, &data->lock);
++	if (ret)
++		return ret;
++
++	dev_set_drvdata(&dev->dev, data);
++
++	data->class_dev = device_create(&firmware_attributes_class, NULL,
++					MKDEV(0, 0), NULL, DRIVER_NAME);
++	if (IS_ERR(data->class_dev)) {
++		ret = PTR_ERR(data->class_dev);
++		goto err_clear_data;
++	}
++	dev_set_drvdata(data->class_dev, data);
++
++	data->attrs_kset = kset_create_and_add("attributes", NULL,
++					       &data->class_dev->kobj);
++	if (!data->attrs_kset) {
++		ret = -ENOMEM;
++		goto err_unregister_dev;
++	}
++
++	ret = sysfs_create_file(&data->attrs_kset->kobj,
++				&pending_reboot_attr.attr);
++	if (ret)
++		goto err_unregister_attrs;
++
++	payload_len = root->size - sizeof(*root);
++	ret = coreboot_cfr_parse_records(data, root + 1, payload_len);
++	if (ret)
++		goto err_unregister_settings;
++
++	if (list_empty(&data->settings)) {
++		ret = -ENODEV;
++		goto err_unregister_settings;
++	}
++
++	return 0;
++
++err_unregister_settings:
++	coreboot_cfr_unregister_settings(data);
++	sysfs_remove_file(&data->attrs_kset->kobj, &pending_reboot_attr.attr);
++err_unregister_attrs:
++	kset_unregister(data->attrs_kset);
++err_unregister_dev:
++	device_unregister(data->class_dev);
++err_clear_data:
++	return ret;
++}
++
++static void coreboot_cfr_remove(struct coreboot_device *dev)
++{
++	struct coreboot_cfr_drvdata *data = dev_get_drvdata(&dev->dev);
++
++	coreboot_cfr_unregister_settings(data);
++	sysfs_remove_file(&data->attrs_kset->kobj, &pending_reboot_attr.attr);
++	kset_unregister(data->attrs_kset);
++	device_unregister(data->class_dev);
++}
++
++static const struct coreboot_device_id coreboot_cfr_ids[] = {
++	{ .tag = LB_TAG_CFR_ROOT },
++	{ }
++};
++MODULE_DEVICE_TABLE(coreboot, coreboot_cfr_ids);
++
++static struct coreboot_driver coreboot_cfr_driver = {
++	.probe = coreboot_cfr_probe,
++	.remove = coreboot_cfr_remove,
++	.drv = {
++		.name = DRIVER_NAME,
++	},
++	.id_table = coreboot_cfr_ids,
++};
++module_coreboot_driver(coreboot_cfr_driver);
++
++MODULE_AUTHOR("Sean Rhodes <sean@starlabs.systems>");
++MODULE_DESCRIPTION("coreboot CFR firmware attributes driver");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("EFIVAR");
 -- 
 2.53.0
 

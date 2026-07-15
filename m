@@ -1,207 +1,88 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from va-2-20.ptr.blmpb.com (va-2-20.ptr.blmpb.com [209.127.231.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFC342F6FE
-	for <chrome-platform@lists.linux.dev>; Wed, 15 Jul 2026 09:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6F334EF0F
+	for <chrome-platform@lists.linux.dev>; Wed, 15 Jul 2026 12:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784107882; cv=none; b=YVGbW1ad8w195SwLx2QzrFbo6Pu28FA32oAJqUFN8pmSw4lUVlw38wOHzFXIjyiAt0GK+dBXUGYSjHk1yBBglihBGFzXVbljdCEqU5fqKy29t+92TkhM0TPHE8Q6YFqQgI5Qgtlg9yMxCaDp1iMX4lp43kkFSudS0hgDc/8ig4Y=
+	t=1784117512; cv=none; b=VECdbFB1c+W9oTuK2XU/+0RkA3keXT7JibZWeYCVUVqgAbqtr63cPc/5TQEQaHk8A5BayOOwCanrcNTzbK36MPCe6R+NeNpHYXKDGAE+DtJcA9i7wv3IyCzlBgm5Ct0QD183SjtN4hdEp4RkMFe77gKLv1ZM84xa2M7N39SZ0vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784107882; c=relaxed/simple;
-	bh=DeodiWAHe4W6tqlNBRSIjuazNMvzpqdIpwvPWNBbSkE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qr1PJ6UJ9MpKTfFWAQOYoKdbF+CL0DJnSqzGYtlwxISMyw87BucDIehbFt5UUQyuxXyaaX+cYe0mbCNy8hrVuLN2juiqrwhiqjR6W7tnZHCZPb/OSO1H+wr+wWOQFci7ArtRo/CJmpu2FTm1AoyeMsvhJQ4p27UWvy+BbS2WztA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iCYSJKr0; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1784117512; c=relaxed/simple;
+	bh=VpUBem712z3NXz3COfafygGDJ5mgQrVlvVKf4u2bfis=;
+	h=From:References:Date:Message-Id:In-Reply-To:To:Cc:Subject:
+	 Mime-Version:Content-Type; b=JagWct6j270QKdD2VVFHrajJAoOQU1XiIOYptbayVOYcFmTt/FA/7mEh9818pYlRjtTtHtL2upMZDfjWrE+tNe80XY+Vr4d2+AYmBpsDUqmzhd1cco1LFoKlkvrxKmHEU2JJ40qu+Wqga1aDgv42RC2bItpLty7zb9AyNQHJ0ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=liuxiaozhen.dev; spf=pass smtp.mailfrom=liuxiaozhen.dev; dkim=pass (2048-bit key) header.d=liuxiaozhen.dev header.i=@liuxiaozhen.dev header.b=HcSQF0wN; arc=none smtp.client-ip=209.127.231.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=liuxiaozhen.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=liuxiaozhen.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iCYSJKr0"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-92e65e18969so142986085a.1
-        for <chrome-platform@lists.linux.dev>; Wed, 15 Jul 2026 02:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784107877; x=1784712677; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=N0FASQpuuna+gF74hJSPXN8zndqXCfuXMIZX7db73d4=;
-        b=iCYSJKr0AeC5fRMbTp3Cul6K8zgYotjEtz6WBtHmtx7I/jr/8tgGX+JkAoxaVmteCd
-         rzB/V0hFyUuHiYjtBZsp+RyY49rBan/dc2F9Iiwp3E/vJS+LizBymeHsrhLniHP0BQlH
-         wcm+E+Xtz7YSTzmLAb2lAtkNnXC8CK3rjQ5NY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784107877; x=1784712677;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=N0FASQpuuna+gF74hJSPXN8zndqXCfuXMIZX7db73d4=;
-        b=obU56+KyBFVm9/pYVetKXWaf0mGBB4XTxc3EB9tT2gbjQW3D5YVcZ14maaqnwnn9Hw
-         uvc48f61qmRgoZkFwGm6rX7qzFJwa/Lw6BrIfhzXCtNHKMknk1jJOTqUC7mhRPEjfAp1
-         FhT+QHlNSSdpkU1J9+wnmCowC+u9YkVkSsRd/ADWsaO50kYASp/4anAMfLNcnHmg5AQV
-         vDkdelt8qw+fLocAuacm4ZF2akPYn1sJqFT8IKHgNkAE0RuoNav3Kstvd/ITacUq7dQK
-         9pxG2LSRMllGuouNu400Zz17js+iw4LkJgdzME1k8SXzxfr1i1fapM+4XmN2ic+dAYFu
-         +Eyg==
-X-Forwarded-Encrypted: i=1; AHgh+RoFl5/hVO6PbdsYv0BhQVooL1P2skT45bsoP4cp1BysPaP5g3QJZPY/RFSQtlefy6Kqq31LVFS+pd54fsu+TwM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxMq35i5KXlYniM0mHpoMOYbl9OKcMLSDf5dZ9aV1x5bMZ0RiH+
-	lLFWTN0mbbKRgtWBsMv3MeB0hD86DT0W5fchpkKrW43FM6M7BZWUsVybiA4+CVfHQnsf9Yi52Jw
-	3Z3EH/A==
-X-Gm-Gg: AfdE7ckwvHCykyoA/hKyjOY6YeyUv0vZsZ84NmuF1aVqm7lBs9pSOiVNc44g76ZjJx9
-	b6HhEaTrIbtb0hcywUKBaachdg6xtDJadXDS4s5H9HKWyLNSKXCzUBvXW05xzg68EDcPF69hpS0
-	lGbruKxR58yhITgvMXGj2/SpWFVOMF7va0MbbWHAJGbtvOwZuUaSYnhPWV1cz3Id10hnaAk2/+L
-	DShqLmSn/OD7yiUmehGsfZQ4KbaJhCvyEBqMj7muVux4jtLEveaMevOV/JXJ8WOEbng1DMRZMn9
-	dUFwAcQhfG9R47R4mr10c5opAWQdGZzmpGhoP1APTGj/nf+EmIwAK6oSz4/YBglDh2Z4g/Tga0T
-	T3UvLkZNDgRZ1h1jwnn5hEFXuh5S5zcyOZQkMik9L81vg8vVctOM3rieG3DqJtr+jPJyFfpvs6u
-	k+1sMGN0S9RiQfUkJ8XmKe+D7Sq/z12ic5IpG+egSveBhktMTvEU0=
-X-Received: by 2002:a05:620a:718a:b0:930:7720:f3c5 with SMTP id af79cd13be357-9307720f3dcmr643154085a.31.1784107876613;
-        Wed, 15 Jul 2026 02:31:16 -0700 (PDT)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com. [209.85.160.181])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b4b38dsm1844703885a.10.2026.07.15.02.31.13
-        for <chrome-platform@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2026 02:31:14 -0700 (PDT)
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c01c79467so117561cf.0
-        for <chrome-platform@lists.linux.dev>; Wed, 15 Jul 2026 02:31:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqTRKrK4B5L1Jlfmjwn4xEK0i8g/Vsr3Sj/QD7qDqh+5krQoack69WyMwTVrMS+eMfJoj2iuhmtapChGv6B2kc=@lists.linux.dev
-X-Received: by 2002:a05:622a:4010:b0:517:5ac7:332e with SMTP id
- d75a77b69052e-51d7bc5040emr24283111cf.6.1784107872862; Wed, 15 Jul 2026
- 02:31:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=liuxiaozhen.dev header.i=@liuxiaozhen.dev header.b="HcSQF0wN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=feishu2602171341; d=liuxiaozhen.dev; t=1784117499;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=WYTY9SMuDdaHYO+63+P8lWpfvYuIcHXN/knKmBxFJ+Q=;
+ b=HcSQF0wN0qhzWkxA7jCRMcU0UtBonLoIsL+lxqIH6kInzT7usJfib1cv4C4fM1NTGL5EpI
+ /5W3nLXw/ELkaLktpROa8kooQvhHlUfbxn/Rk1AOmyhMN4xGqJKJRCtoMpaT/eWrMbNq90
+ nDylSuTLS68h50Olu18aYEKEOwpl6CPM8j/BBjD1WmN6ZCbHdPjDuXdRRZAnMDRxjen3K3
+ FMhbBqPIjw+aq8AjOP+L/qca75sizAyLZ/5t9RDEjws3oDMBM6COnAb4TeYwYNmojPsMDZ
+ 2I+5/7SsFwY60Ewp1pMt2GSWHo6IRKk3I/v994wQgRO78uVk3JucjB5mjmtUXQ==
+From: "Oliver Lin" <oliver@liuxiaozhen.dev>
+X-Original-From: Oliver Lin <oliver@liuxiaozhen.dev>
+X-Lms-Return-Path: <lba+26a5778f9+48dfe8+lists.linux.dev+oliver@liuxiaozhen.dev>
+Content-Language: en-US
+References: <20260713054526.2902319-1-sean@starlabs.systems> <20260713081317.2954586-1-sean@starlabs.systems> <20260713081317.2954586-2-sean@starlabs.systems> <01401869-C099-407E-8175-174FE8EDF701@gmail.com>
+Date: Wed, 15 Jul 2026 20:11:28 +0800
+Message-Id: <f1b0a036-909f-429e-8a12-f5fd9aa73c28@liuxiaozhen.dev>
+In-Reply-To: <01401869-C099-407E-8175-174FE8EDF701@gmail.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	"Sean Rhodes" <sean@starlabs.systems>, <tzungbi@kernel.org>
+Cc: <hansg@kernel.org>, <ilpo.jarvinen@linux.intel.com>, 
+	<corentin.chary@gmail.com>, <luke@ljones.dev>, <denis.benato@linux.dev>, 
+	<prasanth.ksr@dell.com>, <jorge.lopez2@hp.com>, 
+	<mpearson-lenovo@squebb.ca>, <josh@joshuagrisham.com>, 
+	<briannorris@chromium.org>, <jwerner@chromium.org>, 
+	<tzimmermann@suse.de>, <javierm@redhat.com>, <kees@kernel.org>, 
+	<u.kleine-koenig@baylibre.com>, <mst@redhat.com>, 
+	<chenhuacai@kernel.org>, <wenst@chromium.org>, 
+	<florian.fainelli@broadcom.com>, <titouan.ameline@gmail.com>, 
+	<linux-kernel@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>, 
+	<Dell.Client.Kernel@dell.com>, <chrome-platform@lists.linux.dev>, 
+	<oliver@liuxiaozhen.dev>
+Subject: Re: [PATCH v6 1/3] firmware: Move firmware attributes class helper
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260715024454.4127571-1-tzungbi@kernel.org> <CAAFQd5D5C+TSro3Up3rU-wAmbEnQ0+Vkj6wNCDZUZvcnCNG2aA@mail.gmail.com>
- <aldStRgbO_1ZhScD@google.com>
-In-Reply-To: <aldStRgbO_1ZhScD@google.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 15 Jul 2026 18:30:56 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CEyAUmidH8CPo2YDXjnXmopAQBu9iXAhajrmWz3Cjnwg@mail.gmail.com>
-X-Gm-Features: AUfX_mx__JcODGYoQ59LK8AMkpAn2RUCOlw1DFko6BtqbaM_pQxLx-pe702HKyA
-Message-ID: <CAAFQd5CEyAUmidH8CPo2YDXjnXmopAQBu9iXAhajrmWz3Cjnwg@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/chrome: sensorhub: Fix dropped timestamp
- events and log spam
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Bryam Vargas <hexlabsecurity@proton.me>, 
-	chrome-platform@lists.linux.dev, suleiman@chromium.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Received: from [198.18.0.0] ([23.151.104.71]) by smtp.feishu.cn with ESMTPS; Wed, 15 Jul 2026 20:11:36 +0800
 
-On Wed, Jul 15, 2026 at 6:28=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> On Wed, Jul 15, 2026 at 04:15:22PM +0900, Tomasz Figa wrote:
-> > On Wed, Jul 15, 2026 at 11:45=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.=
-org> wrote:
-> > >
-> > > Commit 833740a2333c ("platform/chrome: sensorhub: Bound the EC-report=
-ed
-> > > sensor number") evaluated the `sensor_num` against the bounds limit e=
-ven
-> > > for timestamp events.  A timestamp event typically has a `sensor_num`=
- of
-> > > 0xff [1], causing the driver to flag it as invalid and skip to the ne=
-xt
-> > > event.
-> > >
-> > > As a result, we'd see a flooding of "Invalid sensor number 255 from E=
-C"
-> > > warning logs and these timestamp events were being dropped.
-> > >
-> > > Move the bounds-check into cros_ec_sensor_ring_process_event() and
-> > > evaluate it only after standalone timestamp events have already been
-> > > processed and returned early.
-> > >
-> > > [1] https://crrev.com/219ca6ef82ba266da788b673ee4ad50bd3ea1285/common=
-/motion_sense_fifo.c#427
-> > >
-> > > Fixes: 833740a2333c ("platform/chrome: sensorhub: Bound the EC-report=
-ed sensor number")
-> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > > ---
-> > > Bryam: sorry for reverting the decision (moving back the check to
-> > > cros_ec_sensor_ring_process_event()).  I realized we need to prevent
-> > > dropping timestamp events and flooding the logs.
-> > > ---
-> > > v2:
-> > > - Move the check to cros_ec_sensor_ring_process_event().
-> > > - Return earlier for standalone timestamp events.
-> > >
-> > > v1: https://lore.kernel.org/all/20260714065202.3248017-1-tzungbi@kern=
-el.org
-> > > ---
-> > >  .../platform/chrome/cros_ec_sensorhub_ring.c  | 27 ++++++++++-------=
---
-> > >  1 file changed, 15 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drive=
-rs/platform/chrome/cros_ec_sensorhub_ring.c
-> > > index 92941924c347..d92b60213720 100644
-> > > --- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-> > > +++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-> > > @@ -475,6 +475,21 @@ cros_ec_sensor_ring_process_event(struct cros_ec=
-_sensorhub *sensorhub,
-> > >                                                   fifo_timestamp,
-> > >                                                   *current_timestamp,
-> > >                                                   now);
-> > > +
-> > > +               /*
-> > > +                * A standalone timestamp event typically has a senso=
-r_num of
-> > > +                * 0xff.  Return early here to prevent it from hittin=
-g the
-> > > +                * bounds check below and spamming the logs.
-> > > +                */
-> > > +               return false;
-> > > +       }
-> > > +
-> > > +       /* Skip event if sensor_num from EC is out of bounds. */
-> > > +       if (in->sensor_num >=3D sensorhub->sensor_num) {
-> > > +               dev_warn_ratelimited(sensorhub->dev,
-> > > +                                    "Invalid sensor number %u from E=
-C\n",
-> > > +                                    in->sensor_num);
-> > > +               return false;
-> > >         }
-> > >
-> > >         if (in->flags & MOTIONSENSE_SENSOR_FLAG_ODR) {
-> > > @@ -502,10 +517,6 @@ cros_ec_sensor_ring_process_event(struct cros_ec=
-_sensorhub *sensorhub,
-> > >                 return true;
-> > >         }
-> > >
-> > > -       if (in->flags & MOTIONSENSE_SENSOR_FLAG_TIMESTAMP)
-> > > -               /* If we just have a timestamp, skip this entry. */
-> > > -               return false;
-> > > -
-> >
-> > Isn't this still needed for the case of
-> > MOTIONSENSE_SENSOR_FLAG_TIMESTAMP and (MOTIONSENSE_SENSOR_FLAG_ODR
-> > and/or MOTIONSENSE_SENSOR_FLAG_FLUSH)?
->
-> The block serves for standalone MOTIONSENSE_SENSOR_FLAG_TIMESTAMP events.
-> If the flags contains ODR or FLUSH, it returns in other branches.
->
-> After applying the patch, the flow of cros_ec_sensor_ring_process_event()
-> looks like:
->
->   If TIMESTAMP but (!ODR and !FLUSH):
->      ...
->      return   <--- The patch merges the block and returns early.
->
->   Check bounds for sensor_num
->
->   If ODR:
->      ...
->      return
->
->   If FLUSH:
->      ...
->      return
+Hi Sean,
 
-Ah, right, I didn't notice that those blocks already returned. Sorry
-for the noise.
+I tested this patch as part of the full v6 series on the following systems:
 
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+- Lenovo ThinkPad P15 Gen 1
+- Lenovo ThinkPad P50s
 
-Best,
-Tomasz
+On both systems, think-lmi continued to register successfully after 
+applying the series.
+
+I compared the firmware-attributes sysfs tree, exposed file list, and 
+all readable attribute values against the unpatched kernel:
+
+- ThinkPad P15 Gen 1: 107 files, no differences
+- ThinkPad P50s: 294 files, no differences
+
+Reboot and suspend/resume completed successfully on both systems, and 
+the ThinkLMI attributes remained available after resume. Full poweroff 
+was also tested successfully on the P50s.
+
+No new relevant kernel warnings, Oopses, or call traces were observed.
+
+Tested-by: Oliver Lin <oliver@liuxiaozhen.dev>
+
+Best regards,
+Oliver

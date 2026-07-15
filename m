@@ -1,161 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA0741CB4C;
-	Tue, 14 Jul 2026 21:24:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0149236215B
+	for <chrome-platform@lists.linux.dev>; Wed, 15 Jul 2026 02:45:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784064258; cv=none; b=fjH4HE207u0Jc2zD1s9cplvJoxydcqcFfOwr0I1/OM31gaa2qKoDWPvJkfoVLCVm4b3uoA0Of9u0pV2BYp8kHhSl54/2Ho5tEgxAQVM7b3/URGU52DBVhkBWFXfrh5MQz8zIlC1x5tNvWXboGIK8HPE8NudKAIbw1REGofL+LSg=
+	t=1784083518; cv=none; b=mj/FCj0JQvWZK6uKPl6HBkIPBcILy7IfxSoDjBm2H7S0yIIf44+w4mbk7b89WlEi99R0RYLSY1SVd3wdj1onU8fvLjGzBydPuZhKAc1H+zWvwIdFec34BbxRcN/pHJH7DRnQBW1I2qN/g9SmZGbLweLRfh1yotq1XmiEDmS0A5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784064258; c=relaxed/simple;
-	bh=5J+8x5cP67a5bW2eICKJ/SVuzEbFNwtvCWU8QnU2AjQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HrJNPh3wUt8AwT9RIuJeggCUvdvNG9JOaRaIvJA0Ba/EHDLP3r164/HtDBWqutm3caZF29RF2t8EW65gzY9vWMIjUuWw/8y3teoqxvkscyVWbr5JxGnA8JocHDix0MB6yUaqYnxiyL+38om6okrmXIroM5F2B9Ir3w6Rci9g2X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MBaWuvlD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784083518; c=relaxed/simple;
+	bh=vm/dRMtD2zQF5+ahkzjnYgdaOBZWFm25rdqTSrGbc+4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MbB+0nI6ZTxPBFw8uY0Hr/s5JsfUIGIBuydm/Ad6K34VM0ibHxSQzHpHTG8cDRHZFdkpJ3JSDun0oqqho3Mufb2sQKlYaf4j0GU23b8mxnqddsgL+DeUCFneWWN5a3f3auTDGRKMABvOcqvRxcGYXLfduJMqgw9M5DiN4aVljjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EMXdjein; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MBaWuvlD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0772F1F00A3A;
-	Tue, 14 Jul 2026 21:24:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EMXdjein"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAA91F000E9;
+	Wed, 15 Jul 2026 02:45:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784064257;
-	bh=F6GUstE40smkqjKEvWWvd2FWAnyj7XXV63ur3oYmDn0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=MBaWuvlDNfyJ/x3C/hN+zHBXT68fit/oeWlJVQEXYCtbBT5WzhOx64388XzyD5Ukz
-	 68n56+dqSZ8QG5IBimmeeXC5rk2LGD52N+PY2PB0djH6VB4H6lGASwUfQV5PeTml4o
-	 xcx/98+ZbjE+6SohrUBVhUGiaYBtq+6Y5Lf8JYySrbFVB0JMsK6qdpL3Jr8/5LH0vf
-	 H9ujsTnSQF26LtbZjHcqwYoxPJcMqeJfG9aXLoiGPNeYEGsGRG8bBtQRIH9e8WYaOs
-	 8Z+4Pq4lVkOsZ+Z/I2C8aRzGwGBWei5bp0qHucH99MG2ntmdMVRstQgBByL8GIkqvK
-	 3guNfGIAOvJ9g==
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.com>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Cheng-Yi Chiang <cychiang@chromium.org>, 
- Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, povik+lin@cutebit.org, 
- u.kleine-koenig@baylibre.com, kuninori.morimoto.gx@renesas.com, 
- christian.ehrhardt@codasip.com, Linus Walleij <linusw@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Thorsten Blum <thorsten.blum@linux.dev>, 
- Chris Morgan <macromorgan@hotmail.com>, Dan Carpenter <error27@gmail.com>, 
- Marco Crivellari <marco.crivellari@suse.com>, 
- Rosen Penev <rosenp@gmail.com>, Weidong Wang <wangweidong.a@awinic.com>, 
- Teguh Sobirin <teguh@sobir.in>, Val Packett <val@packett.cool>, 
- Luca Weiss <luca.weiss@fairphone.com>, wangdicheng <wangdicheng@kylinos.cn>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com, chrome-platform@lists.linux.dev, 
- asahi@lists.linux.dev, Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20260708125002.202515-1-phucduc.bui@gmail.com>
-References: <20260708125002.202515-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH v4 00/24] ASoC: codecs: Use guard() for mutex & spin
- lock - part 1
-Message-Id: <178402971474.7661.12638019222593752211.b4-ty@b4>
-Date: Tue, 14 Jul 2026 12:48:34 +0100
+	s=k20260515; t=1784083516;
+	bh=uES+ZoxXqsdpA/6EU75CWy1pJCZwYP+zVCJJIqPRsq4=;
+	h=From:To:Cc:Subject:Date;
+	b=EMXdjeinnNDI11GZLe5Apxj2wedfogH04U65Du36hDeiarCO2if0Nao3ip7TyNysv
+	 WDWnF6ceiZypeePT08p1sZ1wEklzAH/j6dbcN2uLWoJN9R7v6oqA29iBYNWBl/lyD9
+	 WA028gGzFHIxPxJ2PtD3OqqLxEuO53lbxP01wvLL7sNHevXOst1O0xgOcUbH5V1gUQ
+	 xrXIP8Zd1vYDYzz3TVbxaCdgm7L/wc64RUNOI3Pt+ZzYDTsf9u94Vmn4p5IQAwTsHm
+	 wZ96teGUe1aR4qVKzb7reJN/S+7gEBoFMK44KpEaTU79VRwb/zWpDlNsFgVucX8s70
+	 7DE7NtIwcFrLg==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Benson Leung <bleung@chromium.org>
+Cc: tzungbi@kernel.org,
+	Bryam Vargas <hexlabsecurity@proton.me>,
+	chrome-platform@lists.linux.dev,
+	tfiga@chromium.org,
+	suleiman@chromium.org
+Subject: [PATCH v2] platform/chrome: sensorhub: Fix dropped timestamp events and log spam
+Date: Wed, 15 Jul 2026 02:44:53 +0000
+Message-ID: <20260715024454.4127571-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4164; i=broonie@kernel.org;
- h=from:subject:message-id; bh=5J+8x5cP67a5bW2eICKJ/SVuzEbFNwtvCWU8QnU2AjQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqVqj6a1iytHUEZUl5+SQm8F7VJWON07lqVPma9
- VgOjULeqsCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalao+gAKCRAk1otyXVSH
- 0BrzB/9zOPrSoY4NHz7RW+3P59Pe8GBIl96K+JcMZkK2wJ87zlF07+ToPXXFaKpyiJ1CfZrLtpG
- 37wUPhJ2aXKcNd83m5Uyx8SD+eVxYn7O6gdcxaRzuQgNtWFWdhSUD4fP2pmZ3SkjlUH+pCrDBti
- Rau9SXdEH7SpJEsNpxYOTjniAlwaOcE0rc7QAohvE+ydgYMzc4g1e0+ZvXcejQ604i0FYbgO4YA
- zsMadyZbrnjZNUg7kK4iYuhgPx+VZU1pD0aYelELD0qOIYbYqivgysAVypxZFfR6xIVHqQMS9i7
- gLOirMik5cQYNRKa8OFWtpxJNbFPhzcIFnOGwdrmL1mOzQPH
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Wed, 08 Jul 2026 19:49:37 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: codecs: Use guard() for mutex & spin lock - part 1
-> 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi all,
-> 
-> This series converts mutex and spinlock handling in ASoC codec drivers
-> to use the guard() and scoped_guard() helpers.
-> 
-> [...]
+Commit 833740a2333c ("platform/chrome: sensorhub: Bound the EC-reported
+sensor number") evaluated the `sensor_num` against the bounds limit even
+for timestamp events.  A timestamp event typically has a `sensor_num` of
+0xff [1], causing the driver to flag it as invalid and skip to the next
+event.
 
-Applied to
+As a result, we'd see a flooding of "Invalid sensor number 255 from EC"
+warning logs and these timestamp events were being dropped.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+Move the bounds-check into cros_ec_sensor_ring_process_event() and
+evaluate it only after standalone timestamp events have already been
+processed and returned early.
 
-Thanks!
+[1] https://crrev.com/219ca6ef82ba266da788b673ee4ad50bd3ea1285/common/motion_sense_fifo.c#427
 
-[01/24] ASoC: codecs: ab8500: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/350b7eae8e8b
-[02/24] ASoC: codecs: ak4613: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/da41b1716fad
-[03/24] ASoC: codecs: arizona-jack: Use guard() cleanup helpers
-        https://git.kernel.org/broonie/sound/c/d46421aeac5a
-[04/24] ASoC: codecs: arizona: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/fa58edfcce1c
-[05/24] ASoC: codecs: aw87390: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/95cc462fe421
-[06/24] ASoC: codecs: aw88081: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/9c3035088593
-[07/24] ASoC: codecs: aw88166: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/a0c8cd0ecfe7
-[08/24] ASoC: codecs: aw88261: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/9d8e98091f5a
-[09/24] ASoC: codecs: aw88395: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/6699b73f0080
-[10/24] ASoC: codecs: aw88399: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/49204ed80350
-[11/24] ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/35150d26cb41
-[12/24] ASoC: codecs: cs-amp-lib: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/53651103db92
-[13/24] ASoC: codecs: cs35l56: Use guard() and PM runtime scope helpers
-        https://git.kernel.org/broonie/sound/c/fa08036d5d5b
-[14/24] ASoC: codecs: cs42l42: Use guard() cleanup helpers
-        https://git.kernel.org/broonie/sound/c/6e982e8f5a23
-[15/24] ASoC: codecs: cs42l43: Use guard() and PM runtime scope helpers
-        https://git.kernel.org/broonie/sound/c/d1b5d20f53df
-[16/24] ASoC: codecs: cs42l84: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/2f952d2ff5f2
-[17/24] ASoC: codecs: cs43130: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/e6eb5e269d88
-[18/24] ASoC: codecs: cs47l15: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/a97c200c2fed
-[19/24] ASoC: codecs: cs47l35: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/db698e37213b
-[20/24] ASoC: codecs: cs47l85: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/cea70877a2a1
-[21/24] ASoC: codecs: cs47l90: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/1b681fda5e51
-[22/24] ASoC: codecs: cs47l92: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/f452b00f97ce
-[23/24] ASoC: codecs: cs48l32: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/6ced86b1e21b
-[24/24] ASoC: codecs: cx2072x: Use guard() for mutex locks
-        https://git.kernel.org/broonie/sound/c/1b302f955ecb
+Fixes: 833740a2333c ("platform/chrome: sensorhub: Bound the EC-reported sensor number")
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+Bryam: sorry for reverting the decision (moving back the check to
+cros_ec_sensor_ring_process_event()).  I realized we need to prevent
+dropping timestamp events and flooding the logs.
+---
+v2:
+- Move the check to cros_ec_sensor_ring_process_event().
+- Return earlier for standalone timestamp events.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+v1: https://lore.kernel.org/all/20260714065202.3248017-1-tzungbi@kernel.org
+---
+ .../platform/chrome/cros_ec_sensorhub_ring.c  | 27 ++++++++++---------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
+index 92941924c347..d92b60213720 100644
+--- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
++++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
+@@ -475,6 +475,21 @@ cros_ec_sensor_ring_process_event(struct cros_ec_sensorhub *sensorhub,
+ 						  fifo_timestamp,
+ 						  *current_timestamp,
+ 						  now);
++
++		/*
++		 * A standalone timestamp event typically has a sensor_num of
++		 * 0xff.  Return early here to prevent it from hitting the
++		 * bounds check below and spamming the logs.
++		 */
++		return false;
++	}
++
++	/* Skip event if sensor_num from EC is out of bounds. */
++	if (in->sensor_num >= sensorhub->sensor_num) {
++		dev_warn_ratelimited(sensorhub->dev,
++				     "Invalid sensor number %u from EC\n",
++				     in->sensor_num);
++		return false;
+ 	}
+ 
+ 	if (in->flags & MOTIONSENSE_SENSOR_FLAG_ODR) {
+@@ -502,10 +517,6 @@ cros_ec_sensor_ring_process_event(struct cros_ec_sensorhub *sensorhub,
+ 		return true;
+ 	}
+ 
+-	if (in->flags & MOTIONSENSE_SENSOR_FLAG_TIMESTAMP)
+-		/* If we just have a timestamp, skip this entry. */
+-		return false;
+-
+ 	/* Regular sample */
+ 	out->sensor_id = in->sensor_num;
+ 	trace_cros_ec_sensorhub_data(in->sensor_num,
+@@ -897,14 +908,6 @@ static void cros_ec_sensorhub_ring_handler(struct cros_ec_sensorhub *sensorhub)
+ 
+ 		for (in = sensorhub->resp->fifo_read.data, j = 0;
+ 		     j < number_data; j++, in++) {
+-			/* Skip event if sensor_num from EC is out of bounds. */
+-			if (in->sensor_num >= sensorhub->sensor_num) {
+-				dev_warn_ratelimited(sensorhub->dev,
+-						     "Invalid sensor number %u from EC\n",
+-						     in->sensor_num);
+-				continue;
+-			}
+-
+ 			if (cros_ec_sensor_ring_process_event(
+ 						sensorhub, fifo_info,
+ 						fifo_timestamp,
+-- 
+2.55.0.229.g6434b31f56-goog
 

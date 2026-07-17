@@ -1,51 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DAB3A9D80;
-	Fri, 17 Jul 2026 05:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C58384242;
+	Fri, 17 Jul 2026 06:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784267619; cv=none; b=gKExgmV2TsA0udvH0xOaGZvc7SOImWBylJSI6ddPX+60OtkTCtwU1CSs+02pcSomsSU3UT/zr/1pYc0b8nGOEmy07AGeUF3gwrpSh/4MMfO0XSHTXHZGVs4avQ2QWcE1NfBZd3yVYJ0ZkkUdDj87navFkuMjRC+EkWeBMo3cMKc=
+	t=1784270445; cv=none; b=TWZpQFwx8HW9QV+1YiaSVmY2hSU5MoBRHTThjMssGgVI6F1lWsT8XqFm06EmoZwFi2hXK1nP2aPVTSU+4vTMvgNTuqi1oG/vF4m0G5oUzJOe0SxbHIdMu5g5zXRkcu2p3aKJiBsDWddmesHP09Ld+v7yLLmDbR163a/WNcdzfPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784267619; c=relaxed/simple;
-	bh=XwpbIvAMbfiotVAkJaWpvjaHtWzTOheLxNeKMbUwJJk=;
+	s=arc-20240116; t=1784270445; c=relaxed/simple;
+	bh=zBxiuJMbHmtQLrSFZQZPQctBoIdsyiRe49DmRrkNFlE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uqD55QUel4xaogHe82fg7bzekzwZySnJJ4QUSR/oBQvk8FajEa/54lsH8aCdMrdg8OBymYfdSRzf2uRurIPNtLrHA6JYaAhcmDwJHrSV4cs/UFNXrtTcdK9plN5hSE2MJwb3hr679gEVPcnmHOH/tNLONzKy6mM+/ScmCqhRrEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MtxfQbJP; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=NbbH6w/K68Bh1QdFQCqfQJ4oPlMcet3rIhc2NGGSvpTCrsSihHJAyZd/rIuOBhkgV/VZGpdBJ++2UDmPUXc/m1o2Xc26LfEq8WR7x2Rf4mpQtCDK2te/rfcD2k/D6XCx7u6zfDX+srn2yRLcHzYYyvIYLACsCC0DQp+9dEWbjI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9PQh8ot; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MtxfQbJP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D049B1F000E9;
-	Fri, 17 Jul 2026 05:53:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9PQh8ot"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3379F1F000E9;
+	Fri, 17 Jul 2026 06:40:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784267617;
-	bh=BtwiwC1OOAz/Ngi0IL20lPmx0q2+dVmLQEL3FN1Pjug=;
+	s=k20260515; t=1784270430;
+	bh=ntdtYYbxT8lWfG7Ot8mUACyVZP38aVvo7RkRq+TKsIg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MtxfQbJP9qmEz0Rj5q9ZDsk1cKzW2+u7/oDJAc4FfCaZMbwZ0DtQ0HBIo/gIFSCgA
-	 CJfgkzXee+Jo+KIA1xVcFBj/AAw6xw3akbrAQQtNGD4PVG/erlV0cHfg6Yr/1HkvzV
-	 B3i+IR48la1BEEU6MqYVBxh5RxB/HZ6LZevpQPWGjFzUe8Y4FIKL3O7ZjJVMs7WtzY
-	 ttrK95uNRFqdlRJ/VOYvx6DqWdnUYSXk/m3L89gEwMc5AYwPTojftfjqQI5wmg76s2
-	 v4rOSGbYzo9hp6bWcKtGLKLlN6TE0LDOMFYsUZ46irIG9ZE+SJ5IR8B0LyOPW56z2F
-	 iJYdeMD1M9ICg==
-Date: Fri, 17 Jul 2026 05:53:31 +0000
+	b=g9PQh8otR7NwPeg4ZytuLSwAeMCjmBeyxGhmKhAYeMqZzWzDnHfeRVIEVwkERyLy1
+	 3gZP1hU6JYiCvHj2WrGZWnvExucP000B9cfUiRl1XBGIyuetRDa1C/WCGbsVb+frB4
+	 22ng4yXcndp70o07kqOAusvk69srMeM4/9nI8N63T2TD6xxZ0b2l7qP27oK64VIoRd
+	 4p+ER2U1zZwJrep6PbvjYx0MoMYQpF7lh92Bgy0IbVYVPVhq1nXpep+dAb5cqfSRQ/
+	 Al0r9uAh7lm+PE2SZZrwi1X2nLqNZSuX9hbz9i4xFMYIbex36p1FpvMAKKt9UYnOt5
+	 OmFvWJcx0QTfA==
+Date: Fri, 17 Jul 2026 06:40:27 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Sean Rhodes <sean@starlabs.systems>
-Cc: hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
-	corentin.chary@gmail.com, luke@ljones.dev, denis.benato@linux.dev,
-	prasanth.ksr@dell.com, jorge.lopez2@hp.com,
-	mpearson-lenovo@squebb.ca, derekjohn.clark@gmail.com,
-	josh@joshuagrisham.com, briannorris@chromium.org,
-	jwerner@chromium.org, tzimmermann@suse.de, javierm@redhat.com,
-	kees@kernel.org, u.kleine-koenig@baylibre.com, mst@redhat.com,
-	chenhuacai@kernel.org, wenst@chromium.org,
-	florian.fainelli@broadcom.com, titouan.ameline@gmail.com,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	Dell.Client.Kernel@dell.com, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v6 3/3] firmware: coreboot: Add CFR firmware attributes
- driver
-Message-ID: <alnDWxTSZv5DKcB9@google.com>
-References: <20260713054526.2902319-1-sean@starlabs.systems>
- <20260713081317.2954586-1-sean@starlabs.systems>
- <20260713081317.2954586-4-sean@starlabs.systems>
+To: Lee Jones <lee@kernel.org>
+Cc: Andrei Kuchynski <akuchynski@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] mfd: cros_ec: Read EC features during probe to
+ catch transfer error
+Message-ID: <alnOW6HH02WHDq7w@google.com>
+References: <20260608211518.2214740-1-akuchynski@chromium.org>
+ <20260608211518.2214740-3-akuchynski@chromium.org>
+ <20260618084037.GA1672911@google.com>
+ <ajO6_zXQKxbdCxhz@google.com>
+ <20260618112102.GE1672911@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -54,139 +50,63 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260713081317.2954586-4-sean@starlabs.systems>
+In-Reply-To: <20260618112102.GE1672911@google.com>
 
-On Mon, Jul 13, 2026 at 09:13:17AM +0100, Sean Rhodes wrote:
-> diff --git a/drivers/firmware/coreboot/coreboot-cfr.c b/drivers/firmware/coreboot/coreboot-cfr.c
-...
-> +static const struct coreboot_table_entry *
-> +coreboot_cfr_child_entry(const void *base, size_t len, u32 tag)
-> +{
-> +	const struct coreboot_table_entry *entry;
-> +	size_t off = 0;
-> +
-> +	while (off < len) {
+On Thu, Jun 18, 2026 at 12:21:02PM +0100, Lee Jones wrote:
+> On Thu, 18 Jun 2026, Tzung-Bi Shih wrote:
+> 
+> > On Thu, Jun 18, 2026 at 09:40:37AM +0100, Lee Jones wrote:
+> > > On Mon, 08 Jun 2026, Andrei Kuchynski wrote:
+> > > 
+> > > > cros_ec_check_features() does not return an error if the underlying
+> > > > EC_CMD_GET_FEATURES command fails. Consequently, when the Fingerprint
+> > > > device fails to respond, the probe function ignores the failure and falls
+> > > > back to installing it as 'cros_ec' device instead of 'cros_fp'.
+> > > > This leads to a sysfs duplicate filename collision later when the real
+> > > > 'cros_ec' device attempts to register:
+> > > > 
+> > > >   cros-ec-spi spi5.0: EC failed to respond in time
+> > > >   cros-ec-dev.19.auto: cannot get EC features: -110
+> > > >   sysfs : cannot create duplicate filename '/class/chromeos/cros_ec'
+> > > >         : sysfs_do_create_link_sd+0x94/0xdc
+> > > >         : ec_device_probe+0x150/0x4f0
+> > > > 
+> > > > Fix this by explicitly calling the newly introduced cros_ec_read_features()
+> > > > function. If the transfer fails, abort the broken device initialization.
+> > > > Move the initialization of class_dev before this call to prevent a missing
+> > > > release() callback warning on the error path.
+> > > > 
+> > > > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> > > > ---
+> > > >  drivers/mfd/cros_ec_dev.c | 18 +++++++++++-------
+> > > >  1 file changed, 11 insertions(+), 7 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+> > > > index 39430dd44e30c..a8c6300248d59 100644
+> > > > --- a/drivers/mfd/cros_ec_dev.c
+> > > > +++ b/drivers/mfd/cros_ec_dev.c
+> > > > @@ -203,6 +203,17 @@ static int ec_device_probe(struct platform_device *pdev)
+> > > >  	ec->features.flags[1] = -1U; /* Not cached yet */
+> > > >  	device_initialize(&ec->class_dev);
+> > > >  
+> > > > +	/*
+> > > > +	 * Add the class device
+> > > > +	 */
+> > > > +	ec->class_dev.class = &cros_class;
+> > > > +	ec->class_dev.parent = dev;
+> > > > +	ec->class_dev.release = cros_ec_class_release;
+> > > > +
+> > > > +	retval = cros_ec_read_features(ec);
+> > > 
+> > > This depends on the other patch.
+> > > 
+> > > Once it's been Reviewed / Acked, I'd be happy to take both and submit an IB.
+> > 
+> > FWIW: I gave my A-b tag in v1 and it has been carried to [PATCH v2 1/2]
+> > platform/chrome: cros_ec_proto: Introduce cros_ec_read_features helper.
+> 
+> I see it.  Thank you.
+> 
+> Note to self: Take the set after -rc1
 
-To be concise,
-
-    for (off = 0; off < len; off += entry->size)
-
-> +static bool coreboot_cfr_value_is_valid(struct coreboot_cfr_setting *setting,
-> +					u32 value)
-> +{
-> +	u32 delta;
-> +
-> +	if (setting->type != COREBOOT_CFR_SETTING_NUMBER)
-> +		return coreboot_cfr_label_from_value(setting, value);
-
-This deserves a comment as coreboot_cfr_label_from_value() returns a `char *`
-instead of bool.
-
-> +static ssize_t possible_values_show(struct kobject *kobj,
-> +				    struct kobj_attribute *attr, char *buf)
-> +{
-> +	struct coreboot_cfr_setting *setting = to_coreboot_cfr_setting(kobj);
-> +	ssize_t len = 0;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < setting->n_values; i++) {
-> +		len += sysfs_emit_at(buf, len, "%s%s", i ? ";" : "",
-> +				     setting->values[i].label);
-> +		if (len >= PAGE_SIZE)
-> +			return len;
-
-Does it really need the check?
-
-> +static int coreboot_cfr_count_enum_values(const void *base, size_t len)
-> +{
-> +	const struct coreboot_table_entry *entry;
-> +	size_t off = 0;
-> +	int count = 0;
-> +
-> +	while (off < len) {
-
-To be consie,
-
-    for (off = 0; off < len; off += entry->size)
-
-> +static int coreboot_cfr_copy_enum_values(struct coreboot_cfr_setting *setting,
-> +					 const void *base, size_t len)
-> +{
-> +	const struct lb_cfr_enum_value *enum_value;
-> +	const struct lb_cfr_varbinary *label;
-> +	const struct coreboot_table_entry *entry;
-> +	size_t off = 0;
-> +	int count;
-> +
-> +	count = coreboot_cfr_count_enum_values(base, len);
-> +	if (count <= 0)
-> +		return count ?: -EINVAL;
-> +
-> +	setting->values = kcalloc(count, sizeof(*setting->values), GFP_KERNEL);
-> +	if (!setting->values)
-> +		return -ENOMEM;
-> +
-> +	while (off < len) {
-
-To be consie,
-
-    for (off = 0; off < len; off += entry->size)
-
-> +static int coreboot_cfr_parse_records(struct coreboot_cfr_drvdata *data,
-> +				      const void *base, size_t len)
-> +{
-> +	const struct coreboot_table_entry *entry;
-> +	const void *child_base;
-> +	size_t child_len;
-> +	size_t off = 0;
-> +	int ret;
-> +
-> +	while (off < len) {
-
-To be concise,
-
-    for (off = 0; off < len; off += entry->size)
-
-> +		switch (entry->tag) {
-> +		case CFR_TAG_OPTION_FORM:
-> +			if (entry->size < sizeof(struct lb_cfr_option_form))
-> +				return -EINVAL;
-> +
-> +			child_base = base + off + sizeof(struct lb_cfr_option_form);
-> +			child_len = entry->size - sizeof(struct lb_cfr_option_form);
-> +			ret = coreboot_cfr_parse_records(data, child_base,
-> +							 child_len);
-> +			if (ret)
-> +				return ret;
-> +			break;
-> +		case CFR_TAG_OPTION_ENUM:
-> +		case CFR_TAG_OPTION_NUMBER:
-> +		case CFR_TAG_OPTION_BOOL:
-> +			if (entry->size < sizeof(struct lb_cfr_numeric_option))
-> +				return -EINVAL;
-> +			ret = coreboot_cfr_add_numeric_option(data, base + off);
-> +			if (ret)
-> +				return ret;
-> +			break;
-> +		default:
-> +			break;
-
-Doesn't it need to do anything if sees unknown `entry->tag`?
-
-> +static int coreboot_cfr_probe(struct coreboot_device *dev)
-> +{
-...
-> +	data->class_dev = device_create(&firmware_attributes_class, NULL,
-> +					MKDEV(0, 0), NULL, DRIVER_NAME);
-> +	if (IS_ERR(data->class_dev)) {
-> +		ret = PTR_ERR(data->class_dev);
-> +		goto err_clear_data;
-
-No more data to clear,
-
-    return PTR_ERR(...);
-
-> +err_clear_data:
-> +	return ret;
-
-Nothing to do other than a return.  The label can be removed.
+Just a reminder: The series isn't yet in your for-mfd-next branch.

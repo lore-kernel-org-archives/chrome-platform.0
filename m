@@ -1,112 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C58384242;
-	Fri, 17 Jul 2026 06:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC433DDAF9
+	for <chrome-platform@lists.linux.dev>; Fri, 17 Jul 2026 07:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784270445; cv=none; b=TWZpQFwx8HW9QV+1YiaSVmY2hSU5MoBRHTThjMssGgVI6F1lWsT8XqFm06EmoZwFi2hXK1nP2aPVTSU+4vTMvgNTuqi1oG/vF4m0G5oUzJOe0SxbHIdMu5g5zXRkcu2p3aKJiBsDWddmesHP09Ld+v7yLLmDbR163a/WNcdzfPw=
+	t=1784273054; cv=none; b=IDX2UnE+rx2iBP7Aqr8N5snSFyoHboyXK+pxpO98OGvkCcHt5JQ87ZIlD4lREiXnW/mo+CtPhStV7u0aw8iqTkldTBpSOyguIcIkBdstkc+ulJwhFJQGZXxR+yJ6DgsMk3YeIzFuRGANa0s1VCCGEvIr6qCmi+4kKVIn2a6Ad+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784270445; c=relaxed/simple;
-	bh=zBxiuJMbHmtQLrSFZQZPQctBoIdsyiRe49DmRrkNFlE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NbbH6w/K68Bh1QdFQCqfQJ4oPlMcet3rIhc2NGGSvpTCrsSihHJAyZd/rIuOBhkgV/VZGpdBJ++2UDmPUXc/m1o2Xc26LfEq8WR7x2Rf4mpQtCDK2te/rfcD2k/D6XCx7u6zfDX+srn2yRLcHzYYyvIYLACsCC0DQp+9dEWbjI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9PQh8ot; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784273054; c=relaxed/simple;
+	bh=6LddWbayDhqBr+mty7GrSodLfAslCJE6lEPzx7jXovQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Oi8t2mCt29eg1NW+NxNk2VOgZKY28rU+ZAG0udZIpzaxG+HfWiQZ93h1B8QcEsncd1yTMehGgxqUbN8eOVCpjUBZPJmFeM154TqP9uhjLdmpZkN6wEAZgvgiTloKo9KNpOtAwfszah12O26Qxh5JSyvbY1i+AXCMeJnRPE7r2uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=m54nVywl; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9PQh8ot"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3379F1F000E9;
-	Fri, 17 Jul 2026 06:40:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784270430;
-	bh=ntdtYYbxT8lWfG7Ot8mUACyVZP38aVvo7RkRq+TKsIg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=g9PQh8otR7NwPeg4ZytuLSwAeMCjmBeyxGhmKhAYeMqZzWzDnHfeRVIEVwkERyLy1
-	 3gZP1hU6JYiCvHj2WrGZWnvExucP000B9cfUiRl1XBGIyuetRDa1C/WCGbsVb+frB4
-	 22ng4yXcndp70o07kqOAusvk69srMeM4/9nI8N63T2TD6xxZ0b2l7qP27oK64VIoRd
-	 4p+ER2U1zZwJrep6PbvjYx0MoMYQpF7lh92Bgy0IbVYVPVhq1nXpep+dAb5cqfSRQ/
-	 Al0r9uAh7lm+PE2SZZrwi1X2nLqNZSuX9hbz9i4xFMYIbex36p1FpvMAKKt9UYnOt5
-	 OmFvWJcx0QTfA==
-Date: Fri, 17 Jul 2026 06:40:27 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Andrei Kuchynski <akuchynski@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Gwendal Grignou <gwendal@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] mfd: cros_ec: Read EC features during probe to
- catch transfer error
-Message-ID: <alnOW6HH02WHDq7w@google.com>
-References: <20260608211518.2214740-1-akuchynski@chromium.org>
- <20260608211518.2214740-3-akuchynski@chromium.org>
- <20260618084037.GA1672911@google.com>
- <ajO6_zXQKxbdCxhz@google.com>
- <20260618112102.GE1672911@google.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="m54nVywl"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-51c29b46382so55433561cf.3
+        for <chrome-platform@lists.linux.dev>; Fri, 17 Jul 2026 00:24:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1784273049; x=1784877849; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=NFvtOxGkE6aSbQNqSK8ps28qSiGVzcrWy2iCMih2Vew=;
+        b=m54nVywl3rOnjaSPp7YxoiQ1DOSGJgTIfaiFBI8x6KpHRpuWlWOZpm7oZy6Uli7dyx
+         OHu2Jyz6yPy+f+3SCuwDBlIfsavSLbCcuGLRiFN4UhIJa7xqpKo0t4dR5vjTXZgZE2nx
+         1FIPBarx+IXq44WcBV1ODCA9wbaufDpq5ys9Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784273049; x=1784877849;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NFvtOxGkE6aSbQNqSK8ps28qSiGVzcrWy2iCMih2Vew=;
+        b=XZFOiz1N/ubpbpvOAxgcw3tp4lBXMYR181AaS0ehYW2TOy8crika4zVt9feNrYOeZV
+         8BDhAef6u2yMSAQyKF7Z89vZCGSjr9uQwwRZpI3TqQtZsu2uLF8vgOgyLa4xqojQF7iR
+         fYT+JIlLTeSk6mOHMIX68Xm8z3Ltf32eURRHiXdKba/3SZckivFKngVex0wQ/4JzRjqI
+         7w5UZa/uPr951t1lkWR9bDIeRVFAKQaMag7Eop+TP6YCxe24k5RXw2sl4O4m4RLMuwAr
+         DX36HvqejsgRM71bBmrJM3f+TmzyDAxm5JjUeZWWiDglG6vi1fMYAFqB+K0fcXEazIvK
+         4oDA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp1JSo7c91RUmQzcuqFRIOq4qY4JNsuLazplokH6mR0ICcU5vE+ddZPepVDxyzzvVDSJyQangBDMKW9A7egPl0=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxRAYil0MYw/LptRzFd2KFuBBhoWRcb9kw6NfAlh58rA2Xp2DCG
+	1f29oJRVMvWOeIMs8khOBzgwAbrR7oo7xPOauFWoFeFts3T0Xx2fpSp/ngTmaT1ttOjpk5yp3Zd
+	niNY=
+X-Gm-Gg: AfdE7cnWBBSNmedeSUZLGpRxzlZRTtp9Q/TsW2FRzErKh/sL5Scw1gxLmIDSEyLE+49
+	3zZnGuuCmzTNEICtlhWp1oW+DlJVgz+KsByfXesh7SmY2LpROGNcY48gXCm7L1scn14K20rXYja
+	OT93KMLTqKHq5k+i0y0lzB97M8ce3fw9PgvRB/ZSjhmiDrYiPS7SEED065Pl688PylOse/lCmMM
+	Dx2z0vuLV2mygvNCO9KJaSlUw+t8Tb5mRF6Z3+rilPPRf1nOkd0+0dNpt+dEFANYYqG71b2Y63J
+	mMRxAGuxebd6O1l2M+EnnGfsPN1/urer2UeOEv4bO9EZiOXSRXJw1HwF32AtfnWuFthBVXs5Gcs
+	MYoRkPFPmiLBR15JA6sjn77+E+gKF9RGqb8xjPbfl1+1GWGA6ukF0o11wurAyRfGVDHj/T1ANb0
+	C8NrsK0QqNonf6aN1jlxskOrv4zemF/MW16JsaCdkGFcOyxHc=
+X-Received: by 2002:ac8:594f:0:b0:517:59a1:82cb with SMTP id d75a77b69052e-5213e28e183mr11831741cf.48.1784273048561;
+        Fri, 17 Jul 2026 00:24:08 -0700 (PDT)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com. [209.85.160.169])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214c5cb721sm6349151cf.1.2026.07.17.00.24.07
+        for <chrome-platform@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jul 2026 00:24:07 -0700 (PDT)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c10e86e52so293151cf.1
+        for <chrome-platform@lists.linux.dev>; Fri, 17 Jul 2026 00:24:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrN3d/Dkku/K439F0UTjvmTDKxEFRpIznNkAPFbjQac2DRmq+ele/lCplCm8MCmnfNAT+uiBOBa9MJ+F2pfslM=@lists.linux.dev
+X-Received: by 2002:ac8:59c1:0:b0:51c:289:6979 with SMTP id
+ d75a77b69052e-520ff10b2cfmr5359341cf.21.1784273046872; Fri, 17 Jul 2026
+ 00:24:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618112102.GE1672911@google.com>
+References: <20260714-coreboot-v1-1-f59754d71b55@chromium.org> <aliLyZOubSa6ARfS@google.com>
+In-Reply-To: <aliLyZOubSa6ARfS@google.com>
+From: Hsin-Te Yuan <yuanhsinte@chromium.org>
+Date: Fri, 17 Jul 2026 15:23:30 +0800
+X-Gmail-Original-Message-ID: <CAHc4DNJwVOa-j5D3SiSiXTzA8MGq9p_RxYHXjXSd1po=uDHPqw@mail.gmail.com>
+X-Gm-Features: AUfX_myS2l_B-pstLeRDjOyrK1ob0_E4XEac1l7yfVdIYShznlnOysOj9TTJ2fM
+Message-ID: <CAHc4DNJwVOa-j5D3SiSiXTzA8MGq9p_RxYHXjXSd1po=uDHPqw@mail.gmail.com>
+Subject: Re: [PATCH] firmware: google: coreboot_table: skip no-map CBMEM entries
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Hsin-Te Yuan <yuanhsinte@chromium.org>, Brian Norris <briannorris@chromium.org>, 
+	Julius Werner <jwerner@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Yidi Lin <yidilin@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 18, 2026 at 12:21:02PM +0100, Lee Jones wrote:
-> On Thu, 18 Jun 2026, Tzung-Bi Shih wrote:
-> 
-> > On Thu, Jun 18, 2026 at 09:40:37AM +0100, Lee Jones wrote:
-> > > On Mon, 08 Jun 2026, Andrei Kuchynski wrote:
-> > > 
-> > > > cros_ec_check_features() does not return an error if the underlying
-> > > > EC_CMD_GET_FEATURES command fails. Consequently, when the Fingerprint
-> > > > device fails to respond, the probe function ignores the failure and falls
-> > > > back to installing it as 'cros_ec' device instead of 'cros_fp'.
-> > > > This leads to a sysfs duplicate filename collision later when the real
-> > > > 'cros_ec' device attempts to register:
-> > > > 
-> > > >   cros-ec-spi spi5.0: EC failed to respond in time
-> > > >   cros-ec-dev.19.auto: cannot get EC features: -110
-> > > >   sysfs : cannot create duplicate filename '/class/chromeos/cros_ec'
-> > > >         : sysfs_do_create_link_sd+0x94/0xdc
-> > > >         : ec_device_probe+0x150/0x4f0
-> > > > 
-> > > > Fix this by explicitly calling the newly introduced cros_ec_read_features()
-> > > > function. If the transfer fails, abort the broken device initialization.
-> > > > Move the initialization of class_dev before this call to prevent a missing
-> > > > release() callback warning on the error path.
-> > > > 
-> > > > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> > > > ---
-> > > >  drivers/mfd/cros_ec_dev.c | 18 +++++++++++-------
-> > > >  1 file changed, 11 insertions(+), 7 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> > > > index 39430dd44e30c..a8c6300248d59 100644
-> > > > --- a/drivers/mfd/cros_ec_dev.c
-> > > > +++ b/drivers/mfd/cros_ec_dev.c
-> > > > @@ -203,6 +203,17 @@ static int ec_device_probe(struct platform_device *pdev)
-> > > >  	ec->features.flags[1] = -1U; /* Not cached yet */
-> > > >  	device_initialize(&ec->class_dev);
-> > > >  
-> > > > +	/*
-> > > > +	 * Add the class device
-> > > > +	 */
-> > > > +	ec->class_dev.class = &cros_class;
-> > > > +	ec->class_dev.parent = dev;
-> > > > +	ec->class_dev.release = cros_ec_class_release;
-> > > > +
-> > > > +	retval = cros_ec_read_features(ec);
-> > > 
-> > > This depends on the other patch.
-> > > 
-> > > Once it's been Reviewed / Acked, I'd be happy to take both and submit an IB.
-> > 
-> > FWIW: I gave my A-b tag in v1 and it has been carried to [PATCH v2 1/2]
-> > platform/chrome: cros_ec_proto: Introduce cros_ec_read_features helper.
-> 
-> I see it.  Thank you.
-> 
-> Note to self: Take the set after -rc1
+On Thu, Jul 16, 2026 at 3:44=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Tue, Jul 14, 2026 at 09:19:18AM +0000, Hsin-Te Yuan wrote:
+> > @@ -147,6 +149,23 @@ static int coreboot_table_populate(struct device *=
+dev, void *ptr, resource_size_
+> >
+> >               switch (device->entry.tag) {
+> >               case LB_TAG_CBMEM_ENTRY:
+> > +                     /*
+> > +                      * Skip entries that are not exclusively System R=
+AM or
+> > +                      * Reserved memory.
+> > +                      * On ARM, no-map reserved regions are not System=
+ RAM.
+> > +                      * On x86, CBMEM often resides in IORES_DESC_RESE=
+RVED regions.
+> > +                      */
+> > +                     if (region_intersects(device->cbmem_entry.address=
+,
+> > +                                           device->cbmem_entry.entry_s=
+ize,
+> > +                                           IORESOURCE_SYSTEM_RAM,
+> > +                                           IORES_DESC_NONE) !=3D REGIO=
+N_INTERSECTS &&
+> > +                         region_intersects(device->cbmem_entry.address=
+,
+> > +                                           device->cbmem_entry.entry_s=
+ize,
+> > +                                           IORESOURCE_MEM,
+> > +                                           IORES_DESC_RESERVED) !=3D R=
+EGION_INTERSECTS) {
+>
+> Per comments of region_intersects():
+>     Note that REGION_INTERSECTS is also returned in the case when the
+>     specified region overlaps RAM and undefined memory holes.
+>
+> Won't the check falsely be bypassed if the region overlaps SYSTEM_RAM
+> and `no-map` memory?
 
-Just a reminder: The series isn't yet in your for-mfd-next branch.
+Just discussed this with Yidi Lin.
+It seems that 'no-map' region will be marked as IORESOURCE_MEM instead
+of undefined memory holes
+(See arch/arm64/kernel/setup.c:request_standard_resources). If a cbmem
+entry contains a real memory
+hole, it is likely a coreboot bug.

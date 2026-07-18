@@ -1,347 +1,240 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F0D2475F7
-	for <chrome-platform@lists.linux.dev>; Sat, 18 Jul 2026 02:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784341338; cv=none; b=oUAbUrZQlASumIVFQM4ZhZpvsL5wnt9BKKExxltwKN56Ml2fzqorEGY0FSzmaAAziQwcQ1Rs1xQgAzI5iXxFvOTFn7PFHBvL4aE19oPLhTA5fcif3c2I1JtTSFMcf1BZwxoIKQloBt11oH9CKZqQllh1IA4YeQa+yukULIhLqPU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784341338; c=relaxed/simple;
-	bh=Edh2TrG99oQiXSL/ZsaqNhwjoJJlC/LprqcxSVNNNVU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=Ub3YsIkSA/EB2U0uHuDsn8B7fMF46j7jcQJlGz2Kg4Cc+dk80YhnbQ36vkQeBFTFgzWkqA/9GM1cVOTZ4Ix5vyheH7bGDPkBuC72SU1hwDeckqRl3txPEvAdl97/BXrMMKyEThbH6eOS6HVQjMher2A2Cdp6lJRafqVOxJYMRX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xt6l7WS0; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C670B2DECBA
+	for <chrome-platform@lists.linux.dev>; Sat, 18 Jul 2026 17:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784394526; cv=pass; b=m/sjG76PukHp4Q8qARXJM5FuRsgGp4sgzz9w18S78FOGdyS/NicWyazCV7zlLH1BNrpsReP3j67m0JZZRnKzi/cRScow7aXTDH0lVHryVd2LOeCx71AClimiUoLI0qCHTn9z8DRTCtM6aBFngVOOV+UWiNoWAaRuIxNADD49QxY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784394526; c=relaxed/simple;
+	bh=ijZLfcs0eg+oBkPLQI0woIDz/too34O9XZAZ9tBP5Ao=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=d4bn05sgEe20c67mslA6GnxQCyQ8aRfi0Uqce0uaQ+gn+dnfuvF5Rl3r2N/lCsfdt2VskIjdbCySTmwpNvESnKi0PzZyIPa6inuqM9c3uCAyCC/jnZY3SOMMcxqbm7ZS6nI4E+SjTtH0fWOnLMjX4Roeyp8C38QxPh8MjiQFgf4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=etlLisA0; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xt6l7WS0"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c96c92c0980so3360730a12.3
-        for <chrome-platform@lists.linux.dev>; Fri, 17 Jul 2026 19:22:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784341334; x=1784946134; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :references:in-reply-to:user-agent:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=ExB1p3Z3IT7x/9bhPdQsOZ/rnXj+b/pRJqJqdJYDkHU=;
-        b=Xt6l7WS0OSHuQ80PF3y50+F2h+qYP5KCKfubXTw2PNOgkekKzMOQJEa3P9x0gDYZPe
-         unDS4p5m0tieBKhM9vW7whPze8JLKjz0NjQz4XmF1BclaYChFkCnV3e+x/I7vW2B1PVd
-         tuhrCg/GSfW8RbvtDt3Zd32Z5M+xKh531CUw8+UXOTuiqsSc/BIdkNtC9nU+HwE5rQ0n
-         djPXwx5sdZE8i/9luvjF+eE9Xe8ZQ/INi7pUwvQ3R4eZikwZ3lKAb93cbyFN6bez2EtN
-         AHnvPb2i5cMU7/4DSqOwUCckvmKuRXrQ9tRxprzwpuFe6vIH82quSnfO02ZIr+oXHPb9
-         o5jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784341334; x=1784946134;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :references:in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ExB1p3Z3IT7x/9bhPdQsOZ/rnXj+b/pRJqJqdJYDkHU=;
-        b=TLqk7Vz5ErZczMOua7dO24YUuI/4J2+kIlGnmQrrPDx6xbUPQVtnF5hsCYr4x7a2ln
-         lTrfgg4jaQIUa+dRAF/xRqTMhJFMpZir4/wW1MU91hlTnSF5LC1EuEmAroF60664x3HR
-         zhnplp8rB3gfU4oGQ21+wce788/rH3vlZUjSLLMYPPv9C0foU29dFpynsrXXefNnTFkd
-         8QXr4lBSeyZiVjuDRH/Eu+i2yqBcc/G1cZiP5HlsMWLVXq3JSXU6yVe0UVg9VyK31p4H
-         yH6b0XCLanGSVWt8rj6rL8FtGr8pevEyqEfvlC8NgDEDRFmnb4YTh1rLZZDPHaH2OF6O
-         eOAg==
-X-Forwarded-Encrypted: i=1; AHgh+RrduYnaUR8V/5g7e5tACxqYnh+Ib+0b0UHQ+TYrzyucF/D139kzNqxx1p48Z7z8S2FoAp95vUFn3wrfuFTjdH0=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw52HA+QbKVDz8gPDOPC4No7G/YK3C/5iLh5WHX7mhy0zLFao/S
-	znK0VijtPXOLvWrcbwkebOaoYoMuSsaJUxd+/VZb4gOpNoY3FhPVBlad
-X-Gm-Gg: AfdE7ckUf9EQVQl/d4L6bRm/SiIfo6uYrYBIweEkzqkEyX/p0IoW9e0JnM/qUEaTGUy
-	MGUTcK8hvgMLNqwhhFAVgrzOGcJEMi+e/XlX23fZuSgNngQBm/B03CSwOcFse4RYD5Px/nH0GV4
-	t2B/Qf+ZWyQkuXHIYXlE239hPq+K1qWnfrZ5MPdOXXM6cAGHEC9sYbnEbgUaiMJl7TX1nc+0nhE
-	dJk+rHkxm0tSQBkOZWLWjKa+EWL2Co5Tlet3hyVtxhqRGKPSd5bF6SUiQF1jsjLddAVjd6yzn6d
-	sKKBgSlVT8v70dPsGtWezT41xYwFqoh1ctJWyky7VaL3/hDLir0AckE6wFk0IBikYIdm8T0VQQL
-	VX1sVT4s3d17Dg5H072aoX1+tHg/pzojKl6f9zdrUE6mwxETPaV1Ab/6jpbicRF56c33lK9eT4h
-	sFMMLu9foayj7f5PTGeuMhJeLUEvHFf7LzlOpWIU+n1ASr9lFgcSnQccQ0k2p+O/pXUJkNXllW
-X-Received: by 2002:a05:6300:95:b0:3b4:5ff3:45cb with SMTP id adf61e73a8af0-3c3ad79fb45mr5829768637.8.1784341334288;
-        Fri, 17 Jul 2026 19:22:14 -0700 (PDT)
-Received: from ehlo.thunderbird.net (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a20c158sm12581874eec.29.2026.07.17.19.22.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jul 2026 19:22:13 -0700 (PDT)
-Date: Fri, 17 Jul 2026 19:22:08 -0700
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Sean Rhodes <sean@starlabs.systems>, tzungbi@kernel.org
-CC: hansg@kernel.org, ilpo.jarvinen@linux.intel.com, corentin.chary@gmail.com,
- luke@ljones.dev, denis.benato@linux.dev, prasanth.ksr@dell.com,
- jorge.lopez2@hp.com, mpearson-lenovo@squebb.ca, josh@joshuagrisham.com,
- briannorris@chromium.org, jwerner@chromium.org, tzimmermann@suse.de,
- javierm@redhat.com, kees@kernel.org, u.kleine-koenig@baylibre.com,
- mst@redhat.com, chenhuacai@kernel.org, wenst@chromium.org,
- florian.fainelli@broadcom.com, titouan.ameline@gmail.com,
- oliver@liuxiaozhen.dev, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com,
- chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v7 1/3] firmware: Move firmware attributes class helper
-User-Agent: Thunderbird for Android
-In-Reply-To: <20260717085003.369496-2-sean@starlabs.systems>
-References: <20260717085003.369496-1-sean@starlabs.systems> <20260717085003.369496-2-sean@starlabs.systems>
-Message-ID: <99A0E55C-A79E-4BBC-B7E6-B5F4172F62AD@gmail.com>
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="etlLisA0"
+ARC-Seal: i=1; a=rsa-sha256; t=1784394516; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=CEaNPczeyeWan5bKVIbS2xoAC3cwYyDX4XiOLfOU+7TGNkC4ieCyS8k+3pwRpiKeFN3l9V5AuCd1JjOhk7Y3aWzufLzTqxLmUbnxrMtKksRdraePmzsNOBdfphwEBmoJO0qsCKkx98GosgBUgCr2VIpSV4cyfLX6PlyKphv6TvI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1784394516; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=yEcQMJ2uilpqbJoSeB042K1dOkVY9rZR9+oysRxy/tc=; 
+	b=Sa0TKv5qAYK+8rmIL+LH1LE25XdaByNJm0L/nnDwIMTZJiOuCOgkr1E5FsF10ISUdfj0SNAyerk4jENw+Vc9W9pSIMjVm8rLP5rxC9fqrrDFLpdG5Z6Yaq2HkPHlBFd7F1E3pzxQcxY1ljtmf61myWBNaBfgRMyrT49HAxPF+oA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784394516;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=yEcQMJ2uilpqbJoSeB042K1dOkVY9rZR9+oysRxy/tc=;
+	b=etlLisA0/o/OsJBnLAV9Ca82nM1uijGpERVXzouCJM8U4Zmp/jdUD8WJd4yPLczd
+	VkYJ/0esEDTZigGh/5Uo19/jqFA/QxQ9Im9s+9eTJqRUdRqOBhkzAPv32rrlkXoewzm
+	3kqSzigNOGJCuR6ZNQSxkddMP285BpCC413ytA2noVhEfH1XAov8y4DC1whozY6+7EA
+	IConQUfErk4eOEUO3UQCutpC2CAYPET3WfM/Rc6B4/Miqmu4gUX30V/ruNYmlkKNXih
+	Xr1Q33I35QSoS3zQoJ+6tzrf/XUYJz8uCnMzAutZmnRXRP2/a+Q/wP+dOH+EEwosvz5
+	7P7Ujmy+lw==
+Received: by mx.zohomail.com with SMTPS id 1784394514705190.38031886932026;
+	Sat, 18 Jul 2026 10:08:34 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+Subject: [PATCH RFC v3 00/11] leds: Add support for hardware-initiated
+ hardware control trigger transition
+Date: Sun, 19 Jul 2026 01:05:17 +0800
+Message-Id: <20260719-leds-trigger-hw-changed-v3-0-5fb55722e36e@rong.moe>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNQQ6CMBREr0L+2m9Kgaa6MjHxAG4NC2g/pQapa
+ RE1hLsLZe1yJm/mTRDIWwpwTCbwNNpgXb+EbJeAaqveEFq9ZOCMC1YwgR3pgIO3xpDH9o0bpfE
+ gKsFTKVWtG1jWT0+N/cTnG1wvZyi3MrzqO6lh/Vyx1obB+W/0jzzCUSVS+Vc1cmSouFR5zopMN
+ dnJu97sH46gnOf5B3CSKynUAAAA
+X-Change-ID: 20260506-leds-trigger-hw-changed-96a62188cbdf
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Ike Panhc <ikepanhc@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
+ Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, 
+ linux-leds@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+ Rong Zhang <i@rong.moe>
+X-Mailer: b4 0.16-dev-4217c
+X-ZohoMailClient: External
 
-On July 17, 2026 1:50:01 AM PDT, Sean Rhodes <sean@starlabs=2Esystems> wrot=
-e:
->Move the firmware attributes class helper from drivers/platform/x86 to
->drivers/firmware and expose its class declaration through a public Linux
->header=2E
->
->The helper is not x86-specific=2E Keeping it in firmware lets coreboot
->firmware drivers use the standard firmware-attributes ABI without living
->under platform/x86=2E
->
->Reviewed-by: Mark Pearson <mpearson-lenovo@squebb=2Eca>
->Reviewed-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
->Tested-by: Oliver Lin <oliver@liuxiaozhen=2Edev>
->Signed-off-by: Sean Rhodes <sean@starlabs=2Esystems>
->---
-> MAINTAINERS                                               | 8 ++++++++
-> drivers/firmware/Kconfig                                  | 3 +++
-> drivers/firmware/Makefile                                 | 1 +
-> =2E=2E=2E/x86 =3D> firmware}/firmware_attributes_class=2Ec          | 2 =
-+-
-> drivers/platform/x86/Kconfig                              | 3 ---
-> drivers/platform/x86/Makefile                             | 2 --
-> drivers/platform/x86/asus-armoury=2Ec                       | 2 +-
-> drivers/platform/x86/dell/dell-wmi-sysman/sysman=2Ec        | 2 +-
-> drivers/platform/x86/hp/hp-bioscfg/bioscfg=2Ec              | 2 +-
-> drivers/platform/x86/lenovo/think-lmi=2Ec                   | 2 +-
-> drivers/platform/x86/lenovo/wmi-other=2Ec                   | 2 +-
-> drivers/platform/x86/samsung-galaxybook=2Ec                 | 2 +-
-> =2E=2E=2E/linux/firmware_attributes=2Eh                           | 6 ++=
-+---
-> 13 files changed, 22 insertions(+), 15 deletions(-)
-> rename drivers/{platform/x86 =3D> firmware}/firmware_attributes_class=2E=
-c (94%)
-> rename drivers/platform/x86/firmware_attributes_class=2Eh =3D> include/l=
-inux/firmware_attributes=2Eh (60%)
->
->diff --git a/MAINTAINERS b/MAINTAINERS
->index f37a81950e25=2E=2E07bdba98b1b1 100644
->--- a/MAINTAINERS
->+++ b/MAINTAINERS
->@@ -10114,6 +10114,14 @@ F:	include/linux/firewire=2Eh
-> F:	include/uapi/linux/firewire*=2Eh
-> F:	tools/firewire/
->=20
->+FIRMWARE ATTRIBUTES CLASS
->+M:	Hans de Goede <hansg@kernel=2Eorg>
->+M:	Ilpo J=C3=A4rvinen <ilpo=2Ejarvinen@linux=2Eintel=2Ecom>
->+L:	platform-driver-x86@vger=2Ekernel=2Eorg
->+S:	Maintained
->+F:	drivers/firmware/firmware_attributes_class=2Ec
->+F:	include/linux/firmware_attributes=2Eh
->+
-> FIRMWARE FRAMEWORK FOR ARMV8-A
-> M:	Sudeep Holla <sudeep=2Eholla@kernel=2Eorg>
-> L:	linux-arm-kernel@lists=2Einfradead=2Eorg (moderated for non-subscribe=
-rs)
->diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
->index 12dc70254842=2E=2E78a239f8bbef 100644
->--- a/drivers/firmware/Kconfig
->+++ b/drivers/firmware/Kconfig
->@@ -8,6 +8,9 @@ menu "Firmware Drivers"
->=20
-> source "drivers/firmware/arm_scmi/Kconfig"
->=20
->+config FW_ATTR_CLASS
->+	tristate
->+
-> config ARM_SCPI_PROTOCOL
-> 	tristate "ARM System Control and Power Interface (SCPI) Message Protoco=
-l"
-> 	depends on ARM || ARM64 || COMPILE_TEST
->diff --git a/drivers/firmware/Makefile b/drivers/firmware/Makefile
->index 4ddec2820c96=2E=2E385b6e8b7fc6 100644
->--- a/drivers/firmware/Makefile
->+++ b/drivers/firmware/Makefile
->@@ -16,6 +16,7 @@ obj-$(CONFIG_FIRMWARE_MEMMAP)	+=3D memmap=2Eo
-> obj-$(CONFIG_MTK_ADSP_IPC)	+=3D mtk-adsp-ipc=2Eo
-> obj-$(CONFIG_RASPBERRYPI_FIRMWARE) +=3D raspberrypi=2Eo
-> obj-$(CONFIG_FW_CFG_SYSFS)	+=3D qemu_fw_cfg=2Eo
->+obj-$(CONFIG_FW_ATTR_CLASS)	+=3D firmware_attributes_class=2Eo
-> obj-$(CONFIG_SYSFB)		+=3D sysfb=2Eo
-> obj-$(CONFIG_SYSFB_SIMPLEFB)	+=3D sysfb_simplefb=2Eo
-> obj-$(CONFIG_TH1520_AON_PROTOCOL) +=3D thead,th1520-aon=2Eo
->diff --git a/drivers/platform/x86/firmware_attributes_class=2Ec b/drivers=
-/firmware/firmware_attributes_class=2Ec
->similarity index 94%
->rename from drivers/platform/x86/firmware_attributes_class=2Ec
->rename to drivers/firmware/firmware_attributes_class=2Ec
->index 736e96c186d9=2E=2E503ecc288086 100644
->--- a/drivers/platform/x86/firmware_attributes_class=2Ec
->+++ b/drivers/firmware/firmware_attributes_class=2Ec
->@@ -3,7 +3,7 @@
-> /* Firmware attributes class helper module */
->=20
-> #include <linux/module=2Eh>
->-#include "firmware_attributes_class=2Eh"
->+#include <linux/firmware_attributes=2Eh>
->=20
+Some laptops can tune their keyboard backlight according to ambient
+light sensors (auto mode). This capability is essentially a hardware
+control trigger. Meanwhile, such laptops also offer a shrotcut for
+cycling through brightness levels and auto mode. For example, on
+ThinkBook, pressing Fn+Space ("shortcut") cycles keyboard backlight
+levels in the following sequence:
 
-Hi Sean,
+  1 => 2 => 0 => auto => 1 ...
 
-I think there is a middle ground between just renaming these while knowing=
-ly having them all in the wrong spot, and reorganizing all the includes for=
- drivers whose includes aren't properly alphabetized in a single patch=2E O=
-ne of these options would be preferable:
+Recent ThinkPad models should have similar sequence too.
 
-- Introduce a cleanup patch before the rename that does the reordering, th=
-en rename in the correct order=2E
+However, there are some issues preventing us from using a private
+hardware control trigger:
 
-- Do the rename without a full reordering, placing the firmware attributes=
- include right after its preceding alphabetical order location so that it w=
-ouldn't need to be moved if someone else does a full reordering later=2E
+1. We want a mechanism to tell userspace which trigger is the hardware
+   control one, so that userspace can determine if auto mode is on/off,
+   as well as turing it on/off programmatically without obtaining the
+   trigger's name via other channels
+2. Writing brightness has the side effect of disabling hardware control,
+   but the hardware control trigger remains active, resulting in the
+   software and hardware being out of sync. Most LED drivers that
+   supports hardware control also suffer from the same issue
+3. Turing on/off auto mode via the shortcut cannot activate/deactivate
+   the corresponding hardware control trigger, making the software state
+   out of sync
+4. Even with #3 solved, deactivating the hardware control trigger has
+   the side effect of emitting LED_OFF, breaking the shortcut cycle,
+   especially "auto => 1"
 
-Personally I think the first option is better, but if that's out of your d=
-esired scope or you're worried about additional effects in existing drivers=
- then please at least do the second option=2E
+This RFC series tries to demonstrate a path on solving these issues:
+
+- Introduce an attribute "trigger_may_offload", so that userspace can
+  determine:
+  - if the LED device supports hardware control (supported => visible)
+  - which trigger is the hardware control trigger selected by the LED
+    device
+  - if the trigger is selected ("<foo_trigger>")
+  - if the trigger is offloaded ("[foo_trigger]")
+    - A callback offloaded() is added so that LED triggers can report
+      their hardware control state
+- Remove hardware control trigger when writing brightness
+- Add led_trigger_notify_hw_control_changed() interface, so that LED
+  drivers can notify the LED core about hardware-initiated hardware
+  control transitions. The LED core will then determine if the
+  transition is allowed and switching between "none" (i.e., no trigger)
+  and the device's private trigger accordingly
+  - This capability is restricted to the device's private trigger. If
+    the current trigger is neither the private trigger nor "none", no
+    transition will be made
+  - This interface is gated behind Kconfig LEDS_TRIGGERS_HW_CHANGED and
+    LED device flag LED_TRIG_HW_CHANGED
+- Tune the logic of trigger deactivation so that it won't emit LED_OFF
+  when the deactivation is triggered by hardware
+
+The last three patches are included in the RFC series to demonstrate how
+to these interfaces are supposed to be utilized, so that ideapad-laptop
+can expose the auto mode of ThinkBook's keyboard backlight. They can be
+submitted separately once the dust settles, if preferred.
+
+[ Summary of other approaches ]
+
+< custom attribute >
+
+Pros:
+- simplicity, KISS
+- no need to touch the LED core
+- extensible as long as it has a sensor-neutral name
+  - a sensor-related name could potentially lead to a mess if a future
+    device implements auto mode based on multiple different sensors
+
+Cons:
+- must have zero influence on brightness_set[_blocking] callbacks
+  in order not to break triggers
+  - potential interference with triggers and the brightness attribute,
+    can't solve #2
+- weird semantic (an attribute other than "brightness" and "trigger"
+  changes the brightness)
+
+< private hardware control trigger (this series) >
+
+Pros:
+- mutually exclusive with other triggers and the brightness attribute
+  (hence less chaos)
+- semantic correctness
+- acts as an aggregate switch to turn on/off auto mode even a future
+  device implements auto mode based on multiple different sensors
+  - extensibility (through trigger attributes)
+
+Cons:
+- complexity
+
+[ Previous discussion threads ]
+
+https://lore.kernel.org/r/08580ec5-1d7b-4612-8a3f-75bc2f40aad2@app.fastmail.com
+https://lore.kernel.org/r/1dbfcf656cdb4af0299f90d7426d2ec7e2b8ac9e.camel@rong.moe
+
+Signed-off-by: Rong Zhang <i@rong.moe>
+---
+Changes in v3:
+- Integrate https://lore.kernel.org/all/20260712-leds-hw-control-brightness-set-v1-1-1de593b09d26@rong.moe/
+  into the series
+  - Adopt __led_trigger_is_hw_controlled() in the rest of the series
+- Rearrange the series so that the code using the offloaded() callback is
+  introduced before the driver implementation (thanks Thomas Weißschuh)
+- Reword documentations and commit messages (ditto)
+- Adopt guard() and lockdep (ditto)
+- Address concerns from Sashiko
+  - Fix a race condition in ideapad_kbd_bl_led_cdev_brightness_set()
+  - Fix trigger re-registration of ideapad_kbd_bl_auto_trigger
+  - https://sashiko.dev/#/patchset/20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3%40rong.moe
+- Make registration failures of ideapad_kbd_bl_auto_trigger non-fatal
+- Link to v2: https://patch.msgid.link/20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe
+
+Changes in v2:
+- Restrict the led_trigger_notify_hw_control_changed() interface to
+  private triggers only
+  - Drop PATCH v1 1/9 ("leds: Load trigger modules on-demand if used as
+    hw control trigger"), not relavant any more
+- Gate the led_trigger_notify_hw_control_changed() interface behind
+  Kconfig LEDS_TRIGGERS_HW_CHANGED and LED device flag
+  LED_TRIG_HW_CHANGED
+- Fix lock ordering inversion
+- ideapad-laptop:
+  - Only call led_trigger_notify_hw_control_changed() when needed
+  - Serialize keyboard backlight notifications
+- Reword commit messages and documentations
+- Link to v1: https://patch.msgid.link/20260227190617.271388-1-i@rong.moe
+
+---
+Rong Zhang (11):
+      leds: Move led_trigger_is_hw_controlled() to the right place
+      leds: class: Remove hardware control trigger when writing brightness
+      leds: trigger: Add offloaded() callback and provide trigger_may_offload attribute
+      leds: cros_ec: trigger: Implement offloaded() callback
+      leds: turris-omnia: trigger: Implement offloaded() and declare hw_control_trigger
+      leds: trigger: netdev: Implement offloaded() callback
+      leds: trigger: Enforce strict checks in led_trigger_is_hw_controlled()
+      leds: trigger: Add led_trigger_notify_hw_control_changed() interface
+      platform/x86: ideapad-laptop: Decouple hardware & classdev brightness for keyboard backlight
+      platform/x86: ideapad-laptop: Serialize keyboard backlight notifications
+      platform/x86: ideapad-laptop: Fully support auto keyboard backlight
+
+ Documentation/ABI/testing/sysfs-class-led          |  25 ++
+ .../ABI/testing/sysfs-class-led-trigger-netdev     |   3 +
+ Documentation/leds/leds-class.rst                  |  72 ++++++
+ drivers/leds/led-class.c                           |  35 ++-
+ drivers/leds/led-triggers.c                        | 146 +++++++++++-
+ drivers/leds/leds-cros_ec.c                        |   6 +
+ drivers/leds/leds-turris-omnia.c                   |   7 +
+ drivers/leds/leds.h                                |   2 +
+ drivers/leds/trigger/Kconfig                       |   9 +
+ drivers/leds/trigger/ledtrig-netdev.c              |   8 +
+ drivers/platform/x86/lenovo/Kconfig                |   1 +
+ drivers/platform/x86/lenovo/ideapad-laptop.c       | 264 ++++++++++++++++-----
+ include/linux/leds.h                               |  19 ++
+ 13 files changed, 532 insertions(+), 65 deletions(-)
+---
+base-commit: 1229e2e57a5c2980ccd457b9b53ea0eed5a22ab3
+change-id: 20260506-leds-trigger-hw-changed-96a62188cbdf
 
 Thanks,
-Derek
-
-> const struct class firmware_attributes_class =3D {
-> 	=2Ename =3D "firmware-attributes",
->diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
->index b54b5212b204=2E=2Ebeed14c38b54 100644
->--- a/drivers/platform/x86/Kconfig
->+++ b/drivers/platform/x86/Kconfig
->@@ -926,9 +926,6 @@ config DASHARO_ACPI
->=20
-> source "drivers/platform/x86/x86-android-tablets/Kconfig"
->=20
->-config FW_ATTR_CLASS
->-	tristate
->-
-> config INTEL_IMR
-> 	bool "Intel Isolated Memory Region support"
-> 	depends on X86_INTEL_QUARK && IOSF_MBI
->diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefil=
-e
->index 872ac3842391=2E=2Ecab20a4145e3 100644
->--- a/drivers/platform/x86/Makefile
->+++ b/drivers/platform/x86/Makefile
->@@ -63,8 +63,6 @@ obj-$(CONFIG_X86_PLATFORM_DRIVERS_HP)	+=3D hp/
-> # Hewlett Packard Enterprise
-> obj-$(CONFIG_UV_SYSFS)       +=3D uv_sysfs=2Eo
->=20
->-obj-$(CONFIG_FW_ATTR_CLASS)	+=3D firmware_attributes_class=2Eo
->-
-> # IBM Thinkpad (before 2005)
-> obj-$(CONFIG_IBM_RTL)		+=3D ibm_rtl=2Eo
-> obj-$(CONFIG_SENSORS_HDAPS)	+=3D hdaps=2Eo
->diff --git a/drivers/platform/x86/asus-armoury=2Ec b/drivers/platform/x86=
-/asus-armoury=2Ec
->index 495dc1e31d40=2E=2E93fac0d464d2 100644
->--- a/drivers/platform/x86/asus-armoury=2Ec
->+++ b/drivers/platform/x86/asus-armoury=2Ec
->@@ -34,7 +34,7 @@
-> #include <linux/sysfs=2Eh>
->=20
-> #include "asus-armoury=2Eh"
->-#include "firmware_attributes_class=2Eh"
->+#include <linux/firmware_attributes=2Eh>
->=20
-> #define ASUS_NB_WMI_EVENT_GUID "0B3CBB35-E3C2-45ED-91C2-4C5A6D195D1C"
->=20
->diff --git a/drivers/platform/x86/dell/dell-wmi-sysman/sysman=2Ec b/drive=
-rs/platform/x86/dell/dell-wmi-sysman/sysman=2Ec
->index ab46a023cc34=2E=2E85670be01647 100644
->--- a/drivers/platform/x86/dell/dell-wmi-sysman/sysman=2Ec
->+++ b/drivers/platform/x86/dell/dell-wmi-sysman/sysman=2Ec
->@@ -16,7 +16,7 @@
-> #include <linux/sysfs=2Eh>
-> #include <linux/wmi=2Eh>
-> #include "dell-wmi-sysman=2Eh"
->-#include "=2E=2E/=2E=2E/firmware_attributes_class=2Eh"
->+#include <linux/firmware_attributes=2Eh>
->=20
-> #define MAX_TYPES  4
-> #include <linux/nls=2Eh>
->diff --git a/drivers/platform/x86/hp/hp-bioscfg/bioscfg=2Ec b/drivers/pla=
-tform/x86/hp/hp-bioscfg/bioscfg=2Ec
->index 27fd6cd21529=2E=2E44314ae4e5e3 100644
->--- a/drivers/platform/x86/hp/hp-bioscfg/bioscfg=2Ec
->+++ b/drivers/platform/x86/hp/hp-bioscfg/bioscfg=2Ec
->@@ -14,7 +14,7 @@
-> #include <linux/string=2Eh>
-> #include <linux/wmi=2Eh>
-> #include "bioscfg=2Eh"
->-#include "=2E=2E/=2E=2E/firmware_attributes_class=2Eh"
->+#include <linux/firmware_attributes=2Eh>
-> #include <linux/nls=2Eh>
-> #include <linux/errno=2Eh>
->=20
->diff --git a/drivers/platform/x86/lenovo/think-lmi=2Ec b/drivers/platform=
-/x86/lenovo/think-lmi=2Ec
->index e215e86e3db7=2E=2Ea56f152b5f28 100644
->--- a/drivers/platform/x86/lenovo/think-lmi=2Ec
->+++ b/drivers/platform/x86/lenovo/think-lmi=2Ec
->@@ -20,7 +20,7 @@
-> #include <linux/types=2Eh>
-> #include <linux/dmi=2Eh>
-> #include <linux/wmi=2Eh>
->-#include "=2E=2E/firmware_attributes_class=2Eh"
->+#include <linux/firmware_attributes=2Eh>
-> #include "think-lmi=2Eh"
->=20
-> static bool debug_support;
->diff --git a/drivers/platform/x86/lenovo/wmi-other=2Ec b/drivers/platform=
-/x86/lenovo/wmi-other=2Ec
->index fbb32bf404f2=2E=2Ee9a2c4684e5f 100644
->--- a/drivers/platform/x86/lenovo/wmi-other=2Ec
->+++ b/drivers/platform/x86/lenovo/wmi-other=2Ec
->@@ -50,7 +50,7 @@
-> #include "wmi-capdata=2Eh"
-> #include "wmi-events=2Eh"
-> #include "wmi-helpers=2Eh"
->-#include "=2E=2E/firmware_attributes_class=2Eh"
->+#include <linux/firmware_attributes=2Eh>
->=20
-> #define LENOVO_OTHER_MODE_GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3B"
->=20
->diff --git a/drivers/platform/x86/samsung-galaxybook=2Ec b/drivers/platfo=
-rm/x86/samsung-galaxybook=2Ec
->index 6382af0b106c=2E=2E74b8c887dd79 100644
->--- a/drivers/platform/x86/samsung-galaxybook=2Ec
->+++ b/drivers/platform/x86/samsung-galaxybook=2Ec
->@@ -28,7 +28,7 @@
-> #include <linux/uuid=2Eh>
-> #include <linux/workqueue=2Eh>
-> #include <acpi/battery=2Eh>
->-#include "firmware_attributes_class=2Eh"
->+#include <linux/firmware_attributes=2Eh>
->=20
-> #define DRIVER_NAME "samsung-galaxybook"
->=20
->diff --git a/drivers/platform/x86/firmware_attributes_class=2Eh b/include=
-/linux/firmware_attributes=2Eh
->similarity index 60%
->rename from drivers/platform/x86/firmware_attributes_class=2Eh
->rename to include/linux/firmware_attributes=2Eh
->index d27abe54fcf9=2E=2Ed4026ba1fcc2 100644
->--- a/drivers/platform/x86/firmware_attributes_class=2Eh
->+++ b/include/linux/firmware_attributes=2Eh
->@@ -2,11 +2,11 @@
->=20
-> /* Firmware attributes class helper module */
->=20
->-#ifndef FW_ATTR_CLASS_H
->-#define FW_ATTR_CLASS_H
->+#ifndef _LINUX_FIRMWARE_ATTRIBUTES_H
->+#define _LINUX_FIRMWARE_ATTRIBUTES_H
->=20
-> #include <linux/device/class=2Eh>
->=20
-> extern const struct class firmware_attributes_class;
->=20
->-#endif /* FW_ATTR_CLASS_H */
->+#endif /* _LINUX_FIRMWARE_ATTRIBUTES_H */
+Rong
 

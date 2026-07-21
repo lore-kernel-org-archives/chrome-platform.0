@@ -1,125 +1,248 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42DC4398FA
-	for <chrome-platform@lists.linux.dev>; Tue, 21 Jul 2026 07:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CDD3C76A3
+	for <chrome-platform@lists.linux.dev>; Tue, 21 Jul 2026 09:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784620474; cv=none; b=p6ZqoIhDiiVowpDWJpm8GY9ekMnu8FFf7o6f4USIcabdhS7cSEHNjPOt9IGH0Y1hVxjqLlRDlKqJb96rPl3DzDiLs33L8I6hRfLXEIINhVlX+mGA/UDlCc+HX2ED+fIH/m8+vLJCC+l5mXZzY7dklHXyKBDHH9obZ4Ekm0z2y3g=
+	t=1784625280; cv=none; b=DlZ+iLrIJYxDq7AK2D+UVUsBt2XrdQUci0QSbkxOvqQ5BfKRM7zxOoKU3B4FA7nldOpdGadBtSiYP+1MMBjDMsu/TZR0+fiEDTMaX2A6ftxpo35fPSskVvOuU7E9fMlqy82qGc/3P5RMW5RvCXCR2W81Vx2e5r8WhTmZNY55GS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784620474; c=relaxed/simple;
-	bh=YmTP+U2Zeto/TOo03rVHUOI/jAzel7OhJkJFnUSba3o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZWCrU7CERYG6phfZuDadqWbM561TJHeSgesCSRbMCpF5MgnGs5qL5kYGlDUyHUMp71ESPlbrKhbIqlktb6cIR1bwQe2obf/+RpIEdcrqyjHvYTbX1U2EzEk6SjwE8DRce6bOtScakCKAjkx9BUXTmqfFNP0Hfepa3ab8XVLfHB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iMu96kl3; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1784625280; c=relaxed/simple;
+	bh=+kAczA78WehJngfNWIqUTzEGO5oIfZ3mcqwk/SxGsEA=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=UfjKfaCBpPzwKE8KeNTLEv3WKpFE88V+uzSyaL6+mOaUWH046TZTg7Gf6jjDeGf4MOlXxRHVGYtbQ5jekKYC7Kciz8TGOwwAvyC8Tj8nk4LEfPAEqoqWaaPKwvNfAza5wW0QT4hCPFF+2fc2suIc6kUjlqnidS5DX2s7AmDGQPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lj+qUjPT; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iMu96kl3"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ceaf8a1265so108677905ad.2
-        for <chrome-platform@lists.linux.dev>; Tue, 21 Jul 2026 00:54:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784620472; x=1785225272; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XcG83pWDuxaLzQNicOj1pF1B6XObkyNl+NSmg3vDNXs=;
-        b=iMu96kl3MjK5dKghVuhX58Lb0q+paURw3v4LrZWLyVmP76Y7cWW2LWY9UGsPspW1Iz
-         VoAMth28yMXtYdn+2DPezeMK9xlc3R23YWwMJ35YTGR0tb0CgkhHby/lXHoj0y4g24m+
-         5+GNecySDXoDsppCVeNuMR6l/HgCFpmzTFM34=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784620472; x=1785225272;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XcG83pWDuxaLzQNicOj1pF1B6XObkyNl+NSmg3vDNXs=;
-        b=rjSp2dqpwoHAyT7+i8PfNSYQ4l8Y6cBmTPuWihfHd0ql+7usMFBgPu07PJp5646J4w
-         ZPNLqZRa6eCeG9tEIPFudFLgg0A0ud84+yiS9+3Vd0y3gcGTcgRvTk36aZ2VbehaEVAC
-         QiflMmBnpmHgOL4zESZj97DfcJm0EBqQ92rNMs9q/21h30ZyH6c6JLtqMNHn1FnHMFEl
-         KfzdUZplxd7r18S130hn5zwzALZLIOa+Ry6qTDpWa86KUpfOVzFPJVmMLmpXknePnKlv
-         QcX1FEoPxB5naYAjsyAfCsI8Kkiub22yeDsQa3H0Hclj2gFHcnwUD0FeA73TJaoivMKX
-         PqIg==
-X-Forwarded-Encrypted: i=1; AHgh+RqirIapaA3NzoGJ5N9MbtaI+kNGhs2MxZUQARlbn+DCuVBoDCSKu60fpIjsOmY+3Ewlg37P18r/dn32oGcboQU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxvgPNZ53sOnv+QctTMjvUEQl0MQfbclg9GeFVc0BbKoZN2IXVi
-	HTThe5BEUJYfHUGb28vypxANVDJfmYG6OPEiti+z3mclboTfHh9qoXSqlSY6I7xwug==
-X-Gm-Gg: AR+sD11fmdi4CUutJ6qPn10BTJ/7kiCASu4stHYT2e6brCXFM6evddGt9608aVs6kUg
-	JEoJHvjsFIo16ufel5wVNPbXBMSZIYRAcZeLiYJvgEGT+2tr2+AxZaSxAKfF7PaNy0qxstZAb/k
-	04WnnDgGKK0eRvA+3MgbfhTBnv5BP5S/UTpdV3RCwVJ6sX3b8GSoYpglaJZBFHWDXzX4ubPIbgE
-	zIVxgxj06kTv/FxvANu36/xm5Of0C6R+qkMOnl4rMRoVMp75W513QVLdSk0aZJfo8LwOm+yb33u
-	cab8DcIqPxarTCytCxKCaNFVym9JyB2+hYZG+B4pWLwfepcaZPNBf7iQznMah6D8EoQBLmGHXx3
-	iFar9920ctqGBI9z7fk+2wtOiybYjkwr0q8spj3JXGIvFtozh374neNreob/aAuOgnpNdDHrR1l
-	P6Z7HZTysHgOcY4VTHP0U31pRUC13NJ688fU2X8GjSvWc3XBnMf2fqDfeIB2lEqluG/qXMfA==
-X-Received: by 2002:a17:903:2b06:b0:2cf:8363:5ab7 with SMTP id d9443c01a7336-2cf83635d95mr15956285ad.26.1784620472296;
-        Tue, 21 Jul 2026 00:54:32 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:3916:f048:32c3:931f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3448f705sm70724175ad.15.2026.07.21.00.54.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 00:54:31 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	linux-mediatek@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable+noautosel@kernel.org
-Subject: [PATCH v3 9/9] arm64: dts: mediatek: mt8192-asurada-spherion: Add Synaptics trackpad's supply
-Date: Tue, 21 Jul 2026 15:52:23 +0800
-Message-ID: <20260721075226.2347933-10-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
-In-Reply-To: <20260721075226.2347933-1-wenst@chromium.org>
-References: <20260721075226.2347933-1-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lj+qUjPT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784625279; x=1816161279;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=+kAczA78WehJngfNWIqUTzEGO5oIfZ3mcqwk/SxGsEA=;
+  b=lj+qUjPTCvWgWnoX/kbjHXuiebB3k8/Vj3stwG3jbfS/+sudFeGhm3m3
+   29SIblDl0Z5M2WwPucF1yh/YYeTalB7AqJGyQYh/RiQdBlWxmk6CAuixc
+   MxoLBUAsVBwLUvp/6hc4u4j7WGH+GkogwM/6sVSm99mXe56XA6unAKch3
+   tHF62EBlO/p9cvFrGYc8CzRmk0pTfogM4DSpxbnJl43Gn8NEGKHs3fosz
+   yDGuqmEy4ZmwVSGORNIpN8YV11S338J7V2ZaS2FqkhtKLjKSXF8dkWPJa
+   zCFbhP2rpA6NTmUeL3mbk9oFZF3+IuqR4oCOsa4mYF23br6eKYOualJ6/
+   A==;
+X-CSE-ConnectionGUID: qwEoKQUxSCengX4LwJrteQ==
+X-CSE-MsgGUID: fjIYrd7URnKyiCLsSQpzEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="84348155"
+X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
+   d="scan'208";a="84348155"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 02:14:38 -0700
+X-CSE-ConnectionGUID: 8FK+A7ZbQDmJBwZqzTPzSg==
+X-CSE-MsgGUID: 8joRMt05QmWkh5uMHZ8VYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
+   d="scan'208";a="253789872"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.47])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 02:14:29 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 21 Jul 2026 12:14:26 +0300 (EEST)
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Sean Rhodes <sean@starlabs.systems>
+cc: Hans de Goede <hansg@kernel.org>, corentin.chary@gmail.com, 
+    luke@ljones.dev, denis.benato@linux.dev, prasanth.ksr@dell.com, 
+    jorge.lopez2@hp.com, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    derekjohn.clark@gmail.com, josh@joshuagrisham.com, 
+    briannorris@chromium.org, jwerner@chromium.org, tzimmermann@suse.de, 
+    javierm@redhat.com, kees@kernel.org, u.kleine-koenig@baylibre.com, 
+    mst@redhat.com, chenhuacai@kernel.org, wenst@chromium.org, 
+    florian.fainelli@broadcom.com, titouan.ameline@gmail.com, 
+    oliver@liuxiaozhen.dev, LKML <linux-kernel@vger.kernel.org>, 
+    platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com, 
+    chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v7 3/3] firmware: coreboot: Add CFR firmware attributes
+ driver
+In-Reply-To: <al3EzcPFCx-kL54h@google.com>
+Message-ID: <a27de527-245d-7b83-dec9-5b11b5de5869@linux.intel.com>
+References: <20260717085003.369496-1-sean@starlabs.systems> <20260717085003.369496-4-sean@starlabs.systems> <al3EzcPFCx-kL54h@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-The Synaptics trackpad, like the Elan trackpad option, is fed from the
-system 3.3V power rail. Add it to the trackpad device node.
+On Mon, 20 Jul 2026, Tzung-Bi Shih wrote:
 
-Also add the correct post-power-on delay, even though in practice it is
-not required. The Synaptics trackpad requires 100ms after power-on (or
-deasserting the reset, whichever comes later) to fully initialize. The
-power is always on and the reset pin is not routed out, so the
-implementation could try skipping the delay.
+> On Fri, Jul 17, 2026 at 09:50:03AM +0100, Sean Rhodes wrote:
+> > diff --git a/drivers/firmware/coreboot/coreboot-cfr.c b/drivers/firmware/coreboot/coreboot-cfr.c
+> ...
+> > +static int coreboot_cfr_read_efi_value_locked(efi_char16_t *efi_name,
+> > +					      u32 *value, u32 *attrs)
+> > +{
+> 
+> There is no coreboot_cfr_read_efi_value() and the symbol isn't exported
+> anyway.  The "_locked" suffix here is redundant.  Instead, it can leave a
+> note in the comment to indicate the lock requirement.
+>
+> > +static int coreboot_cfr_read_value(const struct coreboot_cfr_setting *setting,
+> > +				   u32 *value, u32 *attrs)
+> > +{
+> > +	efi_char16_t *efi_name;
+> > +	int ret;
+> > +
+> > +	efi_name = coreboot_cfr_efi_name(setting->name);
+> > +	if (IS_ERR(efi_name))
+> > +		return PTR_ERR(efi_name);
+> > +
+> > +	ret = efivar_lock();
+> > +	if (ret) {
+> > +		kfree(efi_name);
+> > +		return ret;
+> 
+> To be neat, use a goto statement to clean up.
 
-Cc: <stable+noautosel@kernel.org> # Without driver changes only lengthens probe time
-Fixes: 925ebc0cd55c ("arm64: dts: mt8192-asurada-spherion: Add Synaptics trackpad support")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-I think this shouldn't be backported, as backporting it without the
-driver enhancements just delays the trackpad probing with no real
-gains.
----
- arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts | 2 ++
- 1 file changed, 2 insertions(+)
+It should use __free(), not goto.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts b/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-index 68caf4c58cfe..8adbfc307fca 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-@@ -94,6 +94,8 @@ trackpad@2c {
- 		hid-descr-addr = <0x20>;
- 		interrupts-extended = <&pio 15 IRQ_TYPE_LEVEL_LOW>;
- 		wakeup-source;
-+		vdd-supply = <&pp3300_u>;
-+		post-power-on-delay-ms = <100>;
- 		status = "fail-needs-probe";
- 	};
- };
 -- 
-2.55.0.229.g6434b31f56-goog
+ i.
 
+> > +static int coreboot_cfr_write_efi_value_locked(efi_char16_t *efi_name,
+> > +					       u32 value, u32 attrs)
+> 
+> Same here.  s/_locked//.
+> 
+> > +static int coreboot_cfr_write_value(struct coreboot_cfr_setting *setting,
+> > +				    u32 value)
+> > +{
+> > +	efi_char16_t *efi_name;
+> > +	u32 attrs;
+> > +	u32 old;
+> > +	int restore_ret;
+> > +	int ret;
+> > +	bool changed = false;
+> 
+> The initialization can be eliminated.  See comments below.
+> 
+> > +
+> > +	if (setting->read_only)
+> > +		return -EACCES;
+> > +
+> > +	efi_name = coreboot_cfr_efi_name(setting->name);
+> > +	if (IS_ERR(efi_name))
+> > +		return PTR_ERR(efi_name);
+> > +
+> > +	mutex_lock(&setting->drvdata->lock);
+> 
+> Since it already includes cleanup.h, how about using a guard()?
+> 
+> > +	ret = coreboot_cfr_write_efi_value_locked(efi_name, value, attrs);
+> > +	if (ret)
+> > +		goto out_unlock_efi;
+> > +	changed = true;
+> > +
+> > +	ret = coreboot_cfr_apply_runtime(setting);
+> > +	if (ret == -EOPNOTSUPP) {
+> > +		/* EFI changed; firmware will consume it after reboot. */
+> > +		setting->drvdata->pending_reboot = true;
+> > +		ret = 0;
+> > +	} else if (ret) {
+> > +		restore_ret = coreboot_cfr_write_efi_value_locked(efi_name, old, attrs);
+> > +		if (restore_ret) {
+> > +			setting->drvdata->pending_reboot = true;
+> > +			ret = restore_ret;
+> > +		} else if (coreboot_cfr_apply_runtime(setting)) {
+> 
+> Does it need to apply runtime again for old values?  The previous
+> coreboot_cfr_apply_runtime() for new values was just failed (i.e., the new
+> values shouldn't take effect).
+> 
+> > +			setting->drvdata->pending_reboot = true;
+> > +		} else {
+> > +			changed = false;
+> > +		}
+> > +	}
+> > +
+> > +out_unlock_efi:
+> > +	efivar_unlock();
+> > +out_unlock_mutex:
+> > +	mutex_unlock(&setting->drvdata->lock);
+> > +	kfree(efi_name);
+> > +
+> > +	if (changed)
+> > +		kobject_uevent(&setting->drvdata->class_dev->kobj, KOBJ_CHANGE);
+> 
+> This shouldn't be in the cleanup path.  Move it before the label
+> "out_unlock_efi".  `changed` only makes sense after calling
+> coreboot_cfr_write_efi_value_locked().
+> 
+> > +static bool
+> > +coreboot_cfr_possible_values_fit(const struct coreboot_cfr_setting *setting)
+> 
+> The function needs some comments to explain why and what.
+> 
+> > +{
+> > +	size_t len = 1; /* Trailing newline. */
+> > +	unsigned int i;
+> > +
+> > +	for (i = 0; i < setting->n_values; i++) {
+> > +		if (i)
+> > +			len++;
+> 
+> What is this for?  For ';'?
+> 
+> > +
+> > +		if (strlen(setting->values[i].label) >= PAGE_SIZE - len)
+> > +			return false;
+> > +
+> > +		len += strlen(setting->values[i].label);
+> 
+> A straightforward way:
+> 
+>     len += strlen(...);
+>     if (len >= PAGE_SIZE)
+>         ...
+> 
+> > +static int coreboot_cfr_add_numeric_option(struct coreboot_cfr_drvdata *data,
+> > +					   const struct lb_cfr_numeric_option *option,
+> > +					   bool parent_read_only)
+> > +{
+> ...
+> > +	if (setting->type != COREBOOT_CFR_SETTING_NUMBER &&
+> > +	    !coreboot_cfr_possible_values_fit(setting)) {
+> > +		ret = 0;
+> > +		goto err_put_setting;
+> > +	}
+> 
+> Why it skips if the possible values can be truncated?  Is it seen as a
+> critical setting?
+> 
+> This needs some comments to explain why and what.
+> 
+> > +
+> > +	ret = coreboot_cfr_setting_is_usable(setting);
+> > +	if (ret) {
+> > +		if (ret == -ENOENT || ret == -EINVAL || ret == -EOPNOTSUPP ||
+> > +		    ret == -ENAMETOOLONG)
+> > +			ret = 0;
+> 
+> Does it check for values from coreboot table have corresponding EFI vars?
+> Why these errors aren't considered as failures?
+> 
+> This needs some comments to explain why and what.
+> 
+> > +		goto err_put_setting;
+> > +	}
+> > +
+> > +	ret = coreboot_cfr_register_setting(data, setting);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return 0;
+> 
+> A simple way:
+> 
+>     return coreboot_cfr_register_setting(...);
+> 
+> Also it may be worth some comments to mention that after calling
+> coreboot_cfr_register_setting(), `coreboot_cfr_setting_ktype` takes care of
+> the resource release.
+> 

@@ -1,167 +1,369 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDF63E1713
-	for <chrome-platform@lists.linux.dev>; Wed, 22 Jul 2026 03:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784691237; cv=pass; b=u72WsQUb1GphOGBJSpacU/A5xzYYCBtp7lOEkkn5/EpmgaHPjw4orJen5S9tBmP1XKdPJ+k1F61gDtbLHbp8VTEOQ6IO2dNcaQkKz11e2bVLl0UQ9l6ce2ytTIHrj979WiLn0zY5JHLIg8yVnbGMxzrgy0P+WA2wbOjyFDUsIxo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784691237; c=relaxed/simple;
-	bh=TmfjsaY5vDGWro2W6B9BTuFvkBc8bjylIqjuthGf42o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P1vc5/IyfkLTHM+iBVHnh5EoXhpgHjRkBxS6Vva/omEpHB9u+Cz95ikAveiygcM/QUZLey2Agrmc0CCmcJQ5+jSMJC2F/M+DimHyioaqC1P2wWopneTtEnq30T77+WUzFEoqtNw8KCb4dvqPvSfS8depVK9bMli0RyjFz9gDXPg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fGulPsLJ; arc=pass smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C52314A98
+	for <chrome-platform@lists.linux.dev>; Wed, 22 Jul 2026 08:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784707738; cv=none; b=X+zHnxFiibupLYiswBjwhv/nhZXDdj96QLYhsD7lapPECvUsLUSpWSrug5/Jn60iKkbhvp1W/u+2OkpzJr+jVgiICOpKSiKdTgoUKDFhNvDA9106RLr0ApmZsl1zRutXmc2HFSorH+/lEOfY0jTBjxvv+3r//t2TBYxNYVZWBqM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784707738; c=relaxed/simple;
+	bh=FjIwpe7Ws/7Gr8Tfxx0j9ISIoFynOT6DCLIjWM7rnis=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=MmXd1YUq4k04nKWqywwmohBPshyKUvwBH+GIPxP9BTc/T4LFLU/6WAafU7k4r1l8taiofEvfO+nD6XzsI7q/NbnNx8WvawkXgBKnUuCjs7XNmvaWzscRMbAKwqxXwzYRX94Zk2HpBIk9eKynIdGy60iDglBJsyU5fMhKP4TtpIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bPLV1+i6; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fGulPsLJ"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-80cebd41372so111756317b3.3
-        for <chrome-platform@lists.linux.dev>; Tue, 21 Jul 2026 20:33:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784691233; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AURQnqb/NAKem37eHEexM+1iRfwzicp2ZdsgcLdfaKKWQ6o4woYAirbwcTzW6U6ey2
-         Eh5Dl+SFdyV4IJsr9ca2PrmOcXtGJGcuSqC09p3PqXmd1gtRcIx0rbxgD7K+o2BFVvRw
-         EWU84BBJWE3nwpTmv7EL7krte0kch+koiwLjeSVn/RCRL3WiPO1zHUol/phqmWSuWD2c
-         DJQ+vkyMbjtRUhUL9P86EAIEMwuj1dPWcl6Pt4gTKADFZ6mA/J9rHJCHSBeHuWBzMi6F
-         0LmNRwg7GEzRnEkwHAXeGPWQzDBIa5D+AUg9O1J0Vjair23DLAEzD+VWiDkKDWIvt8va
-         Otgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9KcR04mJabpHychs/QIME5IF7elu7nLc7+YdcFBgs0g=;
-        fh=Z3XfsSndIFIrZvsIlr5NszzdfT5S/gsMJQdMeUOzxMI=;
-        b=FY8Aj7dsMH+Ll6n6ltoxqDkaHFoXg/iYHJ9ms2kO535qMxORvkr+K+ctyceQnD2NFs
-         2DntACxt0/erj+S22Nucc2xd/w/dl3AJFV+GhyywY5dB1tqLZpi6NSlz6Gjgoi51Wb/a
-         01YzTBsl0w/E0DRFTO1/nK2/urrrhmjrT/YmUsk8uu0rBZ876DfcxlQrZXjwl2anNnn6
-         j69TTTInMWLeYQco4C3Y6c+9zEcOdfSjatZ0974kJmQUgfWTDZDA6dVgTx2X8wgmliUa
-         Tt4XAlxly16/zJ9CXosd9I0kwwtp57KBpst2uxbBdPEBwrNbdAueeEjQxqBVaLbqE1S9
-         TJBw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784691233; x=1785296033; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9KcR04mJabpHychs/QIME5IF7elu7nLc7+YdcFBgs0g=;
-        b=fGulPsLJ7uQ4BmLwnni0aDTMh6Wwd+T/dlXDvFeduSwmEtWkqa1G8msdzc9DerZPj6
-         SddcTB6pBoWtoiCK8z18Wk1A41SPipMhW5+Cz8KWc+FOXAfNCL5hMshKN+XgPO7RaDRo
-         /3OdR+xYVE+RtYUhQ3Hg3jFIZ5IA8g/3h94Ck=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784691233; x=1785296033;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9KcR04mJabpHychs/QIME5IF7elu7nLc7+YdcFBgs0g=;
-        b=YPrSg+iOCOWzFSBXvhw9t78NXHZw8LOyscfpLP1Jl62jYN3UT0RQXTteUwT0CCC6GP
-         WgdzlFd6TwCzeq2b60LZZ3BHhb7A+y26YzQMMrrZRAA/Dpgc8jtXvNGp6UlG+R3BnOD1
-         m2OjHF4RcJpLJtsM2uvdv+DYiMQcfObjItSc5UXIbUTb+GdtBGlJe7LMAJ8EaR6GeQGp
-         TM9SfQWg7Jout7Tpwrqo/jF31IZ6ojkjZoLsXxxi2LLAA3/ilNDU7pBIyoTJTA654Izz
-         wjS7TeFgWqxS2CJwoX1+2+PCyWGUUGr5cIDfLFM6aDUb/mc2UsvmIUe995qZP+q85nrO
-         Yh9Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rrb/IQ1p3tPb9Yy7uy8mjoPWKmWCFRrvv674rAXO44usGgZqw5XP+Z6lKdnHEZrav1CMnnwRrEvi/TX01F0AwU=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxpk6bkMHpeZrp4q6MVAOmXJlMchkypr9b7kwdki1Fyd3fBoajn
-	iB+KF9qyYFWFZX/Jrrypwm2RqUpJu1J0nzasPHKtuG1fBrF5IkATOkeQrPKHDqdX4XPMo4cerub
-	MkSNKjXEeOO2MGp+hWXHlMlEfY8wGzKlgkykoL0kB
-X-Gm-Gg: AR+sD119q4oEXju1jJs+ZSlWTS/ScbGcNSJE1fQlUMnf1GdF1KV7MUpib10OqmWznJv
-	QrR5le9L0X8OFo9KwZ1bEb7YamIcHdhWj2TK4sRJ56f+HARk/Vuaz14TxzPUtc9ngUSI3siyRIS
-	+nyV7a4p3ZH7W3ZYkmhY9aXsBnkvryypoIcgz+hgIiDnO4X6yxn17dIuSz6hblT1b553qw4YJys
-	oMtBl84CPBcNIbYi0XOjR7INGpCff7mnW++SyADcNKIq073qrqC0KOgw9cda/mDh7V7rzFEiABV
-	DpKtFY/S1NKt6AQ=
-X-Received: by 2002:a05:690c:6e82:b0:80d:f376:5ba9 with SMTP id
- 00721157ae682-81ef252e359mr66727137b3.24.1784691233300; Tue, 21 Jul 2026
- 20:33:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPLV1+i6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784707734; x=1816243734;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=FjIwpe7Ws/7Gr8Tfxx0j9ISIoFynOT6DCLIjWM7rnis=;
+  b=bPLV1+i6moK9X/fgip7DrGAVaR7x40NkfXNPbsw6PvhAbe3xfBufkm9Y
+   1AhWF2Fx2fEf3zVbpgDALM8nwP+qHnOE3HomFzO5mtqpFSlxVZNUtCfQ8
+   feZyOYx1QtejFuGflVdVeV/oAqwreL3Ml6XaA04RKenx6EDB3jci19zIW
+   MYYCgsFklTdyszeBP7uMsHmFuka3eGvksWNt14DC3F1l6eVJIB+zWgNzf
+   gk83g6vNmL/1oYZT9NhuF8BHjjzYOO97N/3Xq5W179gXcRCVoMchBNmrT
+   gEQA9UpuWRFVJySIUZGBm2AcsK3fK0taEowkPFYCuKGMtRt/mQp2FmeSE
+   A==;
+X-CSE-ConnectionGUID: b05PMYIgTwOn5OW+X1+3Xg==
+X-CSE-MsgGUID: wLnDsM1AQZaBKjzFFfm71A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="85208567"
+X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
+   d="scan'208";a="85208567"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 01:08:53 -0700
+X-CSE-ConnectionGUID: rKncRLoLTQmr3ZctJx0iCw==
+X-CSE-MsgGUID: hvMBhtBeQ+GL8mZ1K6SUeQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
+   d="scan'208";a="254624250"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.200])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 01:08:47 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 22 Jul 2026 11:08:43 +0300 (EEST)
+To: Rong Zhang <i@rong.moe>
+cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+    =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>, 
+    Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+    =?ISO-8859-15?Q?Marek_Beh=FAn?= <kabel@kernel.org>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+    Hans de Goede <hansg@kernel.org>, Ike Panhc <ikepanhc@gmail.com>, 
+    Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
+    Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, 
+    linux-leds@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
+    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH RFC v3 11/11] platform/x86: ideapad-laptop: Fully support
+ auto keyboard backlight
+In-Reply-To: <7207b99c8103045943980c39867cfa03373b3675.camel@rong.moe>
+Message-ID: <4956d1ca-1979-bca7-3673-641ab6e842b2@linux.intel.com>
+References: <20260719-leds-trigger-hw-changed-v3-0-5fb55722e36e@rong.moe>  <20260719-leds-trigger-hw-changed-v3-11-5fb55722e36e@rong.moe>  <e4d81cf2-a44d-bcdb-1bc9-f5847b447984@linux.intel.com> <7207b99c8103045943980c39867cfa03373b3675.camel@rong.moe>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260721075226.2347933-1-wenst@chromium.org> <20260721075226.2347933-8-wenst@chromium.org>
- <al9JivV0SZCiOgK8@ashevche-desk.local>
-In-Reply-To: <al9JivV0SZCiOgK8@ashevche-desk.local>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 22 Jul 2026 11:33:41 +0800
-X-Gm-Features: AUfX_mxYNc8IPOzIIfv3TBCyd0Fs8lnIBTuyeRs9t7NJj3-mYtf52pIbJvj-z9A
-Message-ID: <CAGXv+5Es0RZiAdUj-Y3FEFHU4Km6XBOL-Gk2DbTLrF-OcD54cw@mail.gmail.com>
-Subject: Re: [PATCH v3 7/9] platform/chrome: of_hw_prober: Add delay for hana trackpads
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, linux-mediatek@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	chrome-platform@lists.linux.dev, linux-input@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="8323328-847042249-1784707723=:1198"
 
-On Tue, Jul 21, 2026 at 6:27=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Tue, Jul 21, 2026 at 03:52:21PM +0800, Chen-Yu Tsai wrote:
-> > Up until now, the MT8173 elm/hana device tree has set the dedicated
-> > regulator supplying the trackpad as always-on, simply because the Elan
-> > driver was missing proper delays. As a result the delay for the
-> > Synaptics trackpad was also omitted, as it was not strictly required
-> > under such a model and delayed the availability of the trackpad to the
-> > user.
-> >
-> > The Elan driver recently gained proper delays after power-up, with
-> > adaptive skipping of the delay if the regulator was originally
-> > on. The I2C HID driver and I2C OF component prober library gained
-> > similar adaptive delay skipping. The device tree will be fixed to have
-> > the regulator not be always on, and proper post-power-on delay time
-> > added to the I2C HID device.
-> >
-> > Also add the post-power-on delay to the ChromeOS OF component prober,
-> > so that if the regulator is off at the time of probing, the prober know=
-s
-> > to wait for the hardware to initialize.
->
-> ...
->
-> > +++ b/drivers/platform/chrome/chromeos_of_hw_prober.c
->
-> >               /*
-> >                * ELAN trackpad needs 2 ms for H/W init and 100 ms for F=
-/W init.
-> >                * Synaptics trackpad needs 100 ms.
-> > -              * However, the regulator is set to "always-on", presumab=
-ly to
-> > -              * avoid this delay. The ELAN driver is also missing dela=
-ys.
-> >                */
-> > -             .post_power_on_delay_ms =3D 0,
-> > +             .post_power_on_delay_ms =3D 110,
->
-> This and the other delay in the previous patches are all HW-related. What=
- if
-> another touchpad gets connected? I mean that the delays for the certain H=
-W
-> should not affect other possible devices connected to the platform.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-This is a complete laptop, not a development board. You can't just randomly
-swap out the trackpad. The model AFAIK is no longer in production, and we
-have already added all possible configurations to the device tree. And
-there's no extra connector or pin header to attach additional peripherals.
-If someone hacks their own device to swap out a trackpad, then handling
-the additional bring-up should fall on them.
+--8323328-847042249-1784707723=:1198
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-If you are referring to the delay for the other trackpad option, that is
-100 ms, and is described in the device tree. See patch 8 of this series.
+On Wed, 22 Jul 2026, Rong Zhang wrote:
 
-Any other device with different delay requirements should have its own
-entry, not reuse this one. The information in the entry is tightly
-coupled to the device tree anyway. I already corrected the other device
-that incorrectly reused this entry [1]. We have some additional offenders
-downstream, but nothing that can't be corrected in the same manner.
+> Hi Ilpo,
+>=20
+> Thanks for reviewing the series :)
+>=20
+> On Tue, 2026-07-21 at 20:14 +0300, Ilpo J=C3=A4rvinen wrote:
+> > On Sun, 19 Jul 2026, Rong Zhang wrote:
+> >=20
+> > > Currently, the auto brightness mode of keyboard backlight maps to
+> > > brightness=3D0 in LED classdev. The only method to switch to such a m=
+ode
+> > > is by pressing the manufacturer-defined shortcut (Fn+Space). However,=
+ 0
+> > > is a multiplexed brightness value; writing 0 simply results in the
+> > > backlight being turned off.
+> > >=20
+> > > With brightness processing code decoupled from LED classdev, we can n=
+ow
+> > > fully support the auto brightness mode. In this mode, the keyboard
+> > > backlight is controlled by the EC according to the ambient light sens=
+or
+> > > (ALS).
+> > >=20
+> > > To utilize this, a private hardware control trigger "ideapad-auto" is
+> > > added, with the event handling procedure calling the
+> > > led_trigger_notify_hw_control_changed() interface to activate/deactiv=
+ate
+> > > the private trigger according to the current LED trigger state.
+> > >=20
+> > > Meanwhile, block brightness changes on exit to prevent the side effec=
+t
+> > > of LED device unregistration when the private trigger is active from
+> > > resetting the brightness to zero, so that we can retain the state of
+> > > auto mode among boots.
+> > >=20
+> > > Signed-off-by: Rong Zhang <i@rong.moe>
+> > > ---
+> > > Changes in v3:
+> > > - Address concerns from Sashiko
+> > >   - Fix a race condition in ideapad_kbd_bl_led_cdev_brightness_set()
+> > >   - Fix trigger re-registration of ideapad_kbd_bl_auto_trigger
+> > >   - https://sashiko.dev/#/patchset/20260618-leds-trigger-hw-changed-v=
+2-0-c28c44053cf3%40rong.moe
+> > > - Make registration failures of ideapad_kbd_bl_auto_trigger non-fatal
+> > > ---
+> > >  drivers/platform/x86/lenovo/ideapad-laptop.c | 112 +++++++++++++++++=
++++++++---
+> > >  1 file changed, 103 insertions(+), 9 deletions(-)
+> > >=20
+> > > diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c b/drivers/p=
+latform/x86/lenovo/ideapad-laptop.c
+> > > index 66e16abda5e3..253d2962b927 100644
+> > > --- a/drivers/platform/x86/lenovo/ideapad-laptop.c
+> > > +++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
+> > > @@ -1714,9 +1714,58 @@ static int ideapad_kbd_bl_led_cdev_brightness_=
+set(struct led_classdev *led_cdev,
+> > >  {
+> > >  =09struct ideapad_private *priv =3D container_of(led_cdev, struct id=
+eapad_private, kbd_bl.led);
+> > > =20
+> > > +=09/*
+> > > +=09 * When deinitializing: It must be the side effect of led_cdev
+> > > +=09 * unregistration when our private trigger is active. We've set
+> > > +=09 * LED_RETAIN_AT_SHUTDOWN to retain led_cdev brightness level.
+> > > +=09 * To do the same for auto mode, gate changes and return early.
+> > > +=09 */
+> > > +=09if (unlikely(!priv->kbd_bl.initialized))
+> >=20
+> > This too would need include, but I think addressing some earlier includ=
+e=20
+> > request will cover it.
+> >=20
+> > > +=09=09return 0;
+> > > +
+> > >  =09return ideapad_kbd_bl_brightness_set(priv, brightness);
+> > >  }
+> > > =20
+> > > +static bool ideapad_kbd_bl_auto_trigger_offloaded(struct led_classde=
+v *led_cdev)
+> > > +{
+> > > +=09struct ideapad_private *priv =3D container_of(led_cdev, struct id=
+eapad_private, kbd_bl.led);
+> >=20
+> > Add include for container_of().
+> >=20
+> > > +
+> > > +=09return atomic_read(&priv->kbd_bl.last_hw_brightness) =3D=3D KBD_B=
+L_AUTO_MODE_HW_BRIGHTNESS;
+> > > +}
+> > > +
+> > > +static int ideapad_kbd_bl_auto_trigger_activate(struct led_classdev =
+*led_cdev)
+> > > +{
+> > > +=09struct ideapad_private *priv =3D container_of(led_cdev, struct id=
+eapad_private, kbd_bl.led);
+> > > +
+> > > +=09return ideapad_kbd_bl_hw_brightness_set(priv, KBD_BL_AUTO_MODE_HW=
+_BRIGHTNESS);
+> > > +}
+> > > +
+> > > +static struct led_hw_trigger_type ideapad_kbd_bl_auto_trigger_type;
+> > > +
+> > > +static struct led_trigger ideapad_kbd_bl_auto_trigger =3D {
+> > > +=09.name =3D "ideapad-auto",
+> > > +=09.trigger_type =3D &ideapad_kbd_bl_auto_trigger_type,
+> > > +=09.activate =3D ideapad_kbd_bl_auto_trigger_activate,
+> > > +=09.offloaded =3D ideapad_kbd_bl_auto_trigger_offloaded,
+> > > +};
+> > > +
+> > > +static bool ideapad_kbd_bl_auto_trigger_registered;
+> > > +
+> > > +static void ideapad_kbd_bl_notify_hw_control(struct ideapad_private =
+*priv,
+> > > +=09=09=09=09=09     int hw_brightness, int last_hw_brightness)
+> > > +{
+> > > +=09bool hw_control, last_hw_control;
+> > > +
+> > > +=09if (priv->kbd_bl.type !=3D KBD_BL_TRISTATE_AUTO)
+> > > +=09=09return;
+> > > +
+> > > +=09hw_control =3D hw_brightness =3D=3D KBD_BL_AUTO_MODE_HW_BRIGHTNES=
+S;
+> > > +=09last_hw_control =3D last_hw_brightness =3D=3D KBD_BL_AUTO_MODE_HW=
+_BRIGHTNESS;
+> > > +
+> > > +=09if (hw_control !=3D last_hw_control)
+> > > +=09=09led_trigger_notify_hw_control_changed(&priv->kbd_bl.led, hw_co=
+ntrol);
+> > > +}
+> > > +
+> > >  static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
+> > >  {
+> > >  =09int hw_brightness, brightness, last_hw_brightness;
+> > > @@ -1738,6 +1787,8 @@ static void ideapad_kbd_bl_notify(struct ideapa=
+d_private *priv)
+> > >  =09if (hw_brightness =3D=3D last_hw_brightness)
+> > >  =09=09return;
+> > > =20
+> > > +=09ideapad_kbd_bl_notify_hw_control(priv, hw_brightness, last_hw_bri=
+ghtness);
+> > > +
+> > >  =09led_classdev_notify_brightness_hw_changed(&priv->kbd_bl.led, brig=
+htness);
+> > >  }
+> > > =20
+> > > @@ -1768,6 +1819,24 @@ static int ideapad_kbd_bl_init(struct ideapad_=
+private *priv)
+> > > =20
+> > >  =09switch (priv->kbd_bl.type) {
+> > >  =09case KBD_BL_TRISTATE_AUTO:
+> > > +=09=09priv->kbd_bl.led.max_brightness =3D 2;
+> > > +
+> > > +=09=09if (!ideapad_kbd_bl_auto_trigger_registered) {
+> > > +=09=09=09dev_warn(&priv->platform_device->dev,
+> > > +=09=09=09=09 "Could not provide LED trigger %s for keyboard backligh=
+t\n",
+> > > +=09=09=09=09 ideapad_kbd_bl_auto_trigger.name);
+> > > +=09=09=09break;
+> > > +=09=09}
+> > > +
+> > > +=09=09priv->kbd_bl.led.flags             |=3D LED_TRIG_HW_CHANGED;
+> > > +=09=09priv->kbd_bl.led.hw_control_trigger =3D ideapad_kbd_bl_auto_tr=
+igger.name;
+> > > +=09=09priv->kbd_bl.led.trigger_type       =3D &ideapad_kbd_bl_auto_t=
+rigger_type;
+> >=20
+> > I'm skeptical aligning makes things better here.
+> >=20
+> > > +
+> > > +=09=09/* Hardware remembers the last brightness level, including aut=
+o mode. */
+> > > +=09=09if (hw_brightness =3D=3D KBD_BL_AUTO_MODE_HW_BRIGHTNESS)
+> > > +=09=09=09priv->kbd_bl.led.default_trigger =3D ideapad_kbd_bl_auto_tr=
+igger.name;
+> > > +
+> > > +=09=09break;
+> > >  =09case KBD_BL_TRISTATE:
+> > >  =09=09priv->kbd_bl.led.max_brightness =3D 2;
+> > >  =09=09break;
+> > > @@ -1779,13 +1848,22 @@ static int ideapad_kbd_bl_init(struct ideapad=
+_private *priv)
+> > >  =09=09unreachable();
+> > >  =09}
+> > > =20
+> > > -=09err =3D led_classdev_register(&priv->platform_device->dev, &priv-=
+>kbd_bl.led);
+> > > -=09if (err)
+> > > -=09=09return err;
+> > > +=09/* Queue notifications, as kbd_bl.initialized is about to be set.=
+ */
+> > > +=09guard(mutex)(&priv->kbd_bl.notif_mutex);
+> > > =20
+> > > +=09/*
+> > > +=09 * Setting kbd_bl.initialized after led_classdev_register() could=
+ lead
+> > > +=09 * to race conditions in ideapad_kbd_bl_led_cdev_brightness_set()=
+ where
+> > > +=09 * kbd_bl.initialized is checked, so set it now. It can be revert=
+ed back
+> > > +=09 * if the LED classdev failed to register.
+> > > +=09 */
+> > >  =09priv->kbd_bl.initialized =3D true;
+> > > =20
+> > > -=09return 0;
+> > > +=09err =3D led_classdev_register(&priv->platform_device->dev, &priv-=
+>kbd_bl.led);
+> > > +=09if (err)
+> > > +=09=09priv->kbd_bl.initialized =3D false;
+> > > +
+> > > +=09return err;
+> > >  }
+> > > =20
+> > >  static void ideapad_kbd_bl_exit(struct ideapad_private *priv)
+> > > @@ -2612,17 +2690,30 @@ static int __init ideapad_laptop_init(void)
+> > >  {
+> > >  =09int err;
+> > > =20
+> > > +=09err =3D led_trigger_register(&ideapad_kbd_bl_auto_trigger);
+> > > +=09if (err) {
+> > > +=09=09pr_warn("Failed to register LED trigger %s: %d\n",
+> >=20
+> > include missing.
+> >=20
+> > > +=09=09=09ideapad_kbd_bl_auto_trigger.name, err);
+> > > +=09} else {
+> > > +=09=09ideapad_kbd_bl_auto_trigger_registered =3D true;
+> > > +=09}
+> > > +
+> > >  =09err =3D ideapad_wmi_driver_register();
+> > >  =09if (err)
+> > > -=09=09return err;
+> > > +=09=09goto err_ledtrig;
+> > > =20
+> > >  =09err =3D platform_driver_register(&ideapad_acpi_driver);
+> > > -=09if (err) {
+> > > -=09=09ideapad_wmi_driver_unregister();
+> > > -=09=09return err;
+> > > -=09}
+> > > +=09if (err)
+> > > +=09=09goto err_wmi;
+> > > =20
+> > >  =09return 0;
+> > > +
+> > > +err_wmi:
+> > > +=09ideapad_wmi_driver_unregister();
+> > > +err_ledtrig:
+> > > +=09if (ideapad_kbd_bl_auto_trigger_registered)
+> > > +=09=09led_trigger_unregister(&ideapad_kbd_bl_auto_trigger);
+> > > +=09return err;
+> > >  }
+> > >  module_init(ideapad_laptop_init)
+> > > =20
+> > > @@ -2630,6 +2721,9 @@ static void __exit ideapad_laptop_exit(void)
+> > >  {
+> > >  =09ideapad_wmi_driver_unregister();
+> > >  =09platform_driver_unregister(&ideapad_acpi_driver);
+> >=20
+> > Why is the order not the reverse of the init order?
+>=20
+> Thanks for discovering it. Since it exists before the series, I guess I
+> will submit a fixup patch for it separately so that it don't have to
+> wait for an RFC series.
 
+A separate patch works. I assume this series won't make it into this=20
+cycle.
 
-ChenYu
+> And ACK to all other comments in this and previous replies. Will fix
+> them when I resubmit the series.
+>=20
+> Thanks,
+> Rong
+>=20
+> >=20
+> > > +
+> > > +=09if (ideapad_kbd_bl_auto_trigger_registered)
+> > > +=09=09led_trigger_unregister(&ideapad_kbd_bl_auto_trigger);
+> > >  }
+> > >  module_exit(ideapad_laptop_exit)
+> > > =20
+> > >=20
+> > >=20
+>=20
 
-[1] https://lore.kernel.org/all/20260625060859.1020483-1-wenst@chromium.org=
-/
+--=20
+ i.
+
+--8323328-847042249-1784707723=:1198--

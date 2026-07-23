@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37994963A1;
-	Thu, 23 Jul 2026 15:06:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BAA367B99;
+	Thu, 23 Jul 2026 16:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784819219; cv=none; b=Ygoe9hvDEonzdCL9yUdBEjrcbQK7Tk2cEHvYkpbOdk2a/LKc3QxPeDP55v75hEptPIuToBR1RHE43njPqn6HdCcdpvHRRDI0+t2P+ZR2TqXnmqNahLT3UTsenD7YquXnFX4dPpg3PymrHnvOYeWenWmS+JGrfr6HsAaOy03gzuw=
+	t=1784822596; cv=none; b=Xx1FGwkMPYX1eb2E0VVo661DGBc9f0MvBzWSyiNYu2nq9OFzwMWwaMXhUUwd8Kw6f6Rkel3pWIK9xtOVxwNYOLdAfH8Ik3m0/6hhMb+ph8C0PXdTpEvfH9+7wZRp+iryZ4hEQOguRuEROPm7C1zRiNUoLZhtleSdzCV6eu6Zz+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784819219; c=relaxed/simple;
-	bh=vnLtqN5YSzWXeVN3BDJxDM3rbzjZBhvwnQRkPt5qbNc=;
+	s=arc-20240116; t=1784822596; c=relaxed/simple;
+	bh=WcHcgheBnaCGSC3EQDptUBz9EWdx0vcPZ6CQFStEn00=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hSu6OMDFgs7nVmkD8PRJW9QXrQ4Whdirwp6O1muF+9a/A28I4KjNIUQtSfFzF4LqehtynCzYuzOHRWYGQZbZNrbjVxy8IOUtsW/+L3Vg/cEb/sb3LGWiOIgShtq3PZn/z49V5tgF3mcBxVCQ0t3Gudao315Ojs9PNuachm+glmA=
+	 MIME-Version:Content-Type; b=s+5fsZ+v1E9y2q/e8XvwYMNzcttLqggSWAvrlHOOBP6/jcz1u70piZnpquTxHTM6FIcv/cGxpFIVUPXa4i039Kurfcwj7WyvU0c5gv8H2qE4C/YeFA/7ijYdJm/sMSmaC+xadhYZ5vhB6z5VUL9LTmR0Y6CMqXPBRJw0JZ1HRG0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 605981F000E9;
-	Thu, 23 Jul 2026 15:06:57 +0000 (UTC)
-Received: by venus (Postfix, from userid 1000)
-	id 65FEC180CCC; Thu, 23 Jul 2026 17:06:34 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: bleung@chromium.org, tzungbi@kernel.org, 
- Jameson Thies <jthies@google.com>
-Cc: sre@kernel.org, fparent@baylibre.com, chrome-platform@lists.linux.dev, 
- linux-pm@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20260722195059.1420738-1-jthies@google.com>
-References: <20260722195059.1420738-1-jthies@google.com>
-Subject: Re: [PATCH v1] power: supply: cros_usbpd: Limit port counts to
- EC_USB_PD_MAX_PORTS
-Message-Id: <178481919438.607778.10935942512984627353.b4-ty@collabora.com>
-Date: Thu, 23 Jul 2026 17:06:34 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719591F000E9;
+	Thu, 23 Jul 2026 16:03:13 +0000 (UTC)
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>, 
+ Gwendal Grignou <gwendal@chromium.org>, chrome-platform@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260608211518.2214740-1-akuchynski@chromium.org>
+References: <20260608211518.2214740-1-akuchynski@chromium.org>
+Subject: Re: [PATCH v2 0/2] mfd: platform/chrome: Catch EC feature read
+ errors during probe
+Message-Id: <178482259319.3530477.8287706988972276877.b4-ty@b4>
+Date: Thu, 23 Jul 2026 17:03:13 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -34,26 +34,30 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
 
-
-On Wed, 22 Jul 2026 19:50:59 +0000, Jameson Thies wrote:
-> Currently the cros_usbpd-charger driver probe iterates based on raw
-> charger port count returned by the embedded controller. The only check
-> is against the number of USB PD ports which the embedded controller
-> also defines. A malicious embedded controller could return an inaccurate
-> port count (up to 255) resulting in an out of bounds write and
-> subsequent memory corruption.
+On Mon, 08 Jun 2026 21:15:16 +0000, Andrei Kuchynski wrote:
+> This series fixes a sysfs duplicate name collision that occurs when the
+> Fingerprint device fails to respond during probe, causing it to
+> incorrectly fall back to the generic 'cros_ec' name.
+> 
+> Changes in v2:
+> - Split into a 2-patch series.
+> - Carried over Acked-by from Tzung-Bi Shih for Patch 1.
+> - Fixed an ec->class_dev resource leak by utilizing 'goto failed;'.
+> - Moved class_dev initialization to prevent a missing release()
+>   callback warning on the error path.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] power: supply: cros_usbpd: Limit port counts to EC_USB_PD_MAX_PORTS
-      commit: 657cd3a42e937276262c0a8ae6b01a87004309de
+[1/2] platform/chrome: cros_ec_proto: Introduce cros_ec_read_features helper
+      commit: d6ae9f9b9bd373461442f17ef157ed9ee850a413
+[2/2] mfd: cros_ec: Read EC features during probe to catch transfer error
+      commit: 5855464dff6a2171847463775c7cdac92742e0f9
 
-Best regards,
--- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
+--
+Lee Jones [李琼斯]
 

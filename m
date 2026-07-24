@@ -1,232 +1,217 @@
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62257474260
-	for <chrome-platform@lists.linux.dev>; Thu, 23 Jul 2026 16:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8473AF668
+	for <chrome-platform@lists.linux.dev>; Fri, 24 Jul 2026 07:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784824723; cv=none; b=TpvQQzFoyJGtnrtUZ01MYjkeEuqLnQgfK52TMteleOVcwKBg/rZuoYQDSz+EijPooTTEmfCiUWnxGeyk+tdREzmuHGOwtVggbTGWBxZ4hF+cPHbTbpqkZdptFTpn2XVIF2kRp5JF4PTuM75IJK7wIVj9Owkzf5b2/G0IUO/QVE4=
+	t=1784879272; cv=none; b=R9sb6QYHTSwKApl7HD2e0/wxypeI5CDHObqOcWmN1SXHEe8gMlW6nfeG6mujaMav1Y8GXWrvQdKnNRm/Pv6MBZ6rFgVnwAvV/wXXH4cJKNuf3jlDUxf/3yZzb/cXqDLcJdNEiTPwmuToUu+0T6KX8a8DXfdX5SsIZeucswCFasc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784824723; c=relaxed/simple;
-	bh=69ucCLD6XVGFTpO+yIeag7uhGDoIcyMY0JMqrJIXWa0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=T3CB7+v6nNuKmdCQqJDAs0Mv4X+VuS4iIyVblWyY4Jk3DTXcsfuxhFLhW40hfBavBx0yidyEL79iK3xsu3k7/VgnnJCtr5NReufnPQtdziG/c9gLmzf3cM7PQUJBF9HeT4ttzjZFKWgJBoqj27/mvOVSX4M5a8oO+DGtB0kt+f8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nD4RLRYZ; arc=none smtp.client-ip=209.85.216.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com
+	s=arc-20240116; t=1784879272; c=relaxed/simple;
+	bh=DIe88Zw9WWAuEjBW7hGr7bBuI8RJaECUB5RsHO3IB0E=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Rbvc7edjmgpgohkQioNhQ6PEsRuxq5JkDEHKCR7GcuULeUUp2KvGpXq+Mp27KuGi/omrwGpxZq4qO/20Lr13tGpTbDkcOBU/wXw4cRvYuPYAAxFpfA4YwgG0R9wGmoRIvX2+AAsDHIpvu9PJLAVQvotRXgcQl7BFxby9OiUSAjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=n7R34Aop; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Qe9j3sRq; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nD4RLRYZ"
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38e5a616d07so1015537a91.2
-        for <chrome-platform@lists.linux.dev>; Thu, 23 Jul 2026 09:38:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="n7R34Aop";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Qe9j3sRq"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66O4lM1u3139593
+	for <chrome-platform@lists.linux.dev>; Fri, 24 Jul 2026 07:47:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	5IHS8Pv+e5A5+jxfOg/W3A3G1owIeSmgpg8spUeYUKI=; b=n7R34Aopw1ZoRAQO
+	BxjUWJFr/5YUsdAZLVguRApcRBzzjvPqoZaK/HfdljcNtUNAVWGDvN0K65tr+aLx
+	xXga7fvJqhGhZPmUKANrQe+k3TPyQfTfJ/yfqCESw29oPmnandI+r+ADcEWASiND
+	p6ACkMckJthlh4LjO7rcJ5rTFGfrYSz+bsyQ4bGV2ykfdbsX9EFdJKEov/bntSSD
+	78i8kY/efbLjM7lyOj2Mujh7NjKA+D2qjP0E3UCE5W6NjqiWpPPCo0GLTYek67qx
+	oePLWWc7OP3n4sOksp5XYJQubbJ47fyjNs0Ji5CyijixlutV8FkUbySngd3y4hM+
+	cdbCgw==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fkn9a3edv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <chrome-platform@lists.linux.dev>; Fri, 24 Jul 2026 07:47:49 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-848568a6f62so262236b3a.0
+        for <chrome-platform@lists.linux.dev>; Fri, 24 Jul 2026 00:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784824720; x=1785429520; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lkb7ASztyLUBgOy6aITp26iyrYap6j/8emIp6NYaz98=;
-        b=nD4RLRYZ5j2iVdiSZC3/0BMpNsru2RVVPONuWzm34GaHPrPnDfWhM61A69z7M51l3y
-         a3/QjQy+c3KqHp5g0kiCoAUqfWGolD4zQhT60plcUK/g2y6KURLwzkDscfjwcYdP0Xdd
-         fAZSKBVH165tHop7R9D+aV87jQjC0dXvGbersiFyaZjZbkC8rrPkwhfFE1xKoWwfgmug
-         I9Llm0cYn/ImhmEnn+2H3Rl7ojtgyzYUTbsTMcViXmAr8qIEF4+DT+OG59CpzD2B1m6d
-         M5v/AMoVuZ5cXJit0esqmx2557Ih1logmDPtq5tfxVq2ezrH4k43BB4RQD/xo4tSFv46
-         FRtA==
+        d=oss.qualcomm.com; s=google; t=1784879269; x=1785484069; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5IHS8Pv+e5A5+jxfOg/W3A3G1owIeSmgpg8spUeYUKI=;
+        b=Qe9j3sRqxmQT2j4gfaboQfMR/nFqtBjmg00z4yiolDh8RGPA3OrntBMmyZrhamavkx
+         nWBCpZkCoWmC/yJ0lHAFQQGjyKD9RPrBkSYMD0h/voUYMGN3eRC6YEhLmUXjITmvMZs2
+         KmiLbwy5a5FVBRgEb0G57/b+lrbw5R0127xMeWyLVlVNUTXTUsNeLvikZT1TLx/Em2Gi
+         emhjl1Jp3ZAQNpl1SjrW/aeuEffZhOmPchisl+zWosP578OkfKSG2GcbsXRI0Woa0Uww
+         aO1rQ7/6uzp9ZI24wjJoj3lsP0jx4SsvK9hDC1nlyzGbVJvoUCjyoYYIDtwL0JAelOFR
+         FZpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784824720; x=1785429520;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1784879269; x=1785484069;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=lkb7ASztyLUBgOy6aITp26iyrYap6j/8emIp6NYaz98=;
-        b=glqC7MmgzGO10Bdl0MmS02aiBnkGo5oZ0bElDkr6N0QyBfmYMNV5S1hZvTf0Y/jAuc
-         EEj1xhzDBlldhYGn9M82SGhnEsFvT9I2W3hSV/6C3ko0q6sbKmxW2yV4B2bkL7lwCV+l
-         3CTUem8lK3LQygpKbYbozrjvaKXfBwgi7meIyyVTxOCllCzN4yTAUSWf7RmVBQ28nejc
-         gvbg4sp2r1cjTUopyP6nUOxcJCnF/nonAxzcVjwrS3dOuF0IaQDeR0HV8SBa1HiFQJsV
-         Wbqr2+P9Hrdjs0HuxndPGG4MllzyWquX2oxZ7j1uuGQBi1KGuo+cAvu4DTfHb9zanCXl
-         IzEw==
-X-Gm-Message-State: AOJu0Yz5uldOFMHKgqxRBG5P4wrsEj8PXp827PXzNb4sFyuIniVGOHdh
-	AC+PkKv8LGq+q/ommL3kOfgFXIIjl7TDepn6tqf/X8C2zs9xPZfNSfcnOxaYRtzSRLcfCUpH3b9
-	obns/CyNRU2nFLA==
-X-Received: from pjbhi18.prod.google.com ([2002:a17:90b:30d2:b0:38d:c2d2:7f5])
- (user=sgsatyam job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:3e85:b0:38e:5741:5173 with SMTP id 98e67ed59e1d1-38ec662cdc5mr3701656a91.29.1784824719484;
- Thu, 23 Jul 2026 09:38:39 -0700 (PDT)
-Date: Thu, 23 Jul 2026 16:38:38 +0000
-In-Reply-To: <20260723163628.1695182-1-sgsatyam@google.com>
+        bh=5IHS8Pv+e5A5+jxfOg/W3A3G1owIeSmgpg8spUeYUKI=;
+        b=DsA6rxtZ3DW5dk9cQMIgf1AvsAcdaOpXPpDlsiSM5uRZwy1AbCkB37bu7L4ssJ3q0+
+         sTixEcum15FA2qXYUK9fJ5HifX/1WYjLMvoonnOD9vs3K3Z0TfCvvBgJ1HBZzzIA/ibW
+         WhH51wEsj8CoWIXiawZf3T9v8vPpwMGRKmzvNvjOomBbiVYwgVwqsLotUvs+N7d7+6sv
+         67gzmaHDmWBaTii3CEP31Qq5fDrAS/EXbJWodjS8hnrRq02RH3ZbmNzgI9WcypnDXDla
+         fUtGxHEPRPybyMLZHFJ5Zt1kkWh2vHYLTQjJ/2oLF/ZvGRv75Qomntbg3QY9992XpJQC
+         vWTQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr+EYlJzvKkJwURGfPMQPbcGAxK+AKojz6TlHkhpbP8xtfEQuGAD1qD64aB3xTnsBIrmWIOnZK/iEboxSxlh7I=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzmtq/4uBxuMvUphPvqog4DZtr6DacwOhkGNGuws1lr5wCJNq9Q
+	2wk8UO6u4jVp8AES/wwI03dnV5OfR29Uq9DavNDBSU+H5FPwzbBVM2XvyimM2CufrajuLdA4O7e
+	9tA+JrLoGZwpxtix5Ago961NseXNBNcstMTPCLExfNiF3wzhcBd1gHfVicZ5xTvMaThGhGQ==
+X-Gm-Gg: AR+sD12a3ejEay+R45BfG+grCR/EP/RrG19vvxZsD0k1VPqBhRapmCzaFdfm2uIbLnk
+	UbBB+VFfKp50ZJtX8Ypp0WHooarqMwvp0LcNWnHR3j5v2bztcBOwwCFp/ey/po9EXfF/VRivRgm
+	kBeNKg3n/AvKkMotOpD66cfqPBmESmLwSBeRrYn+OoFMzc29MHQaLqxlmB1d+Fy63tKsfWdoIge
+	8o23vmSiXreHmkR25/T1jwOektyHh8BVhi+kExpn4ptHXAhlFZAQMBB8R2zu7kcgclxNAb/xvmN
+	29JIf+v76yQjVbhcBCvElxwlAHfA/3t4QxfYmAiO7FQCqRCmrTd7cFkotuhMYv0LOvv8oeoO4vN
+	fty8rVvtdNwsIw9BExwubtX+yHMct
+X-Received: by 2002:a05:6a00:32cf:b0:84e:1da9:6a53 with SMTP id d2e1a72fcca58-84e2b8688bcmr6892786b3a.19.1784879268995;
+        Fri, 24 Jul 2026 00:47:48 -0700 (PDT)
+X-Received: by 2002:a05:6a00:32cf:b0:84e:1da9:6a53 with SMTP id d2e1a72fcca58-84e2b8688bcmr6892767b3a.19.1784879268506;
+        Fri, 24 Jul 2026 00:47:48 -0700 (PDT)
+Received: from [10.92.217.4] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e17578345sm4201068b3a.39.2026.07.24.00.47.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jul 2026 00:47:47 -0700 (PDT)
+Message-ID: <e78ac252-1631-4f8c-a0e7-e48c66c20d9c@oss.qualcomm.com>
+Date: Fri, 24 Jul 2026 13:17:40 +0530
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260723163628.1695182-1-sgsatyam@google.com>
-X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
-Message-ID: <20260723163838.1698125-1-sgsatyam@google.com>
-Subject: [PATCH v3] platform/chrome: cros_ec_sensorhub: Modify clock drift estimation
-From: Satyam Gupta <sgsatyam@google.com>
-To: bleung@chromium.org, tzungbi@kernel.org, groeck@chromium.org
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	scollyer@google.com, sgsatyam@google.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 0/7] Introduction of PSCR Framework and Related
+ Components
+From: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        linux-pm@vger.kernel.org,
+        =?UTF-8?Q?S=C3=B8ren_Andersen?= <san@skov.dk>,
+        Guenter Roeck <groeck@chromium.org>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        chrome-platform@lists.linux.dev, avaneesh.dwivedi@oss.qualcomm.com,
+        umang.chheda@oss.qualcomm.com, faiyaz.mohammed@oss.qualcomm.com
+References: <20250618120255.3141862-1-o.rempel@pengutronix.de>
+ <3309e88e-e189-42ea-b74e-346aec1b4b5f@oss.qualcomm.com>
+ <729b0e26-bdbc-42f9-8245-79b2942272c2@oss.qualcomm.com>
+ <akJaAesz35Ml3iW4@pengutronix.de>
+ <4b5321e8-05c8-4f3f-bc22-d3776e008151@oss.qualcomm.com>
+ <akXnLLl_nq2G8EGI@pengutronix.de>
+ <f1400208-0c47-4dc0-8b69-d3ca2b054bb4@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <f1400208-0c47-4dc0-8b69-d3ca2b054bb4@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI0MDA2OSBTYWx0ZWRfX+1wfoecHcsaL
+ qveJPFVLsjLlLsGIeRpfs1mSUJEzuRAknLTF6niu3b1NJTnvqtwCmN0NthEccwfOUbiHBLToo12
+ C3aL8/WmmYJ/2bZfIM97nzjxP6r7h8aZr08EfMoRY4R80VK3m9zZjjiviaKHeRzrjnpftwIizjo
+ LkcOTLx5wsdS8J1rJ3UFGb93wXzGXW+Bp+/EFQNwApsma0mE7qRSGnfyXfphn3MgMp9jmY9UDPd
+ QNy/1tc9mgsIqiquycuON2uDeh4TkWZLi2R/fRvMWuBSoOpcprXSulYRkOjPnfde4rTUJs4rdKe
+ xOmNZPjd0kGwEaOw7RODWbksibXi5CjqUgV27Ar9x3t/vzyXLvXX7I2EVSBWfOrwZ2EJa3tqHSk
+ As756VJzL032BWtyZRQSTtZRC6CI0lKjsbmTVB+Nj3LHOP2X0Rb393KHb9SLd7IPzivvWBR9B9F
+ B4933EWjM2bGrZODWgg==
+X-Proofpoint-ORIG-GUID: goP2Yl27jfeInMVI4ZhCoiYOm4jGwC5n
+X-Proofpoint-GUID: goP2Yl27jfeInMVI4ZhCoiYOm4jGwC5n
+X-Authority-Analysis: v=2.4 cv=WOdPmHsR c=1 sm=1 tr=0 ts=6a6318a5 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=XVDgrs5tODRM-HsWCiIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI0MDA2OSBTYWx0ZWRfXyu+XajhCES/j
+ 7LhMWHr2yDqRGlBwVzIqD6sh4J2Zu/JUDpF66A4gzw7BZm96mpDOd5oNJKILjLN8ISbBZglBkZm
+ osKSChKUnfXjmIknBK9+Ek2Ug6yh6sE=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-24_01,2026-07-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
+ clxscore=1015 impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607240069
 
-From: Scott Collyer <scollyer@google.com>
+Hi Oleksij,
 
-This CL makes 5 specific changes to the clock drift estimation algorithm
-and timestamp filtering to resolve monotonic backward skews and OOO errors
-during batching:
+On 06-Jul-26 3:06 PM, Faruque Ansari wrote:
+> Hi Oleksij,
+> 
+> On 02-Jul-26 9:51 AM, Oleksij Rempel wrote:
+>> Hi Faruque,
+>>
+>> On Wed, Jul 01, 2026 at 06:26:37PM +0530, Faruque Ansari wrote:
+>>> Hi Oleksij,
+>>>
+>>> On 29-Jun-26 5:11 PM, Oleksij Rempel wrote:
+>>>> Hi Faruque,
+>>> Thank You for sharing your rational behind and idea behind 
+>>> this framework !
+>>> IMO it would be better to have a single framework to represent 
+>>> all the
+>>> reboot reasons of a system and not just the reboot reasons 
+>>> caused because of
+>>> errors
+>>> Ex capturing reboot reasons like ota, bootloader,recovery 
+>>> etc ... currently
+>>> nvmem reboot driver does not expose a sysfs/ABI which user app 
+>>> can use to
+>>> infer reboot reason ...
+>>> Also, it would be extend this framework to also support 
+>>> firmware triggered
+>>> reboot reasons  ...
+>>> Do you have any plan to extend this framework to support 
+>>> userspace triggered
+>>> reboot reasons as well like bootloader, recovery, ota etc ?
+>>> And also extend the framework to support vendor specific 
+>>> reboot reasons
+>>> which can be triggered by firmware  ?
+>>
+>> I have nothing against it. My imagination was limited only by 
+>> some of
+>> existing problems :)
+>>
+>>> We can co-work to extend this framework  ?
+>>
+>> Sure. Should I put it somewhere on git, so you can try your 
+>> changes
+>> on top of it?
+>>
+>>> On representating nvmem cell to the framework  - if not DT 
+>>> what is your plan
+>>> to represent it ?
+>>>
+>>> How would framework discover the nvmem cell if its not DT based ?
+>>
+>> I'll need to re-spin it and send a new version.
+>>
+>> Are you on linux plumbers conference this year?
+>>
+>> Best Regards,
+>> Oleksij
+> 
 
-1. Clamp the calculated drift slope (m) to a realistic maximum bound
-   (+/- 200 PPM). Huge jitter spikes previously produced astronomical
-   slopes that corrupted the median filter history.
-2. Detect ODR (Output Data Rate) or Mode changes (where dx changes
-   by more than 10x) and actively reset the history. This prevents
-   mixing noisy active streaming samples with larger batched samples.
-3. Increase the TS_HISTORY_BORED_US gap threshold from 0.5s to 2.0s
-   to accommodate normal batching flush intervals (which can be 1-2
-   seconds long) without constantly tearing down the filter.
-4. Correctly bound the array index logic during history propagation
-   so we cleanly drop the oldest elements without array overrun.
-5. Fully drop out-of-order samples to guarantee monotonicity instead of
-   clamping them to the last timestamp. Clamped samples previously caused
-   stale artifacts downstream during identical timestamp spreading.
+Just checking in - Do you have a rough timeline for the re-spin 
+and posting the next revision?
 
-Signed-off-by: Scott Collyer <scollyer@google.com>
-Signed-off-by: SATYAM GUPTA <sgsatyam@google.com>
----
- .../platform/chrome/cros_ec_sensorhub_ring.c  | 71 +++++++++++++++----
- 1 file changed, 56 insertions(+), 15 deletions(-)
+Thanks,
+Faruque Ansari
 
-diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-index 1205219515d6..3f57513b4d5f 100644
---- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-+++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-@@ -22,15 +22,21 @@
- 
- /* Precision of fixed point for the m values from the filter */
- #define M_PRECISION BIT(23)
-+#define MAX_DRIFT_PPM 200LL
-+#define MAX_M ((s64)(MAX_DRIFT_PPM * M_PRECISION / 1000000))
- 
- /* Only activate the filter once we have at least this many elements. */
- #define TS_HISTORY_THRESHOLD 8
- 
- /*
-  * If we don't have any history entries for this long, empty the filter to
-- * make sure there are no big discontinuities.
-+ * make sure there are no big discontinuities (e.g. after suspend or long idle).
-+ *
-+ * This is set to 2 seconds to accommodate normal batching flush intervals
-+ * (which can be up to 1-2 seconds) without constantly resetting the filter,
-+ * while still ensuring a reset occurs during actual long gaps or suspend.
-  */
--#define TS_HISTORY_BORED_US 500000
-+#define TS_HISTORY_BORED_US 2000000 // 2 seconds
- 
- /* To measure by how much the filter is overshooting, if it happens. */
- #define FUTURE_TS_ANALYTICS_COUNT_MAX 100
-@@ -259,7 +265,7 @@ cros_ec_sensor_ring_ts_filter_update(struct cros_ec_sensors_ts_filter_state
- 	s64 m; /* stored as *M_PRECISION */
- 	s64 *m_history_copy = state->temp_buf;
- 	s64 *error = state->temp_buf;
--	int i;
-+	int i, start;
- 
- 	/* we trust b the most, that'll be our independent variable */
- 	x = b;
-@@ -271,13 +277,36 @@ cros_ec_sensor_ring_ts_filter_update(struct cros_ec_sensors_ts_filter_state
- 		return; /* we already have this irq in the history */
- 	dy = (state->y_history[0] + state->y_offset) - y;
- 	m = div64_s64(dy * M_PRECISION, dx);
-+	/*
-+	 * Clamp the calculated slope to a realistic range (+/- 200 ppm).
-+	 * Temporary large jitter spikes can produce huge slopes (e.g. +/- 20000 ppm)
-+	 * that would otherwise corrupt the median filter history.
-+	 */
-+	m = clamp(m, -MAX_M, MAX_M);
-+
-+	/*
-+	 * Detect ODR (Output Data Rate) or Mode changes (e.g., transition from
-+	 * active streaming to low-frequency batching). If the time delta (dx)
-+	 * changes by more than 10x in either direction, reset the filter history
-+	 * to prevent mixing noisy active samples with batching samples.
-+	 */
-+	if (state->history_len > 1) {
-+		s64 prev_dx = -state->x_history[1];
-+
-+		if (prev_dx > 0 && (abs(dx) > 10 * prev_dx || prev_dx > 10 * abs(dx))) {
-+			state->history_len = 0;
-+			m = 0;
-+		}
-+	}
- 
- 	/* Empty filter if we haven't seen any action in a while. */
- 	if (-dx > TS_HISTORY_BORED_US)
- 		state->history_len = 0;
- 
- 	/* Move everything over, also update offset to all absolute coords .*/
--	for (i = state->history_len - 1; i >= 1; i--) {
-+	start = (state->history_len == CROS_EC_SENSORHUB_TS_HISTORY_SIZE) ?
-+		state->history_len - 1 : state->history_len;
-+	for (i = start; i >= 1; i--) {
- 		state->x_history[i] = state->x_history[i - 1] + dx;
- 		state->y_history[i] = state->y_history[i - 1] + dy;
- 
-@@ -380,7 +409,7 @@ cros_ec_sensor_ring_fix_overflow(s64 *ts,
- 	state->last = *ts;
- }
- 
--static void
-+static bool
- cros_ec_sensor_ring_check_for_past_timestamp(struct cros_ec_sensorhub
- 					     *sensorhub,
- 					     struct cros_ec_sensors_ring_sample
-@@ -388,17 +417,27 @@ cros_ec_sensor_ring_check_for_past_timestamp(struct cros_ec_sensorhub
- {
- 	const u8 sensor_id = sample->sensor_id;
- 
--	/* If this event is earlier than one we saw before... */
-+	/*
-+	 * If this event is strictly earlier than one we saw before, it is truly
-+	 * out-of-order and must be dropped to preserve monotonicity.
-+	 *
-+	 * We intentionally allow duplicate timestamps (==) to pass through here
-+	 * because the EC/ISH may report a batch of samples with the same raw
-+	 * timestamp. These duplicates are required by the downstream spreading
-+	 * logic (cros_ec_sensor_ring_spread_add) to interpolate unique,
-+	 * monotonic timestamps for each sample in the batch.
-+	 */
- 	if (sensorhub->batch_state[sensor_id].newest_sensor_event >
--	    sample->timestamp)
--		/* mark it for spreading. */
--		sample->timestamp =
--			sensorhub->batch_state[sensor_id].last_ts;
--	else
--		sensorhub->batch_state[sensor_id].newest_sensor_event =
--			sample->timestamp;
-+	    sample->timestamp) {
-+		return false;
-+	}
-+
-+	sensorhub->batch_state[sensor_id].newest_sensor_event =
-+		sample->timestamp;
-+	return true;
- }
- 
-+
- /**
-  * cros_ec_sensor_ring_process_event() - Process one EC FIFO event
-  *
-@@ -529,8 +568,10 @@ cros_ec_sensor_ring_process_event(struct cros_ec_sensorhub *sensorhub,
- 	for (axis = 0; axis < 3; axis++)
- 		out->vector[axis] = in->data[axis];
- 
--	if (sensorhub->tight_timestamps)
--		cros_ec_sensor_ring_check_for_past_timestamp(sensorhub, out);
-+	if (sensorhub->tight_timestamps) {
-+		if (!cros_ec_sensor_ring_check_for_past_timestamp(sensorhub, out))
-+			return false;
-+	}
- 	return true;
- }
- 
--- 
-2.55.0.229.g6434b31f56-goog
+> 
+> 
 

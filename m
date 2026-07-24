@@ -1,217 +1,244 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8473AF668
-	for <chrome-platform@lists.linux.dev>; Fri, 24 Jul 2026 07:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B583DAAD8
+	for <chrome-platform@lists.linux.dev>; Fri, 24 Jul 2026 08:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784879272; cv=none; b=R9sb6QYHTSwKApl7HD2e0/wxypeI5CDHObqOcWmN1SXHEe8gMlW6nfeG6mujaMav1Y8GXWrvQdKnNRm/Pv6MBZ6rFgVnwAvV/wXXH4cJKNuf3jlDUxf/3yZzb/cXqDLcJdNEiTPwmuToUu+0T6KX8a8DXfdX5SsIZeucswCFasc=
+	t=1784882175; cv=none; b=Fp7+4lI38uC2xMDYlI9D428mqcaMyC4Xz/oL+z1zLppxXrrY6LjvpUcY0rjoOWLXp5If6IqA4P8E28N2yEPVuiQyqJdgwDwUJGhlqtsfthnIeENLWtt2tCMip0q4D+SnZz/abIEH0jZHXoUGl0TY6Wlyqgu6JmKwNsvC1iLvDP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784879272; c=relaxed/simple;
-	bh=DIe88Zw9WWAuEjBW7hGr7bBuI8RJaECUB5RsHO3IB0E=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Rbvc7edjmgpgohkQioNhQ6PEsRuxq5JkDEHKCR7GcuULeUUp2KvGpXq+Mp27KuGi/omrwGpxZq4qO/20Lr13tGpTbDkcOBU/wXw4cRvYuPYAAxFpfA4YwgG0R9wGmoRIvX2+AAsDHIpvu9PJLAVQvotRXgcQl7BFxby9OiUSAjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=n7R34Aop; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Qe9j3sRq; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1784882175; c=relaxed/simple;
+	bh=2m27K8YDA2d3oCx+0nulJY0uzC0LDomgZgzJ9anfsnE=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=LkM1pMJAgWVb3NLpk2z309Gavy4Dqat8yQFZCb/HQnfa5qFV8pW9SAMvKvKC4wizM2Ba57iK2MubPn/6/dWZ9Ab4jVQlzkewOt0PPL9WXH8lXL7CDw8O+B62lnMdoORb/+rTLeh3RLLYPKe7VcZ5PTbBCjg5uzhCNf+5AaovhqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mO4ufsmd; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="n7R34Aop";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Qe9j3sRq"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66O4lM1u3139593
-	for <chrome-platform@lists.linux.dev>; Fri, 24 Jul 2026 07:47:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5IHS8Pv+e5A5+jxfOg/W3A3G1owIeSmgpg8spUeYUKI=; b=n7R34Aopw1ZoRAQO
-	BxjUWJFr/5YUsdAZLVguRApcRBzzjvPqoZaK/HfdljcNtUNAVWGDvN0K65tr+aLx
-	xXga7fvJqhGhZPmUKANrQe+k3TPyQfTfJ/yfqCESw29oPmnandI+r+ADcEWASiND
-	p6ACkMckJthlh4LjO7rcJ5rTFGfrYSz+bsyQ4bGV2ykfdbsX9EFdJKEov/bntSSD
-	78i8kY/efbLjM7lyOj2Mujh7NjKA+D2qjP0E3UCE5W6NjqiWpPPCo0GLTYek67qx
-	oePLWWc7OP3n4sOksp5XYJQubbJ47fyjNs0Ji5CyijixlutV8FkUbySngd3y4hM+
-	cdbCgw==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fkn9a3edv-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <chrome-platform@lists.linux.dev>; Fri, 24 Jul 2026 07:47:49 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-848568a6f62so262236b3a.0
-        for <chrome-platform@lists.linux.dev>; Fri, 24 Jul 2026 00:47:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784879269; x=1785484069; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5IHS8Pv+e5A5+jxfOg/W3A3G1owIeSmgpg8spUeYUKI=;
-        b=Qe9j3sRqxmQT2j4gfaboQfMR/nFqtBjmg00z4yiolDh8RGPA3OrntBMmyZrhamavkx
-         nWBCpZkCoWmC/yJ0lHAFQQGjyKD9RPrBkSYMD0h/voUYMGN3eRC6YEhLmUXjITmvMZs2
-         KmiLbwy5a5FVBRgEb0G57/b+lrbw5R0127xMeWyLVlVNUTXTUsNeLvikZT1TLx/Em2Gi
-         emhjl1Jp3ZAQNpl1SjrW/aeuEffZhOmPchisl+zWosP578OkfKSG2GcbsXRI0Woa0Uww
-         aO1rQ7/6uzp9ZI24wjJoj3lsP0jx4SsvK9hDC1nlyzGbVJvoUCjyoYYIDtwL0JAelOFR
-         FZpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784879269; x=1785484069;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5IHS8Pv+e5A5+jxfOg/W3A3G1owIeSmgpg8spUeYUKI=;
-        b=DsA6rxtZ3DW5dk9cQMIgf1AvsAcdaOpXPpDlsiSM5uRZwy1AbCkB37bu7L4ssJ3q0+
-         sTixEcum15FA2qXYUK9fJ5HifX/1WYjLMvoonnOD9vs3K3Z0TfCvvBgJ1HBZzzIA/ibW
-         WhH51wEsj8CoWIXiawZf3T9v8vPpwMGRKmzvNvjOomBbiVYwgVwqsLotUvs+N7d7+6sv
-         67gzmaHDmWBaTii3CEP31Qq5fDrAS/EXbJWodjS8hnrRq02RH3ZbmNzgI9WcypnDXDla
-         fUtGxHEPRPybyMLZHFJ5Zt1kkWh2vHYLTQjJ/2oLF/ZvGRv75Qomntbg3QY9992XpJQC
-         vWTQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr+EYlJzvKkJwURGfPMQPbcGAxK+AKojz6TlHkhpbP8xtfEQuGAD1qD64aB3xTnsBIrmWIOnZK/iEboxSxlh7I=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzmtq/4uBxuMvUphPvqog4DZtr6DacwOhkGNGuws1lr5wCJNq9Q
-	2wk8UO6u4jVp8AES/wwI03dnV5OfR29Uq9DavNDBSU+H5FPwzbBVM2XvyimM2CufrajuLdA4O7e
-	9tA+JrLoGZwpxtix5Ago961NseXNBNcstMTPCLExfNiF3wzhcBd1gHfVicZ5xTvMaThGhGQ==
-X-Gm-Gg: AR+sD12a3ejEay+R45BfG+grCR/EP/RrG19vvxZsD0k1VPqBhRapmCzaFdfm2uIbLnk
-	UbBB+VFfKp50ZJtX8Ypp0WHooarqMwvp0LcNWnHR3j5v2bztcBOwwCFp/ey/po9EXfF/VRivRgm
-	kBeNKg3n/AvKkMotOpD66cfqPBmESmLwSBeRrYn+OoFMzc29MHQaLqxlmB1d+Fy63tKsfWdoIge
-	8o23vmSiXreHmkR25/T1jwOektyHh8BVhi+kExpn4ptHXAhlFZAQMBB8R2zu7kcgclxNAb/xvmN
-	29JIf+v76yQjVbhcBCvElxwlAHfA/3t4QxfYmAiO7FQCqRCmrTd7cFkotuhMYv0LOvv8oeoO4vN
-	fty8rVvtdNwsIw9BExwubtX+yHMct
-X-Received: by 2002:a05:6a00:32cf:b0:84e:1da9:6a53 with SMTP id d2e1a72fcca58-84e2b8688bcmr6892786b3a.19.1784879268995;
-        Fri, 24 Jul 2026 00:47:48 -0700 (PDT)
-X-Received: by 2002:a05:6a00:32cf:b0:84e:1da9:6a53 with SMTP id d2e1a72fcca58-84e2b8688bcmr6892767b3a.19.1784879268506;
-        Fri, 24 Jul 2026 00:47:48 -0700 (PDT)
-Received: from [10.92.217.4] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e17578345sm4201068b3a.39.2026.07.24.00.47.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jul 2026 00:47:47 -0700 (PDT)
-Message-ID: <e78ac252-1631-4f8c-a0e7-e48c66c20d9c@oss.qualcomm.com>
-Date: Fri, 24 Jul 2026 13:17:40 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mO4ufsmd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784882171; x=1816418171;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=2m27K8YDA2d3oCx+0nulJY0uzC0LDomgZgzJ9anfsnE=;
+  b=mO4ufsmdplgO5Dk/TimiwhDuB1XcbGnCHT2faJ5fXE96B18jWFwGA4kb
+   Pr0UAWK4zNAZEyBLb2dHIXKDnFrniko0vH8C6l7JaA9SJ5iqttR5cPMcB
+   fH7yzss7/YviUnCWOn5Hs50UZP3jQLT8kqEpsa8X4oO0OUZf4tUgKiot2
+   2idI13CU+dMY6MDaWEQWqvMnlGItXnNS9Pzd3ddTaXuu8nXn5Li3q0Qe1
+   iQfDheDjeoEl1YH9JTVbI86/Q/YhRlX1wnF8a0qnNDQNwiK+V/J0MfXOv
+   vYVkaR3OQdiY/IsxN53t1R4f2gw2K+Uw14tofOqZBgAmW069Fw8++2PRS
+   g==;
+X-CSE-ConnectionGUID: nHgyqllpSYqFNBILNe3u9w==
+X-CSE-MsgGUID: Fq+h+t6DTi+PRouuzNM4ZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="89437724"
+X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
+   d="scan'208";a="89437724"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 01:36:05 -0700
+X-CSE-ConnectionGUID: PWfznRuFRFSHbos9XEK9iw==
+X-CSE-MsgGUID: K46nMSzBQGe8BkQ8EFXI2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
+   d="scan'208";a="281959926"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.8])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 01:35:56 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 24 Jul 2026 11:35:52 +0300 (EEST)
+To: Sean Rhodes <sean@starlabs.systems>
+cc: tzungbi@kernel.org, Hans de Goede <hansg@kernel.org>, 
+    corentin.chary@gmail.com, luke@ljones.dev, denis.benato@linux.dev, 
+    prasanth.ksr@dell.com, jorge.lopez2@hp.com, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, derekjohn.clark@gmail.com, 
+    josh@joshuagrisham.com, briannorris@chromium.org, jwerner@chromium.org, 
+    tzimmermann@suse.de, javierm@redhat.com, kees@kernel.org, 
+    u.kleine-koenig@baylibre.com, mst@redhat.com, chenhuacai@kernel.org, 
+    wenst@chromium.org, florian.fainelli@broadcom.com, 
+    titouan.ameline@gmail.com, oliver@liuxiaozhen.dev, 
+    LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org, 
+    Dell.Client.Kernel@dell.com, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v8 1/4] platform/x86: Sort firmware attributes class
+ includes
+In-Reply-To: <CABtds-3mgwnoV8P4nVFfro2v99_MfVomm4Uz5JyxuVAK=cfY-Q@mail.gmail.com>
+Message-ID: <2fa8bf8d-162d-db04-a85a-5f591fee447b@linux.intel.com>
+References: <CABtds-3mgwnoV8P4nVFfro2v99_MfVomm4Uz5JyxuVAK=cfY-Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 0/7] Introduction of PSCR Framework and Related
- Components
-From: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-        linux-pm@vger.kernel.org,
-        =?UTF-8?Q?S=C3=B8ren_Andersen?= <san@skov.dk>,
-        Guenter Roeck <groeck@chromium.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        chrome-platform@lists.linux.dev, avaneesh.dwivedi@oss.qualcomm.com,
-        umang.chheda@oss.qualcomm.com, faiyaz.mohammed@oss.qualcomm.com
-References: <20250618120255.3141862-1-o.rempel@pengutronix.de>
- <3309e88e-e189-42ea-b74e-346aec1b4b5f@oss.qualcomm.com>
- <729b0e26-bdbc-42f9-8245-79b2942272c2@oss.qualcomm.com>
- <akJaAesz35Ml3iW4@pengutronix.de>
- <4b5321e8-05c8-4f3f-bc22-d3776e008151@oss.qualcomm.com>
- <akXnLLl_nq2G8EGI@pengutronix.de>
- <f1400208-0c47-4dc0-8b69-d3ca2b054bb4@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <f1400208-0c47-4dc0-8b69-d3ca2b054bb4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI0MDA2OSBTYWx0ZWRfX+1wfoecHcsaL
- qveJPFVLsjLlLsGIeRpfs1mSUJEzuRAknLTF6niu3b1NJTnvqtwCmN0NthEccwfOUbiHBLToo12
- C3aL8/WmmYJ/2bZfIM97nzjxP6r7h8aZr08EfMoRY4R80VK3m9zZjjiviaKHeRzrjnpftwIizjo
- LkcOTLx5wsdS8J1rJ3UFGb93wXzGXW+Bp+/EFQNwApsma0mE7qRSGnfyXfphn3MgMp9jmY9UDPd
- QNy/1tc9mgsIqiquycuON2uDeh4TkWZLi2R/fRvMWuBSoOpcprXSulYRkOjPnfde4rTUJs4rdKe
- xOmNZPjd0kGwEaOw7RODWbksibXi5CjqUgV27Ar9x3t/vzyXLvXX7I2EVSBWfOrwZ2EJa3tqHSk
- As756VJzL032BWtyZRQSTtZRC6CI0lKjsbmTVB+Nj3LHOP2X0Rb393KHb9SLd7IPzivvWBR9B9F
- B4933EWjM2bGrZODWgg==
-X-Proofpoint-ORIG-GUID: goP2Yl27jfeInMVI4ZhCoiYOm4jGwC5n
-X-Proofpoint-GUID: goP2Yl27jfeInMVI4ZhCoiYOm4jGwC5n
-X-Authority-Analysis: v=2.4 cv=WOdPmHsR c=1 sm=1 tr=0 ts=6a6318a5 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=XVDgrs5tODRM-HsWCiIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI0MDA2OSBTYWx0ZWRfXyu+XajhCES/j
- 7LhMWHr2yDqRGlBwVzIqD6sh4J2Zu/JUDpF66A4gzw7BZm96mpDOd5oNJKILjLN8ISbBZglBkZm
- osKSChKUnfXjmIknBK9+Ek2Ug6yh6sE=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-24_01,2026-07-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
- clxscore=1015 impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607240069
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Oleksij,
+On Wed, 22 Jul 2026, Sean Rhodes wrote:
 
-On 06-Jul-26 3:06 PM, Faruque Ansari wrote:
-> Hi Oleksij,
+> Move firmware_attributes_class.h into the main include block and sort the
+> affected includes. This lets the header move replace each include in place.
 > 
-> On 02-Jul-26 9:51 AM, Oleksij Rempel wrote:
->> Hi Faruque,
->>
->> On Wed, Jul 01, 2026 at 06:26:37PM +0530, Faruque Ansari wrote:
->>> Hi Oleksij,
->>>
->>> On 29-Jun-26 5:11 PM, Oleksij Rempel wrote:
->>>> Hi Faruque,
->>> Thank You for sharing your rational behind and idea behind 
->>> this framework !
->>> IMO it would be better to have a single framework to represent 
->>> all the
->>> reboot reasons of a system and not just the reboot reasons 
->>> caused because of
->>> errors
->>> Ex capturing reboot reasons like ota, bootloader,recovery 
->>> etc ... currently
->>> nvmem reboot driver does not expose a sysfs/ABI which user app 
->>> can use to
->>> infer reboot reason ...
->>> Also, it would be extend this framework to also support 
->>> firmware triggered
->>> reboot reasons  ...
->>> Do you have any plan to extend this framework to support 
->>> userspace triggered
->>> reboot reasons as well like bootloader, recovery, ota etc ?
->>> And also extend the framework to support vendor specific 
->>> reboot reasons
->>> which can be triggered by firmware  ?
->>
->> I have nothing against it. My imagination was limited only by 
->> some of
->> existing problems :)
->>
->>> We can co-work to extend this framework  ?
->>
->> Sure. Should I put it somewhere on git, so you can try your 
->> changes
->> on top of it?
->>
->>> On representating nvmem cell to the framework  - if not DT 
->>> what is your plan
->>> to represent it ?
->>>
->>> How would framework discover the nvmem cell if its not DT based ?
->>
->> I'll need to re-spin it and send a new version.
->>
->> Are you on linux plumbers conference this year?
->>
->> Best Regards,
->> Oleksij
+> Suggested-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> Signed-off-by: Sean Rhodes <sean@starlabs.systems>
+> ---
+>  drivers/platform/x86/asus-armoury.c                | 2 +-
+>  drivers/platform/x86/dell/dell-wmi-sysman/sysman.c | 9 +++++----
+>  drivers/platform/x86/hp/hp-bioscfg/bioscfg.c       | 9 +++++----
+>  drivers/platform/x86/lenovo/think-lmi.c            | 5 +++--
+>  drivers/platform/x86/lenovo/wmi-other.c            | 2 +-
+>  drivers/platform/x86/samsung-galaxybook.c          | 3 ++-
+>  6 files changed, 17 insertions(+), 13 deletions(-)
 > 
+> diff --git a/drivers/platform/x86/asus-armoury.c
+> b/drivers/platform/x86/asus-armoury.c
+> index 495dc1e31d40..f3d8c5a85762 100644
+> --- a/drivers/platform/x86/asus-armoury.c
+> +++ b/drivers/platform/x86/asus-armoury.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/dmi.h>
+>  #include <linux/err.h>
+>  #include <linux/errno.h>
+> +#include "firmware_attributes_class.h"
+>  #include <linux/fs.h>
+>  #include <linux/kernel.h>
+>  #include <linux/kmod.h>
+> @@ -34,7 +35,6 @@
+>  #include <linux/sysfs.h>
+> 
+>  #include "asus-armoury.h"
+> -#include "firmware_attributes_class.h"
+> 
+>  #define ASUS_NB_WMI_EVENT_GUID "0B3CBB35-E3C2-45ED-91C2-4C5A6D195D1C"
+> 
+> diff --git a/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
+> b/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
+> index ab46a023cc34..4ff9003c6589 100644
+> --- a/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
+> +++ b/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
+> @@ -8,18 +8,19 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> 
+>  #include <linux/align.h>
+> -#include <linux/fs.h>
+>  #include <linux/dmi.h>
+> -#include <linux/module.h>
+> +#include "../../firmware_attributes_class.h"
+> +#include <linux/fs.h>
+>  #include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/nls.h>
+>  #include <linux/string.h>
+>  #include <linux/sysfs.h>
+>  #include <linux/wmi.h>
+> +
+>  #include "dell-wmi-sysman.h"
+> -#include "../../firmware_attributes_class.h"
 
-Just checking in - Do you have a rough timeline for the re-spin 
-and posting the next revision?
+I'm sorry I probably wasn't specific enough with my comment but the 
+custom is to have the local includes separately in own block of includes 
+(empty line in between).
 
-Thanks,
-Faruque Ansari
+Also, if there's a case where there is's linux/xx.h and 
+someotherfolder/xx.h, those should be in own "blocks" of include, each 
+group sorted alphabetically.
 
+--
+ i.
+
+>  #define MAX_TYPES  4
+> -#include <linux/nls.h>
+> 
+>  struct wmi_sysman_priv wmi_priv = {
+>  	.mutex = __MUTEX_INITIALIZER(wmi_priv.mutex),
+> diff --git a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+> b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+> index 27fd6cd21529..1965a329be48 100644
+> --- a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+> +++ b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+> @@ -7,16 +7,17 @@
+> 
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> 
+> +#include <linux/errno.h>
+> +#include "../../firmware_attributes_class.h"
+>  #include <linux/fs.h>
+> -#include <linux/module.h>
+>  #include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/nls.h>
+>  #include <linux/printk.h>
+>  #include <linux/string.h>
+>  #include <linux/wmi.h>
+> +
+>  #include "bioscfg.h"
+> -#include "../../firmware_attributes_class.h"
+> -#include <linux/nls.h>
+> -#include <linux/errno.h>
+> 
+>  MODULE_AUTHOR("Jorge Lopez <jorge.lopez2@hp.com>");
+>  MODULE_DESCRIPTION("HP BIOS Configuration Driver");
+> diff --git a/drivers/platform/x86/lenovo/think-lmi.c
+> b/drivers/platform/x86/lenovo/think-lmi.c
+> index e215e86e3db7..9e4b3e973de9 100644
+> --- a/drivers/platform/x86/lenovo/think-lmi.c
+> +++ b/drivers/platform/x86/lenovo/think-lmi.c
+> @@ -13,14 +13,15 @@
+> 
+>  #include <linux/acpi.h>
+>  #include <linux/array_size.h>
+> +#include <linux/dmi.h>
+>  #include <linux/errno.h>
+> +#include "../firmware_attributes_class.h"
+>  #include <linux/fs.h>
+>  #include <linux/mutex.h>
+>  #include <linux/string_helpers.h>
+>  #include <linux/types.h>
+> -#include <linux/dmi.h>
+>  #include <linux/wmi.h>
+> -#include "../firmware_attributes_class.h"
+> +
+>  #include "think-lmi.h"
+> 
+>  static bool debug_support;
+> diff --git a/drivers/platform/x86/lenovo/wmi-other.c
+> b/drivers/platform/x86/lenovo/wmi-other.c
+> index fbb32bf404f2..fdebaa0a9992 100644
+> --- a/drivers/platform/x86/lenovo/wmi-other.c
+> +++ b/drivers/platform/x86/lenovo/wmi-other.c
+> @@ -33,6 +33,7 @@
+>  #include <linux/container_of.h>
+>  #include <linux/device.h>
+>  #include <linux/export.h>
+> +#include "../firmware_attributes_class.h"
+>  #include <linux/gfp_types.h>
+>  #include <linux/hwmon.h>
+>  #include <linux/idr.h>
+> @@ -50,7 +51,6 @@
+>  #include "wmi-capdata.h"
+>  #include "wmi-events.h"
+>  #include "wmi-helpers.h"
+> -#include "../firmware_attributes_class.h"
+> 
+>  #define LENOVO_OTHER_MODE_GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3B"
+> 
+> diff --git a/drivers/platform/x86/samsung-galaxybook.c
+> b/drivers/platform/x86/samsung-galaxybook.c
+> index 6382af0b106c..74103c00b0c8 100644
+> --- a/drivers/platform/x86/samsung-galaxybook.c
+> +++ b/drivers/platform/x86/samsung-galaxybook.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/acpi.h>
+>  #include <linux/bits.h>
+>  #include <linux/err.h>
+> +#include "firmware_attributes_class.h"
+>  #include <linux/i8042.h>
+>  #include <linux/init.h>
+>  #include <linux/input.h>
+> @@ -27,8 +28,8 @@
+>  #include <linux/sysfs.h>
+>  #include <linux/uuid.h>
+>  #include <linux/workqueue.h>
+> +
+>  #include <acpi/battery.h>
+> -#include "firmware_attributes_class.h"
+> 
+>  #define DRIVER_NAME "samsung-galaxybook"
 > 
 > 
-

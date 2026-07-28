@@ -1,153 +1,89 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D088C41F349
-	for <chrome-platform@lists.linux.dev>; Tue, 28 Jul 2026 10:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE36C4279E9
+	for <chrome-platform@lists.linux.dev>; Tue, 28 Jul 2026 12:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785233847; cv=none; b=ArZc7Z9+1q2b1szrepP5KtWaw1kZUpN/ogK/igoTwPHhyEvAFh9EGsUftUcBsZYB5HvN1Su1Bj+6qNHGnjhYf+XNo60fNBK8ZsHQBjxymUgoGsIvszg1AAg0B672XvKXKOlrNlCkebi3VL0HO0Xkji5cc2Hk2QFojh2fY/W6kFE=
+	t=1785242073; cv=none; b=b5vs2NbGvft3aAjqF7PY/DFK8z5BKlv3TLsyeVuUFeCwzkBL+PQz6R2O8FSjpoznwrKWb5+cnKg+6KO2aAGhkwK99wUM5FIOVkuEcItXpwLl3dS1Ms9GPq+79Epjoit0mZc7CrXi73Q/Ldhi1xHnIgWI9ZuWHNn36cceLvmT8OY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785233847; c=relaxed/simple;
-	bh=9/2rVeQC5fyFBKz4jOwZnWDl1PA6CM9AG3UezhyCyCY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lxq4ysjI0O06tfoAxHZciyJH9QS0juFdrFeAMMDNxd/fB9XAV5l6ww8TcqZ2d6V7tSTaVGsSo+GgV1YL3F8zln1e5oIpkfyqKuiK83zaeWJ4SyKFKb3UNza4iXnjvztGaR48wlntzjfzixtWfjK+6gg0/RFpNiTfDZsf02cQ3Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=j3j1HsDA; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1785242073; c=relaxed/simple;
+	bh=htDpTgzApN0KcVwKIBV5f4H5ahf07fFYbYFAntTuWio=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lxV9bdkjpO9SYGGlg5kuRGf5OQsIFeoXA3nQrHboWgfL7cmdvF7H60b7qrpdDc49S/FUaRXHnDDe1X6Kxg7AcQxycLla3kCWpDYbEif7BDFLkTl4LPEMqJA2CXk5pjxbqc41R487XKbgn3NXmondbxidM4PS0HnW0t16USyEaHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=MZa3Mf+a; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="j3j1HsDA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1785233836;
-	bh=9/2rVeQC5fyFBKz4jOwZnWDl1PA6CM9AG3UezhyCyCY=;
-	h=From:Date:Subject:To:Cc:From;
-	b=j3j1HsDA7JTmaPhcZ8plZxISkZ6vV4amWCuqes8jCuZWzirfdPyInyl7c06Y5u614
-	 eE7gGYLIwI/RxyaVptdLQM6iQtXOAkAgNs2emhSoyj0Vwjq6KCC+vc2RM2KlsRk/Am
-	 VkAozox5Yh2ZQYNYip4qVPEaldXXtIbaQBMNMMsY=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 28 Jul 2026 12:17:14 +0200
-Subject: [PATCH v2] hwmon: (cros_ec) Handle temperature conversion
- overflows
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="MZa3Mf+a"
+Received: from LAPTOP-99KJFSET (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 47e10a90a;
+	Tue, 28 Jul 2026 20:34:26 +0800 (GMT+08:00)
+From: Hongyan Xu <getshell@seu.edu.cn>
+To: bleung@chromium.org,
+	tzungbi@kernel.org
+Cc: Hongyan Xu <getshell@seu.edu.cn>,
+	groeck@chromium.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jianhao.xu@seu.edu.cn
+Subject: [PATCH] platform/chrome: cros_ec_debugfs: unregister panic notifier
+Date: Tue, 28 Jul 2026 20:33:37 +0800
+Message-ID: <20260728123423.781-3-getshell@seu.edu.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260728-cros_ec-hwmon-overflow-v2-1-d24e24d0792b@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOSw7CIBRFt9IwFkMhNtWR+zCNsfAQjILygGqa7
- l1aTRw6PDf3NxKEYAHJrhpJgGzReleAryoizcmdgVpVmHDGG9YIRmXweARJzXDzjvoMQV/9QJl
- oa9lu2FZpQUr4HkDb51J86D6Mqb+AjHPb1xHgkcpi/NmMxejDa7mT61n9u5xryqhQHKQS0DPN9
- wNYRJQmmbWDSLppmt6HtSJ56AAAAA==
-X-Change-ID: 20260630-cros_ec-hwmon-overflow-0381c8509df3
-To: Guenter Roeck <linux@roeck-us.net>, Benson Leung <bleung@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785233836; l=3418;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=9/2rVeQC5fyFBKz4jOwZnWDl1PA6CM9AG3UezhyCyCY=;
- b=jr2hndbVUhqSPNioMcNWYlN6AnmL4v9tW77H4zBReSCb7jKm3oa7miWLuuFKF/Yf47/nK9oZx
- rNNkX+wMYTOBzn2WV2XffQmMsnyns9V2muXThHQ8RiHAH5VVEktfOL7
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+X-HM-Tid: 0a9fa8b81f1503a1kunm4c64fbaeeecf0
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDHkseVkhOTk1KS08fH0sfQlYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktJSE
+	5DQ1VKS0tVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=MZa3Mf+a8vyCQepXTCA8PSGyuXpNr3y16rUXJlaLZFs7Wd6t/O6O95WWoe1s1DQXA+LAj2PSUggRc2BgDDUKx7fsZrX8RqdHesvihVJ81eYyIm+pzEt8xKqlbLKUB6UuaUIeXu0zdlfjndFRvRVjsHi059boYHf/FYjKc+dgUiM=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=8ItZWwmcNMbf6/znp6fsrEvBd0tgSjfbDcAYwJJ4a3U=;
+	h=date:mime-version:subject:message-id:from;
 
-The calculations converting between the different temperature units can
-overflow on 32-bit systems, resulting in incorrect data.
+cros_ec_debugfs_probe() registers debug_info->notifier_panic with the EC
+panic notifier chain. The remove path tears down debugfs and cancels the
+console log work, but leaves the notifier on the chain. A later panic
+notification can call back into a removed driver instance and reschedule
+the delayed work.
 
-Detect these overflows and handle them.
+Unregister the notifier before tearing down debugfs state. Also run the
+console-log cleanup in the probe error path.
 
-The code is written in a way that there is a single conversion function
-and the compiler can recognize when overflows are impossible (on 64-bit
-and in cros_ec_hwmon_temp_to_millicelsius()). If the compiler detects
-this, it will optimize away the overflow checks.
+This issue was found by a static analysis tool.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Signed-off-by: Hongyan Xu <getshell@seu.edu.cn>
 ---
-Changes in v2:
-- Drop already applied patch 1.
-- Also handle overflow of u32 -> long.
-- Clarify commit message wrt compiler optimizations.
-- Use __always_inline over __flatten to allow the compiler to optimize
-  away more unnecessary overflow checks.
-- Link to v1: https://patch.msgid.link/20260630-cros_ec-hwmon-overflow-v1-0-3d2ecd3eb0f2@weissschuh.net
----
- drivers/hwmon/cros_ec_hwmon.c | 31 ++++++++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 5 deletions(-)
+ drivers/platform/chrome/cros_ec_debugfs.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-index 1337b646e022..004a8180b665 100644
---- a/drivers/hwmon/cros_ec_hwmon.c
-+++ b/drivers/hwmon/cros_ec_hwmon.c
-@@ -5,11 +5,13 @@
-  *  Copyright (C) 2024 Thomas Weißschuh <linux@weissschuh.net>
-  */
+diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
+index 92ac9a2f9..6f93aedbd 100644
+--- a/drivers/platform/chrome/cros_ec_debugfs.c
++++ b/drivers/platform/chrome/cros_ec_debugfs.c
+@@ -534,6 +534,7 @@ static int cros_ec_debugfs_probe(struct platform_device *pd)
+ 	return 0;
  
-+#include <linux/build_bug.h>
- #include <linux/cleanup.h>
- #include <linux/device.h>
- #include <linux/hwmon.h>
- #include <linux/math.h>
- #include <linux/module.h>
-+#include <linux/overflow.h>
- #include <linux/platform_device.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
-@@ -151,14 +153,28 @@ static bool cros_ec_hwmon_is_error_temp(u8 temp)
- /* This differs slightly from the variant in units.h to avoid rounding inconsistencies. */
- #define CROS_EC_HWMON_ABSOLUTE_ZERO_MILLICELSIUS (-273000)
- 
--static long cros_ec_hwmon_kelvin_to_millicelsius(long t)
-+static __always_inline bool cros_ec_hwmon_kelvin_to_millicelsius_overflow(long t, long *ret)
- {
--	return t * MILLIDEGREE_PER_DEGREE + CROS_EC_HWMON_ABSOLUTE_ZERO_MILLICELSIUS;
-+	if (check_mul_overflow(t, MILLIDEGREE_PER_DEGREE, ret))
-+		return true;
-+
-+	if (check_add_overflow(*ret, CROS_EC_HWMON_ABSOLUTE_ZERO_MILLICELSIUS, ret))
-+		return true;
-+
-+	return false;
+ remove_debugfs:
++	cros_ec_cleanup_console_log(debug_info);
+ 	debugfs_remove_recursive(debug_info->dir);
+ 	return ret;
  }
- 
- static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
+@@ -542,6 +543,8 @@ static void cros_ec_debugfs_remove(struct platform_device *pd)
  {
--	return cros_ec_hwmon_kelvin_to_millicelsius((((long)temp) + EC_TEMP_SENSOR_OFFSET));
-+	long ret;
-+
-+	if (check_add_overflow(temp, EC_TEMP_SENSOR_OFFSET, &ret))
-+		BUILD_BUG();
-+
-+	if (cros_ec_hwmon_kelvin_to_millicelsius_overflow(ret, &ret))
-+		BUILD_BUG();
-+
-+	return ret;
+ 	struct cros_ec_dev *ec = dev_get_drvdata(pd->dev.parent);
+ 
++	blocking_notifier_chain_unregister(&ec->ec_dev->panic_notifier,
++					   &ec->debug_info->notifier_panic);
+ 	debugfs_remove_recursive(ec->debug_info->dir);
+ 	cros_ec_cleanup_console_log(ec->debug_info);
  }
- 
- static bool cros_ec_hwmon_attr_is_temp_threshold(u32 attr)
-@@ -236,8 +252,13 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
- 			ret = cros_ec_hwmon_read_temp_threshold(priv->cros_ec, channel,
- 								cros_ec_hwmon_attr_to_thres(attr),
- 								&threshold);
--			if (ret == 0)
--				*val = cros_ec_hwmon_kelvin_to_millicelsius(threshold);
-+			if (ret == 0) {
-+				if (overflows_type(threshold, long))
-+					*val = LONG_MAX;
-+
-+				if (cros_ec_hwmon_kelvin_to_millicelsius_overflow(threshold, val))
-+					*val = LONG_MAX;
-+			}
- 		}
- 	}
- 
-
----
-base-commit: 0109905cfdf4b64da014596f31c2ee5029ef0870
-change-id: 20260630-cros_ec-hwmon-overflow-0381c8509df3
-
-Best regards,
---  
-Thomas Weißschuh <linux@weissschuh.net>
-
+-- 
+2.50.1.windows.1

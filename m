@@ -1,23 +1,24 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8897D39C632
-	for <chrome-platform@lists.linux.dev>; Wed, 29 Jul 2026 10:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF17C43B6DD
+	for <chrome-platform@lists.linux.dev>; Wed, 29 Jul 2026 10:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785321146; cv=none; b=IGHpP5gRm0royeQoYgiavpEDiHZZzWUelGsQ4XhOx6DggQfcyWDa0RC0nKEFEwoOd7RqHHhrARYRPRAOHRbHnSq7eOBJZvaMHFx3NMiNj44t2PQr0Mj1+HeU1tuf/zPUMYuiL8v6skUtT+nW2u9xVwuvfQHhPzs4e8Qe/c+NWMs=
+	t=1785321152; cv=none; b=G9CrLGEbgCc9kOdH8QAMK0fEDHtryt9bcjdkYXSRioZOirwrQOIAHuhZzow4sah/jYrJh996d4cO+9GrtdKdA8Nj0kwymHcbtYagOOb4j+Uyf8Q0Ci0LHhsSIcnlPdSKXQU2RH7Ok3rBHxhO45udfch9UKJX+/VtokVud0sndJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785321146; c=relaxed/simple;
-	bh=T/G55Gfem0/LxrV7UriSBprfjNNc5ZAgPi4P3yzi6Tc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RFEHlSc5Sj/pqOL42qKAj+qtDLxyXyz/mySz31UXuVpnFyNlQAEQUC98fuNN8WhzgyWTH0DDM/8IelD6aWWcO7ZvvOSEN0t1aav1o0jL009YwBEYtKAkIz4M5Jpsxxev77+kjNhhNpfG9EzWvanFGvpfVYu5t85acbZGEtODDSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=goTb3sny; arc=none smtp.client-ip=45.254.49.197
+	s=arc-20240116; t=1785321152; c=relaxed/simple;
+	bh=3p/B16U9HQC6qiFtB8Qqj4cfrqEWM33Hgt2/5yEJkKA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UaKxgGrQT7BJoJEYwsasHxjLs+m1Mx4EZbRC+fwYD9PnxznwhtZPwjVUGGXtJADgL/NUUsZF8c64cLGvgNK4uIT9/pAEjnuUmBBS/XKSnH3Q02KtirXqhI1+xFBMEvCKK0b8x8UhYlvMZ+4CDRlfyDdeHZaG9LY9QuOPaf4aWe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=apdLFvGH; arc=none smtp.client-ip=101.71.155.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="goTb3sny"
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="apdLFvGH"
 Received: from LAPTOP-99KJFSET (unknown [36.153.54.101])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 480465fca;
-	Wed, 29 Jul 2026 18:32:18 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 480465fcb;
+	Wed, 29 Jul 2026 18:32:19 +0800 (GMT+08:00)
 From: Hongyan Xu <getshell@seu.edu.cn>
 To: bleung@chromium.org,
 	tzungbi@kernel.org
@@ -25,10 +26,12 @@ Cc: groeck@chromium.org,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	jianhao.xu@seu.edu.cn
-Subject: [PATCH v2 1/2] platform/chrome: cros_ec_debugfs: clean up console log on probe failure
-Date: Wed, 29 Jul 2026 18:32:16 +0800
-Message-ID: <c00974953a1b952f51f0f021d7f9fad134159909.1785320940.git.getshell@seu.edu.cn>
+Subject: [PATCH v2 2/2] platform/chrome: cros_ec_debugfs: unregister panic notifier
+Date: Wed, 29 Jul 2026 18:32:17 +0800
+Message-ID: <f3ab74ef8034be63bb45a325f3d54656d658817f.1785320940.git.getshell@seu.edu.cn>
 X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <c00974953a1b952f51f0f021d7f9fad134159909.1785320940.git.getshell@seu.edu.cn>
+References: <c00974953a1b952f51f0f021d7f9fad134159909.1785320940.git.getshell@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -36,26 +39,25 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9fad6ea92e03a1kunm4196f57811751c
+X-HM-Tid: 0a9fad6eadf203a1kunm4196f578117520
 X-HM-MType: 10
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDGENOVk1MGR0fGR8ZSUpNSVYeHw
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCH05NVkwYTR5ISE0eSk1JTVYeHw
 	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKTkhVTk9VSktKWVdZFhoPEhUdFFlBWU9LSFVKS0hKTk
 	xOVUpLS1VKQktLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=goTb3sny9lKFtl4LW8Q0rMbtNNrgBvX10+iYtoIdDGDpA2OgRWI6A4csECUCUXz5rL/JWHCeIWP912Vzjo7fwSjkXMV3A1E4F8i9DXgw1Tq0xV+yrrpWn5BTwbBabwVehJ9SH0I6xNF4+W4Yy1SN2w44c0bedx1laPJKgGMqVdY=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=l123yFOhaKH5KK/n01rBHhx+pjOqlg6BYvnViNMG9MU=;
+	b=apdLFvGHl+CRiZ4yISht/BZnTeaZ25jHcoV29JxCya/dyrubWoH2wHAePomRnLV0ujJhzLJuWAiLkWBFCa5USPQbBRe8syxZQBl8aoda4PUVqwfX6Lc1JmUa6rWa8CVoCt342LHxlLzKCuZIhN0sH9iJ4bpnxVrdvPPOzkYSPDU=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=8flbC8LkR5tyGl2ccoWtMQtbyedHjLCbaY/d8nBVjjE=;
 	h=date:mime-version:subject:message-id:from;
 
-cros_ec_create_console_log() starts log_poll_work when console logging is
-supported. If the following panic notifier registration fails, probe
-removes the debugfs entries but leaves the delayed work scheduled. The
-work can then access devm-managed data after the failed probe tears it
-down.
+cros_ec_debugfs_probe() registers notifier_panic with the EC panic
+notifier chain. The remove path tears down debugfs and the console log,
+but leaves the notifier registered. A later panic notification can call
+back into the removed instance and queue work that accesses released
+data.
 
-Add a dedicated error label for failures after successful console log
-setup. Earlier failures keep using the existing debugfs-only cleanup
-path.
+Unregister the panic notifier before tearing down the debugfs and
+console log state.
 
 This issue was found by a static analysis tool.
 
@@ -63,35 +65,25 @@ Fixes: d90fa2c64d59 ("platform/chrome: cros_ec: Poll EC log on EC panic")
 Signed-off-by: Hongyan Xu <getshell@seu.edu.cn>
 ---
 Changes in v2:
-- Split the console log probe cleanup into a separate patch.
-- Add a dedicated cleanup_console_log error label.
+- Split the panic notifier unregister change into a separate patch.
 
 Link to v1: https://lore.kernel.org/r/20260728123423.781-3-getshell@seu.edu.cn
 
- drivers/platform/chrome/cros_ec_debugfs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/platform/chrome/cros_ec_debugfs.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-index 92ac9a2..a781bb5 100644
+index a781bb5..7ca5114 100644
 --- a/drivers/platform/chrome/cros_ec_debugfs.c
 +++ b/drivers/platform/chrome/cros_ec_debugfs.c
-@@ -525,7 +525,7 @@ static int cros_ec_debugfs_probe(struct platform_device *pd)
- 	ret = blocking_notifier_chain_register(&ec->ec_dev->panic_notifier,
- 					       &debug_info->notifier_panic);
- 	if (ret)
--		goto remove_debugfs;
-+		goto cleanup_console_log;
+@@ -544,6 +544,8 @@ static void cros_ec_debugfs_remove(struct platform_device *pd)
+ {
+ 	struct cros_ec_dev *ec = dev_get_drvdata(pd->dev.parent);
  
- 	ec->debug_info = debug_info;
- 
-@@ -533,6 +533,8 @@ static int cros_ec_debugfs_probe(struct platform_device *pd)
- 
- 	return 0;
- 
-+cleanup_console_log:
-+	cros_ec_cleanup_console_log(debug_info);
- remove_debugfs:
- 	debugfs_remove_recursive(debug_info->dir);
- 	return ret;
++	blocking_notifier_chain_unregister(&ec->ec_dev->panic_notifier,
++					   &ec->debug_info->notifier_panic);
+ 	debugfs_remove_recursive(ec->debug_info->dir);
+ 	cros_ec_cleanup_console_log(ec->debug_info);
+ }
 -- 
 2.50.1.windows.1

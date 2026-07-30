@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE809364959;
-	Thu, 30 Jul 2026 01:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED28636212E
+	for <chrome-platform@lists.linux.dev>; Thu, 30 Jul 2026 03:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785376121; cv=none; b=F8xTJ5+4ltVJ9MHU6lBV+hzQ9MFhjwUNEKWRVGYMdC15DG8gB4m41xsFbOXKgIwn/bwPxqqpEK4q0qVL75Pj7FIefRHZJh8BaOcVN8pRbtOy09/hSPcWz2XAv0n4P4StjH5SJz59hFWJ13DZmyFKNTxEW2spUPg5x169qGhAku0=
+	t=1785382374; cv=none; b=SKbfjAunI5FnMRoeYP92tiFn8rKaUmOViBJw2xV0kDB3j193CaTYL9oCUHpS+p5eiuBZBGab0CWhHu8SWXSWNiCWQ1IzHig+HvkEJnEBLCR3Y+D917LyIAqy/YcLdkURPV8DYind5WPYe4JtMOtiAYEmx/8lGk53cIehzBZde2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785376121; c=relaxed/simple;
-	bh=9cPGh2sGcuviYdewuWGDGVnex0U9gTPA8DnDSSFpmuU=;
+	s=arc-20240116; t=1785382374; c=relaxed/simple;
+	bh=sUjxahiJCowomeCIYbkuXRmwZs0NHyPUvz525ndNpPs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qBE8DgGKIJ2MpxvMmx39hvJxp1vTt0aCxtTeP00F3bQq+TM86sDPCJyKSsfgb0lUAU1DWoJ7UwLplitCdpr7ZVFob1ME8XlRJ70X5eCxgeCAfgcZ/AKjzD+Il3W5ylkxo0JhFW/peWjzaNL4edcOdEb3IPlHrwPs0CWDmqbAfZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZuuDOou; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=e7QMydsSoA5/vvQ3o051ROXUTZRjMhsG9ggOb2mxFBkgIEVKCyexoG313KduMK5XURk7e4jN17H2ZfB2pol0txW7bWC7YJrLYo9mcuXKOV/3OOf7pET9aO3Ep4crMO1+PP1P8Dx/mUeuZCRwrcvY91En1ZxzOwsyBv8jhsDnTe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZWF/nYD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZuuDOou"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 747991F000E9;
-	Thu, 30 Jul 2026 01:48:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZWF/nYD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D41401F000E9;
+	Thu, 30 Jul 2026 03:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785376116;
-	bh=sfx09IulGR370cmr8UMO8EldA//Hf6a4K14ZWlX8Dgw=;
+	s=k20260515; t=1785382372;
+	bh=P41rP7hZckr1WiAIyhqEQUTpbqMzNb1r7AKQSSdMoFY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZZuuDOouHBARRAG9qbGOsKV6lnv3R3WpMiUXJDbqyd8MlW3IZN8UgWVUlfEp0wEDm
-	 OoS0o9GF3rPL4fP1jSqrQVzAacJBmnUmiprauPEnRTnjqInM7zBeM4zmpxFaVVVXQ7
-	 Aj2lCBPkcDl7UonAisdTMzAc5N8WYgREdG4NdeX48+m3dL/Nd52KllgAtBpeUQ5gjz
-	 aZoXkEzv00suGmhgZUyJ2ni0KKj0dLL9q33kCujbt/KJtSy8Xg6g+SITVnYN2AqdF9
-	 uSg9x1yj9fDkm7AODc+g7BBg+5vxhVT2gRRH+bZxrXvNutRvLEi7jHU3TkO54EjnZn
-	 X2KSvyJkRSdwg==
-Date: Thu, 30 Jul 2026 01:48:33 +0000
+	b=mZWF/nYDclwqrLfA7B+PgTVflNxfuNG6WF9JiF2FPse6dH+SSViukdjF/GdcS0zRg
+	 b7lL6AnM/MxXtT46tjsLQr3eFn7y/bAGoJwBtK+DWeOe2hc4cCu/wu2bfPoOgrIY2u
+	 f93DJ8v1RXZMCeF6RKvNCxWVxecPsRODUtgBPeGsO0BkGj0JO7ugiQ4z3zgBiv7RDG
+	 NnnffgqwPt1EC2nfqKBvU69+WwydPmD5EVZyjH50IBlmjiIVECBrZiRCd9oqWN6Mql
+	 A7ZLGMCtBjiJHw4CKskLjOjij5KgqlAbJuB3yZJmsmPIaRLunQmM+2GFftEinse3r4
+	 27lJWEBSiLzGw==
+Date: Thu, 30 Jul 2026 03:32:49 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Hongyan Xu <getshell@seu.edu.cn>
-Cc: bleung@chromium.org, groeck@chromium.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn
-Subject: Re: [PATCH v2 1/2] platform/chrome: cros_ec_debugfs: clean up
- console log on probe failure
-Message-ID: <amqtcf3VEoi0tIzw@google.com>
-References: <c00974953a1b952f51f0f021d7f9fad134159909.1785320940.git.getshell@seu.edu.cn>
+To: Alexis Savery <asavery@google.com>
+Cc: chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v3] platform/chrome: lightbar: Limit payload size to EC
+ packet limit
+Message-ID: <amrF4dQ8TjxOZGMf@google.com>
+References: <20260729221459.1006-1-asavery@google.com>
+ <20260730005956.559287-1-asavery@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -44,28 +43,37 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c00974953a1b952f51f0f021d7f9fad134159909.1785320940.git.getshell@seu.edu.cn>
+In-Reply-To: <20260730005956.559287-1-asavery@google.com>
 
-On Wed, Jul 29, 2026 at 06:32:16PM +0800, Hongyan Xu wrote:
-> cros_ec_create_console_log() starts log_poll_work when console logging is
-> supported. If the following panic notifier registration fails, probe
-> removes the debugfs entries but leaves the delayed work scheduled. The
-> work can then access devm-managed data after the failed probe tears it
-> down.
-> 
-> Add a dedicated error label for failures after successful console log
-> setup. Earlier failures keep using the existing debugfs-only cleanup
-> path.
-> 
-> [...]
+On Wed, Jul 29, 2026 at 05:59:56PM -0700, Alexis Savery wrote:
+> The LIGHTBAR_CMD_SET_PROGRAM_EX command encapsulates its payload data
+> with an 8-bit size field `uint8_t size` and is natively capped by the V3
 
-Applied to
+The u8 size field can't wrap or contain the payload itself.  To be more
+technically accurate, please rephrase "encapsulates".
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+> packet bounds limit array `EC_LPC_HOST_PACKET_SIZE`. However, the driver
+> currently allows the payload chunk to bypass this protocol limit if the
+> SPI transmission layer negotiates a larger physical `max_request`.
 
-[1/2] platform/chrome: cros_ec_debugfs: clean up console log on probe failure
-      commit: 5d187600c4603b8f7812b12ce359a11ad7a7fd3a
-[2/2] platform/chrome: cros_ec_debugfs: unregister panic notifier
-      commit: e5954d3031fb55dd31aa59bae477d63c68e941c0
+EC_LPC_HOST_PACKET_SIZE is only for LPC.  Protocol SPI uses another value
+(e.g., SPI_MAX_REQUEST_SIZE).
 
-Thanks!
+> @@ -496,9 +496,14 @@ static ssize_t program_store(struct device *dev, struct device_attribute *attr,
+>  			return -EINVAL;
+>  		}
+>  	} else {
+> +		/*
+> +		 * The EC limits all version 3 host packets to EC_LPC_HOST_PACKET_SIZE.
+> +		 */
+>  		extra_bytes = offsetof(typeof(*param), set_program_ex) +
+>  			sizeof(param->set_program_ex);
+> -		max_size = ec->ec_dev->max_request - extra_bytes;
+> +		max_size = min_t(size_t, ec->ec_dev->max_request,
+> +				 EC_LPC_HOST_PACKET_SIZE);
+> +		max_size -= extra_bytes;
+
+How about:
+
+    max_size = min(ec->ec_dev->max_request - extra_bytes,
+                   sizeof(param->set_program_ex.size));

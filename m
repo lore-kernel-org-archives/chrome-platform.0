@@ -1,68 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838601A0BF1
-	for <chrome-platform@lists.linux.dev>; Fri, 31 Jul 2026 02:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D463E3177
+	for <chrome-platform@lists.linux.dev>; Fri, 31 Jul 2026 10:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785464679; cv=none; b=HJ7Jo/VAep+/kOgLf+7fH4JSCuuL3kQ/++KS65ZvaXJnvVPRXgnihLC8zbSH96A/plNaivQUfXK63eP53VBggyD7QC7MDCbg/Dy1z6qwz4NbMrDQTbWzjxrOH+DrL2CQ0c9c5jc9Y8K94t5O4cvEEh++IYdyz65Ns2N8pACz/JU=
+	t=1785492018; cv=none; b=XdW629ROxLFDpXXysSJutIeU3XTB+7jdf2lxqb/kweMQO4OOQFWhGBK6+gaR5iAP2YMp1Hd7MwotgQMCwfwhiPZZCji43iiqepc2nzhKrzY3NZT6PlMnNw4WCh5Niq4hoAadTGABwMteIpO8a6cLRZmvDIRO7Jesjzi2xfjvGOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785464679; c=relaxed/simple;
-	bh=dNBcr4fb527a/a8asot6WY4OsMJd9KoUqikq93yltc8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DHNrMQ63XWuARNrHVrORHhJWSLTkKCQQ/32ySMKXcv9eno8OLmS7cfh7475Wh5NtT/HpBasDmuuXryJzj+bCa9VZLbAH+ve3qYAyNnBXrkJdKgf+5QcAiL/kKdNeourR3VvgCu1UQvxZG3Ta1/izhmt0BrfxQGjKEymxpdZH19k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P2HMHExG; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P2HMHExG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 993D31F000E9;
-	Fri, 31 Jul 2026 02:24:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785464678;
-	bh=CfQnqh0UfT8Fre2deVM/vLplxlHQzZlrX0h7E9ti644=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=P2HMHExGd9Uv+V89hvT1TitT+9I13lqBl0ViNGwtoPCY8gvz2PAzqNflQaoq/+T/Q
-	 qAewB8J67TgnI3DiRgk/m4jKeQK9PmjhC6NBUW1vM9L3sbmwBf7WcDTlElZE6hqojE
-	 9MdserfQPxLVF2E0AOzuRufOPG7u/Of57uwdX91+7iIdStHWTTtOEwXCyUrVfSd9oD
-	 e1W8czei4524cVEqHrMtwTfkKXiyelJQ2PKsBNCEy27HyQPlzObbiS2wsxL5qQDiae
-	 QNl8oiekA+qcYRq499VThef/lxgU9WBvkztlZ0iNt++XIooLMtm9Rqi04UNQ+ieA+R
-	 SYNnHQ/BtgeNw==
-Date: Fri, 31 Jul 2026 02:24:35 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Alexis Savery <asavery@google.com>
-Cc: chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v4] platform/chrome: lightbar: Limit payload to max
- packet size
-Message-ID: <amwHY2HCxvdQ6qxR@google.com>
-References: <20260729221459.1006-1-asavery@google.com>
- <20260730204240.2227178-1-asavery@google.com>
+	s=arc-20240116; t=1785492018; c=relaxed/simple;
+	bh=wqx/RCL9c6lZkVHvvmNz55ZvphR4grfMr6OMQ5/mwXg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=i4Ht6hl0MGNwWQ09p6I/nQA2Y70KCnhtXeRyZMSkqic+pPoc4l3ZM1CCh0rtGGHfz4EY51HHq688CxOrVWx72MuDnywptLryGXvTJdRT415kEuEFaen4fbvP22NNdTiQ6we12qNz2bEJbXNlqh+c/AzbdQK19QbVJ8p3AWv2wi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
+	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id CA28E202C88;
+	Fri, 31 Jul 2026 12:00:00 +0200 (CEST)
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac] helo=dude04)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1wpk24-002Bno-22;
+	Fri, 31 Jul 2026 12:00:00 +0200
+Received: from ore by dude04 with local (Exim 4.98.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1wpk24-00000001F2w-2AhX;
+	Fri, 31 Jul 2026 12:00:00 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Sebastian Reichel <sre@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	=?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>,
+	Guenter Roeck <groeck@chromium.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <kees@kernel.org>,
+	Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
+	Francesco Valla <francesco@valla.it>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	chrome-platform@lists.linux.dev
+Subject: [PATCH v12 4/6] reboot: extend psc_reason with power-on and reset causes
+Date: Fri, 31 Jul 2026 11:59:57 +0200
+Message-ID: <20260731095959.296056-5-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260731095959.296056-1-o.rempel@pengutronix.de>
+References: <20260731095959.296056-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260730204240.2227178-1-asavery@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 30, 2026 at 01:42:40PM -0700, Alexis Savery wrote:
-> The LIGHTBAR_CMD_SET_PROGRAM_EX command encapsulates its payload data
-> with an 8-bit size field `uint8_t size` and is natively capped by the V3
-> packet bounds limit array `EC_LPC_HOST_PACKET_SIZE`. However, the driver
-> currently allows the payload chunk to bypass this protocol limit if the
-> SPI transmission layer negotiates a larger physical `max_request`.
-> 
-> When this occurs, large payloads (e.g., >255 bytes) integer wrap the
-> 8-bit size variable when assigning `param->set_program_ex.size`, causing
-> truncation and parse failures downstream in the EC firmware stack.
-> 
-> [...]
+psc_reason covered only the protection reasons. Extend it to mirror the
+full POWER_ON_REASON_* vocabulary - power-on, watchdog, software,
+external, RTC, reset button, CPU clock and crystal failures - so a
+provider can report why the system last powered on, not only why it was
+shut down. New values are appended to keep the existing numeric ABI.
 
-Applied to
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+---
+changes v12:
+- new patch
+---
+ include/linux/reboot.h | 28 ++++++++++++++++++++++++++++
+ kernel/reboot.c        |  8 ++++++++
+ 2 files changed, 36 insertions(+)
 
-[1/1] platform/chrome: lightbar: Limit payload to max packet size
-      commit: ed1d1f519c56c6c2ffa13f3d52cd77beb023db13
+diff --git a/include/linux/reboot.h b/include/linux/reboot.h
+index 4c5327dd7645..13f004ad1066 100644
+--- a/include/linux/reboot.h
++++ b/include/linux/reboot.h
+@@ -225,9 +225,28 @@ extern void orderly_reboot(void);
+  *	management errors, or an unrecoverable hardware fault requiring
+  *	immediate response.
+  *
++ * @PSCR_POWER_ON: Regular cold power-on (e.g. via a PMIC power-on request).
++ *
++ * @PSCR_WATCHDOG: Reset caused by a watchdog timeout.
++ *
++ * @PSCR_SOFTWARE: Software-initiated reset or reboot.
++ *
++ * @PSCR_EXTERNAL: Reset asserted through an external pin or reset input.
++ *
++ * @PSCR_RTC: Wake-up or power-on triggered by the RTC.
++ *
++ * @PSCR_RESET_BUTTON: Reset triggered by a user reset button.
++ *
++ * @PSCR_CPU_CLK_FAIL: Reset caused by a CPU clock failure.
++ *
++ * @PSCR_XTAL_FAIL: Reset caused by a crystal oscillator failure.
++ *
+  * @PSCR_REASON_COUNT: Number of defined power state change reasons. This
+  *	value is useful for range checking and potential future extensions
+  *	while maintaining compatibility.
++ *
++ * The reasons mirror the POWER_ON_REASON_* strings in
++ * <linux/power/power_on_reason.h>; keep the two in sync when extending.
+  */
+ enum psc_reason {
+ 	PSCR_UNKNOWN,
+@@ -236,6 +255,15 @@ enum psc_reason {
+ 	PSCR_REGULATOR_FAILURE,
+ 	PSCR_OVER_TEMPERATURE,
+ 	PSCR_EC_PANIC,
++	/* Append new reasons here; the numeric order is ABI. */
++	PSCR_POWER_ON,
++	PSCR_WATCHDOG,
++	PSCR_SOFTWARE,
++	PSCR_EXTERNAL,
++	PSCR_RTC,
++	PSCR_RESET_BUTTON,
++	PSCR_CPU_CLK_FAIL,
++	PSCR_XTAL_FAIL,
+ 
+ 	/* Number of reasons */
+ 	PSCR_REASON_COUNT,
+diff --git a/kernel/reboot.c b/kernel/reboot.c
+index 929496be20c0..3e262c4450c5 100644
+--- a/kernel/reboot.c
++++ b/kernel/reboot.c
+@@ -1101,6 +1101,14 @@ static const struct psc_reason_desc psc_reason_descs[] = {
+ 	[PSCR_REGULATOR_FAILURE] = { "regulator-failure", POWER_ON_REASON_REGULATOR_FAILURE },
+ 	[PSCR_OVER_TEMPERATURE]	 = { "over-temperature",  POWER_ON_REASON_OVER_TEMPERATURE },
+ 	[PSCR_EC_PANIC]		 = { "ec-panic",	  POWER_ON_REASON_EC_PANIC },
++	[PSCR_POWER_ON]		 = { "power-on",	  POWER_ON_REASON_REGULAR },
++	[PSCR_WATCHDOG]		 = { "watchdog",	  POWER_ON_REASON_WATCHDOG },
++	[PSCR_SOFTWARE]		 = { "software",	  POWER_ON_REASON_SOFTWARE },
++	[PSCR_EXTERNAL]		 = { "external",	  POWER_ON_REASON_EXTERNAL },
++	[PSCR_RTC]		 = { "rtc",		  POWER_ON_REASON_RTC },
++	[PSCR_RESET_BUTTON]	 = { "reset-button",	  POWER_ON_REASON_RST_BTN },
++	[PSCR_CPU_CLK_FAIL]	 = { "cpu-clock-failure", POWER_ON_REASON_CPU_CLK_FAIL },
++	[PSCR_XTAL_FAIL]	 = { "crystal-failure",	  POWER_ON_REASON_XTAL_FAIL },
+ };
+ 
+ /**
+-- 
+2.47.3
 
-Thanks!

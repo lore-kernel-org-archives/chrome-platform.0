@@ -1,249 +1,383 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022117.outbound.protection.outlook.com [52.101.126.117])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F5F3783AF
-	for <chrome-platform@lists.linux.dev>; Mon, 10 Aug 2026 06:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73439264614
+	for <chrome-platform@lists.linux.dev>; Mon, 10 Aug 2026 21:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786342412; cv=fail; b=Tp4hKjne0K7x/VNzgIrYBYB51mU+leUTOqliycPwmptdekrp7ImWM9DL+H5A51ZAZWKZ7QR5PcoXvK2Zi3Wcws2DGzD9brJOaTgUj3ecZfkA5osNGpOGQOesIUEuMIhitIZb6cI07n9nQPjUx1xxWKzXPvdh8p8nfQeqSiGai4s=
+	t=1786398214; cv=pass; b=vAjOjG1aZXYiU/K7ArlSGM1A9T7NEtDUNfS78Nd6HQ9KdjCZC83VB+B2bDcjVf37RX9ArtOsBeov4ljueqGrrC6J13C+EiOtbhWc3oS7Sksig2gFN3qqP4eITGcAODN9X8qyP7FSeu0DK+uKt8xFVs6wvQ9tUI4kdLw8YQQuSx4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786342412; c=relaxed/simple;
-	bh=t/nytG2Plz2ZDsjcS9PypUBG01vJhxB/8wUNDx+VZ+o=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=kAPdmxBjJUgmcT27dWUtEwd5cUASjwMitAUGMkX/6tKIZuQF1knmuCyL4uMOYYs6p8EZxQIj8ZFu3p9/vOGMtX42xMrMotATC8MRSX6pKP597RSKMIT0GAa6lllePAmjSWcnke1dWU/0di0iGrNsrk+SMGwccYMJPROqzdP3VIY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b=Svd4JBxE; arc=fail smtp.client-ip=52.101.126.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+	s=arc-20240116; t=1786398214; c=relaxed/simple;
+	bh=iqjKdojbjbodxxgb+n9rGN+o3qDP32daF85ZK8aHiuc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=H7ZhcA7M5wSdFAkOApT/vY915YGhPezgvUR9mn7AgAeL/RUyGj0ynYWxgiGIARU3JZkAGoX3Kufa7IdNXPGIqiv3cNnxOvvEtXObAQcTZQHBr/PdC0UClMVdwErVkeGxVAKEvjhmfwtjd62wD07Y8xZzhNzCpOoUm5oWWWilN98=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Nyjdio0h; arc=pass smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b="Svd4JBxE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kxMqdpnIsHHnPBgLlgKVWFz6UtvshEM75/xnrlcfEcGdXVDtzi7Z0UdkfLrZ9LKvztLv+qQFrc3MiNv2rVk0oncbm9wbkhhIuVtN4Hpfs5zZw6P8Bts1LN/isIViPLqe3Kjv19WN759PFFdTMME2EdtF6l6GIPy5mGvGMc112/9E0Dhy2Mo4CGfRjSYPcF0zjb8+iaDMqEubs+gn3hGkuDUbyT+IdKhUUeRQUO/dELNMX7H7QYmtYZspqA0OoHlmO2G39PFg2GOG3i4PMSGoCuAd6FAhgY2QO5P8WZYuvEbAK4MIKF5O847Tptq/m+gsNDANI+X2265TQQlS1FIsbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t/nytG2Plz2ZDsjcS9PypUBG01vJhxB/8wUNDx+VZ+o=;
- b=t7jphySrBBQOC7LyZHK79jq3ZZEyzyKC2sKhG61x2q+bvSlbfZnkz1GVckPgYIxDKsmjcNPZu65Cf0qVPLQjpGF1mgslY/thgh3zagt32kzFtgTRydUih5gq0S04Wukxr8et/5Elw1LM9yln8W426lFlQZ4j2T55sx6CYqWFlh2r76TdAgzLvq23CTNwETne/8IIw0bKhst8vOWgAl1LCGpaWL9LvFapsy+lkH1xI+ScYYCkg81HX1bHQnWsZGPBqpmEYjIN3VeV/MVxHjgNwXDECUlJaqoqqeB+pADkyscR0OjnsJPYf7R5Cvs3lz/12dtnt3lKkj2k4KwvQAsx+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t/nytG2Plz2ZDsjcS9PypUBG01vJhxB/8wUNDx+VZ+o=;
- b=Svd4JBxErLPAAnUeGgLGaLCcuBx2l3rOfMId6CU+Is+ShHcgQN+cTWf5Nuy3Ll2i5Fbqea4zj5dnnSHi/yhT0/LmDCZr0pI3VZNpJfNoRXKIdjyqPxoZKCKB8FFMKEuThNn1g+PAhXBo5k4ibNu8vEVUNKWapJaOE2DKAaSAF3Wk1iSIJzQ86pWN5fclh709n4fMDUKKJ/dc4lPpXsZQrI81+9z5AOmF9SLY76Liu0X2JxIi25JazSkS2NCV0atg5IUkgKi9WdHwZha7T0gRvDFHqY73uqaLuJor0KOBqDFQeG8YC42c5hwN0weTC4F4eoPzZrHGFyMGU3Ht1xGe/g==
-Received: from KL1PR0601MB4276.apcprd06.prod.outlook.com
- (2603:1096:820:78::12) by PS1PPFA1B399C66.apcprd06.prod.outlook.com
- (2603:1096:308::25f) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
- 2026 06:13:24 +0000
-Received: from KL1PR0601MB4276.apcprd06.prod.outlook.com
- ([fe80::b7f3:3c41:fd0e:e3f6]) by KL1PR0601MB4276.apcprd06.prod.outlook.com
- ([fe80::b7f3:3c41:fd0e:e3f6%4]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
- 06:13:24 +0000
-From: YH Chung <yh_chung@aspeedtech.com>
-To: "M, Krishnamoorthi" <krishnamoorthi.m@amd.com>, Andrew Jeffery
-	<andrew@codeconstruct.com.au>, Greg KH <gregkh@linuxfoundation.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"broonie@kernel.org" <broonie@kernel.org>, "linux-spi@vger.kernel.org"
-	<linux-spi@vger.kernel.org>, "akshata.mukundshetty@amd.com"
-	<akshata.mukundshetty@amd.com>, "bleung@chromium.org" <bleung@chromium.org>,
-	"groeck@chromium.org" <groeck@chromium.org>,
-	"chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
-	"corbet@lwn.net" <corbet@lwn.net>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "skhan@linuxfoundation.org"
-	<skhan@linuxfoundation.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org"
-	<openbmc@lists.ozlabs.org>, YC Hsieh <yc_hsieh@aspeedtech.com>, Maciej
- Lawniczak <maciej.lawniczak@intel.com>, Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: RE: [RFC PATCH 0/4] espi: introduce eSPI bus framework
-Thread-Topic: [RFC PATCH 0/4] espi: introduce eSPI bus framework
-Thread-Index: AQHdJAuknqBBP2CVjUqShr/HE/RpMbaOnoQAgAErz4CAApUZMA==
-Date: Mon, 10 Aug 2026 06:13:24 +0000
-Message-ID:
- <KL1PR0601MB42768F2FB7E907618E1DAB4E90DE2@KL1PR0601MB4276.apcprd06.prod.outlook.com>
-References: <20260804115259.4065638-1-krishnamoorthi.m@amd.com>
- <2026080416-lagoon-delirium-8e84@gregkh>
- <83210c6e2a7b203bd5913b455ea45cfddf3d29ec.camel@codeconstruct.com.au>
- <9180f5d5-9885-492b-b80e-c2aaaeb39501@amd.com>
-In-Reply-To: <9180f5d5-9885-492b-b80e-c2aaaeb39501@amd.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: KL1PR0601MB4276:EE_|PS1PPFA1B399C66:EE_
-x-ms-office365-filtering-correlation-id: 5a3e3ab3-863d-4236-577d-08def6a67c42
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|366016|42112799006|7416014|1800799024|376014|38070700021|18002099003|22082099003|56012099006|10067099003|3023799007|4143699003|6133799003;
-x-microsoft-antispam-message-info:
- gDy1Tlp/kDi+wQ39SFFwR8Jk6MWGW0rvBUsmvptwLmQtmmmi3+SltV7SIRMdci/ksIb1ov/mgFURV+SP2MyTd9kizvZzu884i+lZjhdzPKOnZ5uIRWzCT6LdBwyj9Foz7ar3Y7zUDJcE918WdzhSq51BNLs07sVmhyrGcTMsbiyVEtQP6K22rmmwMG1uDFqyGygtZrxxYH0HcmVrThaVgNLvuV4q4e+F1FKuLsv1lVYyyyG/Wvx+vWeBl+5Gy/vRQMpeQwjcBOWFk/+/wQ3/wC1A9ZQNwurENMa+x5oP/3C3BMtRJAMc8mGnTnNEfCwblKy64xsmyvc+2pUwzYOv09W8LyrpwvlgtEVbKJobdcA4zYHVM/WS2JoKzGvueBXPmWtnWn60d04KD9apX4DkPjZPFdk7996v0EjMZzbNyHpindu4UGCkRn9ss5Tz5mCta4jHMYyDoya2xyNQsWnR0Dq+jBx3LjXc6fDhzzkHllCcjJTaD8rubhev368MXibqY95CFY7vRshvlyl+nrNhn9XFpwc7LxVRvOiM9rDy4/FP1wfU7ZFfRyPrCf10jfIRxBWl3xiOwUsGOOPg6pjpQ8i5HaRLkaZoI0vn9b2QmLP4ZlQB0RQ+00eLN1jnZCOsyx0jBQAa+V84y5VIJ2WcCDqWecX/HjLsAKdcpJrLYuHf0dMuQRqGdntSY0M3eO7mQ9UX2PQvfrd16y6HGZsV2CptUrvpkf1IxwhhuO8wMu8=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0601MB4276.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(42112799006)(7416014)(1800799024)(376014)(38070700021)(18002099003)(22082099003)(56012099006)(10067099003)(3023799007)(4143699003)(6133799003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?Yy80NDViMHhHUmVkUVRzTStJMzFQSk5MUVF4b1lNOTFNWWoxanN5RWtaYzBl?=
- =?utf-8?B?aktaNGplRmZYSS9DNUwwZXlmS1BVeDZsS1FaYldVNmZMdGJKL0tvQzdvMmlC?=
- =?utf-8?B?TDdmQ1U2blZmQnU3VkJUNnczb1hNQlZtSzAvWitVekZEUmF4a0hVdGErYk5N?=
- =?utf-8?B?dEZkSWVOazJJczdXNTlUVktrbVRvcHVTMHJqV0dEalpmRlN4N3dpeUlvdjRD?=
- =?utf-8?B?S2s4Qjl4b3FPUTRLckN6eDFoYXlQRlg5QVMzVThXRjdCVnNiK2xSR1UraDhy?=
- =?utf-8?B?K1Fqbk9YdnFDMU93RTlJTUlFWGhxZTljZXNtTWhKS2RjQ0Z0UXpJNDZrNzN6?=
- =?utf-8?B?MjJmN2hHRGdUYU5KMDFpbUhyTUhFaWtUQnJ4WFg0MTlGdlZIdXVkK2pNZzB2?=
- =?utf-8?B?dDltVmlmNk04M0FLNXRaKzA2bTlGMnd4RWZQVmtRRW5RdHhPUHVDRjkyMkVt?=
- =?utf-8?B?THhIUFJyWGlRSHNqTXFaTEl2UUhCQnNDR1U4a0cvRUlCZEg4RXUvb3FDL1E1?=
- =?utf-8?B?cnpqaE5Rdi9NUkdXQ0JRQnpwOEVSaXdaOTc4VlVSSVg0Y3l6RXhtVUNHTllu?=
- =?utf-8?B?NUFEdmtFWXF6QU9ZbmFYU0RESzNaWnpMK0VOTG1Mc2ZqMlQrMXhzczY1TXhu?=
- =?utf-8?B?bWVHWXk3MVA4ZWpwS2dRTkt0ZzR0cXN4dG1oOWIxQkFySS9NeHFTcDkycUdF?=
- =?utf-8?B?clZheHlVQWd3R0dkY2NReE5EMHJUYi8xTXY2bGN1elRCbjE4VHNpN1M5RlJG?=
- =?utf-8?B?SnNMSkZDdUZmbVplekF5TkVRZytVRUpKNEZjMFFoTUEzZFdUdTZRV2ZRNWtp?=
- =?utf-8?B?bWtEV0ZTbTg0STVEMjhkYWszZWFnTmxOM3N3NFdBa1YzRm95Q3kyaGZ3dm1V?=
- =?utf-8?B?S2VHOE0ra3h1WXZZNWdsbzdSVE9PTEphbVRLQXV0YllNYndVamFzZFA5Qzhq?=
- =?utf-8?B?Z2M2cUJ4SW1mUjFwNlVBTFQ0bVhmK0pmeXl5R29tTDNnRkltc3RvQ2tCT2sr?=
- =?utf-8?B?UFlwRFNqcVFhVTcvMnFKNllqSlA3N1BiVWdRcndwdUY5VHdkbGk5M2I5OGRZ?=
- =?utf-8?B?OW9WNEJPT2ROM2xLWTQxVDFqUGxHOXNjTHk5eFlLc2dheFRGbG0yN1hmWVlt?=
- =?utf-8?B?ejZNRnBGaXZ5MHBkZGhIaU03bXIvUFhSR3JGN3NqNitkNGdFcytBNTNVaHZO?=
- =?utf-8?B?ZE1wc1Q2eGpMV3hWQkNLbzhjSkdiSG9VWGljVHpGRmttYU9FNitRK0dhZzdI?=
- =?utf-8?B?dTRwRGI5b3ZkZ2JOa09MNjdGaTZCbGdZR2luQ1J6cTJoYU1UWXduTmdnNVh2?=
- =?utf-8?B?QTg4bWNRSmFhcExKOGxWU3p6b2M2d0sxTkoxWDFxbVRGQlIyLzZua2QvbXNj?=
- =?utf-8?B?cDFFT3NCMTJOemR1aU4zWTdVV3Q5N1pIbTc1UUdnUitHQU9veXYzRk40dk9T?=
- =?utf-8?B?YmpGajIvR2VReTdDcDBYKzd0NUxZZ3UwLzQ4elVqS2FVOWVqaVR1dGFoQmNl?=
- =?utf-8?B?Ry9xaXVzVVdPeWR3TnlLYW1DWWlKcm04SlFHQmxYZVhCMHpBQ1FGRU1UMHJa?=
- =?utf-8?B?am9iRmt4SXVWbzZlbDlpSmRwOWhVbUZTODJxR2d2bWJOV2NybUprSHNiN2ZE?=
- =?utf-8?B?ZXRxdkxxcjhwNUc5QU5CbUhKZG9xUEFNS2IwczFWbnRRMjBKWFVSRHE3SVN1?=
- =?utf-8?B?aytLM09qR25EQldoZDMzOE12TjZUUHgyYnJUM3E3YUlrSWc0TW5neFdTZTd2?=
- =?utf-8?B?cnFOanovejR3bTNrZEFDUGw2ekJrNzEvVEF5MXpoQUhiY0MwMEhDUnV1NGlK?=
- =?utf-8?B?WXk1TlFyL3EyVi94dWRVTlV1Z3JwbWIrUUlIRWlTTG0yUXJQK2k0SVJKYUUw?=
- =?utf-8?B?ZVl1a2U4TndCUGpyZUsvT2xJUzVibm9NZEN4eGFiWXU5dXljRWNydGM2dngw?=
- =?utf-8?B?SVNBRlF1S3VOcmRBdjlwREJpRFBLdVhhNjRENXJqVUI0RGY3bDNpcEhqNEZP?=
- =?utf-8?B?R3RtNjBUd2N0ajhtUXA4Y3hHbWkwL0tuV09KaHg1dEk0c2ZtVXhuc25INnF6?=
- =?utf-8?B?UDlaMDFpUlJuUkJ6UUlOcVIybXZINEtSN3gzVUp1ZmZrb3FUeVYrT1pJeXhK?=
- =?utf-8?B?OEdLeWFQRjdWdEZDM3E3S0Iyc1VpMzhEOU9nRXA3VTB0RXBUVmJ4WW9FOXJv?=
- =?utf-8?B?bC96VDhzZlg4RTBCL3Uva1h1RnRBejlmZVhyV0MwNlUzVFBLNW9qc3BRdEVH?=
- =?utf-8?B?TXhZOEtuRUVGMXIwNG1FaVpQNGNHNVpaTHI5Z1YrL3JXaU52NzdGMlF2Rnd3?=
- =?utf-8?B?LzYxZG52RGdxS1lWTUJUaHB5eDMvUnZaODBYRHpYQUZRRU56ditZdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Nyjdio0h"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8200ca16f26so3169187b3.3
+        for <chrome-platform@lists.linux.dev>; Mon, 10 Aug 2026 14:43:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786398211; cv=none;
+        d=google.com; s=arc-20260327;
+        b=f583tr3+JSetS/YTZYWMkqyXHy/BzZ+mqsVlBKu+eYLed8knt45CUMvMcTuo1mDfWC
+         Y33NJPf0s4oKsrmtuhl/ktoAizSmNBONczDpyn/T+aVS4WaC4YNKHkm41j688VmxIghZ
+         Qnp7gC49lG6ihf7iN5WrtkNVA0suoSMCPn/5H/oFEUnByst3EuHK6B1H5CbIKHK0GEMu
+         cbZg/dBJSIjkrVaqpfkiocGsOVi4TZrEbA3Bc71Fk2P9cocYfjEGRPR1lc8cxT8Ct/5T
+         wbI0ti3z5OoCPyUGBAbCkT+p5seCl7ma9GcuajVrhctvX3XUslp3UAg644PvDfNCd5uD
+         9Ewg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=vfZgMXf01YyWza/w6XDTTEtLAovPsjMZYssSpcNLn4E=;
+        fh=HLmfswzN2r30q+fLMZr+0DA8Ofpn+Cgw5/9KhAMnM8E=;
+        b=dw+ZDueDjlc70wHMQ2MdZ6dPGBLJh0pwBEvj3yUHkH4xZqQQxoYoebxA1iw01wRdZU
+         sAK0C2Q+4YGL4hoz+lRhdaPKZpZ3YPOIxC9LsMuL/Ag4ImE5AZLYK0L9LT+Iqx29C/k4
+         wNBEEy2mD4wz68/qVkPx55ycu+T1E54C5bzkMakf4kHOOkMNp8ube4GwFr4L3XqLCOL2
+         nnWr3xLd1f9grvTkFfrHBp6E2iCr96KmwlkDxJU0T8CRDBqu8A9S+iGCj0xqPNrzc+XS
+         WtLGiiODLceyqBxPu4jljoVzykqBE4QL/JyJOGw/Lq4U+kPOcCiFO9XDLrRiXFxURN9l
+         KBvA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786398211; x=1787003011; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vfZgMXf01YyWza/w6XDTTEtLAovPsjMZYssSpcNLn4E=;
+        b=Nyjdio0huDpp90OwHxTF5jcSxYtZni5imqUSUF/3m4SdrGu8ZngF5Fm+0HX+ePkD/m
+         jX613qbgCO3OrHtKJR7Q5Vx+3KV0u7C7Hov7l8Zos5f2vyf3KzCSjEbJ0G8TW4YrjyXf
+         hD8qHIsDfGUipw8vOc2vUgPVGgP+LkPxwrgzdp3SSe/OfyaIHX1pJlzHOoctUQ3e7n4M
+         i4trb5cx9myIIviNok5NKt5gUTVfJvKo1e1iItKgltdNG02g3Cp7YVm8bmCsXalCw47z
+         PdBc1PhQwHL+t3jlf05OE8zr9he8260YujYQzjw/3nrQ92tp+B7Q1ftzQ+0ZavMdgxRc
+         2i4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786398211; x=1787003011;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=vfZgMXf01YyWza/w6XDTTEtLAovPsjMZYssSpcNLn4E=;
+        b=TL1mNZVnzLL+3mcLF48r86iaxLo4dmXKM/2S6MXJBKfBrBgZ1zsIgnyGV4yAqvNNhB
+         21JSqxaCXfN0s8XM0NU+fjJtXfO/rPeM0EjwaV21TLX+fpmpNZhKkOLy36xztSFVYgfj
+         kpeXaC5ztu2riY5C72/sQdQAwEzLb7KrCKAXEajEfLAlFzLpqMB1SIMEbAxyiJO1ZxXn
+         rCqwsDcliWJ7fPZ4/B8+2A+FaqDADIsN/ZuERTLTtkmZlctXPWo5lnXDWWJJ8owgVAy0
+         GLZRrk/Fu1DB7ZKwPYdh7RyzBHvxwk0nBdbQiMOFrekIRXkIocN+2M2GCZAB4VL9U/K1
+         ILwQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rob7IM0QNIcRg+0941MDhyUDZDo4x0lnm/uChY5QwF8GJDhBlZCQbSddiZ++E5IZ7zGhpwgys4IwPGZoJBXr/M=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIZTvPFEjcvc3QWYAoDwU7HXRHhR/5Rx1qvAsqw2V/yQ3eTa+i
+	ddigw6HndgfoQGftOLSaw4zq+qfPxuyDccIcvQy/qqRw9JkzZxP2dqm+gree4/vpImi/0wJjxuN
+	m2zfkxtYg0cj0YIYkWJCFCxvsT1VMOJEhHjrkmBfX
+X-Gm-Gg: AR+sD12qGLuO0RMNmc2PNlnB84WdBoLGWnOmbzqInS4T7oZ02v3yAX4L69oNMNUetF5
+	lPdjm22amqZxXNMlMkH+l9jOxrJAaojby4LET868h22AepuNO8WSzCjP7eGv9QDT5AOPIQpdQjQ
+	eKQCQysRMUkNioZbSnyvryMlIndT0YBrFfbBtck6H1ak0U/0tiXot//LqGBZh9Plv51UTjp9j4a
+	vVZZfefdl4NmIsDjgntukxrzVTQeBOa88SBaPpwtDkAUzs60Q0OJpiZePmuj7Mit+nkHlhMH9OR
+	zt3pT24e9VxtTH1nZYlmwG6Sl+Xl1t9j0PqYdoPm8GiQIXEtOa6Avv2KcrSlOAzYrnRkfkP4CDX
+	BFynePydnuT58yuTGflXX2BVYDSGx
+X-Received: by 2002:a05:690c:9208:b0:825:6420:565d with SMTP id
+ 00721157ae682-8256420a92bmr123908127b3.18.1786398210569; Mon, 10 Aug 2026
+ 14:43:30 -0700 (PDT)
+Received: from 913411032810 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 10 Aug 2026 14:43:29 -0700
+Received: from 913411032810 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 10 Aug 2026 14:43:29 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB4276.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a3e3ab3-863d-4236-577d-08def6a67c42
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2026 06:13:24.2861
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Lg1be5QiCp1uRvhN2afl2JYIkvaXFOo/lWy0+SjurRskQyy/sd8tcmuAjKprgtI21XFU2Bewr63WNkeXklVNJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PPFA1B399C66
+From: Rob Barnes <robbarnes@google.com>
+Date: Mon, 10 Aug 2026 14:43:29 -0700
+X-Gm-Features: AUfX_mzWWrmycO0IHK1zFyBoKOAF2yQMJEyY9CyRSxFy2vi73KL7wLiw91oAfHc
+Message-ID: <CA+Dqm33ZN1aaL8ZH4SkbOhhmzGEbKSYwcSxEnS4ByiOt7uVN=w@mail.gmail.com>
+Subject: [PATCH] platform/chrome: cros_ec_proto: Fix deferred response payload handling
+To: bleung@chromium.org, tzungbi@kernel.org
+Cc: tomhughes@chromium.org, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgS3Jpc2huYW1vb3J0aGksDQoNCj4gWUggQ2h1bmcsIHdvdWxkIHlvdSBiZSBvcGVuIHRvIGNv
-bGxhYm9yYXRpbmcgb24gdGhlIHNsYXZlLXNpZGUNCj4gaW50ZXJmYWNlcyBvZiB0aGUgbmV3IGVT
-UEkgZnJhbWV3b3JrPyBIYXBweSB0byBkaXNjdXNzIGZ1cnRoZXIgb24gdGhlDQo+IGxpc3Qgb3Ig
-b2ZmLWxpc3QgdG8gYWxpZ24gb24gdGhlIGRlc2lnbiBiZWZvcmUgdGhlIG5leHQgcmV2aXNpb24u
-DQoNClRoYW5rcyBmb3IgcmVhY2hpbmcgb3V0LiBJIGFtIGdsYWQgdG8gc2hhcmUgc29tZSBkZXNp
-Z24gY29uc2lkZXJhdGlvbnMNCmZyb20gYSB0YXJnZXQtc2lkZSBwb2ludCBvZiB2aWV3Lg0KDQpB
-ZnRlciByZWFkaW5nIHRoZSBzZXJpZXMsIEkgdGhpbmsgaXQgbWlnaHQgYmUgdXNlZnVsIHRvIGFs
-aWduIG9uIHRoZQ0KbGF5ZXJpbmcgYmV0d2VlbiB0aGUgZVNQSSBjb3JlLCBjaGFubmVsIGltcGxl
-bWVudGF0aW9ucywgYW5kIGhhcmR3YXJlDQpkcml2ZXJzIGFzIHBhcnQgb2YgZGVmaW5pbmcgdGhl
-IHRhcmdldC1zaWRlIGludGVyZmFjZXMuDQoNCjEuIFJldXNlIGV4aXN0aW5nIGtlcm5lbCBzdWJz
-eXN0ZW1zIGZvciB0aGUgaW5kaXZpZHVhbCBjaGFubmVscw0KDQpJIGFncmVlIHRoYXQgd2Ugc2hv
-dWxkIHJldXNlIGV4aXN0aW5nIGtlcm5lbCBzdWJzeXN0ZW1zIHdoZXJlIHRoZWlyDQpzZW1hbnRp
-Y3MgbWF0Y2gsIGZvciBleGFtcGxlIEdQSU8gZm9yIGdlbmVyYWwtcHVycG9zZSBWaXJ0dWFsIFdp
-cmUNCmdyb3VwcywgTUNUUCBmb3IgTUNUUC1vdmVyLU9PQiwgYW5kIE1URCBmb3IgZmxhc2ggYWNj
-ZXNzLiBPdGhlciBWaXJ0dWFsDQpXaXJlIGdyb3VwcyBhbmQgT09CIHByb3RvY29scyBtYXkgbmVl
-ZCBkaWZmZXJlbnQgY29uc3VtZXJzLg0KDQpUaGUgZVNQSSBzdWJzeXN0ZW0gY291bGQgcHJvdmlk
-ZSBjb21tb24gYWRhcHRlcnMgYmV0d2VlbiB0aG9zZQ0Kc3Vic3lzdGVtcyBhbmQgdGhlIGNvcnJl
-c3BvbmRpbmcgY2hhbm5lbCBpbnN0ZWFkIG9mIHJlcXVpcmluZyBlYWNoDQpjb250cm9sbGVyIG9y
-IHRhcmdldCBoYXJkd2FyZSBkcml2ZXIgdG8gaW1wbGVtZW50IHRoZSBpbnRlZ3JhdGlvbg0KaW5k
-ZXBlbmRlbnRseS4NCg0KRm9yIGV4YW1wbGUsIENvbnRyb2xsZXIgQXR0YWNoZWQgRmxhc2ggU2hh
-cmluZyAoQ0FGUykgYW5kIFRhcmdldA0KQXR0YWNoZWQgRmxhc2ggU2hhcmluZyAoVEFGUykgaGF2
-ZSBkaWZmZXJlbnQgb3duZXJzaGlwIGFuZCB0cmFuc2FjdGlvbg0KZGlyZWN0aW9ucywgYnV0IHNo
-YXJlIHRoZSBlU1BJIEZsYXNoIHBhY2tldCBhbmQgcmVxdWVzdC9jb21wbGV0aW9uDQpzZW1hbnRp
-Y3MuIEEgY29tbW9uIEZsYXNoIGxheWVyIGNvdWxkIHByb3ZpZGUgdGhhdCBwcm90b2NvbCBoYW5k
-bGluZywNCndpdGggYSByZXF1ZXN0ZXItc2lkZSBNVEQgZnJvbnRlbmQgdGhhdCB0dXJucyBNVEQg
-b3BlcmF0aW9ucyBpbnRvIGVTUEkNCnJlcXVlc3RzIGFuZCBhIHByb3ZpZGVyLXNpZGUgYmFja2Vu
-ZCB0aGF0IHNlcnZpY2VzIHJlcXVlc3RzIHVzaW5nDQpsb2NhbGx5IGF0dGFjaGVkIGZsYXNoLg0K
-DQoyLiBDb25zaWRlciB0aGUgYm91bmRhcnkgYmV0d2VlbiBjaGFubmVsIHNlbWFudGljcyBhbmQg
-aGFyZHdhcmUgdHJhbnNwb3J0DQoNClRoZSBjdXJyZW50IHN0cnVjdCBlc3BpX2NvbnRyb2xsZXJf
-b3BzIGV4cG9zZXMgaGlnaC1sZXZlbCBvcGVyYXRpb25zDQpzdWNoIGFzIHBlcmlwaF9pb19yZWFk
-KCksIG9vYl9zZW5kKCksIGFuZCBmbGFzaF9yZWFkKCkuIFRoZXNlIG1heSBiZQ0KdXNlZnVsIGFz
-IGNoYW5uZWwtY29uc3VtZXIgQVBJcywgYnV0IEkgd29uZGVyIHdoZXRoZXIgdGhleSBhcmUgdG9v
-DQpoaWdoLWxldmVsIGZvciB0aGUgaGFyZHdhcmUtZHJpdmVyIGludGVyZmFjZSBpdHNlbGYuDQoN
-CldvdWxkIGl0IG1ha2Ugc2Vuc2UgdG8ga2VlcCBoaWdoLWxldmVsIGJlaGF2aW9yIGluIHRoZSBj
-aGFubmVsIGxheWVycw0Kd2hpbGUgZGVmaW5pbmcgdGhlIGhhcmR3YXJlLWZhY2luZyBib3VuZGFy
-eSBpbiB0ZXJtcyBvZiBwZXItY2hhbm5lbA0KdHJhbnNtaXQgYW5kIHJlY2VpdmUgcHJpbWl0aXZl
-cz8NCg0KQ29uY2VwdHVhbGx5Og0KDQogICAgVFg6IGNvcmUvY2hhbm5lbCAtPiAqX3R4KCkgICAg
-ICAtPiBoYXJkd2FyZQ0KICAgIFJYOiBoYXJkd2FyZSBJUlEgLT4gZXNwaV8qX3J4KCkgLT4gY29y
-ZS9jaGFubmVsDQoNClRoZSBwYWNrZXQgb3IgcmVxdWVzdCBzdHJ1Y3R1cmUgY291bGQgcmVtYWlu
-IGNoYW5uZWwtc3BlY2lmaWMuIFRoZSBtYWluDQppZGVhIGlzIHRvIGtlZXAgcmVnaXN0ZXIsIEZJ
-Rk8sIGFuZCBETUEgaGFuZGxpbmcgYmVsb3cgdGhpcyBib3VuZGFyeSBhbmQNCmVTUEkgY2hhbm5l
-bCBzZW1hbnRpY3MgYWJvdmUgaXQuDQoNCkZvciBleGFtcGxlLCBhIGNvbnRyb2xsZXIgcmVhZCBm
-cm9tIHRhcmdldC1hdHRhY2hlZCBmbGFzaCBjb3VsZCB1c2UgdGhlDQpzYW1lIHRyYW5zcG9ydCBp
-bnRlcmZhY2Ugb24gYm90aCBzaWRlczoNCg0KICAgIENvbnRyb2xsZXIgKHJlcXVlc3RlcikgICAg
-ICAgIFRhcmdldCAoZmxhc2ggb3duZXIpDQogICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAgICAg
-ICAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQogICAgTVREIGZyb250ZW5kDQogICAgICAg
-fA0KICAgIEZsYXNoIGxheWVyDQogICAgICAgfA0KICAgIGJ1aWxkIFJFQUQgcmVxdWVzdA0KICAg
-ICAgIHwNCiAgICBmbGFzaF90eCgpICAgIC0tLS0tLS0gUkVBRCAtLS0tLS0tPiAgIGVzcGlfZmxh
-c2hfcngoKQ0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfA0KICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgRmxhc2ggcHJvdmlkZXINCiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxv
-Y2FsIE1URCByZWFkDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8DQogICAg
-ZXNwaV9mbGFzaF9yeCgpIDwtLSBDT01QTEVUSU9OIC0tLSBmbGFzaF90eCgpDQogICAgICAgfA0K
-ICAgIG1hdGNoIHJlcXVlc3QNCiAgICAgICB8DQogICAgY29tcGxldGUgTVREIHJlYWQNCg0KT25l
-IG9wdGlvbiB3b3VsZCBiZSBmb3IgY29udHJvbGxlciBhbmQgdGFyZ2V0IGRyaXZlcnMgdG8gdXNl
-IHRoZSBzYW1lDQpsb3ctbGV2ZWwgZW5kcG9pbnQgaW50ZXJmYWNlLCBpbmNsdWRpbmcgdGhlIHNh
-bWUgcGVyLWNoYW5uZWwgKl90eCgpDQpjYWxsYmFja3MgYW5kIGVzcGlfKl9yeCgpIGVudHJ5IHBv
-aW50cy4gQSBjb21tb24gZW5kcG9pbnQgb2JqZWN0IGNvdWxkDQpjYXJyeSB0aGUgcm9sZSwgZm9y
-IGV4YW1wbGU6DQoNCiAgICBlbnVtIGVzcGlfcm9sZSB7DQogICAgICAgIEVTUElfUk9MRV9DT05U
-Uk9MTEVSLA0KICAgICAgICBFU1BJX1JPTEVfVEFSR0VULA0KICAgIH07DQoNClRoZSBlbmRwb2lu
-dCByb2xlIGFuZCBjYXBhYmlsaXRpZXMgd291bGQgZGV0ZXJtaW5lIHdoaWNoIHRyYW5zYWN0aW9u
-DQp0eXBlcyBhcmUgdmFsaWQgYW5kIHdoaWNoIG9wdGlvbmFsIG9wZXJhdGlvbnMgYXJlIGltcGxl
-bWVudGVkLiBPYmplY3QNCmxpZmV0aW1lLCBjYXBhYmlsaXRpZXMsIHBhY2tldCBkZWZpbml0aW9u
-cywgYW5kIHJlcXVlc3Qgc3RhdGUgY291bGQNCmFsc28gYmUgc2hhcmVkLiBMaW51eCBTUEkncyBz
-aGFyZWQgc3BpX2NvbnRyb2xsZXIgaW5mcmFzdHJ1Y3R1cmUgZm9yDQpob3N0IGFuZCB0YXJnZXQg
-cm9sZXMgbWF5IGJlIGEgdXNlZnVsIHJlZmVyZW5jZSwgYWx0aG91Z2ggZVNQSSdzDQpyb2xlLXNw
-ZWNpZmljIHByb3RvY29sIGJlaGF2aW9yIGlzIG1vcmUgYXN5bW1ldHJpYy4NCg0KVGhlIGJlbmVm
-aXQgb2YgdGhpcyBib3VuZGFyeSBpcyB0aGF0IGNvbW1vbiBwYWNrZXQgYW5kIGNoYW5uZWwgcHJv
-dG9jb2wNCmhhbmRsaW5nIGNhbiBiZSBpbXBsZW1lbnRlZCBvbmNlIHdoaWxlIGVhY2ggaGFyZHdh
-cmUgZHJpdmVyIHJlbWFpbnMNCmZvY3VzZWQgb24gaXRzIHJlZ2lzdGVycywgRklGT3MsIERNQSwg
-YW5kIGludGVycnVwdHMuIEl0IHNob3VsZCByZWR1Y2UNCmR1cGxpY2F0aW9uIGFuZCByb2xlLXNw
-ZWNpZmljIGRpdmVyZ2VuY2UsIG1ha2Ugc3VwcG9ydCBmb3IgYWRkaXRpb25hbA0KY29udHJvbGxl
-ciBvciB0YXJnZXQgaGFyZHdhcmUgZWFzaWVyIHRvIGFkZCwgYW5kIGFsbG93IGJvdGggcm9sZXMg
-dG8gYmUNCnRlc3RlZCBhZ2FpbnN0IHRoZSBzYW1lIHRyYW5zcG9ydCBjb250cmFjdC4NCg0KQ2hh
-bm5lbC1pbmRlcGVuZGVudCBjb21tYW5kcyBzdWNoIGFzIEdFVC9TRVRfQ09ORklHVVJBVElPTiBh
-bmQNCkdFVF9TVEFUVVMgbWF5IGxpa2V3aXNlIG5lZWQgcm9sZS1zcGVjaWZpYyBjYWxsYmFja3Mg
-d2l0aGluIHRoaXMgY29tbW9uDQplbmRwb2ludCBpbnRlcmZhY2U6IGNvbW1hbmQgc3VibWlzc2lv
-bi9jb21wbGV0aW9uIG9uIHRoZSBjb250cm9sbGVyDQpzaWRlIGFuZCBjb25maWd1cmF0aW9uLXBy
-b3ZpZGVyIGNhbGxiYWNrcyBvbiB0aGUgdGFyZ2V0IHNpZGUuIFRoZXNlDQpjYWxsYmFja3MgY291
-bGQgYmUgb3B0aW9uYWwgdG8gc3VwcG9ydCBoYXJkd2FyZS1hc3Npc3RlZA0KaW1wbGVtZW50YXRp
-b25zLg0KDQozLiBMZWF2ZSByb29tIGZvciBhc3luY2hyb25vdXMgZGVmZXJyZWQgdHJhbnNhY3Rp
-b24gaGFuZGxpbmcNCg0KVGhpcyBkb2VzIG5vdCBuZWNlc3NhcmlseSBuZWVkIHRvIGJlIGltcGxl
-bWVudGVkIGluIHRoZSBpbml0aWFsDQpmcmFtZXdvcmsuIEEgc3luY2hyb25vdXMgQVBJIG1heSBi
-ZSBhIHByYWN0aWNhbCBmaXJzdCBzdGVwLCBwcm92aWRlZA0KdGhlIGhhcmR3YXJlLWZhY2luZyBp
-bnRlcmZhY2UgZG9lcyBub3QgcHJldmVudCBhc3luY2hyb25vdXMgaGFuZGxpbmcNCmZyb20gYmVp
-bmcgYWRkZWQgbGF0ZXIuDQoNCkFzIGEgZnV0dXJlIGltcHJvdmVtZW50LCB0aGUgY29tbW9uIGNo
-YW5uZWwgbGF5ZXIgY291bGQgdHJhY2sNCm91dHN0YW5kaW5nIG5vbi1wb3N0ZWQgUGVyaXBoZXJh
-bCBhbmQgRmxhc2ggcmVxdWVzdHMgYW5kIGNvbXBsZXRlIHRoZW0NCndoZW4gdGhlIGNvcnJlc3Bv
-bmRpbmcgY29tcGxldGlvbiBwYWNrZXRzIGFycml2ZS4gRm9yIHRhZ2dlZCByZXF1ZXN0cywNCnRo
-aXMgc3RhdGUgd291bGQgYmUgc2NvcGVkIGJ5IGVuZHBvaW50L0NoaXAgU2VsZWN0IywgY2hhbm5l
-bCwgYW5kIHRhZy4NCkEgY29tcGxldGUgcmVxdWVzdCBvYmplY3Qgd291bGQgYWxzbyBuZWVkIHRv
-IGhhbmRsZSBzcGxpdCBjb21wbGV0aW9ucywNCnRpbWVvdXRzLCBlcnJvcnMsIGFuZCBjYW5jZWxs
-YXRpb24gZHVyaW5nIGNoYW5uZWwgb3IgbGluayByZXNldC4NCg0KVGhlIGV4YWN0IG1vZGVsIGNv
-dWxkIHJlbWFpbiBjaGFubmVsLXNwZWNpZmljIGJlY2F1c2UgT09CIGlzDQptZXNzYWdlLW9yaWVu
-dGVkIGFuZCBWaXJ0dWFsIFdpcmUgaXMgZXZlbnQvc3RhdGUtb3JpZW50ZWQuIEtlZXBpbmcgdGhp
-cw0KcG9zc2liaWxpdHkgb3BlbiB3b3VsZCBhbGxvdyBhc3luY2hyb25vdXMgaGFuZGxpbmcgdG8g
-YmUgYWRkZWQgbGF0ZXINCndpdGhvdXQgY2hhbmdpbmcgdGhlIGhhcmR3YXJlLWRyaXZlciBpbnRl
-cmZhY2UuDQoNClRoZXNlIGFyZSBteSBpbml0aWFsIHRob3VnaHRzIGZyb20gdGhlIHRhcmdldC1z
-aWRlIGltcGxlbWVudGF0aW9uDQpwZXJzcGVjdGl2ZS4gSSBob3BlIHRoZXkgYXJlIHVzZWZ1bCB3
-aGVuIGNvbnNpZGVyaW5nIHRoZSBsYXllcmluZyBhbmQNCnB1YmxpYyBpbnRlcmZhY2VzIGZvciB0
-aGUgbmV4dCByZXZpc2lvbiwgYW5kIEkgd291bGQgYmUgaW50ZXJlc3RlZCBpbg0KeW91ciB0aG91
-Z2h0cyBvbiB0aGUgcHJvcG9zZWQgdHJhbnNwb3J0IGJvdW5kYXJ5IGFuZCBjb21tb24gZW5kcG9p
-bnQNCm1vZGVsLg0KDQpSZWdhcmRzLA0KWXVuLUhzdWFuIENodW5nDQo=
+From: Rob Barnes <robbarnes@google.com>
+Subject: [PATCH] platform/chrome: cros_ec_proto: Fix deferred response
+payload handling
+
+When cros_ec_wait_until_complete() succeeds after an
+EC_RES_IN_PROGRESS status, it previously returned the 4-byte
+transfer size of EC_CMD_GET_COMMS_STATUS. For 0-byte payload
+commands (such as EC_CMD_FLASH_ERASE), userspace received 4
+bytes instead of 0, causing response size validation errors.
+For commands expecting non-zero response payloads, the kernel
+exited without issuing EC_CMD_RESEND_RESPONSE, leaving response
+buffers uninitialized.
+
+Refactor cros_ec_wait_until_complete() to pass orig_msg, issue
+EC_CMD_RESEND_RESPONSE into orig_msg->data when insize > 0, and
+return 0 for 0-byte response commands. Save and restore orig_msg
+fields (command, outsize, version) around the resend request to
+prevent unintended caller struct mutations. Update existing KUnit
+tests and add test cases for 4-byte and 16-byte response
+payloads.
+
+Signed-off-by: Rob Barnes <robbarnes@google.com>
+---
+ drivers/platform/chrome/cros_ec_proto.c      |  25 ++-
+ drivers/platform/chrome/cros_ec_proto_test.c | 151 +++++++++++++++++-
+ 2 files changed, 168 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_ec_proto.c
+b/drivers/platform/chrome/cros_ec_proto.c
+index a655322b599e..45d6e9bce746 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -147,7 +147,7 @@ static int prepare_tx_legacy(struct cros_ec_device *ec_dev,
+ 	return EC_MSG_TX_PROTO_BYTES + msg->outsize;
+ }
+
+-static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev,
+uint32_t *result)
++static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev,
++					struct cros_ec_command *orig_msg)
+ {
+ 	struct {
+ 		struct cros_ec_command msg;
+@@ -162,7 +162,7 @@ static int cros_ec_wait_until_complete(struct
+cros_ec_device *ec_dev, uint32_t *
+ 		if (ret < 0)
+ 			return ret;
+
+-		*result = msg->result;
++		orig_msg->result = msg->result;
+ 		if (msg->result != EC_RES_SUCCESS)
+ 			return ret;
+
+@@ -170,8 +170,28 @@ static int cros_ec_wait_until_complete(struct
+cros_ec_device *ec_dev, uint32_t *
+ 			break;
+ 		}
+
+-		if (!(status->flags & EC_COMMS_STATUS_PROCESSING))
+-			return ret;
++		if (!(status->flags & EC_COMMS_STATUS_PROCESSING)) {
++			/*
++			 * If original command requested response payload, retrieve it via
++			 * EC_CMD_RESEND_RESPONSE into orig_msg->data. Otherwise return 0
++			 * for zero-payload commands.
++			 */
++			if (orig_msg->insize > 0) {
++				uint32_t orig_cmd = orig_msg->command;
++				uint32_t orig_outsize = orig_msg->outsize;
++				uint32_t orig_version = orig_msg->version;
++
++				orig_msg->command = EC_CMD_RESEND_RESPONSE;
++				orig_msg->outsize = 0;
++				orig_msg->version = 0;
++				ret = cros_ec_xfer_command(ec_dev, orig_msg);
++				orig_msg->command = orig_cmd;
++				orig_msg->outsize = orig_outsize;
++				orig_msg->version = orig_version;
++				return ret;
++			}
++			return 0;
++		}
+ 	}
+
+ 	if (i >= EC_COMMAND_RETRIES)
+@@ -185,7 +205,7 @@ static int cros_ec_send_command(struct
+cros_ec_device *ec_dev, struct cros_ec_co
+ 	int ret = cros_ec_xfer_command(ec_dev, msg);
+
+ 	if (msg->result == EC_RES_IN_PROGRESS)
+-		ret = cros_ec_wait_until_complete(ec_dev, &msg->result);
++		ret = cros_ec_wait_until_complete(ec_dev, msg);
+
+ 	return ret;
+ }
+diff --git a/drivers/platform/chrome/cros_ec_proto_test.c
+b/drivers/platform/chrome/cros_ec_proto_test.c
+index 63e38671e95a..609ac8c5108f 100644
+--- a/drivers/platform/chrome/cros_ec_proto_test.c
++++ b/drivers/platform/chrome/cros_ec_proto_test.c
+@@ -1756,7 +1756,7 @@ static void
+cros_ec_proto_test_cmd_xfer_protocol_v2_no_op(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, ret, -EIO);
+ }
+
+-static void cros_ec_proto_test_cmd_xfer_in_progress_normal(struct kunit *test)
++static void cros_ec_proto_test_cmd_xfer_in_progress_payload_0bytes(struct
+kunit *test)
+ {
+ 	struct cros_ec_proto_test_priv *priv = test->priv;
+ 	struct cros_ec_device *ec_dev = &priv->ec_dev;
+@@ -1786,7 +1786,7 @@ static void
+cros_ec_proto_test_cmd_xfer_in_progress_normal(struct kunit *test)
+ 	}
+
+ 	ret = cros_ec_cmd_xfer(ec_dev, &msg);
+-	KUNIT_EXPECT_EQ(test, ret, sizeof(struct ec_response_get_comms_status));
++	KUNIT_EXPECT_EQ(test, ret, 0);
+
+ 	KUNIT_EXPECT_EQ(test, msg.result, EC_RES_SUCCESS);
+
+@@ -1811,6 +1811,149 @@ static void
+cros_ec_proto_test_cmd_xfer_in_progress_normal(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, cros_kunit_ec_pkt_xfer_mock_called, 2);
+ }
+
++static void cros_ec_proto_test_cmd_xfer_in_progress_payload_4bytes(struct
+kunit *test)
++{
++	struct cros_ec_proto_test_priv *priv = test->priv;
++	struct cros_ec_device *ec_dev = &priv->ec_dev;
++	struct ec_xfer_mock *mock;
++	u8 resp_data[4] = {0x11, 0x22, 0x33, 0x44};
++	struct {
++		struct cros_ec_command msg;
++		u8 data[4];
++	} buf;
++	struct cros_ec_command *msg = &buf.msg;
++	int ret;
++
++	memset(&buf, 0, sizeof(buf));
++	msg->version = 1;
++	msg->command = 0x1234;
++	msg->outsize = 2;
++	msg->insize = sizeof(buf.data);
++
++	ec_dev->pkt_xfer = cros_kunit_ec_pkt_xfer_mock;
++
++	/* For initial command returning EC_RES_IN_PROGRESS. */
++	{
++		mock = cros_kunit_ec_xfer_mock_addx(test, 0, EC_RES_IN_PROGRESS, 0);
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++	}
++
++	/* For EC_CMD_GET_COMMS_STATUS status polling. */
++	{
++		struct ec_response_get_comms_status *data;
++
++		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(*data));
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++
++		data = (struct ec_response_get_comms_status *)mock->o_data;
++		data->flags = 0;
++	}
++
++	/* For EC_CMD_RESEND_RESPONSE returning 4 bytes payload. */
++	{
++		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(resp_data));
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++		memcpy(mock->o_data, resp_data, sizeof(resp_data));
++	}
++
++	ret = cros_ec_cmd_xfer(ec_dev, msg);
++	KUNIT_EXPECT_EQ(test, ret, 4);
++	KUNIT_EXPECT_EQ(test, msg->result, EC_RES_SUCCESS);
++	KUNIT_EXPECT_EQ(test, msg->command, 0x1234);
++	KUNIT_EXPECT_EQ(test, msg->outsize, 2);
++	KUNIT_EXPECT_EQ(test, msg->version, 1);
++	KUNIT_EXPECT_EQ(test, memcmp(msg->data, resp_data, sizeof(resp_data)), 0);
++
++	/* Verify mock sequence */
++	{
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_COMMS_STATUS);
++
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_RESEND_RESPONSE);
++		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
++		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
++		KUNIT_EXPECT_EQ(test, mock->msg.insize, 4);
++	}
++
++	KUNIT_EXPECT_EQ(test, cros_kunit_ec_pkt_xfer_mock_called, 3);
++}
++
++static void cros_ec_proto_test_cmd_xfer_in_progress_payload_gt4bytes(struct
+kunit *test)
++{
++	struct cros_ec_proto_test_priv *priv = test->priv;
++	struct cros_ec_device *ec_dev = &priv->ec_dev;
++	struct ec_xfer_mock *mock;
++	u8 resp_data[16];
++	struct {
++		struct cros_ec_command msg;
++		u8 data[16];
++	} buf;
++	struct cros_ec_command *msg = &buf.msg;
++	int ret, i;
++
++	for (i = 0; i < sizeof(resp_data); ++i)
++		resp_data[i] = (u8)(i + 1);
++
++	memset(&buf, 0, sizeof(buf));
++	msg->version = 0;
++	msg->command = 0x5678;
++	msg->insize = sizeof(buf.data);
++
++	ec_dev->pkt_xfer = cros_kunit_ec_pkt_xfer_mock;
++
++	/* For initial command returning EC_RES_IN_PROGRESS. */
++	{
++		mock = cros_kunit_ec_xfer_mock_addx(test, 0, EC_RES_IN_PROGRESS, 0);
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++	}
++
++	/* For EC_CMD_GET_COMMS_STATUS status polling. */
++	{
++		struct ec_response_get_comms_status *data;
++
++		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(*data));
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++
++		data = (struct ec_response_get_comms_status *)mock->o_data;
++		data->flags = 0;
++	}
++
++	/* For EC_CMD_RESEND_RESPONSE returning 16 bytes payload. */
++	{
++		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(resp_data));
++		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
++		memcpy(mock->o_data, resp_data, sizeof(resp_data));
++	}
++
++	ret = cros_ec_cmd_xfer(ec_dev, msg);
++	KUNIT_EXPECT_EQ(test, ret, 16);
++	KUNIT_EXPECT_EQ(test, msg->result, EC_RES_SUCCESS);
++	KUNIT_EXPECT_EQ(test, memcmp(msg->data, resp_data, sizeof(resp_data)), 0);
++
++	/* Verify mock sequence */
++	{
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_COMMS_STATUS);
++
++		mock = cros_kunit_ec_xfer_mock_next();
++		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
++		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_RESEND_RESPONSE);
++		KUNIT_EXPECT_EQ(test, mock->msg.insize, 16);
++	}
++
++	KUNIT_EXPECT_EQ(test, cros_kunit_ec_pkt_xfer_mock_called, 3);
++}
++
+ static void cros_ec_proto_test_cmd_xfer_in_progress_retries_eagain(struct
+kunit *test)
+ {
+ 	struct cros_ec_proto_test_priv *priv = test->priv;
+@@ -2715,7 +2858,9 @@ static struct kunit_case cros_ec_proto_test_cases[] = {
+ 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_protocol_v3_no_op),
+ 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_protocol_v2_normal),
+ 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_protocol_v2_no_op),
+-	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_normal),
++	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_payload_0bytes),
++	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_payload_4bytes),
++	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_payload_gt4bytes),
+ 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_retries_eagain),
+ 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_retries_status_processing),
+ 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_xfer_error),
+-- 
+2.45.0

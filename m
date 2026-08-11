@@ -1,96 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E63D266EE9;
-	Tue, 11 Aug 2026 12:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF86388E69
+	for <chrome-platform@lists.linux.dev>; Tue, 11 Aug 2026 18:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786452194; cv=none; b=RrUAbIBuWtZoMza6JbRVnP33D8VGT76QgKdtdzy0ND9rzC9CzXgIuE7xs4mhf55GpUQKYQclTPLyC2wC4VBaIcltZP48sLFSAFrFytaQa2L8qYBq2T9tdfHXJVj9I2QkNjCx/hWBn7SQWiIPkVmaZqIJ+zgwVeoOMQgYM2rIKa0=
+	t=1786474214; cv=none; b=fz3GokkVY80jEyZfuP95RA/iRjE8GXAIbP0WDduTMUa3jVx6wPbh07IlM9l3S1dJQhAupIG+4IV1KZfVqLGz6h91aXeAcyOC5T/JZW74rpYvcGdQv8woVM3YC1PqA+bKG70EK6gafwQAxIEcbVjpOTDbV62ByLvhkdxsoyP+OTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786452194; c=relaxed/simple;
-	bh=uAKaQ7A7Z3Zdb/s/aszQmMSxLxqbjQ8B64KjECCt4ps=;
+	s=arc-20240116; t=1786474214; c=relaxed/simple;
+	bh=/XndPrnbkW/+T4iyC4fdQzl3+nRdbMmQ10eWKLyZ1V0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uPyv3otNTAarGFx0US/iZzqBurDGWDFxrm1ljIisAMNk4biYSJ56D93CRI0MFdUeX4VwJjVphQqSX9OgWYY6gQNqbIpsH2MncaQxR7oDt1AYxJjN2pBkioDCRD9pl9JcEseJlOlQqHiX+8joZQjZhs5eFc+lFhjjmspQ5sLq14I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=op7S08Vp; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=NR8ezHxVJfJiFtw/EOfzyJ+Bmw3oPervw52DyLucVhi2S7QR3agzmFdxAtuVDxH+W2jlSlclQEjitdHsxzGrT5u56DD4rbYKvF/3e5imDNbwMhRtFqt+EgJ+N5hgwT0yomCdcLXpzgk2q7sAu/2pqn2E3S/wPNohXzVackzLFk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HtAprtdd; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="op7S08Vp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BAD41F000E9;
-	Tue, 11 Aug 2026 12:43:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786452193;
-	bh=4doV9GUIAy9xUM+AhC/KkssK6h0MHIlM0ziN846RuEo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=op7S08VpI3MrH1h/maoaiUxk163dPSARrCqOWylNsQmtVHV+KnxK4GX8vEm6kwbWL
-	 ntm5ElhUpUHiS4sSlN+gI77xvYnSbPQiqonQLrh3g0zDWKd3HMB6gl8M0JMh6mCTDT
-	 wGovQw6wQfSpz4wO5uP0Mtlqjwwi+kcvmLVCCNXHVCjcbZvjFMaQEdvEJkxcFdcLAn
-	 gU1wOk3RewFn3ukeZbekbefbLhtx9sxYiBjQsBMXQRhJbyo79cWQik9Y/kBA4DLNEs
-	 bxDoaLOKdBWil1q6EOIavriIi6PqWS9UmfwybeZv/TQn20XWNkNaYtvy/dOeRXNrCb
-	 uNLFK2CXeDLNg==
-Date: Tue, 11 Aug 2026 13:43:07 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/9] regulator: core: Add "enable and wait" functions
-Message-ID: <99ad23ba-f8f2-404b-960e-1c22a20c9ac4@sirena.org.uk>
-References: <20260811122011.3539250-1-wenst@chromium.org>
- <20260811122011.3539250-2-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HtAprtdd"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-ca80d708489so149687a12.1
+        for <chrome-platform@lists.linux.dev>; Tue, 11 Aug 2026 11:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1786474212; x=1787079012; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GnHJCm2ZqOWuDJ2d9OnSHmMgxlAtHC/PNWplMTJtneE=;
+        b=HtAprtddW8u2Xt3mBZ1KXk4hYpTLYKcFOW7wK760BefA+RRkUS/UCOlo7VVcGdXXMh
+         gpT7Pt6KXozTLLi6gFLiOLtCMqKfGsdcTJMyKoU84AnYqjk3wdwcgJ3YXAp+hAcurFTz
+         OYi3OLCFUEpFcYwerGqfKNHq27BuT673NDTjk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786474212; x=1787079012;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GnHJCm2ZqOWuDJ2d9OnSHmMgxlAtHC/PNWplMTJtneE=;
+        b=RsTsV6geZtBIPXLDO63jF/BzXkzmyFNvXE0TNO4/d8NaZoSxqsZMZ6d3cbOkfhR2Cu
+         etbWg4FADnax8FkH0MH2TDCUEjamSNj6hyAEtiz4UCJ72fV2JyFws90zcxXE3Mv5jpzp
+         m8afpsqgzoS/pG1FCtNGSSbH2sksVwmReiSPyRcBIfKkFB4uJQoxwBg8eGExElQQB0D0
+         EEYjK+Htkxui4wdN6ayXL4xoXOn1+cgmR9viLn2UiXl59vctO44LlcGDniWJhQvkBYn0
+         7v/sp/XqnDUl6Y9HLwzPNdW5JiMev0OkBk90A4k3aciEA2YeekwryAmMwEyix7ueUHp+
+         Jwug==
+X-Gm-Message-State: AOJu0YwbhxdnlAwcwJ3JWEwjsAnPkD0/PDc0O1VJLRJ55YPcYuOZ8pNE
+	Jfr7uE6Li3ozBPDZ4NLXQDbawtZGUOzHTi91rVDPdHGiE6lcVwSlrH0tXXD9vzVp8g==
+X-Gm-Gg: AR+sD10XE043pIVofL/OL0enzFPOiL/yJ3Pv5haMGA/hW1h5HxZr5LxTcK3mYSGUwXO
+	Xf15JBE+44MDuDC0eJr6sbdQIJlPmKKIn7nWigI9zehAhGljYxYBdYCju9zOtZKX7kCYYqQie5H
+	63/8CRPJfgicrRTDodYBgtqwaYPc95gjbPuUkSp3axg3mCEURL17VPUTJ87biZXaa8it1omESt/
+	Oo+p5oif31u+Tcfdgwg30NwB/rXE9BpAkMuOZFdL+1K4HV6Kv5WlHDYqVWW7zBZklNy53OPoDaD
+	OPxYhkSVjIRt+Iq+dTJQScpXsV+RdsgJ/9KhRTh+03x/LJS0GEfCxnZFw3vhaWeqYYx3ijYvu1U
+	tAgOIy3bEUxTBU4F8KlV1r6QNGdVZggzYqrVQVrMwijWAqIpDaAJvu8/vIrSfhaErG6W7wztqhc
+	bgSJJzC8cTgoBmjkaFaug+O/8RQ+lqmD9jYpEZzIZUv8ZWyq1ejTIzrtGmlQN6zHvOE1cx+kqE1
+	iBdQJ7UDbZVqCn5GfaNC9kCaWw=
+X-Received: by 2002:a05:6a21:3117:b0:3bf:b7e8:68ab with SMTP id adf61e73a8af0-3cc377db1cemr3285344637.2.1786474211555;
+        Tue, 11 Aug 2026 11:50:11 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:79fa:d268:80cb:4947])
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-1412458a390sm1677688c88.14.2026.08.11.11.50.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Aug 2026 11:50:10 -0700 (PDT)
+Date: Tue, 11 Aug 2026 11:50:07 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Sean Rhodes <sean@starlabs.systems>
+Cc: chrome-platform@lists.linux.dev, corentin.chary@gmail.com,
+	luke@ljones.dev, denis.benato@linux.dev, hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com, prasanth.ksr@dell.com,
+	jorge.lopez2@hp.com, mpearson-lenovo@squebb.ca,
+	derekjohn.clark@gmail.com, josh@joshuagrisham.com,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dell.Client.Kernel@dell.com, florian.fainelli@broadcom.com,
+	chenhuacai@kernel.org, mst@redhat.com, wenst@chromium.org,
+	tzungbi@kernel.org, jwerner@chromium.org, tzimmermann@suse.de,
+	javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+	krzysztof.kozlowski@oss.qualcomm.com, andersson@kernel.org,
+	geert@linux-m68k.org, dmitry.baryshkov@oss.qualcomm.com,
+	arnd@arndb.de, ebiggers@kernel.org, luca.weiss@fairphone.com,
+	michal.simek@amd.com, sven@kernel.org, u.kleine-koenig@baylibre.com,
+	bhelgaas@google.com, dakr@kernel.org, o-takashi@sakamocchi.jp,
+	titouan.ameline@gmail.com, kees@kernel.org,
+	dri-devel@lists.freedesktop.org, oliver@liuxiaozhen.dev
+Subject: Re: [PATCH v12 4/4] firmware: coreboot: Add CFR firmware attributes
+ driver
+Message-ID: <antu3wHFDzxMXBKd@google.com>
+References: <CABtds-2qyH84oOG_JhXN6eNQOV9H9vhQvSG4JCv5E+r9VdwKcw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jN3Lu5VuliZs+Yka"
-Content-Disposition: inline
-In-Reply-To: <20260811122011.3539250-2-wenst@chromium.org>
-X-Cookie: Take me drunk, I'm home again!
-
-
---jN3Lu5VuliZs+Yka
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CABtds-2qyH84oOG_JhXN6eNQOV9H9vhQvSG4JCv5E+r9VdwKcw@mail.gmail.com>
 
-On Tue, Aug 11, 2026 at 08:20:01PM +0800, Chen-Yu Tsai wrote:
-> In device power sequencing and initialization use cases, it is common
-> for the driver to enable the regulator and then wait for a certain
-> period of time to pass before continuing.
+On Thu, Aug 06, 2026 at 01:28:39PM -0700, Sean Rhodes wrote:
+> coreboot can publish a CFR tree in its coreboot table to describe
+> firmware setup options. Add a firmware-attributes driver for that table
+> entry under the coreboot firmware driver directory.
+...
 
-Please don't bury core changes for subsystems in the middle of random
-other serieses, this is the first time I've seen this.  :(
+Kind of a large driver, but in a partial pass, nothing jumps out as too
+scary to me.
 
-> One case in particular is not optimized yet: a regulator left on either
-> by hardware reset default or by the bootloader, but does not have the
-> "regulator-boot-on" property set. As the enable timestamp only gets
-> updated when enabled by a consumer or by the core, the first enablement
-> always needs to wait.
+> diff --git a/drivers/firmware/coreboot/coreboot-cfr.c
+> b/drivers/firmware/coreboot/coreboot-cfr.c
+> new file mode 100644
+> index 000000000000..54aae1442bcc
+> --- /dev/null
+> +++ b/drivers/firmware/coreboot/coreboot-cfr.c
+> @@ -0,0 +1,1208 @@
+...
+> +static int coreboot_cfr_apply_runtime(struct coreboot_cfr_setting *setting)
+> +{
+> +#ifdef CONFIG_X86
 
-Just take a timestamp during registration if the regulator is enabled,
-we check if it's enabled anyway so we may as well take that as the last
-time the enable happened.
+What's X86-specific in here? Are you just needing inb()/outb()? That
+seems like you could 'depend on HAS_IOPORT', or #ifdef
+CONFIG_HAS_IOPORT.
 
---jN3Lu5VuliZs+Yka
-Content-Type: application/pgp-signature; name="signature.asc"
+> +	u8 status;
+> +
+> +	if (setting->runtime_apply_method != CFR_RUNTIME_APPLY_APM_CNT)
+> +		return -EOPNOTSUPP;
+> +
+> +	outb((u8)setting->runtime_apply_id, COREBOOT_CFR_APM_STS_PORT);
+> +	outb(COREBOOT_CFR_APM_APPLY_CMD, COREBOOT_CFR_APM_CNT_PORT);
+> +	status = inb(COREBOOT_CFR_APM_STS_PORT);
+> +	if (status)
+> +		return -EIO;
+> +
+> +	return 0;
+> +#else
+> +	return -EOPNOTSUPP;
+> +#endif
+> +}
+> +
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp7GNoACgkQJNaLcl1U
-h9BeJwf+NkLsGljQXwokTuIRv+ig4jdUnALSbb8+0ZIRrZ+96sNEkwqEODMFToii
-m8eaYIc5o7+PoXbWo0li99AO3IoZAw8otyweKMS8qGabP4EmHx4RQlRtmT5EB8GN
-KKPHgVNpuTTrP8/pNacCVJUZ2keDYA98Mqugtuxo14y9ZOp4HKevYQvXdimF1sXM
-43lEEtZJ/tnW/FlDVUtljN42u51I1ly4Tc2SUvquTs1V5sOJGEFvAftOVMTQWZeb
-dGPhAbqkevlNFnoQqIGB/9AeSYm8PpMRwVbveoDgBKXYMiHKpxokg2Vib+LH/6rn
-wYimUcQhuqXcIN2eQrOr0HIWPeB9Qg==
-=2Up9
------END PGP SIGNATURE-----
-
---jN3Lu5VuliZs+Yka--
+Brian

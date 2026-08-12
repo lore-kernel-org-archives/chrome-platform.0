@@ -1,97 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9302823EA84;
-	Wed, 12 Aug 2026 18:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786557752; cv=none; b=JmpTVs5qISRTQHlO/hyORqrLEGPwBsJBctISeySJhcPZO8OecDKaFzJxCdkh6mZak54I3IcXHEzgCWXaIIiVzDfoIt7r9Vmvhd0c5WJh/DECitUrVaJKgENiWI9hSjKUK2KOvefYdwa14E2dTkiFiwTKMPV80olh6Zn3chil9Jo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786557752; c=relaxed/simple;
-	bh=d87kSTcvUtybzCELCCZqNObMIMF4KdvGEzAMKataUlk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LUMbBUBbA1sc5vmeISIwAB1EEWhm/gqYnYSdKyo8/xw4FdYp85riZoK5trXe53GQxC8HbiIwlHiLjh9iEB+OfpH4WHLd4wXsDtc3paZJ8GRgWntOcvPtYP+qWvbdiWmJ5WuGbG4wNUeK4/zSfe/a/xTS4ccuqZ7lhu5O43rkgXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ocomHOSx; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E787404E
+	for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 19:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786564085; cv=pass; b=H1n6GC8n9+JjSDtjUTFjtcDrHotaRuIKI20d6glUcwEJtZFMthrDxgO19qq4cEe5MsPoaOl+sx4mWLsVEdHJUz7Qrhx1cmYLvW1k3pTNeB0JPMD0gMCMzS3E36Rpq2652HAawZETT5QqBo2NzQ+uWEbYAVb7dqM4GAsa7k6maO0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786564085; c=relaxed/simple;
+	bh=1DVjTbKTXkhH1yUwpD/lgRqJn/mvRVunuCZAxUjSgDU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rzIAY0SbEyWsJoqG2/Gom+VFw8pTgIqpgnozKjQwt/0XvBskNyE2e5YALf6PeiUQ81bKUgQFI5FcwR68EQrAef2JhFWEfX+M66tMX3F78XrZauX253RHHBfPbTY5qUbxS6nLqCEC3gRABB2maPJMA+xZnkJKcUbXv4NxuA+TeTo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LqCbGhTv; arc=pass smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ocomHOSx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 666F81F000E9;
-	Wed, 12 Aug 2026 18:02:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786557751;
-	bh=uz27fRQbmLZ3xcxLxL3E+lR1tIUbt6V3Gu1RoS5Srs4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ocomHOSxOmZSJCeI5nxJuoqhAhytsq3r9cJjlIsVsHbDvLUe+DB7jbdTJa7d88sjd
-	 m4pvknxfMPyLosyg+6KdokWt/qmg+e4yVNmU9JE+S5ZpfW1YlU7CxmQaUE8zYU1bRW
-	 WWRqVUHK3yBJndI+PzfNMb4p8mvK5RCzmBxLV1t4Fdnf+pYellKIpxLnh1ZqbAzbIJ
-	 5Guz1PvzSLP1H1+0amt58f6bMdcctlNxbgECiShUKMNo4TURA717QpgGtiZxojSBuc
-	 0P9IqUCKO9oqritMgalAXEJDzVFRdSQu9p2ec08lrcfBMhi0TJJT07ILInpp1ssJW5
-	 N7H160o46ZxxQ==
-Date: Wed, 12 Aug 2026 19:02:25 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/9] regulator: core: Add "enable and wait" functions
-Message-ID: <93fe2e3e-7a2a-4aa3-ad27-9e99c602c495@sirena.org.uk>
-References: <20260811122011.3539250-1-wenst@chromium.org>
- <20260811122011.3539250-2-wenst@chromium.org>
- <99ad23ba-f8f2-404b-960e-1c22a20c9ac4@sirena.org.uk>
- <CAGXv+5EeEQM6O8Vb8e8fGjRzMe1icmz=cPm3GoKLxvEO=weVcA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LqCbGhTv"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4994d67d260so1695e9.1
+        for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 12:48:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786564081; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gaxG3cUe3K2465Y5KTcjQ4PHkdNTcB4HtOFJ9lnCyygg6bTOgvFA5g1ftGPnRzxzSc
+         JbOR//Hza5yLJUu4/1LcxSyn8fxJYZL9np0QUzBe0SSMqnzOemx4Jez4dNpomaQBUFGg
+         pIIJUxPFD8TTrwVaOzgLXv5tSrW6hEfsPQKSqOJVrc8GmpALD++pSafWvAHu9MyAxNJh
+         0KYeI5rQj3AWa70bk4uQEC4uSEeVNZpqucIcF7Vo5WGrTw+Z4m/AD2DIuuEnc6zqUHVw
+         1UwzYfiUZiq+tj8hQ3fbOvZJRGkvyAj4MQTFOhyb8jlAbRSXrQcM8J1xnXvFOFdkc+L/
+         /h+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1DVjTbKTXkhH1yUwpD/lgRqJn/mvRVunuCZAxUjSgDU=;
+        fh=ic6d1XAEzDwn+sM+OksOIRHNZvsvkD9B6a504hm2T+k=;
+        b=hR9TZGeFxmhDX4PL7Wsw3LPII5QqzjWgWIlh14dmu4DThTJqnWvUiAimqi8L2hCtDR
+         AVHfRYOfnn8D5czCpy8i5oFDtYXNykhUuVh0/rXRyOUfw8rchPVqqsEHEB6LIaTxbTGa
+         XNthq7GZL40znWEui1dSqmnQg3NeopRx8dmMBKxWXuUgBEjcSQLWSOrbxT0AzTGAmzlW
+         OxvRYNCe7QGPg7QFDWX90g9NUBTI1dm6pWgf8QAmz8aqQCf2LbiYYAeX10+Itfd07gWS
+         p6HSJB461TEPQRVgeG+8lJf1CmdI+Kdggrd1oFKeQyX7hPcjEyCSdtpdWqlFxFVQRumq
+         xepw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1786564081; x=1787168881; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1DVjTbKTXkhH1yUwpD/lgRqJn/mvRVunuCZAxUjSgDU=;
+        b=LqCbGhTv/RdhhUa9zB9AgeGP1lCFVw5hNApSkHqoFa3V82KxpfFVE4pjkR0BJs57xL
+         19tJ/z9LbBSVAKApsMTxJkRL0JZQOWgmd/gSXwVJm6RhGROXWZjMtO29hRL5VGNjXhpY
+         WRllj1YrccTdFzhDxeTBMlZqLAL1JAknYHltI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786564081; x=1787168881;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1DVjTbKTXkhH1yUwpD/lgRqJn/mvRVunuCZAxUjSgDU=;
+        b=RaFnDss1Fbzf+1uExKWpvsMBMWcfP+SwLtnDDsvRsKNZTCFt8lUmxBKZ+fmp+PnHy7
+         49d3E6jIBUXTJ6EEyshqmrm+ecdalhRwc+8nbRrEVRBNLCdGhDBz8VpU1Bb8ajW7cL2s
+         EYFqZyPp5V/yU35rE2R2RsEu/55PEO+S087bRhU/eMMMnWr6rK5LwhmDMRV5EC+5YGDw
+         eQ6xS0i76755bIZcwJkqLQsCJaMdcqlvvBttSG70ecfbaFxJ8eE+NyDuKxYsr4jCKx42
+         aSSgfK2uTO45RjhtQ1V+qatnj+A8EkkGevz5ypObexPNegWgMI7O2nO1+tAMr49qOey0
+         tgRg==
+X-Forwarded-Encrypted: i=1; AHgh+RrBg46bg7E2PDxoEDT4RfuzL3A893clsQZjLogNUBB1VZUJiAISpJh/UPdhH0hXRF3docOdYljc4eezI3WLi2g=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdBW1AUaJshIu907u4ooGCTiwszEcQVkqwkjnHTntSw0oHBWim
+	le/Nbfg4+6gRGeuBvolVsWdHyJgDj62H2XFXieerBwx/iJHswM08tH/7qfAvZIShl8jVwj6mjJ8
+	02lDwX1Yhpaa3nrAuCyEa4ft9nCMavF/MzUjqVvy8
+X-Gm-Gg: AR+sD132OZnKRcJkY2dyc3JOHqwp4IJNlgIvWNNfFQE2qoPynLFJF66MpVHaY2D7xHu
+	AZSNywdVUncRfx8wvGHKG/P/l+UsH/8JAgtwkk7Z8hkgCbe3RRLScg533TpkFzfi/IF7KARb9PJ
+	sOflfBanMOM/NWx7k7iqXeGDttDbC3QFqgL+e/p7jeoh7wm+DZcvtMlSeO6Qy1HfTcfLByb/6Yc
+	ecCDPj16ROPZ2jzd8QDGYErEfHz2x5rARfhY6gBNYB1jod9Y/95j657TsuDGmzyl5fS7Vj/DQ/S
+	iSs/g0qvjjWgglwaUZTmbJa/Rd3xb5g+3KZqEJ49T6JYpSH4ZESIU0VkqMrcTXfrKly4VZ7C2cV
+	X88s=
+X-Received: by 2002:a05:600c:a29f:b0:495:4069:b0de with SMTP id
+ 5b1f17b1804b1-49981fabe30mr92875e9.9.1786564080986; Wed, 12 Aug 2026 12:48:00
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3qPAsn7wmCMfZq5C"
-Content-Disposition: inline
-In-Reply-To: <CAGXv+5EeEQM6O8Vb8e8fGjRzMe1icmz=cPm3GoKLxvEO=weVcA@mail.gmail.com>
-X-Cookie: !07/11 PDP a ni deppart m'I  !pleH
+References: <cover.1785838269.git.sean@starlabs.systems> <6f65c9869714188539f2890aef6cf30e7bd2edcb.1785838269.git.sean@starlabs.systems>
+ <e0d2a22e-a0cd-4a71-82c4-b88abcc7456e@oss.qualcomm.com> <04db0ee0-a8d5-4f30-a494-5c7f8ac757c8@oss.qualcomm.com>
+ <CABtds-35m_cfT=Vm4MZkJYRe=dOPAKR6HYO_fu3SnwkdVQE0nQ@mail.gmail.com>
+ <64d82edc-87a0-47c7-8a17-f0d1c806a294@oss.qualcomm.com> <CAODwPW8B2-i4Ne-ZTVUM_H-EZwn2hoaC4joRhxNM=CREDd_aUg@mail.gmail.com>
+ <c8e4a3d3-a96d-4fd1-85a6-881e68385c83@oss.qualcomm.com>
+In-Reply-To: <c8e4a3d3-a96d-4fd1-85a6-881e68385c83@oss.qualcomm.com>
+From: Julius Werner <jwerner@chromium.org>
+Date: Wed, 12 Aug 2026 12:47:48 -0700
+X-Gm-Features: AUfX_mxfmohhDd7NwZ5OlHrJ4eVefwPyRshu_429PA-DB0FUH4Xn3jxZI6eV4zY
+Message-ID: <CAODwPW__tskkkqSREHFAf9iG17oYfG5Li-1kh0y8pX=z0W_31A@mail.gmail.com>
+Subject: Re: [PATCH v11 3/4] firmware: Rename google firmware directory to coreboot
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Julius Werner <jwerner@chromium.org>, Sean Rhodes <sean@starlabs.systems>, 
+	chrome-platform@lists.linux.dev, Corentin Chary <corentin.chary@gmail.com>, 
+	"Luke D. Jones" <luke@ljones.dev>, Denis Benato <denis.benato@linux.dev>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Prasanth Ksr <prasanth.ksr@dell.com>, Jorge Lopez <jorge.lopez2@hp.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Joshua Grisham <josh@joshuagrisham.com>, platform-driver-x86@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dell.Client.Kernel@dell.com, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Chen-Yu Tsai <wenst@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Brian Norris <briannorris@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Eric Biggers <ebiggers@kernel.org>, Luca Weiss <luca.weiss@fairphone.com>, 
+	Michal Simek <michal.simek@amd.com>, Sven Peter <sven@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
+	Titouan Ameline de Cadeville <titouan.ameline@gmail.com>, Kees Cook <kees@kernel.org>, 
+	dri-devel@lists.freedesktop.org, Oliver Lin <oliver@liuxiaozhen.dev>
+Content-Type: text/plain; charset="UTF-8"
 
+> I do not consider marketing or pure "I do not like this name" as valid
+> reasons, because this is developer string (or kernel/distro
+> configurator) not end-user visible thing. And for us, the developers,
+> this marketing does not matter.
 
---3qPAsn7wmCMfZq5C
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm not sure I'd agree that naming doesn't matter for developers? The
+style guide has an entire section about choosing good names for C
+symbols, I don't think Kconfig symbols are fundamentally different in
+that regard; they're still strings developers read to find and make
+sense of things, and leaving something with the wrong name makes it
+harder for the reading developer to find and understand it. (This
+isn't about "marketing", btw, Google the company doesn't care whether
+this driver is called GOOGLE or COREBOOT. I care as a kernel developer
+that this driver has been mostly used for something else than what it
+was originally labeled for for a long while and it's high time that we
+correct that to avoid confusing people.)
 
-On Wed, Aug 12, 2026 at 12:39:42PM +0800, Chen-Yu Tsai wrote:
-> On Tue, Aug 11, 2026 at 8:43=E2=80=AFPM Mark Brown <broonie@kernel.org> w=
-rote:
+> Anyway, defconfig change must be separate because it goes via different
+> tree, unless this is non bisectable. Keeping it here initially confused
+> me into thinking you are actually breaking use cases (which you are not).
 
-> > Just take a timestamp during registration if the regulator is enabled,
-> > we check if it's enabled anyway so we may as well take that as the last
-> > time the enable happened.
-
-> Yeah, I just haven't figured out where exactly in regulator_register() to
-> put it. I think it should be after the supplies are resolved, so maybe
-> I could do this in the "final setup" part in regulator_resolve_supply()?
-
-Makes sense I think.  The other place would be while doing the
-constraints but they're optional so might not happen.  Perhaps make the
-one at the end of registration skip if there's a timestamp already?
-
---3qPAsn7wmCMfZq5C
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp8tTEACgkQJNaLcl1U
-h9B2FAf8D1M22Grx18J9/WwNFIOC9lobobrOEs3T/vwO7/gO1L2DkkIIJ+O6giFE
-pVSJK0jvB/6bFVrLlTTFUvMLxE+WxD/G/kpriivyU1quihyIkp1hVbsCmVQlKcTx
-4gWcO383CQneVfUhZTcFpXFBT8l6pzLP4nT/6El14xC0nf6L2nX1me4vgBSlNhsX
-1vVrWMkUDh7nORWr3MBRcbVICD/95yzWD6uUq64zT2yX8QBFACOGWzt4w5dooGFO
-grAcJyH7t0K0WlFBSogUFX05QKN0eLiAuMEfCuVkpXf5phImv/MiaPaIlEZUxMC+
-lPVvKyLFNzRuafb6rYrFUuevW9Ibaw==
-=gO+2
------END PGP SIGNATURE-----
-
---3qPAsn7wmCMfZq5C--
+Fair enough. So Sean, could you maybe split this out into this patch
+which does everything (the renaming and adding of transitional
+symbols) except for the arm64 defconfig change, and then the defconfig
+change as a separate patch at the end of the series so that it can go
+through a different tree?

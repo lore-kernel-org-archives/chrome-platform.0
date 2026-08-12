@@ -1,133 +1,213 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E885F385D62
-	for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 04:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786509596; cv=pass; b=a9VIJFN4ssX0SQfQ98oakq93zn4JU4Rx/CW7CA+cTwos/33QoqOMILEuAtNIJGKD78v7VrfJ7HJbQn4DT/LRo1nnQs6XSAyQhn3EDYU6BrGhw/YSKEg5WPC6RAXTZwt7EWBJmoJU74NBedyDEVEz+fB4S8J7d9a5fsDf4gqIWEI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786509596; c=relaxed/simple;
-	bh=Bn5EA8mnuFm3bH5umIuq0sbge5qbiERu/rawKyKCdjs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P7fza0gCu9VIfSu2J2k83qkeLdwDoDFA4jAq+07rsGvEvWSuUX3w/JU9F0t5PE70AC7tbJMiBelt2I4OFwulJkpegh4r2lseb6HYnM9ZRCHzbyJ2Vs9nQqGyd1vAHAeadROHiYYiuKd7piVr8ig+aq/VI6V6Lufm3jpDmbWLNYs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KPPttaDV; arc=pass smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD96F40098A
+	for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 10:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786529209; cv=none; b=ogRCwyNvPT/N+wbk+g6SHmXDXIHu3ERsfp7aqGx6FkbZ0baccRZDcFxooNg6uNJsAEDgYnT04NOT1bs9Hs4tD5XXEGN1AFiSsdB0R01mmeEJOaXTKUBWs6PvgEnSPRK4LZ3X/f8bZZ3mMEEoH8LNkmB1E5THBGYD73Yy8xPNveE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786529209; c=relaxed/simple;
+	bh=RnikPEgzeTjUJnEQSdQKHOjLYEpAOh4Q0UUB04GXxj8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C0bjYByIPcuh4XcvbC33vmSqPjQ744gDQLrtqdcVl+zpzoPpMTENjWOCAushGJGq+hoo2V/LZeZYgtkEVDrOEMiE6qAnZXCfjnc5qFtO824/cUgkoO79kI5ZgbuB39px+ag0HF4PegVNVOpY3yhpAXS6Prv0jGHrSI2a5TmcEtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=P/0bpBRo; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DxsEDbM/; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KPPttaDV"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-448b89f700fso633199fac.2
-        for <chrome-platform@lists.linux.dev>; Tue, 11 Aug 2026 21:39:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786509594; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ESiP8KhgQ9ZLocC25uNJ9nuIF3ZCE6E+5RHcc+NTykyJdtuBx5+gTBpPxaUVGos1Cq
-         51xOlh4Ql6BVvocu+tdTgYuJYZLfHIP8WyfU7qL+uvuyQESJ/EayUTs4xDW01OFyrCm0
-         oJVXP8i329s9tkLaXxHfrivKGKU/8wDaE8aPfirViNLi9/EhsaE5AbNpOIfGGGeZx/qZ
-         NpvKm4NgOkbt99vACv2M5n8BuCfnPOnKCOo0R8kVxCqipnRyiurj1ixfpvhsEqA46FP3
-         UQDG5b+w99Hhfh/Z+GxMCcxzlhtJtDJnCMeH9+pWHTRmVkgZnvFYWVRhplfmjyEWKInl
-         B8UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=y8EqzbJg8fD3KowEEfKkshsn5eXfhPp6NSIWl0mIxuU=;
-        fh=zQi41NrGf3sVXsD4eyCPvVvwvBqkBj0mN4S7YlWrK4g=;
-        b=C/lk/qKtDX7BmLi/l2LFTj0Qt9kIdyy+fOh0ZqPiie1AIxgfwHgz09Vrvq7rJTpFR+
-         fS6MEUHbcbozPL7gzdCNfAWRqDl2uKTeOoyv/Cw0NwJJgeFCDDQ3U282kGWh0FHRO68w
-         HAhSI+6/T234MnEACbD16ErZr5ugdXqs8EIajXs9/AP4fQCWjbTBm38GAVZb4+WTg+oB
-         JMmPagqBJS3MgHLpXdzJj/QFhDwc7JAa/8YxVB1G2Q+Vj8/xlZb2uy800jRRdPbjZSdG
-         sBSqC45DPYUYu4vWBIsF7HUosXNY4ouyHW3h+PJ656vHv/Z1QPU/Y4pi0Ol1mBZ6FneZ
-         NWMA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="P/0bpBRo";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DxsEDbM/"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67C9fmIR3997151
+	for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 10:06:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	t/SOUpUwjDpAt++MVooTOPUKZjfOYijo38yy35xnxnE=; b=P/0bpBRoYv1osyh4
+	EAkk8kxe2DJERN5N3w78B5e/+lesGS5HMl8vMkcvIwuiGa/Ahn327h+p4QMv2rc4
+	SxeYZPEM1DymwEsgBin2TL34WUV5fPAjmygLIFgxTqLiNNGZEx8IBiiwNiolRDS/
+	Y1fTd8ET0ui5cFVH9j56O5mDWkndWU/NU4pG8pdTGPJInpKpUByIOxTmFG7Kxt23
+	C37rEApB3vYvqzcXkzjQszX/GfZ90nnYsUw6gWyYcAcCU5scrGEyRxLoKZcHhdGB
+	bXweSN1dJ8RadevfMuDptwwsH3QVi6cdQtf9URG9tEeu4I+WdRei4VBYGcP75Dr5
+	J67yvg==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g08j5k9j8-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 10:06:46 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-9087f2fe592so4441346d6.0
+        for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 03:06:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1786509594; x=1787114394; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=y8EqzbJg8fD3KowEEfKkshsn5eXfhPp6NSIWl0mIxuU=;
-        b=KPPttaDVmsq9DeDyO8VVUGNToyqpuIv/nUT+KfBpviUKBvt9uDQn++P2yETcoGjmpe
-         RhHoNFc+7Kh1UkXG4yV1IpIwKwDhAAP6r8+DhB+3gMYkgKiSoJFunpokWyq0m1ZOaSV4
-         BTojXADbIs33sSdxylMmZYExgqz/6+CLMtLC4=
+        d=oss.qualcomm.com; s=google; t=1786529205; x=1787134005; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=t/SOUpUwjDpAt++MVooTOPUKZjfOYijo38yy35xnxnE=;
+        b=DxsEDbM/Ii7PO+EwW368RTwKxUGtpaqkFu/iybjiTfNE0E8hc5FE8M3Y4CQMHxoRCL
+         pueSZI0EJLeznlZfjcWgFSJwXYRRNZIv7+bpxns6owT/APwAGX5Xj8sFckEoSkTxzbEx
+         e0ikEGMM0MCnKQb/TqV5492sNcpPQEKdH9jiEhvxp6Que79Pwk9CSk7NzCl4WZclcM1v
+         MNgrZeUJRL0Rq3FJgD99fp7zXwE/Hvs1jNTA6tbLpfgOPeXGAkAR3g5SbRkD4SV7S26v
+         mcCHJVTWMwFl/tRvFZAsszJCUWXVTMiQEPqJHNqe0DdF09AmSBw6vQPxEmAYLccmrmFY
+         szwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786509594; x=1787114394;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y8EqzbJg8fD3KowEEfKkshsn5eXfhPp6NSIWl0mIxuU=;
-        b=ela0rm3FxDIVuaRsenPSmoCpAPFyhCULQiHje/ClH6xKiK68QwXkRH7ZXqwyuiPssF
-         Es2p5KbXmL4rt8qnSl2PwN2jrsUG09oFlB9YUNz9OYYMaAIMOKD8hDrMM1FD0w716orR
-         akyBpbQnppttek0kOfELq+mj/9+acMMnfU8cfECfZ3EfyE7fU5fJWgF71ewVQZZNTAAI
-         Cm5LB6uXSCdY8/Aft0qrzPwZtTNI3q7lb0Mma1D5/SqvDWO/DzrNTCiBnuMFS8OG7z7V
-         0Z8oe9kkcMGhNJgRh3G4VQII0FifnMjOsY+LFs7tt2f228QDVTOXp2lNrFNq6+MTXRuq
-         0J8A==
-X-Forwarded-Encrypted: i=1; AHgh+RrD8bdnu4ZQwkbBKyuvJO9elq5EPctEIAO8IoQozi17rcJxLvqBmNWrjcES96Gme5IJMn2MtH183NNQNHigJcc=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9r56lBsu2pW7SPFxeC20Bf3KhViFKB78oZaoQNGX/YreeQdGk
-	qe0KGzALDzDFTr2N9Ux5lJFvvaFDMAGRlmDgS8uVBnHBLsZSKcY6L7LBc/6AcTPDv9zJIG9GGwL
-	r69fg0pdI5G0F3UedZm4iL6jhgXauh46bGh/3fPUJ
-X-Gm-Gg: AR+sD103vfjCusL+UvLW1pdbj31PDs5eBCrdo9hoXrYHenJ3cgUS11XEwYs59iG8yES
-	1g5kg/ZSoESGM11Fb3czNANQvLoJ9DPNxSAI/bfB2g4EY3l2OxsV+FwNwTc6uHYt3iFF/4/6p5S
-	bbHPyznm+euGOkaU1qWLitf5zcJ8sTIDExcWKgSTxrDWC4RxrvAf6V0dmvnW+kYv+fM4JMbpZk3
-	DJxFabvkycjpIOwtp6r9+Gax1azmG5M/1P+Vyr2N/GOZB5264jgUOE7Wv+LeLxO53huIodV5kJZ
-	j4O7w2qm8PpwKVFJzPSRTKxuQNZVs+ipyarq9ku2O6lQbanGCPS0m2tf3XKp0mMWzMSSseB3RNA
-	GAWpKZC4=
-X-Received: by 2002:a05:6808:2f13:b0:495:d7ec:b6be with SMTP id
- 5614622812f47-4b210ca8dc6mr1833103b6e.18.1786509593853; Tue, 11 Aug 2026
- 21:39:53 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786529205; x=1787134005;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t/SOUpUwjDpAt++MVooTOPUKZjfOYijo38yy35xnxnE=;
+        b=W8g9p7RVmLt8kMgw1WsgB6y7ClBbTIpiLpFu8c7eANJK3l1BkfyMJZTrX3kx559jQm
+         bmljgqL/+EaSlcJ/g8d0SWdu9v8LZG8Q0oz/soMLABaQZ1EjRuc6bVF7+QEdDfxV4sAQ
+         vZVFZr4W0y/ronuNOgdsRxJaLfqe8GsUtJp2t0QNEMS0ha16Qz4tAg0cbDLWb8D2IIjz
+         2rmNLN+F24WQ7U++d8WTSUUEDGhcx1jWS1fi16HcOK8DCAm67fjy9LDwTyMNb8SYJOX7
+         0qeAUx4Ko7P07RfFCEe/3AcGZ27kSh2DEV5IdqdIz96WsqakavhIM2FIXWOJNc8/HOEn
+         yJTg==
+X-Forwarded-Encrypted: i=1; AHgh+RqTv23mb0aYDbCAugCmAamXF7ybuuht+boqhM+8dCZPPNI0x3yHpLVa5qaWUr1qJQ29uLZjX/19NvCsz8ZB+bo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxrXMOAG3y3JlAjcWATVJ6e/clGilOzaMyOcOoa1fv5Wx/Ow0pe
+	ljqozaaWYNIcagIdex/5Bv8vTCsOIcJ8ATDqU+rNZ1Paj9LegGuNoj+25e8M9psAsXm53Htl5uf
+	YqQlWSYuGbiwnPCZBUok8U1Ix0tK/W2R0QjqOhvHutOmKGfz+iv31CY78QpGAdazKfMdMykA=
+X-Gm-Gg: AR+sD1138Qq/ET+vyRd1C/6CZIIMqCte5vOZflfOYiJaBdBk9QVKJ9m/GHoQ5lZSb7C
+	tQx20tTLUerTqfnIoV4f/VJ/3NkAmZKHY+irCAT5ftqy/NteIOplB4QRbXacVtjy2MPRPnOqywA
+	/i73/4f4eeptVljFNJhlRXiDIJw2IUpW19FZNBPuCSKs1kOSkKiVBwSKxZUXcfN7eiQAV1rLVwo
+	ID4SIU6FLabcU/JuC8nmi+higcZTZn+QNV8FNmozrXlS1tndCqStm2F2ch57bJVwdxildvJFsR7
+	B8zXsQSICoZiUHaAdbnNdI7PBQtIMUh+9lTtfNBqfqhDazYfsnxmz+oUgbAfvNON7uR4NUJaFWv
+	vktUhAx6ex7xKHgjEHgqZHphoGLo9jQ==
+X-Received: by 2002:ac8:5854:0:b0:52d:3ccc:968b with SMTP id d75a77b69052e-52d646b85b6mr26390351cf.9.1786529205382;
+        Wed, 12 Aug 2026 03:06:45 -0700 (PDT)
+X-Received: by 2002:ac8:5854:0:b0:52d:3ccc:968b with SMTP id d75a77b69052e-52d646b85b6mr26389931cf.9.1786529204950;
+        Wed, 12 Aug 2026 03:06:44 -0700 (PDT)
+Received: from [192.168.1.110] ([178.197.219.214])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997c946ce1sm34512735e9.5.2026.08.12.03.06.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Aug 2026 03:06:44 -0700 (PDT)
+Message-ID: <c8e4a3d3-a96d-4fd1-85a6-881e68385c83@oss.qualcomm.com>
+Date: Wed, 12 Aug 2026 12:06:40 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260811122011.3539250-1-wenst@chromium.org> <20260811122011.3539250-2-wenst@chromium.org>
- <99ad23ba-f8f2-404b-960e-1c22a20c9ac4@sirena.org.uk>
-In-Reply-To: <99ad23ba-f8f2-404b-960e-1c22a20c9ac4@sirena.org.uk>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 12 Aug 2026 12:39:42 +0800
-X-Gm-Features: AUfX_myPgwTrMoDWlXxd7K4JTdOxXQP71DAA9qzbfq1hbTylwiYJcqKiFEh4if4
-Message-ID: <CAGXv+5EeEQM6O8Vb8e8fGjRzMe1icmz=cPm3GoKLxvEO=weVcA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/9] regulator: core: Add "enable and wait" functions
-To: Mark Brown <broonie@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, linux-mediatek@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	chrome-platform@lists.linux.dev, linux-input@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 3/4] firmware: Rename google firmware directory to
+ coreboot
+To: Julius Werner <jwerner@chromium.org>
+Cc: Sean Rhodes <sean@starlabs.systems>, chrome-platform@lists.linux.dev,
+        Corentin Chary <corentin.chary@gmail.com>,
+        "Luke D. Jones"
+ <luke@ljones.dev>,
+        Denis Benato <denis.benato@linux.dev>,
+        Hans de Goede <hansg@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Prasanth Ksr <prasanth.ksr@dell.com>,
+        Jorge Lopez <jorge.lopez2@hp.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        "Derek J. Clark" <derekjohn.clark@gmail.com>,
+        Joshua Grisham <josh@joshuagrisham.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dell.Client.Kernel@dell.com,
+        Florian Fainelli
+ <florian.fainelli@broadcom.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Chen-Yu Tsai <wenst@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+        Brian Norris <briannorris@chromium.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+        Simona Vetter <simona@ffwll.ch>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Eric Biggers <ebiggers@kernel.org>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Michal Simek <michal.simek@amd.com>, Sven Peter <sven@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+        Titouan Ameline de Cadeville <titouan.ameline@gmail.com>,
+        Kees Cook <kees@kernel.org>, dri-devel@lists.freedesktop.org,
+        Oliver Lin <oliver@liuxiaozhen.dev>
+References: <cover.1785838269.git.sean@starlabs.systems>
+ <6f65c9869714188539f2890aef6cf30e7bd2edcb.1785838269.git.sean@starlabs.systems>
+ <e0d2a22e-a0cd-4a71-82c4-b88abcc7456e@oss.qualcomm.com>
+ <04db0ee0-a8d5-4f30-a494-5c7f8ac757c8@oss.qualcomm.com>
+ <CABtds-35m_cfT=Vm4MZkJYRe=dOPAKR6HYO_fu3SnwkdVQE0nQ@mail.gmail.com>
+ <64d82edc-87a0-47c7-8a17-f0d1c806a294@oss.qualcomm.com>
+ <CAODwPW8B2-i4Ne-ZTVUM_H-EZwn2hoaC4joRhxNM=CREDd_aUg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <CAODwPW8B2-i4Ne-ZTVUM_H-EZwn2hoaC4joRhxNM=CREDd_aUg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDA4MSBTYWx0ZWRfX+DZJKsI7IFmy
+ zVyyjOJb3+XEgCWgWy1s8xkbGVZUnDb+ShkZfDIIX0h26Mr/FEzf+ctodAlqGw7XRKUcSYHUweT
+ RppNZ+SfHEnSIl2Antsxt9Xbj4UFGBE=
+X-Authority-Analysis: v=2.4 cv=evHvCIpX c=1 sm=1 tr=0 ts=6a7c45b6 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=+bKQE0WJfmhK2875HamI0Q==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=WubhEmtZWPFaE_0rBY8A:9 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-GUID: kr1N2y6gQXKAQwS5TTIDtL1puEpTNb-V
+X-Proofpoint-ORIG-GUID: kr1N2y6gQXKAQwS5TTIDtL1puEpTNb-V
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDA4MSBTYWx0ZWRfX1Kj4HmF5rO2m
+ 7YAEgP8E0SBWSqr4M3QEqPfQ3o25nnRbFCAI6e2qBVuuaM/FxL4J/5mdv8h+dktiIPfNNJvJ91l
+ cA+r8dHcQXRgxUGQsv55S0WEdauq3pvocWvM94fHJUKsJrTKwt/840VaQLgOWKkqsP1QrKHjPPO
+ cBPOMRbBo0c2P7aexCy3UyReqfUxB1FfloWvGSSfKdPC4baUbU8mRuc9dQNQk6CFpnFZJiz5PyK
+ Dk+DgM1K2OBjQyWxN7SQcPlfdEfOeXvYrQdP2uDajmOLIr45sgJUzVtQVq6BjH1bqM6AHEAjZqR
+ aj2f2xsJSRgYsMUA/nBXLLsG0wpPm9ojvqNn74qxU/QmSnPAhKhTE6KErGkoNFfdVYrApEhylAD
+ mPvRcyzZZWPsZyDuswhRwe8MFkkYHY6wXbJoCECIcOD1Oftv+shG4oKVi0bNVhE2kyo+bJLjCk9
+ Rv285o2WXoqOSkcpmjA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-12_03,2026-08-10_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ bulkscore=0 suspectscore=0 clxscore=1015 phishscore=0 spamscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608120081
 
-On Tue, Aug 11, 2026 at 8:43=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Tue, Aug 11, 2026 at 08:20:01PM +0800, Chen-Yu Tsai wrote:
-> > In device power sequencing and initialization use cases, it is common
-> > for the driver to enable the regulator and then wait for a certain
-> > period of time to pass before continuing.
->
-> Please don't bury core changes for subsystems in the middle of random
-> other serieses, this is the first time I've seen this.  :(
+On 11/08/2026 22:21, Julius Werner wrote:
+>>>>> Do not change this.
+>>>>
+>>>> I am surprised that such change appeared at v10.
+>>>>
+>>>> Changelog is quite incomplete and I do not see any explanation for this.
+>>>
+>>> Sorry, don't follow - so put the names back, or split it into its own patch?
+>>
+>> I did not find explanation of this in the changelog. It cuts at v9, so
+>> maybe that's the reason, although lore pointed me the v10 as the first
+>> version introducing new CONFIG symbols.
+>>
+>> Anyway, IMO renaming is really not worth if the sole reason is Google
+>> name is disliked now.
+> 
+> Krzysztof, the idea with this change was to introduce the new Kconfig
+> symbols that more accurately represent the new directory structure
+> while keeping the old symbol names available as fallback symbols for
+> people who continue using old .config files. Doesn't that avoid the
+> pain to users you're concerned about? I thought doing renames like
+> this cleanly was the whole point of the `transitional` feature in the
+> Kconfig language. Why do we have that lever if we don't want to use it
+> for the kind of cases it was meant for?
 
-Sorry, that is entirely my fault. I was using an old v1 recipient list
-on the previous two versions and that list didn't include you.
+To me 'transitional' is when you actually make changes to drivers, their
+dependencies or to whatever Kconfig hierarchy is there.
 
-> > One case in particular is not optimized yet: a regulator left on either
-> > by hardware reset default or by the bootloader, but does not have the
-> > "regulator-boot-on" property set. As the enable timestamp only gets
-> > updated when enabled by a consumer or by the core, the first enablement
-> > always needs to wait.
->
-> Just take a timestamp during registration if the regulator is enabled,
-> we check if it's enabled anyway so we may as well take that as the last
-> time the enable happened.
+I do not consider marketing or pure "I do not like this name" as valid
+reasons, because this is developer string (or kernel/distro
+configurator) not end-user visible thing. And for us, the developers,
+this marketing does not matter.
 
-Yeah, I just haven't figured out where exactly in regulator_register() to
-put it. I think it should be after the supplies are resolved, so maybe
-I could do this in the "final setup" part in regulator_resolve_supply()?
+Anyway, defconfig change must be separate because it goes via different
+tree, unless this is non bisectable. Keeping it here initially confused
+me into thinking you are actually breaking use cases (which you are not).
 
 
-Thanks
-ChenYu
+
+Best regards,
+Krzysztof

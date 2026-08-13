@@ -1,143 +1,97 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E787404E
-	for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 19:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786564085; cv=pass; b=H1n6GC8n9+JjSDtjUTFjtcDrHotaRuIKI20d6glUcwEJtZFMthrDxgO19qq4cEe5MsPoaOl+sx4mWLsVEdHJUz7Qrhx1cmYLvW1k3pTNeB0JPMD0gMCMzS3E36Rpq2652HAawZETT5QqBo2NzQ+uWEbYAVb7dqM4GAsa7k6maO0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786564085; c=relaxed/simple;
-	bh=1DVjTbKTXkhH1yUwpD/lgRqJn/mvRVunuCZAxUjSgDU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rzIAY0SbEyWsJoqG2/Gom+VFw8pTgIqpgnozKjQwt/0XvBskNyE2e5YALf6PeiUQ81bKUgQFI5FcwR68EQrAef2JhFWEfX+M66tMX3F78XrZauX253RHHBfPbTY5qUbxS6nLqCEC3gRABB2maPJMA+xZnkJKcUbXv4NxuA+TeTo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LqCbGhTv; arc=pass smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE2527EC7C
+	for <chrome-platform@lists.linux.dev>; Thu, 13 Aug 2026 00:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786582044; cv=none; b=Iq1FLXP+lHdouJQ3Gb/qmCxfEQVm1+1XQ1TeVQtRHWio5uHewyjBCfmiPxdVqYlKZN6KVfHyPjW0WGe+Ej/3YG7iBXiRdHD+u7nXo0U1z38XVZv8DS7ZtllkTYF3xMH4DOcFTi7HNhAoAkU6brDJkUpcHJVQb3ofpjROv/P9gEY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786582044; c=relaxed/simple;
+	bh=nr0JbzfBqGevMUFWP5WeE8p+Mj3rdk2zYt8M2x9Q7UA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KbTlpjUuer7RWtzEBLpT+86UoVz8W5Ut4yNesPeLyKzBNB8EuVD4vjlfArRfil69CRBCUTMxijo/pso+HJv/visVtcy1WeQI/k5pB7IHzHfx7FyZeko1yHq7ujjGAlJyJ1c+d53TtaR44wiGoHfc3NVNuonNgvag587/pYq7lFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fkwbzzan; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LqCbGhTv"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4994d67d260so1695e9.1
-        for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 12:48:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786564081; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gaxG3cUe3K2465Y5KTcjQ4PHkdNTcB4HtOFJ9lnCyygg6bTOgvFA5g1ftGPnRzxzSc
-         JbOR//Hza5yLJUu4/1LcxSyn8fxJYZL9np0QUzBe0SSMqnzOemx4Jez4dNpomaQBUFGg
-         pIIJUxPFD8TTrwVaOzgLXv5tSrW6hEfsPQKSqOJVrc8GmpALD++pSafWvAHu9MyAxNJh
-         0KYeI5rQj3AWa70bk4uQEC4uSEeVNZpqucIcF7Vo5WGrTw+Z4m/AD2DIuuEnc6zqUHVw
-         1UwzYfiUZiq+tj8hQ3fbOvZJRGkvyAj4MQTFOhyb8jlAbRSXrQcM8J1xnXvFOFdkc+L/
-         /h+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1DVjTbKTXkhH1yUwpD/lgRqJn/mvRVunuCZAxUjSgDU=;
-        fh=ic6d1XAEzDwn+sM+OksOIRHNZvsvkD9B6a504hm2T+k=;
-        b=hR9TZGeFxmhDX4PL7Wsw3LPII5QqzjWgWIlh14dmu4DThTJqnWvUiAimqi8L2hCtDR
-         AVHfRYOfnn8D5czCpy8i5oFDtYXNykhUuVh0/rXRyOUfw8rchPVqqsEHEB6LIaTxbTGa
-         XNthq7GZL40znWEui1dSqmnQg3NeopRx8dmMBKxWXuUgBEjcSQLWSOrbxT0AzTGAmzlW
-         OxvRYNCe7QGPg7QFDWX90g9NUBTI1dm6pWgf8QAmz8aqQCf2LbiYYAeX10+Itfd07gWS
-         p6HSJB461TEPQRVgeG+8lJf1CmdI+Kdggrd1oFKeQyX7hPcjEyCSdtpdWqlFxFVQRumq
-         xepw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fkwbzzan"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cf52d15d88so16043135ad.2
+        for <chrome-platform@lists.linux.dev>; Wed, 12 Aug 2026 17:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1786564081; x=1787168881; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1DVjTbKTXkhH1yUwpD/lgRqJn/mvRVunuCZAxUjSgDU=;
-        b=LqCbGhTv/RdhhUa9zB9AgeGP1lCFVw5hNApSkHqoFa3V82KxpfFVE4pjkR0BJs57xL
-         19tJ/z9LbBSVAKApsMTxJkRL0JZQOWgmd/gSXwVJm6RhGROXWZjMtO29hRL5VGNjXhpY
-         WRllj1YrccTdFzhDxeTBMlZqLAL1JAknYHltI=
+        d=gmail.com; s=20251104; t=1786582042; x=1787186842; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9BsxTIcePTgkc+qhqyMPuO3rIwVn2+yc4KgD+VvA3wo=;
+        b=FkwbzzanZw0qkJSKjT9N1fZ1XBzFT18wCU0GyTjwrHWFcmRpIA+CeigZSI3uCCTstY
+         GD+oteLeRoqIshKrutfelKVP9T6s2Su6Q3dZyWfL9uR8i6hJtTbQ4pwru9sPbvJKdD6f
+         3CTR9YdqUkj+pHmPQACQ/yRP2rRwNB2VcNB5YjBwb+bnFhFkXXl8JLEIKFP0ZiZEggQN
+         Vnm+xyyBAC1UAeCbPSOoLBFkgMFIDGs02TmNjnUOly78vJoubjqLJ9Yn8KIts+tL8y5S
+         ziokQ6b9XfW0UOLD9ZrP9UD2hS3a1AqBEfTVI8IZGxo8ZCNA7nYFms8sqXZOOY6gp3Z6
+         LN6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786564081; x=1787168881;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=1DVjTbKTXkhH1yUwpD/lgRqJn/mvRVunuCZAxUjSgDU=;
-        b=RaFnDss1Fbzf+1uExKWpvsMBMWcfP+SwLtnDDsvRsKNZTCFt8lUmxBKZ+fmp+PnHy7
-         49d3E6jIBUXTJ6EEyshqmrm+ecdalhRwc+8nbRrEVRBNLCdGhDBz8VpU1Bb8ajW7cL2s
-         EYFqZyPp5V/yU35rE2R2RsEu/55PEO+S087bRhU/eMMMnWr6rK5LwhmDMRV5EC+5YGDw
-         eQ6xS0i76755bIZcwJkqLQsCJaMdcqlvvBttSG70ecfbaFxJ8eE+NyDuKxYsr4jCKx42
-         aSSgfK2uTO45RjhtQ1V+qatnj+A8EkkGevz5ypObexPNegWgMI7O2nO1+tAMr49qOey0
-         tgRg==
-X-Forwarded-Encrypted: i=1; AHgh+RrBg46bg7E2PDxoEDT4RfuzL3A893clsQZjLogNUBB1VZUJiAISpJh/UPdhH0hXRF3docOdYljc4eezI3WLi2g=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdBW1AUaJshIu907u4ooGCTiwszEcQVkqwkjnHTntSw0oHBWim
-	le/Nbfg4+6gRGeuBvolVsWdHyJgDj62H2XFXieerBwx/iJHswM08tH/7qfAvZIShl8jVwj6mjJ8
-	02lDwX1Yhpaa3nrAuCyEa4ft9nCMavF/MzUjqVvy8
-X-Gm-Gg: AR+sD132OZnKRcJkY2dyc3JOHqwp4IJNlgIvWNNfFQE2qoPynLFJF66MpVHaY2D7xHu
-	AZSNywdVUncRfx8wvGHKG/P/l+UsH/8JAgtwkk7Z8hkgCbe3RRLScg533TpkFzfi/IF7KARb9PJ
-	sOflfBanMOM/NWx7k7iqXeGDttDbC3QFqgL+e/p7jeoh7wm+DZcvtMlSeO6Qy1HfTcfLByb/6Yc
-	ecCDPj16ROPZ2jzd8QDGYErEfHz2x5rARfhY6gBNYB1jod9Y/95j657TsuDGmzyl5fS7Vj/DQ/S
-	iSs/g0qvjjWgglwaUZTmbJa/Rd3xb5g+3KZqEJ49T6JYpSH4ZESIU0VkqMrcTXfrKly4VZ7C2cV
-	X88s=
-X-Received: by 2002:a05:600c:a29f:b0:495:4069:b0de with SMTP id
- 5b1f17b1804b1-49981fabe30mr92875e9.9.1786564080986; Wed, 12 Aug 2026 12:48:00
- -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786582042; x=1787186842;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9BsxTIcePTgkc+qhqyMPuO3rIwVn2+yc4KgD+VvA3wo=;
+        b=IARD9WwRpaqCwrquM4Hd8tbzrlw4snLV1Z/HL6HbXvS7QQJXgWYjYSECq4YTKmacNM
+         8mJwCcQETIq9MvMA9KWp16jAoQovf4nYSNkdRZV090laX+AkXqkavozGt4MDNTI1/pkL
+         Y1KBuy4OD0xlcY7vI1WRhQGKJd0BqvKyBsOxCNtTUhYN0WqFFiVV63w203AxRfn2cdp/
+         RNWCdhfc7zgqBZwPHAZzRXSC6PsckbqEacpUxa5R8yK4Tfy/EcwV1VxXLtSNdiO4cDgq
+         1TjvvOy5fw6WjfT1F3ymbOiXqIlGFYBcQv2kuTyA92UxbinuPbIJVx3gVrcH+oIc5TBX
+         KxYg==
+X-Forwarded-Encrypted: i=1; AHgh+RosZExAKuml3ktZ1KYq23QiN8nyczsxTzIwbEBVpKwl+OjD+O8uo6gyA+icvLanB6RTFAkiGpsNzmJGSa9riQ4=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHyZUd7dzRwaPzT//CEtQmjJU4hEJFX7uMPP0C2bxHxyRGmM7/
+	Ri9qjR7MXqdENxjwdnyV0DQLIjhnAX/R//Vf2OHHPt8EWFDDWo7ZTPu9
+X-Gm-Gg: AR+sD11HRDJb9BSte8NHb7rA1tJwDdAQsaH0u+n41hqyjow+p36RedU4BDx5MeWD2OT
+	llyEBOKUwkVL0oxAU3F3HsuaewzDnEoeGc2jCmD2NdqHTKT5x5FVVz0d4lVjZ/dhxFj7f0Ho3Jm
+	xZ0IyYIllCGrSDcITa7MSn6KpV9hGcRVQ7XDUWJwQ7g43GCLMYFFWx61CIZhEjT04YVZ9OeaJqb
+	0kNBugpgCZr6ylbpB3Fg8cAPRBROb1HpqP5+gTdrOKnm+6H4sp+3++iMMQyBOzmlaRHudaFLeER
+	uSe6BYobd98UIAvRTKqbDELmglvvjs+BtWLtYetYJRuUjQ8v9ggumYdc3tK9VHplDGx+cJJlzgQ
+	jul9N/UJmJ/L6jyrXyYBJ64auMCgiD3Z6mkjREaxM8DAmx/6Ibg+L2y6T6yGaez56i8fQvwnWcQ
+	EvcLUlTPRLS3CbRSZXXb46NNEjjR/zGBYU1d5PFOdxbUcZPmq7G4/vtdOYvFuku6uFHIzK3syfc
+	6ef7uN6QeuxbK3asBhn2wDbqPPw2g==
+X-Received: by 2002:a17:90b:4b92:b0:37f:e1b6:4c7d with SMTP id 98e67ed59e1d1-3931e079c22mr1944443a91.6.1786582042327;
+        Wed, 12 Aug 2026 17:47:22 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:8656:b5a6:1038:61b9])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31ebf732166sm1762331eec.18.2026.08.12.17.47.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 17:47:21 -0700 (PDT)
+Date: Wed, 12 Aug 2026 17:47:18 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Mark Brown <broonie@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung <bleung@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, linux-input@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v4 2/9] Input: elan_i2c - sort include statements
+Message-ID: <an0UEY6gigYTWFLW@google.com>
+References: <20260811122011.3539250-1-wenst@chromium.org>
+ <20260811122011.3539250-3-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1785838269.git.sean@starlabs.systems> <6f65c9869714188539f2890aef6cf30e7bd2edcb.1785838269.git.sean@starlabs.systems>
- <e0d2a22e-a0cd-4a71-82c4-b88abcc7456e@oss.qualcomm.com> <04db0ee0-a8d5-4f30-a494-5c7f8ac757c8@oss.qualcomm.com>
- <CABtds-35m_cfT=Vm4MZkJYRe=dOPAKR6HYO_fu3SnwkdVQE0nQ@mail.gmail.com>
- <64d82edc-87a0-47c7-8a17-f0d1c806a294@oss.qualcomm.com> <CAODwPW8B2-i4Ne-ZTVUM_H-EZwn2hoaC4joRhxNM=CREDd_aUg@mail.gmail.com>
- <c8e4a3d3-a96d-4fd1-85a6-881e68385c83@oss.qualcomm.com>
-In-Reply-To: <c8e4a3d3-a96d-4fd1-85a6-881e68385c83@oss.qualcomm.com>
-From: Julius Werner <jwerner@chromium.org>
-Date: Wed, 12 Aug 2026 12:47:48 -0700
-X-Gm-Features: AUfX_mxfmohhDd7NwZ5OlHrJ4eVefwPyRshu_429PA-DB0FUH4Xn3jxZI6eV4zY
-Message-ID: <CAODwPW__tskkkqSREHFAf9iG17oYfG5Li-1kh0y8pX=z0W_31A@mail.gmail.com>
-Subject: Re: [PATCH v11 3/4] firmware: Rename google firmware directory to coreboot
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Julius Werner <jwerner@chromium.org>, Sean Rhodes <sean@starlabs.systems>, 
-	chrome-platform@lists.linux.dev, Corentin Chary <corentin.chary@gmail.com>, 
-	"Luke D. Jones" <luke@ljones.dev>, Denis Benato <denis.benato@linux.dev>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Prasanth Ksr <prasanth.ksr@dell.com>, Jorge Lopez <jorge.lopez2@hp.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Joshua Grisham <josh@joshuagrisham.com>, platform-driver-x86@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dell.Client.Kernel@dell.com, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Chen-Yu Tsai <wenst@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Brian Norris <briannorris@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Eric Biggers <ebiggers@kernel.org>, Luca Weiss <luca.weiss@fairphone.com>, 
-	Michal Simek <michal.simek@amd.com>, Sven Peter <sven@kernel.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
-	Titouan Ameline de Cadeville <titouan.ameline@gmail.com>, Kees Cook <kees@kernel.org>, 
-	dri-devel@lists.freedesktop.org, Oliver Lin <oliver@liuxiaozhen.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260811122011.3539250-3-wenst@chromium.org>
 
-> I do not consider marketing or pure "I do not like this name" as valid
-> reasons, because this is developer string (or kernel/distro
-> configurator) not end-user visible thing. And for us, the developers,
-> this marketing does not matter.
+On Tue, Aug 11, 2026 at 08:20:02PM +0800, Chen-Yu Tsai wrote:
+> Sort the include statements before adding new ones in the next change.
+> 
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
-I'm not sure I'd agree that naming doesn't matter for developers? The
-style guide has an entire section about choosing good names for C
-symbols, I don't think Kconfig symbols are fundamentally different in
-that regard; they're still strings developers read to find and make
-sense of things, and leaving something with the wrong name makes it
-harder for the reading developer to find and understand it. (This
-isn't about "marketing", btw, Google the company doesn't care whether
-this driver is called GOOGLE or COREBOOT. I care as a kernel developer
-that this driver has been mostly used for something else than what it
-was originally labeled for for a long while and it's high time that we
-correct that to avoid confusing people.)
+Applied, thank you.
 
-> Anyway, defconfig change must be separate because it goes via different
-> tree, unless this is non bisectable. Keeping it here initially confused
-> me into thinking you are actually breaking use cases (which you are not).
-
-Fair enough. So Sean, could you maybe split this out into this patch
-which does everything (the renaming and adding of transitional
-symbols) except for the arm64 defconfig change, and then the defconfig
-change as a separate patch at the end of the series so that it can go
-through a different tree?
+-- 
+Dmitry

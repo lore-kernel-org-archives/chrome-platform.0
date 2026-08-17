@@ -1,182 +1,231 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011049.outbound.protection.outlook.com [52.101.52.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F513F9F28
-	for <chrome-platform@lists.linux.dev>; Mon, 17 Aug 2026 10:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC743CBE6D
+	for <chrome-platform@lists.linux.dev>; Mon, 17 Aug 2026 21:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786964253; cv=fail; b=gv0CCUhCUSznjJpN8cxP2tXGA3kiHizPJpPgnz5xeZrJUC3baI+I8dL713gTDsAiyio2ZHVct/41yeUlpIrBaVqeIhFN5oCPjv7aE9IRVu/J8oiMVY5Kw80sHdbvLzKd/q0lRd2WzAZRqR9kECQN7/IHPaBDO8r+rDFxBxcQiyY=
+	t=1787001801; cv=pass; b=Salwx6+GmXS/evOR7s1PzQNpSAueAOe81dC7r2ufv1N8U6sCkR4GlS9YV95ci6JHqd5kJ5I3VOxoAzt8RYPViEEivFgzNOqCblZtg2FmfuHM4f2Gsf6vJ6NpbJ79BUkbb3xn452h5zpFfHOpFS25698/U+7RwE8U3zpaeb3/1f8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786964253; c=relaxed/simple;
-	bh=4/pYOPDRMqP1XW6sEPRkKPFxe070hGKo7NcQwSEocMo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CFlF8EqhnFnTZ54ZsgUrtz1gu3ghTAEBZs9/7kg7JlW8eA9EQIZCMe7ixU8tQFaFJSbCMMBebkwPol6gXk/EOhfx3k5rieylGtsZNXQiKOHTfwBKjMd7tqAGyeJ+G/VL/FMhhBJwLKX/LMbh5ydkVjzcP+tM7pbjhB/BHFfU4hU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WvbasTiO; arc=fail smtp.client-ip=52.101.52.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1787001801; c=relaxed/simple;
+	bh=c0HChJwQcolwumJkMaqBcRzS/VRhk6rvGSTr9tmYmvo=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=daxt9m3PgE3nNGvHc0sA+BEzDS1CyDPAv9vcHNpxIQXRuvJwRKpUeuV8yiZRcDyqFxIELdX1zRYLCSpF7xZEHldAJzsg2jgAtCGS5d5C3P4yrJ1TDO/bDDg4hFbewGfC1TmCLCkKx+VKcDAkJ+mTqXvMN0Z931j6HG+ALJPDFtQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b=h4/hccF8; arc=pass smtp.client-ip=74.125.224.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WvbasTiO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vBb8u9f/sPkFU43EXCFy55bzF12Ut8xZ9SzfYTPrOtt0sMQOSFc1wMq54H7ZqPQenykZA25ww2wL+C0NO2/xKus6moxaiQERNAegyOoi75HDh8Gn2GHlwEGTRuDs3OHdQOn2fBlvzyy6RBoXwxmzF8XijBWK1NIesAqwJBoeDrDBsDrVv/qB55Op578Yk5zWGOeV/bt2SHAEf2DQ5uObs0XXT5Jyz483hv9lIdEmnFN7SYvC5DkRJHH4mNJit8DdrOSHwCuP9hXTZR92RLBonIHit8XmOvFRhnLSQPQPaKQcfhSAUD6z2qtt+GwFrD7AlHdXYK14+p05KV/Ab4iKyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AKordBliv2zhM9/2Ze2Go4qpXSBRxuJ9g807t6kOW08=;
- b=CQCan7WfC7qt2meOOdtzujDs3xPKHwGCnaOS+TGGmRtPysA2T3J7Qbr0lZQdUdnQenLcJ3Lq1Gv7SXi3olfnA9T8NmV40PiK28Otl1QbdYzZ2MQwOku2J+I2n3TbKNjFv04DzRkIa779yyQBFt9WIB4LksNdumJDVICrg2gaZJAOS7FvULeFTRjg1Jg4IPQXTezYAD6WQ8UYbKhMiEkerSm3mkjweCsstFntsrv/qgeFIEc1/xS2YtAnqtjGo+eP+qy3jLLtUlUV4xxP2ISR+MmYXQwj7v1Kcr1lpEz5Ty6Y9CX/426OZntc5PIaj0JLP6rmaPll630cZ7vLIvRqgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AKordBliv2zhM9/2Ze2Go4qpXSBRxuJ9g807t6kOW08=;
- b=WvbasTiOIoSx8/BLAehFI/u+ylEC/XIMDuU86Bmmd9iINrYWoDLAF/kaXb7mcTqZJ5+j3SlJNQXXTX00MVxmJ17AxM9X43PBN3wzIFbysNKO908sy32aRahHlGvC7vbWQgEIZlJpJWKYRaWovzNeHqXWlkbNkzENwcsBgnDthlo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB9733.namprd12.prod.outlook.com (2603:10b6:8:225::13)
- by BL1PR12MB5946.namprd12.prod.outlook.com (2603:10b6:208:399::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Mon, 17 Aug
- 2026 10:57:22 +0000
-Received: from DM4PR12MB9733.namprd12.prod.outlook.com
- ([fe80::aeaa:23b5:1d59:602c]) by DM4PR12MB9733.namprd12.prod.outlook.com
- ([fe80::aeaa:23b5:1d59:602c%3]) with mapi id 15.21.0315.014; Mon, 17 Aug 2026
- 10:57:22 +0000
-Message-ID: <9311cc44-f56c-4a96-a55f-d9e7f35937af@amd.com>
-Date: Mon, 17 Aug 2026 16:27:14 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/4] espi: add core bus framework
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
- broonie@kernel.org, linux-spi@vger.kernel.org, akshata.mukundshetty@amd.com,
- bleung@chromium.org, groeck@chromium.org, chrome-platform@lists.linux.dev,
- corbet@lwn.net, linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
- andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org
-References: <20260804115259.4065638-1-krishnamoorthi.m@amd.com>
- <20260804115259.4065638-2-krishnamoorthi.m@amd.com>
- <anSGjRK8spayFnKw@monoceros> <0f7469b8-8275-4061-b336-97cbce41ff82@amd.com>
- <anye28kId4k8pxBv@monoceros>
-Content-Language: en-US
-From: "M, Krishnamoorthi" <krishnamoorthi.m@amd.com>
-In-Reply-To: <anye28kId4k8pxBv@monoceros>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0170.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1af::7) To DM4PR12MB9733.namprd12.prod.outlook.com
- (2603:10b6:8:225::13)
+	dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b="h4/hccF8"
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-66c67a73eb7so536977d50.0
+        for <chrome-platform@lists.linux.dev>; Mon, 17 Aug 2026 14:23:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787001795; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iERbhURmZy8Mqg+qDOmSQ3igLPWEu0ItulnqO58rJ3OgAzuoJ2Tui+qmartW6g03Yf
+         9yA8H+HqDe5mJX6F/zW52cFCy+bzeoZYoS1nihXMPbOTofl5vwUyAmvBbuOwJ6mBC39f
+         J7eoyNY976TNZIqQEJIbOVi6X2tRE2+vk8yxYq8dIOTSTbUgLdtxoBlYrDk4QjwXc6Pc
+         ZbCNxD30GaMvvkNN0yClbNPTpB7u/Pyud4K71ioalp41o1/FQir28h0FklsFm9WI3je1
+         LJwcFM0Gz54hX7Gc7ZV83sdtf4ml8F92z+mA3ygxx0xUXnl7aKjddwfvpB7LqpXRXMFs
+         MWNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=+5PLKuMouYLJfuABukE9BfK1nd1YWhR9ndsRk8oKsV0=;
+        fh=QXk9vKEZPRp6ajGaPeXPYkBRjBwj/BlEtQF77F5bbdQ=;
+        b=IB8FveObncOKAOpSO9AIRcj0qo0YbrU1nldY0KATJyrB2I6DQrS2Gw6zBDggf539Vq
+         t1xGKH1QqbfTfCgCuK3v98/Upbbym04dCbhqYbTiR+KhMeE5lR70lPdUum0D7KUum5fm
+         B5rUDjMWVkOrSvg1zbeRfWgPQYE/NmuU7hOp48wVt8cImvx3NX9esA1G9dR9n9moJdgr
+         huHHWfSSCIkehWS0O2U8iq3y7ehc+sN6rAwQKh2hhwaPXP9FWvWdQQSG+iyonrGCaLcV
+         J8/+p7ATDI4zNcak+khB5D2TXhZGWavn7A5r8I41BcU6zP9e2KD25W3abvh/hQ4TXGpF
+         /QCA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=starlabs-systems.20251104.gappssmtp.com; s=20251104; t=1787001795; x=1787606595; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+5PLKuMouYLJfuABukE9BfK1nd1YWhR9ndsRk8oKsV0=;
+        b=h4/hccF8DDHAJ3f6ncvbNRxal730QIbNILGVKglwU6oWadCaL2XKfZWJ/W+ay4J5qx
+         uTVNviaBcftXMX+bQutSSeV8RsfbJDcyvWlwxU2XLdzOOXrVoGtzuLnNwAVqIDaN2Pen
+         i/4z0xw9HG+bA2FP9vcMPp/wZHgwnsmoPKiesObG0zDn8EasJ5yWq02hJM9Gkh5zAEz/
+         S4ooBtLdg/KnZLz5QP8Qo+5u5neD1O2qryXfxYssECWCOMoRGt1gEU+XawPhHmU0PCZN
+         hQThogSn4+3lY7AsEdZYXPDHUL9I48068XkyZ4/X5HwGCwFyxaCBpB0PYNg+lWr9Q806
+         MXrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787001795; x=1787606595;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=+5PLKuMouYLJfuABukE9BfK1nd1YWhR9ndsRk8oKsV0=;
+        b=DKmu1dGL8UYMdeQ1ULDwMOCAow2LMlAB8OvqTFdVAcPVur3qgrc1hz1by2QMhWfH8G
+         zBZo9Bvonhufpxs3rP22rr2p9X31GGY2KhCGeH4zuSxcigX/aqQvbebDBO6Hoo0DwyWL
+         m8IgW31jLfkxses0zJRdMElVRHqZcLQOp0T4YzRlcsQVzBYENekYcf85CzXZh2mhEMdA
+         y0lerPExB86t14YYEZsJhWinHc0pNEnfHpdcgKoXuEaxYJzSFEIrjWjZPh2Dk1x1PoCC
+         Y4Bvj0harFdjdQwxd1xMsTz3NCMNjDTGcfhH42kXUeDfmBuZEmA55EfGzajU+KbnQZjg
+         ezbw==
+X-Gm-Message-State: AOJu0Yy064AUs23nqxsDO0gCcqwj6j55PJDwrHEMsDuYCHr3x4OlA390
+	nkTMYueJbWR9bNrECeYcPFhypTpVaSpjumGfJcYMviP/9r8dRM8nqPlPaJ/A0a/Jlkw297peMZY
+	xyEYLTukiCLChzQWPonXDria1LVlhD8mW+JpAvz+BeFzg1lMLNUzRgA==
+X-Gm-Gg: AR+sD1103foDyJE6sNm2knSTuQmoF+ePeanAmwVZf0SZ/ufExk0xd1qU4uSoOwPDGpA
+	I4kHaBAnGQ7Ybj6kOD5KLtGEKMxJeALmIKY4VBD/aSMsVZyM8uJV7xBh3Cr4o2vDFxt1iMA/Jhl
+	xRtv4HASa52z5Mf2EvzAsJp3oRo37oKGAkXaEl3uPUa2tTDjKbBU4nrr2x/I8nu03d6CmL9a5yJ
+	0UjzmbfYPQKLbz5gds5qrL0j5AmZHZunjymoFRVJlRKEl24DLjG9AAyFvQcUpSvdzO3wejJiM2M
+	qbWrnpAkkFa6BEVsajJvQUnMJo9x26kPwb72+hNIDaNpudaI0WrAK6o4ekdWu0ewiIhp6w2p
+X-Received: by 2002:a53:e648:0:b0:668:8d0:20c with SMTP id 956f58d0204a3-66cbc402e78mr562185d50.20.1787001795207;
+ Mon, 17 Aug 2026 14:23:15 -0700 (PDT)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Mon, 17 Aug 2026 14:23:14 -0700
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Mon, 17 Aug 2026 14:23:14 -0700
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB9733:EE_|BL1PR12MB5946:EE_
-X-MS-Office365-Filtering-Correlation-Id: 061cbcd5-a138-41dc-f6c2-08defc4e508f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|10067099003|4143699003|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	dR1GDY+AfDmeAjl/Wqr5+5cyyV9U4jz+zavvEksJfQ/UHiX1dahR+/yFK8mXuunae/hfciB0xZpYD3uZKwUoLxzHVj5HjBpbmJGQRyL4W1ygMNQ8ixFLEuv6U7ah4g478EYw9/rzFz8B0IGVfjjylUhEZDtSi+tD8iJuSIeiDTa7eezydpl/+my30iVw85iwPErQivNqzeB4DSHDGUAZgtZiDne64W2SNaA2VupT031iYMtUT6fXUGQYoc6RUXNb26Umic3S7zvAKkApEXitkFdKSaxInzAu7z39XHwfKi276ZoUnwoK2fmtQVgy7+/IjCYgiULAJkTyvkYI6lUA8tcpBv/HCJm7tJDrEuZTc0NVqhHz31fS9GI0Qmncdmj8Iok7N7mVsFKgAII0o2JWM/v6GriMP6A272Y0FhD5tiP2J/oeTLKbZEP1bYnH5jn0N4hsvMZmX/Zdxx5RqfU0H9xACvMXaHz7XNOvcBI8L7IxfK/M6Ucf4y63unwbzDrbGjSXiA7LRFTfLlhPb9kRHpzcI4MYHS/lZPa538HBNBULZEZyIh12dYqCPVhJgT13RywDaVTOdq4Mkz9eYqVP9PRSNRyguEE/f+EaUF7w/Jvg5Zw9Z+CNS3UnUUJLWjRoCorZuZRB+SdWFMx4vQxePhcBR/UGddzxFFEgorrZPWc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB9733.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(10067099003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cGJPdCtMWTJFMHk4Z01YdVdTTHRsSFFoWGttbHBqRXFvaHRsT3lVaVJoMWRM?=
- =?utf-8?B?SUtzYXNab0xMVTl5Q1RLUjVXeGpGOE1JR09PaWk2ZUFUZmVXNTBDY0R3RWpn?=
- =?utf-8?B?cEUxYUdtQ1FnM296N1Y1UGZwM1ZwOWF3Zk1aSlRDV2ZZaUZvUEJnU3RDaVhQ?=
- =?utf-8?B?Zi9ZcGRqdW1yanVTUmIvYThuQlB3OG9kaFZsSGlselhQNDRYUXZMVXJUV3NG?=
- =?utf-8?B?YUxGWjZmdUcrTTZaY2NMMWdMbkYyMWpQTnEwZXMyQlBaS3l6ZVU5aktZZkI4?=
- =?utf-8?B?V29sdlNIT0VmdFdNWENMZHc4dTRDdHRQUWxUWVoxZFgxaWEyTFIvejMvcUVk?=
- =?utf-8?B?cmQ4UVVCUnBiQ0kyNkFmbmpRcStTS0ZpVlF6Ym43RUdEejdQeFNJTzg4VWxS?=
- =?utf-8?B?NzBGWXRnN3EvT0xiaUFkTENYVWNtTkVvSzlEczcvbTJXOFVHak9mdUxyRTFD?=
- =?utf-8?B?Tm9hQWgvUks5cENPaExjSDVRMWtkaVVUbkpyald4d3NTclpLdGQ2ZlI5blR3?=
- =?utf-8?B?N1VFaHlZN2t6ZWdoR2ZrOU9Fd2UwRGJxdTVOYk5wY3hpaTIrK2V3TE5ZZTF6?=
- =?utf-8?B?K20rT3FsdmVzRGVST3lsQTBOUU1pTUZub2d0NFpxbk54MGs3U2lzemdiSGl0?=
- =?utf-8?B?eGNCbkpFdTZrOHM0WjZnbWRJZXRLZTNwZGl0RncwY2RvMnlqbytIb0ErcnpY?=
- =?utf-8?B?d0dSR0FidEIramM0ZTBOZmtqenVPSHhFT2F1Qkp6MGpoa2VSY0k2V1pzMFJY?=
- =?utf-8?B?RUg5aS9yMkMxTThiWUd4R3plMnNLRHNibjFRUXRnbEJwYlZtanpnL1A5Sm9a?=
- =?utf-8?B?RkZ1RGN0Ymsrd2M4YUNqcWtEMHN2TGRYLzRYYlE5elMycFdPZVdyWHZTNzdw?=
- =?utf-8?B?clMxVG5OdE5zekJ1VWxaRXhZNG1oS09WbUVlR1lvYTFmOEZGRUt1NWdmSW4x?=
- =?utf-8?B?WHJ3cnhqQ21GUGtrNzA0eVN5eVZveDM2NkwyUWx2QXowVkZ4MjJQVEo4SXJU?=
- =?utf-8?B?ZGVkZllFT0pRckJ3bVljUHZvRTJuR0U5MmlTcHhTSkFwcjQrdktmejVzTHk2?=
- =?utf-8?B?Vng4SjVFSXZDOUlVc1hMK3Fqc1pRejBlVFlJeGpIbzdwcFl2MWNkOUR0cEdO?=
- =?utf-8?B?TXZReFl6L0tucExwc2RSTnJlOTNoYzU2ZVZ3WFEzWFVxUjltM1p1a2ZsMWZT?=
- =?utf-8?B?TkFmdTVxcDd5a3JEZFVSL0E2QXVmbVFqN2swYzhRL3gwNTJ1WUlTa1N6OFV1?=
- =?utf-8?B?T0dNTEpZMktLMTRHV3VGakZZOEZwaW5OeGc0bHRxQ1ltZTRQMEJUTmI1d1hB?=
- =?utf-8?B?L2U5Z0d6dW1wbUNnMU41c3M0TTRNbHkwZzM3Y0dFTndaaFZOdEJuYUE2ckgz?=
- =?utf-8?B?M1laTWh5UmNTMHJ4MzlxQ3ZUUTVRZDQvUC82R0RJZ0U0eTVNZDJyOTlQRkZU?=
- =?utf-8?B?ZGFpNFlhaFpnWE4rUHJ3cWRzdVFoc0N3aWV0bEZlV1R5Z1hnQWxsbVJvWTkv?=
- =?utf-8?B?V25FOXZtaWRYb1FWbThVM3pMR0VpR3V0dFVFTTlaai9SR2ZsNGhYUTJiNkdJ?=
- =?utf-8?B?K2oxbkc5M0FPVno3OEIrQTlBeW5aaFBYbFh2UDJxY3c1NVRJdk9VdWR1R012?=
- =?utf-8?B?SmZaK2JKd2U5ZmI3SmJ4MmxzMWVWVE9RTkg4TllNa0RlTHZsS2JEcWFoQ3Zz?=
- =?utf-8?B?TlJqWGpteEttSzZUem9UY1BkK1h1cWVyUjBQMXhUQ3U3NHc0ODJWM3JtUHNh?=
- =?utf-8?B?Q2lQZDUvRUhoTGFOOHE5UTJIeThYcVhQOVF1QUxFM3lkd2Q3Vmw5aTZUVjNo?=
- =?utf-8?B?YkNWazZ1TFhIT0NVeVFxbHFzV0VEV0JNNEIyTTBQdmhtNFMycE16aDU5R2Nw?=
- =?utf-8?B?amlZUmVXOEZMTUI4RjdocDI5cE1zNzdJVFJtTWZSZGJGck53a29TMUE4Nnpr?=
- =?utf-8?B?dlZ2S3NaSC9FNmpyeVhaYnNYN0VCZVpSVnMrZUYzRzJxbG9XZHE3N0cxOTlE?=
- =?utf-8?B?M0Y0MlJVcXNBOGluUjE1SkwrU2xEcW9rRm9kMmJSTVR0aWJmK1Z5a1V1MExF?=
- =?utf-8?B?eERYSVdhcXZSUGNjRjVTSWZ3OFVqUk0zVnRwMGh5QkdZOE1HdmlsMGw3cE1K?=
- =?utf-8?B?aStua2pZY3U0N1RqSXRSdEgwUkxoQ0hUa1EyUStwNGVXVjFqb0tPUmZaaDNz?=
- =?utf-8?B?Y3p0c0JXZ0gwb1dRa0NpcXl2V3F0L1J5bHBpZForQy9ZU2l2R01NWWlWM013?=
- =?utf-8?B?alV4TkZxak9hZFlqQ0t2Zkw4eTdKcTI1SGdUbkNUVmNIK2FMY0lPMWpTWVVx?=
- =?utf-8?B?RUdkMUQvMWJJbXFLMFNEV3ZQTHZmeTIxVkd2cVVqMWZaVkZWMCsxZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 061cbcd5-a138-41dc-f6c2-08defc4e508f
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9733.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2026 10:57:22.5653
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Njy6dno6nHlWsbQnuAmf0dKmqnhIKH/Y+cKgoJ7s3sHY8KhWiRhwpEiITCfKWNfkO19RUlLqF7WV7OuNXM2N2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5946
+From: Sean Rhodes <sean@starlabs.systems>
+Date: Mon, 17 Aug 2026 14:23:14 -0700
+X-Gm-Features: AcwNN1UEW_I4KbJipIcXlINKvUbDivRmFcqfha0Y1blx7Hp6TaEGXKNcQwcXyPM
+Message-ID: <CABtds-0YAuFxEOUREOCOB2HErVp8h+dkhMwTj2ZrQqh_dGHMTw@mail.gmail.com>
+Subject: [PATCH v13 0/5] coreboot CFR firmware attributes
+To: chrome-platform@lists.linux.dev
+Cc: corentin.chary@gmail.com, luke@ljones.dev, denis.benato@linux.dev, 
+	hansg@kernel.org, ilpo.jarvinen@linux.intel.com, prasanth.ksr@dell.com, 
+	jorge.lopez2@hp.com, mpearson-lenovo@squebb.ca, derekjohn.clark@gmail.com, 
+	josh@joshuagrisham.com, platform-driver-x86@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dell.Client.Kernel@dell.com, 
+	florian.fainelli@broadcom.com, chenhuacai@kernel.org, mst@redhat.com, 
+	wenst@chromium.org, tzungbi@kernel.org, briannorris@chromium.org, 
+	jwerner@chromium.org, tzimmermann@suse.de, javierm@redhat.com, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+	simona@ffwll.ch, krzysztof.kozlowski@oss.qualcomm.com, andersson@kernel.org, 
+	geert@linux-m68k.org, dmitry.baryshkov@oss.qualcomm.com, arnd@arndb.de, 
+	ebiggers@kernel.org, luca.weiss@fairphone.com, michal.simek@amd.com, 
+	sven@kernel.org, u.kleine-koenig@baylibre.com, bhelgaas@google.com, 
+	dakr@kernel.org, o-takashi@sakamocchi.jp, titouan.ameline@gmail.com, 
+	kees@kernel.org, dri-devel@lists.freedesktop.org, oliver@liuxiaozhen.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Move the firmware attributes class helper out of platform/x86, rename the
+coreboot-table firmware driver directory from google to coreboot, and add a
+coreboot CFR firmware attributes driver.
 
+Changes in v13:
+- Rebase on current upstream master.
+- Restore the CONFIG_GOOGLE_* to CONFIG_COREBOOT_* renames for generic
+  coreboot firmware symbols, with the old names kept as transitional symbols.
+  Julius clarified that the symbol names are part of the directory rename
+  cleanup and should describe coreboot rather than Google. Update the matching
+  Kconfig dependencies and Makefile gates to use the new symbols.
+- Split the arm64 defconfig symbol update into a separate final patch, as
+  requested by Krzysztof and Julius, instead of folding it into the rename.
+- Move the COREBOOT FIRMWARE DRIVERS MAINTAINERS entry to its alphabetical
+  position.
+- Make the CFR APM_CNT runtime-apply dependency explicit with HAS_IOPORT
+  instead of using an x86-only runtime branch.
 
-On 8/12/2026 10:00 PM, Uwe Kleine-König wrote:
-> Hello,
-> 
-> On Wed, Aug 12, 2026 at 06:20:29PM +0530, M, Krishnamoorthi wrote:
->> On 8/6/2026 7:01 PM, Uwe Kleine-König wrote:
->>> On Tue, Aug 04, 2026 at 05:22:56PM +0530, Krishnamoorthi M wrote:
->>>> [...]
->>>> +const struct bus_type espi_bus_type = {
->>>> +	.name	= "espi",
->>>> +	.match	= espi_bus_match,
->>>> +	.uevent	= espi_bus_uevent,
->>>> +	.probe	= espi_bus_probe,
->>>> +	.remove	= espi_bus_remove,
->>>> +};
->>>> +EXPORT_SYMBOL_GPL(espi_bus_type);
->>>
->>> Do you really need this exported?
->>
->> Yes, it is required. Controller and slave drivers built as modules reference
->> espi_bus_type directly when registering devices. Without the export they
->> fail to link.
-> 
-> I would have expected that
-> 
-> 	drv->driver.bus = &espi_bus_type;
-> 
-> in __espi_register_driver() is enough for drivers to not have to use
-> that symbol directly?
->
+Changes in v12:
+- Temporarily kept the existing CONFIG_GOOGLE_* symbols and dropped the
+  arm64 defconfig update after review feedback against the user-visible
+  config rename. v13 supersedes this with transitional symbols and a split
+  defconfig patch.
+- Free invalid enum labels before returning an error from CFR enum parsing.
 
-You're right. __espi_register_driver() already sets
-	
-	drv->driver.bus = &espi_bus_type,
+Changes in v11:
+- Keep the scoped cleanup in the CFR driver, but use explicit goto cleanup for
+  the nested sysfs group registration path.
 
-and controllers register via espi_controller_register(), so no driver 
-module references the symbol. I will drop the EXPORT_SYMBOL_GPL.
+Changes in v10:
+- Rename generic firmware Kconfig symbols from CONFIG_GOOGLE_* to
+  CONFIG_COREBOOT_* and keep the old names as transitional symbols, as
+  suggested by Julius.
+- Update arm64 defconfig and DRM coreboot framebuffer dependencies for the new
+  symbols. In v13, the arm64 defconfig update is split into its own patch.
+- Address the nested cleanup-path review on CFR attribute registration.
 
-Thanks,
-Krishna
+Changes in v9:
+- Add the missing kstrtox.h include used by kstrtou32().
+- Use a single kobject rollback path when setting registration fails.
+- Split a few helper locals for readability, including the pending reboot
+  device lookup and enum-value population.
+- Avoid an intermediate void pointer cast while parsing numeric CFR options.
+- Check the possible-values buffer length before computing each label length.
 
-> Best regards
-> Uwe
+Changes in v8:
+- Add a preparatory include-order cleanup before moving the firmware attributes
+  class helper.
+- Add direct includes for __packed and container_of(), use scoped cleanup for
+  EFI names and the driver mutex, and document the efivar lock requirement on
+  private helpers.
+- Replace the duplicated CFR record walkers with one checked iterator that
+  distinguishes malformed input from the end of a record list.
+- Validate enum entries before accessing them and propagate malformed child
+  records instead of treating them as absent.
+- Restore the EFI variable after a failed runtime apply without retrying the
+  failed firmware operation, and only emit a change event when the new EFI value
+  remains stored.
+- Document the possible-values size limit and why CFR entries without a usable
+  runtime EFI variable are skipped.
 
+Tested on a Star Labs Byte with firmware 26.07: runtime APM_CNT apply was
+verified with power_led, and reboot-needed behavior was verified with
+debug_level.
+
+Sean Rhodes (5):
+  platform/x86: Sort firmware attributes class includes
+  firmware: Move firmware attributes class helper
+  firmware: Rename google firmware directory to coreboot
+  firmware: coreboot: Add CFR firmware attributes driver
+  arm64: defconfig: Update coreboot firmware symbols
+
+ MAINTAINERS                                   |   34 +-
+ arch/arm64/configs/defconfig                  |    6 +-
+ drivers/firmware/Kconfig                      |    5 +-
+ drivers/firmware/Makefile                     |    3 +-
+ drivers/firmware/{google => coreboot}/Kconfig |   89 +-
+ drivers/firmware/coreboot/Makefile            |   15 +
+ drivers/firmware/{google => coreboot}/cbmem.c |    0
+ drivers/firmware/coreboot/coreboot-cfr.c      | 1204 +++++++++++++++++
+ .../{google => coreboot}/coreboot_table.c     |    0
+ .../{google => coreboot}/coreboot_table.h     |    0
+ .../framebuffer-coreboot.c                    |    0
+ drivers/firmware/{google => coreboot}/gsmi.c  |    0
+ .../memconsole-coreboot.c                     |    0
+ .../memconsole-x86-legacy.c                   |    0
+ .../{google => coreboot}/memconsole.c         |    0
+ .../{google => coreboot}/memconsole.h         |    6 +-
+ drivers/firmware/{google => coreboot}/vpd.c   |    0
+ .../{google => coreboot}/vpd_decode.c         |    0
+ .../{google => coreboot}/vpd_decode.h         |    0
+ .../firmware_attributes_class.c               |    2 +-
+ drivers/firmware/google/Makefile              |   14 -
+ drivers/gpu/drm/sysfb/Kconfig                 |    2 +-
+ drivers/platform/x86/Kconfig                  |    3 -
+ drivers/platform/x86/Makefile                 |    2 -
+ drivers/platform/x86/asus-armoury.c           |    2 +-
+ .../x86/dell/dell-wmi-sysman/sysman.c         |    9 +-
+ drivers/platform/x86/hp/hp-bioscfg/bioscfg.c  |    9 +-
+ drivers/platform/x86/lenovo/think-lmi.c       |    5 +-
+ drivers/platform/x86/lenovo/wmi-other.c       |    2 +-
+ drivers/platform/x86/samsung-galaxybook.c     |    3 +-
+ .../linux/firmware_attributes.h               |    6 +-
+ 31 files changed, 1348 insertions(+), 73 deletions(-)
+ rename drivers/firmware/{google => coreboot}/Kconfig (57%)
+ create mode 100644 drivers/firmware/coreboot/Makefile
+ rename drivers/firmware/{google => coreboot}/cbmem.c (100%)
+ create mode 100644 drivers/firmware/coreboot/coreboot-cfr.c
+ rename drivers/firmware/{google => coreboot}/coreboot_table.c (100%)
+ rename drivers/firmware/{google => corebot}/coreboot_table.h (100%)
+ rename drivers/firmware/{google => corebot}/framebuffer-coreboot.c (100%)
+ rename drivers/firmware/{google => corebot}/gsmi.c (100%)
+ rename drivers/firmware/{google => coreboot}/memconsole-coreboot.c (100%)
+ rename drivers/firmware/{google => coreboot}/memconsole-x86-legacy.c (100%)
+ rename drivers/firmware/{google => coreboot}/memconsole.c (100%)
+ rename drivers/firmware/{google => coreboot}/memconsole.h (82%)
+ rename drivers/firmware/{google => corebot}/vpd.c (100%)
+ rename drivers/firmware/{google => coreboot}/vpd_decode.c (100%)
+ rename drivers/firmware/{google => coreboot}/vpd_decode.h (100%)
+ rename drivers/{platform/x86 => firmware}/firmware_attributes_class.c (94%)
+ delete mode 100644 drivers/firmware/google/Makefile
+ rename drivers/platform/x86/firmware_attributes_class.h =>
+include/linux/firmware_attributes.h (60%)
+
+-- 
+2.53.0

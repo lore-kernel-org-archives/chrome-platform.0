@@ -1,186 +1,63 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38152436377
-	for <chrome-platform@lists.linux.dev>; Wed, 19 Aug 2026 10:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769EB3FE352;
+	Wed, 19 Aug 2026 15:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787135664; cv=none; b=GBv5g4jqRTpxz87whiJFVAfmjK/WfwJKUrWQn5/2EstFUujI9lGKDQm73EtrYh9wNlZSgpjx1xAOy3UFlWgWLCzQP27UNT7GFOoOTGbUolxSRXva68qd9lspHs0xDge9Uyw9vJf25PnN/MD+FUNI5zTzfiNmt1fsHar11GHVW2Q=
+	t=1787154785; cv=none; b=KrZGiy3luJiomS3U2eaMiRMyRIWs5C1nOV8990lok4HTEYGymbMe60tzP+iQk8p2MqjKn+2wbhyKxzvnWabSEVjGk+1ks6O7RHypzNMaL0kjlYR6tJgDVb4N1ZjqPwnMblpEXhSDjgY6WN9a+PHxmJz4YsYgBL9nZLiBujGEY/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787135664; c=relaxed/simple;
-	bh=PXWpCjYQtb6zdAWnCS3MdSSv+WWICh4QW5PHtuIey44=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bvqq5hRg4U7PXbsEcEssE/ieLOLuMAr+RyquVVKGlKaHViPcPnTmADlCS3cBPgwiI0FBMkQrxE9VzAkldBe8M+TQ9u7xXZV3TzihfGRZiLOAMW329kTyVSuELbx7ceTjm4QlUFEOIkS8JFIqK2hST4vxB5s+eSTHzMHJubGH97g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iQ3uiwfI; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fvRgGUao; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1787154785; c=relaxed/simple;
+	bh=oaQyT9GoEkdXfWTOvtwHiD9uCalTHP6VlA6+qhfq+JI=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=u2mrvND3aLgQOAssNp1HWFKV5oxVIAD7Zi18/DCvuPp6hUFv8kcdrdCFIINKkGG20EX2n99Br08MsAv786ZZX9KWC3CtwaI8SspmNv+6staM4Q0zfndXmthBNIorRsbsA2U+5fAAnbjLSrNG8r5bncMbpIVCQGqJumZdW6j5zKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ps8/AyIg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iQ3uiwfI";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fvRgGUao"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67JA7trY4078537
-	for <chrome-platform@lists.linux.dev>; Wed, 19 Aug 2026 10:34:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	L13q/JSCJFi8BVIktBNFVx6pTxQv8onyK90nXOfMrpc=; b=iQ3uiwfISB8NEXFN
-	BBZ2JTTXNVZle7DHl0JIfykM1VH/3KJSUZxJ00YcFFRxMyxTHRKBIebnxXnrLKtk
-	DFeriSAB88ugJFKz8joVuaYTTz5D6RzgbSX2vF0rqq+A/nZz8+MRLi+Cz1kmdSIq
-	MnPfy3EFdqtoxlXPMPl7Oy5ZaN9nqyM5J9fM5LBlCTUJMM9ZPzAC5l+tU744spgT
-	7f5I5W9JG5CV0S1kCFqWy0QlDHtrhw4JmonKntrS0AuFgF5jVKqd7khEZhZsZala
-	vQaiergA6/WafvV1vf4MmMmuXhvMO/U5M98N/ylYR1XKYkuwXia4xKt1AqSmLtZP
-	Ng08pw==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4yfnamvc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <chrome-platform@lists.linux.dev>; Wed, 19 Aug 2026 10:34:21 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-9058a836724so3361596d6.2
-        for <chrome-platform@lists.linux.dev>; Wed, 19 Aug 2026 03:34:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787135661; x=1787740461; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=L13q/JSCJFi8BVIktBNFVx6pTxQv8onyK90nXOfMrpc=;
-        b=fvRgGUaomi8s0jcXvJXWU9jB5EJaBUcN7ioYI/wVMPt4IA+utIcoKP50uoQZTY6ttk
-         xlCW3Vny3J8JTwzR/UQX7MX9JNV5/jjM9mMuB6wzwE9LSPfw3pXTNlVTYGKg/FcB97D4
-         okgslDd2rKaOGFBhAHDjocNoe2uy1c862q84DZDIJGVTysiuVvyaFOkeoiN0hkfwMySD
-         FClAEqfriUS9SPDEnFOlbJehDGDpRa1XVEJoVC+EavjAP38cnLKiaczT8qBXH0sKkc5C
-         tmSovXqJeXFXwjpwsJ582rXZtvjyVOeS9Ut0vR7bZQfxmQk7ZToHdpxsShC66fC1l+Mc
-         W4Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787135661; x=1787740461;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=L13q/JSCJFi8BVIktBNFVx6pTxQv8onyK90nXOfMrpc=;
-        b=kcGIZYjlQ08GJ4zMknPFNQV+C4oSOppu9jCCJNWr56HLqvRPSZB4cKohxGB+9FBNbm
-         lzyqVeU44taLelb9VmrnVViJVmcQtamapR74vM/RyGo/I1jFelkcTsB/LX50v0hyKt7o
-         FHMDBBsvaixgVWz/pMfsU4NxeWweiB52uRb3mS0PDppwY+b3bugvKMeoaPnF1rkzgbhW
-         FocxTZnPRIEQkGni4tU2V1QC4QuLzT0e1L0A+7zsgLlTTX6l+iwiIVSWByUUHXeR5DHX
-         t6QAmu+XjP3xuPXIoOQEhiA0gN6dBD+eSSmH4IC3IV8Xse9OfAddeoFuuaRVGC3xGALk
-         Is4w==
-X-Gm-Message-State: AOJu0YwpgXbdiP0OwFvu7blyiNMAL3pQGyBmHrPR5JCqjt64gB+XvcV/
-	xNbI6kihUXOc4otVYOUWtAlCde33aDoqqtHfYs+1HO7ctURhGXLIUGt/GSSDG2sRimHiuxQYenH
-	n+Dx9Iogyr9gn9NUL9GjCNa191w0BxoaQLy7plXclVTfNYvDJS+J8gBZjIz28AVj3XEJAJ8Q=
-X-Gm-Gg: AR+sD12Ae6oeWczebYOyaWkDxv92KhUdrw98Te7sLaZQAdZi8EsPr5FHR0ZiIACgfPO
-	AykecF7cgtb+L00uMnzSYeYvwbuqh6xvsTlvslERvxwBsb0h+FbGylfTq8zLpRGP+HLH/k9Isir
-	Jo8RM3PjcPBpj6jWmOogK07FYMgffJKLFKILjYHc7SBOfz+7IQn7Y+5pMQwcat9OvoZ9JhfisvC
-	Jm/XMu5p0mguwJHJ6pwCf0RzKXMdliorHQIlI19OiTepP6OxZ1orUpSarKr5kE02Un7/1AIko18
-	O6/tPr11Yqtx99j1cF8ad5HDLB+eFFTkdniutMfxJNUxr4zTr9XmbJB5zj9ZWilbPu73dPuLtHB
-	I0Pe26vh23z7M2NM6lQDew+yA
-X-Received: by 2002:a05:620a:839b:b0:92a:228:1bfc with SMTP id af79cd13be357-9371e6bf613mr231079085a.2.1787135661266;
-        Wed, 19 Aug 2026 03:34:21 -0700 (PDT)
-X-Received: by 2002:a05:620a:839b:b0:92a:228:1bfc with SMTP id af79cd13be357-9371e6bf613mr231076385a.2.1787135660855;
-        Wed, 19 Aug 2026 03:34:20 -0700 (PDT)
-Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b478853abasm423113e87.5.2026.08.19.03.34.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Aug 2026 03:34:19 -0700 (PDT)
-Message-ID: <0818e754-47f9-4b15-81c5-fe5294e536f0@oss.qualcomm.com>
-Date: Wed, 19 Aug 2026 12:34:17 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ps8/AyIg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8681F00A3A;
+	Wed, 19 Aug 2026 15:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787154784;
+	bh=Np6wcYO9Ihre4ty4Vj/OhU6tNQ0nzvD/iNyVu5Ey/s0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=Ps8/AyIg8SwVU5/SHxbSwtOmchNfX7Q/uIIm/nW2NUeF4EWdQKRL2zYP95ukoTcye
+	 Ky5rKs44YEM+tnhtreceIRL+gUlpA+uFuv5hwDKFjbumTBr0vNhaNX7ZQwFF13dc95
+	 HhvSCLvve0xTbVonife8VL/NkYIw32DwgHg7k/KanBL5OA7XZgQT3Eq9PPXN/8gQrh
+	 19nCsZ4mutQxDKjvDrttPjvek8Fz+dkZ+WUWcJKfo3++jYELXnVdO4kZczmxJZsyTJ
+	 Fb/+5ylbs3Ys6OSeILjEZEj7nc7Rx5QfKLLQIy5CvbPRb6qXbXHcxXZqx9DuxtKn04
+	 uU1h36BMyGtKQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93B4438119E0;
+	Wed, 19 Aug 2026 15:52:16 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform updates for v7.3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <aoJ77ebtbrPbFbD4@google.com>
+References: <aoJ77ebtbrPbFbD4@google.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <aoJ77ebtbrPbFbD4@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v7.3
+X-PR-Tracked-Commit-Id: 81c1c0cb68a13d14dd1bbffcf4c49e26f9a6478c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c36a4991e231242c04141536718d47255ec80887
+Message-Id: <178715473508.3549109.9670118418811014648.pr-tracker-bot@kernel.org>
+Date: Wed, 19 Aug 2026 15:52:15 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, bleung@chromium.org, chrome-platform@lists.linux.dev, tzungbi@kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: tbt: Correct swapped TBT adapter type values
-To: Sven Peter <sven@kernel.org>, Benson Leung <bleung@chromium.org>,
-        Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-        Jameson Thies <jthies@google.com>,
-        Andrei Kuchynski
- <akuchynski@chromium.org>,
-        Tzung-Bi Shih <tzungbi@kernel.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260818-b4-tbt-legacy-fix-v1-1-797831e3df3f@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=QedWeMbv c=1 sm=1 tr=0 ts=6a8586ad cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=G0XHSz-fAAAA:8 a=Oh2cFVv5AAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=zk36CDiEbYcLe4RSMnMA:9 a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
- a=9GzJQMQvVMogKS571uVa:22 a=7KeoIwV6GZqOttXkcoxL:22
-X-Proofpoint-ORIG-GUID: 1xC53Pm7-Qd-AqENLeQ_L_whSThTg7DA
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE5MDA4MCBTYWx0ZWRfX2yTwtxSXo39u
- GZk42GraSLIRrK5iV3PbFHUh1uFqtdwQ3b9M3af4LVmHIoVNsrINrFwG/J2XEAeDx9bAVO/6x10
- 0LDecuiH242rV5i8rkEg5sjwajstq2o=
-X-Proofpoint-GUID: 1xC53Pm7-Qd-AqENLeQ_L_whSThTg7DA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE5MDA4MCBTYWx0ZWRfX3AaxVXGY1rPL
- aVpXyPCaK1razqhqt5y0qVH/mG8yGHk8jXboQrYvKnJ0njts6BLycfmXxw70c7nsSBhzgianpOX
- 7/WNUBRcHGjWq9zE4LsU222nuJIz5+7Id3qNI25FLzF0UmOpTqGBh5wyO6RF7n+24VTYSDmXRpA
- QY8LHTsThbPI/BCxCtcCWp2nfb0Sk1lL3mgouGrXIR3JXe6Dr0UhOuc/O3ytctGRVZJqd1MdinH
- OSKmR19hq8BxYrXFH8fC2HBjwwaUXSu0KR50i4J706EDZFBFtL4i7DVGfsYvK7bnivO7SiPtCgt
- OVkcOXe4fHT6nuxmBB1Bm9Atk6vXp8swx8lcILhYTrjQvaVQON2TJeRLOm1IFMwTd4wFqUGoCRH
- /EooUTNYKJGqxTONtUmftgdxRkuu8YGYHs5TjOzF3ER7qGGHFHA+hqgku2QbmrFfDjrw4YPAk9L
- R2KTksh+ERq9kBl0FzQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-19_03,2026-08-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 bulkscore=0 clxscore=1011 lowpriorityscore=0
- adultscore=0 malwarescore=0 impostorscore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608190080
 
-On 8/18/26 6:20 PM, Sven Peter wrote:
-> Table F-10 of the USB Type-C Cable and Connector Specification R2.5 on
-> page 412 defines bit 16 of the TBT3 Device Discover Mode VDO as 0 = TBT3
-> Adapter and 1 = TBT2 Legacy Adapter. Linux has those two swapped since
-> their original introduction in commit ca469c292edc ("usb: typec: Add
-> definitions for Thunderbolt 3 Alternate Mode").
-> 
-> ChromiumOS EC's include/usb_pd_tbt.h has them the correct way around
-> and references the USB Type-C ECN "Thunderbolt 3 Compatibility Updates"
-> as fixing an error where they were originally swapped which is presumably
-> where the wrong order originally came from.
-> 
-> I've also confirmed the correct mapping with an Apple Thunderbolt 3
-> to Thunderbolt 2 adapter which does set bit 16 in that VDO.
-> 
-> Swap the two values and update all users. Also rename the old defines
-> so that no user accidentally ends up with an inverted value.
-> No functional change.
-> 
-> Link: https://usb.org/document-library/usb-type-cr-cable-and-connector-specification-release-25
-> Link: https://chromium.googlesource.com/chromiumos/platform/ec/+/db93814b6e73c8545d23714fe0674c10814d901a/include/usb_pd_tbt.h#90
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
-> I ran into this when bringing up thunderbolt for Apple Silicon SoCs and
-> was very confused why the condition for "tbt2 adapter" vs "tbt3 adapter"
-> seemed to be backwards.
-> I think the qcom pmic_glink_altmode.c actually has a bug there that was
-> hidden and/or caused by the wrong values: It used to always set
-> TBT_ADAPTER_TBT3 which sounds plausible but actually claims to be a
-> legacy TBT2 adapter on the wire. I don't have the hardware or know the
-> intention there though.
-> The other users look correct to me since they just pass the value
-> through.
+The pull request you sent on Mon, 17 Aug 2026 03:11:41 +0000:
 
-I ran into this in the past
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v7.3
 
-https://lore.kernel.org/lkml/20250926-topic-tbt_header_bit_fix-v1-1-122238af5c82@oss.qualcomm.com/
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c36a4991e231242c04141536718d47255ec80887
 
-where seems like back then I misinterpreted that the intel driver
-doesn't need changes.
+Thank you!
 
-For the pg-altmode driver, looking at the FW interface I don't see
-any info being passed to the OS regarding tbt2 vs 3, so we should
-presumably always assume the latter (i.e. just fixing the header
-is enough).
-
-Konrad
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

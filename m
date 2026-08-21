@@ -1,97 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022EE325485
-	for <chrome-platform@lists.linux.dev>; Fri, 21 Aug 2026 13:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7FA4B0486
+	for <chrome-platform@lists.linux.dev>; Fri, 21 Aug 2026 14:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787319445; cv=none; b=LcPSKdvvyXwcxa0Qg6jCShk0Fgz+ky95a8JI8Ha5Gjn1Z136NN22Kuhem0jFmGRebMlEceWgwTARcZBXIwPjuJsA2XglSSSrQs0YylQ7hMaIzTds8LIqoQAV8SIrkPV0QGuHFbTjGz7EjvA1ya4B2rcuJ73Wv6FZF5YxlL1ITqY=
+	t=1787321115; cv=none; b=YicpOfO6HaxQgyozM5WyWYvmUcldwRgGD8iHallWtJWXyPh2kiwQUhJaYiA2CHowkwDiD8p+k+/+l/rAKb3BBDHhzr7ksqxF7MwzNPwuw9nt/5xRp3GHGSi7by9yVFAxx7h2BEHBrnmESQ8ycUKA5ONxNg2KNINqIF3Pd5Ko/E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787319445; c=relaxed/simple;
-	bh=O4Blr+OuZ0h6Ey5JuBp9JB/aCVFzNrvMMQqnb0y1pFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DSgZFTTnnJjyYyjjvEInjNQK7st0GQdQ1Ar72INzIUW7+uvWpL+imM44fIRpk3mJZ/+Kc6Z3nuWdfIN6zoA6e48kvKdaeUECMwBEP7miZDSH9sMKyjI8fX1VhQVQbN+opS9eKaKs+c4hd8bVYqCiYwspFtub9Vl2Vqjc0TbC670=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sx7l6tK4; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787321115; c=relaxed/simple;
+	bh=1ULVjh6Ji+i5OTUW4fd781uZYqaAXvbl7KQky/eHKkw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DI3i4uD3y9g1nwnGBSBahkBuAKhqGbQl2OV4FbD+qUCGn/YZ7HtdhNEGuWHextVRB6PUlgyC+zOjV2lQCifvI72xZucehlA4VyUWC6ZLtDRGzuabXQqQ8jXypU4FU/Dwq/z2XuKKf1kMd4ygWbh4LQQ3LdwXmvKDDrm7hnYBcWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b7GWHO5n; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sx7l6tK4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787319444; x=1818855444;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O4Blr+OuZ0h6Ey5JuBp9JB/aCVFzNrvMMQqnb0y1pFs=;
-  b=Sx7l6tK4vcn94BnD8Xl4AYR8yvK8MEewgOavL46Dy1vR/oJ+IuRJhmFW
-   /RtcbateRRj4x1pcFcUCMAt4XCJQ4Dk9MNcTmxy6dksAr6JyUMxzD0XMT
-   D6r3jjHJ6UJZTo2U7/6gXwv4NWyNLZDfEq0kRvF/EyuVXpxMdIFHl6Jnp
-   VdeXJl4ePCWqgkhQguJKUDj9KATWnBofr9lLjo9lODwofYLP87chq3m+N
-   yOKkFHfTALV5W0MAneGLM7hOkQTgcnkxaFfRpTmzqpgHNwV3/z6Yebl8r
-   51eaYLgm7tcOHmMtO8K1udNZe4VE/D41O0Ys+Y1Mzh3ZdkpwdTUH9Pq74
-   w==;
-X-CSE-ConnectionGUID: i14w47BhSu2QzEXk7whPfQ==
-X-CSE-MsgGUID: yR68MPi/Rry7QXoPSxLYYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="91545326"
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="91545326"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 06:37:24 -0700
-X-CSE-ConnectionGUID: TbTwezGjTmSdJBOS7WzOCw==
-X-CSE-MsgGUID: M6BCuENGRzqW2rykjT5W3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="263706552"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.245.241])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 06:37:20 -0700
-Date: Fri, 21 Aug 2026 16:37:18 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Triet Hoang <triet.hoang.dev@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	andy@kernel.org, bleung@chromium.org, groeck@chromium.org,
-	linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b7GWHO5n"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cf50c6f235so12858605ad.0
+        for <chrome-platform@lists.linux.dev>; Fri, 21 Aug 2026 07:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787321109; x=1787925909; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GXfAXSIThD7u/o8Kez7ecU/tOp7+/Rd2dWDcoTTJvIc=;
+        b=b7GWHO5nFMxguseFKlmTLRAUcYoibUfbfM5AqtbIVfURBJqQThDAM4Ng+yaIjT2xSk
+         ITBqpckh/ZKKk/Pvsy1CCUhNwU1h7yPDfNyblr5+Nkc4FSvnoRVL4Mke6te/u8kTe5pk
+         rxHZK141Uoe8ETNgVYKwuRwh/QCPI6oBYFkdjfzaO9aeaMDTvoMtKt/NEoW4o8r+5nhx
+         nGI8rk2g8jrquhnrrSvwWZrTMsdEWjFOOkOmNYA3sMsn29TfC70C+WOkuvCDbeTcGnFI
+         y/es94EzomFrDjohX4iKMWYsRRx62dJ6nBAH67ocHWDLLP+uHTfChCQs0Qq5rx4bntAT
+         CXJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787321109; x=1787925909;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GXfAXSIThD7u/o8Kez7ecU/tOp7+/Rd2dWDcoTTJvIc=;
+        b=a9IGhku2XL9BPV5Ed2oiryXEnn/YKNoQaICeMn8ogfTe3HqbAdMELvPp5ScGA7iGf3
+         cf4LbVebCYXxtTtDKBvUC4NiAHVieh0Agvm94xvjnxUiNce3qlthbejLjlpWFZLV3PF2
+         L35tzlg8y9v6H3G6wuxr9Vr3w9LydC+W6jVJdvPskiQumDsxNYBVUluwxc30NFzzcz57
+         q2Kt7j2M6JvJNyURMWjee+cq1Cqf0I6fyCyGnU3dFvyLOPjhZYo11x9cDUnHyvx3YxLC
+         CaFIEfN/M6yA2uZ9UenXbGRtsgNt9Q7RzTMp91SGSrHFEReWWNFMoZFPbMi4VPZKJSEH
+         LL1g==
+X-Forwarded-Encrypted: i=1; AHgh+RqNUegpr0tABw4DBdzduowtsi3y8N7ACErgAbrsCHlrVM5xOIv+I04pbeDKmulEyhjkunTEugGf8dDketVWfKo=@lists.linux.dev
+X-Gm-Message-State: AFuF++mN8wyzkfwbqLlW4M4hnPCX/zR39vuZAWWOtu6nldMilq+4RThr
+	aRd5PwGEajz6frGcFF/mzkSQ7qf8Nq+JvLfeGPNWuc6kfZ3R7wcFe1I=
+X-Gm-Gg: AR+sD130579hLE3WUMsX9Oz/Ma7xAOz2IHaGHirQ+zJe/wvlYOxVXNWWpCCUa3RXtdP
+	LPQJI83KGQlKXcorPmXlbeKdQylYVqVN8ST4hO6aO66zcDB3KnGDno/zF1oefgk6AvhON3QkU9o
+	ZNnekQJXd5YsRFj04hzbJUNHv/Sxs+C4EmJzYXhDSf1ln1XZ1xGr8Mhxs7sCAabv0UxyYjyiilE
+	yAekd77RxZz1kWHufSXmcryKoLj0oi5b04zNO65M8QpRlEyQz2cB38xKhdAeAp16/+eT0KQ7ris
+	0FVTgPlnaqAq0Wwkem+hQrAEFexVt9wTRCXigZju3JfM+sdbjGIvYEyG/tQMGFlc62Yxstqr+bA
+	StadtMfFzCscvHt/5ZjEAn04Q3ibwhDUD0zkSx9Gr6Qpl59AjFh1cCm6MeS8AYQV60Ndvy/F0w0
+	6B0VbI8qts1x7BiWvhRp8KM3V5z4zD5h037X1D82l8T7SmusqvCnD0JQ8hpzuBAA2mI2rUSMVRi
+	goE7COhE2IC4Sdjnb61xds2vanvssJ6/hyHXho/q/60Po0N/63W3AAB1wU/TWmx5jXg
+X-Received: by 2002:a17:903:1b23:b0:2cc:f5aa:9513 with SMTP id d9443c01a7336-2d64b036caamr145862735ad.10.1787321108063;
+        Fri, 21 Aug 2026 07:05:08 -0700 (PDT)
+Received: from codespaces-2db70c.ktkhmpmw22vebpok31ngjx2qsb.ix.internal.cloudapp.net ([23.97.62.116])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d62e36e1d8sm19842045ad.52.2026.08.21.07.05.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 07:05:07 -0700 (PDT)
+From: Triet Hoang <triet.hoang.dev@gmail.com>
+To: andriy.shevchenko@intel.com
+Cc: andy@kernel.org,
+	bleung@chromium.org,
+	chrome-platform@lists.linux.dev,
+	dlechner@baylibre.com,
+	groeck@chromium.org,
+	jic23@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nuno.sa@analog.com,
+	triet.hoang.dev@gmail.com
 Subject: Re: [PATCH] iio: cros_ec: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Message-ID: <aohUjlM5QZ7BLob3@ashevche-desk.local>
-References: <20260821014454.15960-1-triet.hoang.dev@gmail.com>
+Date: Fri, 21 Aug 2026 14:04:50 +0000
+Message-ID: <20260821140451.3969-1-triet.hoang.dev@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <aohUjlM5QZ7BLob3@ashevche-desk.local>
+References: <aohUjlM5QZ7BLob3@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260821014454.15960-1-triet.hoang.dev@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 21, 2026 at 08:44:54AM +0700, Triet Hoang wrote:
-> Convert the deprecated SIMPLE_DEV_PM_OPS
-> to DEFINE_SIMPLE_DEV_PM_OPS and pm_sleep_ptr().
+On Fri, 21 Aug 2026 16:37:18 +0300, Andy Shevchenko wrote:
+> There is a macro that combines DEFINE + EXPORT.
+
+Hi Andy,
+
+Thanks for reviewing. Should I send the v2 with the update?
+
+> There is room on the lines to make them longer a bit.
 > 
-> This lets us drop the __maybe_unused annotations
-> from the resume callbacks, and reduces kernel size
-> in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
+>   Convert the deprecated SIMPLE_DEV_PM_OPS to DEFINE_SIMPLE_DEV_PM_OPS
+>   and pm_sleep_ptr().
+> 
+>   This lets us drop the __maybe_unused annotations from the resume callbacks,
+>   and reduces kernel size in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
 
-There is room on the lines to make them longer a bit.
+With the new commit that you have suggested.
 
-  Convert the deprecated SIMPLE_DEV_PM_OPS to DEFINE_SIMPLE_DEV_PM_OPS
-  and pm_sleep_ptr().
-
-  This lets us drop the __maybe_unused annotations from the resume callbacks,
-  and reduces kernel size in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
-
-
-...
-
-> -SIMPLE_DEV_PM_OPS(cros_ec_sensors_pm_ops, NULL, cros_ec_sensors_resume);
-> +DEFINE_SIMPLE_DEV_PM_OPS(cros_ec_sensors_pm_ops, NULL, cros_ec_sensors_resume);
->  EXPORT_SYMBOL_GPL(cros_ec_sensors_pm_ops);
-
-There is a macro that combines DEFINE + EXPORT.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+BR,
+Triet

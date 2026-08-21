@@ -1,94 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC4A2DC321
-	for <chrome-platform@lists.linux.dev>; Fri, 21 Aug 2026 16:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA17F30E821;
+	Fri, 21 Aug 2026 16:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787328107; cv=none; b=YLtszsTAsOXdADg3NX3S2qI3fy69ykkv2z1LmzQcKnlY1vAYzFU7aSn4z+wq5j6ZXJ4mZIgmHfczDWQrlh6VW6FvgCQXuu1wbgx1pgVXBk77zo9YLI6nJpT8tbDuWZ/mNwOVR1rb/02lSrLxkxA3ZLCi77tKEKNgQ3lWHm8Zixk=
+	t=1787328178; cv=none; b=MhMUyGXJ64jgRco1HBDF1J82Qz3s6mT3PA6kFACsKXBdJMU/vgn7EKZYjoITYLeoJ6hs6WVP9FmfYCi7Trk85hUjmqnaVPec33LJgAwL08CWZSpV86dNmBJGTWlHcrWhTcvI6bAj2NfAY7c+hx84Dt4LEg9+LCIdy3TGvgTsXhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787328107; c=relaxed/simple;
-	bh=wemf2gE1hMWZpseJAaIDabprgBcaAwrypXd9wmjRVu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iUQYQy8XV5mcV+JFnPgl7BFJ4HrZxyZs3YTGzKNVaF/kglBVuD18Nqh1PnyTgfFfhE5ZPsYmMImAAPoeaIdiJVWACwulSuqIrsRJlU6iRCPGRyuVNGLk5r+OxfI74LRkGcNaiU060JWNGNwcryz0s+wsYrx2W3cEjNq677FzsO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ipff3FId; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787328178; c=relaxed/simple;
+	bh=jlmx18BUGtZujBHG8gk3ywP6LfzwlTBnBXdqoqh3g64=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YnuxsKAO9V1ZBYOtJG8XWLZQnJMgEP5Jvd20hGO+lu1oSzZRDvGO7lmELJ79w38Jf05s7Z1rAKL3tKwp6dGCsFNc2nfa5VXjuWzlo8EA7n1tqxuwqcsbe4+gVCeqBgEJgFp4Vtd3O882Yr3FcOzGyKAgeD2DlcszoLYXzWpJdHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SNwCldJz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ipff3FId"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787328106; x=1818864106;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wemf2gE1hMWZpseJAaIDabprgBcaAwrypXd9wmjRVu4=;
-  b=Ipff3FIdUo9oZZ65w3Zhhtu5GJTfSsS+DgtNavUKJ68qMTnQ3QY4PGCy
-   xYgd2/SvinuEHpTIueeBI5OPGSvcPKmpu6e3QogmlFhtea1ibGF27b5jT
-   O5D+fJaVqTqUjlxk8km9yC2O2GLhmFeM6SEc+JH4wxvpKw4bp2FY4u8/1
-   6JGi7JN1iWIjI6/Ov1h+34F91Tb4NzLqq+US9E8W1N/HlinHsAbgVvcWu
-   MBRPkWo5hmVjj7Ejcaq+0UlzjTkrRhRjCO3wW0AN+PcrlQfGkmxky/dOM
-   MpXGXvp9b1ReNXAmlDFvz65hEHmLLGQDRaghqVwdjkEnHUKoVIy8ak78W
-   w==;
-X-CSE-ConnectionGUID: Kzbl8ApyRaiTprPKM9FI6Q==
-X-CSE-MsgGUID: MoUcaNcHQeuReYHfpKy97w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11882"; a="91754587"
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="91754587"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 09:01:31 -0700
-X-CSE-ConnectionGUID: svu2B3YeRaCL420nD9FP5w==
-X-CSE-MsgGUID: 4cfsBc4yQv6vVinIoG4vtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,235,1779174000"; 
-   d="scan'208";a="266979842"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.245.241])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2026 09:01:27 -0700
-Date: Fri, 21 Aug 2026 19:01:25 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SNwCldJz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE6401F000E9;
+	Fri, 21 Aug 2026 16:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787328177;
+	bh=bjG2PgPYQ0d3EKYtGfsk5xwSrorEI6krhBASrKtsTLE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=SNwCldJztOxqdrNY5RSdUE2TQhaJ1o8bHGKF5LzEG7TSzc+8wq/Z1nW0cozKEErFO
+	 rPsw6NtjzKelcpnsfx/F8GgqFjX+Qs+9i4BJqczhK0snnYKn02RsaRQFANrj+W3QK8
+	 /G3REZJpSUoI/iA8RHEjHvNAm3Ap+E+ixIwqfxga0PDggGsqGhfMAbu2jgb0uTy3P4
+	 8KfbQnCc1i/yhO0qS9uJcaIP10FA0e5+9so2ADIzAgVBr7iOHvueiDJvv4+XxbvMSg
+	 rx5dbPQg6C1b8fCsuDmZS7ZSfDu7Fu/Y3RG2GGuiDVGiw751BX44xzVqd/THXkfb6u
+	 8p+PAf1dLT9XA==
+Date: Fri, 21 Aug 2026 17:02:51 +0100
+From: Jonathan Cameron <jic23@kernel.org>
 To: Triet Hoang <triet.hoang.dev@gmail.com>
 Cc: andy@kernel.org, bleung@chromium.org, chrome-platform@lists.linux.dev,
-	dlechner@baylibre.com, groeck@chromium.org, jic23@kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nuno.sa@analog.com
+ dlechner@baylibre.com, groeck@chromium.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nuno.sa@analog.com
 Subject: Re: [PATCH] iio: cros_ec: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Message-ID: <aoh2VZ5nrZIPQUt2@ashevche-desk.local>
-References: <aohUjlM5QZ7BLob3@ashevche-desk.local>
- <20260821140451.3969-1-triet.hoang.dev@gmail.com>
+Message-ID: <20260821170251.1e241047@jic23-huawei>
+In-Reply-To: <20260821021007.30946-1-triet.hoang@datalogic.com>
+References: <20260821025453.5944eb9d@jic23-huawei>
+	<20260821021007.30946-1-triet.hoang@datalogic.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260821140451.3969-1-triet.hoang.dev@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 21, 2026 at 02:04:50PM +0000, Triet Hoang wrote:
-> On Fri, 21 Aug 2026 16:37:18 +0300, Andy Shevchenko wrote:
-> > There is a macro that combines DEFINE + EXPORT.
+On Fri, 21 Aug 2026 09:10:07 +0700
+Triet Hoang <triet.hoang.dev@gmail.com> wrote:
+
+> On Fri, 21 Aug 2026 02:54:53 +0100
+> Jonathan Cameron <jic23@kernel.org> wrote:
 > 
-> Thanks for reviewing. Should I send the v2 with the update?
-
-v2 should incorporate the requested changes.
-
-> > There is room on the lines to make them longer a bit.
+> > Hi Triet,
 > > 
-> >   Convert the deprecated SIMPLE_DEV_PM_OPS to DEFINE_SIMPLE_DEV_PM_OPS
-> >   and pm_sleep_ptr().
-> > 
-> >   This lets us drop the __maybe_unused annotations from the resume callbacks,
-> >   and reduces kernel size in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
+> > Wrap to 75 ish chars for commit messages.  
 > 
-> With the new commit that you have suggested.
+> Thanks for that! I will keep in my mind.
+> 
+> > > Take a look at where this macro and the comment right next to it...  
+> >   
+> > >  EXPORT_SYMBOL_GPL(cros_ec_sensors_pm_ops);  
+> > relating to this circumstance.  
+> 
+> I think we should use EXPORT_GPL_SIMPLE_DEV_PM_OPS here.
+> Should I send the v2 patch to correct it?
+Please do.  Though normal process is to wait a few more days
+first to see if you get any other feedback that can be incorporated
+into v2.
 
-It should be a new version of the same change, but with the comments being
-addressed.
+Jonathan
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+> 
+> Regards,
+> Triet
 

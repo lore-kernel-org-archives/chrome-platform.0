@@ -1,322 +1,161 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A681483800
-	for <chrome-platform@lists.linux.dev>; Thu, 20 Aug 2026 17:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787246828; cv=pass; b=W6oskxRotMC5ix5LZ3OrygNwVtZeTfqCcFjNsrh3w5nrODJqxz1Clg/6Antql9GE7BuQzIeKTHCUfNzpNHEa9VcLjylxoz/5kRid2JpDT/NucgRpKmpb9g9J5qU/RFEcnPnJTSV1pU5VYaaKt4DqTzbw9VtRHx3lj8BWRDoCN9w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787246828; c=relaxed/simple;
-	bh=SIgUU2g+wRGUVC/iM+KPIgqUXNpt65Gh+mPBN8UcdLw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=otbTbEaHnU4O9oLC7n6WhVMuG7/KRGme1ByZfQGUhHarLMS25N3xI+mpSdEWI8KB/TVG3TO/YUcqLq77ho4P8UoK1IrZcHeZKT1A7Rhaz1YY3D8e9x0JLPLprGIH+d3gdFpG+wFz7fjHhM0LuxCGa9pPDWlVOmDGl6L9FiVu6zs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=VgvaIzvb; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E264D34E745
+	for <chrome-platform@lists.linux.dev>; Fri, 21 Aug 2026 01:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787276717; cv=none; b=WdhCyPw9qlZ8DOsVPDy6GPpVenxi5xvOO+RJLNFG6d0LR+oeVAv39Gh4ytU62W7WhLR0Ft/Ii9wt6MU3RA31ylSn5bCzRW+ty/RQNdRqT5Ozw7kXu43+RsLm/OwtGZdDoDgM/kQpnlhgUZsKavK8vWvwC+25H5BLAbQcFejuRnM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787276717; c=relaxed/simple;
+	bh=sbAF0uqvlZvxsWfWk0SRP6ojJ7r9s4RDxyKqD93t8TE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CW6/UIItZaO03yz80qlmZMGg0b2GvcoEm1Hye0zNKCKLPUVTIT+gNDBE2idgtrI1U6x0FK+iclCHhMro2n1xAHToDUE736memN/TxPg1VpC/ATgBhF0k0YeWeq+e920yol5vaH1EtxHJKOXXz3RG2omXdOeD+0fHbB50NPShBMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JWBSgqwD; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="VgvaIzvb"
-ARC-Seal: i=1; a=rsa-sha256; t=1787246693; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YUGq+zf9n6j2uUAJ1PL6g2K0/wKwV2LIduaROzrTv/0eYUKDec1MUEqpfzptUhOs4J6h//VTHOYdZnfpa/d5Mcz2hZseF9VbrEDoIKxEYlij3kBsfeyEeGjRxKwX2vfWjZizDkW69U5xKZkUTeBIO2Q/v8IBxD+oezD7Qd2I2nQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1787246693; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=N3vNIvKqhaUBaz2tqWp/9QmmFKTbjP42K+MawvJXb/Q=; 
-	b=HxLe+3wePp8ZULsfUfjZimtrvEAMXw3lfZVkLLnZ+OtiB8jsKTRJQcrxlhAaQi5OHXlkt6+NuOHt5N5AAhAQtWkTUAobkHKqeGvStGm5YAUXSm4nEGcYN6/Ndce0uT8YF1mJT0O2klQUAVt+nZgizKbYKzCD0pCnmZJkWQ8dQhA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787246693;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=N3vNIvKqhaUBaz2tqWp/9QmmFKTbjP42K+MawvJXb/Q=;
-	b=VgvaIzvbMT5y6v8tdUmnutRtJgKzwgIpG8OfeH7fKj+m9YL/qSWRM0NbGa+GNIVp
-	Q3rU2WUPuG6eYVIu0pgHLboOng61K+MsHELxiXzR/16RVQ/e4SeQu+SDkJLblnHlQUH
-	D50up5ajxUG6W012zpPnluAePVk3K2g5Oet82xLMaSZRaUGxrZmz/T/YgTLihmwhM4B
-	xuB7Pkh4SieFv05k/XV8n+K6oMCdAGgXFdxXjllCfTk7ev9xV2Rufw7GUU59r0docon
-	iC0/36b6fUx68NXHf08hPvIx5NQFUkJ8GUWrCueIxoNsH9eJD6AzfTDW6LARv9rgfMw
-	Ps5stvON2Q==
-Received: by mx.zohomail.com with SMTPS id 1787246692155846.0229063511888;
-	Thu, 20 Aug 2026 10:24:52 -0700 (PDT)
-From: Rong Zhang <i@rong.moe>
-Date: Fri, 21 Aug 2026 01:22:07 +0800
-Subject: [PATCH v5 12/12] platform/x86: ideapad-laptop: Fully support auto
- keyboard backlight
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JWBSgqwD"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2d530328efbso4735735ad.0
+        for <chrome-platform@lists.linux.dev>; Thu, 20 Aug 2026 18:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787276714; x=1787881514; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xZttsssqOMabZj0EkbaAGqT7Bp9lWTkosvKZrWr3/hA=;
+        b=JWBSgqwDFYGqgEOoKrWMu0kN0gfDDKLhmEkZcRI+qggIG2jXM3WfYS9oTXvf3qjLIk
+         d1I5280sUjYWi0Aq2ZdzeH1Xzx6vK5h7DSeSVx7Eg/NyGtO/wd2k+FhLuKizJDGU5ORO
+         kelzfe5XqxFrKOBrOgcVKdo8p8UCImgVtowdzBAbtRnsXJtrsTmEGiAydw5MVGfQE8/w
+         iUbUJKTPau1+Qbklg1zyGFG+mw+07ijsuSgiOCbZ0snC9FyEixR7LEeVln7LhC8xG+v/
+         MZxXXSY+qyA5EJEpCFaHc1zQi6K+enETQf+Bw6FGXKI6mb9gv92NnJumPurTXIOr2hc5
+         ui5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787276714; x=1787881514;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xZttsssqOMabZj0EkbaAGqT7Bp9lWTkosvKZrWr3/hA=;
+        b=Ougka8gHTnEqhnfwATo0WxX7hZ1/iOHN72WEndFx+6hC5XarxNBwv1ZgtFNP8WLpao
+         p75PG3XIGGRskHwOdfVmokVqkHgD+fsgJConJLTwPIR+Xmzyb7anqwKoctGJsyMYgGPz
+         Aydnw3VXddFbyfkVnaEhPYVEOOL9Zqe9BEGO4fG1n+YFVPsfhDVejXsaFsPWmRvkQVh3
+         fqCQPTI1Dk2BrA9ZFU8TbRjQwqNTkgFjm/uK+Xm74M/CMApmiK81Qvcxe7atSlYiINgA
+         05lHC3ezmtaq4UULtndHxxxRZ5JwLfWKWEkfPCYP01MYxJ5EuafJLGqzTCoMDpb3WMBi
+         lbXA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq9JMi7OvWD/TlRcEQyo17dAFgrzT0uwRL5sKKFVobxC7FBOLO9sbL7i7emmTmbqCqFXMur+VGU/dQxt5liYRc=@lists.linux.dev
+X-Gm-Message-State: AFuF++kp5/PLhmqClk3oj4aJQIFUxLGhyzEI3bx3bt6G97ONV6C3x7k4
+	w7qT6TOGNNmI+z5BDJUSbny6xpoxY8OnvWI5YXIcRy55R3yvncpqSz4=
+X-Gm-Gg: AR+sD13TkYKclnqHB9eY7Ikx7NJPnZJ8kzG87KK0R34Rw2nX4TrChV/X14xfdDAeV4z
+	kZHvibHHYNxzv5ntT4AcCoOW8n9Xf9rHRKCIp1Ok+FfcuvsA/220PbjsrgNzhfcjGciHRB4z03T
+	ee+xX3xNlwBOFNcFCA2iTggtknF0sqH40gSytyJLeLqTiI7xVACTnLV9iHm917xgqB861wWwjGl
+	0wUm2lNzJl8sYDQ5qw3TAun3Ni+ZX8Ioobj8pOkCMU8kYh2rI2eUfBDylnh+fzLnFiKJ15GTAej
+	kYfEw+aJ1k2JXAoIzo5yhJTJ2w41OURqqQ8mxYtzm1R1Uq8Dg9geHOhSfwNzW9TRdLyhiB5GvCr
+	FLneDJK0FSwjz2VO6VRGXL4ZagsnFCoC9rDCDcUcXtDgcpxyLjMXhdZRcd64xjmLokIngiO1vPH
+	ivoSGOytxNpRZjbU/00+sGhjpOPQXx41ctAdc1Kpr2W9/lspdoV4XzIGsOxICtF8dp+7d++zHe9
+	g==
+X-Received: by 2002:a17:902:ce08:b0:2cc:9179:32e with SMTP id d9443c01a7336-2d64afe9569mr53845135ad.10.1787276714031;
+        Thu, 20 Aug 2026 18:45:14 -0700 (PDT)
+Received: from DL2XHKPB4.dl.net ([103.63.104.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d62e3cced8sm12727335ad.75.2026.08.20.18.45.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2026 18:45:13 -0700 (PDT)
+From: Triet Hoang <triet.hoang.dev@gmail.com>
+To: jic23@kernel.org
+Cc: dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	bleung@chromium.org,
+	groeck@chromium.org,
+	linux-iio@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Triet Hoang <triet.hoang.dev@gmail.com>
+Subject: [PATCH] iio: cros_ec: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Fri, 21 Aug 2026 08:44:54 +0700
+Message-ID: <20260821014454.15960-1-triet.hoang.dev@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260821-leds-trigger-hw-changed-v5-12-3e00d6c4a936@rong.moe>
-References: <20260821-leds-trigger-hw-changed-v5-0-3e00d6c4a936@rong.moe>
-In-Reply-To: <20260821-leds-trigger-hw-changed-v5-0-3e00d6c4a936@rong.moe>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
- Mark Pearson <mpearson-lenovo@squebb.ca>, 
- "Derek J. Clark" <derekjohn.clark@gmail.com>, 
- Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Ike Panhc <ikepanhc@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
- Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, 
- linux-leds@vger.kernel.org, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
- Rong Zhang <i@rong.moe>
-X-Mailer: b4 0.17-dev-1f2f7
-X-ZohoMailClient: External
 
-Currently, the auto brightness mode of keyboard backlight maps to
-brightness=0 in LED classdev. The only method to switch to such a mode
-is by pressing the manufacturer-defined shortcut (Fn+Space). However, 0
-is a multiplexed brightness value; writing 0 simply results in the
-backlight being turned off.
+Convert the deprecated SIMPLE_DEV_PM_OPS
+to DEFINE_SIMPLE_DEV_PM_OPS and pm_sleep_ptr().
 
-With brightness processing code decoupled from LED classdev, we can now
-fully support the auto brightness mode. In this mode, the keyboard
-backlight is controlled by the EC according to the ambient light sensor
-(ALS).
+This lets us drop the __maybe_unused annotations
+from the resume callbacks, and reduces kernel size
+in case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
 
-To utilize this, a private hardware control trigger "ideapad-auto" is
-added, with the event handling procedure calling the
-led_trigger_notify_hw_control_changed() interface to activate/deactivate
-the private trigger according to the current LED trigger state. To align
-with LEDS_BRIGHTNESS_HW_CHANGED, the driver neither depends on
-LEDS_TRIGGERS_HW_CHANGED nor selects it.
-
-Meanwhile, block brightness changes on exit to prevent the side effect
-of LED device unregistration when the private trigger is active from
-resetting the brightness to zero, so that we can retain the state of
-auto mode among boots.
-
-Acked-by: Ike Panhc <ikepanhc@gmail.com>
-Signed-off-by: Rong Zhang <i@rong.moe>
+Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>
 ---
-Changes in v4:
-- Add missing #include (Thanks Ilpo Järvinen)
-- Remove needless code alignment (ditto)
-- Address concerns from Sashiko
-  - Do not notify the LED trigger core when the registration of the
-    private trigger has failed
-  - https://sashiko.dev/#/patchset/20260719-leds-trigger-hw-changed-v3-0-5fb55722e36e@rong.moe?part=11
+ drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c      | 2 +-
+ drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 4 ++--
+ drivers/iio/light/cros_ec_light_prox.c                    | 2 +-
+ drivers/iio/pressure/cros_ec_baro.c                       | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-Changes in v3:
-- Address concerns from Sashiko
-  - Fix a race condition in ideapad_kbd_bl_led_cdev_brightness_set()
-  - Fix trigger re-registration of ideapad_kbd_bl_auto_trigger
-  - https://sashiko.dev/#/patchset/20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3%40rong.moe
-- Make registration failures of ideapad_kbd_bl_auto_trigger non-fatal
----
- drivers/platform/x86/lenovo/Kconfig          |   1 +
- drivers/platform/x86/lenovo/ideapad-laptop.c | 114 ++++++++++++++++++++++++---
- 2 files changed, 106 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x86/lenovo/Kconfig
-index 4443f40ef8aa..e92b1e900795 100644
---- a/drivers/platform/x86/lenovo/Kconfig
-+++ b/drivers/platform/x86/lenovo/Kconfig
-@@ -16,6 +16,7 @@ config IDEAPAD_LAPTOP
- 	select INPUT_SPARSEKMAP
- 	select NEW_LEDS
- 	select LEDS_CLASS
-+	select LEDS_TRIGGERS
- 	help
- 	  This is a driver for Lenovo IdeaPad netbooks contains drivers for
- 	  rfkill switch, hotkey, fan control and backlight control.
-diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c b/drivers/platform/x86/lenovo/ideapad-laptop.c
-index 7f7b1e30c326..5442cbfe3969 100644
---- a/drivers/platform/x86/lenovo/ideapad-laptop.c
-+++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
-@@ -16,6 +16,7 @@
- #include <linux/bug.h>
- #include <linux/cleanup.h>
- #include <linux/compiler.h>
-+#include <linux/container_of.h>
- #include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/device.h>
-@@ -33,6 +34,7 @@
- #include <linux/platform_device.h>
- #include <linux/platform_profile.h>
- #include <linux/power_supply.h>
-+#include <linux/printk.h>
- #include <linux/rfkill.h>
- #include <linux/seq_file.h>
- #include <linux/string_choices.h>
-@@ -1715,9 +1717,58 @@ static int ideapad_kbd_bl_led_cdev_brightness_set(struct led_classdev *led_cdev,
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
+index b971f8b646be..551b86236abc 100644
+--- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
+@@ -311,7 +311,7 @@ MODULE_DEVICE_TABLE(platform, cros_ec_sensors_ids);
+ static struct platform_driver cros_ec_sensors_platform_driver = {
+ 	.driver = {
+ 		.name	= "cros-ec-sensors",
+-		.pm	= &cros_ec_sensors_pm_ops,
++		.pm	= pm_sleep_ptr(&cros_ec_sensors_pm_ops),
+ 	},
+ 	.probe		= cros_ec_sensors_probe,
+ 	.id_table	= cros_ec_sensors_ids,
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+index 5133755c2ea6..7d09f7c7d35c 100644
+--- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+@@ -862,7 +862,7 @@ int cros_ec_sensors_core_write(struct cros_ec_sensors_core_state *st,
+ }
+ EXPORT_SYMBOL_GPL(cros_ec_sensors_core_write);
+ 
+-static int __maybe_unused cros_ec_sensors_resume(struct device *dev)
++static int cros_ec_sensors_resume(struct device *dev)
  {
- 	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
- 
-+	/*
-+	 * When deinitializing: It must be the side effect of led_cdev
-+	 * unregistration when our private trigger is active. We've set
-+	 * LED_RETAIN_AT_SHUTDOWN to retain led_cdev brightness level.
-+	 * To do the same for auto mode, gate changes and return early.
-+	 */
-+	if (unlikely(!priv->kbd_bl.initialized))
-+		return 0;
-+
- 	return ideapad_kbd_bl_brightness_set(priv, brightness);
+ 	struct iio_dev *indio_dev = dev_get_drvdata(dev);
+ 	struct cros_ec_sensors_core_state *st = iio_priv(indio_dev);
+@@ -879,7 +879,7 @@ static int __maybe_unused cros_ec_sensors_resume(struct device *dev)
+ 	return ret;
  }
  
-+static bool ideapad_kbd_bl_auto_trigger_offloaded(struct led_classdev *led_cdev)
-+{
-+	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
-+
-+	return atomic_read(&priv->kbd_bl.last_hw_brightness) == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-+}
-+
-+static int ideapad_kbd_bl_auto_trigger_activate(struct led_classdev *led_cdev)
-+{
-+	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
-+
-+	return ideapad_kbd_bl_hw_brightness_set(priv, KBD_BL_AUTO_MODE_HW_BRIGHTNESS);
-+}
-+
-+static struct led_hw_trigger_type ideapad_kbd_bl_auto_trigger_type;
-+
-+static struct led_trigger ideapad_kbd_bl_auto_trigger = {
-+	.name = "ideapad-auto",
-+	.trigger_type = &ideapad_kbd_bl_auto_trigger_type,
-+	.activate = ideapad_kbd_bl_auto_trigger_activate,
-+	.offloaded = ideapad_kbd_bl_auto_trigger_offloaded,
-+};
-+
-+static bool ideapad_kbd_bl_auto_trigger_registered;
-+
-+static void ideapad_kbd_bl_notify_hw_control(struct ideapad_private *priv,
-+					     int hw_brightness, int last_hw_brightness)
-+{
-+	bool hw_control, last_hw_control;
-+
-+	if (!ideapad_kbd_bl_auto_trigger_registered || priv->kbd_bl.type != KBD_BL_TRISTATE_AUTO)
-+		return;
-+
-+	hw_control = hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-+	last_hw_control = last_hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-+
-+	if (hw_control != last_hw_control)
-+		led_trigger_notify_hw_control_changed(&priv->kbd_bl.led, hw_control);
-+}
-+
- static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
- {
- 	int hw_brightness, brightness, last_hw_brightness;
-@@ -1739,6 +1790,8 @@ static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
- 	if (hw_brightness == last_hw_brightness)
- 		return;
+-SIMPLE_DEV_PM_OPS(cros_ec_sensors_pm_ops, NULL, cros_ec_sensors_resume);
++DEFINE_SIMPLE_DEV_PM_OPS(cros_ec_sensors_pm_ops, NULL, cros_ec_sensors_resume);
+ EXPORT_SYMBOL_GPL(cros_ec_sensors_pm_ops);
  
-+	ideapad_kbd_bl_notify_hw_control(priv, hw_brightness, last_hw_brightness);
-+
- 	led_classdev_notify_brightness_hw_changed(&priv->kbd_bl.led, brightness);
- }
- 
-@@ -1769,6 +1822,24 @@ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
- 
- 	switch (priv->kbd_bl.type) {
- 	case KBD_BL_TRISTATE_AUTO:
-+		priv->kbd_bl.led.max_brightness = 2;
-+
-+		if (!ideapad_kbd_bl_auto_trigger_registered) {
-+			dev_warn(&priv->platform_device->dev,
-+				 "Could not provide LED trigger %s for keyboard backlight\n",
-+				 ideapad_kbd_bl_auto_trigger.name);
-+			break;
-+		}
-+
-+		priv->kbd_bl.led.flags |= LED_TRIG_HW_CHANGED;
-+		priv->kbd_bl.led.trigger_type = &ideapad_kbd_bl_auto_trigger_type;
-+		priv->kbd_bl.led.hw_control_trigger = ideapad_kbd_bl_auto_trigger.name;
-+
-+		/* Hardware remembers the last brightness level, including auto mode. */
-+		if (hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS)
-+			priv->kbd_bl.led.default_trigger = ideapad_kbd_bl_auto_trigger.name;
-+
-+		break;
- 	case KBD_BL_TRISTATE:
- 		priv->kbd_bl.led.max_brightness = 2;
- 		break;
-@@ -1785,13 +1856,22 @@ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
- 	if (err < 0)
- 		return err;
- 
--	err = led_classdev_register(&priv->platform_device->dev, &priv->kbd_bl.led);
--	if (err)
--		return err;
-+	/* Queue notifications, as kbd_bl.initialized is about to be set. */
-+	guard(mutex)(&priv->kbd_bl.notif_mutex);
- 
-+	/*
-+	 * Setting kbd_bl.initialized after led_classdev_register() could lead
-+	 * to race conditions in ideapad_kbd_bl_led_cdev_brightness_set() where
-+	 * kbd_bl.initialized is checked, so set it now. It can be reverted back
-+	 * if the LED classdev failed to register.
-+	 */
- 	priv->kbd_bl.initialized = true;
- 
--	return 0;
-+	err = led_classdev_register(&priv->platform_device->dev, &priv->kbd_bl.led);
-+	if (err)
-+		priv->kbd_bl.initialized = false;
-+
-+	return err;
- }
- 
- static void ideapad_kbd_bl_exit(struct ideapad_private *priv)
-@@ -2618,17 +2698,30 @@ static int __init ideapad_laptop_init(void)
- {
- 	int err;
- 
-+	err = led_trigger_register(&ideapad_kbd_bl_auto_trigger);
-+	if (err) {
-+		pr_warn("Failed to register LED trigger %s: %d\n",
-+			ideapad_kbd_bl_auto_trigger.name, err);
-+	} else {
-+		ideapad_kbd_bl_auto_trigger_registered = true;
-+	}
-+
- 	err = ideapad_wmi_driver_register();
- 	if (err)
--		return err;
-+		goto err_ledtrig;
- 
- 	err = platform_driver_register(&ideapad_acpi_driver);
--	if (err) {
--		ideapad_wmi_driver_unregister();
--		return err;
--	}
-+	if (err)
-+		goto err_wmi;
- 
- 	return 0;
-+
-+err_wmi:
-+	ideapad_wmi_driver_unregister();
-+err_ledtrig:
-+	if (ideapad_kbd_bl_auto_trigger_registered)
-+		led_trigger_unregister(&ideapad_kbd_bl_auto_trigger);
-+	return err;
- }
- module_init(ideapad_laptop_init)
- 
-@@ -2636,6 +2729,9 @@ static void __exit ideapad_laptop_exit(void)
- {
- 	platform_driver_unregister(&ideapad_acpi_driver);
- 	ideapad_wmi_driver_unregister();
-+
-+	if (ideapad_kbd_bl_auto_trigger_registered)
-+		led_trigger_unregister(&ideapad_kbd_bl_auto_trigger);
- }
- module_exit(ideapad_laptop_exit)
- 
-
+ MODULE_DESCRIPTION("ChromeOS EC sensor hub core functions");
+diff --git a/drivers/iio/light/cros_ec_light_prox.c b/drivers/iio/light/cros_ec_light_prox.c
+index 7ab565b1fb9f..b1c92de7922a 100644
+--- a/drivers/iio/light/cros_ec_light_prox.c
++++ b/drivers/iio/light/cros_ec_light_prox.c
+@@ -249,7 +249,7 @@ MODULE_DEVICE_TABLE(platform, cros_ec_light_prox_ids);
+ static struct platform_driver cros_ec_light_prox_platform_driver = {
+ 	.driver = {
+ 		.name	= "cros-ec-light-prox",
+-		.pm	= &cros_ec_sensors_pm_ops,
++		.pm	= pm_sleep_ptr(&cros_ec_sensors_pm_ops),
+ 	},
+ 	.probe		= cros_ec_light_prox_probe,
+ 	.id_table	= cros_ec_light_prox_ids,
+diff --git a/drivers/iio/pressure/cros_ec_baro.c b/drivers/iio/pressure/cros_ec_baro.c
+index 6a567b6075d9..e4bc4df48d01 100644
+--- a/drivers/iio/pressure/cros_ec_baro.c
++++ b/drivers/iio/pressure/cros_ec_baro.c
+@@ -192,7 +192,7 @@ MODULE_DEVICE_TABLE(platform, cros_ec_baro_ids);
+ static struct platform_driver cros_ec_baro_platform_driver = {
+ 	.driver = {
+ 		.name	= "cros-ec-baro",
+-		.pm	= &cros_ec_sensors_pm_ops,
++		.pm	= pm_sleep_ptr(&cros_ec_sensors_pm_ops),
+ 	},
+ 	.probe		= cros_ec_baro_probe,
+ 	.id_table	= cros_ec_baro_ids,
 -- 
-2.55.0
+2.53.0
 

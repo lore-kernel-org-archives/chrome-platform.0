@@ -1,107 +1,58 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D662931F8
-	for <chrome-platform@lists.linux.dev>; Tue, 25 Aug 2026 02:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2510C1F3BAC;
+	Tue, 25 Aug 2026 02:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787625143; cv=none; b=pwYPML5sYLzkPTDYoJXD0sy56mXUOGBTeWTIbGYpfeCtvs94XqBVK2ZsHgdMU2Wm//R8hs2SMU9R+gep5D3zzxWYo0nxqKpqOUv/C6MTS/zAKs3nJYaUfGbw5h9R4ySR+/ZuihH6AeFVk1rvz/adMVptd9YrNS+K7op66fR/NUI=
+	t=1787626616; cv=none; b=jo9DBvfr/0MfQ8CAL0a2dWG78w1HS6LxyshyAr1LCo+Unu/IY4SYXhErKLFWj6/nwNUjVhiVU7x6sl3Ny9P9p0c63B8i8Y1rWsPB7KttAFxk+By+T6Hn2gGUqBXi6QyAHdxEjcBswhF2lxoz08A4rFUnTqf+rTe7bPTP1Yl66yI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787625143; c=relaxed/simple;
-	bh=hZkRUfAojg3eoNr8a0Rp4cL09Bvzpc2kCYAeV8McbU4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VLSF3cGfVoCJPW8F1/woQnR0sZUViU9H/QvZmIIyW39sW2SSVcHYWwUMqOZgLD6+k2OKEThu5qVTzdZMuVyw5TG9c3qmRLNWiZh+BhgiiM2V5VEnmyPJyyorCX638M4grXPsv4BXJEA5j0pbMlxxSmDYYbs/b2lWAA/EsTke7mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3MmKTAZ; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787626616; c=relaxed/simple;
+	bh=ZqatO8Y7GBMj2yF6WMSrHxFb3bbFA/fhINAKGt4cJtc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ao/JFxjYl2NwaWdV3H0Io+jnFPDFdBB7ZhhrI6hNJeP9zfpkCwC94ON86ffaGGWQb5ht3HLCM/cy9fNnVJq/TQv6xVwjllOJ1sGC3ro/Cj801HpDkad2IR3+VUXUbmdXWSzgyvNBEWnBgX475dYQ2F3o0sTDclsBTJqx+FAQVWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGZFq43D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3MmKTAZ"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so5023315a91.0
-        for <chrome-platform@lists.linux.dev>; Mon, 24 Aug 2026 19:32:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787625141; x=1788229941; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VLkQ5gc0U0wdnCVZK4qJPIUaaZupYGShMqc57SGVIns=;
-        b=I3MmKTAZvx6C6e6h4EK45ZuZefY5ckP7rhk1Y16Vw+GysCDYdkbTv1Il4OpFlbE14O
-         OnQh6QJpBegmAetvu/0PjY/upi5FofXwaMq2ORkaLr1+pMGmC1d3887/LZkSThbEPjbB
-         SIXRBobecH8Q1d45IKHeZkB6wlyQrxXaJ4CYYotfh/+CEWcPr8BpijNXCNnvJjS2tAZP
-         Beu+T9IM2iyKRkCbQ7xa0rgWsCQqiTEoYk3ap0IDohy7kiLJr/qJNeQ1XSeKlZjCcUuI
-         19ivA6tni2lx5BHO3qBJavFQSSgRyP9padW4aesDwuQBAJj0/H8/scTxvgPxrnG/6XLF
-         CwbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787625141; x=1788229941;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VLkQ5gc0U0wdnCVZK4qJPIUaaZupYGShMqc57SGVIns=;
-        b=Xl9x5BW4yIEwdT4bW6fqtcd/RE5uFZijV2JsGED1gT45PwXQzrWZvGuOQYaRlN7Q1T
-         /xdFqqbdlW7AMVqoBI++vfZeZ7BIyBLUPsuTwERSOOhp1Xjkc242NE9ZFSSO3CF5fICI
-         XbVU9fPZpRUTpBcDWP92ovtlyt1BvHVBxniX+yGTWxd5XEXmVSbC3TQ8zGYbbtkKau9Y
-         cKrka8y3IQ+JIyaRdKrpOer3C5f3JdusKqPDLOFeog2xJnM3fIXOd26svqYTQbtwStET
-         F9/f6YJFDxkneff4gQ/f1jTv/SNjPI9TIKx5VeagD+i6NridCGyu9MfcU6cj1slphCdF
-         OePQ==
-X-Forwarded-Encrypted: i=1; AHgh+RooixHMYnDnVU65YIacjBMknlKvZ1a5psUZ4Ug5G2SAwN+tGXvn1SRCezm67cq2EAEwndS5by3TQcpFXkyvsgU=@lists.linux.dev
-X-Gm-Message-State: AFuF++l74HfbJ1XgOS1D0VNGD6tqiMYbS65NHMHo1Aubwh2Ocau2+tOq
-	0iwzlwMGS3hP7yftWEl3KusQSJSnumWIShraCmwr/DoBOgZWG9wN0f0=
-X-Gm-Gg: AR+sD13tyYtQpYJ+IzzVsAGZGDnp+ePhz6VR+/sJZ8/OMEKYIBluyLpRymPB66nkJwF
-	hPB3rB9f0nIaH9mzZiysDMB82WGzHX2FAtzFWGEw8Fq7AvyTrVVeFEl1HOMhkGA9DjLHwQWvxCn
-	7jgl9IomXcNm2SNHJedVpaz9lWy+w0suTkrIBe8VADPQUoNn2H6Yx9Hcc78+/31T8VdWu6vEPC7
-	tskcxRsm5C7fHkts3b2RHISWQUtPWHc1qmjAJSbhLP8zWOCXw9JbtwxJqEJIAgyf7OAm+8ea1FS
-	vykOC0VjYWcnxRFdcryozpROv4lDKpYJ1BCErLf6PKMdfVJx8RkM+XYZXDuQjVHX41s5rh+b1B2
-	OCDpaXHnYokVkNgsEfy2hiB+3sK2SEJR+RtnSyMmrjeHm+vEts+EFonk5gSMQcyKAtF7Dkhtooy
-	bKPnoJsbFVZAzq1Anr2iJjCEfb/Ws7DIA4K7b2IdJX3d7qRhWO1NKJu1DuId6ygMvmp8wRO5X42
-	g==
-X-Received: by 2002:a17:90b:1d83:b0:380:9f17:6df3 with SMTP id 98e67ed59e1d1-395c3367376mr51215702a91.4.1787625141490;
-        Mon, 24 Aug 2026 19:32:21 -0700 (PDT)
-Received: from DL2XHKPB4.dl.net ([103.63.104.162])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396420ad8b7sm657259a91.0.2026.08.24.19.32.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 19:32:21 -0700 (PDT)
-From: Triet Hoang <triet.hoang.dev@gmail.com>
-X-Google-Original-From: Triet Hoang <triet.hoang@datalogic.com>
-To: tzungbi@kernel.org
-Cc: andy@kernel.org,
-	bleung@chromium.org,
-	chrome-platform@lists.linux.dev,
-	dlechner@baylibre.com,
-	groeck@chromium.org,
-	jic23@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nuno.sa@analog.com,
-	triet.hoang.dev@gmail.com
-Subject: Re: [PATCH v2] iio: cros_ec: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Date: Tue, 25 Aug 2026 09:32:16 +0700
-Message-ID: <20260825023216.43373-1-triet.hoang@datalogic.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <aoz1VN62zEuKPePl@google.com>
-References: <aoz1VN62zEuKPePl@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGZFq43D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF5301F00A3A;
+	Tue, 25 Aug 2026 02:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787626614;
+	bh=VWuywCJyLj5rsEUnDMOPsqV2SlXVHcwjCyQML4lLaaw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hGZFq43DJ8d+CIN68W2X1mnlfjzpX7NmHvhk6y0SqOIzg65j8KJZI3oB4bnQLk1og
+	 PDN5eSDrEDZilb864NSo+t9WdRD4PyDlgp01/8S5cY92DJk1bq5VvSRJ2hJ9iAtd2w
+	 U3F3K9dCEKFg+Dx/YSMk+XbelwtIU+tMxP5uMe8Ygcn35N9c1dFfkJxRAR+OSEn8aJ
+	 Uszeynb5y7coQ3Ezvl+d9iGzguQJHgmOL+a+0l9iIsnE/Ah6mUSlShJ6lQsIMfBKW7
+	 L702FLLyob3dW21m0cekQ8r0M7pp9MiqdoU2eIqyHVZ+VeSTQ7t4eYflo/8Q9KWQIk
+	 XvtNJXXxsVeTw==
+Date: Tue, 25 Aug 2026 02:56:51 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Daniel Balint <dbalint@google.com>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	jakiela@google.com, hmazur@google.com,
+	Benson Leung <bleung@chromium.org>
+Subject: Re: [PATCH] platform/chrome: cros_ec: add API for power monitoring
+Message-ID: <ao0Ec69RhunTZWfQ@google.com>
+References: <20260824155554.1046334-1-dbalint@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260824155554.1046334-1-dbalint@google.com>
 
-On Tue, 25 Aug 2026 01:52:20 +0000, Tzung-Bi Shih wrote:
-
-> This needs to update accordingly: SIMPLE_DEV_PM_OPS() + EXPORT_SYMBOL_GPL()
-> -> EXPORT_GPL_SIMPLE_DEV_PM_OPS().
+On Mon, Aug 24, 2026 at 03:55:54PM +0000, Daniel Balint wrote:
+> Add new EC host command and MKBP event to allow cros_ec_pwrmon
+> iio devices to query the EC for power monitoring data.
+> The actual cros_ec_pwrmon driver using this API is currently downstream
+> and will be upstreamed at a later date. This is a sync between the EC
+> header and the kernel.
 > 
-> > 
-> > This lets us drop the __maybe_unused annotations from the resume callbacks,
-> > and reduces kernel size when CONFIG_PM or CONFIG_PM_SLEEP is disabled.
-> > 
-> > Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>
-> 
-> With a nit in the commit message,
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Signed-off-by: Daniel Balint <dbalint@google.com>
 
-Thanks for your review. Should I send the v3 to update this?
-Or maintainer will 'amend' the commit message when apply patch.
-
-Regards,
-Triet
+For my reference,
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

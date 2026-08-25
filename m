@@ -1,126 +1,142 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F80332604
-	for <chrome-platform@lists.linux.dev>; Tue, 25 Aug 2026 04:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787632440; cv=none; b=kCu7A+SHR6M2zucje7OGNS30SATKHoQRiwsZAW5NbFNSXjiOn3Tn6Sl/vgdWCS1S4nKuJJlvIrWBAdLxnZ8lcKvxmdEOqATFig4lLh6IJoO344XKMs1lSOQIf6owmEqsImO2k7aqho9Ou0m+vh1wgCTxEatEZujyNnSst4dG+ms=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787632440; c=relaxed/simple;
-	bh=GMLwta5oNasseK5udjS+I9A6d+Krjq5yftEXv9H/4cY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nOFb8XopO7xqLbDExF6iMUG2bhlY4JX5j8we7ntQQ7qC7fww1m9+8wypHnER7uR0gBOgxy6ywM75Wav5GILMcS2Z+PK7DQs2DEukOCZk6JdwLBCvn1fmQK4+tV98jfaB6Y4SNN6meyNgdaQiDAFrBDvP2Ob/180L1JI0bT0wS9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hDIPzwc1; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7183D5222
+	for <chrome-platform@lists.linux.dev>; Tue, 25 Aug 2026 07:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787643875; cv=pass; b=kJnv9RK2zWa1CeNJLl9lPcTYa4ADHiibDCpTIrhBGUk20myynefiykfAvQe9ezQkxBT4UZn5kqZSf4NixX4nahouP/Kkn4qSRvjys6zN23VdfFDSE4EkGAzLfiCrz3j3uoscW+fC3ulQXKnU3WwSCm+0hM9f5MXQztIXSyKKAcU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787643875; c=relaxed/simple;
+	bh=Mii/DeCzm2nMtl3hgGSjPHkjrDmEfCYXtshu5NQAkD8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RWMPzP5i0bY7jLGHzdy3xBYmXjFBv0bfEf8UCUeU0K+oBs6nVlTnaxeEEX4Zsu3WrCPv/TbrLmW3ILtJ430UoXwFMKljEJgiNngdlgMUQAbn79clj/Z8ttD52T7yyF8xSQYng5UVKqpTzkDzwoEXk0argfJ7mhWqaE2ujw70Xj8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Do4OQBoA; arc=pass smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hDIPzwc1"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cc149372c14so3123499a12.1
-        for <chrome-platform@lists.linux.dev>; Mon, 24 Aug 2026 21:33:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Do4OQBoA"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-669944f60b3so4962324d50.1
+        for <chrome-platform@lists.linux.dev>; Tue, 25 Aug 2026 00:44:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787643872; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BbZTxMdvbgf5pJF2e7AFmLa+eqANweTQOo574oXzes5o2NXLeK2bPZPCLi5eBd2Wp7
+         rxR/sYxbWEM0twOm3JQsXCvVw8UKM6CBFq81g+8NEYmfLzXeQIxnDixU7mDNzvnnvxSl
+         qHy25FtzWrtXRxQo11sApvyTGV8VY/Hv5lWgyoxwH26+yIAfUiyaS3RlklUZUtJKFtq+
+         XCqE7PRYHJvo4tG66P0o0MMCL5yYEbjYb8vaiZUl+sfFVhMVTvN8fMaQ7EV+slVF+DjN
+         +ZGQi7YUCWY23MuIE5uTfJ7faN1zF8x545o3gwjbhdPAGQc7eapezqNVeSCiwtmYadtd
+         e11g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=V/xJK88pfs277nwbYNBwPuRxCY6IirnLC5W4+cq/H6A=;
+        fh=cKqdEDXvhncMxVuBIDEhj1KHOjXNmEiwF3igW5+KXlU=;
+        b=IuvTFca9DzUrFwsxjOMLgRk9gdaWEgWuxAd0OcBHI6nBv0s6eYVyk+uNWemjFX2rR0
+         ZcoC1OVQDnUGqr9cpukMcasrOieQIhBdisXjU43/si2q8rky/w0CbBcDwRNeVEYsNGim
+         uZyxZvy3oOCIcdDIGvGmf33m5nsw3iexK2XP2Ty1EbFNBb7BELhZYu6YwQI4sREvB10p
+         45fF/2mggZDqbTc6UgStwlif8odde/I4fCqpdOpboPnAk+5UzL4pBtBT4vwDl15GpHSo
+         M5SSqvcl6I8oCXQVGnFm+c5QzRMvmKHO+0xhtdfDchzTR5ildqg1GHmHzVeOviy2wGUv
+         Kf9g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1787632438; x=1788237238; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2tEwhTxKNyJs3pF0LaNEucWWGIQ4rU4SyQWya7wYtjg=;
-        b=hDIPzwc1px74Trgc26MiyVH9iKzkCvPy5sCW0AfgzeNsCGxZgOafmLgQXn7STwRSWz
-         mcdXPux6RcxoXn0ZOXyoDpIdQm1X8KRirk6X0xt8nSCRWFfVA6Bb3Qt96MKLkYBLGuVn
-         cnQVoC0Ct0T/irJaZV2Q/d6oZNw4a1ar86wfg=
+        d=chromium.org; s=google; t=1787643872; x=1788248672; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=V/xJK88pfs277nwbYNBwPuRxCY6IirnLC5W4+cq/H6A=;
+        b=Do4OQBoAviE+1n5LyjiiY3PME0fps0/3TWtYeUmblZ8YgAxgJaiiTKm+xvi/bWi23S
+         UVYlkRF4mRUEvdJk9vu0fcU1LYkOzLCaDWlWG8kGduT6QRW4KlrOkAX4jMwuxK1dv8KH
+         OuIVHuDunTxGbBNiNGpWx19KAJ0TJ0IOHbDNc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787632438; x=1788237238;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2tEwhTxKNyJs3pF0LaNEucWWGIQ4rU4SyQWya7wYtjg=;
-        b=fonC8Td3YmRy/XonSTAbVM8FmkxEmrQ9MpVpbsO4w6VRIhRAic35sG74T43S8CnXJO
-         lpmbCaPJV0KaBFOJgp2Cb4dOa3B2niYfxcHA5fKfLIv9TxkZieOM+oO/23dQQi/uT5cu
-         jx1eQob7KCVe+iTHes9mZXWE/beQYoJJ6Nrb2kX10ZtuR4qS/VLrI6qcoG5YrhPNloJ6
-         zJAXQTO7CGYXzsnXy13iHRBg8/XWO6kMIf0e3vFHvpkRmWy5KEefZCYYDl7BQqErwOYN
-         brsYlocvfKD/J5138BiSZPeXBAfUfT8McL5Rf3lLwucijv0d02drYjPNifk3uhbQQ/O+
-         OQFw==
-X-Forwarded-Encrypted: i=1; AHgh+Rou+CVoO4Yy07PfuOZsANrN0mCoTEBTSYIZBWQoXOIfMEQ2STDX72I9IBPKtoTRXUtkKcD/lurtlaQTCPk030s=@lists.linux.dev
-X-Gm-Message-State: AFuF++kbKMJXalguIty8Tk5o/Fxx4cD+l2qRuS3c+za9wKMXHrqa0JgH
-	kxKTAs13dfDx944a74AC0m5x4syzYBlkXOuJ9DZxtWs7jAy6HNLlp7ZUCJoTHqKU3A==
-X-Gm-Gg: AR+sD11VLbetF6SFbyu95LX/aEYQ4VEcE88moWFEH0C1CS16FTzWhKz0KJhVYjf2To9
-	mwXS+WGzn0DZuhnXmsf1lxOOtp6+BuD8WWmkQAqmz0QESCwVE87yN3nBGdYJgQJz41VAvvkxLe+
-	sxDZaaWWSoHP/rIaWmGfatp3R7rOQYk65cMbZDo9HSY1Yfed3zvPnztZpK5N5PlkFhEuxp79Zco
-	Udzrqi4m7fLtYIKpG4qTncB62OZCUv4x1bdyoCemo6sQRYcq/T0tl2/nzNI1ttCEs44EM9/8O/f
-	md3VbFLmWLyWAouVGfsR0shiEhzuYfgNEHMf3Ld7vdjP0KN4ixbjBTDFJraLjn4kr7TG9cSKXQO
-	+LVzljqiwy2cF6qE0uLQVPU2gYcBRU/GL+G3rWIozyfe0OMD1vFohbDAkNJavrkbru0iSQPED5e
-	WoPXwbbG+6zUg1asS7r6iGtYgfx9j57mhojc1uItpHdpYUPDpcFZv4eRfb1BJImdPtcSIZP0fAG
-	VeqpwTOM5KZResTlKyUCtEkAYssI3PoRPnrxza91OFsqN0=
-X-Received: by 2002:a17:90b:17c4:b0:392:6638:2e6a with SMTP id 98e67ed59e1d1-39646519363mr6944892a91.13.1787632437771;
-        Mon, 24 Aug 2026 21:33:57 -0700 (PDT)
-Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:201d:8:a442:9780:24da:cb4e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396458212absm2187823a91.0.2026.08.24.21.33.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 21:33:57 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Mark Brown <broonie@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	linux-mediatek@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	chrome-platform@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable+noautosel@kernel.org
-Subject: [PATCH v5 7/7] arm64: dts: mediatek: mt8192-asurada-spherion: Add Synaptics trackpad's supply
-Date: Tue, 25 Aug 2026 12:16:25 +0800
-Message-ID: <20260825041628.988369-8-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.860.g4b6b3295ed-goog
-In-Reply-To: <20260825041628.988369-1-wenst@chromium.org>
-References: <20260825041628.988369-1-wenst@chromium.org>
+        d=1e100.net; s=20251104; t=1787643872; x=1788248672;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=V/xJK88pfs277nwbYNBwPuRxCY6IirnLC5W4+cq/H6A=;
+        b=LyC8mbs7D54maQa7qA/ZRP9fwb7t2shnQEXAjqcnbwzyaw5Dkq7w9nhzluCTGzgUAa
+         2Zj9WzEjtfxE4PE3SVhHF9PfEZYMFX1VhXM/wW9coexsFOuufD+z7W44mT00gatc09rv
+         rDxSuw+lgBFPhtweCaOIaLAn8uNH1eM31Q4xpcR8W3fCD5z4HEPkDrTlhlVaSUnFoeH5
+         TLjrYLD9xYj82B664orIaS815V38l3v8W69rwb3SbhbhrabIS3mciHbacaoILgYw1Ice
+         2L/LyXKZAWyslG0/+FfIX9gN+p8lm3i1Ruv22iCabL2usXBAZQqK0QZCP56NmtVPzbXA
+         86ZA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro39twHKq7a+aOy3bNil8LHllJNyRGLYbf6nWHjxKjT7tKiB1YnU6zyscQrVoE01SQeL9z4pizoWb69o+spE4o=@lists.linux.dev
+X-Gm-Message-State: AFuF++kgTqkr9VDQi1Bjmtk1iZe8FlxV4XKlUKT6sOsItCcLaF7HR063
+	80BUJA0sA+UFXIdfgauA/4yr27CNWOmP8DgfNnEGJyeTRYS4J43viwIlf8c8hD0wt5zEePFAHwx
+	yDW3e07HA9juRQmKvcGAG8Aal9hjN0Uj0dSVauauP
+X-Gm-Gg: AR+sD12eqqavahLwiANpKFyjJQvFCweNbR8bqZAph9PTESaKkqoTU62xOJyEB3xVTr1
+	WFYWNyyCuI24g2HswoIjUQXIsfhWwM8ZWKEi/jBkn7hbFJcdCmDn58oENG+BTP26uPDykvsMcqc
+	5nD7ScSAkTyQlMKtmD6MxUX08hj7g2dCRteHAlBs85/Xbs6e4mgA/02Fe1ljCq4Lr/H1UKVHrUN
+	Bdd4vd1M5Pq7w3E2iWwspwmqWKYkX7f6GQtENJ7I4i9tnBZmumMv0MNCXIjXyDzJjsIlJ3Aix+1
+	oJoT6He8SEU9FBUBfbkHGE/++uZuFgjdpx9F7dz6QxWXkDsWapRlqZOXQ2ay8rvWnJs+QPb1
+X-Received: by 2002:a05:690e:1449:b0:66d:1131:b81d with SMTP id
+ 956f58d0204a3-66d1131bc41mr2549091d50.29.1787643871703; Tue, 25 Aug 2026
+ 00:44:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260825041628.988369-1-wenst@chromium.org> <20260825041628.988369-2-wenst@chromium.org>
+In-Reply-To: <20260825041628.988369-2-wenst@chromium.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 25 Aug 2026 15:44:21 +0800
+X-Gm-Features: AcwNN1VHbO3y1ftfkF_7R2W7KDk8RFMySudnf-TTSiUhjGplV2Fwnh0fieb32LM
+Message-ID: <CAGXv+5Het3zp_OTp=_ktg+_d5Q55zkE0SwQnM7TVyJDmOdBtyA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/7] regulator: core: Add "enable and wait" functions
+To: Mark Brown <broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, 
+	linux-input@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Synaptics trackpad, like the Elan trackpad option, is fed from the
-system 3.3V power rail. Add it to the trackpad device node.
+On Tue, Aug 25, 2026 at 12:33=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> =
+wrote:
+>
+> In device power sequencing and initialization use cases, it is common
+> for the driver to enable the regulator and then wait for a certain
+> period of time to pass before continuing.
+>
+> In cases where the regulator supply is always on, or has been turned on
+> or left on by another consumer, the driver could shorten the delay or
+> skip it altogether, provided that enough time has already passed since
+> the regulator was _actually_ turned on.
+>
+> Tracking this requires support from the regulator core. Introduce a
+> "last turned on" timestamp field to the regulator device, and "enable
+> and wait" functions to the single and bulk regulator consumer APIs.
+> The existing "enable without wait" functions are then converted to
+> macros that expand to the new functions.
+>
+> The timestamp is updated each time the regulator is actually turned on.
+> For regulators left on by hardware default or by firmware, the core will
+> set the timestamp if it detects it was left on and its supply (and their
+> supply, and so on) is on as well. This is unfortunately best effort
+> only. The core can only assume a dangling regulator (one without a
+> supply) has power. This also applies to the dummy regulator.
+>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+> Changes since v4:
+> - Try to update last_on timestamp for regulators that were left on
 
-Also add the correct post-power-on delay, even though in practice it is
-not required. The Synaptics trackpad requires 100ms after power-on (or
-deasserting the reset, whichever comes later) to fully initialize. The
-power is always on and the reset pin is not routed out, so the
-implementation could try skipping the delay.
+Sashiko flaged a few issues with the changes:
 
-Cc: <stable+noautosel@kernel.org> # Without driver changes only lengthens probe time
-Fixes: 925ebc0cd55c ("arm64: dts: mt8192-asurada-spherion: Add Synaptics trackpad support")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-I think this shouldn't be backported, as backporting it without the
-driver enhancements just delays the trackpad probing with no real
-gains.
----
- arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts | 2 ++
- 1 file changed, 2 insertions(+)
+- _regulator_is_enabled() called and subsequent timestamp update
+  without lock
+- bulk consumer wait_us incorrectly assigned
+- _regulator_is_enabled() could return an error
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts b/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-index 68caf4c58cfe..8adbfc307fca 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dts
-@@ -94,6 +94,8 @@ trackpad@2c {
- 		hid-descr-addr = <0x20>;
- 		interrupts-extended = <&pio 15 IRQ_TYPE_LEVEL_LOW>;
- 		wakeup-source;
-+		vdd-supply = <&pp3300_u>;
-+		post-power-on-delay-ms = <100>;
- 		status = "fail-needs-probe";
- 	};
- };
--- 
-2.55.0.860.g4b6b3295ed-goog
+Will fix and send a new version. I probably should get a local AI review
+working first.
 
+
+ChenYu

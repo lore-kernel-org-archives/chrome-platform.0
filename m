@@ -1,358 +1,173 @@
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD84383305
-	for <chrome-platform@lists.linux.dev>; Thu, 27 Aug 2026 18:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323D39460
+	for <chrome-platform@lists.linux.dev>; Fri, 28 Aug 2026 02:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787853914; cv=none; b=elcu4ng1J/tyLTSyvbJEpetxzYREil4yEA6dRP8aXIo+7Mwmr55YOBaMd+c0MJrv6wC33+VrmeYFK5KtquKQrzr5JkDg/6wMn2aIU/ohacUZheuGz1IG7ritHC6o6LySIwtzhQrrhBTbBkqit9F6QGVJn6MKTN0dXnIqHN4np1M=
+	t=1787883272; cv=none; b=Uo1TSCZmSFLmBTsxUIxc1R1JDutbUfyEQBqYSOeIk4x82EvVX7PHI4GZ42995yuTPqh8b4AjJzh1Tx2giaMlxza3EKGPzzzbnTqRzbRmJjiHV+znMJ8uNWVXoScsQFzipcP3IsVjR2nWMYdDB/6BWl+OcSW+85jwDLcJ0hN702c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787853914; c=relaxed/simple;
-	bh=MnzqmFryyqKnWLjnUS6aWjVVD6eJJFB1huY4ZJIHQnU=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=hoUdoeC1tiYL622wzT7nfy3xywpvFfUon3NdYVxkEGJ8fkJU3dEcwzzHO0PIhcYb9RaWRxN7WAQVC+w6TXveench0BJJyPsHtQoA3YMHt0ZRvTMsQAwtZuOcpe5Bf1SIWTFEVeRNgI5dICXtvhnmjXeFlpLN+9nwh5kIqO+VEv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--robbarnes.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oP9AlvjC; arc=none smtp.client-ip=209.85.216.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--robbarnes.bounces.google.com
+	s=arc-20240116; t=1787883272; c=relaxed/simple;
+	bh=jxTqiB5pvknMxWIZCebGTM+LY2HU4BCM81AYzWN0suM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L/pN4W3VO/Wgv7qT7Zt80gtcUnK+qvpN/0BVbRQg88o9S9FKzOSpbIimP3/OaDhI61MGk1Q7FP0oImHNUhDN6grSCeK7LL30d7Xef9tBezuvTZ18kK/53fDkaS4uZ9Da51Y3/kLgatIq1Rlj3itFhXc+/HjaLY3NLLwKsa6TZ6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CGvxkBHa; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oP9AlvjC"
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-39533bb224cso267953a91.3
-        for <chrome-platform@lists.linux.dev>; Thu, 27 Aug 2026 11:05:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CGvxkBHa"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so1005927a91.0
+        for <chrome-platform@lists.linux.dev>; Thu, 27 Aug 2026 19:14:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787853912; x=1788458712; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=W0xVuyq4wjYUJdSC5HORoIWzL+nU0+uyo3jftFJ3RjY=;
-        b=oP9AlvjCKoPjc9HoEXfCA9q6LCLLwJrqXc9utpAgP4v+gR/qzz5uOwvTibs/UiAwPU
-         TlH9y55Dt/cbr2wqNdEiE6wt5XEN2Okut/4YqFPhH+lQOOJB0P3tNAASrIdpU9kXjoiC
-         fs5NxpbDDu+EItFImZdeTp45tCWdoQ7fd4nOi5sle5sbzfKW6oiPZkZ7GRjkubQXs8RI
-         28/zcnJ4KgzDvWYd0N1ZD4SXIQIy8ruard9o7St+eGtyBb8FmXq5Mn7zWSytB8bNorPx
-         XwCV/feKHQx4sPZo9Y7DlPPU75dFJfBZNTOKvTW3GbfVXrLdZnRR/knSwL0utvkqfGYw
-         8j4g==
+        d=gmail.com; s=20251104; t=1787883270; x=1788488070; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CsbJC9GZmokgjHFLchvU7C0YDsWFwymb0mCZdNSKvYg=;
+        b=CGvxkBHajC4FiW4rfw8JnUNoDB5RKgwr/JMmUDMPN7cHUMDXLjd0oxh/OpS2yhkeK5
+         UHfw/3dY+jphb6cxLxkxg2BFgRIgidFWIZWNHb3BUv77SIHljXk71Yfl9NePvNcMPUQC
+         dzOBuGxt/yTrg96u8ulfXkSkKqse8lox79eJ9T0pA7si3hgthS9CiJOqjCCgMydWhxWH
+         VjlZ/+hGFx1ddoFiKBcAI74KYRW8f7VMXlC9tzIu9nyM1JoRQUCwWkTiO8m4s66JcnTR
+         qYP1wE0AcKpyTyZKQ4rru5CnFF2KKvnT0kwi9suxCfnXbrmsEQ/WbfP4GiALpibpltFl
+         EFvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787853912; x=1788458712;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=W0xVuyq4wjYUJdSC5HORoIWzL+nU0+uyo3jftFJ3RjY=;
-        b=N/FlROom+oXPNbItqXtOJ92be2n2Lxs9jSeF9MOG83kZtJR4GBU+8/yJaJrH7Dfnlr
-         3cpYlkTCI6Lyu8uDLcgHBhkNLyzh7XANZwbGdwe6v1AkBkn7N20bwWgsrh7PN30wUW+G
-         /PDu2gWkI2TM/swXsKqX88OXgDR8pdh3BxC7sKh7Ir2xxVaZCAXBlMqGkTj5IieWtyiF
-         zIPa1MTTLQKzCxSbO2jqjjw70e7QzgXJABBbMkebEdrHR+5/oL2YbYEB6bLfbx/tnd1S
-         2DXf4+T3mtLlLbd+PfvGFNogmrZ9HxiyQRoGkfyEAJI6xrdYCfVgQZ1pGZFmHzHII6PS
-         dAEw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro8Z7sfXLkJG5ZggBAycAwiunZb0Tl1bL2BY8mntKwjkfAoPuyBfR2JGY0T79/tF0q9rwiy9iZ1iR647FiH3rQ=@lists.linux.dev
-X-Gm-Message-State: AFuF++nLbRcZuc7aBlqGsOglgiwr4Wz1zwIniqT2SfV+yDKJwiulz+ub
-	T0cr9dYp2NlzhMbn6nDopcdmpHlwO9s3SNAZc5Yj7twYZCJdF1uqnjEDNQLzb2LiGU4g7dHr88s
-	eSjWwmbBfkYCEEqweuw==
-X-Received: from dlbqy10.prod.google.com ([2002:a05:7022:ef0a:b0:141:b6d:b7af])
- (user=robbarnes job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:2f0f:b0:380:540:d499 with SMTP id 98e67ed59e1d1-396d0ed0023mr2127530a91.6.1787853911845;
- Thu, 27 Aug 2026 11:05:11 -0700 (PDT)
-Date: Thu, 27 Aug 2026 12:05:11 -0600
+        d=1e100.net; s=20251104; t=1787883270; x=1788488070;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CsbJC9GZmokgjHFLchvU7C0YDsWFwymb0mCZdNSKvYg=;
+        b=EPQZZ0WBTHCZvlcsOSgSqV2TJXavxzRxMOUX5pPo9JXDiC5AZb635wQkL4Xm8SkRz6
+         WpkQXqxIii37jpW64qvOmes9BcIy6iSOaBu2HosIxwKA6q1OrPW0Q217sDl8LPl5AUCz
+         M4SLpHvLj+gtbT7gu7FjfH6i5kR1QhM9jOwAFD7NiYg4XxeMjn69TWHYlxGlUJUDLcxg
+         /sI2CNDLUszw07JUXa4flNz6NNxzslKmICuyaxaW+l1FZa/hjht+A8kGFDu8Vdgw4Tnu
+         YQikobhJ1pf+8uEeINYRSC2q9yW2OucK9N0o8iw0qk+jXTVX5Ln7Hf8tbWGSo4kgij9Q
+         bAiw==
+X-Forwarded-Encrypted: i=1; AHgh+RphqiIacgVsBtkXw+YHO8aPJbOAd6+Hpv4ZJpnKbtKnyIyPxwXoEx4WKIkOiEIpgeyF25poq8u2Z1Da8jY/dqE=@lists.linux.dev
+X-Gm-Message-State: AFuF++mS4uwk0vKeR1d7SZNPwSY2UkbfwchJ1ks/4lLw/ZBgfrWUjqLF
+	+W3bJNS9DFoiLK3ZDN4iEC+d0WikEnV69RWNn1lqK3CEBAJdEyDb9BY=
+X-Gm-Gg: AR+sD12WjU6iB4mWrxWizximpsWBRNqfML+Tqyykf4WPZU0JKj8MI+xWYWrLTjILJvb
+	XGyaknG+8HdGscgaeSD2lazdZfT3hhGytQlGlX//Z6c266k8vOa+/+2EDYqvx95FRs+R3LMWxhY
+	JGveKxnUYMZ4bRV2TebtMJ2PGj35ISuByZbKz43oXjF3PUHjH5/gaQVieLb1F98VdDqMZLFn6hY
+	rRdv4ow6QHCS4Ra/OvyfemLzrY1inxK32CTQfi59KnJODNyZeW22geFswqY2BcvFHU4SRsGw2JG
+	Wq0RVjziaQliwaQwZ1WxjITY/dkkj9p7TTQvCFcE1Li2B9f5c5pVSzuH7mfeVG8+fmMEXI1/k4r
+	cReUe/EYEkF55DRuRXdD50m62kyzw/eQ+TXeLyr1Rw815wt3grgD3QD/lpXMSuFpENgcG7o/wtW
+	K9Zfcwd2udOiUmCniZJeJUF015dgt5ztr/ewg/RoYQAnI5GdesaaPLfbofzl1lFI8wp84ZreTv
+X-Received: by 2002:a17:90b:3ec3:b0:37f:e177:f58 with SMTP id 98e67ed59e1d1-396d0ebd7eemr5881409a91.9.1787883270506;
+        Thu, 27 Aug 2026 19:14:30 -0700 (PDT)
+Received: from DL2XHKPB4.dl.net ([113.185.111.3])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286fa400c8sm586799eec.30.2026.08.27.19.14.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 19:14:29 -0700 (PDT)
+From: Triet Hoang <triet.hoang.dev@gmail.com>
+To: andriy.shevchenko@intel.com
+Cc: andy@kernel.org,
+	bleung@chromium.org,
+	chrome-platform@lists.linux.dev,
+	dlechner@baylibre.com,
+	groeck@chromium.org,
+	jic23@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nuno.sa@analog.com,
+	tzungbi@kernel.org,
+	Triet Hoang <triet.hoang.dev@gmail.com>
+Subject: [PATCH v4] iio: cros_ec: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Date: Fri, 28 Aug 2026 09:13:49 +0700
+Message-ID: <20260828021350.1666063-1-triet.hoang.dev@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.55.0.897.gb25b4bd76c-goog
-Message-ID: <20260827180511.2825660-1-robbarnes@google.com>
-Subject: [PATCH v4] platform/chrome: cros_ec_proto: Fix deferred response
-From: Rob Barnes <robbarnes@google.com>
-To: bleung@chromium.org, tzungbi@kernel.org
-Cc: tomhughes@chromium.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Rob Barnes <robbarnes@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-When cros_ec_wait_until_complete() succeeds after an
-EC_RES_IN_PROGRESS status, it previously returned the 4-byte
-transfer size of EC_CMD_GET_COMMS_STATUS. For 0-byte payload
-commands (such as EC_CMD_FLASH_ERASE), userspace received 4
-bytes instead of 0, causing response size validation errors.
-For commands expecting non-zero response payloads, the kernel
-exited without issuing EC_CMD_RESEND_RESPONSE, leaving response
-buffers uninitialized.
+Convert deprecated SIMPLE_DEV_PM_OPS() to DEFINE_SIMPLE_DEV_PM_OPS()
+and pm_sleep_ptr(). Also replace SIMPLE_DEV_PM_OPS() + EXPORT_SYMBOL_GPL()
+with EXPORT_GPL_SIMPLE_DEV_PM_OPS().
 
-Refactor cros_ec_wait_until_complete() to pass orig_msg, issue
-EC_CMD_RESEND_RESPONSE into orig_msg->data when insize > 0, and
-return 0 for 0-byte response commands.
+This allows us to drop the __maybe_unused annotations from the resume callback.
+This is a straightforward cleanup with no functional change intended.
 
-Signed-off-by: Rob Barnes <robbarnes@google.com>
+Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>
 ---
-v4:
-- Rebase against upstream chrome-platform/for-next branch (Tzung-Bi).
-- Send patch using git-send-email via Google Mail Relay to prevent MTA line-wrapping (Tzung-Bi).
-
-v3:
-- Rebase against upstream chrome-platform tree (Tzung-Bi).
-
-v2:
-- Drop redundant commit description sentences (Tzung-Bi).
-- Align function signature parameters to open parenthesis (Tzung-Bi).
-- Check orig_msg->insize == 0 and add comments explaining the logic (Tzung-Bi / Rob).
-- Use u32 instead of uint32_t (Tzung-Bi).
-- Rename 0bytes test to 0byte (Tzung-Bi).
-- Check header immutability for insize in test cases (Tzung-Bi).
+Changes in v2:
+- Use EXPORT_GPL_SIMPLE_DEV_PM_OPS for cros_ec_sensors_pm_ops
+- Wrap to 75 ish chars for commit messages.
+Changes in v3:
+- Update commit message based on feedback from v2, and added Reviewed-by tags.
+Changes in v4:
+- Remove the "Reviewed-by" tags.
+- Address EXPORT_GPL_SIMPLE_DEV_PM_OPS() usage in cros_ec_sensors_core.c.
 ---
- drivers/platform/chrome/cros_ec_proto.c      |  32 +++-
- drivers/platform/chrome/cros_ec_proto_test.c | 158 ++++++++++++++++++-
- 2 files changed, 183 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index 1d8d9168ec1a..6d7c57e381e5 100644
---- a/drivers/platform/chrome/cros_ec_proto.c
-+++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -138,7 +138,8 @@ static int cros_ec_xfer_command(struct cros_ec_device *ec_dev, struct cros_ec_co
+ drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c      | 2 +-
+ drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 5 ++---
+ drivers/iio/light/cros_ec_light_prox.c                    | 2 +-
+ drivers/iio/pressure/cros_ec_baro.c                       | 2 +-
+ 4 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
+index b971f8b646be..551b86236abc 100644
+--- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
+@@ -311,7 +311,7 @@ MODULE_DEVICE_TABLE(platform, cros_ec_sensors_ids);
+ static struct platform_driver cros_ec_sensors_platform_driver = {
+ 	.driver = {
+ 		.name	= "cros-ec-sensors",
+-		.pm	= &cros_ec_sensors_pm_ops,
++		.pm	= pm_sleep_ptr(&cros_ec_sensors_pm_ops),
+ 	},
+ 	.probe		= cros_ec_sensors_probe,
+ 	.id_table	= cros_ec_sensors_ids,
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+index 5133755c2ea6..d03e40c91582 100644
+--- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+@@ -862,7 +862,7 @@ int cros_ec_sensors_core_write(struct cros_ec_sensors_core_state *st,
+ }
+ EXPORT_SYMBOL_GPL(cros_ec_sensors_core_write);
+ 
+-static int __maybe_unused cros_ec_sensors_resume(struct device *dev)
++static int cros_ec_sensors_resume(struct device *dev)
+ {
+ 	struct iio_dev *indio_dev = dev_get_drvdata(dev);
+ 	struct cros_ec_sensors_core_state *st = iio_priv(indio_dev);
+@@ -879,8 +879,7 @@ static int __maybe_unused cros_ec_sensors_resume(struct device *dev)
  	return ret;
  }
  
--static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev, uint32_t *result)
-+static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev,
-+				       struct cros_ec_command *orig_msg)
- {
- 	DEFINE_RAW_FLEX(struct cros_ec_command, msg, data,
- 			sizeof(struct ec_response_get_comms_status));
-@@ -161,7 +162,7 @@ static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev, uint32_t *
- 		if (ret < 0)
- 			return ret;
+-SIMPLE_DEV_PM_OPS(cros_ec_sensors_pm_ops, NULL, cros_ec_sensors_resume);
+-EXPORT_SYMBOL_GPL(cros_ec_sensors_pm_ops);
++EXPORT_GPL_SIMPLE_DEV_PM_OPS(cros_ec_sensors_pm_ops, NULL, cros_ec_sensors_resume);
  
--		*result = msg->result;
-+		orig_msg->result = msg->result;
- 		if (msg->result != EC_RES_SUCCESS)
- 			return ret;
- 
-@@ -170,8 +171,31 @@ static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev, uint32_t *
- 			break;
- 		}
- 
--		if (!(status->flags & EC_COMMS_STATUS_PROCESSING))
-+		if (!(status->flags & EC_COMMS_STATUS_PROCESSING)) {
-+			u32 orig_cmd, orig_outsize, orig_version;
-+
-+			/* If no response payload is expected, return 0. */
-+			if (orig_msg->insize == 0)
-+				return 0;
-+
-+			/*
-+			 * Request the response using EC_CMD_RESEND_RESPONSE.
-+			 * Restore the original message fields so it appears
-+			 * to be a direct response to the original command.
-+			 */
-+			orig_cmd = orig_msg->command;
-+			orig_outsize = orig_msg->outsize;
-+			orig_version = orig_msg->version;
-+
-+			orig_msg->command = EC_CMD_RESEND_RESPONSE;
-+			orig_msg->outsize = 0;
-+			orig_msg->version = 0;
-+			ret = cros_ec_xfer_command(ec_dev, orig_msg);
-+			orig_msg->command = orig_cmd;
-+			orig_msg->outsize = orig_outsize;
-+			orig_msg->version = orig_version;
- 			return ret;
-+		}
- 	}
- 
- 	if (i >= EC_COMMAND_RETRIES)
-@@ -185,7 +209,7 @@ static int cros_ec_send_command(struct cros_ec_device *ec_dev, struct cros_ec_co
- 	int ret = cros_ec_xfer_command(ec_dev, msg);
- 
- 	if (msg->result == EC_RES_IN_PROGRESS)
--		ret = cros_ec_wait_until_complete(ec_dev, &msg->result);
-+		ret = cros_ec_wait_until_complete(ec_dev, msg);
- 
- 	return ret;
- }
-diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-index 3f281996a686..a7b1d64f78ce 100644
---- a/drivers/platform/chrome/cros_ec_proto_test.c
-+++ b/drivers/platform/chrome/cros_ec_proto_test.c
-@@ -1744,7 +1744,7 @@ static void cros_ec_proto_test_cmd_xfer_protocol_v2_no_op(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, ret, -EIO);
- }
- 
--static void cros_ec_proto_test_cmd_xfer_in_progress_normal(struct kunit *test)
-+static void cros_ec_proto_test_cmd_xfer_in_progress_payload_0byte(struct kunit *test)
- {
- 	struct cros_ec_proto_test_priv *priv = test->priv;
- 	struct cros_ec_device *ec_dev = &priv->ec_dev;
-@@ -1774,7 +1774,7 @@ static void cros_ec_proto_test_cmd_xfer_in_progress_normal(struct kunit *test)
- 	}
- 
- 	ret = cros_ec_cmd_xfer(ec_dev, &msg);
--	KUNIT_EXPECT_EQ(test, ret, sizeof(struct ec_response_get_comms_status));
-+	KUNIT_EXPECT_EQ(test, ret, 0);
- 
- 	KUNIT_EXPECT_EQ(test, msg.result, EC_RES_SUCCESS);
- 
-@@ -1799,6 +1799,156 @@ static void cros_ec_proto_test_cmd_xfer_in_progress_normal(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, cros_kunit_ec_pkt_xfer_mock_called, 2);
- }
- 
-+static void cros_ec_proto_test_cmd_xfer_in_progress_payload_4bytes(struct kunit *test)
-+{
-+	struct cros_ec_proto_test_priv *priv = test->priv;
-+	struct cros_ec_device *ec_dev = &priv->ec_dev;
-+	struct ec_xfer_mock *mock;
-+	u8 resp_data[4] = {0x11, 0x22, 0x33, 0x44};
-+	struct {
-+		struct cros_ec_command msg;
-+		u8 data[4];
-+	} buf;
-+	struct cros_ec_command *msg = &buf.msg;
-+	int ret;
-+
-+	memset(&buf, 0, sizeof(buf));
-+	msg->version = 1;
-+	msg->command = 0x1234;
-+	msg->outsize = 2;
-+	msg->insize = sizeof(buf.data);
-+
-+	ec_dev->pkt_xfer = cros_kunit_ec_pkt_xfer_mock;
-+
-+	/* For initial command returning EC_RES_IN_PROGRESS. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_addx(test, 0, EC_RES_IN_PROGRESS, 0);
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+	}
-+
-+	/* For EC_CMD_GET_COMMS_STATUS status polling. */
-+	{
-+		struct ec_response_get_comms_status *data;
-+
-+		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(*data));
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+
-+		data = (struct ec_response_get_comms_status *)mock->o_data;
-+		data->flags = 0;
-+	}
-+
-+	/* For EC_CMD_RESEND_RESPONSE returning 4 bytes payload. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(resp_data));
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+		memcpy(mock->o_data, resp_data, sizeof(resp_data));
-+	}
-+
-+	ret = cros_ec_cmd_xfer(ec_dev, msg);
-+	KUNIT_EXPECT_EQ(test, ret, 4);
-+	KUNIT_EXPECT_EQ(test, msg->result, EC_RES_SUCCESS);
-+	KUNIT_EXPECT_EQ(test, msg->command, 0x1234);
-+	KUNIT_EXPECT_EQ(test, msg->outsize, 2);
-+	KUNIT_EXPECT_EQ(test, msg->insize, sizeof(buf.data));
-+	KUNIT_EXPECT_EQ(test, msg->version, 1);
-+	KUNIT_EXPECT_EQ(test, memcmp(msg->data, resp_data, sizeof(resp_data)), 0);
-+
-+	/* Verify mock sequence */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_COMMS_STATUS);
-+
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_RESEND_RESPONSE);
-+		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
-+		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
-+		KUNIT_EXPECT_EQ(test, mock->msg.insize, 4);
-+	}
-+
-+	KUNIT_EXPECT_EQ(test, cros_kunit_ec_pkt_xfer_mock_called, 3);
-+}
-+
-+static void cros_ec_proto_test_cmd_xfer_in_progress_payload_gt4bytes(struct kunit *test)
-+{
-+	struct cros_ec_proto_test_priv *priv = test->priv;
-+	struct cros_ec_device *ec_dev = &priv->ec_dev;
-+	struct ec_xfer_mock *mock;
-+	u8 resp_data[16];
-+	struct {
-+		struct cros_ec_command msg;
-+		u8 data[16];
-+	} buf;
-+	struct cros_ec_command *msg = &buf.msg;
-+	int ret, i;
-+
-+	for (i = 0; i < sizeof(resp_data); ++i)
-+		resp_data[i] = (u8)(i + 1);
-+
-+	memset(&buf, 0, sizeof(buf));
-+	msg->version = 0;
-+	msg->command = 0x5678;
-+	msg->insize = sizeof(buf.data);
-+
-+	ec_dev->pkt_xfer = cros_kunit_ec_pkt_xfer_mock;
-+
-+	/* For initial command returning EC_RES_IN_PROGRESS. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_addx(test, 0, EC_RES_IN_PROGRESS, 0);
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+	}
-+
-+	/* For EC_CMD_GET_COMMS_STATUS status polling. */
-+	{
-+		struct ec_response_get_comms_status *data;
-+
-+		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(*data));
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+
-+		data = (struct ec_response_get_comms_status *)mock->o_data;
-+		data->flags = 0;
-+	}
-+
-+	/* For EC_CMD_RESEND_RESPONSE returning 16 bytes payload. */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_add(test, sizeof(resp_data));
-+		KUNIT_ASSERT_PTR_NE(test, mock, NULL);
-+		memcpy(mock->o_data, resp_data, sizeof(resp_data));
-+	}
-+
-+	ret = cros_ec_cmd_xfer(ec_dev, msg);
-+	KUNIT_EXPECT_EQ(test, ret, 16);
-+	KUNIT_EXPECT_EQ(test, msg->result, EC_RES_SUCCESS);
-+	KUNIT_EXPECT_EQ(test, msg->command, 0x5678);
-+	KUNIT_EXPECT_EQ(test, msg->outsize, 0);
-+	KUNIT_EXPECT_EQ(test, msg->insize, sizeof(buf.data));
-+	KUNIT_EXPECT_EQ(test, msg->version, 0);
-+	KUNIT_EXPECT_EQ(test, memcmp(msg->data, resp_data, sizeof(resp_data)), 0);
-+
-+	/* Verify mock sequence */
-+	{
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_GET_COMMS_STATUS);
-+
-+		mock = cros_kunit_ec_xfer_mock_next();
-+		KUNIT_EXPECT_PTR_NE(test, mock, NULL);
-+		KUNIT_EXPECT_EQ(test, mock->msg.command, EC_CMD_RESEND_RESPONSE);
-+		KUNIT_EXPECT_EQ(test, mock->msg.outsize, 0);
-+		KUNIT_EXPECT_EQ(test, mock->msg.version, 0);
-+		KUNIT_EXPECT_EQ(test, mock->msg.insize, 16);
-+	}
-+
-+	KUNIT_EXPECT_EQ(test, cros_kunit_ec_pkt_xfer_mock_called, 3);
-+}
-+
- static void cros_ec_proto_test_cmd_xfer_in_progress_retries_eagain(struct kunit *test)
- {
- 	struct cros_ec_proto_test_priv *priv = test->priv;
-@@ -2703,7 +2853,9 @@ static struct kunit_case cros_ec_proto_test_cases[] = {
- 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_protocol_v3_no_op),
- 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_protocol_v2_normal),
- 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_protocol_v2_no_op),
--	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_normal),
-+	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_payload_0byte),
-+	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_payload_4bytes),
-+	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_payload_gt4bytes),
- 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_retries_eagain),
- 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_retries_status_processing),
- 	KUNIT_CASE(cros_ec_proto_test_cmd_xfer_in_progress_xfer_error),
+ MODULE_DESCRIPTION("ChromeOS EC sensor hub core functions");
+ MODULE_LICENSE("GPL v2");
+diff --git a/drivers/iio/light/cros_ec_light_prox.c b/drivers/iio/light/cros_ec_light_prox.c
+index 7ab565b1fb9f..b1c92de7922a 100644
+--- a/drivers/iio/light/cros_ec_light_prox.c
++++ b/drivers/iio/light/cros_ec_light_prox.c
+@@ -249,7 +249,7 @@ MODULE_DEVICE_TABLE(platform, cros_ec_light_prox_ids);
+ static struct platform_driver cros_ec_light_prox_platform_driver = {
+ 	.driver = {
+ 		.name	= "cros-ec-light-prox",
+-		.pm	= &cros_ec_sensors_pm_ops,
++		.pm	= pm_sleep_ptr(&cros_ec_sensors_pm_ops),
+ 	},
+ 	.probe		= cros_ec_light_prox_probe,
+ 	.id_table	= cros_ec_light_prox_ids,
+diff --git a/drivers/iio/pressure/cros_ec_baro.c b/drivers/iio/pressure/cros_ec_baro.c
+index 6a567b6075d9..e4bc4df48d01 100644
+--- a/drivers/iio/pressure/cros_ec_baro.c
++++ b/drivers/iio/pressure/cros_ec_baro.c
+@@ -192,7 +192,7 @@ MODULE_DEVICE_TABLE(platform, cros_ec_baro_ids);
+ static struct platform_driver cros_ec_baro_platform_driver = {
+ 	.driver = {
+ 		.name	= "cros-ec-baro",
+-		.pm	= &cros_ec_sensors_pm_ops,
++		.pm	= pm_sleep_ptr(&cros_ec_sensors_pm_ops),
+ 	},
+ 	.probe		= cros_ec_baro_probe,
+ 	.id_table	= cros_ec_baro_ids,
 -- 
-2.55.0.897.gb25b4bd76c-goog
+2.53.0
 

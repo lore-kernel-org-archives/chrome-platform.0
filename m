@@ -1,39 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18ED3AAF7D;
-	Fri, 28 Aug 2026 05:31:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10D521D3E8;
+	Fri, 28 Aug 2026 05:36:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787895065; cv=none; b=k1Bh1EJAsniY9YGjyiuqqaY12dAy+o+mgOIJq55x/6XOsh+7d1nmDVgDENVVOEh05q6HjoMMeoCn0Rv3VRoPh+yINyepHNUkQ+ZE4DZ9MlkFlGAuBaoIZkAEGZf8aVV/OCXYts/G5lyrK+VK+nvgu3xUlK9YfG5fRwHLV1O9qdU=
+	t=1787895365; cv=none; b=TbrPgthQZxHa+5zMlfo8nDKypc9se+2NJJv87G7Pd+ngPbYYRpNBdYBsZ5YDx2xVu9MjQffSBvO3ZVbbBBQlhDEdLNp+CYsL2pZgxuE42+cB1pLptc7Xm9HKvfVHGtWylaBq/ZTmW7lN3HneGSVVig+JD1kZGvTePG+vcGL1EV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787895065; c=relaxed/simple;
-	bh=TtvVY7l8YQ3WqIRAh+HpirSrtKIVAdoh7UqKzmxt77k=;
+	s=arc-20240116; t=1787895365; c=relaxed/simple;
+	bh=JAFTc3+syMXFQANb2UEv4tZvqUBW7fz4QUeTHupRs94=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k3kpuBekN7KPaoQwEz4T7DE+76yCVIHi+y4bey7I5I2Bs0NLgBwLZRC9jbPk78BTikuFQsH0givZ+EqZC2a31+b1FC/w1mPebw3UiPZ2lHaMCeqYE3itS2FhdWtxUiwVoVQ1EZbINdwTIHszAkhT0vrlLen1hi/eeNqtWvQ2/+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XrH8e6hF; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=oDxs1FwU+K06CYpRfuT3kwEUEJlG6xbKum8koJGeckRzFF8Dz5LNlXRy4kT+76oQZgaQf6BaCGpZeD0vKi3yDLJxH1gKr8h29NX8mZ72wp/2hSTsmRc3ZYLD11oxKv6Ewhsrt0F69XPfF29vU0TTYFhIx1ExWi0vOjhE0WKDiQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZWJ90JG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XrH8e6hF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC7B1F00A3A;
-	Fri, 28 Aug 2026 05:31:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZWJ90JG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 907A31F000E9;
+	Fri, 28 Aug 2026 05:36:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787895063;
-	bh=1ou94Vwt7CaalVQ6T5gB0CgvQCUhnP+aCD0rZ2TqFS8=;
+	s=k20260515; t=1787895364;
+	bh=b+pI/wwnXOIlwsPkHs0uqcMmLj/pOzZJsPSEf9iab+Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XrH8e6hFjS1pDqiNNQzAn8Nd+ktrZbkYU6z4BUO6QjnrSNbSCWcKMefC9BjMdxt51
-	 OGHTJMHLUjMq4OMtMyYQjnGeaSlN/A9VQw3AQ6jrQIFJR5SJ/UeMTkFoGC8kYroTpa
-	 1wzNAYnINMG1u0491Q+rtD5FgJ2DJtjWLuhre8XTSVadFCdIPoSB0cWkg3Ef6Fgjkz
-	 ZG7aJnO55ioRKjyOJlWPyc/yB6VV2j6QYUVIIhd+IXOFWd+mA+rLWfmukjLm04Znfl
-	 TggRHkvnWIfmE1u5s3Z035wfI9Pghu/6+dRL7YOK+K+5n/3Cvvs+Ce/OAB5xiEeeZf
-	 I4uase0lRHMAw==
-Date: Fri, 28 Aug 2026 05:31:00 +0000
+	b=kZWJ90JG149RrM+MgeSGzNDn5HieRqPycyObhdq5L9r9tXIN0LU+s01UbGZ1jjOhG
+	 PG/L83pG7NzVUFHrRP26J4RG849hFfJIC9w4vPCbXFsPJZTFwuQMCrX7dX5CLTHSgX
+	 gufS5+YlKQvFm648FTUawtSxm50H38ihfLBafO+hquaQnDbL84joyuyKWX+zRRYTS7
+	 jgBqIKIC0NYN2QmhKKx2N55KPcYvBLPVHv8Fh6PV0LOPBTXSNUH94SezzqSTPRxHAj
+	 9MhJqPvl5A+WyVGqB/+o0StXJZOKBP7ucH7oIe+SEbidZrBrmsBuNmLMghrha/mquJ
+	 FQgYLYQoIro+A==
+Date: Fri, 28 Aug 2026 05:36:00 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Rob Barnes <robbarnes@google.com>
-Cc: bleung@chromium.org, tomhughes@chromium.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] platform/chrome: cros_ec_proto: Fix deferred response
-Message-ID: <apEdFK5rxLL1cXi2@google.com>
-References: <20260827180511.2825660-1-robbarnes@google.com>
+To: Triet Hoang <triet.hoang.dev@gmail.com>
+Cc: andriy.shevchenko@intel.com, andy@kernel.org, bleung@chromium.org,
+	chrome-platform@lists.linux.dev, dlechner@baylibre.com,
+	groeck@chromium.org, jic23@kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, nuno.sa@analog.com
+Subject: Re: [PATCH v4] iio: cros_ec: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Message-ID: <apEeQMMn9E7hRBOO@google.com>
+References: <20260828021350.1666063-1-triet.hoang.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -42,91 +44,16 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260827180511.2825660-1-robbarnes@google.com>
+In-Reply-To: <20260828021350.1666063-1-triet.hoang.dev@gmail.com>
 
-On Thu, Aug 27, 2026 at 12:05:11PM -0600, Rob Barnes wrote:
-> - Send patch using git-send-email via Google Mail Relay to prevent MTA line-wrapping (Tzung-Bi).
+On Fri, Aug 28, 2026 at 09:13:49AM +0700, Triet Hoang wrote:
+> Convert deprecated SIMPLE_DEV_PM_OPS() to DEFINE_SIMPLE_DEV_PM_OPS()
+> and pm_sleep_ptr(). Also replace SIMPLE_DEV_PM_OPS() + EXPORT_SYMBOL_GPL()
+> with EXPORT_GPL_SIMPLE_DEV_PM_OPS().
+> 
+> This allows us to drop the __maybe_unused annotations from the resume callback.
+> This is a straightforward cleanup with no functional change intended.
+> 
+> Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>
 
-The patch can be applied via `git am` after the fixing.  However, KUnit test
-emits errors after applying the patch:
-
-$ ./tools/testing/kunit/kunit.py run \
-        --arch=x86_64 \
-        --kconfig_add CONFIG_CHROME_PLATFORMS=y \
-        --kconfig_add CONFIG_CROS_EC=y \
-        cros_ec*
-
-> diff --git a/drivers/platform/chrome/cros_ec_proto_test.c b/drivers/platform/chrome/cros_ec_proto_test.c
-...
-> +static void cros_ec_proto_test_cmd_xfer_in_progress_payload_4bytes(struct kunit *test)
-> +{
-> +	struct cros_ec_proto_test_priv *priv = test->priv;
-> +	struct cros_ec_device *ec_dev = &priv->ec_dev;
-> +	struct ec_xfer_mock *mock;
-> +	u8 resp_data[4] = {0x11, 0x22, 0x33, 0x44};
-> +	struct {
-> +		struct cros_ec_command msg;
-> +		u8 data[4];
-> +	} buf;
-> +	struct cros_ec_command *msg = &buf.msg;
-> +	int ret;
-> +
-> +	memset(&buf, 0, sizeof(buf));
-> +	msg->version = 1;
-> +	msg->command = 0x1234;
-> +	msg->outsize = 2;
-
-It needs to set `ec_dev->max_request` before it can send the payload.  Given
-the test doesn't verify the output payload, just removing the assignment of
-`msg->outsize` and using default value 0 could be the simplest fix.
-Otherwise:
-
-    cros_ec_proto_test: request of size 2 is too big (max: 0)
-       # cros_ec_proto_test_cmd_xfer_in_progress_payload_4bytes:
-       Expected ret == 4, but
-           ret == -90 (0xffffffffffffffa6)
-
-> +	msg->insize = sizeof(buf.data);
-
-Similar here, it needs to set `ec_dev->max_response` before it can receive
-payload (cros_ec_cmd_xfer() clamps it).  Otherwise:
-
-   # cros_ec_proto_test_cmd_xfer_in_progress_payload_4bytes:
-   Expected msg->insize == sizeof(buf.data), but
-       msg->insize == 0 (0x0)
-       sizeof(buf.data) == 4 (0x4)
-
-> +	ret = cros_ec_cmd_xfer(ec_dev, msg);
-> +	KUNIT_EXPECT_EQ(test, ret, 4);
-> +	KUNIT_EXPECT_EQ(test, msg->result, EC_RES_SUCCESS);
-> +	KUNIT_EXPECT_EQ(test, msg->command, 0x1234);
-> +	KUNIT_EXPECT_EQ(test, msg->outsize, 2);
-
-Following the above suggestion, this needs to be dropped.
-
-> +static void cros_ec_proto_test_cmd_xfer_in_progress_payload_gt4bytes(struct kunit *test)
-> +{
-> +	struct cros_ec_proto_test_priv *priv = test->priv;
-> +	struct cros_ec_device *ec_dev = &priv->ec_dev;
-> +	struct ec_xfer_mock *mock;
-> +	u8 resp_data[16];
-> +	struct {
-> +		struct cros_ec_command msg;
-> +		u8 data[16];
-> +	} buf;
-> +	struct cros_ec_command *msg = &buf.msg;
-> +	int ret, i;
-> +
-> +	for (i = 0; i < sizeof(resp_data); ++i)
-> +		resp_data[i] = (u8)(i + 1);
-> +
-> +	memset(&buf, 0, sizeof(buf));
-> +	msg->version = 0;
-> +	msg->command = 0x5678;
-> +	msg->insize = sizeof(buf.data);
-> +
-> +	ec_dev->pkt_xfer = cros_kunit_ec_pkt_xfer_mock;
-
-Same here:
-
-    ec_dev->max_response = sizeof(buf.data);
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

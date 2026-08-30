@@ -1,316 +1,70 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703CF344036
-	for <chrome-platform@lists.linux.dev>; Fri, 28 Aug 2026 14:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4F223EAB4;
+	Sun, 30 Aug 2026 02:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787927015; cv=none; b=AgvoFSVS37wQy0E6VdAXHvHLn5WUZ9sI9XDDnLWAy2o64NI2aZ68juNLo8dWj2vwNI735sIxe/YRVM3WuA/ziqs9GvBKx/YH/1q8LtYxCgR8BqZ4mYMu3Xn9z06o2k+K0mj5RiVu8qPGr9nHPL4oBhUMuD6U2ZAeilM+eK3+dkQ=
+	t=1788057829; cv=none; b=Gek/N9k4xTw8U4cN8WA2XPMV5ICv0Tnmvve7XW4k+dOG/xpl2n89qoQFMQjcYx/PJNbQFNfFkcwoFVJ28egrlc+2LyFakVimz2vZao/RNgPQp6rCaFJJ4jMhttG2A608Rr6w/n2je8JAP215TbNiqDSk6b0QkIAsLsn/yi4knyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787927015; c=relaxed/simple;
-	bh=9Yw6VjPITEuzUrcjxbchMA6ceT3AAjGsCBIeRJAsVHU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nePg1CsrYI2RvVX54fNo8HS4nZ7HK56aGn6uXLshGUNvdkfuzGedETwwfP59YRJsHll4ZvtYc6UQL2qG+aOknkVdxVtCdORbnxEAe2wdDLOqCp6UAGLjSSaI8kgDk0qck9+Aa1WI6wRUf+8CEP4GSm0dVj5XvXBQsjOXHh41N0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FMb87rSy; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788057829; c=relaxed/simple;
+	bh=7UZKvLAdm6Cy1uerj4brTuQ346jOqe+rXvjsk9cO/zg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WPcHXd+HoGAD0ggj6TDWcvwPtU8rzt0+4nd2sygG32RVpRztInqJ2pe6eKPzoLSy5s2Qhc3d5o4KFH8PqAUVgn8hlfUWRtDIRX0KgzfTC/CB2d+vCGldyzLL9Hb24A54hl6wUnLlEx33UFnk9EZkOvXwrsPJ7xfyDL1PQ45LwKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+xntTBi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FMb87rSy"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7f4f824de5dso501201a34.2
-        for <chrome-platform@lists.linux.dev>; Fri, 28 Aug 2026 07:23:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787927012; x=1788531812; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2uVjedXiby+yAIFlJ5omJ3cMiFZpK01YVGgulAaPBNM=;
-        b=FMb87rSyNVgZC8CpGuAqUU0aZIqvVtINWdb0EuVpUmvlcricjs4AXaoU6UQn5wNSbJ
-         MtGD4ukBu5q6AAy/ZKMVudkXxLMW8z7XGHNYExgONBaH1WnggK7zZeP1SI68w5rHrawS
-         q69qtDWWC/k5S3AbNj6Q73VnUdGVVTJIuGY3FOfx+5YilRjvbv+IXDoZywYt5k9LuHda
-         ZTg4QoPsdiF4KnfC/E8mbAD6OMjnK6qR1OG909UN4xPaDeMwFFHFOr2965rmfgg96chy
-         gcFH/KNan7JDiXVK/DfJRHiPnGLw/Wr+y93AE7b5Ow0+fVG1qKqLrh2jMy8wpPkgg6xk
-         8now==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787927012; x=1788531812;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2uVjedXiby+yAIFlJ5omJ3cMiFZpK01YVGgulAaPBNM=;
-        b=mKVO2yqSUoR2ABAt3EwZClhyqBbLBjgXRgIP8VfZtNQoHqlbIoDWLQmuzv63mKwyCf
-         qbXOd7lBBYgM8wSWRXs+WhtrVEf8TAeO1qoPyC/sI5alkkYU9mSDp5VitFXZKe6c2mUa
-         0P5o/D5LRL2URFKGMLxBQ4Ia7rn81dyDNNQqAxbB/PsTKqj9q+Q1YxhRbbVh/yKBlCRj
-         DI0/kLlwHrkYIFzNlEJhNKrdWVb5OvYHJAJWabP+8nlYBww443VmlR+qeYIT2CbNtIxR
-         S4PnLqGtJHCLj289fnyNzQPOydzFAUoqypFcVhduQwYpKp39qzOTFBLTWC4FclXNmRy3
-         GwPQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro4HtVY2e6N6NGfwI/xRGA5C5yU9L7UG9ajJB6egg/HhhDSg9xHOylsRyb6b672/1Kq3R2fKDEGXmg88KZwlwY=@lists.linux.dev
-X-Gm-Message-State: AFuF++l3n3NnLFXkWKSI21N8YDDbRnGCveOP71g5npTUlYCJ4WS/1PqF
-	OyTmS0Rg1xAvmvUId/yJ8qVTYANlKaae8Y+36KdkzSmbO1xafPUcvEBL
-X-Gm-Gg: AR+sD13asQL+37j0ZKahUo7UjCs08o2j99RmxqJAZ+Uc36YeZLvNogS+vaxVP2c4YGc
-	QqdybJI+pHl80Juz78ZmPaTBG8iM559qEW2MqPdcIXYC0C37aIv4Zrj6tX+Gz26W7rPQbvnQ7Ub
-	bApb8Ld9mcf0+9zrg+AhSaFCuiAXp5lzmq0qYhPv/EKr0235nYG8J720kYumIA9Ui6FhG2lHt8R
-	PkMm5NCdEWh9Usj9R8GoCQuX1Wm8O4ng4L2gBHRPgtKkiC3NQxGEH2uCr9zcRu5KKAs7yKTiTtW
-	Q4vozdI3svcwvS6MUD5cu8PI9fAH38NSpOXd6vO1SzkPlz6LiAqnaO/mDNKBxGrLOqAHUNtqwu8
-	cV52UqFKiVOrWFBf7/UcyJJ0lAU8gHVndl1e2rCZkhH9gRYO5buJCAjCmkcat+K/wLYQ8p5FN8I
-	Q39s3vJrIizYBPViKDitu0JxLhV4T7QsYlep0jooF6pz7f520ROgmo6SKEu9X4
-X-Received: by 2002:a05:6830:2715:b0:7e6:f31c:47bd with SMTP id 46e09a7af769-7f4f231a4aemr9069327a34.3.1787927012099;
-        Fri, 28 Aug 2026 07:23:32 -0700 (PDT)
-Received: from sh170r6 ([47.221.33.210])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f4fa99f86fsm1336591a34.22.2026.08.28.07.23.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 07:23:30 -0700 (PDT)
-From: Matt DeVillier <matt.devillier@gmail.com>
-To: Sebastian Reichel <sre@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Matt DeVillier <matt.devillier@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] power: supply: cros_charge-control: adopt EC charge state on probe
-Date: Fri, 28 Aug 2026 09:23:15 -0500
-Message-ID: <20260828142318.1881516-1-matt.devillier@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260825120929.13168-1-matt.devillier@gmail.com>
-References: <20260825120929.13168-1-matt.devillier@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+xntTBi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD8F1F000E9;
+	Sun, 30 Aug 2026 02:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788057827;
+	bh=gi/j1OCnaHsVUjhQumOVcfe8lzq/EZcs1OdCEkla/0s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=n+xntTBi0rAzxFeaXQaJIljkCbmetcVADqVt3aqzMLPA4BjXCRuRE3WkU6QS/ToZt
+	 M0L7rrmki9Ay/OzoICfsN3ppvMNVYa92rIErfun3rKV4U8PsuzgILwCifYtB7EmI3c
+	 ugNpTfxHyiGV1pJNZ4GEqVjzSpLhJbAOQODmnT+FVAbV8hKz4NVOo5ppCT0baTpLws
+	 VqBjGDAt7pq9b1bAs8QqNQo/sCTkNbOQ2Sjp7tFZO4ZPx/EGreqgyKFWDt/kDFo0cu
+	 TrTMFKTCobSomFRI2Q/q8ive+14Z9n+6l+g4LMOmynrGKqS0edZiM/vMC+matGWCxi
+	 u02xxA4ZE2L9A==
+Date: Sun, 30 Aug 2026 03:43:44 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Triet Hoang <triet.hoang.dev@gmail.com>, andriy.shevchenko@intel.com,
+ andy@kernel.org, bleung@chromium.org, chrome-platform@lists.linux.dev,
+ dlechner@baylibre.com, groeck@chromium.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nuno.sa@analog.com
+Subject: Re: [PATCH v4] iio: cros_ec: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Message-ID: <20260830034344.66af9be6@jic23-huawei>
+In-Reply-To: <apEeQMMn9E7hRBOO@google.com>
+References: <20260828021350.1666063-1-triet.hoang.dev@gmail.com>
+	<apEeQMMn9E7hRBOO@google.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The driver previously always forced AUTO with no charge limits at
-probe, which discarded sustainer thresholds and modes set by firmware
-or firmware setup before the kernel loaded.
+On Fri, 28 Aug 2026 05:36:00 +0000
+Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 
-For command versions that support GET (v2+), read the EC state into
-the driver cache instead. Valid sustainer limits are adopted as AUTO
-with those thresholds: while the sustainer is active the EC may report
-IDLE or DISCHARGE as a transient hold/discharge step, which must not
-be exposed as inhibit-charge or force-discharge. Sustainer off
-(-1/-1) still maps to Linux "no limit" (0/100); other invalid limit
-pairs are remapped the same way with a warning and pushed back to
-the EC so the cache stays in sync.
+> On Fri, Aug 28, 2026 at 09:13:49AM +0700, Triet Hoang wrote:
+> > Convert deprecated SIMPLE_DEV_PM_OPS() to DEFINE_SIMPLE_DEV_PM_OPS()
+> > and pm_sleep_ptr(). Also replace SIMPLE_DEV_PM_OPS() + EXPORT_SYMBOL_GPL()
+> > with EXPORT_GPL_SIMPLE_DEV_PM_OPS().
+> > 
+> > This allows us to drop the __maybe_unused annotations from the resume callback.
+> > This is a straightforward cleanup with no functional change intended.
+> > 
+> > Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>  
+> 
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-If GET fails, fall back to the previous defaults and SET them on the
-EC. Command version 1 still cannot report state and keeps forcing a
-well-known configuration.
+Applied.
 
-Signed-off-by: Matt DeVillier <matt.devillier@gmail.com>
-Acked-by: Thomas Weißschuh <linux@weissschuh.net>
----
-v3:
-- adopt_ec_mode returns bool
-- single-line send returns
-- v1 init path uses goto defaults (Tzung-Bi)
-- add Acked-by from Thomas
+Thanks
 
- drivers/power/supply/cros_charge-control.c | 151 ++++++++++++++++++---
- 1 file changed, 133 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/supply/cros_charge-control.c
-index e0f168624807..56420e1be7bd 100644
---- a/drivers/power/supply/cros_charge-control.c
-+++ b/drivers/power/supply/cros_charge-control.c
-@@ -21,12 +21,22 @@
- 
- /*
-  * Semantics of data *returned* from the EC API and Linux sysfs differ
-- * slightly, also the v1 API can not return any data.
-- * To match the expected sysfs API, data is never read back from the EC but
-- * cached in the driver.
-+ * slightly:
-+ *  - EC sustainer off is lower=upper=-1
-+ *  - Linux "no limit" is start=0, end=100
-+ * Also the v1 API can not return any data.
-  *
-- * Changes to the EC bypassing the driver will not be reflected in sysfs.
-- * Any change to "charge_behaviour" will synchronize the EC with the driver state.
-+ * While the sustainer is active the EC may report IDLE or DISCHARGE as the
-+ * current charge-control mode; that is an internal hold/discharge step, not a
-+ * Linux inhibit-charge / force-discharge request. Valid sustainer limits are
-+ * therefore adopted as AUTO with the reported thresholds.
-+ *
-+ * Sysfs reads come from a driver-side cache. On probe, command versions that
-+ * support GET (v2+) are initialized from the EC so firmware or firmware-setup
-+ * programmed limits and modes are preserved (unlike earlier behaviour that
-+ * always forced AUTO with no limits). v1 still forces a well-known EC state.
-+ * Subsequent sysfs writes keep the cache and EC in sync; changes that bypass
-+ * the driver are not reflected until the next probe.
-  */
- 
- struct cros_chctl_priv {
-@@ -44,18 +54,23 @@ struct cros_chctl_priv {
- };
- 
- static int cros_chctl_send_charge_control_cmd(struct cros_ec_device *cros_ec,
--					      u8 cmd_version, struct ec_params_charge_control *req)
-+					      u8 cmd_version,
-+					      struct ec_params_charge_control *req,
-+					      struct ec_response_charge_control *resp)
- {
--	int ret;
- 	static const u8 outsizes[] = {
- 		[1] = offsetof(struct ec_params_charge_control, cmd),
- 		[2] = sizeof(struct ec_params_charge_control),
- 		[3] = sizeof(struct ec_params_charge_control),
- 	};
-+	size_t insize = resp ? sizeof(*resp) : 0;
-+	int ret;
- 
--	ret = cros_ec_cmd(cros_ec, cmd_version, EC_CMD_CHARGE_CONTROL, req,
--			  outsizes[cmd_version], NULL, 0);
-+	if (resp)
-+		*resp = (struct ec_response_charge_control){};
- 
-+	ret = cros_ec_cmd(cros_ec, cmd_version, EC_CMD_CHARGE_CONTROL, req,
-+			  outsizes[cmd_version], resp, insize);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -94,7 +109,114 @@ static int cros_chctl_configure_ec(struct cros_chctl_priv *priv)
- 		req.sustain_soc.upper = -1;
- 	}
- 
--	return cros_chctl_send_charge_control_cmd(priv->cros_ec, priv->cmd_version, &req);
-+	return cros_chctl_send_charge_control_cmd(priv->cros_ec, priv->cmd_version, &req, NULL);
-+}
-+
-+static int cros_chctl_get_ec_status(struct cros_chctl_priv *priv,
-+				    struct ec_response_charge_control *resp)
-+{
-+	struct ec_params_charge_control req = {
-+		.cmd = EC_CHARGE_CONTROL_CMD_GET,
-+	};
-+
-+	return cros_chctl_send_charge_control_cmd(priv->cros_ec, priv->cmd_version, &req, resp);
-+}
-+
-+static void cros_chctl_set_default_state(struct cros_chctl_priv *priv)
-+{
-+	lockdep_assert_held(&priv->lock);
-+
-+	priv->current_behaviour = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
-+	priv->current_start_threshold = 0;
-+	priv->current_end_threshold = 100;
-+}
-+
-+static bool cros_chctl_sustainer_limits_valid(s8 lower, s8 upper)
-+{
-+	return lower >= 0 && upper >= 0 && lower <= 100 && upper <= 100 && lower <= upper;
-+}
-+
-+static bool cros_chctl_adopt_ec_mode(struct cros_chctl_priv *priv, u32 mode)
-+{
-+	lockdep_assert_held(&priv->lock);
-+
-+	switch (mode) {
-+	case CHARGE_CONTROL_NORMAL:
-+		priv->current_behaviour = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
-+		return true;
-+	case CHARGE_CONTROL_IDLE:
-+		priv->current_behaviour = POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE;
-+		return true;
-+	case CHARGE_CONTROL_DISCHARGE:
-+		priv->current_behaviour = POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE;
-+		return true;
-+	default:
-+		dev_warn(priv->dev, "unknown charge control mode %u\n", mode);
-+		return false;
-+	}
-+}
-+
-+static int cros_chctl_init_state(struct cros_chctl_priv *priv)
-+{
-+	struct ec_response_charge_control resp;
-+	s8 lower, upper;
-+	int ret;
-+
-+	guard(mutex)(&priv->lock);
-+
-+	/* v1 cannot report current state; force a well-known EC configuration. */
-+	if (priv->cmd_version < 2)
-+		goto defaults;
-+
-+	ret = cros_chctl_get_ec_status(priv, &resp);
-+	if (ret < 0) {
-+		dev_warn(priv->dev,
-+			 "failed to read EC charge state (%pe), applying defaults\n", ERR_PTR(ret));
-+		goto defaults;
-+	}
-+
-+	lower = resp.sustain_soc.lower;
-+	upper = resp.sustain_soc.upper;
-+
-+	/*
-+	 * Valid sustainer limits mean "auto with thresholds". The EC mode may
-+	 * be IDLE/DISCHARGE while the sustainer holds or bleeds SoC; do not
-+	 * expose that as inhibit-charge / force-discharge.
-+	 */
-+	if (cros_chctl_sustainer_limits_valid(lower, upper)) {
-+		priv->current_behaviour = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
-+		priv->current_start_threshold = lower;
-+		priv->current_end_threshold = upper;
-+	} else {
-+		if (!cros_chctl_adopt_ec_mode(priv, resp.mode))
-+			goto defaults;
-+
-+		/*
-+		 * Sustainer off is lower=upper=-1 → Linux "no limit" (0/100).
-+		 * Any other non-valid pair is unexpected; remap, warn, and
-+		 * push the cleaned state back to the EC.
-+		 */
-+		priv->current_start_threshold = 0;
-+		priv->current_end_threshold = 100;
-+
-+		if (!(lower == -1 && upper == -1)) {
-+			dev_warn(priv->dev,
-+				 "invalid EC sustainer limits (%d/%d), treating as no limit\n",
-+				 lower, upper);
-+			return cros_chctl_configure_ec(priv);
-+		}
-+	}
-+
-+	dev_dbg(priv->dev,
-+		"adopted EC charge state: behaviour=%d start=%u end=%u (ec mode=%u)\n",
-+		priv->current_behaviour, priv->current_start_threshold,
-+		priv->current_end_threshold, resp.mode);
-+
-+	return 0;
-+
-+defaults:
-+	cros_chctl_set_default_state(priv);
-+	return cros_chctl_configure_ec(priv);
- }
- 
- static int cros_chctl_psy_ext_get_prop(struct power_supply *psy,
-@@ -152,7 +274,6 @@ static int cros_chctl_psy_ext_set_threshold(struct cros_chctl_priv *priv,
- 	return 0;
- }
- 
--
- static int cros_chctl_psy_ext_set_prop(struct power_supply *psy,
- 				       const struct power_supply_ext *ext,
- 				       void *data,
-@@ -305,13 +426,7 @@ static int cros_chctl_probe(struct platform_device *pdev)
- 	priv->battery_hook.add_battery = cros_chctl_add_battery;
- 	priv->battery_hook.remove_battery = cros_chctl_remove_battery;
- 
--	priv->current_behaviour = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
--	priv->current_start_threshold = 0;
--	priv->current_end_threshold = 100;
--
--	/* Bring EC into well-known state */
--	scoped_guard(mutex, &priv->lock)
--		ret = cros_chctl_configure_ec(priv);
-+	ret = cros_chctl_init_state(priv);
- 	if (ret < 0)
- 		return ret;
- 
--- 
-2.53.0
-
+Jonathan

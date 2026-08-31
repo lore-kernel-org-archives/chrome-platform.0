@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765B94ACC84;
-	Mon, 31 Aug 2026 13:47:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1DA5A9863;
+	Mon, 31 Aug 2026 13:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184046; cv=none; b=A/JmKCMvIajPLnQ9cKdpz+SU5hUn8arS1SmV0T6d1IwbcZpRNcMELp8Dotj8zQAwroTpfaUxpAbbcYXPTa+yTApab/+3sMJLdnBQaTLz1PkByJ5UgKxJj5BUs01p6QOYDJdT4ZzKGRjntSSwl6iAgTnxu5TrC43+rA+OHMz3gHM=
+	t=1788184357; cv=none; b=qC66OVL1SYvM9+mwMbp6foQpgJmO2jcIiGHLze5T0sfQCPnKN3HCoWOZZ9R72UZ5KZgMEOD44L7BlUgP54A8ApW9BGyAkF5l50uOix3FDW40bjMvRHnHApjQYnndBEsDg29z+2qxTYV78ZTlUgjm5UowhF+xCJqEH1k8a4gqAEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184046; c=relaxed/simple;
-	bh=0qDKHy4Dw1eEbdQk9vQ1hWXocwQ+Nhx6H+pawVgeODY=;
+	s=arc-20240116; t=1788184357; c=relaxed/simple;
+	bh=e5NWV2lVHPe31HAmSegpbuRCDj+ks/W1pbfMn3crol8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ftA8NbLxVteB6ZE8terjgmhZi/S+RR9ZxoxJ1W7Su2b14qfKzRL12EOo8jj3cqMhjxdoh3KCx0reH4oPKI49SGUZ8mHWAb6g1J0iTHZOcXpokrfK+597TW0B4yuUQa6g85gDl7H3tJsiwU/ob11NqP2cUXgTDatMchrZT8fpp5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WceWIDYN; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Ya/G0Q+h1X1XQzDRfEWCxtm+YNY20QiyXQMM8Om3g6yCT2+XMTvYPDmnxMXjrGFsNlqaLX83vWbmV8Aw1Mi1RBS8YziCtX6TH+bW5KQarpGdZP4/0qNt+DyM+xUd6OIvSXrez3KhRihq7Fl/nitMjB0i34huljevA5AB41OgPCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ooeoN+kj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WceWIDYN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5908A1F00ADB;
-	Mon, 31 Aug 2026 13:47:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ooeoN+kj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF6D1F000E9;
+	Mon, 31 Aug 2026 13:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184042;
-	bh=RH+H10X8z3esxQO/GSg8KbuJFyaYnpZsgvc6XfrgJ2w=;
+	s=k20260515; t=1788184355;
+	bh=m+J7GktUYJ8sch1IMbeEsWpp+FPWHxVGIcuswDtlVtY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WceWIDYNfL6goppWx47NC/A7viNPq8iy11lz+lrsHVLpcAx4LQhK1n2TF8W8GL4bY
-	 hVJtGguk12FHdpuTxO4UQWeNgbeaN70mxiJCJgi6/spI7BZhdXk0zLT1wLpcHP/CB0
-	 5pTGjrLQ1cUQX4VG/egb1hls2GeqTJUMOOq81QvXCHr2pKVjAnQlgublhnzgUjLiM3
-	 WmHFKnsh06uVUQ9pt+gYfY3Eh0vUpnqf4/6/xkCt9cYgpbPyzyn4ihZfDVltOj3meY
-	 dNUxbemrPOX/VkF9l+IcSAYZZ/jMbdegcxevYuhW/Loku/HCxiV0DUCPkNygq+M8ei
-	 Ok+U3NT6mCnSQ==
+	b=ooeoN+kjx/457ltvxssav/NkUao40IWBoj8FRPQIpjTA20CVPJeoYP70B3vdipRIl
+	 PUIugXKJhUZm2+ep5PZfuQhI7gSv4nAf/lKmfZHNh4WcUcS7CC7lmly4Ku5tOWtbyu
+	 ZUCzjnXVJzwukyU5kMTGjRzy378CKvfNdHS0KYfpUUAbZkp1383lvs0P6uSoo/hfFQ
+	 qqwlgfYRr7iLJ8/i5JocQU4qXIf98zZdeWmO1HCPjW+qTIteeFwADdiGZ59/B6gOaR
+	 7CoOi4x0s+pv1FjLiGOyB7OHGu4oo5n1ZhqMyyxRpllN/2M3bx9VKZScjILa25ubv0
+	 d6Chb1LXfGoyw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Ken Lin <kenlin5@quanta.corp-partner.google.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
+Cc: Titouan Ameline de Cadeville <titouan.ameline@gmail.com>,
+	Julius Werner <jwerner@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	hverkuil@kernel.org,
-	mchehab@kernel.org,
-	bleung@chromium.org,
-	linux-media@vger.kernel.org,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] media: platform: cros-ec: Add Kulnex and Moxoe to the match table
-Date: Mon, 31 Aug 2026 09:28:05 -0400
-Message-ID: <20260831133314.4125787-457-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] firmware: google: Add bounds checks in coreboot_table_populate()
+Date: Mon, 31 Aug 2026 09:31:12 -0400
+Message-ID: <20260831133314.4125787-644-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -56,358 +53,462 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Ken Lin <kenlin5@quanta.corp-partner.google.com>
+From: Titouan Ameline de Cadeville <titouan.ameline@gmail.com>
 
-[ Upstream commit e024767f90f9f50bfcce4b20bb74237ad72450f3 ]
+[ Upstream commit 7b1a1af4556a4f95ef273e91435fe804cbfcd223 ]
 
-The Google Kulnex and Moxoe device uses the same approach as Google Brask
-which enables the HDMI CEC via the cros-ec-cec driver.
+coreboot_table_populate() iterates over firmware-provided table entries
+with no validation that the entries stay within the mapped memory
+region.  A corrupt table with a large `entry->size` advances `ptr_entry`
+past the mapped region, causing an out-of-bounds read on the next
+iteration.
 
-Signed-off-by: Ken Lin <kenlin5@quanta.corp-partner.google.com>
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Add a check before dereferencing `ptr_entry` to ensure the entry header
+is readable, and a second check after reading `entry->size` to ensure
+the full entry stays within the mapped region.
+
+Pass `len` from coreboot_table_probe() into coreboot_table_populate() to
+make the mapped region size available for validation.
+
+Signed-off-by: Titouan Ameline de Cadeville <titouan.ameline@gmail.com>
+Reviewed-by: Julius Werner <jwerner@chromium.org>
+Link: https://lore.kernel.org/r/20260426214739.117131-1-titouan.ameline@gmail.com
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
+# Stable Backport Analysis: `firmware: google: Add bounds checks in
+coreboot_table_populate()`
 
-### Step 1.1: Parse the Subject Line
-**Record:** `[media: platform: cros-ec]` `[Add]` — Add Kulnex and Moxoe
-Google Chromebook board names to the CEC DMI match table so HDMI CEC can
-be enabled on those platforms.
+**Local tree:** Linux **6.18.43** (`git describe HEAD` → `v6.18.43`,
+Makefile `6.18.43`)
+
+---
+
+## PHASE 1: COMMIT MESSAGE FORENSICS
+
+### Step 1.1: Parse Subject Line
+**Record:** `[firmware: google]` `[add]` — Add bounds checks in
+`coreboot_table_populate()` to validate firmware table entries stay
+within the mapped region.
 
 ### Step 1.2: Parse All Commit Message Tags
 **Record:**
-- **Fixes:** none
-- **Reported-by:** none
-- **Tested-by:** none
-- **Reviewed-by:** none
-- **Acked-by:** none
-- **Link:** none
-- **Cc: stable:** none (expected; not a negative signal)
-- **Signed-off-by:** Ken Lin `<kenlin5@quanta.corp-partner.google.com>`
-  (author)
-- **Signed-off-by:** Hans Verkuil `<hverkuil+cisco@kernel.org>`
-  (media/CEC maintainer)
+| Tag | Value |
+|-----|-------|
+| Signed-off-by | Titouan Ameline de Cadeville
+\<titouan.ameline@gmail.com\> (author) |
+| Reviewed-by | Julius Werner \<jwerner@chromium.org\> (Chromium/Google
+firmware maintainer) |
+| Link | https://lore.kernel.org/r/20260426214739.117131-1-
+titouan.ameline@gmail.com |
+| Signed-off-by | Tzung-Bi Shih \<tzungbi@kernel.org\> (firmware
+maintainer) |
 
-No syzbot, bugzilla, or user crash reports. Maintainer sign-off is a
-positive quality signal.
+**Notable patterns:** Reviewed by a Chromium firmware maintainer. No
+`Fixes:`, `Reported-by:`, `Cc: stable`, or syzbot tags. Absence of
+stable tags is expected per pipeline rules.
 
 ### Step 1.3: Analyze Commit Body
 **Record:**
-- **Bug description:** Google Kulnex and Moxoe Chromebooks use the same
-  HDMI CEC-over-ChromeOS-EC approach as Brask, but are missing from
-  `cec_dmi_match_table[]`.
-- **Symptom/failure mode:** `cros-ec-cec` probe fails on these boards;
-  HDMI CEC is unavailable. No crash is described.
-- **Version information:** none in the commit message.
-- **Root cause:** Driver uses an explicit DMI whitelist per Chromebook
-  model for HDMI DRM device and connector-port mapping. New boards were
-  never added.
+- **Bug:** `coreboot_table_populate()` walks firmware-provided table
+  entries without verifying each entry fits inside the memremapped
+  region.
+- **Symptom:** A corrupt entry with a large `entry->size` advances
+  `ptr_entry` past the mapped end; the next iteration dereferences past
+  the mapping → out-of-bounds read. `memcpy(device->raw, ptr_entry,
+  entry->size)` can also read past the mapping on the current entry.
+- **Root cause:** No upper-bound validation against mapped length; only
+  a minimum-size check (`entry->size < sizeof(*entry)`) existed.
+- **Fix approach:** Pass `len` from `coreboot_table_probe()` into
+  `coreboot_table_populate()`; check header readability and full entry
+  containment before use.
 
 ### Step 1.4: Detect Hidden Bug Fixes
-**Record:** Not a hidden crash/UAF/race fix. This is explicit hardware
-enablement: adding board identification entries so an existing driver
-can probe on two new platforms. Functionally equivalent to adding
-PCI/USB IDs or a DMI quirk entry.
+**Record:** Not disguised — explicitly an OOB-read / memory-safety fix,
+though described as "add bounds checks" rather than "fix OOB read."
 
 ---
 
-## Phase 2: Diff Analysis
+## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory the Changes
+### Step 2.1: Inventory Changes
 **Record:**
-- **Files:** `drivers/media/cec/platform/cros-ec/cros-ec-cec.c` (+4
-  lines)
-- **Functions modified:** none directly; only `cec_dmi_match_table[]`
-  data
-- **Scope:** single-file, surgical, 4-line addition
+- **File:** `drivers/firmware/google/coreboot_table.c` only
+- **Scope:** ~10 lines added, 2 signature lines changed — single-file
+  surgical fix
+- **Functions modified:** `coreboot_table_populate()`,
+  `coreboot_table_probe()` (call site only)
 
-### Step 2.2: Code Flow Change
-**Record:**
-- **Hunk (DMI table):** Before — Kulnex/Moxoe unmatched →
-  `cros_ec_cec_find_hdmi_dev()` warns and returns `-ENODEV`. After —
-  boards match like Brask/Moxie, DRM HDMI device (`0000:00:02.0`) and
-  `port_b_conns` mapping are selected, probe can succeed.
+### Step 2.2: Code Flow Change (per hunk)
+
+**Hunk 1 — `coreboot_table_populate()`:**
+- **Before:** Loop over `header->table_entries`; dereference `entry =
+  ptr_entry` with no end-of-region check; advance `ptr_entry +=
+  entry->size` unconditionally.
+- **After:** Compute `ptr_end = ptr + len`; before dereferencing, verify
+  `ptr_entry + sizeof(*entry) <= ptr_end`; after reading `entry->size`,
+  verify `ptr_entry + entry->size <= ptr_end`; return `-EINVAL` on
+  violation.
+
+**Hunk 2 — `coreboot_table_probe()`:**
+- **Before:** `coreboot_table_populate(dev, ptr)`
+- **After:** `coreboot_table_populate(dev, ptr, len)` where `len =
+  header->header_bytes + header->table_bytes`
+
+**Record:** Normal boot probe path and error path both affected; no
+change to remove/teardown paths.
 
 ### Step 2.3: Bug Mechanism
 **Record:**
-- **Category:** hardware identification / platform quirk (DMI-based
-  board whitelist)
-- **Mechanism:** Without a table entry, probe path in
-  `cros_ec_cec_probe()` exits early:
+- **Category:** Buffer overflow / out-of-bounds access (memory safety)
+- **Mechanism:** Firmware-controlled `entry->size` and
+  `header->table_entries` can describe a layout larger than the
+  memremapped `[ptr, ptr+len)` region. The loop trusts per-entry sizes
+  without summing or bounding against `len`. Corrupt or malicious table
+  data causes reads past the mapping on `entry` dereference and in
+  `memcpy()`. A very large `entry->size` also drives
+  `kzalloc(sizeof(device->dev) + entry->size)` before the bounds check
+  in the unpatched code.
 
-```501:503:drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-        hdmi_dev = cros_ec_cec_find_hdmi_dev(&pdev->dev, &conns);
-        if (IS_ERR(hdmi_dev))
-                return PTR_ERR(hdmi_dev);
-```
-
-And the lookup function explicitly documents that hardware must be added
-to the table:
-
-```362:365:drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-        /* Hardware support must be added in the cec_dmi_match_table */
-        dev_warn(dev, "CEC notifier not configured for this
-hardware\n");
-
-        return ERR_PTR(-ENODEV);
-```
-
-### Step 2.4: Fix Quality Assessment
-**Record:** Obviously correct — copies the proven Brask/Moxie pattern
-(`port_b_conns`, same PCI DRM device name). Minimal diff. Regression
-risk is very low: only affects DMI matches for "Google"/"Kulnex" and
-"Google"/"Moxoe".
+### Step 2.4: Fix Quality
+**Record:**
+- Fix is minimal and obviously correct: standard `ptr_end` bounds
+  pattern.
+- Returns `-EINVAL` on bad data — consistent with existing `entry->size
+  < sizeof(*entry)` handling.
+- **Regression risk:** Very low. Only adds validation on a firmware-
+  parsing path; no locking, no API changes.
+- **Minor note:** `header->header_bytes + header->table_bytes` is still
+  trusted from firmware (pre-existing); this fix bounds entry iteration
+  within that self-reported length, which is the right scope.
 
 ---
 
-## Phase 3: Git History Investigation
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame the Changed Lines
-**Record:** The DMI table (lines 304–337) exists in this tree ending at
-Moxie; Kulnex/Moxoe are absent. Git history in this checkout is heavily
-rewritten/squashed (file history is unreliable), but the driver and full
-match table are present since at least `ac3fd01e4c1ef` (Linux 6.18-rc7).
-The "missing entry" condition is present in 6.18.43.
+### Step 3.1: Blame Changed Lines
+**Record:** `git blame` on `coreboot_table_populate()` attributes all
+lines to `19eef1d98eeda` (an unrelated AFS commit) due to history
+squashing in this stable tree — not reliable for origin dating. `git log
+--follow` shows the vulnerable function present at `ac3fd01e4c1ef`
+("Linux 6.18-rc7") with identical logic. **Buggy code exists throughout
+the 6.18.y series in this checkout.**
 
 ### Step 3.2: Follow Fixes: Tag
-**Record:** N/A — no `Fixes:` tag.
+**Record:** No `Fixes:` tag present — step N/A.
 
 ### Step 3.3: File History for Related Changes
-**Record:** The driver has accumulated many Google board entries (Fizz,
-Brask, Moli, …, Moxie). This commit continues that pattern. Standalone
-one-commit change; not part of a multi-patch series.
+**Record:** Recent `drivers/firmware/google/` history in this tree:
+- `75d40ccf38ca7` — framebuffer probe cleanup
+- `ecb3e4fa31ffa` — framebuffer busy flag fix
+- No prior bounds-check fix for `coreboot_table.c`. **Standalone fix,
+  not part of a series.**
 
 ### Step 3.4: Author's Other Commits
-**Record:** Ken Lin has no other commits visible in this checkout. Hans
-Verkuil is the media/CEC maintainer and signed off. No related author
-series found here.
+**Record:** No commits by Titouan Ameline in `drivers/firmware/google/`
+in this tree. Author appears to be a new contributor to this subsystem;
+patch was reviewed by Julius Werner (Chromium).
 
-### Step 3.5: Dependent/Prerequisite Commits
-**Record:** No dependencies. Driver, `port_b_conns`, DMI/PCI
-infrastructure, and `CONFIG_CEC_CROS_EC` all exist in this tree. Applies
-standalone.
+### Step 3.5: Prerequisites / Dependencies
+**Record:** No dependencies. The patch only needs `coreboot_table.c` as
+it exists in this tree. `resource_size_t len` is already used in
+`coreboot_table_probe()`. **Applies standalone.**
 
 ---
 
-## Phase 4: Mailing List and External Research
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 ### Step 4.1: Original Patch Discussion
-**Record:** `b4 dig -c 4b3f9bff6067a` failed — commit hash not in local
-repo. Lore search blocked (403/bot protection). **UNVERIFIED:** original
-thread content, reviewer stable nominations, series revisions.
+**Record:** `b4 dig -c <commit>` not possible — commit is not in this
+checkout. `WebFetch` and `curl` to lore.kernel.org returned 403/bot-
+wall. **Lore thread content UNVERIFIED.** Commit message provides Link
+and `Reviewed-by: Julius Werner`.
 
 ### Step 4.2: Reviewers
-**Record:** **UNVERIFIED** via `b4 dig -w`. Hans Verkuil SOB confirms
-maintainer involvement.
+**Record:** Julius Werner (Chromium firmware) reviewed. Tzung-Bi Shih
+committed. Appropriate subsystem coverage assumed from tags; full
+recipient list UNVERIFIED.
 
 ### Step 4.3: Bug Report
-**Record:** N/A — no Reported-by or Link tags.
+**Record:** No `Reported-by:`, no syzbot link, no stack trace in commit
+message. Bug identified by code review / defensive analysis, not a filed
+crash report.
 
-### Step 4.4: Related Patches/Series
-**Record:** Same pattern as prior Brask/Moxie/Kinox additions to this
-table. Standalone.
+### Step 4.4: Related Patches / Series
+**Record:** Single-patch fix. No series dependencies.
 
 ### Step 4.5: Stable Mailing List History
-**Record:** **UNVERIFIED** — could not search lore stable archive.
+**Record:** UNVERIFIED — could not search lore stable list due to access
+restrictions.
 
 ---
 
-## Phase 5: Code Semantic Analysis
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
 ### Step 5.1: Key Functions
-**Record:** `cec_dmi_match_table[]` (data),
-`cros_ec_cec_find_hdmi_dev()`, called from `cros_ec_cec_probe()`.
+**Record:** `coreboot_table_populate()`, `coreboot_table_probe()`
 
-### Step 5.2: Trace Callers
-**Record:** `cros_ec_cec_probe()` is the platform driver probe path
-during boot/module load on Chromebooks with `CONFIG_CEC_CROS_EC` and
-`CONFIG_CROS_EC`. Affects only matching Google hardware.
+### Step 5.2: Callers
+**Record:**
+- `coreboot_table_populate()` — called only from
+  `coreboot_table_probe()` (verified via grep)
+- `coreboot_table_probe()` — platform driver `.probe` for
+  `coreboot_table_driver`, registered at module init
 
-### Step 5.3: Trace Callees
-**Record:** `dmi_match()`, `bus_find_device_by_name()` on PCI bus,
-connector mapping via `port_b_conns`.
+**Context:** Runs once at boot when `CONFIG_GOOGLE_COREBOOT_TABLE` is
+enabled, on ACPI `GOOGCB00` / `BOOT0000` or OF `compatible = "coreboot"`
+platforms (Chromebooks, Chromium embedded boards).
+
+### Step 5.3: Callees
+**Record:** `memremap()`, `memunmap()`, `kzalloc()`, `memcpy()`,
+`device_register()`, `dev_warn()` — memory mapping and device
+enumeration from firmware table.
 
 ### Step 5.4: Call Chain / Reachability
-**Record:** Boot-time platform probe on ChromeOS EC-equipped Google
-devices. Not a syscall path. Userspace impact is missing `/dev/cec*` and
-non-functional HDMI CEC on Kulnex/Moxoe.
+**Record:**
+```
+module_init → platform_driver_register → coreboot_table_probe (ACPI/OF
+match)
+  → memremap firmware table → coreboot_table_populate → iterate entries
+```
+- **Userspace trigger:** Not directly syscall-reachable.
+- **Indirect trigger:** Corrupt or attacker-modified coreboot table in
+  firmware flash or ACPI-described memory region.
+- **Affected platforms:** Google Chromebooks and other coreboot/Chromium
+  devices with `CONFIG_GOOGLE_FIRMWARE` / `CONFIG_GOOGLE_COREBOOT_TABLE`
+  (e.g. `arch/arm64/configs/defconfig` has both enabled).
 
 ### Step 5.5: Similar Patterns
-**Record:** Fifteen other Google boards already use the same table
-pattern; Brask and Moxie use identical `port_b_conns` mapping, matching
-the commit message claim.
+**Record:** This stable tree has already accepted similar firmware OOB
+fixes:
+- `cf5708c9d78c9` — `firmware: arm_ffa: Fix out-of-bound writes`
+- `11daac2817dca` — `firmware: arm_scmi: Fix OOB in
+  scmi_power_name_get()`
+
+Precedent supports firmware-parser bounds-check backports to 6.18.y.
 
 ---
 
-## Phase 6: Cross-Referencing Against Local Tree (6.18.43)
+## PHASE 6: CROSS-REFERENCE AGAINST LOCAL TREE
 
-### Step 6.1: Does the Buggy Code Exist?
-**Record:** **YES.** Local tree is `6.18.43`
-(`v6.18.43-1-gc7f0dac02d232`). `drivers/media/cec/platform/cros-ec/cros-
-ec-cec.c` exists (602 lines). Table ends at Moxie; Kulnex/Moxoe are
-missing. Driver has been present since 6.18-rc7 in this tree.
+### Step 6.1: Does Buggy Code Exist?
+**Record:** **YES.** Current `drivers/firmware/google/coreboot_table.c`
+lines 104–147 contain the vulnerable loop with no `ptr_end` checks.
+Identical logic confirmed at `ac3fd01e4c1ef` (6.18-rc7). Fix is **not**
+already present (grep found no `ptr_end` or bounds-check commit).
 
 ### Step 6.2: Backport Complications
-**Record:** **Clean apply expected.** Verified with `git apply --check`
-against current tree — applies without conflicts.
+**Record:** **Clean apply expected.** Local file matches the patch's
+pre-change structure exactly (function signature, loop body, probe call
+site). No conflicting refactors in recent history.
 
 ### Step 6.3: Related Fixes Already Present?
-**Record:** No — `grep` finds no Kulnex or Moxoe anywhere in the tree.
+**Record:** **None** for this bug. Grep for `coreboot_table_populate`
+bounds fixes returned nothing.
 
 ---
 
-## Phase 7: Subsystem and Maintainer Context
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-### Step 7.1: Subsystem and Criticality
-**Record:** `drivers/media/cec/` — media/CEC platform driver.
-**IMPORTANT** for affected Chromebook users, **PERIPHERAL** globally
-(CEC on two specific Google boards).
+### Step 7.1: Subsystem Criticality
+**Record:** `drivers/firmware/google/` — **PERIPHERAL** (platform-
+specific Google/coreboot firmware driver). Not core kernel, but used on
+production Chromebook fleet when enabled.
 
 ### Step 7.2: Subsystem Activity
-**Record:** CEC subsystem is active in this tree (recent fixes for seco,
-rc race, debugfs leak). The cros-ec driver itself is mature with a
-growing DMI whitelist.
+**Record:** Moderate activity in this tree (recent framebuffer probe
+fixes). `coreboot_table.c` itself has been stable since 6.18-rc7 with no
+prior hardening.
 
 ---
 
-## Phase 8: Impact and Risk Assessment
+## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 ### Step 8.1: Who Is Affected
-**Record:** Users of Google Kulnex and Moxoe Chromebooks with
-`CONFIG_CEC_CROS_EC=y/m`. Config- and platform-specific; not universal.
+**Record:** **Platform-specific, config-dependent** — systems with
+`CONFIG_GOOGLE_COREBOOT_TABLE` (Chromebooks, Chromium ARM boards, some
+x86 Google platforms). Not universal; significant within that fleet.
 
 ### Step 8.2: Trigger Conditions
-**Record:** Booting one of these two board models with the cros-ec-cec
-driver enabled. Deterministic on every boot. Not a security-relevant or
-unprivileged-triggered path.
+**Record:**
+- Corrupt coreboot table: flash wear/corruption, buggy coreboot build,
+  or compromised firmware
+- Mismatch between `table_entries`/per-entry `size` fields and actual
+  mapped `len`
+- **Likelihood:** Low in normal operation; non-zero with flash
+  corruption or firmware bugs
+- **Unprivileged userspace:** Cannot trigger directly; requires
+  firmware-level corruption
 
 ### Step 8.3: Failure Mode Severity
-**Record:** HDMI CEC non-functional; driver probe returns `-ENODEV` with
-a warning. **Severity: LOW** — feature absence, not crash, corruption,
-deadlock, or security issue.
+**Record:**
+- OOB read on `entry` dereference → possible page fault / kernel oops at
+  boot
+- OOB read in `memcpy()` → information leak from adjacent mapped memory
+- Unchecked large `entry->size` → excessive `kzalloc()` attempt (boot-
+  time DoS / OOM)
+- **Severity: HIGH** for affected platforms (boot failure or memory-
+  safety violation), **LOW** population-wide
 
 ### Step 8.4: Risk-Benefit Ratio
 **Record:**
-- **Benefit:** Enables HDMI CEC on two new Chromebook models running
-  this kernel; matches established board-enablement pattern.
-- **Risk:** Very low — 4 lines, no logic change, only new DMI strings.
-- **Ratio:** Moderate benefit for a tiny audience vs. very low risk.
-  Does not meet strict "important bug" threshold, but fits the stable
-  exception for hardware identification additions.
+- **Benefit:** Prevents OOB reads and unbounded allocation on a firmware
+  trust boundary; hardens boot on Chromebook/coreboot systems. Aligns
+  with existing stable practice (arm_ffa, arm_scmi OOB backports in this
+  tree).
+- **Risk:** Very low — ~10 lines of validation, no behavior change on
+  valid tables.
+- **Ratio:** Favorable for backport to this tree.
 
 ---
 
-## Phase 9: Final Synthesis
+## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Compile
+### Step 9.1: Evidence Summary
 
 **FOR backport:**
-- Driver and infrastructure fully present in 6.18.43
-- Real hardware gap on Kulnex/Moxoe — CEC broken without entries
-- Tiny, obviously correct, applies cleanly
-- Follows proven Brask/Moxie `port_b_conns` mapping
-- Media maintainer (Hans Verkuil) signed off
-- Fits stable exception for hardware identification / quirk additions
-  (DMI board ID to existing driver)
+- Real, verifiable OOB-read bug in firmware table parser
+- Small, surgical, obviously correct fix
+- Buggy code present in Linux 6.18.43 checkout
+- Clean apply, no dependencies
+- Reviewed by Chromium firmware maintainer
+- Precedent: similar `firmware:` OOB fixes already in this 6.18.y tree
+- Prevents boot-time crash and unbounded allocation on corrupt firmware
+  data
 
 **AGAINST backport:**
-- Not a crash, security, corruption, or deadlock fix
-- Failure mode is missing functionality (CEC), severity LOW
-- Affects only two specific new Chromebook models
-- No user reports, syzbot, or explicit stable nomination
-- By-design whitelist: unsupported boards get `-ENODEV`, not a code
-  defect on already-supported hardware
-- Mailing list review details unverified
+- No syzbot report or user crash report
+- Trigger requires corrupt/malicious firmware table (not common)
+- Platform-specific driver behind `CONFIG_GOOGLE_COREBOOT_TABLE`
+  (default N in Kconfig)
+- Boot-only path, not directly userspace-exploitable
+- Lore review thread content could not be fetched
 
-**UNRESOLVED:**
-- Whether Kulnex/Moxoe actually ship with 6.18.y kernels
-- Lore discussion and any stable nominations from reviewers
+**Unresolved:** Full lore discussion content; whether reviewers
+explicitly nominated for stable.
 
 ### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — mechanical table entries;
-   maintainer SOB; pattern proven on Brask/Moxie.
-2. Fixes a real bug affecting users? **PASS (narrow)** — real hardware
-   support gap for CEC on two boards, not a kernel logic bug.
-3. Important issue (crash, security, corruption, deadlock)? **FAIL** —
-   CEC absence only; LOW severity.
-4. Small and contained? **PASS** — 4 lines, one file.
-5. No new features or APIs? **PASS** — no API change; board ID addition
-   to existing driver.
-6. Can apply to local tree? **PASS** — verified clean apply.
+| Criterion | Result |
+|-----------|--------|
+| 1. Obviously correct and tested? | **PASS** — standard bounds checks;
+reviewed by subsystem expert |
+| 2. Fixes a real bug affecting users? | **PASS** — OOB read on corrupt
+firmware table on Chromebook/coreboot systems |
+| 3. Important issue? | **PASS** — OOB access / potential boot crash
+(HIGH on affected platforms) |
+| 4. Small and contained? | **PASS** — one file, ~10 lines |
+| 5. No new features/APIs? | **PASS** — validation only, static function
+signature change |
+| 6. Can apply to local tree? | **PASS** — code present, clean apply
+expected |
 
 ### Step 9.3: Exception Categories
-**Record:** **Hardware identification / quirk exception** — DMI match
-table entry for an existing platform driver, analogous to adding
-PCI/USB/ACPI IDs. Same category as prior Brask, Moxie, Kinox entries.
+**Record:** None (not device ID, quirk, DT, build, or docs). Qualifies
+as a memory-safety / OOB fix on its own merits.
 
 ### Step 9.4: Decision Rationale
 
-This commit does not fix a critical kernel defect. It enables HDMI CEC
-on two new Google Chromebook platforms by extending the existing DMI
-whitelist in `cros-ec-cec`. That is standard stable material under the
-hardware-identification exception: the driver already exists in 6.18.43,
-the change is trivial and low-risk, and it unblocks real hardware for
-users on those boards. It does not meet the strict "important bug"
-criterion on its own, but stable trees routinely take such board-ID
-additions when the driver is already present.
-
-For the locally checked-out **6.18.43** tree: the driver exists, the gap
-exists, and the patch applies cleanly.
+For **Linux 6.18.y** specifically: the vulnerable
+`coreboot_table_populate()` loop exists in this checkout, the fix is
+self-contained and low-risk, and it addresses a genuine out-of-bounds
+read when parsing firmware-provided table entries. While the trigger
+(corrupt coreboot table) is uncommon and the driver is platform-
+specific, the fix matches stable-tree practice already established in
+this same tree for firmware OOB issues, and failure modes include boot-
+time kernel faults and unbounded allocation from attacker-influenced
+firmware fields. The conservative stable choice here is to include the
+hardening.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed subject, tags, body: hardware enablement for
-  Kulnex/Moxoe CEC; Hans Verkuil SOB; no Fixes/Reported-
-  by/Link/Cc:stable
-- **[Phase 2]** Diff: +4 lines in `cec_dmi_match_table[]`; probe failure
-  path confirmed in source
-- **[Phase 3]** `git describe HEAD`: v6.18.43-1-gc7f0dac02d232; `make
-  kernelversion`: 6.18.43
-- **[Phase 3]** `git show ac3fd01e4c1ef:...cros-ec-cec.c`: driver
-  present since 6.18-rc7; Moxie present, Kulnex/Moxoe absent
-- **[Phase 3]** `grep Kulnex|Moxoe`: no matches in tree
-- **[Phase 3]** Git history in this repo is rewritten/unreliable for
-  blame; table content verified directly
-- **[Phase 4]** `b4 dig -c 4b3f9bff6067a`: failed (commit not in repo)
-- **[Phase 4]** Lore fetch: blocked (403/bot protection) —
-  **UNVERIFIED** mailing list discussion
-- **[Phase 5]** Read `cros_ec_cec_probe()` and
-  `cros_ec_cec_find_hdmi_dev()`: confirmed `-ENODEV` path
-- **[Phase 5]** `grep cros_ec_cec_find_hdmi_dev`: only called from probe
-- **[Phase 6]** File exists at `drivers/media/cec/platform/cros-ec/cros-
-  ec-cec.c` (602 lines)
-- **[Phase 6]** `git apply --check /tmp/kulnex.patch`: applies cleanly
-- **[Phase 6]** `grep Kulnex|Moxoe`: absent from tree
-- **[Phase 7]** `CONFIG_CEC_CROS_EC` in
-  `drivers/media/cec/platform/Kconfig`; depends on `CROS_EC`
-- **[Phase 8]** Failure mode verified: `-ENODEV` + `dev_warn`, not
-  oops/panic
+- **[Phase 1]** Parsed commit message from user query: subsystem, tags,
+  bug description recorded
+- **[Phase 2]** Read `drivers/firmware/google/coreboot_table.c`:
+  confirmed vulnerable loop at lines 104–147, no `ptr_end` checks
+- **[Phase 2]** Diff analysis: two bounds checks + `len` parameter pass-
+  through verified against local file
+- **[Phase 3]** `git describe HEAD` → `v6.18.43`; Makefile → 6.18.43
+- **[Phase 3]** `git blame` on `coreboot_table_populate()`: squashed
+  history (unreliable origin)
+- **[Phase 3]** `git log --follow` on file: vulnerable code at
+  `ac3fd01e4c1ef` (Linux 6.18-rc7)
+- **[Phase 3]** `git log --oneline -20 --
+  drivers/firmware/google/coreboot_table.c`: limited history due to
+  stable tree squash
+- **[Phase 3]** No `Fixes:` tag; no prerequisite commits found
+- **[Phase 4]** `b4 dig -c` failed — commit not in local repo
+- **[Phase 4]** `WebFetch` lore URL → bot wall; `curl` raw lore → 403.
+  **Lore content UNVERIFIED**
+- **[Phase 5]** `grep coreboot_table_populate`: only caller is
+  `coreboot_table_probe()`
+- **[Phase 5]** Read Kconfig: `GOOGLE_COREBOOT_TABLE` depends on
+  `HAS_IOMEM && (ACPI || OF)`
+- **[Phase 5]** `arch/arm64/configs/defconfig`:
+  `CONFIG_GOOGLE_FIRMWARE=y`, `CONFIG_GOOGLE_COREBOOT_TABLE=m`
+- **[Phase 5]** Precedent: `cf5708c9d78c9`, `11daac2817dca` firmware OOB
+  fixes in this tree
+- **[Phase 6]** Buggy code confirmed present; fix not present (`grep
+  ptr_end` → no match in coreboot_table.c)
+- **[Phase 6]** Local file structure matches patch base — clean apply
+  expected
+- **[Phase 8]** Failure mode: OOB read / boot oops / kzalloc abuse —
+  severity HIGH on affected platforms
 
 **YES**
 
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/firmware/google/coreboot_table.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 419b9a7abcceb..4b3f9bff6067a 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -334,6 +334,10 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
- 	{ "Google", "Dirks", "0000:00:02.0", port_ab_conns },
- 	/* Google Moxie */
- 	{ "Google", "Moxie", "0000:00:02.0", port_b_conns },
-+	/* Google Kulnex */
-+	{ "Google", "Kulnex", "0000:00:02.0", port_b_conns },
-+	/* Google Moxoe */
-+	{ "Google", "Moxoe", "0000:00:02.0", port_b_conns },
- };
+diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
+index 882db32e51be9..f212b84ee2f93 100644
+--- a/drivers/firmware/google/coreboot_table.c
++++ b/drivers/firmware/google/coreboot_table.c
+@@ -101,16 +101,20 @@ void coreboot_driver_unregister(struct coreboot_driver *driver)
+ }
+ EXPORT_SYMBOL(coreboot_driver_unregister);
  
- static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+-static int coreboot_table_populate(struct device *dev, void *ptr)
++static int coreboot_table_populate(struct device *dev, void *ptr, resource_size_t len)
+ {
+ 	int i, ret;
+ 	void *ptr_entry;
+ 	struct coreboot_device *device;
+ 	struct coreboot_table_entry *entry;
+ 	struct coreboot_table_header *header = ptr;
++	void *ptr_end;
+ 
++	ptr_end = ptr + len;
+ 	ptr_entry = ptr + header->header_bytes;
+ 	for (i = 0; i < header->table_entries; i++) {
++		if (ptr_entry + sizeof(*entry) > ptr_end)
++			return -EINVAL;
+ 		entry = ptr_entry;
+ 
+ 		if (entry->size < sizeof(*entry)) {
+@@ -118,6 +122,9 @@ static int coreboot_table_populate(struct device *dev, void *ptr)
+ 			return -EINVAL;
+ 		}
+ 
++		if (ptr_entry + entry->size > ptr_end)
++			return -EINVAL;
++
+ 		device = kzalloc(sizeof(device->dev) + entry->size, GFP_KERNEL);
+ 		if (!device)
+ 			return -ENOMEM;
+@@ -183,7 +190,7 @@ static int coreboot_table_probe(struct platform_device *pdev)
+ 	if (!ptr)
+ 		return -ENOMEM;
+ 
+-	ret = coreboot_table_populate(dev, ptr);
++	ret = coreboot_table_populate(dev, ptr, len);
+ 
+ 	memunmap(ptr);
+ 
 -- 
 2.53.0
 

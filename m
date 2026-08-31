@@ -1,70 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4F223EAB4;
-	Sun, 30 Aug 2026 02:43:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405C3387363;
+	Mon, 31 Aug 2026 02:26:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788057829; cv=none; b=Gek/N9k4xTw8U4cN8WA2XPMV5ICv0Tnmvve7XW4k+dOG/xpl2n89qoQFMQjcYx/PJNbQFNfFkcwoFVJ28egrlc+2LyFakVimz2vZao/RNgPQp6rCaFJJ4jMhttG2A608Rr6w/n2je8JAP215TbNiqDSk6b0QkIAsLsn/yi4knyY=
+	t=1788143185; cv=none; b=PQ4tBUy7rp3A3Y2Jn9fR37dQGJ0hfiERdRaCQP6AyV6W//G61+hlmf2VqmZLZr7bDRbfGqXWip/ItnlCbt8bZq8Ak0I6jpr5fVCjAwHT+fXNOzMdh00oZOH8XK6kHp+pqIvpEd8YfvkIS7fs47H9tzLsDi5KUc429YeVWu+JPnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788057829; c=relaxed/simple;
-	bh=7UZKvLAdm6Cy1uerj4brTuQ346jOqe+rXvjsk9cO/zg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WPcHXd+HoGAD0ggj6TDWcvwPtU8rzt0+4nd2sygG32RVpRztInqJ2pe6eKPzoLSy5s2Qhc3d5o4KFH8PqAUVgn8hlfUWRtDIRX0KgzfTC/CB2d+vCGldyzLL9Hb24A54hl6wUnLlEx33UFnk9EZkOvXwrsPJ7xfyDL1PQ45LwKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+xntTBi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788143185; c=relaxed/simple;
+	bh=d8Hs6S+dKfpFggHaqLVu/GufQyKEH6HRxbqNopsYD40=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qBYMiZ1w55Hf3zY4dLudoZuGChopuFb41UyPvZI7+5Pw0KpWjTfHxb0WcQyLO8aYyMK8tFBLEVETibiMC9js+Jm458rcbeymaS+pQ9cJRFbedmrVvu1SLkxIUDtDlv99SBDGbvLqwe9BYxJA6GKR6oJoMT+4WMUVTxCssxd08vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W7h8QDe5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+xntTBi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD8F1F000E9;
-	Sun, 30 Aug 2026 02:43:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W7h8QDe5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A771F000E9;
+	Mon, 31 Aug 2026 02:26:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788057827;
-	bh=gi/j1OCnaHsVUjhQumOVcfe8lzq/EZcs1OdCEkla/0s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=n+xntTBi0rAzxFeaXQaJIljkCbmetcVADqVt3aqzMLPA4BjXCRuRE3WkU6QS/ToZt
-	 M0L7rrmki9Ay/OzoICfsN3ppvMNVYa92rIErfun3rKV4U8PsuzgILwCifYtB7EmI3c
-	 ugNpTfxHyiGV1pJNZ4GEqVjzSpLhJbAOQODmnT+FVAbV8hKz4NVOo5ppCT0baTpLws
-	 VqBjGDAt7pq9b1bAs8QqNQo/sCTkNbOQ2Sjp7tFZO4ZPx/EGreqgyKFWDt/kDFo0cu
-	 TrTMFKTCobSomFRI2Q/q8ive+14Z9n+6l+g4LMOmynrGKqS0edZiM/vMC+matGWCxi
-	 u02xxA4ZE2L9A==
-Date: Sun, 30 Aug 2026 03:43:44 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Triet Hoang <triet.hoang.dev@gmail.com>, andriy.shevchenko@intel.com,
- andy@kernel.org, bleung@chromium.org, chrome-platform@lists.linux.dev,
- dlechner@baylibre.com, groeck@chromium.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, nuno.sa@analog.com
-Subject: Re: [PATCH v4] iio: cros_ec: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Message-ID: <20260830034344.66af9be6@jic23-huawei>
-In-Reply-To: <apEeQMMn9E7hRBOO@google.com>
-References: <20260828021350.1666063-1-triet.hoang.dev@gmail.com>
-	<apEeQMMn9E7hRBOO@google.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1788143174;
+	bh=PAuNlSD3KcRG2e6QUkGjSARsweEPhyxyVC+8H743MtY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=W7h8QDe56JzPkyprp5woK7/y/j89Diw9LYnHmfTjkWmNwKb3fAjyN4DEgp7Z0P6kv
+	 gU46M2rbsN8sgqmUvO07Xw96GI9buacXspG6jmJZ0YSMWoJvvlhphjtggvjqMEeI7+
+	 rKhx5pBIfuZch4/bmuG76al5GfGQRy1pXaC9xI4WZqWDmHQ/kA4i6sANgKBWBdjXFD
+	 t8L7Mtsu/0m7dz6/owZbhTWA3S2QpwmU7yO9MHYhss8JM3191bxVke3Hgz/+vVlMd1
+	 CosQvExXlR1qC1u4DPqW98VWATBnS5nBH080huN1MSFf6Ws2i62PT3CoPFclo5YiCP
+	 Y2/6USXmrMnOg==
+Date: Mon, 31 Aug 2026 02:26:11 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Daniel Balint <dbalint@google.com>
+Cc: linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	jakiela@google.com, hmazur@google.com,
+	Benson Leung <bleung@chromium.org>
+Subject: Re: [PATCH] platform/chrome: cros_ec: add API for power monitoring
+Message-ID: <apTmQ4w3aupzVp0p@google.com>
+References: <20260824155554.1046334-1-dbalint@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260824155554.1046334-1-dbalint@google.com>
 
-On Fri, 28 Aug 2026 05:36:00 +0000
-Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-
-> On Fri, Aug 28, 2026 at 09:13:49AM +0700, Triet Hoang wrote:
-> > Convert deprecated SIMPLE_DEV_PM_OPS() to DEFINE_SIMPLE_DEV_PM_OPS()
-> > and pm_sleep_ptr(). Also replace SIMPLE_DEV_PM_OPS() + EXPORT_SYMBOL_GPL()
-> > with EXPORT_GPL_SIMPLE_DEV_PM_OPS().
-> > 
-> > This allows us to drop the __maybe_unused annotations from the resume callback.
-> > This is a straightforward cleanup with no functional change intended.
-> > 
-> > Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>  
+On Mon, Aug 24, 2026 at 03:55:54PM +0000, Daniel Balint wrote:
+> Add new EC host command and MKBP event to allow cros_ec_pwrmon
+> iio devices to query the EC for power monitoring data.
+> The actual cros_ec_pwrmon driver using this API is currently downstream
+> and will be upstreamed at a later date. This is a sync between the EC
+> header and the kernel.
 > 
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> [...]
 
-Applied.
+Applied to
 
-Thanks
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-Jonathan
+[1/1] platform/chrome: cros_ec: add API for power monitoring
+      commit: b57af7f8d194617e965d9713a767cc012774a2b9
+
+Thanks!

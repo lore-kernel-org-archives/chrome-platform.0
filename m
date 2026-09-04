@@ -1,78 +1,78 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69E038C40C
-	for <chrome-platform@lists.linux.dev>; Fri,  4 Sep 2026 22:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748C4371053
+	for <chrome-platform@lists.linux.dev>; Fri,  4 Sep 2026 23:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788562628; cv=none; b=EOPeouLkCvgUcP4C4RYN7HwkCtRMbdAz2NVlStldHNI6hl5Qez7XTyJ6OrC0P6KSDNekJ9fbdQzI+vL0Ov17LhaoGZXzQT+zNMeG2ud+m1yBqWypnEs+d3LUJBGhDfHFdqob6KKO1HrxgltLrSl9TvvTzaX79gw18BCl0KelqTI=
+	t=1788564758; cv=none; b=tm1ckcbXsWnzW8vj+2LlO0yXvUFH/tjF9MjfvOjAMlhau5F8HFebnAwLCFaL2Zoi/+9+Jie2iT4WOk73uQoCBWJ6mMLjwCW8zMmorfK3W9KJ9bgxgfNss6TQyjkotTNhX6y5uVqAvjADDFY4kzC9ar8xi7cl83J8sJH6u/PJak8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788562628; c=relaxed/simple;
-	bh=dzEvNmjdyNIVi6iYSCSIFXaRFg+2yslmOVwcjZe1bEo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WPi8aGp4KzxWmgdLBzIwC3vmvcwrxSHLCJcxCHUbux/CRoOKW8AIE7SGeR36qxIlAMsq2SdevTvq4qI5OZjDyrYsPNKQ5yFT7EnSK1BKgGvQIRo7vM12i2q5Qcg9y95F3cy6Ro38Sj3LetuJP4YoOQ4lJhjtHFVRHdUfoJnkqXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EJshtUsi; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1788564758; c=relaxed/simple;
+	bh=G3MAAk8sod8BrxQc97KrEZ+LUNKv4mzbOKTwBfsxoug=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QNbXtSRtfJRnbmanq0dv3N2fjI50GlP5jXqE0EVXmznhM7iEUgEDuxFrOwpnVvezgEB97WT7CGI6D4FYN+yqet9pX6uM7gjrrpE86O6jH84FLg2W2pvW4sxMF5QDRWk/b/2RegXf+pRDnhyeHthjr2SFLcEr/wSpQkinXMyDm0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=f1nrCat/; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EJshtUsi"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so1213024a91.2
-        for <chrome-platform@lists.linux.dev>; Fri, 04 Sep 2026 15:57:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="f1nrCat/"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cace91f112so13295415ad.0
+        for <chrome-platform@lists.linux.dev>; Fri, 04 Sep 2026 16:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1788562626; x=1789167426; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1788564756; x=1789169556; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=y0qNwPkJWJhdb13h4cmrx4hOhK/NXhQErJYGrT9/AmE=;
-        b=EJshtUsi0IJiubza2uLK92ch5iNqNbq9NaTQcUeqZmX6RVDSNyIXsSdVo2hhYdCxg6
-         DfCwAJJTkGtFLaaP4WOcBK02Nv7sW27EJ912xI4kKiROIMlMVJCE3+ny7yKNatBv1pZX
-         bDlcIMFx7PuKumkrgzgdWKAZKABzLEXNW+k58=
+        bh=CoP3yRaiFCSXh1sZA3gfI7CK30OHycO7b/XTPFpuSM4=;
+        b=f1nrCat/9qxtCP5DpGyrV7c12INF7ZVgT4uQgYTAUl99MDUR9ld9cUwxo6cxNe6rCv
+         MqYH3gTvyfuEVzJaZwqxnc5ZpCGkxtfICtKVnlK5MfyQuWVhnVjNkQ1+TNgRIxFkItsZ
+         2ghVEfrSsUoSxInW93dGBaHUXSgi03EJhljlI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788562626; x=1789167426;
+        d=1e100.net; s=20251104; t=1788564756; x=1789169556;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=y0qNwPkJWJhdb13h4cmrx4hOhK/NXhQErJYGrT9/AmE=;
-        b=JnfdxmvmKAdecOyIEqepRQQ4lGhG1B3kIcQYlx/nhEH9iXu+2ehQLefiZPKK06tJ0e
-         cyhnKe3/0/qN5ClrDjOzttr2fsX851eZBypknQoDU4DD2IfQ3q7cDMq1sXAVK6WCteBU
-         eSKyIDt3YLs4iOu3oDOPwIZYqngaYNvH/Wu9C/xNAmkDKfy68rEYglnZdNIzk024nBvc
-         7ibPplaUWD/3xtXUHO0WamZJAJye6/mHsq0B3MRcM+H7uizIMwqg9Se5L+iKGlK/uWWu
-         r4JvO7SpMakp6GFYICL0FNOQN5N2K1WMLK2Mu/v5P/CAY/SJsqpZC7WnHoHJZEItSmj2
-         Un8g==
-X-Forwarded-Encrypted: i=1; AKwUvBxlZHXQ3/kAMzTDCN8eqjFZGVJA5/lFW/EryNw33r/5xRWg0h08ODDfxVj7S7RDvcdd5udBZUgtU3tBJri3gOQ=@lists.linux.dev
-X-Gm-Message-State: AFuF++nFszCi60ueINly2JBQ8MXkDcI1DdmtP7JivGZhTOuqgAtHu+8O
-	dc1/rddrEoGBPBvjNonTHyjynq/HnOrHMxu5nVkiOc/gEKzpGmEmptg1morNEZh8Sw==
-X-Gm-Gg: AYBFou1D548EaedaPrUyK5eWby/p9liC62oaGnXDkFzfYozWY3iqaDICDGIPbioTc43
-	tXvv/ViThjos8D74AzIWXbID++lxqJP5YanILofUx/navUMnZAiJ/Kn0plJkRY/l8t2eRg1Vo3g
-	p9O9iXfJI+GdKwoFB6c4KlOo15LIZVtunFCh1oG6YD7DMNzZH5n+YP3U3+8S0z39LyXVb0pRHFd
-	RF8NMOnDtky+e8YzuiMFml8jCpkk/bjaacaskJA0Uhc9fMB2N7pp1nhouYyFAX6tG2nT/9jKegi
-	46Mu5i8tdUtCewUBM/2oaSXO8lKkraGRAwriKsMfaWOdMgNiqWYCRKK1BqVx/O1yRrcq4bqEtwb
-	A03B8HlofJbFn6y1BO2vCRNR52YE80x4/lfyFC3CyeM+ndY5uG1s2fzzgDqmMwSDuDBcmASx98l
-	Tx+BscQ/FIekhgmjgCP5hlRENRb8NTPgLpkVwAnEHNjP4xoQ/LpN+1mFMjykHP6vypC+iEwKvyc
-	7u56MX1yki+5PRNSPMG81OuZBOBRjyia+UfeMI=
-X-Received: by 2002:a17:90b:3852:b0:38e:9ef9:eb97 with SMTP id 98e67ed59e1d1-39b26272d69mr13463573a91.16.1788562625925;
-        Fri, 04 Sep 2026 15:57:05 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e7c:8:5597:62ab:c321:4a7f])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-3339aa37dbdsm8157345eec.11.2026.09.04.15.57.03
+        bh=CoP3yRaiFCSXh1sZA3gfI7CK30OHycO7b/XTPFpuSM4=;
+        b=I7sWJsLP519HpBbDdh7WfK2B6tdpCj8qTr0XW83xH1c4UhK3hGubm1zycwGraolxod
+         E/hBsaV4W08vhJYFU1bJI5NneJL6T8Qg0BatA8xwTHy7AMJJoBxC4sOC8XML7gJoW5II
+         QxvzcSm2RwhmYGRrh1w5NM9L9gK5VEU2rRvUndYI9J2I+z7As8VtADVJf04gWQNbjGe4
+         WwdYC0M5BTouYWig/4NZILkcBjjLQJW/Wj+c2BdQgy2XMHArdtYGm4Gjn2XkFgXVFUPk
+         j3NdW0psL6bK4Nt6NDUaGSN4b6jZvkjqRRb7zyrgZGq+/U03sDF12a1EZRkjr5UL1a/c
+         cNQQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw3CupzeJ/FAfGUfuOl35vivtAtoDlSj3Ejk5jJx6Zqq/IAQ0WgoTummLEEZoRP/4eHSEUIQvUaFd7q2yZtqa0=@lists.linux.dev
+X-Gm-Message-State: AFuF++m8vD/u1Vd38AIiyGcTYOk3l9Y0padEftP3gh8XZwn6p7f0li2u
+	AhtBBhFRAdm3U1pD1ArsqaqaTCIMA0dxd8QUhezITEGZ9XHHMeuUtwIfj/P+K/zEAg==
+X-Gm-Gg: AYBFou1F914+8QmpWE9sxpahVIEm1fhRtZ0tMTtH6NwvCMCChf23mtDk85wqtt/qcig
+	RvrJldIi5c0QyUhTdC5gn5xSz+nDgyp3qPwl9XT0SvYpoKBk4riHFrf6VpbmJtY7tWtPq9Jl9ba
+	IMGtRBUGuUhC9/MjgTogH1UDiZIXKO7KtF8TB9chDtBdAe8AFkFaV3gSkQoFCbnYfE1pG31HG6R
+	7n/K8af7K+OJzzRfvL/9LnAjSWhMdSGNA+ewpX81ztJY3qXv/Yt9ASR5k+IaoHfdI8VtqTnXk77
+	X9tpBxdRk3y4N0k0BEPqhMpVurclfReyA+zGWJMCnErBftpfZ76+HKummkx+CBIj3yDVZ47FxK9
+	eKEHRP/wJFBJOInbLpEr2uflZhhzZlnulfpTmg7/sMIBDb5OoQ58r2Iy0jl1cmwCak9N+tYjexw
+	21+tevAhW/hRc3k0JLmFEnzriqTOYKYjL9CyKM4ya6wKEMM7b+gzn7nO8XtQAcWU5938aa/3oMU
+	bc0Aze5A4OxKVAk6Q38j/r7o5ByNJw156jS
+X-Received: by 2002:a17:90b:3c48:b0:398:e436:384 with SMTP id 98e67ed59e1d1-39b260d335dmr14333919a91.1.1788564755684;
+        Fri, 04 Sep 2026 16:32:35 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:1121:7bb4:46a7:263])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-3339885ca07sm10975102eec.1.2026.09.04.16.32.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2026 15:57:04 -0700 (PDT)
+        Fri, 04 Sep 2026 16:32:34 -0700 (PDT)
 From: Brian Norris <briannorris@chromium.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
+Cc: Doug Anderson <dianders@chromium.org>,
+	Brian Norris <briannorris@chromium.org>,
 	linux-mediatek@lists.infradead.org,
-	Julius Werner <jwerner@chromium.org>,
-	linux-kernel@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	Brian Norris <briannorris@chromium.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Doug Anderson <dianders@chromium.org>,
+	linux-kernel@vger.kernel.org,
+	Julius Werner <jwerner@chromium.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Chen-Yu Tsai <wenst@chromium.org>,
 	chrome-platform@lists.linux.dev,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH v2] arm64: dts: mediatek: Add #{address,size}-cells to Chromium-based /firmware
-Date: Fri,  4 Sep 2026 15:56:22 -0700
-Message-ID: <20260904155621.v2.1.I33d1d66d4724587a981f706243cdc2f264670a40@changeid>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: [PATCH v3] arm64: dts: mediatek: Add #{address,size}-cells to Chromium-based /firmware
+Date: Fri,  4 Sep 2026 16:31:44 -0700
+Message-ID: <20260904163143.v3.1.I33d1d66d4724587a981f706243cdc2f264670a40@changeid>
 X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -132,6 +132,10 @@ https://lore.kernel.org/all/20260428200712.2660635-1-briannorris@chromium.org/
 There is a little more background in the v1 cover letter. I didn't feel
 like a new cover letter was needed for a single patch-resend.
 
+Changes in v3:
+ * fix the syntax (build error) in mt8183-kukui.dtsi. Oops. (Sorry, I
+   was testing other platforms for v1, and not ARCH_MEDIATEK.)
+
 Changes in v2:
  * resent separately from the series, since the rest were applied by
    their maintainers
@@ -168,7 +172,7 @@ index a0573bc359fb..777da2129e77 100644
  		device_type = "memory";
  		reg = <0 0x40000000 0 0x80000000>;
 diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-index 69cab9f9c530..fa359440ed60 100644
+index 69cab9f9c530..acd5f59b0d4c 100644
 --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
 +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
 @@ -22,6 +22,11 @@ chosen {
@@ -176,8 +180,8 @@ index 69cab9f9c530..fa359440ed60 100644
  	};
  
 +	firmware {
-+		#address-cells <2>;
-+		#size-cells <2>;
++		#address-cells = <2>;
++		#size-cells = <2>;
 +	};
 +
  	backlight_lcd0: backlight_lcd0 {

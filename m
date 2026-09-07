@@ -1,41 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854B8353A6B;
-	Mon,  7 Sep 2026 04:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315422931CE;
+	Mon,  7 Sep 2026 04:27:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788754903; cv=none; b=cwsiAa4U24apHifjJLMPCdJZJB0bWYFbXObYAlv5MQ0vykYxZZy1hx0wUyy3lbKrRsXM8Q6s/ZtMx4ejx/YSstlDMTMBCJciCksq0/pQKMj9qSBOAmMbIlMKfUczpkO2D25Dmwi1ew+yxpygaeCOCglYVSo/i5IYIBksRcZdE7o=
+	t=1788755252; cv=none; b=jFs3idyjvUn8Fqbuh6hKur/drxoPBTfIibc1cSL+OwOVX1hbC0vt+XX5IURSrfTSO3E16zqAxdH+dssdYkAWbtJfsU3iZ8EDRD4xUBKvji9gTvAnjCF4ZCu8xCFzO2EWsXjSB0ShvCoXCH/vISNiY6xO32dQsAJ3Y8N348t7p8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788754903; c=relaxed/simple;
-	bh=mgYgtkUA4vMQ/FQw9HIJp5tMpVVcD+qJI5OxIeP2r7c=;
+	s=arc-20240116; t=1788755252; c=relaxed/simple;
+	bh=HrxgKSd7KFQj9ZzDDn47uJGtQunw1xl04WO2H0Xu0As=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BxuFVkgZb0zOtAOaLIlXbSeAHXD6HOFbX9vydHO6JEx6dNanFfbbyzM5nH6nDICyRjgjWyumpJlvdupfbHs8c6OYJyJTCyLnxrBbTjoJLOx5K9AQEDSgGnBRrOMA6YxaUxbxHhB1Q8voAsgz1bF9fTF3TYoNEcw5oMDjdgNKfmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lapk2VEz; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hFW4PB1vdu9JQzoCVxDye1IjmWoFCX4DZk5Cm2nrRK/a9xBswQeUGsfpqXU9PRLdf5hpgJOo5m4mnE8NDP0eDF9x5Je+40ZmdPqUYTYUZ+J+0tie7roRlYqL5sryrmxeqj+fHz0Br0O8rdROAeLRX2wDg9Ch8lgyvorj95Tns4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A0se9P6b; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lapk2VEz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6877B1F00A3A;
-	Mon,  7 Sep 2026 04:21:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0se9P6b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EF6D1F00A3A;
+	Mon,  7 Sep 2026 04:27:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788754902;
-	bh=QbHc3JAn7b/lc9Pm//EPCRJvlZ3k4ZAt50qzo8hEzgA=;
+	s=k20260515; t=1788755251;
+	bh=eOiOiDTjpTR/pJ9e5X2FWMFuX/Q9lmvlMAZXJETT8CA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lapk2VEzhdSpjNTdmISn3jeSNsBkzTKUny65nqDbX+PLEefKKU2pfuYZQQgpFh4qS
-	 1oYafCcGgU8crrRbmSp2Wktplvezo19tb8fiGXk/rTNNWmgOYUlGCW6X6mdtYZtoh1
-	 9VI6X6fSx9Vbb3yvJ0XogCnKMtD92Z/AaQAYcAcGsatKoQyyPZhGOVudXmgdwUAuPX
-	 dWAG76At7T2/ndNhnMuCINqAfP+DFtxyoKR3ZGn6Ohv7WUdqyWlaAN4ng6VG87AkD9
-	 iW32xyVlg7uiTwjHCMjCc1RDZ8IBsS928eb9JL8no91iGxk9a62AsGndLX38vvkTyV
-	 7fk4bgyk8XosQ==
-Date: Mon, 7 Sep 2026 04:21:39 +0000
+	b=A0se9P6b5kRb/yCJaLc16LIjNCTiDGWM+BwznDilpXHwZYlzL3MujAgzWA+6tfrhC
+	 Ix7i16k2F/JNfHIG5ADerMsAffQ6jIMuU7iZL6ebD4GTp5X1jL4DewhmeVLiz7ZrQU
+	 +VtpaHMZoWYQP3NyR2RCYUF2FfNIMScg8RxJbMioYeH0Bx8KHRF3cQKU5MoVsh0e8O
+	 GVrsghbOIufS+Ww0ouJ1Tw9wxKVKtp8ssTo0dNsnPwAK3Il1RWazwT4PciJKOuYgJ5
+	 MGMHcn8pfGKF+4Bvr+TZLcsudGkOrZGkQEzIY32uJwI0zi6qrzAA3X2pkpH3Qbmogo
+	 rXoYiAcwQMjUw==
+Date: Mon, 7 Sep 2026 04:27:27 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Cc: Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware: google: use named initializers for
- acpi_device_id
-Message-ID: <ap470yV5nunouUL_@google.com>
-References: <20260904-acpi-firmware-v1-1-7e4d7a09198e@thegoodpenguin.co.uk>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	=?iso-8859-1?Q?Iv=E1n?= Ezequiel Rodriguez <ivanrwcm25@gmail.com>,
+	linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Subject: Re: [PATCH] docs: ioctl-number: Point the 0xEC row at
+ cros_ec_chardev.h
+Message-ID: <ap49L6r742L45j3f@google.com>
+References: <20260905102754.43160-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -44,13 +48,18 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260904-acpi-firmware-v1-1-7e4d7a09198e@thegoodpenguin.co.uk>
+In-Reply-To: <20260905102754.43160-1-kmehltretter@gmail.com>
 
-On Fri, Sep 04, 2026 at 04:24:00PM +0100, Pawel Zalewski wrote:
->  drivers/firmware/google/coreboot_table.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Sat, Sep 05, 2026 at 12:27:54PM +0200, Karl Mehltretter wrote:
+> The 0xEC entry points at drivers/platform/chrome/cros_ec_dev.h, which
+> commit 5e0115581bbc ("cros_ec: Move cros_ec_dev module to drivers/mfd")
+> moved; the ioctl numbers now live in
+> include/linux/platform_data/cros_ec_chardev.h.
+> 
+> Point the row at that file.
+> 
+> Fixes: eda2e30c6684 ("mfd / platform: cros_ec: Miscellaneous character device to talk with the EC")
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 
-The file has moved to drivers/firmware/coreboot/coreboot_table.c recently.
-Please rebase to the latest linux-next or for-firmware-next branch of
-https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git/
-and resend.
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>

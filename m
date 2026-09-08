@@ -1,88 +1,62 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9953B841D
-	for <chrome-platform@lists.linux.dev>; Mon,  7 Sep 2026 14:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517212AD37;
+	Tue,  8 Sep 2026 03:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788793172; cv=none; b=e5p6l4tIEODgCqsjRswN528mehh5GoOqZi2iQai5Ngt1ypJ0RSRf2b2XS/2WL73o+DcbwNIAn7pTjtT3guD7BSeWTBRTNALaLKES8F3G1fqwBflWLGCMetLC5KyBw/55ovQjx4SH9Mrfhpr2oVCM7VkqMF2JbemUi2pM2KOt5V8=
+	t=1788836800; cv=none; b=CS82BFgHQMbCtjCVukzk4wBhWNCTphtrJzCwBfKlpoz4hkTW0vUIW05seuIuccAy98a5AU4kGBs6s77RBo+5yg6m0umTutripCWI8nru/BbU0dJQCCQbNc3SoQ0k0emJ3FQZFYN6plaqgy5wnNKOpG0giTCSsJK2kbJSGRjVW+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788793172; c=relaxed/simple;
-	bh=QTgxfCWbbU/qNW8ahWTcUMz4dk6m52Vfyr6TTsGlTXQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=L28AMMXNQ6U/TvuDs5SiAIJsONZSdR7Q5ZTL2m9LT8VZ7+hF0cz4qtsJ1JPUfxCBkDO6gdrK/AqZmd/nq6Zk3SNV+HGsAoxz2uhR59tzoAT83vVS3mEPczCvl+HSxwG4Sqoar4qG+2hShsWOhTcQI581fS5VPLesb3Dzl4StRQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ec6Brd5u; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1788836800; c=relaxed/simple;
+	bh=QK4Qc5b7NIYLPkjR1khb5J5yTiPGU5QtG+LctPOVK/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EaFKkgZfn5qXdOz+li9E8qW3Yp54ttocwBT6LhwwRFpMikj+oup1tix4FH05gXpMX06tukVxRoBqoTQ/hfhTd43p2Jg0JfgkAbNHYZgg7UkHRqHNaD3/zinWLpacnQdTAxmJL2VUsUV8+M3KKFj0SiMltk/stIwBi7vPPxybNRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DSrhcIGm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ec6Brd5u"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B4B45408FF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1788793162; bh=+gi/EhUfP1aYUG2SSiGIlRkZya4BawhuE6V7ocBdy5c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ec6Brd5uEWTny8I/keEc4u0J+gsxpNjcwCqgXxUNZ4ZYbnQM2KC+rDRVdfDOICEm8
-	 inAWlI1y2gNmBC+o9/Ei/EK9D9SNk1+f20AWoDmjIqqXhsaevRIua2UVLKsc4Hldrp
-	 FAKwXT95HXehPLmgH5Kc6wWR7fl8sDPF9tH+tSLLg9P2VP2y52YeLnQABynXKeFD2O
-	 4FAX5gHI8IxVp7MaKmKi6TBqF/OXkJHcjZzmP2kmIg2bhGphslnQZGHuKsA9CzOgLO
-	 yv9daYJKL+4o/Ei1UUnz1/daXZFfwNOKusmR0n1oCO7cg6gtRep+TF74PNv8GJ8xk+
-	 p7ZH+I/wTPYRg==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B4B45408FF;
-	Mon,  7 Sep 2026 14:59:22 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>, Benson Leung
- <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck
- <groeck@chromium.org>, chrome-platform@lists.linux.dev, =?utf-8?Q?Iv?=
- =?utf-8?Q?=C3=A1n?= Ezequiel
- Rodriguez <ivanrwcm25@gmail.com>, linux-doc@vger.kernel.org, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Enric
- Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [PATCH] docs: ioctl-number: Point the 0xEC row at
- cros_ec_chardev.h
-In-Reply-To: <20260905102754.43160-1-kmehltretter@gmail.com>
-References: <20260905102754.43160-1-kmehltretter@gmail.com>
-Date: Mon, 07 Sep 2026 08:59:21 -0600
-Message-ID: <87bja9xg3a.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DSrhcIGm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7DEB1F00A3A;
+	Tue,  8 Sep 2026 03:06:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788836798;
+	bh=MJ0yXYPFLqJC8oV7MY2mqeqUmtFy8b5jNzagCXy/cJI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DSrhcIGmX9UjnW2qB17lbkzONxgC0A6hrBgsKwJN7kXfsWQlcxzeqab7V0NLRt2uf
+	 ha82wHYlrot1rxoIg5FMSYzyy/8j62bn0eYUigSe2ws/eoQ5e6I+aaikuccVQWiqHB
+	 kIp8oY6+CGZkGdDuxJTL2jwE3dKDyMssBnmzleta5weZcrVk1pNwVLZwI8wG4eDVwe
+	 i8XizahkcTouAalXYYPYh92tcUiAJ4P8nybUbtQO+yINgkGwG1vFgtl7v11ceMuIe/
+	 2HWPQsPxQuvzhPpcY6aSNdI7dhSjc774dKrrd1cETj/0Zdw3Jucd1yniCu08M7kHV8
+	 BTw4hDS2HUlYQ==
+Date: Tue, 8 Sep 2026 03:06:35 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Cc: Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] firmware: coreboot: use named initializers for
+ acpi_device_id
+Message-ID: <ap97uwujoSOrvjOT@google.com>
+References: <20260907-acpi-firmware-v2-1-e0b6d40823d1@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260907-acpi-firmware-v2-1-e0b6d40823d1@thegoodpenguin.co.uk>
 
-Karl Mehltretter <kmehltretter@gmail.com> writes:
+On Mon, Sep 07, 2026 at 03:00:45PM +0100, Pawel Zalewski wrote:
+> Use a named initializer for the acpi_device_id fields which
+> makes the code more readable and consistent with how lists
+> are initialized in the rest of the kernel code base. Also
+> drop explicitly setting fields to 0 where it is redundant.
 
-> The 0xEC entry points at drivers/platform/chrome/cros_ec_dev.h, which
-> commit 5e0115581bbc ("cros_ec: Move cros_ec_dev module to drivers/mfd")
-> moved; the ioctl numbers now live in
-> include/linux/platform_data/cros_ec_chardev.h.
->
-> Point the row at that file.
->
-> Fixes: eda2e30c6684 ("mfd / platform: cros_ec: Miscellaneous character device to talk with the EC")
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->  Documentation/userspace-api/ioctl/ioctl-number.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 2fc53093752d..32c0d08e92e4 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -399,7 +399,7 @@ Code  Seq#    Include File                                             Comments
->  0xDD  00-3F                                                            ZFCP device driver see drivers/s390/scsi/
->                                                                         <mailto:aherrman@de.ibm.com>
->  0xE5  00-3F  linux/fuse.h
-> -0xEC  00-01  drivers/platform/chrome/cros_ec_dev.h                     ChromeOS EC driver
-> +0xEC  00-01  linux/platform_data/cros_ec_chardev.h                     ChromeOS EC driver
->  0xEE  00-09  uapi/linux/pfrut.h                                        Platform Firmware Runtime Update and Telemetry
+Applied to
 
-Applied, thanks.
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-firmware-next
 
-jon
+[1/1] firmware: coreboot: use named initializers for acpi_device_id
+      commit: 0e30b98a545991e440a947fb24f9df4ded9798f0
+
+Thanks!

@@ -1,67 +1,69 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B83D357739
-	for <chrome-platform@lists.linux.dev>; Fri, 18 Sep 2026 13:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1E339021A
+	for <chrome-platform@lists.linux.dev>; Fri, 18 Sep 2026 13:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789736523; cv=none; b=l9ZTVag+nbQ8j3f2qqjyHEdZCParKlDcqELy/oH4thidz8CUP/DGU6SUTZZlyQIh3wuOTyl5PHqmYb4oUdUULcka9to3J344rvdYhQGUhVhsxQKRJpyh0fkTIDskB/Vo6NQztDRGivePMAHpxriuf2bGO+c540TbBjrv88HEHq0=
+	t=1789736525; cv=none; b=GrMYLPc0fYQl+V4iHnKi82eKIjR236qsMD5ubVqRwcgmTUGTLOfuUfEazaRof7OsmvXLEzG9TaiM5oArFRcTeNV21nrxsaf5oeV3d7lmnZNVZMPrB46Hvxq4jRTY6jd88e8yONMTk6nfhfhu/ALwdXYK4wyAVs7U1fC4xzKxlG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789736523; c=relaxed/simple;
-	bh=JzY7qCjsMGCCDrnykYP+j+8saSrI+L+fwV77wWEiOrQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=m71CGunDgMsw/2dLch7Eg0jn/iC9CwfMGxKnFtuQOhaQ1yWUVRPLuzokVvlant7BUZ80wkXEd3Nb0d8TkVJPMW3ebs4lvhEINBRoVfeTZwBuNRWDHYRZHFTJn7iAQ++fAfJqidGxRoUchozkp02HXxGlEnxu0uXbKTTVHgmiAto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=tnS4G0FW; arc=none smtp.client-ip=74.125.225.141
+	s=arc-20240116; t=1789736525; c=relaxed/simple;
+	bh=fa6kq1q/j0kmHwk4URxaYOv2Xe357GRD8EOADLztHbM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Ch/OxvBQjffcxVUW+7Lod6pFbIifqQhUCbT89ux1NoQ6/ITIsR0lHVP7G/C7FKa6KgAy7zO/9oHUvFdnsnRZ/rOr8/yTBExmf0YPPRQTXC7rjKBCe98NxywCmPmlsfcNrZWQ58Z6rLZFeF7AsdJIJFB5jDVVIGTxUTGnoEWyKXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=Y2U+gj2k; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="tnS4G0FW"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6c0fce17so3963085e9.1
-        for <chrome-platform@lists.linux.dev>; Fri, 18 Sep 2026 06:02:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="Y2U+gj2k"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b5so4726135e9.2
+        for <chrome-platform@lists.linux.dev>; Fri, 18 Sep 2026 06:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1789736518; x=1790341318; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=MGji7N6SbnVIadV5bhhuwD8KcQaMiAzmz+Si29Ez/Z4=;
-        b=tnS4G0FWZbION7046abzWa7Kke7bsRMDU2rBnsd+Thlwpx5pLog5w4hC7/mBexw99Y
-         wGUiPz4R0FXOp2lzK3T2qQFleOgIr8toK7PCMceNhHV5OWsGtUbPcVovxZlMEQ4e17Z3
-         sdFEixcM8PvYqBoVtxhw08Ta8q1rBFCjDimCsJ9mgdoQrWAoglLr9OWNbOGbWyIm8AtP
-         ICNO7+rSERtl4oMrXTtzLlP0VVcctKYPjgDm/wuE4u1ba49Xi4VsIUFPQvnV4mbZo0bQ
-         t34vkiXw6GSHPJP8NtNXSX64aqJ+NlU7qR7P2t2XAAiL42gjBTui8uz2QPu/Gs0n/yd6
-         /J4g==
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1789736520; x=1790341320; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZtkHI/KnMWq6CTlHyr0XTNdYgawafpLs2G6PQA3uwQY=;
+        b=Y2U+gj2ka5TlMqEdsTCT6RETYg1rQkmOtbqrUM7KST8cffEDyxDmMqbURucj1tkYPv
+         Eo6qsCTVbAOb7T4monpSrP4pUT+E+xrmFNMuLqSVHGYP8qGhdfRwFknQQ90OnSZ3ikQt
+         DOI2wq3oSmLuko1FnZvcWtjUcXK79Mo/Sajd2XO3Mei2ydvdE9a/8i3vu0BpgQp3Q401
+         LIAiwVn3xPVTBuv7aMAXngwCc7lXWUyKPHAvQ92OKV46W84YRnkJXPU9Q2S3QxDV2hIU
+         Gn9b1gDPm5q+xslGgCR+6IypafwbtyFByUfDpeCcfnjMKvdcBiips3fwHdHosCABADjZ
+         VhNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789736518; x=1790341318;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=MGji7N6SbnVIadV5bhhuwD8KcQaMiAzmz+Si29Ez/Z4=;
-        b=GWt22sG304vfFz5RjY3eQFVksNl5Rxw9kQngWHcGSvi6iv1PbLnaRsmzDpIHhFb1a9
-         sBG+wzGZT2qZp95YIf/Wuuu1iBkNTjK1BX+uy+HR8XvAV/ga6+ZTKm9G6UO0jM4iH0By
-         7Tr2GLhkC/UbKMk+W1PSq33z6sGzRKdkVHCqoOQBdQj+/P6r6cKCv7ElLSaO384bQtrg
-         nBqaAIBOjzf+rGDFzz9S1XfaM0WZTtbtrY8itBKQ0PAa+dcldLKg66QeWie9owbcK4KQ
-         NY6lxYf+QlqDVUu5NSgl5RUpClyWm3sGlludKtW9WzkWZcsFmnLVyPSwgineDfdGSLLC
-         YpAg==
-X-Forwarded-Encrypted: i=1; AKwUvBy00Q6LgpnwAXlfZzDzL7lMrUSyYTLvMrkj2dlPk4Ujmm4pSQovPHP9WPHmmu2eDBeQMvxeodvvn2c95dO+MdA=@lists.linux.dev
-X-Gm-Message-State: AFuF++kIN+sdXRPzX+FEWkEwBTyBdVQSy/XQvXEhZ26jSN+JS8QY/Ahc
-	zds354fzMCS8GchXN9Qdb1BqiDpDCj+8CmsjQHilF7/l92oXmk27WAMT8yEssKpAdW4=
-X-Gm-Gg: AYBFou0QgERXzWMua3k+qyqQJOyj55imJ9TcmTa+IfqR94gS0g3s3vqkfakWPzNSKjc
-	ZvVIXg4itYmU2uAnUmISWaZBbSmS0dvTe82tMgw7J9ZkP+/7ndSPg4f0QUw/nq1g//UJWjx4mvw
-	JBKG2dz3zV2rnYoF2Vo4mWLgscrXU1D7rno9sIUgnlVfWhcbfnG2+spyQF94mVepR+fjaG9ONPl
-	KXk0qOzjz7GBG1bAS5uzUsuDqniwgqL5AL6EgXvWZFtsryZ0t59V1mfYsWk3gSJSNKip38qhpOx
-	wmbtwg5T0lAYtCJi2baiH6kIIQX4DnfA/1nGpnfOuwODpOyU+sKOZTpzRvuRKlJy0S+JUTHGMMN
-	7mx43kl6BrpWJYh7nabz8ZBOJ6+/Zeb8OFKsQnt/gXREBfguzfBtjTOzujbmmb6gg7phoL1yi95
-	zZ9s7kxAeu8cbg5OYJuTgmzrJaE4WQMuyxP83FeJK3nYd0rLEiNoQjULDydjsb506UoaOY+ibKa
-	3osteTs0PETX+TyFKJOuTl4SQ==
-X-Received: by 2002:a05:600c:8b21:b0:49d:1df8:156d with SMTP id 5b1f17b1804b1-49fc574f001mr30144785e9.18.1789736518421;
-        Fri, 18 Sep 2026 06:01:58 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789736520; x=1790341320;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZtkHI/KnMWq6CTlHyr0XTNdYgawafpLs2G6PQA3uwQY=;
+        b=NLCMO29sNBoY0WsnFgfPDkVKEcVAPtjfLdLNCHAdd4fdgr2q5u0AFYiSn0xvLszIIz
+         dOmThNkBslxhI230+WNUdOe8gflrm+hSr/Fd+WfXu0iMTunRFxju271r36PK8c05D3aL
+         vwOdPTawKk8klUIPjUPCH/FjZMUZAmq78jVDQwsIUswsBlwV+G2aieZ3QUmGlXbQQmyo
+         TO1oLAKftYtXmg3t24l7b8xTGFmdJJ4EjK8qDqyahKGdEVti7EfHQZIfKOA6kkOhe1xt
+         MTclvO0tEvvyFupaTmmne32vGMNDxIW0rgLCNUO+OhysDdHwPgHIxeoOsd4pVcP4DEtW
+         0GZA==
+X-Forwarded-Encrypted: i=1; AKwUvBzy7t7fD1Xa51YRvjgq/8oC5ZQpETjs5ZZWtdoqMgFfqvZrCp32/Xz6am74CUuqpjElY7MsYzkhS5JJ7XoQo4g=@lists.linux.dev
+X-Gm-Message-State: AFuF++l6Fy+0gRB7y6iKtUhXThCzElJqd/lNUbuMIHnecmb78a6V6Cee
+	t/ZEYh2EDzXyLXMFCRHfmuUhO441t8f+r7L6CwDMgglkIBymUDpd7NvQq6qT84cHa5M=
+X-Gm-Gg: AYBFou2IDEn5ZvF7OgNL9D6y0n2er2hNPxubiVY9dDAoBy1BDKxVqT8pJsrp7Dgl5do
+	Z5DS/hwgUvk9ohzyBOw9JHTvrf4PQ2/qfDH2jYpRuf/HDlrRr3KTdnxshS3pFEt1IRodF1pTLmh
+	q3Jp9+5y0qYbgAXSjHrgf0/eGMrTV+d+PStV7q+OOlQJkKnPQBJEJA5Uo+521zT7FA5b+MqeDeW
+	ENwyRzUIxxVRceYFY4PcoI5GPYnRXRybtlkSvwlhQMH8DI5tsCqldHIUtIp8/WZBjZMhoBD+8S8
+	mlqoQcK1ortuIbPjOPNootGeOXEZlYY/jgPkyVIwN7wRm+MY0HXAQDy+Jxi/WFn/O7QUc5ohQXu
+	zE4aVJRhvU7J+SDRhlsUlZ4Z2WsTFpBup3rBszHCfTCJYapYQnLi4Lpd5odbcOxU0oyLaj1ywHJ
+	gX31FBoHumKpKSNQKwg2vrMTL+DWGksxeGQviyQ0l0rq1PvMpIKKMvBV55PKAkHQag6e5w4/r7L
+	u3wbiiAuFJ+H/c=
+X-Received: by 2002:a05:600c:1f95:b0:49f:bcb7:8e9 with SMTP id 5b1f17b1804b1-49fc5726c1fmr60894575e9.9.1789736520206;
+        Fri, 18 Sep 2026 06:02:00 -0700 (PDT)
 Received: from [10.42.0.1] ([2a00:23c7:1d1a:9c01:767:e33f:e8e7:bc85])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd24034esm188663345e9.15.2026.09.18.06.01.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd24034esm188663345e9.15.2026.09.18.06.01.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 06:01:57 -0700 (PDT)
+        Fri, 18 Sep 2026 06:01:59 -0700 (PDT)
 From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Subject: [PATCH 0/2] i2c: use designated initializers for acpi_device_id
-Date: Fri, 18 Sep 2026 14:01:49 +0100
-Message-Id: <20260918-acpi-i2c-v1-0-caf4bea4886c@thegoodpenguin.co.uk>
+Date: Fri, 18 Sep 2026 14:01:50 +0100
+Subject: [PATCH 1/2] i2c: i2c-core-acpi: use named initializers for
+ acpi_device_id
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -70,10 +72,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAD02rWoC/yXMQQ5AMBCF4avIrDVpSxRXEYsaU8YCaRGJuLti+
- SX/excE8kwB6uQCTwcHXuYIlSaAo50HEtxHg5a6kJUywuLKgjWKXFUlllnvjCGI+erJ8fldNe3
- vsHcT4fbu4b4fJiVLhWwAAAA=
-X-Change-ID: 20260917-acpi-i2c-4198c83df77e
+Message-Id: <20260918-acpi-i2c-v1-1-caf4bea4886c@thegoodpenguin.co.uk>
+References: <20260918-acpi-i2c-v1-0-caf4bea4886c@thegoodpenguin.co.uk>
+In-Reply-To: <20260918-acpi-i2c-v1-0-caf4bea4886c@thegoodpenguin.co.uk>
 To: Andi Shyti <andi.shyti@kernel.org>, 
  Mika Westerberg <westeri@kernel.org>, 
  Shyam Sundar S K <shyam-sundar.s-k@amd.com>, 
@@ -104,79 +105,60 @@ Cc: linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, 
  Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789736516; l=3020;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789736516; l=1626;
  i=pzalewski@thegoodpenguin.co.uk; s=20260430; h=from:subject:message-id;
- bh=JzY7qCjsMGCCDrnykYP+j+8saSrI+L+fwV77wWEiOrQ=;
- b=IDSzYBmue84R08QroUyy3NH/AxpYxihKb9K2xhN1QPp93+Ogye+hBhK4mHIOdf1zDUyhK9Zvj
- Ey74QzEBKIGB05J6xZ7TUIbv5ZKaL/sgYUsp72oIXBPUQ/meroTQnXV
+ bh=fa6kq1q/j0kmHwk4URxaYOv2Xe357GRD8EOADLztHbM=;
+ b=EYFqwB3JTSDF/v6810RjGhnD5BuvCmTHk4T0POvMYduD0+qDSn25FQg7BXKXC7O8I0YPInY/k
+ wW3a/ein6rHDASDulAEy/3FhDJTusf+soHqll38+PQvEAnd5Rrg6OMI
 X-Developer-Key: i=pzalewski@thegoodpenguin.co.uk; a=ed25519;
  pk=vHq4n9IonORH2GTzLv8r6CWAFHzgfBuNkQPXA8NSly0=
 
-This series is converting lists that contain the acpi_device_id struct,
-which is defined in the include/linux/device-id/acpi.h to make use of named
-initializers (which they do not use currently). This work is part of the on
-going effort in the kernel associated with device-ids [1]
+Use a designated initializer for the acpi_device_id fields which makes the
+code more readable and consistent with how lists are initialized in the
+rest of the kernel code base. Also drop explicitly setting fields to 0
+where it is redundant.
 
-The plan is to convert acpi_device_id::driver_data to have an anonymous
-union, similarly to what was introduced for PCI and I2C device ID tables.
-The goal is to increase type-safety (most of the existing casts are gone),
-to improve readability and to make use intent a bit more clear:
-
-```
-union {
-	kernel_ulong_t driver_data;
-	const void *driver_data_ptr;
-}
-```
-
-But for that to work all lists containing the structs need to use named
-initializers first to avoid triggering -Wmissing-braces. I already have
-patches that implement this and touching a lot of kernel subsystmes that
-use the acpi_device_id struct and that list keeps on growing. Therefore,
-I have decided to split the series per every subsystem into:
-- pre-clean-ups that convert the lists to use named initializers
-  (which is this series)
-- actual implementations that make some of the modules use the new
-  driver_data_ptr member
-
-That way the task can be fragmented into manageable and independent chunks
-of work and makes this effort easier to review.
-
-Tested builds on x86-64 and a64 in Yocto using 7.3-rc3.
-
-[1] https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+Unify the list terminator to have a single space between the brackets and
+no trailing comma.
 
 Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 ---
-Pawel Zalewski (2):
-      i2c: i2c-core-acpi: use named initializers for acpi_device_id
-      i2c: busses: use named initializers for acpi_device_id
+ drivers/i2c/i2c-core-acpi.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
- drivers/i2c/busses/i2c-amd-asf-plat.c       |  2 +-
- drivers/i2c/busses/i2c-amd-mp2-plat.c       |  2 +-
- drivers/i2c/busses/i2c-cros-ec-tunnel.c     |  2 +-
- drivers/i2c/busses/i2c-designware-platdrv.c | 42 ++++++++++++++---------------
- drivers/i2c/busses/i2c-gpio.c               |  2 +-
- drivers/i2c/busses/i2c-hisi.c               |  2 +-
- drivers/i2c/busses/i2c-imx.c                |  2 +-
- drivers/i2c/busses/i2c-ls2x.c               |  2 +-
- drivers/i2c/busses/i2c-mlxbf.c              |  8 +++---
- drivers/i2c/busses/i2c-qcom-geni.c          |  4 +--
- drivers/i2c/busses/i2c-qup.c                |  2 +-
- drivers/i2c/busses/i2c-scmi.c               |  8 +++---
- drivers/i2c/busses/i2c-synquacer.c          |  4 +--
- drivers/i2c/busses/i2c-tegra.c              |  8 +++---
- drivers/i2c/busses/i2c-usbio.c              | 12 ++++-----
- drivers/i2c/busses/i2c-viai2c-zhaoxin.c     |  2 +-
- drivers/i2c/busses/i2c-xgene-slimpro.c      |  6 ++---
- drivers/i2c/busses/i2c-xlp9xx.c             |  6 ++---
- drivers/i2c/i2c-core-acpi.c                 | 14 +++++-----
- 19 files changed, 65 insertions(+), 65 deletions(-)
----
-base-commit: 238650ef6c7c7cca08e032527329424c9fbd70e5
-change-id: 20260917-acpi-i2c-4198c83df77e
+diff --git a/drivers/i2c/i2c-core-acpi.c b/drivers/i2c/i2c-core-acpi.c
+index 8f3bdd50186e..5161e8a7ca10 100644
+--- a/drivers/i2c/i2c-core-acpi.c
++++ b/drivers/i2c/i2c-core-acpi.c
+@@ -352,8 +352,8 @@ static const struct acpi_device_id i2c_acpi_force_400khz_device_ids[] = {
+ 	 * at 400KHz (as can be expected of any recent i2c hw) so we force
+ 	 * the speed of the bus to 400 KHz if a Silead device is present.
+ 	 */
+-	{ "MSSL1680", 0 },
+-	{}
++	{ .id = "MSSL1680" },
++	{ }
+ };
+ 
+ static const struct acpi_device_id i2c_acpi_force_100khz_device_ids[] = {
+@@ -371,11 +371,11 @@ static const struct acpi_device_id i2c_acpi_force_100khz_device_ids[] = {
+ 	 * the device works without issues on Windows at what is expected to be
+ 	 * a 400KHz frequency. The root cause of the issue is not known.
+ 	 */
+-	{ "DLL0945", 0 },
+-	{ "ELAN0678", 0 },
+-	{ "ELAN06FA", 0 },
+-	{ "ELAN1300", 0 },
+-	{}
++	{ .id = "DLL0945" },
++	{ .id = "ELAN0678" },
++	{ .id = "ELAN06FA" },
++	{ .id = "ELAN1300" },
++	{ }
+ };
+ 
+ static acpi_status i2c_acpi_lookup_speed(acpi_handle handle, u32 level,
 
-Best regards,
---  
-Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+-- 
+2.43.0
 

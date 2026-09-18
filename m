@@ -1,124 +1,182 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86374A8FD3
-	for <chrome-platform@lists.linux.dev>; Fri, 18 Sep 2026 08:24:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B83D357739
+	for <chrome-platform@lists.linux.dev>; Fri, 18 Sep 2026 13:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789719849; cv=none; b=kJxwzShXVbvzEIrw1pXWLfnMLlSluTTnAG6WCN3F+fYKLafZC+Z+CmFiLuxDSe5BbIM38/wgUVVhAqUzDHvo9KFPS3x4pOR8tLjaP9NgqhYecY8W4Jz9Vxa5hby2OL6HFHg+WVWiwIDj2dsRSTjKIsITHQloDVWFkIvKvfCy/5A=
+	t=1789736523; cv=none; b=l9ZTVag+nbQ8j3f2qqjyHEdZCParKlDcqELy/oH4thidz8CUP/DGU6SUTZZlyQIh3wuOTyl5PHqmYb4oUdUULcka9to3J344rvdYhQGUhVhsxQKRJpyh0fkTIDskB/Vo6NQztDRGivePMAHpxriuf2bGO+c540TbBjrv88HEHq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789719849; c=relaxed/simple;
-	bh=0ORtPf5rfrOcpgyi/FO05MAHQySi4ZeH+yKwjJ5NuVg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=t0TbBVNStekREDm5TwIXFbT6BczN6rBUuVTDwja7/gRi+44Yo+nHe+2fAL4GkXcrYlDmblVX38qaPcWBKWHKpm+RoNss3eBJYogeT2Ab2iU+Obhy4o2erJGODYLS+T3JUJxUqlXFB4RmoIu5FnhE/yaU94m9Fme4GJrJvSISl/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tt4q5Ipq; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1789736523; c=relaxed/simple;
+	bh=JzY7qCjsMGCCDrnykYP+j+8saSrI+L+fwV77wWEiOrQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=m71CGunDgMsw/2dLch7Eg0jn/iC9CwfMGxKnFtuQOhaQ1yWUVRPLuzokVvlant7BUZ80wkXEd3Nb0d8TkVJPMW3ebs4lvhEINBRoVfeTZwBuNRWDHYRZHFTJn7iAQ++fAfJqidGxRoUchozkp02HXxGlEnxu0uXbKTTVHgmiAto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=tnS4G0FW; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tt4q5Ipq"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254fa4c24cso69026266b.2
-        for <chrome-platform@lists.linux.dev>; Fri, 18 Sep 2026 01:24:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="tnS4G0FW"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6c0fce17so3963085e9.1
+        for <chrome-platform@lists.linux.dev>; Fri, 18 Sep 2026 06:02:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1789719846; x=1790324646; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=0ORtPf5rfrOcpgyi/FO05MAHQySi4ZeH+yKwjJ5NuVg=;
-        b=tt4q5IpqIpSKkNViOOrWauzHOXWBCWlKikFlDaKHaMzHj3qn+d9bdCqLhRJHZwE3KA
-         FGwmiYXdxLKJgU5/lH3K/gJM2bAAnubfBKNARJ2OYUVbBaq0h6ZNs3Pn7J7zQfBUPhbb
-         9PhhHNdIAIPvjJXhLJ8Diu87ewzJ+8WZDIyH8ofMqvJQcOZEr6DcIrCyF0S9mU4ZutG5
-         JZCGmOdnNXESrZ7Axhz+4+y1P0FpFtsUPptelX/fExlVLcpt+0RDu21BdlUUqz4lC0pT
-         Rp/Csx79ANQz+Ag+cU7mgcyQSDFlMUJlv+59eX0iLNi+nWKzuElnId7XPcAtkeSvrM2v
-         ML3Q==
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1789736518; x=1790341318; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=MGji7N6SbnVIadV5bhhuwD8KcQaMiAzmz+Si29Ez/Z4=;
+        b=tnS4G0FWZbION7046abzWa7Kke7bsRMDU2rBnsd+Thlwpx5pLog5w4hC7/mBexw99Y
+         wGUiPz4R0FXOp2lzK3T2qQFleOgIr8toK7PCMceNhHV5OWsGtUbPcVovxZlMEQ4e17Z3
+         sdFEixcM8PvYqBoVtxhw08Ta8q1rBFCjDimCsJ9mgdoQrWAoglLr9OWNbOGbWyIm8AtP
+         ICNO7+rSERtl4oMrXTtzLlP0VVcctKYPjgDm/wuE4u1ba49Xi4VsIUFPQvnV4mbZo0bQ
+         t34vkiXw6GSHPJP8NtNXSX64aqJ+NlU7qR7P2t2XAAiL42gjBTui8uz2QPu/Gs0n/yd6
+         /J4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789719846; x=1790324646;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0ORtPf5rfrOcpgyi/FO05MAHQySi4ZeH+yKwjJ5NuVg=;
-        b=zLWoyir5ug4RAkTPM0w9V0ZKvhnT2bdsble9dys9ZzNt3OZyvOxRNaWYftw+Rpl2b2
-         Q4k9NH0eZZSHozcjlswPcgBRjw96mRddZzgs+f5Zx+gZtc7Bo65ZddEjRmvQhsuY3Ncz
-         pEHgnlAyjYyzuU2oRDD2WtjThTc22WNXfbzZx/FMA4ZOi4PxU6gV4fUjrGLdRgDxrzzu
-         Wnyfi+2xLwGYbMppD83304meWhZIWCLkvZDgJ0lKOoYpP1qPjvRjlKoQfb/SOkfCwEQp
-         hrkiCsvhXkmlPt7tLXaZTuVe8VmxPpgpZmodwjoYQdreTw6EwPekAJGOcb7h8P/jWqvc
-         QUug==
-X-Forwarded-Encrypted: i=1; AKwUvBz+DrSXsfgMhekUlTqJVLIgg3aEDZ+P3GbzcuUcBsqObR0jXc2zT8rGY9UXX0wzXIxU1ewnSOf6qTByC//J770=@lists.linux.dev
-X-Gm-Message-State: AFuF++ky+Acef1a5auixZWizENWXOcKuMBRoouJZORgZj3KlMh8hhvV+
-	Fo5I9HVFT98dM37MhM07pUvpnMEf5+YyszCVL2KoT5IzWtbCtLmGszpvykTEPXDrzMk=
-X-Gm-Gg: AYBFou1iA6kBQpFPbYIPaq0A1VVFxT6yPQsuqdYRKgJJ+8Aw5ceI7XnaNFwtuwY60Fv
-	6u4TjltsqiE3hylJq9auTJx2Nuen1nHcV3KDIZlpSalNwAEqPEuDloQhED0pLdO43ZSmi9fIG8u
-	lVfapXoS4ypxGSa7BnCs0wp7F0xmQmhv79ag/pvwBD6O1+t0MU+Xqu8CEcz5iPEUTUFI5soUGWq
-	LGZoyx658h5iF3161Mg7FWE16V8R2103fkBHtvulnO+S/4vTeIyNyK8xzAv8LFt2u/a2j+YAORD
-	qAuLGdVqQi6ESXnXaXRKIX0Q64kMikBNmnv+C0m7+30z8XhkxGMrnelQThA7qZvGsVJdgrZBE7T
-	HKR9wDIAaZT8QbJQStDvF19eRy9YFLDXuWd6wJ13FPbBkZGC99PNCSA0OxofvpLC7CpY3NF0ud4
-	BwDocm8n3LAOmrE3w1daFV5tG/b4Q0IXF/sjD6+nmZeHOaNjJfQ0PMkqF/Zz6tWHNKAXY2hfCJq
-	Hc=
-X-Received: by 2002:a17:907:72c7:b0:c26:3190:296b with SMTP id a640c23a62f3a-c2a15e7df89mr192409366b.48.1789719845848;
-        Fri, 18 Sep 2026 01:24:05 -0700 (PDT)
-Received: from draszik.lan ([109.255.181.4])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a1bbc6aafsm33384266b.51.2026.09.18.01.24.03
+        d=1e100.net; s=20260707; t=1789736518; x=1790341318;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=MGji7N6SbnVIadV5bhhuwD8KcQaMiAzmz+Si29Ez/Z4=;
+        b=GWt22sG304vfFz5RjY3eQFVksNl5Rxw9kQngWHcGSvi6iv1PbLnaRsmzDpIHhFb1a9
+         sBG+wzGZT2qZp95YIf/Wuuu1iBkNTjK1BX+uy+HR8XvAV/ga6+ZTKm9G6UO0jM4iH0By
+         7Tr2GLhkC/UbKMk+W1PSq33z6sGzRKdkVHCqoOQBdQj+/P6r6cKCv7ElLSaO384bQtrg
+         nBqaAIBOjzf+rGDFzz9S1XfaM0WZTtbtrY8itBKQ0PAa+dcldLKg66QeWie9owbcK4KQ
+         NY6lxYf+QlqDVUu5NSgl5RUpClyWm3sGlludKtW9WzkWZcsFmnLVyPSwgineDfdGSLLC
+         YpAg==
+X-Forwarded-Encrypted: i=1; AKwUvBy00Q6LgpnwAXlfZzDzL7lMrUSyYTLvMrkj2dlPk4Ujmm4pSQovPHP9WPHmmu2eDBeQMvxeodvvn2c95dO+MdA=@lists.linux.dev
+X-Gm-Message-State: AFuF++kIN+sdXRPzX+FEWkEwBTyBdVQSy/XQvXEhZ26jSN+JS8QY/Ahc
+	zds354fzMCS8GchXN9Qdb1BqiDpDCj+8CmsjQHilF7/l92oXmk27WAMT8yEssKpAdW4=
+X-Gm-Gg: AYBFou0QgERXzWMua3k+qyqQJOyj55imJ9TcmTa+IfqR94gS0g3s3vqkfakWPzNSKjc
+	ZvVIXg4itYmU2uAnUmISWaZBbSmS0dvTe82tMgw7J9ZkP+/7ndSPg4f0QUw/nq1g//UJWjx4mvw
+	JBKG2dz3zV2rnYoF2Vo4mWLgscrXU1D7rno9sIUgnlVfWhcbfnG2+spyQF94mVepR+fjaG9ONPl
+	KXk0qOzjz7GBG1bAS5uzUsuDqniwgqL5AL6EgXvWZFtsryZ0t59V1mfYsWk3gSJSNKip38qhpOx
+	wmbtwg5T0lAYtCJi2baiH6kIIQX4DnfA/1nGpnfOuwODpOyU+sKOZTpzRvuRKlJy0S+JUTHGMMN
+	7mx43kl6BrpWJYh7nabz8ZBOJ6+/Zeb8OFKsQnt/gXREBfguzfBtjTOzujbmmb6gg7phoL1yi95
+	zZ9s7kxAeu8cbg5OYJuTgmzrJaE4WQMuyxP83FeJK3nYd0rLEiNoQjULDydjsb506UoaOY+ibKa
+	3osteTs0PETX+TyFKJOuTl4SQ==
+X-Received: by 2002:a05:600c:8b21:b0:49d:1df8:156d with SMTP id 5b1f17b1804b1-49fc574f001mr30144785e9.18.1789736518421;
+        Fri, 18 Sep 2026 06:01:58 -0700 (PDT)
+Received: from [10.42.0.1] ([2a00:23c7:1d1a:9c01:767:e33f:e8e7:bc85])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd24034esm188663345e9.15.2026.09.18.06.01.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 01:24:05 -0700 (PDT)
-Message-ID: <b567cb05cf1508be7474e2874d267d8e8a09e49c.camel@linaro.org>
-Subject: Re: [PATCH] dt-bindings: Expand flow lists to block lists
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Daniel Matyas <matyasdaniel006@gmail.com>, Lee Jones <lee@kernel.org>, 
- Ulf Hansson <ulfh@kernel.org>, Liang Yang <liang.yang@amlogic.com>, Miquel
- Raynal	 <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>,
- Vignesh Raghavendra <vigneshr@ti.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman	 <khilman@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller"	 <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Bjorn Helgaas	 <bhelgaas@google.com>, Lorenzo
- Pieralisi <lpieralisi@kernel.org>, Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?=	
- <kwilczynski@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, Ray Jui	
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom
- internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Will
- Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,  Vinod Koul
- <vkoul@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, Jonathan
- Hunter	 <jonathanh@nvidia.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown	 <broonie@kernel.org>
-Cc: Jose Abreu <joabreu@synopsys.com>, Ray Jui <ray.jui@broadcom.com>, Scott
- Branden <scott.branden@broadcom.com>, Atish Patra <atishp@rivosinc.com>,
- Shawn Guo	 <shawn.guo@linaro.org>, Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding	 <thierry.reding@gmail.com>, Ibrahim Tilki
- <Ibrahim.Tilki@analog.com>, Okan Sahin <Okan.Sahin@analog.com>,
- devicetree@vger.kernel.org, Paul Walmsley	 <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@sifive.com>, Conor Dooley	 <conor@kernel.org>,
- linux-rtc@vger.kernel.org, Ricard Wanderlof <ricardw@axis.com>, 
-	patches@opensource.cirrus.com, Lukas Wunner <lukas@wunner.de>, Chunfeng Yun
-	 <chunfeng.yun@mediatek.com>, Eugen Hristev <ehristev@kernel.org>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux@analog.com, linux-input@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-riscv@lists.infradead.org
-Date: Fri, 18 Sep 2026 09:25:27 +0100
-In-Reply-To: <20260917144028.459053-1-matyasdaniel006@gmail.com>
-References: <20260917144028.459053-1-matyasdaniel006@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Fri, 18 Sep 2026 06:01:57 -0700 (PDT)
+From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Subject: [PATCH 0/2] i2c: use designated initializers for acpi_device_id
+Date: Fri, 18 Sep 2026 14:01:49 +0100
+Message-Id: <20260918-acpi-i2c-v1-0-caf4bea4886c@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD02rWoC/yXMQQ5AMBCF4avIrDVpSxRXEYsaU8YCaRGJuLti+
+ SX/excE8kwB6uQCTwcHXuYIlSaAo50HEtxHg5a6kJUywuLKgjWKXFUlllnvjCGI+erJ8fldNe3
+ vsHcT4fbu4b4fJiVLhWwAAAA=
+X-Change-ID: 20260917-acpi-i2c-4198c83df77e
+To: Andi Shyti <andi.shyti@kernel.org>, 
+ Mika Westerberg <westeri@kernel.org>, 
+ Shyam Sundar S K <shyam-sundar.s-k@amd.com>, 
+ Elie Morisse <syniurge@gmail.com>, Benson Leung <bleung@chromium.org>, 
+ Guenter Roeck <groeck@chromium.org>, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Devyn Liu <liudingyuan@h-partners.com>, 
+ Oleksij Rempel <o.rempel@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
+ Khalil Blaiech <kblaiech@nvidia.com>, Asmaa Mnebhi <asmaa@nvidia.com>, 
+ Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, 
+ Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>, 
+ Ard Biesheuvel <ardb@kernel.org>, Laxman Dewangan <ldewangan@nvidia.com>, 
+ Dmitry Osipenko <digetx@gmail.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Israel Cepeda <israel.a.cepeda.lopez@intel.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Hu <hanshu@zhaoxin.com>, 
+ George Cherian <gcherian@marvell.com>
+Cc: linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789736516; l=3020;
+ i=pzalewski@thegoodpenguin.co.uk; s=20260430; h=from:subject:message-id;
+ bh=JzY7qCjsMGCCDrnykYP+j+8saSrI+L+fwV77wWEiOrQ=;
+ b=IDSzYBmue84R08QroUyy3NH/AxpYxihKb9K2xhN1QPp93+Ogye+hBhK4mHIOdf1zDUyhK9Zvj
+ Ey74QzEBKIGB05J6xZ7TUIbv5ZKaL/sgYUsp72oIXBPUQ/meroTQnXV
+X-Developer-Key: i=pzalewski@thegoodpenguin.co.uk; a=ed25519;
+ pk=vHq4n9IonORH2GTzLv8r6CWAFHzgfBuNkQPXA8NSly0=
 
-On Thu, 2026-09-17 at 17:40 +0300, Daniel Matyas wrote:
-> Running dt_bindings_check returned:
-> [error] string value is redundantly quoted with any quotes (quoted-string=
-s)
->=20
-> The files used quotation marks in flow lists because the strings had
-> commas and these commas were interpreted as separators. Convert flow
-> style lists to block style lists, so that there is no problems with the
-> commas.
->=20
-> Signed-off-by: Daniel Matyas <matyasdaniel006@gmail.com>
-> ---
+This series is converting lists that contain the acpi_device_id struct,
+which is defined in the include/linux/device-id/acpi.h to make use of named
+initializers (which they do not use currently). This work is part of the on
+going effort in the kernel associated with device-ids [1]
 
-Acked-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org>
+The plan is to convert acpi_device_id::driver_data to have an anonymous
+union, similarly to what was introduced for PCI and I2C device ID tables.
+The goal is to increase type-safety (most of the existing casts are gone),
+to improve readability and to make use intent a bit more clear:
+
+```
+union {
+	kernel_ulong_t driver_data;
+	const void *driver_data_ptr;
+}
+```
+
+But for that to work all lists containing the structs need to use named
+initializers first to avoid triggering -Wmissing-braces. I already have
+patches that implement this and touching a lot of kernel subsystmes that
+use the acpi_device_id struct and that list keeps on growing. Therefore,
+I have decided to split the series per every subsystem into:
+- pre-clean-ups that convert the lists to use named initializers
+  (which is this series)
+- actual implementations that make some of the modules use the new
+  driver_data_ptr member
+
+That way the task can be fragmented into manageable and independent chunks
+of work and makes this effort easier to review.
+
+Tested builds on x86-64 and a64 in Yocto using 7.3-rc3.
+
+[1] https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+
+Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+---
+Pawel Zalewski (2):
+      i2c: i2c-core-acpi: use named initializers for acpi_device_id
+      i2c: busses: use named initializers for acpi_device_id
+
+ drivers/i2c/busses/i2c-amd-asf-plat.c       |  2 +-
+ drivers/i2c/busses/i2c-amd-mp2-plat.c       |  2 +-
+ drivers/i2c/busses/i2c-cros-ec-tunnel.c     |  2 +-
+ drivers/i2c/busses/i2c-designware-platdrv.c | 42 ++++++++++++++---------------
+ drivers/i2c/busses/i2c-gpio.c               |  2 +-
+ drivers/i2c/busses/i2c-hisi.c               |  2 +-
+ drivers/i2c/busses/i2c-imx.c                |  2 +-
+ drivers/i2c/busses/i2c-ls2x.c               |  2 +-
+ drivers/i2c/busses/i2c-mlxbf.c              |  8 +++---
+ drivers/i2c/busses/i2c-qcom-geni.c          |  4 +--
+ drivers/i2c/busses/i2c-qup.c                |  2 +-
+ drivers/i2c/busses/i2c-scmi.c               |  8 +++---
+ drivers/i2c/busses/i2c-synquacer.c          |  4 +--
+ drivers/i2c/busses/i2c-tegra.c              |  8 +++---
+ drivers/i2c/busses/i2c-usbio.c              | 12 ++++-----
+ drivers/i2c/busses/i2c-viai2c-zhaoxin.c     |  2 +-
+ drivers/i2c/busses/i2c-xgene-slimpro.c      |  6 ++---
+ drivers/i2c/busses/i2c-xlp9xx.c             |  6 ++---
+ drivers/i2c/i2c-core-acpi.c                 | 14 +++++-----
+ 19 files changed, 65 insertions(+), 65 deletions(-)
+---
+base-commit: 238650ef6c7c7cca08e032527329424c9fbd70e5
+change-id: 20260917-acpi-i2c-4198c83df77e
+
+Best regards,
+--  
+Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+

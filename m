@@ -1,142 +1,318 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0815D3624A9;
-	Sat, 19 Sep 2026 07:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789801707; cv=none; b=iPhD5+iZh+JQ1UxMAYrLf76//2nDjqhUcXjiU8FAyGYzPu9sY+/RMLwcP9yyqtTZWYFMOIHDzCf4VVOJHSMQaso/i5SIsHzdfx33hnYKQ7sa3HkS4b5mfi4OfCH02teTui6X21MYpZcFNYkGZ6vDlWZFErQ1Ah9WRvraZ/roxjo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789801707; c=relaxed/simple;
-	bh=5MGz3WuTKdMlxJLz4fLHKYHs7Zt62FQYjI6usArljZU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LZjZGC9/jx1bFCCAjPaIhprbj3iauy7fEXpRw6ROzh+mIOc7V37XUl1PySyl9Th3/9gFQrph6zV7O9zt/2F8uR7NI4XXwnNFbi01ZkNMNEtrBpjxAwKQ0RiMUN6NtDhLAVX4+P4h6ux5zq94063RX5zOwTF8Y0x9Ifmippcq1E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BCh+Q1fk; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AB9488228
+	for <chrome-platform@lists.linux.dev>; Sun, 20 Sep 2026 19:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789933231; cv=pass; b=JNkUIF2eqkyM9mn0U3lpGXBFmbt1lJZobPhyNB1/PTgVvsr1Ni4hTvAWQyXF/dZxKnmWZQFNP+jH7oAWEbVVhvtIzlFem/uDT9OwYULOOeJAs8T5k3rFsWrFBE2ZYv9j+BnpWfmi3aXLQVjWe1ziM4nXAZrjjbTp1tulZCr96lA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789933231; c=relaxed/simple;
+	bh=mauiSdjOeEpD8dIDuxTvQjuGXWV77WBxtg0mwzPjNLo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IG5J8ZpNn85k9SQXKHJE8mxB7IyL5oiVJK1uI1BPVkZvAa/kumCAwhxnw2wJOSlfdxEkQRKEWIOkQ01SwwzA3UNzBnRuZxqr2LbxbyFDSxAqzKdITfdptD4YDwJeQGVwuCFwnNj9++cPGz8DNLmADWDn6a5HlNVifUs/3eIZx9w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=YnlxX88K; arc=pass smtp.client-ip=165.173.180.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCh+Q1fk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC9F41F000FF;
-	Sat, 19 Sep 2026 07:08:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789801705;
-	bh=uhaSLRWxWnpOZ1hMGZ3P8vEzC790v0CsHkY9724kydk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BCh+Q1fkXZMtjVafQ5YGFV+h5db354VNq/ELCWyC4KkM9EOKXmUTlqgi+ma1wXozp
-	 DftsecIquMnGZU/bn7dlqfHB0SFowcKCtqYqFYBKKfUSA8s3K9Rsk5SMYPxnV+DeBV
-	 Y5Sj2gXory2ScdEG5Sx21lZEfxqdEdqZ9ssZyQau7j9QTMvL/H4vwGIsnSHVVKjlqr
-	 r41sO26J5aU+9ztpXEn5Q6cqRxLTKJH0TIlovq31RymcWsd+tEVLn+dCLOvNd83tjr
-	 uc83mnTCusi1VsH/mO2vViF+aXTvauBuk/3UmRhVl0wbrNfua+U/YMiqJx6DLrDv5O
-	 AiKJ0In7NVj/A==
-Message-ID: <457bb3d5-1d73-4acb-9ef0-4e40de6bdc94@kernel.org>
-Date: Sat, 19 Sep 2026 09:08:04 +0200
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="YnlxX88K"
+ARC-Seal: i=1; a=rsa-sha256; t=1789933224; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=b4T9GnOi6/0npYkaVS5M5rSdQt+HoOgrAGOX+YgcLXFEkHoQ6zr2AxPrqSOJCY0yEOvUk6lAfinCUd2CbsdStWcqWAmLiBCFYSpYeHiWJLuhKPYzx2qvDs7htlCR6y2s3X41lytd+8t+/ESqdMs5I2qufdBEMwh2c3eoV1H0uEs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1789933224; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=XCfUpcAEWIBQZd2qGaQPf9DzhbMgTwS/5DowjCTEoM4=; 
+	b=cgw4qNqG70xI0EXbGJKTfwDqrGSm4385hVcRWdUFoQIfnp2bwtUK85HuvcRNmZCzjUVwJvZta0Two7+f1W8ccOlhT2a5CH2qrAvJQJ0viYawy+rpaXImUnCUuDtCVzXv3IQejhMkLhkW7x1rVPEluzgCpguxuIrc0OJecRlGd8E=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1789933224;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=XCfUpcAEWIBQZd2qGaQPf9DzhbMgTwS/5DowjCTEoM4=;
+	b=YnlxX88KPI/FUbk2mAUAtXfk9A1vjCR8tTSwEaPRsl7b82RQCP3/qhGkm49WIU59
+	oUISaKgA7o38LcPWJfja5cOQ7mI64cT2RzaCQh75A0rvl/bYLO+E+bCnBwsbsSEVwZY
+	BIvi7Yb/bbfVZTq+lHI2nwAAvqyabRWWg10ywWRwFpP7zU+NuyoQa+7gY4h8r2Wjuhc
+	JEi6222Efh0eLbHWxm8MZW9pEXmUVdy8TQYJLVRpaOdzAXNcOe/EhryqNExsFJ6MsKF
+	8LdXc4T+pBvBNmOFI3BwT2ZfDi+Ni7WWfx6NZECqkoeJ6GAN0hWdQgdauPsTXX0sepg
+	d3/KPH4D5w==
+Received: by smtp.zohomail.com with SMTPS id 1789933223615730.014236065983;
+	Sun, 20 Sep 2026 12:40:23 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+Subject: [PATCH v7 00/13] leds: Add support for hardware-initiated hardware
+ control trigger transition
+Date: Mon, 21 Sep 2026 03:40:14 +0800
+Message-Id: <20260921-leds-trigger-hw-changed-v7-0-fe3cdb6dec51@rong.moe>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: Expand flow lists to block lists
-To: Daniel Matyas <matyasdaniel006@gmail.com>, Lee Jones <lee@kernel.org>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Ulf Hansson <ulfh@kernel.org>, Liang Yang <liang.yang@amlogic.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Vinod Koul <vkoul@kernel.org>,
- Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Jose Abreu <joabreu@synopsys.com>, Ray Jui <ray.jui@broadcom.com>,
- Scott Branden <scott.branden@broadcom.com>, Atish Patra
- <atishp@rivosinc.com>, Shawn Guo <shawn.guo@linaro.org>,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
- Okan Sahin <Okan.Sahin@analog.com>, devicetree@vger.kernel.org,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@sifive.com>, Conor Dooley <conor@kernel.org>,
- linux-rtc@vger.kernel.org, Ricard Wanderlof <ricardw@axis.com>,
- patches@opensource.cirrus.com, Lukas Wunner <lukas@wunner.de>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Eugen Hristev
- <ehristev@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org, linux@analog.com,
- linux-input@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-riscv@lists.infradead.org
-References: <20260917144028.459053-1-matyasdaniel006@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260917144028.459053-1-matyasdaniel006@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33RwU7EIBAG4FfZcBZDoQywJ9/DeGhhaDHaKnSrZ
+ tN3F7Ym3TSpx0mG7x/yX0nCGDCR8+lKIs4hhXHIg3o4Eds3Q4c0uDwTzjgwyYC+oUt0iqHrMNL
+ +i65bjhpogFda29Z5kl9/RPTh+yY/v6xzurSvaKfClY0+pGmMP7fomZe9NQUqfZgyc8qo5drWN
+ ZPCevEUx6F7fB+RlJBZbIyqzDEjMiN9K6XiHAXgjqk3RjN+zNSZ8UYht41R4PeMvGN4dczIzAh
+ kzIGtGyNgx8DGmP+ugfIpCUZYp7RW6o5Z1gYifl5yxdNfLcvyC0+Q9KgAAgAA
+X-Change-ID: 20260506-leds-trigger-hw-changed-96a62188cbdf
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Ike Panhc <ikepanhc@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
+ Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, 
+ linux-leds@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+ Rong Zhang <i@rong.moe>
+X-Mailer: b4 0.17-dev-1f2f7
+X-ZohoMailClient: External
 
-On 17/09/2026 16:40, Daniel Matyas wrote:
-> Running dt_bindings_check returned:
-> [error] string value is redundantly quoted with any quotes (quoted-strings)
-> 
-> The files used quotation marks in flow lists because the strings had
-> commas and these commas were interpreted as separators. Convert flow
-> style lists to block style lists, so that there is no problems with the
-> commas.
-> 
-> Signed-off-by: Daniel Matyas <matyasdaniel006@gmail.com>
+Some laptops can tune their keyboard backlight according to ambient
+light sensors (auto mode). This capability is essentially a hardware
+control trigger. Meanwhile, such laptops also offer a shrotcut for
+cycling through brightness levels and auto mode. For example, on
+ThinkBook, pressing Fn+Space ("shortcut") cycles keyboard backlight
+levels in the following sequence:
 
-Ignore this patch. Daniel sent it THREE times, so we need to respond
-three times that it is wrong.
+  1 => 2 => 0 => auto => 1 ...
 
-Best regards,
-Krzysztof
+Recent ThinkPad models should have similar sequence too.
+
+However, there are some issues preventing us from using a private
+hardware control trigger:
+
+1. We want a mechanism to tell userspace which trigger is the hardware
+   control one, so that userspace can determine if auto mode is on/off,
+   as well as turing it on/off programmatically without obtaining the
+   trigger's name via other channels
+2. Writing brightness has the side effect of disabling hardware control,
+   but the hardware control trigger remains active, resulting in the
+   software and hardware being out of sync. Most LED drivers that
+   supports hardware control also suffer from the same issue
+3. Turing on/off auto mode via the shortcut cannot activate/deactivate
+   the corresponding hardware control trigger, making the software state
+   out of sync
+4. Even with #3 solved, deactivating the hardware control trigger has
+   the side effect of emitting LED_OFF, breaking the shortcut cycle,
+   especially "auto => 1"
+
+This series tries to demonstrate a path on solving these issues:
+
+- Introduce an attribute "trigger_may_offload_to_hw", so that userspace
+  can determine:
+  - if the LED device supports hardware control (supported => visible)
+  - which trigger is the hardware control trigger selected by the LED
+    device and offloaded to hardware ("[foo_trigger]")
+    - A callback hw_offloaded() is added so that LED triggers can report
+      their hardware control state
+- Remove hardware control trigger when writing brightness
+- Add led_trigger_notify_hw_control_changed() interface, so that LED
+  drivers can notify the LED core about hardware-initiated hardware
+  control transitions. The LED core will then determine if the
+  transition is allowed and switching between "none" (i.e., no trigger)
+  and the device's private trigger accordingly
+  - This capability is restricted to the device's private trigger. If
+    the current trigger is neither the private trigger nor "none", no
+    transition will be made
+  - This interface is gated behind Kconfig LEDS_TRIGGERS_HW_CHANGED and
+    LED device flag LED_TRIG_HW_CHANGED
+- Tune the logic of trigger deactivation so that it won't emit LED_OFF
+  when the deactivation is triggered by hardware
+
+The last three patches are included in the series to demonstrate how
+these interfaces are supposed to be utilized, so that ideapad-laptop
+can expose the auto mode of ThinkBook's keyboard backlight. They can be
+submitted separately once the dust settles, if preferred.
+
+[ Summary of other approaches ]
+
+< custom attribute >
+
+Pros:
+- simplicity, KISS
+- no need to touch the LED core
+- extensible as long as it has a sensor-neutral name
+  - a sensor-related name could potentially lead to a mess if a future
+    device implements auto mode based on multiple different sensors
+
+Cons:
+- must have zero influence on brightness_set[_blocking] callbacks
+  in order not to break triggers
+  - potential interference with triggers and the brightness attribute,
+    can't solve #2
+- weird semantic (an attribute other than "brightness" and "trigger"
+  changes the brightness)
+
+< private hardware control trigger (this series) >
+
+Pros:
+- mutually exclusive with other triggers and the brightness attribute
+  (hence less chaos)
+- semantic correctness
+- acts as an aggregate switch to turn on/off auto mode even a future
+  device implements auto mode based on multiple different sensors
+  - extensibility (through trigger attributes)
+
+Cons:
+- complexity
+
+[ Previous discussion threads ]
+
+https://lore.kernel.org/r/08580ec5-1d7b-4612-8a3f-75bc2f40aad2@app.fastmail.com
+https://lore.kernel.org/r/1dbfcf656cdb4af0299f90d7426d2ec7e2b8ac9e.camel@rong.moe
+
+Acked-by: Ike Panhc <ikepanhc@gmail.com>
+Signed-off-by: Rong Zhang <i@rong.moe>
+---
+Changes in v7:
+- Add a new patch to the series to collect existing trigger attribute
+  stuff together into led-triggers.c (thanks Lee Jones)
+- Leave all new attribute stuff at led-triggers.c (ditto)
+- Rename the offloaded() callback to hw_offloaded() (ditto)
+- Rename the trigger_may_offload attribute to
+  trigger_may_offload_to_hw (ditto)
+- Use "[foo_trigger]" to represent a selected and offloaded trigger, and
+  no longer use a dedicated container to represent selected but not
+  offloaded ones (ditto)
+- Remove messages mainly for debugging (ditto)
+- Inline led_trigger_{init,destroy}_hw_changed() into led-class.c by
+  exporting led_trigger_hw_control_changed_worker() (ditto)
+- Rephrase some comments and messages (ditto)
+- Constify device attribute trigger_may_offload_to_hw
+- Address a concern from Sashiko
+  - Fix printf format string
+  - https://sashiko.dev/#/patchset/20260902-leds-trigger-hw-changed-v6-0-55693cd78877@rong.moe?part=11
+- Link to v6: https://patch.msgid.link/20260902-leds-trigger-hw-changed-v6-0-55693cd78877@rong.moe
+
+Changes in v6:
+- New patch in the series to address a concern from Sashiko
+  - [PATCH 1] leds: class: Always protect brightness_show() with led_access
+  - https://sashiko.dev/#/patchset/20260821-leds-trigger-hw-changed-v5-0-3e00d6c4a936@rong.moe?part=7
+- Update Date: and KernelVersion: for the document of
+  /sys/class/leds/<led>/trigger_may_offload
+- Implement workqueue deferal mechanism
+  - Protects ideapad_kbd_bl_led_cdev_brightness_set() with the new mutex
+    as well
+  - No longer convert last_hw_brightness into atomic_t as it's not
+    required now
+  - https://msgid.link/e2b081dfd8f96511a73b86ab3ec75e5cd759b79b.camel@rong.moe
+- Simplify the auto mode state preservation logic by converting
+  `priv->kbd_bl.initialized' into a tristate integer
+- Link to v5: https://patch.msgid.link/20260821-leds-trigger-hw-changed-v5-0-3e00d6c4a936@rong.moe
+
+Changes in v5:
+- Address a concern from Sashiko:
+  - Non-atomic update of led_cdev->flags causes a data race that can
+    drop the LED_UNREGISTERING flag
+  - Fix it by synchronize the update with trigger_lock
+  - https://sashiko.dev/#/patchset/20260802-leds-trigger-hw-changed-v4-0-f97e2ca976fe@rong.moe?part=8
+- Address a concern from Sashiko:
+  - led_trigger_notify_hw_control_changed() might sleep, but without any
+    internal deferral mechanism or annotation
+  - Annotate the method with might_sleep(), since the very first users
+    of the interface, i.e., ideapad-laptop and (supposedly)
+    thinkpad_acpi, will call the interface from work contexts. It does
+    not deserve the overhead of internal deferral mechanism
+  - https://sashiko.dev/#/patchset/20260802-leds-trigger-hw-changed-v4-0-f97e2ca976fe@rong.moe?part=9
+- Update "Changes in v4" to include more details
+- Link to v4: https://patch.msgid.link/20260802-leds-trigger-hw-changed-v4-0-f97e2ca976fe@rong.moe
+
+Changes in v4:
+- Drop the RFC prefix
+- Add a new patch in the series to address a concern from Sashiko
+  - [PATCH v4 08/12] leds: trigger: Do not attach trigger to a removing LED
+  - Without it, the following patch may expose a race condition if a
+    future LED driver synchronizes led_classdev_unregister() and
+    led_trigger_notify_hw_control_changed() poorly. The ideapad-laptop
+    patches in the series doesn't expose the race condition though
+  - In theory, the race condition can also be triggered by a userspace
+    program writing to the "trigger" attribute right before
+    device_unregister() is called
+  - https://sashiko.dev/#/patchset/20260719-leds-trigger-hw-changed-v3-0-5fb55722e36e@rong.moe
+- Address other concerns from Sashiko
+  - Reject insane hardware brightness
+  - Do not notify the LED trigger core when the registration of the
+    private trigger has failed
+- Enable LEDS_TRIGGERS_HW_CHANGED by default when
+  LEDS_BRIGHTNESS_HW_CHANGED is enabled
+- Add missing #include (Thanks Ilpo Järvinen)
+- Remove needless #include (ditto)
+- Remove needless code alignment (ditto)
+- Link to v3: https://patch.msgid.link/20260719-leds-trigger-hw-changed-v3-0-5fb55722e36e@rong.moe
+
+Changes in v3:
+- Integrate https://lore.kernel.org/all/20260712-leds-hw-control-brightness-set-v1-1-1de593b09d26@rong.moe/
+  into the series
+  - Adopt __led_trigger_is_hw_controlled() in the rest of the series
+- Rearrange the series so that the code using the offloaded() callback is
+  introduced before the driver implementation (thanks Thomas Weißschuh)
+- Reword documentations and commit messages (ditto)
+- Adopt guard() and lockdep (ditto)
+- Address concerns from Sashiko
+  - Fix a race condition in ideapad_kbd_bl_led_cdev_brightness_set()
+  - Fix trigger re-registration of ideapad_kbd_bl_auto_trigger
+  - https://sashiko.dev/#/patchset/20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3%40rong.moe
+- Make registration failures of ideapad_kbd_bl_auto_trigger non-fatal
+- Link to v2: https://patch.msgid.link/20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe
+
+Changes in v2:
+- Restrict the led_trigger_notify_hw_control_changed() interface to
+  private triggers only
+  - Drop PATCH v1 1/9 ("leds: Load trigger modules on-demand if used as
+    hw control trigger"), not relavant any more
+- Gate the led_trigger_notify_hw_control_changed() interface behind
+  Kconfig LEDS_TRIGGERS_HW_CHANGED and LED device flag
+  LED_TRIG_HW_CHANGED
+- Fix lock ordering inversion
+- ideapad-laptop:
+  - Only call led_trigger_notify_hw_control_changed() when needed
+  - Serialize keyboard backlight notifications
+- Reword commit messages and documentations
+- Link to v1: https://patch.msgid.link/20260227190617.271388-1-i@rong.moe
+
+---
+Rong Zhang (13):
+      leds: class: Always protect brightness_show() with led_access
+      leds: trigger: Move led_trigger_is_hw_controlled() to the right place
+      leds: class: Remove hardware control trigger when writing brightness
+      leds: trigger: Move led_trigger_group to the right place
+      leds: trigger: Add hw_offloaded() callback and provide trigger_may_offload_to_hw attribute
+      leds: cros_ec: Implement hw_offloaded() trigger callback
+      leds: turris-omnia: Implement hw_offloaded() trigger callback and declare hw_control_trigger
+      leds: trigger: netdev: Implement hw_offloaded() callback
+      leds: trigger: Enforce strict checks in led_trigger_is_hw_controlled()
+      leds: trigger: Add led_trigger_notify_hw_control_changed() interface
+      platform/x86: ideapad-laptop: Serialize keyboard backlight tracking
+      platform/x86: ideapad-laptop: Decouple hardware & classdev brightness for keyboard backlight
+      platform/x86: ideapad-laptop: Fully support auto keyboard backlight
+
+ Documentation/ABI/testing/sysfs-class-led          |  28 ++-
+ .../ABI/testing/sysfs-class-led-trigger-netdev     |   3 +
+ Documentation/leds/leds-class.rst                  |  72 ++++++
+ drivers/leds/led-class.c                           |  46 ++--
+ drivers/leds/led-triggers.c                        | 177 ++++++++++++-
+ drivers/leds/leds-cros_ec.c                        |   6 +
+ drivers/leds/leds-turris-omnia.c                   |   7 +
+ drivers/leds/leds.h                                |   8 +-
+ drivers/leds/trigger/Kconfig                       |  10 +
+ drivers/leds/trigger/ledtrig-netdev.c              |   8 +
+ drivers/platform/x86/lenovo/Kconfig                |   1 +
+ drivers/platform/x86/lenovo/ideapad-laptop.c       | 279 +++++++++++++++++----
+ include/linux/leds.h                               |  24 ++
+ 13 files changed, 570 insertions(+), 99 deletions(-)
+---
+base-commit: 518e5b794c06c0f0eb40df3e202274a66202c137
+change-id: 20260506-leds-trigger-hw-changed-96a62188cbdf
+
+Thanks,
+Rong
+

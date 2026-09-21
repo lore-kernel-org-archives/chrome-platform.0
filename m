@@ -1,118 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD0E2ED848;
-	Mon, 21 Sep 2026 04:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DAC4E0B63
+	for <chrome-platform@lists.linux.dev>; Mon, 21 Sep 2026 16:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789966337; cv=none; b=vFbgFjzeXRu9KPzAYQkV7qbp1AE4wnCfY+FdCiuP1CUWfS0uer62jKYw1v7TEdyInGGdXkl+WWAZw0D/DGs+y9PfgsB/zd/EQ3Cs6SrP92minI6QWrnpOCrSVvO5OHHoiP4clg48Fzr/hJBEwH3l06AF7iZOWMmuqfoVh6Xiiek=
+	t=1790009863; cv=none; b=KF+R3ZUumDA2ZynU8RuoP+aLc4IMVfTIBzTFzjB6r7bz4gmJgW7t8mynNN3UTRdbXLBoiUFQ/yB8tRQ8U34vKh1GyKyf3E7E0h2U3RXcQRWNtd+Rx9cetrnS9IbZ4tiaUsgo9H1JRx7L6m1s+KHw1hmFT0ILYohLBpyxvoN/S1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789966337; c=relaxed/simple;
-	bh=8kMF8rBimaKR13vElBQ7E2iTbUTLoPrvjEkzyOHFPes=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tzCOq9xifbgXVEJ0Y1SQUBRy0vBtP/Rg+BW0l6dC73LlLTSnsFVwammiHdrp6GjVIR8r47ZPZcu5hm+NSBAJJ7usDZ1rdH4reaPjXdlFFkufW4LbEevpeVQXCt4BhgZCT5lwE76XOK/v+5JGQ8LF/oFRAuv9Q89rPoGJ8322Ado=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RhmmDOGz; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790009863; c=relaxed/simple;
+	bh=doy8CQVTkGDgR7A0QYfdmidqT7C6L19D+j8DtIbAz9Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=UR0Ta0oikJtVIXW4/RrSY+A+LycwLkSuYKXliHexOQrp98GIUAcsPi1R6s93uHE6qKUDKVijuxRgUnZ8KMgaMjT4KAczhBcSeqfd5iXNvfgzqzj5DEDe1ULOoewh7OcRiqOLqFCYKc8dEjGbV1oxHWnzMNv/YKxbldR4PkUs4Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=icj0lyWj; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RhmmDOGz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789966336; x=1821502336;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8kMF8rBimaKR13vElBQ7E2iTbUTLoPrvjEkzyOHFPes=;
-  b=RhmmDOGzHSXVJjXqUviNr23y5rliXwlBhjSGusvBpM5q4Si+Nt/BUn9X
-   B73rjYhhZ/bxiynv2VOtN8kBARUVKcKqbLVoHV45FhRkoL/Y9bsePEoTk
-   hmD4YGKhsS7UHitjGBddAWFxNRPJlalp+9zt9lTRNusEanV3rZVt8oyRs
-   KMoAXHXLM7+QXvASWDZvF585LUcu90PglM5Lk7FOxnVSYogHEBOgb4dwB
-   8JZ/9CQ+XiUQNxfxpa2aQ/hNOGMZEGJXpYkErSnyd9iVzX5kdZV8vRsE5
-   zWeGtIol6HyFGLEtckqavLhOsPzg8qszX0IQKb3LqQRwfbE/mwrVvB/Fk
-   A==;
-X-CSE-ConnectionGUID: VyFQR2+8RfCorbaLyULdbQ==
-X-CSE-MsgGUID: SJoTK18lQba05PP9d3nIwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11911"; a="101051118"
-X-IronPort-AV: E=Sophos;i="6.27,114,1787036400"; 
-   d="scan'208";a="101051118"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2026 21:52:16 -0700
-X-CSE-ConnectionGUID: MItRL1SEQU+PADvh8ZG6qg==
-X-CSE-MsgGUID: Ps6tTfHOTIKYy6/HtaSfWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,114,1787036400"; 
-   d="scan'208";a="271036526"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Sep 2026 21:52:09 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 020F299; Mon, 21 Sep 2026 06:51:55 +0200 (CEST)
-Date: Mon, 21 Sep 2026 06:51:55 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Cc: Andi Shyti <andi.shyti@kernel.org>,
-	Mika Westerberg <westeri@kernel.org>,
-	Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
-	Elie Morisse <syniurge@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Devyn Liu <liudingyuan@h-partners.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>,
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
-	Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Hu <hanshu@zhaoxin.com>, George Cherian <gcherian@marvell.com>,
-	linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 2/2] i2c: busses: use named initializers for
- acpi_device_id
-Message-ID: <20260921045155.GL106095@black.igk.intel.com>
-References: <20260918-acpi-i2c-v1-0-caf4bea4886c@thegoodpenguin.co.uk>
- <20260918-acpi-i2c-v1-2-caf4bea4886c@thegoodpenguin.co.uk>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="icj0lyWj"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68LFAq7H1438653;
+	Mon, 21 Sep 2026 16:57:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	jEFAOUvkcm/hQj/EyLQud5GCptVe5eN3gxABCz93kmE=; b=icj0lyWjVBS2wEFb
+	Zl4siVJhVunSYN1YYte7IJQVi0/AKdv2CMG5X4u9o7pBgBKlSEBI/rpKu6Mbk3so
+	wt8yrPvKI3Xx1wbv+J0iDSXKfw3pj8IkIUr/AhJngkJC4tKAnAJmTSJot0VAKWbg
+	fn309kxXxhZM3r2V8KbHPD2flVmqwjTvoTPVppWo0+r2GYP6SUsr7LtydBvUkiXd
+	Y4KBP/WfTjzw9NZ1RhO4/ZuIv00gViESx5UJg9Jmz/FkQBZUq2ACiQ3Menoy6Hsy
+	bnJUastc0JPJwMbFYpvLFXa4/cGBt5g4ZrPFkVdVmIojqtuRl9ntrYHRe+Opqq5q
+	K6LIag==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gtwf5jyrk-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 21 Sep 2026 16:57:28 +0000 (GMT)
+Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 68LGvNFG1464271;
+	Mon, 21 Sep 2026 16:57:23 GMT
+Received: from hu-ffaruque-hyd.qualcomm.com (hu-ffaruque-hyd.qualcomm.com [10.147.245.31])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 68LGvMa91464229;
+	Mon, 21 Sep 2026 16:57:23 +0000 (GMT)
+From: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+Date: Mon, 21 Sep 2026 22:27:09 +0530
+Subject: [PATCH v13 1/6] power: Extend power_on_reason.h for upcoming PSCRR
+ framework
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260918-acpi-i2c-v1-2-caf4bea4886c@thegoodpenguin.co.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <pscrr-v13-1-dfc57fceede5@oss.qualcomm.com>
+References: <pscrr-v13-0-dfc57fceede5@oss.qualcomm.com>
+In-Reply-To: <pscrr-v13-0-dfc57fceede5@oss.qualcomm.com>
+To: Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+        avaneesh.dwivedi@oss.qualcomm.com,
+        Umang Chheda <umang.chheda@oss.qualcomm.com>,
+        Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: b4 0.14.3
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Authority-Analysis: v=2.4 cv=SJLXx+vH c=1 sm=1 tr=0 ts=6ab161f8 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=QX4gbG5DAAAA:8
+ a=EUspDBNiAAAA:8 a=7kjejDXy1mYeYQkWB3oA:9 a=QEXdDO2ut3YA:10
+ a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-GUID: WSGOzgBtPC3-gc5vZHWMPrbI3yHgWO4c
+X-Proofpoint-ORIG-GUID: WSGOzgBtPC3-gc5vZHWMPrbI3yHgWO4c
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIxMDI0NyBTYWx0ZWRfXwsVRyEy9dEII
+ gPM0kToH0gd3HzA+ANdnLERDBkYtGAaJPisl/jRJQ/69pcqUXnk8TgsJICTOqkgU7bNao/wjIql
+ TwlSp14KV39BxNdrGmtY7wbabTNgo8Q=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIxMDI0NyBTYWx0ZWRfX5lOg2xmsRIvV
+ oRHY6oZAOliXSNt+DBJ2UwRkrEDzlnO/lZzmG8+Tw499WN2T9/LpTaPtYMid+NUk5PagqKaTF2U
+ hgfhOxB3/Oi9tjFEmFiyXatBndLi8+pwLQq1pMy5r42eIbh6pxnhi2zGaswOnf0HG3p2ql+7i3G
+ mQUnN2N7IsZoQItORbzyGuZhphFVhZtD2dAPKkYW8T10Yg3WgiUxlK5LqCl6rSlBv8luQc7Onz4
+ d5VvKtTeoQzbQTMmeng5MKjmvelyd5j0d+4q2BK9Ynn/wG/64d0LOSGY2zBcZAUmrlKLh4nItJo
+ 8nPzjFriGMENMcs/2CEt5VTwW8ySolMTJDrt7fxOrXr4E9ya38R6+J44xlU8btN+ynJk6u25X8a
+ WEpbvfYmYmR92buAAkg3d9T5UCHpQvQRu3LfZYExDeiILZ5AvqaTN5VwAw7k4/J0CNF1I5VWt7n
+ CUvBxba0L3zg04XkOQA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-21_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0 spamscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609210247
 
-On Fri, Sep 18, 2026 at 02:01:51PM +0100, Pawel Zalewski wrote:
-> Use a designated initializer for the acpi_device_id fields which makes the
-> code more readable and consistent with how lists are initialized in the
-> rest of the kernel code base. Also drop explicitly setting fields to 0
-> where it is redundant.
-> 
-> Unify the list terminator to have a single space between the brackets and
-> no trailing comma.
-> 
-> Unify list item alignment to have a single space padding between the
-> brackets.
-> 
-> Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-> ---
->  drivers/i2c/busses/i2c-amd-asf-plat.c       |  2 +-
->  drivers/i2c/busses/i2c-amd-mp2-plat.c       |  2 +-
->  drivers/i2c/busses/i2c-cros-ec-tunnel.c     |  2 +-
->  drivers/i2c/busses/i2c-designware-platdrv.c | 42 ++++++++++++++---------------
+Prepare for the introduction of the Power State Change Reason Recorder
+(PSCRR) framework by expanding the power_on_reason.h header. This
+extension includes new power-on reasons:
+- POWER_ON_REASON_OVER_CURRENT for over-current conditions.
+- POWER_ON_REASON_REGULATOR_FAILURE for regulator failures.
+- POWER_ON_REASON_OVER_TEMPERATURE for over temperature situations.
+- POWER_ON_REASON_EC_PANIC for EC panics.
+- POWER_ON_REASON_EXTERNAL for an external reset source.
 
-For i2c-dw:
+Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
 
-Acked-by: Mika Westerberg <westeri@kernel.org>
+changes v12:
+- add POWER_ON_REASON_EXTERNAL
+changes v10:
+- add Reviewed-by: Sebastian Reichel ...
+changes v6:
+- add POWER_ON_REASON_EC_PANIC
+- s/POWER_ON_REASON_OVERTEMPERATURE/POWER_ON_REASON_OVER_TEMPERATURE
+(cherry picked from commit a6fb08a81864e2ed17cebba9f249af3d44e42c3f)
+---
+ include/linux/power/power_on_reason.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/include/linux/power/power_on_reason.h b/include/linux/power/power_on_reason.h
+index 95a1ec0c403c..13e61ace14f5 100644
+--- a/include/linux/power/power_on_reason.h
++++ b/include/linux/power/power_on_reason.h
+@@ -15,5 +15,10 @@
+ #define POWER_ON_REASON_XTAL_FAIL "crystal oscillator failure"
+ #define POWER_ON_REASON_BROWN_OUT "brown-out reset"
+ #define POWER_ON_REASON_UNKNOWN "unknown reason"
++#define POWER_ON_REASON_OVER_CURRENT "over current"
++#define POWER_ON_REASON_REGULATOR_FAILURE "regulator failure"
++#define POWER_ON_REASON_OVER_TEMPERATURE "over temperature"
++#define POWER_ON_REASON_EC_PANIC "EC panic"
++#define POWER_ON_REASON_EXTERNAL "external reset"
+ 
+ #endif /* POWER_ON_REASON_H */
+
+-- 
+2.34.1
+

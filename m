@@ -1,114 +1,339 @@
-Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9AC424679
-	for <chrome-platform@lists.linux.dev>; Tue, 22 Sep 2026 09:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0413A4F3910;
+	Tue, 22 Sep 2026 10:32:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790068333; cv=none; b=m7/CpXIMvhjYS+tkA6B27F3eYfoN+giobr7TcZaFiZqqpF1uFpTv9D7yWA4GoFLp0CKztitDFNkH4Sptl5QNfOj+nuYKKX/bIhteLdkhXaTUy016wibrp6iqcD2RnNnJc+rfwKzklRm22uexe6N+Khsl+FJZhG+HJ6x8pCXnmnc=
+	t=1790073153; cv=none; b=P//TrPA5Ia44AbdVzXkGCVxAsII1xc8mkecu+ZmrIZ+6N43ZRlKgd31M3ZrkWbDwdSHS5iI7TOZHBcRs+oQ8ILSUID5gRYq204CEMipttP1AjII6KVe/L03serE2danni9/+O7Ysg3/XSM4/pgpHZO578EhfmdAttbROoyl7fpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790068333; c=relaxed/simple;
-	bh=fQgPBD9Kek9DVD06+pbQVN0+3t7b55JwSdnBbCBPOqc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P+vViu5bAsWalauni8w2xc+k0pUkc6FDkwqCJ1b3CiNhkdtSvVFHoATpc1PHjyxtU3GrEzbmYVVOl5aX7pyG9i8Vqz9ZoQijTmTZsIRZrsC4xNc+81SljxucBdD35zvEo5P3sS8oPTASfehYTaUWkaEH46YK+nXMfMbIz6NcVqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O/aHg2Dw; arc=none smtp.client-ip=74.125.229.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790073153; c=relaxed/simple;
+	bh=3wihw53mvV9xSKP4qNXhX2ITmWd3i4U+AEJGswnXnyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bnl+Cdp8LzsE3ViOBTDxaWZSCtNAqCnyZW6fDpYexbBAfNJnn1jP7SZVxDBkVmyk6W6gDF2iSHyxh08EQdyyptHnuQ6/3KmcvFSBa7ijLsghD64DPKPK9mbzp5optX21+Vt324YACDKXy/O97RlJPoaSZ0o7x6kN2xixBriUhpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L4jBiKun; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O/aHg2Dw"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b74e0c2e4dso3511276e87.0
-        for <chrome-platform@lists.linux.dev>; Tue, 22 Sep 2026 02:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790068327; x=1790673127; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cDbclgIWO4R8bDcAGU87sYhseS50l+4Py8e7acKbvhM=;
-        b=O/aHg2DwwwmJ/55k5HI696EZ3JfJRSezX+dYpnCHKihr08nYBws+xI+wT9VlGPdK2C
-         6fyPMyrUWvxNkZzEMUGONW6eaNCG21yLtMyQwDzJ/sPMatotMYuaFX7xDKPgQgwP4ae0
-         bYO1wQDaT2I+mhoNay5iT4/ivGL7+4r7904w/Jc6HHGjReWX9Km28/AgLmGDRqH6I4vn
-         ZppoN4YDWbuqKqxV9amdz+0kmqTbCUmuRcvOtxdRzuqqBGhIZmC08xlcV7N16SY5k4Ty
-         UAHFc68e8Lu4G6kHxi8VbXj/pXq4kQcI08XVUFoZ3NETr2UiLfjoNwzfrdeHpF7g2Y1b
-         g/QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790068327; x=1790673127;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cDbclgIWO4R8bDcAGU87sYhseS50l+4Py8e7acKbvhM=;
-        b=RgHTMaOP110i5q72tXCGOU0XWTf4DtpyJbo3FGcmm6iZoz9yDGFqg7WWhIU9UdndAl
-         ukJu5seTX0pkUnVcYsCujig0aZwmzJ/6WeoJee9XaC0xOCxW2hsGhaNVDRpC6w9XfFzC
-         whbsm+STzqDeQFbteTNwMrSuw9Csz8C8WicZlMdVbI9+kGwPOH6HkN1C41FmdFFqmpzf
-         cZf6g1zZiohJmF0TIrH/6w1jiW+e39NK4lT4WygPkGhJ/1zqWVhYxcBKRqDHF5h496gT
-         HYg0SPYqC9KOxCzZZyptJTLKxBpANeCu40ue6/vOQNkc4Vzpsww2dP56GC9cfgTMRjlU
-         x+OA==
-X-Forwarded-Encrypted: i=1; AKwUvBytwJntPI85h2I0axdRMxuvT7u25yKrJtsjAne6ybNvkHa3n0uiUrUgkpb8QwBCM6PknOhhf+IxGkUau/TU76Q=@lists.linux.dev
-X-Gm-Message-State: AFuF++lzz7j0/0ncuRVDEO+rczD34zFeODVWrqfMdpBbG6ZAlK+iH6V/
-	M/sD1bbmikjanWzbUuP0t9FPAouXYiF8gPEnUe7j8JkucqMrfMcV8U0i
-X-Gm-Gg: AYBFou39NkvM4SKukoD9SsSgSY8fMILLt3u39nA4EUS4wI2V1rzxP0qCj9QO0mjQtyc
-	9I6Braf/3DjUaZWEsNHQLoZJcwcnh5GvtTs9jQhcuIO/R1wYOLdDqA4u3KGDJKKfst564HgH3Ur
-	GmAjA6oi9+xu2CNKNSEYdvERTq/WgB8S8grMecSaOKz/60kAsqApGk7ttSWm13oryf/dpxq2lxY
-	4XFbQwO/NcLdDk31KDpzO7C2T+xk2fOoJSFt4iGySyCvCNPz0FlADYWgYz9n8XEk5wfvzde6GQv
-	E4UMg+zcOudwA7JmjCHn8tD+hC94GIep2ckXBmJRBRx6hlsw0n02lvTbQAFyFAf5SYRyANKTGVL
-	udsxMJrHCZKbyItp+LIQEmdmJlSwtAmV9qi+FfTyjgAkT0wIo85ALgBXFPBz1tDm3HB38Uo9P1R
-	03+NTo9xvPgHn3mKJ/ivuI+uJtsl3GuqkTrQ3vY1QjCnDqn0FcdhSG7Abxa+JwbmR4d83Dmn71i
-	D1IrFmT5DpHWnhoftWw9VqNql2g6p1Sp5UCC8c7wvuqkLEarVzpUBw=
-X-Received: by 2002:a05:6512:3ca0:b0:5b6:423:9fa7 with SMTP id 2adb3069b0e04-5b8c1845600mr4360136e87.31.1790068326297;
-        Tue, 22 Sep 2026 02:12:06 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d46d1e0esm317726e87.20.2026.09.22.02.12.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 02:12:05 -0700 (PDT)
-Message-ID: <822bdb90-185d-4b2c-962e-5f487c112b27@gmail.com>
-Date: Tue, 22 Sep 2026 12:12:04 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L4jBiKun"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41B8E1F000FF;
+	Tue, 22 Sep 2026 10:32:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790073151;
+	bh=TrJCmrObzSEJi7DC2sVoycOuekBqjj3yhMcHjE+0ZTM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=L4jBiKunYYt8Z4gcHfSrkzoh+lR/pgsTD71c8ZxJ2LJBT2tkwVH+UQ/7A4pG+i7ET
+	 diSp8/LBHJ5obnJ+5YRxIOd3A+fvVMKVfUakos/4FvWDf/YY9dNS9l5/vL5FwnNUel
+	 Qfugx6r8hVLqpSiokWwYr7MRGaWT+3RaULdfLOKNO1HwWI61mpNS99Hv9zq+Yav8cS
+	 kDot+rONGlutBmkU3OiDFIll87AjHI0jVXZGDf8CkuSn98xTiOp5uvpaOGVHZU5J7Z
+	 ZdYBbegRHMAWXrd9IC950iFOJ5JPYRbCrPn7w00eh/LQlL7ANejgCk29PJMdFRFwlV
+	 kuFI+7R2RaYSg==
+Date: Tue, 22 Sep 2026 11:32:24 +0100
+From: Lee Jones <lee@kernel.org>
+To: Rong Zhang <i@rong.moe>
+Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Ike Panhc <ikepanhc@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Vishnu Sankar <vishnuocv@gmail.com>,
+	Vishnu Sankar <vsankar@lenovo.com>, linux-leds@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v6 04/12] leds: trigger: Add offloaded() callback and
+ provide trigger_may_offload attribute
+Message-ID: <20260922103224.GD2730113@google.com>
+References: <20260902-leds-trigger-hw-changed-v6-0-55693cd78877@rong.moe>
+ <20260902-leds-trigger-hw-changed-v6-4-55693cd78877@rong.moe>
+ <20260910150535.GG1051768@google.com>
+ <cdecf33094742331552a4b86d43673cdf1590bf2.camel@rong.moe>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 6/6] Documentation: Add sysfs documentation for PSCRR
-To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
- Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
- Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- avaneesh.dwivedi@oss.qualcomm.com,
- Umang Chheda <umang.chheda@oss.qualcomm.com>
-References: <20260921-pscrr-framework-v14-0-a16290003b7c@oss.qualcomm.com>
- <20260921-pscrr-framework-v14-6-a16290003b7c@oss.qualcomm.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20260921-pscrr-framework-v14-6-a16290003b7c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cdecf33094742331552a4b86d43673cdf1590bf2.camel@rong.moe>
 
-On 21/09/2026 20:44, Faruque Ansari wrote:
-> Document the Power State Change Reasons Recording (PSCRR) sysfs interface
-> under /sys/kernel/pscrr/: the per-provider directories and their name,
-> device, reason, caps, supported_reasons and record_policy attributes,
-> including the stable reason token values.
+On Fri, 11 Sep 2026, Rong Zhang wrote:
+
+> Hi Lee,
 > 
-> Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+> Thanks for your review.
+> 
+> On Thu, 2026-09-10 at 16:05 +0100, Lee Jones wrote:
+> > On Wed, 02 Sep 2026, Rong Zhang wrote:
+> > 
+> > > There are multiple triggers implementing hardware control. However, the
+> > > LED trigger core doesn't really know the hardware control (offloaded)
+> > > state since the coordination is done directly between the trigger and
+> > > the LED driver. It can only assume private triggers as offloaded and
+> > > generic ones as not offloaded.
+> > > 
+> > > Add an offloaded() callback so that triggers can report their offloaded
+> > > states to the LED trigger core. When unimplemented, it defaults to true
+> > > for private triggers and false for generic ones to keep the current
+> > > behavior unchanged.
+> > > 
+> > > With that, provide a new attribute "trigger_may_offload", so that
+> > > userspace can determine:
+> > > 
+> > > - if the LED device supports hardware control (supported => visible)
+> > > - which trigger is the hardware control trigger selected by the LED
+> > >   device
+> > > - if the trigger is selected ("<foo_trigger>")
+> > > - if the trigger is offloaded ("[foo_trigger]")
+> > > 
+> > > Note: the documentation describes the attribute as "returning a list"
+> > > despite the LED core currently only supports one hardware control
+> > > trigger per LED device. This is intentional to make the attribute
+> > > extensible in the future without breaking userspace.
+> > > 
+> > > Acked-by: Ike Panhc <ikepanhc@gmail.com>
+> > > Signed-off-by: Rong Zhang <i@rong.moe>
+> > > ---
+> > > Changes in v6:
+> > > - Update Date: and KernelVersion: for the document of
+> > >   /sys/class/leds/<led>/trigger_may_offload
+> > > 
+> > > Changes in v3:
+> > > - Rearrange the series so that the code using the offloaded() callback is
+> > >   introduced before the driver implementation (thanks Thomas Weißschuh)
+> > > - Reword documentation (ditto)
+> > > - Adopt guard() and lockdep (ditto)
+> > > - Adopt __led_trigger_is_hw_controlled() from newly-integrated PATCH 1
+> > > ---
+> > >  Documentation/ABI/testing/sysfs-class-led | 22 ++++++++++++++++++++++
+> > >  Documentation/leds/leds-class.rst         | 20 ++++++++++++++++++++
+> > >  drivers/leds/led-class.c                  | 22 ++++++++++++++++++++++
+> > >  drivers/leds/led-triggers.c               | 30 ++++++++++++++++++++++++++++++
+> > >  drivers/leds/leds.h                       |  2 ++
+> > >  include/linux/leds.h                      |  1 +
+> > >  6 files changed, 97 insertions(+)
+> > > 
+> > > diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/ABI/testing/sysfs-class-led
+> > > index d4c918cc11a1..e3605fc55fa8 100644
+> > > --- a/Documentation/ABI/testing/sysfs-class-led
+> > > +++ b/Documentation/ABI/testing/sysfs-class-led
+> > > @@ -78,6 +78,28 @@ Description:
+> > >  		(which would often be configured in the device tree for the
+> > >  		hardware).
+> > >  
+> > > +What:		/sys/class/leds/<led>/trigger_may_offload
+> > 
+> > *_to_hw?
+> 
+> ACK.
+> 
+> > 
+> > > +Date:		September 2026
+> > > +KernelVersion:	7.4
+> > > +Contact:	linux-leds@vger.kernel.org
+> > > +Description:
+> > > +		Names and states of triggers that may be offloaded to hardware.
+> > > +		Such triggers are also called "hardware control trigger" in some
+> > > +		context.
+> > > +
+> > > +		Only exists when the LED supports trigger offload.
+> > > +
+> > > +		Reading this file returns a list of triggers that are capable to
+> > > +		be offloaded. The optional brackets around the trigger name
+> > > +		indicate the state of the current trigger:
+> > > +
+> > > +		- `foo_trigger`: the trigger is not selected.
+> > > +		- `<foo_trigger>`: the trigger is selected, but falls back to
+> > > +		  software blink for some reason (e.g., incompatible trigger
+> > > +		  parameters)
+> > > +		- `[foo_trigger]`: the trigger is selected and offloaded to
+> > > +		  hardware.
+> > > +
+> > >  What:		/sys/class/leds/<led>/inverted
+> > >  Date:		January 2011
+> > >  KernelVersion:	2.6.38
+> > > diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
+> > > index 3913966cfdac..2d41a6db602c 100644
+> > > --- a/Documentation/leds/leds-class.rst
+> > > +++ b/Documentation/leds/leds-class.rst
+> > > @@ -242,6 +242,9 @@ ops and needs to declare specific support for the supported triggers.
+> > >  
+> > >  With hw control we refer to the LED driven by hardware.
+> > >  
+> > > +A sysfs attribute `trigger_may_offload` is provided for userspace to
+> > > +query supported triggers and their states.
+> > > +
+> > >  LED driver must define the following value to support hw control:
+> > >  
+> > >      - hw_control_trigger:
+> > > @@ -298,6 +301,15 @@ LED driver must implement the following API to support hw control:
+> > >                  Returns a pointer to a struct device or NULL if nothing
+> > >                  is currently attached.
+> > >  
+> > > +LED trigger should implement the following API to indicate hw control:
+> > > +    - offloaded:
+> > 
+> > hw_offloaded?
+> 
+> ACK.
+> 
+> > 
+> > > +                return a boolean indicating if the trigger is currently
+> > > +                offloaded to hardware.
+> > > +
+> > > +                If a trigger doesn't implement this callback, the default
+> > > +                value will be true for private triggers and false for generic
+> > > +                ones.
+> > > +
+> > >  LED driver can activate additional modes by default to workaround the
+> > >  impossibility of supporting each different mode on the supported trigger.
+> > >  Examples are hardcoding the blink speed to a set interval, enable special
+> > > @@ -311,6 +323,14 @@ the end use hw_control_set to activate hw control.
+> > >  A trigger can use hw_control_get to check if a LED is already in hw control
+> > >  and init their flags.
+> > >  
+> > > +Alternatively, a private trigger can be implemented along with the LED driver if
+> > > +the LED's hardware control doesn't fit any generic trigger. To associate the
+> > > +private trigger with the LED classdev, their `trigger_type` must be the same. To
+> > > +declare that the private trigger provides hardware control for the associated
+> > > +LED classdev, set the `hw_control_trigger` string to the trigger's name. Since
+> > > +both the LED classdev and the private trigger are in the same LED driver, it's
+> > > +not necessary for them to coordinate via `hw_control_*` callbacks.
+> > > +
+> > >  When the LED is in hw control, no software blink is possible and doing so
+> > >  will effectively disable hw control.
+> > >  
+> > > diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> > > index 39cc2f3ea63f..7e571bd1de5b 100644
+> > > --- a/drivers/leds/led-class.c
+> > > +++ b/drivers/leds/led-class.c
+> > > @@ -96,8 +96,30 @@ static const struct bin_attribute *const led_trigger_bin_attrs[] = {
+> > >  	&bin_attr_trigger,
+> > >  	NULL,
+> > >  };
+> > > +
+> > > +static DEVICE_ATTR_RO(trigger_may_offload);
+> > > +static struct attribute *led_trigger_attrs[] = {
+> > > +	&dev_attr_trigger_may_offload.attr,
+> > > +	NULL
+> > > +};
+> > > +
+> > > +static umode_t led_trigger_is_visible(struct kobject *kobj,
+> > 
+> > Why doesn't all of this live in the triggers file as well?
+> 
+> The current revision only exports trigger_may_offload() to coordinate the
+> two files (led-class.c and led-trigger.c).
+> 
+> If we had to move led_trigger_is_visible() into led-triggers.c, the
+> trigger_may_offload and led_trigger_attrs must be moved as well. Due to
+> the movement, we would have to export led_trigger_attrs and
+> led_trigger_is_visible() to fill led_trigger_group.
+> 
+> in short, moving led_trigger_is_visible() requires exporting more
+> symbols.
+> 
+> To make things tidier, how about moving led_trigger_group and
+> led_trigger_bin_attrs into led-triggers.c as well? In this manner we only
+> need to export led_trigger_group, and the #ifdef block here is
+> eliminated. What do you think?
 
-Good stuff.
+Sounds sensible.
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> > 
+> > > +				      struct attribute *attr,
+> > > +				      int idx)
+> > > +{
+> > > +	struct device *dev = kobj_to_dev(kobj);
+> > > +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> > > +
+> > > +	if (attr == &dev_attr_trigger_may_offload.attr)
+> > > +		return led_cdev->hw_control_trigger ? attr->mode : 0;
+> > > +
+> > > +	return attr->mode;
+> > > +}
+> > > +
+> > >  static const struct attribute_group led_trigger_group = {
+> > >  	.bin_attrs = led_trigger_bin_attrs,
+> > > +	.attrs = led_trigger_attrs,
+> > > +	.is_visible = led_trigger_is_visible,
+> > >  };
+> > >  #endif
+> > >  
+> > > diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+> > > index 804a04b326c4..de17a8bbb4d4 100644
+> > > --- a/drivers/leds/led-triggers.c
+> > > +++ b/drivers/leds/led-triggers.c
+> > > @@ -42,6 +42,10 @@ static bool __led_trigger_is_hw_controlled(struct led_classdev *led_cdev)
+> > >  	if (!led_cdev->trigger)
+> > >  		return false;
+> > >  
+> > > +	if (led_cdev->trigger->offloaded)
+> > > +		return led_cdev->trigger->offloaded(led_cdev);
+> > > +
+> > > +	/* Otherwise assume private triggers as always offloaded. */
+> > 
+> > s/as/are/
+> 
+> ACK.
+> 
+> > 
+> > >  	return led_cdev->trigger->trigger_type;
+> > >  }
+> > >  
+> > > @@ -341,6 +345,32 @@ void led_trigger_set_default(struct led_classdev *led_cdev)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(led_trigger_set_default);
+> > >  
+> > > +ssize_t trigger_may_offload_show(struct device *dev,
+> > > +				 struct device_attribute *attr, char *buf)
+> > > +{
+> > > +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> > > +	struct led_trigger *trig;
+> > > +	bool hit, offloaded;
+> > > +	int len;
+> > > +
+> > > +	guard(mutex)(&led_cdev->led_access);
+> > > +	guard(rwsem_read)(&led_cdev->trigger_lock);
+> > > +
+> > > +	trig = led_cdev->trigger;
+> > > +
+> > > +	offloaded = __led_trigger_is_hw_controlled(led_cdev);
+> > > +	hit = offloaded || (trig && !strcmp(led_cdev->hw_control_trigger, trig->name));
+> > > +
+> > > +	/* [offloaded] <active_but_not_offloaded> inactive */
+> > 
+> > Why do they have to live in different 'containers'?
+> 
+> The comment might be somewhat misleading...
+> 
+> An LED device can never have an offloaded trigger and an active-but-not-
+> offloaded trigger at the same time. The comment just demonstrates how the
+> output might look like.
+> 
+> The output is multiplexed to help userspace determine two things in one
+> read:
+> 
+> - The name of the LED device's hardware control trigger
+> - The state of the said trigger
+> 
+> That being said, if the complexity is undesired, it's OK to convert the
+> attribute into a dumb one that only returns the plain name of the
+> hardware control trigger. In this manner we will need to provide an
+> additional attribute to expose the offloaded state. This can be achieved
+> by adopting the attribute "offloaded" from netdev into led-triggers.c.
+> What do you think?
 
+My job is just to make you think about the problem.  I have no strong
+opinion one way or the other.  You are currently the expert of the code
+you are engineering.  What do YOU think?
 
 -- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
+Lee Jones

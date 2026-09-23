@@ -1,133 +1,245 @@
-Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBF453B321
-	for <chrome-platform@lists.linux.dev>; Wed, 23 Sep 2026 15:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790176472; cv=pass; b=ECVZrgOkP9ffEFi1rGnISX4ayFTewlFHbtcupEPvyZy39qPV0SNwZlnxiMVHXI1Sanl75UHkn+tC0vNLBjAQuN9YXN70X2kDUBFwEwURN/gnMXaRWzxRP6c+PawKQt6wVw4RyYVsVdPFmEE6SxStObBQAwa+5tzxFrh/QIu8BLw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790176472; c=relaxed/simple;
-	bh=GWWz5uyS/VWndEpl4fzi11VijBLfDed1qPxmM2bna+k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bzhs2pqTPbCnvUuYGDKzduZdm1c40waKEgGZqUS5Do1tTDXTKJNa220LyScV0I/UsvIM64yo5HqI814gBReWv4YJZP/gw+XrWPxGTN7VrwKaPt+KMZEPYNtFQ5Xnnh8FLTIFBQ6stw27QcS/aq9H0hFzo393BO87ou1LALUqRXc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qRfDq2VK; arc=pass smtp.client-ip=74.125.224.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2F93AD513
+	for <chrome-platform@lists.linux.dev>; Wed, 23 Sep 2026 17:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.69
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790185480; cv=none; b=pLGON+1tKiq0258Gad3ps2iS6d/xDYnPt4krca5r83XD54/t3AC3SGJqv3ch1oZJEQ/zeFajYGYWOvujpcWY33ghQopR5Gcu5BQLz0BajmEkNO6H6M+CMPpsIB8EgXfpNr2B+5TRZFjKH2ea8Ccp1gOgcBlxNJhTzur8gT8HtXs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790185480; c=relaxed/simple;
+	bh=5yZjf9aWV7RXgQK9ktGV1SjO8oVFTs48qTQLILiKNIo=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=uiahN96cusu6B9oMJ8+/diH8jU1PKcbO0X7MkaqyJfF8XMJ+R6cYSZSYgUD7jg2TqHw2PGMlY1ALrApUIFcmVhs/5DTSGKq3n3tm6spIMqfrginofdOhMTucQHZ2WYZ1fFskChUdgCbQ7ua0VG2cbygTLivW2ne9rBb3yjoYRCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uic+r8pe; arc=none smtp.client-ip=209.85.208.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qRfDq2VK"
-Received: by mail-yx2-f43.google.com with SMTP id 00721157ae682-895eaf31683so16206307b3.0
-        for <chrome-platform@lists.linux.dev>; Wed, 23 Sep 2026 08:14:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790176470; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BmIIqMJEmBYZBfL7bkA1JqZOE8T2ZPttQPUaeVo6F6UM/LzU42DC1AoRra9qCuFMx6
-         cm7f+RRApqkZ+m5x65Txj8DzlaUAl+ZY9T4fNZjPB2G6BGsVV3G2E/tE59e72rlyal0E
-         UNsCdLBEaTC0wlMojprsc6QRP3POXSBem49w/IAG0Ai4OctUefFDxUk7qkvoVkI8Vi95
-         y6xHPrxfRZ3UpsNztekE3QK0+bh2VLg4i8iJi50yh/cqdaCCaEBqZt/lpvAqRSVkw3te
-         w0eSBn7aw/ZVXMOqH4PX6FfxLrSqeOGMd7wS9TI73tBXKv5b0J70PAxKVFzE9TDJzOgO
-         I76w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GWWz5uyS/VWndEpl4fzi11VijBLfDed1qPxmM2bna+k=;
-        fh=yHqwwXao6q7iDeBpsEPl8+JAbncsnK5mUcUdlNlkYdI=;
-        b=i6A7haqLlX6VBGB2v2+sj7DqK0s9EBe1oyPlPV2g93O9Wd7lkPUn1MZ5mc9bEJD7u5
-         zwa21IGkuW/w1zXjuynqwWYLoyxs5vb2WBoYoYzmpSEJhdW3n4qwLEVOkgnzF5Nylsbg
-         IE3mfSwjGBMJzBgKNXTjwvMGE943aM/8di2g6mfjVvCd8hRrXK0p30JpcDIg6XV66ZVW
-         WMmXfJeFTk3taeLTTNo+pwuOR70ZWhnZdk8//jXBz9QBjcdMc3cC/30w39O0sPpjj22b
-         /7TeGdzrmWUIkNzrZsGD3DQzLiBt26ef0TujHG9+/WVGU+lwZsiE5Qs5Ru1Y3ZCjdPiJ
-         h8gw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uic+r8pe"
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-6a1188c8948so1360396a12.0
+        for <chrome-platform@lists.linux.dev>; Wed, 23 Sep 2026 10:44:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790176470; x=1790781270; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GWWz5uyS/VWndEpl4fzi11VijBLfDed1qPxmM2bna+k=;
-        b=qRfDq2VKKfSiPbHkwfospChjtoCPidEAngVz4wVNAwYT6RTvK++/cVptaMdi7M0czj
-         GeEtB5uTBdqd/NA8CIzYxRm5RD6HMVeKbl0IzFRD5TQc28UugQcS1FHHF/JurOpNgoAm
-         PDorZfa/a2ZlL7AQ2pP07+NXfY3kRYVV2nauEt+xLmB2jJus0pxp13Cg1+sO5qF/ptFf
-         AEQa8LgapWiSRi8xxXBk/XbvCemfsWVbcQSzgc6GRBgSCjd1uWJGeewf/0Z4ZstluKYZ
-         1ufmZ8WGh/8IbDS+JtpXsdN8+Wzouz3pIWZgJIwjCCnQcUmND9ycUnS+aU7Y8NVdDG3m
-         FaVQ==
+        d=google.com; s=20251104; t=1790185477; x=1790790277; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Bk6SbIP9vnrSui/2kvsRPPc+GVPC3yW13beKBqucCfg=;
+        b=uic+r8peAic6yjztIPu50y2ZhGKUc3V/CXbYDjQfWl5DaeBnLbI5XqmbPxcBmfJll3
+         WVxNrkYp6lG+bjufjlk7nLAYFamfNYsVZ5o/iNpLiZAANfoMv5qvystAwu6uJfEYvhdo
+         ZZPXoJF7sP0syglCMwwMkHOmNTNUgUFC9UxwCfbV2uBtpTkiXylrmSrjeQra4Lp7Iit5
+         GcU5wWRU3KdBJmZstxEdQm1xKyEvjKfmgQSpj37tF1w1eU5c//pjPlxbFzWEdDqKBbno
+         T2ZnrjB1uao0swVV9686weRuTNRhXP0eIn/6G1cV7iOsr0/KWquNaA/sb17img1+BshQ
+         tFXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790176470; x=1790781270;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1790185477; x=1790790277;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GWWz5uyS/VWndEpl4fzi11VijBLfDed1qPxmM2bna+k=;
-        b=AynxMcWTso6ww6xWj8w0LVl8b358K/Z2lEyiossAFwIGLc7LeSlYBJCk6iRP08q5Rc
-         PdRmuSmZmSAgjhlMrqbXR77S/TRNf6xtUWEKgyvvEPP7OPUYKcK+0Fowli7Otvcz00UD
-         iuBDre0qB3KM0/8cqJAE15oqm1wrAGspQ2H9y4+aDlsfMK6b+AZ079rDVWRFlg9JZwRC
-         1PzEPkACxT2r9bKrKf+K7CTcilsaIxmN+TteNIsb8nSn2jJjzoGj8s/16kMv5KEhA0oq
-         fHEuuDlOkpm+uhLSxR4kY7JP/nDXUbEckXcLPnqb5V2Da2jDTmTNnWDeoanYC0NtdRaT
-         8+HA==
-X-Forwarded-Encrypted: i=1; AKwUvBxrkoTKtBmqew9iRxoExquK54QNcsZ+3xkZCFwtYwONuIrx5Qu1PNyc6GcCFKP+jTjprvA78V1drTxDuSUMpSw=@lists.linux.dev
-X-Gm-Message-State: AFuF++l2WmW2o7zBFt7SvqMLG/pca8oWDuAYA2rd8z9uDNisQVk588B6
-	TVYCgX95zeExZoD3bBGm0dPsBQ7zROeK/Ztwe1mJwZkA57rjc/64byRIaHSoncklzwI3P70Uvn0
-	0B2LP6pMgnTOP2H8PUgJmA63BTmoxOYE=
-X-Gm-Gg: AYBFou0Qho0FTpPjVbDvPcf4P7cZi/uhwZdtvsM7YkaoSjygLjXOyLIo3q/fgohUiH4
-	9yM8HWEVtRoFzZdU00hVd0gJuZSJ69lk2gV1TJfNUO2w989ghq5nYVy1WelAql1ciTt9MtwD9Dx
-	pWR5EXiHsjjnFOKNiwd9HQV8fBmhzqZrmbUpj2FplH8C6gppj76VOQQPyYADUApYAuEIIuhyBVr
-	8YudIGiDPgiOPVulIZLseW10OXlB6urgsEozpUhix/cXmD1jWjtYdkKwOjdghAvfWeSB1yrinXz
-	wxKVFRp2vjFEEkyStY6Lc+7rSX3YBohLYnr+p2uTv00EKAIIRNFxVriH+QPnOkXq5A==
-X-Received: by 2002:a05:690c:6b01:b0:873:5c6b:a310 with SMTP id
- 00721157ae682-8a45c07ddd5mr16272367b3.62.1790176469619; Wed, 23 Sep 2026
- 08:14:29 -0700 (PDT)
+        bh=Bk6SbIP9vnrSui/2kvsRPPc+GVPC3yW13beKBqucCfg=;
+        b=K5W3dNVkNioBntoO4tfhjYMV+ogpykOpcI+dOQQqil3x3hsDvyzH+IqElP9emEg9hi
+         MEARsfSx9Ufsgc0iMOgL4TTBLP8miO4wsxVAwB49iSGnCdD30BTVz3fUTpiy8HLBY0wO
+         M6mHzfi1EObYyyvI1EUIz0LUa0Dh4fwHsr+6ip4sjkC6MJVVGZj0/o6Fo48zBK7wpHaw
+         2+Kx+krENv0YcbVtcj02RqQupv74CaUuFEOVAf1OonYVZxYkhFZ/zT3egurGnHpGYezY
+         9/AVxS44D7S+EAPZxI89d/6NDEGtowZnTTYgnpZUfTuIIMPbCKoDXFb5oQSYbCR6G/6+
+         /xXg==
+X-Forwarded-Encrypted: i=1; AKwUvByQfQTddueNSsHqyiElc8g4IWOny7C+4OS5KuqUf4ENK4vFfL4DPg5GISlQbyvwebZVHdfg2MedUhzfuNlhMe8=@lists.linux.dev
+X-Gm-Message-State: AFuF++kQUmGdOmhW3vzMkveTAAAbl/uIfN7wvMem1LVwAIBJ/Ti1kWP1
+	tY2bsw/x1i0DruvNDf8HKHdZAwlRuZo09FAC6zIWmSFATSdWkAwzCIZnvCAd/Y8maQy/kF7S+4D
+	RglzuBBcuRktwQv474w==
+X-Received: from edea18.prod.google.com ([2002:a05:6402:a192:b0:6aa:9381:b600])
+ (user=mmaslanka job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:a0cc:b0:6aa:734b:1a1f with SMTP id 4fb4d7f45d1cf-6aab3b5bb34mr2924206a12.25.1790185476519;
+ Wed, 23 Sep 2026 10:44:36 -0700 (PDT)
+Date: Wed, 23 Sep 2026 19:44:19 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260825120929.13168-1-matt.devillier@gmail.com>
- <20260828142318.1881516-1-matt.devillier@gmail.com> <apToX3Paxb5sdClO@google.com>
-In-Reply-To: <apToX3Paxb5sdClO@google.com>
-From: Matt DeVillier <matt.devillier@gmail.com>
-Date: Wed, 23 Sep 2026 10:14:17 -0500
-X-Gm-Features: AcwNN1VrVHs8b4nTCmQU43U2FA0ufWHGKGX8hbBzHr1ThxK4dCVkXAGr6yBQgjU
-Message-ID: <CAFTm+6D7OKYCqfw3yXnRX4jfmbD4ZBcf2TRL-2Tr+6LWSxWP=g@mail.gmail.com>
-Subject: Re: [PATCH v3] power: supply: cros_charge-control: adopt EC charge
- state on probe
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	"open list:CHROMEOS EC SUBDRIVERS" <chrome-platform@lists.linux.dev>, 
-	"open list:POWER SUPPLY CLASS/SUBSYSTEM and DRIVERS" <linux-pm@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.rc1.310.g51773c2048-goog
+Message-ID: <20260923174420.2343724-1-mmaslanka@google.com>
+Subject: [PATCH] platform/chrome: cros_ec_typec: Poll for role swap completion
+From: Marek Maslanka <mmaslanka@google.com>
+To: Benson Leung <bleung@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
+	Andrei Kuchynski <akuchynski@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Guenter Roeck <groeck@chromium.org>, Radu Vele <raduvele@google.com>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Marek Maslanka <mmaslanka@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-hi All,
+Depending on the EC USB-C stack (TCPMv2 vs PDC), EC_CMD_USB_PD_CONTROL
+with a role swap request may either block until the swap completes or
+queue the request asynchronously for the EC PD task and return the
+current (pre-swap) role in the immediate response. On platforms where
+the EC handles the swap asynchronously, checking resp.role right after
+issuing the swap command sees the old role and fails with -EIO before
+the USB PD handshake completes.
 
-Is anything else needed to move this patch forward?
+If the immediate response does not yet reflect the target role, poll
+EC_CMD_USB_PD_CONTROL with USB_PD_CTRL_SWAP_NONE until the target role
+is reached while connected, or until ROLE_SWAP_TIMEOUT_MS expires. The
+timeout mirrors PD_ROLE_SWAP_TIMEOUT used by the TCPM port manager,
+since a PR_Swap may legitimately take seconds when the partner answers
+with Wait and the initiator retries.
 
-Thanks,
-Matt
+While at it, report the failure modes the same way tcpm.c does, so that
+userspace can tell a rejected swap from a disconnect: -ETIMEDOUT when
+the partner never completes the swap, and -ENOTCONN when the port goes
+away while waiting. Decoding of the swapped role is factored out into
+cros_typec_resp_to_role() instead of being open coded for each swap
+type, which also keeps an unhandled swap type from being misread as a
+power role swap.
 
-On Sun, Aug 30, 2026 at 9:35=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> On Fri, Aug 28, 2026 at 09:23:15AM -0500, Matt DeVillier wrote:
-> > The driver previously always forced AUTO with no charge limits at
-> > probe, which discarded sustainer thresholds and modes set by firmware
-> > or firmware setup before the kernel loaded.
-> >
-> > For command versions that support GET (v2+), read the EC state into
-> > the driver cache instead. Valid sustainer limits are adopted as AUTO
-> > with those thresholds: while the sustainer is active the EC may report
-> > IDLE or DISCHARGE as a transient hold/discharge step, which must not
-> > be exposed as inhibit-charge or force-discharge. Sustainer off
-> > (-1/-1) still maps to Linux "no limit" (0/100); other invalid limit
-> > pairs are remapped the same way with a warning and pushed back to
-> > the EC so the cache stays in sync.
-> >
-> > If GET fails, fall back to the previous defaults and SET them on the
-> > EC. Command version 1 still cannot report state and keeps forcing a
-> > well-known configuration.
-> >
-> > Signed-off-by: Matt DeVillier <matt.devillier@gmail.com>
-> > Acked-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Fixes: ab229c2b72c3 ("platform/chrome: cros_ec_typec: Add role swap ops")
+Signed-off-by: Marek Maslanka <mmaslanka@google.com>
+---
+ drivers/platform/chrome/cros_ec_typec.c | 95 +++++++++++++++++--------
+ 1 file changed, 66 insertions(+), 29 deletions(-)
+
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index c0806c562bb9..b97026ae0454 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -7,6 +7,8 @@
+  */
+ 
+ #include <linux/acpi.h>
++#include <linux/delay.h>
++#include <linux/jiffies.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/platform_data/cros_ec_commands.h>
+@@ -22,6 +24,14 @@
+ 
+ #define DRV_NAME "cros-ec-typec"
+ 
++/*
++ * Mirrors PD_ROLE_SWAP_TIMEOUT used by the TCPM port manager: a PR_Swap may
++ * legitimately take seconds when the partner answers with Wait and the
++ * initiator retries.
++ */
++#define ROLE_SWAP_TIMEOUT_MS	10000
++#define ROLE_SWAP_DELAY_MS	20
++
+ #define DP_PORT_VDO	(DP_CAP_DFP_D | DP_CAP_RECEPTACLE | \
+ 			 DP_CONF_SET_PIN_ASSIGN(BIT(DP_PIN_ASSIGN_C) | \
+ 						BIT(DP_PIN_ASSIGN_D) | \
+@@ -58,12 +68,33 @@ static int cros_typec_enter_usb_mode(struct typec_port *tc_port, enum usb_mode m
+ 			  &req, sizeof(req), NULL, 0);
+ }
+ 
++/*
++ * Decode the role relevant to @swap_type out of an EC_CMD_USB_PD_CONTROL
++ * response.
++ *
++ * Returns a value comparable against the typec class target role
++ * (TYPEC_DEVICE/TYPEC_HOST or TYPEC_SINK/TYPEC_SOURCE), or -EOPNOTSUPP if
++ * @swap_type is not a role swap this driver knows how to track.
++ */
++static int cros_typec_resp_to_role(struct ec_response_usb_pd_control_v2 *resp, u8 swap_type)
++{
++	switch (swap_type) {
++	case USB_PD_CTRL_SWAP_DATA:
++		return (resp->role & PD_CTRL_RESP_ROLE_DATA) ? TYPEC_HOST : TYPEC_DEVICE;
++	case USB_PD_CTRL_SWAP_POWER:
++		return (resp->role & PD_CTRL_RESP_ROLE_POWER) ? TYPEC_SOURCE : TYPEC_SINK;
++	default:
++		return -EOPNOTSUPP;
++	}
++}
++
+ static int cros_typec_perform_role_swap(struct typec_port *tc_port, int target_role, u8 swap_type)
+ {
+ 	struct cros_typec_port *port = typec_get_drvdata(tc_port);
+ 	struct cros_typec_data *data = port->typec_data;
+ 	struct ec_response_usb_pd_control_v2 resp;
+ 	struct ec_params_usb_pd_control req;
++	unsigned long end;
+ 	int role, ret;
+ 
+ 	/* Must be at least v1 to support role swap. */
+@@ -81,18 +112,10 @@ static int cros_typec_perform_role_swap(struct typec_port *tc_port, int target_r
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	switch (swap_type) {
+-	case USB_PD_CTRL_SWAP_DATA:
+-		role = (resp.role & PD_CTRL_RESP_ROLE_DATA) ? TYPEC_HOST :
+-						TYPEC_DEVICE;
+-		break;
+-	case USB_PD_CTRL_SWAP_POWER:
+-		role = (resp.role & PD_CTRL_RESP_ROLE_POWER) ? TYPEC_SOURCE :
+-						TYPEC_SINK;
+-		break;
+-	default:
++	role = cros_typec_resp_to_role(&resp, swap_type);
++	if (role < 0) {
+ 		dev_warn(data->dev, "Unsupported role swap type %d\n", swap_type);
+-		return -EOPNOTSUPP;
++		return role;
+ 	}
+ 
+ 	if (role == target_role)
+@@ -104,27 +127,41 @@ static int cros_typec_perform_role_swap(struct typec_port *tc_port, int target_r
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	switch (swap_type) {
+-	case USB_PD_CTRL_SWAP_DATA:
+-		role = resp.role & PD_CTRL_RESP_ROLE_DATA ? TYPEC_HOST : TYPEC_DEVICE;
+-		if (role != target_role) {
+-			dev_err(data->dev, "Data role swap failed despite EC returning success\n");
+-			return -EIO;
++	/*
++	 * Depending on the EC USB-C stack (TCPMv2 vs PDC), EC_CMD_USB_PD_CONTROL
++	 * may either block until the swap completes or queue the request
++	 * asynchronously and return the pre-swap role. Poll until the target
++	 * role is reached while connected, or until the timeout expires.
++	 */
++	req.swap = USB_PD_CTRL_SWAP_NONE;
++	end = jiffies + msecs_to_jiffies(ROLE_SWAP_TIMEOUT_MS);
++	for (;;) {
++		if ((resp.enabled & PD_CTRL_RESP_ENABLED_CONNECTED) &&
++		    cros_typec_resp_to_role(&resp, swap_type) == target_role)
++			break;
++
++		if (time_after_eq(jiffies, end)) {
++			if (!(resp.enabled & PD_CTRL_RESP_ENABLED_CONNECTED)) {
++				dev_err(data->dev, "Port disconnected during role swap\n");
++				return -ENOTCONN;
++			}
++
++			dev_err(data->dev, "Timed out waiting for role swap to complete\n");
++			return -ETIMEDOUT;
+ 		}
++
++		msleep(ROLE_SWAP_DELAY_MS);
++		ret = cros_ec_cmd(data->ec, data->pd_ctrl_ver,
++				  EC_CMD_USB_PD_CONTROL, &req, sizeof(req),
++				  &resp, sizeof(resp));
++		if (ret < 0)
++			return ret;
++	}
++
++	if (swap_type == USB_PD_CTRL_SWAP_DATA)
+ 		typec_set_data_role(tc_port, target_role);
+-		break;
+-	case USB_PD_CTRL_SWAP_POWER:
+-		role = resp.role & PD_CTRL_RESP_ROLE_POWER ? TYPEC_SOURCE : TYPEC_SINK;
+-		if (role != target_role) {
+-			dev_err(data->dev, "Power role swap failed despite EC returning success\n");
+-			return -EIO;
+-		}
++	else
+ 		typec_set_pwr_role(tc_port, target_role);
+-		break;
+-	default:
+-		/* Should never execute */
+-		break;
+-	}
+ 
+ 	return 0;
+ }
+-- 
+2.55.0.1082.g2b9226bbc0-goog
+

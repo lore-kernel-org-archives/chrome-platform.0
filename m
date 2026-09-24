@@ -1,236 +1,96 @@
-Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28EB46D547
-	for <chrome-platform@lists.linux.dev>; Thu, 24 Sep 2026 12:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D324F1A6814;
+	Thu, 24 Sep 2026 12:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790252047; cv=none; b=kBL3X8qAbk0vOYXlH4SU53BSH6zMGQDgdCOIJCg13lEJpj8PZUxdcS5t5qHX5f8fKB2CmJqzkNIslPjb/yufEXNdNZehWQoshZzDkQZCUlDF7VjK7cGQ8On6CztOQTJcsSR8mWYBCcJY+p3hKz6zG7hB1MM7f7Ed/DfAMMtAlVY=
+	t=1790252736; cv=none; b=VEr69Uhg/IF6yAOF8KOlDOBzbGwWH5CoWZBPvitKV+bT1KtxSGjq1HT04nxT312XfRnHmbIvQIotFUshFmkMFv8Ad7BFe11caenB1idw4FPoiu7+bkisaRlWSmLQfI5V3sElfugvkeLQXlAMTAMqwy3Cw8e8E1Hp2+ExYa0dv1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790252047; c=relaxed/simple;
-	bh=otGD8El/usb5+EdYLvRCSLCI0HhgOOwUewbzGHi4nw4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rKMIHvp6Tun1jFOQ2Knk1MOR6NY+nZYBDQS8hJtX3C4S2PuWHRKQ3NFtsnJC0SKsjqufkxk+xQW3j0ySDg6SEkrGvDUjVeOl4pi+aCm6sLbmF/8fDVmqD6lsi4V0fINeWF1WIdvuAZfPmvnZf6ytAbwqnx5OVEF1P9aVdwlPwiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kaojOCgq; arc=none smtp.client-ip=74.125.230.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790252736; c=relaxed/simple;
+	bh=mkZ+/fEwSs8YWPIqqniDFLFkK5dYF53u9loFzm82MN4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gT30g2TpDDJN2lKDpLVN+wNNbTAjlEnr3HDMjwUP+Jm+ZF2rr7U15mx+TZkBupxQeJxQgbsK/g6Qmgui3v5br9fyy7c8sYoyBZIODndwGkb5HNh+0z7BookUiFa4TpsNBozAADs1wDgkKZNpKAMYeB7xo7PhGGcLJJMV/C5GGnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GKtPE3Be; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kaojOCgq"
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a59bc470d6so17467911fa.0
-        for <chrome-platform@lists.linux.dev>; Thu, 24 Sep 2026 05:14:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790252043; x=1790856843; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rhr+KJXZzXoDkRQD5ZZRVZfYL8tC8NnQwJ47gS6L1EQ=;
-        b=kaojOCgqLkwIcRg1d6D3xOhsaBwq5gfNJqZOXOnSn2NNpxFjVsWDZMcw/c4gH9C9mw
-         oL9DZSrWD4e7KjHwI/ZENqy+sHdwMAL0GBRLcjyTSmY7bTp3i1JQDe9T5gJIdFggIAQo
-         JNeLFpU7nTRM7lJPdm5/cI9jL6EKmVjvyrFawDukrQZd0o4CNmqk3QpRI9OQrpoZirFB
-         SGr/0vITYPhQTJldBzzVuJEcNN/0MWxihXxZWsRSbi/fI9BiYjNKKXePwWzvtghwkYqe
-         gAsl8sX1oWcK6lvzkgltijJVA58fAWPwKafCs9+pDkcIX7SZ2NwD2VG9Nok6Si5QtLuB
-         Y4fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790252043; x=1790856843;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rhr+KJXZzXoDkRQD5ZZRVZfYL8tC8NnQwJ47gS6L1EQ=;
-        b=ZXooWjVI1Q4el00AXbJje2eRAnEOPWycOP4v42mwBghAbncWrNxsdkeNNgoAhylotc
-         RDZ2LZYJfqB6CauTkgB5eCvsyXMhYIjRLjwkDvOFdFM6/7dPDeWHaS2nqj9t/BF4QGAu
-         qDYRqKhETEqL01eDq+j22V2K+LFEjEC3jSwGiecIRLCPHh0MCQ1ywa5rPMCbhAYDagYl
-         +T9XCMlYr2AR/dKnzJBdUV6iOgbcZhfY97iJNUsx2T5VaUtjnwupORi4YfAriWVQKDhN
-         i9XzMCLQGUToU4X/SJRE2br/ja3fQdjm72k+jzVH4dxVHJE2hH9Ogd27Ysy2IYFNn27w
-         dQ4w==
-X-Forwarded-Encrypted: i=1; AKwUvBwIu2WvyAWz5NokN7GxrcMgFAlsbmIMwXb/ywSvg5GWGmydAk9fglRmf7vfiBt9MgvXNudNYXsBQM71/KLZZQ4=@lists.linux.dev
-X-Gm-Message-State: AFuF++myH3GnHPqn7tphn/GV/17AslXUjGfp1MjPkVfQa7tfBrpljM6t
-	VLChAZpgVHNhv8W4q+bAxpjnbrcLkkeHnK3fC8rR323mxtw+3v7+66Lt
-X-Gm-Gg: AYBFou3r0gyYCF+yKSkTaE1uuEni1b8p08svDIGoeAywgW6Y5aCzg/0/V2Z0GYKm0Tn
-	YvrbpZONphRUj+8oqWxYFGi3fiUZkNLZ6PTvKh4FyFXUCFS6zUe9AKOfHyc1cj30WTifCCso9t0
-	VtqxUyLajWNO9t7qgpLmt8BRC6QOdf+4+F2ELKZpYYyT9AFQQFHBhT7S2KVOawsogeqS+UTq4Jw
-	NRuJ82Az/RqNNl/iUc90zeuGwKnbwojuz94Im5/cJ0rW4KigNPqldvFrIZGZer+IKfh5+LH5KAe
-	BwBV5MbgoB1/zX1uTqb4eq24ql6Gx4tGg/jrS82hTKrguNEiBORSrp3uZfo6Dd04vYwZ7LVkDRJ
-	hn+d002o+dnftTTbtKy409ZhjEu74Foj0mYEgFv+RnpbtC5guJwZo3WUWke8OBfUp/JksYlq2z9
-	UnH2zfIa67/g42L7Wv7adOE1EDiYJ3Gf7IBvIkERMmQcc9pRlTAOU2peEh95y7bcrY61fKglO6L
-	0o99h78RVKJ2nwgTcGvF7j0yUApMXCcFIv6/bEGkU9y0g1EoE2GVD4=
-X-Received: by 2002:a05:651c:2107:b0:3a5:d0ad:7df2 with SMTP id 38308e7fff4ca-3a63c06d2d1mr5437961fa.6.1790252042323;
-        Thu, 24 Sep 2026 05:14:02 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a63bf2c113sm7362221fa.11.2026.09.24.05.14.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2026 05:14:01 -0700 (PDT)
-Message-ID: <8a08809f-a276-4c5b-9734-1bb6aca4f51c@gmail.com>
-Date: Thu, 24 Sep 2026 15:14:00 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GKtPE3Be"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D311F000FF;
+	Thu, 24 Sep 2026 12:25:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790252734;
+	bh=5sX7O3Pnj+aY/dkYnHDMVzgGGk9MOx3gJVPX6DokO8A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=GKtPE3Bepbg0FpimPIlzjmm/xwig6iO65YdhslFBEIyhcKC5qooxUPGBCTJPNUMqT
+	 bj5DKkljB7YfOM3aMV7tvGRX/8y6xUWDB26Y3VneyP95KvoFdtux9cuSDbb4DHnUn+
+	 F+Y1y5/5uYS7fKIBp5KdsmJZ1zTV+SygErEQ1YmaB9ws3spCL1NwhR+8quRho0lYzG
+	 941Z77g9D4fe5tTRasSlV3OHLZ0qIdd3ga0RMHWb6tTprmhmRRSOHcRJXEnaUboStN
+	 dxk2TtI15MIFjlR/ZIIm116UyBmbwlpjv/yuYuMugqhppw2kVmqFWtMS8tJE1Z5ICH
+	 dikMgSS4iB8tA==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Ike Panhc <ikepanhc@gmail.com>, Rong Zhang <i@rong.moe>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
+ Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, 
+ linux-leds@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org
+In-Reply-To: <20260921-leds-trigger-hw-changed-v7-0-fe3cdb6dec51@rong.moe>
+References: <20260921-leds-trigger-hw-changed-v7-0-fe3cdb6dec51@rong.moe>
+Subject: Re: (subset) [PATCH v7 00/13] leds: Add support for
+ hardware-initiated hardware control trigger transition
+Message-Id: <179025272986.499136.14712876777665893306.b4-ty@b4>
+Date: Thu, 24 Sep 2026 13:25:29 +0100
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 4/6] reboot: extend psc_reason with power-on and reset
- causes
-To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
- Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
- Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- avaneesh.dwivedi@oss.qualcomm.com,
- Umang Chheda <umang.chheda@oss.qualcomm.com>
-References: <20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com>
- <20260924-pscrr-framework-v15-4-7af87107e0d3@oss.qualcomm.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20260924-pscrr-framework-v15-4-7af87107e0d3@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
 
-On 24/09/2026 10:08, Faruque Ansari wrote:
-> psc_reason covered only the protection reasons. Extend it to mirror the
-> full POWER_ON_REASON_* vocabulary - power-on, watchdog, software,
-> external, RTC, reset button, CPU clock and crystal failures - so a
-> provider can report why the system last powered on, not only why it was
-> shut down. New values are appended to keep the existing numeric ABI.
+On Mon, 21 Sep 2026 03:40:14 +0800, Rong Zhang wrote:
+> Some laptops can tune their keyboard backlight according to ambient
+> light sensors (auto mode). This capability is essentially a hardware
+> control trigger. Meanwhile, such laptops also offer a shrotcut for
+> cycling through brightness levels and auto mode. For example, on
+> ThinkBook, pressing Fn+Space ("shortcut") cycles keyboard backlight
+> levels in the following sequence:
 > 
-> Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
-> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> 
-> changes v15:
-> - add a static_assert() tying ARRAY_SIZE(psc_reason_descs) to
->    PSCR_REASON_COUNT, so a future enum addition without a matching
->    table entry fails the build instead of silently reading a hole
->    (Matti Vaittinen)
-> - Add Reviewed-by tags from Matti Vaittinen.
-> changes v12:
-> - new patch
-> ---
->   include/linux/reboot.h | 28 ++++++++++++++++++++++++++++
->   kernel/reboot.c        | 12 ++++++++++++
->   2 files changed, 40 insertions(+)
-> 
-> diff --git a/include/linux/reboot.h b/include/linux/reboot.h
-> index 4c5327dd7645..13f004ad1066 100644
-> --- a/include/linux/reboot.h
-> +++ b/include/linux/reboot.h
-> @@ -225,9 +225,28 @@ extern void orderly_reboot(void);
->    *	management errors, or an unrecoverable hardware fault requiring
->    *	immediate response.
->    *
-> + * @PSCR_POWER_ON: Regular cold power-on (e.g. via a PMIC power-on request).
-> + *
-> + * @PSCR_WATCHDOG: Reset caused by a watchdog timeout.
-> + *
-> + * @PSCR_SOFTWARE: Software-initiated reset or reboot.
-> + *
-> + * @PSCR_EXTERNAL: Reset asserted through an external pin or reset input.
-> + *
-> + * @PSCR_RTC: Wake-up or power-on triggered by the RTC.
-> + *
-> + * @PSCR_RESET_BUTTON: Reset triggered by a user reset button.
-> + *
-> + * @PSCR_CPU_CLK_FAIL: Reset caused by a CPU clock failure.
-> + *
-> + * @PSCR_XTAL_FAIL: Reset caused by a crystal oscillator failure.
-> + *
->    * @PSCR_REASON_COUNT: Number of defined power state change reasons. This
->    *	value is useful for range checking and potential future extensions
->    *	while maintaining compatibility.
-> + *
-> + * The reasons mirror the POWER_ON_REASON_* strings in
-> + * <linux/power/power_on_reason.h>; keep the two in sync when extending.
->    */
->   enum psc_reason {
->   	PSCR_UNKNOWN,
-> @@ -236,6 +255,15 @@ enum psc_reason {
->   	PSCR_REGULATOR_FAILURE,
->   	PSCR_OVER_TEMPERATURE,
->   	PSCR_EC_PANIC,
-> +	/* Append new reasons here; the numeric order is ABI. */
-> +	PSCR_POWER_ON,
-> +	PSCR_WATCHDOG,
-> +	PSCR_SOFTWARE,
-> +	PSCR_EXTERNAL,
-> +	PSCR_RTC,
-> +	PSCR_RESET_BUTTON,
-> +	PSCR_CPU_CLK_FAIL,
-> +	PSCR_XTAL_FAIL,
->   
->   	/* Number of reasons */
->   	PSCR_REASON_COUNT,
-> diff --git a/kernel/reboot.c b/kernel/reboot.c
-> index e53fb31bad06..7094c7a8f315 100644
-> --- a/kernel/reboot.c
-> +++ b/kernel/reboot.c
-> @@ -7,7 +7,9 @@
->   
->   #define pr_fmt(fmt)	"reboot: " fmt
->   
-> +#include <linux/array_size.h>
->   #include <linux/atomic.h>
-> +#include <linux/build_bug.h>
->   #include <linux/ctype.h>
->   #include <linux/export.h>
->   #include <linux/kexec.h>
-> @@ -1102,7 +1104,17 @@ static const struct psc_reason_desc psc_reason_descs[] = {
->   	[PSCR_REGULATOR_FAILURE] = { "regulator-failure", POWER_ON_REASON_REGULATOR_FAILURE },
->   	[PSCR_OVER_TEMPERATURE]	 = { "over-temperature",  POWER_ON_REASON_OVER_TEMPERATURE },
->   	[PSCR_EC_PANIC]		 = { "ec-panic",	  POWER_ON_REASON_EC_PANIC },
-> +	[PSCR_POWER_ON]		 = { "power-on",	  POWER_ON_REASON_REGULAR },
-> +	[PSCR_WATCHDOG]		 = { "watchdog",	  POWER_ON_REASON_WATCHDOG },
-> +	[PSCR_SOFTWARE]		 = { "software",	  POWER_ON_REASON_SOFTWARE },
-> +	[PSCR_EXTERNAL]		 = { "external",	  POWER_ON_REASON_EXTERNAL },
-> +	[PSCR_RTC]		 = { "rtc",		  POWER_ON_REASON_RTC },
-> +	[PSCR_RESET_BUTTON]	 = { "reset-button",	  POWER_ON_REASON_RST_BTN },
-> +	[PSCR_CPU_CLK_FAIL]	 = { "cpu-clock-failure", POWER_ON_REASON_CPU_CLK_FAIL },
-> +	[PSCR_XTAL_FAIL]	 = { "crystal-failure",	  POWER_ON_REASON_XTAL_FAIL },
->   };
-> +static_assert(ARRAY_SIZE(psc_reason_descs) == PSCR_REASON_COUNT,
-> +	      "psc_reason_descs[] must have an entry for every psc_reason");
+> [...]
 
-Thanks Faruque. This is better than nothing, but if I read it right, it 
-won't still catch missing initializations when last item is initialized 
-(but not all items). Eg:
+Applied, thanks!
 
-enum {
-	PSCR_REGULATOR_FAILURE,
-	PSCR_OVER_TEMPERATURE,
-	PSCR_EC_PANIC,
-	...
-	PSCR_REASON_COUNT
-};
+[01/13] leds: class: Always protect brightness_show() with led_access
+        commit: 6887f40dadb5a263de1d9e4b5517400c08089d35
+[02/13] leds: trigger: Move led_trigger_is_hw_controlled() to the right place
+        commit: 7879d6277485697cf37eb3c1b89ce260d8c67e4f
+[03/13] leds: class: Remove hardware control trigger when writing brightness
+        commit: 96b4ddd6d2d8c645d672f1f26130685d9f40cf2f
+[04/13] leds: trigger: Move led_trigger_group to the right place
+        commit: 43b83e7462e8e9b96e14262c0b6aa739f01c38f7
+[05/13] leds: trigger: Add hw_offloaded() callback and provide trigger_may_offload_to_hw attribute
+        commit: 8e04e5382aa989ae9a36dc0cb3f3c90347d5607f
+[06/13] leds: cros_ec: Implement hw_offloaded() trigger callback
+        commit: b366a50d39d13f8230f959b457abcaeba1e7d121
+[07/13] leds: turris-omnia: Implement hw_offloaded() trigger callback and declare hw_control_trigger
+        commit: f5005c7cec7d4cff58f25442ed6dfca56e42b16d
+[08/13] leds: trigger: netdev: Implement hw_offloaded() callback
+        commit: 072e0e799bc6b3909afc8fd7fac750b31e37b438
+[09/13] leds: trigger: Enforce strict checks in led_trigger_is_hw_controlled()
+        commit: 7b9a609575615a3ba18a31a95282e756e34bd506
+[10/13] leds: trigger: Add led_trigger_notify_hw_control_changed() interface
+        commit: 05b4738b0078f7d6f154f68068a11c8a0635e9df
 
-static const struct psc_reason_desc psc_reason_descs[] = {
-	[ PSCR_REASON_COUNT - 1] = { "foo", BAR }
-};
+--
+Lee Jones [李琼斯]
 
-static_assert(ARRAY_SIZE(psc_reason_descs) == PSCR_REASON_COUNT,
-	      "psc_reason_descs[] must have an entry for every psc_reason");
-
-would pass the check, but accessors would crash to uninitialized 
-entries. Hence, I would still prefer the run-time NULL checks.
-
-Oh, and I just noticed there is comma following the 'PSCR_REASON_COUNT' 
-in the enum. Since 'PSCR_REASON_COUNT' should always be kept as the last 
-enum value, the comma should be omitted.
-
-Other than this - I like the changes you implemented this series. Won't 
-reply to other patches, but I think this is a very nice series!
-
-Yours,
-	-- Matti
-
--- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~

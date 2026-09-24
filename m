@@ -1,200 +1,236 @@
-Received: from sender5-op-o12.zoho.com (sender5-op-o12.zoho.com [165.173.182.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ECC336883
-	for <chrome-platform@lists.linux.dev>; Thu, 24 Sep 2026 11:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790250647; cv=pass; b=qARTV+vJtvDFh5bV26fUhJC3dMoI3O+afPPe2PJ7B4d1RKC/6AdAHLHU1cSlwFJjRfu3ejax8jIFUmvJON/CfIh/wZgbCZmHjMY73CqB3ExkUDAuoQ9ZkM/GDrsu8p12LiMR2qfsfZF7X7ePm8TM1Q1OuysNGuUv7ZtNMxDo5O4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790250647; c=relaxed/simple;
-	bh=eBaHN3Y/BWFH+RYMTiSSRGuCI4fa0Na4sl/rx/lOdY8=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=icXExp+bTWbvfIG25f7ONgfHr4p+rTjuAvlB6aMMM5z+NcIDIGoCJgaCf/NXXybP/w2TtrtzZTxzqcvSsN4KqYk6clRovJdVsiGg9+lmRPxHmZfc7EWuA24Iy6E7ESA44+3UDmVSoEdtJgN+DoQv0GO5viW0CNeW+QCUsvIBYlU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=WudqXkQ9; arc=pass smtp.client-ip=165.173.182.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28EB46D547
+	for <chrome-platform@lists.linux.dev>; Thu, 24 Sep 2026 12:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.76
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790252047; cv=none; b=kBL3X8qAbk0vOYXlH4SU53BSH6zMGQDgdCOIJCg13lEJpj8PZUxdcS5t5qHX5f8fKB2CmJqzkNIslPjb/yufEXNdNZehWQoshZzDkQZCUlDF7VjK7cGQ8On6CztOQTJcsSR8mWYBCcJY+p3hKz6zG7hB1MM7f7Ed/DfAMMtAlVY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790252047; c=relaxed/simple;
+	bh=otGD8El/usb5+EdYLvRCSLCI0HhgOOwUewbzGHi4nw4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rKMIHvp6Tun1jFOQ2Knk1MOR6NY+nZYBDQS8hJtX3C4S2PuWHRKQ3NFtsnJC0SKsjqufkxk+xQW3j0ySDg6SEkrGvDUjVeOl4pi+aCm6sLbmF/8fDVmqD6lsi4V0fINeWF1WIdvuAZfPmvnZf6ytAbwqnx5OVEF1P9aVdwlPwiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kaojOCgq; arc=none smtp.client-ip=74.125.230.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="WudqXkQ9"
-ARC-Seal: i=1; a=rsa-sha256; t=1790250640; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=MZi9eX2mkZ7Ir+vzqlkr3lBL5Ts7hiTYHYSILke34zTmx2D1NUQ4PMHr2r5GCGy4AZ4zCjuzg2eaKXUDTaRh6Po4baSJvQUoeXjBAmNzaSoxONVvGqDXmX8PyyUDG3t1Mp3blUSEwYTg+QN+JKDXBwLECF+sSXn1rXYi1/vF4QI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1790250640; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=szzgQ9yx9ieaZGMbPDCWaI5C0qscCyhncAmiXOLJGFY=; 
-	b=ikUv3BZ1z/3dZXfjQ85ZqEdB60OzBktdFa5qMiaphpxh01qjsOCDuQgbLGkVEbzisazS3xfhDvhxD6NkIdGFufV2yQmGHCIsosHBpBnmjDPITm528WzoIKAeGb7/lRVmGU2RxNabV/wfoRLd65v/WavuvfIt1uA2RBc3psJyLCY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790250640;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=szzgQ9yx9ieaZGMbPDCWaI5C0qscCyhncAmiXOLJGFY=;
-	b=WudqXkQ99Bj2XjUhJrGbSvpYwLyKg546DsNAx51VDSDr53ku4Q/T2wtn7gMeaSF+
-	10CfPxFYJxQx30Hk5AyOkp29UgtNdLyNoHH6lH+DgkSPhezixkryp2QYJ/QNOkKobOU
-	U0HOUL95eGFTaFsKF1VSU55uCq+4WSTf88eG1lSl9uTNlfxHGFOT8XzVnuqfWtFKVEU
-	+b5onmeaG3t14SHk43zlQJtttiHBmWpj3ocmuP/fIoaMLYJLlkOvAPYXTlnwc2sOPhN
-	7HuTT6Xxik7KwHVPkdt/+c1/skg5t1AqKU52eqcLyYGTrxro/Lk22AGbQDEyLgJuhIw
-	FJzBchHbrw==
-Received: by smtp.zohomail.com with SMTPS id 179025063891131.335288653322777;
-	Thu, 24 Sep 2026 04:50:38 -0700 (PDT)
-Message-ID: <607266787ef89717b9c70fd86cc882761060dc00.camel@rong.moe>
-Subject: Re: [PATCH v7 08/13] leds: trigger: netdev: Implement
- hw_offloaded() callback
-From: Rong Zhang <i@rong.moe>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
- <linux@weissschuh.net>,  Benson Leung <bleung@chromium.org>, Guenter Roeck
- <groeck@chromium.org>, Marek =?ISO-8859-1?Q?Beh=FAn?=	 <kabel@kernel.org>,
- Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark"	
- <derekjohn.clark@gmail.com>, Hans de Goede <hansg@kernel.org>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Ike Panhc
- <ikepanhc@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski
- <kuba@kernel.org>, Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar
- <vsankar@lenovo.com>, 	linux-leds@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, 	platform-driver-x86@vger.kernel.org
-In-Reply-To: <20260924085316.GB331088@google.com>
-References: <20260921-leds-trigger-hw-changed-v7-0-fe3cdb6dec51@rong.moe>
-		 <20260921-leds-trigger-hw-changed-v7-8-fe3cdb6dec51@rong.moe>
-		 <20260924085316.GB331088@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 24 Sep 2026 19:47:29 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kaojOCgq"
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a59bc470d6so17467911fa.0
+        for <chrome-platform@lists.linux.dev>; Thu, 24 Sep 2026 05:14:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790252043; x=1790856843; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rhr+KJXZzXoDkRQD5ZZRVZfYL8tC8NnQwJ47gS6L1EQ=;
+        b=kaojOCgqLkwIcRg1d6D3xOhsaBwq5gfNJqZOXOnSn2NNpxFjVsWDZMcw/c4gH9C9mw
+         oL9DZSrWD4e7KjHwI/ZENqy+sHdwMAL0GBRLcjyTSmY7bTp3i1JQDe9T5gJIdFggIAQo
+         JNeLFpU7nTRM7lJPdm5/cI9jL6EKmVjvyrFawDukrQZd0o4CNmqk3QpRI9OQrpoZirFB
+         SGr/0vITYPhQTJldBzzVuJEcNN/0MWxihXxZWsRSbi/fI9BiYjNKKXePwWzvtghwkYqe
+         gAsl8sX1oWcK6lvzkgltijJVA58fAWPwKafCs9+pDkcIX7SZ2NwD2VG9Nok6Si5QtLuB
+         Y4fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790252043; x=1790856843;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rhr+KJXZzXoDkRQD5ZZRVZfYL8tC8NnQwJ47gS6L1EQ=;
+        b=ZXooWjVI1Q4el00AXbJje2eRAnEOPWycOP4v42mwBghAbncWrNxsdkeNNgoAhylotc
+         RDZ2LZYJfqB6CauTkgB5eCvsyXMhYIjRLjwkDvOFdFM6/7dPDeWHaS2nqj9t/BF4QGAu
+         qDYRqKhETEqL01eDq+j22V2K+LFEjEC3jSwGiecIRLCPHh0MCQ1ywa5rPMCbhAYDagYl
+         +T9XCMlYr2AR/dKnzJBdUV6iOgbcZhfY97iJNUsx2T5VaUtjnwupORi4YfAriWVQKDhN
+         i9XzMCLQGUToU4X/SJRE2br/ja3fQdjm72k+jzVH4dxVHJE2hH9Ogd27Ysy2IYFNn27w
+         dQ4w==
+X-Forwarded-Encrypted: i=1; AKwUvBwIu2WvyAWz5NokN7GxrcMgFAlsbmIMwXb/ywSvg5GWGmydAk9fglRmf7vfiBt9MgvXNudNYXsBQM71/KLZZQ4=@lists.linux.dev
+X-Gm-Message-State: AFuF++myH3GnHPqn7tphn/GV/17AslXUjGfp1MjPkVfQa7tfBrpljM6t
+	VLChAZpgVHNhv8W4q+bAxpjnbrcLkkeHnK3fC8rR323mxtw+3v7+66Lt
+X-Gm-Gg: AYBFou3r0gyYCF+yKSkTaE1uuEni1b8p08svDIGoeAywgW6Y5aCzg/0/V2Z0GYKm0Tn
+	YvrbpZONphRUj+8oqWxYFGi3fiUZkNLZ6PTvKh4FyFXUCFS6zUe9AKOfHyc1cj30WTifCCso9t0
+	VtqxUyLajWNO9t7qgpLmt8BRC6QOdf+4+F2ELKZpYYyT9AFQQFHBhT7S2KVOawsogeqS+UTq4Jw
+	NRuJ82Az/RqNNl/iUc90zeuGwKnbwojuz94Im5/cJ0rW4KigNPqldvFrIZGZer+IKfh5+LH5KAe
+	BwBV5MbgoB1/zX1uTqb4eq24ql6Gx4tGg/jrS82hTKrguNEiBORSrp3uZfo6Dd04vYwZ7LVkDRJ
+	hn+d002o+dnftTTbtKy409ZhjEu74Foj0mYEgFv+RnpbtC5guJwZo3WUWke8OBfUp/JksYlq2z9
+	UnH2zfIa67/g42L7Wv7adOE1EDiYJ3Gf7IBvIkERMmQcc9pRlTAOU2peEh95y7bcrY61fKglO6L
+	0o99h78RVKJ2nwgTcGvF7j0yUApMXCcFIv6/bEGkU9y0g1EoE2GVD4=
+X-Received: by 2002:a05:651c:2107:b0:3a5:d0ad:7df2 with SMTP id 38308e7fff4ca-3a63c06d2d1mr5437961fa.6.1790252042323;
+        Thu, 24 Sep 2026 05:14:02 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a63bf2c113sm7362221fa.11.2026.09.24.05.14.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Sep 2026 05:14:01 -0700 (PDT)
+Message-ID: <8a08809f-a276-4c5b-9734-1bb6aca4f51c@gmail.com>
+Date: Thu, 24 Sep 2026 15:14:00 +0300
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-10+b1 
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 4/6] reboot: extend psc_reason with power-on and reset
+ causes
+To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
+ Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ avaneesh.dwivedi@oss.qualcomm.com,
+ Umang Chheda <umang.chheda@oss.qualcomm.com>
+References: <20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com>
+ <20260924-pscrr-framework-v15-4-7af87107e0d3@oss.qualcomm.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20260924-pscrr-framework-v15-4-7af87107e0d3@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Lee,
+On 24/09/2026 10:08, Faruque Ansari wrote:
+> psc_reason covered only the protection reasons. Extend it to mirror the
+> full POWER_ON_REASON_* vocabulary - power-on, watchdog, software,
+> external, RTC, reset button, CPU clock and crystal failures - so a
+> provider can report why the system last powered on, not only why it was
+> shut down. New values are appended to keep the existing numeric ABI.
+> 
+> Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
+> changes v15:
+> - add a static_assert() tying ARRAY_SIZE(psc_reason_descs) to
+>    PSCR_REASON_COUNT, so a future enum addition without a matching
+>    table entry fails the build instead of silently reading a hole
+>    (Matti Vaittinen)
+> - Add Reviewed-by tags from Matti Vaittinen.
+> changes v12:
+> - new patch
+> ---
+>   include/linux/reboot.h | 28 ++++++++++++++++++++++++++++
+>   kernel/reboot.c        | 12 ++++++++++++
+>   2 files changed, 40 insertions(+)
+> 
+> diff --git a/include/linux/reboot.h b/include/linux/reboot.h
+> index 4c5327dd7645..13f004ad1066 100644
+> --- a/include/linux/reboot.h
+> +++ b/include/linux/reboot.h
+> @@ -225,9 +225,28 @@ extern void orderly_reboot(void);
+>    *	management errors, or an unrecoverable hardware fault requiring
+>    *	immediate response.
+>    *
+> + * @PSCR_POWER_ON: Regular cold power-on (e.g. via a PMIC power-on request).
+> + *
+> + * @PSCR_WATCHDOG: Reset caused by a watchdog timeout.
+> + *
+> + * @PSCR_SOFTWARE: Software-initiated reset or reboot.
+> + *
+> + * @PSCR_EXTERNAL: Reset asserted through an external pin or reset input.
+> + *
+> + * @PSCR_RTC: Wake-up or power-on triggered by the RTC.
+> + *
+> + * @PSCR_RESET_BUTTON: Reset triggered by a user reset button.
+> + *
+> + * @PSCR_CPU_CLK_FAIL: Reset caused by a CPU clock failure.
+> + *
+> + * @PSCR_XTAL_FAIL: Reset caused by a crystal oscillator failure.
+> + *
+>    * @PSCR_REASON_COUNT: Number of defined power state change reasons. This
+>    *	value is useful for range checking and potential future extensions
+>    *	while maintaining compatibility.
+> + *
+> + * The reasons mirror the POWER_ON_REASON_* strings in
+> + * <linux/power/power_on_reason.h>; keep the two in sync when extending.
+>    */
+>   enum psc_reason {
+>   	PSCR_UNKNOWN,
+> @@ -236,6 +255,15 @@ enum psc_reason {
+>   	PSCR_REGULATOR_FAILURE,
+>   	PSCR_OVER_TEMPERATURE,
+>   	PSCR_EC_PANIC,
+> +	/* Append new reasons here; the numeric order is ABI. */
+> +	PSCR_POWER_ON,
+> +	PSCR_WATCHDOG,
+> +	PSCR_SOFTWARE,
+> +	PSCR_EXTERNAL,
+> +	PSCR_RTC,
+> +	PSCR_RESET_BUTTON,
+> +	PSCR_CPU_CLK_FAIL,
+> +	PSCR_XTAL_FAIL,
+>   
+>   	/* Number of reasons */
+>   	PSCR_REASON_COUNT,
+> diff --git a/kernel/reboot.c b/kernel/reboot.c
+> index e53fb31bad06..7094c7a8f315 100644
+> --- a/kernel/reboot.c
+> +++ b/kernel/reboot.c
+> @@ -7,7 +7,9 @@
+>   
+>   #define pr_fmt(fmt)	"reboot: " fmt
+>   
+> +#include <linux/array_size.h>
+>   #include <linux/atomic.h>
+> +#include <linux/build_bug.h>
+>   #include <linux/ctype.h>
+>   #include <linux/export.h>
+>   #include <linux/kexec.h>
+> @@ -1102,7 +1104,17 @@ static const struct psc_reason_desc psc_reason_descs[] = {
+>   	[PSCR_REGULATOR_FAILURE] = { "regulator-failure", POWER_ON_REASON_REGULATOR_FAILURE },
+>   	[PSCR_OVER_TEMPERATURE]	 = { "over-temperature",  POWER_ON_REASON_OVER_TEMPERATURE },
+>   	[PSCR_EC_PANIC]		 = { "ec-panic",	  POWER_ON_REASON_EC_PANIC },
+> +	[PSCR_POWER_ON]		 = { "power-on",	  POWER_ON_REASON_REGULAR },
+> +	[PSCR_WATCHDOG]		 = { "watchdog",	  POWER_ON_REASON_WATCHDOG },
+> +	[PSCR_SOFTWARE]		 = { "software",	  POWER_ON_REASON_SOFTWARE },
+> +	[PSCR_EXTERNAL]		 = { "external",	  POWER_ON_REASON_EXTERNAL },
+> +	[PSCR_RTC]		 = { "rtc",		  POWER_ON_REASON_RTC },
+> +	[PSCR_RESET_BUTTON]	 = { "reset-button",	  POWER_ON_REASON_RST_BTN },
+> +	[PSCR_CPU_CLK_FAIL]	 = { "cpu-clock-failure", POWER_ON_REASON_CPU_CLK_FAIL },
+> +	[PSCR_XTAL_FAIL]	 = { "crystal-failure",	  POWER_ON_REASON_XTAL_FAIL },
+>   };
+> +static_assert(ARRAY_SIZE(psc_reason_descs) == PSCR_REASON_COUNT,
+> +	      "psc_reason_descs[] must have an entry for every psc_reason");
 
-Thanks for your review.
+Thanks Faruque. This is better than nothing, but if I read it right, it 
+won't still catch missing initializations when last item is initialized 
+(but not all items). Eg:
 
-On Thu, 2026-09-24 at 09:53 +0100, Lee Jones wrote:
-> --- checkpatch.pl: clean (0 issues) ---
->=20
-> On Mon, 21 Sep 2026, Rong Zhang wrote:
->=20
-> > "netdev" can run in hardware control according to hardware capabilities
-> > and trigger options.
-> >=20
-> > Implement hw_offloaded() callback to provide its hardware control state
-> > to the LED core, and document the relation between the custom
-> > "offloaded" attribute and the generic "trigger_may_offload_to_hw"
-> > attribute.
-> >=20
-> > The callback mimics how the existing "offloaded" attribute does, i.e.,
-> > locklessly reads hw_control, as it's just a hint and don't need to be
-> > accurate.
-> >=20
-> > Acked-by: Ike Panhc <ikepanhc@gmail.com>
-> > Signed-off-by: Rong Zhang <i@rong.moe>
-> > ---
-> > Changes in v7:
-> > - Rename the offloaded() callback to hw_offloaded() (thanks Lee Jones)
-> > - Rename the trigger_may_offload attribute to
-> >   trigger_may_offload_to_hw (ditto)
-> >=20
-> > Changes in v3:
-> > - Do not deprecate netdev's "offloaded" attribute (thanks Thomas
-> >   Wei=C3=9Fschuh)
-> > - Document the relation between the custom "offloaded" attribute and th=
-e
-> >   generic "trigger_may_offload" attribute (ditto)
-> > ---
-> >  Documentation/ABI/testing/sysfs-class-led                | 3 +++
-> >  Documentation/ABI/testing/sysfs-class-led-trigger-netdev | 3 +++
-> >  drivers/leds/trigger/ledtrig-netdev.c                    | 8 ++++++++
-> >  3 files changed, 14 insertions(+)
-> >=20
-> > diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentation/=
-ABI/testing/sysfs-class-led
-> > index 123e3a15b7d6..ea113fed10ef 100644
-> > --- a/Documentation/ABI/testing/sysfs-class-led
-> > +++ b/Documentation/ABI/testing/sysfs-class-led
-> > @@ -101,6 +101,9 @@ Description:
-> >  		- `[foo_trigger]`: the trigger is selected and offloaded to
-> >  		  hardware.
-> > =20
-> > +		The "netdev" trigger also provides a custom attribute to
-> > +		indicate its state, see `/sys/class/leds/<led>/offloaded`.
-> > +
-> >  What:		/sys/class/leds/<led>/inverted
-> >  Date:		January 2011
-> >  KernelVersion:	2.6.38
-> > diff --git a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev b=
-/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> > index ed46b37ab8a2..203ea58396ed 100644
-> > --- a/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> > +++ b/Documentation/ABI/testing/sysfs-class-led-trigger-netdev
-> > @@ -75,6 +75,9 @@ Description:
-> >  		If 1, the LED blinking in requested mode is offloaded to
-> >  		hardware.
-> > =20
-> > +		LED trigger core also provides a generic attribute for this
-> > +		purpose, see `/sys/class/leds/<led>/trigger_may_offload_to_hw`.
-> > +
-> >  What:		/sys/class/leds/<led>/link_10
-> >  Date:		Jun 2023
-> >  KernelVersion:	6.5
-> > diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigg=
-er/ledtrig-netdev.c
-> > index 5b4e92c14dbb..60409f054e22 100644
-> > --- a/drivers/leds/trigger/ledtrig-netdev.c
-> > +++ b/drivers/leds/trigger/ledtrig-netdev.c
-> > @@ -798,10 +798,18 @@ static void netdev_trig_deactivate(struct led_cla=
-ssdev *led_cdev)
-> >  	kfree(trigger_data);
-> >  }
-> > =20
-> > +static bool netdev_trig_hw_offloaded(struct led_classdev *led_cdev)
-> > +{
-> > +	struct led_netdev_data *trigger_data =3D led_get_trigger_data(led_cde=
-v);
-> > +
-> > +	return trigger_data->hw_control;
->=20
-> How sure are we that trigger_data can NEVER be NULL?
+enum {
+	PSCR_REGULATOR_FAILURE,
+	PSCR_OVER_TEMPERATURE,
+	PSCR_EC_PANIC,
+	...
+	PSCR_REASON_COUNT
+};
 
-The hw_offloaded() callback is protected by led_cdev->trigger_lock, see
-__led_trigger_is_hw_controlled().
+static const struct psc_reason_desc psc_reason_descs[] = {
+	[ PSCR_REASON_COUNT - 1] = { "foo", BAR }
+};
 
-trigger_data is set in the trigger's activate() callback, which is
-protected by led_cdev->trigger_lock.
+static_assert(ARRAY_SIZE(psc_reason_descs) == PSCR_REASON_COUNT,
+	      "psc_reason_descs[] must have an entry for every psc_reason");
 
-trigger_data is cleared in led_trigger_set() when removing the current
-trigger, which is, again, protected by led_cdev->trigger_lock.
+would pass the check, but accessors would crash to uninitialized 
+entries. Hence, I would still prefer the run-time NULL checks.
 
-When CONFIG_LEDS_TRIGGERS=3Dn, the code is not built.
+Oh, and I just noticed there is comma following the 'PSCR_REASON_COUNT' 
+in the enum. Since 'PSCR_REASON_COUNT' should always be kept as the last 
+enum value, the comma should be omitted.
 
-If the trigger is currently inactive, the callback cannot be called.
+Other than this - I like the changes you implemented this series. Won't 
+reply to other patches, but I think this is a very nice series!
 
-Therefore, it can never be NULL when we reach here.
+Yours,
+	-- Matti
 
-Note that the trigger's DEVICE_ATTR_RO(offloaded) makes the same
-assumption, too.
+-- 
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
 
-Thanks,
-Rong
-
->=20
-> > +}
-> > +
-> >  static struct led_trigger netdev_led_trigger =3D {
-> >  	.name =3D "netdev",
-> >  	.activate =3D netdev_trig_activate,
-> >  	.deactivate =3D netdev_trig_deactivate,
-> > +	.hw_offloaded =3D netdev_trig_hw_offloaded,
-> >  	.groups =3D netdev_trig_groups,
-> >  };
-> > =20
-> >=20
-> > --=20
-> > 2.55.0
-> >=20
+~~ When things go utterly wrong vim users can always type :help! ~~

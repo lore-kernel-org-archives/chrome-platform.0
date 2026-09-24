@@ -1,246 +1,185 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A80424D41
-	for <chrome-platform@lists.linux.dev>; Thu, 24 Sep 2026 07:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678383FDC06;
+	Thu, 24 Sep 2026 08:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790233830; cv=none; b=pUnKwWzUEieJqs1993HYqjDRfrJYGqbmKC1bfkW+bxvMdbXehHSSNLydx914n+25h7orDbi2zx95gyuS0M9VOKBJQC8t55aDyYLxmIMrck6A/lvuTPrpZh8+cPQay1RiMz0sWEp4uXsg6TMDWqoJTsBdiVeiQQ1/FmPtMOi8xDg=
+	t=1790239037; cv=none; b=PBvpsZs47Q+UNuJGNgO33p80gOMuBGRva87dtxA25gsqAduFAMNzRd4e4Ze44X8BSpsXwH9/VEMJ5/qIvnRV/rVOox5/IegpfIcdzbZ9vclw4UX9/Lkna7jBLiDtVqzpTBI4gBairIpRqh0l+eD4/+0YoIEJi3mg+NA28KxzCrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790233830; c=relaxed/simple;
-	bh=GE9Etz3nrK1hgTXn6h2zh+nhRClWZeQsaq05EJ81p2o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BRiF4LF2bgrXznpZZvplSunN8HNJmt7TLWOElcMFvp2lAHzr1HcI24mv5AYOUkSRgYSsqnFMUAQ6oohmmvzsNOnOoDEJFCAYzViT5rKyX0RYnqZlnq4fPOmgZu86I0JoQhk/imtm5O6SCvmao9eCrE0qZs/SJOLiqgJxVCxe7JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=c+QUtNXg; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790239037; c=relaxed/simple;
+	bh=r/vBo1dv/pEBxUbQ9g7cwJrRcatBAi11+dXpZWCqjS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PE3PJpfm6T9EWytS3YsLEHfH/yT8QtK1HTtafMDmFP1+7Wxo3F8xrDlcBJCVwFwNGyIHRCCvvZqt4LmkWNufFKYABWhptPZ1NsIlV7142rGw3Wnf7HJL2vDaf1i0sEowOxDuh0qoZHVQvhpjwalz4d2HrrpZP3Y6EqbXO8Fpsuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n8BxRoPW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="c+QUtNXg"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68O5eBhn2420912;
-	Thu, 24 Sep 2026 07:10:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	8jfvoyBZDtOopgWjSNBCJpymZ2L0+OaAARK9dBmV1PM=; b=c+QUtNXg+KFoZ6cG
-	QW7/33Jn8BZMXdu20CIU8tfH1WyieYPgq30eZE0TnHDL0UsPVGeOm8j7mSmsudQH
-	rpPbxDH2EaAmVnwTrwXu7nPplAnvaZEfwBU1LDJhdjEa/stlJrh2M4oMFYq8R/kg
-	iV6slGWlF2GrSe1Si6SofxPZk2iE1YAJM6z0Fns6ZH5SE4H+OIjKqDDJ33lNv68g
-	qEGFiWZYQebhsR19mD4AK0mV0tYEB2X7uGs+rO+p/UBFNuKZCVKBPWVlmhqBFTMx
-	LQjb22myXr2aIwrUKme/Iun/7ZhkFQMMvhszm6lfovUSLMm0RIEZFeNZb9zS1uPm
-	fxzlFw==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvstuh770-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 24 Sep 2026 07:10:06 +0000 (GMT)
-Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 68O7A29O2215881;
-	Thu, 24 Sep 2026 07:10:04 GMT
-Received: from hu-ffaruque-hyd.qualcomm.com (hu-ffaruque-hyd.qualcomm.com [10.147.245.31])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 68O7A0Cp2215790;
-	Thu, 24 Sep 2026 07:10:04 +0000 (GMT)
-From: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
-Date: Thu, 24 Sep 2026 12:38:47 +0530
-Subject: [PATCH v15 6/6] Documentation: Add sysfs documentation for PSCRR
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n8BxRoPW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E9901F000FF;
+	Thu, 24 Sep 2026 08:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790239036;
+	bh=9dNpIiCngfqS48fDbzhesrqx5NrLounR6SeZVDzxP8s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=n8BxRoPWmSo9uf+mopPXmF9iAKyVgVre1+tPUkxjhxcD4AzQ6b0oF0OMFVb82h2n9
+	 p1s79k+rFIUQ2BmwgLqu+i9LQkKiMpjvRjfoKgTXDohRp+0sF+60oIRvwCCMnN7xl+
+	 XevS1thLE2eO4fD5mB8k5ylTFf7kXaUNC4CTPKU16429Nm33GMPNkQDI7yfQZso+xM
+	 l+WuFJhRc6CyPHfqtptjzvLljEKgjbp2Ovd5dpXBpYvblvFi8az97xbsF53OpHftn2
+	 qKz5tMP83HAYOm4okEy8zxQqvnhMGMTIE6JPFR0bClf/CeUGY1CcD59ud1dled8xY+
+	 g+vbo9+Hx+Qcg==
+Date: Thu, 24 Sep 2026 09:37:09 +0100
+From: Lee Jones <lee@kernel.org>
+To: Rong Zhang <i@rong.moe>
+Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Ike Panhc <ikepanhc@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Vishnu Sankar <vishnuocv@gmail.com>,
+	Vishnu Sankar <vsankar@lenovo.com>, linux-leds@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v7 02/13] leds: trigger: Move
+ led_trigger_is_hw_controlled() to the right place
+Message-ID: <20260924083709.GA331088@google.com>
+References: <20260921-leds-trigger-hw-changed-v7-0-fe3cdb6dec51@rong.moe>
+ <20260921-leds-trigger-hw-changed-v7-2-fe3cdb6dec51@rong.moe>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260924-pscrr-framework-v15-6-7af87107e0d3@oss.qualcomm.com>
-References: <20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com>
-In-Reply-To: <20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com>
-To: Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
-        Tzung-Bi Shih <tzungbi@kernel.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-        avaneesh.dwivedi@oss.qualcomm.com,
-        Umang Chheda <umang.chheda@oss.qualcomm.com>,
-        Faruque Ansari <faruque.ansari@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI0MDAzMCBTYWx0ZWRfX53G1W4MidM8K
- cJk6hwBxC7V4mcHIhIDO4KNWAZOTLrs1kNUQkWADt3JtP0bxwTML0f7xDisKwobw2Aic8V1KdwL
- TnlhUj58/JXzzBqxSbWwTYAQEOIFQSo=
-X-Proofpoint-ORIG-GUID: JoPi0IoZ0-gNgsWkqziHotmHoZwuVr0V
-X-Proofpoint-GUID: JoPi0IoZ0-gNgsWkqziHotmHoZwuVr0V
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI0MDAzMCBTYWx0ZWRfX2zPlr4o+Q4jr
- 7c8e1VhAJqcrWz6RZteBvspCAF4YpsMLLlZ/8kkkVop0H/Ilk5ey2tPgBXkbCPnblbAkHcikPAX
- tYWE/co9wyS60u5nj6Gaq6nVjCJzyN6kqlslkaPOgHevRVI166GXTC5blAdBTw2PzngxWmKc2iF
- QLKLRcQTSlJ8lVs+ql/GGdLrxdeZFNcg6AsRyM08lbLufFj287/zYHPxDwB4SNKxaVUaRyUSoPj
- 9x2321k8rJyrAndGNraYr09ENxmvoKQeF2OSpGBISPjGAzdS077/IDpKusK+B2IP7P7QaH3pt7j
- Cgb0FlsH+tWP7sbLNc/3PxEOwzB3lq2IFQT4w75AvM2D3U/S4xb+M10aTdjpxBiQjR5vRo0e7a7
- tgiovaUCWXpy3g3+pu7Lj+k1nOefcRthdc412mLlqiWhr6wf79x8xZ4YaVkV2LL92/XQIRyL58J
- YD+8tyY6BxfH5ph8wEw==
-X-Authority-Analysis: v=2.4 cv=cKp1IVeN c=1 sm=1 tr=0 ts=6ab4cccf cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=pGLkceISAAAA:8
- a=EUspDBNiAAAA:8 a=eG3WmpGALsbKIvMRAg8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-24_02,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 impostorscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609240030
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260921-leds-trigger-hw-changed-v7-2-fe3cdb6dec51@rong.moe>
 
-Document the Power State Change Reasons Recording (PSCRR) sysfs interface
-under /sys/kernel/pscrr/: the per-provider directories and their name,
-device, reason, caps, supported_reasons and record_policy attributes,
-including the stable reason token values.
+--- checkpatch.pl: clean (0 issues) ---
 
-Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+On Mon, 21 Sep 2026, Rong Zhang wrote:
 
-Changes v15:
-- Add Reviewed-by tags from Matti Vaittinen.
-changes v12:
-- rewrite for the per-provider interface (providerN/ directories with
-  caps, supported_reasons and record_policy)
-- rename the file to sysfs-kernel-pscrr to match the sysfs path
-- refresh KernelVersion/Date
-- drop Reviewed-by: Matti Vaittinen; the documentation was rewritten
-changes v8:
-- simplify and clarify example sysfs value comments
-- add note that not all values are meaningful on every system
-changes v7:
-- document expected values
----
- Documentation/ABI/testing/sysfs-kernel-pscrr | 108 +++++++++++++++++++++++++++
- 1 file changed, 108 insertions(+)
+> Currently led_trigger_is_hw_controlled() is placed at led-class.c, which
+> is not an right place as it falls into the triggers namespace and does
+> triggers stuff.
+> 
+> Move it into led-triggers.c, and split it into locked and unlocked
+> variant for convenience.
+> 
+> Fixes: b819dc7d8fb2 ("leds: core: Report ENODATA for brightness of hardware controlled LED")
+> Acked-by: Ike Panhc <ikepanhc@gmail.com>
+> Signed-off-by: Rong Zhang <i@rong.moe>
+> ---
+> Changes in v3:
+> - New patch in the series, the dependency of the following patches
+> ---
+>  drivers/leds/led-class.c    | 10 ----------
+>  drivers/leds/led-triggers.c | 19 +++++++++++++++++++
+>  include/linux/leds.h        |  8 ++++++++
+>  3 files changed, 27 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 4259533dafa1..7110bfbe3b83 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -27,16 +27,6 @@ static LIST_HEAD(leds_lookup_list);
+>  
+>  static struct workqueue_struct *leds_wq;
+>  
+> -static bool led_trigger_is_hw_controlled(struct led_classdev *led_cdev)
+> -{
+> -#ifdef CONFIG_LEDS_TRIGGERS
+> -	guard(rwsem_read)(&led_cdev->trigger_lock);
+> -	return led_cdev->trigger && led_cdev->trigger->trigger_type;
+> -#else
+> -	return false;
+> -#endif
+> -}
+> -
+>  static ssize_t brightness_show(struct device *dev,
+>  		struct device_attribute *attr, char *buf)
+>  {
+> diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-triggers.c
+> index b1223218bda1..bf2543538ed0 100644
+> --- a/drivers/leds/led-triggers.c
+> +++ b/drivers/leds/led-triggers.c
+> @@ -7,9 +7,11 @@
+>   * Author: Richard Purdie <rpurdie@openedhand.com>
+>   */
+>  
+> +#include <linux/cleanup.h>
+>  #include <linux/export.h>
+>  #include <linux/kernel.h>
+>  #include <linux/list.h>
+> +#include <linux/lockdep.h>
+>  #include <linux/spinlock.h>
+>  #include <linux/device.h>
+>  #include <linux/timer.h>
+> @@ -33,6 +35,23 @@ trigger_relevant(struct led_classdev *led_cdev, struct led_trigger *trig)
+>  	return !trig->trigger_type || trig->trigger_type == led_cdev->trigger_type;
+>  }
+>  
+> +static bool __led_trigger_is_hw_controlled(struct led_classdev *led_cdev)
+> +{
+> +	lockdep_assert_held(&led_cdev->trigger_lock);
+> +
+> +	if (!led_cdev->trigger)
+> +		return false;
+> +
+> +	return led_cdev->trigger->trigger_type;
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-pscrr b/Documentation/ABI/testing/sysfs-kernel-pscrr
-new file mode 100644
-index 000000000000..63aa411b7362
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-kernel-pscrr
-@@ -0,0 +1,108 @@
-+What:		/sys/kernel/pscrr/
-+Date:		July 2026
-+KernelVersion:	7.2
-+Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
-+Description:
-+		Root directory of the Power State Change Reason Recording
-+		(PSCRR) framework. It contains one subdirectory per registered
-+		reason provider, named providerN (N is an arbitrary, stable
-+		index assigned at registration).
-+
-+		A provider is either a hardware reason source (a PMIC, SoC
-+		reset controller or watchdog exposing a reset cause) or a
-+		recorder that persists the current reason across a power cycle
-+		(e.g. an NVMEM or RTC scratch cell). The set of reasons is
-+		deliberately not collapsed to a single "winning" cause, since
-+		resets are often multi-causal.
-+
-+What:		/sys/kernel/pscrr/providerN/name
-+Date:		July 2026
-+KernelVersion:	7.2
-+Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
-+Description:
-+		(RO) Human-readable label identifying the provider, e.g.
-+		"pca9450" or "nvmem".
-+
-+What:		/sys/kernel/pscrr/providerN/device
-+Date:		July 2026
-+KernelVersion:	7.2
-+Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
-+Description:
-+		Symbolic link to the backing struct device of the provider.
-+		Present only for providers that are bound to a device.
-+
-+What:		/sys/kernel/pscrr/providerN/reason
-+Date:		July 2026
-+KernelVersion:	7.2
-+Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
-+Description:
-+		The set of power state change reasons observed by this
-+		provider, as a space-separated list of reason tokens (an
-+		empty line means no reason is recorded).
-+
-+		The attribute is writable only for providers that can record
-+		a reason; for a pure hardware source it is read-only. A write
-+		records one reason and accepts either a reason token or its
-+		decimal index. The tokens and their stable numeric values are:
-+
-+		==  =================  ============================================
-+		0   unknown            Unknown or unspecified reason
-+		1   under-voltage      Supply voltage dropped below a safe level
-+		2   over-current       Excessive current draw / possible short
-+		3   regulator-failure  Voltage regulator failure
-+		4   over-temperature   Unsafe temperature detected
-+		5   ec-panic           Embedded controller (EC) panic
-+		6   power-on           Regular cold power-on
-+		7   watchdog           Watchdog timeout
-+		8   software           Software-initiated reset or reboot
-+		9   external           External reset input asserted
-+		10  rtc                RTC-triggered wake-up or power-on
-+		11  reset-button       User reset button
-+		12  cpu-clock-failure  CPU clock failure
-+		13  crystal-failure    Crystal oscillator failure
-+		==  =================  ============================================
-+
-+		The numeric order is stable ABI: new reasons are only ever
-+		appended. A provider may support only a subset of these; see
-+		"supported_reasons".
-+
-+What:		/sys/kernel/pscrr/providerN/caps
-+Date:		July 2026
-+KernelVersion:	7.2
-+Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
-+Description:
-+		(RO) Space-separated list of the provider's non-default
-+		capabilities. Being readable and storing a single reason are
-+		the defaults and are not listed. Currently defined:
-+
-+		========  ==============================================
-+		writable  the provider can record a reason (see "reason"
-+		          and "record_policy")
-+		========  ==============================================
-+
-+		An empty line therefore denotes a read-only, single-slot
-+		provider.
-+
-+What:		/sys/kernel/pscrr/providerN/supported_reasons
-+Date:		July 2026
-+KernelVersion:	7.2
-+Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
-+Description:
-+		(RO) Space-separated list of the reason tokens (see "reason")
-+		this provider is able to report or record. A provider that
-+		supports every reason lists them all.
-+
-+What:		/sys/kernel/pscrr/providerN/record_policy
-+Date:		July 2026
-+KernelVersion:	7.2
-+Contact:	Oleksij Rempel <o.rempel@pengutronix.de>
-+Description:
-+		(RW) Policy used when more than one reason is recorded during a
-+		single power cycle. Present only for providers that can record
-+		(see "caps"). Valid values are:
-+
-+		=====  =================================================
-+		first  keep the first reason recorded this cycle (the
-+		       root cause); this is the default
-+		last   overwrite with the most recently recorded reason
-+		=====  =================================================
+How does this not cause a compiler warning?
+
+This needs to be evaluated properly.
+
+> +}
+> +
+> +bool led_trigger_is_hw_controlled(struct led_classdev *led_cdev)
+> +{
+> +	guard(rwsem_read)(&led_cdev->trigger_lock);
+> +	return __led_trigger_is_hw_controlled(led_cdev);
+> +}
+> +EXPORT_SYMBOL_GPL(led_trigger_is_hw_controlled);
+> +
+>  ssize_t led_trigger_write(struct file *filp, struct kobject *kobj,
+>  			  const struct bin_attribute *bin_attr, char *buf,
+>  			  loff_t pos, size_t count)
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index a515f075c29a..46ad2e03e1c6 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -534,6 +534,8 @@ void led_trigger_set_default(struct led_classdev *led_cdev);
+>  int led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trigger);
+>  void led_trigger_remove(struct led_classdev *led_cdev);
+>  
+> +bool led_trigger_is_hw_controlled(struct led_classdev *led_cdev);
+> +
+>  static inline void led_set_trigger_data(struct led_classdev *led_cdev,
+>  					void *trigger_data)
+>  {
+> @@ -584,6 +586,12 @@ static inline int led_trigger_set(struct led_classdev *led_cdev,
+>  }
+>  
+>  static inline void led_trigger_remove(struct led_classdev *led_cdev) {}
+> +
+> +static inline bool led_trigger_is_hw_controlled(struct led_classdev *led_cdev)
+> +{
+> +	return false;
+> +}
+> +
+>  static inline void led_set_trigger_data(struct led_classdev *led_cdev) {}
+>  static inline void *led_get_trigger_data(struct led_classdev *led_cdev)
+>  {
+> 
+> -- 
+> 2.55.0
+> 
 
 -- 
-2.34.1
-
+Lee Jones

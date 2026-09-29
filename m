@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2108369D55;
-	Mon, 28 Sep 2026 12:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF872309EF4;
+	Tue, 29 Sep 2026 09:02:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790597886; cv=none; b=OKz5RtjbEF4v9N11Ipt3m+wm3aou/Iu3H7KWC8FeN02ZWvRqH+ieOfFOyoaV8KhxbX76l4bAYmP097Ij/tsbRpJQ0mReXVWWg6r31vgfYUJL5QMWB8Px14qEULMECp3wdOOwWYmg+OrLWP2PAodbVMIa/Ha6l8G2K+gXaJRyFxo=
+	t=1790672561; cv=none; b=qDCOiYjiQXf28WkDBz7r8gd2pgPLQbSExD0zIfvcD/p6pIdQ85Eby0tNnruhyL6Y29svveyMBf9PHm/rEnTvCO9C9ls1GRF2D9DlTJIgIQVyN8UT9YlzDPP6CMXs3JAF/4yl+a88EHJbgC0bHdOnheM0CFE16mioZXdN++mS2u4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790597886; c=relaxed/simple;
-	bh=JQEE0XknVc0fEuMcsvBOzKGCaiHKEqByeRPYrpTX0lQ=;
+	s=arc-20240116; t=1790672561; c=relaxed/simple;
+	bh=RUzRsx3QL78miai6eHvYulrUuKI+eSUs62y5Jn47i4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PUJM5y3HoHkjqBgEFEDLZlDArmpWltmVy0tKTqgTZmquP6ZmaPmp6V68EaAvJsxbGfgpMt4+I/HgUTzytkL6WXaleGUH4wr4JIMRUpg8yD08COr1fmQJKMxVW5WXyZqTOqo/v+NccneFXWgfoREfDP2RUMPQ11LI0YlqEBd0204=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W4+SstB2; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wwiaa0BK0dpUQCdBW366rrdkyJdVTOcgQDlc+jrW7z5fT3U1GrSJfv6617/amN0uowMGr+4GsqxS2T2jW5W8rE9fbzaj4ke/hIdJURciW8usktnL48o5/1EGm51EGA6Mgv6bTUgIMi1Ogzjlr4LbZIfbUDewTDsC6wpkYcX50fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gfyk+aiB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4+SstB2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C20EC1F000FF;
-	Mon, 28 Sep 2026 12:18:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gfyk+aiB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E91411F000FF;
+	Tue, 29 Sep 2026 09:02:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790597885;
-	bh=HkPDpdBMAitfUwc1AOOl6sEey11003xrR1vQqpB7ctE=;
+	s=k20260515; t=1790672553;
+	bh=xvVwWEqR680twyayPe3TH6KsGKe6iAvE+JddMo7jNsA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W4+SstB21Uq3Jt1QhG3V1e9G5ahdKA77KSZjlqFh5svvUAxVCu/OSWirt/R20KNij
-	 3QCy4rvFNDd7J90jmLFwmOrxHyCuf/oA+YpcJxTZnYux6II5QK4+4pZCo7jWfxphvN
-	 E6xxehicPfwjUUxksa5qHLAHIdVEyfQ5vBCO326AK0TyM6off7oRz/Q1rE+lVglrZm
-	 YPwSCJWwg49k7YSomTYv+VPOBC1z61SWN2DK8iAdz3ETiCtRsoooV3QLISPee6Eakq
-	 rez6o7eQnVaqHW/7jcj3VhXXRlhbz0hEHu8xA1cbw2MD5o3GGIoCcZclTYPRjfiyBH
-	 T+fFfEajXKjgQ==
-Date: Mon, 28 Sep 2026 20:18:00 +0800
+	b=Gfyk+aiB/tUXxWzVt/78vN9Mj/8WM5U0mbddOsHB7T9Z2w2eIdFEU4w4ckD0q7yj4
+	 ijToOb9hsxaeeLUii7vciHwjM3MPCXMh9aRuznxD/z+PCO3/OPejlHnX6Jnux4W5TR
+	 E0AWQZkCR7TJamYUz8Q0YbVzzrUUQdUS07YFqeMt3dJbpYcQy5Do4FeOZ//lHyy4ft
+	 fIvHQQvlw39l/cK9Rnjuo+k4YPkNRUbT5iq6EUoN6qyY7DeabFil9HLYXuvXKgAMaV
+	 DCzkBky/gKYt/lNX+E2ZHkjjtHHiV35cAxGs0Lf6Pdh3AWoNSJzK7D5YyR50xBiEPk
+	 GU6Llhtpcj5sg==
+Date: Tue, 29 Sep 2026 09:02:30 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Myeonghun Pak <mhun512@gmail.com>
+To: Marek Maslanka <mmaslanka@google.com>
 Cc: Benson Leung <bleung@chromium.org>,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	Jameson Thies <jthies@google.com>,
 	Andrei Kuchynski <akuchynski@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Ijae Kim <ae878000@gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Stop altmode work before
- unregistering ports
-Message-ID: <arpa-Ps8l8LOwbbx@tzungbi-laptop>
-References: <20260917204209.97699-1-mhun512@gmail.com>
+	Radu Vele <raduvele@google.com>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Poll for role swap
+ completion
+Message-ID: <art-pgdLHXiCm5l4@google.com>
+References: <20260923174420.2343724-1-mmaslanka@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -48,39 +48,39 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260917204209.97699-1-mhun512@gmail.com>
+In-Reply-To: <20260923174420.2343724-1-mmaslanka@google.com>
 
-On Thu, Sep 17, 2026 at 04:42:09PM -0400, Myeonghun Pak wrote:
-> partner altmodes. Disabling also prevents a partner callback from
-> requeueing the work while its driver is being removed. Use the common
-
-Would the work be scheduled even if the driver is about to remove()?
-
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-> index 50a68819ceb7bbfbd888ca919d678d4c75237c26..e91bbc219c077067294935dd5602c1aec636cfa6 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -378,6 +378,7 @@ static void cros_unregister_ports(struct cros_typec_data *typec)
->  		if (!typec->ports[i])
->  			continue;
+On Wed, Sep 23, 2026 at 07:44:19PM +0200, Marek Maslanka wrote:
+> @@ -104,27 +127,41 @@ static int cros_typec_perform_role_swap(struct typec_port *tc_port, int target_r
+>  	if (ret < 0)
+>  		return ret;
 >  
-> +		cros_typec_altmodes_stop(typec->ports[i]);
+> -	switch (swap_type) {
+> -	case USB_PD_CTRL_SWAP_DATA:
+> -		role = resp.role & PD_CTRL_RESP_ROLE_DATA ? TYPEC_HOST : TYPEC_DEVICE;
+> -		if (role != target_role) {
+> -			dev_err(data->dev, "Data role swap failed despite EC returning success\n");
+> -			return -EIO;
+> +	/*
+> +	 * Depending on the EC USB-C stack (TCPMv2 vs PDC), EC_CMD_USB_PD_CONTROL
+> +	 * may either block until the swap completes or queue the request
+> +	 * asynchronously and return the pre-swap role. Poll until the target
+> +	 * role is reached while connected, or until the timeout expires.
+> +	 */
+> +	req.swap = USB_PD_CTRL_SWAP_NONE;
+> +	end = jiffies + msecs_to_jiffies(ROLE_SWAP_TIMEOUT_MS);
+> +	for (;;) {
+> +		if ((resp.enabled & PD_CTRL_RESP_ENABLED_CONNECTED) &&
 
-Shouldn't this be called in cros_typec_unregister_port_altmodes()?
+Shouldn't PD_CTRL_RESP_ENABLED_CONNECTED remain set during the entire poll?
 
-> diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
-...
-> +void cros_typec_altmodes_stop(struct cros_typec_port *port)
-> +{
-> +	struct cros_typec_altmode_data *adata;
-> +	int i;
+> +		    cros_typec_resp_to_role(&resp, swap_type) == target_role)
+> +			break;
 > +
-> +	for (i = 0; i < CROS_EC_ALTMODE_MAX; i++) {
-> +		if (!port->port_altmode[i])
-> +			continue;
-> +
-> +		adata = typec_altmode_get_drvdata(port->port_altmode[i]);
-> +		if (adata)
-> +			disable_work_sync(&adata->work);
+> +		if (time_after_eq(jiffies, end)) {
+> +			if (!(resp.enabled & PD_CTRL_RESP_ENABLED_CONNECTED)) {
+> +				dev_err(data->dev, "Port disconnected during role swap\n");
+> +				return -ENOTCONN;
 
-This is a driver teardown path: cancel_work_sync() should be sufficient.
+Same here: if PD_CTRL_RESP_ENABLED_CONNECTED isn't set in the loop, should
+it return -ENOTCONN early (i.e., out of this if-block)?

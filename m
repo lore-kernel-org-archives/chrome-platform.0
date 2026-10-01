@@ -1,637 +1,191 @@
-Received: from relay15.grserver.gr (relay15.grserver.gr [46.62.234.254])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74C33C9EF1
-	for <chrome-platform@lists.linux.dev>; Thu,  1 Oct 2026 18:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.62.234.254
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B145304C2
+	for <chrome-platform@lists.linux.dev>; Thu,  1 Oct 2026 20:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790878815; cv=none; b=LdSJOjeRw54wwiz+mX1mV1RrNCqTe3V6UAFOhCIrRellpObSqdFofBV44FD6R+ae4rHwPZ/NhLleZmfldrcnVQAaU/o9YaJmkPFalAEtZMEwf+Z4xY90pXFHAwnUsy81SYC9ttJo7rxEYSsF8wEzOl4OLTa3vkDlDf2yiBN4Xww=
+	t=1790886181; cv=none; b=na0MnKAet+n6jl9iOhRmNc7cbdUx8q3FuZr2gTEMQIhfTVKwmmpXxooOnRaDzzlzz48ldrN9NLYfkeW7vIkpKdK3PT3+adggo5b39dBwLUTWfAN/mkz2gs6cZI2joZDDJVtOHXB9t89oLp6EIHq4U2iiFv4iaXjF3OCS9FNP4C0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790878815; c=relaxed/simple;
-	bh=76M8PeAYRXZAoudREfd/wDvxChAmlVXIb5YiiAGNcJ0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PreexRDadwZwrjrPRFo6u4o0SEGq1LncWbU14WreUokcwrB3/Os+9mXHinP8o/ysFYRsRQfj6Vry2ltEFjGQbNxUQf1Rl2k6gOs8CexOa9yM7kM/xlTr7V7TuAUd4Li2ttIX6Q0r2F5VzH5kRRxag59Z8ZYVjHCRdl9R2hwDE0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=aSTJWMkF; arc=none smtp.client-ip=46.62.234.254
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1790886181; c=relaxed/simple;
+	bh=3qP8FPDf5DakBu1LqR7A+pXGd65AiGRjB0416cRxaMU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B6Z/pvPg7VAoETiwypNf7Xwg6Jzrk4zXvY0g/+u8qcj6vpcfu0656rVDbWEcppsk3PxrskxKiDVJV8wa7y84QIT5FVvVMrpkU1kOOO873EQ+iIV0drZ8lkf7LUAHJWkcp+QwThjQLx6CQb8aXX1MPovqTnvX7lOTZ9cGyQLbzuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pjTRilbx; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BWJhlzkX; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="aSTJWMkF"
-Received: from relay15 (localhost [127.0.0.1])
-	by relay15.grserver.gr (Proxmox) with ESMTP id 43F913FA96
-	for <chrome-platform@lists.linux.dev>; Thu,  1 Oct 2026 18:20:05 +0000 (UTC)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay15.grserver.gr (Proxmox) with ESMTPS id E6C823EB50
-	for <chrome-platform@lists.linux.dev>; Thu,  1 Oct 2026 18:20:02 +0000 (UTC)
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id E59EC1FFA15
-	for <chrome-platform@lists.linux.dev>; Thu,  1 Oct 2026 21:20:00 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1790878801;
-	bh=7PVl7ukSY0Wt2w1rMeOxs79c+/HtIKUmcBJ0K9o2zkY=;
-	h=Received:From:Subject:To;
-	b=aSTJWMkFQliteeq/Q+N8f6eSyxOKVbdvVlUYyQ9l1Qd0Os1xU/OLEvLVZWryZAtvm
-	 1HMAqBB2oMZKVCf8R2d0C3U0d+XpjQ5mygBnAYWfVfj9FYxdmHxE6T+2RjkC5iA8UR
-	 vbljVgbsBmxHypUbTseszD+mfO2oCwoSOcEqYhPc/ftPKM0czbSW34qA70YdZAxuoc
-	 1Ujq4u/9DU/UL2MCCs0/sxnnqvCbIsJ3W2LNxbPdSjS0h+hZChlsoyQAfP6gnV1rhM
-	 MDYVb0ACt+/Tnd+ekzi0hwHD1jVoeDbPhGu8My0gl0QRlB5XYlPqkjhF7uxfb2sd3b
-	 UdeEABWflbARA==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 74.125.227.171) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pj2-f43.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pj2-f43.google.com with SMTP id
- d9443c01a7336-2d90ba1d807so54625765ad.3
-        for <chrome-platform@lists.linux.dev>;
- Thu, 01 Oct 2026 11:20:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvBy5QIVtRqvPiDMCfR7kESo4FrRXU1Pv3F502BffhetJrzrJT1T1+Lw5akYYLyqHxkBaBpTMeaYxgScx2K4YAmw=@lists.linux.dev
-X-Gm-Message-State: AFq9FYLxXJmNvJ9k0U9b3y7pSw3ERvnMnR0g2tPa4TWY0/aOJa9DO8Nv
-	RywXhBZiUa/W03cEcGQGs1znVxbIEVVjcyB2AUq8uSu6NQGyYehqDuUgVCTfB4jrHpx4zQWVqRA
-	IVJJUKTJ5JgA+KTKdpbKplgaF5sewC+A=
-X-Received: by 2002:a17:902:d506:b0:2df:accf:e873 with SMTP id
- d9443c01a7336-2e499f0d05cmr3477865ad.4.1790878799112; Thu, 01 Oct 2026
- 11:19:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pjTRilbx";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BWJhlzkX"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 691FspSA3109777
+	for <chrome-platform@lists.linux.dev>; Thu, 1 Oct 2026 20:22:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	mDniYY0z46vcWvJ4WbPnahjC8lYCnyjzy3DyehxUHio=; b=pjTRilbxHyga3WmE
+	SYB1k3DKTS3i9N+ilFxUOvkfSxHnt8AswQZlDSPc12CgKmdPFVPLETuLXLnESeA9
+	f8f1i9VAgSIwHeFaJaq++dNJqwYUGg2h7Sg418egg9lyIugODAqMcs83oRgbO7G/
+	Nxy4l1xfp1osVyb3KfIKOwdsT8xbTKxNp0R6ukfkyxu7bpWO//hdUv9eaUyyTikc
+	7exPlWyVdKnRju3vtCNkEfVGmnOe6zTd6/hhXvQhif6f5YJWsBPoSaoTegeqDNrL
+	3NzSbi9RRA2KeXV0Mpr/uWNyJBh6mt1abVwWYSnc96JOIO44fB7BxHo6j32HJWol
+	U+eUFQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h1jcfukwa-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <chrome-platform@lists.linux.dev>; Thu, 01 Oct 2026 20:22:47 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92e82060977so179223285a.1
+        for <chrome-platform@lists.linux.dev>; Thu, 01 Oct 2026 13:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790886167; x=1791490967; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mDniYY0z46vcWvJ4WbPnahjC8lYCnyjzy3DyehxUHio=;
+        b=BWJhlzkX8RewKtl/AzX1+SiXcsMFCPIhlhBbyPkJAuUE7Tr//imC9k52kaKDkT/QJ9
+         9hwD29Cnj0mqdEPYR/CB+ib7CgZQP0sr+dL972crBgMj2TV0RA1o8Eus8IbK8mtbBufX
+         44kYtmjHYLjfmEjXQ7zRK6ytUPmfDRru0c4Kr2PdXg+naRHyHUMr7H+Mk1rzR/mXzMOb
+         dqgekocckxA3joRhBqpeb4uSwSLASf4UzB8PrbpSd0KEzM+O3Sf7FhF+LFFjiiiAnVQV
+         EB/AkDxLK+EyVkUsSDiV5eERtzft0tyVjdiIGhWeoNcFZ9ZZr1/7QpweUNhFE7gG2dJH
+         stug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790886167; x=1791490967;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mDniYY0z46vcWvJ4WbPnahjC8lYCnyjzy3DyehxUHio=;
+        b=riTDIoasaDTOAxamC2PGlTKmOzlDYj5yTJMtXLGBkmV8b69y+Bt2Vs64TuqwK4Ob0v
+         t8ESH6MvT+5+W6Cfy/blnIaBPwvuuoRN+jyy1IqoCSGxg0rlgIeQygduPZabCDKlXdL8
+         fkpbhjCK1ara22+PIS2frumqyU3zH1kl7rZZtPH63XqYLOctDeRMXLnqUloFi13QZOCb
+         WGTVHBIEF/rfZc0NWqa5t6x3H06/u/wfojZUZaQkyqVZ8NrXymVGUn+OP8q8S+RAYwxd
+         65RzE5GfayJKBd3oTMaSrQCAIfsQZnf/GuudxTH6JdswCcLAC6e8DFlm8q+PfE9aLVKq
+         z8wA==
+X-Forwarded-Encrypted: i=1; AKwUvBxbP+LLCb8hsDrN7UCMtBmSIXr9ZOZsfWICh/WP0yzTAbK0TfE8QcchL/MxsGHK6JpJScJ4ymZCYd1RJwXkBYM=@lists.linux.dev
+X-Gm-Message-State: AFuF++kMXBWhTINvMkMfl2UnOBU1EPOxDdGaHaOC5IvkDxyUWJQ10gfV
+	7bah10ObReF78U/AaVlRZZEO3VHqSpFQVxChqWV9E7y/wb7kPofNi5FrfObi7cHIJndpu9yfQpg
+	Jp6W87KyS4gOBt2CEbcHjiY9vRhm80MzP8x30XLkRzSvVDxhrNSQXH6opQyItC08K/ppNtxI=
+X-Gm-Gg: AYBFou2R1DHdDtSUkX0lY/1dhrodchQMVpmFCpsDRWzAAVOcwuZ0dmcXdz/i5tRrWdw
+	2MS9XqFDZNPCs5Aw+RiaBSJORgWMJ1ljH1PUuXUYjzNag7qe130IzwK6Z+YjNsWl92CDru8YyKc
+	APPTmVkThZRcTV9DXUAIBGzcHue5RfJgEYyyd5WJktlXmWfF6AOpzUevJ+C8m0miC4LmiigAWM0
+	EbPwjt+sG9KmuL4qm6RwaSvZ3TxWS4jB2v5miSCYjRCtSW/G/9sg9oz/TKdh3G8z+TYZbqtf8sb
+	gTjuhUArL2KRzrnE6jEbHHMfSOIja3kF9EwZe9y4LjrKkHEcPjSfX/tV9JAZ4De08OmMGhc4ntQ
+	pmFJCHTmZBY3VImCTnUKEqG2Lym+dQIcpB3Nbt9+B6vdEOezyiRTLO669YfKZPg==
+X-Received: by 2002:a05:620a:2956:b0:93c:6e1d:96b0 with SMTP id af79cd13be357-93cb5abb8bemr763980585a.17.1790886167157;
+        Thu, 01 Oct 2026 13:22:47 -0700 (PDT)
+X-Received: by 2002:a05:620a:2956:b0:93c:6e1d:96b0 with SMTP id af79cd13be357-93cb5abb8bemr763972385a.17.1790886166618;
+        Thu, 01 Oct 2026 13:22:46 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:f14c:b716:c104:4712? ([2a05:6e02:1041:c10:f14c:b716:c104:4712])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027740a2fsm18335995e9.13.2026.10.01.13.22.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Oct 2026 13:22:45 -0700 (PDT)
+Message-ID: <e34e6661-3ecf-42f6-96f2-5136afe7ab65@oss.qualcomm.com>
+Date: Thu, 1 Oct 2026 22:22:44 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260930222650.1883805-1-jordan@brough.org>
- <20260930222650.1883805-2-jordan@brough.org>
- <fe57f538-5663-4fd9-aa3b-2fb77942f4b6@app.fastmail.com>
-In-Reply-To: <fe57f538-5663-4fd9-aa3b-2fb77942f4b6@app.fastmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Thu, 1 Oct 2026 20:19:47 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwEGk-B+7k4A2PXYxb_XoV-iaAa0LtXcO9ovpwoUN9+ypQ@mail.gmail.com>
-X-Gm-Features: AclHuK_mIl-Kzs-NevMXNRBeI_xUk6YWZ44vBT0LmVVz6MnycT7OQa38A9d_N8Y
-Message-ID: 
- <CAGwozwEGk-B+7k4A2PXYxb_XoV-iaAa0LtXcO9ovpwoUN9+ypQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] ACPI: battery: add acpi_ prefix to the battery
- hook API
-To: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: Jordan Brough <jordan@brough.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
- "Luke D . Jones" <luke@ljones.dev>,
-	Denis Benato <denis.benato@linux.dev>, Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
-	Armin Wolf <W_Armin@gmx.de>, Jonathan Woithe <jwoithe@just42.net>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
- Ike Panhc <ikepanhc@gmail.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Matan Ziv-Av <matan@svgalib.org>, Nikita Kravets <teackot@gmail.com>,
-	=?UTF-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>,
-	Joshua Grisham <josh@joshuagrisham.com>, Jeremy Soller <jeremy@system76.com>,
-	System76 Product Development <productdev@system76.com>,
- Azael Avalos <coproscefalo@gmail.com>,
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Sebastian Reichel <sre@kernel.org>,
- "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	linux-kernel@vger.kernel.org,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- ibm-acpi-devel@lists.sourceforge.net,
-	chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <179087880154.2619171.3236460196051916347@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 1/6] power: Extend power_on_reason.h for upcoming
+ PSCRR framework
+To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
+        Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+        avaneesh.dwivedi@oss.qualcomm.com,
+        Umang Chheda <umang.chheda@oss.qualcomm.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
+References: <20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com>
+ <20260924-pscrr-framework-v15-1-7af87107e0d3@oss.qualcomm.com>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <20260924-pscrr-framework-v15-1-7af87107e0d3@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAxMDA4MSBTYWx0ZWRfX2wv6CyEVE+kD
+ atHPaqYNfRKJtGZOQDye6L5x+ZS1SYF3PCPKrkWLYIp5T1lkpUKawYBniz7Fhq9TwhSLu6eH0ah
+ eA45y7LXEynWZ6RnVWRT1cCFtw/WXes=
+X-Proofpoint-GUID: 09hiLzINsqIKrB-4fvX5o5w4EPKkuqY9
+X-Authority-Analysis: v=2.4 cv=b4YncdGx c=1 sm=1 tr=0 ts=6abec117 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=QX4gbG5DAAAA:8
+ a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=bGjUZXh9VHoPU9QoGbYA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-ORIG-GUID: 09hiLzINsqIKrB-4fvX5o5w4EPKkuqY9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAxMDA4MSBTYWx0ZWRfXz8mZaq9BNul7
+ r6kKXkUUgJfMmnuwi7wyc6tBYJuExTaUNn8LfXNnmtYyYiXjYsJkZeabzDr2w9N/v/R8mMaauVV
+ OVDkm6PNPU4qsRvuQBO3AQR3rSZnEiMmnEJLz43NLHRQYgD1Wu6CfGLQz8jhR0ANITV42CtibQK
+ IlQr/n7eONvDg8iSjznybAybXGfxsvMJJSXeItBTTiHyOCzvfDEgT2QwwXp+oD6gxqkPsOmygub
+ yc1EPx8UBpSRTXkgZ7iAvV0CMRC/CQEu4xg1JsYwbpf+3dSnnwiovKrE7E8V3Dwz9lr+0+zqHZN
+ NkR5Stddl0ee3bNieB8xSkGTwpUVbXw7JbGeNiAYVnjpavd3/4ABKolk4YCvsreOdI513IIHL3J
+ CF3ALrDVGuP2Z71/dp1ZNgD7EtwFr9OKhrFqlxLP4IfACsrO4PHLDutSa2Fm+Qc4z4V5EZpwWwT
+ cGYRfVAVOvo8aGBNGMw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-01_04,2026-10-01_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 clxscore=1011 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610010081
 
-On Thu, 1 Oct 2026 at 15:20, Mark Pearson <mpearson-lenovo@squebb.ca> wrote:
->
-> On Wed, Sep 30, 2026, at 6:26 PM, Jordan Brough wrote:
-> > Rename battery_hook_register(), battery_hook_unregister() and
-> > devm_battery_hook_register() to acpi_battery_hook_register(),
-> > acpi_battery_hook_unregister() and devm_acpi_battery_hook_register(), so
-> > that the exported ACPI battery hook API has a consistent namespace, and
-> > update all in-tree callers.
-> >
-> > No functional change.
-> >
+On 9/24/26 09:08, Faruque Ansari wrote:
+> Prepare for the introduction of the Power State Change Reason Recorder
+> (PSCRR) framework by expanding the power_on_reason.h header. This
+> extension includes new power-on reasons:
+> - POWER_ON_REASON_OVER_CURRENT for over-current conditions.
+> - POWER_ON_REASON_REGULATOR_FAILURE for regulator failures.
+> - POWER_ON_REASON_OVER_TEMPERATURE for over temperature situations.
+> - POWER_ON_REASON_EC_PANIC for EC panics.
 
-For ayaneo ec and oxpec
+How the system knows an EC panic happened?
 
-Reviewed-by: Antheas Kapenekakis <lkml@antheas.dev>
-
-
-> > Signed-off-by: Jordan Brough <jordan@brough.org>
-> > ---
-> >  drivers/acpi/battery.c                       | 30 ++++++++++----------
-> >  drivers/platform/x86/asus-wmi.c              |  4 +--
-> >  drivers/platform/x86/ayaneo-ec.c             |  2 +-
-> >  drivers/platform/x86/dell/dell-laptop.c      |  4 +--
-> >  drivers/platform/x86/dell/dell-wmi-ddv.c     |  2 +-
-> >  drivers/platform/x86/fujitsu-laptop.c        |  4 +--
-> >  drivers/platform/x86/huawei-wmi.c            |  4 +--
-> >  drivers/platform/x86/lenovo/ideapad-laptop.c |  4 +--
-> >  drivers/platform/x86/lenovo/thinkpad_acpi.c  |  4 +--
-> >  drivers/platform/x86/lenovo/wmi-other.c      |  4 +--
-> >  drivers/platform/x86/lg-laptop.c             |  4 +--
-> >  drivers/platform/x86/msi-ec.c                |  4 +--
-> >  drivers/platform/x86/oxpec.c                 |  2 +-
-> >  drivers/platform/x86/samsung-galaxybook.c    |  3 +-
-> >  drivers/platform/x86/samsung-laptop.c        |  4 +--
-> >  drivers/platform/x86/system76_acpi.c         |  4 +--
-> >  drivers/platform/x86/toshiba_acpi.c          |  4 +--
-> >  drivers/platform/x86/uniwill/uniwill-acpi.c  |  2 +-
-> >  drivers/power/supply/cros_charge-control.c   |  2 +-
-> >  include/acpi/battery.h                       |  7 +++--
-> >  20 files changed, 50 insertions(+), 48 deletions(-)
-> >
-> > diff --git a/drivers/acpi/battery.c b/drivers/acpi/battery.c
-> > index 8599949f8786..306bb2088ca6 100644
-> > --- a/drivers/acpi/battery.c
-> > +++ b/drivers/acpi/battery.c
-> > @@ -821,7 +821,7 @@ static LIST_HEAD(acpi_battery_list);
-> >  static LIST_HEAD(battery_hook_list);
-> >  static DEFINE_MUTEX(hook_mutex);
-> >
-> > -static void battery_hook_unregister_unlocked(struct acpi_battery_hook
-> > *hook)
-> > +static void acpi_battery_hook_unregister_unlocked(struct
-> > acpi_battery_hook *hook)
-> >  {
-> >       struct acpi_battery *battery;
-> >
-> > @@ -838,7 +838,7 @@ static void battery_hook_unregister_unlocked(struct
-> > acpi_battery_hook *hook)
-> >       pr_info("hook unregistered: %s\n", hook->name);
-> >  }
-> >
-> > -void battery_hook_unregister(struct acpi_battery_hook *hook)
-> > +void acpi_battery_hook_unregister(struct acpi_battery_hook *hook)
-> >  {
-> >       mutex_lock(&hook_mutex);
-> >       /*
-> > @@ -847,13 +847,13 @@ void battery_hook_unregister(struct
-> > acpi_battery_hook *hook)
-> >        * adding a new battery.
-> >        */
-> >       if (!list_empty(&hook->list))
-> > -             battery_hook_unregister_unlocked(hook);
-> > +             acpi_battery_hook_unregister_unlocked(hook);
-> >
-> >       mutex_unlock(&hook_mutex);
-> >  }
-> > -EXPORT_SYMBOL_GPL(battery_hook_unregister);
-> > +EXPORT_SYMBOL_GPL(acpi_battery_hook_unregister);
-> >
-> > -void battery_hook_register(struct acpi_battery_hook *hook)
-> > +void acpi_battery_hook_register(struct acpi_battery_hook *hook)
-> >  {
-> >       struct acpi_battery *battery;
-> >
-> > @@ -874,7 +874,7 @@ void battery_hook_register(struct acpi_battery_hook *hook)
-> >                        * hooks.
-> >                        */
-> >                       pr_err("hook failed to load: %s", hook->name);
-> > -                     battery_hook_unregister_unlocked(hook);
-> > +                     acpi_battery_hook_unregister_unlocked(hook);
-> >                       goto end;
-> >               }
-> >
-> > @@ -884,22 +884,22 @@ void battery_hook_register(struct acpi_battery_hook *hook)
-> >  end:
-> >       mutex_unlock(&hook_mutex);
-> >  }
-> > -EXPORT_SYMBOL_GPL(battery_hook_register);
-> > +EXPORT_SYMBOL_GPL(acpi_battery_hook_register);
-> >
-> > -static void devm_battery_hook_unregister(void *data)
-> > +static void devm_acpi_battery_hook_unregister(void *data)
-> >  {
-> >       struct acpi_battery_hook *hook = data;
-> >
-> > -     battery_hook_unregister(hook);
-> > +     acpi_battery_hook_unregister(hook);
-> >  }
-> >
-> > -int devm_battery_hook_register(struct device *dev, struct
-> > acpi_battery_hook *hook)
-> > +int devm_acpi_battery_hook_register(struct device *dev, struct
-> > acpi_battery_hook *hook)
-> >  {
-> > -     battery_hook_register(hook);
-> > +     acpi_battery_hook_register(hook);
-> >
-> > -     return devm_add_action_or_reset(dev, devm_battery_hook_unregister, hook);
-> > +     return devm_add_action_or_reset(dev, devm_acpi_battery_hook_unregister, hook);
-> >  }
-> > -EXPORT_SYMBOL_GPL(devm_battery_hook_register);
-> > +EXPORT_SYMBOL_GPL(devm_acpi_battery_hook_register);
-> >
-> >  /*
-> >   * This function gets called right after the battery sysfs
-> > @@ -928,7 +928,7 @@ static void battery_hook_add_battery(struct
-> > acpi_battery *battery)
-> >                        */
-> >                       pr_err("error in hook, unloading: %s",
-> >                                       hook_node->name);
-> > -                     battery_hook_unregister_unlocked(hook_node);
-> > +                     acpi_battery_hook_unregister_unlocked(hook_node);
-> >               }
-> >       }
-> >       mutex_unlock(&hook_mutex);
-> > @@ -961,7 +961,7 @@ static void __exit battery_hook_exit(void)
-> >        * need to remove the hooks.
-> >        */
-> >       list_for_each_entry_safe(hook, ptr, &battery_hook_list, list) {
-> > -             battery_hook_unregister(hook);
-> > +             acpi_battery_hook_unregister(hook);
-> >       }
-> >       mutex_destroy(&hook_mutex);
-> >  }
-> > diff --git a/drivers/platform/x86/asus-wmi.c
-> > b/drivers/platform/x86/asus-wmi.c
-> > index a65090429ca7..c274f456863c 100644
-> > --- a/drivers/platform/x86/asus-wmi.c
-> > +++ b/drivers/platform/x86/asus-wmi.c
-> > @@ -1681,14 +1681,14 @@ static void asus_wmi_battery_init(struct
-> > asus_wmi *asus)
-> >       asus->battery_rsoc_available = false;
-> >       if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_RSOC)) {
-> >               asus->battery_rsoc_available = true;
-> > -             battery_hook_register(&battery_hook);
-> > +             acpi_battery_hook_register(&battery_hook);
-> >       }
-> >  }
-> >
-> >  static void asus_wmi_battery_exit(struct asus_wmi *asus)
-> >  {
-> >       if (asus->battery_rsoc_available)
-> > -             battery_hook_unregister(&battery_hook);
-> > +             acpi_battery_hook_unregister(&battery_hook);
-> >  }
-> >
-> >  /* LEDs
-> > ***********************************************************************/
-> > diff --git a/drivers/platform/x86/ayaneo-ec.c
-> > b/drivers/platform/x86/ayaneo-ec.c
-> > index 41a24e091248..3ba87bd16c9a 100644
-> > --- a/drivers/platform/x86/ayaneo-ec.c
-> > +++ b/drivers/platform/x86/ayaneo-ec.c
-> > @@ -493,7 +493,7 @@ static int ayaneo_ec_probe(struct platform_device
-> > *pdev)
-> >               data->battery_hook.add_battery = ayaneo_add_battery;
-> >               data->battery_hook.remove_battery = ayaneo_remove_battery;
-> >               data->battery_hook.name = "Ayaneo Battery";
-> > -             ret = devm_battery_hook_register(&pdev->dev, &data->battery_hook);
-> > +             ret = devm_acpi_battery_hook_register(&pdev->dev,
-> > &data->battery_hook);
-> >               if (ret)
-> >                       return ret;
-> >       }
-> > diff --git a/drivers/platform/x86/dell/dell-laptop.c
-> > b/drivers/platform/x86/dell/dell-laptop.c
-> > index 89e85c7f7132..cad2bd06f28a 100644
-> > --- a/drivers/platform/x86/dell/dell-laptop.c
-> > +++ b/drivers/platform/x86/dell/dell-laptop.c
-> > @@ -2446,13 +2446,13 @@ static void __init dell_battery_init(struct
-> > device *dev)
-> >       battery_supported_modes = battery_get_supported_modes();
-> >
-> >       if (battery_supported_modes != 0)
-> > -             battery_hook_register(&dell_battery_hook);
-> > +             acpi_battery_hook_register(&dell_battery_hook);
-> >  }
-> >
-> >  static void dell_battery_exit(void)
-> >  {
-> >       if (battery_supported_modes != 0)
-> > -             battery_hook_unregister(&dell_battery_hook);
-> > +             acpi_battery_hook_unregister(&dell_battery_hook);
-> >  }
-> >
-> >  static int __init dell_init(void)
-> > diff --git a/drivers/platform/x86/dell/dell-wmi-ddv.c
-> > b/drivers/platform/x86/dell/dell-wmi-ddv.c
-> > index f8903ced461b..6f0504d7519e 100644
-> > --- a/drivers/platform/x86/dell/dell-wmi-ddv.c
-> > +++ b/drivers/platform/x86/dell/dell-wmi-ddv.c
-> > @@ -972,7 +972,7 @@ static int dell_wmi_ddv_battery_add(struct
-> > dell_wmi_ddv_data *data)
-> >       data->eppid_attr.attr.mode = 0444;
-> >       data->eppid_attr.show = eppid_show;
-> >
-> > -     return devm_battery_hook_register(&data->wdev->dev, &data->hook);
-> > +     return devm_acpi_battery_hook_register(&data->wdev->dev, &data->hook);
-> >  }
-> >
-> >  static int dell_wmi_ddv_buffer_read(struct seq_file *seq, enum
-> > dell_ddv_method method)
-> > diff --git a/drivers/platform/x86/fujitsu-laptop.c
-> > b/drivers/platform/x86/fujitsu-laptop.c
-> > index ea543deef68f..96e74c4fdb29 100644
-> > --- a/drivers/platform/x86/fujitsu-laptop.c
-> > +++ b/drivers/platform/x86/fujitsu-laptop.c
-> > @@ -267,7 +267,7 @@ static int
-> > fujitsu_battery_charge_control_add(struct device *dev)
-> >               return -ENODEV;
-> >
-> >       priv->charge_control_supported = true;
-> > -     battery_hook_register(&battery_hook);
-> > +     acpi_battery_hook_register(&battery_hook);
-> >
-> >       return 0;
-> >  }
-> > @@ -277,7 +277,7 @@ static void
-> > fujitsu_battery_charge_control_remove(struct device *dev)
-> >       struct fujitsu_laptop *priv = dev_get_drvdata(dev);
-> >
-> >       if (priv->charge_control_supported)
-> > -             battery_hook_unregister(&battery_hook);
-> > +             acpi_battery_hook_unregister(&battery_hook);
-> >  }
-> >
-> >  /* Hardware access for LCD brightness control */
-> > diff --git a/drivers/platform/x86/huawei-wmi.c
-> > b/drivers/platform/x86/huawei-wmi.c
-> > index d6aaf14d66a5..8cc0e900e984 100644
-> > --- a/drivers/platform/x86/huawei-wmi.c
-> > +++ b/drivers/platform/x86/huawei-wmi.c
-> > @@ -512,7 +512,7 @@ static void huawei_wmi_battery_setup(struct device
-> > *dev)
-> >               return;
-> >       }
-> >
-> > -     battery_hook_register(&huawei_wmi_battery_hook);
-> > +     acpi_battery_hook_register(&huawei_wmi_battery_hook);
-> >       device_create_file(dev, &dev_attr_charge_control_thresholds);
-> >  }
-> >
-> > @@ -521,7 +521,7 @@ static void huawei_wmi_battery_exit(struct device *dev)
-> >       struct huawei_wmi *huawei = dev_get_drvdata(dev);
-> >
-> >       if (huawei->battery_available) {
-> > -             battery_hook_unregister(&huawei_wmi_battery_hook);
-> > +             acpi_battery_hook_unregister(&huawei_wmi_battery_hook);
-> >               device_remove_file(dev, &dev_attr_charge_control_thresholds);
-> >       }
-> >  }
-> > diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c
-> > b/drivers/platform/x86/lenovo/ideapad-laptop.c
-> > index 8213524504ee..1d90d4591641 100644
-> > --- a/drivers/platform/x86/lenovo/ideapad-laptop.c
-> > +++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
-> > @@ -2197,8 +2197,8 @@ static int ideapad_check_features(struct
-> > ideapad_private *priv)
-> >                       priv->battery_hook.remove_battery = ideapad_battery_remove;
-> >                       priv->battery_hook.name = "Ideapad Battery Extension";
-> >
-> > -                     err = devm_battery_hook_register(&priv->platform_device->dev,
-> > -                                                      &priv->battery_hook);
-> > +                     err = devm_acpi_battery_hook_register(&priv->platform_device->dev,
-> > +                                                           &priv->battery_hook);
-> >                       if (err)
-> >                               return err;
-> >               }
-> > diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> > b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> > index 1661f070c571..eb5ad18855db 100644
-> > --- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> > +++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> > @@ -10021,13 +10021,13 @@ static int __init tpacpi_battery_init(struct
-> > ibm_init_struct *ibm)
-> >                                       battery_quirk_table,
-> >                                       ARRAY_SIZE(battery_quirk_table));
-> >
-> > -     battery_hook_register(&battery_hook);
-> > +     acpi_battery_hook_register(&battery_hook);
-> >       return 0;
-> >  }
-> >
-> >  static void tpacpi_battery_exit(void)
-> >  {
-> > -     battery_hook_unregister(&battery_hook);
-> > +     acpi_battery_hook_unregister(&battery_hook);
-> >  }
-> >
-> >  static struct ibm_struct battery_driver_data = {
-> > diff --git a/drivers/platform/x86/lenovo/wmi-other.c
-> > b/drivers/platform/x86/lenovo/wmi-other.c
-> > index fbb32bf404f2..0450634ac1dd 100644
-> > --- a/drivers/platform/x86/lenovo/wmi-other.c
-> > +++ b/drivers/platform/x86/lenovo/wmi-other.c
-> > @@ -946,7 +946,7 @@ static void lwmi_om_psy_ext_init(struct
-> > lwmi_om_priv *priv)
-> >       priv->battery_hook.name = "Lenovo WMI Other Battery Extension";
-> >       priv->bh_registered = true;
-> >
-> > -     battery_hook_register(&priv->battery_hook);
-> > +     acpi_battery_hook_register(&priv->battery_hook);
-> >  }
-> >
-> >  /**
-> > @@ -960,7 +960,7 @@ static void lwmi_om_psy_remove(struct lwmi_om_priv *priv)
-> >       if (!priv->bh_registered)
-> >               return;
-> >
-> > -     battery_hook_unregister(&priv->battery_hook);
-> > +     acpi_battery_hook_unregister(&priv->battery_hook);
-> >       priv->bh_registered = false;
-> >  }
-> >
-> > diff --git a/drivers/platform/x86/lg-laptop.c b/drivers/platform/x86/lg-laptop.c
-> > index 36ad1e269443..e788671307c4 100644
-> > --- a/drivers/platform/x86/lg-laptop.c
-> > +++ b/drivers/platform/x86/lg-laptop.c
-> > @@ -1053,7 +1053,7 @@ static int acpi_probe(struct platform_device *pdev)
-> >       if (ret)
-> >               goto out_platform_device;
-> >
-> > -     battery_hook_register(&battery_hook);
-> > +     acpi_battery_hook_register(&battery_hook);
-> >
-> >       return 0;
-> >
-> > @@ -1068,7 +1068,7 @@ static void acpi_remove(struct platform_device *pdev)
-> >  {
-> >       sysfs_remove_group(&pf_device->dev.kobj, &dev_attribute_group);
-> >
-> > -     battery_hook_unregister(&battery_hook);
-> > +     acpi_battery_hook_unregister(&battery_hook);
-> >       platform_device_unregister(pf_device);
-> >       pf_device = NULL;
-> >       platform_driver_unregister(&pf_driver);
-> > diff --git a/drivers/platform/x86/msi-ec.c b/drivers/platform/x86/msi-ec.c
-> > index 566dfc73cb67..cb30a1d5b546 100644
-> > --- a/drivers/platform/x86/msi-ec.c
-> > +++ b/drivers/platform/x86/msi-ec.c
-> > @@ -1428,13 +1428,13 @@ static int __init msi_ec_init(void)
-> >       if (result < 0)
-> >               return result;
-> >
-> > -     battery_hook_register(&battery_hook);
-> > +     acpi_battery_hook_register(&battery_hook);
-> >       return 0;
-> >  }
-> >
-> >  static void __exit msi_ec_exit(void)
-> >  {
-> > -     battery_hook_unregister(&battery_hook);
-> > +     acpi_battery_hook_unregister(&battery_hook);
-> >  }
-> >
-> >  MODULE_LICENSE("GPL");
-> > diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
-> > index 34bb17fca148..318f194e72b5 100644
-> > --- a/drivers/platform/x86/oxpec.c
-> > +++ b/drivers/platform/x86/oxpec.c
-> > @@ -956,7 +956,7 @@ static int oxp_platform_probe(struct platform_device *pdev)
-> >               return PTR_ERR(hwdev);
-> >
-> >       if (oxp_psy_ext_supported()) {
-> > -             ret = devm_battery_hook_register(dev, &battery_hook);
-> > +             ret = devm_acpi_battery_hook_register(dev, &battery_hook);
-> >               if (ret)
-> >                       return ret;
-> >       }
-> > diff --git a/drivers/platform/x86/samsung-galaxybook.c
-> > b/drivers/platform/x86/samsung-galaxybook.c
-> > index 99f72b204a51..a4f7dbb76214 100644
-> > --- a/drivers/platform/x86/samsung-galaxybook.c
-> > +++ b/drivers/platform/x86/samsung-galaxybook.c
-> > @@ -549,7 +549,8 @@ static int galaxybook_battery_threshold_init(struct
-> > samsung_galaxybook *galaxybo
-> >       galaxybook->battery_hook.remove_battery = galaxybook_battery_remove;
-> >       galaxybook->battery_hook.name = "Samsung Galaxy Book Battery
-> > Extension";
-> >
-> > -     return devm_battery_hook_register(&galaxybook->platform->dev,
-> > &galaxybook->battery_hook);
-> > +     return devm_acpi_battery_hook_register(&galaxybook->platform->dev,
-> > +                                            &galaxybook->battery_hook);
-> >  }
-> >
-> >  /*
-> > diff --git a/drivers/platform/x86/samsung-laptop.c
-> > b/drivers/platform/x86/samsung-laptop.c
-> > index 710f3d5bf84c..43fa1dc2773c 100644
-> > --- a/drivers/platform/x86/samsung-laptop.c
-> > +++ b/drivers/platform/x86/samsung-laptop.c
-> > @@ -1142,8 +1142,8 @@ static int __init
-> > samsung_battery_hook_init(struct samsung_laptop *samsung)
-> >               samsung->battery_hook.add_battery = samsung_battery_add;
-> >               samsung->battery_hook.remove_battery = samsung_battery_remove;
-> >               samsung->battery_hook.name = "Samsung Battery Extension";
-> > -             retval = devm_battery_hook_register(&samsung->platform_device->dev,
-> > -                                                 &samsung->battery_hook);
-> > +             retval =
-> > devm_acpi_battery_hook_register(&samsung->platform_device->dev,
-> > +                                                      &samsung->battery_hook);
-> >       }
-> >
-> >       return retval;
-> > diff --git a/drivers/platform/x86/system76_acpi.c
-> > b/drivers/platform/x86/system76_acpi.c
-> > index dd7b1b07c316..33968b61f0b2 100644
-> > --- a/drivers/platform/x86/system76_acpi.c
-> > +++ b/drivers/platform/x86/system76_acpi.c
-> > @@ -288,12 +288,12 @@ static struct acpi_battery_hook
-> > system76_battery_hook = {
-> >
-> >  static void system76_battery_init(void)
-> >  {
-> > -     battery_hook_register(&system76_battery_hook);
-> > +     acpi_battery_hook_register(&system76_battery_hook);
-> >  }
-> >
-> >  static void system76_battery_exit(void)
-> >  {
-> > -     battery_hook_unregister(&system76_battery_hook);
-> > +     acpi_battery_hook_unregister(&system76_battery_hook);
-> >  }
-> >
-> >  // Get the airplane mode LED brightness
-> > diff --git a/drivers/platform/x86/toshiba_acpi.c
-> > b/drivers/platform/x86/toshiba_acpi.c
-> > index a0b8060836d0..4cc879bc267a 100644
-> > --- a/drivers/platform/x86/toshiba_acpi.c
-> > +++ b/drivers/platform/x86/toshiba_acpi.c
-> > @@ -3301,7 +3301,7 @@ static void toshiba_acpi_remove(struct
-> > platform_device *pdev)
-> >       }
-> >
-> >       if (dev->battery_charge_mode_supported)
-> > -             battery_hook_unregister(&battery_hook);
-> > +             acpi_battery_hook_unregister(&battery_hook);
-> >
-> >       if (toshiba_acpi)
-> >               toshiba_acpi = NULL;
-> > @@ -3566,7 +3566,7 @@ static int toshiba_acpi_probe(struct
-> > platform_device *pdev)
-> >        * set, this must be done after toshiba_acpi is assigned.
-> >        */
-> >       if (dev->battery_charge_mode_supported)
-> > -             battery_hook_register(&battery_hook);
-> > +             acpi_battery_hook_register(&battery_hook);
-> >
-> >       return 0;
-> >
-> > diff --git a/drivers/platform/x86/uniwill/uniwill-acpi.c
-> > b/drivers/platform/x86/uniwill/uniwill-acpi.c
-> > index 7a2eeaec4c96..d76695c2c765 100644
-> > --- a/drivers/platform/x86/uniwill/uniwill-acpi.c
-> > +++ b/drivers/platform/x86/uniwill/uniwill-acpi.c
-> > @@ -2165,7 +2165,7 @@ static int uniwill_battery_init(struct
-> > uniwill_data *data)
-> >       data->hook.add_battery = uniwill_add_battery;
-> >       data->hook.remove_battery = uniwill_remove_battery;
-> >
-> > -     return devm_battery_hook_register(data->dev, &data->hook);
-> > +     return devm_acpi_battery_hook_register(data->dev, &data->hook);
-> >  }
-> >
-> >  static int uniwill_notifier_call(struct notifier_block *nb, unsigned
-> > long action, void *dummy)
-> > diff --git a/drivers/power/supply/cros_charge-control.c
-> > b/drivers/power/supply/cros_charge-control.c
-> > index e0f168624807..1901bbcffd73 100644
-> > --- a/drivers/power/supply/cros_charge-control.c
-> > +++ b/drivers/power/supply/cros_charge-control.c
-> > @@ -315,7 +315,7 @@ static int cros_chctl_probe(struct platform_device
-> > *pdev)
-> >       if (ret < 0)
-> >               return ret;
-> >
-> > -     return devm_battery_hook_register(dev, &priv->battery_hook);
-> > +     return devm_acpi_battery_hook_register(dev, &priv->battery_hook);
-> >  }
-> >
-> >  static const struct platform_device_id cros_chctl_id[] = {
-> > diff --git a/include/acpi/battery.h b/include/acpi/battery.h
-> > index c93f16dfb944..08c7e37996bf 100644
-> > --- a/include/acpi/battery.h
-> > +++ b/include/acpi/battery.h
-> > @@ -18,8 +18,9 @@ struct acpi_battery_hook {
-> >       struct list_head list;
-> >  };
-> >
-> > -void battery_hook_register(struct acpi_battery_hook *hook);
-> > -void battery_hook_unregister(struct acpi_battery_hook *hook);
-> > -int devm_battery_hook_register(struct device *dev, struct
-> > acpi_battery_hook *hook);
-> > +void acpi_battery_hook_register(struct acpi_battery_hook *hook);
-> > +void acpi_battery_hook_unregister(struct acpi_battery_hook *hook);
-> > +int devm_acpi_battery_hook_register(struct device *dev,
-> > +                                 struct acpi_battery_hook *hook);
-> >
-> >  #endif
-> > --
-> > 2.56.0
->
-> For the lenovo/* changes:
->
-> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
->
-> Mark
->
+> - POWER_ON_REASON_EXTERNAL for an external reset source.
+> 
+> Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
+> changes v12:
+> - add POWER_ON_REASON_EXTERNAL
+> changes v10:
+> - add Reviewed-by: Sebastian Reichel ...
+> changes v6:
+> - add POWER_ON_REASON_EC_PANIC
+> - s/POWER_ON_REASON_OVERTEMPERATURE/POWER_ON_REASON_OVER_TEMPERATURE
+> ---
+>   include/linux/power/power_on_reason.h | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/include/linux/power/power_on_reason.h b/include/linux/power/power_on_reason.h
+> index 95a1ec0c403c..13e61ace14f5 100644
+> --- a/include/linux/power/power_on_reason.h
+> +++ b/include/linux/power/power_on_reason.h
+> @@ -15,5 +15,10 @@
+>   #define POWER_ON_REASON_XTAL_FAIL "crystal oscillator failure"
+>   #define POWER_ON_REASON_BROWN_OUT "brown-out reset"
+>   #define POWER_ON_REASON_UNKNOWN "unknown reason"
+> +#define POWER_ON_REASON_OVER_CURRENT "over current"
+> +#define POWER_ON_REASON_REGULATOR_FAILURE "regulator failure"
+> +#define POWER_ON_REASON_OVER_TEMPERATURE "over temperature"
+> +#define POWER_ON_REASON_EC_PANIC "EC panic"
+> +#define POWER_ON_REASON_EXTERNAL "external reset"
+>   
+>   #endif /* POWER_ON_REASON_H */
+> 
 

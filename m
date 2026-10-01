@@ -1,161 +1,130 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pj2-f42.google.com (mail-pj2-f42.google.com [74.125.227.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E4452845E
-	for <chrome-platform@lists.linux.dev>; Thu,  1 Oct 2026 15:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB115275AF
+	for <chrome-platform@lists.linux.dev>; Thu,  1 Oct 2026 15:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790869202; cv=pass; b=hvGExLZG9pBS4q2orZRr/thnFKpcCiogyCMqAQJzE8aTTj0OSjb8hc25jB9CPbCLDWZTXrhjS/fnFN6UHQ4MGwD7/xP4X3dar3B+e9NVB+GAxCuBaVOzeWdWD+hJNTU7s7V6cdMunz+tIs/1Oq/K/nKQuwXOxPuiDwJAEa+iI+s=
+	t=1790869216; cv=pass; b=Q3pXMvjlnMw8VN5Y9y5PvPaEKWXPH2ugn9+vw/CDcBylLVK9ZwndaHnCCPb0NFGMMGvaWITEGimmSPK2bnMgkibR9oNik+NtyMR+qBTfhIUdSp3XdTCb7cOyIJ5Rcwsrpr3qgxNCYd3GgV39RU6Ie80bFsnQEsLInYGpQMQ8fRE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790869202; c=relaxed/simple;
-	bh=aFUh89Vb7GZ4oVyB3fXPOwsUThKEK9z+VY4rNdjijh8=;
+	s=arc-20240116; t=1790869216; c=relaxed/simple;
+	bh=Rt5kCYTovKo79P8T5a1y2BU7GEOnV/NaT7+bvWuL78c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KWFMHFTZU7aEE68J4722O5fB6SmRaCz8UxSqdgSZ2tJx9+wvXX8DjgMY3Mxq+C+j3WTtTvn2yk9R4RV9lEJdIvY6kJ8EIdLScItkwpru9No5uytkkfNFEDjfk3K2g0alfXF/8Faa2OdGB6Q/e/2/brpsX5GSJRAmtTFJr1ANkOo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MrExPzeX; arc=pass smtp.client-ip=74.125.227.141
+	 To:Cc:Content-Type; b=AGKlYdyP9H6/DFI8bruEJvNhXJA5PqiKEoM4b2SfcMtbSXGefvl4NTxZHmq4ZVw4krqrrZxZF/mYYOvUddmrKwwYJfWqsEJkbglocXU1Iid8stIUSP7+FlfuNupHroHlFB1MbXwNjswsVODPZc42P5Ah9Vg5sC2SELcAW0zEgeI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PswbG7g+; arc=pass smtp.client-ip=74.125.227.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MrExPzeX"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccb65437so4022955a91.3
-        for <chrome-platform@lists.linux.dev>; Thu, 01 Oct 2026 08:39:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790869199; cv=none;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PswbG7g+"
+Received: by mail-pj2-f42.google.com with SMTP id d9443c01a7336-2df4aa80a73so44477185ad.3
+        for <chrome-platform@lists.linux.dev>; Thu, 01 Oct 2026 08:40:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790869214; cv=none;
         d=google.com; s=arc-20260327;
-        b=G4FXXbTADBdCeVD34Xt0xVixVfQoQo7Z7c5v0t8HqzEbX2BYY6ruHUSREiZGRKSR15
-         GWmJCunYm5M6CByFxrUvTQ1oTP3xYGBr/JYgG6yNaJZP28LvSTYXzElj97bZIds4c7Ew
-         GOg8nk6nlIswGFqiJn+guqnscee3+B478HJyLHv6qBTSQRwWlYKTnjNBPQbGwvQzaNam
-         iWQEO2lYDELr0Ollu8OOft2cu27e15LQyTL5FsEzLRDHF9Eo4z/L81bn45BbqmNgfJNO
-         8DM3rZ0biW54o7vk+A8LqWf+RuQAhJz3lXJmG7nimE1YVA8KK9MhmLg6Wp68kfRzeCa4
-         BgOQ==
+        b=N+y9KFS1Mj2IFQmiCSuoMVh4zPB9e4KhZuFtJ5Cj/NGhx51lpyCDhssebjM+IOJdnF
+         MCKh+LxNKiQonPaROpgBY49y9qb4zksyEExLA0GRWh0+DDQ4I4c2INUqTkw7dDbtaW/i
+         77G5EnMA5MjZ4Z0lX/7W9cI1UAmppavKr1j2N+m4B6kQ5sbxJY0V/xnUTtSucB6TX8LD
+         +lJVkks37cie6lEq9ASdbKD9tTfy4F0Q83wZphKAHoxtvwgXl/nlt5S4sRkca9UREZe6
+         8gVD0KbWn1kMlgD+VuzxruRrx6yTNxOOUE8yI95PFWY6mb8AcjKVXc9V0XwypSsJFhLC
+         aR4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=33ugh1JWMcgP8/UF4U5Kxe1xOXj+ElXNCs++vic4Ae8=;
-        fh=KiAZIbrXkyN7FCnM9tmW47TGDr3BC1z5NqDTYpLJBIU=;
-        b=ehvlUaySJGgu/bTbVVW8AF7xRMxmyWRXcp5vC6Pxltds7bCvooI7QfxhWliHKcA6Kl
-         j2DJeihaQJYiwDp+WP+X/1VsQBwKYy2svJhxGk53F0ECFWeh37rbx5/ybeu5Nrk0zNLy
-         SHg/LUcWQveOUZWPlxV48KM5YQ5tZ/bxbjahYzuqpsNqZC/B8BCPg5efCOzz7lx3na60
-         pDc0MKmigzRRRBIkHHPqYG3qI/i/QzuiFDnkyMwAOe94RypOUKLnulQyZjpEYtfnqH2g
-         FIXJrClxCQe/67DijXKEM0PCuGWVjRpCWzIH+XPdnUMmmWx9ryA7LJ1C6Dl/ZwKv5Z5B
-         77qg==;
+        bh=sH7suoulEGbXb6HUyxR66b9Kl139W81dotKBuuxFi4g=;
+        fh=+7k5VJWozw+vIbBq445xrh32iq92D6x21Uir1KWFKYE=;
+        b=kUcBjbZZ3GwLmj6S/gpPWGbMYAAlm969ISSkEXyqUnRLcScbNZQQKEvFpkLcLYWNUC
+         qRC96y1xfqL7iRYquOKjjde8/SNrcPtA/YEx4nP9yslFwB+GR2gaWNEbU7+OeVjagetc
+         SkOqmkMExiPjpqklBeOWFfFYkTTjJYqLwSjyZ3jLuLb2X8oO4gZaeYzVgNIgEUin7nPr
+         DE6cev5B9yyaagq2qHRnY6Z5HQi6rksFy319oNjO4kUjRbvJWSJcqaDnJqvpKaRBf1M3
+         TdkYmrNdDA65d82KAsF/O4kILJfyMgzegs83NL5NRbncFurvzNrzb1XQZMPPzQOmzaoP
+         fSqA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1790869199; x=1791473999; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1790869214; x=1791474014; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=33ugh1JWMcgP8/UF4U5Kxe1xOXj+ElXNCs++vic4Ae8=;
-        b=MrExPzeX/TkOlO2ESbJ/58LI7dOtXRTWCRSlRv8U5J6MlnLJCeln6yoGeWpMLjeLcJ
-         PzKn3lu789+EHRvaVBqppqptbEf4jFeetA/faLWnKx2wPBv4fnzDZJQpkB0XTxMt0nMd
-         z0J3vsqW/bDo6DbdgMEH9oiBmcZfE4GASO+ls=
+        bh=sH7suoulEGbXb6HUyxR66b9Kl139W81dotKBuuxFi4g=;
+        b=PswbG7g+qIVURi5SrHDa5jZ/Mjuggi4nuf1zZaLF1LAuLisjtPLkiUxySpkCvCrsoi
+         /jeiSLRsi/9WfGuKISj4MrPa2e6vyA5ChEc36lK/ChaUgrYm4ba02c9HlwSzQTY/l34F
+         PLbG+tL3o5dgRbbmTbMLO11wmyBiwVBmLvliU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790869199; x=1791473999;
+        d=1e100.net; s=20260707; t=1790869214; x=1791474014;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=33ugh1JWMcgP8/UF4U5Kxe1xOXj+ElXNCs++vic4Ae8=;
-        b=Ftb9spDi/gCVtrexUb3jbDplb3soMi85+f8OT3mrwvBMW85rXsFiEVxZ31IU+dlEME
-         +xhfdIiFB0vmexkmC87nZd0MjfUhdN50YwXOBtiSa9PoSFaFK3gkgtbTcjlhQi88jUC2
-         zObbxLrwN0qwKMaQ1vvaLKhLRGEoPeH6OWGmws/gQNbzRM72dNxuMQLOGdvI3akbt7+7
-         yxHNdmUmQxCXOZAGX5SeZ/3rbjc3f3UCU7PUVxG8GX++VcCMffqDkO8eMwOSls2pHyxT
-         Wxh57C9d8AgpE1apkDISPUyfUNANqfhgIvwt+FRolywFSo1lKlr9opfB9rCQbadlbprK
-         PtVg==
-X-Forwarded-Encrypted: i=1; AKwUvBx4bu10chGTUxIY4YDZv+9Qru3bLi28t+JVf+ze+4KOkwi39CYzXtHru3hjw9udolldKSUX8BoSYkA11vEBlK4=@lists.linux.dev
-X-Gm-Message-State: AFq9FYKBfPE5W75lWTbZ0zwB5mwzivbeK5D0pTAlNSwkQI13mLNIpypW
-	uaQmali8U8x5H/1KFVW64VTDtp8EcdTCHGdne0O8OUHrXmNqJYeOL7V2ofttFSOHpdkYbpdeHdX
-	Xg/14DfmKqVzsrXE2UUQo+y1Zx1AhMhXOK/VjII14
-X-Gm-Gg: AYBFou2yq+N4mO1Hpi/s2Pv1WM7ea+BsCm55LKIjGOEyptBEsyoOPXJKpLNZTxtLXQj
-	XcRcYuoPB5m5g6K2/gDOJnFdcLITrYXeyLxGAKW0s1dF8iqgFo1a3iuG7p45iJWNRy4BgqAZMv5
-	S97QH+rZccr5iqCYBl9RPa/lc9OBlfNrYxUCa2gRh4Zt8kBu3smpFVC6nMt2qsdyQOUJJ65vUe+
-	YqbNBP5t43BkaQjxM++XQKmiG1uNGaOJs988bJ226xFNtXSD+910qysQE0eSubuHOT7HF64RnjG
-	hLZ8nLX+H4NH/RePYYF4131ebyvxwlJzL+q4X46nQ1waOM27Fp6Bxj4Q+8IiQox4Yt44Yf2q8an
-	Ml3IVYDA=
-X-Received: by 2002:a17:90b:518e:b0:3a4:a619:9e6a with SMTP id
- 98e67ed59e1d1-3a4d1b25bd7mr4253895a91.41.1790869198610; Thu, 01 Oct 2026
- 08:39:58 -0700 (PDT)
+        bh=sH7suoulEGbXb6HUyxR66b9Kl139W81dotKBuuxFi4g=;
+        b=dMmhRaOjSHYSo+U4Ocyo5JO/6I6SyEWWzpDOtux75rE3+Qvi1pcPg9lSga1+TkRiIG
+         OQoboqg9k2eL8gSTfqp98UtTFBxcFM9SeYyAMlbzHppr6Ls/NcXlyGodSARZIfyFUlFf
+         HUw+2yjTNMZEc5L3g3FMsqwlZLhf6G8RDDufPKSwOv9BVqEpT6VbExnMW4OBjwufS5Jn
+         xzeWiIRZ4K6+MW4ivwcDssqyv54ymBou4BPml6Y6UMPZP9e+y4RBhpsGF6En4KMOk3NR
+         ngh2rVczP5dhdfC/VYOKobk/Ft91lR+K8pUM6LWhYhZI51+btDcl9+/taN4ixsiMgh/f
+         FKqQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx+pY971hPEP5OOc0j2/H8Wa5Zwpbb86bODAZQi0gMXNPqcO+piPi1Y/18SiR6JHIc+Q5lEAlOLrUnlW4DIG9c=@lists.linux.dev
+X-Gm-Message-State: AFq9FYI0GagDa2H8QmQw7uDdc+0TAYhzN4RybzK1hnYYVHE6Svv7fSfv
+	vAWl5PZ/pk22/K+IGXpxIiDhotpkQG13u0e82Gx++Yi4TEYSa8qI2wVRs1GGIW3H3O2Otk9NIDY
+	8JSMVV4f9dlXe9g1ZCRLWkqgIMCoLXVnCaDm193uo
+X-Gm-Gg: AYBFou3bfoMv/JFdvJhfdPY3MzuXr+YSJy86gsJmDVwGidzBM6I/KvB5dZJbTT0t41M
+	9SVGXgrBVFCrJ3d8UhYvjbVAVoO+7qgJgEotXSKEFnOfd+E7FD1yB1WivMaIPNFc7511XV0qNgg
+	O7akYLBU2oh/Jq87GPggzJcDRNwdCEudOH0j2ADd7aOalyFstrwn6kt5TRxUnPPrIx/CkXZ5m23
+	kQIKqCjYlISy6ImP4eOBsr7aVlPH4hJ8wrB6pb9tCNML3bzdJ0OrFvOIdjhoAvrgw9PVyZoVFMH
+	npko6PMGEX+5DaDX3OJZ7LKlJTkjf07HNwZ/cnQJ/xtOC5dyFkXvqKq9qlDVztnf2t0e6cTb2mu
+	bM+d8AZc=
+X-Received: by 2002:a17:903:19cd:b0:2e2:b00f:564f with SMTP id
+ d9443c01a7336-2e2e4a20259mr42758525ad.18.1790869213794; Thu, 01 Oct 2026
+ 08:40:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261001085714.1086242-1-bszpila@google.com>
-In-Reply-To: <20261001085714.1086242-1-bszpila@google.com>
+References: <20260917204209.97699-1-mhun512@gmail.com> <arpa-Ps8l8LOwbbx@tzungbi-laptop>
+In-Reply-To: <arpa-Ps8l8LOwbbx@tzungbi-laptop>
 From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Thu, 1 Oct 2026 15:39:46 +0000
-X-Gm-Features: AclHuK_GQBP6uCoRCCq5xQM-LAx3aYxUTtCIoJedsD2JaykZ72mP6quteNaD6bE
-Message-ID: <CAMMMRMcaceQ6YTaARYYYKbB0xvTMr4bW8gbF0Y4-EihrwCNXDA@mail.gmail.com>
-Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Validate SVID and mode
- counts in discovery data
-To: Bartosz Szpila <bszpila@google.com>
-Cc: tzungbi@kernel.org, bleung@chromium.org, 
+Date: Thu, 1 Oct 2026 15:40:02 +0000
+X-Gm-Features: AclHuK-ph787-_ubenGMoiVVddecDSrjn5jG0cc2n9OWoEqyfW5NTQ54A1U_4YQ
+Message-ID: <CAMMMRMe7g7yj1iOTOc+TCWe=+1cjFA1rG7H=VfjnrY3p7XCKFg@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Stop altmode work before
+ unregistering ports
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Myeonghun Pak <mhun512@gmail.com>, Benson Leung <bleung@chromium.org>, 
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
-	Guenter Roeck <groeck@chromium.org>, 
-	"open list:CHROMEOS EC USB TYPE-C DRIVER" <chrome-platform@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Ijae Kim <ae878000@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 1, 2026 at 8:58=E2=80=AFAM Bartosz Szpila <bszpila@google.com> =
-wrote:
+On Mon, Sep 28, 2026 at 12:18=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org>=
+ wrote:
 >
-> cros_typec_register_altmodes() iterates over sop_disc->svid_count and
-> sop_disc->svids[i].mode_count from the EC_CMD_TYPEC_DISCOVERY response
-> without validating their bounds.
+> On Thu, Sep 17, 2026 at 04:42:09PM -0400, Myeonghun Pak wrote:
+> > partner altmodes. Disabling also prevents a partner callback from
+> > requeueing the work while its driver is being removed. Use the common
 >
-> port->disc_data is allocated as a buffer of EC_PROTO2_MAX_RESPONSE_SIZE
-> bytes, and each SVID entry contains a fixed mode_vdo[6] array. If the EC
-> returns an out-of-bounds svid_count or mode_count, the loops read past
-> the end of the mode_vdo array or the disc_data buffer.
+> Would the work be scheduled even if the driver is about to remove()?
 >
-> Validate that the discovery response with svid_count entries fits within
-> EC_PROTO2_MAX_RESPONSE_SIZE using struct_size(), and ensure each SVID's
-> mode_count does not exceed ARRAY_SIZE(sop_disc->svids[i].mode_vdo)
-> before registering altmodes.
+> > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform=
+/chrome/cros_ec_typec.c
+> > index 50a68819ceb7bbfbd888ca919d678d4c75237c26..e91bbc219c077067294935d=
+d5602c1aec636cfa6 100644
+> > --- a/drivers/platform/chrome/cros_ec_typec.c
+> > +++ b/drivers/platform/chrome/cros_ec_typec.c
+> > @@ -378,6 +378,7 @@ static void cros_unregister_ports(struct cros_typec=
+_data *typec)
+> >               if (!typec->ports[i])
+> >                       continue;
+> >
+> > +             cros_typec_altmodes_stop(typec->ports[i]);
 >
-> Signed-off-by: Bartosz Szpila <bszpila@google.com>
+> Shouldn't this be called in cros_typec_unregister_port_altmodes()?
 
-Reviewed-by: Andrei Kuchynski <akuchynski@chromium.org>
+This should be called in the very beginning of cros_typec_remove_partner(),
+or even in cros_typec_unregister_altmodes(). The idea is to stop the queue
+when the partner no longer exists.
+Partner disconnection rather than port teardown ought to trigger this.
 
-> ---
->  drivers/platform/chrome/cros_ec_typec.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/c=
-hrome/cros_ec_typec.c
-> index 50a68819ceb7..4427897eb3f5 100644
-> --- a/drivers/platform/chrome/cros_ec_typec.c
-> +++ b/drivers/platform/chrome/cros_ec_typec.c
-> @@ -7,8 +7,10 @@
->   */
->
->  #include <linux/acpi.h>
-> +#include <linux/array_size.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/overflow.h>
->  #include <linux/platform_data/cros_ec_commands.h>
->  #include <linux/platform_data/cros_usbpd_notify.h>
->  #include <linux/platform_device.h>
-> @@ -894,7 +896,15 @@ static int cros_typec_register_altmodes(struct cros_=
-typec_data *typec, int port_
->         int ret =3D 0;
->         int i, j;
->
-> +       if (struct_size(sop_disc, svids, sop_disc->svid_count) > EC_PROTO=
-2_MAX_RESPONSE_SIZE)
-> +               return -EINVAL;
-> +
->         for (i =3D 0; i < sop_disc->svid_count; i++) {
-> +               if (sop_disc->svids[i].mode_count > ARRAY_SIZE(sop_disc->=
-svids[i].mode_vdo)) {
-> +                       ret =3D -EINVAL;
-> +                       goto err_cleanup;
-> +               }
-> +
->                 for (j =3D 0; j < sop_disc->svids[i].mode_count; j++) {
->                         memset(&desc, 0, sizeof(desc));
->                         desc.svid =3D sop_disc->svids[i].svid;
-> --
-> 2.56.0.rc1.315.gc6ed9934b7-goog
->
+Thanks,
+Andrei

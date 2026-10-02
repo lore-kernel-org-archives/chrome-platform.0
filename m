@@ -1,213 +1,150 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF6A448BB8
-	for <chrome-platform@lists.linux.dev>; Fri,  2 Oct 2026 09:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790932006; cv=none; b=ONIR5h1HItMRsgQAVf4+YFha26K1uZ0YhSTGeicygHCVjwjbP7eD0m/rcPfvLAQ+ZedkxF4/O8tMiQW451qbJsMfTpNmq1L8zSJ1cet/0TeMGFQnCvGUmUVGuHFHpnD+gofJF65QZ1GBUvVVTnBTSzLtY1F2XwkfSylgNBMFIo8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790932006; c=relaxed/simple;
-	bh=kDMZJFIYNLpENyTsWhs6Qg3bWlNKfFJpixhYOyF9GVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ee5YLiQqcNXix0SK24SO7e6o+uQaFrPA8JJ0yFwNZRkKpI2fdWgmYZjKESarEsXDDQGUaVyJ1g7+ouIIfV14f+gy0DSao17oXslSlbm7M23NwLUT+odPkWgRp4VJCvRzCcnp+uyOdNNlFAOp9RAViPpOBPU1LaOfA68zPwi9Rw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Rn+ZlQ8Q; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JkcvMfz9; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A502439F80
+	for <chrome-platform@lists.linux.dev>; Fri,  2 Oct 2026 19:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790970998; cv=pass; b=sAZEv2tH3M1Hq2r4l9+WkDOBBWoHbrRUdl2RbxNEDAG5OtO1HyrprINZleXeCwdlZ5G8poamTf+GJeHdqnuiO33gL54A10qJctaOckN4iCt+v+aZyhW9V4avMlFERsCHLPJyff4wKsnthneqlr2rkfpoVXjV2uB/ol9PXdGqGro=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790970998; c=relaxed/simple;
+	bh=1ioCZTbb41W9FUOixCvFBhIck+r0y9BJGbVcKNL0CmM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=atZEeK9EHsjnLnFL9WDJrMhzhdJ8emEMOJskwUSPdckQeaI2Ym9LaTwQAe1JFAMmZhhY2ElmywahZG7SL3O/ei7cm+3tn9u47i7KWv2wIM7d/nCIkqf2vwUmstvl5Aus4RyE/fmxX1STJoO1lW2uV3XFaHayRU3ffOLEwvlT0qg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aYvoFPlD; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Rn+ZlQ8Q";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JkcvMfz9"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6925jdsE036682
-	for <chrome-platform@lists.linux.dev>; Fri, 2 Oct 2026 09:06:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=m3e22T5Ei+HeBmJThbj0uNqY
-	cEf7ihFqents8vMEUus=; b=Rn+ZlQ8QldP1jrxGM5PRYz24yepuy89350RsrrWc
-	Q+aRe0f+9wBE9wOepUkA/3d5FOWJpLF7XFVuRlh5bv3ob2BtYM0DjaqNjRYH3lVt
-	puvCftbFgiokSzf8xvTx+7nCsxR2VpnwE8d7NAbCyrLRlAAITRBtSIe2EVEaJFuD
-	c95xQ38c+5Hpnt2a0koWxSUeJLPd/ipguvFm+7i7KswIQD9q6AC9gOsQbPyrnf6Z
-	zZJzgMDC6H3siJKLnHh+keIliYFyhGUsIEI+DZ1ofEAceIxtPfeWztOrI6xECqNM
-	JKkhdsbnxx6ZFN05jkR3zw5uuSCdxVMmN0bypEw+aeOurw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h1tbgbbb3-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <chrome-platform@lists.linux.dev>; Fri, 02 Oct 2026 09:06:43 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93cb7f9bb86so353777285a.2
-        for <chrome-platform@lists.linux.dev>; Fri, 02 Oct 2026 02:06:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aYvoFPlD"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6ab006eb282so1658316a12.0
+        for <chrome-platform@lists.linux.dev>; Fri, 02 Oct 2026 12:56:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790970992; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CjOE//PMBM/OHPNN6h/RAB+w2R8lOswnndhbfpupm/kqJO+J1in6UQDHjoUwjze6Ss
+         S5Imu1Zbx30u78q2cel4Hodc5gUedd8Bw1uUcgwMRFfXIbzYaIBx8XdED/habK60gkyj
+         2LC32mNZ2xQ6Af2c5s3ZlHYB3yfY2iylWS8gLene0C0ss/sMY99VE4TcA+RNRey+IpvL
+         ga8qhVxP5+z149THJdeWsxpQ0BjHLJTKB56EH7VPGzQcTq9YjCQ76E6so30GjnooMoEg
+         k9sQ2L7opYspWv4nnsbtjxwrXZq95k8VYGKBjF6ZtRACQ/vxsVA0dfU32qAKdf6sSCtx
+         I1jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BIxB+o9asvwUGZP/ehweqbShcz/sSoH+9KFLtoHp1eA=;
+        fh=FkOswz06L8XlrmoORgG0qQ6CKv9i8LwrkzrjaUJtt/Y=;
+        b=iW6aSvVYlja0x23k4rODn85ykYj3sZ7yYGxo/0lHHuy5cUB+LZypE5V/B4S76LV/dV
+         wY1jhXtvXMUUCZILkHrGxkB2OAVGov+C3tmsTE8uDYqjUqkIOtCwTMQehAiP4dw6pvNq
+         OVPokohXcuUSL5hNIWyOB4Kb/F4f5uHmpftdnsScwmTLM8aOh3x1sfyEExjMQ3GYh90u
+         lQSG3Oy6Ta3EhzXictu2C2VDx5SOGwpbilmd0Jr6z3f4UuGpwrxbkrfjStGjvY1FJL/d
+         qZ/j4Qc63AgSJbIRkUvjST8pD9hnI2wETnLjVjdQS3gueXHDr3Q0bXw9LtkJA+3iVjCQ
+         MRyw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790932003; x=1791536803; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1790970992; x=1791575792; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=m3e22T5Ei+HeBmJThbj0uNqYcEf7ihFqents8vMEUus=;
-        b=JkcvMfz962jRjiSCjd9teaGq/0Y8ru71BeXIURK7+4ePWVbv1WmRJGTikrE97d93hf
-         IFDJ8fbhQbLVYGB5dsyoslDwNsialwX9yH+l6LqzVAQ+WQ1DTsA67WwzbEz9+XI8bVH3
-         kvbY2CXLLhHirUE+SVps0XsN0B0oI0t64IfXKfd2rL2BVu3d6ZB2XqUNxd5FvOL/Zukv
-         t9no6ps++U1kytEIPscYMlcVVousqTGz+HSoB/4KN+OX1gaVAFEWjRj6JmRRrk92TlBs
-         hvDSl18r661pMC1zaHmg8LRK+S+zvlhyIdFEaX8dMdX6uqtCJ76d1CikHnKZPLzqElzS
-         l95Q==
+        bh=BIxB+o9asvwUGZP/ehweqbShcz/sSoH+9KFLtoHp1eA=;
+        b=aYvoFPlD+BS2bHs/hlzyj/TYOB5d+pHvZLAVnFaPltUjI3ccsXoIRrEeNyZmfmGLXX
+         8zHj9ffOtcCK8uYNs5wRwi39zw9jgbnbIWcadBrMQShnP2Ix/tcAvEy/PTAznS58rg2s
+         3lC9oedzQMVfzTchiP+8kaUorMJ6Lb1yLc17sPBDhZOlJq4b/Cn/TSybAtGhJnRhn52F
+         w0TmxxARLoBp9qEse6WaXcjG250lkFZbD5+CzJk1GQ+vn6zXvHiYM5ZHqMwb3XinJtqq
+         PiKO5gtB0AJAktlb75WBZdBJ0vPOJswmY+/9KQxf5Y2C5V2FhrLp1jzq/beuWf7S289y
+         AAxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790932003; x=1791536803;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1790970992; x=1791575792;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=m3e22T5Ei+HeBmJThbj0uNqYcEf7ihFqents8vMEUus=;
-        b=aMEfVTnv1DvXDQqvqlHqCJWEPWvYAn/CMJzB2n9ZFv1im+msEepHmf2CGcOBlHuwJP
-         IdPUF7jhpZYpWTTP66ZJmWJTflNHz1oNby7kKK6Rdj1bzqXuER01bd8pzKsOo8Qw0H0N
-         cncjVY0RATHda9qEDzaVSB7STgBP5EXbK96lYoD3aIMMFTlPkRHRuD/rNrwMil2M/wUf
-         enXP0Q3vprOO1gGWC/0Z/zQ+i00KXArj7p/EeMZYK12x5IWcSazTloHjKhsRlLGo7RGh
-         cAQDcMz8ygURuR2bm/SA6kcDmMovwFyPTBMtuOg4d73PhM23m770/S6HvgW31FmSACt/
-         r6Mw==
-X-Forwarded-Encrypted: i=1; AKwUvBycmQnMUbV8RZXnegijTZ7H0nPglPDHw2/3kjpX5jcUsvOC9QsifdPZ6B7HR0826G5xs4NsHsnwLvUrl38CGAQ=@lists.linux.dev
-X-Gm-Message-State: AFuF++m5CKsutT7/zfid1lfpTY34Y2YkF6Mwg1H/CWnrJp22nsD9Onbl
-	3EQdTqZcahl9qB6lACfsJCDHiiK6A4J8EwIwksHaejIaDPsLHmaLAcDc0VJz0JCtYU9OadfuxJn
-	ZcqN5EaUhU66IBVx1F0HKv2GUCTKyu4xjNyDyrvYuCaRD4H4K7qVQ5tbd1Fu6m4eUuUNmuqTXDq
-	18qgE=
-X-Gm-Gg: AYBFou29GXIecf6tUoA2Wux3XS9/y8NpBgruQ1vbOcS2q5vf/6fn8wiNmJKPphhpmxR
-	1/u1RWm4edwUoViDoXFpdfzg+mjYXc/epuyvvr2xsI6VQ2tmyedjiR0oZknhaf7QTCujfy+e43v
-	+KHO0VWVTlpQp1XlNjaMxgWmdrZE9mvhy9Q/xmiTicMBSZRPNzM1ctza4vGUjRoNu9ZRgPLFLAi
-	nHaVtldmY29kSA7wC0NdGrhj/z4gG8KZQTMJTF8W9KA/L74hG/MzG6e4YnQRczq6oXCkBGhwmZd
-	zqdv0MYz/EIGqSGGXyVSZuliRp4nA3HeerOnSA3YmUfdzM7LyKQH0v3wNaHfCSqKf9sFcjnZlkB
-	U05ZW6mtxfiCv43gneqSV
-X-Received: by 2002:a05:620a:8804:b0:93c:612e:9b51 with SMTP id af79cd13be357-93cf18a7807mr337158585a.55.1790932002666;
-        Fri, 02 Oct 2026 02:06:42 -0700 (PDT)
-X-Received: by 2002:a05:620a:8804:b0:93c:612e:9b51 with SMTP id af79cd13be357-93cf18a7807mr337153385a.55.1790932002076;
-        Fri, 02 Oct 2026 02:06:42 -0700 (PDT)
-Received: from mai.linaro.org ([2a05:6e02:1041:c10:f14c:b716:c104:4712])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a03950375dsm22387125e9.1.2026.10.02.02.06.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 02:06:41 -0700 (PDT)
-Date: Fri, 2 Oct 2026 11:06:34 +0200
-From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
-Cc: Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
-        Tzung-Bi Shih <tzungbi@kernel.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-        avaneesh.dwivedi@oss.qualcomm.com,
-        Umang Chheda <umang.chheda@oss.qualcomm.com>,
-        Francesco Valla <francesco@valla.it>
-Subject: Re: [PATCH v15 5/6] power: reset: Introduce PSCR Recording Framework
- for Non-Volatile Storage
-Message-ID: <ar90GoaxTV8pjonY@mai.linaro.org>
-References: <20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com>
- <20260924-pscrr-framework-v15-5-7af87107e0d3@oss.qualcomm.com>
+        bh=BIxB+o9asvwUGZP/ehweqbShcz/sSoH+9KFLtoHp1eA=;
+        b=1dAkxXooajCP8FvCLaCxnmU9RSL9aztnNK1bqNoe/H90ik0IbvI5aWvzrryvO5bWw9
+         kgfr4TZoypgpdvNClULoImHwhRl+JvTqJ6cfO3pm18PbCtwnFKpXso7AfXi9+l+daZ0Y
+         wDTIwAW/fkNm0kuozRkAd5Ooq1z9aRLbQk8aNZRr/KFncNLlZZ83XU7CwY+b9efgPgOK
+         kNzpUbSqc8IT/j7HCUkaTC1rEbFNrZjMaYKincSFgmnT6uBLMrEcFyo5oTEPi91gFq00
+         ctz2YvQ0zA+fDMYMzgmzIBOssBZ6CH5mRXkNAhfPEcPOyJTrioiAqpEx0XSzdm+GGrNB
+         S1JA==
+X-Forwarded-Encrypted: i=1; AKwUvBwtUjyFLr/5xcihUo+3COccTMYf1XqCjpL+btpjmEWKzoyeYk2VzOCfKb9na1tPpe9J0YE4al21HxLITiFoJrU=@lists.linux.dev
+X-Gm-Message-State: AFuF++ns1kCs9u5SKM0s1xHt8+L9djG+LpKDrtee3izMT2IkoQnFDF6+
+	KuuQdASW11WOCNOgIMvqVxNBe3ctCpZAH+2QxcOoZXgYy/RAViaknAO5TJqV8YgBXK/H4TBz+6O
+	opTfcRhnXzguXNoFtkN8oznbvb4PiVg==
+X-Gm-Gg: AYBFou1d/yQ/lM278SgAczTcRFe2Y/7+rXuI1TKxVzm8lcUj4/x7zC+SHujYW3+t9V4
+	MSXivcmIJ/TYmBUwe+oZGLCIORu6dzl4Htbn0T88AguXKKuy+Qup/FMzQ749cFxzwW/hovLefiw
+	P1cUiJDpIZrhIoai1sGr/pTpDrPe/0LdsAcxiThOQ0s5VReOrGcQcw5gcxBYA6sX1hP2i6x1A0g
+	TWiVy5qRxOurTgZV/anUnE74hPFBRLgYA+Kz9H8/9EhptiWnoife6U+mNyYaT7c3qpLGMf65Z+S
+	LvMWSpOidl0s0ZZjUugq342Zch6ezTDv+rEt1x3Z/P0v+jPB5J+N0wTO5h1IW9e4EAOdxeO0cIi
+	EzNOm/1DQptcQm2Tt7uEWIHZxtQC5FTIhAyrMHVISILENX6fkQ16MqETUAesdBgveRd7f
+X-Received: by 2002:a17:907:970c:b0:c21:9b4b:2690 with SMTP id
+ a640c23a62f3a-c2e6ed18a3cmr18544566b.17.1790970992289; Fri, 02 Oct 2026
+ 12:56:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260924-pscrr-framework-v15-5-7af87107e0d3@oss.qualcomm.com>
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAyMDAzNiBTYWx0ZWRfX/30uXInal+Uo
- DS/z7flLo5EPRR12O4WKUgwLlaUH6ByKrNB46AUB12HPRzaOu9qv3PsmEoErkt6WHJPjErjDRwl
- TyxfAF8PJconoTKdSrApJmq48hAh4Ak=
-X-Authority-Analysis: v=2.4 cv=QY7zLcbv c=1 sm=1 tr=0 ts=6abf7423 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=wJk3McD_gWb6CrzzaM8A:9
- a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAyMDAzNiBTYWx0ZWRfXxQVL8iSS53AF
- 8YKvZHQhPr68BFJUMKkdj0yOE2GeqmEUlRr96/B/P6zrY4sPWIx3ye7OBKnHuipcVo/Co0Zd6W6
- Px1GN9GQylXb5v4VJ2n5Lr1i1O8TccnVPbisnrEMVqGpuUM0raTd2RjrpRzzAur4QoU7miCJYbd
- V1fAa+/4/Vlsq1b12JiVeyXciIgwdv78PTtI0f/q4/W6MB8sQfRXWEX5OjnY3UApLELhM5n2iWA
- MBZ3Q3JWNdeqfrHMmbKeC6+3Pi7pgRh1uyzuzxjmjK+lDLGRAELLDp/P5TaZKFgeTuwVI3EeRWs
- 6v94CAQvHe05PgkZcd7B8tPrbkhliB3KzlQgu7oQcBzsM6kQ2yb1c0H5B6IWvj9TRFlzrrz/J5r
- 5q05E99iJg4kVgQyIfHJ+SJ1AOGA/RghDSPBGYYcNowmupOGFmDyfIgmAUYRQHW+wkC3vn7hT+5
- D1tUirr54Yq5oSZHJOA==
-X-Proofpoint-ORIG-GUID: QsdAJcrWJRbYrBNMiYPXnmBthTBMtBiG
-X-Proofpoint-GUID: QsdAJcrWJRbYrBNMiYPXnmBthTBMtBiG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-02_02,2026-10-01_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
- bulkscore=0 spamscore=0 suspectscore=0 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610020036
+References: <20260917204209.97699-1-mhun512@gmail.com> <arpa-Ps8l8LOwbbx@tzungbi-laptop>
+ <CAMMMRMe7g7yj1iOTOc+TCWe=+1cjFA1rG7H=VfjnrY3p7XCKFg@mail.gmail.com>
+In-Reply-To: <CAMMMRMe7g7yj1iOTOc+TCWe=+1cjFA1rG7H=VfjnrY3p7XCKFg@mail.gmail.com>
+From: Myeonghun Pak <mhun512@gmail.com>
+Date: Fri, 2 Oct 2026 15:56:19 -0400
+X-Gm-Features: AclHuK9fCvmhfjw1X8Jezy7cxwwOQzz6bhBUeiEHh3Z9gHIC1eoTF30hT-F_4tI
+Message-ID: <CAGEsz8G+bdyroK=Fb=YpgWvp+Z3HOGbqkTPt-dYO8u_+26_ULA@mail.gmail.com>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Stop altmode work before
+ unregistering ports
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Ijae Kim <ae878000@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 24, 2026 at 12:38:46PM +0530, Faruque Ansari wrote:
-> Introduce the Power State Change Reasons Recording (PSCRR) framework: a
-> generic mechanism to record why the last power state change (shutdown or
-> reboot) happened - under-voltage, thermal, watchdog, software-triggered,
-> etc. - so a postmortem reason survives a reboot or an abrupt power loss.
-> 
-> PSCRR is built around providers. A provider is either a hardware reason
-> source (a PMIC, SoC reset controller or watchdog exposing a reset cause)
-> or a recorder that persists the reason across a power cycle (an NVMEM or
-> RTC scratch cell). Each provider gets a directory under
-> /sys/kernel/pscrr/providerN/ exposing its name, backing device, the set
-> of observed reasons (as tokens), its capabilities, the reasons it
-> supports and - for recorders - a record policy. The reason set is
-> deliberately not collapsed to a single winning cause, since resets are
-> often multi-causal.
-> 
-> Reasons are the numeric enum psc_reason values from reboot.h, shared with
-> the POWER_ON_REASON_* vocabulary, so they store compactly in small
-> battery-backed cells. The current reason (get/set_psc_reason(), set by
-> the thermal/regulator/hw_protection paths) is written to every recorder
-> from the reboot notifier.
+Thanks for the feedback. I've moved the work quiescing into
+cros_typec_unregister_altmodes() so partner disconnects are covered too.
 
-[ ... ]
+Pending partner work can still queue responses during driver removal,
+so the port work stays disabled until that completes, then is reset and
+re-enabled for reconnection. Final port teardown now uses
+cancel_work_sync().
 
-> +menuconfig PSCRR
-> +	bool "Power State Change Reasons Recording (PSCRR) Framework"
-> +	depends on POWER_RESET
-> +	help
-> +	  Enables the Power State Change Reasons Recording (PSCRR) framework.
-> +
-> +	  PSCRR records why the system last shut down or rebooted into
-> +	  non-volatile storage, so the reason survives the reset and can be
-> +	  read by the bootloader or early user space on the next boot. Reasons
-> +	  come from software (thermal or regulator hardware-protection events,
-> +	  a watchdog pretimeout, a kernel panic, a controlled reboot) or from
-> +	  hardware reset-cause registers (PMIC, SoC reset controller, watchdog).
+I'll send v2 with these changes.
 
-[ ... ]
-
-> +static int pscrr_reboot_notifier(struct notifier_block *nb,
-> +				 unsigned long action, void *unused)
-> +{
-> +	guard(mutex)(&pscrr_lock);
-> +
-> +	/*
-> +	 * A reboot, halt or power-off that reaches here with no more specific
-> +	 * reason is software-initiated by definition. Record it as such rather
-> +	 * than leaving it unattributed; a real cause set earlier (thermal,
-> +	 * under-voltage, ...) is already latched and left untouched.
-> +	 */
-> +	if (get_psc_reason() == PSCR_UNKNOWN)
-> +		set_psc_reason(PSCR_SOFTWARE);
-> +
-> +	pscrr_record_current();
-> +
-> +	return NOTIFY_DONE;
-> +}
-> +
-> +static struct notifier_block pscrr_reboot_nb = {
-> +	.notifier_call = pscrr_reboot_notifier,
-> +};
-
-I'm worried about the mechanism. The call to set_psc_reason() sets a
-global variable and pscrr_record_current() write its value to the
-NVMEM backend.
-
-That is done from the reboot notifier.
-
-Is this notifier called in all cases, eg. watchdog reset or emergency
-reboot ? It sounds possible the reason is set but then the notifier is
-not called thus not written in the non-volatile medium, no ?
-
-[ ... ]
+2026=EB=85=84 10=EC=9B=94 1=EC=9D=BC (=EB=AA=A9) =EC=98=A4=EC=A0=84 11:40, =
+Andrei Kuchynski <akuchynski@chromium.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:
+>
+> On Mon, Sep 28, 2026 at 12:18=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.or=
+g> wrote:
+> >
+> > On Thu, Sep 17, 2026 at 04:42:09PM -0400, Myeonghun Pak wrote:
+> > > partner altmodes. Disabling also prevents a partner callback from
+> > > requeueing the work while its driver is being removed. Use the common
+> >
+> > Would the work be scheduled even if the driver is about to remove()?
+> >
+> > > diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platfo=
+rm/chrome/cros_ec_typec.c
+> > > index 50a68819ceb7bbfbd888ca919d678d4c75237c26..e91bbc219c07706729493=
+5dd5602c1aec636cfa6 100644
+> > > --- a/drivers/platform/chrome/cros_ec_typec.c
+> > > +++ b/drivers/platform/chrome/cros_ec_typec.c
+> > > @@ -378,6 +378,7 @@ static void cros_unregister_ports(struct cros_typ=
+ec_data *typec)
+> > >               if (!typec->ports[i])
+> > >                       continue;
+> > >
+> > > +             cros_typec_altmodes_stop(typec->ports[i]);
+> >
+> > Shouldn't this be called in cros_typec_unregister_port_altmodes()?
+>
+> This should be called in the very beginning of cros_typec_remove_partner(=
+),
+> or even in cros_typec_unregister_altmodes(). The idea is to stop the queu=
+e
+> when the partner no longer exists.
+> Partner disconnection rather than port teardown ought to trigger this.
+>
+> Thanks,
+> Andrei

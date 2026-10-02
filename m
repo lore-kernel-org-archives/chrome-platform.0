@@ -1,127 +1,160 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E67D2DAFDE
-	for <chrome-platform@lists.linux.dev>; Fri,  2 Oct 2026 04:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.203.200.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790914968; cv=pass; b=LERohNUh71WzlXcCUw06zJ+81beT0nU4tjJTtbDII2JGIPOZGfZz0HCCaDzFjH/Oef7/PlDbossb5rpQyWzKo3iYhv6cscvus/C6QL5eiloLKlNo1OnoLj69WDc7qqYIJewhKWi7+vu53PPasjp9WELlZNLVtnR1R5C0LDancEI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790914968; c=relaxed/simple;
-	bh=e88pRB7MkAyUq2c2V8R7ncpEngY3XcHMxiFUuNJtX1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gsVWIs229dKQj11tZRA6v8D0Lt3AKAqAmJkiZ3FyDnkDof1Vi9aMWODTqWeMhK4p0McoUQhgv0diV7xs0VNilze2vCc0ktj5Xn2D+WAZ6m9N1ESsHksXaHFXKILzG8qj9+ElpWremVRvNCydBe5l0Zislqy5uk4I+slZdwkL2UY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b=OURzAOxs; arc=pass smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E94D414430
+	for <chrome-platform@lists.linux.dev>; Fri,  2 Oct 2026 07:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790924848; cv=none; b=KL9mAgVBrtcmNlKMjhFbu7QWdhlI/tfAu3HQTGnLEqg7BFT8OjGjIKZeI/nY6MVmdhZ9fhln79snThR9K9HE7e6HIIXWfNo44pq+w53PzpiLgxAib+Ham78Eo8gz2jVfeT8YoDqI4in4W7uzJolg1DkA6RLWfNTwEkSrMUIuO24=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790924848; c=relaxed/simple;
+	bh=p86aoLipPnmeBSCQWRntvEIsHN7hwNunducQ3JxHt+k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BmdzMEtexv3tdR5bLuKWGltR3vN7htcBQAi19Bw0wAvoOCzaT4RcmwHbBUiaL0rdTVRrXkv/jgMWRBt+45diCKWCMTWBrD3Z+tanI7hpFlroJ/RcadKgEgay9GTP5EjWerfUZ98VT2Y1xhwW495N1RgNHzFpT5wBOcr8AfLHhGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BpO/XKKZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Df4C/pgF; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b="OURzAOxs"
-Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
-	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 2C97D20058C;
-	Fri, 02 Oct 2026 06:22:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1790914963;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eiR1ExEbLsg+Md8FDZk2s7GKs0WpAoHQuPsCgDjYGn8=;
-	b=OURzAOxsvpnyOUa3rnjuCf1lV3jTBoFx+9pLFuN5iyWyQe6BOzyfSrAqHcidglfCep8Tna
-	1tHOaP/vupf7Mh7D9ZxMlRHHSUHQE3IB8lDfydrKkINsxw9F4zVBI/HSG0w6sRnzbR/djJ
-	8KLuQMHJ+aklwyPwhETMxhI9Vi2C2qFUiI+Y2wCN8VIn/qJJQWw2PzPvUT8w9KVFg3peRo
-	1XRfF/8/zxtclLa0y/JY84iZCRXgLts6nKhCUy5Ph2tg4v5H2Sx8UN6ea/+N8Rv7G6YYPr
-	j0gGZ0hYmHw98f2IbzlRRvFZL4lzpocwuoFgu1hj1gZb12zjx+NFI5P8Bbuqqw==
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1790914963; a=rsa-sha256;
-	cv=none;
-	b=PJtACP0DrMwPGLway2lHmDd9bO+31qgYdl2xUJiav8YguWCAUmZBR5FTSKTHdEHpUCFgwe
-	oabKJgCcdfMECb12qtWo6A8qq09+nTPyrOXUPzmJ7mFvsKdmK4LvbQphzO8gf4dJbVilhm
-	LNKfH+aLPAoc4p6o78Mee/UUE9GRiwzmaLrbOX4WfY2+mZR5SxoUzC1LWVRZJdBKQaGKPA
-	P72fCi+O8vadUrnv5p4CZ2QWPyDc7/KctEQl9G1k+0Bl6LQjv22Ojl5mv3SU+QXo0WUVUM
-	G5S7Ofq2Lwkn3M1BQkCVyMxG2gN9KWv0TeJJCOKDSqmJv6+bS4RIabBTXGSVZg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=relay-from-drehscheibe.grey.stw.pengutronix.de smtp.mailfrom=ore@pengutronix.de
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1790914963;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eiR1ExEbLsg+Md8FDZk2s7GKs0WpAoHQuPsCgDjYGn8=;
-	b=HSsf44kvHuV4qV7gy/WfqnayANRPA13ronMMC0Rdh1gFVFmVvJ727W3q81Fr8y4pC13O8s
-	K3i9uehkcruQin3j22ZP6eXWnWs0TqivRese8XcatZbziyP8OJVHSG4pY+T009dLTiCfO0
-	zcc+PU2IYC5zlyuQLw/F048O82BRHQyICaIFQjI8Rba9NkfXvAwqdx3OqAG0Go0VVTq8pt
-	gtu75MtPSQF01Iijdy72XyB0Sld597EegsIXiGHiTaADLHknjf2ZZOTtqmrjV8FIRaoJs8
-	7zV0y8c3pmA1Zo1p3+TW3kgPpt5v59p8bGp+oMtC4bi++x0f5rDZor0KE2EAaQ==
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1xCUnD-003pmF-0J;
-	Fri, 02 Oct 2026 06:22:43 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1xCUnC-000000078BQ-43aD;
-	Fri, 02 Oct 2026 06:22:42 +0200
-Date: Fri, 2 Oct 2026 06:22:42 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-Cc: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	chrome-platform@lists.linux.dev,
-	Umang Chheda <umang.chheda@oss.qualcomm.com>,
-	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	avaneesh.dwivedi@oss.qualcomm.com
-Subject: Re: [PATCH v15 1/6] power: Extend power_on_reason.h for upcoming
- PSCRR framework
-Message-ID: <ar8xkv8h4x2NJTKl@pengutronix.de>
-References: <20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com>
- <20260924-pscrr-framework-v15-1-7af87107e0d3@oss.qualcomm.com>
- <e34e6661-3ecf-42f6-96f2-5136afe7ab65@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BpO/XKKZ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Df4C/pgF"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6925j7Im233751
+	for <chrome-platform@lists.linux.dev>; Fri, 2 Oct 2026 07:07:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	9I+i3UIX4gVXyxWiJ+Cg4JTVO0MXqaK0GV0dmAfVfSk=; b=BpO/XKKZUeyr+8US
+	UjRKKSbDUo5AyXUeAqtVBZWAez2jKfY098dA/oY8kM0mG1v2uYNLcqj2/oYm8j7Z
+	cabMaUqTC35a/WYTOrIizr+j1qoN/8fNKF4Vp4x0FKv7jQ2cskH2eB5u6Ru9yoHJ
+	+ZEXyfjHGy7/6iLmZG1kQl+Vb0quGzMgoaZIH0EXOsopGaGEOm9THHHRNVz7PJSe
+	MVX1kbW7AhQrFt4m1qAouwkQ0lUHO1JSl0LaoOGpTr2tqZgYnxdxZkCFdGAckJiD
+	My3gOcv8g7RnApdNoD903atljeoz47BrKIxQDJH4tykr/xw2I6JxsuOclkBUlKDx
+	LrYstA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h1t9aayph-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <chrome-platform@lists.linux.dev>; Fri, 02 Oct 2026 07:07:26 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93c58ee2116so1377706485a.3
+        for <chrome-platform@lists.linux.dev>; Fri, 02 Oct 2026 00:07:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790924846; x=1791529646; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9I+i3UIX4gVXyxWiJ+Cg4JTVO0MXqaK0GV0dmAfVfSk=;
+        b=Df4C/pgFsw9N/i/UsGY6ARYfMtaTRPScujU/HXxSkHqdBuxpW2LXk92NyrJtMjLT83
+         ns95lT5iEtvlVQHN4OXCRsAyMmsjdy2ghpZKvIvF/fH2ZcHUS8c74YDaofAUbSyl3tYv
+         DYOLl7uKiaGwOKO+RoibNbaj1R5T8MzbWUhcQntJix0OqnTtWVTkTtPBlBgrf7VAIt7b
+         VAH4CcDH2Pt9urlDS812RUwhozLpOH/ALkFE/ma4HML0/jUAfW9vamJnXJO1isk1R4M6
+         LHn8+rkQb+2jJHmhxMxs9vNlJ6+lB1EOXmpG9AH//A+uCaZTNg43hni16DA44Lm0fhtO
+         LSEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790924846; x=1791529646;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9I+i3UIX4gVXyxWiJ+Cg4JTVO0MXqaK0GV0dmAfVfSk=;
+        b=Czs5y0h6JtQM2/4TrEWA2WpIY4keG5CQeW3VhS1X/2qIzSu8hDUKjSa2gJmYJa1evX
+         MBse+Bid4PbLq+UqFLzkZgxIWs7obfF/cEC3PxClCETEnuFqFU3W5vqRjc9sPUy/bXPi
+         FOhoa57R1+m4qq/S394HYQlOE5T1lOTUILDOp7AWet+fTF+krm7117Kaa7H2Q0aU3n+2
+         6Pkz+xvNcTieUZ8SaTmIlr9li6l1sLlT7B14npHYYmzLQ+uKAhovQGBmUN5T+PLiMef9
+         9/YfZDRQi9YVPI3uHyotDh+3ulVBYjvU+dkOgDGMiVcKFCWjnKAcUbLoGqZeSLFsWokO
+         r2rQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwwv9cx6fGh+59sCcN77T6OPMtpzFzQc7pMLQ7uIzAk7G3emmt5x8uxaIzKwxrF8VQT4H9YG4NyWqcwUTIlWeE=@lists.linux.dev
+X-Gm-Message-State: AFuF++mBo8vtVQjZClNYFGbxCcQb7bs9T4qpCP7llF5KLtpRWnzYP3vS
+	UY6TRVdoViBw9FLs0X24F+O4bTrusvMesO7s3XIwEsYhqDKIEQaU67WrWD9lmSktJEsblLTirbN
+	9MOHV9Q9H6V8r3HjAj7uReeFlkHdTLpDnsy82+QfeemZb16yoB9sebQtpH/NGniVXYYssjZ8=
+X-Gm-Gg: AYBFou1JkN14tebqUW7Tgb3OffSJj68nSAMOxPtFsJcS5vbY1l4cDPySbz6jV/aw1yp
+	8tiKMCuqBXFZsj63LGOQbT5EEFRjLIr6o21j+MHhu2Nkwamg0nAYzu6cVdjCZa8ygBPQg5kHjWW
+	+ODbMRaaNJk8tqVLCY2Eyjotwr24kE7JyTdaPndgzZ1w9MFHVEzxJYn+3bkMEHHXVVdr8usUakl
+	rXgxmbWjWVgiTSQXfQrxivZ1WGyuq4uLBnndFf3rJTfcWsrxvyUhaboAq539Nrn8kj99AP3f77U
+	YSfUV3mKV+1mnNFPxiYQEHftCMZfBsf8v3y3OizMb0u29JSxZo5hrTl3M6oL+8a/fy862BXRRln
+	/J/YwUfj7Pe69Sn1bwqw3TDL4YC2i4+4JnP62YQs20FHpya/ftUdmCOp8mwmEVw==
+X-Received: by 2002:a05:620a:1992:b0:937:1097:feb8 with SMTP id af79cd13be357-93cf16d9c55mr286860285a.24.1790924845353;
+        Fri, 02 Oct 2026 00:07:25 -0700 (PDT)
+X-Received: by 2002:a05:620a:1992:b0:937:1097:feb8 with SMTP id af79cd13be357-93cf16d9c55mr286856885a.24.1790924844881;
+        Fri, 02 Oct 2026 00:07:24 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:f14c:b716:c104:4712? ([2a05:6e02:1041:c10:f14c:b716:c104:4712])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0280bcf0fsm61000175e9.6.2026.10.02.00.07.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Oct 2026 00:07:23 -0700 (PDT)
+Message-ID: <415c5fa8-d5b2-4030-9618-07cf828c8d01@oss.qualcomm.com>
+Date: Fri, 2 Oct 2026 09:07:21 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e34e6661-3ecf-42f6-96f2-5136afe7ab65@oss.qualcomm.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 1/6] power: Extend power_on_reason.h for upcoming
+ PSCRR framework
+To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
+        Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+        avaneesh.dwivedi@oss.qualcomm.com,
+        Umang Chheda <umang.chheda@oss.qualcomm.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
+References: <20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com>
+ <20260924-pscrr-framework-v15-1-7af87107e0d3@oss.qualcomm.com>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <20260924-pscrr-framework-v15-1-7af87107e0d3@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAyMDAyOCBTYWx0ZWRfX7XjkKaPCmey/
+ mBpguuBLe96ovBHT1A0zxP/DP6OWP6/LyDYZqbOoRlj57P5nDhsT5FI58SSKNE6s9KXV5LHRtFn
+ sVduM1ipmP+/TFxRK/wdMY7qsXZv+E0=
+X-Authority-Analysis: v=2.4 cv=N++8hG9B c=1 sm=1 tr=0 ts=6abf582e cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=QX4gbG5DAAAA:8
+ a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=FITrd37hvkKM1ztSptAA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-ORIG-GUID: YhXWpYXUCfIUowHLguk7jk38lfeSdv8v
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAyMDAyOCBTYWx0ZWRfX8/cbgrlmiHuQ
+ TyAwn7ok3a+4EJgxjOuvxyt19jkjOeuKEsouP/VWHOWWVQjKeWt7t/LkmKC5a57YaZvRP7hzST2
+ PCIbJ74E1hInPkeinSoo/vT9+AYlhoA6Q9/Qzdbev/EXOhfYGGN6hA46/ywjvciQkuTjkC9IHBI
+ hQqQrHFXNMNXkBXTey6rM0hQWUci+s2LBv64M+XwOHI7DbFylZdZJK1kbhtJDcg3CTEYn+2bqPq
+ SVOg5+Ve2KcC2TUfz6+DvGdXIOY+TiSFhtVDHbkxsZNfLCSCCQBj8kxf276WotfkdCa2FJm6ojp
+ YhpD35bcZ5LBt4JOUql5w8HRl7+QEugdJNkl+GLEupHWAJJih0VHrtDHQSC97JYrVmBV8mM49x2
+ PiyxD9rr1u+KFAot38kxGYINHUUuU9X8abcW1ZRHepz7l4ARElfat/2ZWIzupW2n26l6g6VDzAy
+ 4LYDju/Xb0GJfF2V5gA==
+X-Proofpoint-GUID: YhXWpYXUCfIUowHLguk7jk38lfeSdv8v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-02_02,2026-10-01_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 adultscore=0 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 clxscore=1015 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610020028
 
-On Thu, Oct 01, 2026 at 10:22:44PM +0200, Daniel Lezcano wrote:
-> On 9/24/26 09:08, Faruque Ansari wrote:
-> > Prepare for the introduction of the Power State Change Reason Recorder
-> > (PSCRR) framework by expanding the power_on_reason.h header. This
-> > extension includes new power-on reasons:
-> > - POWER_ON_REASON_OVER_CURRENT for over-current conditions.
-> > - POWER_ON_REASON_REGULATOR_FAILURE for regulator failures.
-> > - POWER_ON_REASON_OVER_TEMPERATURE for over temperature situations.
-> > - POWER_ON_REASON_EC_PANIC for EC panics.
+On 9/24/26 09:08, Faruque Ansari wrote:
+> Prepare for the introduction of the Power State Change Reason Recorder
+> (PSCRR) framework by expanding the power_on_reason.h header. This
+> extension includes new power-on reasons:
+> - POWER_ON_REASON_OVER_CURRENT for over-current conditions.
+> - POWER_ON_REASON_REGULATOR_FAILURE for regulator failures.
+> - POWER_ON_REASON_OVER_TEMPERATURE for over temperature situations.
+> - POWER_ON_REASON_EC_PANIC for EC panics.
+> - POWER_ON_REASON_EXTERNAL for an external reset source.
 > 
-> How the system knows an EC panic happened?
-
-Hm... looks like I lost this change on the way. I added it for this
-case:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/chrome/cros_ec_lpc.c?h=v7.3-rc5#n458
-
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+Reviewed-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>

@@ -1,282 +1,613 @@
-Received: from mail-qk2-f37.google.com (mail-qk2-f37.google.com [74.125.230.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B0D51589D
-	for <chrome-platform@lists.linux.dev>; Fri,  2 Oct 2026 20:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.229
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790971277; cv=none; b=Mq3aKgOyu8vY/Z2S/Mkv2xRS9CzpzYAIe6jdUB6HStue8D3VdKhcrAeE/z4iSmJlJd9u+sDEBlbldejTpSQSRSkd0iJFqF/JcV6Daq5T5xb68A+nb0BX3UX/zo2XwcVP7QwOeuoIQJAB5+oarDtJn7waWdwyflXFcWDtaiotLxY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790971277; c=relaxed/simple;
-	bh=xYd3Pn7xwPntUxM1xr+2z/L7TOcW6nT3FOYomMjm6fw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LWuWqPBWzt14wZ8+R4Xij7b51B6eJP3BE8x1QQwwUQ9oRMvKGqHj1Dft5xyCm6jG9b0bo2i68PivpmPxuok+piSfHyxOJ0FDN8Q+1u+DKMAuDH88Zao7gKQDEYOp93c7l38p17IYxBb/9Z6Ka8e6QuiTZx7KeZwNl/BOdY0S9rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AWezHWCu; arc=none smtp.client-ip=74.125.230.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC95944470A
+	for <chrome-platform@lists.linux.dev>; Fri,  2 Oct 2026 23:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790983566; cv=pass; b=q8HM4FjxfSsM1uhqad3lhpvFJWOqOi9N3gLAyUInShgiySxS2kAF0QfSA7Unh1UUc2+tkjdEaPg4sz1UDwdR5DMkScpRhHV0ks8fIa6h/Obmz84TfFd5EwxoEQEUVZoz2dpxEkaDVpz+I6QiC29NosBQ0J+O+DdtyCF104MrnkQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790983566; c=relaxed/simple;
+	bh=gKymZsIJNb/FoIKqSdcZ9Z9/EmrBHoC5XipCMSoFfHQ=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=cKdvxIXiUlV/MPrrxeypYVlfIOT+JGh5OX9OU7B9sLl3NlHeTrqIgpxoLDXDMGCUvCRVphvynIaBbh/6D7Jnu2EkC6iHfPn1H71Oijl+cG3juY/4ejLAqH36ekvQWGhz8aLGjIh9UjJ9jp6ww8LGcpRbmkaNb6c7seywrpgtc9M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=j5xzp8QJ; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AWezHWCu"
-Received: by mail-qk2-f37.google.com with SMTP id af79cd13be357-93e53145964so79485a.1
-        for <chrome-platform@lists.linux.dev>; Fri, 02 Oct 2026 13:01:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790971273; x=1791576073; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RWKhQl8VCZeFEKO2nQY2AimaMpesWlwedfHQWqbVEAg=;
-        b=AWezHWCuVmBbXM+ZP6Y4sqKtcCmCGWSSx7+4lDOAihAY2M5ZQ+OZNgAVbJM85fLm2Y
-         tvi28RMkkGD7OkrKgLeD/KKKLPQGmAL+cGvA8NvujG8iNFa6bniHZ+wtGmvjmMOyGAt6
-         f4ygRU2redxvmkpWs5jbQKQkItfM7KDPWGuds/2blNSwJn/eKdOiUI3UPIm0u9oz+Tg6
-         2ArUH+V3OHl/DvlZeznm5FbC44Zcm3nNStRWi0BqwaNccVzXnwAJQZArTxzVFFCire6E
-         3n5hadQW7GGPXRk37CcTDUy6Xq4sRhqiinvBcEMQIGakoMowQ4ffHAQc4smDpNhvB8AJ
-         rJ2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790971273; x=1791576073;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RWKhQl8VCZeFEKO2nQY2AimaMpesWlwedfHQWqbVEAg=;
-        b=a9Ul1oaUAtQrrJqdpHO8aJHqSr5Ax8u7A/cDvhDDQMZpQqunKwRgdHY6adn79Co66z
-         ev1LYLa3xpLmRyqmOw5KXF8T8rVQzwRnJWnJQjbHnuYxiqRAe7GD4x7v+/AYU9IrAXSS
-         1mDj9/l47JcKKF7CRbe5QttlKpJDYX9B/Hceb+bVJVY6cudeEP0j10wpVSJNYXTkpebc
-         lxx6mpU1rHT7vFzCYWliFfo0M33bw+z3xDsI+y2MRs5DFvzBPVbebjhP4GS0Gg0vGRqZ
-         j+P82bJ5UlzHXXWpmLth+mZoc+qkTfHD/wxKo3AUMeA0yG3gcmKRjJAoANk6ZXD0EW/F
-         9rdw==
-X-Forwarded-Encrypted: i=1; AKwUvBw8e8J6emAj0Ua+AFKCQWRuQhmynvJMXDvjWPm7Now6AYNEE2fMnL4Qnnw3+w74KEDY56X5c+EoT0AHtOFZIyA=@lists.linux.dev
-X-Gm-Message-State: AFuF++mYrtMTmoYYRlzIxVuH3/b2twBP/VMdfgt558GnCyDUFzx5DWdp
-	xQUvekiss2StEonB3RH2GhEj8KY5PKIrd0h26/R81Qp/f/WFupHAmdg=
-X-Gm-Gg: AYBFou01ZdjJHZvGW1k40rU5qxwYAcOmEjigtduwELHutZQ6ZXPm5v8nE2/MRNIy8Sc
-	VFwLe9MrG4ErRg42KJ3YUx5FxnYO60BY0YyBSFJgtqvoXLX/QcwSUIR3m4Moe0Zl02S4RYaeS4c
-	WvCDdONrfrSOE9W0BztEUfGORrb5A7+lEXSjeIkrKbstZsfvcBxihu1Jaj3d4G5HlV1z/WeoFCO
-	RXhAz2stPauuycHIIIUogmea+Wxi+Gta4PJhr34wL0CSYQ1oHnCspLw/rMHavyo1cs0fkiqNCz2
-	ut/QFSC+Fz9BtGKOHTSlJKDRefY5wLZbSaYreXVPRXGX1AN/i1ypVfGQG10YiNkq4iySBFf7557
-	8JgNXamUTGQ9iFWnLUPDKp2U6MOAm55XRRvgstaaxjDT+dp8Zp/zsXV7MwnmgO2VQx/ca2Txrbd
-	bV1je2N7A9F0CbBX+B59mEcPBAlVlBPl3Dv7xqYUJEk3iB0B/wAwgTVrzp5QBvz5R9gGa1wLurt
-	jcZA1lZRWK2LRpcPAoXWUgyIvVomgQGn2yXnwlONsEnVUDkq5/WhStFNuUHydDwWgDcudou6U5Y
-	6k7UKjVdkSnLWtm1ZGgTZhov9J2L
-X-Received: by 2002:a05:620a:688e:b0:93c:58bb:7214 with SMTP id af79cd13be357-93cf19db19fmr657960985a.31.1790971272471;
-        Fri, 02 Oct 2026 13:01:12 -0700 (PDT)
-Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93cca21d8fcsm309147885a.26.2026.10.02.13.01.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 13:01:11 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Benson Leung <bleung@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	mhun512@gmail.com,
-	stable@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH v2] platform/chrome: cros_ec_typec: Stop altmode work during partner removal
-Date: Fri,  2 Oct 2026 16:01:08 -0400
-Message-ID: <20261002200108.399258-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="j5xzp8QJ"
+ARC-Seal: i=1; a=rsa-sha256; t=1790983483; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XxPfGM9ePOQ6b3IV77MpKu8x1L+cLirPHP51XbCfS6YIlEMQ1YMvTMy4GFmC/pTkEsA+cLv+1xF9pF2JKF8XUKNZK7XzN383Sxhn4aOooe/dp8nHgOgubR4HksPi54aa6Nx+bHWHlWvnFJifPTVokclUbh7Tc8amVm4lvwE+gBM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1790983483; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Mfyyz919CHXREcgpqVsKoI+iXWLO//Y7t++PReLvqns=; 
+	b=nRFYd9SyyhDNpJdMzgW8PzGFkuuponLFP7GhI8ALlePdrUI6XjbnFEiE9waPwlWXQFMkV4DPiD8CNtl/ObD42/y6TlbZFRj8dg2IXXt+g8zbJnW/viFR3wnT62MOfcH31CKbK3MXoCuMXT/HoMlpehL5uUKeYlLicS0DSIKAhkg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790983483;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=Mfyyz919CHXREcgpqVsKoI+iXWLO//Y7t++PReLvqns=;
+	b=j5xzp8QJz47OQkGhjg1mTGzL+p42zUwDpvAmvXVW8rVdMGDXRuLAB9Ntu98R6A+E
+	Q67EKoVOc2VNYMJaEz0+5UulDIZ0gq1tllb/hIcMTyHY7PDROZoAoLafma9u57vn+My
+	Ozpf977TKUe79BD7lMY6tRvKt7aaWIuxPvP5XStJA2aL8w/jEY/nqrciVe/MzlWU497
+	pZ5766N9W3S8NvzMTD9kMURvJn47UjHbmBLB+0UmGnEApDbAHoWlTtHLllylTX8mbnI
+	r+NkwL+H4oad/w/XN5yEjJu49fDNStOqIrPS1NJ8h7amZOKq/yhEZlj5WzujAiTHtmz
+	uue0HZtGbQ==
+Received: by smtp.zohomail.com with SMTPS id 1790983481201821.7695851218114;
+	Fri, 2 Oct 2026 16:24:41 -0700 (PDT)
+Message-ID: <b7c5c55ba49c852234603702ef3c55fc8ba6939f.camel@rong.moe>
+Subject: Re: [PATCH v3 1/3] ACPI: battery: add acpi_ prefix to the battery
+ hook API
+From: Rong Zhang <i@rong.moe>
+To: Jordan Brough <jordan@brough.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>,  Len Brown <lenb@kernel.org>, Corentin Chary
+ <corentin.chary@gmail.com>, "Luke D. Jones"	 <luke@ljones.dev>, Denis
+ Benato <denis.benato@linux.dev>, Hans de Goede	 <hansg@kernel.org>, Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?=	 <ilpo.jarvinen@linux.intel.com>, Antheas
+ Kapenekakis <lkml@antheas.dev>,  Matthew Garrett <mjg59@srcf.ucam.org>,
+ Pali =?ISO-8859-1?Q?Roh=E1r?= <pali@kernel.org>, Armin Wolf
+ <W_Armin@gmx.de>,  Jonathan Woithe <jwoithe@just42.net>, Mark Pearson
+ <mpearson-lenovo@squebb.ca>, "Derek J. Clark"	 <derekjohn.clark@gmail.com>,
+ Ike Panhc <ikepanhc@gmail.com>, Henrique de Moraes Holschuh	
+ <hmh@hmh.eng.br>, Matan Ziv-Av <matan@svgalib.org>, Nikita Kravets	
+ <teackot@gmail.com>, =?ISO-8859-1?Q?Joaqu=EDn?= Ignacio
+ =?ISO-8859-1?Q?Aramend=EDa?=	 <samsagax@gmail.com>, Joshua Grisham
+ <josh@joshuagrisham.com>, Jeremy Soller	 <jeremy@system76.com>, System76
+ Product Development <productdev@system76.com>,  Azael Avalos
+ <coproscefalo@gmail.com>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
+ <linux@weissschuh.net>,  Benson Leung <bleung@chromium.org>, Guenter Roeck
+ <groeck@chromium.org>, Sebastian Reichel <sre@kernel.org>
+Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
+	chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org
+In-Reply-To: <20260930222650.1883805-2-jordan@brough.org>
+References: <20260930222650.1883805-1-jordan@brough.org>
+	 <20260930222650.1883805-2-jordan@brough.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 03 Oct 2026 07:19:27 +0800
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Evolution 3.56.2-10+b1 
+X-ZohoMailClient: External
 
-DisplayPort and Thunderbolt port altmodes queue work to deliver VDM
-responses. Partner removal and port teardown do not drain this work,
-allowing it to race with partner driver removal or access freed port
-altmode data.
+Hi Jordan,
 
-Disable and drain port altmode work in the common partner cleanup path.
-Partner drivers can still queue responses during removal, so keep the
-work disabled until they are gone. Clear pending response and DP status
-state, then re-enable it for the next connection. Cancel the work before
-unregistering port altmodes during final teardown.
+On Wed, 2026-09-30 at 16:26 -0600, Jordan Brough wrote:
+> Rename battery_hook_register(), battery_hook_unregister() and
+> devm_battery_hook_register() to acpi_battery_hook_register(),
+> acpi_battery_hook_unregister() and devm_acpi_battery_hook_register(), so
+> that the exported ACPI battery hook API has a consistent namespace, and
+> update all in-tree callers.
+>=20
+> No functional change.
+>=20
+> Signed-off-by: Jordan Brough <jordan@brough.org>
 
-Allocate list nodes before registering altmodes so allocation failures
-also use the common cleanup path.
+For the ideapad-laptop changes:
 
-This issue was identified during our ongoing static-analysis research
-while reviewing kernel code.
+   Reviewed-by: Rong Zhang <i@rong.moe>
 
-Fixes: dbb3fc0ffa95 ("platform/chrome: cros_ec_typec: Displayport support")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
-Changes in v2:
-- Quiesce port work in cros_typec_unregister_altmodes() before removing
-  partner altmodes, covering disconnects and discovery cleanup.
-- Re-enable work after resetting pending response and DP status state so
-  port altmodes remain usable after reconnecting a partner.
-- Cancel work in cros_typec_unregister_port_altmodes() during final port
-  teardown, following the review suggestion to use cancel_work_sync().
-- Allocate list bookkeeping before registering an altmode so allocation
-  failures use the common guarded cleanup path.
-- Drop the v1 Reviewed-by tag due to the reworked cleanup paths.
+Thanks,
+Rong
 
-Previous version:
-https://lore.kernel.org/all/20260917204209.97699-1-mhun512@gmail.com/
-
-Validation: apply checks, whitespace checks and static source review.
-No build or runtime testing was performed for this revision.
-
-Remaining review point: an in-flight port active sysfs callback may still
-queue work after the final cancel_work_sync(), before the port altmode
-is unregistered. Please confirm whether that ordering needs additional
-synchronization.
-
- drivers/platform/chrome/cros_ec_typec.c      | 27 ++++++++----
- drivers/platform/chrome/cros_typec_altmode.c | 46 ++++++++++++++++++++
- drivers/platform/chrome/cros_typec_altmode.h |  9 ++++
- 3 files changed, 73 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 50a68819ceb7bbfbd888ca919d678d4c75237c26..2d6cbb7f51445fde4b4e8339081e921a9a143a92 100644
---- a/drivers/platform/chrome/cros_ec_typec.c
-+++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -282,11 +282,19 @@ static void cros_typec_unregister_altmodes(struct cros_typec_data *typec, int po
- 	struct list_head *head;
- 
- 	head = is_partner ? &port->partner_mode_list : &port->plug_mode_list;
-+	/* Partner drivers can queue port work until their removal completes. */
-+	if (is_partner)
-+		cros_typec_altmodes_set_enabled(port, false);
-+
- 	list_for_each_entry_safe(node, tmp, head, list) {
- 		list_del(&node->list);
- 		typec_unregister_altmode(node->amode);
- 		devm_kfree(typec->dev, node);
- 	}
-+
-+	/* Port altmodes are reused when a partner reconnects. */
-+	if (is_partner)
-+		cros_typec_altmodes_set_enabled(port, true);
- }
- 
- /*
-@@ -366,8 +374,10 @@ static void cros_typec_unregister_port_altmodes(struct cros_typec_port *port)
- {
- 	int i;
- 
--	for (i = 0; i < CROS_EC_ALTMODE_MAX; i++)
-+	for (i = 0; i < CROS_EC_ALTMODE_MAX; i++) {
-+		cros_typec_altmode_cancel(port->port_altmode[i]);
- 		typec_unregister_altmode(port->port_altmode[i]);
-+	}
- }
- 
- static void cros_unregister_ports(struct cros_typec_data *typec)
-@@ -901,24 +911,23 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
- 			desc.mode = j + 1;
- 			desc.vdo = sop_disc->svids[i].mode_vdo[j];
- 
-+			node = devm_kzalloc(typec->dev, sizeof(*node), GFP_KERNEL);
-+			if (!node) {
-+				ret = -ENOMEM;
-+				goto err_cleanup;
-+			}
-+
- 			if (is_partner)
- 				amode = typec_partner_register_altmode(port->partner, &desc);
- 			else
- 				amode = typec_plug_register_altmode(port->plug, &desc);
- 
- 			if (IS_ERR(amode)) {
-+				devm_kfree(typec->dev, node);
- 				ret = PTR_ERR(amode);
- 				goto err_cleanup;
- 			}
- 
--			/* If no memory is available we should unregister and exit. */
--			node = devm_kzalloc(typec->dev, sizeof(*node), GFP_KERNEL);
--			if (!node) {
--				ret = -ENOMEM;
--				typec_unregister_altmode(amode);
--				goto err_cleanup;
--			}
--
- 			node->amode = amode;
- 
- 			if (is_partner)
-diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
-index 66c546bf89b532d3bae1de322a1cfb1205e0190f..4b255cabac60a406ea359788604a6bf21d87e08d 100644
---- a/drivers/platform/chrome/cros_typec_altmode.c
-+++ b/drivers/platform/chrome/cros_typec_altmode.c
-@@ -37,6 +37,52 @@ struct cros_typec_dp_data {
- 	bool pending_status_update;
- };
- 
-+void cros_typec_altmode_cancel(struct typec_altmode *alt)
-+{
-+	struct cros_typec_altmode_data *adata;
-+
-+	if (!alt)
-+		return;
-+
-+	adata = typec_altmode_get_drvdata(alt);
-+	if (adata)
-+		cancel_work_sync(&adata->work);
-+}
-+
-+void cros_typec_altmodes_set_enabled(struct cros_typec_port *port, bool enabled)
-+{
-+	struct cros_typec_altmode_data *adata;
-+	struct cros_typec_dp_data *dp_data;
-+	int i;
-+
-+	for (i = 0; i < CROS_EC_ALTMODE_MAX; i++) {
-+		if (!port->port_altmode[i])
-+			continue;
-+
-+		adata = typec_altmode_get_drvdata(port->port_altmode[i]);
-+		if (!adata)
-+			continue;
-+
-+		if (!enabled) {
-+			disable_work_sync(&adata->work);
-+			continue;
-+		}
-+
-+		mutex_lock(&adata->lock);
-+		adata->header = 0;
-+		adata->vdo_data = NULL;
-+		adata->vdo_size = 0;
-+		if (adata->sid == USB_TYPEC_DP_SID) {
-+			dp_data = container_of(adata, struct cros_typec_dp_data, adata);
-+			dp_data->configured = false;
-+			dp_data->pending_status_update = false;
-+		}
-+		mutex_unlock(&adata->lock);
-+
-+		enable_work(&adata->work);
-+	}
-+}
-+
- static void cros_typec_altmode_work(struct work_struct *work)
- {
- 	struct cros_typec_altmode_data *data =
-diff --git a/drivers/platform/chrome/cros_typec_altmode.h b/drivers/platform/chrome/cros_typec_altmode.h
-index 3f2aa95d065af709643ad653df487a9987780da4..bcfd8fed2073dad1e95bfba807e1af7a4dbe91e2 100644
---- a/drivers/platform/chrome/cros_typec_altmode.h
-+++ b/drivers/platform/chrome/cros_typec_altmode.h
-@@ -11,6 +11,15 @@ struct typec_altmode;
- struct typec_altmode_desc;
- struct typec_displayport_data;
- 
-+#if IS_ENABLED(CONFIG_CROS_EC_TYPEC_ALTMODES)
-+void cros_typec_altmode_cancel(struct typec_altmode *alt);
-+void cros_typec_altmodes_set_enabled(struct cros_typec_port *port, bool enabled);
-+#else
-+static inline void cros_typec_altmode_cancel(struct typec_altmode *alt) {}
-+static inline void
-+cros_typec_altmodes_set_enabled(struct cros_typec_port *port, bool enabled) {}
-+#endif
-+
- #if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
- struct typec_altmode *
- cros_typec_register_displayport(struct cros_typec_port *port,
--- 
-2.53.0
+> ---
+>  drivers/acpi/battery.c                       | 30 ++++++++++----------
+>  drivers/platform/x86/asus-wmi.c              |  4 +--
+>  drivers/platform/x86/ayaneo-ec.c             |  2 +-
+>  drivers/platform/x86/dell/dell-laptop.c      |  4 +--
+>  drivers/platform/x86/dell/dell-wmi-ddv.c     |  2 +-
+>  drivers/platform/x86/fujitsu-laptop.c        |  4 +--
+>  drivers/platform/x86/huawei-wmi.c            |  4 +--
+>  drivers/platform/x86/lenovo/ideapad-laptop.c |  4 +--
+>  drivers/platform/x86/lenovo/thinkpad_acpi.c  |  4 +--
+>  drivers/platform/x86/lenovo/wmi-other.c      |  4 +--
+>  drivers/platform/x86/lg-laptop.c             |  4 +--
+>  drivers/platform/x86/msi-ec.c                |  4 +--
+>  drivers/platform/x86/oxpec.c                 |  2 +-
+>  drivers/platform/x86/samsung-galaxybook.c    |  3 +-
+>  drivers/platform/x86/samsung-laptop.c        |  4 +--
+>  drivers/platform/x86/system76_acpi.c         |  4 +--
+>  drivers/platform/x86/toshiba_acpi.c          |  4 +--
+>  drivers/platform/x86/uniwill/uniwill-acpi.c  |  2 +-
+>  drivers/power/supply/cros_charge-control.c   |  2 +-
+>  include/acpi/battery.h                       |  7 +++--
+>  20 files changed, 50 insertions(+), 48 deletions(-)
+>=20
+> diff --git a/drivers/acpi/battery.c b/drivers/acpi/battery.c
+> index 8599949f8786..306bb2088ca6 100644
+> --- a/drivers/acpi/battery.c
+> +++ b/drivers/acpi/battery.c
+> @@ -821,7 +821,7 @@ static LIST_HEAD(acpi_battery_list);
+>  static LIST_HEAD(battery_hook_list);
+>  static DEFINE_MUTEX(hook_mutex);
+> =20
+> -static void battery_hook_unregister_unlocked(struct acpi_battery_hook *h=
+ook)
+> +static void acpi_battery_hook_unregister_unlocked(struct acpi_battery_ho=
+ok *hook)
+>  {
+>  	struct acpi_battery *battery;
+> =20
+> @@ -838,7 +838,7 @@ static void battery_hook_unregister_unlocked(struct a=
+cpi_battery_hook *hook)
+>  	pr_info("hook unregistered: %s\n", hook->name);
+>  }
+> =20
+> -void battery_hook_unregister(struct acpi_battery_hook *hook)
+> +void acpi_battery_hook_unregister(struct acpi_battery_hook *hook)
+>  {
+>  	mutex_lock(&hook_mutex);
+>  	/*
+> @@ -847,13 +847,13 @@ void battery_hook_unregister(struct acpi_battery_ho=
+ok *hook)
+>  	 * adding a new battery.
+>  	 */
+>  	if (!list_empty(&hook->list))
+> -		battery_hook_unregister_unlocked(hook);
+> +		acpi_battery_hook_unregister_unlocked(hook);
+> =20
+>  	mutex_unlock(&hook_mutex);
+>  }
+> -EXPORT_SYMBOL_GPL(battery_hook_unregister);
+> +EXPORT_SYMBOL_GPL(acpi_battery_hook_unregister);
+> =20
+> -void battery_hook_register(struct acpi_battery_hook *hook)
+> +void acpi_battery_hook_register(struct acpi_battery_hook *hook)
+>  {
+>  	struct acpi_battery *battery;
+> =20
+> @@ -874,7 +874,7 @@ void battery_hook_register(struct acpi_battery_hook *=
+hook)
+>  			 * hooks.
+>  			 */
+>  			pr_err("hook failed to load: %s", hook->name);
+> -			battery_hook_unregister_unlocked(hook);
+> +			acpi_battery_hook_unregister_unlocked(hook);
+>  			goto end;
+>  		}
+> =20
+> @@ -884,22 +884,22 @@ void battery_hook_register(struct acpi_battery_hook=
+ *hook)
+>  end:
+>  	mutex_unlock(&hook_mutex);
+>  }
+> -EXPORT_SYMBOL_GPL(battery_hook_register);
+> +EXPORT_SYMBOL_GPL(acpi_battery_hook_register);
+> =20
+> -static void devm_battery_hook_unregister(void *data)
+> +static void devm_acpi_battery_hook_unregister(void *data)
+>  {
+>  	struct acpi_battery_hook *hook =3D data;
+> =20
+> -	battery_hook_unregister(hook);
+> +	acpi_battery_hook_unregister(hook);
+>  }
+> =20
+> -int devm_battery_hook_register(struct device *dev, struct acpi_battery_h=
+ook *hook)
+> +int devm_acpi_battery_hook_register(struct device *dev, struct acpi_batt=
+ery_hook *hook)
+>  {
+> -	battery_hook_register(hook);
+> +	acpi_battery_hook_register(hook);
+> =20
+> -	return devm_add_action_or_reset(dev, devm_battery_hook_unregister, hook=
+);
+> +	return devm_add_action_or_reset(dev, devm_acpi_battery_hook_unregister,=
+ hook);
+>  }
+> -EXPORT_SYMBOL_GPL(devm_battery_hook_register);
+> +EXPORT_SYMBOL_GPL(devm_acpi_battery_hook_register);
+> =20
+>  /*
+>   * This function gets called right after the battery sysfs
+> @@ -928,7 +928,7 @@ static void battery_hook_add_battery(struct acpi_batt=
+ery *battery)
+>  			 */
+>  			pr_err("error in hook, unloading: %s",
+>  					hook_node->name);
+> -			battery_hook_unregister_unlocked(hook_node);
+> +			acpi_battery_hook_unregister_unlocked(hook_node);
+>  		}
+>  	}
+>  	mutex_unlock(&hook_mutex);
+> @@ -961,7 +961,7 @@ static void __exit battery_hook_exit(void)
+>  	 * need to remove the hooks.
+>  	 */
+>  	list_for_each_entry_safe(hook, ptr, &battery_hook_list, list) {
+> -		battery_hook_unregister(hook);
+> +		acpi_battery_hook_unregister(hook);
+>  	}
+>  	mutex_destroy(&hook_mutex);
+>  }
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-=
+wmi.c
+> index a65090429ca7..c274f456863c 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -1681,14 +1681,14 @@ static void asus_wmi_battery_init(struct asus_wmi=
+ *asus)
+>  	asus->battery_rsoc_available =3D false;
+>  	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_RSOC)) {
+>  		asus->battery_rsoc_available =3D true;
+> -		battery_hook_register(&battery_hook);
+> +		acpi_battery_hook_register(&battery_hook);
+>  	}
+>  }
+> =20
+>  static void asus_wmi_battery_exit(struct asus_wmi *asus)
+>  {
+>  	if (asus->battery_rsoc_available)
+> -		battery_hook_unregister(&battery_hook);
+> +		acpi_battery_hook_unregister(&battery_hook);
+>  }
+> =20
+>  /* LEDs ****************************************************************=
+*******/
+> diff --git a/drivers/platform/x86/ayaneo-ec.c b/drivers/platform/x86/ayan=
+eo-ec.c
+> index 41a24e091248..3ba87bd16c9a 100644
+> --- a/drivers/platform/x86/ayaneo-ec.c
+> +++ b/drivers/platform/x86/ayaneo-ec.c
+> @@ -493,7 +493,7 @@ static int ayaneo_ec_probe(struct platform_device *pd=
+ev)
+>  		data->battery_hook.add_battery =3D ayaneo_add_battery;
+>  		data->battery_hook.remove_battery =3D ayaneo_remove_battery;
+>  		data->battery_hook.name =3D "Ayaneo Battery";
+> -		ret =3D devm_battery_hook_register(&pdev->dev, &data->battery_hook);
+> +		ret =3D devm_acpi_battery_hook_register(&pdev->dev, &data->battery_hoo=
+k);
+>  		if (ret)
+>  			return ret;
+>  	}
+> diff --git a/drivers/platform/x86/dell/dell-laptop.c b/drivers/platform/x=
+86/dell/dell-laptop.c
+> index 89e85c7f7132..cad2bd06f28a 100644
+> --- a/drivers/platform/x86/dell/dell-laptop.c
+> +++ b/drivers/platform/x86/dell/dell-laptop.c
+> @@ -2446,13 +2446,13 @@ static void __init dell_battery_init(struct devic=
+e *dev)
+>  	battery_supported_modes =3D battery_get_supported_modes();
+> =20
+>  	if (battery_supported_modes !=3D 0)
+> -		battery_hook_register(&dell_battery_hook);
+> +		acpi_battery_hook_register(&dell_battery_hook);
+>  }
+> =20
+>  static void dell_battery_exit(void)
+>  {
+>  	if (battery_supported_modes !=3D 0)
+> -		battery_hook_unregister(&dell_battery_hook);
+> +		acpi_battery_hook_unregister(&dell_battery_hook);
+>  }
+> =20
+>  static int __init dell_init(void)
+> diff --git a/drivers/platform/x86/dell/dell-wmi-ddv.c b/drivers/platform/=
+x86/dell/dell-wmi-ddv.c
+> index f8903ced461b..6f0504d7519e 100644
+> --- a/drivers/platform/x86/dell/dell-wmi-ddv.c
+> +++ b/drivers/platform/x86/dell/dell-wmi-ddv.c
+> @@ -972,7 +972,7 @@ static int dell_wmi_ddv_battery_add(struct dell_wmi_d=
+dv_data *data)
+>  	data->eppid_attr.attr.mode =3D 0444;
+>  	data->eppid_attr.show =3D eppid_show;
+> =20
+> -	return devm_battery_hook_register(&data->wdev->dev, &data->hook);
+> +	return devm_acpi_battery_hook_register(&data->wdev->dev, &data->hook);
+>  }
+> =20
+>  static int dell_wmi_ddv_buffer_read(struct seq_file *seq, enum dell_ddv_=
+method method)
+> diff --git a/drivers/platform/x86/fujitsu-laptop.c b/drivers/platform/x86=
+/fujitsu-laptop.c
+> index ea543deef68f..96e74c4fdb29 100644
+> --- a/drivers/platform/x86/fujitsu-laptop.c
+> +++ b/drivers/platform/x86/fujitsu-laptop.c
+> @@ -267,7 +267,7 @@ static int fujitsu_battery_charge_control_add(struct =
+device *dev)
+>  		return -ENODEV;
+> =20
+>  	priv->charge_control_supported =3D true;
+> -	battery_hook_register(&battery_hook);
+> +	acpi_battery_hook_register(&battery_hook);
+> =20
+>  	return 0;
+>  }
+> @@ -277,7 +277,7 @@ static void fujitsu_battery_charge_control_remove(str=
+uct device *dev)
+>  	struct fujitsu_laptop *priv =3D dev_get_drvdata(dev);
+> =20
+>  	if (priv->charge_control_supported)
+> -		battery_hook_unregister(&battery_hook);
+> +		acpi_battery_hook_unregister(&battery_hook);
+>  }
+> =20
+>  /* Hardware access for LCD brightness control */
+> diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/hua=
+wei-wmi.c
+> index d6aaf14d66a5..8cc0e900e984 100644
+> --- a/drivers/platform/x86/huawei-wmi.c
+> +++ b/drivers/platform/x86/huawei-wmi.c
+> @@ -512,7 +512,7 @@ static void huawei_wmi_battery_setup(struct device *d=
+ev)
+>  		return;
+>  	}
+> =20
+> -	battery_hook_register(&huawei_wmi_battery_hook);
+> +	acpi_battery_hook_register(&huawei_wmi_battery_hook);
+>  	device_create_file(dev, &dev_attr_charge_control_thresholds);
+>  }
+> =20
+> @@ -521,7 +521,7 @@ static void huawei_wmi_battery_exit(struct device *de=
+v)
+>  	struct huawei_wmi *huawei =3D dev_get_drvdata(dev);
+> =20
+>  	if (huawei->battery_available) {
+> -		battery_hook_unregister(&huawei_wmi_battery_hook);
+> +		acpi_battery_hook_unregister(&huawei_wmi_battery_hook);
+>  		device_remove_file(dev, &dev_attr_charge_control_thresholds);
+>  	}
+>  }
+> diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c b/drivers/platf=
+orm/x86/lenovo/ideapad-laptop.c
+> index 8213524504ee..1d90d4591641 100644
+> --- a/drivers/platform/x86/lenovo/ideapad-laptop.c
+> +++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
+> @@ -2197,8 +2197,8 @@ static int ideapad_check_features(struct ideapad_pr=
+ivate *priv)
+>  			priv->battery_hook.remove_battery =3D ideapad_battery_remove;
+>  			priv->battery_hook.name =3D "Ideapad Battery Extension";
+> =20
+> -			err =3D devm_battery_hook_register(&priv->platform_device->dev,
+> -							 &priv->battery_hook);
+> +			err =3D devm_acpi_battery_hook_register(&priv->platform_device->dev,
+> +							      &priv->battery_hook);
+>  			if (err)
+>  				return err;
+>  		}
+> diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/platfo=
+rm/x86/lenovo/thinkpad_acpi.c
+> index 1661f070c571..eb5ad18855db 100644
+> --- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
+> @@ -10021,13 +10021,13 @@ static int __init tpacpi_battery_init(struct ib=
+m_init_struct *ibm)
+>  					battery_quirk_table,
+>  					ARRAY_SIZE(battery_quirk_table));
+> =20
+> -	battery_hook_register(&battery_hook);
+> +	acpi_battery_hook_register(&battery_hook);
+>  	return 0;
+>  }
+> =20
+>  static void tpacpi_battery_exit(void)
+>  {
+> -	battery_hook_unregister(&battery_hook);
+> +	acpi_battery_hook_unregister(&battery_hook);
+>  }
+> =20
+>  static struct ibm_struct battery_driver_data =3D {
+> diff --git a/drivers/platform/x86/lenovo/wmi-other.c b/drivers/platform/x=
+86/lenovo/wmi-other.c
+> index fbb32bf404f2..0450634ac1dd 100644
+> --- a/drivers/platform/x86/lenovo/wmi-other.c
+> +++ b/drivers/platform/x86/lenovo/wmi-other.c
+> @@ -946,7 +946,7 @@ static void lwmi_om_psy_ext_init(struct lwmi_om_priv =
+*priv)
+>  	priv->battery_hook.name =3D "Lenovo WMI Other Battery Extension";
+>  	priv->bh_registered =3D true;
+> =20
+> -	battery_hook_register(&priv->battery_hook);
+> +	acpi_battery_hook_register(&priv->battery_hook);
+>  }
+> =20
+>  /**
+> @@ -960,7 +960,7 @@ static void lwmi_om_psy_remove(struct lwmi_om_priv *p=
+riv)
+>  	if (!priv->bh_registered)
+>  		return;
+> =20
+> -	battery_hook_unregister(&priv->battery_hook);
+> +	acpi_battery_hook_unregister(&priv->battery_hook);
+>  	priv->bh_registered =3D false;
+>  }
+> =20
+> diff --git a/drivers/platform/x86/lg-laptop.c b/drivers/platform/x86/lg-l=
+aptop.c
+> index 36ad1e269443..e788671307c4 100644
+> --- a/drivers/platform/x86/lg-laptop.c
+> +++ b/drivers/platform/x86/lg-laptop.c
+> @@ -1053,7 +1053,7 @@ static int acpi_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto out_platform_device;
+> =20
+> -	battery_hook_register(&battery_hook);
+> +	acpi_battery_hook_register(&battery_hook);
+> =20
+>  	return 0;
+> =20
+> @@ -1068,7 +1068,7 @@ static void acpi_remove(struct platform_device *pde=
+v)
+>  {
+>  	sysfs_remove_group(&pf_device->dev.kobj, &dev_attribute_group);
+> =20
+> -	battery_hook_unregister(&battery_hook);
+> +	acpi_battery_hook_unregister(&battery_hook);
+>  	platform_device_unregister(pf_device);
+>  	pf_device =3D NULL;
+>  	platform_driver_unregister(&pf_driver);
+> diff --git a/drivers/platform/x86/msi-ec.c b/drivers/platform/x86/msi-ec.=
+c
+> index 566dfc73cb67..cb30a1d5b546 100644
+> --- a/drivers/platform/x86/msi-ec.c
+> +++ b/drivers/platform/x86/msi-ec.c
+> @@ -1428,13 +1428,13 @@ static int __init msi_ec_init(void)
+>  	if (result < 0)
+>  		return result;
+> =20
+> -	battery_hook_register(&battery_hook);
+> +	acpi_battery_hook_register(&battery_hook);
+>  	return 0;
+>  }
+> =20
+>  static void __exit msi_ec_exit(void)
+>  {
+> -	battery_hook_unregister(&battery_hook);
+> +	acpi_battery_hook_unregister(&battery_hook);
+>  }
+> =20
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
+> index 34bb17fca148..318f194e72b5 100644
+> --- a/drivers/platform/x86/oxpec.c
+> +++ b/drivers/platform/x86/oxpec.c
+> @@ -956,7 +956,7 @@ static int oxp_platform_probe(struct platform_device =
+*pdev)
+>  		return PTR_ERR(hwdev);
+> =20
+>  	if (oxp_psy_ext_supported()) {
+> -		ret =3D devm_battery_hook_register(dev, &battery_hook);
+> +		ret =3D devm_acpi_battery_hook_register(dev, &battery_hook);
+>  		if (ret)
+>  			return ret;
+>  	}
+> diff --git a/drivers/platform/x86/samsung-galaxybook.c b/drivers/platform=
+/x86/samsung-galaxybook.c
+> index 99f72b204a51..a4f7dbb76214 100644
+> --- a/drivers/platform/x86/samsung-galaxybook.c
+> +++ b/drivers/platform/x86/samsung-galaxybook.c
+> @@ -549,7 +549,8 @@ static int galaxybook_battery_threshold_init(struct s=
+amsung_galaxybook *galaxybo
+>  	galaxybook->battery_hook.remove_battery =3D galaxybook_battery_remove;
+>  	galaxybook->battery_hook.name =3D "Samsung Galaxy Book Battery Extensio=
+n";
+> =20
+> -	return devm_battery_hook_register(&galaxybook->platform->dev, &galaxybo=
+ok->battery_hook);
+> +	return devm_acpi_battery_hook_register(&galaxybook->platform->dev,
+> +					       &galaxybook->battery_hook);
+>  }
+> =20
+>  /*
+> diff --git a/drivers/platform/x86/samsung-laptop.c b/drivers/platform/x86=
+/samsung-laptop.c
+> index 710f3d5bf84c..43fa1dc2773c 100644
+> --- a/drivers/platform/x86/samsung-laptop.c
+> +++ b/drivers/platform/x86/samsung-laptop.c
+> @@ -1142,8 +1142,8 @@ static int __init samsung_battery_hook_init(struct =
+samsung_laptop *samsung)
+>  		samsung->battery_hook.add_battery =3D samsung_battery_add;
+>  		samsung->battery_hook.remove_battery =3D samsung_battery_remove;
+>  		samsung->battery_hook.name =3D "Samsung Battery Extension";
+> -		retval =3D devm_battery_hook_register(&samsung->platform_device->dev,
+> -						    &samsung->battery_hook);
+> +		retval =3D devm_acpi_battery_hook_register(&samsung->platform_device->=
+dev,
+> +							 &samsung->battery_hook);
+>  	}
+> =20
+>  	return retval;
+> diff --git a/drivers/platform/x86/system76_acpi.c b/drivers/platform/x86/=
+system76_acpi.c
+> index dd7b1b07c316..33968b61f0b2 100644
+> --- a/drivers/platform/x86/system76_acpi.c
+> +++ b/drivers/platform/x86/system76_acpi.c
+> @@ -288,12 +288,12 @@ static struct acpi_battery_hook system76_battery_ho=
+ok =3D {
+> =20
+>  static void system76_battery_init(void)
+>  {
+> -	battery_hook_register(&system76_battery_hook);
+> +	acpi_battery_hook_register(&system76_battery_hook);
+>  }
+> =20
+>  static void system76_battery_exit(void)
+>  {
+> -	battery_hook_unregister(&system76_battery_hook);
+> +	acpi_battery_hook_unregister(&system76_battery_hook);
+>  }
+> =20
+>  // Get the airplane mode LED brightness
+> diff --git a/drivers/platform/x86/toshiba_acpi.c b/drivers/platform/x86/t=
+oshiba_acpi.c
+> index a0b8060836d0..4cc879bc267a 100644
+> --- a/drivers/platform/x86/toshiba_acpi.c
+> +++ b/drivers/platform/x86/toshiba_acpi.c
+> @@ -3301,7 +3301,7 @@ static void toshiba_acpi_remove(struct platform_dev=
+ice *pdev)
+>  	}
+> =20
+>  	if (dev->battery_charge_mode_supported)
+> -		battery_hook_unregister(&battery_hook);
+> +		acpi_battery_hook_unregister(&battery_hook);
+> =20
+>  	if (toshiba_acpi)
+>  		toshiba_acpi =3D NULL;
+> @@ -3566,7 +3566,7 @@ static int toshiba_acpi_probe(struct platform_devic=
+e *pdev)
+>  	 * set, this must be done after toshiba_acpi is assigned.
+>  	 */
+>  	if (dev->battery_charge_mode_supported)
+> -		battery_hook_register(&battery_hook);
+> +		acpi_battery_hook_register(&battery_hook);
+> =20
+>  	return 0;
+> =20
+> diff --git a/drivers/platform/x86/uniwill/uniwill-acpi.c b/drivers/platfo=
+rm/x86/uniwill/uniwill-acpi.c
+> index 7a2eeaec4c96..d76695c2c765 100644
+> --- a/drivers/platform/x86/uniwill/uniwill-acpi.c
+> +++ b/drivers/platform/x86/uniwill/uniwill-acpi.c
+> @@ -2165,7 +2165,7 @@ static int uniwill_battery_init(struct uniwill_data=
+ *data)
+>  	data->hook.add_battery =3D uniwill_add_battery;
+>  	data->hook.remove_battery =3D uniwill_remove_battery;
+> =20
+> -	return devm_battery_hook_register(data->dev, &data->hook);
+> +	return devm_acpi_battery_hook_register(data->dev, &data->hook);
+>  }
+> =20
+>  static int uniwill_notifier_call(struct notifier_block *nb, unsigned lon=
+g action, void *dummy)
+> diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/s=
+upply/cros_charge-control.c
+> index e0f168624807..1901bbcffd73 100644
+> --- a/drivers/power/supply/cros_charge-control.c
+> +++ b/drivers/power/supply/cros_charge-control.c
+> @@ -315,7 +315,7 @@ static int cros_chctl_probe(struct platform_device *p=
+dev)
+>  	if (ret < 0)
+>  		return ret;
+> =20
+> -	return devm_battery_hook_register(dev, &priv->battery_hook);
+> +	return devm_acpi_battery_hook_register(dev, &priv->battery_hook);
+>  }
+> =20
+>  static const struct platform_device_id cros_chctl_id[] =3D {
+> diff --git a/include/acpi/battery.h b/include/acpi/battery.h
+> index c93f16dfb944..08c7e37996bf 100644
+> --- a/include/acpi/battery.h
+> +++ b/include/acpi/battery.h
+> @@ -18,8 +18,9 @@ struct acpi_battery_hook {
+>  	struct list_head list;
+>  };
+> =20
+> -void battery_hook_register(struct acpi_battery_hook *hook);
+> -void battery_hook_unregister(struct acpi_battery_hook *hook);
+> -int devm_battery_hook_register(struct device *dev, struct acpi_battery_h=
+ook *hook);
+> +void acpi_battery_hook_register(struct acpi_battery_hook *hook);
+> +void acpi_battery_hook_unregister(struct acpi_battery_hook *hook);
+> +int devm_acpi_battery_hook_register(struct device *dev,
+> +				    struct acpi_battery_hook *hook);
+> =20
+>  #endif

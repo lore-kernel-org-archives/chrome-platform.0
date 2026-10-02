@@ -1,191 +1,72 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B145304C2
-	for <chrome-platform@lists.linux.dev>; Thu,  1 Oct 2026 20:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92AA13D891;
+	Fri,  2 Oct 2026 02:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790886181; cv=none; b=na0MnKAet+n6jl9iOhRmNc7cbdUx8q3FuZr2gTEMQIhfTVKwmmpXxooOnRaDzzlzz48ldrN9NLYfkeW7vIkpKdK3PT3+adggo5b39dBwLUTWfAN/mkz2gs6cZI2joZDDJVtOHXB9t89oLp6EIHq4U2iiFv4iaXjF3OCS9FNP4C0=
+	t=1790907458; cv=none; b=HMgG89aTGFZQHuPpq/puP9U8N8lfNt59eBjd+Efvw/xtte7qKY+SjqXaA6sdzARrIwaBwMS81b+IEvJbyjEEkrvJEzIdPa/vfJADwT0+gZZQc0HQAYjlJjUO5cTgOf4ag3yHg1eKvwdhSbOMv5tGzZHxW6hj1ygP9KS4PvYD44M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790886181; c=relaxed/simple;
-	bh=3qP8FPDf5DakBu1LqR7A+pXGd65AiGRjB0416cRxaMU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B6Z/pvPg7VAoETiwypNf7Xwg6Jzrk4zXvY0g/+u8qcj6vpcfu0656rVDbWEcppsk3PxrskxKiDVJV8wa7y84QIT5FVvVMrpkU1kOOO873EQ+iIV0drZ8lkf7LUAHJWkcp+QwThjQLx6CQb8aXX1MPovqTnvX7lOTZ9cGyQLbzuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pjTRilbx; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BWJhlzkX; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790907458; c=relaxed/simple;
+	bh=BxBKQ4zR4si28azbG7lLcYi21TZ/U0gmLMVd5yf4ss4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dWvjJt0h8A40K0htOhS9D3KPpmjPbEywGSYc9OqS+FGmrAy2PfbruX1AbRyU1v5W8wUUMa6xdz7dYxzvVW7WSksAsP0o0ipKq8UBgHEsDfMVYOJ+FEWJc2Pu/6Bg7LSiGrQn/5aKWGP34T1X5ZohSLpSe7IPpZ+OfUkkiN+Logo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7UjAU0P; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pjTRilbx";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BWJhlzkX"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 691FspSA3109777
-	for <chrome-platform@lists.linux.dev>; Thu, 1 Oct 2026 20:22:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	mDniYY0z46vcWvJ4WbPnahjC8lYCnyjzy3DyehxUHio=; b=pjTRilbxHyga3WmE
-	SYB1k3DKTS3i9N+ilFxUOvkfSxHnt8AswQZlDSPc12CgKmdPFVPLETuLXLnESeA9
-	f8f1i9VAgSIwHeFaJaq++dNJqwYUGg2h7Sg418egg9lyIugODAqMcs83oRgbO7G/
-	Nxy4l1xfp1osVyb3KfIKOwdsT8xbTKxNp0R6ukfkyxu7bpWO//hdUv9eaUyyTikc
-	7exPlWyVdKnRju3vtCNkEfVGmnOe6zTd6/hhXvQhif6f5YJWsBPoSaoTegeqDNrL
-	3NzSbi9RRA2KeXV0Mpr/uWNyJBh6mt1abVwWYSnc96JOIO44fB7BxHo6j32HJWol
-	U+eUFQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h1jcfukwa-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <chrome-platform@lists.linux.dev>; Thu, 01 Oct 2026 20:22:47 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92e82060977so179223285a.1
-        for <chrome-platform@lists.linux.dev>; Thu, 01 Oct 2026 13:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790886167; x=1791490967; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mDniYY0z46vcWvJ4WbPnahjC8lYCnyjzy3DyehxUHio=;
-        b=BWJhlzkX8RewKtl/AzX1+SiXcsMFCPIhlhBbyPkJAuUE7Tr//imC9k52kaKDkT/QJ9
-         9hwD29Cnj0mqdEPYR/CB+ib7CgZQP0sr+dL972crBgMj2TV0RA1o8Eus8IbK8mtbBufX
-         44kYtmjHYLjfmEjXQ7zRK6ytUPmfDRru0c4Kr2PdXg+naRHyHUMr7H+Mk1rzR/mXzMOb
-         dqgekocckxA3joRhBqpeb4uSwSLASf4UzB8PrbpSd0KEzM+O3Sf7FhF+LFFjiiiAnVQV
-         EB/AkDxLK+EyVkUsSDiV5eERtzft0tyVjdiIGhWeoNcFZ9ZZr1/7QpweUNhFE7gG2dJH
-         stug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790886167; x=1791490967;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mDniYY0z46vcWvJ4WbPnahjC8lYCnyjzy3DyehxUHio=;
-        b=riTDIoasaDTOAxamC2PGlTKmOzlDYj5yTJMtXLGBkmV8b69y+Bt2Vs64TuqwK4Ob0v
-         t8ESH6MvT+5+W6Cfy/blnIaBPwvuuoRN+jyy1IqoCSGxg0rlgIeQygduPZabCDKlXdL8
-         fkpbhjCK1ara22+PIS2frumqyU3zH1kl7rZZtPH63XqYLOctDeRMXLnqUloFi13QZOCb
-         WGTVHBIEF/rfZc0NWqa5t6x3H06/u/wfojZUZaQkyqVZ8NrXymVGUn+OP8q8S+RAYwxd
-         65RzE5GfayJKBd3oTMaSrQCAIfsQZnf/GuudxTH6JdswCcLAC6e8DFlm8q+PfE9aLVKq
-         z8wA==
-X-Forwarded-Encrypted: i=1; AKwUvBxbP+LLCb8hsDrN7UCMtBmSIXr9ZOZsfWICh/WP0yzTAbK0TfE8QcchL/MxsGHK6JpJScJ4ymZCYd1RJwXkBYM=@lists.linux.dev
-X-Gm-Message-State: AFuF++kMXBWhTINvMkMfl2UnOBU1EPOxDdGaHaOC5IvkDxyUWJQ10gfV
-	7bah10ObReF78U/AaVlRZZEO3VHqSpFQVxChqWV9E7y/wb7kPofNi5FrfObi7cHIJndpu9yfQpg
-	Jp6W87KyS4gOBt2CEbcHjiY9vRhm80MzP8x30XLkRzSvVDxhrNSQXH6opQyItC08K/ppNtxI=
-X-Gm-Gg: AYBFou2R1DHdDtSUkX0lY/1dhrodchQMVpmFCpsDRWzAAVOcwuZ0dmcXdz/i5tRrWdw
-	2MS9XqFDZNPCs5Aw+RiaBSJORgWMJ1ljH1PUuXUYjzNag7qe130IzwK6Z+YjNsWl92CDru8YyKc
-	APPTmVkThZRcTV9DXUAIBGzcHue5RfJgEYyyd5WJktlXmWfF6AOpzUevJ+C8m0miC4LmiigAWM0
-	EbPwjt+sG9KmuL4qm6RwaSvZ3TxWS4jB2v5miSCYjRCtSW/G/9sg9oz/TKdh3G8z+TYZbqtf8sb
-	gTjuhUArL2KRzrnE6jEbHHMfSOIja3kF9EwZe9y4LjrKkHEcPjSfX/tV9JAZ4De08OmMGhc4ntQ
-	pmFJCHTmZBY3VImCTnUKEqG2Lym+dQIcpB3Nbt9+B6vdEOezyiRTLO669YfKZPg==
-X-Received: by 2002:a05:620a:2956:b0:93c:6e1d:96b0 with SMTP id af79cd13be357-93cb5abb8bemr763980585a.17.1790886167157;
-        Thu, 01 Oct 2026 13:22:47 -0700 (PDT)
-X-Received: by 2002:a05:620a:2956:b0:93c:6e1d:96b0 with SMTP id af79cd13be357-93cb5abb8bemr763972385a.17.1790886166618;
-        Thu, 01 Oct 2026 13:22:46 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:f14c:b716:c104:4712? ([2a05:6e02:1041:c10:f14c:b716:c104:4712])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027740a2fsm18335995e9.13.2026.10.01.13.22.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Oct 2026 13:22:45 -0700 (PDT)
-Message-ID: <e34e6661-3ecf-42f6-96f2-5136afe7ab65@oss.qualcomm.com>
-Date: Thu, 1 Oct 2026 22:22:44 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7UjAU0P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E61D21F000FF;
+	Fri,  2 Oct 2026 02:17:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790907457;
+	bh=CIXW8qeLMUotVtJxGO90+62jZTDUQzb32ePEitFVgbM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=O7UjAU0Pgu8KP0W27oNv6PuQ7i7We+7+FS0VGNlFquXJRcsYCGpDoStfcVF/Tp3y7
+	 rNpitejhoPrHbkv2TgTI/3c30Bhnuwnt/+GFcZNyPV0ZtulQHpQ/vZAGS93zU4dMaK
+	 yoCzUYaa5FrH2SHyzYGPwDuUmkpAvsVqqR3ox7pjUscykCKDK/hTYJ1vDsd+Ic4xLW
+	 gJv824hnr0fd+iaoUp2S4uyPJwRApl2JLVmIG4/ftdx8zu1nTUiPdDYFOa4lJNKaZ5
+	 3jHwO+4HYStu+LgJOnd1wpy3mz4/l4OaktFXOQ0J6BWsE0n2eGVmq9SzCHV1nLsVfp
+	 ukL9Ifl0Q9BlA==
+Date: Fri, 2 Oct 2026 02:17:33 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Bartosz Szpila <bszpila@google.com>
+Cc: bleung@chromium.org,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	"open list:CHROMEOS EC USB TYPE-C DRIVER" <chrome-platform@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] platform/chrome: cros_ec_typec: Validate SVID and mode
+ counts in discovery data
+Message-ID: <ar8UPQ4NBsW55h1m@google.com>
+References: <20261001085714.1086242-1-bszpila@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 1/6] power: Extend power_on_reason.h for upcoming
- PSCRR framework
-To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
-        Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
-        Tzung-Bi Shih <tzungbi@kernel.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-        avaneesh.dwivedi@oss.qualcomm.com,
-        Umang Chheda <umang.chheda@oss.qualcomm.com>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>
-References: <20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com>
- <20260924-pscrr-framework-v15-1-7af87107e0d3@oss.qualcomm.com>
-Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-In-Reply-To: <20260924-pscrr-framework-v15-1-7af87107e0d3@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAxMDA4MSBTYWx0ZWRfX2wv6CyEVE+kD
- atHPaqYNfRKJtGZOQDye6L5x+ZS1SYF3PCPKrkWLYIp5T1lkpUKawYBniz7Fhq9TwhSLu6eH0ah
- eA45y7LXEynWZ6RnVWRT1cCFtw/WXes=
-X-Proofpoint-GUID: 09hiLzINsqIKrB-4fvX5o5w4EPKkuqY9
-X-Authority-Analysis: v=2.4 cv=b4YncdGx c=1 sm=1 tr=0 ts=6abec117 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=QX4gbG5DAAAA:8
- a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=bGjUZXh9VHoPU9QoGbYA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-ORIG-GUID: 09hiLzINsqIKrB-4fvX5o5w4EPKkuqY9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAxMDA4MSBTYWx0ZWRfXz8mZaq9BNul7
- r6kKXkUUgJfMmnuwi7wyc6tBYJuExTaUNn8LfXNnmtYyYiXjYsJkZeabzDr2w9N/v/R8mMaauVV
- OVDkm6PNPU4qsRvuQBO3AQR3rSZnEiMmnEJLz43NLHRQYgD1Wu6CfGLQz8jhR0ANITV42CtibQK
- IlQr/n7eONvDg8iSjznybAybXGfxsvMJJSXeItBTTiHyOCzvfDEgT2QwwXp+oD6gxqkPsOmygub
- yc1EPx8UBpSRTXkgZ7iAvV0CMRC/CQEu4xg1JsYwbpf+3dSnnwiovKrE7E8V3Dwz9lr+0+zqHZN
- NkR5Stddl0ee3bNieB8xSkGTwpUVbXw7JbGeNiAYVnjpavd3/4ABKolk4YCvsreOdI513IIHL3J
- CF3ALrDVGuP2Z71/dp1ZNgD7EtwFr9OKhrFqlxLP4IfACsrO4PHLDutSa2Fm+Qc4z4V5EZpwWwT
- cGYRfVAVOvo8aGBNGMw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-01_04,2026-10-01_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 bulkscore=0 impostorscore=0 clxscore=1011 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610010081
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261001085714.1086242-1-bszpila@google.com>
 
-On 9/24/26 09:08, Faruque Ansari wrote:
-> Prepare for the introduction of the Power State Change Reason Recorder
-> (PSCRR) framework by expanding the power_on_reason.h header. This
-> extension includes new power-on reasons:
-> - POWER_ON_REASON_OVER_CURRENT for over-current conditions.
-> - POWER_ON_REASON_REGULATOR_FAILURE for regulator failures.
-> - POWER_ON_REASON_OVER_TEMPERATURE for over temperature situations.
-> - POWER_ON_REASON_EC_PANIC for EC panics.
+On Thu, Oct 01, 2026 at 08:57:13AM +0000, Bartosz Szpila wrote:
+> cros_typec_register_altmodes() iterates over sop_disc->svid_count and
+> sop_disc->svids[i].mode_count from the EC_CMD_TYPEC_DISCOVERY response
+> without validating their bounds.
+> 
+> port->disc_data is allocated as a buffer of EC_PROTO2_MAX_RESPONSE_SIZE
+> bytes, and each SVID entry contains a fixed mode_vdo[6] array. If the EC
+> returns an out-of-bounds svid_count or mode_count, the loops read past
+> the end of the mode_vdo array or the disc_data buffer.
+> 
+> [...]
 
-How the system knows an EC panic happened?
+Applied to
 
-> - POWER_ON_REASON_EXTERNAL for an external reset source.
-> 
-> Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
-> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> 
-> changes v12:
-> - add POWER_ON_REASON_EXTERNAL
-> changes v10:
-> - add Reviewed-by: Sebastian Reichel ...
-> changes v6:
-> - add POWER_ON_REASON_EC_PANIC
-> - s/POWER_ON_REASON_OVERTEMPERATURE/POWER_ON_REASON_OVER_TEMPERATURE
-> ---
->   include/linux/power/power_on_reason.h | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/include/linux/power/power_on_reason.h b/include/linux/power/power_on_reason.h
-> index 95a1ec0c403c..13e61ace14f5 100644
-> --- a/include/linux/power/power_on_reason.h
-> +++ b/include/linux/power/power_on_reason.h
-> @@ -15,5 +15,10 @@
->   #define POWER_ON_REASON_XTAL_FAIL "crystal oscillator failure"
->   #define POWER_ON_REASON_BROWN_OUT "brown-out reset"
->   #define POWER_ON_REASON_UNKNOWN "unknown reason"
-> +#define POWER_ON_REASON_OVER_CURRENT "over current"
-> +#define POWER_ON_REASON_REGULATOR_FAILURE "regulator failure"
-> +#define POWER_ON_REASON_OVER_TEMPERATURE "over temperature"
-> +#define POWER_ON_REASON_EC_PANIC "EC panic"
-> +#define POWER_ON_REASON_EXTERNAL "external reset"
->   
->   #endif /* POWER_ON_REASON_H */
-> 
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
+[1/1] platform/chrome: cros_ec_typec: Validate SVID and mode counts in discovery data
+      commit: 317e7abcaf60b79765dcf35c014edac8b9d37a6e
+
+Thanks!

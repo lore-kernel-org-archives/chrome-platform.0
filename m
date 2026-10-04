@@ -1,207 +1,150 @@
-Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE7437F730
-	for <chrome-platform@lists.linux.dev>; Sat,  3 Oct 2026 22:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.235
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791066561; cv=none; b=IurqTAMlsMO1Rv1MbDXqc9C3kSfXwymoz8IwkEqA6bT6UpCU9W83RNocQxJgXXG/fPTt6FnVf8zR04K3t4bh8prObq0YFq49MLDAdASa/a/zTbybN//toyztYykbT+g1VYjlP/qzzGGZ3UJD9rpEOKG9txiwuMRndLlagrw1o6c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791066561; c=relaxed/simple;
-	bh=poqId5qHz6ksF9unZawVCMAK8JVyHldDpw2wkuxUWqg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NyHULo5b3rQEBnd6BhyVfzpAv/JjKvjNsSV7O4dyGCNBf4P93mE89NwHAmMo4JagOM2lf69m51TA68YeZEK4TrNNNA3MWI8/lfb0oVoWQjSxsgBBFn0xa4wBwsFX3U0Z+971450LzhghZs73UNOJNSuCzV8FF/FSUBlqP05XVnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sZdr1Tt4; arc=none smtp.client-ip=74.125.230.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A084BEEC0
+	for <chrome-platform@lists.linux.dev>; Sun,  4 Oct 2026 19:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791142285; cv=pass; b=jDdlh/OlVIgMXxXb+X425/WWGP4rpV8+jvPg78bd3b6nJRtAMez8K6Lu5p3camHtLkp6kvm+ARpZDkwmV0H+TWKK0y49Br5IXKdCYCxiicgX2NwYhlb4ulxySZ0oz12of2XKpFRBJF7S1XEZ/VIqBGKTc1YtNEWVn1GeJZztsEg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791142285; c=relaxed/simple;
+	bh=npAFeNbnUiqL5FuCr3iRamjVN1PG0m2FhKEnJ4LpgTc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wip6dOqwKlGgHDEKmiXKSnxx6aLSBa72ek82eecHGIT7TkqmC8an3YfzZBlIDn6pPWmj7d6woFdYo1hWF6JUKUfqBbgMnLEoq+TneBpZaemAjTiUcqrs2xbHoYNnWB8EcSxQtWIAmWjKYwLsZmjPROhjy1tqtuUXbyLhW4SpWMw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=J1UyGq/U; arc=pass smtp.client-ip=165.173.180.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sZdr1Tt4"
-Received: by mail-qk2-f43.google.com with SMTP id af79cd13be357-93ca50c8ba6so77365985a.2
-        for <chrome-platform@lists.linux.dev>; Sat, 03 Oct 2026 15:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791066559; x=1791671359; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Z6BWckxqNOzx6GZ/iwpqxlB6xcNOWQfGZLizbnT6FFM=;
-        b=sZdr1Tt4BVU+stqXL47+e5lPJmqdkzV/Y1xXTlRjzUXy1jP7YFVG5HJwgdW3jXvS38
-         SVP9exYifI3mFlmNBcDN/233PYS8TRf4MXuZ4hersUuAwL6idOff5pMRZKDUGTcTqNnc
-         IYFR9P9il+/G1bEMAQ1iXUYc6B5OC33P6WQaPZz9ydCQwE9NfripWTyeVW3wL1raudrO
-         QvmnD+Q4rOsL66ISxyVEhrDLMElBX3mJS/gKQSa/iAOWe93MngqiumKwJpzqOdfWEiQC
-         PmfhHDNYXFNTvdZZqgKQGRdWcUEVvUsxsHQfcqAVNrmx46LfWW8HZkXyYo8Ss9uFFRw8
-         4khQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791066559; x=1791671359;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Z6BWckxqNOzx6GZ/iwpqxlB6xcNOWQfGZLizbnT6FFM=;
-        b=Lrnj0ChsD7+DDWuXHNhpd/A8xO18Vx+GGqFpmw+o9QhoJ3NFHszHlsOV1xQW/YyP6h
-         FQ4s42E7Eh1WLiDF17JmbiQR5p8fwdIqlKA9IBdWiJ6Lj+U1Ndyu/rx/f1PpZnw3J+yf
-         h/qvtaFx1snwIXv/EZCEq5NYevpzvFXHJOtl912VWCkt4RwdXO2vOHjCd1D/YweFx5/D
-         rxPReNTDcCt3ZNIRB8B0nsPSOVqiGjWZbMvJTBNuOKptxb8hoY8FQSmbRMT+ZJYh9gvR
-         zNn4si3Ckr+49VpWy9i1jsnyZi1vDt87d9Rue6OWF266+G2fMBkZUNFSHQJLZJGMp+R0
-         Le1A==
-X-Forwarded-Encrypted: i=1; AKwUvBzFQHKl7YmBKbpWfb9PNIk8utsjA+9/qKIhLE/dTTu+am5zUJl67HjEiGWgV5wvKHQkSmIPmIx1VolxqIMNcrk=@lists.linux.dev
-X-Gm-Message-State: AFuF++n53FfWYtEvK4K469cmhi/IFFV5DqcaOifPqKfwuX+UFfoClGN6
-	t4pS+etbYC40mGNmf278/PSXRID8vObmliHsnFE1CfTBzaRNiP9PD0Pu
-X-Gm-Gg: AYBFou11T5yu2mJu2VHg70phsRMSPDZ6iJ8th1KVDsgekqoSt1/ocBe/PtjJTW6361S
-	1GyT1KUR8u1vQRLYg305ZE6DSU/sfXdl0SWktsmXorjr6sIfif3dFFzNVtvyjJnuy+El8VvGzqG
-	wyjDvzV/4uG4X3jaww5qpjJzseNJXaWarr8vG7h8IxVaneKy7+OoSF8FmgewbdYx5ttPWqkjTzj
-	NYpxr+K8QeFpDEMDe6QLjQxk9Ujsq8Yvr/f06vr9+nxS/W2afjibOwGGLBkEx1zC6yo6n0GrYtr
-	RrutbKsC76s7O+t2vdj6M+3uoK8QTG3k4jcALO/JePykOq4hUTXvLGaCLsYTB9Tz/Uf9mk6FUAi
-	PJKd4UGSVEdShdlunoXXgzOcV2TIjP7wadXRji2ok7gyyDDTK2km5EO1Q+2KhLyuWVrGCp29RUj
-	6ZytWF9qbFITI27xl8mlqMnyAQ9JG0u4GTwHKnxaxAyZ1p4sasxX+KfjcTHIJ6LkQlukSTchQpo
-	Kpp0vsTFAqs3kH57Gbn+zWFUk3vvGfQjdl1NyZ1wpGFt5Dmv0ICci781qKT+ZqK+89fFNl0Porp
-	8ZGzn3Qa4jjK1A==
-X-Received: by 2002:a05:620a:1a03:b0:93e:4594:f5bb with SMTP id af79cd13be357-93e4595079dmr1022393185a.59.1791066558815;
-        Sat, 03 Oct 2026 15:29:18 -0700 (PDT)
-Received: from pointbeachlab-yoga.lan (ool-457df6e1.dyn.optonline.net. [69.125.246.225])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93cca297e84sm539341985a.37.2026.10.03.15.29.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 15:29:17 -0700 (PDT)
-From: James Fairweather <james.a.fairweather@gmail.com>
-To: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: James Fairweather <james.a.fairweather@gmail.com>,
-	chrome-platform@lists.linux.dev,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] platform/chrome: cros_usbpd_notify: Only use parent drvdata when parent is GOOG0004
-Date: Sat,  3 Oct 2026 18:28:53 -0400
-Message-ID: <20261003222855.23707-1-james.a.fairweather@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="J1UyGq/U"
+ARC-Seal: i=1; a=rsa-sha256; t=1791142201; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Pi/oisytCHp2YKwOVmo7zZbbepwwmwkZDZCb1EC5JWzrkyCXLlwySINedWLlGCwPVbtbBb6srsQLcQSqNUC2Uo5mLGdil22SWH4H7E58k8Gpzbi4tS8ClBLBRqLqAR5Ua012yyz7z5qq1VuA/9kj+EUicoIrWMBpZGj/l7srmk4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1791142201; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=JFR/y46AuH5zhc0c/R6tAYo9y5d3NyankY+Jgutk2ow=; 
+	b=TuepGGdR63PBpIwOlizgrHrTZyvU9DjrLKxJ6aWCpbHOwB/5lUucSX7Bbxbl0vW1pgqKy1nEIaI3Wsxs4/GR+aqEhUPYt5NoQeW/dXZ73tc9FDBCvMPXgefKmwd2JacszF2tJgElI6YAggvcEHvetpfGIwgxyTYvKkC6Ym/aQDY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791142201;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=JFR/y46AuH5zhc0c/R6tAYo9y5d3NyankY+Jgutk2ow=;
+	b=J1UyGq/UqBJBipmNwosM7o6xXgF20Kwd4Rrkfb/eAkbWvoL9/zgYXdnNxwiMf1Tt
+	/uaqa8ChNMu/M5250emqUgG861Ht8mDqzroZyf3SgAQHla9DvzBAQ1bzq1Hmh/DZ/e+
+	Pkl3f6MLkWlDs4Mu6l8x9VbQ06IJ3gP4gKGlXQx0=
+Received: by smtp.zohomail.com with SMTPS id 1791142198422180.87438797751383;
+	Sun, 4 Oct 2026 12:29:58 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id 092E2180951; Sun, 04 Oct 2026 21:29:35 +0200 (CEST)
+Date: Sun, 4 Oct 2026 21:29:35 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Jordan Brough <jordan@brough.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Corentin Chary <corentin.chary@gmail.com>, "Luke D. Jones" <luke@ljones.dev>, 
+	Denis Benato <denis.benato@linux.dev>, Hans de Goede <hansg@kernel.org>, 
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Antheas Kapenekakis <lkml@antheas.dev>, 
+	Matthew Garrett <mjg59@srcf.ucam.org>, Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
+	Armin Wolf <W_Armin@gmx.de>, Jonathan Woithe <jwoithe@just42.net>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Ike Panhc <ikepanhc@gmail.com>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
+	Matan Ziv-Av <matan@svgalib.org>, Nikita Kravets <teackot@gmail.com>, 
+	=?utf-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>, Joshua Grisham <josh@joshuagrisham.com>, 
+	Jeremy Soller <jeremy@system76.com>, System76 Product Development <productdev@system76.com>, 
+	Azael Avalos <coproscefalo@gmail.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	ibm-acpi-devel@lists.sourceforge.net, chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] ACPI: battery: add acpi_ prefix to the battery
+ hook API
+Message-ID: <asKowO4nqSiCC58T@venus>
+References: <20260930222650.1883805-1-jordan@brough.org>
+ <20260930222650.1883805-2-jordan@brough.org>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="62rwvd636wwykjor"
+Content-Disposition: inline
+In-Reply-To: <20260930222650.1883805-2-jordan@brough.org>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/291.133.86
+X-ZohoMailClient: External
 
-cros_usbpd_notify_probe_acpi() takes the EC device pointer from
-dev_get_drvdata(dev->parent) and assumes it is a struct cros_ec_device.
-That only holds when GOOG0003 is a child of GOOG0004. On older devices
-without that hierarchy, such as Google Nami, GOOG0003 and GOOG0004 are
-siblings under the ACPI EC (PNP0C09):
 
-  PNP0C09:00 (acpi-ec)
-  |-- GOOG0003:00 (cros-usbpd-notify-acpi)
-  `-- GOOG0004:00 (cros_ec_lpcs)
+--62rwvd636wwykjor
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 1/3] ACPI: battery: add acpi_ prefix to the battery
+ hook API
+MIME-Version: 1.0
 
-Before commit db65a06d10b3 ("ACPI: EC: Convert the driver to a platform
-one") the parent platform device had no driver data, so the driver
-warned and continued without an EC pointer, as intended for these
-devices. Since that commit the ACPI EC driver stores its struct acpi_ec
-there, so the driver treats a struct acpi_ec as a struct cros_ec_device
-and calls cros_ec_cmd() on it for every USB-C PD host event. Plugging
-or unplugging a charger then intermittently oopses, followed by soft
-lockups and a hung system:
+Hi,
 
-  BUG: unable to handle page fault for address: ffffffff9cf03220
-  #PF: supervisor write access in kernel mode
-  Hardware name: Google Nami/Nami, BIOS  09/19/2019
-  Workqueue: kacpi_notify acpi_os_execute_deferred
-  RIP: 0010:native_queued_spin_lock_slowpath+0x29d/0x330
-  Call Trace:
-   _raw_spin_lock_irqsave+0x59/0x80
-   __mutex_lock.constprop.0+0x129/0x930
-   cros_ec_cmd_xfer+0x2a/0xf0 [cros_ec_proto]
-   cros_ec_cmd_xfer_status+0x1a/0x90 [cros_ec_proto]
-   cros_ec_cmd+0xb7/0x140 [cros_ec_proto]
-   cros_usbpd_get_event_and_notify+0x42/0xc0 [cros_usbpd_notify]
-   acpi_ev_notify_dispatch+0x4e/0x70
-   acpi_os_execute_deferred+0x1a/0x30
+On Wed, Sep 30, 2026 at 04:26:33PM -0600, Jordan Brough wrote:
+> Rename battery_hook_register(), battery_hook_unregister() and
+> devm_battery_hook_register() to acpi_battery_hook_register(),
+> acpi_battery_hook_unregister() and devm_acpi_battery_hook_register(), so
+> that the exported ACPI battery hook API has a consistent namespace, and
+> update all in-tree callers.
+>=20
+> No functional change.
+>=20
+> Signed-off-by: Jordan Brough <jordan@brough.org>
+> ---
+>  drivers/acpi/battery.c                       | 30 ++++++++++----------
+>  drivers/platform/x86/asus-wmi.c              |  4 +--
+>  drivers/platform/x86/ayaneo-ec.c             |  2 +-
+>  drivers/platform/x86/dell/dell-laptop.c      |  4 +--
+>  drivers/platform/x86/dell/dell-wmi-ddv.c     |  2 +-
+>  drivers/platform/x86/fujitsu-laptop.c        |  4 +--
+>  drivers/platform/x86/huawei-wmi.c            |  4 +--
+>  drivers/platform/x86/lenovo/ideapad-laptop.c |  4 +--
+>  drivers/platform/x86/lenovo/thinkpad_acpi.c  |  4 +--
+>  drivers/platform/x86/lenovo/wmi-other.c      |  4 +--
+>  drivers/platform/x86/lg-laptop.c             |  4 +--
+>  drivers/platform/x86/msi-ec.c                |  4 +--
+>  drivers/platform/x86/oxpec.c                 |  2 +-
+>  drivers/platform/x86/samsung-galaxybook.c    |  3 +-
+>  drivers/platform/x86/samsung-laptop.c        |  4 +--
+>  drivers/platform/x86/system76_acpi.c         |  4 +--
+>  drivers/platform/x86/toshiba_acpi.c          |  4 +--
+>  drivers/platform/x86/uniwill/uniwill-acpi.c  |  2 +-
+>  drivers/power/supply/cros_charge-control.c   |  2 +-
+>  include/acpi/battery.h                       |  7 +++--
+>  20 files changed, 50 insertions(+), 48 deletions(-)
 
-Only read the parent's driver data when the parent's ACPI node is
-GOOG0004, and otherwise continue without an EC pointer. While at it,
-drop the reference taken by fwnode_get_parent().
+I expect this to be merged via other tree:
 
-Fixes: db65a06d10b3 ("ACPI: EC: Convert the driver to a platform one")
-Cc: stable@vger.kernel.org
-Assisted-by: claude-opus-5-5 checkpatch
-Signed-off-by: James Fairweather <james.a.fairweather@gmail.com>
----
-Tested on a Google Nami-based Chromebook (BIOS 09/19/2019)
-running a 7.2.5 distro kernel (linux-omarchy 7.2.5-3). The unpatched
-driver oopsed twice in two days, each time on a charger plug/unplug.
-With this patch built as a module against that kernel, the probe logs
-"Couldn't get Chrome EC device pointer." (confirming GOOG0003's parent
-is not GOOG0004 here), and 12 charger unplug/replug cycles produced no
-oops, with charging negotiating 20V/3.5A as before.
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com> # power-supply
 
-Not done: I have not boot-tested a full chrome-platform for-next kernel;
-the change was built and run as an out-of-tree module on 7.2.5, where
-this function is identical apart from a comment typo fix. Only Nami
-hardware was tested. Because the original crash is intermittent, the
-clean run shows the fix doesn't regress charging rather than proving
-the absence of the crash; the main evidence is the probe warning above
-plus the oops register state (the qspinlock tail encodes CPU 74 on an
-8-CPU machine, i.e. a non-lock word was being treated as a lock).
+Greetings,
 
-AI assistance: the crash was diagnosed and the patch and changelog were
-written with Claude Opus 5.5 (Claude Code), from the journal oops traces,
-the sysfs device hierarchy and the driver source. I reviewed the change
-and ran the test above.
+-- Sebastian
 
- drivers/platform/chrome/cros_usbpd_notify.c | 39 +++++++++++----------
- 1 file changed, 21 insertions(+), 18 deletions(-)
+--62rwvd636wwykjor
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/platform/chrome/cros_usbpd_notify.c b/drivers/platform/chrome/cros_usbpd_notify.c
-index 6f5eea493..25da31ec1 100644
---- a/drivers/platform/chrome/cros_usbpd_notify.c
-+++ b/drivers/platform/chrome/cros_usbpd_notify.c
-@@ -110,26 +110,29 @@ static int cros_usbpd_notify_probe_acpi(struct platform_device *pdev)
- 	if (!pdnotify)
- 		return -ENOMEM;
- 
--	/* Get the EC device pointer needed to talk to the EC. */
--	ec_dev = dev_get_drvdata(dev->parent);
--	if (!ec_dev) {
--		/*
--		 * We continue even for older devices which don't have the
--		 * correct device hierarchy, namely, GOOG0003 is a child
--		 * of GOOG0004. If GOOG0003 is a child of GOOG0004 and we
--		 * can't get a pointer to the Chrome EC device, defer the
--		 * probe function.
--		 */
--		parent_fwnode = fwnode_get_parent(dev->fwnode);
--		if (parent_fwnode) {
--			parent_adev = to_acpi_device_node(parent_fwnode);
--			if (parent_adev &&
--			    acpi_dev_hid_match(parent_adev, CREC_DRV_NAME)) {
--				return -EPROBE_DEFER;
--			}
-+	/*
-+	 * Get the EC device pointer needed to talk to the EC. The parent's
-+	 * driver data is only a struct cros_ec_device when GOOG0003 is a
-+	 * child of GOOG0004. On older devices without that hierarchy the
-+	 * parent may be bound to an unrelated driver (e.g. the ACPI EC
-+	 * driver for PNP0C09), so don't touch its driver data and continue
-+	 * without an EC pointer. If GOOG0003 is a child of GOOG0004 and we
-+	 * can't get a pointer to the Chrome EC device yet, defer the probe.
-+	 */
-+	ec_dev = NULL;
-+	parent_fwnode = fwnode_get_parent(dev->fwnode);
-+	parent_adev = to_acpi_device_node(parent_fwnode);
-+	if (parent_adev && acpi_dev_hid_match(parent_adev, CREC_DRV_NAME)) {
-+		ec_dev = dev_get_drvdata(dev->parent);
-+		if (!ec_dev) {
-+			fwnode_handle_put(parent_fwnode);
-+			return -EPROBE_DEFER;
- 		}
--		dev_warn(dev, "Couldn't get Chrome EC device pointer.\n");
- 	}
-+	fwnode_handle_put(parent_fwnode);
-+
-+	if (!ec_dev)
-+		dev_warn(dev, "Couldn't get Chrome EC device pointer.\n");
- 
- 	pdnotify->dev = dev;
- 	pdnotify->ec = ec_dev;
--- 
-2.55.0
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmrCqRsACgkQ2O7X88g7
++poiWxAAp/QxZ6RBEAi94THiV6q0/NPtT1zDexJhTXn8VS8LlU/lpCKicyuhrLwu
+xb8L+UumNwSbonKI7J6vBgsYc0yulnfdbjgZUQmi3qKfYEX9GD3el84MlNT3OCLF
+pxXS+003OV6xbb754fLN7OnszrFpgIRHtP8pfwTEi6ah65CImiNFUWthTUN4mf4h
+gsyw2Cok5/VP6mX9vj2Q37+UAq7+68i2/vVIrVF/t79mO8T0J4EzkvP3Et893aBz
+s3PXSTDoBD+XizKL2oPzavpY/5w3g1Caf2ZHSiO/WH0WmcJnlr5TftXo8MSlVMxJ
+JWoL9cHnqFjx11pOvRUOjYdhbyIVRvWOgZQdw/lOTrCldsH4KDHjQbjGhAOvRvrr
+XK4tUDWQj+P+Auiqj8FW535zWUPOktMlzBINyklkuzfsgnv9qjTvHmjGP6XEQE8C
+7Y3MgiB+czD5L7+NiWSpRf/7/B4Ln0YeKsQgfs8tYUeY6ukyNgwcnpY/DkQ8DewO
+7WzTm3JUa2PL7dvvlhO3WprobdjKE662PWPN8y8lPD4v8sGc28zRD+sQJ0Lss9gx
+LCxBdF+D8cvz8tTdIjteH/SljVlzcP8Alcr6Sl2PNHb2XtlKd5kgpcnsNyIh0/BE
+SETzWiZDs0b74fY9ls6reAkYRCVXsBVGu6piBJtj5saqeh4om78=
+=qtJe
+-----END PGP SIGNATURE-----
+
+--62rwvd636wwykjor--

@@ -1,150 +1,202 @@
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A084BEEC0
-	for <chrome-platform@lists.linux.dev>; Sun,  4 Oct 2026 19:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791142285; cv=pass; b=jDdlh/OlVIgMXxXb+X425/WWGP4rpV8+jvPg78bd3b6nJRtAMez8K6Lu5p3camHtLkp6kvm+ARpZDkwmV0H+TWKK0y49Br5IXKdCYCxiicgX2NwYhlb4ulxySZ0oz12of2XKpFRBJF7S1XEZ/VIqBGKTc1YtNEWVn1GeJZztsEg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791142285; c=relaxed/simple;
-	bh=npAFeNbnUiqL5FuCr3iRamjVN1PG0m2FhKEnJ4LpgTc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wip6dOqwKlGgHDEKmiXKSnxx6aLSBa72ek82eecHGIT7TkqmC8an3YfzZBlIDn6pPWmj7d6woFdYo1hWF6JUKUfqBbgMnLEoq+TneBpZaemAjTiUcqrs2xbHoYNnWB8EcSxQtWIAmWjKYwLsZmjPROhjy1tqtuUXbyLhW4SpWMw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=J1UyGq/U; arc=pass smtp.client-ip=165.173.180.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0216A35E1A8
+	for <chrome-platform@lists.linux.dev>; Sun,  4 Oct 2026 22:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791154577; cv=none; b=lyP5ojpgUgX/wgCkfCbh1fADxpXf6Pznw2UMoo03oQf3+6QnmY+fO7abuqr08tHUaRjyc+gyLGQtHy3Q504mP4pRWSoORz9j5DRV29/MCi6HIOXh8TybjV3MzJnb6bamvsMufAC5557JXe+yyZt/7DLg4fSBsPKOTxcfwRG7JfM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791154577; c=relaxed/simple;
+	bh=eCoocw/muAdBEHjF88L2mfVpD5sQO9Zs2UHQ4OwzCmA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p6Fi/1hNcLD25akfrirl0JUovQBSswJMjXBxlarCwr6oGz/E7BT0yppiW9WMqugLAWBBJaSG8tCZizVFYAV3pYh7tX+1kN/MptealThgXO+kvV6Nl3pUsEphZgel5EDSOx7bl/bx7x6/nPEN2Qdi2y4B5CDW7AdnCPcVsN40B7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastmailteam.com; spf=pass smtp.mailfrom=fastmailteam.com; dkim=pass (2048-bit key) header.d=fastmailteam.com header.i=@fastmailteam.com header.b=hz4twurD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JnIwxMwE; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastmailteam.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmailteam.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="J1UyGq/U"
-ARC-Seal: i=1; a=rsa-sha256; t=1791142201; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Pi/oisytCHp2YKwOVmo7zZbbepwwmwkZDZCb1EC5JWzrkyCXLlwySINedWLlGCwPVbtbBb6srsQLcQSqNUC2Uo5mLGdil22SWH4H7E58k8Gpzbi4tS8ClBLBRqLqAR5Ua012yyz7z5qq1VuA/9kj+EUicoIrWMBpZGj/l7srmk4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1791142201; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=JFR/y46AuH5zhc0c/R6tAYo9y5d3NyankY+Jgutk2ow=; 
-	b=TuepGGdR63PBpIwOlizgrHrTZyvU9DjrLKxJ6aWCpbHOwB/5lUucSX7Bbxbl0vW1pgqKy1nEIaI3Wsxs4/GR+aqEhUPYt5NoQeW/dXZ73tc9FDBCvMPXgefKmwd2JacszF2tJgElI6YAggvcEHvetpfGIwgxyTYvKkC6Ym/aQDY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791142201;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=JFR/y46AuH5zhc0c/R6tAYo9y5d3NyankY+Jgutk2ow=;
-	b=J1UyGq/UqBJBipmNwosM7o6xXgF20Kwd4Rrkfb/eAkbWvoL9/zgYXdnNxwiMf1Tt
-	/uaqa8ChNMu/M5250emqUgG861Ht8mDqzroZyf3SgAQHla9DvzBAQ1bzq1Hmh/DZ/e+
-	Pkl3f6MLkWlDs4Mu6l8x9VbQ06IJ3gP4gKGlXQx0=
-Received: by smtp.zohomail.com with SMTPS id 1791142198422180.87438797751383;
-	Sun, 4 Oct 2026 12:29:58 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 092E2180951; Sun, 04 Oct 2026 21:29:35 +0200 (CEST)
-Date: Sun, 4 Oct 2026 21:29:35 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Jordan Brough <jordan@brough.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Corentin Chary <corentin.chary@gmail.com>, "Luke D. Jones" <luke@ljones.dev>, 
-	Denis Benato <denis.benato@linux.dev>, Hans de Goede <hansg@kernel.org>, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Antheas Kapenekakis <lkml@antheas.dev>, 
-	Matthew Garrett <mjg59@srcf.ucam.org>, Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>, 
-	Armin Wolf <W_Armin@gmx.de>, Jonathan Woithe <jwoithe@just42.net>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Ike Panhc <ikepanhc@gmail.com>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
-	Matan Ziv-Av <matan@svgalib.org>, Nikita Kravets <teackot@gmail.com>, 
-	=?utf-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>, Joshua Grisham <josh@joshuagrisham.com>, 
-	Jeremy Soller <jeremy@system76.com>, System76 Product Development <productdev@system76.com>, 
-	Azael Avalos <coproscefalo@gmail.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	ibm-acpi-devel@lists.sourceforge.net, chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] ACPI: battery: add acpi_ prefix to the battery
- hook API
-Message-ID: <asKowO4nqSiCC58T@venus>
-References: <20260930222650.1883805-1-jordan@brough.org>
- <20260930222650.1883805-2-jordan@brough.org>
+	dkim=pass (2048-bit key) header.d=fastmailteam.com header.i=@fastmailteam.com header.b="hz4twurD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JnIwxMwE"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id D83EAEC0634
+	for <chrome-platform@lists.linux.dev>; Sun,  4 Oct 2026 18:56:13 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Sun, 04 Oct 2026 18:56:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	fastmailteam.com; h=cc:cc:content-transfer-encoding:content-type
+	:date:date:from:from:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to; s=fm3; t=1791154573; x=
+	1791240973; bh=HY3DFH/2+qAHjGL1keCAY9gW94QHm2k5f81Z3ktBps4=; b=h
+	z4twurDSdQzQSfuZuSYA3k4Smgmv2vZdXxtNwhbyUC1tZnSqg47f1JULxmhq1480
+	ZKOkqqLjLts24NEi42oGDayih3C2AGD9YzNb2On1863bZuqNJKCiGvyFprOyY+Oe
+	xs9b86b56NkvgvIFpsy5p8/V0DJbeBE6Z5IG+pqXqj5XYM1/k3+PVX93fVnjHhbS
+	wDI3ZYmvmvq9KIzFwMfkoPcFI1/QuzTsPU1S67/9KT2UqEztTqelr1BIrSWF4v0Q
+	gCdnWpWBJXdfy+HoTrQdbQwdtr908F0JK6xTF2cb9P4dS2+B0KweOrqlOJz2aPOA
+	9PUemQsIUbgLSoANxzXlA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1791154573; x=1791240973; bh=HY3DFH/2+qAHjGL1keCAY9gW94QHm2k5f81
+	Z3ktBps4=; b=JnIwxMwEDopyTMv9G7XhW8N/HQsjaG+XkcUpzON+af7NOhnvgKn
+	rACclQrjrFrmO2R7H6otmBN+DponaI2gzSfHJcYuvE/eyomdbmO6AXAOQ/Eii2zl
+	dxWvl2OC/wuX0H5WOcByQFefHKqrrf47qeiDaL/nTvtgFMI7G0E8QkZ9QeVTxO1/
+	FIt+SzXmIqjTQH5nYzQ9KxAPjIUSjiS66bNp5ezvFSwjUvg4hk2O8OPSbxQFpe2y
+	1txLTFqPz3CgpwBsB7QS+mSW5FAgT8b9DuGwazBFgovZXDYMQmYbXuxgZY5XEdEZ
+	BZa9FSRvhsbi8yGDzd2Mj1ZFwHaKI9XHwzw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
+	action=sign d=fastmailteam.com a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1791154573; d=fastmailteam.com;
+	mf=PGFuZHJld0BmYXN0bWFpbHRlYW0uY29tPg==;
+	rt=PGNocm9tZS1wbGF0Zm9ybUBsaXN0cy5saW51eC5kZXY+;
+	s=fm3:rsa-sha256:Bj8rAk1wC0CGw+1iHoP4BazRdG8Ea4zk517JCbsQl2K+WvX
+	a48jRpXYooeN4n2RCKGQUAf76xSsiNsJGdiwoJJBCTJu621zCGcsrUpKBbyRhNy9
+	V6xZHauFGBJrsmrmvQTyIefWY5vMNW9PBWT5JfRDqB7+KP4GtCvf3fOUdNX0SfYi
+	SqwxlDJzFnTIA2L5XcgiToD4WuRtvGxoHa0u/J9ZMhuX6FzyzEEeWbJnRw9CUWSh
+	hOPJhDKi+x9tE4cQbVX7AMmyB88GLJE/2Qj/gEOpRgTHc2KPPqgRZwsudAWYPvP9
+	opU8vzdf2/w/sYgGj3Rn0dALDEvP3b4ucDfIN2w==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
+	action=mi-m=1; hc=9;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	message-id,mime-version,subject,to;
+Message-Instance: m=1; h=sha256:F8MH6fqE5fOl4R42t0Z+xRdc9TtYeI8UBGIlwQw1+rQ=:eCoocw/muAdBEHjF88L2mfVpD5sQO9Zs2UHQ4OwzCmA=;
+X-ME-Sender: <xms:jdnCavNaGG27G7mQWNCPUgFHN2LWa7NKdYUvTWXhDqu1dbhVAJshuQ>
+    <xme:jdnCaqbBuvigFQ19f8mQiiC0PV4hunNGo_k7B6Iu4jJH4a-V9jm3wN2FsBf4316pb
+    gLYUBRl9GV3b-6BAHcJQ09byilloptqN0mc82NmQK18mgczmA>
+X-ME-Received: <xmr:jdnCau-TjvPb4-hDv5lxJ2aFeK-ffwhR710PPxJdBP-_KYaw02_ZdiTOLBvS-ViwzcH3cjXfZmkG_F2KeHdTIO6WPsVGy54tTCJAhbT6RH0>
+X-ME-Proxy-Cause: dmFkZTFN02SPjk6ep1voePZiXrWsR7ZDTU/dLU3zzgSAEcARE5XGnBYkEaHvq65JqdjFKW
+    7TBRAWCtu3iP/QrH9xC+RGCkagTQOPbP0A1brN2qx8QvHrnbE42sjzb/bxRP+iUjZfp+hv
+    1MPjgXd/oVA7wOw0+pxE9v8JDoaYT2P0BZ5y/+PC0Yb84x9iPu5jTTlgFkM6+cXMJSB4U4
+    MFCyyVjV+tmzrAqPmLqSotNUBkEK2URRkB6q1ANqGAsgUBgN2/ij+zEjnAdrmGrtA2FRDP
+    Z5rRRPxLBznqtkw2Fr0SyOVlRmwcBpDVdW4V5EHzOEactG8I7eTj131UKHV4z6py8iG7gC
+    HD0qJbumNo+yvn8Y5DhzVQZh4FT+0c2O92oL8nWMKe8q9/uuo513lFJK54QSib054dR9n3
+    qZWqukECabiFkehC2VXdKG5S5A+XSufD3w7ewtMZtTccGkXFkBKx8rfa9QBdzE++F8mOja
+    VxJjVemfH9zlYAvxDjBcdNld1dxN0BdLxBWleImo80d1Yn0nRHGN4Hjt15WCzmJWe3htfv
+    +OjdJsCcU9prt8WxccgYb6YtcdjVht0AoxALCqw/q2mzkwMxzvMVnNIarbkpF1BGFBfUn/
+    IKGSF//LNig1BeR4KUpmx9OY/xjKqsmflhsbOxaZRVscPQkP12uNESWgL3Hg
+X-ME-Proxy: <xmx:jdnCarSdveaYPF63P0M33uxoCOb3mPvwMDnHlbe8Dae2eKddCMkCSw>
+    <xmx:jdnCaocWAog7on9teWxZ_KRrrwyvhAT4avAU2k1aOvWgIsQ87C7N9w>
+    <xmx:jdnCatTiCdCJxNoThOdMT8q8XGHqn_GOtG_a9B9VqLiqFEuApzcAPQ>
+    <xmx:jdnCakLkjcXbdz65VBaIKeMe_0wOlmeftOocLps7xzTgDUOJQILF4Q>
+    <xmx:jdnCanIGHvInYnb6trdnS7cd5AYlokhBz5Qg5vSAhgrWzGHQ0hHPoK_n>
+Feedback-ID: ib8be4bd5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 4 Oct 2026 18:56:10 -0400 (EDT)
+From: Andrew Pam <andrew@fastmailteam.com>
+To: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Sebastian Reichel <sre@kernel.org>,
+	Benson Leung <bleung@chromium.org>
+Cc: Guenter Roeck <groeck@chromium.org>,
+	Matt DeVillier <matt.devillier@gmail.com>,
+	chrome-platform@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andrew Pam <andrew@fastmailteam.com>
+Subject: [PATCH] power: supply: cros_charge-control: restore EC state on resume
+Date: Mon,  5 Oct 2026 09:56:06 +1100
+Message-ID: <20261004225606.30577-1-andrew@fastmailteam.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="62rwvd636wwykjor"
-Content-Disposition: inline
-In-Reply-To: <20260930222650.1883805-2-jordan@brough.org>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/291.133.86
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
+The EC resets its charge control configuration when the AP powers off,
+so configured sustainer thresholds and charge behaviour are lost across
+hibernation.
 
---62rwvd636wwykjor
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 1/3] ACPI: battery: add acpi_ prefix to the battery
- hook API
-MIME-Version: 1.0
+Nothing notices the reset. Commit 4fc88ba435da ("power: supply:
+cros_charge-control: adopt EC charge state on probe") made the driver
+initialise its cached state from the EC, but it does so only on probe,
+and a resume is not a probe. Sysfs therefore keeps reporting the
+configured values while the EC charges the battery to full. On a
+Framework Laptop 16 (Ryzen AI 300, charge control command version 3)
+with charge_control_end_threshold set to 80, a hibernate and resume
+cycle leaves the attribute still reading 80 while the battery charges
+past it to 100%.
 
-Hi,
+Add a system sleep resume hook that reprograms the EC from the cached
+state. The same EC behaviour and the same fix already exist for another
+driver, see commit 2643187ccb86 ("platform/x86: ayaneo-ec: Add suspend
+hook").
 
-On Wed, Sep 30, 2026 at 04:26:33PM -0600, Jordan Brough wrote:
-> Rename battery_hook_register(), battery_hook_unregister() and
-> devm_battery_hook_register() to acpi_battery_hook_register(),
-> acpi_battery_hook_unregister() and devm_acpi_battery_hook_register(), so
-> that the exported ACPI battery hook API has a consistent namespace, and
-> update all in-tree callers.
->=20
-> No functional change.
->=20
-> Signed-off-by: Jordan Brough <jordan@brough.org>
-> ---
->  drivers/acpi/battery.c                       | 30 ++++++++++----------
->  drivers/platform/x86/asus-wmi.c              |  4 +--
->  drivers/platform/x86/ayaneo-ec.c             |  2 +-
->  drivers/platform/x86/dell/dell-laptop.c      |  4 +--
->  drivers/platform/x86/dell/dell-wmi-ddv.c     |  2 +-
->  drivers/platform/x86/fujitsu-laptop.c        |  4 +--
->  drivers/platform/x86/huawei-wmi.c            |  4 +--
->  drivers/platform/x86/lenovo/ideapad-laptop.c |  4 +--
->  drivers/platform/x86/lenovo/thinkpad_acpi.c  |  4 +--
->  drivers/platform/x86/lenovo/wmi-other.c      |  4 +--
->  drivers/platform/x86/lg-laptop.c             |  4 +--
->  drivers/platform/x86/msi-ec.c                |  4 +--
->  drivers/platform/x86/oxpec.c                 |  2 +-
->  drivers/platform/x86/samsung-galaxybook.c    |  3 +-
->  drivers/platform/x86/samsung-laptop.c        |  4 +--
->  drivers/platform/x86/system76_acpi.c         |  4 +--
->  drivers/platform/x86/toshiba_acpi.c          |  4 +--
->  drivers/platform/x86/uniwill/uniwill-acpi.c  |  2 +-
->  drivers/power/supply/cros_charge-control.c   |  2 +-
->  include/acpi/battery.h                       |  7 +++--
->  20 files changed, 50 insertions(+), 48 deletions(-)
+Reprogramming the EC is only strictly required after hibernation, but it
+is cheap and idempotent, so hook every resume path rather than rely on
+the EC preserving its state across each kind of sleep transition.
 
-I expect this to be merged via other tree:
+Note that re-reading the state from the EC on resume, by reusing
+cros_chctl_init_state() or otherwise, would be wrong even on the command
+versions that support GET: the EC has been reset to its defaults by the
+time the hook runs, so adopting that state would silently discard the
+configuration the user asked for. The driver's cached state is the only
+remaining record of it, which is why it is pushed to the EC rather than
+refreshed from it.
 
-Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com> # power-supply
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Andrew Pam <andrew@fastmailteam.com>
+---
+ drivers/power/supply/cros_charge-control.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-Greetings,
+diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/supply/cros_charge-control.c
+index 07bcc6a9aeef..77023dcd1851 100644
+--- a/drivers/power/supply/cros_charge-control.c
++++ b/drivers/power/supply/cros_charge-control.c
+@@ -13,6 +13,7 @@
+ #include <linux/platform_data/cros_ec_commands.h>
+ #include <linux/platform_data/cros_ec_proto.h>
+ #include <linux/platform_device.h>
++#include <linux/pm.h>
+ #include <linux/types.h>
+ 
+ #define EC_CHARGE_CONTROL_BEHAVIOURS	(BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO)             | \
+@@ -420,6 +421,7 @@ static int cros_chctl_probe(struct platform_device *pdev)
+ 
+ 	priv->dev = dev;
+ 	priv->cros_ec = cros_ec;
++	platform_set_drvdata(pdev, priv);
+ 
+ 	if (priv->cmd_version == 1)
+ 		priv->psy_ext = &cros_chctl_psy_ext_v1;
+@@ -439,6 +441,23 @@ static int cros_chctl_probe(struct platform_device *pdev)
+ 	return devm_battery_hook_register(dev, &priv->battery_hook);
+ }
+ 
++static int cros_chctl_resume(struct device *dev)
++{
++	struct cros_chctl_priv *priv = dev_get_drvdata(dev);
++
++	/*
++	 * The EC resets its charge control state when the AP powers off, so the
++	 * configuration is lost across hibernation. As the driver never reads
++	 * the state back from the EC, the values exposed to userspace would
++	 * still describe the lost configuration. Reprogram the EC from the
++	 * cached state to keep both in sync.
++	 */
++	guard(mutex)(&priv->lock);
++	return cros_chctl_configure_ec(priv);
++}
++
++static DEFINE_SIMPLE_DEV_PM_OPS(cros_chctl_pm_ops, NULL, cros_chctl_resume);
++
+ static const struct platform_device_id cros_chctl_id[] = {
+ 	{ .name = "cros-charge-control" },
+ 	{ }
+@@ -447,6 +466,7 @@ MODULE_DEVICE_TABLE(platform, cros_chctl_id);
+ 
+ static struct platform_driver cros_chctl_driver = {
+ 	.driver.name	= "cros-charge-control",
++	.driver.pm	= pm_sleep_ptr(&cros_chctl_pm_ops),
+ 	.probe		= cros_chctl_probe,
+ 	.id_table	= cros_chctl_id,
+ };
 
--- Sebastian
+base-commit: b33596a615d163372f5e7519338d860cbfc37217
+-- 
+2.53.0
 
---62rwvd636wwykjor
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmrCqRsACgkQ2O7X88g7
-+poiWxAAp/QxZ6RBEAi94THiV6q0/NPtT1zDexJhTXn8VS8LlU/lpCKicyuhrLwu
-xb8L+UumNwSbonKI7J6vBgsYc0yulnfdbjgZUQmi3qKfYEX9GD3el84MlNT3OCLF
-pxXS+003OV6xbb754fLN7OnszrFpgIRHtP8pfwTEi6ah65CImiNFUWthTUN4mf4h
-gsyw2Cok5/VP6mX9vj2Q37+UAq7+68i2/vVIrVF/t79mO8T0J4EzkvP3Et893aBz
-s3PXSTDoBD+XizKL2oPzavpY/5w3g1Caf2ZHSiO/WH0WmcJnlr5TftXo8MSlVMxJ
-JWoL9cHnqFjx11pOvRUOjYdhbyIVRvWOgZQdw/lOTrCldsH4KDHjQbjGhAOvRvrr
-XK4tUDWQj+P+Auiqj8FW535zWUPOktMlzBINyklkuzfsgnv9qjTvHmjGP6XEQE8C
-7Y3MgiB+czD5L7+NiWSpRf/7/B4Ln0YeKsQgfs8tYUeY6ukyNgwcnpY/DkQ8DewO
-7WzTm3JUa2PL7dvvlhO3WprobdjKE662PWPN8y8lPD4v8sGc28zRD+sQJ0Lss9gx
-LCxBdF+D8cvz8tTdIjteH/SljVlzcP8Alcr6Sl2PNHb2XtlKd5kgpcnsNyIh0/BE
-SETzWiZDs0b74fY9ls6reAkYRCVXsBVGu6piBJtj5saqeh4om78=
-=qtJe
------END PGP SIGNATURE-----
-
---62rwvd636wwykjor--

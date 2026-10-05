@@ -1,202 +1,89 @@
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0216A35E1A8
-	for <chrome-platform@lists.linux.dev>; Sun,  4 Oct 2026 22:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C72D8834;
+	Mon,  5 Oct 2026 03:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791154577; cv=none; b=lyP5ojpgUgX/wgCkfCbh1fADxpXf6Pznw2UMoo03oQf3+6QnmY+fO7abuqr08tHUaRjyc+gyLGQtHy3Q504mP4pRWSoORz9j5DRV29/MCi6HIOXh8TybjV3MzJnb6bamvsMufAC5557JXe+yyZt/7DLg4fSBsPKOTxcfwRG7JfM=
+	t=1791171652; cv=none; b=hHHCCsCtVs6rsar9IfbdKSRJIJqgPLy1eftvB2R5Y58T4vD1yqbwgz/yN9SldcURwyaAmehMPU57JQneX0h2ZMMWY/fezV7cwaI768j8H21bccbXSGIwVNSBZHLM/5s47sF8jXf3xXFkM4UFLpgrASXDpcE8Kd+arwUYhr3H/XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791154577; c=relaxed/simple;
-	bh=eCoocw/muAdBEHjF88L2mfVpD5sQO9Zs2UHQ4OwzCmA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p6Fi/1hNcLD25akfrirl0JUovQBSswJMjXBxlarCwr6oGz/E7BT0yppiW9WMqugLAWBBJaSG8tCZizVFYAV3pYh7tX+1kN/MptealThgXO+kvV6Nl3pUsEphZgel5EDSOx7bl/bx7x6/nPEN2Qdi2y4B5CDW7AdnCPcVsN40B7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastmailteam.com; spf=pass smtp.mailfrom=fastmailteam.com; dkim=pass (2048-bit key) header.d=fastmailteam.com header.i=@fastmailteam.com header.b=hz4twurD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JnIwxMwE; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastmailteam.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmailteam.com
+	s=arc-20240116; t=1791171652; c=relaxed/simple;
+	bh=SiC5mWtHUS0Oi+9nry2VvKHmeOD0RjBoskX0u9Dl1ag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Af8L3IyMzAZAYo6GhQDw5ZhSYxN+LFPG1ZzB86plgM50ysJeh9vxgdDoePTsP13QDEoOcYRaqxd3H5HW9G/jNLAQcVy12mvVA1DbgOVfDxfYhIuPTnxjpPUGbu/6RvXKqAAW8GbOQFoACENk3/rBDLLLspmdY6bmj83bBq3Cd04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=njUIpVed; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmailteam.com header.i=@fastmailteam.com header.b="hz4twurD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JnIwxMwE"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id D83EAEC0634
-	for <chrome-platform@lists.linux.dev>; Sun,  4 Oct 2026 18:56:13 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Sun, 04 Oct 2026 18:56:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	fastmailteam.com; h=cc:cc:content-transfer-encoding:content-type
-	:date:date:from:from:in-reply-to:message-id:mime-version
-	:reply-to:subject:subject:to:to; s=fm3; t=1791154573; x=
-	1791240973; bh=HY3DFH/2+qAHjGL1keCAY9gW94QHm2k5f81Z3ktBps4=; b=h
-	z4twurDSdQzQSfuZuSYA3k4Smgmv2vZdXxtNwhbyUC1tZnSqg47f1JULxmhq1480
-	ZKOkqqLjLts24NEi42oGDayih3C2AGD9YzNb2On1863bZuqNJKCiGvyFprOyY+Oe
-	xs9b86b56NkvgvIFpsy5p8/V0DJbeBE6Z5IG+pqXqj5XYM1/k3+PVX93fVnjHhbS
-	wDI3ZYmvmvq9KIzFwMfkoPcFI1/QuzTsPU1S67/9KT2UqEztTqelr1BIrSWF4v0Q
-	gCdnWpWBJXdfy+HoTrQdbQwdtr908F0JK6xTF2cb9P4dS2+B0KweOrqlOJz2aPOA
-	9PUemQsIUbgLSoANxzXlA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1791154573; x=1791240973; bh=HY3DFH/2+qAHjGL1keCAY9gW94QHm2k5f81
-	Z3ktBps4=; b=JnIwxMwEDopyTMv9G7XhW8N/HQsjaG+XkcUpzON+af7NOhnvgKn
-	rACclQrjrFrmO2R7H6otmBN+DponaI2gzSfHJcYuvE/eyomdbmO6AXAOQ/Eii2zl
-	dxWvl2OC/wuX0H5WOcByQFefHKqrrf47qeiDaL/nTvtgFMI7G0E8QkZ9QeVTxO1/
-	FIt+SzXmIqjTQH5nYzQ9KxAPjIUSjiS66bNp5ezvFSwjUvg4hk2O8OPSbxQFpe2y
-	1txLTFqPz3CgpwBsB7QS+mSW5FAgT8b9DuGwazBFgovZXDYMQmYbXuxgZY5XEdEZ
-	BZa9FSRvhsbi8yGDzd2Mj1ZFwHaKI9XHwzw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
-	action=sign d=fastmailteam.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1791154573; d=fastmailteam.com;
-	mf=PGFuZHJld0BmYXN0bWFpbHRlYW0uY29tPg==;
-	rt=PGNocm9tZS1wbGF0Zm9ybUBsaXN0cy5saW51eC5kZXY+;
-	s=fm3:rsa-sha256:Bj8rAk1wC0CGw+1iHoP4BazRdG8Ea4zk517JCbsQl2K+WvX
-	a48jRpXYooeN4n2RCKGQUAf76xSsiNsJGdiwoJJBCTJu621zCGcsrUpKBbyRhNy9
-	V6xZHauFGBJrsmrmvQTyIefWY5vMNW9PBWT5JfRDqB7+KP4GtCvf3fOUdNX0SfYi
-	SqwxlDJzFnTIA2L5XcgiToD4WuRtvGxoHa0u/J9ZMhuX6FzyzEEeWbJnRw9CUWSh
-	hOPJhDKi+x9tE4cQbVX7AMmyB88GLJE/2Qj/gEOpRgTHc2KPPqgRZwsudAWYPvP9
-	opU8vzdf2/w/sYgGj3Rn0dALDEvP3b4ucDfIN2w==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
-	action=mi-m=1; hc=9;
-	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	message-id,mime-version,subject,to;
-Message-Instance: m=1; h=sha256:F8MH6fqE5fOl4R42t0Z+xRdc9TtYeI8UBGIlwQw1+rQ=:eCoocw/muAdBEHjF88L2mfVpD5sQO9Zs2UHQ4OwzCmA=;
-X-ME-Sender: <xms:jdnCavNaGG27G7mQWNCPUgFHN2LWa7NKdYUvTWXhDqu1dbhVAJshuQ>
-    <xme:jdnCaqbBuvigFQ19f8mQiiC0PV4hunNGo_k7B6Iu4jJH4a-V9jm3wN2FsBf4316pb
-    gLYUBRl9GV3b-6BAHcJQ09byilloptqN0mc82NmQK18mgczmA>
-X-ME-Received: <xmr:jdnCau-TjvPb4-hDv5lxJ2aFeK-ffwhR710PPxJdBP-_KYaw02_ZdiTOLBvS-ViwzcH3cjXfZmkG_F2KeHdTIO6WPsVGy54tTCJAhbT6RH0>
-X-ME-Proxy-Cause: dmFkZTFN02SPjk6ep1voePZiXrWsR7ZDTU/dLU3zzgSAEcARE5XGnBYkEaHvq65JqdjFKW
-    7TBRAWCtu3iP/QrH9xC+RGCkagTQOPbP0A1brN2qx8QvHrnbE42sjzb/bxRP+iUjZfp+hv
-    1MPjgXd/oVA7wOw0+pxE9v8JDoaYT2P0BZ5y/+PC0Yb84x9iPu5jTTlgFkM6+cXMJSB4U4
-    MFCyyVjV+tmzrAqPmLqSotNUBkEK2URRkB6q1ANqGAsgUBgN2/ij+zEjnAdrmGrtA2FRDP
-    Z5rRRPxLBznqtkw2Fr0SyOVlRmwcBpDVdW4V5EHzOEactG8I7eTj131UKHV4z6py8iG7gC
-    HD0qJbumNo+yvn8Y5DhzVQZh4FT+0c2O92oL8nWMKe8q9/uuo513lFJK54QSib054dR9n3
-    qZWqukECabiFkehC2VXdKG5S5A+XSufD3w7ewtMZtTccGkXFkBKx8rfa9QBdzE++F8mOja
-    VxJjVemfH9zlYAvxDjBcdNld1dxN0BdLxBWleImo80d1Yn0nRHGN4Hjt15WCzmJWe3htfv
-    +OjdJsCcU9prt8WxccgYb6YtcdjVht0AoxALCqw/q2mzkwMxzvMVnNIarbkpF1BGFBfUn/
-    IKGSF//LNig1BeR4KUpmx9OY/xjKqsmflhsbOxaZRVscPQkP12uNESWgL3Hg
-X-ME-Proxy: <xmx:jdnCarSdveaYPF63P0M33uxoCOb3mPvwMDnHlbe8Dae2eKddCMkCSw>
-    <xmx:jdnCaocWAog7on9teWxZ_KRrrwyvhAT4avAU2k1aOvWgIsQ87C7N9w>
-    <xmx:jdnCatTiCdCJxNoThOdMT8q8XGHqn_GOtG_a9B9VqLiqFEuApzcAPQ>
-    <xmx:jdnCakLkjcXbdz65VBaIKeMe_0wOlmeftOocLps7xzTgDUOJQILF4Q>
-    <xmx:jdnCanIGHvInYnb6trdnS7cd5AYlokhBz5Qg5vSAhgrWzGHQ0hHPoK_n>
-Feedback-ID: ib8be4bd5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 4 Oct 2026 18:56:10 -0400 (EDT)
-From: Andrew Pam <andrew@fastmailteam.com>
-To: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Sebastian Reichel <sre@kernel.org>,
-	Benson Leung <bleung@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>,
-	Matt DeVillier <matt.devillier@gmail.com>,
-	chrome-platform@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrew Pam <andrew@fastmailteam.com>
-Subject: [PATCH] power: supply: cros_charge-control: restore EC state on resume
-Date: Mon,  5 Oct 2026 09:56:06 +1100
-Message-ID: <20261004225606.30577-1-andrew@fastmailteam.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="njUIpVed"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F17731F000FF;
+	Mon,  5 Oct 2026 03:40:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791171650;
+	bh=ppmVR0hseoTnPTTQ4WpaTp1gw66+0BB0990p78SHIFw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=njUIpVedW23l2LqYkI3duRPuzXic46aaDxLK9vJKOBjdQWkOCa0QQ1z1G7AQ+8YSa
+	 Yw2iryNNEYQXzlPXdSZtxX6BvZbiZYuwQdi8FEa61oG8RQo14YXIQ7HlfH6kMOM6RC
+	 fqNNkJX8vECPRUEexHBELEz/JVOZFWP62dVQIEFqHhEc4D541AXx7uM5HOHQ8Bjzvk
+	 r0ZqAvVufNj3dVrd48YBz9zI8hnCpXsoEPSQkmFU5nNvepBwLeveBrnXZNkjDEwSw0
+	 irPpfSwLOZtmDTR5Kd9GrEj4Q9Kt3zyv0ZSdK8DoRRsJTqgsGFfR0yWLdK64S0b/eW
+	 6zrI+KwLo9ngA==
+Date: Mon, 5 Oct 2026 03:40:46 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Sergey Tiraspolsky <stiraspo@gmail.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	"Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, james.a.fairweather@gmail.com
+Subject: Re: [PATCH] platform/chrome: cros_usbpd_notify: Don't use a non-EC
+ parent's drvdata
+Message-ID: <asMcPkMDjO-Uip8L@google.com>
+References: <20261003204623.18124-1-stiraspo@gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261003204623.18124-1-stiraspo@gmail.com>
 
-The EC resets its charge control configuration when the AP powers off,
-so configured sustainer thresholds and charge behaviour are lost across
-hibernation.
+On Sat, Oct 03, 2026 at 01:46:23PM -0700, Sergey Tiraspolsky wrote:
+> Notes:
+>     Tested on a 2017 Google Pixelbook (Eve), where GOOG0003 is a child of
+>     PNP0C09, on 7.2.5 (Arch-based distro kernel; none of its patches touch
+>     drivers/platform/chrome or drivers/acpi/ec.c), building this change as
+>     an out-of-tree module:
+>     
+>      - without the patch: four oopses with the trace above in the logs, one
+>        3 seconds after resume, and lid-close suspends that never resumed
+>      - with the patch: the probe prints "Couldn't get Chrome EC device
+>        pointer." again; a charger unplug/replug produced 9 USB PD
+>        notifications, all taking the "EC device inaccessible; sending 0
+>        event status" path; suspend with a charger unplug/replug while asleep
+>        resumed normally; no oopses
+>     
+>     Not tested: a device where GOOG0003 is a child of GOOG0004 (that path
+>     only moves into the if branch here, its logic is unchanged).
 
-Nothing notices the reset. Commit 4fc88ba435da ("power: supply:
-cros_charge-control: adopt EC charge state on probe") made the driver
-initialise its cached state from the EC, but it does so only on probe,
-and a resume is not a probe. Sysfs therefore keeps reporting the
-configured values while the EC charges the battery to full. On a
-Framework Laptop 16 (Ryzen AI 300, charge control command version 3)
-with charge_control_end_threshold set to 80, a hibernate and resume
-cycle leaves the attribute still reading 80 while the battery charges
-past it to 100%.
+Hi Sergey,
 
-Add a system sleep resume hook that reprograms the EC from the cached
-state. The same EC behaviour and the same fix already exist for another
-driver, see commit 2643187ccb86 ("platform/x86: ayaneo-ec: Add suspend
-hook").
+Thanks for looking into this.
 
-Reprogramming the EC is only strictly required after hibernation, but it
-is cheap and idempotent, so hook every resume path rather than rely on
-the EC preserving its state across each kind of sleep transition.
+Coincidentally, James Fairweather ran into the same issue on a Nami
+Chromebook and submitted a patch shortly after yours [1].
 
-Note that re-reading the state from the EC on resume, by reusing
-cros_chctl_init_state() or otherwise, would be wrong even on the command
-versions that support GET: the EC has been reset to its defaults by the
-time the hook runs, so adopting that state would silently discard the
-configuration the user asked for. The driver's cached state is the only
-remaining record of it, which is why it is pushed to the EC rather than
-refreshed from it.
+The patch [1] addresses the same crash, but also fixes an existing firmware
+node reference leak by calling fwnode_handle_put() on the handle returned by
+fwnode_get_parent().
 
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Andrew Pam <andrew@fastmailteam.com>
----
- drivers/power/supply/cros_charge-control.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Because of the additional leak fix, I plan to proceed with James's patch.
+To ensure your earlier report and testing on Eve are properly credited, I'll
+add your "Reported-by" tag when applying the patch.
 
-diff --git a/drivers/power/supply/cros_charge-control.c b/drivers/power/supply/cros_charge-control.c
-index 07bcc6a9aeef..77023dcd1851 100644
---- a/drivers/power/supply/cros_charge-control.c
-+++ b/drivers/power/supply/cros_charge-control.c
-@@ -13,6 +13,7 @@
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_device.h>
-+#include <linux/pm.h>
- #include <linux/types.h>
- 
- #define EC_CHARGE_CONTROL_BEHAVIOURS	(BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO)             | \
-@@ -420,6 +421,7 @@ static int cros_chctl_probe(struct platform_device *pdev)
- 
- 	priv->dev = dev;
- 	priv->cros_ec = cros_ec;
-+	platform_set_drvdata(pdev, priv);
- 
- 	if (priv->cmd_version == 1)
- 		priv->psy_ext = &cros_chctl_psy_ext_v1;
-@@ -439,6 +441,23 @@ static int cros_chctl_probe(struct platform_device *pdev)
- 	return devm_battery_hook_register(dev, &priv->battery_hook);
- }
- 
-+static int cros_chctl_resume(struct device *dev)
-+{
-+	struct cros_chctl_priv *priv = dev_get_drvdata(dev);
-+
-+	/*
-+	 * The EC resets its charge control state when the AP powers off, so the
-+	 * configuration is lost across hibernation. As the driver never reads
-+	 * the state back from the EC, the values exposed to userspace would
-+	 * still describe the lost configuration. Reprogram the EC from the
-+	 * cached state to keep both in sync.
-+	 */
-+	guard(mutex)(&priv->lock);
-+	return cros_chctl_configure_ec(priv);
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(cros_chctl_pm_ops, NULL, cros_chctl_resume);
-+
- static const struct platform_device_id cros_chctl_id[] = {
- 	{ .name = "cros-charge-control" },
- 	{ }
-@@ -447,6 +466,7 @@ MODULE_DEVICE_TABLE(platform, cros_chctl_id);
- 
- static struct platform_driver cros_chctl_driver = {
- 	.driver.name	= "cros-charge-control",
-+	.driver.pm	= pm_sleep_ptr(&cros_chctl_pm_ops),
- 	.probe		= cros_chctl_probe,
- 	.id_table	= cros_chctl_id,
- };
+If you have a chance to test James's patch on your Pixelbook (Eve) and reply
+with a Tested-by tag to [1], that would be greatly appreciated.
 
-base-commit: b33596a615d163372f5e7519338d860cbfc37217
--- 
-2.53.0
-
+[1] https://lore.kernel.org/all/20261003222855.23707-1-james.a.fairweather@gmail.com/

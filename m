@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908272D0C72;
-	Mon,  5 Oct 2026 03:41:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8121A28506F;
+	Mon,  5 Oct 2026 04:20:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791171675; cv=none; b=r//7GwIdsCrDT3d/ucAtN4fuicY/sfns0iHdLQBXC/2z5mxLaIDo8FUmSc0bQh7TgrdlRvBC8waRjkgoVhmlb8WV5FpBv519SAMBNLsOeRfgUoiDv/Aze0ogDw131AxLbm+37eenF3rX9hrMZupa1Z6iTorewBOXb2rXGpz/CJg=
+	t=1791174038; cv=none; b=YYUyvRmgZxnBInMnH+pvo1jO/k54qQnfV0rTfyeZH61kFwPygDxLkKA4wS0Db+T2wHDTgHW050vhLhusrfjMYEvFIJjG7VvkpWkg3/MZu3w25EQj9TaSbHass/zA2c8o5nQu54j5WJWqXiGjqUM5jti3uGKA/fS471Jzt/Xom0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791171675; c=relaxed/simple;
-	bh=a/I5W75Wzj4Vi2hL0gaTgGCWcVuhYNZC2fvTbQdp26Q=;
+	s=arc-20240116; t=1791174038; c=relaxed/simple;
+	bh=C4KXlAptsNQdq0fbn51EKUOZfzzXxMjfCvAyYbq3snI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tYJDV74vpyJhrIiEWnPI5faDECiD7udB8fY11S54rv9+W+Ef8pVCBBxKoa5LuUDGyO8FvNwvdsI5RwT0lIeRZVoBMtjh10Uin0N5/2kRCl8oOaq4o3L2NztlZdKWoo/30l2klLrGyam+PuRDNwJMlwMBAONsVb1LLRi9hPvIpm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NnmbBDdB; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bc+Il+1y6ANCN5A3G0XuU8MFchq/F2ikhpyd0KHBAPU9BlGqUcfzaqRGAlL+pIXwJNfFtuEMKJySfoLIaPps9rrqUJ40tZ0/DEZUeaR8C8bnBI+ZZDmPculoEKybYGMiQshb732718eMPkfI85/EDRrNz1WXv0I/2hYagN/UUmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PwUKFw5/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NnmbBDdB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 601D31F000FF;
-	Mon,  5 Oct 2026 03:41:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PwUKFw5/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96DE41F000FF;
+	Mon,  5 Oct 2026 04:20:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791171674;
-	bh=/++80sm8ie9dA37rGV3zbq1wVFGW3yfdcVqabOTu/MA=;
+	s=k20260515; t=1791174037;
+	bh=LlJToSInOmv/Ck2UQ7sw172NaSs/GRGFwHMPLupGo7s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NnmbBDdBs7MeM4iT9Xab0exrvDBwqVJGZRd22IpZ/iyM0aRPZ3C7Tz7ciLTCehgma
-	 LWDOwfDyZR9UxlTqBf7e8aPHABRpTi/olsJQpES2YhfvKHPpsuN3JrRjThRT7tZx1I
-	 ZTrHNBnH2slrBLk5zhsyp2lkDS3bDOR8cxG0jusrv5KIJqiTQGkumza5q7y8SJluAI
-	 QTqEoN3mgCRkiPEnWP9lcAu83FpWWjeugHvaQujSABBWeiPrgRsEZxseSm0BsSIufn
-	 1fOlmze0nD8otivmtpzwrZV8ZEI42IOjSc+mgLR+RIETvQHxzyGIZ9xhrBGSDvFEO6
-	 AAWv+hFMrnsYg==
-Date: Mon, 5 Oct 2026 03:41:10 +0000
+	b=PwUKFw5/uepmjJ1ao+lEWhsCJyZ/RQ00mPx3lZ01M7iUJDPJACXaHmNnQOJB19aRF
+	 aKSl/OLfcc03/ua5iBK5TVI/vTAz3o6Tc7FWFBYPz3gSmaXf26lKHQios829zS9ZS3
+	 NT+GmJxijXiW+Dx0cok4tERamil1vvIETsc/o3w46azi2kPQW65UlaI8wsK4wzYxnz
+	 vnHV8+OpfUa8zkeofq1dBfiri+0zBk0UX+lFGaLKqmb/NMHZvSThW/kFbP4ngoSN7/
+	 myaaRkS0HW/wC/GHz5Olyzwg11Lf1zy7rGJ1YtGirVJEsoQ1ydQC2Eto5K4PDy5TOh
+	 Y/sdRZtdzBazg==
+Date: Mon, 5 Oct 2026 04:20:33 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: James Fairweather <james.a.fairweather@gmail.com>
-Cc: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, stiraspo@gmail.com
-Subject: Re: [PATCH] platform/chrome: cros_usbpd_notify: Only use parent
- drvdata when parent is GOOG0004
-Message-ID: <asMcVmEa67BUmQ3D@google.com>
-References: <20261003222855.23707-1-james.a.fairweather@gmail.com>
+To: Andrew Pam <andrew@fastmailteam.com>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Sebastian Reichel <sre@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Matt DeVillier <matt.devillier@gmail.com>,
+	chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] power: supply: cros_charge-control: restore EC state on
+ resume
+Message-ID: <asMlkcx5P3Qgolgh@google.com>
+References: <20261004225606.30577-1-andrew@fastmailteam.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -48,35 +48,61 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261003222855.23707-1-james.a.fairweather@gmail.com>
+In-Reply-To: <20261004225606.30577-1-andrew@fastmailteam.com>
 
-On Sat, Oct 03, 2026 at 06:28:53PM -0400, James Fairweather wrote:
-> Only read the parent's driver data when the parent's ACPI node is
-> GOOG0004, and otherwise continue without an EC pointer. While at it,
-> drop the reference taken by fwnode_get_parent().
+On Mon, Oct 05, 2026 at 09:56:06AM +1100, Andrew Pam wrote:
+> Nothing notices the reset. Commit 4fc88ba435da ("power: supply:
+> cros_charge-control: adopt EC charge state on probe") made the driver
 
-Because of this, I'll add "Fixes: e4ee0bb077cd ..." as well when applying
-the patch.
+The commit 4fc88ba435da doesn't exist.
 
-> Tested on a Google Nami-based Chromebook (BIOS 09/19/2019)
-> running a 7.2.5 distro kernel (linux-omarchy 7.2.5-3). The unpatched
-> driver oopsed twice in two days, each time on a charger plug/unplug.
-> With this patch built as a module against that kernel, the probe logs
-> "Couldn't get Chrome EC device pointer." (confirming GOOG0003's parent
-> is not GOOG0004 here), and 12 charger unplug/replug cycles produced no
-> oops, with charging negotiating 20V/3.5A as before.
+> initialise its cached state from the EC, but it does so only on probe,
+                              ^^^^
+To be precise, this should be "to".
 
-Hi James,
+> Note that re-reading the state from the EC on resume, by reusing
+> cros_chctl_init_state() or otherwise, would be wrong even on the command
 
-Thanks for looking into this.
+cros_chctl_init_state() doesn't exist.
 
-Sergey Tiraspolsky ran into the same issue on a Pixelbook (Eve) and sent a
-patch shortly before yours [1].  However, because your patch also catches
-and resolves the preexisting fwnode reference leak, I plan to proceed with
-your patch.
+>  #define EC_CHARGE_CONTROL_BEHAVIOURS	(BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO)             | \
+> @@ -420,6 +421,7 @@ static int cros_chctl_probe(struct platform_device *pdev)
+>  
+>  	priv->dev = dev;
+>  	priv->cros_ec = cros_ec;
+> +	platform_set_drvdata(pdev, priv);
 
-When applying, I plan to credit Sergey's earlier report by adding a
-"Reported-by" tag.  I've also CC'd Sergey and invited testing on Eve if
-feasible.
+Even though functionally identical, to be symmetric to cros_chctl_resume(),
+maybe use:
 
-[1] https://lore.kernel.org/all/20261003204623.18124-1-stiraspo@gmail.com/
+    dev_set_drvdata(dev, priv)
+
+> +static int cros_chctl_resume(struct device *dev)
+> +{
+> +	struct cros_chctl_priv *priv = dev_get_drvdata(dev);
+> +
+> +	/*
+> +	 * The EC resets its charge control state when the AP powers off, so the
+> +	 * configuration is lost across hibernation. As the driver never reads
+> +	 * the state back from the EC, the values exposed to userspace would
+> +	 * still describe the lost configuration. Reprogram the EC from the
+> +	 * cached state to keep both in sync.
+> +	 */
+> +	guard(mutex)(&priv->lock);
+> +	return cros_chctl_configure_ec(priv);
+
+It may be worth adding a dev_err() or dev_warn() log if the configuration
+fails.
+
+> @@ -447,6 +466,7 @@ MODULE_DEVICE_TABLE(platform, cros_chctl_id);
+>  
+>  static struct platform_driver cros_chctl_driver = {
+>  	.driver.name	= "cros-charge-control",
+> +	.driver.pm	= pm_sleep_ptr(&cros_chctl_pm_ops),
+
+To be neat,
+
+    .driver = {
+	.name = ...
+	.pm = ...
+    }

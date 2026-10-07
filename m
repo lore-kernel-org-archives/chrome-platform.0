@@ -1,60 +1,98 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049B6449B11
-	for <chrome-platform@lists.linux.dev>; Wed,  7 Oct 2026 08:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC4441D62C
+	for <chrome-platform@lists.linux.dev>; Wed,  7 Oct 2026 08:45:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791362454; cv=none; b=Q43O1tM0rF7rnVghBad/h6ocGE+vGLKK75NQDVVz9HyQcODtv9D3ghrOZX3VK57eBZuMSg+sSdqNpYwZvq5TGjztX7TWCZsQ3xb2UcLbUmbdNYux+5qc1KNzXj0m8ic9x2qBf4GPPhwnl46xcKPme0Moaa9bEWj2Z8XGtVeatI4=
+	t=1791362715; cv=none; b=Mz4rKpBm07RJiKxsuixCss0rVEveMZvKeVrO9/xvbS/4jxUMwnw6hmmbineaSHotQy8BEuRMxcs15MJQHFvPutEFmmZhaltIINkwm7Tk4ACuXCGkhghq+bXz1lB5DWh+aaIJPtSokLe0I87TYlMvC4iiTlbRkixjVUAtXAaXX/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791362454; c=relaxed/simple;
-	bh=qyayPFhQigVFC6Kb9IXqLvySyYOntWHKscYJ5Gzrvto=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iU+NFM3kbanL+aknE2ha9qlocsxWCPHWx9scm01MB4w8ER4h4HgUZEJHMWC8vClLOxu7OV/xy/iUtbTz6XS751+ArQEtMgAsTpVkpwjRBAX/Ehvlp1xS3T0NKUYsQXTn8WMLYSHYMEWzNdoVSUTWuQ4MAU1SpmgVdEn5x8Cvkks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=enfD7qU3; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1791362715; c=relaxed/simple;
+	bh=cwwZ1AvHUGpQ0cX0o0ag7M/FKmG+jLvaiSKvBHQ1LUQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WG972uqfsW9rCvpQfonAng5fS7+Iq5l7n7rU7WYBc5x4VgGDBllHxFM3HWfG6cJ+U2u7nyBBHy+xxk3GktZzOaWpMwXOwnFE8wGa9RvPo/kVRu4drBy7tFUvKVtTDdIiV/y5PGeWwZkfrm0zNiAzZoMXhQDaJqdGK6XjUpNH/Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=P603HSJq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ednrWi0R; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="enfD7qU3"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6977jWPG3298217;
-	Wed, 7 Oct 2026 08:40:40 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="P603HSJq";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ednrWi0R"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6977je763194063
+	for <chrome-platform@lists.linux.dev>; Wed, 7 Oct 2026 08:45:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=c/ajrALwEA2F0inVKuNXto
-	qPqx51J/FlAp3YI+dE4NA=; b=enfD7qU3Nzgmn8tyb9ppF4HbadUvB/2wCt7ZVz
-	LZwwO+VmPMvdc15kSXTzDb8HDdSZwvz9DWGUabycfwGhbc2Pfqhy9War4PmZY+3V
-	5vw5QZZxDccHdtlJZzA70jmGnwj3kiAjyXuTffM9pWOlmEcpqHLTHs/+DPbXlCan
-	v5DdojdKPTlji/cHZizMIyVdGoogiu/7Dv6GIAzTyRyCM4eAu3s21ti7F0KToaN0
-	UAU3AQTgsS4hh6B0yzWo3E8I3NqmWclGCDUfoiI2G4eRn3wVN+g57GJW+OSmQ4Os
-	IC2UVmDxBgOOxRSxz/YQQVNA11guF1uylftIP42WttAnh8iQ==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h5hdcr9dk-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 07 Oct 2026 08:40:39 +0000 (GMT)
-Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69776m1R1872882;
-	Wed, 7 Oct 2026 07:06:48 GMT
-Received: from hu-ffaruque-hyd.qualcomm.com (hu-ffaruque-hyd.qualcomm.com [10.147.245.31])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 69776m1q1872875;
-	Wed, 07 Oct 2026 07:06:48 +0000 (GMT)
-From: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
-Subject: [PATCH v16 0/6] power: reset: Introduce the Power State Change
- Reasons Recording (PSCRR) framework
-Date: Wed, 07 Oct 2026 12:36:35 +0530
-Message-Id: <20261007-pscrr-framework-v16-0-3642c277bebb@oss.qualcomm.com>
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ofN0xqNd1KAV8nhkxjJDPKF7aC74Hh9gM7raBNbLz50=; b=P603HSJqg5tlDHMV
+	7FUTb+LYuPySuw72yexv1KsqSEtHA0LUNdHqTfAIat8pAvKPdLahK4yxMlggPFKZ
+	jWAAlEVa25C3YTlbChMdUug5Y+Wp3CXT4nCvCk3Ml3qt7ii7dY8oDA5jhP8ElDJk
+	Ec74g9U6ChKWsr52aIv1OLBU6HWETMdC8nrohr5YoMhQB0Rt2yuVOJEI4L5/TiOP
+	3iRypcb9HmmDLWGWpvlkMnObBo5pPufLQSAxlVXzfrdqLGgmYst6hJ4qCErssUia
+	SZ/CuhOEN0bCXFlf/hGFhrwLRROKFgW6yXDlDQpD5kgnzf01tmMUPrU8Y9pNj6T2
+	3EwAVA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h541ukf2g-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <chrome-platform@lists.linux.dev>; Wed, 07 Oct 2026 08:45:12 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93caf7856ffso661845985a.3
+        for <chrome-platform@lists.linux.dev>; Wed, 07 Oct 2026 01:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1791362712; x=1791967512; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ofN0xqNd1KAV8nhkxjJDPKF7aC74Hh9gM7raBNbLz50=;
+        b=ednrWi0RwHjDZnxH12RCBhmsHcubAfeQMmV7xRV60Pkp8uCcvnZKpXVaK11s3lPSn3
+         Yv9/z0TeNLE4FQ+RDVKh6Jr0H2U9yDQ4QWHopwu59KaNDPUmXNOQevXHrbMs58vUqdwA
+         1QqWpUad3wQfvFM3sylWlm/jLMb9E1z5qHzS60MU2TTxNeajZoh0lIzcv2sxcO+M3jz3
+         7I658b/qXjR1036BpnR6Ngoq1oI11Q+bHAHwbGrmsECXO+3P4/nFqDrpw8NBd+o2Z9J6
+         QOTIT9nFvNaEnpaTWrWjjg8URurLltzc9iGxIWgE96WNQQrTaSoCeWiusaWGv73C0MjD
+         bG9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791362712; x=1791967512;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ofN0xqNd1KAV8nhkxjJDPKF7aC74Hh9gM7raBNbLz50=;
+        b=hLqnCjAao4gqbwH8SzF700tO0GYRjFH4bMhBBCVN/JgUkffF1pbX48JnJk1YALz8yf
+         tP9rwqdeUed7A+Qi8+0gPLnzx/1ALqxnSEx5PC2BEDauWqY9gYV2IsQ18/83IU5OKPnp
+         5DVL3G1uGhahizf6BU4SsCRHzyJB/pSFH5Allg13t4HMTLPuJL+FkC0NjKumnNlWx61L
+         4i6wX6fro/zHTEmJwXvQLSmejQRS2KapUdPV9fprGJitVDiZNNem3LK45mTZfy4Sa6xQ
+         DK0H+y2mj9yj/v16SJ9NDPLqlGdl8MS8S3Ev5Vw4AMvhJzhtK8Lr7k4PrEfvXyShzp3k
+         QRlw==
+X-Forwarded-Encrypted: i=1; AKwUvByWoJDWzSetMoWJJmHFnzxskWP57y1mqFpn07ujLh4q6+/quM/H/s62Ce6iAuT7LdBHSI0UwHh95wTbYbchm3g=@lists.linux.dev
+X-Gm-Message-State: AFuF++mqC+/kZifVxeOiaVLMxw409caVldT85xLDaZM4wtH1cl2iRcg9
+	aCeeUffFF60V9L+pIUnaYYH08XwuQzPE+iyGJKpAIwzswGDLnEQuygm7/dkOD9fpLXV8QiobbnJ
+	LlUy6KjysodnZ5BorDjrQQZRX0xUvPN/X0gy88QM4g/wbt6lBdTMxIPYDcc8CAgLA3C/VVKw=
+X-Gm-Gg: AYBFou2M7JI+f7+nzzu/KqXy5n2qBIJaAdJzcBw5csD5d5gK4dgLmh6HNp98FFIYvKj
+	4fhgVorLJsUOphCLc7Uyx+Ti9yyJEGayHPb1UocDDGsOqH5rJiRb0FbmZpafana+KFmzDkFY1P8
+	rQOp3/3VVOoXOcH2WlTVDlnCs9vFpTflbAsEkfVvrkIf4AhjYRsUkO6saEhFuEtTlvOwrsCmiPE
+	5KI992m84IuVeoMIjCNnutA3eua20/7VTFSMqfyVkbK5QAXXrGneHW7SVovNF/SBq/6I5TshNwR
+	AgB0JT6JUbIWgUOOlpgI6YbPpxjXfw/+eyHCZTqcYoPvyf+PqAm7UnLBoE4TP8rM9JDsDfBJ3MG
+	s3LPe9XW/HD+xqqylvK3VX5PYYUsBruQTpVuxpuikNqrb
+X-Received: by 2002:a05:620a:1721:b0:93e:9809:dc00 with SMTP id af79cd13be357-93e9b8f03demr282565885a.83.1791362712156;
+        Wed, 07 Oct 2026 01:45:12 -0700 (PDT)
+X-Received: by 2002:a05:620a:1721:b0:93e:9809:dc00 with SMTP id af79cd13be357-93e9b8f03demr282562285a.83.1791362711696;
+        Wed, 07 Oct 2026 01:45:11 -0700 (PDT)
+Received: from [192.168.2.1] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c7256434bsm3895171f8f.15.2026.10.07.01.45.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Oct 2026 01:45:11 -0700 (PDT)
+Message-ID: <5ce48dc0-b8ac-4d6b-9918-8d4af08ce719@oss.qualcomm.com>
+Date: Wed, 7 Oct 2026 10:45:06 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHvvxWoC/x2MWwqAIBAArxL7naCWC3WV6MNsrSV6sEIF0d2TP
- mdg5oFEwpSgLR4QOjnxvmUwWBYQZr9NpHjMAqy2qBtbqyMFERXFr3TtsqgxVsEgGodugFwdQpH
- vf9n17/sBEhXPnWIAAAA=
-X-Change-ID: 20260924-pscrr-framework-df3c1661565b
-To: Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v16 5/6] power: reset: Introduce PSCR Recording Framework
+ for Non-Volatile Storage
+To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
+        Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
         Tzung-Bi Shih <tzungbi@kernel.org>,
         Guenter Roeck <groeck@chromium.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -68,182 +106,69 @@ Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
         avaneesh.dwivedi@oss.qualcomm.com,
         Umang Chheda <umang.chheda@oss.qualcomm.com>,
-        Ulf Hansson <ulfh@kernel.org>,
-        Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
-        Bradley Morgan <brads@mainlining.org>,
-        Francesco Valla <francesco@valla.it>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>
-X-Mailer: b4 0.14.3
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-GUID: wGp-MOBMBS6QSiUOPFfR2nd_a22kIAXA
-X-Authority-Analysis: v=2.4 cv=aKFlOr9m c=1 sm=1 tr=0 ts=6ac60588 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=NEAV23lmAAAA:8
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8 a=CLK3zoHpSqvGHLCE9XYA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA3MDAzNCBTYWx0ZWRfX0QJyss3tcbTa
- 9vYYOPUW1ttRqkc3r63y14ePDoJhWMcDNQXQHAJCbclnOQnjZ2ElRY8pUQiwg6TP23gO5/gcqwk
- vHXQyS+j2niGMgNq/3hRF6s6k0WXoFI=
-X-Proofpoint-ORIG-GUID: wGp-MOBMBS6QSiUOPFfR2nd_a22kIAXA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA3MDAzNCBTYWx0ZWRfX3FUqojWwOO5V
- 3fvUIo3fC+Qv1YF7RtcEA0lhZSwtRnbC1F2+mrmQ4DPqO+hkeBbzGcsDSC6kfXNpVnLgQomX1xR
- P/B1XIwvN2WnsE6HATuB6BnjRC7lCn0GeuFPBxTPaKRN3qmbq84wm2g7JNAyefWkFcuXXQJkRhQ
- aYxY1nAGjE6AJmdAmAXIQrtuKEJNQSPGzEH3lEh4HRrEpLZ7T0hzXWrLEjreHljNiunNS1GO+7m
- HHKR8WXGQypbzUrTdcMKF0vkn6fhtrQkdVX6xNY3UJJtdCrfxz0aJZBMh86L2Z+9mBifCCogFC5
- FIcDwM+6xnLgdkNaoZmJC9v9gg9Jx5aOqBZN7v76772hn32hEbB3HIseIYXGnzyk7BfvU7lrtid
- 71MI+4bOKoEIz7HrQ9dkw110Njc39pkYNtBvZGexAkv/iQlQz/fLNuqtSGSZkhcmNtMigbtNAq/
- aNZ9udvlU3VIWG4k8eQ==
+        Ulf Hansson <ulfh@kernel.org>, Francesco Valla <francesco@valla.it>
+References: <20261007-pscrr-framework-v16-0-3642c277bebb@oss.qualcomm.com>
+ <20261007-pscrr-framework-v16-5-3642c277bebb@oss.qualcomm.com>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <20261007-pscrr-framework-v16-5-3642c277bebb@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: K8Q-3_Ey8J8PT-L85esWdIHu5PC63Cqh
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA3MDAzNCBTYWx0ZWRfXyw1ZgetrxuMg
+ WFmDh1CKz/wFhXsPDFHbr+C5Vs6CySGaa+MplBx5EUPSiBMelD1KvJRGIbq2Mu47cTCxQD9c9Gs
+ xcziuk1wIftVLUzJxlosfjYTq8Sd0sM=
+X-Authority-Analysis: v=2.4 cv=XZYcX455 c=1 sm=1 tr=0 ts=6ac60698 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=uw/3876vWhRnNVL35W6mqQ==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=ESGm2P_6vxgoHrSgdVYA:9
+ a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA3MDAzNCBTYWx0ZWRfX0elMBVY3pXBD
+ OGaSybKQR5qCjY9741q1lT/nbSIj8japhyjP7MCsnUJ6i/SdPyl4Q+Oaol6BtqnQT9jT3swy0eF
+ v1F2s4RbEYO7rN2QC9Rz7XkENqYyhI7rd40oT4Zxd/VM50aJGpj4xOcyBqChYuWi1jsLkJb5bj/
+ vp31qKAg0aUSgTEaUikifzdr7vpsJkXasSaElBSW8PCSK/r+bPgEjnopRZBOq/xfexhJSah7mW9
+ wwoTS2/nyNeRmW8aLOFv27DLkAJ0P8OW1X/s7R7UlmcuhDiKynTsi5LPHqTOccybeza5Kk4zMH8
+ z57bjjUyP7p9PJV1M8YHv1+uhWA0PJhDZRD5zYP9FgkicTfpeEeC6B1FHf2zMiZR+VliNm53Dyp
+ WVK/jauTmGLPPbG3Np9HAgQNDuK1qozm0IwJi+52GwiJvlrRbnN7/jtm/VOwptuOKvMVokxlkkM
+ 99YeJB91TA68ngYLrug==
+X-Proofpoint-ORIG-GUID: K8Q-3_Ey8J8PT-L85esWdIHu5PC63Cqh
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-07_03,2026-10-06_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
- bulkscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=0
+ clxscore=1015 phishscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610070034
 
-Hello all,
-
-A system power-state transition - a shutdown or a reboot - rarely has a
-single, unambiguous cause, and no one component sees the whole picture: the
-PMIC, the watchdog, the SoC reset registers, the bootloader and software each
-only know their own part, so there is no single source of truth.
-
-PSCRR gives these sources one central place to report side by side. Every
-provider keeps its own view - several providers, and several reasons within a
-provider, can be reported at once and are deliberately not collapsed into a
-single "winning" cause (a bit of a minority report). On top of that it adds a
-software-backed recorder, so software-detected reasons - under-voltage,
-over-temperature, a watchdog pretimeout, a panic, a controlled reboot - are
-captured too and survive into the next boot.
-
-The NVMEM-cell binding a recorder needs to pick its storage is still
-deadlocked, and several projects already need the framework, so this v13
-posts the framework, its reboot/reason infrastructure and the sysfs
-documentation only; the provider drivers (NVMEM, PMIC, ...) and the tests
-follow separately once the binding is resolved. One built-in provider,
-reporting the bootloader's device-tree /chosen/reset-source, is kept so the
-framework is useful on its own without a new binding.
-
-For followup drivers, see:
- https://github.com/olerem/linux-2.6/tree/v7.2/topic/pscr-v12
-
-Changes in v16:
-- Add Reviewed-by tags from Bradley Morgan (patches 2-4) and Daniel
-  Lezcano (patches 1-3).
-- Drop the unused PSCR_MAX_REASON macro - Daniel Lezcano.
-- Rename from "Invalid" to "Invalid reason" - Daniel Lezcano.
-- Link to v15: https://lore.kernel.org/r/20260924-pscrr-framework-v15-0-7af87107e0d3@oss.qualcomm.com
-
-Changes in v15:
-- Add static_assert() to keep psc_reason_descs and PSCR_REASON_COUNT in sync.
-- Fix pscrr error codes: use -EOPNOTSUPP for unsupported recording and -EINVAL
-  for unsupported reasons.
-- pscrr: add comments explaining safe lockless provider access in sysfs
-  callbacks (Matti Vaittinen)
-- Add Reviewed-by tags from Matti Vaittine.
-- Link to v14: https://lore.kernel.org/r/20260921-pscrr-framework-v14-0-a16290003b7c@oss.qualcomm.com
-
-Changes in v14:
-- Ignore v13, it was mistakenly posted as a reply to Oleksij's v12
-  patch series.
-
-Changes in v13:
-- Rework pscrr_provider_register() based on review feedback from Francesco Valla:
-  move the pscrr_root check before allocation and narrow pscrr_lock scope.
-- Carry the series forward with Faruque Ansari as author and Oleksij
-  Rempel as co-developer, and vice versa where required.
-- Link to v12: https://lore.kernel.org/r/20260731095959.296056-1-o.rempel@pengutronix.de
-
-Changes in v12:
-- Drop all provider drivers and their tests; post the framework alone. The
-  NVMEM-cell binding a recorder needs to pick its storage is still
-  deadlocked, and several projects already need the framework - so unblock
-  the core now and let the providers (NVMEM, PMIC, ...) follow separately.
-- Rework into a multi-provider design (per-provider /sys/kernel/pscrr/
-  directories); add reason tokens and a built-in /chosen/reset-source
-  provider.
-
-Changes in v11:
-- add missing break reported by kernel test robot <lkp@intel.com>
-
-Changes in v10:
-- add some add Reviewed-by tags
-- regulator_handle_critical: set pscr = PSCR_UNKNOWN for default case
-- make g_pscrr static
-
-Changes in v9:
-- Remove redundant pr_crit() messages before hw_protection_trigger()
-- Replace psc_reason_to_str() switch with static const string array
-- Mark psc_last_reason as static
-
-Changes in v8:
-- Use DEFINE_GUARD() and guard(g_pscrr) for scoped locking of the global
-  pscrr_core struct
-- Replace manual mutex_lock/unlock with automatic cleanup-based guard() usage
-- Centralize backend and locking state in struct pscrr_core
-- Prepare for future multi-backend support with clean encapsulation
-- Improve sysfs documentation
-
-Changes in v7:
-- document expected values in sysfs documentation
-- make write support optional
-
-Changes in v6:
-- add sysfs documentation
-- push core part of the reset reason into kernel/reboot.c
-
-Changes in v5:
-- fix compile with NVMEM=n and potential issues with NVMEM=m
-
-Changes in v4:
-- fix compile with CONFIG_PSCRR=n
-
-Changes in v3:
-- rework to remove devicetree dependencies
-- extend NVMEM to search devices and cells by names
-
-Changes in v2:
-- rename the framework from PSCR to PSCRR (last R is for Recorder)
-- extend the power-on reason header and reuse it for the detected reason
-- rebase on top of v6.8-rc1
-
-Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
----
-Faruque Ansari (6):
-      power: Extend power_on_reason.h for upcoming PSCRR framework
-      reboot: hw_protection_trigger: use standardized numeric shutdown/reboot reasons instead of strings
-      reboot: add parsable tokens for power state change reasons
-      reboot: extend psc_reason with power-on and reset causes
-      power: reset: Introduce PSCR Recording Framework for Non-Volatile Storage
-      Documentation: Add sysfs documentation for PSCRR
-
- Documentation/ABI/testing/sysfs-kernel-pscrr | 108 +++++
- MAINTAINERS                                  |  11 +
- drivers/platform/chrome/cros_ec_lpc.c        |   2 +-
- drivers/power/reset/Kconfig                  |   2 +
- drivers/power/reset/Makefile                 |   1 +
- drivers/power/reset/pscrr/Kconfig            |  33 ++
- drivers/power/reset/pscrr/Makefile           |   2 +
- drivers/power/reset/pscrr/pscrr.c            | 640 +++++++++++++++++++++++++++
- drivers/regulator/core.c                     |  16 +-
- drivers/regulator/irq_helpers.c              |   9 +-
- drivers/thermal/thermal_core.c               |   3 +-
- include/linux/power/power_on_reason.h        |   5 +
- include/linux/pscrr.h                        | 107 +++++
- include/linux/reboot.h                       | 108 ++++-
- kernel/reboot.c                              | 169 ++++++-
- 15 files changed, 1194 insertions(+), 22 deletions(-)
----
-base-commit: 5c4d4169604b335c38bbc79bc1fc03042981fc6f
-change-id: 20260924-pscrr-framework-df3c1661565b
-
-Best regards,
--- 
-Faruque Ansari <faruque.ansari@oss.qualcomm.com>
-
+On 10/7/26 09:06, Faruque Ansari wrote:
+> Introduce the Power State Change Reasons Recording (PSCRR) framework: a
+> generic mechanism to record why the last power state change (shutdown or
+> reboot) happened - under-voltage, thermal, watchdog, software-triggered,
+> etc. - so a postmortem reason survives a reboot or an abrupt power loss.
+> 
+> PSCRR is built around providers. A provider is either a hardware reason
+> source (a PMIC, SoC reset controller or watchdog exposing a reset cause)
+> or a recorder that persists the reason across a power cycle (an NVMEM or
+> RTC scratch cell). Each provider gets a directory under
+> /sys/kernel/pscrr/providerN/ exposing its name, backing device, the set
+> of observed reasons (as tokens), its capabilities, the reasons it
+> supports and - for recorders - a record policy. The reason set is
+> deliberately not collapsed to a single winning cause, since resets are
+> often multi-causal.
+> 
+> Reasons are the numeric enum psc_reason values from reboot.h, shared with
+> the POWER_ON_REASON_* vocabulary, so they store compactly in small
+> battery-backed cells. The current reason (get/set_psc_reason(), set by
+> the thermal/regulator/hw_protection paths) is written to every recorder
+> from the reboot notifier.
+> 
+> Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Reported-by: Francesco Valla <francesco@valla.it>
+> Closes: https://lore.kernel.org/all/178749889134.204450.5740187753642158305.b4-review@b4/
+> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+> 
+Reviewed-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>

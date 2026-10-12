@@ -1,181 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495594C650F;
-	Mon, 12 Oct 2026 19:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD2E387346
+	for <chrome-platform@lists.linux.dev>; Mon, 12 Oct 2026 21:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791834969; cv=none; b=UprhDq9o3TqCYLLAI+JZR+ZTHp+cPa7ek6sbf8PZ4afYL8E5Us3Ht7+JY/MS8JJIH80OZtKtkGy+9l4eItICelOZXmeK7JWvelGiqi0TpS8PieH/0zAqriJeq8Gm+aNWVKonYVhUS46PL8iUggaPgzWWFz5EYRtGOl3MB4vJ5/I=
+	t=1791839864; cv=none; b=QoCx8W9I7kDFkhqZOkBbT+XcHUrAO3XVdNRNL7ScaHWst4nHKazZn7CQv6BPFQuIq1Qxh/5cZDnBd/+vc+Bop7E2oHtJvAh0CHNSOUAxDqMBrTlgGgTo/IT11fkWYzq5tq409zjRx1LAc03RUPhJ4aybIQwgoeWW8A4g0cef9fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791834969; c=relaxed/simple;
-	bh=MNdlXHD/O4KIK8M11oB/su2SKfCvrs8KvIq6vtZonrM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EYlMil3OgglYpndZ9YS2AH8voqJeO0O6w4bH60F5bGPNUXcrN4SAAF57kWCwBcZODWFoQvFuRWiDUxud6cC9QXzzR+bscB4QxBmNdLHpQesgEa0HYlzez9vn+xgXPWZ0V+afdF/hO1qvl8nciSNqdSFl3CIlmdH1uDcUP9G6uNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDKgfuFx; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791839864; c=relaxed/simple;
+	bh=ZOaV5j+eXuFSiRY/48xGC3VEaW0+/0IwPIwLqoa+0WA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PnuqUczjSuOIV0JBUMhDwl9VXNFptbXT+c7+xVDCUI3O3rKmlmWSxzqrkq+7WBQKcrlpTuu2H/GPm5PySViN/Uei9Jt9rEhGKW2DfzZGMhpWnTSt+Ko4LNEijzKQt419eTcfqNAYLYzWy0b6mYDo3sUtq9+Q8bQMuk6pB0WWuS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjRGbKno; arc=none smtp.client-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDKgfuFx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791834967; x=1823370967;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MNdlXHD/O4KIK8M11oB/su2SKfCvrs8KvIq6vtZonrM=;
-  b=aDKgfuFxJXsStUkOdL2Bj1YNjIqRV+Z4Nd/84HydCu1e9zJpq3Z8ERzT
-   Txabp92+kOWg3xCkptK1NdytXMckkisMGsNWsVzR6OrnZSOSlTkg/C9r8
-   wx+kXO4UMRKokj+TKse6H5bWrigcWATH0kD33/E1UjxyL5Eexz4s7qK7W
-   VEzmnxoMx2HKNRJe/Upv7wN838PWFq5vt44l1AJ6gg9iCz9QZDNzAlhvL
-   FRcRyDz+1rN6GbNUcDEpDL3u9sDATFj/oUKrLZMvvmlj4ZMe8aAL/BtZQ
-   VuBoRTzpoP4E8pHJK2luUYHwrybpg7YUVt/Tyd5U7GmTVuKa5TeKm7vPV
-   w==;
-X-CSE-ConnectionGUID: X61T6i6rRs+554tv4anaww==
-X-CSE-MsgGUID: yHMhhK0FRsyJvEKZxb3aLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="649957"
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="649957"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 12:56:07 -0700
-X-CSE-ConnectionGUID: 9ZHbw5lBQ5mcYZ7BSjPejw==
-X-CSE-MsgGUID: 5fnDqjvXQ2e0elEVPeQuUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="969192"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 Oct 2026 12:56:02 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xGM7r-00000000C3M-1buN;
-	Mon, 12 Oct 2026 19:55:59 +0000
-Date: Tue, 13 Oct 2026 03:55:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
-	Sebastian Reichel <sre@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjRGbKno"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-35834f72d94so3997404eec.0
+        for <chrome-platform@lists.linux.dev>; Mon, 12 Oct 2026 14:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791839863; x=1792444663; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZOaV5j+eXuFSiRY/48xGC3VEaW0+/0IwPIwLqoa+0WA=;
+        b=BjRGbKnouKIe+b0S/CWiEixTV8dl6eVq3eSajY7AXRQUCnR2ToM1ItD3Rl1Bn31D+h
+         LQB7XWMpTYfB8FFIDBnHBrv8/rvvDj21VGfRAAVDuC6GA/jyBgxM+KQTTWGOf5Gzvgt3
+         cDrztSUTyKWeWtZ9E/0jt/yNIDs7t2PHaJzzQIgDeJOvvU9y9N/5ssQjUUYReoFpnyfh
+         mIDrxUtMEwe+gQ2ISTVf0T2u+blpMbj1/45Upl8i3JvOM3VjWXWilVUFPPEeqiLoBM7B
+         1jxFjQSGgKeqV23HtDNXAJjLgC8osSYPDVLKBPAPWXvU5Jft6d6oMTg78sz8ANVORoNE
+         Qg6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791839863; x=1792444663;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZOaV5j+eXuFSiRY/48xGC3VEaW0+/0IwPIwLqoa+0WA=;
+        b=QoLFFGfUpiG8kb2g7ZLuiZ0X5ORcL96ZdXYujHQ2iQ6UIIU6xIWot8Yyp0pjCvuJC0
+         tN5DLKa8lw5JjT4Sq2PU3w1VRE2j1EHUBWwWb+O22LxgTaHK2ycWmAjzrBZQTzQJEDsG
+         2f34UHDMzO6zWly3n+rVRxqpyNMoEXA80WngMJX3L+ioid2Y9QCFvDKO8os8fXdr5ddV
+         0MkWL2t8DmVr9P7JxMsZKw8wIBUtYloyz0eVPACfByVN+IK8toPU87f6l8owNXSryO2g
+         9hrNQMA6Khdp7YxdGr+Fx5i7MF5gl67jyj1OxGlKZWl+CZfCzG/l575xdmBEvrPRvNoE
+         L42w==
+X-Forwarded-Encrypted: i=1; AKwUvBxENE7f2lSQkB/FEAZfsLUjEj6p+UCPnYf+x1egnLGMYnHKaUYQh3DtbAKUtruimxV+SGJtKHs0fo/GiLSkzCY=@lists.linux.dev
+X-Gm-Message-State: AFq9FYI9cLToFRiFiejyijQvBUqkqzlB2sE9mb6oQmrRy6BPH5E/L/2N
+	4EMW7jPzPnHBbJhNFsrNMvSlQWdMaMqPgOTE/mu5hM2Bz7eFw6ieX+nD
+X-Gm-Gg: AYBFou0PdiB22cOpgFOS0w1gsYY0jvLAQZt7A2QadO9yzUCVhzAXE9rIXRClrMlLQyO
+	wkxnnW75SneprmcbrYkkaSIeYw24SEQvisY+AtZOHh24ByD+3asrsA0tWg/RWS2zNHGgTaqnGQw
+	3l+e3UWRNtiQ+kWYsy8zG4a+nVK51gV5BPUBgtUNCbxaHpftFJzVq+0NRorHj3JnPUQDCr40XNV
+	4nS7EWE8hRD0RBzdHie9Fw43BGljdMlER0q8Ol41ZiGWnVCM0zH7mPzEtwFyrb+lzhw4x2XDkgu
+	Qf1SxS2inrTLq5Bo+FvY8N/J7Jva5zhwZr7WXhRggW1KijM0QzwooalsZ9UGKLxGCJBkLzHbxmW
+	DrctMNiHctXOzL/lj7P1t4OeH7JdFysHfZflEWTtEu81vN+gisqhHKHkP878qsIwx40vT3Km95N
+	aNAkHaOYbIhMa3bYhlGcdxq1YUWiGU8UQfNlHcMbwFDZsJDcwLFS8HeW3967CLCJpKoFk27MTPT
+	e99pb40Jrszp1bXph6sNMgsxoBUKktndpBv08Nl5hxhm+oXXYCD1Zw7WStu+f8Le1DQVHYH3TbZ
+	HS+RDV+QgCuPpoaCOdOzSUZiY9gTPg==
+X-Received: by 2002:a05:7300:8245:b0:35a:7464:6159 with SMTP id 5a478bee46e88-35a74646242mr5454876eec.34.1791839862310;
+        Mon, 12 Oct 2026 14:17:42 -0700 (PDT)
+Received: from kapoor.iiserb.ac.in ([203.18.51.212])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cb1e02asm39147488eec.27.2026.10.12.14.17.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 14:17:41 -0700 (PDT)
+From: Arnav Kapoor <kapoorarnav43@gmail.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: Arnav Kapoor <kapoorarnav43@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
 	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, avaneesh.dwivedi@oss.qualcomm.com,
-	Umang Chheda <umang.chheda@oss.qualcomm.com>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
-	Bradley Morgan <brads@mainlining.org>
-Subject: Re: [PATCH v16 2/6] reboot: hw_protection_trigger: use standardized
- numeric shutdown/reboot reasons instead of strings
-Message-ID: <202610130313.ziYum5Kq-lkp@intel.com>
-References: <20261007-pscrr-framework-v16-2-3642c277bebb@oss.qualcomm.com>
+	David Lechner <dlechner@baylibre.com>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: common: cros_ec_sensors: use sensor_scale union member for CALIBSCALE
+Date: Tue, 13 Oct 2026 02:47:30 +0530
+Message-ID: <20261012211733.575305-1-kapoorarnav43@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261011191641.4e9e2ac4@systembl0wer>
+References: <20261011045410.356156-1-kapoorarnav43@gmail.com> <20261011191641.4e9e2ac4@systembl0wer>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261007-pscrr-framework-v16-2-3642c277bebb@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Faruque,
+On Sun, 11 Oct 2026 19:16:41 +0200, Joshua Crofts wrote:
+> Please add a Fixes tag. Otherwise looks good to me!
+>
+> Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
 
-kernel test robot noticed the following build errors:
+Thanks for the review. The mismatch was introduced when CALIBSCALE
+support was added:
 
-[auto build test ERROR on 5c4d4169604b335c38bbc79bc1fc03042981fc6f]
+Fixes: ed1f2e85da79 ("iio: cros_ec: Add calibscale for 3d MEMS")
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Faruque-Ansari/power-Extend-power_on_reason-h-for-upcoming-PSCRR-framework/20261007-123636
-base:   5c4d4169604b335c38bbc79bc1fc03042981fc6f
-patch link:    https://lore.kernel.org/r/20261007-pscrr-framework-v16-2-3642c277bebb%40oss.qualcomm.com
-patch subject: [PATCH v16 2/6] reboot: hw_protection_trigger: use standardized numeric shutdown/reboot reasons instead of strings
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261013/202610130313.ziYum5Kq-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610130313.ziYum5Kq-lkp@intel.com/reproduce)
+Jonathan, could you pick this up when applying, or would you prefer a v2?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610130313.ziYum5Kq-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/power/supply/macsmc-power.c: In function 'macsmc_power_critical_work':
->> drivers/power/supply/macsmc-power.c:587:39: error: incompatible type for argument 1 of 'hw_protection_trigger'
-     587 |                 hw_protection_trigger("Battery voltage below design minimum", 1500);
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                       |
-         |                                       char *
-   In file included from drivers/power/supply/macsmc-power.c:22:
-   include/linux/reboot.h:276:58: note: expected 'enum psc_reason' but argument is of type 'char *'
-     276 | static inline void hw_protection_trigger(enum psc_reason reason,
-         |                                          ~~~~~~~~~~~~~~~~^~~~~~
-
-
-vim +/hw_protection_trigger +587 drivers/power/supply/macsmc-power.c
-
-0ebf821cf6c75d Hector Martin     2026-02-17  554  
-0ebf821cf6c75d Hector Martin     2026-02-17  555  static void macsmc_power_critical_work(struct work_struct *wrk)
-0ebf821cf6c75d Hector Martin     2026-02-17  556  {
-0ebf821cf6c75d Hector Martin     2026-02-17  557  	struct macsmc_power *power = container_of(wrk, struct macsmc_power, critical_work);
-0ebf821cf6c75d Hector Martin     2026-02-17  558  	u16 bitv, b0av;
-0ebf821cf6c75d Hector Martin     2026-02-17  559  	u32 bcf0;
-0ebf821cf6c75d Hector Martin     2026-02-17  560  
-0ebf821cf6c75d Hector Martin     2026-02-17  561  	if (!power->batt)
-0ebf821cf6c75d Hector Martin     2026-02-17  562  		return;
-0ebf821cf6c75d Hector Martin     2026-02-17  563  
-0ebf821cf6c75d Hector Martin     2026-02-17  564  	/*
-0ebf821cf6c75d Hector Martin     2026-02-17  565  	 * Avoid duplicate atempts at emergency shutdown
-0ebf821cf6c75d Hector Martin     2026-02-17  566  	 */
-0ebf821cf6c75d Hector Martin     2026-02-17  567  	if (power->emergency_shutdown_triggered || system_state > SYSTEM_RUNNING)
-0ebf821cf6c75d Hector Martin     2026-02-17  568  		return;
-0ebf821cf6c75d Hector Martin     2026-02-17  569  
-0ebf821cf6c75d Hector Martin     2026-02-17  570  	/*
-0ebf821cf6c75d Hector Martin     2026-02-17  571  	 * EMERGENCY: Check voltage vs design minimum.
-0ebf821cf6c75d Hector Martin     2026-02-17  572  	 * If we are below BITV, the battery is physically exhausted.
-0ebf821cf6c75d Hector Martin     2026-02-17  573  	 * We must shut down NOW to protect the filesystem.
-0ebf821cf6c75d Hector Martin     2026-02-17  574  	 */
-0ebf821cf6c75d Hector Martin     2026-02-17  575  	if (apple_smc_read_u16(power->smc, SMC_KEY(BITV), &bitv) >= 0 &&
-0ebf821cf6c75d Hector Martin     2026-02-17  576  	    apple_smc_read_u16(power->smc, SMC_KEY(B0AV), &b0av) >= 0 &&
-0ebf821cf6c75d Hector Martin     2026-02-17  577  	    b0av < bitv) {
-0ebf821cf6c75d Hector Martin     2026-02-17  578  		power->emergency_shutdown_triggered = true;
-0ebf821cf6c75d Hector Martin     2026-02-17  579  		dev_emerg(power->dev,
-0ebf821cf6c75d Hector Martin     2026-02-17  580  			  "Battery voltage (%d mV) below design minimum (%d mV)! Emergency shutdown.\n",
-0ebf821cf6c75d Hector Martin     2026-02-17  581  			  b0av, bitv);
-0ebf821cf6c75d Hector Martin     2026-02-17  582  
-0ebf821cf6c75d Hector Martin     2026-02-17  583  		/*
-0ebf821cf6c75d Hector Martin     2026-02-17  584  		 * Shutdown is now imminent. Kick userspace again and give it some
-0ebf821cf6c75d Hector Martin     2026-02-17  585  		 * brief time to (hopefully) flush what's needed, before forcing.
-0ebf821cf6c75d Hector Martin     2026-02-17  586  		 */
-0ebf821cf6c75d Hector Martin     2026-02-17 @587  		hw_protection_trigger("Battery voltage below design minimum", 1500);
-0ebf821cf6c75d Hector Martin     2026-02-17  588  	}
-0ebf821cf6c75d Hector Martin     2026-02-17  589  
-0ebf821cf6c75d Hector Martin     2026-02-17  590  	/*
-0ebf821cf6c75d Hector Martin     2026-02-17  591  	 * Avoid duplicate attempts at orderly shutdown.
-0ebf821cf6c75d Hector Martin     2026-02-17  592  	 * Voltage check is above this as we may want to
-0ebf821cf6c75d Hector Martin     2026-02-17  593  	 * "upgrade" an orderly shutdown to a critical power
-0ebf821cf6c75d Hector Martin     2026-02-17  594  	 * off if voltage drops.
-0ebf821cf6c75d Hector Martin     2026-02-17  595  	 */
-0ebf821cf6c75d Hector Martin     2026-02-17  596  	if (power->orderly_shutdown_triggered || system_state > SYSTEM_RUNNING)
-0ebf821cf6c75d Hector Martin     2026-02-17  597  		return;
-0ebf821cf6c75d Hector Martin     2026-02-17  598  
-0ebf821cf6c75d Hector Martin     2026-02-17  599  	/*
-0ebf821cf6c75d Hector Martin     2026-02-17  600  	 * Check if SMC flagged the battery as empty.
-0ebf821cf6c75d Hector Martin     2026-02-17  601  	 * We trigger a graceful shutdown to let the OS save data.
-0ebf821cf6c75d Hector Martin     2026-02-17  602  	 */
-f7b253a6e217f7 Sasha Finkelstein 2026-07-12  603  	if (macsmc_battery_read_bcf0(power, &bcf0) == 0 && bcf0 != 0) {
-0ebf821cf6c75d Hector Martin     2026-02-17  604  		power->orderly_shutdown_triggered = true;
-0ebf821cf6c75d Hector Martin     2026-02-17  605  		dev_crit(power->dev, "Battery critical (empty flag set). Triggering orderly shutdown.\n");
-0ebf821cf6c75d Hector Martin     2026-02-17  606  		orderly_poweroff(true);
-0ebf821cf6c75d Hector Martin     2026-02-17  607  	}
-0ebf821cf6c75d Hector Martin     2026-02-17  608  }
-0ebf821cf6c75d Hector Martin     2026-02-17  609  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Arnav

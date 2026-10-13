@@ -1,69 +1,68 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF21351CF70
-	for <chrome-platform@lists.linux.dev>; Tue, 13 Oct 2026 15:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DBE51D52A
+	for <chrome-platform@lists.linux.dev>; Tue, 13 Oct 2026 15:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791904543; cv=none; b=i+CMaOHk5b1m0SzokrNvuDAj3siLElbsUDREGaFFEXoqzdRpK7JcjmuXnWFmdLXj31wi6LjMZgadLvmrAosCld5xmyythKr8irluPb2M9Uzpd6y83W0PCoD13/A2lN2TYlzgeC2oNTxXEBKHpmQpX3K+cFMEKVt/5UywUfAjI0k=
+	t=1791904547; cv=none; b=jUyLU6603ixEcA9b8CPSH5gPfAqWJ0HCFIZAW/IYEzqFaljJ2pTgU0YSK0eWW6IshiZmJliSAuCqg6acQMThZGY6o6aGcYzzy5YkIbXDor7oN3iEcq+sRaP06DhInBgwk5+TBJwnZl66RZ5aXsq0z7tNvv3/n1Zi/3DDNVEzQH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791904543; c=relaxed/simple;
-	bh=R+x6yCbTEhg1iCA8UJulcGnJ+nBmRBOkJIUUtKTcu9A=;
+	s=arc-20240116; t=1791904547; c=relaxed/simple;
+	bh=4oUcfn/aG/2LlccdeXopD+FbwSKNU7W6lskF/8Ob8uY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qjG3IGJSvrZPNt0RZXwMZ2kHsrvc3I+iuwKGJ2jAoAILgWJDQo5t1ARgsoX0EAhTqp4Iw2iVyY6P8ad9kSl5Q+sBB/+qwiHOsAjBNzc2WrGJzYipN3YGmFaa2JQC8goaVm5BPilBhwYWOtyAXHU1KnA72Assw3aIgkckdp2B7NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=C+XrCmic; arc=none smtp.client-ip=74.125.82.179
+	 In-Reply-To:To:Cc; b=Suur5JCvLU3InOCEfrGwyQvVSgeswbuaQUZ7bnLYi4COb4DDYIcXV6kbmvXQNYOt3aFDSgKGzOzP8dEwnSJOow8F3wUd+N9c/VNICAu8zp4LioemjFq7ifkfFeYEtVk0dZxgBapSG0XRFmSPQUnehvSGHW946anzWnJWF+8wa5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=ZlJC93t4; arc=none smtp.client-ip=74.125.82.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="C+XrCmic"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-3535bf8b3e0so4673071eec.0
-        for <chrome-platform@lists.linux.dev>; Tue, 13 Oct 2026 08:15:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="ZlJC93t4"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-30b6dad2382so7112917eec.0
+        for <chrome-platform@lists.linux.dev>; Tue, 13 Oct 2026 08:15:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1791904541; x=1792509341; darn=lists.linux.dev;
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1791904545; x=1792509345; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=twoJ2ZpEkiCJSMJ/PObObKqGrhHPIutiqyJXjtqIqUI=;
-        b=C+XrCmicRhxfN9OcCZjWX2IxloLe+k9z9KSWUDJeytuafcr1ohvvoAgGwzKZ2AYsWz
-         KvvUZ5I6MhUXThn+DZFIYSN14awlPjVsKdlbfUgilDrg8A3uqMhqJx7ocVAhdp7zsL/z
-         JZ1JZV81lqjNuYr5GyNmAt8JZNvVaIm1yswpkLyzcGHrjU8yEgRG/8a+k9hiaSWiG7kN
-         uxZBFPmVIgXTH3mF91F6UY9UEpHPNg9keUtc3tj4Hy9+O5weoK8j6eqQwwoyCwdwbvFI
-         UIQ7LvaUDTVwWlWk2rngXEc5saVu+10S3hfVNUallxUnd2fMtyVsaYgSQep33KONa+aw
-         eIcQ==
+        bh=YzTa31p3mVN/sH8ialORwNcbJ7+oKPie6pSClyvLsIA=;
+        b=ZlJC93t4+yk/7Gm33xVJGovrVnR25ogQGjUcqPGPcwRsj2XJ0/PwGpazmYTe6+YaKC
+         IZlNPUvbH7F0l9TE6yJOe4IG2PGkAuL3hkY3QqMhiD+0J/K7EeZDt2APIuSNIkqVIY0W
+         Q4R43AlXgeZWH6KGE6+btFfActEQaz1PN8W/JzTXiXEJECHC0wzZMY82v9hDqxKnNf6K
+         dpGgQJtyQ2tBETHBlEwkcJLh54XAYArmCmrTXNn9ri7JHYGof82Xker+YjwdROtm/Jo0
+         2ZjMTkeqV/xYgistLvGQcjQSBcGGnW1N2iBQWwvlitn57f+v40jXQcSO3fmnscixN/iZ
+         UTMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791904541; x=1792509341;
+        d=1e100.net; s=20260707; t=1791904545; x=1792509345;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=twoJ2ZpEkiCJSMJ/PObObKqGrhHPIutiqyJXjtqIqUI=;
-        b=DeUgH4P0x6DCdXHPYdyZA68nYA/50c3wH9HnZjLPC+PpVZWc0ECtQoAh/QPZJZLSDR
-         oj63PYXpS1JNZGQVNCmQewfaEYXha7baui+WMc8XTU/9ToYPPmfA0bnTPSx0+9Zvqszv
-         KhFvBJDfNGzgIym/swRCzLIM2u/MFk1ZpdICRg+B0JUrXMa+xqOxSYl/sjgTB7drkTFM
-         NQL4UF5n9VU0kwtJ2kSxuV1Z5CN1lZb8P3XDVhPqb+FQ0l+SNhxpptJgEnXDQoCU8PtS
-         HBmICnCikKvChP7B7J3XzkUgZ1O0atju9iDJG5/JtfUL6Fc+A32n7oi11mkZHPCLq+75
-         tSqg==
-X-Forwarded-Encrypted: i=1; AKwUvBzKb9mewWg63yP8xHMeKhSBPxquHhFcVNT5bWMIslV3tViDFl5Qg3PaaCgqa00aQmMFhBMLSLwHw+OFlaBLuIw=@lists.linux.dev
-X-Gm-Message-State: AFq9FYJ0jbWN2DYiqB015VUQkArhtU6QXbDIMhx6zRhTJQzohhqc1uyH
-	8vJuZjxp0EHgM7A05xTDVn3sPFbFSe5HrQ/b8/P29MnGyxCsygT2YZe8wJ2X5zJhh3c=
-X-Gm-Gg: AYBFou0JsGU9t3AuFzbwh7rLbxQZoeNLkMmrYFgsOVXpAgqAIWAYaBZivV4kYR0U/c5
-	zYYL2KmA6YAFPQDnDfepjoyixmlqGOKEr7f/diCZuj2v7uSgiIk1TWCDjrUeeyA4JvUlMOeZo8h
-	uvC7t0v4jGbtb93JXW+klKDvuoZ1zMqBL09QrJcg7zEnKB/OGBQpcG9vrLOyknGZNw5b7ZS3V/H
-	lBo1ziDm2OlDH0xyxQS75rGXCvsxnBGAxBshTXX2b3PnwpysF8BYDj/c1Q/BWzyxTSILtaKkD2+
-	jPzRjAALC0mV0utsRHkkX2Ybz77iNRQlx1Cj89VPyLH+6zYanj+HCccrsj+MPmOGoJX5gNEmPl+
-	XTqBaG8BErY6V+/aPnAgkMBFni8z4a4j0DprENMWd3WgO9oHVnYT6lSsfftaoJ8FbDPNVr9clg0
-	6LAjXPaAsojj3L1V600mCmMQPatlWNf6+5amqxIrLss8el5fReD6+DybSPUKE4hy9IkUZPzkRoj
-	qhdSnjUKFZK+CE=
-X-Received: by 2002:a05:693c:88c6:20b0:359:89b9:5e09 with SMTP id 5a478bee46e88-35989b98cabmr11650319eec.36.1791904540781;
-        Tue, 13 Oct 2026 08:15:40 -0700 (PDT)
+        bh=YzTa31p3mVN/sH8ialORwNcbJ7+oKPie6pSClyvLsIA=;
+        b=nAKvLMvH14QR6sHZr8slBRjN3Lr2jyxMlEXfNqDnRQiRIo9eaX5hoBuegk5B7FNVgl
+         uG7x7t13bmZvv1FzVoqIN/aaYR0L4siCY2AcKbu0XOIuIi2VAKXJPJ9VikX3oLGUZL7O
+         7oSfqbDFUh/suvkMhHSz4TzdC60mW/cMuDTXG5lNGXFnipY8jMYQvDNIxrDt/mBHw+KF
+         cU6m5TVLhSs8MXECLvHOqmdKgceDZJ3Ef1NdEA+cclZzraoja3Yt23VZyv0ajnO3WAcc
+         m2DMrmsX/PW7aiVHdRqhDB43y/oQ6Fl5fpueudc48+CoVxkB4yJECiIceskrfUmWapyt
+         cnPw==
+X-Forwarded-Encrypted: i=1; AKwUvByLlkCNNjtXk26fqpVUrPIca+ckaOZfjfDphX4Hj7l6MsE1VkO5FA362VHLcMmCQ72uVTtQXYc9lljqwe20jC4=@lists.linux.dev
+X-Gm-Message-State: AFq9FYL1PbVyAm0jaTut8eoYPGeK0T0h0+3tlnVoqXlXJNAhUAqCH2N3
+	VbgjCfCPv4lj1zhPQoEvTvbWYKVVYi1kmDAH1FJBcIlkMR/fbUZEx3zYueVgTTuiR5k=
+X-Gm-Gg: AYBFou249RUmwewWdQ3Q7VHTrruiyZtawrO9dC6zO/Qc7ZPOpUgOwKCLGozTiGMasrD
+	o28u/fD2cDvOidnoAIuLl3Jn9HmvDbu5GCUcq9tqNQvQ8kf6hJ4vzaSqq7XXtzNphokyxIMyIF6
+	OS5drQe9h4dOedNsBd6kODDbTUleTIcy8xn5YCF9tD4Q59ONtadXDEKc/qs5oQzCqAVF3TDvLh8
+	LI+FV3vh/P5xf+hoSFXm34ytMoFVcwFxUjXjOlO1Byxc0byD7EcHPgTTFlLPqPS/uT9TenuM/mI
+	R1U0sloTBNtdCo9K3D+8PJbMOSXw0MBwn9x+OE38OzHie+ENRAQLchN2DVOuHNp5aRnSJqiO1Mb
+	riZH7TfWu+DZvPMbWngRs5qoQ+TDsewQBbLqzmQc6OGdJLSTJI5oXnkPBBINprQOnpWvEPiKFeO
+	PFpbdi5awtA0rufeDRrdaT2WoTx+Aw1d9bumvEUmPX79herFlxDBW+D4NKPxcvS6hUFXKoXlpvU
+	748w/bzLEXvhuE=
+X-Received: by 2002:a05:693c:895a:10b0:351:1e72:7470 with SMTP id 5a478bee46e88-3537e04414emr18187121eec.13.1791904544676;
+        Tue, 13 Oct 2026 08:15:44 -0700 (PDT)
 Received: from [10.42.0.1] ([2a00:23c7:1d1a:9c01:49b8:4c98:b3d1:72aa])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-358de54fe47sm30691751eec.31.2026.10.13.08.15.36
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-358de54fe47sm30691751eec.31.2026.10.13.08.15.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 08:15:39 -0700 (PDT)
+        Tue, 13 Oct 2026 08:15:43 -0700 (PDT)
 From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Date: Tue, 13 Oct 2026 16:15:22 +0100
-Subject: [PATCH 1/4] Input: keyboard: use named initializers for
- acpi_device_id
+Date: Tue, 13 Oct 2026 16:15:23 +0100
+Subject: [PATCH 2/4] Input: misc: use named initializers for acpi_device_id
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -72,7 +71,7 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261013-acpi-input-v1-1-53ad09ba82b7@thegoodpenguin.co.uk>
+Message-Id: <20261013-acpi-input-v1-2-53ad09ba82b7@thegoodpenguin.co.uk>
 References: <20261013-acpi-input-v1-0-53ad09ba82b7@thegoodpenguin.co.uk>
 In-Reply-To: <20261013-acpi-input-v1-0-53ad09ba82b7@thegoodpenguin.co.uk>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
@@ -82,11 +81,11 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
  Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791904532; l=2155;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791904532; l=2702;
  i=pzalewski@thegoodpenguin.co.uk; s=20260430; h=from:subject:message-id;
- bh=R+x6yCbTEhg1iCA8UJulcGnJ+nBmRBOkJIUUtKTcu9A=;
- b=tynwRR07lflfN2Adn7AWs9XuSyVn8FGf9xgL5LPv0Nqj7tPig8HEwG2G+MdLPy08kruyo8R1k
- Ax7l/6Y24inA8KyqOSBwWhD8NCxxp0pAXI+9hTrmm6cz4OOUXMThHXB
+ bh=4oUcfn/aG/2LlccdeXopD+FbwSKNU7W6lskF/8Ob8uY=;
+ b=Os3WfFvBA/IGfHGvBo8P3yLDwk4fQu1+7P1UF52NZo5URi93Zzs6fHaSN1TE3h7WSbX2hxsK7
+ h4dIysiLhVCBQYdMK4hWkNpieqUR9Lrjflv8qN83NRWPV99bwlmvJcC
 X-Developer-Key: i=pzalewski@thegoodpenguin.co.uk; a=ed25519;
  pk=vHq4n9IonORH2GTzLv8r6CWAFHzgfBuNkQPXA8NSly0=
 
@@ -100,52 +99,64 @@ no trailing comma.
 
 Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 ---
- drivers/input/keyboard/applespi.c        | 2 +-
- drivers/input/keyboard/cros_ec_keyb.c    | 2 +-
- drivers/input/keyboard/goldfish_events.c | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/input/misc/atlas_btns.c       |  4 ++--
+ drivers/input/misc/drv260x.c          |  2 +-
+ drivers/input/misc/soc_button_array.c | 12 ++++++------
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
-index b5ff71cd5a70..3d04f54c04e2 100644
---- a/drivers/input/keyboard/applespi.c
-+++ b/drivers/input/keyboard/applespi.c
-@@ -1904,7 +1904,7 @@ static int applespi_resume(struct device *dev)
+diff --git a/drivers/input/misc/atlas_btns.c b/drivers/input/misc/atlas_btns.c
+index 5805a1a3bb05..e77e53ee9d41 100644
+--- a/drivers/input/misc/atlas_btns.c
++++ b/drivers/input/misc/atlas_btns.c
+@@ -128,8 +128,8 @@ static void atlas_acpi_button_remove(struct platform_device *pdev)
  }
  
- static const struct acpi_device_id applespi_acpi_match[] = {
--	{ "APP000D", 0 },
-+	{ .id = "APP000D" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, applespi_acpi_match);
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index 177e5d4a3382..bbcca6f265b6 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -911,7 +911,7 @@ static void cros_ec_keyb_remove(struct platform_device *pdev)
- 
- #ifdef CONFIG_ACPI
- static const struct acpi_device_id cros_ec_keyb_acpi_match[] = {
--	{ "GOOG0007", true },
-+	{ .id = "GOOG0007", .driver_data = true },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, cros_ec_keyb_acpi_match);
-diff --git a/drivers/input/keyboard/goldfish_events.c b/drivers/input/keyboard/goldfish_events.c
-index 57d435fc5c73..d0e387f22faf 100644
---- a/drivers/input/keyboard/goldfish_events.c
-+++ b/drivers/input/keyboard/goldfish_events.c
-@@ -179,8 +179,8 @@ MODULE_DEVICE_TABLE(of, goldfish_events_of_match);
- 
- #ifdef CONFIG_ACPI
- static const struct acpi_device_id goldfish_events_acpi_match[] = {
--	{ "GFSH0002", 0 },
--	{ },
-+	{ .id = "GFSH0002" },
+ static const struct acpi_device_id atlas_device_ids[] = {
+-	{ "ASIM0000" },
+-	{ "" }
++	{ .id = "ASIM0000" },
 +	{ }
  };
- MODULE_DEVICE_TABLE(acpi, goldfish_events_acpi_match);
- #endif
+ MODULE_DEVICE_TABLE(acpi, atlas_device_ids);
+ 
+diff --git a/drivers/input/misc/drv260x.c b/drivers/input/misc/drv260x.c
+index 6c5c4c53753b..8a3d74d65d63 100644
+--- a/drivers/input/misc/drv260x.c
++++ b/drivers/input/misc/drv260x.c
+@@ -640,7 +640,7 @@ MODULE_DEVICE_TABLE(i2c, drv260x_id);
+ 
+ #ifdef CONFIG_ACPI
+ static const struct acpi_device_id drv260x_acpi_match[] = {
+-	{ "DRV2604" },
++	{ .id = "DRV2604" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(acpi, drv260x_acpi_match);
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index 064243677fcf..dbf86ea778e6 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -603,14 +603,14 @@ static const struct soc_device_data soc_device_MSHW0040 = {
+ };
+ 
+ static const struct acpi_device_id soc_button_acpi_match[] = {
+-	{ "PNP0C40", (unsigned long)&soc_device_PNP0C40 },
+-	{ "INT33D3", (unsigned long)&soc_device_INT33D3 },
+-	{ "ID9001", (unsigned long)&soc_device_INT33D3 },
+-	{ "ACPI0011", 0 },
++	{ .id = "PNP0C40", .driver_data = (unsigned long)&soc_device_PNP0C40 },
++	{ .id = "INT33D3", .driver_data = (unsigned long)&soc_device_INT33D3 },
++	{ .id = "ID9001", .driver_data = (unsigned long)&soc_device_INT33D3 },
++	{ .id = "ACPI0011" },
+ 
+ 	/* Microsoft Surface Devices (3th, 5th and 6th generation) */
+-	{ "MSHW0028", (unsigned long)&soc_device_MSHW0028 },
+-	{ "MSHW0040", (unsigned long)&soc_device_MSHW0040 },
++	{ .id = "MSHW0028", .driver_data = (unsigned long)&soc_device_MSHW0028 },
++	{ .id = "MSHW0040", .driver_data = (unsigned long)&soc_device_MSHW0040 },
+ 
+ 	{ }
+ };
 
 -- 
 2.53.0

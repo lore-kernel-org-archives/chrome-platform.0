@@ -1,56 +1,56 @@
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4D34A0136
-	for <chrome-platform@lists.linux.dev>; Wed, 14 Oct 2026 07:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D5549AA41
+	for <chrome-platform@lists.linux.dev>; Wed, 14 Oct 2026 07:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791963807; cv=none; b=UrvXGQnkxzH1B3cl/zXssje3BUt6r8I18rTGdGxdwvOwYH5OP97aYrTUwv9Mx4RcNzOUIKqJxCvW7PQrul8fxAjjTO5+uE12ewAAHMw+onQ4MF3YoqrrNMEJXhvV2SHJFoU+rmARIC7yzjf+bRF5wPGEVWZvOlyZ7iN+Pbk5pP0=
+	t=1791963809; cv=none; b=fnqFMQkU1JDKr1JTBCASqbdJmWCgY4elkBUD4ZJUSnwN6gLf+F8pJcaJX/FCuUvo+HZ2rgNUvsDUTJ5ATeqsYKYWP6VAuzQYwspesM7+IjvUi1nCMLLgy2Hmfd71u3nt8NECc75zE4koufprhA++A7NQJ/Zf4Af3hFlxTPyCTFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791963807; c=relaxed/simple;
-	bh=ZS71hUPkI/ZzO52MEAYoo6mpeL5VZT1U5WnEdVlvNqE=;
+	s=arc-20240116; t=1791963809; c=relaxed/simple;
+	bh=q2PL2vePUklEmddiLMgWc/Ln0csc7jhX90wTdyoQybg=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FIAtdg+vkSpL/TY7xtCQ+GVWtnwYAmtf3PrcDj4kB2DaayX73QxdiAp7pCf3raV2JgUZPaSozegufiXmwHx0JA+YuR4UdCDYH1zXLyN+okmAkwDe5fdkyKvEuz20EmBDyUB0KZe8AU/1K+5AVeHmf+ttMfZMqjgxAFRaBHH77h8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l19KX6UG; arc=none smtp.client-ip=209.85.210.200
+	 To:Cc:Content-Type; b=Q66Kxb5Yf6leXLH6DY3YOoxjk78MotC+ZApinWRLu2TeR1keor5B1z4earsd7GIGpGTYc6LXb39gAN1nqakgPXdKna+exlv+RDn+DPQNMnLpQjJNfL1Z3TCzWEgY/laKaIx8O0l2w9nBXvE08mENnr7EMK1W11KtOUWVscL2o5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WxNoEicU; arc=none smtp.client-ip=209.85.215.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l19KX6UG"
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8886059d3faso6986816b3a.2
-        for <chrome-platform@lists.linux.dev>; Wed, 14 Oct 2026 00:43:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WxNoEicU"
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cb11535e6a1so2846877a12.0
+        for <chrome-platform@lists.linux.dev>; Wed, 14 Oct 2026 00:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791963795; x=1792568595; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1791963799; x=1792568599; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wAAJ9xwhtD02LHJkl/YA1PsBrgQEn+qnpmlU4tU13fU=;
-        b=l19KX6UGcmb4UOdkTVY/y1EBxm90wmDUqcNv+KpCuelLMltsL3J1sXEG0sWAPOXJ8e
-         85Er3/trAvdyJ9V7OwnThL53DhX0neotOOhczOfRqlrACiXRdPTuISkNsoaZzs9vJnvP
-         qRkJacg5KXMY7HJiKKiZ9HJcy3j/e8AhHYWfFmVB+T5MKAaZIWy8UwIBFDIDdTo6c+Xy
-         4NSF59tW5nQy1JZkT1V206WZZKAK66QRVV1LXU/dOeLc9ObcKPI8HIFOqhKUP2DC2XJG
-         xpsdQf1Ru0hx2hfhyhPXDsnA9qPdKNfOg9QxT+5r3rE9ld3Djxqxe5YaHZeCYUHHVZ2C
-         lFMg==
+        bh=iE803xvF5DCZNZJ4RTJFrJ5qnTrfN/7AQyo9x/BPF/Y=;
+        b=WxNoEicUXNTAxUJQBIiYzgkFsCSk/PIFaTUYAoYQPppisW2HtJdIA4bi3nCBAx9L7L
+         3GoGg5qsTVlY9/qilGgDhHcArNQAvEqkFDkLm/ECP1L135HylFkir04qhBmwNZropvOs
+         EcTtvGK68z8rDmI7/1LxBbrU6mYaeX7t1q0AKTET0S9XAaATyGHLwDvccz5CqO3aJfyS
+         4OeZN7pFji/m7cjFRxe3LgGZhaU5JXr2hNJAUH3ROzXkRFcUe+W51XXAHGYXbbSJ7i5x
+         wG+YRojw/KBdP14o4xyvPMECPovOOCyVGVBTNFzGktES3F1EdVQCnW6/IwTOmGTErgvv
+         5kew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791963795; x=1792568595;
+        d=1e100.net; s=20260707; t=1791963799; x=1792568599;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wAAJ9xwhtD02LHJkl/YA1PsBrgQEn+qnpmlU4tU13fU=;
-        b=2qHGLxrIRyk0+Rn+W12NkBIHkMeefnifH9Yz4iFQEo4OKOfXWsT6jqcgN0iZg9vDul
-         /3ZJKvjn6OohAURBNN5/yX/es1aPvAVrrAqscs0HzwL5R+nAfkPDCdju1N92w1GsIjNA
-         1hjWGH9mH4ZhlLytLUVoSUJy6uyZpJA+k7zYZj4DN1HRuRhBE/S/L8hbNHQBCRJ4Kd+O
-         JvRHGiXJkMszs6TKxDdgRGBcmGChIiBYN30INATG59aEegJFcfEWE0jBer9+FNg8H1nj
-         nT/DSMoOM4mGXKomW3cJhy2yFQa/hwZvpOk9RhkHozX2PbRTUvPZ1A3o9tZyyTrlN4on
-         80HQ==
-X-Forwarded-Encrypted: i=1; AKwUvByLY0w1ob4tZEbPo0zsh2G6OaSlRwjdSBC5YHg+k0dJK+9nPcY6Qx8qyNHnrR8vT+lRKqWgWO+9W4Cb6uZncdQ=@lists.linux.dev
-X-Gm-Message-State: AFq9FYJu6bb8/Hflj5FTXMYK0FEOC6+/RHV2U6M0OtdO0zNX0Rz6L5L2
-	KNmvZZQeDaPH6+52ZO2eyqZrZwNR6HIeBom0pukxvBe3HPObDXdrWdEAnTJNAorU4OFJ6wzjghD
-	6Im2VDfrJSBlwIA==
-X-Received: from pfbbj3.prod.google.com ([2002:a05:6a00:3183:b0:897:ada4:5702])
+        bh=iE803xvF5DCZNZJ4RTJFrJ5qnTrfN/7AQyo9x/BPF/Y=;
+        b=oyLlKlcnoLuxGNdq11l4iFg9t2gV62ZJD4p9vL+FJgP+cDYaUhQH3XxO2BFcJQtBnF
+         S6Cg23wSqE7IxPfu2cxzjkfKmdJ0trlj1TdST4E+vfJQUST25nwFpLhVSQPmAzWKqjIp
+         Bz4isc8uKaF2Pzv7NvW4yyXFQU+8LbIiYm3xkUCXmDDtbZrxrtS+f8WN/0a7WclYIG2Z
+         /SCslg0XWqCluhESnFX3JDymRBog57gBuLxsL82/m6as1W9wl89CFuBHSP4Ssq8WokFi
+         6G6wlZ4Tk3Hpr+v9i/KRIope7OLm7ytUfV4JrVU/NK0wmqs3vCln+TwsuB8/4cdvMcXm
+         BoUg==
+X-Forwarded-Encrypted: i=1; AKwUvBy0UiExc6ph1vvlCuRp61NLctkuAAZigHQo+ApEu1bVX/p1lWhnJKhGmGkfCv22mPSeMRudSXxNKasikEhQD3Q=@lists.linux.dev
+X-Gm-Message-State: AFq9FYLzE5vNLTUYph5D0oaGQmAqjIA5W9HB/Ri8djSwvubkdOnI72D7
+	ROFPZxsH7PhnfgyvlkO3NI29F4v7sZnJZku0DTEWmyq3Wyy1p8Mk773o6/pr93JQUZMWFThgcDh
+	rP+YqLtVrJVU9xA==
+X-Received: from pfbhx9.prod.google.com ([2002:a05:6a00:8989:b0:888:29d2:ca0d])
  (user=sgsatyam job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:893:b0:89a:19ae:10e9 with SMTP id d2e1a72fcca58-89a19ae138fmr8309158b3a.38.1791963794722;
- Wed, 14 Oct 2026 00:43:14 -0700 (PDT)
-Date: Wed, 14 Oct 2026 07:43:01 +0000
+ 2002:a05:6a21:7314:b0:3e1:2180:4262 with SMTP id adf61e73a8af0-3e16bfcb62emr12351052637.59.1791963798576;
+ Wed, 14 Oct 2026 00:43:18 -0700 (PDT)
+Date: Wed, 14 Oct 2026 07:43:02 +0000
 In-Reply-To: <20261014074306.2500909-1-sgsatyam@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
@@ -60,8 +60,9 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20261014074306.2500909-1-sgsatyam@google.com>
 X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261014074306.2500909-2-sgsatyam@google.com>
-Subject: [PATCH v5 1/6] platform/chrome: cros_ec_sensorhub: Fix AP/EC TS wrap
+Message-ID: <20261014074306.2500909-3-sgsatyam@google.com>
+Subject: [PATCH v5 2/6] platform/chrome: cros_ec_sensorhub: Fix TS filter
+ history shift index
 From: Satyam Gupta <sgsatyam@google.com>
 To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Guenter Roeck <groeck@chromium.org>, Gwendal Grignou <gwendal@chromium.org>, 
@@ -69,143 +70,49 @@ Cc: Guenter Roeck <groeck@chromium.org>, Gwendal Grignou <gwendal@chromium.org>,
 	linux-kernel@vger.kernel.org, Satyam Gupta <sgsatyam@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-When the AP goes into deep sleep, the EC physically continues executing
-and silently wraps its 32-bit timestamp counter one or more times.
-Because Linux natively advances ktime_get_boottime() across suspend,
-the AP clock leaps forward but the incoming 32-bit EC timestamp
-appears historically delayed.
+From: Scott Collyer <scollyer@google.com>
 
-Calculate how many 71.5 minute epochs were swallowed during sleep by
-dividing the AP's recorded sleep duration against the overflow period.
-By injecting these missed wraps directly into the running EC offset
-tracker, the EC timeline snaps forward instantly and achieves parity
-with AP boottime, avoiding fatal negative delta time-skew calculations.
+When propagating timestamp filter history entries in
+cros_ec_sensor_ring_ts_filter_update(), starting the shift loop at
+state->history_len - 1 skips shifting x_history[0] into x_history[1]
+when history_len < CROS_EC_SENSORHUB_TS_HISTORY_SIZE. Conversely,
+starting unconditionally at state->history_len would overrun the array
+once the buffer is full.
 
-Any massive suspend gaps (>500ms) inherently trigger the
-TS_HISTORY_BORED_US fallback during the first post-resume sensor event,
-scrubbing the poisoned clock drift data. Because the clocks are
-explicitly resynchronized by the math above, newly arriving samples
-remain valid and are delivered without being warped by stale filter
-history.
+Bound the loop starting index with min_t(int, state->history_len,
+CROS_EC_SENSORHUB_TS_HISTORY_SIZE - 1) so new entries shift existing
+elements properly while dropping the oldest element when full.
 
+Signed-off-by: Scott Collyer <scollyer@google.com>
 Signed-off-by: Satyam Gupta <sgsatyam@google.com>
 ---
- drivers/platform/chrome/cros_ec_sensorhub.c   | 37 ++++++++++++++++++-
- .../platform/chrome/cros_ec_sensorhub_ring.c  | 30 ++++++++++++---
- .../linux/platform_data/cros_ec_sensorhub.h   |  2 +
- 3 files changed, 62 insertions(+), 7 deletions(-)
+ drivers/platform/chrome/cros_ec_sensorhub_ring.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/platform/chrome/cros_ec_sensorhub.c b/drivers/platform/chrome/cros_ec_sensorhub.c
-index 31fb8bdaad5a..5644ff4f8a90 100644
---- a/drivers/platform/chrome/cros_ec_sensorhub.c
-+++ b/drivers/platform/chrome/cros_ec_sensorhub.c
-@@ -227,6 +227,8 @@ static int cros_ec_sensorhub_suspend(struct device *dev)
- 	struct cros_ec_sensorhub *sensorhub = dev_get_drvdata(dev);
- 	struct cros_ec_dev *ec = sensorhub->ec;
- 
-+	sensorhub->suspend_time = ktime_get_boottime();
-+
- 	if (cros_ec_check_features(ec, EC_FEATURE_MOTION_SENSE_FIFO))
- 		return cros_ec_sensorhub_ring_fifo_enable(sensorhub, false);
- 	return 0;
-@@ -237,8 +239,41 @@ static int cros_ec_sensorhub_resume(struct device *dev)
- 	struct cros_ec_sensorhub *sensorhub = dev_get_drvdata(dev);
- 	struct cros_ec_dev *ec = sensorhub->ec;
- 
--	if (cros_ec_check_features(ec, EC_FEATURE_MOTION_SENSE_FIFO))
-+	if (cros_ec_check_features(ec, EC_FEATURE_MOTION_SENSE_FIFO)) {
-+		/*
-+		 * The EC's 32-bit hardware timestamp natively rolls over every
-+		 * 71.5 minutes. When the AP goes into deep sleep, the EC
-+		 * physically continues executing and silently wraps its 32-bit
-+		 * timestamp counter one or more times.
-+		 *
-+		 * Because Linux natively advances ktime_get_boottime() across
-+		 * suspend, the AP clock leaps forward, but the incoming 32-bit
-+		 * EC timestamp appears massively historically delayed due to
-+		 * the lost silent overflows.
-+		 *
-+		 * Calculate how many 71.5 minute epochs were swallowed during
-+		 * sleep by dividing the AP's recorded sleep duration against
-+		 * the overflow period. By injecting these missed wraps directly
-+		 * into the running EC offset tracker, the EC timeline snaps
-+		 * forward instantly and achieves active parity with the AP
-+		 * boottime, avoiding fatal negative delta time-skew
-+		 * calculations.
-+		 *
-+		 * Lastly, massive suspend gaps (>500ms) inherently trigger the
-+		 * TS_HISTORY_BORED_US fallback during the first post-resume
-+		 * sensor event, scrubbing the poisoned clock drift data.
-+		 */
-+		u64 sleep_duration = ktime_to_us(ktime_sub(
-+					ktime_get_boottime(),
-+					sensorhub->suspend_time));
-+		u64 missed_overflows = div64_u64(sleep_duration, 1ULL << 32);
-+
-+		sensorhub->overflow_a.offset += missed_overflows * (1ULL << 32);
-+		sensorhub->overflow_b.offset += missed_overflows * (1ULL << 32);
-+
- 		return cros_ec_sensorhub_ring_fifo_enable(sensorhub, true);
-+	}
-+
- 	return 0;
- }
- #endif
 diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-index 1205219515d6..cc038af59218 100644
+index cc038af59218..6975592c6b05 100644
 --- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
 +++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-@@ -369,13 +369,31 @@ cros_ec_sensor_ring_fix_overflow(s64 *ts,
- 				 struct cros_ec_sensors_ec_overflow_state
- 				 *state)
- {
--	s64 adjust;
--
- 	*ts += state->offset;
--	if (abs(state->last - *ts) > (overflow_period / 2)) {
--		adjust = state->last > *ts ? overflow_period : -overflow_period;
--		state->offset += adjust;
--		*ts += adjust;
-+
-+	/*
-+	 * We must strictly detect exclusively forward overflows. A naive `abs()`
-+	 * check paired with a dual-direction adjustment (`+/- overflow_period`)
-+	 * is fundamentally flawed during deep suspend. If a device sleeps for
-+	 * longer than half the overflow period (e.g. 45 minutes), the massive
-+	 * legitimate forward leap in time is mathematically aliased as a backward
-+	 * jump.
-+	 *
-+	 * This would historically cause the logic to forcibly inject a negative
-+	 * `overflow_period` adjustment, irrevocably corrupting the sensor's
-+	 * timestamps backwards by ~71 minutes upon resume and failing CTS.
-+	 *
-+	 * By eliminating the negative adjustment path and exclusively evaluating
-+	 * `state->last - *ts > (overflow_period / 2)` via signed arithmetic, we
-+	 * ensure that multi-minute sleep leaps bypass the threshold safely as
-+	 * large negative relative differentials, naturally carrying time forward
-+	 * without bogus timestamp rollbacks. Furthermore, the massive timestamp
-+	 * differential will naturally trigger the TS_HISTORY_BORED_US threshold
-+	 * downstream, safely resetting the historical median filter array.
-+	 */
-+	if (state->last - *ts > (overflow_period / 2)) {
-+		state->offset += overflow_period;
-+		*ts += overflow_period;
- 	}
- 	state->last = *ts;
- }
-diff --git a/include/linux/platform_data/cros_ec_sensorhub.h b/include/linux/platform_data/cros_ec_sensorhub.h
-index 0ecce6aa69d5..498a7d827b19 100644
---- a/include/linux/platform_data/cros_ec_sensorhub.h
-+++ b/include/linux/platform_data/cros_ec_sensorhub.h
-@@ -175,6 +175,8 @@ struct cros_ec_sensorhub {
- 	s64 future_timestamp_total_ns;
+@@ -259,7 +259,7 @@ cros_ec_sensor_ring_ts_filter_update(struct cros_ec_sensors_ts_filter_state
+ 	s64 m; /* stored as *M_PRECISION */
+ 	s64 *m_history_copy = state->temp_buf;
+ 	s64 *error = state->temp_buf;
+-	int i;
++	int i, start;
  
- 	struct cros_ec_sensorhub_sensor_push_data *push_data;
-+
-+	ktime_t suspend_time;
- };
+ 	/* we trust b the most, that'll be our independent variable */
+ 	x = b;
+@@ -277,7 +277,9 @@ cros_ec_sensor_ring_ts_filter_update(struct cros_ec_sensors_ts_filter_state
+ 		state->history_len = 0;
  
- int cros_ec_sensorhub_register_push_data(struct cros_ec_sensorhub *sensorhub,
+ 	/* Move everything over, also update offset to all absolute coords .*/
+-	for (i = state->history_len - 1; i >= 1; i--) {
++	start = min_t(int, state->history_len,
++		      CROS_EC_SENSORHUB_TS_HISTORY_SIZE - 1);
++	for (i = start; i >= 1; i--) {
+ 		state->x_history[i] = state->x_history[i - 1] + dx;
+ 		state->y_history[i] = state->y_history[i - 1] + dy;
+ 
 -- 
 2.56.0.385.gd3acb90ef8-goog
 

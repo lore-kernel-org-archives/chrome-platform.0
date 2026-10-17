@@ -1,131 +1,70 @@
-Received: from mail.nozomi.space (mail.nozomi.space [139.162.184.125])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797D9469854
-	for <chrome-platform@lists.linux.dev>; Sat, 17 Oct 2026 09:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.162.184.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38942370ACE;
+	Sat, 17 Oct 2026 21:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792227838; cv=none; b=pu2hLmoToKokxG/AniIqPCny6tUgwwZairY0MFz8wzGmvXam6UX/Oh+mLkYKYE282jWtqNqHS976FVa92L5Z8mKkdl+JNRnkMYEFoyC2aciWdzklEEK82thifZR6TasEQyS/2EWvHWb7P+1bjB11z3OZOC5DJsQVEou0OaKVn5o=
+	t=1792274196; cv=none; b=Q0tzKC1jaathEJ7JeKgWwXe9bag4VpB0EvCdxSMwzmYFCfbgfcxXwKMaMoYGS2HShRaThjlFOT1PF7o3clo7ugpXAZqHh1l2XJWg+OCvt+4tJzf7a7+uI+VJy88Zroc562LxY+TMs0DwRW5xCIWcM1D40VHQC5aT1H07A9q4G74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792227838; c=relaxed/simple;
-	bh=ez5W3Tiudeu7DKRDSxt0ElxQRTPeopy/n2r2FQTfeZk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GXTyl/p/RTK1aWUAoBKDUTzhkMD4CbPbivABRXikk5GbyhQuI9QIoSJkGc2K6kkvTLii5F4/sG3O1Bl6B9IC4Nph9vKpdvs+Q10FkqSHe1zrQayKpXLyq7U+IYMNB3B++IMk00S69PgWv+c292kc495GjRV9y+hAz4sRSREKlL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nozomi.space; spf=pass smtp.mailfrom=nozomi.space; dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b=BrwiRFUI; arc=none smtp.client-ip=139.162.184.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nozomi.space
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nozomi.space
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b="BrwiRFUI"
-From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nozomi.space;
-	s=mail; t=1792227834;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=xDtFfkl20RYcNy8cmYwdbGMoG2wivzzVXEPHVURNyqQ=;
-	b=BrwiRFUIXxVPcSwxbbc/efMOK8LjBxgiXAXhEEYUIFZQYVe9aJkLrJqhY9dW9ZYbo7zJqv
-	9ZxxLustF9AT2wR4yWTSoWmmsQVLrDN8hKUIjorSaZSL628HAzmGUQ38Mi7ZaGsL+91nP4
-	mCLZPtIPjKzoUh/7i3tuUkqO3u1OomARLMymtdK/3nUixzbi0zMDmqO2C0weQL3cGvJ/yS
-	d3C4gkl6Z46h2gIbu20o4XtYJm8mvMBEYwvnx0EgcBfqRNqZAKLp/bMB25+ypuYMy1pkRz
-	3y9dEPAk/xDhhCPDs9ATpqpCtCLdw6ALpBmLaHz48qmn8FbjZLgZ3aQW22tylg==
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Yidi Lin <yidilin@google.com>,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>,
-	Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
-Subject: [PATCH] firmware: coreboot: Don't skip CBMEM entries outside of known memory
-Date: Sat, 17 Oct 2026 11:03:51 +0200
-Message-ID: <20261017090351.1266064-1-michal@nozomi.space>
+	s=arc-20240116; t=1792274196; c=relaxed/simple;
+	bh=0lUe5T1XZ01SOdlOpCK/Au+YgH0QhIr/tZVkgK+z3oc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WG26tlRgnr6B54SOAYK8nXCwAEVPROVd2ZNy2UVOwFpSxDst2bpAdY+0REV3a9SWouR2faMzGtQtpqji+HrS8AKOs+O1Ksej7MCXsLIvsf7hdZuqD1SwZquuDIeKuuRZ2Q4Q/Ma7/WbyD5bJIEjQCVRPsbQuugMnoFhCFNdDylU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2A0A1F000C4;
+	Sat, 17 Oct 2026 21:56:34 +0000 (UTC)
+Received: by venus (Postfix, from userid 1000)
+	id 6D97C1824B5; Sat, 17 Oct 2026 23:56:33 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Andrew Pam <andrew@fastmailteam.com>
+Cc: Guenter Roeck <groeck@chromium.org>, 
+ Matt DeVillier <matt.devillier@gmail.com>, chrome-platform@lists.linux.dev, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20261005043418.243937-1-andrew@fastmailteam.com>
+References: <20261005043418.243937-1-andrew@fastmailteam.com>
+Subject: Re: [PATCH v2] power: supply: cros_charge-control: restore EC
+ state on resume
+Message-Id: <179227419343.76434.11850314972338032002.b4-ty@b4>
+Date: Sat, 17 Oct 2026 23:56:33 +0200
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16.0
 
-coreboot leaves CBMEM out of the /memory node of the device tree that it
-passes to FIT payloads, e.g. LinuxBoot on arm64 Chromebooks, and only
-lists it in the memory reservation block. The kernel has no resource for
-that memory, so region_intersects() reports it as neither System RAM nor
-Reserved memory, and since commit e31ecda9e3af ("firmware: coreboot:
-Skip no-map CBMEM entries") all CBMEM entries are skipped on such boards.
-That loses the coreboot log, the TPM event log and everything else that
-CBMEM devices expose.
 
-Also accept entries that don't intersect any memory resource. No-map
-regions are still skipped, as they are IORESOURCE_MEM resources, as are
-device regions.
+On Mon, 05 Oct 2026 15:34:18 +1100, Andrew Pam wrote:
+> The EC resets its charge control configuration when the AP powers off,
+> so configured sustainer thresholds and charge behaviour are lost across
+> hibernation.
+> 
+> Nothing notices the reset. Commit 4fc88ba435da ("power: supply:
+> cros_charge-control: adopt EC charge state on probe"), in the
+> power-supply tree, made the driver adopt the EC's charge state, but only
+> at probe, and a resume is not a probe. Sysfs therefore keeps reporting
+> the configured values while the EC charges the battery to full. On a
+> Framework Laptop 16 (Ryzen AI 300, charge control command version 3)
+> with charge_control_end_threshold set to 80, a hibernate and resume
+> cycle leaves the attribute still reading 80 while the battery charges
+> past it to 100%.
+> 
+> [...]
 
-Fixes: e31ecda9e3af ("firmware: coreboot: Skip no-map CBMEM entries")
-Signed-off-by: Michał Kopeć <michal@nozomi.space>
----
- drivers/firmware/coreboot/coreboot_table.c | 42 +++++++++++++---------
- 1 file changed, 25 insertions(+), 17 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/firmware/coreboot/coreboot_table.c b/drivers/firmware/coreboot/coreboot_table.c
-index 2c8c928fbb33e..5980dcc00e07e 100644
---- a/drivers/firmware/coreboot/coreboot_table.c
-+++ b/drivers/firmware/coreboot/coreboot_table.c
-@@ -114,6 +114,30 @@ void coreboot_driver_unregister(struct coreboot_driver *driver)
- }
- EXPORT_SYMBOL(coreboot_driver_unregister);
- 
-+/*
-+ * Whether the memory of a CBMEM entry may be mapped: it must be exclusively
-+ * System RAM, or exclusively Reserved memory, as CBMEM often is on x86, or
-+ * memory that the kernel doesn't know about at all. coreboot leaves CBMEM out
-+ * of the /memory node of the device tree that it passes to FIT payloads, e.g.
-+ * on arm64, and only lists it in the memory reservation block.
-+ *
-+ * Anything else, such as no-map regions on arm64, which are IORESOURCE_MEM
-+ * (see request_standard_resources() in arch/arm64/kernel/setup.c), must not
-+ * be mapped.
-+ */
-+static bool cbmem_entry_is_mappable(const struct lb_cbmem_entry *entry)
-+{
-+	resource_size_t start = entry->address;
-+	size_t size = entry->entry_size;
-+
-+	return region_intersects(start, size, IORESOURCE_SYSTEM_RAM,
-+				 IORES_DESC_NONE) == REGION_INTERSECTS ||
-+	       region_intersects(start, size, IORESOURCE_MEM,
-+				 IORES_DESC_RESERVED) == REGION_INTERSECTS ||
-+	       region_intersects(start, size, IORESOURCE_MEM,
-+				 IORES_DESC_NONE) == REGION_DISJOINT;
-+}
-+
- static int coreboot_table_populate(struct device *dev, void *ptr, resource_size_t len)
- {
- 	int i, ret;
-@@ -149,23 +173,7 @@ static int coreboot_table_populate(struct device *dev, void *ptr, resource_size_
- 
- 		switch (device->entry.tag) {
- 		case LB_TAG_CBMEM_ENTRY:
--			/*
--			 * Skip entries that are not exclusively System RAM or
--			 * Reserved memory.
--			 * On ARM64, no-map regions are filtered out as they are
--			 * IORESOURCE_MEM (see request_standard_resources() in
--			 * arch/arm64/kernel/setup.c).
--			 * On x86, CBMEM often resides in standard reserved regions
--			 * (IORES_DESC_RESERVED).
--			 */
--			if (region_intersects(device->cbmem_entry.address,
--					      device->cbmem_entry.entry_size,
--					      IORESOURCE_SYSTEM_RAM,
--					      IORES_DESC_NONE) != REGION_INTERSECTS &&
--			    region_intersects(device->cbmem_entry.address,
--					      device->cbmem_entry.entry_size,
--					      IORESOURCE_MEM,
--					      IORES_DESC_RESERVED) != REGION_INTERSECTS) {
-+			if (!cbmem_entry_is_mappable(&device->cbmem_entry)) {
- 				kfree(device);
- 				continue;
- 			}
+[1/1] power: supply: cros_charge-control: restore EC state on resume
+      commit: 1f2a40f954c848dff9d8bb6d81e404f9e47f0e81
+
+Best regards,
 -- 
-2.56.0
+Sebastian Reichel <sebastian.reichel@collabora.com>
 

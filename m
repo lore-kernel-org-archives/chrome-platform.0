@@ -1,127 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.nozomi.space (mail.nozomi.space [139.162.184.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CFD4EC648;
-	Thu, 15 Oct 2026 12:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797D9469854
+	for <chrome-platform@lists.linux.dev>; Sat, 17 Oct 2026 09:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.162.184.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792066521; cv=none; b=t8cZqJRPxqmOT40Bci8+WHzY3LI+W97W5j2F9BVR4udsYVWHKHy5VPEqR2JnKitR1z/TOSPMs/C+xb+nKR2PvdtjNsORcuqHIRKnQEpgOmrMxZwtvec4fiv46+iLff/D5FlbnEeI4uxZ9IMn3qqXDNYQw8VhimnN3LZj0GHoRnY=
+	t=1792227838; cv=none; b=pu2hLmoToKokxG/AniIqPCny6tUgwwZairY0MFz8wzGmvXam6UX/Oh+mLkYKYE282jWtqNqHS976FVa92L5Z8mKkdl+JNRnkMYEFoyC2aciWdzklEEK82thifZR6TasEQyS/2EWvHWb7P+1bjB11z3OZOC5DJsQVEou0OaKVn5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792066521; c=relaxed/simple;
-	bh=e3zwtlUcU1rH59SkIp3e5S+rQQeZdA/m0g9/lILqkek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VlFQsyPJffjXaf9z4hDvitD1Vzko76Cksm1xOgCWigByh9fkNWAZsz93Bmo/Nw5ddVL5yaIBBAe+uJuHMerGclubp3pm5aZ1B9gERthEEg2I5wL8dSQqkavHGbEdzSw1QFNutdMXomc8hu0Py6c8GRfGybiF3GYbIasuECNieFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iRJa7nmD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792227838; c=relaxed/simple;
+	bh=ez5W3Tiudeu7DKRDSxt0ElxQRTPeopy/n2r2FQTfeZk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GXTyl/p/RTK1aWUAoBKDUTzhkMD4CbPbivABRXikk5GbyhQuI9QIoSJkGc2K6kkvTLii5F4/sG3O1Bl6B9IC4Nph9vKpdvs+Q10FkqSHe1zrQayKpXLyq7U+IYMNB3B++IMk00S69PgWv+c292kc495GjRV9y+hAz4sRSREKlL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nozomi.space; spf=pass smtp.mailfrom=nozomi.space; dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b=BrwiRFUI; arc=none smtp.client-ip=139.162.184.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nozomi.space
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nozomi.space
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iRJa7nmD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 279371F000C4;
-	Thu, 15 Oct 2026 12:15:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792066520;
-	bh=vPpt4fQvcgT1ZyswqvuqO6QWS+d1ip3iJohS7kPIumE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iRJa7nmD62jJ330OWPgWqTv1juyVwXkFN17U5kH4SQNBnFHwDxR1BmcNNlOWbal2O
-	 2QvqIZgQJoq5Jno5aNVLlnalBTO3WlSYemXlwrXABk9K8YmYnMCgdgMEr4yBH4d2tQ
-	 O1tt+D6CBn7w64BnmRqpU2R3hLklxLEWEvO4wEQePXs8YEdSY3Xe8BmtP7nTG8MkCd
-	 Zvzlz8HRuUvKlZEvueB/vlN50XxyGEYR+JsroFG4XCuRvmIKcm5j7IwgBdkcjGIGOU
-	 XojilYX/dYEZy1LraEYKcqZ0s3xgCY0f0iWxh8LrLoU7R2+R5aggnDSoaBPS99r9lp
-	 47JyIYWtGEqMA==
-Date: Thu, 15 Oct 2026 12:15:17 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] platform/chrome: cros_ec_typec: Enforce
- priority-based mode selection
-Message-ID: <atDD1RHZylPRZtP8@google.com>
-References: <20261008134056.3816556-1-akuchynski@chromium.org>
- <20261008134056.3816556-2-akuchynski@chromium.org>
+	dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b="BrwiRFUI"
+From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nozomi.space;
+	s=mail; t=1792227834;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xDtFfkl20RYcNy8cmYwdbGMoG2wivzzVXEPHVURNyqQ=;
+	b=BrwiRFUIXxVPcSwxbbc/efMOK8LjBxgiXAXhEEYUIFZQYVe9aJkLrJqhY9dW9ZYbo7zJqv
+	9ZxxLustF9AT2wR4yWTSoWmmsQVLrDN8hKUIjorSaZSL628HAzmGUQ38Mi7ZaGsL+91nP4
+	mCLZPtIPjKzoUh/7i3tuUkqO3u1OomARLMymtdK/3nUixzbi0zMDmqO2C0weQL3cGvJ/yS
+	d3C4gkl6Z46h2gIbu20o4XtYJm8mvMBEYwvnx0EgcBfqRNqZAKLp/bMB25+ypuYMy1pkRz
+	3y9dEPAk/xDhhCPDs9ATpqpCtCLdw6ALpBmLaHz48qmn8FbjZLgZ3aQW22tylg==
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Yidi Lin <yidilin@google.com>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
+Subject: [PATCH] firmware: coreboot: Don't skip CBMEM entries outside of known memory
+Date: Sat, 17 Oct 2026 11:03:51 +0200
+Message-ID: <20261017090351.1266064-1-michal@nozomi.space>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261008134056.3816556-2-akuchynski@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 08, 2026 at 01:40:55PM +0000, Andrei Kuchynski wrote:
-> diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-...
-> +/* Delay between mode entry/exit attempts, ms */
-> +static const unsigned int mode_selection_delay = 1000;
-> +/* Timeout for a mode entry attempt, ms */
-> +static const unsigned int mode_selection_timeout = 4000;
+coreboot leaves CBMEM out of the /memory node of the device tree that it
+passes to FIT payloads, e.g. LinuxBoot on arm64 Chromebooks, and only
+lists it in the memory reservation block. The kernel has no resource for
+that memory, so region_intersects() reports it as neither System RAM nor
+Reserved memory, and since commit e31ecda9e3af ("firmware: coreboot:
+Skip no-map CBMEM entries") all CBMEM entries are skipped on such boards.
+That loses the coreboot log, the TPM event log and everything else that
+CBMEM devices expose.
 
-Couldn't they be macros?
+Also accept entries that don't intersect any memory resource. No-map
+regions are still skipped, as they are IORESOURCE_MEM resources, as are
+device regions.
 
-> @@ -421,7 +427,6 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
->  		memset(&desc, 0, sizeof(desc));
->  		desc.svid = USB_TYPEC_TBT_SID;
->  		desc.mode = TBT_MODE;
-> -		desc.inactive = true;
+Fixes: e31ecda9e3af ("firmware: coreboot: Skip no-map CBMEM entries")
+Signed-off-by: Michał Kopeć <michal@nozomi.space>
+---
+ drivers/firmware/coreboot/coreboot_table.c | 42 +++++++++++++---------
+ 1 file changed, 25 insertions(+), 17 deletions(-)
 
-Why this is removed?  Per 1aede0698167 ("platform/chrome: cros_ec_typec:
-Disable tbt on port"), it disables entering TBT mode automatically.
+diff --git a/drivers/firmware/coreboot/coreboot_table.c b/drivers/firmware/coreboot/coreboot_table.c
+index 2c8c928fbb33e..5980dcc00e07e 100644
+--- a/drivers/firmware/coreboot/coreboot_table.c
++++ b/drivers/firmware/coreboot/coreboot_table.c
+@@ -114,6 +114,30 @@ void coreboot_driver_unregister(struct coreboot_driver *driver)
+ }
+ EXPORT_SYMBOL(coreboot_driver_unregister);
+ 
++/*
++ * Whether the memory of a CBMEM entry may be mapped: it must be exclusively
++ * System RAM, or exclusively Reserved memory, as CBMEM often is on x86, or
++ * memory that the kernel doesn't know about at all. coreboot leaves CBMEM out
++ * of the /memory node of the device tree that it passes to FIT payloads, e.g.
++ * on arm64, and only lists it in the memory reservation block.
++ *
++ * Anything else, such as no-map regions on arm64, which are IORESOURCE_MEM
++ * (see request_standard_resources() in arch/arm64/kernel/setup.c), must not
++ * be mapped.
++ */
++static bool cbmem_entry_is_mappable(const struct lb_cbmem_entry *entry)
++{
++	resource_size_t start = entry->address;
++	size_t size = entry->entry_size;
++
++	return region_intersects(start, size, IORESOURCE_SYSTEM_RAM,
++				 IORES_DESC_NONE) == REGION_INTERSECTS ||
++	       region_intersects(start, size, IORESOURCE_MEM,
++				 IORES_DESC_RESERVED) == REGION_INTERSECTS ||
++	       region_intersects(start, size, IORESOURCE_MEM,
++				 IORES_DESC_NONE) == REGION_DISJOINT;
++}
++
+ static int coreboot_table_populate(struct device *dev, void *ptr, resource_size_t len)
+ {
+ 	int i, ret;
+@@ -149,23 +173,7 @@ static int coreboot_table_populate(struct device *dev, void *ptr, resource_size_
+ 
+ 		switch (device->entry.tag) {
+ 		case LB_TAG_CBMEM_ENTRY:
+-			/*
+-			 * Skip entries that are not exclusively System RAM or
+-			 * Reserved memory.
+-			 * On ARM64, no-map regions are filtered out as they are
+-			 * IORESOURCE_MEM (see request_standard_resources() in
+-			 * arch/arm64/kernel/setup.c).
+-			 * On x86, CBMEM often resides in standard reserved regions
+-			 * (IORES_DESC_RESERVED).
+-			 */
+-			if (region_intersects(device->cbmem_entry.address,
+-					      device->cbmem_entry.entry_size,
+-					      IORESOURCE_SYSTEM_RAM,
+-					      IORES_DESC_NONE) != REGION_INTERSECTS &&
+-			    region_intersects(device->cbmem_entry.address,
+-					      device->cbmem_entry.entry_size,
+-					      IORESOURCE_MEM,
+-					      IORES_DESC_RESERVED) != REGION_INTERSECTS) {
++			if (!cbmem_entry_is_mappable(&device->cbmem_entry)) {
+ 				kfree(device);
+ 				continue;
+ 			}
+-- 
+2.56.0
 
-> @@ -940,6 +952,31 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
->  		goto err_cleanup;
->  	}
->  
-> +	/* Once all partner alt-modes are added, we should also trigger
-> +	 * mode selection.
-> +	 */
-
-For multiple line comments:
-
-    /*
-     * Once ...
-
-> +	if (is_partner && typec->ap_driven_altmode) {
-> +		bool usb4_mode = (port->caps.usb_capability & USB_CAPABILITY_USB4) &&
-> +			(PD_VDO_UFP_DEVCAP(port->p_identity.vdo[0]) & DEV_USB4_CAPABLE);
-> +
-> +		if (usb4_mode) {
-> +			ret = cros_typec_enter_usb_mode(port->port, USB_MODE_USB4);
-> +			if (ret < 0) {
-> +				usb4_mode = false;
-> +				dev_err(typec->dev,
-> +					"Unable to activate USB4 mode, port: %d\n", port_num);
-> +			}
-> +		}
-> +		if (!usb4_mode) {
-> +			ret = typec_mode_selection_start(port->partner,
-> +							 mode_selection_delay,
-> +							 mode_selection_timeout);
-> +			if (ret < 0)
-> +				dev_err(typec->dev,
-> +					"Unable to run mode selection, port: %d\n", port_num);
-
-Wouldn't it need to go to err_cleanup and return the ret?  Or, if they
-aren't considered as errors, dev_warn().
-
-> diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
-> index 66c546bf89b53..116329dd113f8 100644
-> --- a/drivers/platform/chrome/cros_typec_altmode.c
-> +++ b/drivers/platform/chrome/cros_typec_altmode.c
-> @@ -41,12 +41,16 @@ static void cros_typec_altmode_work(struct work_struct *work)
->  {
->  	struct cros_typec_altmode_data *data =
->  		container_of(work, struct cros_typec_altmode_data, work);
-> +	int ret;
->  
->  	mutex_lock(&data->lock);
->  
-> -	if (typec_altmode_vdm(data->alt, data->header, data->vdo_data,
-> -			      data->vdo_size))
-> +	ret = typec_altmode_vdm(data->alt, data->header, data->vdo_data,
-> +				data->vdo_size);
-> +	if (ret) {
->  		dev_err(&data->alt->dev, "VDM 0x%x failed\n", data->header);
-> +		typec_altmode_state_update(data->port->partner, data->sid, ret);
-> +	}
-
-Wouldn't it need to update the state even if !ret?

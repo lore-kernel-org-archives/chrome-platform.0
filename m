@@ -1,84 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E0978F3A;
-	Mon, 19 Oct 2026 02:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0326485502
+	for <chrome-platform@lists.linux.dev>; Mon, 19 Oct 2026 07:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792378247; cv=none; b=JOXSehbwbd8VVCbl3kIQHFxaQyko+HkgrfMs9E+KCn9BI2AEmO2OGvjP9eMb1ZPAX0RGM2siqQxHFpDgF36DUDhl9tmoB8Xua70NqbH8I34JJ46LLo0Vkr0xpNXP96NYkbU4EIpyhR1YJU63EVd91dNEVE6s4A1P0xsavDFpzFU=
+	t=1792395552; cv=none; b=Jqxv88fzQIsZVsjYaphejiN/Pjnd3HzQ2mIjBnlT25CebUPDmaKPXeX5HxLb/JZMp4yGSk7Vk0J7jbyZBvb1EEDl918U7A6qigCX5t67NFn7YUHc+Ju2pAHGC70W3whef5GxZvzOobbRTEODhjto4JKR9yslKyb4gGMTq93/E2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792378247; c=relaxed/simple;
-	bh=vV5DEKAJfTzByXdTR/uF4Q8YsdbYRiGqWa73jllZPjU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MQd/xp8ErFJm8uNlHanxE4v9gi3szQV3oE+EqoVldgBEsJuTD44jqn1VyaQrGbTpXg9l2wGlxm/lPS4sAe5e36R5HKwZQo9z0ER/cezdiOYdLD6fbhYIx4An7IHOgnxqq8ap+m3KMtJuo4GL/8VkSZZ8cOLzHwNblNXgdGY23SA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=glhqhAj1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792395552; c=relaxed/simple;
+	bh=Wc8IB0edWVGgQ80Cx3uFojUV4Vhr/RFS1m7KR7vHpmE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WPWMkS+3ZEAfIYI3sKkGwqiBKkXTKD+I24l/+7nPe5ZfAFRwbR/bHRKrzIcyZfx93TBbVrViO9R9G7yc0ZXD+gRUvGdOlkd4Kz0kiBH8vSUU4l0QkJmOI3Mg5VMbJ8Je3SjTT+e2tlgI15fP/5hrcXINUxZNGNl8c1GBy8H8FvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hAxFvaV8; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="glhqhAj1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 715D81F000C4;
-	Mon, 19 Oct 2026 02:50:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792378246;
-	bh=mJVlURAJ8Itn9aOLbLk8JcD/b7z4beNkUp5JTrYX+Q4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=glhqhAj19YV4m4VdlazwEv1fP+zibvsTVLXEMIMju0CiRJtgUK+h9nvfqlDVtUim2
-	 AKFjo4ztxBelXbfFKIqmkuW4IK/bZeHQN03ayaM8STi3U/H1ehnW7Lqh3Sqaap4zba
-	 PTWXgeogz/wQ13euk+sLlO4EzsG5KiOfbeaLbJbIkgF5lWdwnn96E0pQZs+2ovUf5P
-	 GrenVMF0+EaALVz0q8SRVhltmFKDFb5rYowOz/A4I7Yev6q2IwxG2zU7OBm6rh2O4F
-	 4ySzdoE0dXC896HkJEwMY2jxkhV/t2Zt/MZ1bt9QcVinfCmlDEjsV9f0C0Ifc8twKC
-	 qEjoSNsFPPIEw==
-Date: Mon, 19 Oct 2026 02:50:43 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Scott Collyer <scollyer@google.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: cros_ec: trigger kernel_restart on
- EC_HOST_EVENT_PANIC
-Message-ID: <atWFg7gm_jLBOwxu@google.com>
-References: <20261008172208.1139281-1-scollyer@google.com>
- <as8slqeTjJYWOlaa@google.com>
- <CALUcz=3WE+SUx2j8LKFQQK-fMVXdk69rZJ9nKgBMQ_UwnWRPSA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hAxFvaV8"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69J4j5eo862815;
+	Mon, 19 Oct 2026 07:39:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	OlKUE9ylFAD8NCtlw73fnFqtcH/esRsqk0VoFtGwfZs=; b=hAxFvaV8AWo4hgNS
+	k1J/0xR7CGCqn1cxzPPiD8ZQHwWsU7eYLLYCZ0HjuqNxQDQYwKKiRjvte6QlnBBX
+	0X7hzzpN4nsNSe0V49TDNV/9nfRSQIrJ+ThM789+jEcZed9azzLSbxLy3cLZGRTE
+	fIxpHyxJM1RhZnLDTpZOEeTMiZfuM9BAIHbyXKrq2mQbm3zqYJx9Vywn8Bf3RwhF
+	9HdU4yqqCYpw9wo+64YbDSy/ujVWN+UXFVabWKOZ03Kdgni46vLC7x4IrJMpRqXF
+	549XGS7OXbDsgG1yjcG41kLexknFz7WhNQTy97Yo+Jv3E0HDEdG+WpaCiQgQmoiT
+	i/1ffw==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hc2a9nb2b-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 19 Oct 2026 07:38:59 +0000 (GMT)
+Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69J7cvnc104260;
+	Mon, 19 Oct 2026 07:38:57 GMT
+Received: from hu-ffaruque-hyd.qualcomm.com (hu-ffaruque-hyd.qualcomm.com [10.147.245.31])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 69J7cuGW104238;
+	Mon, 19 Oct 2026 07:38:57 +0000 (GMT)
+From: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+Date: Mon, 19 Oct 2026 13:08:32 +0530
+Subject: [PATCH v17 1/6] power: Extend power_on_reason.h for upcoming PSCRR
+ framework
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALUcz=3WE+SUx2j8LKFQQK-fMVXdk69rZJ9nKgBMQ_UwnWRPSA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261019-pscrr-framework-v17-1-69ea6cdf4731@oss.qualcomm.com>
+References: <20261019-pscrr-framework-v17-0-69ea6cdf4731@oss.qualcomm.com>
+In-Reply-To: <20261019-pscrr-framework-v17-0-69ea6cdf4731@oss.qualcomm.com>
+To: Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
+        Tzung-Bi Shih <tzungbi@kernel.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+        avaneesh.dwivedi@oss.qualcomm.com,
+        Umang Chheda <umang.chheda@oss.qualcomm.com>,
+        Ulf Hansson <ulfh@kernel.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
+        Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE5MDAzMCBTYWx0ZWRfX8FSAp2VXqtJK
+ PKMzhdbBFlN6IGh8pCKVhs+RMpyJytBnYr+VWkOd45MN3sblOZJ1AXsOlVqV7ItavBLrtw+jgQb
+ FoHWR2Vam996Td0v5sGUZpWVK9SQfM4=
+X-Proofpoint-GUID: NN4aQ82y8k05SWoCkEeFxJVoQgVRGCUs
+X-Proofpoint-ORIG-GUID: NN4aQ82y8k05SWoCkEeFxJVoQgVRGCUs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE5MDAzMCBTYWx0ZWRfX05cpEbpkRONQ
+ sPmMRfTPEH9aOzKEFXvhc6jSwiMx86cmLPOSChvgQC5mcC4Z1AIpOA/AAldFEgCqJiGEn+f9Mw4
+ QWplg4bfg3Ts5rPaqPfM38h4AQQTMFvuTQatE+uEU0Qm6245TqVtAKhiYouv5e+/OIOzmE4PxtK
+ pfR/HjIUGMaGC7zmnrvFQHjL/prKvxWCkpkJXNAdnXb1EwfJEbzFyiSwqFh8hzmXjDZmHbUb81d
+ F+Acw9bfrj/1d3BHP+Ei6jc5u5xCg9f1zKFm6O5opSUXX+uSnu9CpBCkzMiBqnx58MtEcJFbzMr
+ Zz8ngyJ21eWI+/HatSQGMJh7E88zIc/cN7+iLBhiKzBAobSg1+cQCTxHmZHHqLEZ3Sf261JmJPW
+ pJYxcAJOzkHHnM6AJ17T/Pwe//r/JIqDPMMQG6hcNJwOF/DYFyVPoPkZls5wQDMdZMfTZMKNaIW
+ N1VbKza3H7WmftaNp5A==
+X-Authority-Analysis: v=2.4 cv=PMeaavqC c=1 sm=1 tr=0 ts=6ad5c913 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=QX4gbG5DAAAA:8
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=7kjejDXy1mYeYQkWB3oA:9 a=QEXdDO2ut3YA:10
+ a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-19_02,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 spamscore=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610190030
 
-On Wed, Oct 14, 2026 at 01:57:22PM -0700, Scott Collyer wrote:
-> Yes, if the EC crashed, the the AP will be reset. There is a slight benefit
-> for the EC case in that a controlled shutdown gets triggered. But, the
-> primary motivation for this change is to trigger an AP reset if the ISH
-> panics. If the ISH panics, there isn't any trigger currently to reboot the
-> AP and this leads to the sensor stack being out of sync.
+Prepare for the introduction of the Power State Change Reason Recorder
+(PSCRR) framework by expanding the power_on_reason.h header. This
+extension includes new power-on reasons:
+- POWER_ON_REASON_OVER_CURRENT for over-current conditions.
+- POWER_ON_REASON_REGULATOR_FAILURE for regulator failures.
+- POWER_ON_REASON_OVER_TEMPERATURE for over temperature situations.
+- POWER_ON_REASON_EC_PANIC for EC panics.
+- POWER_ON_REASON_EXTERNAL for an external reset source.
 
-Please don't top-posting [1].
+Co-developed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+Reviewed-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Signed-off-by: Faruque Ansari <faruque.ansari@oss.qualcomm.com>
 
-I don't think this is the right approach, given that:
-- cros_ec_handle_event() is a generic event dispatcher for all EC
-  instances, not a place for device-specific event handling.
-- The ISH driver or sensor stack should re-establish the state after an
-  ISH panic rather than rebooting the AP.
+changes v12:
+- add POWER_ON_REASON_EXTERNAL
+changes v10:
+- add Reviewed-by: Sebastian Reichel ...
+changes v6:
+- add POWER_ON_REASON_EC_PANIC
+- s/POWER_ON_REASON_OVERTEMPERATURE/POWER_ON_REASON_OVER_TEMPERATURE
+---
+ include/linux/power/power_on_reason.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-[1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html#use-trimmed-interleaved-replies-in-email-discussions
+diff --git a/include/linux/power/power_on_reason.h b/include/linux/power/power_on_reason.h
+index 95a1ec0c403c..13e61ace14f5 100644
+--- a/include/linux/power/power_on_reason.h
++++ b/include/linux/power/power_on_reason.h
+@@ -15,5 +15,10 @@
+ #define POWER_ON_REASON_XTAL_FAIL "crystal oscillator failure"
+ #define POWER_ON_REASON_BROWN_OUT "brown-out reset"
+ #define POWER_ON_REASON_UNKNOWN "unknown reason"
++#define POWER_ON_REASON_OVER_CURRENT "over current"
++#define POWER_ON_REASON_REGULATOR_FAILURE "regulator failure"
++#define POWER_ON_REASON_OVER_TEMPERATURE "over temperature"
++#define POWER_ON_REASON_EC_PANIC "EC panic"
++#define POWER_ON_REASON_EXTERNAL "external reset"
+ 
+ #endif /* POWER_ON_REASON_H */
 
-> 
-> On Wed, Oct 14, 2026 at 12:17 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> 
-> > On Thu, Oct 08, 2026 at 10:22:08AM -0700, Scott Collyer wrote:
-> > > When an attached EC or ISH device reports an EC_HOST_EVENT_PANIC host
-> > > event, the EC/ISH subsystem has encountered a fatal exception.
-> > >
-> > > Handle the EC_HOST_EVENT_PANIC event by:
-> > > 1. Logging an emergency message (dev_emerg) with the device name.
-> > > 2. Calling the panic notifier chain (panic_notifier).
-> > > 3. Emitting a uevent (ERROR=PANIC) to userspace.
-> > > 4. Triggering kernel_restart("CrOS EC Panic") to cleanly restart the AP
-> > >    so that panic logs are preserved and collected by crash reporting
-> > >    services across reboot.
-> >
-> > If the EC crashed, wouldn't the AP be reset anyway?
-> >
+-- 
+2.34.1
+

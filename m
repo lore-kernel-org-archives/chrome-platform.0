@@ -1,101 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251BE37F30C;
-	Sun, 18 Oct 2026 18:09:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DBA1E0DE8;
+	Mon, 19 Oct 2026 00:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792346949; cv=none; b=QHm01hUfH25ANym08+5DAMAi9P6Gbrpkxr6aHG5wQde6PkiNkbmytjKwmQwHpYbhi/sVbHfEs99XCcxNUEWBZx7VYfvZOEgkQLP4hnNqRhaO4xQGBk/YLa1SkpbBd4cH48yOaSIwtROwriKjSWcrw2T0RihJlN0581/uNUfc4nk=
+	t=1792371216; cv=none; b=PinSvZoStf2RnPld8EnlPjqRYf8bl83GBrGuxO+NwfPn22ABhTMTXlWAZmwSRWiAZY4sUcvU5XAPNnaMAB4er0SlK+rvFscqpcvMK7KJ1Kqvmfq+wZzMUmia+yNsEtdvwa+omOkI5zu7At5wCC8q8yE4MILcYuiq0cmX+et2Abk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792346949; c=relaxed/simple;
-	bh=uD8zSl2dQZq8Z8q7kIaeUyTShq+Uabl63Aey0xXeN2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hWVkcEGqCP/k5dSJs0VwGxJ5Q7zxGYeSpnC7D5EO2BYR38V3GvvHnXsOLV5jfK/nOngXG2RMT9nrUSzB4IMmDlP3KYz/d9y/gpi+LxNhvzg7MtlVmrwqAZmtIpPxxx72ArC8OBHpUl1pN2FsbZ+28Z3ECZseBDV8DREAIgfVPQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YLYAFWrt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792371216; c=relaxed/simple;
+	bh=edmh62LEbEBPp1CiNznLMNE7ABJIbF8JBF3eVU2dvoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q6t+8glCtvCh4pbO6Vvx+EJ0Tzs0S0PkKKdTPzqAJljN5KhCUfZTw05KWdax/D9rqcL4TJ2jsxHqQl+nioEKGHGqK/3R5Gy/qTaOslE0xwuutnQwH2y/ojC99K/n49IzcTLhMCWc0AiBSgucityInYTTfsfdnPTgW8iNLfozk7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=apx0L5uz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YLYAFWrt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F9E41F000C4;
-	Sun, 18 Oct 2026 18:09:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="apx0L5uz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE70D1F000C4;
+	Mon, 19 Oct 2026 00:53:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792346947;
-	bh=68ZkEmqdatj7eVPb8H4FZj/isxP6RhwLmZ6de5KQwTA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=YLYAFWrtmz+j4HK66Hp1DtQ13lcjMHDS48ZwCERj5z+xQ6fkHWn/W85FyLMzM5ebi
-	 I/c/qvu5yfWB1P/Tk5lC9ePZ+XamRnl+wxi4tvlaQA76KakypvvoYuDvIaK1b9iNCB
-	 PYlosHAiMbtFe8+0vv3fQKuT5pqwhhQb3gkcSBDCLH8iHR5Ee/LdoJesmXZ2/RkXUX
-	 MyvXR/+vybXK5WN1NRBgNIuevKmIUzdWLkWoecpAeSxXKOsXnCHvbu1O8tfK4tXpKT
-	 uKstpwngv5PvltVnlFgaSi7erUZBgz+OipWBmy2WMd/iB2CGYtsNg79EsInua567tv
-	 O7Pg0xUUDu48w==
-Date: Sun, 18 Oct 2026 19:09:02 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Arnav Kapoor
- <kapoorarnav43@gmail.com>, Joshua Crofts <joshua.crofts1@gmail.com>, Benson
- Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, David
- Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, chrome-platform@lists.linux.dev,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iio: common: cros_ec_sensors: use sensor_scale union
- member for CALIBSCALE
-Message-ID: <20261018190902.6f0466c3@jic23-hlaptop>
-In-Reply-To: <atRvqJiiAjjfbDcE@google.com>
-References: <20261011045410.356156-1-kapoorarnav43@gmail.com>
-	<20261011191641.4e9e2ac4@systembl0wer>
-	<20261012211733.575305-1-kapoorarnav43@gmail.com>
-	<as6Mr7BSbJeJRlBq@ashevche-desk.local>
-	<20261018000206.55b279de@jic23-hlaptop>
-	<atRvqJiiAjjfbDcE@google.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1792371214;
+	bh=xsoF2bSW4Tu+1RJY2P+rbJwpGfvufTqM5XKMoi8hC2M=;
+	h=Date:From:To:Cc:Subject;
+	b=apx0L5uzcsWqsRG72MX+3D8HcPugujTvoOaYSUTU3PPcWUSM2u02u+4fkXW1HlB0z
+	 /paElFzYKQAjzOvZGKzijbHq0d9FLw2mU7KBTyjGHh8HD0bYA2zSuzz/znXLWB0mHm
+	 BAD15BOIKvOoxQOl9HOZmIKgkx1I+oWw/CcMoanZmkUDuveTdmNu0XY3f/w0Bl8BJ8
+	 qeC+wdR8YoCh7O6/yW8R7udHAvVdPZzfijl2Utz6ME/6FpEEUe0gcLHJ9A/4puL5HV
+	 k53XnXNuuxg2K5YZwpI60QrvT6vko65tH0db+nZOpLh/yaHvqBRTm2x0rKmRKHflCE
+	 sl3TSIjTlKY8Q==
+Date: Mon, 19 Oct 2026 00:53:31 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: torvalds@linux-foundation.org
+Cc: bleung@chromium.org, chrome-platform@lists.linux.dev,
+	tzungbi@kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] chrome-platform updates for v7.4
+Message-ID: <atVqC0emrgzIQfAL@google.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Sun, 18 Oct 2026 07:05:12 +0000
-Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-
-> On Sun, Oct 18, 2026 at 12:02:06AM +0100, Jonathan Cameron wrote:
-> > On Tue, 13 Oct 2026 22:55:27 +0300
-> > Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
-> >   
-> > > On Tue, Oct 13, 2026 at 02:47:30AM +0530, Arnav Kapoor wrote:  
-> > > > On Sun, 11 Oct 2026 19:16:41 +0200, Joshua Crofts wrote:    
-> > > > > Please add a Fixes tag. Otherwise looks good to me!
-> > > > >
-> > > > > Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>    
-> > > > 
-> > > > Thanks for the review. The mismatch was introduced when CALIBSCALE
-> > > > support was added:
-> > > > 
-> > > > Fixes: ed1f2e85da79 ("iio: cros_ec: Add calibscale for 3d MEMS")
-> > > > 
-> > > > Jonathan, could you pick this up when applying, or would you prefer a v2?    
-> > > 
-> > > No need to resend, `b4` will scan the whole email thread for the tags.  
-> > If it could put them in the right order for 'late' fixes tags it would
-> > be perfect (easy fix though so don't resend!)  
-> > >   
-> > 
-> > This driver tends to be well maintained so whilst I'm fine
-> > with the change I'll wait a bit for a tag from one of the maintainers.  
-> 
-> Sorry for the delay, I somehow missed this in my inbox.
-> 
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Thanks!
-
-Applied to the fixes-togreg branch of iio.git.
-I considered taking this one the slow path given it 'works' today
-but given we are very early in the cycle seems nicer to just get
-it cleaned up.
-
-I dropped the Assisted-by LLM bit given guidance on that has
-changed again since this was sent.
-
-Jonathan
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0tzVs6boNBPCYg+h"
+Content-Disposition: inline
 
 
+--0tzVs6boNBPCYg+h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Linus,
+
+Please pull chrome-platform updates for Linux v7.4.
+
+Thanks,
+Tzung-Bi
+------
+The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
+
+  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-v7.4
+
+for you to fetch changes up to 2d3ee0bdb321ad84d9cf18d4bfd2b839293a695d:
+
+  platform/chrome: cros_ec_typec: Poll for role swap completion (2026-10-08 02:16:45 +0000)
+
+----------------------------------------------------------------
+chrome-platform: Updates for v7.4
+
+* Improvements
+
+  - Poll for role swap completion in cros_ec_typec.
+
+* Fixes
+
+  - Fix wrong returned data and length for deferred response in
+    transport protocol.
+  - Check boundary for EC-returned data length in cros_ec_typec.
+  - Fix a regression for older ChromeOS devices after applying
+    db65a06d10b3 ("ACPI: EC: Convert the driver to a platform one").
+
+* Cleanups
+
+  - Fix typos.
+
+----------------------------------------------------------------
+Bartosz Szpila (1):
+      platform/chrome: cros_ec_typec: Validate SVID and mode counts in discovery data
+
+Daniel Balint (1):
+      platform/chrome: cros_ec: Sync host command header with EC
+
+Hemanth Selam (2):
+      platform/chrome: Fix typos in comments
+      platform/chrome: cros_ec_rpmsg: Fix repeated word 'from' in comment
+
+James Fairweather (1):
+      platform/chrome: cros_usbpd_notify: Only use drvdata when parent is GOOG0004
+
+Marek Maslanka (1):
+      platform/chrome: cros_ec_typec: Poll for role swap completion
+
+Rob Barnes (1):
+      platform/chrome: cros_ec_proto: Fix deferred response
+
+Tzung-Bi Shih (1):
+      platform/chrome: cros_ec_proto: Simplify cros_ec_wait_until_complete()
+
+ drivers/platform/chrome/cros_ec_ishtp.c        |   2 +-
+ drivers/platform/chrome/cros_ec_proto.c        |  43 +++++--
+ drivers/platform/chrome/cros_ec_proto_test.c   | 158 ++++++++++++++++++++++++-
+ drivers/platform/chrome/cros_ec_rpmsg.c        |   2 +-
+ drivers/platform/chrome/cros_ec_typec.c        | 104 +++++++++++-----
+ drivers/platform/chrome/cros_usbpd_notify.c    |  41 ++++---
+ include/linux/platform_data/cros_ec_commands.h |  72 +++++++++++
+ 7 files changed, 357 insertions(+), 65 deletions(-)
+
+--0tzVs6boNBPCYg+h
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCatVqCAAKCRArxTEGBto8
+9LBmAP94LGd2KRW4WqM6fboie2UaUjvgM5kWdRoHYYLt7V11GAD/cpiuIFv/vdnI
+B8L/8aCeuJlR2OVktWQwaaVoBDn6hws=
+=5wUz
+-----END PGP SIGNATURE-----
+
+--0tzVs6boNBPCYg+h--

@@ -1,155 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FA2298CA5;
-	Mon, 19 Oct 2026 00:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E0978F3A;
+	Mon, 19 Oct 2026 02:50:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792371242; cv=none; b=HAnkloc05yan9sxINol2l+DADNJ6sn2YzfB2Sw9i0X9fG0vxsmsJ+5qFitGESA2PAmLwSsXtAW8pSJvR1hWhGieGJI+PQybYLDPF+6t3MhfPK1hovr9tcUvgS/c9YocEisgU+7sru7Ju4VnX92cFsB0p4Z0GUI4OMu1xrUnP6bc=
+	t=1792378247; cv=none; b=JOXSehbwbd8VVCbl3kIQHFxaQyko+HkgrfMs9E+KCn9BI2AEmO2OGvjP9eMb1ZPAX0RGM2siqQxHFpDgF36DUDhl9tmoB8Xua70NqbH8I34JJ46LLo0Vkr0xpNXP96NYkbU4EIpyhR1YJU63EVd91dNEVE6s4A1P0xsavDFpzFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792371242; c=relaxed/simple;
-	bh=/7myM2J3eKux+M1KR+bMS9dK32OfqbiKECSvEDnxFcc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bkD3W61zcKWCmMI6gOtC0EitEVR+o3/UxA5fpl2aQ8jov5JmSwdS4tjNXBfeb2d4jFzbSkYnTrW+xyYV6x6V4vyr0tkNAVMmgU2hBJ+Q8OTPdGXcxVwkeU64iw7rIe7i1Su+FB1yzNSiHcu22EOpB1vEdd+uJJt8axJ291fnt6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dDXcE8lV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792378247; c=relaxed/simple;
+	bh=vV5DEKAJfTzByXdTR/uF4Q8YsdbYRiGqWa73jllZPjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MQd/xp8ErFJm8uNlHanxE4v9gi3szQV3oE+EqoVldgBEsJuTD44jqn1VyaQrGbTpXg9l2wGlxm/lPS4sAe5e36R5HKwZQo9z0ER/cezdiOYdLD6fbhYIx4An7IHOgnxqq8ap+m3KMtJuo4GL/8VkSZZ8cOLzHwNblNXgdGY23SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=glhqhAj1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dDXcE8lV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D731F000C4;
-	Mon, 19 Oct 2026 00:53:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="glhqhAj1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 715D81F000C4;
+	Mon, 19 Oct 2026 02:50:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792371241;
-	bh=m17AtbKzYp/CC0ugM0d/6pu2qFU5/b3YN/Q4TZDYD0Q=;
-	h=Date:From:To:Cc:Subject;
-	b=dDXcE8lVMA2ClftCPqJcC9V9B/TAUp/0uOhhja986FK+KZlTB6Af2fE+sxbOpVTSY
-	 3asv7esUWumO0GgKFC3eAkhbrcEz5iNueqrX/G76/VQVQq+nzuierqV28OM3Lbn4+z
-	 HyTScc+qX4r3T8twHFjpEv32leLOl8EooVsKolb2RGVrIV0OfspWOH6LWx51RSk/Ub
-	 gkWhytkouFDi78THMgd5XGixo0D3WQLbr2Kd8EwuQIiJF92HIGLcyft9Nj5Aemoq5B
-	 dqJ2U2TmRQo+xfMX4dsZcOefljgPDZUkZE8b0O0iR6dlSGaOahwP99HTc8ERARckMn
-	 TAN/kNXUiVJbw==
-Date: Mon, 19 Oct 2026 00:53:58 +0000
+	s=k20260515; t=1792378246;
+	bh=mJVlURAJ8Itn9aOLbLk8JcD/b7z4beNkUp5JTrYX+Q4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=glhqhAj19YV4m4VdlazwEv1fP+zibvsTVLXEMIMju0CiRJtgUK+h9nvfqlDVtUim2
+	 AKFjo4ztxBelXbfFKIqmkuW4IK/bZeHQN03ayaM8STi3U/H1ehnW7Lqh3Sqaap4zba
+	 PTWXgeogz/wQ13euk+sLlO4EzsG5KiOfbeaLbJbIkgF5lWdwnn96E0pQZs+2ovUf5P
+	 GrenVMF0+EaALVz0q8SRVhltmFKDFb5rYowOz/A4I7Yev6q2IwxG2zU7OBm6rh2O4F
+	 4ySzdoE0dXC896HkJEwMY2jxkhV/t2Zt/MZ1bt9QcVinfCmlDEjsV9f0C0Ifc8twKC
+	 qEjoSNsFPPIEw==
+Date: Mon, 19 Oct 2026 02:50:43 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: torvalds@linux-foundation.org
-Cc: briannorris@chromium.org, jwerner@chromium.org, tzungbi@kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
-Subject: [GIT PULL] chrome-platform-firmware updates for v7.4
-Message-ID: <atVqJsjSUkciF-hv@google.com>
+To: Scott Collyer <scollyer@google.com>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] platform/chrome: cros_ec: trigger kernel_restart on
+ EC_HOST_EVENT_PANIC
+Message-ID: <atWFg7gm_jLBOwxu@google.com>
+References: <20261008172208.1139281-1-scollyer@google.com>
+ <as8slqeTjJYWOlaa@google.com>
+ <CALUcz=3WE+SUx2j8LKFQQK-fMVXdk69rZJ9nKgBMQ_UwnWRPSA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cnRE5EHRFwHQBTaX"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALUcz=3WE+SUx2j8LKFQQK-fMVXdk69rZJ9nKgBMQ_UwnWRPSA@mail.gmail.com>
 
+On Wed, Oct 14, 2026 at 01:57:22PM -0700, Scott Collyer wrote:
+> Yes, if the EC crashed, the the AP will be reset. There is a slight benefit
+> for the EC case in that a controlled shutdown gets triggered. But, the
+> primary motivation for this change is to trigger an AP reset if the ISH
+> panics. If the ISH panics, there isn't any trigger currently to reboot the
+> AP and this leads to the sensor stack being out of sync.
 
---cnRE5EHRFwHQBTaX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Please don't top-posting [1].
 
-Hi Linus,
+I don't think this is the right approach, given that:
+- cros_ec_handle_event() is a generic event dispatcher for all EC
+  instances, not a place for device-specific event handling.
+- The ISH driver or sensor stack should re-establish the state after an
+  ISH panic rather than rebooting the AP.
 
-Please pull chrome-platform-firmware updates for Linux v7.4.
+[1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html#use-trimmed-interleaved-replies-in-email-discussions
 
-Thanks,
-Tzung-Bi
-------
-The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
-
-  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-firmware-v7.4
-
-for you to fetch changes up to f2e05ce9763feb1dd7da15afd2cc61df227ee85a:
-
-  firmware: coreboot: Add CFR firmware attributes driver (2026-09-30 20:34:13 +0800)
-
-----------------------------------------------------------------
-chrome-platform-firmware: Updates for v7.4
-
-* New
-
-  - Rename drivers/firmware/google/ -> drivers/firmware/coreboot/ and
-    corresponding Kconfig names.
-  - Separate firmware_attributes_class from drivers/platform/x86/ to
-    drivers/firmware/ so that it is available for non-x86 platforms.
-  - Add CFR (coreboot form representation) driver to expose the
-    attributes via sysfs.
-
-* Improvements
-
-  - Use named initializers for acpi_device_id.
-
-----------------------------------------------------------------
-Pawel Zalewski (1):
-      firmware: coreboot: Use named initializers for acpi_device_id
-
-Sean Rhodes (3):
-      firmware: Rename google firmware directory to coreboot
-      firmware: Move firmware attributes class helper
-      firmware: coreboot: Add CFR firmware attributes driver
-
- MAINTAINERS                                        |   34 +-
- drivers/firmware/Kconfig                           |    5 +-
- drivers/firmware/Makefile                          |    3 +-
- drivers/firmware/{google => coreboot}/Kconfig      |   89 +-
- drivers/firmware/coreboot/Makefile                 |   15 +
- drivers/firmware/{google => coreboot}/cbmem.c      |    0
- drivers/firmware/coreboot/coreboot-cfr.c           | 1204 ++++++++++++++++++++
- .../firmware/{google => coreboot}/coreboot_table.c |    4 +-
- .../firmware/{google => coreboot}/coreboot_table.h |    0
- .../{google => coreboot}/framebuffer-coreboot.c    |    0
- drivers/firmware/{google => coreboot}/gsmi.c       |    0
- .../{google => coreboot}/memconsole-coreboot.c     |    0
- .../{google => coreboot}/memconsole-x86-legacy.c   |    0
- drivers/firmware/{google => coreboot}/memconsole.c |    0
- drivers/firmware/{google => coreboot}/memconsole.h |    6 +-
- drivers/firmware/{google => coreboot}/vpd.c        |    0
- drivers/firmware/{google => coreboot}/vpd_decode.c |    0
- drivers/firmware/{google => coreboot}/vpd_decode.h |    0
- .../x86 => firmware}/firmware_attributes_class.c   |    2 +-
- drivers/firmware/google/Makefile                   |   14 -
- drivers/platform/x86/Kconfig                       |    3 -
- drivers/platform/x86/Makefile                      |    2 -
- drivers/platform/x86/asus-armoury.c                |    2 +-
- drivers/platform/x86/dell/dell-wmi-sysman/sysman.c |    2 +-
- drivers/platform/x86/hp/hp-bioscfg/bioscfg.c       |    2 +-
- drivers/platform/x86/lenovo/think-lmi.c            |    2 +-
- drivers/platform/x86/lenovo/wmi-other.c            |    2 +-
- drivers/platform/x86/samsung-galaxybook.c          |    2 +-
- .../linux/firmware_attributes.h                    |    6 +-
- 29 files changed, 1335 insertions(+), 64 deletions(-)
- rename drivers/firmware/{google => coreboot}/Kconfig (57%)
- create mode 100644 drivers/firmware/coreboot/Makefile
- rename drivers/firmware/{google => coreboot}/cbmem.c (100%)
- create mode 100644 drivers/firmware/coreboot/coreboot-cfr.c
- rename drivers/firmware/{google => coreboot}/coreboot_table.c (99%)
- rename drivers/firmware/{google => coreboot}/coreboot_table.h (100%)
- rename drivers/firmware/{google => coreboot}/framebuffer-coreboot.c (100%)
- rename drivers/firmware/{google => coreboot}/gsmi.c (100%)
- rename drivers/firmware/{google => coreboot}/memconsole-coreboot.c (100%)
- rename drivers/firmware/{google => coreboot}/memconsole-x86-legacy.c (100%)
- rename drivers/firmware/{google => coreboot}/memconsole.c (100%)
- rename drivers/firmware/{google => coreboot}/memconsole.h (82%)
- rename drivers/firmware/{google => coreboot}/vpd.c (100%)
- rename drivers/firmware/{google => coreboot}/vpd_decode.c (100%)
- rename drivers/firmware/{google => coreboot}/vpd_decode.h (100%)
- rename drivers/{platform/x86 => firmware}/firmware_attributes_class.c (94%)
- delete mode 100644 drivers/firmware/google/Makefile
- rename drivers/platform/x86/firmware_attributes_class.h => include/linux/firmware_attributes.h (60%)
-
---cnRE5EHRFwHQBTaX
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS0yQeDP3cjLyifNRUrxTEGBto89AUCatVqJQAKCRArxTEGBto8
-9Er3AP9auzReyp18MlaWGBN20EPuke1HSFtgRzit9sDjr5MgKQD/Tqen83Kw6fOS
-30E9etENqXAjaY3b6ggJHAr/3csRFAw=
-=IvU4
------END PGP SIGNATURE-----
-
---cnRE5EHRFwHQBTaX--
+> 
+> On Wed, Oct 14, 2026 at 12:17 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> 
+> > On Thu, Oct 08, 2026 at 10:22:08AM -0700, Scott Collyer wrote:
+> > > When an attached EC or ISH device reports an EC_HOST_EVENT_PANIC host
+> > > event, the EC/ISH subsystem has encountered a fatal exception.
+> > >
+> > > Handle the EC_HOST_EVENT_PANIC event by:
+> > > 1. Logging an emergency message (dev_emerg) with the device name.
+> > > 2. Calling the panic notifier chain (panic_notifier).
+> > > 3. Emitting a uevent (ERROR=PANIC) to userspace.
+> > > 4. Triggering kernel_restart("CrOS EC Panic") to cleanly restart the AP
+> > >    so that panic logs are preserved and collected by crash reporting
+> > >    services across reboot.
+> >
+> > If the EC crashed, wouldn't the AP be reset anyway?
+> >

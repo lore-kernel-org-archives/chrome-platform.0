@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793105407;
-	b=O7ONyxpsyBQz2/Z16wpFSmU9Tn9kc5tlADHyPt8JzWmJpVLgUATXRiECdx2/DMn5Ft89
-	 ZLu6cNHDi9CItWxVM22iy/DWf+RhwLJdvj/e5UgQCx9pfNic5MDEZrERtrBJK+SUs5NMb
-	 xEjFIueeQD+S3TgD19t0cq3c4Z0LEG7jb/DZu+YpzNBx0mgBF3zYxTf2V+WQ/Z3AzrdZC
-	 /lnfPeWKenLHnSWiWXRuMm6tcNHu7ry4sHQJgKggzZX7G0PqV7Bdw/Ym3B006mIwq2jHE
-	 yzMH1VT0+eW4hIWzTdwmhoT23Is3ACX36f2yukuvFnQ2TYlL7eR2fSVXKH+NDPwq8UQ==
+	t=1793105408;
+	b=VgdpLqFEMx23bRfR823InvcV8HH7wtDXoISO4i69vOeBe0Ufz9hldxypuawVMuzbg5+x
+	 2JXAha9d9iWDQAwwsxVaj+rtxNNNQ9QSmX5rbZ7Q8qjWYmGprRov/5dHtHQKbeztBRD/q
+	 oliUZJ8IM3/ngJMJB1+Tep2dRfAaiGUaUPFqgH2CfLJA8sAAj2a8sdCZa2PyXJr1cz9JT
+	 UaIVJb1adYQQBfmjWyPs3cAmKJ1iCw3n3AEdD370o5AwzR1hY2kRO8OOfxQL0eYwOnrhG
+	 WAfQP5G5yqE98TUfcm647OUd3bAZQWVpwdULyo6DYAbrSTQi0KQwrN/DAEAMGDDRggA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793105407;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793105408;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=EOmMLjMAFJxyM/LPyWQT2i9O3ojzkNgFK3nKjeDrayg=;
-	b=FDslD4/R5XLfMUGXRDBUx2K/hb+9zFgjj3/29PTq9GE3k3ORRgWjBIfS/I6IamVO/hpy
-	 TmNKQqn+dkbs5yhSvuV4j0v7MqbqB36C0hJDu0h2xCoXSHrvHejnFCexUHs/OJWtAvLdA
-	 lpTGTm2nzE/PIHREZsHTt2OKtD1AAAqh/ns+eAqjSHNsVTiSRD66YEDat1woDZT6YRBUd
-	 Q/pnkTUErior/O7rDEzC3dlt96v+UGZTAnd0JDc2iYL1ed2/hCyOG/hh5AM7E/ztYX1Yb
-	 0+Dsld9hBUViDcpHf8YYACounnOH7Zp9kNu5N6RbSAEyqZov12T6hw0YOWKPle3NP5w==
+	bh=5maieUrV3gg0OvUYuumtngfF5Rbt74fkE8XBQYCal3Q=;
+	b=bOhzi5j5KIbcmpso75UlDrKKTcdHKoLUXTVTpR4YNlivI95mmlqM05eTvntV/Z4zP9ZD
+	 ox/ciApgS7OaibawzYfUte2BwHiqgexPVnQJ2KBq9INphNxmoMZfS7/4ZdhSOMZKXC2DD
+	 UnoVkckaqRXB5dWANKt5Dg/ff8p3c3fEKA9TndnF25wwqugBd36fqnAOCEo4gLuMYRDqN
+	 NANDVwRWyzrM4LKFg/rTZUmUPRZ8+Q1zHnt/JdfQ2ynKetZ0xWwHyh3pmOn1KpPWI6NBr
+	 igL5uthxhoD+jB4n4U9hrlVeuEYDjqY1nYpL2WX9iGT6Zttf1H9Z+l5jJMu1or6G4jQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=b7+EUg2h;
-	arc=none smtp.remote-ip=209.85.208.171
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=guSeG1HK;
+	arc=none smtp.remote-ip=209.85.167.42
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F830606A323
-	for <chrome-platform@lists.linux.dev>; Tue, 27 Oct 2026 12:50:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F830606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C7560A2608
+	for <chrome-platform@lists.linux.dev>; Tue, 27 Oct 2026 12:50:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2C7560A2608
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=b7+EUg2h
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3ab3b29a210so9634241fa.0
-        for <chrome-platform@lists.linux.dev>; Tue, 27 Oct 2026 05:50:06 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=guSeG1HK
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5bcb0f245e0so1495515e87.3
+        for <chrome-platform@lists.linux.dev>; Tue, 27 Oct 2026 05:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793105405; x=1793710205; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1793105406; x=1793710206; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EOmMLjMAFJxyM/LPyWQT2i9O3ojzkNgFK3nKjeDrayg=;
-        b=b7+EUg2hQ23B94rsvFUUuvPBpGsYGSRbaz2/p47bb5ucB53MnJJn6JjlLtlrfqbvMc
-         phXYiNvSpcKgz59CEjvRGwVnwrrL6QQfTMxE2n7Qz8cLey+3ODNrJnnCsMCOmEqZXW+C
-         0wSRLyGCMZ7FkkG+3Y2BfTybfTNkJ6geqfPAtTVLIo8YY9H6mxYjmUVX0N3Stmi9vSy3
-         Vl01YJ9XL+WuVhkvjvB5bx5nKhIwEEq+5X1lwm8RK19XOqeQGGFB/wrYAlzmke03FUpF
-         zSnTY6c3Bb1pIewc2PSLRYtRq6J/gQB66NpdONMtsBsUyhMzZlLaWf+/fhVURtwr3ryU
-         SabQ==
+        bh=5maieUrV3gg0OvUYuumtngfF5Rbt74fkE8XBQYCal3Q=;
+        b=guSeG1HKMwucdXLBFYjwKw1zxHDez4dA8lacsVfj4qvMAMlmtitshOEwL29W6o4S9x
+         i99o9h8/L//EgyA8Z4HtOdOXtliLFzh5wggp1lqjDGWpgGHO3y3gxsMDmeaqIb3PfOE7
+         lIaKBRRP4DMpNfAcP2poy3SBeZZ323cUo619+FCxMiBXHOb7EEo3HULTgvRzbX4inQV5
+         ZHwySn2eXCZphxrnQ2Ux5R/awLDTkDdOCSGR48RtHbNykr1xmrpcnVAAQw0BlBcfOgAi
+         Kmd0dfz4/3nGwlt+yKWmkO4A7AM0IYWXpq6mLLnSJJvcK5Gn/4NGVWWCpdFI05YMaGU7
+         2gPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793105405; x=1793710205;
+        d=1e100.net; s=20260707; t=1793105406; x=1793710206;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EOmMLjMAFJxyM/LPyWQT2i9O3ojzkNgFK3nKjeDrayg=;
-        b=L9QW9Ca33hUVefVSgjSZ2zJ2MihLIQ0f3m1rddSEMCnq4Y+WfKBfJCUT1IJjRDiUlu
-         vHMfZMjcdSjvXvYdIHK5HXbrbQ3UR6GaWxtOR3zrv1t8ONuWu9DFwghTQbKcmX8P1VZR
-         No+u/HChE9pSFv8u2SifYtDwgH78vAGgDs9FPwQf7jd7AsRgTesHrIcZy7G+ql3kSDcX
-         CyGUGbs0Iu9w+i97vkNwzG5xbLg2Y9+zvdwByXMlup3oDpjGyqxoBtp2aol7qwaZ6RZs
-         88F1VbFCIGklyEDkCV1tsF+jskMWMjvmvANARFDoBD66oRJDTzav1uaA8dG9eQYelwFL
-         Oiqg==
-X-Gm-Message-State: AFq9FYJXmZ0illqZZ1XpkBGGRilYF3ZYksr8jUyjqf5C9fHxjsa4LsGk
-	FfnmPw4RzRIry2aUb4H7eRh/4KWFgCxlYLbMJ0N4NsExELG+OGRYLBto
-X-Gm-Gg: AYBFou07r4en3QnmJ3/d/VdcXkOnQYFYYR6kBQo/VC2HrnABo6jSk43fWLerRancNz+
-	ug1eRpws+CpR7lNtBKfFYRqDgLCzW0KcmJtY2II6+XecaWEkjOPHdQKiPkj/zKS9hN6yB9dkvZS
-	Ugn7OrhC+aZh9MK9iniILntYVsRovxAh4bfpyDg50aBKL7/K/8N6IiLrmpAdFswoxd9RSyS7ErZ
-	lyPWCWeG9RrPpn2lq+vchi5YYKyOGBEDZMoeLjcWecq54X4CozO3eAcaqgO7O9BMwJuek8t4ada
-	UnB4oN6ZuqesC0kIsOXG72ENTl3WpURmosSbE/OwSVqwHkkjar932O7Ae01OHdeVlmV9FYbPLOR
-	Rt62Y9aZZIHCiM7Eiv/e6nN9oLQU6+pYxUEeUpownrBUA8SCGJG75MA0snDb8FKKAos7L1yAqiC
-	hEXG5/6p243xr6nDpRMRNDte51lY1QW8p86jw8rDSzrqLoCZjAUv/ehxWIj7Ge25Bo4mi78CA75
-	Z269xvqQ2vzUN1WNQLKiRyMFsKrzSQVAWpwCyMkWqXU2DQW9RqBVW52XcrZNt5Bt5rxgTbhwQtY
-	yqpO5O+ufTBL6ST/mbfG2pXjGlKNIJJ577HB8ofZn77TbXQ4Qq1RN5/+xpW0TYML
-X-Received: by 2002:a2e:a883:0:b0:3a9:7c85:a16d with SMTP id 38308e7fff4ca-3ac908e3716mr5518161fa.5.1793105404928;
-        Tue, 27 Oct 2026 05:50:04 -0700 (PDT)
+        bh=5maieUrV3gg0OvUYuumtngfF5Rbt74fkE8XBQYCal3Q=;
+        b=dL2Vdxd6qLA7U1G8F9TBfLGkfMmgSsSrVIEO/aY5z87cqC+AdKK1Vw574kdkOyaCrc
+         XkWH5UgMLrUXjqArpPxTincT7MQJPZHYK4211VOWd8t/11VNWwtmUhZj2YSz2MXiZW5R
+         2DdrCoMddVZ5SYVeJOUT6Bg6YgokjawYz6uFK0Ff0GqkRdx8DVS+xmTUSCN5gIv6edIh
+         LBHNDeU2tJuIA72KetV53+dMSSr/6Yb77dGpeUV/LAq0JbtcrDdCDsLRfN+67G2cKLQM
+         Qn7okl2A4M26HavltrL2sFH0SQhhcxtpaWKLbYamPzuoqoXjA8iXmEgw5T9Yto6jqrdg
+         DJpw==
+X-Gm-Message-State: AFq9FYI7CZeaHWrwDVSqXjQKagjL1tQOKIpkKhuIyhvnbGNbLqTal3Hc
+	4BI3QLoFe2bgLQLMXqSaE/ldUvgyF8DfPwug+UVo4eVEZNgQXJChHLb8
+X-Gm-Gg: AYBFou0QMAhaziOhwZucQDFTNuQJsP/ubg6ojMAcY9ZS3JncQTXKfbCxjR/OKPyBpBK
+	NsN/ug5GEFIWhUFcgk31cvXEAoH7B0+tDmNrjn38nPzXuznBCvqCK54UuryZo4c1+Rr8dcuMVpp
+	QCI4BmhlA/sB+ugSOMhj0nveMM6aUkIerrIFHAsjaJxvRW/P+y2ZAkAvzdaaWeom07Lg8zD/8Ji
+	oGXwMQa2M2nEnzaE47fuz0Ok+qGz3MwOGWL0nQtBSqzY3Yh5SLrTpc+4Edx6f1ymT4lKh6W5m+T
+	KW6nUdBkx7djY1eRdTB0XbEEbGJmvidd36ZFdiPqcXtU2MSugMfKeIE1frQR6I7TwC2dLb6FPR2
+	p9NCFpax8XdpPJz4NVqcWowMufOlkH5Z3I9wzUMyDcRoghBzxe1UHBW7pL6ydjeoU51osVhx/cO
+	U4bcQzUGfxxm12VIyd3RxTGr2/fu+W1gWMizWgG7KgOtb6r6Ub6DiGDm0oWwwNa0yL47m5LJwQq
+	md7JDdx9rNRX5SNbWiG92Tjed065kyXyYPlKWKU1ee4pgl54OE2WZ5pn27rTSz6LQj1BMJmHyxB
+	kCBMqms1meUd1wU09uoMgcFFH00D2YRpT4j4xNQWpsO1sT8CZUwL9E5RFnBfYJlb
+X-Received: by 2002:ac2:4c47:0:b0:5bc:b15d:beb9 with SMTP id 2adb3069b0e04-5bfb71c6b52mr3628166e87.29.1793105405831;
+        Tue, 27 Oct 2026 05:50:05 -0700 (PDT)
 Received: from yantra.. (nekmmqtcmoboczbkdcs-1.v6.elisa-laajakaista.fi. [2001:99a:d7d:c300:55c8:a52b:6ba2:979c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfb7e7cb24sm2052803e87.25.2026.10.27.05.50.03
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfb7e7cb24sm2052803e87.25.2026.10.27.05.50.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 05:50:04 -0700 (PDT)
+        Tue, 27 Oct 2026 05:50:05 -0700 (PDT)
 From: Rupesh Majhi <zoone.rupert@gmail.com>
 To: Alex Lanzano <lanzano.alex@gmail.com>,
 	Andy Shevchenko <andy@kernel.org>,
@@ -105,9 +105,9 @@ Cc: chrome-platform@lists.linux.dev,
 	Rupesh Majhi <zoone.rupert@gmail.com>,
 	Marco Elver <elver@google.com>,
 	Bart Van Assche <bvanassche@acm.org>
-Subject: [PATCH v4 2/9] iio: core: annotate the conditional mode claims
-Date: Tue, 27 Oct 2026 14:49:47 +0200
-Message-ID: <20261027124954.110697-3-zoone.rupert@gmail.com>
+Subject: [PATCH v4 3/9] iio: core: mark the mode lock helpers __context_unsafe
+Date: Tue, 27 Oct 2026 14:49:48 +0200
+Message-ID: <20261027124954.110697-4-zoone.rupert@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261027124954.110697-1-zoone.rupert@gmail.com>
 References: <20261027124954.110697-1-zoone.rupert@gmail.com>
@@ -122,57 +122,40 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-iio_device_claim_direct() and iio_device_try_claim_buffer_mode() hold
-the mode lock only when they return true, but carry no annotation. With
-context analysis on, each caller that releases the claim is reported
-for releasing a lock it never took.
-
-Mark both __cond_acquires(true, indio_dev), the token that
-__iio_dev_mode_lock() acquires. Sparse no longer reads these
-annotations, so drop the comment about it.
+__iio_dev_mode_lock() and __iio_dev_mode_unlock() are declared to take
+and release indio_dev, a token for the mode lock, because the mutex
+itself is private to the core. Their bodies take and release the mutex
+instead, which context analysis reports once it is on for the core.
+Mark both definitions __context_unsafe().
 
 Signed-off-by: Rupesh Majhi <zoone.rupert@gmail.com>
 ---
 Cc: Marco Elver <elver@google.com>
 Cc: Bart Van Assche <bvanassche@acm.org>
 
- include/linux/iio/iio.h | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/iio/industrialio-core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-index 9b63785d5aec..ca91f5a64626 100644
---- a/include/linux/iio/iio.h
-+++ b/include/linux/iio/iio.h
-@@ -707,13 +707,6 @@ int iio_push_event(struct iio_dev *indio_dev, u64 ev_code, s64 timestamp);
- void __iio_dev_mode_lock(struct iio_dev *indio_dev) __acquires(indio_dev);
- void __iio_dev_mode_unlock(struct iio_dev *indio_dev) __releases(indio_dev);
- 
--/*
-- * Helper functions that allow claim and release of direct mode
-- * in a fashion that doesn't generate many false positives from sparse.
-- * Note this must remain static inline in the header so that sparse
-- * can see the __acquires() and __releases() annotations.
-- */
--
- /**
-  * iio_device_claim_direct() - Keep device in direct mode
-  * @indio_dev:	the iio_dev associated with the device
-@@ -726,6 +719,7 @@ void __iio_dev_mode_unlock(struct iio_dev *indio_dev) __releases(indio_dev);
-  * Returns: true on success, false on failure.
+diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+index d73f2541375f..e9a5d1d905c1 100644
+--- a/drivers/iio/industrialio-core.c
++++ b/drivers/iio/industrialio-core.c
+@@ -2252,6 +2252,7 @@ EXPORT_SYMBOL_GPL(__devm_iio_device_register);
+  * iio_device_try_claim_buffer_mode() pairs or related helpers instead.
   */
- static inline bool iio_device_claim_direct(struct iio_dev *indio_dev)
-+	__cond_acquires(true, indio_dev)
+ void __iio_dev_mode_lock(struct iio_dev *indio_dev)
++	__context_unsafe(/* returns with mlock held */)
  {
- 	__iio_dev_mode_lock(indio_dev);
- 
-@@ -760,6 +754,7 @@ static inline bool iio_device_claim_direct(struct iio_dev *indio_dev)
-  * Returns: true on success, false on failure.
+ 	mutex_lock(&to_iio_dev_opaque(indio_dev)->mlock);
+ }
+@@ -2262,6 +2263,7 @@ EXPORT_SYMBOL_GPL(__iio_dev_mode_lock);
+  * @indio_dev: the iio_dev associated with the device
   */
- static inline bool iio_device_try_claim_buffer_mode(struct iio_dev *indio_dev)
-+	__cond_acquires(true, indio_dev)
+ void __iio_dev_mode_unlock(struct iio_dev *indio_dev)
++	__context_unsafe(/* releases mlock */)
  {
- 	__iio_dev_mode_lock(indio_dev);
- 
+ 	mutex_unlock(&to_iio_dev_opaque(indio_dev)->mlock);
+ }
 -- 
 2.43.0
 

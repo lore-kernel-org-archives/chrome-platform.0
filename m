@@ -1,80 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793178582;
-	b=f+lHJC77RVm3ear1pZg3sMLluaOUNwuh71Tf7CNDZf2dljCPtZIwLC3gncV7i5MDSnCr
-	 GIgG5CoGIPn0cGJx3C3ZdtV97o0IhHr4NftBZhAfgc2J7qveMxbfAj6/Cb8NsSFZ1cLTS
-	 ZW5qHoWHV0v+6ATgM7ZrbUjRzeYmtkIj9ACAzSYsyr7CEEKeqVdw2o1LZLNgJOQ58ZR2X
-	 WtpuhIebCf0JFXKombnCxn2RJVc4kyz27dDnhgfVFo8KfGOdXZZo02wBBtvBYmeVLombm
-	 jtE5CFuKx5rZ731HL3Q0wOsl5df58OcmVTRzSeTFEmo2tHbwydYCi7SirEeLbH3HBIg==
+	t=1793178585;
+	b=koqfdZojVHQ9iUBpYC+IcfVs20dll+fyI9YltseqEgN1br+GuBc6fwp2fTQFkx0ujife
+	 w32vY2cYl0/aaIWgAaj12w3JgHjE0ZHJBio3DOJDqZ5VyMufURh5eefjewzyt5ToSQSxv
+	 eUP4AX/MhCTplairAlnkO4SbuJukX3xauMiAq4SJLgBMG+Srm85CpSHAyOtENH1WDnor/
+	 jm+uTkcINAiC8yFb3vrJx5KwYhIO+WktQ4bFq5dnbQQG+pxKi6anpAeWcWt8hSjlpFWmn
+	 3ExWYmBLAxQN/1rDysZvh399AOkwjT0j7Ffdo7sGOrT0uCNMLwZH6hI/zkrQFbiInnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793178582;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793178585;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=J9x+PRrcVltVfpkTQNZRX5xz8D7o9ObLUDqYS0LHH94=;
-	b=OYsDk05xMZ7bVmARQfDHorVPnPmE35S05IJE0qrEfe7FhvHDhvv0tzsMA9PYB2L7YCAQ
-	 BvTF8khf7JfgyObhnU+RIXoyiujFGL9qVYo76OQFtEiKDLTeF8v99Pe56IZo6QSQUAzn+
-	 YCavp9fv0A7xhngdutMvyabdGe8pjegdf2X93J+eRBR8Oz5wlWXrd0aZcbgUBXrybpZC3
-	 pNZoPvgFdyjioVa9Lbk4c9ats/1fQh5MDCt5OxGHnE/1vFOdj2m93A1/AeIc4PyI0u6VK
-	 ubaQqEbmmkJLwxvvHRIkhsOM55P8OITRRuitsp72gDGsK/uq7HOVwVvgr9ruAa/KJlw==
+	bh=X5gxbQQkcGFQMG1g4awPky4j5Q7AWCJEpP8DpLUAuiI=;
+	b=MzUdR5uPvb/sqFKBZhqx26lzNbc0kHFc5lZ/X/psX9Ziv8UmK2eY0hmUEJAYziT4FLbk
+	 botB9/BMH0B//OOTOqG4lrZ/h//J7G8bsT+6MN1sG4Qq/hS+pb11YagHn+XkdmPnKyQVk
+	 6HcRdDJPpPRkUgx+FhNlHHMjq6azQN2H2lnqSKIGi56W/XY0joM8l+5dyS/AEeDVX38I1
+	 2Ke2Ym05Pu2B/U+hnd81cfrdv+0VbSrRpV6XbeSED/Yn3RgfAPbPgteRsEmNoOL9TwHxX
+	 jkTIcKpTQelkyFb1egiYgNKoNnJsbxwcvlCY4rpYyuoZa++zID6CyJ8KpXCzkH9N/6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chromium.org;
 	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=BDBlXBDl;
-	arc=none smtp.remote-ip=209.85.208.43
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Eg4lzdWn;
+	arc=none smtp.remote-ip=209.85.218.51
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93364606A31A
-	for <chrome-platform@lists.linux.dev>; Wed, 28 Oct 2026 09:09:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93364606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851F3606A33D
+	for <chrome-platform@lists.linux.dev>; Wed, 28 Oct 2026 09:09:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 851F3606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=BDBlXBDl
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b21cf1a580so1023169a12.1
-        for <chrome-platform@lists.linux.dev>; Wed, 28 Oct 2026 02:09:41 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Eg4lzdWn
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c169ae1cb26so281341666b.1
+        for <chrome-platform@lists.linux.dev>; Wed, 28 Oct 2026 02:09:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1793178580; x=1793783380; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1793178583; x=1793783383; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=J9x+PRrcVltVfpkTQNZRX5xz8D7o9ObLUDqYS0LHH94=;
-        b=BDBlXBDlILSTSi1Kv1vNm1P5CumW6vEFLjc4XUGeKhXHBW31VKbIAalMTjn5BvGMJv
-         lsKxkfqmaH8I7iAWeFMmwdPS08wy4KMlXcK6h35oq8ylgS40ImnJqEsPMdIVfgoWH+l5
-         RkV+y/cCOIyXQAGoDhW4i6HeKnOxPh2Nisip0=
+        bh=X5gxbQQkcGFQMG1g4awPky4j5Q7AWCJEpP8DpLUAuiI=;
+        b=Eg4lzdWnSc99kClNUsRzmY84NnszaW4lCW0eQ0nGSs26mDbvz05E9BayCMzcoow565
+         /NvY83j/kOQCn5YDSeegqvxhLdsATzQuM2W0Y6iQ5F1IgdlwMflOneqLqMYXbPNBUztq
+         a9694b6xJCbUT+iszn+g/4Q4lrCDAT6MCfsVs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793178580; x=1793783380;
+        d=1e100.net; s=20260707; t=1793178583; x=1793783383;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=J9x+PRrcVltVfpkTQNZRX5xz8D7o9ObLUDqYS0LHH94=;
-        b=Eh41q0Y9xnQo5557Kk6XbGZKpMdF/NhiYewr16wL5rXZDWwdIiuKQMBthc58WnfCGk
-         EORt/Prlq0N8tlHmTaN/DAokBrvhpUbfNT5RPqHq3PFSieukT1S5Q11DU3x6NYWc+Zcb
-         sWETet/yuedUPZgn/hYGAQxp/udW/5fuKRfEau+678G7aDzq7O16lqhZU3VACleXiR8l
-         jypa355muF/XYWo2jaRv5bJ+Q/lRMLOq8JKahTueB3VdPZapi1cc6hwXyomZ52F53Tzk
-         rA3QkBHWmSqtW+fX6VBO4wHhkwIONzSprVtCchq6sClWMFqIcrhBTcolOFJmhosQAFG+
-         eEsw==
-X-Forwarded-Encrypted: i=1; AKwUvBy9NXxzD+BKAcxJFG7gx5y9lljMp9JHXClPUTugpx2fUwmZF53OauR/ACoAGTcWJT/ZuK7jtaNc2TYRXobLju4=@lists.linux.dev
-X-Gm-Message-State: AFq9FYLLbCWcn4Ol/D4ZOrbMgQRwOxV7IKVrxPkzLtk9mNkIGyhH9Kk+
-	QcWZPw/3Hwz8HYCRPcKdox+/HZl+wsTia2XQVR5tH/Pp/wMpuzguKg815FY2a6cZow==
-X-Gm-Gg: AYBFou2mtbtQe3iUnKIf5rqFTslmX5Xvlkm+Xw5yM9ILux7kH1ilzBPYwmO6zS/MYOd
-	HPEpaClWIj7YvXTuuUEEWysqnn5cLjQt+hj63FTNaA5Rut3V4fxha1lkruXjRefBK6q7MSAdcG7
-	BqpZn3xbJSmuTuGL1KFu2epGSeGVlplwDcXc6PVmbCXg9Bwv1TswoCO2M8ZKkW/ykN4CTwQr9Gu
-	s/0OMDUtwI+uNjGxix+GcVm1rDSmEgC5tfBwj9Za4WdIegHZF+Bd5vzmdyf7HKwXwBy1NoN/si6
-	0RRKZo/aPSTvoBO2CaJT4C11ZtL+tLRi1MeIJPMpuYMGLOlWnNVj8rgMOe8bscEIN2AfxHEqQxQ
-	0Mfv4/m+0eEchs+t7R1hMzDuiGH28jDKuROVFh14Sq1gwMv3q2D9pLJsjjtS6K3qqxP057AJZhZ
-	yu8mb/lwJ1qRG7FnNOYTSZ+rjymIdKHF/QjslD1EEJ/p/0Js2+GIRSc7lFVeUeBt+5xc9Dlozru
-	tC2Y8GZAjrEbz/2bucyyIiEdiWwv5faWTN45+xuadHTKPBpUODTNBdz6qaztvg+PooQETRtDWtq
-	2Zq2dU5RjDKjxB0ytabshHwUHcVdnawVpz0in6gQGjqu9RJ6a66e9xusfIVTYTEiuLljmgwa
-X-Received: by 2002:a05:6402:13d6:b0:6ac:934e:a9ca with SMTP id 4fb4d7f45d1cf-6b49cabef38mr1100021a12.0.1793178580047;
-        Wed, 28 Oct 2026 02:09:40 -0700 (PDT)
+        bh=X5gxbQQkcGFQMG1g4awPky4j5Q7AWCJEpP8DpLUAuiI=;
+        b=GS+V9fn3prWwdJuyNfO2auw2CBKHXgffuUXAc7QocW38/olQnQOG5czq3Gn7Oii0lv
+         4gyz+nBJK6rxRU1lf78Wtrj5SEtfI/2NiPTQLynxiIaoEviv1qqyTFYoiVlMv4NKf8kN
+         37HR0a8RNLU6pIQBEfYmP2ntBzAXbWOc4LCmGezCcD7sjmzjNO/nlOUnN6c93rjVC2pA
+         QFU7RY9fYN+ufIJbHOqxL6J5SNl8Hqy50JVqBiJq/pNDI4Msgi21A1YkNLC/0sOWgY+F
+         ti2odYhXjSYOZDm3Im6wMj3ihddMpEMlrviw1YhFCuCj9K37KpWyanlA7JuW7Qouq/ew
+         JyBw==
+X-Forwarded-Encrypted: i=1; AKwUvBwt5gaVdggfRcG5GBQY+biPJClNUJlciJAYHWPOPkiLnMOWz5yIWcx8JmFjB76u3ZYyB0y4M7kYOOsmEbeoxVA=@lists.linux.dev
+X-Gm-Message-State: AFq9FYJhHrn4E7xDpuj6jSbk+NmcDjrUj9E51l7ayWKMp4l9DHwfqexD
+	hLCpZZUQmYK+cAlBFLsS44WB6H4Gnn9JLar6LcQ89V7bB8JLjoyNdps8X5jaPy2V4Q==
+X-Gm-Gg: AYBFou3ffVpiRC2N8J3HGkh5HWhRdJ/2xxhuoASe4CXDO/TpC9AXEUW3X4P0MymX+Cv
+	FtUhQWPhJfJYkL1IL6NzEXP2CTFatKY6IONjgPd1C3+Dr2+ImueCPsf4JEsGroVgZOcco2bVjBL
+	0WTKjv9Rb1sxzAaJ3uFsOFDmcAO7p+M5faTYf8obZUCFxgIpe1pGvOCoxfA/3bakQE2nisiywBN
+	qKAqplgTiYKXBP/CzNcROVoDBtoaX030ryxGMCFjlGsl1mE3W4KDcaUMLxZa6uJfYqj2LfaCmwr
+	d6Z0j7EOAIW/XvDk1EdND+t8hdh2+wy4VmGgEXD+Zd+iaiNv7jAVIxqVdjzMNeUjYeG30dkV4Uf
+	f6NcMn5INrdBdVQbh9iokx8VYtMMYJoMeQ7vJq0Cy+yD7w/cUwc3sFl1wioTyZrBp9ox3Sn4tHV
+	kUb2YXCZVrGvPADN4OsFRZDC1AEP84Bup9tRL7I4Lx7Hns2M+RliZWvZfuOjNOQxVfsfvxzrmWN
+	DqYNDndmUnFIz7x5naF0cvSSLJujrJ6YNArv+QakV1UCVpukX3W5XHYe+8abETnLLlnZrf/TrXM
+	DJhWBDSxB+VOpgQ9n4wibCpNVZ62c6Hn5wxrNHjepcB2+A6andbB5xOplZRGGCOn7qxpsHDu
+X-Received: by 2002:a17:906:9fce:b0:c32:465f:826d with SMTP id a640c23a62f3a-c49c63455d4mr65200366b.17.1793178582975;
+        Wed, 28 Oct 2026 02:09:42 -0700 (PDT)
 Received: from localhost (103.45.147.34.bc.googleusercontent.com. [34.147.45.103])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-6b49640ebadsm1193994a12.18.2026.10.28.02.09.38
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-c49a530f520sm255582266b.23.2026.10.28.02.09.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2026 02:09:39 -0700 (PDT)
+        Wed, 28 Oct 2026 02:09:42 -0700 (PDT)
 From: Andrei Kuchynski <akuchynski@chromium.org>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Jameson Thies <jthies@google.com>,
@@ -84,9 +84,9 @@ Cc: Jameson Thies <jthies@google.com>,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH v3 1/2] platform/chrome: cros_ec_typec: Enforce priority-based mode selection
-Date: Wed, 28 Oct 2026 09:09:31 +0000
-Message-ID: <20261028090932.27053-2-akuchynski@chromium.org>
+Subject: [PATCH v3 2/2] platform/chrome: cros_ec_typec: Reorder altmode registration
+Date: Wed, 28 Oct 2026 09:09:32 +0000
+Message-ID: <20261028090932.27053-3-akuchynski@chromium.org>
 X-Mailer: git-send-email 2.56.0.385.gac671c819a-goog
 In-Reply-To: <20261028090932.27053-1-akuchynski@chromium.org>
 References: <20261028090932.27053-1-akuchynski@chromium.org>
@@ -101,148 +101,58 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver sets mode_selection bit for each Alternate mode, thereby
-preventing individual altmode drivers from activating their respective
-modes.
-Once the registration of all Alternate Modes is complete, the driver
-verifies if USB4 mode is supported by both the port and the partner and
-activates USB4 mode. In cases where USB4 is not supported, the driver
-invokes typec_mode_selection_start to initiate the mode selection process
-based on mode priorities.
-The driver communicates the current Type-C mode to the mode selection
-process via typec_altmode_state_update.
+By default, alternate mode priorities are set in registration order, with
+the last mode registered taking precedence. Changing the registration order
+of alternate modes prioritizes DisplayPort over Thunderbolt.
 
 Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_typec.c      | 40 +++++++++++++++++++-
- drivers/platform/chrome/cros_typec_altmode.c |  8 +++-
- 2 files changed, 45 insertions(+), 3 deletions(-)
+ drivers/platform/chrome/cros_ec_typec.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 50a68819ceb7b..89d29ef040879 100644
+index 89d29ef040879..11d9589422eeb 100644
 --- a/drivers/platform/chrome/cros_ec_typec.c
 +++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -27,6 +27,11 @@
- 						BIT(DP_PIN_ASSIGN_D) | \
- 						BIT(DP_PIN_ASSIGN_E)))
+@@ -406,16 +406,10 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
+ 	struct typec_altmode_desc desc;
+ 	struct typec_altmode *amode;
  
-+/* Delay between mode entry/exit attempts, ms */
-+#define MODE_SELECTION_DELAY	1000
-+/* Timeout for a mode entry attempt, ms */
-+#define MODE_SELECTION_TIMEOUT	4000
-+
- static void cros_typec_role_switch_quirk(struct fwnode_handle *fwnode)
- {
- #ifdef CONFIG_ACPI
-@@ -325,6 +330,7 @@ static void cros_typec_remove_partner(struct cros_typec_data *typec,
- 	if (!port->partner)
- 		return;
- 
-+	typec_mode_selection_delete(port->partner);
- 	cros_typec_unregister_altmodes(typec, port_num, true);
- 
- 	typec_partner_set_usb_power_delivery(port->partner, NULL);
-@@ -421,7 +427,6 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
- 		memset(&desc, 0, sizeof(desc));
- 		desc.svid = USB_TYPEC_TBT_SID;
- 		desc.mode = TBT_MODE;
--		desc.inactive = true;
- 		amode = cros_typec_register_thunderbolt(port, &desc);
- 		if (IS_ERR(amode))
- 			return PTR_ERR(amode);
-@@ -742,6 +747,7 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
- 	enum typec_orientation orientation;
- 	struct cros_typec_altmode_node *node;
- 	int ret;
-+	u16 active_svid = 0;
- 
- 	ret = cros_ec_cmd(typec->ec, 0, EC_CMD_USB_PD_MUX_INFO,
- 			  &req, sizeof(req), &resp, sizeof(resp));
-@@ -782,8 +788,10 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
- 		ret = cros_typec_enable_usb4(typec, port_num, pd_ctrl);
- 	} else if (port->mux_flags & USB_PD_MUX_TBT_COMPAT_ENABLED) {
- 		ret = cros_typec_enable_tbt(typec, port_num, pd_ctrl);
-+		active_svid = USB_TYPEC_TBT_SID;
- 	} else if (port->mux_flags & USB_PD_MUX_DP_ENABLED) {
- 		ret = cros_typec_enable_dp(typec, port_num, pd_ctrl);
-+		active_svid = USB_TYPEC_DP_SID;
- 	} else if (port->mux_flags & USB_PD_MUX_SAFE_MODE) {
- 		ret = cros_typec_usb_safe_state(port);
- 	} else if (port->mux_flags & USB_PD_MUX_USB_ENABLED) {
-@@ -799,6 +807,9 @@ static int cros_typec_configure_mux(struct cros_typec_data *typec, int port_num,
- 			port->mux_flags);
- 	}
- 
-+	if (port->partner)
-+		typec_altmode_state_update(port->partner, active_svid, ret);
-+
- 	/* Iterate all partner alt-modes and set the active alternate mode. */
- 	list_for_each_entry(node, &port->partner_mode_list, list) {
- 		typec_altmode_update_active(
-@@ -900,6 +911,7 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
- 			desc.svid = sop_disc->svids[i].svid;
- 			desc.mode = j + 1;
- 			desc.vdo = sop_disc->svids[i].mode_vdo[j];
-+			desc.mode_selection = typec->ap_driven_altmode;
- 
- 			if (is_partner)
- 				amode = typec_partner_register_altmode(port->partner, &desc);
-@@ -940,6 +952,32 @@ static int cros_typec_register_altmodes(struct cros_typec_data *typec, int port_
- 		goto err_cleanup;
- 	}
- 
+-	/* All PD capable CrOS devices are assumed to support DP altmode. */
+-	memset(&desc, 0, sizeof(desc));
+-	desc.svid = USB_TYPEC_DP_SID;
+-	desc.mode = USB_TYPEC_DP_MODE;
+-	desc.vdo = DP_PORT_VDO;
+-	amode = cros_typec_register_displayport(port, &desc,
+-						typec->ap_driven_altmode);
+-	if (IS_ERR(amode))
+-		return PTR_ERR(amode);
+-	port->port_altmode[CROS_EC_ALTMODE_DP] = amode;
 +	/*
-+	 * Once all partner alt-modes are added, we should also trigger
-+	 * mode selection.
++	 * Alternate modes registered later take precedence. Register DisplayPort
++	 * after Thunderbolt to prioritize DisplayPort over Thunderbolt.
 +	 */
-+	if (is_partner && typec->ap_driven_altmode) {
-+		bool usb4_mode = (port->caps.usb_capability & USB_CAPABILITY_USB4) &&
-+			(PD_VDO_UFP_DEVCAP(port->p_identity.vdo[0]) & DEV_USB4_CAPABLE);
+ 
+ 	/*
+ 	 * Register TBT compatibility alt mode. The EC will not enter the mode
+@@ -433,6 +427,17 @@ static int cros_typec_register_port_altmodes(struct cros_typec_data *typec,
+ 		port->port_altmode[CROS_EC_ALTMODE_TBT] = amode;
+ 	}
+ 
++	/* All PD capable CrOS devices are assumed to support DP altmode. */
++	memset(&desc, 0, sizeof(desc));
++	desc.svid = USB_TYPEC_DP_SID;
++	desc.mode = USB_TYPEC_DP_MODE;
++	desc.vdo = DP_PORT_VDO;
++	amode = cros_typec_register_displayport(port, &desc,
++						typec->ap_driven_altmode);
++	if (IS_ERR(amode))
++		return PTR_ERR(amode);
++	port->port_altmode[CROS_EC_ALTMODE_DP] = amode;
 +
-+		if (usb4_mode) {
-+			ret = cros_typec_enter_usb_mode(port->port, USB_MODE_USB4);
-+			if (ret < 0) {
-+				usb4_mode = false;
-+				dev_warn(typec->dev,
-+					 "Unable to activate USB4 mode, port: %d\n", port_num);
-+			}
-+		}
-+		if (!usb4_mode) {
-+			ret = typec_mode_selection_start(port->partner,
-+							 MODE_SELECTION_DELAY,
-+							 MODE_SELECTION_TIMEOUT);
-+			if (ret < 0)
-+				dev_warn(typec->dev,
-+					 "Unable to run mode selection, port: %d\n", port_num);
-+		}
-+	}
-+
- 	return 0;
- 
- err_cleanup:
-diff --git a/drivers/platform/chrome/cros_typec_altmode.c b/drivers/platform/chrome/cros_typec_altmode.c
-index 66c546bf89b53..116329dd113f8 100644
---- a/drivers/platform/chrome/cros_typec_altmode.c
-+++ b/drivers/platform/chrome/cros_typec_altmode.c
-@@ -41,12 +41,16 @@ static void cros_typec_altmode_work(struct work_struct *work)
- {
- 	struct cros_typec_altmode_data *data =
- 		container_of(work, struct cros_typec_altmode_data, work);
-+	int ret;
- 
- 	mutex_lock(&data->lock);
- 
--	if (typec_altmode_vdm(data->alt, data->header, data->vdo_data,
--			      data->vdo_size))
-+	ret = typec_altmode_vdm(data->alt, data->header, data->vdo_data,
-+				data->vdo_size);
-+	if (ret) {
- 		dev_err(&data->alt->dev, "VDM 0x%x failed\n", data->header);
-+		typec_altmode_state_update(data->port->partner, data->sid, ret);
-+	}
- 
- 	data->header = 0;
- 	data->vdo_data = NULL;
+ 	port->state.alt = NULL;
+ 	port->state.mode = TYPEC_STATE_USB;
+ 	port->state.data = NULL;
 -- 
 2.56.0.385.gac671c819a-goog
 

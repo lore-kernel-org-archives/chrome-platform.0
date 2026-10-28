@@ -1,60 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793164250;
-	b=IyHL0Py+lYPHbXtrmVtVHVKv6nGYKzy+UxgRmtoBBlHOUrrjjl3fS1bJEHYghzku6ggh
-	 NylKxp//lqD1E7ZIlwnZW0SKExMbNt/xwn00s1A+HAfHGLI/KDstHKgEIEPE+PKvVHD/A
-	 Fx/cT74Te2yZeRvgv3IXu9RmLfpLATa3r7s/xkmasEGaZ3qXcWopzUHP6AUIiWAUYbExH
-	 /ytnw59Sdcqm/2WVrKW7uLzzIEL0NVE9PLfVult2g/lMMGFeXGn+bx0bhN2tuGUzJSjPr
-	 SS67p0jNWMumelhdWdolIUlnrKbUvI/ePzbmH6CcpUwzt7Gn6tR6FJ4nKN6MX1iMQZw==
+	t=1793164289;
+	b=hMige0tUxdCYM6uU6IlPm41t/85aK6kLu8HGGAXHN+RE9KNY7QC/z/MPBZ5wr+FHfLzb
+	 KO7g3LkYlmqm9CxIvZEdIbnbib0th2+ayKaRluLeV3n/0EkG3hFWxpDccEs2uNKZvMG4k
+	 lGOLRX7uUMnBjJut1+REniS7hVmNdQlg5x+qd+FRWm+cgVibThlZAnB952WygNiK/5CQx
+	 jua1O+1ngGhnx2OBpeuRA7/XSM06JisB9v6JcOlOie6vHr1xbwyBfDme6bYTiOa5/vEEB
+	 20YAGRAzCQyqIdr1P/ss+V/vBgF+OsGYcXSZCXS1xISvADWm6inmCa9TipPX7Sov1/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793164250;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793164289;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
 	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=Qle6PKpbLiG+C4WiRNBNTT2whjds2n+JexlNVDlzam0=;
-	b=gTGhTWVW7wZvAlgwDsvjgD0A/IHfdU6IAqeQb1vQ+7XHRYDu3UyKAPMSxvWftgTiTOUl
-	 CROaOgiZHi7/MXwP9kZDnngn96T0ZqZmEJEFGhQXc9/+lVley0jHJ9OONoC0Sb4JReLDO
-	 HPqQqf1nH52aKeoE5SiQQhToaMb8Oi877BUjf6/i+plmVxOE580C8TncbI8QTNeb7PS3n
-	 5wMUa3fA6MkCvhQf3jDGSKO4FZ+sCzfYvfAIxx5lOrN5AkG/KiTVfLD0HluGeQPNSSsAB
-	 vta5bq24vQIa1pPEil4m/Wp+r5iFJclyLbP36K5BftsPS4iRCTlsxi8OROLUeAehh/A==
+	bh=nYsLqUlsjGDEPJYA9NcU3HBE54LgzTei1eQnGwkc7PU=;
+	b=2t21L4l5Mhu5+bPD3D2c8eoZJlZSaKDbMgBWsHZKNiZWgVYIvgit68YYff+qrJ2kt1e9
+	 B5uvWJathVe8W/lcnBI1gAeLbUzM4Br9BO5gmEaUYZntjMH6IsI04aq6qMI8YqLR7BsIG
+	 Sni6JO7WjuenIPgvuPdVq7Cqh8DDW1ejnzfEcn7farDUsU9kXQgnzZB6ysaERNGchQHsA
+	 PwltcSiZCMe0qSyhONp+5mENQonJQ3HPbjIlV0ouypgtmh2v58swKdCkQqfRiMyXeq+M2
+	 kwCOwYZkIRHrPny2e685GVRQKIYRxzVfXr7E7nvS/kOd7MZJwS57JfhvZqn3SvjwJ7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=163.com;
 	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ChhhHpem;
-	arc=none smtp.remote-ip=220.197.31.3
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=eMsD6tmn;
+	arc=none smtp.remote-ip=220.197.31.2
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12188606A31A
-	for <chrome-platform@lists.linux.dev>; Wed, 28 Oct 2026 05:10:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12188606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6306B606A326
+	for <chrome-platform@lists.linux.dev>; Wed, 28 Oct 2026 05:11:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6306B606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ChhhHpem
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=eMsD6tmn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Ql
-	e6PKpbLiG+C4WiRNBNTT2whjds2n+JexlNVDlzam0=; b=ChhhHpemiPhjJ7QdbR
-	YocXYpYfTKGORXS+QOP/QukFFZn7tY57629/AghK9OpvcNEugXZ6wZML9MZp31Sb
-	rNLNiZFAjc965gH/azNwvhuTLa/WQdWqe9kZEUFej4SA8S52MTrR/vJ/M98/KuV0
-	3BykzNdqsLVIsDfzEzFC4f29k=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=nY
+	sLqUlsjGDEPJYA9NcU3HBE54LgzTei1eQnGwkc7PU=; b=eMsD6tmnGUEywxZmTu
+	LNzSoXZpZnM7WLRAC/o9T6sIXdMH0GpvCmV2D1BnTQHTVzm6bJ/pZNySwHx7q0e3
+	IYo8fzhACrPx0d9oYg0GkscEoumw+KN19aR3TIfaPPLU+4/5xVEDXWAHeJYIoVQx
+	+kG+DbYYxkeIE+XS5ny92gW5Y=
 Received: from pc.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wD3f_nFg+Fq9cgwDg--.58935S2;
-	Wed, 28 Oct 2026 13:10:30 +0800 (CST)
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wDnr6Tlg+Fqeq+RDQ--.25782S2;
+	Wed, 28 Oct 2026 13:11:01 +0800 (CST)
 From: Jiale Yao <yaojiale02@163.com>
-To: Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
+To: =?UTF-8?q?=C5=81ukasz=20Bartosik?= <ukaszb@chromium.org>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Jameson Thies <jthies@google.com>,
 	Benson Leung <bleung@chromium.org>,
 	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
+	Enric Balletbo i Serra <eballetbo@kernel.org>,
 	Prashant Malani <pmalani@chromium.org>,
-	Mark Hasemeyer <markhas@chromium.org>,
 	chrome-platform@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: stable@vger.kernel.org
-Subject: [PATCH 1/2] platform/chrome: cros_ec_uart: check ACPI companion before use
-Date: Wed, 28 Oct 2026 13:10:28 +0800
-Message-Id: <20261028051028.142416-1-yaojiale02@163.com>
+Subject: [PATCH 2/2] platform/chrome: cros_usbpd_notify: check ACPI companion
+Date: Wed, 28 Oct 2026 13:10:59 +0800
+Message-Id: <20261028051059.143646-1-yaojiale02@163.com>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -66,46 +67,40 @@ List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3f_nFg+Fq9cgwDg--.58935S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KFWkWw18Xw48ZF1DAw18Xwb_yoW8Gr17pF
-	97Ka1DJa1jgr1kGw4UJw4j9FWY93y2yw4UWFWxZa43Aw45XFyUtFyYya90yryFy3s7KFy2
-	vrWDtF1UZasxXF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Uv38nUUUUU=
-X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbCzgYlX2rhg8YI8wAA3H
+X-CM-TRANSID:_____wDnr6Tlg+Fqeq+RDQ--.25782S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7GrWxJFWDGryDGrW7Jr4rAFb_yoWkXrgE9w
+	s7uF4xArn5Kr1kKr1Yyrn3ury3Krn8tr1fKFnagr1ay3s5JryxXFyqva4Dur4rJF9xZrnx
+	Jw4UWrsa9F1SyjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbIPfJUUUUU==
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbCzQUtZ2rhg+XTfQAA3B
 
-cros_ec_uart_acpi_probe() passes the ACPI companion to resource helpers
-without checking it. A serdev force-bound without an ACPI companion can
-therefore cause a NULL pointer dereference during probe.
+The ACPI probe installs a notification handler through the device ACPI
+companion without checking that the companion exists. A force-bound
+platform device can therefore cause a NULL pointer dereference.
 
-Reject devices without an ACPI companion before parsing their resources.
+Return -ENODEV before allocating probe resources when the companion is
+missing.
 
-Fixes: 04a8bdd135cc ("platform/chrome: cros_ec_uart: Add transport layer")
+Fixes: 7e91e1ac60bb ("platform/chrome: cros_usbpd_notify: Amend ACPI driver to plat")
 Cc: stable@vger.kernel.org
 Signed-off-by: Jiale Yao <yaojiale02@163.com>
 ---
- drivers/platform/chrome/cros_ec_uart.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/platform/chrome/cros_usbpd_notify.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-index d5b37414ff12..779aabd16674 100644
---- a/drivers/platform/chrome/cros_ec_uart.c
-+++ b/drivers/platform/chrome/cros_ec_uart.c
-@@ -223,9 +223,13 @@ static int cros_ec_uart_resource(struct acpi_resource *ares, void *data)
+diff --git a/drivers/platform/chrome/cros_usbpd_notify.c b/drivers/platform/chrome/cros_usbpd_notify.c
+index 25da31ec1996..1d82c74583cb 100644
+--- a/drivers/platform/chrome/cros_usbpd_notify.c
++++ b/drivers/platform/chrome/cros_usbpd_notify.c
+@@ -105,6 +105,8 @@ static int cros_usbpd_notify_probe_acpi(struct platform_device *pdev)
+ 	acpi_status status;
  
- static int cros_ec_uart_acpi_probe(struct cros_ec_uart *ec_uart)
- {
--	int ret;
-+	struct acpi_device *adev;
- 	LIST_HEAD(resources);
--	struct acpi_device *adev = ACPI_COMPANION(&ec_uart->serdev->dev);
-+	int ret;
-+
-+	adev = ACPI_COMPANION(&ec_uart->serdev->dev);
+ 	adev = ACPI_COMPANION(dev);
 +	if (!adev)
 +		return -ENODEV;
  
- 	ret = acpi_dev_get_resources(adev, &resources, cros_ec_uart_resource, ec_uart);
- 	if (ret < 0)
+ 	pdnotify = devm_kzalloc(dev, sizeof(*pdnotify), GFP_KERNEL);
+ 	if (!pdnotify)
 -- 
 2.34.1
 

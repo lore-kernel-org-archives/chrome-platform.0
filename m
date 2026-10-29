@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793266150;
-	b=nUn3mk58u/UzSrPa1/8IOMO+OVT1TXf1rAt8CmmAdQcOkygHhiJHoO0TqGpoZtfgDCTH
-	 Cvy84//lRVsZG6B8HOSUUlIcM+U+dMlqGWoPBht+wLNwc/MdItvg44RVBaaQF59C3N1xk
-	 Ko/2aFMXk+kvLtwsPVmkQuJiksIe8t1KntGi6mqmZ/Qv9mZUwmzcwigaU83z8tlFmv6Q6
-	 C1wUFS0nMqlZ7WqtmZ+B96zWBMvCJHlDvwQuaZRqPnc+YUHhvNimvGHwaC+QrJ6igRUd/
-	 UKOeb7wGue5pQ2rom1X1QxlyNBovkf1T6z8C4ctohtlsmOMZtCZr0mPU8S2u+wD3sFQ==
+	t=1793266154;
+	b=Y9AxqGy9nTsG6luP3B8zzSNS1YEAm3IJi4zetexhP4T5nXpIoBtnu/w7uTneKfpxC6bK
+	 ttH1P0fIEonMHjOHXtbT4W8GqPg0jz1oEigndlrfeuCmhi+6gSeDkAjdSxlXW8WlN+y1v
+	 Lh7x+KfjWKtR3E1Qk/WJ2Dh72AGAjxy8SdB5nEkP/rjrmonD0UFmt2EFPvwOFzU2ybUAI
+	 Vd+PZykdpLdMqvpN/zBMHAtCVPdEwA3gc0NfOcb585tNyPXg+Bm1EfJbHwGcrYFURk38H
+	 n7FExGDy2fO4myFpNVbAmI5on4bMW2W+j7Hq8TLJfJFI/8nBR8RFwijVFMaz9muwxBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793266150;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793266154;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=ycqENo9iFn1fB3/PbhnzHQ31SR6DjuNYTFe+/vKTYzI=;
-	b=SyFF/Ua+GDTLn4G6NrqAg7ikZl6sj6Ugv3bI5vl6cpeZksotj9b2zLQXg37cY6tb3QJS
-	 nSAT5n7FcRam1uNRvrTZJybT6sWl0/V8dXRIJ2czaMpwWOQeWE0ALH4APHVsfPCtQMia9
-	 yhffEist9ITyDD97nzJthzF080wDT2sr2F1/L3IOHir5vUZjfq45lB6aYAcrIhMLv5anX
-	 BCR4UG4cbfElqtLlKxRVDn4vw5Sj0MEiTJqxRrZqPYbt17iLkMv5e7F9YzfHaG2Hmc7Ti
-	 BbeciJ+42DeQBb5k7/R/rwWiZXenld0bAzmeQ/+vVGmnU6Le8geaRBDRKwXIzANdciw==
+	bh=todkOwyfVIhQ069n5dpYrblRp+El6QG9QdYJZ7QqQQ8=;
+	b=Rc/oe0KVyTq+UYa6ZeWDfehC1MumVAOdXmKFzYkS6YCp9f/tbuDloxH4psWGdx4/rMQQ
+	 r2VXBMcWvJrSEo9uYn7nusKoudwR7lUsD8eIOT8upKTgyxrh8RCj6nSssUw9lXB+rft9P
+	 L8AUqZnjqzdiLYA9cLGD7wbNwEcnAT4EK4Buug3XC/VRoAJji/Xji3Sppai68AJzEsD1y
+	 8rNfzfd00dfL8gm1vkpQUcHl+FwlQFbI1/iYrShyFR/h+4NOGooHI9l+IMX5JQnA46Zef
+	 ev/K2XVPBjfS5FwfVx53dlfAzyPOU2S7N9L4QjqPucratCcEGhit19iFhmviJ+VDeOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NJ1csf0S;
-	arc=none smtp.remote-ip=209.85.216.71
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SJe6COeY;
+	arc=none smtp.remote-ip=74.125.82.200
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BCF606A322
-	for <chrome-platform@lists.linux.dev>; Thu, 29 Oct 2026 09:29:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88BCF606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71F4606A325
+	for <chrome-platform@lists.linux.dev>; Thu, 29 Oct 2026 09:29:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B71F4606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NJ1csf0S
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ae72da2f57so687699a91.1
-        for <chrome-platform@lists.linux.dev>; Thu, 29 Oct 2026 02:29:10 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SJe6COeY
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-3662e7a9299so7820498eec.1
+        for <chrome-platform@lists.linux.dev>; Thu, 29 Oct 2026 02:29:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793266150; x=1793870950; darn=lists.linux.dev;
+        d=google.com; s=20260707; t=1793266153; x=1793870953; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ycqENo9iFn1fB3/PbhnzHQ31SR6DjuNYTFe+/vKTYzI=;
-        b=NJ1csf0SIlSXS0Li5HujHZNTdo6F6qHguN2bERr5kbWUbxIOi2lg9My+yJT5nJLbRQ
-         FjZkAwjTR1+3IvnjPJqxe6/sPxzctHvmolWNtEEbYW9Ridzus5Yzb1wOg7pnmFQYrXEP
-         dIXZ2zoBh+GkpIvJ6ikOS9ZSp4qTnXiJt/YWax8JadHhVFleIcsZPxPN40xTo/ZXJdnn
-         Ms21Hn+Edq/rYmeJox9ljbKQRodVBVd/u6DyJ6MdZF9Uiao25HE/XOqJhTMq/G/3JMjb
-         fcteQXdbyRArN8ar8GtLNnOaehdfU1yHOfurzFvBAIRUKWuWwd1y7VjSGcjehIqhU1ln
-         Qx7A==
+        bh=todkOwyfVIhQ069n5dpYrblRp+El6QG9QdYJZ7QqQQ8=;
+        b=SJe6COeYEPbQs4pOC8WHL7Fz6tmeVTlYs/etMIQELnMNvhJQCdxq3OaNHmIjSQUHE+
+         RxBBBunZ9m1PCl+hP6XXgMKd9pzZI6b6NwfFikYU2Uu+ZQaaO4TJwEQ1SNcWCLjj2/07
+         zi7edLkhSHYf43S6UOchEdEnah8QRp4MERi8EC7kG/v3EKeM3us8zvUqmjdwturgXkPi
+         WOGpcv/e/ZIpkYxbpbCaOU1Th8YazMlp631RzgEe8uyO7b8JlGyM+w/9z0K3B11TUN1O
+         2TgFCKkV3uYGRpzWg4yLMz87IMctYFAYlZz4jpbrDKL6LPnbfcFKeGhdDR+T0hxZffcu
+         LT+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793266150; x=1793870950;
+        d=1e100.net; s=20260707; t=1793266153; x=1793870953;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ycqENo9iFn1fB3/PbhnzHQ31SR6DjuNYTFe+/vKTYzI=;
-        b=MuUVUxx9MLL23vqBdz8qSJNRwQqCezo3CnGqAgExdteLttsWkzkDfmrS3GgxTbkcwg
-         XecUp9A0uTtw5iWejEAo0UXWkcqipqW/kJsUy+ljf3TnV2Gi32JB9LGrsNEnoIfibhI6
-         S535E2SlVVcaNcn2+ytJfUSH01cJJDXbk0UexT4ntM510MJPt03lrFFz5+MwWUWvo0jd
-         aiCOYgORzEo+hidWumA+eBAdKd/0JFJMchP2QSbKxn+dccIjW1HKd+58M5Gj8CLoHzU9
-         X5L3eZrpYzD1XrNwDuj2x3q25PNvAb2gbYBEFzUVIWr8R9NwYnATtrvahwN/hkKVPgZY
-         m/wA==
-X-Forwarded-Encrypted: i=1; AKwUvBxYptXjZMee8yp1SM4Ap8ctKIUDSoONmMkdm1lY1VdWj90qmmX1j/fWa6Fm/h4w8d5tcMruXJZPe4lPjXgdF/Q=@lists.linux.dev
-X-Gm-Message-State: AFq9FYKSKWjf8rNoLjZCiiPSOX+8LeB0AtEJykNS89G9kdV3RRfgyHf3
-	+xh5FMuzP83+N+25ErQjLXOB5/RICohAzWTFPdbAUhni2NJIj79grkXGChov4PoPy7SIwIlpGj5
-	5M8HtD6Nm76lx5A==
-X-Received: from pgbx22-n1.prod.google.com ([2002:a05:6a02:63d6:10b0:cd8:5a84:95f])
+        bh=todkOwyfVIhQ069n5dpYrblRp+El6QG9QdYJZ7QqQQ8=;
+        b=Ye7x/cBOGRBZDXvK1lwucj9xTIPxI0uMGkFuzaNnT7amGHbeQRZOc0LjWzjaAwaFz6
+         MN7DurTnaq+REDgOlsdkHUzdBNiRh3d6dbVOCIqr8cLvgG07QeFMaXcfoFt8sZwuAoXW
+         GKDjcSK+v0pFq7qvu+AfcKJwdIQ4UM+P6C/8Y8ZTkfjcyJyV6ZSQv+Husgx3Ok+1WROR
+         ZvsypDMDpG0P1VItCQ2xDx1rP19GdP8zzMW9H41it+/VT+obGglPci4IFh/lTPpdmkit
+         YnZKWBc/IkalF0wCzL09cPmRTQKz9WqZ4bVsSUA9MbUyOvD1NuOOOtw/kl2ylaOn29OW
+         R6Dw==
+X-Forwarded-Encrypted: i=1; AKwUvBxP83BSbIz5gGRnoe+ehSQWAHhggWfTnSjWdqLVLbfBViChfMeN237t8zOOV+kNtXSy14wY0/lQokfseAkC4JY=@lists.linux.dev
+X-Gm-Message-State: AFq9FYL265FbK2vHyCJq3T9LMNhyml1/5pa6s4dT5XiEcfw5KkTpMk2E
+	Z1SeHgefGF74PYWHW1tNMFs3lWRWHenWFXVLWbCCqYiB7No9hvqKQvnwqpP4texSk8qFA5c3nGW
+	Uqk0Gg+OieUXZbQ==
+X-Received: from dlaj3.prod.google.com ([2002:a05:701b:2803:b0:1a8:2945:774e])
  (user=sgsatyam job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90a:d2c6:b0:3a4:f75d:d1a3 with SMTP id 98e67ed59e1d1-3ae5809fe31mr3556717a91.32.1793266149676;
- Thu, 29 Oct 2026 02:29:09 -0700 (PDT)
-Date: Thu, 29 Oct 2026 09:28:45 +0000
+ 2002:a05:7023:d01:b0:16c:4eef:a526 with SMTP id a92af1059eb24-1a6cbe7e09bmr7413687c88.15.1793266152510;
+ Thu, 29 Oct 2026 02:29:12 -0700 (PDT)
+Date: Thu, 29 Oct 2026 09:28:46 +0000
 In-Reply-To: <20261029092846.1567475-1-sgsatyam@google.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
@@ -81,9 +81,9 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261029092846.1567475-1-sgsatyam@google.com>
 X-Mailer: git-send-email 2.56.0.313.g2479322e68-goog
-Message-ID: <20261029092846.1567475-7-sgsatyam@google.com>
-Subject: [PATCH v6 6/7] platform/chrome: cros_ec_sensorhub: Increase
- TS_HISTORY_BORED_US to 2s
+Message-ID: <20261029092846.1567475-8-sgsatyam@google.com>
+Subject: [PATCH v6 7/7] platform/chrome: cros_ec_sensorhub: Drop sensor
+ samples with past timestamps
 From: Satyam Gupta <sgsatyam@google.com>
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
@@ -94,38 +94,92 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: Scott Collyer <scollyer@google.com>
 
-Increase the TS_HISTORY_BORED_US gap threshold from 0.5 seconds
-(500,000 us) to 2.0 seconds (2,000,000 us) to accommodate normal sensor
-batching flush intervals (which can be 1 to 2 seconds long) without
-repeatedly tearing down the timestamp filter, while still resetting the
-filter across actual long idle gaps or suspend.
+When a sample timestamp is earlier than the newest timestamp seen for
+that sensor, the sample is clamped to the last batch timestamp so that
+the batch spreading logic re-times it. This makes the spreading logic
+treat it as part of the previous batch, which produces stale timestamps
+downstream.
+
+Drop such Out Of Order (OOO) samples instead. The previous batch length
+then no longer covers the interval up to the next batch, so reset it to
+prevent the next batch from computing its sample period across the gap.
+
+Rename cros_ec_sensor_ring_check_for_past_timestamp() to
+cros_ec_sensor_ring_is_past_timestamp() and make it return true for past
+timestamps.
 
 Signed-off-by: Scott Collyer <scollyer@google.com>
 Signed-off-by: Satyam Gupta <sgsatyam@google.com>
 ---
- drivers/platform/chrome/cros_ec_sensorhub_ring.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .../platform/chrome/cros_ec_sensorhub_ring.c  | 43 +++++++++++++------
+ 1 file changed, 29 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_sensorhub_ring.c b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-index cec33a7..ef20aac 100644
+index ef20aac..bc3f120 100644
 --- a/drivers/platform/chrome/cros_ec_sensorhub_ring.c
 +++ b/drivers/platform/chrome/cros_ec_sensorhub_ring.c
-@@ -36,9 +36,13 @@
+@@ -440,23 +440,29 @@ cros_ec_sensor_ring_fix_overflow(s64 *ts,
+ 	state->last = *ts;
+ }
  
- /*
-  * If we don't have any history entries for this long, empty the filter to
-- * make sure there are no big discontinuities.
-+ * make sure there are no big discontinuities (e.g. after suspend or long idle).
-+ *
-+ * This is set to 2 seconds to accommodate normal batching flush intervals
-+ * (which can be up to 1-2 seconds) without constantly resetting the filter,
-+ * while still ensuring a reset occurs during actual long gaps or suspend.
-  */
--#define TS_HISTORY_BORED_US 500000
-+#define TS_HISTORY_BORED_US 2000000
+-static void
+-cros_ec_sensor_ring_check_for_past_timestamp(struct cros_ec_sensorhub
+-					     *sensorhub,
+-					     struct cros_ec_sensors_ring_sample
+-					     *sample)
++static bool
++cros_ec_sensor_ring_is_past_timestamp(struct cros_ec_sensorhub *sensorhub,
++				      struct cros_ec_sensors_ring_sample *sample)
+ {
+ 	const u8 sensor_id = sample->sensor_id;
  
- /* To measure by how much the filter is overshooting, if it happens. */
- #define FUTURE_TS_ANALYTICS_COUNT_MAX 100
+-	/* If this event is earlier than one we saw before... */
++	/*
++	 * If this event is strictly earlier than one we saw before, it is truly
++	 * out-of-order and must be dropped to preserve monotonicity.
++	 *
++	 * We intentionally allow duplicate timestamps (==) to pass through here
++	 * because the EC/ISH may report a batch of samples with the same raw
++	 * timestamp. These duplicates are required by the downstream spreading
++	 * logic (cros_ec_sensor_ring_spread_add) to interpolate unique,
++	 * monotonic timestamps for each sample in the batch.
++	 */
+ 	if (sensorhub->batch_state[sensor_id].newest_sensor_event >
+ 	    sample->timestamp)
+-		/* mark it for spreading. */
+-		sample->timestamp =
+-			sensorhub->batch_state[sensor_id].last_ts;
+-	else
+-		sensorhub->batch_state[sensor_id].newest_sensor_event =
+-			sample->timestamp;
++		return true;
++
++	sensorhub->batch_state[sensor_id].newest_sensor_event =
++		sample->timestamp;
++	return false;
+ }
+ 
+ /**
+@@ -608,8 +614,17 @@ cros_ec_sensor_ring_process_event(struct cros_ec_sensorhub *sensorhub,
+ 	for (axis = 0; axis < 3; axis++)
+ 		out->vector[axis] = in->data[axis];
+ 
+-	if (sensorhub->tight_timestamps)
+-		cros_ec_sensor_ring_check_for_past_timestamp(sensorhub, out);
++	if (sensorhub->tight_timestamps &&
++	    cros_ec_sensor_ring_is_past_timestamp(sensorhub, out)) {
++		/*
++		 * Drop the sample. The previous batch length no longer
++		 * covers the interval up to the next batch, so reset it to
++		 * prevent the next batch from computing its sample period
++		 * across the gap.
++		 */
++		sensorhub->batch_state[out->sensor_id].last_len = 0;
++		return false;
++	}
+ 	return true;
+ }
+ 
 -- 
 2.56.0.307.g5fe7bd680c-goog
 

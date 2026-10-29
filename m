@@ -1,59 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793244019;
-	b=N330xUYEMO4Ezob0MtlZBEfFjgc42ipEwumQgIA3NkY3BFwXYcR82FaKNEmy+pV3LRY0
-	 gOFX/YbjPDnJPAhIBWZwOCHoKheWIG6Mylw45a2VYJT/G7ch4usYSDX+hYO9/lZtq7HWa
-	 0VxkEzvWdWqjFl9g3gRWW31zQhh9/T88m6kvu+pazSxc4bcvUAVC8i1ZHBcW63weWdDEU
-	 hJ3X7ZQ4iw8fhOcAfkKXvNsm5RADDHtFBAQyfzBj+niECRliAUf68kP9RQ7Jhl4pvlCSy
-	 wA9YE3IK33gfCO/A+snpDEQpYGV81YXP/d//jgsVWTwdEWMF+aIb4+8wwiMzNmmVySQ==
+	t=1793247552;
+	b=APunUTvRVcvgSWx3ZI1tTUlE426uu9AwCGsCvvxZj4JyDz3lppsKeFuv+Kov5gjuTjow
+	 U9dZ9ZlgMeSYL9lkPj1yPXfItwanPja/uY5tqoHld4Hj29cA5i8OLu3TdXrjLbM4HPWDK
+	 pR8PseubiBgmuAUMKJBmvZxiI2uJ8al6jJXKf3gnRKZ1zez7KjrtGqShMjDZliI6dbCP2
+	 /K2ze8Pz+qxSdbr7fmSN7jyulGbkVib/y5l+hxKTRgp1PJILkAF6aMbPd154pp6i9VHbU
+	 v0OENkJq+06HlvS3WB7cGLVLJnAjEpSAB0VfRlzqD1R0MPrZWmOoOOvPTULxc22KcCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793244019;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793247552;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=rSQkAOKR5bFEK2ZK8iFhsDUkpEktpbQDGx/eUl+yZ6I=;
-	b=4euhCJwCToUKI9mdGpeBcDqI6LEDfCnM1JH4ALD6JkJRK5oA5QeveQRE1jo4Et2T9xMh
-	 60jqIPYXbcz7Nf9sNr2CeDy0IrJeR+tswYowmXntzX/iLFvEgnV2RawBWp/L4g7sEAgZm
-	 9Sk571kt6q6kAXZaLUD0xU7SeH6amkIL7cdNLW5whrYlVtZ53Ij6FZ30/6s/2vuxOan/a
-	 jt6J479OO3MqZ0ChvoVpYu7Sf50wBBoWh/fBZjBZtxgltXWimf7qfZcfNR+29iaai0i+/
-	 5l2qNY3Wr02WU1Y99Nw6v5Fo2pD05x/5qLgSuTZRptIwOjJBDxqeB5A4imtcRNKkq0Q==
+	bh=8UvwvqqL+8oX9fG1K/HLjaNLBYaNBspxDrTwv0Kk+KY=;
+	b=dpsaM4S2IWkeq1VycGVS3p1KAyI3Y4KMV7q80aCX6weESECUJBzpAO1gVGiF6sQymi/1
+	 bRT30VlArIP9ryVtwkyI4IKxyWgzgYzn5WOdBtzNhGLp4e2tdgpScwidhOFNni9lfX0Z6
+	 kh945Ky5Xq/RL5Y6Dh+udsUZQ80iQzS90J1HFvOvu6hIEghZB0pjsFXOhdAVRcEmqoACe
+	 OtM4rI3rEYG5kWZhO3W1bYn4jdO2EJuahfTvA0W6OaHc3Xek5zQBoR6v8CfcvHnaXzynN
+	 5LxiTPb7RSOFA1lEBSjhuRJpcebJ3ibCQ2+Zvxrtnl7+47JUFxSwNWM6rtp5aLoXuSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QBu2+GfL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oTjZBT2t;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C6F606A31C;
-	Thu, 29 Oct 2026 03:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D1A606A31C;
+	Thu, 29 Oct 2026 04:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QBu2+GfL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D64C1F01825;
-	Thu, 29 Oct 2026 03:20:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oTjZBT2t
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2566D1F01825;
+	Thu, 29 Oct 2026 04:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793244018;
-	bh=rSQkAOKR5bFEK2ZK8iFhsDUkpEktpbQDGx/eUl+yZ6I=;
+	s=k20260515; t=1793247551;
+	bh=8UvwvqqL+8oX9fG1K/HLjaNLBYaNBspxDrTwv0Kk+KY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QBu2+GfL3gAEa48ZEj7VXYH1/5tQkMkwMWrq9pvs9mwVAULLmFo0dJy1yrlYGAaM5
-	 YBg5sHSs23Fu5SFcrSxVncCAEOoSqrLwaf96tCr3umj47TXjlXyYCYza3VpOwQJ7R2
-	 Pp3oGwDO2mrw9HXh/1i1yNxh+WhSFjgYqsAZ/F9Zzzl9zVyRugOkgf7ZRTayAqGv53
-	 c1dF+Y0E0TjiS2VLjbUZWgip7yKz74/k5jlw2dTWTeQjaoztWU3MDDOEfzX+DgGn2C
-	 irMWUqdIBNJAqpE/nEu1F1BGO+/G99tUcd+6oKB2zektoU5yHOdPYarHr/Kai0bV7K
-	 ll5FvNrPY0AxA==
-Date: Thu, 29 Oct 2026 03:20:15 +0000
+	b=oTjZBT2tT4cqbYkRiJvYGBqLDYKd+opw3aDn2oyfSj3eLWQyUYQ0Qx3G6ljqdC6Gz
+	 snIfa5z5zNwyabrVAlHg+jfv4cNZfZZ8xjFtPJEz9iwPtoiGPym/30tmhsy+X5jJxE
+	 ksUziWQjDtgjInv8pHeVlKCNk/m8XoSfJODy38LK7ZG4bg1NEInyTIOqoN0pD5u8vH
+	 1XGJiUtYMNdP47B7Sh83lGqO+l3YLVfxTSw9+0c0Z8DJ3idR/MFw0rh0GTQnx1njVU
+	 emBdeg1q+setfQ5kxeb4Ub8bmwg78tNy+kd3UNoFHXUqR+Pir4+6+XDMz/2OqOGyqJ
+	 1DDejcLT9nnRw==
+Date: Thu, 29 Oct 2026 04:19:08 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jiale Yao <yaojiale02@163.com>
-Cc: Bhanu Prakash Maiya <bhanumaiya@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	Mark Hasemeyer <markhas@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] platform/chrome: cros_ec_uart: check ACPI companion
- before use
-Message-ID: <auK7bwHt8_qPThml@google.com>
-References: <20261028051200.145621-1-yaojiale02@163.com>
- <20261028051200.145621-2-yaojiale02@163.com>
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] platform/chrome: cros_ec_typec: Enforce
+ priority-based mode selection
+Message-ID: <auLJPLArIkwFHtRj@google.com>
+References: <20261028090932.27053-1-akuchynski@chromium.org>
+ <20261028090932.27053-2-akuchynski@chromium.org>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -65,29 +62,24 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261028051200.145621-2-yaojiale02@163.com>
+In-Reply-To: <20261028090932.27053-2-akuchynski@chromium.org>
 
-On Wed, Oct 28, 2026 at 01:11:59PM +0800, Jiale Yao wrote:
-> diff --git a/drivers/platform/chrome/cros_ec_uart.c b/drivers/platform/chrome/cros_ec_uart.c
-> index d5b37414ff12..779aabd16674 100644
-> --- a/drivers/platform/chrome/cros_ec_uart.c
-> +++ b/drivers/platform/chrome/cros_ec_uart.c
-> @@ -223,9 +223,13 @@ static int cros_ec_uart_resource(struct acpi_resource *ares, void *data)
->  
->  static int cros_ec_uart_acpi_probe(struct cros_ec_uart *ec_uart)
->  {
-> -	int ret;
-> +	struct acpi_device *adev;
->  	LIST_HEAD(resources);
-> -	struct acpi_device *adev = ACPI_COMPANION(&ec_uart->serdev->dev);
-> +	int ret;
-> +
-> +	adev = ACPI_COMPANION(&ec_uart->serdev->dev);
-> +	if (!adev)
-> +		return -ENODEV;
->  
->  	ret = acpi_dev_get_resources(adev, &resources, cros_ec_uart_resource, ec_uart);
->  	if (ret < 0)
+On Wed, Oct 28, 2026 at 09:09:31AM +0000, Andrei Kuchynski wrote:
+> The driver sets mode_selection bit for each Alternate mode, thereby
+> preventing individual altmode drivers from activating their respective
+> modes.
+> Once the registration of all Alternate Modes is complete, the driver
+> verifies if USB4 mode is supported by both the port and the partner and
+> activates USB4 mode. In cases where USB4 is not supported, the driver
+> invokes typec_mode_selection_start to initiate the mode selection process
+> based on mode priorities.
+> The driver communicates the current Type-C mode to the mode selection
+> process via typec_altmode_state_update.
 
-NACK, acpi_dev_get_resources() already checks `adev` and return an error
-if it is NULL.
+Hi Andrei,
+
+I'm less familiar with the details of cros_ec_typec and its friend drivers.
+Could you double-check the Sashiko review [1] to see if any of the findings
+need to be addressed as they look real?
+
+[1] https://sashiko.dev/#/patchset/20261028090932.27053-1-akuchynski%40chromium.org

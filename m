@@ -1,75 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.71
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793266319;
-	b=My1bHdhfFn1g79BcnY4RynBKtiLnQQFS1gs4RlMewB5GesBXm6N7UksobJQgjbTxVlgM
-	 qTYZhqAkjYq6lTs/6ydnemj/r+9krT8RXraBjkfrzE//vRutqaC28comTPyNIvBgSvqMn
-	 jGtoSbUOVInnTLnLby1tC+a0V/2NOaypxCJlK/b2pZfZq+iv3dwrklGXAp86EE38uNk1v
-	 3GwkmV+EoV8qFuUk/7/GyooHjyW8BUn35QjzJOSdyY9yeDaRzlhO5wjDTi13gIAaxWyz/
-	 VQ499oBpqSk/06Xljo0vz0sDs53uwDxVBRDeKQ+RUKJqTyu128yKCfCx4v1n9IXwShg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793266319;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.178
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793276971;
+	b=XkcexCjWJTt+0rmPhOFFJXFMO60bDIMxIHvYGbnriqL6XZgkZyb0Ab7yIRlC/Lysx6qT
+	 bCGvCMOdDUaBTferer1sATG57hBXxwrwf/MgEuurMfvjfdQtVqEFOmEl6gRRFDk/e9eYu
+	 o2sJK6PNpdM7HlHEFf7kBDCnADcbxvq5Hw/5RUnBU9ZY7IgbVFojZUku8Qa8Plfrw9ne9
+	 UxvjxrguWiZda/fuOycyKtUaZ6lqMtQ+7SeKnBtoUek6BhlTojmer5GFo7mXLe5Pk9n20
+	 V4I7aL1yvBMsrczyGE6dc/z3AcxqnJ9aBsjHvW45hy+eOI+FuRFDqEDa6FR/7M5UQxg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793276971;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=ZioD+xVabIFlu6EJUI2ERb6j17tqqndkB5MsEjuJE1w=;
-	b=pbsJtDQPBLDNVHhbUkIpqmbbDQWrq/lg/zE6LSxCX2HGTv787YaIy9QBF3444l4dgQQx
-	 /oV8+AdP41f7Y+o13hHaDketWneYfS6/uHX49Tut1Z6P5AwxYwYMjIJyI60XQPZWXSUyq
-	 8G3rH7UiZNUCkmHYNEvPVPZ5Ld24ABMZg9GiC88upy0VnYHSaFJfOmBJYmfdsR+VEO9qD
-	 JvUDetXsRAODWRnLa0SEZG7gtEhUmPHZNDKk/QDRSR0uvYbh7eXJUFG/dwvMvuL/H/Rsc
-	 S9joRHzxgzfitNu2cxfzlCegQvD5T7YozHCbqoMR5VTBS9n/8uiML1GVZVjDLaDwMLw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=nnqVqeaA;
-	arc=none smtp.remote-ip=209.85.216.71
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=jBu1ZDaDeLw3kziDtQciA5KTpnDM9PUFIxQ55P49GCY=;
+	b=MvuTpoBb9ticlzjzj89YKg+CBWJQiL+i1l/lqQv69rGJSRzaqaAwPivWOeTxKwYWL4Wc
+	 H+qdkuP0Wh3r5WISHheKtS+XPaFjdyRkGekx8mfe+1n0tRErZyIoZJwOaza2iDkvoUN+z
+	 SdWbK+fEsSrA1CO5vprqXvBZKvcRYUk7GVZRg3Ch9QMseSUZkmatGn664zBaV+fOep43N
+	 WW63jAIN+guvRfVYThZEREeJBsVOkyfctbiv76b+9prSbjQ6yQfHM4JMtdKE8RP7nams2
+	 OqWDVYj3QGQWK3Hpzo2WZk1oNqhUo0GRef/igFsA3kmyaeV51OFSQb9JhHyPen4mtIA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=PXkmUxeY;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.178
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798DD60A2608
-	for <chrome-platform@lists.linux.dev>; Thu, 29 Oct 2026 09:31:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 798DD60A2608
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1649606A31C
+	for <chrome-platform@lists.linux.dev>; Thu, 29 Oct 2026 12:29:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1649606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=nnqVqeaA
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ac77c3ff6aso2719466a91.0
-        for <chrome-platform@lists.linux.dev>; Thu, 29 Oct 2026 02:31:59 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=PXkmUxeY
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cd61cef87f1so940413a12.0
+        for <chrome-platform@lists.linux.dev>; Thu, 29 Oct 2026 05:29:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793276970; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Gs1J798kh9l7Mjmb8h4/ARBT9jO1v3THahS5R1U3A0L4xk2UUPTPrt3drlwZFEo0m0
+         rc4yxbQnESrSogBVmMKTQ69iFadNajuk+XB+AT9rqRubKpoyveUjYtuZiiNQ5NvWoJZa
+         iPjM/k0fuQCXZD+RojmFkLPDp9HWv87rB/Aet8mge0X8DRnCFnEivE05qrTQMDmhfYks
+         ZpMymiQpKLoLyrnNyQToppdOQ5m0+QAFwVx5WHa14+MKKVcZFxzNFFy6jGnozRxFq49i
+         CeaWkHAhbCdetV8poo/2JN5eWbIRCTfBP2m0Y3DjKhb23lw2LcCAhCtWpZDmWdm65SXP
+         SVpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jBu1ZDaDeLw3kziDtQciA5KTpnDM9PUFIxQ55P49GCY=;
+        fh=5EmxdA30GdIbi2frDvgVMIgw9AXSiA5oeOktmu4BrHY=;
+        b=qY0A0Lg+/ENGcyeaDj7EnoG1PYbm5uLYGBrOjKBvTWz6nqomcKyLIzRyraER3bh7wT
+         3/Y5dFBHvwirPfL82jVl+uLkyXuo8JhNzDuryy/k5FGVuGM2qZpeHcrfHwFA263Xe9ud
+         w9T7i8mzrPqaU3TI86RakxsLRRBCSudAId4CbPG2V7Zx8uBDevDXmDzYilS1ETSLhuT1
+         aFiRyfa+970+Ic29F0pz32ALvXrnE+fSatEkqHK1aik+pT5q3jiFscEIS2Pnh3sYO09M
+         mqAmYxh74YICE17ZxkEspQBPvHrVjdNjJZdv15T4k5/rXn+MOCHqWLvf9TOM1TqcPT7Z
+         lEGQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793266319; x=1793871119; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZioD+xVabIFlu6EJUI2ERb6j17tqqndkB5MsEjuJE1w=;
-        b=nnqVqeaAZQOl8hVV0zqZix63/wl+yNBaUnK6FnHsC2w6f7073cEFPFEZXsRNZr8hN2
-         BOrqvZv44W+KR01mmJpjJd06TnaPF7zlEkPrmI1MD4zTouDT364DWv0PJ3jDwu3Zc4Ep
-         Pc4c1910mq/GREIAv1BuwlavFJ+XUnySSswDi7LIdFD9hlXqlwYQbGIE4wKXCAHchGwj
-         eAlGk5NptHwsCMR13V2XmdiLtSEquns4n76B+nKIgrZrszH7Nm0yjJ97Eiw3x8LtGwXI
-         f1xNC9rKziuCfk1BEFmWLgsFmkaWbAlQ+jsGdWrP7AQ7kyErk6giv4xv4cKJ33gwCTXC
-         iqgA==
+        d=chromium.org; s=google; t=1793276970; x=1793881770; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jBu1ZDaDeLw3kziDtQciA5KTpnDM9PUFIxQ55P49GCY=;
+        b=PXkmUxeYYSmI+3DEjrhK/Hn58VIVSZUo1QfP7QsXDKK3Dl/sZbnf2FMB/f+VBhtvAX
+         OJS0ZIlGjSnoyiq23uWPXOyb7le+fL9KYfwj3YNhttbg+Bn1LKJaNNc+KNHY/QQ+S3V1
+         iMsgHYtxT7ESSGdEri3EnyxDC06AKezRztwhc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793266319; x=1793871119;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZioD+xVabIFlu6EJUI2ERb6j17tqqndkB5MsEjuJE1w=;
-        b=0B5LzwG95sHQ6/GY6xxivzIfZdBFF8Kefr2/zwzhvIKo5eB5namSNbY4iImGPUqhZ2
-         cjuVscDUV5iLu6bEXFPK8WD6ft77ylSW1uZFaBY4bt6IM2/LGVxD4I9DFQATCChhCIl3
-         Hc3eKe68ROKc+NJoQzB14IBYbZkIWv65Wk7O6oYZwu2uhV56XNVMYadnX81mtn7CHTvT
-         QqB4op4YldqllJ6v18KdQ6quqTdfV2J9PCT0NO5o0Wbmsd8wMBacNVT47wblzk3FGrdk
-         N76Gn2axxqKQbpENF415h7P1CYoMD+9w+QAm5FaIBqOPtxmuuqZsXmN8Nw8oCK3tts1R
-         Vzmg==
-X-Forwarded-Encrypted: i=1; AKwUvBzboYuJx4SyjpRX/Fw4Ixn4I5BB5FiC2WOkknk9xXzX5AYOBVzts+twHCZba4BHsGw2m5CKQpdsCrRi1D/nrDE=@lists.linux.dev
-X-Gm-Message-State: AFq9FYLCMBtung4PuxW3lTaFh97qhl22A3H+l6hLjUN36J38U3MB7xEf
-	kzw6aYOE0rAqvm2f74JKuGDu7YF0Fy8bFtpqkMO1nnLfTkeLkkEkWn+lv8Fy1gtkwbYidESajBS
-	6KR2NM6Q6b5uE5g==
-X-Received: from pjlm17.prod.google.com ([2002:a17:90a:7f91:b0:3a7:e2d8:4f4c])
- (user=sgsatyam job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:3882:b0:3ab:5832:727d with SMTP id 98e67ed59e1d1-3ae58287728mr3874401a91.35.1793266318623;
- Thu, 29 Oct 2026 02:31:58 -0700 (PDT)
-Date: Thu, 29 Oct 2026 09:31:54 +0000
-In-Reply-To: <atbEIOCk16-Z15Kf@google.com>
+        d=1e100.net; s=20260707; t=1793276970; x=1793881770;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jBu1ZDaDeLw3kziDtQciA5KTpnDM9PUFIxQ55P49GCY=;
+        b=1dh+jyVtXMzUJaK59C3kId4w8yC3sKiigXisiDkqri7nQWFZ31bpiexPqZCAO4nf2v
+         /QLUIj5M7Uhsp2mnu4/E8nBrCCXQNkCG1wIKbkH+mlzYqXYzYA3MVn3IM69GssCaFlRI
+         ETdBMXRfknXjE+4/fi6bDkxdjHlaPQtmLkn+CUydBj12KoI1ktT5nxNLr60W6TT9nbpL
+         zA48jiFLfrU90h/mML47sDWuSKpWBHz0+XaGaiy4V//yHfv9stcSQ1J1lEzMrzgc3Vfz
+         GNbpJskOx5rGx4DStj/4D4ZfZoA5z5e8NFNO9xffpCCXWrBH11MY0ZB/4JDh9KwcYcvs
+         kwGg==
+X-Forwarded-Encrypted: i=1; AKwUvBzrvVfezey6hSsgRkTcr27zqEP8z9ifU2dqchq1+FJdZpxdlaYZiG2m1kPPvk+b+Ra2bnfrYrGDmkBj1L6eqKM=@lists.linux.dev
+X-Gm-Message-State: AFq9FYK/im4x7qVnwrGagiuoYBsKUtyiiX7coAXeOj3cZtGExc86CwqA
+	aMJjHb/macySyCNV3ClCEiEkZ4DqtvGEre2qLVFrlT9OCD3zoF7yOxboJmeXP1vspV/A0FDe/Lp
+	CYagZH9k/2iAfEMl1TRD3b7VlXMlnL4SubgzmtOBZ
+X-Gm-Gg: AYBFou07hEt90Dpyl70hDGJ6IsMVB5OoJpyAo1+KxhS6U4b2Czy+0AmEteASRoM/DH9
+	a8vyy1xBrbMB2o5dYK1gkiCwRWMy7D+ZGNDJeWivM87hMSbHGiiMdk+W3+EidiRhXDQOYfLIjfi
+	oqEYDZhiZnmTZTvRxwOfuxm7IVDufBbsYQOpkSno4+jQD5yab6E94787JZzZYqHrQdRa0wH0v2D
+	T+FTTyyjB5b16X8pf3zi6cmsyA7CPB0idyoxvPr2bh0C5KT5sHRo2ZNt8gwhhL0heF6Mz3jEbVU
+	h3+HBo5I10FT05CVNXYEJhuBB9hiKY6z3CHxXlq/4ddGRryBHjJs9Mr+kuNXOE2ZNNECWkPqr1N
+	Jy+leo5J+NeqV+ofRQ7zp/aGj9WOwTeG9gCOBBkfkFi01fYv9sd4WZHXWWzZYENWWqKnWmLWmXQ
+	29Hyfc82Dgrnhg
+X-Received: by 2002:a17:90b:17c2:b0:3ad:1da4:2ddf with SMTP id
+ 98e67ed59e1d1-3ae581bbdcbmr4025636a91.51.1793276970075; Thu, 29 Oct 2026
+ 05:29:30 -0700 (PDT)
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -78,41 +101,80 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-References: <20261014074306.2500909-1-sgsatyam@google.com> <atbEIOCk16-Z15Kf@google.com>
-X-Mailer: git-send-email 2.56.0.313.g2479322e68-goog
-Message-ID: <20261029093154.1572188-1-sgsatyam@google.com>
-Subject: Re: [PATCH v5 0/6] platform/chrome: cros_ec_sensorhub: Timestamp wrap
- and drift filter fixes
-From: Satyam Gupta <sgsatyam@google.com>
+MIME-Version: 1.0
+References: <20261028090932.27053-1-akuchynski@chromium.org>
+ <20261028090932.27053-2-akuchynski@chromium.org> <auLJPLArIkwFHtRj@google.com>
+In-Reply-To: <auLJPLArIkwFHtRj@google.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Thu, 29 Oct 2026 13:29:19 +0100
+X-Gm-Features: AclHuK_RSupfL4YZ78wkRsLm46Vbx_c27Y8V7hlLCoBtIthQ5W1xvuqo9H7JdTg
+Message-ID: <CAMMMRMdjzbUL0CqkWdxaerm=Bmf6oCPJU3TMtgXCgDqTTMGT4g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] platform/chrome: cros_ec_typec: Enforce
+ priority-based mode selection
 To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Satyam Gupta <sgsatyam@google.com>, Scott Collyer <scollyer@google.com>, 
-	Benson Leung <bleung@chromium.org>, Gwendal Grignou <gwendal@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+Cc: Jameson Thies <jthies@google.com>, Benson Leung <bleung@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 20, 2026 at 01:30:11AM +0000, Tzung-Bi Shih wrote:
-> It seems the issues raised on v4 haven't been addressed.  I'll stop
-> reviewing v5.
+On Thu, Oct 29, 2026 at 5:19=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Wed, Oct 28, 2026 at 09:09:31AM +0000, Andrei Kuchynski wrote:
+> > The driver sets mode_selection bit for each Alternate mode, thereby
+> > preventing individual altmode drivers from activating their respective
+> > modes.
+> > Once the registration of all Alternate Modes is complete, the driver
+> > verifies if USB4 mode is supported by both the port and the partner and
+> > activates USB4 mode. In cases where USB4 is not supported, the driver
+> > invokes typec_mode_selection_start to initiate the mode selection proce=
+ss
+> > based on mode priorities.
+> > The driver communicates the current Type-C mode to the mode selection
+> > process via typec_altmode_state_update.
+>
+> Hi Andrei,
+>
+> I'm less familiar with the details of cros_ec_typec and its friend driver=
+s.
+> Could you double-check the Sashiko review [1] to see if any of the findin=
+gs
+> need to be addressed as they look real?
+>
+> [1] https://sashiko.dev/#/patchset/20261028090932.27053-1-akuchynski%40ch=
+romium.org
 
-Sorry about that, I missed your review of v4 [1] when preparing v5.
-v6 [2] addresses all of it:
+Hi Tzung-Bi,
 
-- Fixed the MAX_M unit mismatch. Measuring the actual drift showed about
-  2900 PPM between the AP and a standalone EC (MediaTek) and about 20 PPM
-  for the Intel ISH, so v6 keeps a 5000 PPM limit, now converted
-  correctly.
-- Dropped "m = 0" and used -dx instead of abs(dx).
-- Reset batch_state[].last_len when dropping a sample.
+Let's analyze this.
+1. "If the EC does not enter TBT mode=E2=80=A6 Does this leave the port mux
+configured in TBT mode and skip calling cros_typec_altmode_exit() to send
+TYPEC_CONTROL_COMMAND_EXIT_MODES to the EC?"
 
-v6 also reworks "Fix AP/EC TS wrap". While testing I found that the v5
-approach could still unwrap the sample and interrupt timestamps to
-different overflow periods, so the sample timestamp is now derived from
-the interrupt timestamp (patches 1 and 2).
+It seems it does. Unclear if this causes actual issues, though this is
+unrelated to mode_selection. The identical behavior occurs when altmode
+activation gets triggered through sysfs by a user.
 
-[1] https://lore.kernel.org/all/as8mAFOdk7wgNqVd@google.com/
-[2] https://lore.kernel.org/all/20261029092846.1567475-1-sgsatyam@google.com/
+2. =E2=80=9CWithout calling typec_partner_set_usb_mode(), port->partner->us=
+b_mode
+is never updated to USB_MODE_USB4=E2=80=9D
 
-Best regards,
-Satyam Gupta
+This is a good one. I will update it in v4.
+
+3. =E2=80=9CIf cros_typec_remove_partner() has already set port->partner =
+=3D NULL,
+this dereferences a NULL pointer=E2=80=9D
+
+Also a valid point.
+However, this is unrelated to mode_selection. The race condition between
+cros_typec_altmode_work() and cros_typec_remove_partner() is addressed
+here:
+https://lore.kernel.org/all/20261018023438.3902617-1-mhun512@gmail.com/
+Execution of cros_typec_altmode_work needs to be halted prior to partner
+teardown.
+
+In any case, I will test this against these considerations.
+
+Thanks,
+Andrei

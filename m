@@ -1,67 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793627630;
-	b=Boe9xUUse11nkfGBntxph12EOWB4NMqgFjPKlC+r9xCIsOuiWjlODGQUx+AtYlFTc/ls
-	 BnNPLYQrjvn+mfYLS9qImsfSCI+E3doKx41fip17oD31yqQm4AJ5z5Qwy58/g84t1dW/l
-	 neK42cle2pbXlLDt+KVYe1OTyTqjD+wvyuxvMskuyUELfbk437PNkBxLKH05FmcMrVa7I
-	 buvxUCOjN9iixUmyx5498JcukTgwOPudAwYsl9HVwpP5N0qMl2tbol2kag7veSsTT7Av1
-	 AGQx/ksu2aBNzHi8aEzm9c0T3SmarnQf/YL8uV6nICkFRNWmYuuXxgN/tT4qzb9RISw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793627630;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=8PdXPsr0BqbOm4N6slLaJkhJmpRccqZjg1DW7FPgi0w=;
-	b=oGbOSpophlUCyUTL6dpktk3wMcDC0S8sxzMUc5ulQzceyILY42QFNt1sTJwOa3UgUUuk
-	 6H4LrPxQ0qAiokKWdGvxYElaFgyWZiqcCUBC+WehkYuzwHiXZmsoEniVmXXpgJBDIxdZP
-	 z39CoBQBN9KpjtqJRXhakwMcod35xMFCnmIpxuBW8BdMznZtLIu70GFbWU/XAsgtAVR3T
-	 21WgxXM7mLOgPoWSA//sfvwTgYHGa2Ii+D5aqQD6C/xc/3FEMsGSBd+HlPuBs8vu7+HdZ
-	 Te3EbC3FX7iPr3NbMnMPLleCy+fXsjtmq4Dy0RvHUTSeXr415O/WPkiIZsBpnJg69qg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jwEEKbee;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.65
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793637659;
+	b=aRLdxPBDshDIi/PbRJprYVgYy8uqPKGhixnLFsuIy3DTaLKHa/OKCaWUanZcgjFNYZkH
+	 RPr37jGw6yDksuiwMjsb3gU3ucxH/Hc/HP9Jb8wUEVAsht8UMQEfqCp4tlhris1S4Iae6
+	 yeg8K8/4iHYVnmFv+kenT8TaWVljcYxUh6ZRZjroh/Aduz5hjEu1GOTgQmxmsE49Xs+kj
+	 H1/GAVUmOqlaZztPulBGq53t33YOrWZdnXDHpetb36qNuuOvtfcvUhopmYIIurxJdMITg
+	 A6QUtFLPDzD/qkuYP+CrA1NkUMaa6oD6k5owtejrznknkPsyAIcHlYvTqGZmDhTb5Pw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793637659;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=0AZEXm4C/DMSzFUg9+vViNaMwpucOgErMY5P1OzWIXE=;
+	b=YRRAungQYR5G6I7ENHvA9z2Z6GZPh9RMY9N0UW3EyIk4GLPwbCbyr2yJvPAn+B8WxF4A
+	 BciULORmvKFcKuteRC2qrlk5BydQXMr4Cs5fV8yuZ8WaqKHh53gaie50cc1Zd0j2yUGkg
+	 G8HvsQtxJ3S6ucLYlpcN8xDNjb9FAqapafpsipxbPO087r6M5prxLzae2X6omes6+8SgC
+	 DGuh5qmGGb/3Ow0OpdwbnQeZDXLNzK+oYpT+S3TzbX3G67keoQb8MS2FKsi2L1vZK727f
+	 FLf7+DVyalyOYKpdVY4dNH8KXvbXzflpwA0D6d2M/oaIUhs9ws7r0dK8dDsoZ+OuV0w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=V3ykH38V;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.65
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013065.outbound.protection.outlook.com [40.107.162.65])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0357D606A32D;
-	Mon,  2 Nov 2026 13:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7277F606B0FF;
+	Mon,  2 Nov 2026 16:40:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7277F606B0FF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jwEEKbee
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12FAD1F00A16;
-	Mon,  2 Nov 2026 13:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793627629;
-	bh=8PdXPsr0BqbOm4N6slLaJkhJmpRccqZjg1DW7FPgi0w=;
-	h=From:To:Cc:Subject:Date;
-	b=jwEEKbeeZuoCHbxJUlWEtLnIQBYGhOQBxwP+tQtMjvmJi6qzxzYcDukdNtIhOkRXJ
-	 6n+Jh8CeRi0Y/l5/zWC7hrZVP8JXsVNK9PuCOwrcCdOTS5C7i0aq2uOP5WBFmJG4mP
-	 +VSYdrI4Dyorre8UfCZIiuH6uKTkx7HccHlCFrt8dY3IAid0u56LI6rz18RSdj1GvE
-	 Y7s+w6UvyezlKJfl2IcZ+A3XK1IREBodAE5iSWak2WphnGkxKjSdn9F8Jz2Du1gOUp
-	 DOCFjJCW4UbSQ/Ho05urr8RhaF9BhcvDHN3iwkoV1CL/R3S62YltgkRa6WGZF6ApT9
-	 i+0fdXIadN4+A==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=V3ykH38V
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UUahqT6OH80SrFgl+J8Dl0qQuEn9rpBY/sf6cMIiybmTtPW/B0oQ8mpWx/3hFmjH5kM3BorOwqSSuQeNYkik1ZDQNpQmWvoYIoWtmK0U8pLVqhvucBo9oVRJhSztrB3rpJKKQWoAQF5Cq6L7jyeurjP6RzoQ+Ua3B6z+fM+m+D7m3Dpyhq1C+qbH5bgzIVqRrLMt7U6KX2atZK38B0xIK7Kl306xFeFPSkelpw5FBHPrpDaTcV4B6s2TQxkI3kh6pCGMT37TbGrJVTbyLmeLGwS0Cxuo5GIVoM1ZiNl36tC35ESLTD9fRUaa767TI2vjZjQcUlmQf3BBeUbqmZHqCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0AZEXm4C/DMSzFUg9+vViNaMwpucOgErMY5P1OzWIXE=;
+ b=PrK0rnU2MQXRwPgJUUNGCRXQUyJZbjYp9VdLV86LlUg7HKLRtSypXjYL8GjRJ1PTh5HvCp1FDYBwAk67NfLbsc2171siuwW6Vukja1xYMHayoW8Rm6EEY3epYw21AX2UozOsMkJEK/GElQXfRg1PRaV5WAHK9VAWGaoC39ugw16XpPrgRc/nz+4bz9ElG4nFtSMUp7VpLaiZgclBf9KHaOcwyfVtgYZDoo47EsFn0wFBVuUTQQqfsifVyL/kX2ZP8ZglrxrF2KZb8vyto1FBtHBDQspIF2BWUkS8tsUD09nZwBQENMSDtX0c6CMzabo30vOQgUDq3leqETIR6QSdeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0AZEXm4C/DMSzFUg9+vViNaMwpucOgErMY5P1OzWIXE=;
+ b=V3ykH38VVd8brV2cpxqM1yZIcyzF4+A+yXTcS+Y08BhlXL8iCqyoF1CGucLJ0jjpUzZB9MY787jCeghPRfcXGTdFd7dRAf8GpjP/X3qHOnbZpuikYmwa8IjPyjldv0Be1F47Qdm1F3Xzh/WHSzmxyoJlLLsiop21RzwzwdEyGO2cDNUwc77Yo+11q3D2+sNSwXOHSMSUN4VUjtcC7GV5ZUJ62QAgBRlsm93KXdBfz6CvMAeL/O7l6Rbid5eO8/WdsUa1jgoo1N8pSOTL03memeUBbtREi+uXasKnsrrWGNW/yGKlO4tGvKf64bgR8rKwct+1FAjeKF65dE/dDW/6IA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
+ by AMBPR04MB468013.eurprd04.prod.outlook.com (2603:10a6:20b:7dc::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
+ 2026 16:40:54 +0000
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b%6]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
+ 16:40:54 +0000
+Date: Mon, 2 Nov 2026 10:40:32 -0600
+From: Frank Li <Frank.li@oss.nxp.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Ivan Vecera <ivecera@redhat.com>,
+	Jiri Pirko <jiri@resnulli.us>, Ivan Vecera <ivecera@redhat.com>,
 	Benson Leung <bleung@chromium.org>,
 	Guenter Roeck <groeck@chromium.org>,
 	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
+	Bartosz Golaszewski <brgl@kernel.org>, Frank Li <Frank.Li@nxp.com>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
 	Jonathan Cameron <jic23@kernel.org>,
 	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -71,21 +103,18 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Thierry Reding <thierry.reding@kernel.org>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
 	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Lee Jones <lee@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
+	Lee Jones <lee@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
 	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
 	Ulf Hansson <ulfh@kernel.org>,
 	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Vinod Koul <vkoul@kernel.org>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
 	Manivannan Sadhasivam <mani@kernel.org>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
 	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
 	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
@@ -93,8 +122,7 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
 	Orson Zhai <orsonzhai@gmail.com>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	Chunyan Zhang <zhang.lyra@gmail.com>,
@@ -105,34 +133,30 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Julius Werner <jwerner@chromium.org>,
 	Paul Cercueil <paul@crapouillou.net>,
 	Dmitry Osipenko <digetx@gmail.com>,
-	Florian Fainelli <f.fainelli@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
 	Ray Jui <ray.jui@broadcom.com>,
 	Scott Branden <scott.branden@broadcom.com>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-gpio@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-hwmon@vger.kernel.org,
-	linux-iio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-gpio@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	mfd@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-pm@vger.kernel.org
-Subject: [PATCH] dt-bindings: Use hex unit address patterns
-Date: Mon,  2 Nov 2026 07:53:22 -0600
-Message-ID: <20261102135330.2493332-1-robh@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-tegra@vger.kernel.org, mfd@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Use hex unit address patterns
+Message-ID: <aui9AFUS3JpDKZGP@SMW015318>
+References: <20261102135330.2493332-1-robh@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102135330.2493332-1-robh@kernel.org>
+X-ClientProxiedBy: DM6PR08CA0037.namprd08.prod.outlook.com
+ (2603:10b6:5:1e0::11) To MI3PR04MB12438.eurprd04.prod.outlook.com
+ (2603:10a6:290:76::14)
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -142,428 +166,75 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|AMBPR04MB468013:EE_
+X-MS-Office365-Filtering-Correlation-Id: 710964e4-aa24-4f3f-656a-08df39000ff5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|19092799006|11063799006|56012099006|261009223027099003|261026121527099003|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	713wdXmk0i3UHxEIluM11rOJcS4OyrF7QOCTSCmsWR3F+SjkAdWZMFG3VRd0RCZKsqzpwX79lW1ZURuA3XEG7NIHBOZkV4JnrBWaysJUjfdr0OUhol0yuECzmr5wd3Nm/UzUM5EwqVAR+QYj4W+SmtI761IP9KN6lWHWjbg/n6SjJOTOZ6msklaDfkH5hHnQP5StAKVHT9W9gsJqjzuHxfg+rf0Iy0mWgbFk/+2WbI9v3juaCvw7xc4DzCXO8QDOsKOf0JTc/cU+xocxpGBsM3RFG3QMuHAC7orJV2D4pCTGg+taaQlyWzi0XNsiASg4QbYrJjzl7BXz43cgvH2MI86i/EDbP3gel5zoG6yTkwuvQvt57UY/UKg10W3NY2jmRzvt3Yj4M0JT5rf+2tRzdGe4URWejHSMwBbt4nx1cepRuoiWpUjX9gRbpsw/QEpefuZoAaSV/BzdgQH0DnOqHyFkedCnbiZg2+NPQilXv15wWhHxWqVJo3gJyR3aPKC6jr75/ssgaUgLkJHrhSeVflsAaQPz210v76AxAOM8DUIj6uv3N/6DLX4v+06x+XEACqAiCrg7bAtQkMqY7vhViG9Xsn+83/QhcG5Aa+mQ0s+Ug8NVT1qTZHFSqjoL2yS2Oej19qpGLZNAe/mS3BTFlfVA9NqYnddes7uOh97mW6M=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(19092799006)(11063799006)(56012099006)(261009223027099003)(261026121527099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?miViUnAHLHlSfVvNykj6itq4LYyZuvFGajuF5/WfPyzRO2cwd46TenQEyCr6?=
+ =?us-ascii?Q?Bk4r20OdtHVg4+E7+ONinqI5X1cdimy1a4RAJrw7ype9obM1asQI7C6wVGex?=
+ =?us-ascii?Q?Df1a+opO+isY+bZYbPK+5uq9C0EPVS8XTio1wzxbktQqXm4DPSyMNlHwhDK2?=
+ =?us-ascii?Q?aYIg/lsjPz5d0+J5Aq1tyf3Ql4rkk1IC/h2HDxCOqOnAv34JyclhCPcgiNbR?=
+ =?us-ascii?Q?alQr1FUqDeJ0JZBNQQCyAFKUUPhc+Sp10sDhkY8MhLqeqclUPZaiGWh1G25u?=
+ =?us-ascii?Q?/tnG5n8jk6GeM6ikrfrLEzOq4eFDktSaxonpzwhdZHHO/RpL/moKzOktaioj?=
+ =?us-ascii?Q?bwvNWJ8kslkjWCVbXk34R+W9nFzirZrw1OgNcjeXw6WWP8nN+wVCTC3SwFsK?=
+ =?us-ascii?Q?lqlMYYK4UUkLl8I10PH5DXJ/+b5zKdD0WRQpHrQKj6dTkT8I6lHNtIMs1aR9?=
+ =?us-ascii?Q?SZm+gZOod+VCue2X7ykMd3vGD0ODjAUWC/H4hZN6dqtP2BWtPIKP/qldFX/W?=
+ =?us-ascii?Q?gfMpxNPGxoRgkEWOHNIgcYZVOCpdSqID+31il65/Bcybng6IbJMsM7dBiKpA?=
+ =?us-ascii?Q?Rtb38dq4PZU0FUeVKK3Vz/z080KxNNnFskrpNkpQcRbpWFcdMmkrQzJ8ZKrO?=
+ =?us-ascii?Q?nYPU7BFNOrqUb27tqERv6Xs756Uy5lA2ZlkbXpLXAGPBvQ5YvhF0q8EWINPM?=
+ =?us-ascii?Q?INXukbJB3rJzOSDgtYaLwDvjYt5jxBHIztmfDtfTLP3RhFrBGRl54GzrtQGD?=
+ =?us-ascii?Q?GBMtwe77nUkzYN+Frpk8YjRQI1D49KpKlCz4km3foInJ5woh43Q+nnOamqVw?=
+ =?us-ascii?Q?iNg3mJYCUzNLErYW3KrJK2Vug/N2aO9qtVWorfrspwxETpQFe1uyAf4sYncg?=
+ =?us-ascii?Q?p54Wa7UuTfCtdCdZqoeDgk5IC4np4oFKL8L8k1pOzzDWS39CARqFI/8vJCGh?=
+ =?us-ascii?Q?yRx+sBbeP7pH94bqiOUnrNIWxqQsh+JOvf8w1amHOYmYW0MaVFl9xivXCvtA?=
+ =?us-ascii?Q?1StguKNayIluWpa5ZP98xmjQ4TZYHWjqktNNmQ0s7Dd3+uEy4AlkKZlrv+Gt?=
+ =?us-ascii?Q?AwVCvMGHPG8LC+HfNdzDm3O+kPFZ/lbwg53ZLBWNbbL6+4YQh+L+1f5/m4n5?=
+ =?us-ascii?Q?ZrHWXUBCzlhJzIvkFu0LkcXOx1IimA8eG0Fn/GFwOn+BnWHLonse0k38EsnB?=
+ =?us-ascii?Q?SOryFVi1m+3pEWpDYg/CHmkfIfeV2XgQo5bMrQ1ljgiteO6/cR19/BGEUTRM?=
+ =?us-ascii?Q?XGV7505tjTA8t+KETQsjdbh2WWr/hgWIjAcCWjK676y/o1Mz4sE5PSWmvqH3?=
+ =?us-ascii?Q?w4zOWqbwBy594KUxDz8BjNgoHIW7eKWwhnBdt0hnYOmS3VuWwL5RNS0tfy4H?=
+ =?us-ascii?Q?XswApNiAAjdTiaqz1dpu1PkoXwpLAZb4YTswjQ8O1inKWhW+uKlLqUO41O2H?=
+ =?us-ascii?Q?p/DbllPNiHLg0WzdGQ8giUOBU84ga1119QfWGX2j5MPov+ToQ3aOZyZxaRMi?=
+ =?us-ascii?Q?504bKjsTVvHpfPvhqOzUD8vWeqWfeI8vz4dFKOQ9v6/wLnWNUmgeNURUYGKC?=
+ =?us-ascii?Q?Z2wQBjPnoF3Qd7xhB9WAv2uFCSKazrD7kudcoq5yLrZHn2uTlzt2nuOrXCMj?=
+ =?us-ascii?Q?4ee5Q5NyAp8kxg9QZM+Vxjq+p7qNrg63cwOBY0tQh7FZTQRLWmbXYnHJCFGa?=
+ =?us-ascii?Q?jtDpxtDJFM/z8+TqgBrLmYj15xcMy4P1rhaPvLbngkWw24YHQmK7COJY2OfR?=
+ =?us-ascii?Q?YrfL1GNcONRkuUNhApZMdmxAbyCn3FxiBAYU608PkRryqUCh0Wgd?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 710964e4-aa24-4f3f-656a-08df39000ff5
+X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 16:40:54.2384
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8fnO+R+KwExK8plb8UKHkb7CwqdyiR8BlWlu9O+f9zFhqX8xE8pSb4waLCfO7C9oxjAZQ1G2O3uYmut5fG5dOLhTOrhSgilIYT7HZsW1Lg8Yl0rUHI5yaM00tF9J8zP6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB468013
 
-Unit-addresses by default (and most commonly) are hexadecimal. There's a
-number of cases using decimal patterns. Fix all of them, limiting the
-pattern to match the 'reg' limits if there are any.
+On Mon, Nov 02, 2026 at 07:53:22AM -0600, Rob Herring (Arm) wrote:
+> Unit-addresses by default (and most commonly) are hexadecimal. There's a
+> number of cases using decimal patterns. Fix all of them, limiting the
+> pattern to match the 'reg' limits if there are any.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  .../bindings/display/xylon,logicvc-display.yaml      |  2 +-
+>  .../devicetree/bindings/dpll/dpll-device.yaml        |  2 +-
+>  .../bindings/embedded-controller/google,cros-ec.yaml |  4 ++--
+>  .../intel,ixp4xx-network-processing-engine.yaml      |  2 +-
+>  Documentation/devicetree/bindings/gpio/gpio-mxs.yaml |  4 ++--
 
-Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
----
- .../bindings/display/xylon,logicvc-display.yaml      |  2 +-
- .../devicetree/bindings/dpll/dpll-device.yaml        |  2 +-
- .../bindings/embedded-controller/google,cros-ec.yaml |  4 ++--
- .../intel,ixp4xx-network-processing-engine.yaml      |  2 +-
- Documentation/devicetree/bindings/gpio/gpio-mxs.yaml |  4 ++--
- .../devicetree/bindings/hwmon/maxim,max31790.yaml    |  2 +-
- .../devicetree/bindings/iio/adc/st,stm32-adc.yaml    |  2 +-
- .../bindings/iio/adc/st,stm32-dfsdm-adc.yaml         |  6 +++---
- .../bindings/input/touchscreen/cypress,tt21000.yaml  |  2 +-
- .../memory-controllers/ddr/jedec,sdram-channel.yaml  | 12 ++++++------
- .../bindings/memory-controllers/ingenic,nemc.yaml    |  2 +-
- .../memory-controllers/nvidia,tegra20-emc.yaml       |  4 ++--
- .../devicetree/bindings/mfd/st,stm32-lptimer.yaml    |  2 +-
- .../devicetree/bindings/mfd/st,stm32-timers.yaml     |  2 +-
- .../devicetree/bindings/misc/qcom,fastrpc.yaml       |  2 +-
- .../bindings/mmc/mmc-controller-common.yaml          |  2 +-
- .../bindings/net/cortina,gemini-ethernet.yaml        |  2 +-
- .../bindings/phy/brcm,cygnus-pcie-phy.yaml           |  2 +-
- .../devicetree/bindings/phy/brcm,sata-phy.yaml       |  2 +-
- .../bindings/phy/socionext,uniphier-usb2-phy.yaml    |  2 +-
- .../devicetree/bindings/sound/qcom,q6asm-dais.yaml   |  2 +-
- .../bindings/sound/qcom,q6dsp-lpass-ports.yaml       |  2 +-
- .../devicetree/bindings/thermal/sprd-thermal.yaml    |  2 +-
- 23 files changed, 33 insertions(+), 33 deletions(-)
+for gpio-mxs.xml
 
-diff --git a/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml b/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
-index 76b804b7c880..3dd54636d23d 100644
---- a/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
-+++ b/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
-@@ -123,7 +123,7 @@ properties:
-         const: 0
- 
-     patternProperties:
--      "^layer@[0-9]+$":
-+      "^layer@[0-9a-f]+$":
-         type: object
- 
-         properties:
-diff --git a/Documentation/devicetree/bindings/dpll/dpll-device.yaml b/Documentation/devicetree/bindings/dpll/dpll-device.yaml
-index fb8d7a9a3693..4b5184500b9f 100644
---- a/Documentation/devicetree/bindings/dpll/dpll-device.yaml
-+++ b/Documentation/devicetree/bindings/dpll/dpll-device.yaml
-@@ -65,7 +65,7 @@ properties:
-         const: 0
- 
-     patternProperties:
--      "^pin@[0-9]+$":
-+      "^pin@[0-9a-f]+$":
-         $ref: /schemas/dpll/dpll-pin.yaml
-         unevaluatedProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml b/Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml
-index 3ab5737c9a8f..75159078f0ef 100644
---- a/Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml
-+++ b/Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml
-@@ -155,7 +155,7 @@ patternProperties:
-     type: object
-     $ref: /schemas/i2c/google,cros-ec-i2c-tunnel.yaml#
- 
--  "^regulator@[0-9]+$":
-+  "^regulator@[0-9a-f]+$":
-     type: object
-     $ref: /schemas/regulator/google,cros-ec-regulator.yaml#
- 
-@@ -224,7 +224,7 @@ allOf:
- 
-       patternProperties:
-         "^i2c-tunnel[0-9]*$": false
--        "^regulator@[0-9]+$": false
-+        "^regulator@[0-9a-f]+$": false
-         "^extcon[0-9]*$": false
- 
-       # Using additionalProperties: false here and
-diff --git a/Documentation/devicetree/bindings/firmware/intel,ixp4xx-network-processing-engine.yaml b/Documentation/devicetree/bindings/firmware/intel,ixp4xx-network-processing-engine.yaml
-index 4d66ef483522..a9f874f201aa 100644
---- a/Documentation/devicetree/bindings/firmware/intel,ixp4xx-network-processing-engine.yaml
-+++ b/Documentation/devicetree/bindings/firmware/intel,ixp4xx-network-processing-engine.yaml
-@@ -44,7 +44,7 @@ properties:
-     const: 0
- 
- patternProperties:
--  hss@[0-9]+$:
-+  hss@[0-9a-f]+$:
-     $ref: /schemas/net/intel,ixp4xx-hss.yaml#
-     type: object
-     description: Optional node for the High Speed Serial link (HSS), the
-diff --git a/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml b/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml
-index fed1b06495ad..6cab04ebbdd4 100644
---- a/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml
-+++ b/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml
-@@ -36,7 +36,7 @@ properties:
-     maxItems: 1
- 
- patternProperties:
--  '^(?!gpio@)[^@]+@[0-9]+$':
-+  '^(?!gpio@)[^@]+@[0-9a-f]+$':
-     type: object
-     properties:
-       fsl,pinmux-ids:
-@@ -94,7 +94,7 @@ patternProperties:
- 
-     additionalProperties: false
- 
--  '^gpio@[0-9]+$':
-+  '^gpio@[0-9a-f]+$':
-     type: object
-     properties:
-       compatible:
-diff --git a/Documentation/devicetree/bindings/hwmon/maxim,max31790.yaml b/Documentation/devicetree/bindings/hwmon/maxim,max31790.yaml
-index 558cbd251b0f..bd30886def5f 100644
---- a/Documentation/devicetree/bindings/hwmon/maxim,max31790.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/maxim,max31790.yaml
-@@ -45,7 +45,7 @@ properties:
-     const: 1
- 
- patternProperties:
--  "^fan@[0-9]+$":
-+  "^fan@[0-9a-f]+$":
-     $ref: fan-common.yaml#
-     unevaluatedProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml b/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
-index c4c4575d3fa9..8e11f769d140 100644
---- a/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml
-@@ -231,7 +231,7 @@ required:
-   - '#size-cells'
- 
- patternProperties:
--  "^adc@[0-9]+$":
-+  "^adc@[0-9a-f]+$":
-     type: object
-     description:
-       An ADC block node should contain at least one subnode, representing an
-diff --git a/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml b/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-index c24ac98bbb3d..22cbc6e52537 100644
---- a/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-@@ -74,7 +74,7 @@ required:
- additionalProperties: false
- 
- patternProperties:
--  "^filter@[0-9]+$":
-+  "^filter@[0-5]$":
-     type: object
-     unevaluatedProperties: false
-     description: child node
-@@ -334,7 +334,7 @@ allOf:
- 
-     then:
-       patternProperties:
--        "^filter@[0-9]+$":
-+        "^filter@[0-5]$":
-           properties:
-             reg:
-               items:
-@@ -349,7 +349,7 @@ allOf:
- 
-     then:
-       patternProperties:
--        "^filter@[0-9]+$":
-+        "^filter@[0-5]$":
-           properties:
-             reg:
-               items:
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml b/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-index 037e5d3c447f..e50adb72f808 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/cypress,tt21000.yaml
-@@ -46,7 +46,7 @@ properties:
-   wakeup-source: true
- 
- patternProperties:
--  "^button@[0-9]+$":
-+  "^button@[0-9a-f]+$":
-     type: object
-     $ref: ../input.yaml#
-     properties:
-diff --git a/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,sdram-channel.yaml b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,sdram-channel.yaml
-index 5cdd8ef45100..816c8e8b5713 100644
---- a/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,sdram-channel.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/ddr/jedec,sdram-channel.yaml
-@@ -53,7 +53,7 @@ properties:
-     const: 0
- 
- patternProperties:
--  "^rank@[0-9]+$":
-+  "^rank@[0-3]$":
-     type: object
-     description:
-       Each physical SDRAM chip may have one or more ranks. Ranks are
-@@ -72,7 +72,7 @@ allOf:
-             const: jedec,ddr4-channel
-     then:
-       patternProperties:
--        "^rank@[0-9]+$":
-+        "^rank@[0-3]$":
-           $ref: /schemas/memory-controllers/ddr/jedec,ddr4.yaml#
-   - if:
-       properties:
-@@ -81,7 +81,7 @@ allOf:
-             const: jedec,lpddr2-channel
-     then:
-       patternProperties:
--        "^rank@[0-9]+$":
-+        "^rank@[0-3]$":
-           $ref: /schemas/memory-controllers/ddr/jedec,lpddr2.yaml#
-   - if:
-       properties:
-@@ -90,7 +90,7 @@ allOf:
-             const: jedec,lpddr3-channel
-     then:
-       patternProperties:
--        "^rank@[0-9]+$":
-+        "^rank@[0-3]$":
-           $ref: /schemas/memory-controllers/ddr/jedec,lpddr3.yaml#
-   - if:
-       properties:
-@@ -99,7 +99,7 @@ allOf:
-             const: jedec,lpddr4-channel
-     then:
-       patternProperties:
--        "^rank@[0-9]+$":
-+        "^rank@[0-3]$":
-           $ref: /schemas/memory-controllers/ddr/jedec,lpddr4.yaml#
-   - if:
-       properties:
-@@ -108,7 +108,7 @@ allOf:
-             const: jedec,lpddr5-channel
-     then:
-       patternProperties:
--        "^rank@[0-9]+$":
-+        "^rank@[0-3]$":
-           $ref: /schemas/memory-controllers/ddr/jedec,lpddr5.yaml#
- 
- required:
-diff --git a/Documentation/devicetree/bindings/memory-controllers/ingenic,nemc.yaml b/Documentation/devicetree/bindings/memory-controllers/ingenic,nemc.yaml
-index ee74a362f4ca..ca6426c28990 100644
---- a/Documentation/devicetree/bindings/memory-controllers/ingenic,nemc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/ingenic,nemc.yaml
-@@ -37,7 +37,7 @@ properties:
-     maxItems: 1
- 
- patternProperties:
--  ".*@[0-9]+$":
-+  ".*@[0-9a-f]+$":
-     type: object
-     $ref: mc-peripheral-props.yaml#
-     additionalProperties: true
-diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml
-index 71896cb10692..a0355050a074 100644
---- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.yaml
-@@ -142,7 +142,7 @@ $defs:
-     additionalProperties: false
- 
- patternProperties:
--  "^emc-table@[0-9]+$":
-+  "^emc-table@[0-9a-f]+$":
-     $ref: "#/$defs/emc-table"
- 
-   "^emc-tables@[a-f0-9-]+$":
-@@ -169,7 +169,7 @@ patternProperties:
-         type: object
- 
-     patternProperties:
--      "^emc-table@[0-9]+$":
-+      "^emc-table@[0-9a-f]+$":
-         $ref: "#/$defs/emc-table"
- 
-     oneOf:
-diff --git a/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml b/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
-index 4eabafb8079d..8de82540d231 100644
---- a/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
-+++ b/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
-@@ -109,7 +109,7 @@ properties:
-       - compatible
- 
- patternProperties:
--  "^trigger@[0-9]+$":
-+  "^trigger@[0-4]$":
-     type: object
-     additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
-index 66aa1550a4e5..5853c6019e98 100644
---- a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
-+++ b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
-@@ -128,7 +128,7 @@ properties:
-       - compatible
- 
- patternProperties:
--  "^timer@[0-9]+$":
-+  "^timer@([0-9a-f]|1[0-3])$":
-     type: object
-     additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-index 49d2a5e8ba39..d9444f452585 100644
---- a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-+++ b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-@@ -79,7 +79,7 @@ properties:
-     const: 0
- 
- patternProperties:
--  "(compute-)?cb@[0-9]*$":
-+  "(compute-)?cb@[0-9a-f]+$":
-     type: object
- 
-     description: >
-diff --git a/Documentation/devicetree/bindings/mmc/mmc-controller-common.yaml b/Documentation/devicetree/bindings/mmc/mmc-controller-common.yaml
-index 3d7195e9461c..f235f3ed1692 100644
---- a/Documentation/devicetree/bindings/mmc/mmc-controller-common.yaml
-+++ b/Documentation/devicetree/bindings/mmc/mmc-controller-common.yaml
-@@ -317,7 +317,7 @@ properties:
-       power sequence must be maintained while initializing the card.
- 
- patternProperties:
--  "^.*@[0-9]+$":
-+  "^.*@[0-7]$":
-     type: object
-     description: |
-       On embedded systems the cards connected to a host may need
-diff --git a/Documentation/devicetree/bindings/net/cortina,gemini-ethernet.yaml b/Documentation/devicetree/bindings/net/cortina,gemini-ethernet.yaml
-index f0b5bea2458d..900e4e5ac360 100644
---- a/Documentation/devicetree/bindings/net/cortina,gemini-ethernet.yaml
-+++ b/Documentation/devicetree/bindings/net/cortina,gemini-ethernet.yaml
-@@ -35,7 +35,7 @@ properties:
- # They are not independent of each other since they share resources
- # in the parent node, and are thus children.
- patternProperties:
--  "^ethernet-port@[0-9]+$":
-+  "^ethernet-port@[0-9a-f]+$":
-     type: object
-     unevaluatedProperties: false
-     description: contains the resources for ethernet port
-diff --git a/Documentation/devicetree/bindings/phy/brcm,cygnus-pcie-phy.yaml b/Documentation/devicetree/bindings/phy/brcm,cygnus-pcie-phy.yaml
-index 808e90b2465d..25356f03f4a6 100644
---- a/Documentation/devicetree/bindings/phy/brcm,cygnus-pcie-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/brcm,cygnus-pcie-phy.yaml
-@@ -30,7 +30,7 @@ properties:
-     const: 0
- 
- patternProperties:
--  "^pcie-phy@[0-9]+$":
-+  "^pcie-phy@[0-9a-f]+$":
-     type: object
-     additionalProperties: false
-     description: >
-diff --git a/Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml b/Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml
-index 439bda142764..31d534065d42 100644
---- a/Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/brcm,sata-phy.yaml
-@@ -46,7 +46,7 @@ properties:
-     const: 0
- 
- patternProperties:
--  "^sata-phy@[0-9]+$":
-+  "^sata-phy@[0-9a-f]+$":
-     type: object
-     description: |
-       Each port's PHY should be represented as a sub-node.
-diff --git a/Documentation/devicetree/bindings/phy/socionext,uniphier-usb2-phy.yaml b/Documentation/devicetree/bindings/phy/socionext,uniphier-usb2-phy.yaml
-index 19522c54f448..b1a69ed96bb4 100644
---- a/Documentation/devicetree/bindings/phy/socionext,uniphier-usb2-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/socionext,uniphier-usb2-phy.yaml
-@@ -29,7 +29,7 @@ properties:
-     const: 0
- 
- patternProperties:
--  "^phy@[0-9]+$":
-+  "^phy@[0-3]$":
-     type: object
-     additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,q6asm-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6asm-dais.yaml
-index bc8c8ba24f9c..988a84099790 100644
---- a/Documentation/devicetree/bindings/sound/qcom,q6asm-dais.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,q6asm-dais.yaml
-@@ -32,7 +32,7 @@ properties:
-     const: 0
- 
- patternProperties:
--  "^dai@[0-9]+$":
-+  "^dai@[0-9a-f]+$":
-     type: object
-     description:
-       Q6ASM Digital Audio Interface
-diff --git a/Documentation/devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml b/Documentation/devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml
-index 3b03e2acd67e..060487b2b72c 100644
---- a/Documentation/devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml
-@@ -28,7 +28,7 @@ properties:
- 
- # Digital Audio Interfaces
- patternProperties:
--  '^dai@[0-9]+$':
-+  '^dai@[0-9a-f]+$':
-     type: object
-     description:
-       Q6DSP Digital Audio Interfaces.
-diff --git a/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml b/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml
-index afa551f6185f..222d70baef1e 100644
---- a/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml
-@@ -47,7 +47,7 @@ properties:
-     const: 0
- 
- patternProperties:
--  "^([a-z]*-)?sensor(-section)?@[0-9]+$":
-+  "^([a-z]*-)?sensor(-section)?@[0-9a-f]+$":
-     type: object
-     description:
-       Represent one thermal sensor.
--- 
-2.53.0
+Acked-by: Frank Li <Frank.Li@nxp.com>
 

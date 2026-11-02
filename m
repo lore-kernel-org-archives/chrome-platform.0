@@ -1,56 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793590315;
-	b=3joX9VDq13h9ezjdiJtQ7H4s76xjqUwu2Ik4ZkKFKpipBEdU4S5LvwlQA9GvPATK/8MQ
-	 bcGUn8dsMlcTK9jiEwVBl5r7VbbgyZ5pMzJHI3w5zNzIyjkSvq21Ia3uirTXanzeuKCaQ
-	 WzwG5ymeSegbCF7aVmG0MMb8+HL5hmollv1GopoFBdblskct3q6A2/rqxCOuxjmFbjcCJ
-	 YLw9+dJLNAWa3dQVdR6pcsaeIKtnqvVhM+fdnGIaXN+pcEIFRimWEM4Fcoykl6cqVStwS
-	 UrmCMtmdX09iteuJ9Nfa7ZsV1qnymsW8YaVJ65WZUeRAunXTUEbzFns3pjEfVHKy4Fg==
+	t=1793591114;
+	b=JyGScXR3L3kbaXy0ZEvPNP2ns/iLmgSTm5n/ei0PvOoResxIJEtmxJ5PZyB4+dKYioAg
+	 qFKbYyqYUOpL9XLGvzTOV6L4FgM1YPvK67QMklzprTkJTJqpmvld8dJwJx3q41tbca7wP
+	 uxpOWx2eVypvZ4tQ/8G83xsUs54J3J73VuXP2JXLYmmxq3IxYz5KlDjx+9tG9mhgnSI+5
+	 tJzphzzsO4N2iiS+j7MnnxNriUY8VTvSkb8qqWatUMzwX7jRmvG8x4BY/dm8tkjQdPL5o
+	 TKYlyTrPGdHLxWTaV5uRSmgqh0UPClxCkv4yBdLxipHSl/57xfJbj/n6dt6N+jV3wcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793590315;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793591114;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=RhYsjUIWG336Hgn0m3bYtEBzvcC0VLP1VHsbp8WPaoY=;
-	b=xn7lM8vo8bDBoIG6EbXb6JSlmUGojldhQI/beKgbcd5CmuCPyT7PnSn+A9EP66PJ1Fla
-	 JIYLmj+iO7ebyk5Tje4xvO6Z3QEpjSJ7/Vm10yO+Cabo2pVtimvfBFiR3xXTkV4k+gq/D
-	 kUQLlsDFRRwzVp6Tm1RCwMBGf1P8woR9bf/2988nTYCkX7nNo3Pel4EJKFmudsNJIuBZS
-	 hlsz1FmMlpml6xcMtCtGZ1ttK4+u5g/k47vWwbsEKxhcXZg3NBC7srPwifZDsPYIIQgD4
-	 hx3Q6Jz4ffNEVh80IuTOX/3Kin2uA709wACXy070Fu++xgHb3wUhBibAvE57hVNKigQ==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=2wa6GtDXj8hpo+k1EJW2/u0+icSgK15ObOpBbCvF5tw=;
+	b=Z6Uh5j84Jf7mHKV2oiu1MWPfdtQ/XpWPt0HvUrbYDLSbt1hrGnKKQj2JeA4mWFljrcPk
+	 mQ6fpk68wtFDYsCSL1TWuMyiq9hSnwJphA6eQ77chCxj19V2rA/Em4uXg7ZTU53uEuXqw
+	 U0s62WzhAy6xyF0VcZ/lOOqem7Piw//vP0sdPGsjIyv6s4StYCSVEp626TXJNnioj82uq
+	 H0PcTQIWmeZwNSYTOBmk18OufZYZPjmHBdej5hWOqm8DKloVNs8Xi8mLBrL89Om1z9oZZ
+	 9b/1PF7yUJZsXU/jvlHHm8++jpfKWKYBKNidH58CCfRASXKH+EdRJYTRn8Lj+3LkoNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lRxLj4qk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O1zBGUVO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B95606A324;
-	Mon,  2 Nov 2026 03:31:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED6C606A326;
+	Mon,  2 Nov 2026 03:45:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lRxLj4qk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 878211F000C1;
-	Mon,  2 Nov 2026 03:31:53 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O1zBGUVO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4652D1F000C1;
+	Mon,  2 Nov 2026 03:45:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793590314;
-	bh=RhYsjUIWG336Hgn0m3bYtEBzvcC0VLP1VHsbp8WPaoY=;
+	s=k20260515; t=1793591113;
+	bh=2wa6GtDXj8hpo+k1EJW2/u0+icSgK15ObOpBbCvF5tw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lRxLj4qkzaK86j72OoHiY9pf2kvEqW47kCfBZeVZv90V98gUJOyc0MXmBNt9Hx01s
-	 H8oSTVCITCAkx8sM9aBVJrrpWjMLOzwS0E7lZMlBOKwAJsXYfjW4aRB0d4bhQzgljn
-	 bMcc/MC8dNFuMZ4WpdbZPSQkO2Qz499gGHuUNfxXBMZwIxWbEdTVxKXMC0BT5QTrLk
-	 esZTmJSf1QVRXG1JRvQGcuE27+FdTz8gwt8vbs4OgDFjc+vbKd5TptgZUrYXltFP1e
-	 xqUA+6UKPXGnAiVtgdmrTPDnfoMIyjQ5taPalgdpe0+EQ2VgzSWna51R2p6Wu5ACmh
-	 5Arp4xBevXjYA==
-Date: Mon, 2 Nov 2026 03:31:51 +0000
+	b=O1zBGUVOkxmyziSsMVxTQHlu4oZ2ZG2siNU7SLlEoDJ9ZqeDTW4D/B4Bpc1eBW+ZU
+	 tDlIDMQsEanTCE0FkgUjd5Ir22wBg1Hupyg9tPeaWgkIqP5HwwD+D7JBgxEWUPoVi+
+	 OZQIVSPkTh1AsbZ3amRPMSj0GOx8X+nHBTNGnX7t2nd+F2yTfP2mfG1k9cEVo6ZL5A
+	 RjQFBLqMXHjP4yWtLJ4Qnbnd6ru8vrK1NSjb/qrqZEbkoTIxQ5l7hUtj3PQ/JhCcqu
+	 cQkLfpBsfK8EbK3+hcqperMlh72V1ZUr2f4Cq7tNE8QLBbC5LZ8r+B0JVz8d69kvuK
+	 actxuq3cUVI5Q==
+Date: Mon, 2 Nov 2026 03:45:10 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: =?utf-8?B?TWljaGHFgiBLb3BlxIc=?= <michal@nozomi.space>
-Cc: Yidi Lin <yidilin@google.com>, Hsin-Te Yuan <yuanhsinte@chromium.org>,
-	Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware: coreboot: Don't skip CBMEM entries outside of
- known memory
-Message-ID: <augEJ6AAk-f4qhf-@google.com>
-References: <20261017090351.1266064-1-michal@nozomi.space>
+To: Jiale Yao <yaojiale02@163.com>
+Cc: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	Enric Balletbo i Serra <eballetbo@kernel.org>,
+	Prashant Malani <pmalani@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/2] platform/chrome: cros_usbpd_notify: check ACPI
+ companion
+Message-ID: <augHRuNZnHwSdQiI@google.com>
+References: <20261028051200.145621-1-yaojiale02@163.com>
+ <20261028051200.145621-3-yaojiale02@163.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -60,28 +64,25 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261017090351.1266064-1-michal@nozomi.space>
+In-Reply-To: <20261028051200.145621-3-yaojiale02@163.com>
 
-On Sat, Oct 17, 2026 at 11:03:51AM +0200, Michał Kopeć wrote:
-> coreboot leaves CBMEM out of the /memory node of the device tree that it
-> passes to FIT payloads, e.g. LinuxBoot on arm64 Chromebooks, and only
-> lists it in the memory reservation block. The kernel has no resource for
-> that memory, so region_intersects() reports it as neither System RAM nor
-> Reserved memory, and since commit e31ecda9e3af ("firmware: coreboot:
-> Skip no-map CBMEM entries") all CBMEM entries are skipped on such boards.
-> That loses the coreboot log, the TPM event log and everything else that
-> CBMEM devices expose.
+On Wed, Oct 28, 2026 at 01:12:00PM +0800, Jiale Yao wrote:
+> The ACPI probe installs a notification handler through the device ACPI
+> companion without checking that the companion exists. A force-bound
+> platform device can therefore cause a NULL pointer dereference.
+> 
+> Return -ENODEV before allocating probe resources when the companion is
+> missing.
 > 
 > [...]
 
 Applied to
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-firmware-next
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-[1/1] firmware: coreboot: Don't skip CBMEM entries outside of known memory
-      commit: e094fd05defaf0b05774ea1c65fc2d0ab798c809
+[2/2] platform/chrome: cros_usbpd_notify: check ACPI companion
+      commit: 87f74d2b224ae6484628500136a75677766ed52c
 
 Thanks!

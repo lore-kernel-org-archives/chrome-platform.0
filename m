@@ -1,71 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793567658;
-	b=BNBWYDKo261KMasbzoV96D67vPu7wLdU7ooAukrkNGt8mSYpaKoXSx91Mrkn9aO5kUPq
-	 7x8yQFL3tQvDekpHaT870FsG2WsBaiZS/wvd4Q7zu7PXVFcS9t4QyhGZYKL9+uyLKib9E
-	 n+XXbvEtkI0QWxWyxDEduvBZQ6In8phnyiLRtMDOYOfq/hkcnXMJPSqOchJYIQfVaOBp1
-	 SSwPmKr8zxQ/9r4XWwesW8wyyu4o/y4xIT4AxEcm75aWcwnL4AqU89r6TW+rDoHsmuD0Z
-	 RqeqomKqVBi/fExzje8fLicf1nd9fN2TtLHIF+4OWjoTo3dqqpvyBpmuwqtwRKEMNng==
+	t=1793590273;
+	b=Wnd+Z3P9qsBylmipbPt4Ofa44qBjIJQHZT3/+hvmsfvMSwd8zYaq8Y8CZc4hfX2t8hll
+	 qdn+cUd2MYjTWnoQBrwTU/qNXB/ICQou+pqaV3vGkaMb/GIms6ciQQIIkGk/2DD9ouVrJ
+	 AUSMeA63Tq1I40PlyvyLL/5ArhkhNkTHZxehrQlmnCBREwk05OtnOb716SJpzCtBsZztm
+	 2pnoQ6KGQzs8krhZHMaIY+tynIrHd4aRAOyim5V1+MUnBzldK6h2IQm4LSzTMTRRqw1/L
+	 H8pZ4rCZWMThQjyRgtN1vwKe35d0TPnEclO6AHMocTrdtsqWK7/IqQxi8+T4X/AKbvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793567658;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793590273;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ZNkRVh6Ty401RG6V3W3YBuDyeqLwtI1cJ5oxr/TdzUs=;
-	b=n8bmHPRbkjGoN3UWnkXRMRAU9H7YCHjxcnvjr+V415lFhgU2xOsUK+4BlEw7L6LUseaV
-	 Zil0pec3E6xKERCXOdj3/ZPkS0AxQESuFtDDHlAIfIhQ3Rf0d953cJybSBOIrrH06pisF
-	 dd/JejREuanxnn2KVfy8gtOkc7zzQU8wTz9tzTrF+XsrGQ6FJWE162aJg2nd7DZlJxbWl
-	 Phru2d1f50kyj0JY0hODgRK7VgOi502L0JEmg4F8lOgeNAH4BDWIMhRmPM624l6963ppT
-	 4PEK89jijpUKBdvgBMmnsSylOtNXTt2q2OgeGzofMu8hfhhYtP2FITW5rw6f86V0naA==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=VHJb5ESvBR0ZqeLSv5C3SV8G+5auVLvklZHg1Jf7b/4=;
+	b=rGyeYtVe0hBLpDViGk4RWCHxmjsDUFzTiUEbZM2HHJ8vVju9eLdCPQCfdzMwEULZ5ooz
+	 ZcmSgo8le/NijBlCOq1W432iMHalWTc18kl+9Rv0OY8g7dgAeDXTa7Zfe8ZK1pX371D7K
+	 IirySdgMHDamW9FsFXLIuB7OdZ7S5Ksgc4cFZVOM1kozz7PR8Q26Hiv3KO7xoQooeLZGR
+	 x8dAj27uvQ7iwlS+ie/lvU5Ba+KSHX9/FCrIeyg349eYdwTBtcCPvrCIUtfk576+edQMd
+	 1V8ITUJFiHXqBlBg8wfZZpJK03uaMHPn1CWD42BMH7Vd33nXUrB952ySLX4asRCmccg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MtI0IhGI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hyjfL4uG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784A5606A324;
-	Sun,  1 Nov 2026 21:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFF7606A324;
+	Mon,  2 Nov 2026 03:31:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MtI0IhGI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D9831F000C1;
-	Sun,  1 Nov 2026 21:14:14 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hyjfL4uG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF191F00919;
+	Mon,  2 Nov 2026 03:31:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793567658;
-	bh=ZNkRVh6Ty401RG6V3W3YBuDyeqLwtI1cJ5oxr/TdzUs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=MtI0IhGI+f3QNHD3CTexim/4WGzwoaiHljWQsSqfmi4liMSnO9BMV0v/Tqb5Mwi7g
-	 3mBHxE+bw5aYdqBHlmXNZ6ZRgwwAUBKPTVzFMWIeBc+Vi/EHjtd9G/jCLOmdhbro3L
-	 ehq87f1GKiyV9p1CPOnrRa03HsulXIsfNuvg7zDaVURrEZq9UswFDM8XqXtLSJ+Coi
-	 gmvN/efPtlG5AVDpcLd6jfpOUIODKw3o/07Vp+2Zq2WHIloyWcqmvGoh7ixl3JWCRv
-	 0P4xOdAnL9igbVMeJP8kUvlIfCZm6bLFt1KD3KcYyB35AcPePY0xO3cMOZQOusgtGS
-	 2vqFkWqH7+tZw==
-Date: Sun, 1 Nov 2026 21:14:10 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rupesh Majhi <zoone.rupert@gmail.com>
-Cc: Alex Lanzano <lanzano.alex@gmail.com>, Andy Shevchenko
- <andy@kernel.org>, Benson Leung <bleung@chromium.org>, David Lechner
- <dlechner@baylibre.com>, Guenter Roeck <groeck@chromium.org>, Jagath Jog J
- <jagathjog1996@gmail.com>, Javier Carrasco
- <javier.carrasco.cruz@gmail.com>, Jean-Baptiste Maneyrol
- <jean-baptiste.maneyrol@tdk.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Jinseob Kim <kimjinseob88@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Matti Vaittinen
- <mazziesaccount@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Remi Buisson
- <remi.buisson@tdk.com>, chrome-platform@lists.linux.dev,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, Marco Elver <elver@google.com>, Bart Van
- Assche <bvanassche@acm.org>
-Subject: Re: [PATCH v4 0/9] iio: enable context analysis for all drivers
-Message-ID: <20261101211410.5fa14b39@jic23-hlaptop>
-In-Reply-To: <20261101105832.55605-1-zoone.rupert@gmail.com>
-References: <20261027124954.110697-1-zoone.rupert@gmail.com>
-	<20261101033018.05897c08@jic23-hlaptop>
-	<20261101105832.55605-1-zoone.rupert@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1793590273;
+	bh=VHJb5ESvBR0ZqeLSv5C3SV8G+5auVLvklZHg1Jf7b/4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hyjfL4uGkWeFjA3l4JYgi2l58AFeYj48ZxE/zYKMZsx814mXnO3EF4l5PPYsiEVef
+	 r93vyP/EzobuEtjQ1h0Z9UApTT1H3P//rg4Kqx1hHHhrzclZuEop3t9kC1IbCJ1yAi
+	 VcJtHnYnYdFweM5Ah7r6MxDYDQjq4gPOArmMputEQZ8b183JYqPef8BsxUEGbfh7JY
+	 IGXNPcPrPS5o/PRkKav4ddYjQurAiwvWX1gxjeyStgapSRV85NAZPF21A7kcc5x7P+
+	 ansBaTkV1aA2KA27j/zyypP9X6QMOTElbDrTKzTAsHCdp2x38qTFSM5Z7ZO2SUQ8sx
+	 K2IuGnNi+zFHA==
+Date: Mon, 2 Nov 2026 03:31:10 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: sean@starlabs.systems
+Cc: Brian Norris <briannorris@chromium.org>,
+	Julius Werner <jwerner@chromium.org>,
+	kernel test robot <lkp@intel.com>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] firmware: coreboot: Fix CFR error-pointer handling
+ warning
+Message-ID: <augD_nelcantfYCf@google.com>
+References: <CABtds-16eUH6ah3Rr9R=N2605TPdFgDekM5oXVeWqGcmYfWqag@mail.gmail.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -75,39 +59,30 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABtds-16eUH6ah3Rr9R=N2605TPdFgDekM5oXVeWqGcmYfWqag@mail.gmail.com>
 
-On Sun,  1 Nov 2026 12:58:32 +0200
-Rupesh Majhi <zoone.rupert@gmail.com> wrote:
+On Wed, Oct 21, 2026 at 07:57:49AM +0000, sean@starlabs.systems wrote:
+> From 4e74bf1ccc0f61b4712f688eab66a7750f693243 Mon Sep 17 00:00:00 2001
+> From: Sean Rhodes <sean@starlabs.systems>
+> Date: Wed, 21 Oct 2026 08:55:54 +0100
+> Subject: [PATCH] firmware: coreboot: Fix CFR error-pointer handling warning
+> 
+> The scoped kfree cleanup already ignores error pointers, so passing the
+> pointer through no_free_ptr() before PTR_ERR() is unnecessary. It also
+> makes the IS_ERR/PTR_ERR expressions appear inconsistent to Coccinelle.
+> 
+> Return PTR_ERR() directly. The scoped cleanup still leaves error pointers
+> untouched while freeing successful allocations on later returns.
+>
+> [...]
 
-> On Sun, 01 Nov 2026 03:30:18 +0000
-> Jonathan Cameron <jic23@kernel.org> wrote:
-> 
-> > Please take a look and check I didn't mess it up.  
-> 
-> Diff is fine. Built drivers/iio with clang 23 allmodconfig: no
-> warnings, and a dropped unlock is still caught.
-> 
-> Subject line got lost though. It should be "iio: enable context
-> analysis for all drivers".
-Doh.  Cut and paste bug!
-> 
-> CONTEXT_ANALYSIS_dps310.o := y in pressure/Makefile can go now too.
-> I can send a follow-up.
-No problem - I roled that in.  Didn't bother changing the commit message
-as it is obvious what is going on there.
+Applied to
 
-> 
-> Jinseob Kim's Tested-by didn't make it in:
-> https://lore.kernel.org/linux-iio/CALMSew+nhZp9BoqS5tOgFdiVy13U1r2f4UQa9Sd5zc9pSt_YcA@mail.gmail.com/
-Ah. b4 didn't pick that. I guess because the formatting was missing the <> around the email address
-that is standard.  Anyhow, fixed up.
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-firmware-next
+
+[1/1] firmware: coreboot: Fix CFR error-pointer handling warning
+      commit: 2433db2af8e1482a3a50b8cefaf25cf7e4a9374d
 
 Thanks!
-
-Jonathan
-
-> 
-> Rupesh
-

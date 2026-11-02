@@ -1,60 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793591114;
-	b=JyGScXR3L3kbaXy0ZEvPNP2ns/iLmgSTm5n/ei0PvOoResxIJEtmxJ5PZyB4+dKYioAg
-	 qFKbYyqYUOpL9XLGvzTOV6L4FgM1YPvK67QMklzprTkJTJqpmvld8dJwJx3q41tbca7wP
-	 uxpOWx2eVypvZ4tQ/8G83xsUs54J3J73VuXP2JXLYmmxq3IxYz5KlDjx+9tG9mhgnSI+5
-	 tJzphzzsO4N2iiS+j7MnnxNriUY8VTvSkb8qqWatUMzwX7jRmvG8x4BY/dm8tkjQdPL5o
-	 TKYlyTrPGdHLxWTaV5uRSmgqh0UPClxCkv4yBdLxipHSl/57xfJbj/n6dt6N+jV3wcA==
+	t=1793591128;
+	b=mm+fm2zgVPH+BY0+EndBhH8n0BHaMRlKufgPe3eplNpXaQGbD5DHf3HzKQ+t+kKgBiec
+	 D/N0mVkSvzQmkqzKgQQIocXZHWmXLuFolqQqI0NrItPGR5cz2Mjn9W5UCmoBDfV8umFFf
+	 vQAMWz/BRbRuzz5JpHzJhx6h+fM6WMbAnhNZpii4uHvgxX1zJU+kKK57r9qqYBiajx6AG
+	 87z0OV8TokJoRM3o5m6zTL/7XeWjhcfSMTPwomD+iQB8xUhCSRuYgLRh3Ey8e6DVVYsRq
+	 0RUrATnjU0ExlShRKiRyRSW6r6ddofI1jhAOiZX5erMHouZ87omheqtO4VPFX0c0QSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793591114;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793591128;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=2wa6GtDXj8hpo+k1EJW2/u0+icSgK15ObOpBbCvF5tw=;
-	b=Z6Uh5j84Jf7mHKV2oiu1MWPfdtQ/XpWPt0HvUrbYDLSbt1hrGnKKQj2JeA4mWFljrcPk
-	 mQ6fpk68wtFDYsCSL1TWuMyiq9hSnwJphA6eQ77chCxj19V2rA/Em4uXg7ZTU53uEuXqw
-	 U0s62WzhAy6xyF0VcZ/lOOqem7Piw//vP0sdPGsjIyv6s4StYCSVEp626TXJNnioj82uq
-	 H0PcTQIWmeZwNSYTOBmk18OufZYZPjmHBdej5hWOqm8DKloVNs8Xi8mLBrL89Om1z9oZZ
-	 9b/1PF7yUJZsXU/jvlHHm8++jpfKWKYBKNidH58CCfRASXKH+EdRJYTRn8Lj+3LkoNQ==
+	bh=RgCAL1P+hSJExWchHGlbCd4ap6qoEeqYnmHJfxat3l8=;
+	b=ZfvWAv/PXR52jZF4jui/w25cHrpgXM7gLstafdJxILUaHnBLj4PUuCbZ6fKJS5ZcBX0V
+	 bIj1w09vYxfrDoie7W4I3t3qwqgarSNJUxBRdw1rw4TsY/xDPqmUKjdAvSHPom2vcVHhi
+	 jyOIesQkjYX+rWU59+BQg1D8sArdjYgF1SJVJeFD7MxMrPy17rSFWbmTgLPDRKABORHPu
+	 E3XkzEMWy08FqHzE/UtcLDcsWyUYDOxpt/u0qOR0K2iAv7FjsRb+6FVNlKK/XWJoyFyoL
+	 +yIlMkbkzt7sNDrWH9p5uX6fGMtV0TBgNOfzsAvf1zGs3YYBfa8Yz+TX9mM/JSv6p/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O1zBGUVO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LVb5YEGq;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED6C606A326;
-	Mon,  2 Nov 2026 03:45:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BE9606A327;
+	Mon,  2 Nov 2026 03:45:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O1zBGUVO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4652D1F000C1;
-	Mon,  2 Nov 2026 03:45:12 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LVb5YEGq
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7A3C1F0093A;
+	Mon,  2 Nov 2026 03:45:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793591113;
-	bh=2wa6GtDXj8hpo+k1EJW2/u0+icSgK15ObOpBbCvF5tw=;
+	s=k20260515; t=1793591127;
+	bh=RgCAL1P+hSJExWchHGlbCd4ap6qoEeqYnmHJfxat3l8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=O1zBGUVOkxmyziSsMVxTQHlu4oZ2ZG2siNU7SLlEoDJ9ZqeDTW4D/B4Bpc1eBW+ZU
-	 tDlIDMQsEanTCE0FkgUjd5Ir22wBg1Hupyg9tPeaWgkIqP5HwwD+D7JBgxEWUPoVi+
-	 OZQIVSPkTh1AsbZ3amRPMSj0GOx8X+nHBTNGnX7t2nd+F2yTfP2mfG1k9cEVo6ZL5A
-	 RjQFBLqMXHjP4yWtLJ4Qnbnd6ru8vrK1NSjb/qrqZEbkoTIxQ5l7hUtj3PQ/JhCcqu
-	 cQkLfpBsfK8EbK3+hcqperMlh72V1ZUr2f4Cq7tNE8QLBbC5LZ8r+B0JVz8d69kvuK
-	 actxuq3cUVI5Q==
-Date: Mon, 2 Nov 2026 03:45:10 +0000
+	b=LVb5YEGqyOCpwHX+DPlO7ym1mPn88dOBbBfz6dgQlyictpeNyjtM48iY9O84aVCei
+	 OpitKRMxq9IL2qBofn+AI+q1eBYjc8F0a0lwt0Rf8tSuzy/K0TVjBb3aPo54D85N5S
+	 E34Ji4xi5z8pe88oYkdRzj+jTIh4uaA0gKPVt4/fq9rWIhrZCJoNLSfdZem3MvDya6
+	 pUMb2HuNLO5l0aoC+jQRCcM6L5ib/PQ2WlMwjFYJK4KrV/3I37lc43Vvhyrla5U0W0
+	 wQrdkE4cV749KMjWagAQEakMEzWaXpANLlsww87j/ZZDrf3GRwWdmrTcZS6BDVHzeD
+	 Nm5hr71LVwHMg==
+Date: Mon, 2 Nov 2026 03:45:25 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jiale Yao <yaojiale02@163.com>
-Cc: =?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Benson Leung <bleung@chromium.org>,
-	Enric Balletbo i Serra <eballetbo@kernel.org>,
-	Prashant Malani <pmalani@chromium.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] platform/chrome: cros_usbpd_notify: check ACPI
- companion
-Message-ID: <augHRuNZnHwSdQiI@google.com>
-References: <20261028051200.145621-1-yaojiale02@163.com>
- <20261028051200.145621-3-yaojiale02@163.com>
+To: Scott Collyer <scollyer@google.com>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] platform/chrome: cros_ec_ishtp: report
+ EC_HOST_EVENT_PANIC to userspace
+Message-ID: <augHVen3nJmV9e1w@google.com>
+References: <20261029203008.419808-1-scollyer@google.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -66,15 +59,14 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261028051200.145621-3-yaojiale02@163.com>
+In-Reply-To: <20261029203008.419808-1-scollyer@google.com>
 
-On Wed, Oct 28, 2026 at 01:12:00PM +0800, Jiale Yao wrote:
-> The ACPI probe installs a notification handler through the device ACPI
-> companion without checking that the companion exists. A force-bound
-> platform device can therefore cause a NULL pointer dereference.
-> 
-> Return -ENODEV before allocating probe resources when the companion is
-> missing.
+On Thu, Oct 29, 2026 at 01:30:08PM -0700, Scott Collyer wrote:
+> When the ISH firmware encounters a fatal exception, it resets and sends
+> EC_HOST_EVENT_PANIC over the ISHTP MKBP channel. Register an
+> event_notifier callback in cros_ec_ishtp to log the panic, invoke the
+> panic_notifier chain, and emit an ERROR=PANIC uevent so userspace crash
+> collectors can capture the panic dump and handle recovery.
 > 
 > [...]
 
@@ -82,7 +74,7 @@ Applied to
 
     https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-[2/2] platform/chrome: cros_usbpd_notify: check ACPI companion
-      commit: 87f74d2b224ae6484628500136a75677766ed52c
+[1/1] platform/chrome: cros_ec_ishtp: report EC_HOST_EVENT_PANIC to userspace
+      commit: 1236473139859a9b64f20404d9c0388930415cbb
 
 Thanks!

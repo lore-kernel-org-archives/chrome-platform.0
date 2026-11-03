@@ -1,81 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793680679;
-	b=tpAUfa7ZB6ya80RtLoGTJSf2CG9XhxDzCgGvYU3/dpXITYFQ/kp9vvyxeMKeej8I5kR5
-	 kT8mAM9K/Rv3rrEZjeBHBOLJQ55HfT+z7nwBNkB3ZCg0mmOPQr/VWXHkg++RqjUVHY7N7
-	 IOQICsCDu78JR8Ka/9UHjmbsztQjVt63eiKxwb/RaDHk1Hnq2BpPsFukv97SfGIsqL7VC
-	 siCvUkiTU7dPbldr2NR5Rr1bhdOREEeX5lzVfjxS5mKbq+0t65TXEsevkbXLoqgyyivjU
-	 y9cmPHShgQNZzACNPs6GU8H6tDyd3MxQB+0K36r1YAAMkz1oyfHZQFqKADdCk10pQsQ==
+	t=1793680683;
+	b=qvDl37mX+OENtgB5qGqaaSsRAYpMxs1b4Fv16Ic8WP4xbZSFTaPX3H4hiXHmfATqHZEZ
+	 rqs2BlASj+wfscpmOVMgXnRMgaMa0ykARlPvCCwAwerlr4yh3fH9Ij02rYOjRJy0LOn6a
+	 fRbEVIepBN00493VvPlp+sqoCWRP1JFT8hRbrbQTf/Au4GXZMBB5Mg5qz6ESQ+dVjEOfq
+	 zagDy2M53R0CLUa+ukeQyr5Dwpv54CBRVOoaUFqwnm6Aa5oVdXIRVh6csVAc3xjB4xsRH
+	 npzup/YbhBLCAfkp4SFwBGU5q796ATDcSsaJ+iYw0NeCVRR3qthdOiF6ONTvu2tezsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793680679;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793680683;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=+m0KRotnRI6Y4M0Q7c+lnB20WP0kpPO3hQuPyKu7qTg=;
-	b=fpEoUx1LfkPeUWxH+SQ8Vhtmq3gy3twszbVci6CAoJtjFNKt7dQ52Ws9aC2JylOwCj9c
-	 8IjhLk3JJJeSjK0R3+i7wsv9VA7jfunLRsMTxOYqT0IOBk+0BmLrC4e4NJG7oXVJRxcpD
-	 99rS5tMxW12zEcvAcM5GjjxiM8SiqsuPxzIyE3gOi63zEIXeUH/+J4ipnxLZqwI9qJzTs
-	 LdQw99RB8Nkcol6Ld0U8gGL1pmP54O+2+LR/kUO87NK24fqlyICimBSxYCnoXKbzGtZOb
-	 8tr1mD08sbNS6axMoHjlnSWFm/UvV1/QSWnhXfkpAOKqtV0LR2BNmcqkMdRvm/kLekg==
+	bh=jwXE6HVPE3u8H2VoPGvf+65Nm9Ko3QG6ghTmXH3WIyI=;
+	b=Jn2AkuRCHFowTDA6mXQpRcirGrtYg8ysIJUB0hEQckMwUBEDUY4jgthz5JPLAa9rdONO
+	 VqzhTEyeks+Hwj31SGrYb7yphicS+jq9rYPe9VuwVmKnO8zDFxrtTHfls6cK1yLbShYUH
+	 bycbv1VWTMLLRgadP/9uE+wLw6fD4o/3K++uL8NybVV9H0XGbA4fcxXnRkNHCBm4lt6t+
+	 NbE2IURO5XF3ZeuA4RZROZEQk53/8a5Xj7V3rJse/+jzugNbLlJkAjKHtE+7ZlADZI5LE
+	 NpFD8RiroZ7yaUwUEX9wjmKb7RI/G4rkAUxNimtKQyKj3Ef7fDEfZXw7ycWAX9Niw9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chromium.org;
 	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=edyc19nP;
-	arc=none smtp.remote-ip=209.85.215.182
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=n9Uqrls2;
+	arc=none smtp.remote-ip=209.85.216.50
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131B1606A329
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Nov 2026 04:37:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 131B1606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E829606A330
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Nov 2026 04:38:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E829606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=edyc19nP
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cc4dbda1e5dso1237199a12.2
-        for <chrome-platform@lists.linux.dev>; Mon, 02 Nov 2026 20:37:57 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=n9Uqrls2
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ad2b3b1c02so1994243a91.1
+        for <chrome-platform@lists.linux.dev>; Mon, 02 Nov 2026 20:38:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1793680677; x=1794285477; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1793680682; x=1794285482; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+m0KRotnRI6Y4M0Q7c+lnB20WP0kpPO3hQuPyKu7qTg=;
-        b=edyc19nP3JYNumDuygu0vgPzW7ETyF4cefya8tgBtTPrlSvVqn6s2AbdxaYYRcw6kS
-         jjoWOak038D5OSspPna9s2RkF9nmIIsDzopfnzGzg2N51Saj009mFg+MufAc2Bz8yq6D
-         THaYD/mo9Q+NcJe9SAdSAA8Th/5pbSOK+3LU4=
+        bh=jwXE6HVPE3u8H2VoPGvf+65Nm9Ko3QG6ghTmXH3WIyI=;
+        b=n9Uqrls2TqqsCnBsgf6E00PnlD2J6jIGqHWf1CZzf0OekI9oy3OoTmfJNKRPADspC9
+         z8tVRfA4YQC6PcKGy8dtKY415mOrhpFbNoHiieGtZeDoJiSaKV84brXQGD0h9KC8K7eV
+         1dwgDZVf3MEF6WxWXd506exfYovRggRs6uJKg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793680677; x=1794285477;
+        d=1e100.net; s=20260707; t=1793680682; x=1794285482;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+m0KRotnRI6Y4M0Q7c+lnB20WP0kpPO3hQuPyKu7qTg=;
-        b=erE0D3zwYiKPS8ymGqyuBasuDvwc4BMLQaiW9H/n5KCTUMw8Fi8XRgiajDttCthdW9
-         y2dRi9ZKMnRc5enRv0ZihUELDEJBgrsMtUKuHdSf1bZmaA/Ot1ScF9UABmaUkjXf8Gcy
-         IWrNPDHB8dR0hqTKMiZSb1yzJFR5V1iIqcU9aNsrGA1YvWrsb4o+fgSk075L2gEuugUk
-         221/H/tYs49tqFYE8nreu9vKhlL+yu6q3JL+owiI6TX/Rzvu9sFUWN08om8FBTseBn5L
-         Nx7xah6wMQll8REQVSpN8u4VAar2iVBEj3OXjtMgmutmmgPUAIRiNS5bART1qwZo02bE
-         OuQA==
-X-Forwarded-Encrypted: i=1; AKwUvBzIV9nNmYAn7nomVB5WAR5/vruCVhcwBUsVIVDV8R3NOPC5JS+CmR/J3znvmgYgWEmJTGEWO1ckrPgItrrvv8I=@lists.linux.dev
-X-Gm-Message-State: APuU4Z9BbMIqgetn7NfWG/PDxHKCpTWqB/RHgrbx0b+ywYgOylPp6Eyi
-	8Ik+wvbFk69N91vhCjS3OkiwYWi+TVEED6UMQOEkvIJT0DwKeZVxc2XfUbQKBIuehA==
-X-Gm-Gg: AYBFou1FUiMJi8qiSPFR6ekQ+jc9cjrqeAFfw5NaD0Zi+e1abEm2MySKrMwTM9BVl9c
-	7+MFl0vzDyxca3uS5CUKsatcbCr/tiPepmHrtM6RZ3iGwz4TvO8d1NJYhinYYVHJrHBOSsHuvp7
-	edr0bN42Nx6IyT2vZsLifrl3z0KXh9JsWo9iiZn+azmQ15xd+8wQs+tEXNxH/YvzslXqBdozJ89
-	Ma4kI6KnBnY4Zm4kEw8hTuEdsneDw/fJzdWfXRxIaqBT7M2YmYTc89KhykZ7qjCxTP7Mgix+0dm
-	l1Jeqm60xltXnLijWOcILZ9b/OrZ41CmidNtgI/SDLoNg9w/5wE2NK/Nmbn0/ZML6k1bSHvc/Yk
-	gfZECBgabyQaXkraq3lHsEIwhSQa9g9p9LeD29TGxv9x085+jckX5IWuc8dM+YKKbrMkwOB+a39
-	/nmoFKXZ8jVoB/euV689GUvf/K/Fk7S0WcoJV5juIPQ2jpz3DkSg5QpFbuWjzNOPJpc0RKOs73E
-	ZQR/khGwiV65jRtTl8af95wqonDRoNNbEhnzsYZEv8G0AlEfHhs1ZtaTZ1AqwnZ+Je8ZSvmmoYR
-	vJ5EJP/ububHIbqGplbmQHOWNmW6hiPk0Dk0GL/pgjFu7usWKEJALzPQAPQ/8asC2KhXXuW7Ga7
-	Gj8MQZ9w7Cys6
-X-Received: by 2002:a17:90b:3b51:b0:3a0:cbe2:9e0c with SMTP id 98e67ed59e1d1-3ae897c8800mr10534419a91.63.1793680677425;
-        Mon, 02 Nov 2026 20:37:57 -0800 (PST)
+        bh=jwXE6HVPE3u8H2VoPGvf+65Nm9Ko3QG6ghTmXH3WIyI=;
+        b=NK70y7jm4O4pRgPFcKbMBAz9h5ugPPDLMY5z0kZbfPC/aR1SCjmhOMidjk2SUwLQZj
+         2DL6ITw+tXMeTX2atvJoZKzvIErNoZOfTb+/xB4KuucKBVsuhfUB6Dx15P/9hCm9eVr6
+         HPBgM4e8kHmHVBfAOb1Eu5i+/oIUZfhuwul/UTnZw7ElDnB9EqYJSCA1B5ZzJM2jpyXj
+         QHbULZ+dgb6N4x6HgLkm90waOj5ZfI7UAB2L0vuBHi/3DIHz0qUOFIbmNOQ9gY0vlh6b
+         P71XIS4UjcEisbhmxjGWTC2+swvGi21hETMSQoUiQQJRCJruU73B0M/Bs8CcfxxOII4A
+         ioHQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx8vhqszjtlzrhiah0bmQR+IQ7zocknygiJraAzCC2nBhJ8nRtXRDvmccN9yhZs/7bUbREbZm9Cax+13hWOWlw=@lists.linux.dev
+X-Gm-Message-State: APuU4Z8tew7HORRGNKehGc11oP7bOXIGlAmcheQxnkyYJZSpuIC52r5m
+	JNWSqVMVEJp2Q20i8IxHe3pN0K10fL6eM3vXNOcOamEdImFPJ1/3yyrjWYc/iq6z6A==
+X-Gm-Gg: AYBFou22G/JMXDkXzTH80J1Q9CZamhCz9LCn0+xoaIoXKUbgp34AOfDf9OFLy58c8Ws
+	aTDOKQ67Nclf0f5rWx9QbdB149w2XzuE4AJIh7DGJu6Sot4GwBiaGLSRqJn+dt15bQO0+5PKf5E
+	Lm+GZnuPXnqHOZIPdq9XoBCXDW72IOyHzUMK0nRdcZ5YYnOu+8UHNsKLF9GVAkn4lAGsHokwFDr
+	fretgkTdy1cAdxgRGsbhdrNapBQQaHAs9tJr+TIDIc/syrCLCJzLd7stcXN9YgxmDxE/JfaAN2R
+	AIpPo7s3KNwfuSvHODzjno62AURXZKs+SdI7Rf7DxX0w1rs8ZBLurRWpiItwtl9kms6XM3n3Q1f
+	xoA/1eA5LZvehszUtmfK8NpiWzJ4GXMQ3I6xKR0B1siiHUN5V3N7WK7IyR4W8lQ/HlEhvz6L5c0
+	usCaocatQd8wiqZNZ05u2mXf7XsIdBfYZsB0zoAsBcbm//r11XcFA6t3VIj3VDIA6JFEO9CYfCT
+	23q4EuD4n03IgCXJLfIJEd6fPp2v66kC8rpdGv9wwZ24vv819KW6DFgCaG3rdmknRZlLvuSrcfj
+	txgVno4qP7NYSR9AwpxeqSj29GbB/EzpCPNuGEiT/e7JHg//zwevhacno1tQSNzDlsEHUkMgxJg
+	cv5OQAOBqJfK5
+X-Received: by 2002:a17:90b:2fcd:b0:3ac:a7ee:6780 with SMTP id 98e67ed59e1d1-3ae8986606fmr10535707a91.66.1793680681667;
+        Mon, 02 Nov 2026 20:38:01 -0800 (PST)
 Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:203d:7:dea6:6326:4502:bb8b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c71c253sm2072761a91.16.2026.11.02.20.37.52
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c71c253sm2072761a91.16.2026.11.02.20.37.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 20:37:56 -0800 (PST)
+        Mon, 02 Nov 2026 20:38:01 -0800 (PST)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Mark Brown <broonie@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
@@ -93,9 +93,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	linux-input@vger.kernel.org,
 	linux-i2c@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 3/8] HID: i2c-hid-of: skip post-power-on delay if powered on sufficiently long
-Date: Tue,  3 Nov 2026 12:37:27 +0800
-Message-ID: <20261103043734.2179858-4-wenst@chromium.org>
+Subject: [PATCH v7 4/8] i2c: of-prober: skip post-power-on delay if powered on sufficiently long
+Date: Tue,  3 Nov 2026 12:37:28 +0800
+Message-ID: <20261103043734.2179858-5-wenst@chromium.org>
 X-Mailer: git-send-email 2.56.0.385.gac671c819a-goog
 In-Reply-To: <20261103043734.2179858-1-wenst@chromium.org>
 References: <20261103043734.2179858-1-wenst@chromium.org>
@@ -110,60 +110,57 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On some devices the HID device is powered from an always-on power rail,
-or the power rail has been left on by either POR defaults or the
-bootloader. By the time the driver probes, the device most certainly
-has finished initializing. There is no need for the delay.
+On some devices the I2C component is powered from an always-on power
+rail, or the power rail has been left on by either POR defaults or
+the bootloader. By the time the prober probes the device, the device
+most certainly has finished initializing and can respond. There is no
+need for the delay.
 
 In such designs, the system integrators tend to work around the delay
 to avoid the boot time penalty by simply omitting it from the device
-tree. This is undesired, as the device tree is not fully describing
-the hardware.
+tree and the component prober. This is undesired, as the device tree
+is not fully describing the hardware.
 
-Switch to the new regulator_bulk_enable_and_wait() function that makes
-sure a certain amount of time has passed since the regulator supplies
-were actually enabled.
+Switch to the new regulator_enable_and_wait() function that makes sure
+a certain amount of time has passed since the regulator supply was
+actually enabled.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
 Changes since v2:
-- Switched to new regulator_bulk_enable_and_wait() API
+- Switched to new regulator_enable_and_wait() API
 ---
- drivers/hid/i2c-hid/i2c-hid-of.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/i2c/i2c-core-of-prober.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of.c b/drivers/hid/i2c-hid/i2c-hid-of.c
-index 59393d71ddb9..fdaad451e710 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of.c
-@@ -29,6 +29,7 @@
- #include <linux/of.h>
- #include <linux/pm.h>
+diff --git a/drivers/i2c/i2c-core-of-prober.c b/drivers/i2c/i2c-core-of-prober.c
+index 6a82b03809d4..f9f3c0ef93ff 100644
+--- a/drivers/i2c/i2c-core-of-prober.c
++++ b/drivers/i2c/i2c-core-of-prober.c
+@@ -18,6 +18,7 @@
  #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ #include <linux/stddef.h>
 +#include <linux/time.h>
  
- #include "i2c-hid.h"
+ /*
+  * Some devices, such as Google Hana Chromebooks, are produced by multiple
+@@ -226,13 +227,11 @@ static int i2c_of_probe_simple_enable_regulator(struct device *dev, struct i2c_o
  
-@@ -48,16 +49,14 @@ static int i2c_hid_of_power_up(struct i2chid_ops *ops)
- 	struct device *dev = &ihid_of->client->dev;
- 	int ret;
+ 	dev_dbg(dev, "Enabling regulator supply \"%s\"\n", ctx->opts->supply_name);
  
--	ret = regulator_bulk_enable(ARRAY_SIZE(ihid_of->supplies),
--				    ihid_of->supplies);
-+	ret = regulator_bulk_enable_and_wait(ARRAY_SIZE(ihid_of->supplies),
-+					     ihid_of->supplies,
-+					     ihid_of->post_power_delay_ms * USEC_PER_MSEC);
- 	if (ret) {
- 		dev_warn(dev, "Failed to enable supplies: %d\n", ret);
+-	ret = regulator_enable(ctx->supply);
++	ret = regulator_enable_and_wait(ctx->supply,
++					ctx->opts->post_power_on_delay_ms * USEC_PER_MSEC);
+ 	if (ret)
  		return ret;
- 	}
  
--	if (ihid_of->post_power_delay_ms)
--		msleep(ihid_of->post_power_delay_ms);
+-	if (ctx->opts->post_power_on_delay_ms)
+-		msleep(ctx->opts->post_power_on_delay_ms);
 -
- 	gpiod_set_value_cansleep(ihid_of->reset_gpio, 0);
- 	if (ihid_of->post_reset_delay_ms)
- 		msleep(ihid_of->post_reset_delay_ms);
+ 	return 0;
+ }
+ 
 -- 
 2.56.0.385.gac671c819a-goog
 

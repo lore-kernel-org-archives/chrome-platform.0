@@ -1,72 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793687342;
-	b=Gv9i+tN4CSP4WCA/5pZpG0rVFsSSPBp7wQbLKEAbn9o3Vu0PtZ0YmXK9+Hedq9dHrLWI
-	 MPa4N4QmWCa7yDKTykZtooXq3NQb8Uo6oQETE0Nuk5ZGom5XZVvZgprs0uFG5XNK2l8Ac
-	 zWp6b+dAIESSSIY8cx8vqtT0C9BFTr6s/XCEghOETUSQSQc3zzUeYJngC1oOzxovxOaXw
-	 ae/Yyc1tifNj5RN9nvviS0JrIsdwdJReQ1H2awYbiVPec5dDmq1eyhCBM/hKTFjQ8GCe6
-	 WbwrvC0Cf4/pQk1JE0f7cDQrmdYect4rmVsu0oMwIdttLJMw10DMqZyBVFBTo7N6FuQ==
+	t=1793696285;
+	b=eXFF6bgm7f9zpSlzzS1u1Th6LR5Fphqd1/BfN9QVTc6zSeW70PM+c08WwsUftphnyQkD
+	 a+ZnWYLtFPkxWEez2X3mZDXAD+fzkZmm8lZF3FJ/wiLAQ/MV0p/XHQkebTKnA5/uOvPDO
+	 rh3wbBwUHtVzZtgRJDN5z7/t3Z2HcnyB8sXAFsx6B8aUDeZrzl8NtKWL+ZwkoY5hIx1Mx
+	 +4eNOT/EyHoWwmjj/DLgEj3u+Eo5SzQgKVNs1xYnYpmLXSo5eD5ypL4bML6sdpSWcPd/G
+	 djdLr8kvz2iufjOk9hhwyBxSgSsAwXrrn0Szi9E7NDOcJI9pueaQfZIRcLZCR/zlplA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793687342;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=kPjMT+SFzLPVRdUodSrgDaoLXCme21lrWUEOuuTeAiE=;
-	b=nKkG7xQ7dSmKFgJifQaNN4NtRv/G3Br60undevxR85bY4Ex6TU1VoBmL9cMnJ6nKDDaP
-	 WWn/Hc2sg+1jCfrx7o/PgmYQfE2ZelL0F8mUc5QlR/uruguVPgiu1/u9yoZZrUkQ+YqL/
-	 7NMCLn5msEcgPX7KD8UQW/+r1t7Di4JEqcsPM4HldxGPJgyXBwgJNeV8Z6W6FnFmGeSFw
-	 a0ZcANvD2OM8egWXPQw9C1rO6dVEhoS7Sah9/0QssIdUrdX4CJUb/S6IeoIYhh1q3SPBP
-	 pZM3aPNh+CeC/B4BguBaKZhI5xmtPbKkK9xhWy+bM7M9XdtmGyBnaqIP/7aXHEt2MfA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793696285;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=AUgj7ybzOrbdmhNXXkJnAoh6ZouzAZL90keqraEO3nw=;
+	b=UgZUB8t38V8EFTmcwf128zQZ0do4jlKTG1pvm6o2Q83HVHNEPcGEtk7USpLCEtMU4q1Y
+	 TzqV2rcteI+P3KNSQIHKhnVs+3EViSloSy/GUvUqe1qcHp8lXgRC5vPaa469ZF0r6SeYX
+	 APj2tpK7/N2GK/McEK05/MNVlNgljwQzlCYE6Y9f/VFx3oo1c0m02VF66m+Tmbs1cD6S9
+	 QNEw2eTNhEMFIDhXltjxM4P4vheuCKJWKBtkn23Xu7C0EfYDX4+m1+WnDKxBz5kU7uK74
+	 lRab+wj8zJddCXrVjbdhTSisdzSdy0T03R7Nj147u1BGrnQ3fZy/gTm+UfAvzgMIWgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--cyueh.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=bJcKUp1V;
-	arc=none smtp.remote-ip=209.85.215.200
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JKH6l+Xc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EA2606A330
-	for <chrome-platform@lists.linux.dev>; Tue,  3 Nov 2026 06:29:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0EA2606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--cyueh.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1D0606D804
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Nov 2026 08:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=bJcKUp1V
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cdae1584747so1793961a12.0
-        for <chrome-platform@lists.linux.dev>; Mon, 02 Nov 2026 22:29:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793687341; x=1794292141; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kPjMT+SFzLPVRdUodSrgDaoLXCme21lrWUEOuuTeAiE=;
-        b=bJcKUp1VWP5U4dxSu5PwL0FjsU/PjgS7N4Vs/1YA0YSzVSEz5fhF0h/QoTk8WMTBif
-         4L4Nx13o2nD0+fkkvdtPHEnO+4m5LlRwh6j6IWpjiKrGrcztcI54HdWmRwWM75PiSOfs
-         gEpAmHYTFuk5jMxgD1zozldm5oDKMmJuN+WZ49gIjyvz54JQ3Xz7vIOANcm5Dhlj2qas
-         zn6NO0jQ8DfL93fe9dMd8XXfrkzFq/rpMpM88sHvy/eOvq9oaEUmCXqqSmJuzKy5ufai
-         yNU348KhMp9bPmesHhY1CK/GuBDLd+r3mAqYlwe5e7GSF2H3Tn7GKh549LMpmKlbfHA7
-         qysA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793687341; x=1794292141;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kPjMT+SFzLPVRdUodSrgDaoLXCme21lrWUEOuuTeAiE=;
-        b=KqaJZPlvalgM2P3gqyYK75/qBga5RylHFlDPk2iVSLW9Aoe2AIYS32E+SDFHDcrsqN
-         3gRMSgnkXn8ad/2tDrtmTsZq9Yn9PAF6HCh/eiUU+RfIqoGiwMbByfQ1h/x8R5qYGPjB
-         3KLlVFc3JTnqkdbP2BytinZlchEWk3kvKtEkqU+goo4EKf4WyhazPDtyIvBYeAZHm5yi
-         OSqjvfTu9SvwmjXuiB3y/t4bYRT+kGu8u6ETm+gMtP1hJS7s+TVK2ZANLdD0H8cakDFf
-         +cWK3IreWqgML6/oS8CJdJze/EC866nNsG87OOPVJ0nMxCsdKZ37dth6ulg1HXyQu6SC
-         fIsg==
-X-Forwarded-Encrypted: i=1; AKwUvBwSRfpcmDud2yW8+xdc6rkThdWCXUcEk6atiXr3zi8rS0xjFZEESp5vXsSLARgGfzQ0elXi5NhQihUDmf3hw/s=@lists.linux.dev
-X-Gm-Message-State: APuU4Z/rHdC7ALtYQ/Lgfw+EXmG0cORHJoo1YOCNTqGltaMspWwIQxMs
-	TJ/6aMhDU6C62QF12hCo3aEmQxHLYAIWnThsUFyiod9ExL3G6icwyf5uxZDAX7qJS5TvrvnhsyM
-	SOA==
-X-Received: from pfbgq25.prod.google.com ([2002:a05:6a00:3bd9:b0:89f:4f8e:282d])
- (user=cyueh job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:a510:b0:3e2:257a:a61f
- with SMTP id adf61e73a8af0-3e928fbdc2dmr9948243637.59.1793687340722; Mon, 02
- Nov 2026 22:29:00 -0800 (PST)
-Date: Tue,  3 Nov 2026 14:28:02 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JKH6l+Xc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996C71F00AD9
+	for <chrome-platform@lists.linux.dev>; Tue,  3 Nov 2026 08:58:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793696284;
+	bh=AUgj7ybzOrbdmhNXXkJnAoh6ZouzAZL90keqraEO3nw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=JKH6l+Xc19miNOkvdh6fwXKmZ/peo1JLSx8CpwB7AijrPFwQ5nMrSkiCTWGvwxYnV
+	 hmZms6pQ7UWI+F4lN0IqndsfmhgVlMBSc8TdwaDl8EmL3ndRDomC00sTJnD5ZPU3Fx
+	 CpI7jvnpjWuPFi1lqaZ3xY/95vrPjNcicxGk5InxLjv0XvTn3x1DPFYlEN/tpT9bVy
+	 HHXOI1+z4niVB+11bzLb/GPbjtm5Z8gExi689a+FQqGsFDyszprbcR9DXFG4T0eEPa
+	 aFQEmKpZSbWRCkVwkQgHv6wy6f2XGzk3YWJBctaYRCMrImJ+A9CCR+rH8d1FwSvjVp
+	 8qwcOpfV6jG/Q==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5bfc3292d90so2804949e87.1
+        for <chrome-platform@lists.linux.dev>; Tue, 03 Nov 2026 00:58:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvByBUJFL0KRbXRTYlJ5HgVfWYSFExq07xUOi3UlCq0sY3qY8Qf2Ljo9HPk15R1IbT/XtIFhO+NjznIsy5K0KSn0=@lists.linux.dev
+X-Gm-Message-State: APuU4Z8q9ZwpWQV1/lOhcdIEgvZSNq95h9Z8DoSUtZZJKHT+Sgh3PRew
+	3/ajtuvbWXFIuh8pa2pFMU0kBJoFk4BEQQUYvWxCxgHMyb0lYHRLgYVpL3jHfcsrBQXJooqsaEU
+	KIxlgHIjDP0zbdiZsSGrIoAPAkvBEZAc=
+X-Received: by 2002:a05:6512:b84:b0:5bf:dc30:93a5 with SMTP id
+ 2adb3069b0e04-5bfdc3094a3mr4560521e87.4.1793696282130; Tue, 03 Nov 2026
+ 00:58:02 -0800 (PST)
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -75,60 +58,73 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.56.0.385.gac671c819a-goog
-Message-ID: <20261103062802.361878-1-cyueh@google.com>
-Subject: [PATCH] platform/chrome: cros_ec_rpmsg: record last_event_time on
- host event
-From: Cheng Yueh <cyueh@google.com>
-To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kernel-team@android.com, 
-	Cheng Yueh <cyueh@google.com>
+MIME-Version: 1.0
+References: <20261102135330.2493332-1-robh@kernel.org>
+In-Reply-To: <20261102135330.2493332-1-robh@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Tue, 3 Nov 2026 09:57:48 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=DvHOGWpYYudhG-EhxTk3iUhtfz7OBS0mFgurvnCmb3g@mail.gmail.com>
+X-Gm-Features: AclHuK-LEcFutZHI-ID3nCMC-9st3AveCqqRSTzeXkI5ke3GTM3j4j9Kq1OFBKw
+Message-ID: <CAD++jL=DvHOGWpYYudhG-EhxTk3iUhtfz7OBS0mFgurvnCmb3g@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Use hex unit address patterns
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko <jiri@resnulli.us>, 
+	Ivan Vecera <ivecera@redhat.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Olivier Moysan <olivier.moysan@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Lee Jones <lee@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, 
+	Ulf Hansson <ulfh@kernel.org>, Hans Ulli Kroll <ulli.kroll@googlemail.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Chanh Nguyen <chanh@os.amperecomputing.com>, 
+	Alistair Francis <alistair@alistair23.me>, Julius Werner <jwerner@chromium.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Dmitry Osipenko <digetx@gmail.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Ray Jui <ray.jui@broadcom.com>, Scott Branden <scott.branden@broadcom.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, mfd@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Transports with a dedicated interrupt line (ec_dev->irq > 0, such as SPI
-and I2C) record ec_dev->last_event_time in the top-half
-cros_ec_irq_handler(), while transports without one (ec_dev->irq == 0,
-such as LPC in cros_ec_lpc_acpi_notify() and ISHTP in ish_event_cb())
-record it in their respective event callbacks.
+On Mon, Nov 2, 2026 at 2:53=E2=80=AFPM Rob Herring (Arm) <robh@kernel.org> =
+wrote:
 
-cros_ec_rpmsg also operates with ec_dev->irq == 0: when an MKBP event
-notification (HOST_EVENT_MARK) arrives in cros_ec_rpmsg_callback(), it
-schedules host_event_work to invoke the bottom-half cros_ec_irq_thread()
-directly, bypassing cros_ec_irq_handler() and leaving
-ec_dev->last_event_time as 0.
+> Unit-addresses by default (and most commonly) are hexadecimal. There's a
+> number of cases using decimal patterns. Fix all of them, limiting the
+> pattern to match the 'reg' limits if there are any.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-cros_ec_sensorhub_ring relies on ec_dev->last_event_time (via
-fifo_timestamp) as the AP CLOCK_BOOTTIME reference timestamp to calibrate
-the offset and clock drift between the remote processor's local hardware
-timer and the AP timebase. Without this calibration, IIO sensor sample
-timestamps cannot be synchronized to CLOCK_BOOTTIME
-(SystemClock.elapsedRealtimeNanos()), failing the Android CTS sensor
-specification TimestampClockSourceVerification.
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Record ec_dev->last_event_time = cros_ec_get_time_ns() upon receiving
-HOST_EVENT_MARK in cros_ec_rpmsg_callback(), matching the other ChromeOS
-EC transport drivers.
-
-Fixes: 2de89fd98958 ("platform/chrome: cros_ec: Add EC host command support using rpmsg")
-Signed-off-by: Cheng Yueh <cyueh@google.com>
----
- drivers/platform/chrome/cros_ec_rpmsg.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/platform/chrome/cros_ec_rpmsg.c b/drivers/platform/chrome/cros_ec_rpmsg.c
-index 39d3b50a7c09..07b9e71ac8e3 100644
---- a/drivers/platform/chrome/cros_ec_rpmsg.c
-+++ b/drivers/platform/chrome/cros_ec_rpmsg.c
-@@ -180,6 +180,7 @@ static int cros_ec_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
- 		memcpy(ec_dev->din, resp->data, len);
- 		complete(&ec_rpmsg->xfer_ack);
- 	} else if (resp->type == HOST_EVENT_MARK) {
-+		ec_dev->last_event_time = cros_ec_get_time_ns();
- 		/*
- 		 * If the host event is sent before cros_ec_register is
- 		 * finished, queue the host event.
--- 
-2.56.0.385.gac671c819a-goog
-
+Yours,
+Linus Walleij

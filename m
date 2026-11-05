@@ -1,64 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793846397;
-	b=gx2pZgnFwgp4GEXwd5RNNLY0bAtHxQh/DJp77/I/zK7NuguHyZgWrRxUrX1DFkFhfoK1
-	 iqQx9qyb/uwY4BExSsaOvc0VKQCEL/RXCnIZpYTJD+LN0nZ6RSlfcIy8GB4U9de/h9lOT
-	 5vPuZVFJOA/kvz/ojK2iScPlTYKDs47srZZlgA65oPplXa365MeMxR0DXt7RsueDac4Nt
-	 HMrRGUbWZZpiXykjkDNpK2Om23A4z9+VVE7SXJ8oVuntqw3oZNJNl4layRfm+jEwQ61Lr
-	 wYZ97TFrOuZrCYruo8c6cCTlSW5ltB//EEAR8tKqOl/G5Ewsvm0CI9U495CCXDGJwJw==
+	t=1793854041;
+	b=oV0o17IsCqiUcppvtUe+m1iGd5a7/vdvWZ0txmNK6idLtYn+pyiLc+Fi6oklEqR0M+ja
+	 xSJCa0IA4UHDd9SOtetORmolnANij1huY7XyHArB81Lv9OFyHBrsApgrpGmgoDw6teCbK
+	 z/vcpOFhAI5fEGFN4aOGgM66ro/PrOrj/XdpQ+OmeA9Y7wwJFgV24xnVINNn87Ebk5f05
+	 8y1r+1CcPKUWN4SAoc2jbAedboSBGHBTPgBmghgiDA3BJLNLj0U2Ccldb6mBmAfRkpZrc
+	 aU6KIBmUStNJOp6xkUZLxC9iL/nJH7rU/SJWb1e/0FhF2/TXF5kFdJhtEqGRg+3nyHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793846397;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=8nHg2KK9YdUFsDyCN5OyhUk3RMp8EQBW/fDZ8x8OirA=;
-	b=L+tF8cUi8vKhrg6CQxRKT0MbjZd9slnbLEWPp/QUy1uhdpcaMGUr7VDYsoEdYJURmIlZ
-	 8w5zIC+p34Gkgwy6o3hWBUoyrbD23IDq4+SWBwPIGQdQhHlxQuOJsc2NvR5s4gCoVHiBe
-	 DFmNO5iGuTQU5rcPw9HBTuiSU87QURffqNVy0ptTzuulwgFTvonybSvbUJIEif9spSc4t
-	 gyfUihFK2UGnar3lkAyCa6+uEoqIPUMhNgbNhf/YwKqs4WZsBlzLhjN/prs14+BXFG8uN
-	 z/cFMm/gzKXE/5uD2ZET9Dccy8/0JIUza1fVdcpDC/m+aWBkKsd6d018ogIUrfgcGRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793854041;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=GyuaTqMYNmS5JsviQOab4u/oXrUKmx3oHJ66xNoxHJw=;
+	b=Xcnga5MZY/YutqbRuFT2IxTcz7G7+3es1JNptiOMGu5c3VzcneK+KGbfwpsqTsY72chJ
+	 uUz9cvWwbFUHTdnJ60XtU4hH5Lqk1lw1s7hZj86KFC/h9xhqtBycjLg2+7JMAkyH4ojf4
+	 1rIU1+GAiACFgOE9L7nsRwXHHtCSlvYrqLwNshDpK5NevSCPKj5gRV1Zo4YHm+Uhb2yEF
+	 OtwTI6m5kEobKaSs4eLXtzAZ22p+7MljdEC5dZAPE5UekJk8LweUry5E+W/VZg65HNKvd
+	 MKWzDp5gYz5O+OAmXA+bIHGBfLSWxrfqJKRdWO1DvfKFoOVOyGfEGFiZU77slRIWUVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux.spacemit.com;
-	spf=none smtp.mailfrom=linux.spacemit.com;
-	dkim=pass header.d=linux.spacemit.com header.i=@linux.spacemit.com header.a=rsa-sha256 header.s=mxsw2412 header.b=Nqz4+xih;
-	arc=none smtp.remote-ip=54.92.39.34
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AG8i2Gti;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4996C606D80A
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Nov 2026 02:39:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4996C606D80A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3179606A330
+	for <chrome-platform@lists.linux.dev>; Thu,  5 Nov 2026 04:47:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3179606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.a=rsa-sha256 header.s=mxsw2412 header.b=Nqz4+xih
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1793846386;
-	bh=8nHg2KK9YdUFsDyCN5OyhUk3RMp8EQBW/fDZ8x8OirA=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To;
-	b=Nqz4+xihSRA/SOazc9ytMPaaon6hM2Zpa/k876GDLA/rAvSdmROK7bgusiNH5yJRm
-	 MxDa4YviOx4vP5CKZmEuJc3kfvwqLKu/L2OohyPYk21mJnJpm1Y7KU5OpOGkVf3+ti
-	 zev+B3KBBNrXf3bQvlO8tLbPTEvcdSoXebx80EGI=
-X-QQ-mid: zesmtpsz9t1793846385tf96fa952
-X-QQ-Originating-IP: J+L2j4Y4mzSPrUfJi3bnLL1YOptBIpz78FNjPpcaSco=
-Received: from mail-pj1-f47.google.com ( [209.85.216.47])
-	by bizesmtp.qq.com (ESMTP) with SMTP id 0
-	for <chrome-platform@lists.linux.dev>; Thu, 05 Nov 2026 10:39:43 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10348480576769336074
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3ac6794fe45so1102397a91.0
-        for <chrome-platform@lists.linux.dev>; Wed, 04 Nov 2026 18:39:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBzjk2/66GCB9BIxYU/jvJnqASv/+Q1J/6qvAULiCSt7imuXFHvrRwuZ9Ot8naE2txdRsaj2JHKLmN1sXhnJweI=@lists.linux.dev
-X-Gm-Message-State: APuU4Z8TO0Ww1b645SPykv8dZCsTLIlx2+mTaZEnlA1zjVfHOdGSUb4p
-	yOAdRtGdI4UyC8ni2xjt55ae82wRTXP2gET0G6MFcwWWfEQea5/1N1kWqmX/6Sk6UGBaBxC3D6g
-	9fQDceoS0+631sa87ekxHLdYwPoDePow=
-X-Received: by 2002:a17:90b:562d:b0:3ad:a462:f07f with SMTP id
- 98e67ed59e1d1-3ae8982c1ffmr16206466a91.45.1793846382617; Wed, 04 Nov 2026
- 18:39:42 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AG8i2Gti
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-36d6765756fso1536501eec.1
+        for <chrome-platform@lists.linux.dev>; Wed, 04 Nov 2026 20:47:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793854040; x=1794458840; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GyuaTqMYNmS5JsviQOab4u/oXrUKmx3oHJ66xNoxHJw=;
+        b=AG8i2GtioQKY8/uoDVXz2BoD8yOU45gymKoce5HcGYZtDsGFUIFGpOa1HScJdWNOSO
+         AI/kZAn7AGrQasNeZDElXiVotkDvNRyi0Arj3/1huPyK/JhF/SL4EBjTP+FD/9eUu2Ne
+         m1rW+edPDtXp7NvBTfAVu1PJRe+Z6APbJzw0VRYZbFB+0+sJPcU4A6TF0yFn+GNvpmsu
+         r1qfRdm65OJAElmRMWJW5KtPqRnhzIDuxQw6dXmsyJgtwcP6h5Z4EDopPJdGKDGq2yn7
+         MA6xn81Wnr9cU7Nkg8YLe9PdWVyzB112PNWxLCUPH+m7wvdx5jauNWt3xUCe03thWdr3
+         HuTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793854040; x=1794458840;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GyuaTqMYNmS5JsviQOab4u/oXrUKmx3oHJ66xNoxHJw=;
+        b=STfFkIFDJULUG6NThBWSHZdX3NWFRHG3jF+ZPr1kW52M1xtJJ1FCR5l/1whwnO342M
+         zC12OWM8iU/1IsmavRfpur+gzEeeBlm2tjVK4m7eG22udAGTK/5rASHwsBDf+qXOPQfl
+         j+f+ddTAkS09KBoxlxzlTpn1qcg59vOMeXVlL34pBXvEve289UHnR92y/MnjkaOurBK4
+         Dgzm08cgl4IrT9f1PwoH8ytgMKXtG4oVaTujaQNCGo3Sz7ffxhx1XlwArID7ckh2Atow
+         F0nTeRyF53D5nhzdi9ZVk279YQqfhC/Eoms1muy9JJgIVWD/jNONzmX1vrZYoFCtFNZ4
+         XUuQ==
+X-Gm-Message-State: APuU4Z8mo3xelWzARDOrZ7rMZ3xOBzOw4G330uRSQOCFa0OeE6aAhzVp
+	n1E2Yu2HuR86pMEGdM+KAIOl7sU5OMP8ICJISR0KSe3smSIarTrKVhkWgIqoELp/Bw==
+X-Gm-Gg: AYBFou1+dEU7eIGvcBbspw4THixiKqs+1rY+c6Q/dTbiORa5lhH+65opBhIIeOQf8J8
+	NZbBrPhDVP1sn2oKQV9HdR0gvW7H6D11tAbA5t6vfcOXAJRHdt1fEshGI5SOL/YZjHC0BHUqLhC
+	EcXOO0wpei4x06Ga5IFJSXa6ttl2UevZb4FfB7QGjONBvogaXjmj7v6V5sfACK9ddGL4QtOMsch
+	KiWqZsl3weXa+iP8Xsu26+9cl2jL/ai5LjUEGqmehEVktZm40BhbKZDqUMwy+FueSUU0+KQRufK
+	/aBYNUX323k1Avx6qFjtlPv7bpyyaIFxY/MV7pmLzWGvMF1QNDc4uE9KU9ak4msjimcFKS+xks4
+	+fI2W2WfwYCqbpWQMaU7XaRSfkbKqQ6POz8mXYWDRZBXuzc+u5hoirrHm0ffagaxk3dhIF1qoFe
+	tEe0s7DBYbigRnSIuZOoArnNzv5LtNU/vAYqk7btmRG81tAGhECdmrj9mn4I/NsZMzxmdqd2N+w
+	bycYrpz/aX6vnyJYHTL/ecb44Rdj3vRcr74qcrHWWQiKoHgIsgMW0QDJLYp1TFyQaxrw3Vhfv5D
+	y4LAIRWc6gIxayTeHW9W9JX6pglWOfK4JMUI1H71o+BAJjRODFEO1iV0JUN6bJFtrY5v
+X-Received: by 2002:a05:7300:3aa2:b0:351:7ec1:a92c with SMTP id 5a478bee46e88-36cbdf9be3bmr5924825eec.28.1793854039490;
+        Wed, 04 Nov 2026 20:47:19 -0800 (PST)
+Received: from localhost.localdomain ([2406:3003:2002:639c:a599:d119:deec:193f])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38d46fcsm13076247eec.13.2026.11.04.20.47.17
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 04 Nov 2026 20:47:19 -0800 (PST)
+From: Yige Jiang <yigejiang86@gmail.com>
+To: chrome-platform@lists.linux.dev
+Cc: Yige Jiang <yigejiang86@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Nick Crews <ncrews@chromium.org>
+Subject: [PATCH] platform/chrome: wilco_ec: Fix device reference leak on open failure
+Date: Thu,  5 Nov 2026 12:47:12 +0800
+Message-ID: <rc-review-20261103-vc-85-d1e3d35e7c31@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -68,104 +95,42 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261102135330.2493332-1-robh@kernel.org>
-In-Reply-To: <20261102135330.2493332-1-robh@kernel.org>
-From: Chunyan Zhang <chunyan.zhang@linux.spacemit.com>
-Date: Thu, 5 Nov 2026 10:39:06 +0800
-X-Gmail-Original-Message-ID: <872B2B4EAE847E62+CAAfSe-uD=s0RpuqQ_h+_fErcEC+G=N_LA6e=p_sXJ=iG7jMc3Q@mail.gmail.com>
-X-Gm-Features: AclHuK-lEE7dv-iC1Lsio6aPGOufL5hgelB1hFojisk2-zoMsjC0hhsp9HraOXA
-Message-ID: <CAAfSe-uD=s0RpuqQ_h+_fErcEC+G=N_LA6e=p_sXJ=iG7jMc3Q@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Use hex unit address patterns
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko <jiri@resnulli.us>, 
-	Ivan Vecera <ivecera@redhat.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Olivier Moysan <olivier.moysan@foss.st.com>, 
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Lee Jones <lee@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, 
-	Ulf Hansson <ulfh@kernel.org>, Hans Ulli Kroll <ulli.kroll@googlemail.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Chanh Nguyen <chanh@os.amperecomputing.com>, Alistair Francis <alistair@alistair23.me>, 
-	Julius Werner <jwerner@chromium.org>, Paul Cercueil <paul@crapouillou.net>, 
-	Dmitry Osipenko <digetx@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Ray Jui <ray.jui@broadcom.com>, 
-	Scott Branden <scott.branden@broadcom.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-gpio@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sound@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-tegra@vger.kernel.org, mfd@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: MyM5EdrZ1RnuUwIDbCrkivS4MT+pkp45QzhyOyQAaPnaYCAOz6fu3Rmm
-	z8XUyuNqFirsT5HDyGn2FDxoJfQOZnYVj9mMq2Mt7GhggNhYQ7i+UQ1iF3YRGxiB3UQ0Ew2
-	RFnZXebBwenb6L0QHhKLJpI3cCye7YCew+xP/PoZQyUlAW3VTtdb7zLl2RO7yxp/dQi6WVP
-	qKctTx+XHrXga9yVsP3WVudeujO657ZQshsxUQinGt1H+I/Nx1+1xs594mRlgGBFNk6tomE
-	SEpmF7DbrvDdwecCyuzM4vmIczHEtshv6FWY3gSE1WKkDWr1HT+CepeM4D566uNLsSYsQyC
-	goORvVj/IqM2eg8sloBxNQEuv0wnlCLu7S0S+ayAZh9NVgZLEwGkXli61v2jjf0qofz6yXI
-	kE8LVjNGche6V7+02bLa1HuWi35MNvxizo7wZPPuwzNpXN7uguc6bMAIhm3lNKNRiFnJJag
-	WvOlBdToG1p3bhLGp4SVTfXim2qM22V4lJhAgs4OM6ffXFZu4x1GzxTCJnR6+9TzSnib/bP
-	C6Gj43+eCBfrtpx7Zxdi7BRT7vm+pk7DUE3dJEKGzHp5suhDYxXncx7Ho5hL8WqVt61PUxb
-	GPEu/UKzTHoxTkqxvHgmG2RYVx6WDRczz4jiY3+yqzh9xTPB6pjOIfKKTF7r70qmluIBs7Z
-	XD1EC0NM7fv7nx/FE+c5TsCmXSIsu5w1ZY6DXYNKv5EnUT0UfFvYajrzT/14gyQliybCsb7
-	KUpKcCAhRwPQYaxU8hMCZYY3IE5ew1nSn6lKO58gCVeX2xRmcMIUXU264sHWbzBENisDqWA
-	nWZz+/xBmv2Skf0NdX8h3YkToIQ8HD8tdIWbWbGZpooWM6F6h5B5NPTE4xa0mchucRHx7sJ
-	XR3TDU9UWHkcY3ig8llOJxdXgfu0t4tePcGhJPvYugvt+SMP1WdPnS5qHz9O/mGi0nMqPUg
-	xxlFn1Um/i1OpiulQutKdvz73vtAgIDxKn29Nv/KolEhv+17mwdt/o6ICtWAfxNsTtrFjyz
-	u5N5oETnJc5X6hcI5lqI4NA+4GNTaGSXyl5qBu6jh/hI1/XcrI
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2 Nov 2026 at 21:53, Rob Herring (Arm) <robh@kernel.org> wrote:
->
-> Unit-addresses by default (and most commonly) are hexadecimal. There's a
-> number of cases using decimal patterns. Fix all of them, limiting the
-> pattern to match the 'reg' limits if there are any.
->
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
+telem_open() takes a reference to dev_data->dev before allocating
+the session. If that allocation fails, it returns -ENOMEM without
+dropping the reference. Since release is not called after a failed
+open, the device data remains pinned after removal.
 
-[snip]
+Drop the reference on the allocation failure path, after restoring
+the available flag. Keeping the put after that final access avoids
+touching dev_data if the put invokes telem_device_free().
 
-> diff --git a/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml b/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml
-> index afa551f6185f..222d70baef1e 100644
-> --- a/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/sprd-thermal.yaml
-> @@ -47,7 +47,7 @@ properties:
->      const: 0
->
->  patternProperties:
-> -  "^([a-z]*-)?sensor(-section)?@[0-9]+$":
-> +  "^([a-z]*-)?sensor(-section)?@[0-9a-f]+$":
+Fixes: 1210d1e6bad1 ("platform/chrome: wilco_ec: Add telemetry char device interface")
+Assisted-by: LLM
+Signed-off-by: Yige Jiang <yigejiang86@gmail.com>
+---
+Based on linux-next next-20261102 (2637bdec0535).
+Compile-tested: arm64, GCC 14.2.0, W=1, CONFIG_OF_DYNAMIC=y.
+COMPILE_TEST=y.
+Baseline and patched target objects built from this exact base.
+No full kernel/module-link, hardware or runtime test was performed.
+AI assistance: Codex (LLM) for ownership analysis, code and changelog.
 
-Reviewed-by: Chunyan Zhang <zhang.lyra@gmail.com>
+ drivers/platform/chrome/wilco_ec/telemetry.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
-Chunyan
+diff --git a/drivers/platform/chrome/wilco_ec/telemetry.c b/drivers/platform/chrome/wilco_ec/telemetry.c
+index 45be318b05f6..79fcc46e4417 100644
+--- a/drivers/platform/chrome/wilco_ec/telemetry.c
++++ b/drivers/platform/chrome/wilco_ec/telemetry.c
+@@ -250,6 +250,7 @@ static int telem_open(struct inode *inode, struct file *filp)
+ 	sess_data = kzalloc_obj(*sess_data);
+ 	if (!sess_data) {
+ 		atomic_set(&dev_data->available, 1);
++		put_device(&dev_data->dev);
+ 		return -ENOMEM;
+ 	}
+ 	sess_data->dev_data = dev_data;
+
+base-commit: 2637bdec0535a2044cd830eba9a79363651d9043

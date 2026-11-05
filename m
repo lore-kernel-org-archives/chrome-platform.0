@@ -1,72 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793884860;
-	b=AvSmcgr0b8TjNdT+xy4xCtXH+dsB/d+6EcOkPlZBOGc+u3LC5hNJkvpqqlaqpyIIKmB/
-	 Re+NYtcUfz9+fygi6a12wCRgaUWBAy4VseVPMwHpefUAcXJkqM7MyDJZYP0ZP8E2o2+bE
-	 GLsK4oLbmYsVCleNn+wcuRxdn+HJbJEWpY28xXfW2YnsOJMrrlBcZMYREDB3Z5XON1/ul
-	 C7HxgLT1Cf00yhzUUhuNlE0JmCD2ZArTV/VtFdMI1ITNnnX4774gVo02ioH3DOdafmedG
-	 I5zJJbFA67s/ViGpwevMzinEFMtsNPODLRaXC5ZhOuCF+MI3MOlwL0N9j++gG036mDg==
+	t=1793894352;
+	b=fxe60VzlJf9uZ7UrR8OhYYT0b+47Jl4HjMHqoGngoYUVh4n3cLo1g5IAjYvnOY4txm1h
+	 sUP196wZOo7sThlNAfMnQUYTssE88rixBVIG7Y9NUX+EafwKBdlPuHX0+B4X0cITnS6k4
+	 F9fCzvxpbPdaouR1ijHWVg9rH+0zc585ZO5FX+I98TY+Ea8aPbFkYrhms2hqhE6xp63Jw
+	 qE9Znt7OqQvlxR1tzS0LIzxyFrm+VQyKIDMYDUTzqyTNrDOlgzzHiKm93jc85/NZIbMjT
+	 rF5skL259Xhi3VeR3FdE1xdDQj1AosSgGQTZz3+WbQM3DUH0cTjPj7NDg33D9/cPMWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793884860;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793894352;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=1hWitpRXSGa3f1x2WsNsj66oTlqZG1AdJZX2odfdwlE=;
-	b=wkQxLdmwlUpmoKQQGse8u3gfcp7rCYQVtDDSBIGNU+uI/leBCZ9XxeIoUz4/w5I1Vt3I
-	 tj42+qmcCwfmBhp+JwBz0nGs24lrohVNr+8/mMBupC4/59NmOhIw0RZM/K8OzUoeFCYKy
-	 MgdTdS4LOgQzu7Iy5g2IZhLT8j9WS9L45fSnGBRkQsmbZ8cvknLmYZGDKjZ3rp/6s9jRD
-	 1Vi+g1TqhSOoGNVck5mnpsg3IkLSvJOJt/aak8FsHymE1o7fwYRf+NfaKvwWFycGlvMuP
-	 jsvCyRf6n42+llSgKa61DbhlP5fJ7c6ZdJPJSsK/aUHGWlDbyEndUH2LIpXNfBznvKA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=S7QYdpXb8VDeYDOCOQvmGRySrKCk7ngW17iUEjSNiJ0=;
+	b=eWG9QlxCNwa8O5pnJ3o33J4nfpXxkAxnbxvJ5HWuPK7UMixMsnUJbhuc1NcIGsUrtsQS
+	 NP8aH2d2DbhdAcWyQH/MarM1u7dv+/phLSUnijECd2X0ar9T3I/1apvekA4N/hR1U9WhJ
+	 jsMP6KIzTtb5axpuZHu8x5Ma5PvpejHflhY1KwWsh+WQI1XCvn+6asHjIVOvk2ADVrZS9
+	 lppUhlc8latqJgRSkAq/8dJZm/lfBbzuNzyIauqUTYU2J2PiWHRBkbwnuwA3hGgQ+FZI+
+	 CwKgU1G+U3azOra5+u7aEIZHamCaYtFcK9k+oTeM4YDofauo2udXn/1VuC+LMRAJd5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=A+AbkjId;
-	arc=none smtp.remote-ip=209.85.210.200
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=acv9QQzP;
+	arc=none smtp.remote-ip=209.85.218.49
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2135F606A330
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Nov 2026 13:20:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2135F606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BBE606A615
+	for <chrome-platform@lists.linux.dev>; Thu,  5 Nov 2026 15:59:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7BBE606A615
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=A+AbkjId
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8b203b0c139so715605b3a.2
-        for <chrome-platform@lists.linux.dev>; Thu, 05 Nov 2026 05:20:59 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=acv9QQzP
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c414e5d282eso273068266b.1
+        for <chrome-platform@lists.linux.dev>; Thu, 05 Nov 2026 07:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793884859; x=1794489659; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1hWitpRXSGa3f1x2WsNsj66oTlqZG1AdJZX2odfdwlE=;
-        b=A+AbkjId4p8h7e+kBjGIjxk4jJrko0VZ5UGmcylUJA1SnudSvnopFbtA6riVRKBJkw
-         J9HkDCw/0pd5BLICuywtHxnW15mT74aAF30d5YEcErY9td5/749z5jePm4k0bAVUcQFc
-         mpFVQsuAaifXmEne0rtGcU0xsPaghP7IZweOiAmUxQMdQkYK0AmwO9kQtOSp7HDqvVBT
-         tPiau3Y2DWTKYmu4Nb6DmUvJ6i9v+TZG3yauvFWmyZSiBvqrk5jRsrrFsY1YUQlfk4+I
-         flb0/5iflSUq2jDWI6UVbakKzQTHpepurKS7ynqOpWaxh0zjm9LoOFFBE6YhU5DclQcV
-         WAgQ==
+        d=chromium.org; s=google; t=1793894350; x=1794499150; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=S7QYdpXb8VDeYDOCOQvmGRySrKCk7ngW17iUEjSNiJ0=;
+        b=acv9QQzP+VTtln3Uw/yVYy80IFAG94T2e8E/TpahvtrFIC5ufAvS9ja3wpUxUl/+a5
+         cNPY0dv8uUP4t8dpDxJx2xn4m9rGNzsRIoOfCv+10Xd6vR5kAEkKvOYPtBSh0UiE6h3c
+         +QRoCkRlCHMM2FLxgbQ5chFJTuuy9nU90H9HM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793884859; x=1794489659;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1hWitpRXSGa3f1x2WsNsj66oTlqZG1AdJZX2odfdwlE=;
-        b=Pq4iU7EFYLsLiECrF5B/t69wMJSEw1Ttf7LuZdDSmstfYjSXCySMcHUUgDuDqHtgWI
-         J4lB/Nv+OmZ++mzrQbDE9Obb5ezlGOR/bmapJ8H5V3lhqxHezF/Eb+j6Qe2amVlll3Ey
-         8RCyRtyC7dPWI/l6sd/JxMzLrbpjiWJINB9nestN1+d7VtoV5RgQrYTlLtwJBKvQgtuF
-         IOkEyjAL5oyF6U05JhfAXBWY5oWDmO+BwQTo9HXk2UB7Id1FMS5oTYDkBm7hZbXJ9DsP
-         Z5BjkRag2wTKI+UBD+XO2gXWGsF3YD2lLnM9M6WOc9xEf/ssfjWe9lU8n6qNJAiEWn9w
-         q1/w==
-X-Forwarded-Encrypted: i=1; AKwUvBzlliS+AbwIb+zzdTM4+D7OTR4WFVtX9b5gpFz/uR/Vdnu7cEoSshw7TmlXjvi6ztN7flbvlwzKggZaVMOuPiw=@lists.linux.dev
-X-Gm-Message-State: APuU4Z/SQOhNXgJTXn/4bDJ+cKzu104fO07HwdgCNv9YqzlhcBLvXz2e
-	uE54UGYCiqFUoDVfnHip0XOWTVBbgErsTesKXA7wOYRRwqudVA3ElNTmB98GcBxPKIwyxpuQhWn
-	gg2EUayiElPM5EA==
-X-Received: from pgme25-n2.prod.google.com ([2002:a05:6a02:6c99:20b0:cd8:c5f8:e73d])
- (user=sgsatyam job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6300:68cb:20b0:3eb:818f:619a with SMTP id adf61e73a8af0-3eb818f7477mr3915541637.33.1793884859215;
- Thu, 05 Nov 2026 05:20:59 -0800 (PST)
-Date: Thu,  5 Nov 2026 13:20:57 +0000
+        d=1e100.net; s=20260707; t=1793894350; x=1794499150;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=S7QYdpXb8VDeYDOCOQvmGRySrKCk7ngW17iUEjSNiJ0=;
+        b=PYWg/GFl2jlonxWpsT8VAeaqcqist6wWXwxdBnkoOMppz4ErYC8q16ldKB2dCXgnaG
+         9+Od7RY9b7nUP7Uo8hGkRote0hTKoZtXejjATpPUOLaevWVT4dz6qUSe81JgYr9YcVB9
+         SpM58bBtbrlBScky6B/WHI1klNjcjyg5h2t1J/MuXfPJrSGYLqZey23prjFEabZKXALZ
+         CmKV6wKw+OL2rZMX/O042rkV5Wuixb25fD26gIsTuNLdehmmkyOPuOOSw6iTXnOvPs4Y
+         SUtlRQrqAoGffCf12yC/IPWlQL85YSTarJNbVdSUlgCtZBfQEao6qnitTm/EHD98Hpui
+         0w9g==
+X-Forwarded-Encrypted: i=1; AKwUvBzRZVoy/AqBvc2PxY/Ru58Kon71CAQ0DWTrbQ8DD+qGDOJodhCtyuXs+6/2HlhiOo9oFAVsvRO66VDgIbmLS2w=@lists.linux.dev
+X-Gm-Message-State: APuU4Z8AgdVoYFunr7Y7ghTIfP+UTJ1XXYXdhjmQacsGf0ab7H1AG33J
+	nNqd51CRLtwbsNwXe6po4+HVPxCTmPDmY+kX2Xdbo/WHwrhs4p3bF9hDuJWR7qsE0Q==
+X-Gm-Gg: AYBFou1NfM2lnLmXDiCtVyrT5Dsh1kW+zcGosNycme/0vLrdMXOCOTlwVGReFqjIjdP
+	D3SbY7Gv1TkuP6jpobtwJeCzF/+lRJOZf6LlStgs8YzDy+NtUUz0Xg8erOhvvkGrVq23TwnzdXX
+	NmTaauSynX2yYfmym3a/Dx6bWfCol+yH7PmhR2q+QozfebmJz3vpuVpx3y2Q5Vl9wIPMh0eslcZ
+	rrN7JjtFjePcR57lUQVuNoHylCGrojaanoLcNehitt2Vum95x0sW0SoNrz0Kwr7YK7cEOUF/QxW
+	Mko0596LyTIRMPpHNzzYCLhx7+/sOGZaBecJwATQSo53K4kreUCczHz8R2j2NGvnMBAhA4ms9oo
+	AbgowOb5n8z5d6+zfSuFaClhA+CManGpzq+eeTRhiAkdP8C48G1yGDS68tBT82Ij3HqCZmeiOCR
+	BFSADwiZHIsg8/FJmamGlrx6zwh1iqWt55XTCtgHKbKIT5/fPkWaaoOZVWDSOjd+CvSy6gTUV+7
+	C1aobQ8qZ77NCnJvWarQ8ZAYLzggqjb8d7AbZ5hCYHEZTjtK7OOlM9El2M5SY6l2u3OTedjCsWH
+	ePp7XizPMB/m6PebyUVh005oLTETpsugBOFqIUMPafBBMEZfnpoSoCwUBUf+ad1a1DqMQx+W
+X-Received: by 2002:a17:906:c143:b0:c4c:b545:f29d with SMTP id a640c23a62f3a-c4d34ca20demr657966b.36.1793894350065;
+        Thu, 05 Nov 2026 07:59:10 -0800 (PST)
+Received: from localhost (103.45.147.34.bc.googleusercontent.com. [34.147.45.103])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-c4d0e43ea74sm189017566b.33.2026.11.05.07.59.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Nov 2026 07:59:09 -0800 (PST)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jameson Thies <jthies@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Subject: [PATCH v4 0/2] USB Type-C mode selection
+Date: Thu,  5 Nov 2026 15:59:04 +0000
+Message-ID: <20261105155906.2670094-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.56.0.398.g882cbad275-goog
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -75,90 +95,48 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.56.0.398.g882cbad275-goog
-Message-ID: <20261105132057.2429385-1-sgsatyam@google.com>
-Subject: [PATCH v2] iio: cros_ec: Use platform sensor_num to unregister FIFO callback
-From: Satyam Gupta <sgsatyam@google.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, "=?UTF-8?q?Nuno=20S=C3=A1?=" <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Enric Balletbo i Serra <eballetbo@kernel.org>, linux-iio@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-cros_ec_sensors_core_register() registers the FIFO callback for the
-sensor number found in the platform data. The matching cleanup action,
-cros_ec_sensors_core_clean(), reads the number back from
-st->param.info.sensor_num instead.
+This patch series introduces priority-based alternate mode selection
+support for cros_ec_typec. 
+The base patch series and UCSI support was submitted here:
+https://lore.kernel.org/all/20260119131824.2529334-1-akuchynski@chromium.org/
 
-st->param is the EC host command buffer. Drivers fill it in under
-cmd_lock before each command, while the cleanup action reads it without
-that lock. It is also set only for physical sensors. If the field holds
-another value when the device is unbound, the cleanup clears the wrong
-slot and leaves the callback in place, still pointing to the iio_dev
-that is about to be freed.
+When AP-driven alternate mode selection is active, the driver enforces the
+mode_selection bit for each registered Alternate Mode. This blocks
+individual altmode drivers from self-activating. Once registration
+completes, the driver evaluates USB4 capability. If USB4 is unsupported,
+it falls back to priority-based negotiation via typec_mode_selection_start.
 
-No in-tree driver changes the field after probe, so mainline is not
-known to hit this. The ChromeOS RGB light sensor support does: it
-changes the field while a command is in flight, and unbinding the
-device then leaves a stale callback. Found by an AI code review agent.
+Additionally, we swap the registration sequence of the port's alternate
+modes. Registering DisplayPort after Thunderbolt correctly ensures DP is
+prioritized.
 
-Use the platform data in the cleanup action too, so it always
-unregisters the slot that cros_ec_sensors_core_register() registered.
-
-Fixes: aa984f1ba4a4 ("iio: cros_ec: Register to cros_ec_sensorhub when EC supports FIFO")
-Signed-off-by: Satyam Gupta <sgsatyam@google.com>
----
+Changes in v4:
+- Dropped typec_altmode_state_update() call in cros_typec_altmode.c as
+  it is potentially unsafe.
+- Added explicit partner usb mode setting via
+  'typec_partner_set_usb_mode' upon successful USB4 mux configuration.
+- Rebased on top of the latest platform-chrome tree.
+Changes in v3:
+- Replaced delay/timeout consts with macros.
+- Downgraded USB4/mode selection error logs to dev_warn().
+- Fixed comment formatting and added comment for DP/TBT order.
 Changes in v2:
-- Add a Fixes tag (Andy).
-- Use a local struct device pointer and name the platform data pdata,
-  so the unregister call fits on one line (Andy).
-- Say what triggers the problem and how it was found.
+- Added this cover letter.
+- Rebased on top of the latest platform-chrome tree.
+- Tested on Redrix with Linux Fedora 7.3.0-rc5+.
+v1 Link:
+https://lore.kernel.org/all/20260129131928.794768-1-akuchynski@chromium.org/
 
-v1: https://lore.kernel.org/r/20261105073107.172121-1-sgsatyam@google.com
+Andrei Kuchynski (2):
+  platform/chrome: cros_ec_typec: Enforce priority-based mode selection
+  platform/chrome: cros_ec_typec: Reorder altmode registration
 
-The patch was drafted with an LLM-based coding assistant (Gemini); I
-reviewed and tested it.
+ drivers/platform/chrome/cros_ec_typec.c | 67 +++++++++++++++++++++----
+ 1 file changed, 56 insertions(+), 11 deletions(-)
 
-Tested on downstream kernels, together with fixes to the out-of-tree
-RGB light sensor support: ChromeOS 6.6 (Intel) and Android desktop 6.12
-(MediaTek) and 6.18 (Intel). Unbinding and binding the light sensor
-while its RGB channel is read in a loop failed within 1 to 46 cycles
-without the fixes (the stale callback slot makes the next probe fail
-with -EINVAL) and passed 200 cycles with them on all three. On the 6.12
-device the accelerometer and gyroscope were also unbound and bound
-repeatedly and still streamed FIFO samples. Mainline itself was only
-build-tested (W=1 and sparse, x86_64 and arm64).
-
- .../iio/common/cros_ec_sensors/cros_ec_sensors_core.c  | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-index d03e40c91582..632036eea4f3 100644
---- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-+++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-@@ -214,13 +214,11 @@ EXPORT_SYMBOL_GPL(cros_ec_sensors_push_data);
- static void cros_ec_sensors_core_clean(void *arg)
- {
- 	struct platform_device *pdev = (struct platform_device *)arg;
--	struct cros_ec_sensorhub *sensor_hub =
--		dev_get_drvdata(pdev->dev.parent);
--	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
--	struct cros_ec_sensors_core_state *st = iio_priv(indio_dev);
--	u8 sensor_num = st->param.info.sensor_num;
-+	struct device *dev = &pdev->dev;
-+	struct cros_ec_sensorhub *sensor_hub = dev_get_drvdata(dev->parent);
-+	struct cros_ec_sensor_platform *pdata = dev_get_platdata(dev);
- 
--	cros_ec_sensorhub_unregister_push_data(sensor_hub, sensor_num);
-+	cros_ec_sensorhub_unregister_push_data(sensor_hub, pdata->sensor_num);
- }
- 
- /**
-
-base-commit: 1390ca4953a7400ca932cb49635f02c727f885a6
 -- 
 2.56.0.398.g882cbad275-goog
 

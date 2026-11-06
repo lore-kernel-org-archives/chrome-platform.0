@@ -1,75 +1,148 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793949547;
-	b=koeig0gs0PlWYtzzTgJvAXRYehVqU44D0TN7lUQqpUAoAduJ1mRth1nyWLWwzgoKpHbD
-	 0VIvJwTQw0D8ONUgXjpwsWp5fAwbmec02xpEujZZGYSOAQ/baOTIwsWCuUZmWl9zYJKqa
-	 3SYCgv+BvhI7YGqCOit1lx6Z7PC9Jbflysh+2mhmvkSHcg+JjuE3qkdRkJWvOLTHO0/pr
-	 VuTQja5x9V++//rkHb6i5GkgnRniNhW8n/aFV9dskaxDgzq6SzhflZOkgcncgtkwnrtuR
-	 YRyDaYwyN6kX/TplgIU1voueCjIdhOvDsbJTEczpqcaU+Hul6PkKeg4IWarGrmVHiPg==
+	t=1793952317;
+	b=eaNvDA9Ae7wd/qlWTNBBeZ51HOfyvX2V7iJAoV+aDm2JYbwl831YI+f1fj/krQXbry5X
+	 RrJCLNhNLGOanSBgcB7CLpBi78ZBorKFRjs98eD6qV+1xWQEBRHUG0zJgX2eSBtSEtjHa
+	 2do3HEhmvHsPd3Cwl/8NQYQkercW3csnLzXUlfqqeOqZ5MZ8HsxYTXoV60mKe5TsNmaup
+	 0DjiX4zi6m7X0IevrVgrGvNYSgkBL5SQvbMJJEsfFYJegFfgdJ+lSWGd+b2R3/F7kMXe1
+	 0ztVJ3p9kkWdAsDTQ1TVsniAkInnBwop6FVE8gdXQ1uuFPGZjE/cp4SLamgJlvDizEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793949547;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=pIjZ/Y8hQqw73CpdFq92aAVG0/oq5u/tSDIP7hM67k8=;
-	b=INmYGDLhtucL3XF/4LiqdM7VOIosCXnmv5FWUEqoMx/vmzg3nANSZTIfy7fT7jW0gQ+x
-	 kw8VCETXMZOqVwxzAnWMG3tk59TWHt4GIQ7TBDkbkn8sgl3s1MKqnXHE1NN645Rxo3Wqv
-	 5GZJoNO/5S5vwogsqXdh7UuHCXkoJhmYShbii2TBa1a2uEoPDW88AlWtPCrmLrRUdN12w
-	 tDJt6tfYxNTygzXYG+cZnqdY5cLBE35s+SHjhZgFJj+0MqFxxqGnj/c7pITheqGdtIDsd
-	 X2qS+sFOdHNvUeMqUL9RvnAdjEJCBmm/RM2uC437wpe8YNg3O7tAAcNJimEzFnaoXgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793952317;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-SRS-Rewrite;
+	bh=x07awLmZl1uGnixljrDMUgu9d0OiWf2Z+sJydT2Lbr0=;
+	b=kK90EZVLQTSrwkKFrGbmMmqDgnougbb6rsjrsuwRR4bQDz3QHyODOlITuadiqtzKqvTT
+	 vutzURAuGDiqDetEp3mhvX+D8txijmGRETEeRi2yoUko0Qy7zvZAGd/h9WkOYMSGusLAt
+	 8sOAJap0TCZ1s/ul2gtdTiYo5Te3noxE8yTdKtTO2Iu9v+MaxIUJzg/GHB0WzQns9BJpY
+	 M7sU6jX1AShAfUqbVPcKhFW9Hn90wQ1ehWHT+VykRoAj+l3HwuHkgOFC2JpGg6QJct+vj
+	 0raXbCpGg6asjsA8GhAooILQr4aBH6hzgglUZmuNN1UwbCiPilj08uoFy/mk4uaLEKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=J2dME2xo;
-	arc=none smtp.remote-ip=209.85.210.200
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oiRMln23;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D476606A32C
-	for <chrome-platform@lists.linux.dev>; Fri,  6 Nov 2026 07:19:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D476606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1702A606A328;
+	Fri,  6 Nov 2026 08:05:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1702A606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=J2dME2xo
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8a065d0e9deso467577b3a.0
-        for <chrome-platform@lists.linux.dev>; Thu, 05 Nov 2026 23:19:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793949547; x=1794554347; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pIjZ/Y8hQqw73CpdFq92aAVG0/oq5u/tSDIP7hM67k8=;
-        b=J2dME2xoBFABYZl9XjPZfzFMv7KIKwT2/3abdfy887c/61EF4RwfOiWYyDUk+21ZFo
-         UMKv79xwPk6eOLyAWT6+4JC9UsWRiWS366IlR2ijbTUmGwpIQZPAVPwUyc8SQhl0lFsy
-         3cJql6RUtVJmRrPLFpPXO8Q1h4fbjcf3z/iPDVqhnrTzllA0jws5Rs0H5J52W+Y4WkGn
-         vo2ajwtGh7yNP2d/F4M28CytQfcq6yGyesGQo4lySQ7DTRweD9+ar/vsbj/1vpPzHlSJ
-         AyCyKryUx8u6G/cs6dm/dqVgPu5EVwybpxdAbr/RKgR55xPM90Zdc2RSDrtRU8/q3AyO
-         WcsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793949547; x=1794554347;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pIjZ/Y8hQqw73CpdFq92aAVG0/oq5u/tSDIP7hM67k8=;
-        b=O9JN1ktxoqZk9Z27WCe10wFMvrf+76Cex9k5zZycrPGyOk0t2mZsr5BLfi4dRr1Nqs
-         sb7Y7vankLqkfcUOVURYRvO9TSqXna3dVRCn0iRAFQpqGB6x7FmOrpze5UCDQg6SBhl8
-         +ZM0CI+dA8XmmGEiuzIp+tMemaMdH+LZE6Z8gToM05Lvd1t+gfcWjWWNuI5FzOvhRgs+
-         xj8j28C6eSsCVHVJmLv8X7EuJL0H9V9A1JbJaylwJs01nfddLxamyB7yB/mw2ep3TqIm
-         utLj4oDYd5ySzjwsrgzNf2fM7aCjOjIy+7XhIk0dV/KxRCplDE5fr+0AizErOU0RnIPF
-         +I/A==
-X-Forwarded-Encrypted: i=1; AKwUvBx3p8HZ1nua+tSGYIpHQ6x43gbQzAWJr9sPiu177m5OiACvJHVV2DHFqxCsTfphvumpW+cSbLukX7raGebm5L4=@lists.linux.dev
-X-Gm-Message-State: APuU4Z/BADkqRhJy/eBDZE2El04gDozx+nhm8VzYmLwe1TvIHBytYX3E
-	abVAwZlawm/eXeWL9/Yrb9N6IMeaIGhef+KCkUTiT6S51Sm9VLIYwFLWkDKlaNfF9e1NUYiHVYS
-	YsD7h4jyowOJBiQ==
-X-Received: from pfem17.prod.google.com ([2002:a05:6a00:c091:b0:89b:34dc:b094])
- (user=sgsatyam job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:188e:b0:89f:2b65:2ad with SMTP id d2e1a72fcca58-8b1e5967803mr3971036b3a.27.1793949546203;
- Thu, 05 Nov 2026 23:19:06 -0800 (PST)
-Date: Fri,  6 Nov 2026 07:19:04 +0000
-In-Reply-To: <au1FF5K9EALuqnNR@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oiRMln23
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=x07awLmZl1uGnixljrDMUgu9d0OiWf2Z+sJydT2Lbr0=; b=oiRMln23yl/QBuC0DzwXONkLv5
+	qM+sNI41fnd6ZZdtIdfoPIuUSZHjJllyir3jn5dYul9Hhh11zXahz7DjQNGL6kqFmMxym0kEDtOmD
+	JgIADndDf71VAul280x2lDyIVPe6HFQRskf9qC5NU/8P7kjkPPDBDgNWgZKWzmAJG/fm1BZ3LikI4
+	AJReQOjF2xOHtD0/o6EMEslTbPj3TIA0VVZuOvKHyIPeRI6tauCfHZubFGOzh5ORdNmavj6txE4sb
+	V62/yFS1hM13pH3V2NMo05nu4U1qu41e/vy7J1YKCYoB+vzlPGJYOKDkhh/XndWwFf9Phw2nFy/jN
+	8N6Cktqw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xPEvi-0000000BWDm-0Spo;
+	Fri, 06 Nov 2026 08:04:10 +0000
+Date: Fri, 6 Nov 2026 00:04:10 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Bence Csokas <bence.csokas@arm.com>
+Cc: Chengchang Tang <tangchengchang@huawei.com>,
+	Junxian Huang <huangjunxian6@hisilicon.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Jes Sorensen <Jes.Sorensen@gmail.com>,
+	Ping-Ke Shih <pkshih@realtek.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Selvin Xavier <selvin.xavier@broadcom.com>,
+	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	Carlos Maiolino <cem@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Darren Hart <dvhart@infradead.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	"Geoffrey D. Bennett" <g@b4.vu>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org, linux-wireless@vger.kernel.org,
+	bpf@vger.kernel.org, netdev@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-hyperv@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+	linux-xfs@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/3] Add offsetofp() and offsetofendp() for pointer
+ arithmetic
+Message-ID: <au2J-lMcEn4p4KGR@infradead.org>
+References: <20261105-offsetof-v1-0-4153f5c10edc@arm.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -78,118 +151,19 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-References: <au1FF5K9EALuqnNR@google.com>
-X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261106071904.142937-1-sgsatyam@google.com>
-Subject: [PATCH v3] iio: cros_ec: Use platform sensor_num to unregister FIFO callback
-From: Satyam Gupta <sgsatyam@google.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>, "=?UTF-8?q?Nuno=20S=C3=A1?=" <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Enric Balletbo i Serra <eballetbo@kernel.org>, linux-iio@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105-offsetof-v1-0-4153f5c10edc@arm.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-cros_ec_sensors_core_register() registers the FIFO callback for the
-sensor number found in the platform data. The matching cleanup action,
-cros_ec_sensors_core_clean(), reads the number back from
-st->param.info.sensor_num instead.
+On Thu, Nov 05, 2026 at 06:16:15PM +0100, Bence Csokas wrote:
+> A common usage pattern for offsetof() is the following:
+> 
+>   offsetof(typeof(*ptr), member)
+> 
+> Condense this operation to one macro for a more maintainable code base.
 
-st->param is the EC host command buffer. Drivers fill it in under
-cmd_lock before each command, while the cleanup action reads it without
-that lock. It is also set only for physical sensors. If the field holds
-another value when the device is unbound, the cleanup clears the wrong
-slot and leaves the callback in place, still pointing to the iio_dev
-that is about to be freed.
-
-Use the platform data in the cleanup action too, and pass the struct
-device pointer directly to devm_add_action_or_reset(), so it always
-unregisters the slot that cros_ec_sensors_core_register() registered.
-
-Fixes: aa984f1ba4a4 ("iio: cros_ec: Register to cros_ec_sensorhub when EC supports FIFO")
-Signed-off-by: Satyam Gupta <sgsatyam@google.com>
----
-Changes in v3:
-- Pass dev instead of pdev to devm_add_action_or_reset() and drop the
-  unused pdev local variable (Tzung-Bi).
-- Move the note about out-of-tree triggers and how the issue was found
-  below '---' (Tzung-Bi).
-
-Changes in v2:
-- Add a Fixes tag (Andy).
-- Use a local struct device pointer and name the platform data pdata,
-  so the unregister call fits on one line (Andy).
-- Say what triggers the problem and how it was found.
-
-v2: https://lore.kernel.org/r/20261105132057.2429385-1-sgsatyam@google.com
-v1: https://lore.kernel.org/r/20261105073107.172121-1-sgsatyam@google.com
-
-No in-tree driver changes st->param.info.sensor_num after probe, so
-mainline is not known to hit this. The ChromeOS out-of-tree RGB light
-sensor support does: it changes the field while a command is in flight,
-and unbinding the device then leaves a stale callback. Found by an AI
-code review agent.
-
-The patch was drafted with an LLM-based coding assistant (Gemini); I
-reviewed and tested it.
-
-Tested on downstream kernels, together with fixes to the out-of-tree
-RGB light sensor support: ChromeOS 6.6 (Intel) and 5.10 (MediaTek), and
-Android desktop 6.12 (MediaTek) and 6.18 (Intel). Unbinding and binding
-the light sensor while its RGB channel is read in a loop failed within
-1 to 46 cycles without the fixes (the stale callback slot makes the
-next probe fail with -EINVAL) and passed 200 cycles with them on all
-four. On the 6.12 device the accelerometer and gyroscope were also
-unbound and bound repeatedly and still streamed FIFO samples. Mainline
-itself was only build-tested (W=1 and sparse, x86_64 and arm64).
-
- .../common/cros_ec_sensors/cros_ec_sensors_core.c  | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-index d03e40c91582..67fb53071684 100644
---- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-+++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-@@ -213,14 +213,11 @@ EXPORT_SYMBOL_GPL(cros_ec_sensors_push_data);
- 
- static void cros_ec_sensors_core_clean(void *arg)
- {
--	struct platform_device *pdev = (struct platform_device *)arg;
--	struct cros_ec_sensorhub *sensor_hub =
--		dev_get_drvdata(pdev->dev.parent);
--	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
--	struct cros_ec_sensors_core_state *st = iio_priv(indio_dev);
--	u8 sensor_num = st->param.info.sensor_num;
-+	struct device *dev = arg;
-+	struct cros_ec_sensorhub *sensor_hub = dev_get_drvdata(dev->parent);
-+	struct cros_ec_sensor_platform *pdata = dev_get_platdata(dev);
- 
--	cros_ec_sensorhub_unregister_push_data(sensor_hub, sensor_num);
-+	cros_ec_sensorhub_unregister_push_data(sensor_hub, pdata->sensor_num);
- }
- 
- /**
-@@ -372,7 +369,6 @@ int cros_ec_sensors_core_register(struct device *dev,
- {
- 	struct cros_ec_sensor_platform *sensor_platform = dev_get_platdata(dev);
- 	struct cros_ec_sensorhub *sensor_hub = dev_get_drvdata(dev->parent);
--	struct platform_device *pdev = to_platform_device(dev);
- 	struct cros_ec_dev *ec = sensor_hub->ec;
- 	int ret;
- 
-@@ -391,7 +387,7 @@ int cros_ec_sensors_core_register(struct device *dev,
- 		return ret;
- 
- 	return devm_add_action_or_reset(
--			dev, cros_ec_sensors_core_clean, pdev);
-+			dev, cros_ec_sensors_core_clean, dev);
- }
- EXPORT_SYMBOL_GPL(cros_ec_sensors_core_register);
- 
-
-base-commit: 1390ca4953a7400ca932cb49635f02c727f885a6
--- 
-2.56.0.455.g6c5a503b38-goog
+What exactly makes non-standard macros with no obvious safety benefit
+more maintainable?
 

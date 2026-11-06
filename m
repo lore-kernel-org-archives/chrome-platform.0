@@ -1,76 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793903136;
-	b=ChfUU4dEcS6CScrKGRisfFX84qF5Q+p8jmk5//AuHdaPATPIwZIaTV5ga8uCFxV7vDQv
-	 eh86tguyf6d7ITULHRPutoJQN/2tr9OAMbKRy1R36CpxczhHmNdlAxt0iN6cAPT3MgF1D
-	 pkbb9gMbfqr0nDGVWrk52k9vxYXw0OPv+E3iJ4fgNyOl7Pys7AN8Q/57P3weDqoT96kt3
-	 TOYEqgM4GOec3uFx/X8JK7fjLSWsP1APzBB3a3Tksik8FW0MdoyqRypVoj9mYPqOukst7
-	 2xOdLIT/G7dA2uCMJtXCXeeZih4LISHltx20uCiEf7AD6uGumY/h8QI+5cGCaZbLRQQ==
+	t=1793926660;
+	b=cIZUOziz764aRdcGwIn5zLnOHCWyMAVhWYbCJsIgpW2ZdF6iToQDnbx9SeVffVQBTy1n
+	 WRfPXxZOduQmLZaeFUY515exUGvmqUk6aWLmSmf3mr+Veq0CrjeItXBA9ASKPHLfc1CN7
+	 J0OCu26T6vCjF6slsotCJq2FwELOqu6ZbpVG8n/XN4UF2/SwcvtWqqHX01cUxsOxmlqxF
+	 NyOPExFjD2wmLuKaRMun3KAhaMaVoGmjWN/gQb5+skWy7/DXUteLPuWXoFLp9mo7X4Opi
+	 PsD3DPUbAILQMPKeMAtUA9GwtTTLSvsvon+JdtjBKIIsMdMwmcbn13MyuwTAAvflMqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793903136;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:Date:From:To:CC:Subject:
-	 In-Reply-To:References:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=kRFmKBJ1bTsk0r4k62R1tR6K48M0BUczLV02WnOFo08=;
-	b=3XmtHAIBthgb+jFq64PD5dTDjZf6tCeHHRLmaOiBVcnvd7l7Xxxx42LyDv05xMqy39ZP
-	 a+Qt5ElzvsmfvUELQj0CVeLNtmcOeq6gS8CEotvwmdVNe+3qG5QH4dErpP7fnsrsRe5wn
-	 wTglr4fGueQFmsROP86XuKCdwQizZBV7MP2WwiDeMEZHCbRcEFlG/PFsz6AODGftkPPPr
-	 beqscW4CQkf4mMcLvPKS2wBkSaKsNyCHlX6Egyuoclhusu3rirqw1uFfqxm7NhcsGLMn1
-	 qUFjDY/kVlM+qs9nOOIG2s+OaOWFHZe3j+nuzYpOO8rO8tNa4XbZN/zYrq56OhlzBmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793926660;
+	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
+	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
+	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
+	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
+	bh=YVeFT7LriaxY+L/H0hfcnFbGAhPLt1+tTB5zxNdoDVU=;
+	b=L6iCeWXvoU3UV59Q3fY8gjsL5E+zD4Izkfq5OUXhstfmNIfiX3f6eDYTskagE1FrQaAv
+	 tUfL7zHArEt/JihiaTXLIaOYqrNkCG+Tfc4KHd0lZ5xawpeLaflyygmYrpY0fM+hvwtdd
+	 HAmbaFNeyADZN6eHwHxhUmUviuMWBNsdjq018X0BQrK902i05cDUmfrDc/k0skfW7U6tC
+	 Ck/WdK+xutUEZ9sBo1TWucKcKQyH7TSJe1iB8ZerqJ3U2PvO80EcpzDAeNEerw4k+hYpj
+	 XRTYCE43sINKyZYfx+miQlddR0NFelWrVIpBQ/1IlqYcajzNYJva9Ft5UT0yPMkTtGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mainlining.org;
-	spf=pass smtp.mailfrom=mainlining.org;
-	dkim=pass header.d=mainlining.org header.i=@mainlining.org header.a=rsa-sha256 header.s=202507r header.b=otZSp2qt;
-	dkim=pass header.d=mainlining.org header.i=@mainlining.org header.a=ed25519-sha256 header.s=202507e header.b="t/G+WT5S";
-	arc=none smtp.remote-ip=5.75.144.95
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XakR83wQ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E83606A328
-	for <chrome-platform@lists.linux.dev>; Thu,  5 Nov 2026 18:25:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7E83606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE67606A328;
+	Fri,  6 Nov 2026 00:57:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mainlining.org header.i=@mainlining.org header.a=rsa-sha256 header.s=202507r header.b=otZSp2qt;
-	dkim=pass header.d=mainlining.org header.i=@mainlining.org header.a=ed25519-sha256 header.s=202507e header.b=t/G+WT5S
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1793903127; bh=kRFmKBJ1bTsk0r4k62R1tR6
-	K48M0BUczLV02WnOFo08=; b=otZSp2qtxJG37B/ApQTfBnhkp2XGFFU/z+4qbEbJkhy3OStcbq
-	RGof9IeEBw6N/qHY3Yu6r0uoEiqO67zc7qxUmyjbhUsUxBJ7qN2wdhpavhK/BZ7zgAxAGshZ6rT
-	v6i2Dxa+J/fpWw7e6U0t1vlkHDWh7xI8Z+DSwmHXj3OZK7ys8nfoSJ7vLuftMaVda8z2hSvp6bx
-	zJvLYqh19IBxxaKu+U/kNE9dyTNIrC6g+dNzzYOI6psdlh7PfzGYBwyO5JH0xwcC8aI273V30C2
-	uSiIuQJ4MkcJuIocSFzbgldpwfxcZJqgpOuw4FfhVNJNbig7vnN0vtyJG3DeGVL2yhQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1793903127; bh=kRFmKBJ1bTsk0r4k62R1tR6
-	K48M0BUczLV02WnOFo08=; b=t/G+WT5SdK1eYG0AuecJ0JuXuDjbTUb88Wr5cK0QcM/zMNPhHJ
-	NWzlDczieM7G/L/IhldS6YQWyVDnWMI/sIAA==;
-Date: Thu, 05 Nov 2026 18:25:29 +0000
-From: Bradley Morgan <brads@mainlining.org>
-To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
- Sebastian Reichel <sre@kernel.org>, Benson Leung <bleung@chromium.org>,
- Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-CC: linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- avaneesh.dwivedi@oss.qualcomm.com,
- Umang Chheda <umang.chheda@oss.qualcomm.com>, Ulf Hansson <ulfh@kernel.org>,
- Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
- kernel test robot <lkp@intel.com>, Francesco Valla <francesco@valla.it>,
- akpm@linux-foundation.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v17_0/6=5D_power?=
- =?US-ASCII?Q?=3A_reset=3A_Introduce_the_Pow?=
- =?US-ASCII?Q?er_State_Change_Reasons_Recording_=28PSCRR=29_framework?=
-In-Reply-To: <85e8effa-dc1d-441e-a721-e4078388c9ef@oss.qualcomm.com>
-References: <20261019-pscrr-framework-v17-0-69ea6cdf4731@oss.qualcomm.com> <85e8effa-dc1d-441e-a721-e4078388c9ef@oss.qualcomm.com>
-Message-ID: <A12AE726-6439-438B-B9E8-721179C47710@mainlining.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XakR83wQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A6271F0089F;
+	Fri,  6 Nov 2026 00:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793926660;
+	bh=YVeFT7LriaxY+L/H0hfcnFbGAhPLt1+tTB5zxNdoDVU=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=XakR83wQf0Ix863N0vXhbIqzVGqQhO/jm+HBtAp9ZTXtIfxgzmJWc+oDyyyqqwJmQ
+	 g855WRlEoQxkvPY652C34AJxhkTkOHb02Asl5F0rbImw16Fwwpv4EAsp/4KuXevYSA
+	 QRKPR/AsmfB/GHaWGHQ/sS8e82qqSkr1S9/eFjzCNU75OHz5vpeZIukAL+yBpn3b6f
+	 6MG2LG7r58nXTs3XdPnNFckSeSfhNSg/CJhZ/rMmcOOSRf3xjDstn+0ruOyjDpkpsa
+	 OTM+MksXpj6V7/coXXfjnXxepiJU6OjiXWebya1ztKxpisys55VMMJNVPV1N7Bvjo6
+	 ToOJIAbmQOYMw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 5DFEA391B1B3;
+	Fri,  6 Nov 2026 00:57:40 +0000 (UTC)
+Subject: Re: [GIT PULL] chrome-platform-firmware fixes for v7.4-rc2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <auwLLFIY6FBdB1H0@google.com>
+References: <auwLLFIY6FBdB1H0@google.com>
+X-PR-Tracked-List-Id: <chrome-platform.lists.linux.dev>
+X-PR-Tracked-Message-Id: <auwLLFIY6FBdB1H0@google.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-firmware-fixes-v7.4-rc2
+X-PR-Tracked-Commit-Id: 2433db2af8e1482a3a50b8cefaf25cf7e4a9374d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: eedaa7d61f1ec8ae053a9ece0d553785350ac486
+Message-Id: <179392665906.268614.221300077378715668.pr-tracker-bot@kernel.org>
+Date: Fri, 06 Nov 2026 00:57:39 +0000
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: torvalds@linux-foundation.org, briannorris@chromium.org, jwerner@chromium.org, tzungbi@kernel.org, linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -79,27 +67,16 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-On 5 November 2026 18:22:07 GMT, Faruque Ansari
-<faruque.ansari@oss.qualcomm.com> wrote:
->Hi everyone,
->
->I believe I took into account all the comments and got the different
->reviewed-by tags from the different maintainers for the changes touching
->the files out of the scope of the 'reset' area. Is it possible to consider
->this series for merging ?
+The pull request you sent on Thu, 5 Nov 2026 04:50:52 +0000:
 
-This series looks sane enough to me. I recommend this for merging too.
+> git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/chrome-platform-firmware-fixes-v7.4-rc2
 
-Let's give akpm a try because he does loads of merging. 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/eedaa7d61f1ec8ae053a9ece0d553785350ac486
 
+Thank you!
 
->
->Thanks,
->Faruque Ansari
-
---- Thanks!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html

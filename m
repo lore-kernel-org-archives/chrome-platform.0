@@ -1,61 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793934619;
-	b=v2T3wNxBqdOiRvYJN2dYxmwmk22KanFm/uOHb//pJVubio26OT5ppXZGt7i+4W0pGOMl
-	 iO6mOb1PCz0seiPUB0RqX39hG+83w6df9VO4sU1wkx68uDBObuLYqqpYebBY3SSI+vzhp
-	 4lz0RkANB0qO1Az3VXLpQaU6pFU0FHYqsoB4hLppf7Sqfcm1f75n0GpZH4V8igdR2ngjR
-	 Exy437I+bjbgydqzBArhy80C3Ur3lhxB7tPA0hG2N2SRVoqSUzzTzq+vurSxCQ42xQNfw
-	 BPEBppdS8KFfA2WpSsT9f1weNVZgILJHQ1gyLP4829oGUaQENLZoHfCfPd3pPh4YabA==
+	t=1793949547;
+	b=koeig0gs0PlWYtzzTgJvAXRYehVqU44D0TN7lUQqpUAoAduJ1mRth1nyWLWwzgoKpHbD
+	 0VIvJwTQw0D8ONUgXjpwsWp5fAwbmec02xpEujZZGYSOAQ/baOTIwsWCuUZmWl9zYJKqa
+	 3SYCgv+BvhI7YGqCOit1lx6Z7PC9Jbflysh+2mhmvkSHcg+JjuE3qkdRkJWvOLTHO0/pr
+	 VuTQja5x9V++//rkHb6i5GkgnRniNhW8n/aFV9dskaxDgzq6SzhflZOkgcncgtkwnrtuR
+	 YRyDaYwyN6kX/TplgIU1voueCjIdhOvDsbJTEczpqcaU+Hul6PkKeg4IWarGrmVHiPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793934619;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=jbsYC7NKNiG6reBJgo4fP8WND8f8XrpJahS4ciAER50=;
-	b=hSON/K0AVbSc+4G+e6z7LHoBsBNjyFjKNmFsuC6wYr1MVKaUT/88bwnrqGN5tpzqRFXD
-	 AvusIQ8eHSeO9HcF270j/prlv/3Uk9yKXVUR084dJQDslr5VuO/RlgZA0b+yxGKkjdoty
-	 TsZ9f0Y2NfQ1hJ1OSSP8Flyvdq9qV+SDtF6Ltsc1Wl+zqEiJoqlPGiAJrPyMtGylbgkQW
-	 cT5mF8JkwtC+pSfK/t1ky9U/FwGAUF7RUuZ3S2pW7lENEkRndzOQZbZIp+T70SOCTDh+e
-	 TC6PqAV2Y26imtfsQr2cWWXn4ouMoY6YfOszLf4cY3dfJo55iXMQ0lvAbM1NYnXcaoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793949547;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=pIjZ/Y8hQqw73CpdFq92aAVG0/oq5u/tSDIP7hM67k8=;
+	b=INmYGDLhtucL3XF/4LiqdM7VOIosCXnmv5FWUEqoMx/vmzg3nANSZTIfy7fT7jW0gQ+x
+	 kw8VCETXMZOqVwxzAnWMG3tk59TWHt4GIQ7TBDkbkn8sgl3s1MKqnXHE1NN645Rxo3Wqv
+	 5GZJoNO/5S5vwogsqXdh7UuHCXkoJhmYShbii2TBa1a2uEoPDW88AlWtPCrmLrRUdN12w
+	 tDJt6tfYxNTygzXYG+cZnqdY5cLBE35s+SHjhZgFJj+0MqFxxqGnj/c7pITheqGdtIDsd
+	 X2qS+sFOdHNvUeMqUL9RvnAdjEJCBmm/RM2uC437wpe8YNg3O7tAAcNJimEzFnaoXgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eWWlIE39;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=J2dME2xo;
+	arc=none smtp.remote-ip=209.85.210.200
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAC8606A32E;
-	Fri,  6 Nov 2026 03:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D476606A32C
+	for <chrome-platform@lists.linux.dev>; Fri,  6 Nov 2026 07:19:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D476606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sgsatyam.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eWWlIE39
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ECB91F0089F;
-	Fri,  6 Nov 2026 03:10:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793934619;
-	bh=jbsYC7NKNiG6reBJgo4fP8WND8f8XrpJahS4ciAER50=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eWWlIE39UR6C9FAtAgx/ECpIaLD2sDYt+0W1pQkqPf5fpNUTd23ET3E6cLPkRFpmX
-	 ZZdeVjhTvi8SeT7yS25atqxT/3v+VbNbb0cEvdkmZtDzk0gn5EajwQbDuHtJyD1lsM
-	 k9t5R5eOc+m2V80WtuoIQnnYldewH0QvKxOoqZ3oDGGh9h41JUfH5Hq9uBBai/f0s/
-	 maiId33NU+LJoNaxlcWLUw97eoDHzI/dY7yFFmLg99uzO/ejRjRqlVlxptnqpOfUyJ
-	 6plR7wLv0W/dfn/WPdZLlS4IGqyKFr5LIzDUgDYboPA6CY4akZeqBWET5kc73eEKCy
-	 iNgHl8stG8T/w==
-Date: Fri, 6 Nov 2026 03:10:15 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Satyam Gupta <sgsatyam@google.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Enric Balletbo i Serra <eballetbo@kernel.org>,
-	linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iio: cros_ec: Use platform sensor_num to unregister
- FIFO callback
-Message-ID: <au1FF5K9EALuqnNR@google.com>
-References: <20261105132057.2429385-1-sgsatyam@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=J2dME2xo
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8a065d0e9deso467577b3a.0
+        for <chrome-platform@lists.linux.dev>; Thu, 05 Nov 2026 23:19:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793949547; x=1794554347; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pIjZ/Y8hQqw73CpdFq92aAVG0/oq5u/tSDIP7hM67k8=;
+        b=J2dME2xoBFABYZl9XjPZfzFMv7KIKwT2/3abdfy887c/61EF4RwfOiWYyDUk+21ZFo
+         UMKv79xwPk6eOLyAWT6+4JC9UsWRiWS366IlR2ijbTUmGwpIQZPAVPwUyc8SQhl0lFsy
+         3cJql6RUtVJmRrPLFpPXO8Q1h4fbjcf3z/iPDVqhnrTzllA0jws5Rs0H5J52W+Y4WkGn
+         vo2ajwtGh7yNP2d/F4M28CytQfcq6yGyesGQo4lySQ7DTRweD9+ar/vsbj/1vpPzHlSJ
+         AyCyKryUx8u6G/cs6dm/dqVgPu5EVwybpxdAbr/RKgR55xPM90Zdc2RSDrtRU8/q3AyO
+         WcsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793949547; x=1794554347;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pIjZ/Y8hQqw73CpdFq92aAVG0/oq5u/tSDIP7hM67k8=;
+        b=O9JN1ktxoqZk9Z27WCe10wFMvrf+76Cex9k5zZycrPGyOk0t2mZsr5BLfi4dRr1Nqs
+         sb7Y7vankLqkfcUOVURYRvO9TSqXna3dVRCn0iRAFQpqGB6x7FmOrpze5UCDQg6SBhl8
+         +ZM0CI+dA8XmmGEiuzIp+tMemaMdH+LZE6Z8gToM05Lvd1t+gfcWjWWNuI5FzOvhRgs+
+         xj8j28C6eSsCVHVJmLv8X7EuJL0H9V9A1JbJaylwJs01nfddLxamyB7yB/mw2ep3TqIm
+         utLj4oDYd5ySzjwsrgzNf2fM7aCjOjIy+7XhIk0dV/KxRCplDE5fr+0AizErOU0RnIPF
+         +I/A==
+X-Forwarded-Encrypted: i=1; AKwUvBx3p8HZ1nua+tSGYIpHQ6x43gbQzAWJr9sPiu177m5OiACvJHVV2DHFqxCsTfphvumpW+cSbLukX7raGebm5L4=@lists.linux.dev
+X-Gm-Message-State: APuU4Z/BADkqRhJy/eBDZE2El04gDozx+nhm8VzYmLwe1TvIHBytYX3E
+	abVAwZlawm/eXeWL9/Yrb9N6IMeaIGhef+KCkUTiT6S51Sm9VLIYwFLWkDKlaNfF9e1NUYiHVYS
+	YsD7h4jyowOJBiQ==
+X-Received: from pfem17.prod.google.com ([2002:a05:6a00:c091:b0:89b:34dc:b094])
+ (user=sgsatyam job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:188e:b0:89f:2b65:2ad with SMTP id d2e1a72fcca58-8b1e5967803mr3971036b3a.27.1793949546203;
+ Thu, 05 Nov 2026 23:19:06 -0800 (PST)
+Date: Fri,  6 Nov 2026 07:19:04 +0000
+In-Reply-To: <au1FF5K9EALuqnNR@google.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -64,36 +78,118 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105132057.2429385-1-sgsatyam@google.com>
+Mime-Version: 1.0
+References: <au1FF5K9EALuqnNR@google.com>
+X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
+Message-ID: <20261106071904.142937-1-sgsatyam@google.com>
+Subject: [PATCH v3] iio: cros_ec: Use platform sensor_num to unregister FIFO callback
+From: Satyam Gupta <sgsatyam@google.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>, "=?UTF-8?q?Nuno=20S=C3=A1?=" <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Enric Balletbo i Serra <eballetbo@kernel.org>, linux-iio@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 05, 2026 at 01:20:57PM +0000, Satyam Gupta wrote:
-> No in-tree driver changes the field after probe, so mainline is not
-> known to hit this. The ChromeOS RGB light sensor support does: it
-> changes the field while a command is in flight, and unbinding the
-> device then leaves a stale callback. Found by an AI code review agent.
+cros_ec_sensors_core_register() registers the FIFO callback for the
+sensor number found in the platform data. The matching cleanup action,
+cros_ec_sensors_core_clean(), reads the number back from
+st->param.info.sensor_num instead.
 
-I think this paragraph can be moved after "---" so that it isn't part of
-the commit message.
+st->param is the EC host command buffer. Drivers fill it in under
+cmd_lock before each command, while the cleanup action reads it without
+that lock. It is also set only for physical sensors. If the field holds
+another value when the device is unbound, the cleanup clears the wrong
+slot and leaves the callback in place, still pointing to the iio_dev
+that is about to be freed.
 
->  static void cros_ec_sensors_core_clean(void *arg)
->  {
->  	struct platform_device *pdev = (struct platform_device *)arg;
-> -	struct cros_ec_sensorhub *sensor_hub =
-> -		dev_get_drvdata(pdev->dev.parent);
-> -	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
-> -	struct cros_ec_sensors_core_state *st = iio_priv(indio_dev);
-> -	u8 sensor_num = st->param.info.sensor_num;
-> +	struct device *dev = &pdev->dev;
-> +	struct cros_ec_sensorhub *sensor_hub = dev_get_drvdata(dev->parent);
-> +	struct cros_ec_sensor_platform *pdata = dev_get_platdata(dev);
->  
-> -	cros_ec_sensorhub_unregister_push_data(sensor_hub, sensor_num);
-> +	cros_ec_sensorhub_unregister_push_data(sensor_hub, pdata->sensor_num);
+Use the platform data in the cleanup action too, and pass the struct
+device pointer directly to devm_add_action_or_reset(), so it always
+unregisters the slot that cros_ec_sensors_core_register() registered.
 
-So now `pdev` is only used to carry `dev`.  How about just passing `dev`
-to this function in [1] so that it can be simplified?
+Fixes: aa984f1ba4a4 ("iio: cros_ec: Register to cros_ec_sensorhub when EC supports FIFO")
+Signed-off-by: Satyam Gupta <sgsatyam@google.com>
+---
+Changes in v3:
+- Pass dev instead of pdev to devm_add_action_or_reset() and drop the
+  unused pdev local variable (Tzung-Bi).
+- Move the note about out-of-tree triggers and how the issue was found
+  below '---' (Tzung-Bi).
 
-[1] https://elixir.bootlin.com/linux/v7.3/source/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c#L394
+Changes in v2:
+- Add a Fixes tag (Andy).
+- Use a local struct device pointer and name the platform data pdata,
+  so the unregister call fits on one line (Andy).
+- Say what triggers the problem and how it was found.
+
+v2: https://lore.kernel.org/r/20261105132057.2429385-1-sgsatyam@google.com
+v1: https://lore.kernel.org/r/20261105073107.172121-1-sgsatyam@google.com
+
+No in-tree driver changes st->param.info.sensor_num after probe, so
+mainline is not known to hit this. The ChromeOS out-of-tree RGB light
+sensor support does: it changes the field while a command is in flight,
+and unbinding the device then leaves a stale callback. Found by an AI
+code review agent.
+
+The patch was drafted with an LLM-based coding assistant (Gemini); I
+reviewed and tested it.
+
+Tested on downstream kernels, together with fixes to the out-of-tree
+RGB light sensor support: ChromeOS 6.6 (Intel) and 5.10 (MediaTek), and
+Android desktop 6.12 (MediaTek) and 6.18 (Intel). Unbinding and binding
+the light sensor while its RGB channel is read in a loop failed within
+1 to 46 cycles without the fixes (the stale callback slot makes the
+next probe fail with -EINVAL) and passed 200 cycles with them on all
+four. On the 6.12 device the accelerometer and gyroscope were also
+unbound and bound repeatedly and still streamed FIFO samples. Mainline
+itself was only build-tested (W=1 and sparse, x86_64 and arm64).
+
+ .../common/cros_ec_sensors/cros_ec_sensors_core.c  | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+index d03e40c91582..67fb53071684 100644
+--- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
++++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
+@@ -213,14 +213,11 @@ EXPORT_SYMBOL_GPL(cros_ec_sensors_push_data);
+ 
+ static void cros_ec_sensors_core_clean(void *arg)
+ {
+-	struct platform_device *pdev = (struct platform_device *)arg;
+-	struct cros_ec_sensorhub *sensor_hub =
+-		dev_get_drvdata(pdev->dev.parent);
+-	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
+-	struct cros_ec_sensors_core_state *st = iio_priv(indio_dev);
+-	u8 sensor_num = st->param.info.sensor_num;
++	struct device *dev = arg;
++	struct cros_ec_sensorhub *sensor_hub = dev_get_drvdata(dev->parent);
++	struct cros_ec_sensor_platform *pdata = dev_get_platdata(dev);
+ 
+-	cros_ec_sensorhub_unregister_push_data(sensor_hub, sensor_num);
++	cros_ec_sensorhub_unregister_push_data(sensor_hub, pdata->sensor_num);
+ }
+ 
+ /**
+@@ -372,7 +369,6 @@ int cros_ec_sensors_core_register(struct device *dev,
+ {
+ 	struct cros_ec_sensor_platform *sensor_platform = dev_get_platdata(dev);
+ 	struct cros_ec_sensorhub *sensor_hub = dev_get_drvdata(dev->parent);
+-	struct platform_device *pdev = to_platform_device(dev);
+ 	struct cros_ec_dev *ec = sensor_hub->ec;
+ 	int ret;
+ 
+@@ -391,7 +387,7 @@ int cros_ec_sensors_core_register(struct device *dev,
+ 		return ret;
+ 
+ 	return devm_add_action_or_reset(
+-			dev, cros_ec_sensors_core_clean, pdev);
++			dev, cros_ec_sensors_core_clean, dev);
+ }
+ EXPORT_SYMBOL_GPL(cros_ec_sensors_core_register);
+ 
+
+base-commit: 1390ca4953a7400ca932cb49635f02c727f885a6
+-- 
+2.56.0.455.g6c5a503b38-goog
+

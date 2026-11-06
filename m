@@ -1,53 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793932887;
-	b=III5eiptKmzCZ6xi+WCJVORT5tA/bUyTPXaES3HYhCaF+HOgHg0lo8ftVuvf2bs03mA1
-	 ny3bYbO/VWvVGbgYIazfPJQKyC0u1+o3PdhQsEybXeuOmvFGInO71fj6hJ2vW0ALljPvE
-	 alGDUNUOtt1+guOKos758Sf5By/Xw/gh/vGdVrd1FwR554MQ53vRGFdCYMp4EkInUYnYA
-	 IAEzt5Zw1hQpJAny9pzGPYQX1nxmcl0fPCkq+gXYHLAz7b0HohOWwKrw0BpUafBK6ZzhL
-	 SdkmK7DVf8NlkBjA90HNNrsIfo3NTmiNmIqi71pWr1BMFPz37KZhW2tVIY7Nc2VgtRg==
+	t=1793934619;
+	b=v2T3wNxBqdOiRvYJN2dYxmwmk22KanFm/uOHb//pJVubio26OT5ppXZGt7i+4W0pGOMl
+	 iO6mOb1PCz0seiPUB0RqX39hG+83w6df9VO4sU1wkx68uDBObuLYqqpYebBY3SSI+vzhp
+	 4lz0RkANB0qO1Az3VXLpQaU6pFU0FHYqsoB4hLppf7Sqfcm1f75n0GpZH4V8igdR2ngjR
+	 Exy437I+bjbgydqzBArhy80C3Ur3lhxB7tPA0hG2N2SRVoqSUzzTzq+vurSxCQ42xQNfw
+	 BPEBppdS8KFfA2WpSsT9f1weNVZgILJHQ1gyLP4829oGUaQENLZoHfCfPd3pPh4YabA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793932887;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793934619;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=SbgHBhEj2YwMxqBB4IHjOewAxZ62fsFAVAzcUtikC4w=;
-	b=mLph5k1LYpDQ2+1SA8hyBe4sxvG9xEy+cmcHoM5d1hhQ+wiZJS9O6VaQ+YtX+gawqDJH
-	 fAHcO+P+vtWIhvqHiUJjOAS0rqPdcYXjX6jkb2GjGc1UiVna3BhxZaNXHpXv9bQeY+kmb
-	 6e/pwidM9DYVS/KyVHQP3tOHlsqyIyJLUGwYUMSylgLFQH0KF9R8dRpCYFAzvrt5x2kgl
-	 S/IIgcQCE+op4bGG9msc0q082K9HIn0/6uM2+zik6Mwki6Eso6K5PzpIijyPntsKsnD4q
-	 toLmQdlbzwpRVnqJ9Ua+wQRE2bxNVt0J+GeXXsiJzamkjb034JIttjeABnJcWiSvmZg==
+	bh=jbsYC7NKNiG6reBJgo4fP8WND8f8XrpJahS4ciAER50=;
+	b=hSON/K0AVbSc+4G+e6z7LHoBsBNjyFjKNmFsuC6wYr1MVKaUT/88bwnrqGN5tpzqRFXD
+	 AvusIQ8eHSeO9HcF270j/prlv/3Uk9yKXVUR084dJQDslr5VuO/RlgZA0b+yxGKkjdoty
+	 TsZ9f0Y2NfQ1hJ1OSSP8Flyvdq9qV+SDtF6Ltsc1Wl+zqEiJoqlPGiAJrPyMtGylbgkQW
+	 cT5mF8JkwtC+pSfK/t1ky9U/FwGAUF7RUuZ3S2pW7lENEkRndzOQZbZIp+T70SOCTDh+e
+	 TC6PqAV2Y26imtfsQr2cWWXn4ouMoY6YfOszLf4cY3dfJo55iXMQ0lvAbM1NYnXcaoA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LrlJoCt6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eWWlIE39;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7525606A31B;
-	Fri,  6 Nov 2026 02:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAC8606A32E;
+	Fri,  6 Nov 2026 03:10:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LrlJoCt6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97D021F0089F;
-	Fri,  6 Nov 2026 02:41:25 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eWWlIE39
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ECB91F0089F;
+	Fri,  6 Nov 2026 03:10:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793932886;
-	bh=SbgHBhEj2YwMxqBB4IHjOewAxZ62fsFAVAzcUtikC4w=;
+	s=k20260515; t=1793934619;
+	bh=jbsYC7NKNiG6reBJgo4fP8WND8f8XrpJahS4ciAER50=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LrlJoCt6Dua0wOIYbJ/3SvYtQZ+ccvIocnQYDU4zuscD+ofED0ZKQhueaUINgKeba
-	 UdxCrOQJmpVXpCeBTE/FxZXggGO9jNejdnf+SPH3/C2BY1vNEKLS3zgxBUI6+5Nb/l
-	 t47qmuq9yCZy/ETmmnVGBIzK9WL77N24wsVK1JsfwrsEJ/If2mF5NGK12gUR85tD/O
-	 WtZfmGSd9R++filO4QfBLGC0Zy9JCXXj2v0lbc4x7cYNcu/TaZ4gsDUoQZYNWRqzBz
-	 RKGuj1NJNKBO/VFDY4FITbDIW2HDzux6v5rYcbL00o70h449NhgAfIW/JDByR5sjgQ
-	 Dzrv4Sfp3RdKw==
-Date: Fri, 6 Nov 2026 02:41:23 +0000
+	b=eWWlIE39UR6C9FAtAgx/ECpIaLD2sDYt+0W1pQkqPf5fpNUTd23ET3E6cLPkRFpmX
+	 ZZdeVjhTvi8SeT7yS25atqxT/3v+VbNbb0cEvdkmZtDzk0gn5EajwQbDuHtJyD1lsM
+	 k9t5R5eOc+m2V80WtuoIQnnYldewH0QvKxOoqZ3oDGGh9h41JUfH5Hq9uBBai/f0s/
+	 maiId33NU+LJoNaxlcWLUw97eoDHzI/dY7yFFmLg99uzO/ejRjRqlVlxptnqpOfUyJ
+	 6plR7wLv0W/dfn/WPdZLlS4IGqyKFr5LIzDUgDYboPA6CY4akZeqBWET5kc73eEKCy
+	 iNgHl8stG8T/w==
+Date: Fri, 6 Nov 2026 03:10:15 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Yige Jiang <yigejiang86@gmail.com>
-Cc: chrome-platform@lists.linux.dev, Benson Leung <bleung@chromium.org>,
-	linux-kernel@vger.kernel.org, Nick Crews <ncrews@chromium.org>
-Subject: Re: [PATCH v2] platform/chrome: wilco_ec: Fix device reference leak
- on open failure
-Message-ID: <au0-Uz1NsgFP0788@google.com>
-References: <20261105074709.55016-1-yigejiang86@gmail.com>
+To: Satyam Gupta <sgsatyam@google.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Enric Balletbo i Serra <eballetbo@kernel.org>,
+	linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] iio: cros_ec: Use platform sensor_num to unregister
+ FIFO callback
+Message-ID: <au1FF5K9EALuqnNR@google.com>
+References: <20261105132057.2429385-1-sgsatyam@google.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -59,25 +67,33 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261105074709.55016-1-yigejiang86@gmail.com>
+In-Reply-To: <20261105132057.2429385-1-sgsatyam@google.com>
 
-On Thu, Nov 05, 2026 at 03:47:09PM +0800, Yige Jiang wrote:
-> telem_open() takes a reference to dev_data->dev before allocating
-> the session. If that allocation fails, it returns -ENOMEM without
-> dropping the reference. Since release is not called after a failed
-> open, the device data remains pinned after removal.
-> 
-> Take the device reference only after the session allocation succeeds,
-> so that a failed open does not leave an unbalanced reference. The
-> successful open path remains balanced by telem_release().
->
-> [...]
+On Thu, Nov 05, 2026 at 01:20:57PM +0000, Satyam Gupta wrote:
+> No in-tree driver changes the field after probe, so mainline is not
+> known to hit this. The ChromeOS RGB light sensor support does: it
+> changes the field while a command is in flight, and unbinding the
+> device then leaves a stale callback. Found by an AI code review agent.
 
-Applied to
+I think this paragraph can be moved after "---" so that it isn't part of
+the commit message.
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+>  static void cros_ec_sensors_core_clean(void *arg)
+>  {
+>  	struct platform_device *pdev = (struct platform_device *)arg;
+> -	struct cros_ec_sensorhub *sensor_hub =
+> -		dev_get_drvdata(pdev->dev.parent);
+> -	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
+> -	struct cros_ec_sensors_core_state *st = iio_priv(indio_dev);
+> -	u8 sensor_num = st->param.info.sensor_num;
+> +	struct device *dev = &pdev->dev;
+> +	struct cros_ec_sensorhub *sensor_hub = dev_get_drvdata(dev->parent);
+> +	struct cros_ec_sensor_platform *pdata = dev_get_platdata(dev);
+>  
+> -	cros_ec_sensorhub_unregister_push_data(sensor_hub, sensor_num);
+> +	cros_ec_sensorhub_unregister_push_data(sensor_hub, pdata->sensor_num);
 
-[1/1] platform/chrome: wilco_ec: Fix device reference leak on open failure
-      commit: 80436896141ecca950125dec3f320b7aacc5038a
+So now `pdev` is only used to carry `dev`.  How about just passing `dev`
+to this function in [1] so that it can be simplified?
 
-Thanks!
+[1] https://elixir.bootlin.com/linux/v7.3/source/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c#L394

@@ -1,58 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.26
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794014739;
-	b=v5tnWmvJdn6dhNI9eBi7t29n0ZcLun7291fTTLH1+tjHlozUxS0f1y/LMmBq6bOeXSPJ
-	 iNYf5yLJrMcul9Dr78zOp7UPIrRMTp9Yr8gcRt2wUijr38QTQ0s1Bwv57n8FZ2o1BNU8I
-	 zxY0Bp5npTuaCvvNep+PFfvFY3X+Ik5XE+xF0Z/2wnQJjaLnBRrYZHD3IVdWgtHKxSMrV
-	 NHAFaYOj6CIjw3HLHP9Mb1jw9MWwj+4II6Z9XfyGLJfHAXcK8EYMrAqc8lqH89Jmw32iz
-	 DjqiBF9T2JVK39lB6TU1IpUe7G73eOo7X/nLvOMN8nU633QbUXNRJawLaDEAdcfFXgA==
+	t=1794077595;
+	b=tRnWBB2nPvhZmFjr8edziimmIYVb90ZBoZEYYUqSHNx/utb2rbdarzEy4E3wrIhDeNUd
+	 8e2TmJz2h5cZtqIEt2AnFg/U/tR+bMLrvsErJE0P6LiFC+JdwwRW7kN4r8MJqQGkWhah3
+	 NoOpRd9GPI5W3oIFXx5diuFeBoJ9O1DcNj2BAAD3hSLCRf+xliXWUvZtN10V82cYY0pMS
+	 d6FBEcyTmQ/WYoZyQq6op1BHLa+z4wSz0vBIWynMhu59umy+wncczPVKgnRB2NxqJi//Z
+	 TJRzsMo5g5XsbsbPWG5vAYNwVrmjC5iHC9FV1u6OYG5Rebuggik3w1rYuD4wUKKumwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794014739;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794077595;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=FDY5tdml7OFZfUMcUlARF5HMB401e/zIkvAhiB4/124=;
-	b=CIPuiUxZ5N+tZw+Tq8EiceIg+QQDOvUXrmzdPA3rmBSSxvlpLdDXVhnWjfJmyqr3g8kc
-	 KWZpN8SJSQ5MZbNVxy9lOL6HhJHY//FRhUql6EM7QLW9bZqZQFy7AGMkctKFnPK25KHKo
-	 pii+RN7aj+wHp8xAT4wM9Ht9MJm0756QJFGtktHbSOjuCaf06gjXrER1p77YyiPPrnEoJ
-	 c3Pv29ybap87MeQQDx8/a2DFhbOSopKw66DC9D/EZCBIytV5nfhxVk/bkxbHfSeaQSs4r
-	 1m0huPsj41NXorx0tEopj+Ldmde5b++aSQtq/exSlDh9KYcSsE7i2W4YtFJ2qmCBHBw==
+	bh=mpuXwX6IFnkdegkUlA97fOC6qpNPmlKXOVIIkTl/gEg=;
+	b=43WlTUT+FiMArUVFgQVQFHdBj03kgjHG1KH3PCvVx3/vS8HTelWqz7VAuojb9ttw2QCy
+	 DZgRXtHsEyP6B8qf75k2z3Btbt5Qfh1CbhO/ltX6TIld3cIfU7KlQm68xaM8RBTIn+tq8
+	 607/2sPF+ubGtQNpMQe9sT/uadwm2QzhgFtz6lrWW943RL112Fz0yipCoEBRdgtgtERY4
+	 SKq7qc0U8t7jPjXBWOzmEpyUznN2E/IHiEjYAVJqKZYcJFUngbTOfjL6UA7igFdkQl91h
+	 1oYQBHF/jT6xfWpkUnKAWSoD9Q5B5vvuy2tueNPFczZuKK+fW9kBWEdfNiA4xg8WBVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="md/beg28";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=modelmiser.com;
+	spf=pass smtp.mailfrom=modelmiser.com;
+	arc=none smtp.remote-ip=79.135.106.26
+Received: from mail-10626.protonmail.ch (mail-10626.protonmail.ch [79.135.106.26])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981EB606A326;
-	Sat,  7 Nov 2026 01:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=md/beg28
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C2261F008A1;
-	Sat,  7 Nov 2026 01:25:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794014738;
-	bh=FDY5tdml7OFZfUMcUlARF5HMB401e/zIkvAhiB4/124=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=md/beg28WI1E7C9vSL0aMljiYrx5XXp1VmvBWxU44a/bZnVU+mLtxGPV8Y3U6UPoe
-	 0X6fKr/QaT0TCnwKVjkhnGv4uCRWCw/6w/u12l3CTZ4N6+yRLxGwMCQFgyNQZSrPPy
-	 bT1+wbGefX8DkB4u+E4Gg1om0sBd8CHRznfCpywoirkdpTfAue7wd2XlRqUmT1em3K
-	 yPJQgYByZ+ppP3ruDDJIwlJBUZ+qgFbk2u0ornyzxM8284ENAajzA+kJ5ihfUSY0S5
-	 C7r4kwmFQLUHfdghzYFmtIFuINNPRIzdyBs9BiJvstgGG3ievv47IE1/G8zocpsO0y
-	 kXDsCF/I1toJQ==
-Date: Sat, 7 Nov 2026 01:25:30 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Daniel Balint <dbalint@google.com>
-Cc: Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>, Tzung-Bi
- Shih <tzungbi@kernel.org>, linux-iio@vger.kernel.org,
- chrome-platform@lists.linux.dev, mfd@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] iio: adc: add cros_ec_pwrmon driver
-Message-ID: <20261107012530.503f1589@jic23-hlaptop>
-In-Reply-To: <20261106193129.43493-3-dbalint@google.com>
-References: <20261106193129.43493-1-dbalint@google.com>
-	<20261106193129.43493-3-dbalint@google.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58994606A32D
+	for <chrome-platform@lists.linux.dev>; Sat,  7 Nov 2026 18:53:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58994606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=modelmiser.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=modelmiser.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=modelmiser.com;
+	s=protonmail; t=1794077590; x=1794336790;
+	bh=mpuXwX6IFnkdegkUlA97fOC6qpNPmlKXOVIIkTl/gEg=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=iWO9Q5jZVSpA/SSupoAqlUhAFh6I2FZz4f1D7NcNhs5ScYqwe5a1LDe4+n4z/A7m8
+	 ttD4bkmNli7LC1C8mKC7jSDwhOhhYL5HKoabd0oXsbOHWOsLVzNDC8GHrlvygU+EBm
+	 DWMBxbaV54yFfdXlXGd8V2r+o3TD26GbsZx6bNS+aORBYvuOvYG5oJBhTTwRc9GWLk
+	 ZmDQSnK1RqKibSaJBV/qq2POamdLYEIQYjDKYyZAR5FYNlLSrCtttzCJJyMR+H+RGI
+	 glAKz5JLwPs9UVZuYIFmQ7o4n/idNpi9n4D7lHVm/I70JI0fg2mp7aW+nt7lpJvh2C
+	 pESdWZyP0JrHw==
+Date: Sat, 07 Nov 2026 18:53:05 +0000
+To: Dan Callaghan <dcallagh@chromium.org>, Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
+From: Chad Aldreda <ca@modelmiser.com>
+Cc: =?utf-8?Q?Sami_Ky=C3=B6stil=C3=A4?= <skyostil@chromium.org>, chrome-platform@lists.linux.dev, stable@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/chrome: cros_hps_i2c: hold the client device for an open file
+Message-ID: <20261107185258.4115770-2-ca@modelmiser.com>
+Feedback-ID: 232753253:user:proton
+X-Pm-Message-ID: 9dca39c3f44b982a681d6c5262ddf6b142fd459c
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -62,286 +58,103 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri,  6 Nov 2026 19:31:16 +0000
-Daniel Balint <dbalint@google.com> wrote:
+hps_release() finds struct hps_drvdata through file->private_data and
+calls pm_runtime_put() on hps->client->dev. hps comes from
+devm_kzalloc(), so it is freed when the driver is unbound, and a later
+close() of a file opened before the unbind reads freed memory. If the
+client was removed with delete_device, the i2c_client may have been
+freed as well, and pm_runtime_put() runs on it. KASAN reports a
+slab-use-after-free in hps_release() and, after delete_device, further
+ones in the runtime PM code.
 
-> Add the ChromeOS EC On-Device Power Monitoring (ODPM) driver to read
-> onboard power-monitoring ADCs (such as PAC194x) wired through the EC.
-> 
-> The driver interfaces with the EC via the existing EC_CMD_PWRMON host
-> command API and EC_MKBP_EVENT_PWRMON events to start/stop accumulation,
-> latch ADC accumulators, and expose cumulative per-rail energy in
-> microjoules (uWs) through the energy_value sysfs attribute.
-> 
-> Signed-off-by: Daniel Balint <dbalint@google.com>
-Hi Daniel
+release() needs only the client device, so take a reference to it in
+open() and keep it in file->private_data, and leave hps alone in
+release(). hps is still valid in open(): misc_open() calls it with
+misc_mtx held, and hps_i2c_remove() calls misc_deregister(), which takes
+misc_mtx, before devres frees hps. Unless the driver has been bound
+again, runtime PM on the device is disabled by the time such a release()
+runs, so pm_runtime_put() drops the usage count and its idle request
+fails with -EACCES.
 
-Main comment here is the custom ABI.  It doesn't comply with sysfs
-conventions or the IIO ABI.  For this sort of capture lots at the
-same time we have the IIO chardev 'buffer' interface.
+Fixes: 5f9952548d91 ("platform/chrome: add a driver for HPS")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Chad Aldreda <ca@modelmiser.com>
+---
+Found with the coccinelle script posted at
+https://lore.kernel.org/r/20261106193517.3267013-2-ca@modelmiser.com
 
-Jonathan
+Reproduced in QEMU 10.2.4 (q35, KASAN). The driver binds to a client
+created with new_device on the i801 SMBus adapter, with the "enable"
+GPIO supplied by gpio-mockup through a test-only lookup module. A
+process opens /dev/cros-hps, the client is unbound or deleted through
+sysfs, and the process then closes the file. Without this patch KASAN
+reports one use-after-free after an unbind and six after delete_device;
+with it there are none, and an unbind followed by a bind works. Not
+tested on HPS hardware. Unbinding or deleting the client needs root.
 
-> ---
->  .../ABI/testing/sysfs-bus-iio-cros-ec         |  13 +
->  MAINTAINERS                                   |   7 +
->  drivers/iio/adc/Kconfig                       |  11 +
->  drivers/iio/adc/Makefile                      |   1 +
->  drivers/iio/adc/cros_ec_pwrmon.c              | 333 ++++++++++++++++++
->  5 files changed, 365 insertions(+)
->  create mode 100644 drivers/iio/adc/cros_ec_pwrmon.c
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-cros-ec b/Documentation/ABI/testing/sysfs-bus-iio-cros-ec
-> index 3de1dfc98389..9043824f2831 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-iio-cros-ec
-> +++ b/Documentation/ABI/testing/sysfs-bus-iio-cros-ec
-> @@ -19,3 +19,16 @@ Description:
->  		represents the sensor ID as exposed by the EC. This ID is used
->  		by the Android sensor service hardware abstraction layer (sensor
->  		HAL) through the Android container on ChromeOS.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/energy_value
+Unchanged by this patch: if the driver is bound again while a file
+opened before the unbind is still open, that file's pm_runtime_put()
+lands on the new instance's usage count, so the sensor stays powered
+until the old file is closed. The counts measured the same with and
+without the patch (2, then 1, then 0); before it, that put went through
+freed memory.
 
-Why custom ABI? 
+For stable: before v7.0, hps_release() ends in
+"return pm_runtime_put(dev);". There it should end:
 
-If you need a multi channel snapshot, use buffered IIO interface.
-That should give you a nice binary representation of this will
-sysfs description of data backing etc.  Hook it up to a sysfs
-trigger if you want to have userspace request a capture on demand.
+=09pm_runtime_put(dev);
+=09put_device(dev);
 
-As a general rule, multi value sysfs attributes are frowned upon.
-Occasionally we justify them as a group of numbers that are one
-value (quaternions for instance) but this one doesn't
-fit that pattern.
+=09return 0;
 
-> +Date:		November 2026
-> +KernelVersion:	7.5
-> +Contact:	chrome-platform@lists.linux.dev, linux-iio@vger.kernel.org
-> +Description:
-> +		This read-only attribute is exposed by the ChromeOS EC power
-> +		monitor (cros_ec_pwrmon) driver for On-Device Power Monitoring
-> +		(ODPM). Reading it latches all EC power accumulators and returns
-> +		a snapshot timestamp followed by per-channel accumulated energy:
-> +
-> +		t=<Measurement timestamp in ms since boot>
-> +		CH<N>(T=<Duration in ms>)[<Rail schematic name>], <Accumulated energy in uWs>
+This is independent of the revocable work for cros_ec_chardev; it only
+stops release() from using the driver data.
 
-> diff --git a/drivers/iio/adc/cros_ec_pwrmon.c b/drivers/iio/adc/cros_ec_pwrmon.c
-> new file mode 100644
-> index 000000000000..795b5f2b2a2c
-> --- /dev/null
-> +++ b/drivers/iio/adc/cros_ec_pwrmon.c
-> @@ -0,0 +1,333 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * ChromeOS EC Power Monitor Driver
-> + *
-> + * Copyright (c) 2026 Google Inc.
-> + */
-> +
-> +#include <linux/cleanup.h>
-> +#include <linux/device.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/iio/sysfs.h>
-> +#include <linux/ktime.h>
-> +#include <linux/math64.h>
-> +#include <linux/mod_devicetable.h>
+ drivers/platform/chrome/cros_hps_i2c.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-Shouldn't see that in a new driver.  The finer grained tables
-structure defs in linux/device-id are included directly by
-the relevant bus.  Here platform_device.h has it.
+diff --git a/drivers/platform/chrome/cros_hps_i2c.c b/drivers/platform/chro=
+me/cros_hps_i2c.c
+index 3b9485627831..290b136ce4fa 100644
+--- a/drivers/platform/chrome/cros_hps_i2c.c
++++ b/drivers/platform/chrome/cros_hps_i2c.c
+@@ -36,17 +36,26 @@ static int hps_open(struct inode *inode, struct file *f=
+ile)
+ =09struct hps_drvdata *hps =3D container_of(file->private_data,
+ =09=09=09=09=09       struct hps_drvdata, misc_device);
+ =09struct device *dev =3D &hps->client->dev;
++=09int ret;
++
++=09ret =3D pm_runtime_resume_and_get(dev);
++=09if (ret)
++=09=09return ret;
+=20
+-=09return pm_runtime_resume_and_get(dev);
++=09/*
++=09 * hps is freed when the driver is unbound, which can happen before
++=09 * release(), so release() uses only the device, held here.
++=09 */
++=09file->private_data =3D get_device(dev);
++=09return 0;
+ }
+=20
+ static int hps_release(struct inode *inode, struct file *file)
+ {
+-=09struct hps_drvdata *hps =3D container_of(file->private_data,
+-=09=09=09=09=09       struct hps_drvdata, misc_device);
+-=09struct device *dev =3D &hps->client->dev;
++=09struct device *dev =3D file->private_data;
+=20
+ =09pm_runtime_put(dev);
++=09put_device(dev);
+=20
+ =09return 0;
+ }
+--=20
+2.43.0
 
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/notifier.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/string.h>
-> +#include <linux/sysfs.h>
-> +#include <linux/types.h>
-> +#include <linux/unaligned.h>
-> +#include <linux/wait.h>
-
-> +
-> +static void cros_ec_pwrmon_unregister_notifier(void *data)
-> +{
-> +	struct cros_ec_pwrmon_state *st = data;
-> +
-> +	blocking_notifier_chain_unregister(&st->ec->event_notifier,
-> +					   &st->notifier);
-> +}
-> +
-> +static int cros_ec_pwrmon_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
-> +	struct cros_ec_pwrmon_state *st;
-> +	struct ec_params_pwrmon *params;
-> +	struct pwrmon_dump_info *dump;
-> +	struct iio_dev *indio_dev;
-> +	size_t msg_size;
-> +	int ret, i;
-> +
-> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
-> +	if (!indio_dev)
-> +		return -ENOMEM;
-> +
-> +	st = iio_priv(indio_dev);
-> +	st->ec_dev = ec_dev;
-> +	st->ec = ec_dev->ec_dev;
-
-That's somewhat confusing naming wise!  Why do we need both of them?
-
-> +
-> +	spin_lock_init(&st->event_lock);
-> +	init_waitqueue_head(&st->wq);
-> +
-> +	ret = devm_mutex_init(dev, &st->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	msg_size = sizeof(*st->msg) + max(sizeof(struct ec_params_pwrmon),
-
-Given you immediately assign params to this, sizeof(*params)
-would be nicer.
-
-> +					  sizeof(struct ec_response_pwrmon));
-
-It is a bit of an unusual case but I'd use struct_size() here as it has
-a trailing u8 data[] into which you are putting the union of those two structures.
- 
-> +	st->msg = devm_kzalloc(dev, msg_size, GFP_KERNEL);
-> +	if (!st->msg)
-> +		return -ENOMEM;
-> +
-> +	st->msg->version = 0;
-> +	st->msg->command = EC_CMD_PWRMON + st->ec_dev->cmd_offset;
-> +	params = (struct ec_params_pwrmon *)st->msg->data;
-> +	st->msg->outsize = sizeof(*params);
-> +	st->msg->insize = sizeof(struct ec_response_pwrmon);
-> +
-> +	/* Start PACs */
-> +	params->cmd = EC_PWRMON_START;
-> +	ret = cros_ec_cmd_xfer_status(st->ec, st->msg);
-> +	if (ret < 0) {
-> +		dev_warn(dev, "Failed to start PACs: %d\n", ret);
-
-Error out of probe?  Use
-
-		return dev_err_probe();
-
-> +		return ret;
-> +	}
-> +	st->last_time_ms = ktime_to_ms(ktime_get_boottime());
-> +
-> +	ret = devm_add_action_or_reset(dev, cros_ec_pwrmon_stop, st);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Get Channel Count */
-> +	params->cmd = EC_PWRMON_GET_CHANNEL_COUNT;
-> +	ret = cros_ec_cmd_xfer_status(st->ec, st->msg);
-> +	if (ret < 0) {
-> +		dev_warn(dev, "Failed to get channel count: %d\n", ret);
-> +		return ret;
-
-return dev_err_probe()
-
-> +	}
-> +	st->num_channels = ((struct ec_response_pwrmon *)st->msg->data)->channel_count;
-
-Use a local variable rather than cast. Added bonus is you can use it for sizing the
-storage above rather.
-
-> +	if (st->num_channels > PWRMON_MAX_CHANNELS)
-> +		st->num_channels = PWRMON_MAX_CHANNELS;
-
-	st->num_channels = min(st->num_channels, PWRMON_MAX_CHANNELS);
-
-> +
-> +	st->accumulated_energy = devm_kcalloc(dev, st->num_channels,
-> +					      sizeof(*st->accumulated_energy),
-> +					      GFP_KERNEL);
-> +	st->channel_names = devm_kcalloc(dev, st->num_channels,
-> +					 sizeof(*st->channel_names),
-> +					 GFP_KERNEL);
-> +	if (!st->accumulated_energy || !st->channel_names)
-> +		return -ENOMEM;
-> +
-> +	/* Get Dump Info (Names) */
-> +	for (i = 0; i < st->num_channels; i++) {
-
-	for (unsigned int i = 0; ...
-as might as well keep it locally scoped.
-
-
-> +		params->cmd = EC_PWRMON_DUMP_INFO;
-> +		params->channel_id = i;
-> +		ret = cros_ec_cmd_xfer_status(st->ec, st->msg);
-> +		if (ret < 0) {
-> +			dev_warn(dev, "Failed to get dump info for channel %d: %d\n",
-> +				 i, ret);
-> +			continue;
-> +		}
-> +		dump = &((struct ec_response_pwrmon *)st->msg->data)->dump_info;
-
-As above, local variable seems more appropriate.
-
-> +		strscpy(st->channel_names[i], dump->channel_name,
-> +			sizeof(st->channel_names[i]));
-> +	}
-> +
-> +	indio_dev->name = dev_name(dev);
-
-Generally we want a part number for dev name. What does this end up as here?
-Often it is better to hard code them.
-
-> +	indio_dev->info = &cros_ec_pwrmon_info;
-> +	indio_dev->modes = INDIO_DIRECT_MODE;
-> +
-> +	/* Register MKBP event notifier */
-> +	st->notifier.notifier_call = cros_ec_pwrmon_notify;
-> +	ret = blocking_notifier_chain_register(&st->ec->event_notifier,
-> +					       &st->notifier);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to register notifier: %d\n", ret);
-> +		return ret;
-
-return dev_err_probe()
-
-> +	}
-> +
-> +	ret = devm_add_action_or_reset(dev, cros_ec_pwrmon_unregister_notifier,
-> +				       st);
-
-This one has annoyed me before so maybe not really an ask for you to fix
-but it would be nice to just have a devm_blocking _notifier_chain_register()
-that would stash both parameters needed for the unregister.
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	return devm_iio_device_register(dev, indio_dev);
-> +}
-> +
-> +static const struct platform_device_id cros_ec_pwrmon_id[] = {
-> +	{ "cros-ec-pwrmon", 0 },
-Named initializers for these.  This is slowly getting tidied
-up across the kernel. Not using the named fields makes certain
-types of refactor trickier to do.  Don't set the 0 though
-as that's what C will fill in anyway and for now there is no
-use of that value.
-> +	{}
-	{ }
-
-That one is a trivial IIO style preference.  We ended up standardizing
-that a few years back in the interests of consistency and the choice
-was with the space (there was no strong reason to go one way or the other!)
-
-Jonathan
 

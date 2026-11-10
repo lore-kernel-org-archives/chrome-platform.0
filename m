@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794306279;
-	b=XNua5eWOey18+Cb4AEMH8KfaAVf9sUiXUL1aeNA0eWdeygIE69Zce0MCMk+7hUsGHcBj
-	 +IrjdfX1DU/Sltq6ocw4OzgvZrA8RN5PI24+WD1jlpOkh8dzBX56ep4yDxx+p6pEq6HIm
-	 3yf7tjQ9z69NJjFlJxWZQ4JgqLANKkgdJEsKDNCKEvjSoaENRg4U4wt28qZ1bt1vb5qc7
-	 abLCqXnNPvqDA6VDtLgE7w1/J4mQPNC9AOcnzZQDUTXR6AyVHnMkf7adyH5llDwkOTOtU
-	 EUqXSslDu9Nox1MbeSIKEglj4xVDb6j6xuOuYhhkpmEhRotN+A995RLXzc4LAmk9BZQ==
+	t=1794306288;
+	b=MdxIF6lFL9b8SSySEhIwd1dg0fwQYXT4Qnyk0699RypKLDFKPQd5AbWFMOlrqOwRDNci
+	 JVOKVoSjYXBO+kjQB+51BfIPxjSpsYhI6nCF/0ltua9K0gjffKX2eI3mGjs0u/wh5erIx
+	 T5cIObC7nn1meheiofce/L5UlVuxSsPb/BUvq6JhrKxO7OVvftkPhFfxu2dgra4thOv+Q
+	 LNrKgzW2Rxw+hiyJ6F3MvjVcdI2vER15PfwlHQcgkGm1wvZi+35vQWz/N8Q7PudZgjJkf
+	 dv79Nd3icUW6epmH8mGbKRHkWsVVRIdZvYs3f+xcOwYAZCAlbWarYjaD4v9PYu2sZpg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794306279;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794306288;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
 	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=132X4kEugYv0DZ68KeYi71Q6KKe1Gy7rUBXRX5SCGWo=;
-	b=eoyhVxW0G5MJbIKro8jwwv9gkytIBt0/YT6uc2+pWQw5OO7zhGk+UYeTCHBIkoEgioID
-	 mFFzkaJv60G2ixHgvVhHeaK/eq5igDYKlejbIfBSeGY6dcdGfldbgW2iHb0phdJ4wS7Ih
-	 WiAYreYWZUqBcxjtEqIVjn34F3nq809y+DetpIPxTCtVKsxaawBW5tw5sK1HiTcBX0s7E
-	 dCm6WtCG1QAehZv9xEXPFAYpGGi89cv5plr0axzJ4RN3ajkNYliHA5qGBOP5h0UKa1zuK
-	 ejEeMhbu6JIJXlvJ+tocEXvReOzidapkhEFdLZ2uUmcyBNCeO5rHcst8rFmesLPs7ig==
+	bh=EhDjNoe3/JC0Wvq34jTb4Txp8C72674LsLZBKo4ri38=;
+	b=4lkS7zFzmG19qLQjkq9cn3KGK91FqWxoXvU64I828CGmZ70PMe6P3K8YGPTxc6HgoIoX
+	 FKX77jzdQdz67wecvnPQoUgJIjyS/WBDmL6V62FykA/04/PEADFnX08q5fFkItmCHtEFo
+	 4dV5erAXrHgS9w5O917BF1p2wlLZWz+v6LDpoYcInACp9uGJewRpBABWBRIpLvNCW7AwW
+	 UNEDj/aYQ2I9TMcWG0lsAjhKF7L8RfzCOla+benHPboU+VhwL1HCH3f6e9m3vIdplL4it
+	 IBHhFkzXlktf1d8tAfpRHxs0M3fWVsiejIpEF189Bj6LUTimig4WIkJ6OPef+kgPP3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=sang-engineering.com;
 	spf=pass smtp.mailfrom=sang-engineering.com;
-	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=Xc1z0BjF;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=TNCFRS9K;
 	arc=none smtp.remote-ip=194.117.254.33
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781F8606B99F
-	for <chrome-platform@lists.linux.dev>; Tue, 10 Nov 2026 10:24:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 781F8606B99F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390D5606DE1F
+	for <chrome-platform@lists.linux.dev>; Tue, 10 Nov 2026 10:24:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 390D5606DE1F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=Xc1z0BjF
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=TNCFRS9K
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=132X
-	4kEugYv0DZ68KeYi71Q6KKe1Gy7rUBXRX5SCGWo=; b=Xc1z0BjFQqgkvGOLnR9+
-	OyhAU8VyWf7eyOFIGj24cvVLNQ5vmQv8+TXX1n8Ap2kUrVdmmYXmwMfah+ryYnuc
-	+ekewvukinYw3GkscbrpWqCCTe6N/GbrNg2o4DwoUdGhFHFr83C4wRo+9xawVXrI
-	BB/xRHXCHfBjwCuw/bUmUAMUQnZSs8nzEXDKUCIWBMoacmTMYS17z7jbJALehaeo
-	I/Ysu2pq2oWOaxDfYIJHrE+Gj9X0XrmjQsr+uUA44BG7zgDNpv4OlvZu+9+zIbKz
-	6N96RuRjCc51wBADleWnmTkT/i1wulxc+V7Tt5ClfKKyQL30Emu9u7Rx9Lo0y9bt
-	uQ==
-Received: (qmail 187945 invoked from network); 10 Nov 2026 11:24:35 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Nov 2026 11:24:35 +0100
-X-UD-Smtp-Session: l3s3148p1@xMwtfOlffIIujnsO
-Date: Tue, 10 Nov 2026 11:24:35 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=EhDj
+	Noe3/JC0Wvq34jTb4Txp8C72674LsLZBKo4ri38=; b=TNCFRS9K+hFp4Rdn4i0u
+	ltnPkaWkMoaqydg2WtduSpQ34JwM3o5hAunPza0rJ0+Me/aJc+YUUUTteWx5vBbd
+	xJ/MXF2iC+/sZixjVWv8RYDMNNAv/M9bF1H/w9KGgdPI9cCGt6jEp5h/HXhbLMn4
+	kuAzNSsaSyurbxWzChy+HzOiG6uPrhsqvhsq2UbLqLqiNlgpxie/aVPduwzN2PJ5
+	+jMwd8HXrVynOZ3V2fPayIXM6jiTno2QTKRGI9+fDqJn4Q7/Z5ZlP/hSmPxUcllT
+	NMb8ibdtlIDHaEz3yXy5ucxgIRJvcOWi2Lygae3YKRB6MZNzQAJImk56YbPuo3uF
+	1A==
+Received: (qmail 188051 invoked from network); 10 Nov 2026 11:24:44 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Nov 2026 11:24:44 +0100
+X-UD-Smtp-Session: l3s3148p1@tqO2fOlf8JsujnsO
+Date: Tue, 10 Nov 2026 11:24:44 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Mark Brown <broonie@kernel.org>,
@@ -60,11 +60,11 @@ Cc: Mark Brown <broonie@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	chrome-platform@lists.linux.dev, linux-input@vger.kernel.org,
 	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 5/8] i2c: of-prober: Let cleanup op know if a device
- was found
-Message-ID: <avLw4zVtmr9WEQLR@shikoro>
+Subject: Re: [PATCH v7 6/8] i2c: of-prober: Defer regulator_disable() on
+ successful probe in simple helper
+Message-ID: <avLw7DllX_VM7wex@shikoro>
 References: <20261103043734.2179858-1-wenst@chromium.org>
- <20261103043734.2179858-6-wenst@chromium.org>
+ <20261103043734.2179858-7-wenst@chromium.org>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -76,16 +76,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261103043734.2179858-6-wenst@chromium.org>
+In-Reply-To: <20261103043734.2179858-7-wenst@chromium.org>
 
-On Tue, Nov 03, 2026 at 12:37:29PM +0800, Chen-Yu Tsai wrote:
-> The prober's cleanup op may want to do things differently if a device
-> was found, such as wait for the actual device driver to pick up
-> resources.
+On Tue, Nov 03, 2026 at 12:37:30PM +0800, Chen-Yu Tsai wrote:
+> When a I2C component is found, its device node is immediately enabled.
+> This triggers device creation and driver binding. The prober will hold
+> the regulator enable reference across this part. If the driver probes
+> synchronously, then it happens within this window. On the other hand,
+> if the driver probes asynchronously, there is a high chance that it
+> happens after the prober's cleanup function was called, in which case
+> the regulator would have been disabled when the driver's probe function
+> is called. This would then require the driver to wait 100 ms for the
+> hardware to reinitialize, even if the probe function was just a split
+> second late and the regulator was disabled a few milliseconds ago.
 > 
-> Add a parameter to the cleanup op to pass this information in.
+> Recently, some of the drivers for the components that are targeted by the
+> I2C OF component prober gained the ability to skip waiting for hardware
+> initialization if the regulator was left enabled. This happens when the
+> PMIC has them on by default, or if the component prober left them on
+> after probing the component.
 > 
-> Also fix up an incorrect reference in i2c_of_probe_ops's kernel-doc.
+> Tests on the Hana Chromebook showed that if the prober and trackpad
+> drivers are both builtin, then the time between the prober enabling the
+> device node and the trackpad driver asynchronously probing is between
+> 5 ms and 30 ms, though sometimes there are outliers exceeding 100 ms.
+> 
+> Wait 100 ms before dropping the enable refcount on our end so that the
+> actual driver has the opportunity to catch and increase the refcount on
+> their end.
 > 
 > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 

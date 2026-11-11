@@ -1,56 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.99
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794405737;
-	b=owWmgMiRqrPj2kJ3+v7LdnF+6Yqzve/7V9LYVIU5ZHPTRLJxaXi8HxGnfg2o4KlU/YxU
-	 xcc8nyxt+pTL4Y7CbN8Iz0Qlg+IJi9jzwAnVSBKE+DDuLBkchbrv+aFftmzzMIxMk6/+3
-	 Vq7e+k7Yelwo2VpMM+1oWoECX3poHL+kfRzfSNVfhdmP+8xeS+Mz2HVZopAm6a5kVzeCS
-	 M5E0ymmLbK71eqxyDSRV902ddVKDmQS6C9KRR2p0NDGbVyrt5oZQTqthq/hMaypD9P4Ok
-	 AzyjoO/28n5xl3Y/CEAnlMlw+2U1nnK/aDavK/DfWHNspSZu/gUcV4jB+DlsPU1rG5Q==
+	t=1794407984;
+	b=2p+vH4BdXEpS8T+129G5CC3IY9kPn+/XdZPSdevIfuIfimZHx8pHcguqRSS1hQPApqt2
+	 hYTRoioT+tfV97NDx3H2mrZP4EOri0vc436dKzJxc0MzQyg9Ar1lrbKzxZLtkhSlQy9Gw
+	 twaaHR93HB9cTvVgnx9OZlXEMzemdtXGzlsts0jJu2+3y1a/9CyOOXkxBULwFQShBVfm2
+	 jCQ7iMf6hw/v05lw0KV2AN4i9pgZm/0YshI0c7Wg+pUf+ZHUJIWNAdPreJXQwJSOZ/LFt
+	 rmj4QmYfxD5D2nqfviywEF3s/qUA1n0J5JzjMvZJLfgrx91HE/+c0/pyqBMm7tCcJYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794405737;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=l00vkickO7MnEi9PApV4N1wdqkAICuo/T6F5TR0Wl7g=;
-	b=s9N3+aKI+Su2GlsUx/1thtCfjOUNsnAZMaHltwf2LQETRXco2UxHqluAtRBSWpOuabsZ
-	 q/i8LDC80/qoUuPxmAewI7t7s7ipoK17K25mPAiOseF7xuBy6wDJYn4JtGioubeaUBq8o
-	 CNPDUqhbbSAL+I5CrxDHOLqpuaHzDwpaswxyWcJ8zLziQNeYMBWHMsSrR9UrE+I388G/j
-	 A4yamEb+9VPEv6ZFcrEIkrMHtBuiyZTH9xjxA2lt1m/tELxIBa51qB43//1KBxvl3WtMu
-	 SENWlw3/kAQ3ceHmcM9CdV7SLKS9lEs4JEwa4H6mgQ1DXE2gm5gTh7NZah4lnKrqCLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794407984;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=PZuSeEw5gKgjrhc7pmpD/7ZvZbd7Pher3TMM1GaWe58=;
+	b=VmorHx2gcjmUtNtLHzRFG/rBV7rH3uH0RtlnaZFGdNf7bT7RwIRdSlTM7gRJOdH702hb
+	 PxxvE8FTYWq5T9DPAOUpAL9+Y+KNtQdGEn/zbsgoXj/nvdFMtNOtPXGflnVKvxSy+Z6nt
+	 4uWC037u2WoEkWVnjrwgCkXuwVtPhbOMD2HzfqBK5kfqmOVpx2BNUA+5ue+lj/ozfgj4c
+	 XxN+Zrizv9Qji4pQUmFvJmyzM0auYiyZ5RoXeYqyCrciObt2MqNaxeLIOqqhIiG/e7LxP
+	 2MK5VrOeYXTVipojxBpHNVXBd5nsSEzXmLb5Temt1sWuRSt/RTnccFI/6kiDRYuaOKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=protonmail.com;
-	spf=pass smtp.mailfrom=protonmail.com;
-	dkim=pass header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=ye5TXOIE;
-	arc=none smtp.remote-ip=79.135.106.99
-Received: from mail-10699.protonmail.ch (mail-10699.protonmail.ch [79.135.106.99])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cL3NEJka;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47482606A321
-	for <chrome-platform@lists.linux.dev>; Wed, 11 Nov 2026 14:02:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47482606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D1D606A326
+	for <chrome-platform@lists.linux.dev>; Wed, 11 Nov 2026 14:39:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0D1D606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=ye5TXOIE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1794405732; x=1794664932;
-	bh=l00vkickO7MnEi9PApV4N1wdqkAICuo/T6F5TR0Wl7g=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=ye5TXOIEF9AGXuuLCH+rhhds/xsxETMhSKu33C2IAtQniG2oA5nxroqdG+1gnM8rQ
-	 R8PUxQWdEeuxY0eJ50BlfIRZxXEQPib8WMwLRA+BE8iHMVuCbMHYQ5kJT5TgsXG9ec
-	 TwZaK31CVOvUCNYlfWTQJrT2+1rfFIaAz524/enQDlT5785HgDWjajr5hS8yOHO3Se
-	 z4GF3PFBIr3rXWPCC07ODJAtZh8ryKI3e7Tdjx6dlPMXBhuVVxhF9Yq6bRQAmnBGl4
-	 JihzFPdcvNIGBKUcPl36x0vn4ET4ufribGS44IpJgrY1pv4h6adP3Q32HO5dre6ZmE
-	 87+G/fVo0tHyQ==
-Date: Wed, 11 Nov 2026 14:02:09 +0000
-To: "chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>
-From: beardedtechwizard <beardedtechwizard@protonmail.com>
-Subject: [PATCH] mfd: cros_ec: Don't abort probe on -EOPNOTSUPP from GET_FEATURES
-Message-ID: <hQEGbKxcpoe707VrIrPkgUiFwcIdxHKUXSAwVg0k5ppyHFPa9RrZXrwkKIdgji2EqMc_0LARMGKJhh1Co9TAHhlflydCWQxkYRaFB7u3bc8=@protonmail.com>
-Feedback-ID: 36656562:user:proton
-X-Pm-Message-ID: 1766e484e6870510e0259fbccd929d5b24d00b00
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cL3NEJka
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794407983; x=1825943983;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m/mxqNQyOZsf3BKcIbzdVgfwzzv2uTsmpPIvY6eXe0w=;
+  b=cL3NEJkaUHxWM4cIdiBLtL6cpMYIV4x0gWbTl4TEidA66LxlOP+5y4Kb
+   /Gu02zNOtuY4Oe9lpermiYZ77bJQy6hkEMaGpVfrSAK62+I9e1dn/1oot
+   bKuPQrD1mclD2EZo5kIBD8Gcv59iZvjLJlZrAqVadHsybgyF9nqbc8Ww9
+   kpH44rQsa6L/2OrplYpYtrBr7h455ePufVl2E/u2ph/s8Z5iAGeeMrFdQ
+   y3xGNSOEFHJ9z4NSi1L7UF/IGFU3XVaTMl3tX3lCKF/8fPDfUs1q9fZLs
+   mVPRjPJ/NHkFUj4iPmmjDmijZANWznL5+TZsrC+VAsiDZUrKkRTFD9Tr9
+   w==;
+X-CSE-ConnectionGUID: eqZI3lzwR3G13q781O5i3g==
+X-CSE-MsgGUID: jySS8sxrQf6s4AFQBQZwDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3100562"
+X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
+   d="scan'208";a="3100562"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 06:39:42 -0800
+X-CSE-ConnectionGUID: 5wWgrPazStCtvfNccIpzEA==
+X-CSE-MsgGUID: mhYAUYHoQ3Oj5ypjCTWWtw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
+   d="scan'208";a="8608433"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.142])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 06:39:39 -0800
+Date: Wed, 11 Nov 2026 16:39:37 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Di Wu <diwux@google.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
+	andy@kernel.org, bleung@chromium.org, groeck@chromium.org,
+	tzungbi@kernel.org, linux-iio@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: cros_ec: use sysfs_emit() in show callbacks
+Message-ID: <avR-KT-6e77EexZn@ashevche-desk.local>
+References: <20261111072608.3490763-1-diwux@google.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -60,51 +80,35 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111072608.3490763-1-diwux@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-The patch that made cros_ec_read_features() a hard failure during
-ec_device_probe() breaks older ECs that don't implement
-EC_CMD_GET_FEATURES. The error -95 (-EOPNOTSUPP) is not a transfer
-failure; it means the EC predates the command.
+On Wed, Nov 11, 2026 at 07:26:08AM +0000, Di Wu wrote:
+> Replace sprintf() and snprintf() with sysfs_emit() in the sysfs show
+> and ext_info read callbacks. sysfs_emit() is aware of the sysfs buffer
+> PAGE_SIZE limit and is the preferred helper for show callbacks.
 
-Before the patch, the code handled this gracefully:
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-    if (ret < 0) {
-        dev_warn(ec->dev, "cannot get EC features: %d\n", ret);
-        memset(features, 0, sizeof(*features));
-    }
+...
 
-The new code replaces this with a hard goto failed, which aborts the
-entire MFD probe. Result: no cros_ec_chardev, no /dev/cros_ec, no
-cros_ec_sysfs, no cros_ec_hwmon. All userspace EC tooling (ectool,
-fw-ectool, cros-usbpd) breaks.
+> -	return sprintf(buf, "%d.%06u\n",
+> -		       latency / 1000,
+> -		       (latency % 1000) * 1000);
+> +	return sysfs_emit(buf, "%d.%06u\n",
+> +			  latency / 1000,
+> +			  (latency % 1000) * 1000);
 
-Reproduced on:
-  Kernel: 7.3.3-100.fc43.x86_64 (Fedora 43)
-  dmesg:
-    cros_ec_lpcs GOOG0004:00: Chrome EC device registered
-    cros-ec-dev cros-ec-dev.2.auto: cannot get EC features: -95
-    cros-ec-dev cros-ec-dev.2.auto: probe with driver cros-ec-dev
-      failed with error -95
+As David said, since you touched these lines, make the less amount of them
+while at it.
 
-The fix is to treat -EOPNOTSUPP as "no features, continue" and only
-abort on actual transfer errors:
+(But no need to resend, usually Jonathan is kind to tweak this small thing.)
 
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -207,7 +207,7 @@ static int ec_device_probe(struct platform_device *pdev=
-)
- =09retval =3D cros_ec_read_features(ec);
--=09if (retval < 0)
-+=09if (retval < 0 && retval !=3D -EOPNOTSUPP)
- =09=09goto failed;
-
-This preserves the original intent of the patch (abort on dead EC /
-transfer failure) while retaining the compat shim for older ECs.
-
-Tested: with this patch, cros_ec_dev probes successfully on an EC that
-returns -EOPNOTSUPP for GET_FEATURES. All MFD subdevices register,
-/dev/cros_ec appears, and ectool --interface=3Ddev works.
+-- 
+With Best Regards,
+Andy Shevchenko
 
 

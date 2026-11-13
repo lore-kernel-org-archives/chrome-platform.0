@@ -1,57 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.26
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794555246;
-	b=JLX8a1VrLW3amP17NbS8eukaRAv3Pt4+oLeajDU/Bz7TeQ5W5ui8s98Qkl+8u/yx8SVF
-	 8RB7MVfQ/U6jJPasuJtt9ckZ0IgiL2Wr1lI4puYDpqHmD2pR/AZNNNuBZ0efNCszFsyRz
-	 axiTZP0j6QuCmZhR/B1lMal4EYVeTLPTKrcQWH6boUwXo3Y3J1kxXcX5FQom6f4C7hySa
-	 5hg+ayUy6rOCmygYNrQg0e5YkWZSrO5F4MxgLDWZq2LIFGZ9vPYsLbL+z9CwzWvLgrygl
-	 osrNClWuq5LBhsYBJTgJgoIJVEwfa4I2C20iO18JbpkvLfV8cdSLHYmq6qT+A1gLZ/g==
+	t=1794561789;
+	b=BKK46IiEUzoS0Rb8pfd0K05wLuxOu2GG9g02jbPaV5xG7a6pBXh77wWY3RphcAQodRp8
+	 UQ6TT9y3IpJWszb7hU42MG7u8mWV9Qvu9EodZq4ZTKpAo6a5/QBra6EaOe7wSfs3csKcy
+	 2i6O5pxaULhTEXJm20KufzIh7Lhul8dfjWX40qpgcCuPdkY/TTwZ1Ov5LkD1/ppYzbz7W
+	 3rqSHiEw6C/y9KfLc8MembESfeMi7AJ+VYo4MAOYZBXMEFFaClYvhnBUUMRRY0Zrwom1H
+	 Izik0Nt2ywvx+PgYkhsWMwiaIYvbBko3YdtgVtEsgZ0we5sXMFiVgCmSpsnD7r1nMjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794555246;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=BWopIb+RX1nT2wLoMblTDLqAHrxPUctNz/knG0fkEXk=;
-	b=UP8KLoEPI1heXNt3s6z55Ui/3JJPV3Qpn5Rk8RuE8XGOg+TjY+KqIBMv+opMV/PztqdP
-	 vm2htSJhG5zm7Cpo7rcLhg9vjqmEqHVs4LNChf8kQkCkc8BYwb6jQCjXwWA4x1y/wfIce
-	 1aNTKGoYhEI0y4aYb014drLD7l1Pcg5G7rXF/WV72F5/X1m5mG50kf4sTDNrr54pIHw+e
-	 rcX6xa0k4mLUUnbeyPLZZzKhqToI/WMABaIo6BGmkrsnVWmaTeYkYVJ6DIOsc868gKizV
-	 b3nUaAGPudtIJKqJuJV2DJ3yNSq52QJ/9BEa3sc8lJKrvaq33V8aX0ZLH0QHpYU/3Lg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794561789;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=L4U6uoKIPIkNv7imLu7Hv5jSI4mySZg6QE0cGj6iXh0=;
+	b=5S/M6cRhHzM3D8OfS7f0LVd4tG97edOMxdX8kJMMYttJqyo4mFpXRN+bH6vrGHGJRPbk
+	 uGmsJLfmwLstS68R3iemXQG3bZq/aehmkYcz9yaikgirg6NfURB+Koqms5s4HwBTK8avM
+	 MQs9aR9+s3ItWY9BBZvSZrInp4ntst5TCgNdPffBg4XGDMH0fdHuLYObWsvSpRkbaE4MV
+	 TDWmsss90bLip+e0apj0G8uC56aOK1K5UTCTtcnnbXD8tLWwAxyfj0zXMmN4IKU+mBOxO
+	 kTPvGnklV0GF6lDW5bS8BqAa6Wcg/8VNDzp9c1dX9m3tzPFoDKwkmoewjqYLOJ/nGLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=modelmiser.com;
-	spf=pass smtp.mailfrom=modelmiser.com;
-	dkim=pass header.d=modelmiser.com header.i=@modelmiser.com header.a=rsa-sha256 header.s=protonmail header.b=M7iQg5bl;
-	arc=none smtp.remote-ip=79.135.106.26
-Received: from mail-10626.protonmail.ch (mail-10626.protonmail.ch [79.135.106.26])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tHXuLnZZ;
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A05606A321
-	for <chrome-platform@lists.linux.dev>; Fri, 13 Nov 2026 07:34:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45A05606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=modelmiser.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=modelmiser.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C400606A32E
+	for <chrome-platform@lists.linux.dev>; Fri, 13 Nov 2026 09:23:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C400606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=modelmiser.com header.i=@modelmiser.com header.a=rsa-sha256 header.s=protonmail header.b=M7iQg5bl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=modelmiser.com;
-	s=protonmail; t=1794555241; x=1794814441;
-	bh=BWopIb+RX1nT2wLoMblTDLqAHrxPUctNz/knG0fkEXk=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=M7iQg5blFrHJYQE8ecrVsusSY1YKy5xIOnl6DvCGDWhNdIHrA8ySVtJjSyzjY9sZX
-	 bSwp0v6UtS6lR0vLHA3T5bl22ZDfrU3d9yVjIH8dH2W9LrCVNdZBF29Hdv3WKOMk+F
-	 Q/T9H6i0RZTBnmSg5Od/zgnJxEw86j+tWiQHUCm1yqcDYoahVLkchJFz4GGAfpTErR
-	 TRiUL0x1rQDDUWwoVHq45lHi3+93OSLBxUE1ilr/vO50oGmBJGve/Jhc62MbL6f2JB
-	 LV1lOo1dGNIhX5udJvW2KpFl5DPgAWGULEoRp43tiYnyk/uOg6xI50K3TN8MBLvO26
-	 +GKm1JJQMK/tA==
-Date: Fri, 13 Nov 2026 07:33:58 +0000
-To: Dan Callaghan <dcallagh@chromium.org>, Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-From: Chad Aldreda <ca@modelmiser.com>
-Cc: =?utf-8?Q?Sami_Ky=C3=B6stil=C3=A4?= <skyostil@chromium.org>, chrome-platform@lists.linux.dev, stable@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] platform/chrome: cros_hps_i2c: fix use-after-free in release() after unbind
-Message-ID: <20261113073351.805165-2-ca@modelmiser.com>
-Feedback-ID: 232753253:user:proton
-X-Pm-Message-ID: 46a50cc48e1df18c33adfa8f70fa9899685ece0e
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tHXuLnZZ
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-490a0e72588so244428f8f.3
+        for <chrome-platform@lists.linux.dev>; Fri, 13 Nov 2026 01:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794561787; x=1795166587; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=L4U6uoKIPIkNv7imLu7Hv5jSI4mySZg6QE0cGj6iXh0=;
+        b=tHXuLnZZq++oJEjcm1ur7Xl4Q9+Pc2C7RmVgd1wyxE8ncy/hfvb8TRex6ENRtSNMXs
+         dPi73HrUWSiy7lkKTS7kfeMt5RJU8hCXut5PvhNZL6wlh40154qHbibYZ4si+y3vyiyD
+         wihwYzUv+fYF4+IzHivmci7QAKj1bfabELP061YHfOwfRy1JBsqnvT8AaN2A1HSoqtVE
+         fFu5U/afhHTAp/66MYa1fI4RDNlGPd2ErxZ+AioSw7RBUg4ZpHx2ioI9M5tbWlW8GL17
+         ju/uy4R1LdcSMcQicCpXfNH16P0MBLXa/X6Wf1XL6hhl0FSgBO9SwUCm4U+UisdppAw/
+         f+rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794561787; x=1795166587;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=L4U6uoKIPIkNv7imLu7Hv5jSI4mySZg6QE0cGj6iXh0=;
+        b=Mm6DkayklmtjfCff5QdfPxoGubYPwfvVeJcuu3Hs/K9YAl1AqWtOrZMwpvQe7YJoLa
+         P02EdOJ7LHi6CpLKs3pPpzXUxmxhSw1AbpqR7Cos22FZjS4WnE74BY8LKraalr2Czlm5
+         DtHeERsG7LmeDFULrYZtCZb2mS6wfIijo1QJrTNbFksDW0+gSeJpbzrLtxdt4Di9mE1P
+         JGpyXmzGB3j93w6SXIcr2LQ5OmrpnDIJc01VmQyL7c5g1+wccA5c9MS+0RRJSmsTp7fJ
+         fLkaYlZoW3iIYq5RNl/SNGyaHo2w5OoCeLCfBYZBiOtWCPQ9DzUhtWmnEzH1XDXnFSz9
+         ec8g==
+X-Forwarded-Encrypted: i=1; AL+hErGVyqBoNW2Su7awmxoVqNdV877RYqPupaMUXKbP6hEDDFrQJgMx7mJX/9Kw9uDBx6n4gtgN6oEIruh/GaJTlaY=@lists.linux.dev
+X-Gm-Message-State: APuU4Z9bvzDTTpnNoZldZDvZN8l6M4+gIeSIWN5ODvV92efsduk7D9/k
+	MCbvwS2oZjVypT9qKyPiVhxC7egcfOTBrJ/K/Re6VWEtj2RqOa3mGQiX
+X-Gm-Gg: AYBFou3JOG8aDd09Uv8YPGqISfNUm+sQdVSvszGYLKl9S6NLfDjiVEnPu+bD58FM4B1
+	wN0q+vgrxvtWuaNfNFHwwGLDadSLg2AvPMIqaYo6tgrLOuu6YrhAGS2BAE5lUO+/LhuhDIXjfE/
+	V6gMG0NjbubsQs7/fKqtNXqqnV529QUEW0xekgRuIb9wTIgGigE0XKxsKrYLTCtLEPtrVNVfaXc
+	KNe13SGw7PPhrClhVC72ALm3+taTg/X3JzniMxGDEDBRxEWqAIE/uJSUOmaTr7uAHKJmhSpS6TN
+	vM6/Z+0C1QGFSHi+Ki8doARC8TEvUodQs3K2Cf6ELY5AyNkZlgPDyG2SYNkRnnBpAiZ9q0tgPOQ
+	8J+LV/89dimzFwWmOcoXQHvYoU4XMbQyO7ORtgbr4eJI9kK/avOBnvvA+WGBCdyyAGROTTqpTbs
+	xoRELhTuF1TElDILE50hK2HPpGj0Uj2jATazWTKuzeZxXIBdGbnmS0BjmZeW7AdH/bDuyBaO4Qi
+	zpJJt2cu6G8GjcxXoEw8FCO/ZqIRrnEKQkKqsZqmXxCePg2i/iDByXME9hNxtecyD9lbw7TSjWj
+	n/v+funG/C/NcmWzff/qVf3kHYhM+PqAsJgfFq7mH1rM/eTbWvxfm0YfVwS++NgzAQ==
+X-Received: by 2002:a05:6000:4305:b0:48d:e61d:68da with SMTP id ffacd0b85a97d-49c712ac8cbmr4676987f8f.20.1794561786746;
+        Fri, 13 Nov 2026 01:23:06 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c69406640sm3853502f8f.12.2026.11.13.01.23.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 01:23:06 -0800 (PST)
+Date: Fri, 13 Nov 2026 09:23:05 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Di Wu <diwux@google.com>,
+ dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org,
+ linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: cros_ec: use sysfs_emit() in show callbacks
+Message-ID: <20261113092305.00ec8be5@pumpkin>
+In-Reply-To: <20261113013646.4c2f8456@jic23-hlaptop>
+References: <20261111072608.3490763-1-diwux@google.com>
+	<avR-KT-6e77EexZn@ashevche-desk.local>
+	<20261112020439.37b0da70@jic23-hlaptop>
+	<20261112220218.1adae5e5@pumpkin>
+	<20261113013646.4c2f8456@jic23-hlaptop>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -61,232 +105,77 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-hps_release() finds struct hps_drvdata through file->private_data and
-calls pm_runtime_put() on hps->client->dev. hps comes from
-devm_kzalloc(), so it is freed when the driver is unbound, and a later
-close() of a file opened before the unbind reads freed memory. If the
-client was removed with delete_device, the i2c_client may have been
-freed as well, and pm_runtime_put() runs on it.
+On Fri, 13 Nov 2026 01:36:46 +0000
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-Allocate hps with kzalloc_obj() and reference-count it: the binding
-holds one reference and each open file another. remove() drops the
-runtime PM references that open files still hold and sets hps->client to
-NULL, before it disables runtime PM, so a release() after that only
-drops its reference to hps. A file opened before an unbind then no
-longer affects the device, including after the driver is bound again.
+> On Thu, 12 Nov 2026 22:02:18 +0000
+> David Laight <david.laight.linux@gmail.com> wrote:
+> 
+> > On Thu, 12 Nov 2026 02:04:39 +0000
+> > Jonathan Cameron <jic23@kernel.org> wrote:
+> >   
+> > > On Wed, 11 Nov 2026 16:39:37 +0200
+> > > Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+> > >     
+> > > > On Wed, Nov 11, 2026 at 07:26:08AM +0000, Di Wu wrote:      
+> > > > > Replace sprintf() and snprintf() with sysfs_emit() in the sysfs show
+> > > > > and ext_info read callbacks. sysfs_emit() is aware of the sysfs buffer
+> > > > > PAGE_SIZE limit and is the preferred helper for show callbacks.        
+> > > > 
+> > > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> > > > 
+> > > > ...
+> > > >       
+> > > > > -	return sprintf(buf, "%d.%06u\n",
+> > > > > -		       latency / 1000,
+> > > > > -		       (latency % 1000) * 1000);
+> > > > > +	return sysfs_emit(buf, "%d.%06u\n",
+> > > > > +			  latency / 1000,
+> > > > > +			  (latency % 1000) * 1000);        
+> > > > 
+> > > > As David said, since you touched these lines, make the less amount of them
+> > > > while at it.
+> > > > 
+> > > > (But no need to resend, usually Jonathan is kind to tweak this small thing.)
+> > > >       
+> > > Done and applied.
+> > > 
+> > >     
+> > 
+> > I just looked at that line again.
+> > Why is it multiplying the remainder by 1000?
+> > It could be:
+> > 	return sysfs_emit(buf, "%d.%03u000\n", latency / 1000, latency % 1000);
+> > if the 6 digits after the decimal point are required.  
+> 
+> Good point, I guess unrelated change that we could have on top.
 
-remove() now calls misc_deregister() first: misc_open() calls
-hps_open() with misc_mtx held, and misc_deregister() takes misc_mtx and
-unlists the device, so once it returns no open() is in progress and
-none can start. The open count that remove() then drains cannot grow
-again.
+Indeed.
 
-Fixes: 5f9952548d91 ("platform/chrome: add a driver for HPS")
-Cc: stable@vger.kernel.org
-Suggested-by: Tzung-Bi Shih <tzungbi@kernel.org>
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Chad Aldreda <ca@modelmiser.com>
----
-v3:
-- Use hps->client, set to NULL in remove(), to tell release() that the
-  device has gone, in place of the removed flag (Tzung-Bi).
-- Based on chrome-platform for-next (71c3b4fe7391). In mainline,
-  4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the
-  devm_kmalloc_obj() family") changes the line this patch replaces to
-  devm_kzalloc_obj(&client->dev, *hps); the result is kzalloc_obj()
-  either way.
-v2: https://lore.kernel.org/r/20261110123230.1251547-2-ca@modelmiser.com
-- Follow Tzung-Bi's suggestion: reference-count hps and have remove()
-  drop the runtime PM references of files that are still open, instead
-  of holding the client device for each open file.
-- One mutex in place of the rwsem and atomic_t in the suggestion.
-- Not converted to revocable, which is not in mainline yet; this
-  version can go to stable.
-v1: https://lore.kernel.org/r/20261107185258.4115770-2-ca@modelmiser.com
+> Those trailing zeros shouldn't matter.
 
-Tested in QEMU 10.2.4 (q35, KASAN, lockdep) with the reproducer from v2:
-a file is held open across an unbind of the client, across a
-delete_device, and across an unbind and bind, and in a fourth run it is
-closed before the client is deleted. There are no KASAN reports, lockdep
-reports or warnings in any of the four, and across the unbind and bind
-runtime_usage reads 1, 0 and 0, as with v2. With the line that sets
-hps->client to NULL removed, the delete_device run reports
-use-after-free in __pm_runtime_idle() and the unbind run a runtime PM
-usage count underflow. Not tested on HPS hardware, and a release()
-racing remove() was not exercised. Unbinding or deleting the client
-needs root.
+There is a matching oddity in the set function (just above).
+It calls iio_str_to_fixpoint(buf, 1000000, &integer, &fract)
+then does latency = integer * 1000 + fract/1000.
+Just replace the 100000 by 1000 and you don't need the divide.
 
-For stable, before v7.0 hps_release() ends in
-"return pm_runtime_put(dev);", so the release() hunk conflicts, and
-there is no kzalloc_obj(), so probe() needs kzalloc(sizeof(*hps),
-GFP_KERNEL) to build.
+iio_str_to_fixpoint() will ignore are extra fractional digits.
 
-The code, changelog and reproducer were written with an AI assistant
-(Claude Opus 5.5), and the assistant ran the tests above. I ran the
-final version myself and got the same results.
+Although I'm not at all sure its handling of negative value is correct.
+It converts -1.5 to -1/5 and -0.5 to 0/-5.
+I can't see how that is useful since i*10+f for both gives -5.
 
- drivers/platform/chrome/cros_hps_i2c.c | 74 ++++++++++++++++++++++----
- 1 file changed, 65 insertions(+), 9 deletions(-)
+I'd have though that either the fractional part should always be positive
+so -1.4 would need converting to -2/6 or it would have the same sign as
+the integer part and -1.4 would be converted to -1/-4.
 
-diff --git a/drivers/platform/chrome/cros_hps_i2c.c b/drivers/platform/chro=
-me/cros_hps_i2c.c
-index 3b9485627831..436afc4f50d3 100644
---- a/drivers/platform/chrome/cros_hps_i2c.c
-+++ b/drivers/platform/chrome/cros_hps_i2c.c
-@@ -14,9 +14,12 @@
- #include <linux/fs.h>
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
-+#include <linux/kref.h>
- #include <linux/miscdevice.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/pm_runtime.h>
-+#include <linux/slab.h>
-=20
- #define HPS_ACPI_ID=09=09"GOOG0020"
-=20
-@@ -24,8 +27,26 @@ struct hps_drvdata {
- =09struct i2c_client *client;
- =09struct miscdevice misc_device;
- =09struct gpio_desc *enable_gpio;
-+
-+=09/* hps outlives the driver binding while files are open. */
-+=09struct kref kref;
-+=09/*
-+=09 * Protects open_count, and client against remove(). remove() sets
-+=09 * client to NULL after dropping the files' runtime PM references;
-+=09 * release() then leaves the device alone.
-+=09 */
-+=09struct mutex lock;
-+=09unsigned int open_count;
- };
-=20
-+static void hps_free(struct kref *kref)
-+{
-+=09struct hps_drvdata *hps =3D container_of(kref, struct hps_drvdata, kref=
-);
-+
-+=09mutex_destroy(&hps->lock);
-+=09kfree(hps);
-+}
-+
- static void hps_set_power(struct hps_drvdata *hps, bool state)
- {
- =09gpiod_set_value_cansleep(hps->enable_gpio, state);
-@@ -36,18 +57,33 @@ static int hps_open(struct inode *inode, struct file *f=
-ile)
- =09struct hps_drvdata *hps =3D container_of(file->private_data,
- =09=09=09=09=09       struct hps_drvdata, misc_device);
- =09struct device *dev =3D &hps->client->dev;
-+=09int ret;
-+
-+=09ret =3D pm_runtime_resume_and_get(dev);
-+=09if (ret)
-+=09=09return ret;
-=20
--=09return pm_runtime_resume_and_get(dev);
-+=09mutex_lock(&hps->lock);
-+=09hps->open_count++;
-+=09mutex_unlock(&hps->lock);
-+
-+=09kref_get(&hps->kref);
-+=09file->private_data =3D hps;
-+=09return 0;
- }
-=20
- static int hps_release(struct inode *inode, struct file *file)
- {
--=09struct hps_drvdata *hps =3D container_of(file->private_data,
--=09=09=09=09=09       struct hps_drvdata, misc_device);
--=09struct device *dev =3D &hps->client->dev;
-+=09struct hps_drvdata *hps =3D file->private_data;
-=20
--=09pm_runtime_put(dev);
-+=09mutex_lock(&hps->lock);
-+=09if (hps->client) {
-+=09=09hps->open_count--;
-+=09=09pm_runtime_put(&hps->client->dev);
-+=09}
-+=09mutex_unlock(&hps->lock);
-=20
-+=09kref_put(&hps->kref, hps_free);
- =09return 0;
- }
-=20
-@@ -62,10 +98,13 @@ static int hps_i2c_probe(struct i2c_client *client)
- =09struct hps_drvdata *hps;
- =09int ret;
-=20
--=09hps =3D devm_kzalloc(&client->dev, sizeof(*hps), GFP_KERNEL);
-+=09hps =3D kzalloc_obj(*hps);
- =09if (!hps)
- =09=09return -ENOMEM;
-=20
-+=09kref_init(&hps->kref);
-+=09mutex_init(&hps->lock);
-+
- =09hps->misc_device.parent =3D &client->dev;
- =09hps->misc_device.minor =3D MISC_DYNAMIC_MINOR;
- =09hps->misc_device.name =3D "cros-hps";
-@@ -83,32 +122,49 @@ static int hps_i2c_probe(struct i2c_client *client)
- =09if (IS_ERR(hps->enable_gpio)) {
- =09=09ret =3D PTR_ERR(hps->enable_gpio);
- =09=09dev_err(&client->dev, "failed to get enable gpio: %d\n", ret);
--=09=09return ret;
-+=09=09goto err_put;
- =09}
-=20
- =09ret =3D misc_register(&hps->misc_device);
- =09if (ret) {
- =09=09dev_err(&client->dev, "failed to initialize misc device: %d\n", ret)=
-;
--=09=09return ret;
-+=09=09goto err_put;
- =09}
-=20
- =09hps_set_power(hps, false);
- =09pm_runtime_enable(&client->dev);
- =09return 0;
-+
-+err_put:
-+=09kref_put(&hps->kref, hps_free);
-+=09return ret;
- }
-=20
- static void hps_i2c_remove(struct i2c_client *client)
- {
- =09struct hps_drvdata *hps =3D i2c_get_clientdata(client);
-=20
--=09pm_runtime_disable(&client->dev);
-+=09/* After misc_deregister(), no open() is running or can start. */
- =09misc_deregister(&hps->misc_device);
-=20
-+=09/* Drop the runtime PM references of files that are still open. */
-+=09mutex_lock(&hps->lock);
-+=09while (hps->open_count) {
-+=09=09hps->open_count--;
-+=09=09pm_runtime_put_noidle(&client->dev);
-+=09}
-+=09hps->client =3D NULL;
-+=09mutex_unlock(&hps->lock);
-+
-+=09pm_runtime_disable(&client->dev);
-+
- =09/*
- =09 * Re-enable HPS, in order to return it to its default state
- =09 * (i.e. powered on).
- =09 */
- =09hps_set_power(hps, true);
-+
-+=09kref_put(&hps->kref, hps_free);
- }
-=20
- static int hps_suspend(struct device *dev)
---=20
-2.43.0
+David
 
+> 
+> > 
+> > David  
+> 
 

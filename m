@@ -1,61 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794533815;
-	b=u1kiaKoGQ/SKORPrFXw/esrDUIXHuia9gEecG/X6757EmjxUQSibkHF8GOZc5YG268a9
-	 WYT4cg6ywcHAzY9yyhdfMC9+8LHkAkz1X3kPnX8QbW8kB7oGjJooP9gq3ZrHIziXsTjmo
-	 yokNVoDUDMW2b5dPLMhXIE4Y8ncp6J2frfte+1rQysusInOP29qe88C0iUt+3gAemMnNj
-	 6jHZikRz6HZbukcujq/pxLN8piV7YioaBQZ37bkqcxYO8J9mI01th02rs8hUn8yjMkGuQ
-	 b98Z5OIZnelGQEUPqkrS3xHE8QpqvH1Gc5sLgpv5YzDB1aJn+1FlWFNrke1BYmgYjZw==
+	t=1794547998;
+	b=5pXF2YZiY4pAwR5tlbAuGWpT4Bj1DN9b4St5VPt4DaI2fmrHQz4TS4wdl09V/LUMpQRy
+	 u0lGjh63mIBRJx862XbIgJJ154GGvTfehqsLi+grcumtRcS2E2zN1yrURcsX6fHbTrRFl
+	 Rs/J5Opi/w88AuDEcZ/48QaAh37H8LqiYyHJT+oNS14fjf7iSxb+c3+x699We/ujQwpL3
+	 BgiKVXiDSklfIhyHQ5G7HBMoFDZNyOzKFoGie07oneoanIYaxb/U5UA8S9T+V0NUT++To
+	 91L9wh8rjp7mN5vgTpsC24oAayMbgcdQ80YoBdP5XWzHpyGU/qkHgFcWzlLmrByBjFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794533815;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794547998;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=arMA0v5t1o98BajxZAqpCJPUMRuqqdv471JMZzK6vk8=;
-	b=UbMe+QHfFZAqf1euV4V14f5pl7JvJFV/4G+buoU3KCpdiscJy6RefKh0l27iVl+8mGiS
-	 ZIOmvkk41LtyU7utz/3bGSk/1uOQNX7iR7AALF5xqkqwbhj26kjNwiYP2Xd+a3hSFAo5k
-	 RVuvtz8gGu0aIY7GeRmqQX/1XRuwLCBY4MfrOFzwwPh2qQ8JXk1HjODhIHNTZ9BEdVQqO
-	 9/Q1bGICxRyV26Qg3h5O1g1Rp6igrVxczRgB1Xna8nb8p+32aOPTOgQIiNjVHF4MvT1Qe
-	 NIhdfhVxoY9Oo3YVoCURMe8BuQqJBEJsXyNPclNe7l0Qx2RRuKM/2+cwhhjeGzxoI+w==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=RHnVMZMKjAJbKSX6kUAVgjpGbiApQ79G2eKyf44j3Gg=;
+	b=CncobLCuHuxKZghYrjynTQKH+hTHiz4G4iU8Dk5CK5JNVcn/4feQkiJba5rJJ8Da2dHX
+	 gzdcX2aLhtd7ZSFjQwze1c4wmtwzuz4fKedti8g5yvOqNC8KLehjwklQt5gbDE5onlgBX
+	 10XXgDmIgz79wdNSYEHOyICz5KatL6tBcR44DyAdkPz5BJqFnzVYMK9kpgF9mmMUa2GLE
+	 myMMy2PaIhvXUdnDEFHpa2karw5sjIjw/iBlnJSDESakHv0hQCecWWupwxqRuFIS8437G
+	 4EyrFZm9HfhY/SD5NNtHYSlJvJCg9OkrL7k0Z9GfMoSpUYL02u2WONqsHDqtQZaiLOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NSbPldpL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q5R+SlNq;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50012606A321;
-	Fri, 13 Nov 2026 01:36:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4878606A31C;
+	Fri, 13 Nov 2026 05:33:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NSbPldpL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD2E31F000C4;
-	Fri, 13 Nov 2026 01:36:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q5R+SlNq
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A76F1F000C4;
+	Fri, 13 Nov 2026 05:33:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794533814;
-	bh=arMA0v5t1o98BajxZAqpCJPUMRuqqdv471JMZzK6vk8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=NSbPldpLgz4V6yCT5f2eIjnWlQqFg/91G4ZwJaqJkWdXQ/RdIDx7vKcKh+kmn6+RT
-	 ffI3QvvK5Vz/fLdEzNRi/6YV2tPL1njOZDJeF7ziub2vRX+jfUMzz2KTHm9wv4JNwV
-	 kyRpjfMJ53BS88y+8htuT/VUacCo8JnnpOLBa36caXSs3+lCkTT0RBhjQlxHBcpuZJ
-	 DUHGLve2kZYetHSyE0ZzY7rDsmHrQntu8T/amkbgm0Gd3AHRrKBAXlgK69+AHiKsvZ
-	 EoS0wTziKM3wyTLCh8dpJHnAsJ+IgpTOR9zNUTzL7Bhv+7B+k1Q1ND6wgNnMPsyqk9
-	 qg3NV+aZ2Oidw==
-Date: Fri, 13 Nov 2026 01:36:46 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Di Wu <diwux@google.com>,
- dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- bleung@chromium.org, groeck@chromium.org, tzungbi@kernel.org,
- linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iio: cros_ec: use sysfs_emit() in show callbacks
-Message-ID: <20261113013646.4c2f8456@jic23-hlaptop>
-In-Reply-To: <20261112220218.1adae5e5@pumpkin>
-References: <20261111072608.3490763-1-diwux@google.com>
-	<avR-KT-6e77EexZn@ashevche-desk.local>
-	<20261112020439.37b0da70@jic23-hlaptop>
-	<20261112220218.1adae5e5@pumpkin>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1794547998;
+	bh=RHnVMZMKjAJbKSX6kUAVgjpGbiApQ79G2eKyf44j3Gg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Q5R+SlNqu3m9BfMBf99pE16nDNboe7/hBNLhy3sNFMfeUY4dnnM7qOX7lb57DkPp4
+	 aR3hX02z9y5pMrcND0Qx8w0Ly86pAjJxZ7GQO4C9X9vKYNvF+cuMkkrZZ+TxuwdsqH
+	 pMbKXTKtFxlW6/aXbSeYT/k+1qaam0NV9RPjnMlAsKporhoTdF9arsGMA0xKuxgE7T
+	 K2TS5UhfeVB53HEqn7g0OG+Qphz1xlVohj4H+oH2O338wZc6fkoHRm67uRhpeH0s29
+	 wZ0TuOhUmapnK8WnbnV5ODakniOWK3S9wy2ZxLhfWzhkxnVpLjLjjXsb/eNIa/rfbp
+	 d8XV2BLq1rDFw==
+Date: Fri, 13 Nov 2026 05:33:15 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Matt DeVillier <matt.devillier@gmail.com>
+Cc: Benson Leung <bleung@chromium.org>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] platform/chrome: cros_kbd_led_backlight: use matched
+ ACPI device handle
+Message-ID: <avahGxr_1LELxwBJ@google.com>
+References: <20261111172517.1407888-1-matt.devillier@gmail.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -65,52 +57,26 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111172517.1407888-1-matt.devillier@gmail.com>
 
-On Thu, 12 Nov 2026 22:02:18 +0000
-David Laight <david.laight.linux@gmail.com> wrote:
-
-> On Thu, 12 Nov 2026 02:04:39 +0000
-> Jonathan Cameron <jic23@kernel.org> wrote:
+On Wed, Nov 11, 2026 at 11:25:17AM -0600, Matt DeVillier wrote:
+> The ACPI backend hardcodes \_SB.KBLT for brightness get/set. Older
+> coreboot ASL places GOOG0002 there, but newer builds can nest it under
+> \_SB.CREC, so the absolute path lookup fails even though the driver
+> already bound to the correct HID.
 > 
-> > On Wed, 11 Nov 2026 16:39:37 +0200
-> > Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
-> >   
-> > > On Wed, Nov 11, 2026 at 07:26:08AM +0000, Di Wu wrote:    
-> > > > Replace sprintf() and snprintf() with sysfs_emit() in the sysfs show
-> > > > and ext_info read callbacks. sysfs_emit() is aware of the sysfs buffer
-> > > > PAGE_SIZE limit and is the preferred helper for show callbacks.      
-> > > 
-> > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> > > 
-> > > ...
-> > >     
-> > > > -	return sprintf(buf, "%d.%06u\n",
-> > > > -		       latency / 1000,
-> > > > -		       (latency % 1000) * 1000);
-> > > > +	return sysfs_emit(buf, "%d.%06u\n",
-> > > > +			  latency / 1000,
-> > > > +			  (latency % 1000) * 1000);      
-> > > 
-> > > As David said, since you touched these lines, make the less amount of them
-> > > while at it.
-> > > 
-> > > (But no need to resend, usually Jonathan is kind to tweak this small thing.)
-> > >     
-> > Done and applied.
-> > 
-> >   
-> 
-> I just looked at that line again.
-> Why is it multiplying the remainder by 1000?
-> It could be:
-> 	return sysfs_emit(buf, "%d.%03u000\n", latency / 1000, latency % 1000);
-> if the 6 digits after the decimal point are required.
+> Evaluate KBQC/KBCM on the ACPI companion of the matched platform
+> device instead of a fixed path, as done with the Chrome TBMC driver.
+>
+> [...]
 
-Good point, I guess unrelated change that we could have on top.
-Those trailing zeros shouldn't matter.
+Applied to
 
-> 
-> David
+    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
+[1/1] platform/chrome: cros_kbd_led_backlight: use matched ACPI device handle
+      commit: 71c3b4fe739123f9caca98cfbe274a85efa601a9
+
+Thanks!

@@ -1,63 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794695674;
-	b=Lys4Y2rxo4XSYnl8I/K4V96EhzFasK82bULjh3ApHPrh4AsNVqwECS1Zo17dEmv/M/jj
-	 7ThQU5I2wJY0ZmF10+rVJCkXL1h7lYF7/6JP4r0lZ0LoeZbLwq8P6pHDcvQ5ck3513k7W
-	 NMOIQuID3s7Ce8T85fd5wXZsCN8Ut5T2AbQ5SDkT6YETUTEhGLaqMO25Qg6GTebtQ9dSs
-	 TWqJtTn088yFsj6LbENg8fpbJaTFjiRAYMNl8NEy3rjZaW6i04d0lhyV8OApgVV5f0I2s
-	 nbjwchG5M6QV1plL+bEFVstal1+Q8an7ZX4Lq7m9nNFeGySxzPJ2AfYuUQ7+3Ygw06g==
+	t=1794810185;
+	b=ZE6Mf0LSdHlGFCcaBRpTV7EkjAma/y9sSTCGb5RLkaSQXR2Tb29OSsEs9nhhsMs4Jroy
+	 YXjYv54sM2lm9VFBqPnFehe2ttM5ROhFrNfgyzLlXDIFsPqxKTIUH5rMZHhIU+MHmx1iQ
+	 HbIBPnV+P526jCKzvcYHLQroX6lHdcxM9oKEQvdKArjXdS+q/m3jXMcaxziDClszirhll
+	 wML0v3t7sBu0nX7O1UE69Td77eXN97cRzH0+L55v9dGhlRa7I94JI403/2gZD8JtzzDRR
+	 YOsyifxUCYckE4/zomxBiYo5PPsl3ddefkMOXFWmcWlHP7O1OwncXpX3P8VX9U+xP6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794695674;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=9qpzHIfZJYRuI95UP3QUTLu4fdz4ZdV7Lss+/ZZ/Xpk=;
-	b=kxvF5MKeG5k4j1GB40+QHESlZbV8BOBBQjTH/wk6FNQvBW+5PDCKDnW99pOKBkla/g2E
-	 i/h6b3FHOrWGXW0vvwhyvWdaVNqkd4J7f4yDbSw25GNVY2nvEmHBHAWH1LU0NahLWNJN+
-	 tZG2TxdHRR5/SkcD7TJuvizmq6ynn2p2mhmnKzDynCxt3xSXrB3IH+Fr3JhGq3FJH5T/o
-	 vg7XXL8+NC/gcX7iWmj7fk2pIqzuCrg/PDJOjOz9Q603jCfVuad5/hVBYvEVfDCVZ65MV
-	 UAKtUZE/8kc0VrxId73BkXaWI5/VPgxdYQLhVGk57SK9xFpYcdjO1kEDk2aPcfB0bwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794810185;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Sender:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=ScErVZT+Xx01FZnmYTHArJdgOAIBBCEFBjP/K3VWH8g=;
+	b=X+qDdIMyL4Ql7tRawskmjECHzbycHa0aFJfpH7xOY+s/cA6LNVExw77U87u2UokL1tFp
+	 1tjjKzgr7EhcfhSKRbUOzECVR0vYhACVh8+M+i9mDOyuMfBvrzY6pWJQkHmXZtPe1+0Sh
+	 fU3a6AD8x6fNp9utMoMajtT1FVkiP8QEKI3oC1DXGUKjMAyp8LUchr5XDi7SdphcD7mUf
+	 9/AUhM9+3ZCTgvtwhKvSp/F9j7fZSISFkiulDG+P3fg7NwSSzhGnb8t6/khCPxePZulDo
+	 1DepqY9C8eTu9LpIv6MuSqgnPRUp9mKqYcCtNV2P3v8V8q665GFT1t/ytAVxYSBQ3Hg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gg7Omb1B;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=chromium.org;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GVF802KN;
+	arc=none smtp.remote-ip=209.85.210.181
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA8F606A327;
-	Sat, 14 Nov 2026 22:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DB0606A334
+	for <chrome-platform@lists.linux.dev>; Mon, 16 Nov 2026 06:23:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0DB0606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gg7Omb1B
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D531F000C5;
-	Sat, 14 Nov 2026 22:34:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794695673;
-	bh=9qpzHIfZJYRuI95UP3QUTLu4fdz4ZdV7Lss+/ZZ/Xpk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=gg7Omb1BO6mPe6WcNfFLRW/5W+KopW1lrvdKTxi1QvUGDutw1wUCbtmuJ4t8eQe8v
-	 Vr5hzqQT4i3qHINadokZAKJFanCpZNsYsNl/hxMqhTUyA8ovcg5N7keo2eTBHS2WBJ
-	 ojc4bAT2C7pnBVzuOKTNQyXw5g09OfQcDzoyz2rbZ2zeuDsSr3QXx2MtDWOY6arTRO
-	 yZui7ZzLgxaNimBLC9hmMZ8l2n6zArgLkrK6Cseh5OUb5UqN3l4dMaM1fPHflwheI2
-	 O6/Z5JUbn53/2KNH5xB77kHUvNri5yfB44R8eBwvyPwB6lpg4lzpZ0rQDF85B2wNKe
-	 GVnNGKMrJ42ug==
-Date: Sat, 14 Nov 2026 22:34:27 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Satyam Gupta <sgsatyam@google.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@intel.com>, Benson Leung <bleung@chromium.org>, Guenter
- Roeck <groeck@chromium.org>, Enric Balletbo i Serra <eballetbo@kernel.org>,
- linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] iio: cros_ec: Use platform sensor_num to unregister
- FIFO callback
-Message-ID: <20261114223427.35545c8d@jic23-hlaptop>
-In-Reply-To: <avElARDvNGQWodN8@google.com>
-References: <au1FF5K9EALuqnNR@google.com>
-	<20261106071904.142937-1-sgsatyam@google.com>
-	<avElARDvNGQWodN8@google.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GVF802KN
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8b66d1a08ccso3012081b3a.1
+        for <chrome-platform@lists.linux.dev>; Sun, 15 Nov 2026 22:23:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794810184; x=1795414984; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ScErVZT+Xx01FZnmYTHArJdgOAIBBCEFBjP/K3VWH8g=;
+        b=GVF802KNpT1Vo0dHapV9uMJQHiCDtOK+GO7xx9jHNSFTEMMO3xNUjMRHuxhSkrtj43
+         lBLLpdGi6tZ2IPcWUFcxyCocpjKWxv6IEBqQkpt8Oq1Y7vA8qrS/yt9YfU5SBN3fuU8a
+         R+x6ncChIGdcT9smHr95vcV8dDQTLjrhcgENx7yWEmM5lYOBw7GofPwK0KXRFAvHAilk
+         I892nbbElMuxt8SmuTId+ioy8GMMiwjwpA/MsNLYfReKIh+knzqf8XJ+a7QN8hP6q7hk
+         lKl2F5ptsQCJ207jKjcuZ/VjtgOJJAIQySsNsb0YOjIVpnhlo/c77Li0HE6ByV0mnGkc
+         iCsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794810184; x=1795414984;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ScErVZT+Xx01FZnmYTHArJdgOAIBBCEFBjP/K3VWH8g=;
+        b=rKV26I5D5ePXsp3LShtGqD0q5aUAL24GFc9+ejJTjA0HweQyShzAb2kzeOJ4eEtjIv
+         nIhEcpkqXboMlW44/g/9/UwSx9hAPL+qe6lyeiilBsp27QUe6vLtGITGPwvR+9nWKHDc
+         Oq7FwG/LqRNe6O3cI7cwG+ETNX84ClTCrGFQZ42u4gZzTf/vb8hOogNbyizTo9CbnPUO
+         jUg+Qjp7tYegXYlsSFO4J/eQNkPh8rZuJfa2YxFnhGveRfdycBgafBpW/ALkp6oetQyM
+         NHdlHmx5uY7HioHBhAWMMEkW2n66C0l2GazTymdsgUYdg5W0VyuWBjKVuVxUpAUTr/w0
+         jsCg==
+X-Gm-Message-State: APuU4Z+V5VIyYHQn31iYj09M45mgWa3yOJiYumkOfMIL1pM+DoHov9KX
+	z5fDU0N2YE/RpkWbh1CoP8D0CPlneCsW1j0VV6Ge5dgvMZekhvoIdUBl+K0/bC/Vdw==
+X-Gm-Gg: AYBFou0hjMzKMmF/j7cBD2fNdGEv1tYIf3J1JcibyfwULYzwnFyoC7G54TzH8dUY7Mi
+	rPMBUgS1VzXemRrN4QMxBzRFihscs8ZmmRxBpaGUxQt/HkdRcj6qdGCXGVHmUFu2EPVeMKTEew6
+	tQve/BOH7tjmat9PPsWmRH6AJ+50UMzJDu23Ge2RglW9OKzatPZajLnBB3swYDD7q4FmsKaF8J5
+	kziwMYZ117zIY6ZTE+C280Mfu5N7Qwu/aZXCqgVyIRWqlqts0evoZzOLFK9PesywvCStTdkaT+q
+	oR7RzcnJbXuwwaq2Hh3f/E0oPhwWiEuyIm5abzL6kDL6n0Bb1MG0EJeNsVw352aSVF6jRgUV03Z
+	p7FTG1V6LoqR6LtjpaC/oAHeWLQE+fIWyDyC8lf1GbfWo2JBcqRA8XFlQ7YQ1mwNqNrp7xrfFsH
+	gTwhZLx9D4yhJbWo1upKput6sZXYxzmalQlG3pLlvRGPP0Tx0DHkiMkvaRzFowUgR6x7oH+PWDM
+	nPIA1R/EF2xrTk5d47HTDNgwo03K7F+R4jgPhpK0gftnVwn17/lxI/G8CBiLZOoCTynlWRfPPCK
+	U6/yWpB6Eo6CSEFyQaRQNnwNdg5zRCkSHyAIT5ZR8uY9zLOOScS7DTjPm94mfiT6dzn/soFbkYR
+	Tc7NgkG1efwmi4L5/ve6Qs1fXWahQOl+guKslJAgM64w2z4SIrpNJ+EKgeDQxOdAYopbgykGPux
+	9II/SpRWFIXoRy
+X-Received: by 2002:a05:6a00:2c95:b0:878:34d7:697b with SMTP id d2e1a72fcca58-8beb7d1cca2mr8732092b3a.41.1794810183230;
+        Sun, 15 Nov 2026 22:23:03 -0800 (PST)
+Received: from google.com (196.126.197.35.bc.googleusercontent.com. [35.197.126.196])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bececcce76sm3180249b3a.5.2026.11.15.22.23.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 22:23:01 -0800 (PST)
+Sender: Benson Leung <bleung@google.com>
+Date: Sun, 15 Nov 2026 22:22:59 -0800
+From: Benson Leung <bleung@chromium.org>
+To: beardedtechwizard <beardedtechwizard@protonmail.com>
+Cc: chrome-platform@lists.linux.dev, bleung@chromium.org,
+	akuchynski@chromium.org
+Subject: Re: [PATCH] mfd: cros_ec: Don't abort probe on -EOPNOTSUPP from
+ GET_FEATURES
+Message-ID: <CANLzEkuaUmOopbO5eGQaC-jXX_wMZ5hEocCQ6PJ6DYpjFOWXtg@mail.gmail.com>
+References: <hQEGbKxcpoe707VrIrPkgUiFwcIdxHKUXSAwVg0k5ppyHFPa9RrZXrwkKIdgji2EqMc_0LARMGKJhh1Co9TAHhlflydCWQxkYRaFB7u3bc8=@protonmail.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -67,39 +99,124 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <hQEGbKxcpoe707VrIrPkgUiFwcIdxHKUXSAwVg0k5ppyHFPa9RrZXrwkKIdgji2EqMc_0LARMGKJhh1Co9TAHhlflydCWQxkYRaFB7u3bc8=@protonmail.com>
 
-On Mon, 9 Nov 2026 01:42:25 +0000
-Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+Hi,
 
-> On Fri, Nov 06, 2026 at 07:19:04AM +0000, Satyam Gupta wrote:
-> > cros_ec_sensors_core_register() registers the FIFO callback for the
-> > sensor number found in the platform data. The matching cleanup action,
-> > cros_ec_sensors_core_clean(), reads the number back from
-> > st->param.info.sensor_num instead.
-> > 
-> > st->param is the EC host command buffer. Drivers fill it in under
-> > cmd_lock before each command, while the cleanup action reads it without
-> > that lock. It is also set only for physical sensors. If the field holds
-> > another value when the device is unbound, the cleanup clears the wrong
-> > slot and leaves the callback in place, still pointing to the iio_dev
-> > that is about to be freed.
-> > 
-> > Use the platform data in the cleanup action too, and pass the struct
-> > device pointer directly to devm_add_action_or_reset(), so it always
-> > unregisters the slot that cros_ec_sensors_core_register() registered.
-> > 
-> > Fixes: aa984f1ba4a4 ("iio: cros_ec: Register to cros_ec_sensorhub when EC supports FIFO")
-> > Signed-off-by: Satyam Gupta <sgsatyam@google.com>  
+Thanks for the report and tracking down this regression. A few comments
+below so you can format and resend this properly as [PATCH v2]:
+
+On Wed, Nov 11, 2026 at 02:02:09PM +0000, beardedtechwizard wrote:
+> The patch that made cros_ec_read_features() a hard failure during
+> ec_device_probe() breaks older ECs that don't implement
+> EC_CMD_GET_FEATURES. The error -95 (-EOPNOTSUPP) is not a transfer
+> failure; it means the EC predates the command.
 > 
-> Other than the fact that it wasn't sent independently, the patch itself
-> looks good to me.
+
+You need to reference the commit that caused the regression in your message.
+
+Based on the context you provided, I dug it up for you:
+5855464dff6a mfd: cros_ec: Read EC features during probe to catch transfer error
+
+For ease of review next time, include a
+"Fixes:" tag.
+Instructions on how to format a "Fixes:" tag is here:
+https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
+
+Yours should look like this:
+Fixes: 5855464dff6a ("mfd: cros_ec: Read EC features during probe to catch transfer error")
+
+Since this is a fixup patch, it's a must to send this to the author of the
+original commit, in this case, Andrei Kuchynski <akuchynski@chromium.org>.
+
+In fact, you've sent this email only to the chrome-platform@lists.linux.dev.
+Run 'scripts/get_maintainer.pl' on the patch file you created for this fix.
+This is the list of people and lists you should send the patch to:
+Lee Jones <lee@kernel.org> (maintainer:MULTIFUNCTION DEVICES (MFD))
+Benson Leung <bleung@chromium.org> (maintainer:CHROMEOS EC SUBDRIVERS)
+Guenter Roeck <groeck@chromium.org> (reviewer:CHROMEOS EC SUBDRIVERS)
+mfd@lists.linux.dev (open list:MULTIFUNCTION DEVICES (MFD))
+chrome-platform@lists.linux.dev (open list:CHROMEOS EC SUBDRIVERS)
+linux-kernel@vger.kernel.org (open list)
+
+> Before the patch, the code handled this gracefully:
 > 
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+>     if (ret < 0) {
+>         dev_warn(ec->dev, "cannot get EC features: %d\n", ret);
+>         memset(features, 0, sizeof(*features));
+>     }
+> 
+> The new code replaces this with a hard goto failed, which aborts the
+> entire MFD probe. Result: no cros_ec_chardev, no /dev/cros_ec, no
+> cros_ec_sysfs, no cros_ec_hwmon. All userspace EC tooling (ectool,
+> fw-ectool, cros-usbpd) breaks.
+> 
+> Reproduced on:
+>   Kernel: 7.3.3-100.fc43.x86_64 (Fedora 43)
+>   dmesg:
+>     cros_ec_lpcs GOOG0004:00: Chrome EC device registered
+>     cros-ec-dev cros-ec-dev.2.auto: cannot get EC features: -95
+>     cros-ec-dev cros-ec-dev.2.auto: probe with driver cros-ec-dev
+>       failed with error -95
 
-Applied to the fixes-togreg branch of iio.git and marked for stable
+Please also provide the make/model of the hardware (which laptop, Chromebook,
+etc) where you reproduced this problem in your commit message.
 
-thanks.
+Your patch email is also missing a "Signed-off-by:" tag, which is required for
+all kernel patches, and the Developer's Certificate of Origin requires using
+your real name (known identity, not a handle/pseudonym) in both the
+"From:" header and "Signed-off-by:":
+https://docs.kernel.org/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
 
-Jonathan
+Please fix that with git config --global user.name "Your Name"
+Then to get "Signed-off-by:", just use "git commit -s".
+
+You found this in 7.3.3 stable, so make sure to 
+Cc: stable@vger.kernel.org
+
+before your SOB as well.
+
+> 
+> The fix is to treat -EOPNOTSUPP as "no features, continue" and only
+> abort on actual transfer errors:
+> 
+> --- a/drivers/mfd/cros_ec_dev.c
+> +++ b/drivers/mfd/cros_ec_dev.c
+> @@ -207,7 +207,7 @@ static int ec_device_probe(struct platform_device *pdev)
+>  	retval = cros_ec_read_features(ec);
+> -	if (retval < 0)
+> +	if (retval < 0 && retval != -EOPNOTSUPP)
+>  		goto failed;
+> 
+> This preserves the original intent of the patch (abort on dead EC /
+> transfer failure) while retaining the compat shim for older ECs.
+> 
+> Tested: with this patch, cros_ec_dev probes successfully on an EC that
+> returns -EOPNOTSUPP for GET_FEATURES. All MFD subdevices register,
+> /dev/cros_ec appears, and ectool --interface=dev works.
+
+The code change itself makes sense, since EC_RES_INVALID_COMMAND maps to
+-EOPNOTSUPP while actual transport failures return other error codes,
+and cros_ec_read_features() already zeroes ec->features on error.
+
+However, we can't apply this email as-is because it doesn't appear to be
+generated from an actual git commit: it is missing the "---" separator and
+git diff headers, has commentary placed after the diff, and has a broken
+hunk header ("@@ -207,7 +207,7 @@" for a 3-line hunk), so "git am"
+doesn't apply.
+
+For v2, please:
+1. Commit the change in a local checkout of an upstream kernel git tree
+   ("git commit -s"), after you've configured git with your real name.
+2. Generate the patch with "git format-patch -v2 -1".
+3. Run "./scripts/get_maintainer.pl" on the generated patch and include
+   all listed maintainers and lists in To/Cc.
+4. Send the patch using "git send-email".
+
+Please follow the full patch submission guide:
+https://docs.kernel.org/process/submitting-patches.html
+
+Thanks,
+Benson

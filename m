@@ -1,53 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794992307;
-	b=VFD2inEhmg4FSIiRBuoc/WROP/KvVTGcuEezTzPGruNWtBV4ZBLAxlEXtU1DrLDfOYYd
-	 1gToEhNArNFoiDC64qy4IMgistTKBr6MGhXouZVoOFIcmMlSfnCl04AGpdZRSq48wgAdY
-	 kBjZrLQJWU6wR6wsWKRo8zqLK0+BlLY1CvVsn7Ft8yrYRtKRf2iXCUtsiUu5IEoZaXd/2
-	 CTB0BXiYOdHfiVT32/tRNzFvguUnF7a0ZABPaEq91Itz7Uzaxfc9Xlza6ut5gEfWjxqr4
-	 iSm5MO66U8QsupRB5mndgJ+l4QItTfNdvIfcux+IHTeKAAX/mBLEkGzY+p8eDbB2J8g==
+	t=1794996961;
+	b=s7OSw9KDBn+2kxYd2KI3EprAtucKtAzBvS8kQQfarH3ByrVDzp5S/vNlT1B3ZjyxaLwk
+	 aSWX0OwA0CHIft8dWQ6lX23Mg1ngI3ZOAr2goU4FLBtIPed+sPx5oiVbxDJjXKDXv9Opz
+	 YBkRmHsmXLHsVXU2err5lXiqAIOxualIg77wcShLqt228uvdhJ2jGCC45nmGOQSiUTbsf
+	 mAVU7sT7NpKhnz5JsLtQAPP5+CAeJjOh2FVhnk2xxcTV8p+usFsBmUwwRkYS9LxdG8kjf
+	 AjYNvY+0yIk7qJ6+UX6MqKCO6d08zhh6J3b1Cj4rb2ZlvJfYi6WZTupvNbkkGGHJF/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794992307;
-	h=DMARC-Filter:DKIM-Signature:X-Original-From:In-Reply-To:Subject:
-	 X-Lms-Return-Path:Message-Id:Mime-Version:Received:To:Date:References:
-	 X-Mailer:Cc:From:Content-Transfer-Encoding:Content-Type;
-	bh=kEr9Wg+aGMoays9Uh761p22Cq/vcC6/mglbKhWQGwFU=;
-	b=GC5npb66BmFJtzxtO7I5wMc3Mu7O0ZYA1LbuFpYc6N8IsRMutoC8al2JDeLgkhNHOGNA
-	 g+I+K5PywwVsTFCq++d7+7/PKFmEsGO1+lkc0dmtaj9xCfTqBzBdhk9EnoWkV5Ct05IuY
-	 g1qovTBYwWcIoBUaLdv6p15Z8c0JAIRCUCSPATfuhpUpMo3eU8XjhdZp4E5Vytt/GbOL7
-	 dXHt4P8xQVTXCOQ8k9mbeQXlU8cvP4Eej1tbaCYOTTuRH3RcpmLsoiZMhx5wLazMPYLJH
-	 FYQOVs4w/2u8IPueiaM/L6Tx5/U3aN5OoQgvQKeMLE0kgrnyrpqfZJ0iDCsaAkYjX/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794996961;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=Fv3I+O9hDJ9zZ0P3XgSXSVC2IJuf4Bq4HQpsFJCZlL8=;
+	b=MQ2liPQLbPf6XfrjX4Qx9aeLZMTcTfEU/gJiAiDYXPPEt6Uw966Hc+aL8u4KZozFUMnb
+	 M4yzlJO7P06pm9qBvc9qSv1kEceOanbQMGIM5yKTh9HRHbIjVMJmbcpPO60JPMJdfIp+J
+	 EoWEMe0dBg/UIwD6Gii8GdSVCjAJArUlQWnmy//dbaLG0XuQARWilcbgFiSGv21MrknfF
+	 EV8fqcKiH7OCp5EzH+W6mFle+1fS98LmqAkvNYgDFb+O/nw4l9NwZsVXo9NfYiP+DRoXy
+	 U92B2IExjlySgFBDS9Gyn6IqPc41rdUfDJ9D5JKxMJ0vsgFPysTFGTnrkWxxCdr6lGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=deepcomputing.io;
-	spf=pass smtp.mailfrom=deepcomputing.io;
-	dkim=pass header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=NT7Fwi35;
-	arc=none smtp.remote-ip=209.127.231.16
-Received: from va-2-16.ptr.blmpb.com (va-2-16.ptr.blmpb.com [209.127.231.16])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=B5+5VUaO;
+	arc=none smtp.remote-ip=209.85.214.177
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDA3606A331
-	for <chrome-platform@lists.linux.dev>; Wed, 18 Nov 2026 08:58:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDDA3606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=deepcomputing.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deepcomputing.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4034606A325
+	for <chrome-platform@lists.linux.dev>; Wed, 18 Nov 2026 10:16:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4034606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=NT7Fwi35
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=deepcomputing-io.20200927.dkim.feishu.cn; t=1794992302;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=kEr9Wg+aGMoays9Uh761p22Cq/vcC6/mglbKhWQGwFU=;
- b=NT7Fwi35WYG8eyjqbJshaEWz596512Btcq5FAovqfyWG4z9R3fBynpDhhAUJVSYkJSFWYq
- tQfxvAG1xUe0H1C5pq1f7J1TlzavnFd19gXQZZrdzx9CHyH1WjAG2CmlFfyUmlb+xiAIyP
- hPBj+7fSEoa0scvO1ZWCj/lnTqI4CJGEilYo9zxiL/EvWmhb/Z54+Ae67io5GkQpBCzY9f
- l+1WV5zGH6Cc0TxxPeqcY2y2xNpDUMxkuQVZWc0wJH0ztU+ruWrPb+MEqN3iLQSZEDGt4a
- 8eEjgu80RzNAwWigtK+Kh4CeJDIZv7Gt5q1m4dPgX0UEERrhV9Smu9qQaWfzhA==
-X-Original-From: Wang Yang <yang.wang@deepcomputing.io>
-In-Reply-To: <20261118085742.1817536-1-yang.wang@deepcomputing.io>
-Subject: [PATCH 9/9] riscv: defconfig: Enable the FML13V05 EC keyboard modules
-X-Lms-Return-Path: <lba+26afd68ac+57a195+lists.linux.dev+yang.wang@deepcomputing.io>
-Message-Id: <20261118085742.1817536-10-yang.wang@deepcomputing.io>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=B5+5VUaO
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2f00fc215f9so247425ad.0
+        for <chrome-platform@lists.linux.dev>; Wed, 18 Nov 2026 02:16:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794996960; x=1795601760; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Fv3I+O9hDJ9zZ0P3XgSXSVC2IJuf4Bq4HQpsFJCZlL8=;
+        b=B5+5VUaODMmnL/TPKiM0CtpK3qZBBWZu8aX7FtzZSMbyLlIXuKs6y38AyHSTS/IwoT
+         +DPf2Rq0umdjxS1pcg0xL4OiFJrxuk6p1CkF0r2mV1HC4WBcfQ0hHOwvu0fvPUNN2gt7
+         43vdEMe0zaokipKmgHPIZMDITgAfouuB2bO9ktFGQOfUH6Yddis9GDpk8Iq/cD6PqyWZ
+         JO2Q2xzGc5svr+Ycz1WGjPqbyrrJn5PMJNtemuRGv0+14mAmL/fJzWWi7oEb4+Oho0ta
+         apummDVze7VUSLhB18y44WoLSNIYs57iRHeRyxNCt0Uo8C7KGTg7dH7CnQPBGlFBZjVP
+         cBNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794996960; x=1795601760;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Fv3I+O9hDJ9zZ0P3XgSXSVC2IJuf4Bq4HQpsFJCZlL8=;
+        b=uRewgaE6lG1CaQiEqxRYrR6tTI2kdftUwPYTyYU2QfVHTKvBGKpbpdNrcB7pALnX0Z
+         ZEHUaxFjMnoST3yMDDwvvnIqgvtrM9+Y8TdZ0nW01O8mpxguhQqYIg//XpScp7Xj9jGb
+         5UC5zwbHf1ySilup/aIuEq8ClsbKxTo4z+taYSvL5SjAKq82T63eUHTHf8JNk5XDzFQM
+         pKHd6zGZMxmdWW5YFPziArtnJybh/WrceDhqgBnTo3u8mwlmsMUot3hoR/2eQsGdUeLg
+         mUdIKllvvfQgLo8QL1zuyQPR/o6NEpiupEFoT8jk+QpVXyDg1ukhkz3we8zpDULnNI2x
+         Y0YA==
+X-Gm-Message-State: APuU4Z/NZoyRQ4y9jR0i3svOjfraOdgx02cSD2Mh+ywYOlXGaX2tHzq4
+	8bVqFUOIvdsfHLVauhz9ipFIlnjOZjQHZFfqSr4TMrkRRwb16r2moFL3
+X-Gm-Gg: AZFdTZcoDBiMXirKjRfuSWhatIlyrQFA9z8pIhANYTm/N+X4jb0ybhUuUhpXx8Y+N9E
+	CMn1LohT9x4wnSX6HWgaGpSr6rgALTS2wpicRFHAsG2ambGvLM4EFwDmhsnU+Ji/EgCpUXCknLM
+	RDWAu0gt6dTomn2HR9QAEnoQGmely2/QP86zchRWSM1WOSwdnvOJH4VKYl91tQXym6JqRcodIM1
+	ttJ/jwS/xdBG8CB/eUsFxtDm0grKe1LO6E8QYSmbBCwyhJ4uAlGErAx+JYdKY/s2GuNBHt/7b/f
+	10u+iEkcbzvYTF9LglRaMY1+Oi3LZFzbl/20VlCDWHXOdb1oxp0OrI0kwEsD8BWebQVhFjdS1dr
+	z7E7dLVNTR35EHHUF9+mFz4gK3A6Foq9G2ibsfAmk5U2qI5vlsAUJDBpuZ2jsXl4H+AcowD3Jdg
+	X5fRLm3uS2bxnJF3/ORIpR8B8IHUSYDYjutk8BuhmQey5OUF2YLVoFUdhEkBwLsiN8N1CN3k0+V
+	A+x+iGPzuR4ycBO9ICaHNJ6ATklSEQjywaJ1dDF7MfIVptcfAymoEXQ7C/Es5GKegDczeeN0ek4
+	UPE/kilJuLlFyOl2VFYuOSAgZ7y/nIk80aO5bwgTWs1bclnXKWmsWw==
+X-Received: by 2002:a17:903:234c:b0:2ef:e28e:8f17 with SMTP id d9443c01a7336-2eff754459dmr21917045ad.49.1794996959717;
+        Wed, 18 Nov 2026 02:15:59 -0800 (PST)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eff623c968sm10954285ad.55.2026.11.18.02.15.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 02:15:59 -0800 (PST)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>
+Cc: chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] platform/chrome: wilco_ec: Reject out-of-bounds property length
+Date: Wed, 18 Nov 2026 18:15:55 +0800
+Message-Id: <20261118101555.3467162-1-maoyixie.tju@gmail.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -56,62 +93,46 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Received: from ubuntu.. ([183.23.101.74]) by smtp.feishu.cn with ESMTPS; Wed, 18 Nov 2026 16:58:19 +0800
-To: "Yixun Lan" <dlan@kernel.org>, "Benson Leung" <bleung@chromium.org>
-Date: Wed, 18 Nov 2026 16:57:42 +0800
-References: <20261118085742.1817536-1-yang.wang@deepcomputing.io>
-X-Mailer: git-send-email 2.43.0
-Cc: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>, 
-	"Tzung-Bi Shih" <tzungbi@kernel.org>, 
-	"Guenter Roeck" <groeck@chromium.org>, "Rob Herring" <robh@kernel.org>, 
-	"Krzysztof Kozlowski" <krzk+dt@kernel.org>, 
-	"Conor Dooley" <conor+dt@kernel.org>, "Paul Walmsley" <pjw@kernel.org>, 
-	"Palmer Dabbelt" <palmer@dabbelt.com>, 
-	"Albert Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>, 
-	"Sandie Cao" <sandie.cao@deepcomputing.io>, <devicetree@vger.kernel.org>, 
-	<chrome-platform@lists.linux.dev>, <linux-riscv@lists.infradead.org>, 
-	<spacemit@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-From: "Wang Yang" <yang.wang@deepcomputing.io>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Enable the eSPI controller and Chrome platform configuration menu. Build
-the EC core, memory transport and keyboard driver as modules so OF
-modaliases can load them on boards that describe this hardware.
+wilco_ec_get_property() copies rs.length bytes from rs.data into
+prop_msg->data without checking rs.length, which comes from the EC.
+Both buffers hold WILCO_EC_PROPERTY_MAX_SIZE (4) bytes, so a larger
+length reads past rs on the stack and writes past the caller's message.
 
-Keep all configuration choices in this final standalone patch.
+Return -EBADMSG for such a length, as the file does for other bad
+responses.
 
-Prepared with Codex assistance from the existing DC-linux EC support.
+Found with a CodeQL-based static analysis tool that we are developing.
+I used an LLM to help write this patch and a userspace harness. The
+harness runs the unmodified properties.c against a model of the EC
+under AddressSanitizer. It reports the copy for lengths 5 to 255, and
+nothing with this patch. Not tested on hardware, only compile-tested
+with W=1.
 
-Signed-off-by: Wang Yang <yang.wang@deepcomputing.io>
+Fixes: 0c0b7ea23aed ("platform/chrome: wilco_ec: Add property helper library")
+Cc: stable@vger.kernel.org
+Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
 ---
- arch/riscv/configs/defconfig | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/platform/chrome/wilco_ec/properties.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index 383fdd07a..1ddb8cd5f 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -145,7 +145,9 @@ CONFIG_MICREL_PHY=y
- CONFIG_MICROSEMI_PHY=y
- CONFIG_MOTORCOMM_PHY=y
- CONFIG_INPUT_MOUSEDEV=y
-+CONFIG_SPACEMIT_ESPI_BUS=y
- CONFIG_INPUT_EVDEV=y
-+CONFIG_KEYBOARD_CROS_EC=m
- CONFIG_KEYBOARD_GPIO=y
- CONFIG_KEYBOARD_SUN4I_LRADC=m
- CONFIG_SERIAL_8250=y
-@@ -277,6 +279,9 @@ CONFIG_PHY_SUN4I_USB=m
- CONFIG_PHY_STARFIVE_JH7110_DPHY_RX=m
- CONFIG_PHY_STARFIVE_JH7110_PCIE=m
- CONFIG_PHY_STARFIVE_JH7110_USB=m
-+CONFIG_CHROME_PLATFORMS=y
-+CONFIG_CROS_EC=m
-+CONFIG_CROS_EC_SPACEMIT_K3=m
- CONFIG_LIBNVDIMM=y
- CONFIG_NVMEM_SUNXI_SID=y
- CONFIG_EXT4_FS=y
+diff --git a/drivers/platform/chrome/wilco_ec/properties.c b/drivers/platform/chrome/wilco_ec/properties.c
+index 9951c8db04da065..4ca7e874804c28e 100644
+--- a/drivers/platform/chrome/wilco_ec/properties.c
++++ b/drivers/platform/chrome/wilco_ec/properties.c
+@@ -70,6 +70,8 @@ int wilco_ec_get_property(struct wilco_ec_device *ec,
+ 	ret = send_property_msg(ec, &rq, &rs);
+ 	if (ret < 0)
+ 		return ret;
++	if (rs.length > WILCO_EC_PROPERTY_MAX_SIZE)
++		return -EBADMSG;
+ 
+ 	prop_msg->length = rs.length;
+ 	memcpy(prop_msg->data, rs.data, rs.length);
+
+base-commit: 7e1392a42ea288d70a266f6553fe06f57f8647ea
 -- 
-2.43.0
+2.34.1
+

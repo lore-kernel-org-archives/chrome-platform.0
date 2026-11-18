@@ -1,86 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.154.119.183
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795036259;
-	b=OCzDhqC+F/TSp8n0/c87VrK3DhE0nRnbQKc0buD2VtzSPUx/bSqLTFQy3GJSBgXyiUxK
-	 r1bBiFrGXTxkRQFnexjmnKMkAJSYZ9hvWv8JTSfH4P4eV5AO5mCmM2aGxNgVxrxz49fL2
-	 AJAc5NuXkRPX2UUQP7bIBciDPjHROSzH9WRjm85wGPkLSMJ96lqn3VFztbcv02vsWam7I
-	 XfV6M07TXCvZCUJws6/ZH2U2HveU/EyAesOn5RnoBHoeb7898uWv1GVrl5CS8viIJFfgV
-	 fprElAp6AqqsjjRJv2ogT9jiyKAl7oUV/MfiMD1n+k+ghOKlCKVU2Tv/sGuSKCVdSXg==
+	t=1795039239;
+	b=da3k9lCUUDKyCeuT3FcXT8gvw2eGrUoasUpB+NnsdJd81qCZp/qusl8g2NS0h8FLxHiw
+	 XAyRW5FMUibMcZsdNTIqO1SuIIIKMprmx5gUzMhAYe/ZfX4R3qreknFXRQRyb1VKDvv01
+	 0kOrqViEVw4y1MXODIJOTVa2ghosVXvhwc3+1CILauGcn0u6X9njiJ1BmEFt1IedjzLBa
+	 dYyaUGOuR/Qpone/dMkTWM4wVLECebFurV/SbXqDlAq508dRnOl624dx3Ti4W/kcH83AD
+	 /nguU2jePtg9aZZJmBBaw0SevY3W5XN08iPVth21zbJmfRo2FwZju1Wyzg2Heo336dQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795036259;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:Mail-Followup-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:User-Agent;
-	bh=tIKDVSjVcHAwPM4Udn/N9uTGDPYtfcGsqelMKv/u8Vw=;
-	b=QQeQZQ8NaOXFkuSlOCoJwKufXa44Sqitd0H2uMZpsqz0iGP5P1GHFMkp0JU+C07QXYhG
-	 VUwnFzjqSa9JpxkBOf01Gqg/hRUy8CV5HKQAPpz4vIOy1zYsrgf+L1oXG9Ghpm/p1Tpnn
-	 7h8eQmJGaKTnoZtDrcBKl4HAMjEb4x9NaMxhe7wzR0QDMr8qP7fhSAzdiVP6dqns3QEVn
-	 DR5xBXPgYC1nwpk0bmQUE5WMJtY6A5mmI5X7fC9c7ADl/F+IB6t9hqSI94LKCtc9osVfs
-	 lqo+3OzDKJGXfLjUPvO654rQ+4fH4Rw+tzonSOYsfGA5M9MFqeF4NQE2p9avUjE5O5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795039239;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=EW/j4AHQToanR4iAnbKrwXf5ZMy3lNHSEzakLY3OOkE=;
+	b=0yMh6Z9Xm9YU9NRcnemlkQkcf6qlwUiLeR+oN9Fj5uaJ3pqCBhb2PMu+96Vu/NWsAb0U
+	 7CEYeR8tOUBw99MHDDi3gFhvKCdP5GHzucUS1D+aS9G4C0uM8ZjUickcM44fIj6FstgWo
+	 nofgS4R31reOBgTC0l7uf9ggvRB1x6j+h8eUYi7MHLdSbe3ndZJVMfHsgaRTFUBGZvYLe
+	 DTqL2oxw2rbzzb1/BDaGIzEPeDPmuWGluyJHW3NjXSE+kRIgQ1znJskz18LJwaoVKN4IC
+	 YV+51pq5gLHzz78/4MF5vlMQJa0YJTwww3DkfRhBsxz9EqyAJTLB8wbwQx6nnhpeSeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=aurel32.net;
-	spf=pass smtp.mailfrom=aurel32.net;
-	dkim=pass header.d=aurel32.net header.i=@aurel32.net header.a=rsa-sha256 header.s=202004.hall header.b=YMwfenKF;
-	arc=none smtp.remote-ip=195.154.119.183
-Received: from hall.aurel32.net (hall.aurel32.net [195.154.119.183])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="EHUn/RC5";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C1A606A32C;
-	Wed, 18 Nov 2026 21:10:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8C1A606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aurel32.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aurel32.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F562606A330;
+	Wed, 18 Nov 2026 22:00:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=aurel32.net header.i=@aurel32.net header.a=rsa-sha256 header.s=202004.hall header.b=YMwfenKF
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=aurel32.net
-	; s=202004.hall; h=In-Reply-To:Content-Type:MIME-Version:References:
-	Message-ID:Subject:Cc:To:From:Date:Content-Transfer-Encoding:From:Reply-To:
-	Subject:Content-ID:Content-Description:X-Debbugs-Cc;
-	bh=tIKDVSjVcHAwPM4Udn/N9uTGDPYtfcGsqelMKv/u8Vw=; b=YMwfenKFu77Rd4cA50Ct4iw/xK
-	+YUal108UpuW7zj8Ytkx7sxnfwT9P/GPoDsTDnNRgGysory7cLx829c4tlj8lUvBJ8a114rtvkZ+l
-	aEgauDnKaKDcWfZt8WRyRuJyvGccC2GgEH35dI9hiWNqk2VxjIOOiDQ6lGOBHiRDAC7DqFfVPgrK3
-	cjJ/qSKM8G0FqFda/sKjhmBNbBG5yAP2KaFU1EEFglmpdlDn4DK9XZHILHYUvHcptdyYfyhGewxTL
-	sysJ4pUIxw9tOdKTuxo5WGfzysSwbAEJTsWYOr7lm1EcRX6weP1/daTWtZhfnxbMxQsKYFN0Uirr7
-	Z9CQDg5w==;
-Received: from authenticated user
-	by hall.aurel32.net with esmtpsa  (TLS1.3)  tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <aurelien@aurel32.net>)
-	id 1xTmvU-00000000TjL-0wR2;
-	Wed, 18 Nov 2026 22:10:44 +0100
-Date: Wed, 18 Nov 2026 22:10:43 +0100
-From: Aurelien Jarno <aurelien@aurel32.net>
-To: Wang Yang <yang.wang@deepcomputing.io>
-Cc: Yixun Lan <dlan@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Sandie Cao <sandie.cao@deepcomputing.io>,
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/9] bus: Add SpacemiT K3 eSPI controller support
-Message-ID: <av4UUyCtDBJNU0h5@aurel32.net>
-Mail-Followup-To: Wang Yang <yang.wang@deepcomputing.io>,
-	Yixun Lan <dlan@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Sandie Cao <sandie.cao@deepcomputing.io>,
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-References: <20261118085742.1817536-1-yang.wang@deepcomputing.io>
- <20261118085742.1817536-4-yang.wang@deepcomputing.io>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EHUn/RC5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 045061F000C6;
+	Wed, 18 Nov 2026 22:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795039239;
+	bh=EW/j4AHQToanR4iAnbKrwXf5ZMy3lNHSEzakLY3OOkE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=EHUn/RC5tq2E/sDD9KuZBuc3WUNlBitDQRQ+XXA1pPaXDyVDr72v8dR3Brnq6I1xl
+	 mNBEKAeHSOwM0jXRISwmZOmN4sJ+XwdJBqkRvpknbqHFAuqmUqOygSxJ9uoPeIQuCC
+	 akBNA4P5pGfE3qK8Ifv3d5xCPfpqnRQaAo6AOAf6s/UVAYVxezDqOr5ikwifG7GoyP
+	 bMmpEatW+uw7d3bAdqC8cop/FIjYHIQ9sIda0QL8qnIdo6db/aDqvAbav1GMeMEGJt
+	 yY70g+ClHORIh8mv5OS8JLNxaMVGMu3JfkazYlhhwg9CcGGjCN3moPgI6WSXngWzql
+	 Nw+BAauBDDRUQ==
+Date: Wed, 18 Nov 2026 22:00:33 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Daniel Balint <dbalint@google.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org, Benson
+ Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>, Tzung-Bi Shih
+ <tzungbi@kernel.org>, linux-iio@vger.kernel.org,
+ chrome-platform@lists.linux.dev, mfd@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 0/3] Introduce cros_ec power monitoring
+Message-ID: <20261118220033.70425495@jic23-hlaptop>
+In-Reply-To: <20261118204532.257423-1-dbalint@google.com>
+References: <20261106193129.43493-1-dbalint@google.com>
+	<20261107010356.39d9eddf@jic23-hlaptop>
+	<20261118204532.257423-1-dbalint@google.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -90,39 +64,71 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118085742.1817536-4-yang.wang@deepcomputing.io>
-User-Agent: Mutt/2.4.1 (2026-07-04)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Wed, 18 Nov 2026 20:45:32 +0000
+Daniel Balint <dbalint@google.com> wrote:
 
-On 2026-11-18 16:57, Wang Yang wrote:
-> Initialize and recover the K3 eSPI peripheral channel before populating
-> its children. Keep controller register programming, clock and reset
-> handling in the controller driver rather than in the EC transport.
+> On Sat, 7 Nov 2026 01:03:56 +0000
+> Jonathan Cameron <jic23@kernel.org> wrote:
 > 
-> Port the existing vendor-derived implementation separately from the EC
-> client. The controller logic comes from the vendor BSP at revision
-> 29b78afb484b, authored by goumin <min.gou@spacemit.com>. Preserve its
-> register programming and link-recovery behavior.
+> > Hi Daniel
+> > 
+> > I'm not necessarily against this but when adding monitoring components
+> > to IIO the usual question is why not hwmon?  What features are not
+> > well supported by that framework?
+> > 
+> > Note historically I suspect we accepted one or two drives into IIO that
+> > would have fitted better there so precedence isn't a strong argument.
+> > 
+> > Convention for these somewhat borderline case is +CC hmwon maintainer
+> > and list as well as IIO with that explanation in the cover letter.
+> > That avoids any last minute surprises!  
 > 
-> No matching SpacemiT eSPI submission was found in the archived SPI,
-> RISC-V and Chrome platform searches used for this port.
+> Hi Jonathan,
+> 
+> Thanks for taking a look!
+> The main reason for choosing IIO over hwmon is that for On-Device Power
+> Monitoring, userspace needs an atomic, untorn snapshot across all rails
+> (up to 64) over the same integration window, triggered on demand from
+> userspace and read out in a single buffer read rather than repeated
+> per-channel sysfs reads.
+> 
+> Reflecting that requirement, EC_PWRMON_LATCH on the EC is a global,
+> stateful command: a single latch simultaneously snapshots all onboard
+> power accumulators and resets their accumulation window on the EC, so
+> individual channels cannot be latched independently. As far as I know,
+> hwmon only exposes independent per-channel sysfs attributes with no
+> multi-channel buffer or on-demand trigger ABI, whereas IIO's triggered
+> buffer interface is well suited for this kind of pattern.
 
-While this is correct, please note that there was a try from AMD to 
-define a eSPI bus framework back in August [1]. However I haven't 
-spotted any further progress.
+Ok, but that's not in the driver yet. I see you refer to that below
+as a v2 thing, so not a problem.
 
-Anyway thanks for your work, I guess this can also be useful for the EC 
-controller on the K3 Pico-ITX boards, which drives among other things 
-the fan PWM.
+Do you need that coherent snapshot to get to userspace in one go? 
 
-Regards
-Aurelien
+For accumulator channels the way they are normally done to sysfs
+style reads is to snapshot on each read, update an internal store
+of accumulation since enable then provide whichever one was requested.
+That way no data is lost - but you don't get an aligned snapshot.
+So it depends on what maths you are going to do with them, whether
+it can be done in kernel and if not how much interchannel skid
+matters.
 
-[1] https://lore.kernel.org/all/20260804115259.4065638-1-krishnamoorthi.m@amd.com/
+So tell us more on why you need that coherent snapshot to userspace.
 
--- 
-Aurelien Jarno                          GPG: 4096R/1DDD8C9B
-aurelien@aurel32.net                     http://aurel32.net
+I agree that if you do, then hwmon wouldn't currently be a good fit
+(unless I'm also missing a way to do it).
+
+> 
+> CC'ing hwmon maintainer and list to keep me honest.
+> 
+> If there is no objection to adding the driver to IIO, I will clean up the
+> custom energy_value attribute and replace it with the standard IIO
+> triggered buffer interface in v2, along with addressing other review
+> comments and including the above explanation in the v2 cover letter.
+> 
+> Thanks,
+> Daniel
+

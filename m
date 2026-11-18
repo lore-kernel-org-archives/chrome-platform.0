@@ -1,55 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.58
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794992280;
-	b=Jd42mMWwSLgLB0pJQpsI+yLm6l8UUlhg/nSkRLPchH9M+qcdX+46LZxMw5rxYFltTaXd
-	 j+zR0r2hIOQ+VOAi8p2nydKb0+2ntGuTmjTRapl1wKjmD3HnN/zjqiLRRjswHtc5HdKAm
-	 +K2BNAODq1h/5mb1Mj1wIPHxsJ0JlUfsIcINMjOGS9qZb/26gLkDQ0PwNdt3E+WQoFzoO
-	 epYfG8Nsxn+ESiFpbX50o5UW0Q3tNHwysnACvqjmdQNTcvCUCT56ZUXWNDQXUEVAsDkTY
-	 IYh7TorqJoz7+rXsQ0hm6sL0j4PlEmTXUf29fyB6UkPD1l/zQPpS0QkuBtJGj04Dbtw==
+	t=1794992283;
+	b=Nm+xrerqYrghMGVSOOVqHk/pr6zU3/gVA+bD3RqGIPfQyWQ7KxO8u++XWsNJbOlpjaKU
+	 D0W+q0kE4GSCs6qHFTIQBEZ7/x4q4hXobhaGpPxn0ILOBfSnD/FdGgl8dTyz1+j76H5S2
+	 Jn3JOZUxh+kPn5cweNarGWU/AnWmyrfxYGkS/7Y6A6vUhcFN5Cc/60UoN9AhhClizKYJR
+	 Bfards6LDJ0/5VP5KLSTCrz9Zkk7jKbgKqTcm61AUN06ZUWTBCjBf0/0z0WsbXojTB0Dc
+	 VkD0BO2iOeNPJmcw3b86tjZ5omMtkeHJ45jBVaftwE5GYzjg1YeAg7ci5212HT+lP6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794992280;
-	h=DMARC-Filter:DKIM-Signature:From:Subject:Message-Id:Received:
-	 X-Mailer:Content-Transfer-Encoding:To:Cc:Mime-Version:X-Original-From:
-	 Date:X-Lms-Return-Path:Content-Type;
-	bh=yOxzqLseFUYhYdIECMH6Pr89r6ogqLgHYA2LaD6ZQPI=;
-	b=v/qP4kH9SJcEH6Qhv7Jzii+ncix572HTunTublr8kJjW4suNiiaGSUJuMAotPRrmGzSK
-	 zeXhMozutyv+BAMJ0VwKZ1tPZ7vOuVnxH8O6gvRmFSba76uSuof/y1GNkwLt0E7BktazM
-	 ocW6Rgbr4x9pahZ9GqLzzcgnMIvBGUU8WLy39zbVXcCsIQduReJxK6pNKLzOqSX3YySjn
-	 HCBjrHsYyp2iJrcFmuY/8lONtJspvBR0/3rxQZfh38edtdfLvDTHpYG2vIDfH2CS7x631
-	 UkTERze3fYY8mox/8l4m0fmwos0IyFHyKp/4hpVWITUJNeLSKybmTs3H9jrnxtGanuQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794992283;
+	h=DMARC-Filter:DKIM-Signature:Cc:From:Message-Id:X-Lms-Return-Path:
+	 X-Mailer:Content-Type:To:Mime-Version:In-Reply-To:Subject:Date:
+	 X-Original-From:Received:References:Content-Transfer-Encoding;
+	bh=S4+nY5S4u49URlEXcMNdkTuO3X5mh5b+AFVZYGcYQ60=;
+	b=jPHqbY0uz4qoZ+ZItrS5Pj/W2j+SYiJw7BwQA/WoolQcr69FXaV0S3uPXvc/uqr2RnsA
+	 PJIX2bqvYwD65MJgG4ydO+GCzuRwp3snFN4VM+BSfbEK1HT73aHHqXg0dMnb4wAJbQSv0
+	 bH4LRKjRnFejSHACTegg4Wiv64bGCVeQ726Wi/OEobjPTeDwXlLlgI2F7bf736exw1d9I
+	 07wVmJDPHK2c2vj9bCZEVgvL13c3X+SyuYAObXvGjeMMZBehgoO2Ms+Lmn5eGnxq+z26K
+	 17pIfWGCNSX1OA5uMyTcUrcM89zrK6SEy8EBxIfLQ5dPOOGWMB0/awC8B3D1vOB/Ezw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=deepcomputing.io;
 	spf=pass smtp.mailfrom=deepcomputing.io;
-	dkim=pass header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=S1bK5FtW;
-	arc=none smtp.remote-ip=209.127.231.58
-Received: from va-2-58.ptr.blmpb.com (va-2-58.ptr.blmpb.com [209.127.231.58])
+	dkim=pass header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=lNTTVwdl;
+	arc=none smtp.remote-ip=209.127.231.48
+Received: from va-2-48.ptr.blmpb.com (va-2-48.ptr.blmpb.com [209.127.231.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F61606A336
-	for <chrome-platform@lists.linux.dev>; Wed, 18 Nov 2026 08:57:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29F61606A336
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC63606A331
+	for <chrome-platform@lists.linux.dev>; Wed, 18 Nov 2026 08:58:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBC63606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=deepcomputing.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deepcomputing.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=S1bK5FtW
+	dkim=pass (2048-bit key) header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=lNTTVwdl
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=deepcomputing-io.20200927.dkim.feishu.cn; t=1794992272;
+ s=s1; d=deepcomputing-io.20200927.dkim.feishu.cn; t=1794992276;
   h=from:subject:mime-version:from:date:message-id:subject:to:cc:
  reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=yOxzqLseFUYhYdIECMH6Pr89r6ogqLgHYA2LaD6ZQPI=;
- b=S1bK5FtWYNSZHZNX0NmS/qx575+gxqKr0uU0DGZ6KoNSLjWC8AdMWE8i+M6rPVG5OVY2Bg
- woP7owbnzdPKbrNZS1k0pIIYhfMFmaZR0yIdt9QXNJ1bUTTvQ2PXEd1avjQ8KYRW6xqtSt
- fGJKjiKuOcw8rbFd+4bnXMJDTtQa+RRFMT9cty2VFkwYf0AK4u5AoMW5KNd0e++v/TJmJd
- rHBM5Xg1oD1tdN3SpFanaXyF9YhOjhxHv1NlToTGKjesIjFEJk50LtLG9chwM/LDM2DRi3
- 0kNVlBv2/SlBhmBr4qFtx0QYDhknD1bWZQEjV8JhRJgn3qGJ6LpSp1Ij6PjS0w==
-From: "Wang Yang" <yang.wang@deepcomputing.io>
-Subject: [PATCH 0/9] Add SpacemiT K3 FML13V05 EC keyboard support
-Message-Id: <20261118085742.1817536-1-yang.wang@deepcomputing.io>
-Received: from ubuntu.. ([183.23.101.74]) by smtp.feishu.cn with ESMTPS; Wed, 18 Nov 2026 16:57:49 +0800
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 7bit
-To: "Yixun Lan" <dlan@kernel.org>, "Benson Leung" <bleung@chromium.org>
+ bh=S4+nY5S4u49URlEXcMNdkTuO3X5mh5b+AFVZYGcYQ60=;
+ b=lNTTVwdlBx8X0fhtS9f9tRj/W006HpT2WDGvrAE4IaSa9g1pEJWMTD50M+2rnaUFJcRY/+
+ UkPZdZe0dCp7u6yFTqMN0FZ9nlCIseutsqC8lOQ8IovkssEZZU1fdUp/P3kBCLtmwaTB1G
+ nhkZAqC9B9fD7mFt5Aw1gsaCyr6sst379q9frXHP/fUId9RyepZ0IlH8osRt1H9HOOwKPL
+ a3AZ32LHNTxfid0tiQmrMS2uIwAcMze/0otcMUJ9kXThUn/dT+kTRdp+paqXgvqm7SdBuv
+ 3K4qkwReRhfbQ4ja5R2fuEA9gQjH2ZYDkAgq9bKjH+UU1fyxa15QcSqdR92wQg==
 Cc: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>, 
 	"Tzung-Bi Shih" <tzungbi@kernel.org>, 
 	"Guenter Roeck" <groeck@chromium.org>, "Rob Herring" <robh@kernel.org>, 
@@ -60,6 +53,12 @@ Cc: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>,
 	"Sandie Cao" <sandie.cao@deepcomputing.io>, <devicetree@vger.kernel.org>, 
 	<chrome-platform@lists.linux.dev>, <linux-riscv@lists.infradead.org>, 
 	<spacemit@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+From: "Wang Yang" <yang.wang@deepcomputing.io>
+Message-Id: <20261118085742.1817536-2-yang.wang@deepcomputing.io>
+X-Lms-Return-Path: <lba+26afd6892+2f2157+lists.linux.dev+yang.wang@deepcomputing.io>
+X-Mailer: git-send-email 2.43.0
+Content-Type: text/plain; charset=UTF-8
+To: "Yixun Lan" <dlan@kernel.org>, "Benson Leung" <bleung@chromium.org>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -69,101 +68,181 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 Mime-Version: 1.0
+In-Reply-To: <20261118085742.1817536-1-yang.wang@deepcomputing.io>
+Subject: [PATCH 1/9] dt-bindings: bus: Add SpacemiT K3 eSPI controller
+Date: Wed, 18 Nov 2026 16:57:34 +0800
 X-Original-From: Wang Yang <yang.wang@deepcomputing.io>
-Date: Wed, 18 Nov 2026 16:57:33 +0800
-X-Lms-Return-Path: <lba+26afd688e+c7d6b8+lists.linux.dev+yang.wang@deepcomputing.io>
-Content-Type: text/plain; charset=UTF-8
+Received: from ubuntu.. ([183.23.101.74]) by smtp.feishu.cn with ESMTPS; Wed, 18 Nov 2026 16:57:53 +0800
+References: <20261118085742.1817536-1-yang.wang@deepcomputing.io>
+Content-Transfer-Encoding: 7bit
 
-The DeepComputing FML13V05 uses a ChromeOS-compatible embedded controller
-connected through the SpacemiT K3 eSPI peripheral channel. Its internal
-keyboard is not available on linux-next without the controller and EC
-transport support described in this series.
+Describe the K3 eSPI controller and its peripheral memory translation
+window, clocks, resets and link configuration. The EC uses this memory
+window rather than the ordinary SPI transfer interface.
 
-The EC host command registers are exposed through a memory-mapped,
-non-linear peripheral window. This interface cannot use the ordinary
-cros_ec_spi message transport directly. Add a K3-specific controller and
-EC transport, and reuse the existing ChromeOS EC protocol, MFD and
-keyboard drivers. Existing EC core, LPC, SPI, protocol and keyboard C
-files and the google,cros-ec binding are unchanged.
+The controller implementation is carried as a separate prerequisite so
+that the hardware vendor can review it independently.
 
-The series is based on next-20261116. Patches 1-2 document the controller
-and EC bindings; patch 3 adds the controller; patches 4-5 enable Chrome
-platform support on RISC-V and add the EC transport; patches 6-8 describe
-the pins, controller and board keyboard; patch 9 enables the drivers in
-riscv defconfig, with the EC transport and keyboard built as modules.
+Prepared with Codex assistance from the existing DC-linux EC support.
 
-The controller implementation is ported from the SpacemiT vendor BSP
-(revision 29b78afb484b, originally authored by goumin
-<min.gou@spacemit.com>). Controller programming and recovery remain
-separate from the EC client. The EC transport and compatible are scoped
-to K3 because the window layout and controller recovery API are specific
-to this hardware. Feedback on the transport split and recovery interface
-is welcome.
-
-Validation on an FML13V05 with its internal keyboard, 2026-11-18:
-- W=1 cross-build of Image, modules and the board DTB completed. No new
-  warnings came from the added drivers.
-- Both new bindings and their compiled examples passed schema validation;
-  the new examples passed strict DT style checks. The new EC, controller
-  and keyboard nodes in the board DTB also passed validation.
-- Cold boot and module autoload passed all 20 automatic checks.
-- 153 read-only EC queries and three EC module unload/reload cycles
-  succeeded. EC firmware was FML13V05-V01.06.
-- A/B/C/1/2/Enter, all four arrows and Fn+F1/F2/F7/F8 produced the expected
-  28 paired press/release events, with no dropped or held keys and no
-  new EC/eSPI errors in the kernel log.
-
-The running test kernel was
-7.4.0-rc3-next-20261116-fml13v05-k3-espi+.
-Booting the test system required a separate K3 PCIe test module and
-USB/NVMe DT additions, which are outside this EC series. Suspend/resume,
-EC restart fault injection, full-keymap coverage and long-duration
-stability were not tested. A previously observed UEFI reset_system()
-failure was not addressed or retested by this series.
-
-Checkpatch reports no errors or CHECK findings. Its four new-file
-MAINTAINERS reminders were reviewed: the existing SpacemiT N: pattern
-and Chrome EC/DT entries already cover the new paths, so no MAINTAINERS
-change is included.
-
-OpenAI Codex assisted the port, patch preparation, review analysis and
-test tooling. The work was developed through an iterative session to
-port the existing DC-linux/BSP support, keep the common EC implementation
-unchanged, use K3-specific naming and bindings, and verify the result on
-hardware. Human review was completed before submission; the numbered
-patches retain the submitter's existing DCO sign-offs.
-
-Wang Yang (9):
-  dt-bindings: bus: Add SpacemiT K3 eSPI controller
-  dt-bindings: embedded-controller: Add SpacemiT K3 EC window
-  bus: Add SpacemiT K3 eSPI controller support
-  platform/chrome: Allow ChromeOS platform support on RISC-V
-  platform/chrome: Add SpacemiT K3 eSPI EC transport
-  riscv: dts: spacemit: Add K3 eSPI pin group
-  riscv: dts: spacemit: Describe the K3 eSPI controller
-  riscv: dts: spacemit: Enable the FML13V05 EC keyboard
-  riscv: defconfig: Enable the FML13V05 EC keyboard modules
-
- .../bindings/bus/spacemit,k3-espi.yaml        | 146 ++++
- .../spacemit,k3-cros-ec.yaml                  |  58 ++
- .../spacemit/k3-deepcomputing-fml13v05.dts    | 137 +++
- arch/riscv/boot/dts/spacemit/k3-pinctrl.dtsi  |  24 +
- arch/riscv/boot/dts/spacemit/k3.dtsi          |  31 +
- arch/riscv/configs/defconfig                  |   5 +
- drivers/bus/Kconfig                           |  10 +
- drivers/bus/Makefile                          |   1 +
- drivers/bus/spacemit-k3-espi.c                | 804 ++++++++++++++++++
- drivers/platform/chrome/Kconfig               |  13 +-
- drivers/platform/chrome/Makefile              |   1 +
- drivers/platform/chrome/cros_ec_spacemit_k3.c | 739 ++++++++++++++++
- include/linux/spacemit-k3-espi.h              |  20 +
- 13 files changed, 1988 insertions(+), 1 deletion(-)
+Signed-off-by: Wang Yang <yang.wang@deepcomputing.io>
+---
+ .../bindings/bus/spacemit,k3-espi.yaml        | 146 ++++++++++++++++++
+ 1 file changed, 146 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/bus/spacemit,k3-espi.yaml
- create mode 100644 Documentation/devicetree/bindings/embedded-controller/spacemit,k3-cros-ec.yaml
- create mode 100644 drivers/bus/spacemit-k3-espi.c
- create mode 100644 drivers/platform/chrome/cros_ec_spacemit_k3.c
- create mode 100644 include/linux/spacemit-k3-espi.h
 
+diff --git a/Documentation/devicetree/bindings/bus/spacemit,k3-espi.yaml b/Documentation/devicetree/bindings/bus/spacemit,k3-espi.yaml
+new file mode 100644
+index 000000000..30985ee0a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/bus/spacemit,k3-espi.yaml
+@@ -0,0 +1,146 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/bus/spacemit,k3-espi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: SpacemiT K3 eSPI controller
++
++maintainers:
++  - Yixun Lan <dlan@kernel.org>
++
++description: |
++  The K3 eSPI controller connects the application processor to an embedded
++  controller. Child registers are accessed through a peripheral shared-memory
++  window, translated by ranges. The controller manages clocks, resets and
++  channel negotiation, including link recovery after an EC reboot.
++
++properties:
++  compatible:
++    const: spacemit,k3-espi
++
++  reg:
++    maxItems: 1
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 1
++
++  ranges:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Serial clock source
++      - description: Serial clock
++      - description: Bus clock
++
++  clock-names:
++    items:
++      - const: sclk_src
++      - const: sclk
++      - const: mclk
++
++  resets:
++    items:
++      - description: Bus reset
++      - description: Serial clock reset
++
++  pr-mem-base0:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: First peripheral memory translation base.
++
++  pr-mem-base1:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Second peripheral memory translation base.
++
++  operating-frequency:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Requested link clock frequency in MHz.
++    enum: [20, 25, 33, 50, 66]
++    default: 20
++
++  io-mode:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: Requested number of eSPI data lines.
++    enum: [single, dual, quad]
++    default: single
++
++  alert-mode:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: Use the shared IO1 line or the dedicated alert pin.
++    enum: [io1, pin]
++    default: io1
++
++  alert-type:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: Electrical mode of the dedicated alert pin.
++    enum: [open-drain, push-pull]
++    default: open-drain
++
++  watchdog-timeout:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Controller watchdog counter value.
++    maximum: 65535
++    default: 65535
++
++  crc-enable:
++    type: boolean
++    description: Enable link CRC checking.
++
++  auto-gating-enable:
++    type: boolean
++    description: Enable automatic controller clock gating.
++
++  peripheral-channel-enable:
++    type: boolean
++    description: Enable the peripheral channel.
++
++  vwire-channel-enable:
++    type: boolean
++    description: Enable the virtual-wire channel.
++
++  oob-channel-enable:
++    type: boolean
++    description: Enable the out-of-band channel.
++
++  flash-channel-enable:
++    type: boolean
++    description: Enable the flash access channel.
++
++patternProperties:
++  '^ec@[0-9a-f]+$':
++    $ref: /schemas/embedded-controller/google,cros-ec.yaml#
++
++required:
++  - compatible
++  - reg
++  - '#address-cells'
++  - '#size-cells'
++  - ranges
++  - clocks
++  - clock-names
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/spacemit,k3-clocks.h>
++    #include <dt-bindings/reset/spacemit,k3-resets.h>
++
++    espi@cac8c000 {
++        compatible = "spacemit,k3-espi";
++        reg = <0xcac8c000 0x1000>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges = <0 0x84000000 0x1000>;
++        clocks = <&syscon_apmu CLK_APMU_ESPI_SCLK_SRC>,
++                 <&syscon_apmu CLK_APMU_ESPI_SCLK>,
++                 <&syscon_apmu CLK_APMU_ESPI_MCLK>;
++        clock-names = "sclk_src", "sclk", "mclk";
++        resets = <&syscon_apmu RESET_APMU_ESPI_MCLK>,
++                 <&syscon_apmu RESET_APMU_ESPI_SCLK>;
++    };
 
 base-commit: 749a4de370409464cf8501ec5b2451df45c84eb4
 -- 

@@ -1,68 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.36
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.38
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795079172;
-	b=qqW7uX5OIw9hvgUJROrvGdO4XqHIJT0syYTRiJzK9qJwe02/Qgo13gcPrj3Jy+iNWKo1
-	 kmhxaOX9Ngs5V2Tms1Up/Mrber0gBeb5M/JJdwz9cbivuHD2wYuRtU9wpswqUafsng6dl
-	 E1WGKoUMnlzylvYZqc0ty9M9bujI8mmxdWwlrQhwOosRpOkT6qj/QjVS8mZnGGaOwDxGJ
-	 IK5mjS8jHLGoaVP2Z69nHcsHbAar3GZgxfTzzpT1YfdlpBNr06eyfk22cVaOWaMjDSo9G
-	 vNTQqulozJ2FvoT23H0HaqWAJp7K4kFlL/xP7vOT14dvy5czMbjKp5DCCO8TddyL5Pw==
+	t=1795081235;
+	b=P4mxKHAyO69JY4BWFM59PVgwf6q0pC/fxiGwGJQACc3CplWEzxV0fEFhDXef6FGupPs/
+	 i3qgJOGPINPoyiMM9bo9+PPH9RDjRvLQKx8FpUKtB2+fkcWl40bMVbR09wPGrGAuZwjtO
+	 3T80wFd7TsQI+5RwkKBNnsqiIPWpC0OsLxcPs35qO9c06KyS6sTWANNXyI5Q3mf7eQZnL
+	 q92EfvVygU7nXALIys/q0UyHN0GAmZPnIIe+tFwUdlEtUPvFl/LE7oLIC07oeJSdS7VCo
+	 J27mwl4bfIwGwyU2+K3o/IkHVvVWXaqRRDXUdllQpOdidlmNarFCoDixIrfsHXRBsnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795079172;
-	h=DMARC-Filter:DKIM-Signature:X-Mailer:To:Content-Transfer-Encoding:
-	 Content-Type:Received:Subject:Message-Id:References:Mime-Version:
-	 X-Lms-Return-Path:X-Original-From:Cc:From:Date:In-Reply-To;
-	bh=4HX5+/MoRFuL5friO42awFlJeeVyzzPj59afEXfj3X4=;
-	b=ldetUMr4SdgVKMiChYY9FW1BwmdXDt2JO+zrM/NT/4yGjwUcdlz6z/aKyU8WikjQoLtZ
-	 kQGXv1/fiRBSIj0dFBa2POZkVvFTqTueQnWaDIbm9Y7rrQYuznS381yec8nNM2MY0nhJn
-	 283JdN0rrl9WTWCHjBYUCDUCgjnAE9Ee/BDRPgebYAH5bkDkC/oZdwHf1xuyevD0qfD6Y
-	 /pogmXCje4Q32U7kokmFL50yfJeM8AQ8wHoA6U7A5680pl6SaEact0xpMQvCOF2Xxbxu2
-	 FNr/EOfPMGuhhuppb7wPz5Kntg0GeRDqbZDK39V8RFs+oe6GkEgh/3uHilCeKvp9GCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795081235;
+	h=DMARC-Filter:DKIM-Signature:Cc:From:Content-Type:X-Lms-Return-Path:
+	 Content-Transfer-Encoding:References:To:Date:Message-Id:Subject:
+	 Mime-Version:Received:X-Original-From:X-Mailer:In-Reply-To;
+	bh=9Rhlrsd3szVwXHApQsxbvat4ytGyJqWvh7lnq+1BZZk=;
+	b=RuxyvvWXr3hGfy/LI4ATsty2dnw3MGZO6bfEnbnW/u79bALgcW959hW9ouKpfs9TT+NQ
+	 vB9fZAOc5YstWTtX0Ngm7vgpfPSdHOs7TJFMds+FtOUegrPHJTeFjZtmbr+ou7pW/3/AS
+	 iGl5LOvtP7ZsFtY+bqWwGVOE9T2lNF1K7Qd3rhCQD9y+uMK9oEZwGuucX1+nhzfbBKV0g
+	 tvpV1DRAuh40mI1UFvvyxggSh+GDxcnQdnBSeds0rEidE3ZrwoKe91HvG2KEwpMsd/nPh
+	 ZR5LY4IWc1uE6NJQ8wN2DPzWS4OtsBT1EPoHrVFsJfKH0yVVG55b/XxSD5i80jYN3Bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=deepcomputing.io;
 	spf=pass smtp.mailfrom=deepcomputing.io;
-	dkim=pass header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=grjpUPxq;
-	arc=none smtp.remote-ip=209.127.231.36
-Received: from va-2-36.ptr.blmpb.com (va-2-36.ptr.blmpb.com [209.127.231.36])
+	dkim=pass header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=rMj0eB1N;
+	arc=none smtp.remote-ip=209.127.231.38
+Received: from va-2-38.ptr.blmpb.com (va-2-38.ptr.blmpb.com [209.127.231.38])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2DB606A32F
-	for <chrome-platform@lists.linux.dev>; Thu, 19 Nov 2026 09:06:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC2DB606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0241606A320
+	for <chrome-platform@lists.linux.dev>; Thu, 19 Nov 2026 09:40:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0241606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=deepcomputing.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deepcomputing.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=grjpUPxq
+	dkim=pass (2048-bit key) header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=rMj0eB1N
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=deepcomputing-io.20200927.dkim.feishu.cn; t=1795079166;
+ s=s1; d=deepcomputing-io.20200927.dkim.feishu.cn; t=1795081230;
   h=from:subject:mime-version:from:date:message-id:subject:to:cc:
  reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=4HX5+/MoRFuL5friO42awFlJeeVyzzPj59afEXfj3X4=;
- b=grjpUPxqeB05GIa1dPz1KJ9Rbrca6OpaoKotakoD7K3u5Yb3UX0SyVmQkUH8ft8bPaoy1Q
- 7JzTCIsAwNlQYLTeYnFHnVv2n2GBbtfAmLO4YWi+GWGJldsjpEX8JKGZL1w+gYzEGcHQee
- tw+CLuKJejl+sKk+3iXjU0tjS/h7FSLqLLukiFb4hxRsYMQ8xzym9o++8eeRW30QVYvi0y
- YrNf3Ok4ZCFfuxPdO8xU0MVxZbxxjnzXeonBG4rWUxIp/wIyvXuMWFjjexsi09teMvSIWO
- jybF2WA6Ag12mHLIPmJNUWjpL5Y4z+ak1MAMgufr5w+AlGg7L/NQcHKbm6jqEw==
-X-Mailer: git-send-email 2.43.0
-To: "Conor Dooley" <conor@kernel.org>, 
-	"Aurelien Jarno" <aurelien@aurel32.net>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
-Received: from ubuntu.. ([183.23.99.162]) by smtp.feishu.cn with ESMTPS; Thu, 19 Nov 2026 17:06:02 +0800
-Subject: Re: [PATCH 1/9] dt-bindings: bus: Add SpacemiT K3 eSPI controller
-Message-Id: <20261119090553.1886090-1-yang.wang@deepcomputing.io>
-References: <20261118085742.1817536-1-yang.wang@deepcomputing.io> <20261118085742.1817536-2-yang.wang@deepcomputing.io> <20261118-backdrop-scrap-1bee34e06336@spud> <av4iWQb33bya48G1@aurel32.net>
-X-Mailing-List: chrome-platform@lists.linux.dev
-List-Id: <chrome-platform.lists.linux.dev>
-List-Post: <mailto:chrome-platform@lists.linux.dev>
-List-Help: <mailto:chrome-platform+help@lists.linux.dev>
-List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
-List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
-Precedence: list
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+26afebbfc+51d873+lists.linux.dev+yang.wang@deepcomputing.io>
-X-Original-From: Wang Yang <yang.wang@deepcomputing.io>
+ bh=9Rhlrsd3szVwXHApQsxbvat4ytGyJqWvh7lnq+1BZZk=;
+ b=rMj0eB1NfVtEKTaQ++TCwT67NBWyuEc8bCg33V2kewYMsFGXFrT/NSNF3PvgoLia7Ent9G
+ X7LRyIAEsHtzsQWcD1vjFe74VqApVjuYjPbuUXdk2fQ+7YpCGgeeK0YD+/C3a23T44eE+y
+ NQCGUoZInrtaFRL5g0pJ962hSDMZk/DMQGZrV5iGKcPbdXi4Q4vdcNhfkcXJBUThmg8+WF
+ +XvT8PUsu3XMUEVsbpkrK84zpE4msLqIvIIPHRhOTKtYqaxHt8A8kNgz6iWxvVAUHZCwn+
+ rkHNaWYFNKgoyxsspQm+vw54S3LV2U60yHzflwPHuuNqftbAs1VJDjJLdsoUYA==
 Cc: "Yixun Lan" <dlan@kernel.org>, "Benson Leung" <bleung@chromium.org>, 
 	"Troy Mitchell" <troy.mitchell@linux.spacemit.com>, 
 	"Tzung-Bi Shih" <tzungbi@kernel.org>, 
@@ -73,33 +53,46 @@ Cc: "Yixun Lan" <dlan@kernel.org>, "Benson Leung" <bleung@chromium.org>,
 	"Albert Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>, 
 	"Sandie Cao" <sandie.cao@deepcomputing.io>, <devicetree@vger.kernel.org>, 
 	<chrome-platform@lists.linux.dev>, <linux-riscv@lists.infradead.org>, 
-	<spacemit@lists.linux.dev>, <linux-kernel@vger.kernel.org>, 
-	<linux-spi@vger.kernel.org>, <broonie@kernel.org>
+	<spacemit@lists.linux.dev>, <linux-kernel@vger.kernel.org>
 From: "Wang Yang" <yang.wang@deepcomputing.io>
-Date: Thu, 19 Nov 2026 17:05:53 +0800
-In-Reply-To: <av4iWQb33bya48G1@aurel32.net>
+Content-Type: text/plain; charset=UTF-8
+X-Lms-Return-Path: <lba+26afec40c+e20e66+lists.linux.dev+yang.wang@deepcomputing.io>
+Content-Transfer-Encoding: 7bit
+References: <20261118085742.1817536-1-yang.wang@deepcomputing.io> <20261118085742.1817536-4-yang.wang@deepcomputing.io> <av4UUyCtDBJNU0h5@aurel32.net>
+To: "Aurelien Jarno" <aurelien@aurel32.net>
+Date: Thu, 19 Nov 2026 17:40:20 +0800
+Message-Id: <20261119094020.1888153-1-yang.wang@deepcomputing.io>
+Subject: Re: [PATCH 3/9] bus: Add SpacemiT K3 eSPI controller support
+X-Mailing-List: chrome-platform@lists.linux.dev
+List-Id: <chrome-platform.lists.linux.dev>
+List-Post: <mailto:chrome-platform@lists.linux.dev>
+List-Help: <mailto:chrome-platform+help@lists.linux.dev>
+List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
+List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
+Precedence: list
+Mime-Version: 1.0
+Received: from ubuntu.. ([183.23.99.162]) by smtp.feishu.cn with ESMTPS; Thu, 19 Nov 2026 17:40:27 +0800
+X-Original-From: Wang Yang <yang.wang@deepcomputing.io>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <av4UUyCtDBJNU0h5@aurel32.net>
 
-Hi Conor, Aurelien,
+Hi Aurelien,
 
-> How is this "eSPI" different to the eSPI described in fsl,espi.yaml and
-> implemented by a driver in drivers/spi?
+Thank you for pointing out the AMD RFC. I missed it during the
+initial search.
 
-Thank you, Aurelien, for clarifying this. K3 uses the Intel-defined
-eSPI interface intended to replace LPC. It is a different protocol from the
-Freescale/NXP SPI controller described by fsl,espi.yaml.
+I have now looked through the RFC and its follow-up discussion.
+I am still checking how K3's CPU-mapped Peripheral Channel window,
+device enumeration and link recovery could fit into that framework.
+I will take this work into account before posting the next revision.
 
-On K3, the controller exposes a CPU-accessible window for the eSPI
-Peripheral Channel. The EC client accesses its command, response
-and memory-map regions through this window, rather than exchanging
-ordinary SPI messages.
-
-The proposed controller driver handles clocks, resets, link
-configuration and window setup. The EC transport handles the EC
-register mapping and host commands. The distinction is therefore
-the protocol and access model, rather than the use of MMIO itself.
-
-I will make the Intel eSPI terminology and this access model
-explicit in the binding description.
+Thanks also for pointing out the EC on SpacemiT's K3 Pico-ITX
+development board. I understand that its EC uses the same eSPI
+hardware interface as the EC on FML13V05. Keeping the controller
+separate from the EC transport should allow the support to be
+shared between the two boards. My validation so far has been
+limited to FML13V05.
 
 Regards,
 Wang Yang

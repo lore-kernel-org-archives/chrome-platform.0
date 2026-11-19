@@ -1,68 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.38
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795081235;
-	b=P4mxKHAyO69JY4BWFM59PVgwf6q0pC/fxiGwGJQACc3CplWEzxV0fEFhDXef6FGupPs/
-	 i3qgJOGPINPoyiMM9bo9+PPH9RDjRvLQKx8FpUKtB2+fkcWl40bMVbR09wPGrGAuZwjtO
-	 3T80wFd7TsQI+5RwkKBNnsqiIPWpC0OsLxcPs35qO9c06KyS6sTWANNXyI5Q3mf7eQZnL
-	 q92EfvVygU7nXALIys/q0UyHN0GAmZPnIIe+tFwUdlEtUPvFl/LE7oLIC07oeJSdS7VCo
-	 J27mwl4bfIwGwyU2+K3o/IkHVvVWXaqRRDXUdllQpOdidlmNarFCoDixIrfsHXRBsnA==
+	t=1795086130;
+	b=4U+OB3aKjU61KNePwz/+KNqU56xUu+HA98ZcD9NKFqJrwDEztxG7s124GkNLksiFKStc
+	 2ZPc56mRKVGQLu8h8w5+BFAdC6nP2M7rEw4/rGywK/mus6aaLhHiwlgp2NrCX7kyGPDMw
+	 rt2CpyWqHcWDFc3/v+YO+jgg1vjwYE24AfkA2dmMlxYfwaAUResPjZOo51nXmzEWw7Hvc
+	 ZhkpOcGzfiAKPol5uTI4FYNGElKIrpOw8PP/w9b9zjsz+hRSCE6A7xXtIudzoSdtOW7kW
+	 gpsnHXN2eSEF01ts5hs5MLFQFXlAfNnlW4qayadMRzOiE4PsWRYMHEuwn1ohR7eaz+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795081235;
-	h=DMARC-Filter:DKIM-Signature:Cc:From:Content-Type:X-Lms-Return-Path:
-	 Content-Transfer-Encoding:References:To:Date:Message-Id:Subject:
-	 Mime-Version:Received:X-Original-From:X-Mailer:In-Reply-To;
-	bh=9Rhlrsd3szVwXHApQsxbvat4ytGyJqWvh7lnq+1BZZk=;
-	b=RuxyvvWXr3hGfy/LI4ATsty2dnw3MGZO6bfEnbnW/u79bALgcW959hW9ouKpfs9TT+NQ
-	 vB9fZAOc5YstWTtX0Ngm7vgpfPSdHOs7TJFMds+FtOUegrPHJTeFjZtmbr+ou7pW/3/AS
-	 iGl5LOvtP7ZsFtY+bqWwGVOE9T2lNF1K7Qd3rhCQD9y+uMK9oEZwGuucX1+nhzfbBKV0g
-	 tvpV1DRAuh40mI1UFvvyxggSh+GDxcnQdnBSeds0rEidE3ZrwoKe91HvG2KEwpMsd/nPh
-	 ZR5LY4IWc1uE6NJQ8wN2DPzWS4OtsBT1EPoHrVFsJfKH0yVVG55b/XxSD5i80jYN3Bg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795086130;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=iJ289iMCz5xAzHlapJusKbqEqrWvns+8UKRTR9Uk9iU=;
+	b=lYqRzghA8PJ4l1Mwt0zYewRcvEFFwAyCn4taZHxLfKNJAZR24VjAqrKHNOadamerxwk+
+	 aM3rtW3+ulw8QajM8iBtaMPuK5oz5tAUK5/dBOwawqSe8eBD58HZCJOpRsXDz1jHgoFrt
+	 /9bjtQ37w6AfImwyfMuBscpr8P3XhxalaKLCKIl7v+31g4RO1dvYUytzUU47Ou5qLXvcl
+	 VIY4MSAUaV0vsd2HfPTElW1J3dziL1mtGRxQ52jVB9CFRhXrmPhjWb76mXDMOUg8kpyT6
+	 7c/xkKiwT1BDTHi9BVGOaS4ZEfIs5/oXAjzwjDHxnTxD6P0u/3kRzy82n/6Xr/65yCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=deepcomputing.io;
-	spf=pass smtp.mailfrom=deepcomputing.io;
-	dkim=pass header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=rMj0eB1N;
-	arc=none smtp.remote-ip=209.127.231.38
-Received: from va-2-38.ptr.blmpb.com (va-2-38.ptr.blmpb.com [209.127.231.38])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GcDAX8ch;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0241606A320
-	for <chrome-platform@lists.linux.dev>; Thu, 19 Nov 2026 09:40:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0241606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=deepcomputing.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deepcomputing.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8865F606A320;
+	Thu, 19 Nov 2026 11:02:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deepcomputing-io.20200927.dkim.feishu.cn header.i=@deepcomputing-io.20200927.dkim.feishu.cn header.a=rsa-sha256 header.s=s1 header.b=rMj0eB1N
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=deepcomputing-io.20200927.dkim.feishu.cn; t=1795081230;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=9Rhlrsd3szVwXHApQsxbvat4ytGyJqWvh7lnq+1BZZk=;
- b=rMj0eB1NfVtEKTaQ++TCwT67NBWyuEc8bCg33V2kewYMsFGXFrT/NSNF3PvgoLia7Ent9G
- X7LRyIAEsHtzsQWcD1vjFe74VqApVjuYjPbuUXdk2fQ+7YpCGgeeK0YD+/C3a23T44eE+y
- NQCGUoZInrtaFRL5g0pJ962hSDMZk/DMQGZrV5iGKcPbdXi4Q4vdcNhfkcXJBUThmg8+WF
- +XvT8PUsu3XMUEVsbpkrK84zpE4msLqIvIIPHRhOTKtYqaxHt8A8kNgz6iWxvVAUHZCwn+
- rkHNaWYFNKgoyxsspQm+vw54S3LV2U60yHzflwPHuuNqftbAs1VJDjJLdsoUYA==
-Cc: "Yixun Lan" <dlan@kernel.org>, "Benson Leung" <bleung@chromium.org>, 
-	"Troy Mitchell" <troy.mitchell@linux.spacemit.com>, 
-	"Tzung-Bi Shih" <tzungbi@kernel.org>, 
-	"Guenter Roeck" <groeck@chromium.org>, "Rob Herring" <robh@kernel.org>, 
-	"Krzysztof Kozlowski" <krzk+dt@kernel.org>, 
-	"Conor Dooley" <conor+dt@kernel.org>, "Paul Walmsley" <pjw@kernel.org>, 
-	"Palmer Dabbelt" <palmer@dabbelt.com>, 
-	"Albert Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>, 
-	"Sandie Cao" <sandie.cao@deepcomputing.io>, <devicetree@vger.kernel.org>, 
-	<chrome-platform@lists.linux.dev>, <linux-riscv@lists.infradead.org>, 
-	<spacemit@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-From: "Wang Yang" <yang.wang@deepcomputing.io>
-Content-Type: text/plain; charset=UTF-8
-X-Lms-Return-Path: <lba+26afec40c+e20e66+lists.linux.dev+yang.wang@deepcomputing.io>
-Content-Transfer-Encoding: 7bit
-References: <20261118085742.1817536-1-yang.wang@deepcomputing.io> <20261118085742.1817536-4-yang.wang@deepcomputing.io> <av4UUyCtDBJNU0h5@aurel32.net>
-To: "Aurelien Jarno" <aurelien@aurel32.net>
-Date: Thu, 19 Nov 2026 17:40:20 +0800
-Message-Id: <20261119094020.1888153-1-yang.wang@deepcomputing.io>
-Subject: Re: [PATCH 3/9] bus: Add SpacemiT K3 eSPI controller support
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GcDAX8ch
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E132A1F000C6;
+	Thu, 19 Nov 2026 11:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795086130;
+	bh=iJ289iMCz5xAzHlapJusKbqEqrWvns+8UKRTR9Uk9iU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GcDAX8chMsZcwHLAlbUXneBa+4Djex+cGrewl4QpZVADAJtpk/2QdeBi9SubUYoZo
+	 muDKRCNF/nXOrXp9robQVqMFCNz6aFhcqAsx/lMI3CVgx3pwY/EFcBi7lPEDL4YYBV
+	 XbdKu62wgd8VmCiOUzyAblklXJoW6aytT/Cr2ihON33oC0vKh+XHFP6UmOQ5xMtHBp
+	 5135ucs6byeFJHFJ8IHGYH+0x1pDu6aWOAjuSyw2oZidfnWkmp6HDwL9MMkEo7/DpK
+	 DbdEOQjQtGgQHkLLZ98jGpbomQ1WEn3LYpyOKQV57q9s2z+R4eGtXrl1oggk9UjoV8
+	 ll/6ZfOoL2GpA==
+Date: Thu, 19 Nov 2026 11:02:03 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Wang Yang <yang.wang@deepcomputing.io>
+Cc: Aurelien Jarno <aurelien@aurel32.net>, Yixun Lan <dlan@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Sandie Cao <sandie.cao@deepcomputing.io>,
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+	broonie@kernel.org, yh_chung@aspeedtech.co
+Subject: Re: [PATCH 1/9] dt-bindings: bus: Add SpacemiT K3 eSPI controller
+Message-ID: <20261119-defy-stumbling-72b230220a49@spud>
+References: <20261118085742.1817536-1-yang.wang@deepcomputing.io>
+ <20261118085742.1817536-2-yang.wang@deepcomputing.io>
+ <20261118-backdrop-scrap-1bee34e06336@spud>
+ <av4iWQb33bya48G1@aurel32.net>
+ <20261119090553.1886090-1-yang.wang@deepcomputing.io>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -71,28 +71,61 @@ List-Subscribe: <mailto:chrome-platform+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Received: from ubuntu.. ([183.23.99.162]) by smtp.feishu.cn with ESMTPS; Thu, 19 Nov 2026 17:40:27 +0800
-X-Original-From: Wang Yang <yang.wang@deepcomputing.io>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <av4UUyCtDBJNU0h5@aurel32.net>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="d3eRFCAKT41jyFTl"
+Content-Disposition: inline
+In-Reply-To: <20261119090553.1886090-1-yang.wang@deepcomputing.io>
 
-Hi Aurelien,
+--d3eRFCAKT41jyFTl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for pointing out the AMD RFC. I missed it during the
-initial search.
+On Thu, Nov 19, 2026 at 05:05:53PM +0800, Wang Yang wrote:
+> Hi Conor, Aurelien,
+>=20
+> > How is this "eSPI" different to the eSPI described in fsl,espi.yaml and
+> > implemented by a driver in drivers/spi?
+>=20
+> Thank you, Aurelien, for clarifying this. K3 uses the Intel-defined
+> eSPI interface intended to replace LPC. It is a different protocol from t=
+he
+> Freescale/NXP SPI controller described by fsl,espi.yaml.
 
-I have now looked through the RFC and its follow-up discussion.
-I am still checking how K3's CPU-mapped Peripheral Channel window,
-device enumeration and link recovery could fit into that framework.
-I will take this work into account before posting the next revision.
+Ah I think this might be confusing af, because that device also
+supports what it calls "eLBC"...
 
-Thanks also for pointing out the EC on SpacemiT's K3 Pico-ITX
-development board. I understand that its EC uses the same eSPI
-hardware interface as the EC on FML13V05. Keeping the controller
-separate from the EC transport should allow the support to be
-shared between the two boards. My validation so far has been
-limited to FML13V05.
+> On K3, the controller exposes a CPU-accessible window for the eSPI
+> Peripheral Channel. The EC client accesses its command, response
+> and memory-map regions through this window, rather than exchanging
+> ordinary SPI messages.
+>=20
+> The proposed controller driver handles clocks, resets, link
+> configuration and window setup. The EC transport handles the EC
+> register mapping and host commands. The distinction is therefore
+> the protocol and access model, rather than the use of MMIO itself.
+>=20
+> I will make the Intel eSPI terminology and this access model
+> explicit in the binding description.
 
-Regards,
-Wang Yang
+Please take a look at a similar series from Aspeed and see if you can
+cooperate on creating something common between you:
+https://lore.kernel.org/all/20260313-upstream_espi-v1-0-9504428e1f43@aspeed=
+tech.com/
+
+Thanks,
+Conor.
+
+--d3eRFCAKT41jyFTl
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCav7XJwAKCRB4tDGHoIJi
+0jzJAQDtL5rkRZE8LnDVXeZtgQgA+RtqttjgRFyFtUphoHdWFAEA6xsUZag4jTnB
+9N7iFMdYFqfgcKj+Eu+uiTeCMD2HRg4=
+=jIrP
+-----END PGP SIGNATURE-----
+
+--d3eRFCAKT41jyFTl--

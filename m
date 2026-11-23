@@ -1,54 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795399438;
-	b=EKUKAyPwj12zEae8TwQrB+FwhavCETQtr/eCtdzV4bb7I9IXxSn9v5V29Cpe4KphK/0I
-	 jp3WxIsUtimXcR928gjVZeI6sIwmFI8mlP4x5g6yXJjXHk91Tc3us+sYeru7pi6xoGNcZ
-	 atcSMLcEKdnZAI1F6KQkLiJXDNdv9Ej29YZW/+sLjqjkS+u2/PvQO84xFJuAh9+o5w19T
-	 jtZx/r8tiCZGvclUyKIZznaxvINojer9CVU+tnOLZ6fZFDnSbwFoy7uziYMs9HqicPX6q
-	 VSt9rHnXd0d4zxd9dN8dSS0GIz05XuurJ8sCvg/55/T0OvmYtV/irA3v73kGmdDEibA==
+	t=1795402225;
+	b=veNqDNjaMqiARXRNZ1ek+USRV1TqDg6mMDpvpPlwHPGQ7h5EZ3poJ9+5Xds/K9buRUt2
+	 /hAs/bH1weEkjJIy1sho0CW8WRMwcfxZgSDBKbUdz3yYjHWyNixsLSNBY9+/la5jNFAt1
+	 TUwcp/HyHGqKk4GL3UdAmy9G5C4ON4TRL9ANHT5s01Tnx1ybYj1xZmPzQSkxt7bYYhmaq
+	 Zj7BocnMR52vXsc9h28DT3kHtHDZ3DIuQeGxzq1B3WEGh75qrnfiwnpnqH7Piiv6e+Ave
+	 okSymvDFh2aw2zkL2w93+lrIlj8eMC8nwPHPeip0GeUkJaAl2BRviUq7/vQ/h5sssfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795399438;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=CTUBFEWTXGEDt9YsUxbPwEKx5YXMyD0xNCCiSbprPFs=;
-	b=WdNAICtk3GM4qvEffzGQWzjeIQcyuRpEQH6qhJrzPngPyz3Hb0okYljGp+OHj1PPhThP
-	 TR7fnZ61XoyS9QRSQRou0tm1hxn3xBHlHmHmDA1DM1X2kokazt2KIquxVSDNRbjOoMFDy
-	 A/SFK9g07DcayIGo2/+DPBa+upn30LL8/IfF3d48pL4EEv2feCp0LtsBX9VCXAxP50d1l
-	 JfojRO0Ova7LIsx6jgdS9r4ax8rpKpLsNVLY7x6kOX3CQ3a59tvQZp2dH+kHUsRre9LrI
-	 5XOElf5HmcWFHIWmSpdMyHJeGAPMATFLgw4vll7vQXZxlEtJvBjTSqcY2R+5OvAkL6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795402225;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=PGUSO64aDmeiomTwHSqW1O+T0fU2bJipEwmEC3CjH5M=;
+	b=jLRnH7FEFhMsSbN8Qbr2etzgYlmayf51QCDWPPMg23kQH8PDFDkPmqpaxqPbdPd+qCOL
+	 qgwzYromZ9sm9FWAQqNdAPX0ZY1PtCmGW4XS8y9Jh+zYIqBYb+Da4CUtaABhg9pVKPtpp
+	 GSUOQpUzpadbp9QU7txzwUyUFtIrE2c4PTx3mH7ptvZ979bisrvjQP4BcqNMhq5lb75UA
+	 /w39ENovF/81n+I+l4T1x1wFPFBo6Fd+s5hY6xZU7d+wSkRpqxyODRMsqt5sEJQXSj2+2
+	 VtVbKyQ8bqRZgY5UM7gWBKZKMd9TYYM2JRu2UWb1WIBIrYwvHHVBpNor6RYCWBvnRIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6c13CSN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54DA606A31A;
-	Mon, 23 Nov 2026 02:03:57 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=EzasSOUt;
+	arc=none smtp.remote-ip=111.22.67.137
+Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4F1D606A31A;
+	Mon, 23 Nov 2026 02:50:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4F1D606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6c13CSN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 166191F000C4;
-	Mon, 23 Nov 2026 02:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795399437;
-	bh=CTUBFEWTXGEDt9YsUxbPwEKx5YXMyD0xNCCiSbprPFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S6c13CSNaROyEINCgbyAQDUlrUNdXuWDkCAQ2X2Cnhc5K+M/GHKhw5Og6VfROjUa0
-	 ED2QPaITiDuFZpOQ8Hb2vMMAiflVtwAGJgWuL9saAutX1YMRr96B7Tuv9fH2apkgtX
-	 aFcXMjjPAdUs6QjgF3P7DdlS4Mw7j5daJla9boBTZYENjTTrvigXm4wW4C8NMA3LIS
-	 lZrO/0JfTq29uNJa5UEmB7Wdjb3UNNbZ7MwWPWt6FL2zjTMTpRq7n5eTTX4AyEWvSD
-	 NVnBWKpb7ScRNbE/3FMIY53hC6wPPaFzlcI+Xo/oCxQxr5AOcvivTKxrX1GgcfHcCN
-	 ozkAoigHhRQtg==
-Date: Mon, 23 Nov 2026 02:03:54 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
-Cc: bleung@chromium.org, lee@kernel.org, groeck@chromium.org,
-	jthies@google.com, chrome-platform@lists.linux.dev,
-	mfd@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] mfd: cros_ec: Drop OF node reference in
- ec_device_probe()
-Message-ID: <awOfCgL-eriqrws7@google.com>
-References: <20261118062949.1250-1-laixiangwu@cmss.chinamobile.com>
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=EzasSOUt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=EzasSOUt0qH4hDp9s9jqGeqmEXarED731bZ0ZO5vZjnWmTgpJjeS0lvti0YFtY9mxKN0ivMiYwVqF
+	 h+DYiSxSKWt7IlSr1Qh0Ydkgxld39lFbQX4zqs8vFdDm75Rz12TRXuWBtUPJ/+zO+cOdj+6wTzxhd/
+	 HRWsrhUWGdIAdm30=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee46b03a9ed907-d800e;
+	Mon, 23 Nov 2026 10:50:22 +0800 (CST)
+X-RM-TRANSID:2ee46b03a9ed907-d800e
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from DESKTOP-3K8GUTQ (unknown[223.108.79.98])
+	by rmsmtp-syy-appsvr05-12005 (RichMail) with SMTP id 2ee56b03a9ebdf3-83b5a;
+	Mon, 23 Nov 2026 10:50:21 +0800 (CST)
+X-RM-TRANSID:2ee56b03a9ebdf3-83b5a
+From: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
+To: bleung@chromium.org,
+	lee@kernel.org,
+	tzungbi@kernel.org
+Cc: groeck@chromium.org,
+	jthies@google.com,
+	chrome-platform@lists.linux.dev,
+	mfd@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
+Subject: [PATCH v3] mfd: cros_ec: Drop OF node reference in ec_device_probe()
+Date: Mon, 23 Nov 2026 10:50:22 +0800
+Message-ID: <20261123025022.1761-1-laixiangwu@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -58,43 +73,81 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118062949.1250-1-laixiangwu@cmss.chinamobile.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 18, 2026 at 02:29:48PM +0800, Xiangwu Lai wrote:
-> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> index 529a23b80..b8d363b7a 100644
-> --- a/drivers/mfd/cros_ec_dev.c
-> +++ b/drivers/mfd/cros_ec_dev.c
-> @@ -271,14 +271,20 @@ static int ec_device_probe(struct platform_device *pdev)
->  	 */
->  	if (cros_ec_check_features(ec, EC_FEATURE_USB_PD) &&
->  	    cros_ec_check_features(ec, EC_FEATURE_UCSI_PPM) &&
-> -	    !acpi_dev_found("GOOG0021") &&
-> -	    !of_find_compatible_node(NULL, NULL, "google,cros-ec-ucsi")) {
-> -		retval = mfd_add_hotplug_devices(ec->dev,
-> -						 cros_ec_ucsi_cells,
-> -						 ARRAY_SIZE(cros_ec_ucsi_cells));
-> +	    !acpi_dev_found("GOOG0021")) {
-> +		struct device_node *np __free(device_node) =
-> +			of_find_compatible_node(NULL, NULL, "google,cros-ec-ucsi");
+ec_device_probe() calls of_find_compatible_node() only to check=0D
+whether a "google,cros-ec-ucsi" node exists in the device tree, but=0D
+the reference held by the returned node is never dropped.=0D
+=0D
+Scope the lookup to the UCSI block and mark the node pointer with=0D
+__free(device_node), so that the reference is released automatically=0D
+when the block is left.  Keeping the lookup inside the block also=0D
+preserves the short-circuit evaluation of the original condition:=0D
+the device tree is only walked when the EC_FEATURE_USB_PD,=0D
+EC_FEATURE_UCSI_PPM and ACPI checks already passed, instead of on=0D
+every probe of every cros_ec device.=0D
+=0D
+Fixes: 17f95281839d ("mfd: cros_ec: Don't add cros_ec_ucsi if it is defined=
+ in OF or ACPI")=0D
+Suggested-by: Benson Leung <bleung@chromium.org>=0D
+Reviewed-by: Benson Leung <bleung@chromium.org>=0D
+Signed-off-by: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>=0D
+---=0D
+=0D
+Changes in v3:=0D
+- Add the missing <linux/cleanup.h> include for __free() and fix the=0D
+  continuation alignment of the mfd_add_hotplug_devices() call, as=0D
+  pointed out by Tzung-Bi Shih.  No functional change.=0D
+=0D
+Link: https://lore.kernel.org/r/20261118062949.1250-1-laixiangwu@cmss.china=
+mobile.com=0D
+=0D
+ drivers/mfd/cros_ec_dev.c | 21 ++++++++++++++-------=0D
+ 1 file changed, 14 insertions(+), 7 deletions(-)=0D
+=0D
+diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c=0D
+index 529a23b80..cd1ce833a 100644=0D
+--- a/drivers/mfd/cros_ec_dev.c=0D
++++ b/drivers/mfd/cros_ec_dev.c=0D
+@@ -6,6 +6,7 @@=0D
+  */=0D
+ =0D
+ #include <linux/acpi.h>=0D
++#include <linux/cleanup.h>=0D
+ #include <linux/dmi.h>=0D
+ #include <linux/kconfig.h>=0D
+ #include <linux/mfd/core.h>=0D
+@@ -271,14 +272,20 @@ static int ec_device_probe(struct platform_device *pd=
+ev)=0D
+ 	 */=0D
+ 	if (cros_ec_check_features(ec, EC_FEATURE_USB_PD) &&=0D
+ 	    cros_ec_check_features(ec, EC_FEATURE_UCSI_PPM) &&=0D
+-	    !acpi_dev_found("GOOG0021") &&=0D
+-	    !of_find_compatible_node(NULL, NULL, "google,cros-ec-ucsi")) {=0D
+-		retval =3D mfd_add_hotplug_devices(ec->dev,=0D
+-						 cros_ec_ucsi_cells,=0D
+-						 ARRAY_SIZE(cros_ec_ucsi_cells));=0D
++	    !acpi_dev_found("GOOG0021")) {=0D
++		struct device_node *np __free(device_node) =3D=0D
++			of_find_compatible_node(NULL, NULL, "google,cros-ec-ucsi");=0D
+ =0D
+-		if (retval)=0D
+-			dev_warn(ec->dev, "failed to add cros_ec_ucsi: %d\n", retval);=0D
++		if (!np) {=0D
++			retval =3D mfd_add_hotplug_devices(ec->dev,=0D
++							 cros_ec_ucsi_cells,=0D
++							 ARRAY_SIZE(cros_ec_ucsi_cells));=0D
++=0D
++			if (retval)=0D
++				dev_warn(ec->dev,=0D
++					 "failed to add cros_ec_ucsi: %d\n",=0D
++					 retval);=0D
++		}=0D
+ 	}=0D
+ =0D
+ 	/*=0D
+-- =0D
+2.50.1.windows.1=0D
+=0D
 
-__free() is defined in <linux/cleanup.h>.  Please include it in the file.
 
-Alternatively, simply calling `of_node_put()` after using `np` also works.
-
->  
-> -		if (retval)
-> -			dev_warn(ec->dev, "failed to add cros_ec_ucsi: %d\n", retval);
-> +		if (!np) {
-> +			retval = mfd_add_hotplug_devices(ec->dev,
-> +							  cros_ec_ucsi_cells,
-> +							  ARRAY_SIZE(cros_ec_ucsi_cells));
-
-./scripts/checkpatch.pl --strict:
-
-CHECK: Alignment should match open parenthesis
-#61: FILE: drivers/mfd/cros_ec_dev.c:280:
-+                       retval = mfd_add_hotplug_devices(ec->dev,
-+                                                         cros_ec_ucsi_cells,

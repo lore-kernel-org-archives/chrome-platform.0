@@ -1,97 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795416165;
-	b=pQ5F8ra6idMfNENwfZ4sioaRQx8mWMzk4xMANWdXrmiDPYBOgC0D0yvagXKBdM/nYR91
-	 X2wxN18aesv3vB3JTGX6CikBJMXUS81InnF+gIhZnZGU2s95PDi/UsdCZKxTaxiDCeN+8
-	 Sx3oQIUgK30A2HLi2lU8g942yDylmxwYNBoDTVp9lHUZGmQCpwdg0noyxsWVP2Wm3s03y
-	 hkISMz9D3Keiz05Vg2/J8CVb8sDLeBTBc5GVeSuxbJPYo2jAWEglSv79flb0Koo+nVgv5
-	 cyRNgiUWGuPQna26jXwj4dCNeQ1dfrWim8eowlVRG4+6s9U3HAJLKLStnMETOgZIBBA==
+	t=1795426396;
+	b=QXx/jwwSXXnlb8Za3dGpE3aLBqmVjYo4qa5cjUgiRt/OAG6Q++Kut6x3WKwnr7wOmMjs
+	 Inab0uCq/9Cc8nbv6A3byxUomC7M+R5h23c3ZdIyVUx9t3vQdkhpZCl2DULH+Zi9Bq56U
+	 mbHCCyto4qBwXkpD/vT4SZDGAifcg0ohqRWH9apOdSLhMs1hfOzc1AYX2gq4kNYN8b2/C
+	 ZcMcCgpUW6QVMmEp5uJoj8r5kQQzMboZS2x1lqECyIDCV3WMos4Kbt9Dze2/5hh4mD0if
+	 eR97nJ58xJFsAguLE9+POhYA+uaU2ailYmwlFf1nHzvqzhC40GdJfWg5scVwhvO5u/Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795416165;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795426396;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=naTtgcRj/MertQfpVKpr5lkSMEaf2WtEA0kcdQKCaus=;
-	b=3My0liJhQ/b7RX7oRIQhjcgH0w0vu/Cw3AniwCsYuAVzT2GENORPIM7HMMnPNEKhMZT5
-	 iehNhocwSDuD3T1+Yah1jzqN7gIdGake2Z4ZxB91tUPm605Awfyh2OTKT8yTWDRedZ1OL
-	 m5IIg/R5HVATVzl5jIeV2WEvPgfRE5FVztJa/uNLHl1kron4UZE6SyKM9M5cWXxg6Yypm
-	 gGgwzJ+sMSYKBazi7kgQpxeMNPIbVRdD1BgA2YrBHfgRGehCRJLvtORWmrSIb1I1bZTqj
-	 RTAnq87gzOD0snjrbi1vtQ/eYBZZeCdfKoNmVP6QI4xqRkeTK24cy32A4PnUJL2WCow==
+	bh=rEQwJ8ittw+kMTmn3OLooj/VNGKrQlM0GiJz9PEPOrE=;
+	b=OeDnYBh1yKg/kpzjek0xp92mbHVueo/WNTH6aDuCKXUgiQPyjWepYJA3getNkC2Flv6d
+	 4VgtyFUc8/UJTa5LiHx/Q4ZutyTI7RlwfrhzuYqzxdQC7H2DnpmZlYk6BPhVlpqcS3t9x
+	 hjN9T9DG8ToHF1ZkrsO3SoqY8LulFfSJcAGW2U0oG60J0yYCyUh8TbnRzFEzxEpu4/sFR
+	 Q85epnaLOWlhVIcFigJfn+zFajyU9o6EyIdcx0llSNlp3wnWv+UZ9JTeKEtHupE7xWPNn
+	 xC83iZ6ar/O2526PvkOOVD1h75f7LZusHRDRUigz5TV7yQZyp2rvQI6BDhiea88tlpg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chromium.org;
 	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=gz3siUq+;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.172
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=R8ywGKKt;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0A4606A321
-	for <chrome-platform@lists.linux.dev>; Mon, 23 Nov 2026 06:42:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF0A4606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34587606A32A
+	for <chrome-platform@lists.linux.dev>; Mon, 23 Nov 2026 09:33:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34587606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=gz3siUq+
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b0d126f631so22831147b3.2
-        for <chrome-platform@lists.linux.dev>; Sun, 22 Nov 2026 22:42:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795416164; cv=none;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=R8ywGKKt
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2f02b9c1f6fso20199975ad.0
+        for <chrome-platform@lists.linux.dev>; Mon, 23 Nov 2026 01:33:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795426394; cv=none;
         d=google.com; s=arc-20260327;
-        b=HuUXAFLUdd5CEpPIUqqL8nXyQJnWCvk7ADRR3s9YN1uZyCcW8wkZXf8oWM/naE40Fs
-         ns+9W1Cb0sA//2rKV//2XSMzmenKjGgDB64k1WKjZsdD4XfrYclx+inreqou2Nz0Z58f
-         5sSTeujfR5kI+7MPkFRtuyk7NXXUhHtGYNUwHlGJ9pjd6Wlsi+ljwNnyu68QtmrKyTw+
-         Al45XsRUfsd/lZOT7NFOkEIZeKBwd9L+OjFYyGxkmlNRpNsN5YknjgfJbJRnxbb2GUNz
-         pgwBIs/1fQ6WfA9Q1vZXATWs1bvhWoHq2VciZcYZwHKpf7PNVybnCi1npgRRgGSvAWA2
-         4ByQ==
+        b=oOSVtGZ0Z0v0tfFD26dSMQCVSJ827cHC2crpWZHba5VAaEeLihCqA9tejs3MBV4o+Z
+         VW9t2q/MNlyl4z9N3w2I2ulzm7j1BYmDuzZUxJnbuC47yuF5u/jmbFR68MRI1uWKn0HK
+         AyOp9ohL2N3LVLc9a3UFvuXmGNMbKeYiQOvk/15uEHMhnhnFx5nGP5hbukoIFRbe9wXN
+         F+l+OEZ6LMDWcadDhcViVFiguXm+fnBFFuD0WJqrxrkLdkIzATdRC2AwrlHhEbrHiiEw
+         4KwmUyJUlU2gL7eRH8oHr9dkSpXC+oZyHQHZorItn3bGb0O/ezg1Ls0g17TsVIt68z2F
+         +3jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=naTtgcRj/MertQfpVKpr5lkSMEaf2WtEA0kcdQKCaus=;
-        fh=AaDNSPXLvAU0viyAckMoGAfxXmhXx5+UlCROzXBdl/c=;
-        b=My8v7nEGjmOneVWIeDm+neSpXvDSfvY3hkqMYParIcA3XjEkpoTfNTdVcI7nRNSlwX
-         +QGR2pL4L874sUaVT/F+4Xaa/IlmttJXPNpShVuPobIURAZ3Rdhl5/x2b78FBXINBwjy
-         xluP8yz78Us2t1MmiygTO3mFPznPAzTLM8ClnRrwcGPBUcV1HhHMjvh9scrz1S+TkTlM
-         wXAL0jT1IK5hsW12VC17UBRuNVkk8RRYLn16rFbfJMf39LtzrGYxIxPRm+m2gsw7UxGq
-         VGMAvkfG+KhGkdnbSDb2KXPSKoeqOJGil+608aTX1jCKaSFFdmowVuLlbHxI8rLes9Hz
-         XeFg==;
+        bh=rEQwJ8ittw+kMTmn3OLooj/VNGKrQlM0GiJz9PEPOrE=;
+        fh=Y44VmQFdomZ/95mbinXb700BtbPY6PPB5Ath0Hxl8aI=;
+        b=I1wgN6mEVD4KO2ui0cPKFfapiz49HnG7P5yHplsAOZbX/DATPSpCVSsWqtBSt6RY4P
+         s0Ok0j6KRzX1+QhdMRHWiXUUEs2/m/vxE0xZd4Mnkb83TvtIbbZPSGuz1+zpHEfGOauc
+         vmiilIrEIM6rGi0U8xDAMNFQdOrrny2IvLS9EZwNzwQC6//+UiIAlValgC46xEWtTWqD
+         S5hpoJ2yUqst1rvnxLxUYx0vDrl/pf6Xf2qCHShjyBlG+rkkHGtuWJIvsn9GbrKOQmIV
+         cWrHOU28R0OEZEfMvHAbB9DtOdsaPqd2sd6RR5Cu43B3qBzb1JCRd9Qq4m9p+VOF9gLp
+         KmvA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1795416164; x=1796020964; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1795426394; x=1796031194; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=naTtgcRj/MertQfpVKpr5lkSMEaf2WtEA0kcdQKCaus=;
-        b=gz3siUq+/hDVvp+YL0DOn2IhCFYCEUSKVa3Y0E1LNqSE9020vMe+OtfsVVvXEpdFk6
-         KFD/n7erVQ9I0BaoiTStX60MHgD4ApJCkT+5z4JTAIDnBmcd0Ja9/48FNySdlQHmzFEP
-         KlSzSYXMUJ85VqtxeUJeTJRiwqRTeXTq3r3Vc=
+        bh=rEQwJ8ittw+kMTmn3OLooj/VNGKrQlM0GiJz9PEPOrE=;
+        b=R8ywGKKtHJk+Zh2nsX955ZioQf0UbXkxL54D++3OYzxwjmrQhB/z0LtGQg3qpiaxZx
+         XWtGGsLdvaHc05akEKHRJJGXobiTEM5l+l3WjODnxhgURDoaE4aFpAIj4+/6cY0yYz7B
+         5dVuathKOL3xRDkLT2BdxxddJLVrEJWoUy5Y4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795416164; x=1796020964;
+        d=1e100.net; s=20260707; t=1795426394; x=1796031194;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=naTtgcRj/MertQfpVKpr5lkSMEaf2WtEA0kcdQKCaus=;
-        b=g45WLwzDX40j0HZ6llFJOCWFofFn15CUw9FCo3iq57ZaRoiOmAPRLDibGUl3AJ3/+E
-         i/wTWrCEi5fGyZuvxTeY8YTajbg8GiVTFhw+znAPolO+oe+mjKh9Cgx2WsFF4YDlgoT5
-         m0ZWFkOvWytDVE7YnyDqbLhd3WS/HQZ3A0pXUdFhdJOLroqR2DTv5VkBPTpd4PcnTTGN
-         EnBQvuAuo8lsvxYA/utAgo5SOVrv8H2ChsWq2gXTMVVz4OQ9c3gWEGwVrI/Vm22Mt/76
-         MF0RUDEgRYOFMnPppvSsf/iqC7qzyhHuZk0BnWokjn6KGY6MKy1MyU4uwJxDQzOXdqoc
-         eRAg==
-X-Forwarded-Encrypted: i=1; AL+hErGRNM/1Pz21zM+CSLm19G2KJxbSWYvJN6YDX6EFeem7nrZQFIpccjjU8+LFLTh+sQxSyOIyFcLXDMUr0UtE4WY=@lists.linux.dev
-X-Gm-Message-State: APuU4Z+izLXCgeIqwFR+MyCsVQoDt23u3t8uTMf0a1sErVeEsV9h1qx1
-	Nz9mPBT8C4j9PAXo0tVakqHfS3rWa9gWTqW0LozPizfjQaRSdo6N3ZmoteNq1IRpJInuKSTU1RS
-	FyZJVM7LAuOcRH/lVIlaEPdVMaVJUXGsQjz7Jm8aX
-X-Gm-Gg: AZFdTZezTUz/x9502h7aXOxyJStlp2EdqRj0AgZKVSNbgbU9vt+CjUm0A3Fvb/Pc4l0
-	HDi5qON/m2zRLUO2jVVwbggUvrAgnYcu2GJ/AE46wEd7S2XdWd7M52iviXHp+7ptQO9w3P+YHjP
-	o6te/6WYPnCaYOEscJ88E7xg8amjIz8GIXJg8ezXIHrHZINjSFCh7JIPiMowDY8CGAaFjEsHUUc
-	kHwj+ElmTU/IKt8DMYgClEJbAWZWFcc3/E11sYPTls24dVqQGlkFVbyPJCsdyDZ9d5oVkGlI6JT
-	BqUPYqK2dp1KVjD+T5cHJgTcXOdMtar30Mm4ZlK2W2lfNbrMrX6lHqqLIGmOOkxkGjc9kB5GmLF
-	nX3ffzpNQfhOB0DO6CRBVu6suF8/N936kXEP9LrQzynZAAGL6AfEwc4yScq3wO3UGb9E=
-X-Received: by 2002:a05:690c:9c02:b0:8b2:bb94:8cb2 with SMTP id
- 00721157ae682-8b5204ac257mr41593057b3.35.1795416164019; Sun, 22 Nov 2026
- 22:42:44 -0800 (PST)
+        bh=rEQwJ8ittw+kMTmn3OLooj/VNGKrQlM0GiJz9PEPOrE=;
+        b=STddYSp1f8XNTKtegpRwFavOdEFGjk/VaoLiixINYrDpdyjvQbxJnel4YlXapKhdKB
+         ++q8IGAxzRfpDoLFE3tvBRKY3TlcBrT2gU5dbxnDbyA70Um3wUTsiwABFd6xZLSEGh3S
+         wFSN1sAtayw0hou5o79rfAuqhKrt/Kh/a91BfpFOrHibl7SO5Nq5qlI1jOix3Ur+2Yme
+         RTnCvEfBO6JA46QYOTta8+6pXX+5MGfIkrDdLLgEJK9YPU6Ex1crkEcle/MBLwCuBeFa
+         LNr+vWHjzj/mGZUSrEm+swp8uvCiE1zcxV6iky27CHWVqBm9wbKchUsLcVhtCP2NBCCC
+         dZ6g==
+X-Forwarded-Encrypted: i=1; AL+hErFZ6sHKaGJGTenh+d1BfJXoERrGBc2BFaLitkSVt33rjJcMle2mZr3WFmsopu6b8W721oGdnJ2WGNrF9AHvQMw=@lists.linux.dev
+X-Gm-Message-State: APuU4Z/pNNOxecIr/ut8oikOVG5LiCIIeGtiGyVT28GERhd5Ar7dPGH0
+	hDswOwdxedMlpNK3HpCJQeRFeLHvsKKNQk0vMkDbwICVhAzf/d9vCshmkSHRKu69qBqFbhEw3WY
+	8Sbx/Bfl+IsZxyinyIsv/05m5oE52FtnVnCwmRvX2
+X-Gm-Gg: AZFdTZck0b9t0ZGKlemr6icEM2xxaYdhG9ZRp/37aqQILr0q4zB12xG6iNIn3hmTMdo
+	zhc5VmR5sYu1ZiRGgnJpDUSnvIUTICeoksI4G98di0PpKKyLKHV8i65ljGEL6o6X9wysXWBnSVq
+	co+6kGPy/3M8uj2ohEb8O6CaZSCNdPE5eN9yIn2ddpo+3l1fnREwm74lFDLQbYQPdE9OouGJabW
+	cCPWFv6uRMPI9/fK7U5E1XxjBZdmF37enEJA9CAGGTY2LfyrYPfDxAK1yJ8bt9E0U6tsrniwbbv
+	Hq43PA6hANxSVbOOqRGBz1Ttk7ElBlL8BHFfnEz0dveMdY2Wa61klP4vQKakpgqVPEPmWPJoXm+
+	zhrR5WerJmrraK/3nn4PPGOFChn/g6/T3HhjxJXa5dack7OxrEpxrpa7yia+ifPhhBxI=
+X-Received: by 2002:a17:903:1c9:b0:2e2:d3ef:125 with SMTP id
+ d9443c01a7336-2f03efa3ce4mr74174785ad.5.1795426394589; Mon, 23 Nov 2026
+ 01:33:14 -0800 (PST)
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -101,63 +101,80 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261103043734.2179858-1-wenst@chromium.org> <20261103043734.2179858-5-wenst@chromium.org>
- <avLw2AiqcnO9Blun@shikoro>
-In-Reply-To: <avLw2AiqcnO9Blun@shikoro>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 23 Nov 2026 14:42:31 +0800
-X-Gm-Features: Aa3M54qFQQaP0XRNtPCyFnaJIa2pdaKUHFg7uIqYmbd3iYo_i21tDqRJOm5IHRA
-Message-ID: <CAGXv+5F5hf_8U6j6tJ1WcS6gUCiA82ny+6DXPv12g=vUjwYUhw@mail.gmail.com>
-Subject: Re: [PATCH v7 4/8] i2c: of-prober: skip post-power-on delay if
- powered on sufficiently long
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, 
-	linux-input@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20261018023438.3902617-1-mhun512@gmail.com> <CAMMMRMcBT1TgmOYyYO8dJsLsdzqBiyUU4=S7XzE2zhYh_hpP_A@mail.gmail.com>
+In-Reply-To: <CAMMMRMcBT1TgmOYyYO8dJsLsdzqBiyUU4=S7XzE2zhYh_hpP_A@mail.gmail.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Mon, 23 Nov 2026 10:33:03 +0100
+X-Gm-Features: Aa3M54pgTzsRiadjShSiXZDHYLQMr5Bhj_1HMO-qoyOLiBI_ZI7BFiyHNfSFFtg
+Message-ID: <CAMMMRMeA76TfQnCJN66K6+VtNGE5YG1cNi-TcVhrEJpdT9EdnA@mail.gmail.com>
+Subject: Re: [PATCH v3] platform/chrome: cros_ec_typec: Stop altmode work
+ during partner removal
+To: Myeonghun Pak <mhun512@gmail.com>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Jameson Thies <jthies@google.com>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, Ijae Kim <ae878000@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andi,
-
-On Tue, Nov 10, 2026 at 6:24=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
+On Tue, Oct 20, 2026 at 10:21=E2=80=AFAM Andrei Kuchynski
+<akuchynski@chromium.org> wrote:
 >
-> On Tue, Nov 03, 2026 at 12:37:28PM +0800, Chen-Yu Tsai wrote:
-> > On some devices the I2C component is powered from an always-on power
-> > rail, or the power rail has been left on by either POR defaults or
-> > the bootloader. By the time the prober probes the device, the device
-> > most certainly has finished initializing and can respond. There is no
-> > need for the delay.
+> On Sun, Oct 18, 2026 at 4:34=E2=80=AFAM Myeonghun Pak <mhun512@gmail.com>=
+ wrote:
 > >
-> > In such designs, the system integrators tend to work around the delay
-> > to avoid the boot time penalty by simply omitting it from the device
-> > tree and the component prober. This is undesired, as the device tree
-> > is not fully describing the hardware.
+> > DisplayPort and Thunderbolt port altmodes queue work to deliver VDM
+> > responses to partner drivers. Partner altmode unregistration does not
+> > drain this work, so it can run while the partner driver is being remove=
+d
+> > and access released driver data.
 > >
-> > Switch to the new regulator_enable_and_wait() function that makes sure
-> > a certain amount of time has passed since the regulator supply was
-> > actually enabled.
+> > Look up the corresponding port altmode with typec_altmode_get_partner()
+> > and disable its work before unregistering the partner altmode. Keep the
+> > work disabled while the partner driver is removed, then clear pending
+> > response and DP status state before re-enabling it for a new connection=
+.
+> > Use the same cleanup when list-node allocation fails after registering
+> > an altmode.
 > >
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > This issue was identified as part of our ongoing research while
+> > reviewing kernel code.
+> >
+> > Fixes: dbb3fc0ffa95 ("platform/chrome: cros_ec_typec: Displayport suppo=
+rt")
+> > Cc: stable@vger.kernel.org
+> > Assisted-by: LLM
+> > Co-developed-by: Ijae Kim <ae878000@gmail.com>
+> > Signed-off-by: Ijae Kim <ae878000@gmail.com>
+> > Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 >
-> Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Tested-by: Andrei Kuchynski <akuchynski@chromium.org>
+> ---
+> > +void cros_typec_enable_altmode(const struct typec_altmode *alt, bool e=
+nable)
+> > +{
+> > +       struct cros_typec_altmode_data *adata =3D dev_get_drvdata(&alt-=
+>dev);
+> > +       struct cros_typec_dp_data *dp_data;
+> > +
+> > +       /* An altmode without its optional implementation has no work. =
+*/
+> > +       if (!adata)
+> > +               return;
+> > +
+> > +       if (!enable) {
+> > +               disable_work_sync(&adata->work);
+> > +               return;
+> > +       }
+> > +
+> > +       mutex_lock(&adata->lock);
 >
-> @Andi: Chen-Yu is the maintainer of the of-prober, so I suggest these
-> changes just go in together with this series.
+> That won't be necessary, as there is no activity at the moment.
 
-For this series, you'll need to first merge in a tag from Mark's tree:
+Hi Myeonghun,
 
-https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git
-    tags/regulator-enable-wait
+Could you please send V4 without `mutex_lock`?
 
-This tag provides the new regulator_enable_and_wait() function this patch
-depends on.
-
-
-Thanks
-ChenYu
+Thanks,
+Andrei

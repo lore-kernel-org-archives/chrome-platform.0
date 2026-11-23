@@ -1,63 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795381015;
-	b=f9acBtNDPnEe7Ll/ClM2owxyi6d1cNGfG18dwmmPiGlV8Pas7aLTT/KIIEzrNoKQR+WN
-	 g9veIUtbDt6DC7mH8N75T9m31w/F4LHCaLdVnV5a8RjCajyZ2bIk3LYw/YtLJfTGcqSeM
-	 g0vvz1iQ+bX2YiAC58Ui3xZhICVFZItMmKTuWDzq69HFBr5vR4W8K7SinXgQ6awv+K3C9
-	 3f9cfkbsQsD4D1Iygh6l4Z7tg6fDUx58nLwSl3oektyv/KsAQvAM71sHwjcHbw+9WOdo9
-	 hptTxChSgNumcNNrBHmx2dNrKKjWpjnLfF7Cabe7DKaZWfyAADPZa8ORNV+2vaF10Rg==
+	t=1795399438;
+	b=EKUKAyPwj12zEae8TwQrB+FwhavCETQtr/eCtdzV4bb7I9IXxSn9v5V29Cpe4KphK/0I
+	 jp3WxIsUtimXcR928gjVZeI6sIwmFI8mlP4x5g6yXJjXHk91Tc3us+sYeru7pi6xoGNcZ
+	 atcSMLcEKdnZAI1F6KQkLiJXDNdv9Ej29YZW/+sLjqjkS+u2/PvQO84xFJuAh9+o5w19T
+	 jtZx/r8tiCZGvclUyKIZznaxvINojer9CVU+tnOLZ6fZFDnSbwFoy7uziYMs9HqicPX6q
+	 VSt9rHnXd0d4zxd9dN8dSS0GIz05XuurJ8sCvg/55/T0OvmYtV/irA3v73kGmdDEibA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795381015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795399438;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=DMRTLh9QWHOBTrKkxFKvDAuRmtTkhznpxAQUhX+xPS0=;
-	b=Hb2/OfwLk4B8XKHjuaZybDXg+muwy175oo10LEwnRAuPfzhS28ineor8hMEcynO7a6Rz
-	 zvDUdRJLjbA6DxOIDcAsX5wvsKRDOBkL2H8PtFTd9taax+0Zx7Rp4v7r6qDmPXjUAVL6R
-	 9FcfQIdC7jFPKaY0vxM4tONlIRDW3n1bm5QvB0R2SJERkT2vinuA7gOo8ihhoyVQG1awB
-	 MvBpZnTF3n8QEvzc+uputp/4ko4OgE+Weqi9vBmotNJbwyLzla/YE2DWhGVC/a6Kn7VLJ
-	 TsERwwNEUYORskcet1Rb3ajrRmKOq+KN1xvwIbpQvAD6MmOs/RDrxkR+Zx81qDMnTlw==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=CTUBFEWTXGEDt9YsUxbPwEKx5YXMyD0xNCCiSbprPFs=;
+	b=WdNAICtk3GM4qvEffzGQWzjeIQcyuRpEQH6qhJrzPngPyz3Hb0okYljGp+OHj1PPhThP
+	 TR7fnZ61XoyS9QRSQRou0tm1hxn3xBHlHmHmDA1DM1X2kokazt2KIquxVSDNRbjOoMFDy
+	 A/SFK9g07DcayIGo2/+DPBa+upn30LL8/IfF3d48pL4EEv2feCp0LtsBX9VCXAxP50d1l
+	 JfojRO0Ova7LIsx6jgdS9r4ax8rpKpLsNVLY7x6kOX3CQ3a59tvQZp2dH+kHUsRre9LrI
+	 5XOElf5HmcWFHIWmSpdMyHJeGAPMATFLgw4vll7vQXZxlEtJvBjTSqcY2R+5OvAkL6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iRIkpwCS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6c13CSN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9E2606A31A;
-	Sun, 22 Nov 2026 20:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54DA606A31A;
+	Mon, 23 Nov 2026 02:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iRIkpwCS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE8C1F000CA;
-	Sun, 22 Nov 2026 20:56:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6c13CSN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 166191F000C4;
+	Mon, 23 Nov 2026 02:03:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795381014;
-	bh=DMRTLh9QWHOBTrKkxFKvDAuRmtTkhznpxAQUhX+xPS0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=iRIkpwCSESegoxpoYoH22GhlNBh6pu1HUkR3zRg3z/dpekm0FlsVCt+z1jrtM3pWf
-	 dX07ANSeCqaY2DbSB+ROulmH1tET2YGKmk/f43ZCP0Mz5Up6Er+CbPdMxquawk9lts
-	 yGLG5DIOQTiSX6+D11w7GzVzwAK7mNISSWJqYa9CqXlsVnqmt+XpDwd1YznMui2P6l
-	 JnuAj5+QG6wV1UOfGZLQMEOGd0HVx2TYO7XoDvegC8RiIxnioJEP4B0NgiQBeRSI9a
-	 yBjmjkmJgjv09o7nq9rJglVu+eKlFMrLBdAdDQoCma6JFSxkgQNFgFO+lrngft/Znf
-	 cmondaoHE69vg==
-Date: Sun, 22 Nov 2026 20:56:48 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Daniel Balint <dbalint@google.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org, Benson
- Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>, Tzung-Bi Shih
- <tzungbi@kernel.org>, linux-iio@vger.kernel.org,
- chrome-platform@lists.linux.dev, mfd@lists.linux.dev,
- linux-kernel@vger.kernel.org, mwojtas@google.com
-Subject: Re: [PATCH v1 0/3] Introduce cros_ec power monitoring
-Message-ID: <20261122205648.73f3cf17@jic23-hlaptop>
-In-Reply-To: <20261120091022.1459658-1-dbalint@google.com>
-References: <20261106193129.43493-1-dbalint@google.com>
-	<20261107010356.39d9eddf@jic23-hlaptop>
-	<20261118204532.257423-1-dbalint@google.com>
-	<11a821f4-aef6-425a-8626-1d8641e9f83d@roeck-us.net>
-	<20261118220033.70425495@jic23-hlaptop>
-	<20261120091022.1459658-1-dbalint@google.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1795399437;
+	bh=CTUBFEWTXGEDt9YsUxbPwEKx5YXMyD0xNCCiSbprPFs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=S6c13CSNaROyEINCgbyAQDUlrUNdXuWDkCAQ2X2Cnhc5K+M/GHKhw5Og6VfROjUa0
+	 ED2QPaITiDuFZpOQ8Hb2vMMAiflVtwAGJgWuL9saAutX1YMRr96B7Tuv9fH2apkgtX
+	 aFcXMjjPAdUs6QjgF3P7DdlS4Mw7j5daJla9boBTZYENjTTrvigXm4wW4C8NMA3LIS
+	 lZrO/0JfTq29uNJa5UEmB7Wdjb3UNNbZ7MwWPWt6FL2zjTMTpRq7n5eTTX4AyEWvSD
+	 NVnBWKpb7ScRNbE/3FMIY53hC6wPPaFzlcI+Xo/oCxQxr5AOcvivTKxrX1GgcfHcCN
+	 ozkAoigHhRQtg==
+Date: Mon, 23 Nov 2026 02:03:54 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
+Cc: bleung@chromium.org, lee@kernel.org, groeck@chromium.org,
+	jthies@google.com, chrome-platform@lists.linux.dev,
+	mfd@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mfd: cros_ec: Drop OF node reference in
+ ec_device_probe()
+Message-ID: <awOfCgL-eriqrws7@google.com>
+References: <20261118062949.1250-1-laixiangwu@cmss.chinamobile.com>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -67,92 +58,43 @@ List-Unsubscribe: <mailto:chrome-platform+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:chrome-platform+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118062949.1250-1-laixiangwu@cmss.chinamobile.com>
 
-On Fri, 20 Nov 2026 09:10:22 +0000
-Daniel Balint <dbalint@google.com> wrote:
+On Wed, Nov 18, 2026 at 02:29:48PM +0800, Xiangwu Lai wrote:
+> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+> index 529a23b80..b8d363b7a 100644
+> --- a/drivers/mfd/cros_ec_dev.c
+> +++ b/drivers/mfd/cros_ec_dev.c
+> @@ -271,14 +271,20 @@ static int ec_device_probe(struct platform_device *pdev)
+>  	 */
+>  	if (cros_ec_check_features(ec, EC_FEATURE_USB_PD) &&
+>  	    cros_ec_check_features(ec, EC_FEATURE_UCSI_PPM) &&
+> -	    !acpi_dev_found("GOOG0021") &&
+> -	    !of_find_compatible_node(NULL, NULL, "google,cros-ec-ucsi")) {
+> -		retval = mfd_add_hotplug_devices(ec->dev,
+> -						 cros_ec_ucsi_cells,
+> -						 ARRAY_SIZE(cros_ec_ucsi_cells));
+> +	    !acpi_dev_found("GOOG0021")) {
+> +		struct device_node *np __free(device_node) =
+> +			of_find_compatible_node(NULL, NULL, "google,cros-ec-ucsi");
 
-> On Wed, 18 Nov 2026 22:00:33 +0000
-> Jonathan Cameron <jic23@kernel.org> wrote:
-> 
-> > Do you need that coherent snapshot to get to userspace in one go? 
-> > 
-> > For accumulator channels the way they are normally done to sysfs
-> > style reads is to snapshot on each read, update an internal store
-> > of accumulation since enable then provide whichever one was requested.
-> > That way no data is lost - but you don't get an aligned snapshot.
-> > So it depends on what maths you are going to do with them, whether
-> > it can be done in kernel and if not how much interchannel skid
-> > matters.
-> > 
-> > So tell us more on why you need that coherent snapshot to userspace.  
-> 
-> Sure, I can provide more context. Usecases are broad, but an example
-> would be that we calculate per-rail drain contributions over short 
-> time windows for comparative analysis between device states (device state 
-> transitions like screen on/off trigger snapshot), or for debugging and
-> power profiling purposes we correlate fine-grained ODPM data frames
-> (~1s intervals) with other timestamped system diagnostics in our tracing
-> tools (e.g. perform per-process-per-rail energy attribution), so math
-> happens server side, and the relative energy deltas between channels
-> within a frame are just as important to us as their absolute values.
-> In general, data from a single channel makes sense in the context of
-> other channels, there wouldn't be a client that requests only one
-> channel.
-> 
-> At higher userspace sampling frequencies, e.g. ~1s trigger intervals,
-> which can happen in both abovementioned cases, interchannel skid becomes
-> an issue if we read individually.
-> Because the latching and data delivery (up to 64 MKBP events)
-> roundtrip between EC and kernel takes non-trivial bus time that's in the
-> ~10 ms range, latching per sysfs read across 64 files spreads channels
-> across a hundreds of ms long interval, which would compromise coherency
-> and render the data minimally useful. It would also make the EC
-> unnecessarily busy with redundant work, so latching per channel read
-> isn't really an option.
-> But to Guenter's point, this could be solved by driver-side caching.
-> 
-> 
-> On Wed, 18 Nov 2026 15:00:20 -0800
-> Guenter Roeck <linux@roeck-us.net> wrote:
-> 
-> > You could accomplish that the same way many hwmon drivers are doing it:
-> > Read all attributes in one go from the hardware, then cache it for a period
-> > of time.  
-> 
-> I should have mentioned the importance of timekeeping earlier. As we're
-> correlating the snapshots with other diagnostic time-series data,
-> userspace needs to know when accumulators were latched as accurately as
-> possible.
-> In contrast to IIO, in hwmon:
-> (1) There is no timestamp ABI to propagate latch times, so userspace has
->     to rely on its own timestamp when initiating a read.
-> (2) There is no trigger ABI to force a fresh latch on demand (e.g. on a
->     device state transition), so a userspace timestamp only marks the
->     start of a sysfs read sweep rather than the actual hardware latch.
-> 
-> So, unless I missed something, with a timeout-based cache in hwmon, a
-> reader has no visibility into whether it's hitting newly latched or
-> cached data or when the cache was actually latched (skewing time-series
-> alignment) or whether the cache has expired mid-sweep across 64 sysfs
-> reads.
-> 
-> We could probably tune a short enough cache timeout where time skew
-> would be negligible and mid-sweep expiries would still be infrequent,
-> then it's a trade-off between accuracy and more mid-sweep expirations
-> (more EC roundtrips). It could work, although we still would do 64
-> sysfs reads instead of 1 on each trigger.
-> So I guess it's not a must to send the coherent snapshot in one go, and
-> I cannot provide any data to claim that hwmon would be a suboptimal
-> solution to IIO, but our technical judgement is that IIO's explicit
-> trigger, latch timestamp and single buffer read is a cleaner fit for
-> power monitoring via the ChromeOS EC.
+__free() is defined in <linux/cleanup.h>.  Please include it in the file.
 
-This is all good information.  Capture a short version of it in cover
-letter for v2 and include a link back to here for anyone wanting
-the full gory details!
+Alternatively, simply calling `of_node_put()` after using `np` also works.
 
-Jonathan
+>  
+> -		if (retval)
+> -			dev_warn(ec->dev, "failed to add cros_ec_ucsi: %d\n", retval);
+> +		if (!np) {
+> +			retval = mfd_add_hotplug_devices(ec->dev,
+> +							  cros_ec_ucsi_cells,
+> +							  ARRAY_SIZE(cros_ec_ucsi_cells));
 
+./scripts/checkpatch.pl --strict:
 
+CHECK: Alignment should match open parenthesis
+#61: FILE: drivers/mfd/cros_ec_dev.c:280:
++                       retval = mfd_add_hotplug_devices(ec->dev,
++                                                         cros_ec_ucsi_cells,

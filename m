@@ -1,52 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795508483;
-	b=IUawa9yNpatyBittpqmuey07I+naOYKGkRV+Y5WVebRT/U4HBmRfoAba3gIlnE9PXm/y
-	 WGH+lD0bou85gbHqW/BQzlbIQClKut+klH7gLVsHFk2S4SpGbJjjF9DHhssHd7ASSgLra
-	 9DqC5gsFdzHTJAznQ/mHm3+DRlOAWBtIxVvIU3nnw77327IkGc1lKZ+G3pTaqlf2P+dBq
-	 hZ0W5WTTk7JP/k73ck/7K19YRLOfRCZ55NAVmEbkWRC9vMn3CQUDZ3P+Ng8RPEpwkkXeg
-	 zl8HD24phV7F9llNYRVq7oSDFd310FBSQaIIueAy8QuyNPYtqdA4t8+GGw64J2Po2Ng==
+	t=1795508484;
+	b=LfcksvX3AW5hCE3Ha1nQFVsBzhB+ovwtR/O03FfJ6rvAXeLZ+uf0KYVfwRr0qVyNVMk8
+	 NoNP9ZYPXmlpz9e3CtDiNAdHeZjOhPg8Egx3ICF+W9KHALOiLuHcNvIQWxlBQPn8qeUuD
+	 Kc3yiJdy0daEOr4lHnCWuljnDG5BJDIdJcKwO+DjMI0AWgJHrbkkGrjHysq6ums65pm/6
+	 onnAsmi+TtgKvMLSqIEcxwbVKpXoJibkIBX1esL5LXz6lIX7w87hHGetyXwAEOpw5Z/1m
+	 z68sfAT2+OdEKXF+wrCsrMq5XayEJvOFfnFWQm2GuM2xGfDOld0M/Ny/RnMJEe5/AlA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795508483;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795508484;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=7CCQicebTvgO0SF8U+ZenTXuEUoMApm+QWlwtmRwu1w=;
-	b=vtziYjA3Fx+Bwis8GnnEiZrEbL7XaWqzzPy/c3kjOUh8JJLGyUcpc0JXgeyELHbn3C0d
-	 xrC4qixivfG746RgyJVzex3z4pFb0xFIzhTE6lXBhutz/Yjx2/ORwcuvQD5UKp/8tqvb+
-	 drdvkeLFdwLsdPKNWkqp6ah7Hnubf68EADZEkDve6lhXuoSdedEy5dq6CANKoBAazqgM7
-	 rOidPSee6iu09VJ6/Cku1NBvoXhiIsBJhiLUCenJ92jrZOFFwWUjM0FtxS6oiuZy/E6xS
-	 R19uoUlPaxe4HEXIvkvdSEPeYcSG/bUlmxELInb8JXPLmibFSLLRGzGPpd+WyRvvvbQ==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=pbi++UG35qV7Nm5IIjZEnBZcP22OgKG1DiXlcajoGsc=;
+	b=GAfUbNf4v9gDF0NZjFaxP9YZ6TWkIU3nn8B/UadK/YqGYPUVqg4haK6oJEJPGE7UXA6r
+	 W9nebs783S4RIvpYpdYe9p9+ILXL9QeUlQZlpyBsLW9DH2k/ZdjSNnRGnQkW2MQocyZcA
+	 iai6nPDqZ+qrmj8JkeLYQneWdApclgOiHP9qk13+YjQqpKzRi3pwRU65eJ7wGf1lIIKQ4
+	 jdGEshxjQY9cmRHrffqQV2f4iB6zmwBQnton4tgwM3iIXlR8wOsY1ldEllZGDuPeUKu1+
+	 4wgeVJwOjnmj97vHspOZ7ujXhutzb0SDNdkRnIJKaFFi8XbHvIfSNhHrkIJIK/ll6rw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jW3pp+eJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=biTkjR6m;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098E9606A31E
-	for <chrome-platform@lists.linux.dev>; Tue, 24 Nov 2026 08:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8C1606A31E
+	for <chrome-platform@lists.linux.dev>; Tue, 24 Nov 2026 08:21:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jW3pp+eJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27C8B1F000C4;
-	Tue, 24 Nov 2026 08:21:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=biTkjR6m
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B1B1F000C4;
+	Tue, 24 Nov 2026 08:21:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795508482;
-	bh=7CCQicebTvgO0SF8U+ZenTXuEUoMApm+QWlwtmRwu1w=;
-	h=From:To:Cc:Subject:Date;
-	b=jW3pp+eJHvmhwBopdMd0E/hg9nLKF0uxdLHKKSkuz0FsnGK0RB81lAZ9ycGh7kbTt
-	 8ZuoEAiwS4MIMi2aMm0g40f7TPgRiJDFtPOcMfd1DAYT3K8MGaw40ieKQAsBSNlAO6
-	 PODJ5wvEwEa8IDwa9lFGhIK1nvefyCLmQpysYd18b3BgEkp+1FLVKxC+mXb9yDxZA3
-	 +cgGvcLy9UBosjOcmc5MUkkK7WZEvrLkNVwpn0sfW/ZtliVgPtzzPlZJsEih7iCaIz
-	 cSeO9j86+rhdpOJAANPHc4dM3b0zxy1qdhSc1uJxR4FXVZo4KEekAkKJEHf1BD/3UM
-	 poYNlr3hxUvIQ==
+	s=k20260515; t=1795508484;
+	bh=pbi++UG35qV7Nm5IIjZEnBZcP22OgKG1DiXlcajoGsc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=biTkjR6mADOkKBNe5a4Bot0wGF3ct7a8oR754XMZMq693z2LfmBdyi74N3RSSGaUC
+	 RSsFIn6hzxVxaixyZYrX2y6xGYIOMWC840DEJjcx0o28tUayiwi2pLzlpHC7+lFeCm
+	 JuAhuedrZIX1otBJghjnDL7zBqkxa1sLQaqrwbkeJ2BCdBAQYFdLTn30cCV78XccFn
+	 o6oIBDRiuuPbNTPNmWdXCrinY4G7nowCCZlmFMbB46V5511Y0RWSq3MZQwIc/bC+i0
+	 eZg/yv4Hn3NcSPtxI0WSF1kTNq9p5cWJ6W1RmwTL0H8y7ckX6pKgth5CBHwOjsTIl5
+	 jfBekQx31SCUg==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Benson Leung <bleung@chromium.org>
 Cc: tzungbi@kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH 0/9] platform/chrome: cros_ec_proto: Harden query_all() and retries
-Date: Tue, 24 Nov 2026 08:21:03 +0000
-Message-ID: <20261124082112.3361229-1-tzungbi@kernel.org>
+Subject: [PATCH 1/9] platform/chrome: cros_ec_proto: Reset msg->result before sending command
+Date: Tue, 24 Nov 2026 08:21:04 +0000
+Message-ID: <20261124082112.3361229-2-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.56.1.831.g720f3f5937-goog
+In-Reply-To: <20261124082112.3361229-1-tzungbi@kernel.org>
+References: <20261124082112.3361229-1-tzungbi@kernel.org>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -58,47 +60,31 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series hardens ChromeOS EC command transmission and
-cros_ec_query_all() against transient transport errors (such as -EAGAIN)
-and buffer reallocation hazards:
+`msg->result` could be uninitialized or stale.  Reset it before sending
+a command.  Otherwise, if the transfer fails before updating
+`msg->result`, cros_ec_send_command() may spuriously enter
+cros_ec_wait_until_complete() when `msg->result` happens to be
+EC_RES_IN_PROGRESS.
 
-- Patches 1-2: Reset `msg->result` before each transfer and retry
-  transient -EAGAIN errors in cros_ec_send_command() and
-  EC_CMD_RESEND_RESPONSE polling.
+Fixes: d86c21fd3111 ("mfd: cros_ec: wait for completion of commands that return IN_PROGRESS")
+Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+---
+ drivers/platform/chrome/cros_ec_proto.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-- Patch 4: Reallocate `din`/`dout` safely with devm_krealloc() directly
-  when protocol info arrives, preventing `din_size`/`dout_size` OOB
-  mismatches, -ENOMEM dangling pointers, and runtime reallocation churn.
-
-- Patch 5: Guard protocol v3-to-v2 fallback so transient errors, v3-only
-  transports, or runtime re-queries on registered v3 devices do not
-  downgrade the EC to v2.
-
-- Patch 8: Distinguish -EOPNOTSUPP from real transport/protocol errors
-  when probing MKBP, host sleep v1, and wake mask, propagating real
-  errors and resetting `proto_version` so the next transfer re-queries.
-
-New KUnit test cases and non-breaking test cleanups are kept in separate
-patches (patches 3, 6, 7, and 9).  In patch 8, updates to existing KUnit
-tests are folded into the code change itself so that the test suite
-remains passing at every commit for bisectability.
-
-Tzung-Bi Shih (9):
-  platform/chrome: cros_ec_proto: Reset msg->result before sending
-    command
-  platform/chrome: cros_ec_proto: Retry sending command on -EAGAIN
-  platform/chrome: KUnit: Add tests for retrying commands on -EAGAIN
-  platform/chrome: cros_ec_proto: Reallocate din/dout buffers atomically
-  platform/chrome: cros_ec_proto: Guard protocol v2 fallback
-  platform/chrome: KUnit: Update test cases for protocol v2
-  platform/chrome: KUnit: Add test cases for protocol fallback
-  platform/chrome: cros_ec_proto: Propagate feature probe errors
-  platform/chrome: KUnit: Add feature probe unsupported tests
-
- drivers/platform/chrome/cros_ec_proto.c      | 167 +++++---
- drivers/platform/chrome/cros_ec_proto_test.c | 429 +++++++++++++++----
- 2 files changed, 469 insertions(+), 127 deletions(-)
-
+diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+index b81b37c7169a..0306bedd0f0f 100644
+--- a/drivers/platform/chrome/cros_ec_proto.c
++++ b/drivers/platform/chrome/cros_ec_proto.c
+@@ -116,6 +116,8 @@ static int cros_ec_xfer_command(struct cros_ec_device *ec_dev, struct cros_ec_co
+ 	int ret;
+ 	int (*xfer_fxn)(struct cros_ec_device *ec, struct cros_ec_command *msg);
+ 
++	msg->result = EC_RES_SUCCESS;
++
+ 	if (ec_dev->proto_version > 2)
+ 		xfer_fxn = ec_dev->pkt_xfer;
+ 	else
 -- 
 2.56.1.831.g720f3f5937-goog
 

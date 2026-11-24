@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795508484;
-	b=LfcksvX3AW5hCE3Ha1nQFVsBzhB+ovwtR/O03FfJ6rvAXeLZ+uf0KYVfwRr0qVyNVMk8
-	 NoNP9ZYPXmlpz9e3CtDiNAdHeZjOhPg8Egx3ICF+W9KHALOiLuHcNvIQWxlBQPn8qeUuD
-	 Kc3yiJdy0daEOr4lHnCWuljnDG5BJDIdJcKwO+DjMI0AWgJHrbkkGrjHysq6ums65pm/6
-	 onnAsmi+TtgKvMLSqIEcxwbVKpXoJibkIBX1esL5LXz6lIX7w87hHGetyXwAEOpw5Z/1m
-	 z68sfAT2+OdEKXF+wrCsrMq5XayEJvOFfnFWQm2GuM2xGfDOld0M/Ny/RnMJEe5/AlA==
+	t=1795508486;
+	b=1/fYAR8VvB6lwgWcLa4L3e4WbKwhnBurI/Nol3L7LW0oOzycaQiOod4Qw+vN6XzgUhCp
+	 sdouGOBFwarnUbnJ3VnNG1PLPP70jUdZXQu/Ml0rNi1nNNI+XWfP80dc+pu9ezU9AU9Vo
+	 Rk0x4ZJSBKyUhqnx1Afasni5nL57yj+zBuA86ClZocnPnhoo/Ss4MrNrk1NCjIbfdQYMu
+	 ZI41E4NGcucLaa/gXtJPsn4m9iXRZaQM2wFKn4mJ8r1ds1TmtEaIIuejqS0eRSFV9OfJB
+	 A1f0Q5ANXtS8UoaMZ2qqV6qJvd6HNeQNQghsU8PHiMqNig5u7z74RN2XM8NqeZpEGrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795508484;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795508486;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=pbi++UG35qV7Nm5IIjZEnBZcP22OgKG1DiXlcajoGsc=;
-	b=GAfUbNf4v9gDF0NZjFaxP9YZ6TWkIU3nn8B/UadK/YqGYPUVqg4haK6oJEJPGE7UXA6r
-	 W9nebs783S4RIvpYpdYe9p9+ILXL9QeUlQZlpyBsLW9DH2k/ZdjSNnRGnQkW2MQocyZcA
-	 iai6nPDqZ+qrmj8JkeLYQneWdApclgOiHP9qk13+YjQqpKzRi3pwRU65eJ7wGf1lIIKQ4
-	 jdGEshxjQY9cmRHrffqQV2f4iB6zmwBQnton4tgwM3iIXlR8wOsY1ldEllZGDuPeUKu1+
-	 4wgeVJwOjnmj97vHspOZ7ujXhutzb0SDNdkRnIJKaFFi8XbHvIfSNhHrkIJIK/ll6rw==
+	bh=lg2Ol+GcTF87EeO5zKIE96f80tydark7EpXLPBuZ09Q=;
+	b=dEOOGtUtSuHeKcf434FvCKt68YUPmAA4rfJbHuxFghLpPTd2v7krym9p0Bgte82GQZ6w
+	 6yl6spQ+zVi1SdibWRDWCVrKgREOirIfTbuCvOg4AZYJLnu9q3x0NqXRUJqmXSk9ouIQq
+	 O4SWLgPdWcpvyLnP1H07ghv5P9Ie3TM8DpKH7Oo466BHchT87wrnUgKkgB3mIINsRteIX
+	 1pyqVcHYRGa7fNQXGqOwlyMGFU2Ts193XmbgRepR3teyzdkXDFnRpB8/J11WTLiyGlvA4
+	 uPEZeY0cljaWVhOVRm4QboMFOskJH28IXZF8Q1+jTnrUi+DwPGaimBMqgMVfWZWmdXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=biTkjR6m;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zl9vCLsv;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8C1606A31E
-	for <chrome-platform@lists.linux.dev>; Tue, 24 Nov 2026 08:21:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCEF606A33A
+	for <chrome-platform@lists.linux.dev>; Tue, 24 Nov 2026 08:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=biTkjR6m
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B1B1F000C4;
-	Tue, 24 Nov 2026 08:21:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zl9vCLsv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C9571F000C0;
+	Tue, 24 Nov 2026 08:21:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795508484;
-	bh=pbi++UG35qV7Nm5IIjZEnBZcP22OgKG1DiXlcajoGsc=;
+	s=k20260515; t=1795508485;
+	bh=lg2Ol+GcTF87EeO5zKIE96f80tydark7EpXLPBuZ09Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=biTkjR6mADOkKBNe5a4Bot0wGF3ct7a8oR754XMZMq693z2LfmBdyi74N3RSSGaUC
-	 RSsFIn6hzxVxaixyZYrX2y6xGYIOMWC840DEJjcx0o28tUayiwi2pLzlpHC7+lFeCm
-	 JuAhuedrZIX1otBJghjnDL7zBqkxa1sLQaqrwbkeJ2BCdBAQYFdLTn30cCV78XccFn
-	 o6oIBDRiuuPbNTPNmWdXCrinY4G7nowCCZlmFMbB46V5511Y0RWSq3MZQwIc/bC+i0
-	 eZg/yv4Hn3NcSPtxI0WSF1kTNq9p5cWJ6W1RmwTL0H8y7ckX6pKgth5CBHwOjsTIl5
-	 jfBekQx31SCUg==
+	b=Zl9vCLsviLUB+KgY/hLHX6ialrS8kcqQiIZp8kkQ3WYC9ZcQqAquI3LjB/FGCkxr4
+	 eTeoLnyhS83DqkRX9IzpOaRQ19x5xFCheYjTrF8Mtf3R6aKb3LV8taB62V53RfHU/9
+	 nyawoARuKCnyJ789tlxBTXBj0hBGGyDQqBsgIqbtY3DKg7WLooq+84j25uiLfSkjHh
+	 51JgXnCDPGnkY2g2NHhp8/iRwQ0hStSvohcBCJm3lcWgQr4n/AZJCv9xFN+mWnpgZ8
+	 GhSGaJpqMNxOUxJshiCmzydgbogckHdHbqZ6QL9bsiK0lD2lRmv9ZJ5I+PyhQvWltp
+	 CRAEQW8rRxBXQ==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Benson Leung <bleung@chromium.org>
 Cc: tzungbi@kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH 1/9] platform/chrome: cros_ec_proto: Reset msg->result before sending command
-Date: Tue, 24 Nov 2026 08:21:04 +0000
-Message-ID: <20261124082112.3361229-2-tzungbi@kernel.org>
+Subject: [PATCH 2/9] platform/chrome: cros_ec_proto: Retry sending command on -EAGAIN
+Date: Tue, 24 Nov 2026 08:21:05 +0000
+Message-ID: <20261124082112.3361229-3-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.56.1.831.g720f3f5937-goog
 In-Reply-To: <20261124082112.3361229-1-tzungbi@kernel.org>
 References: <20261124082112.3361229-1-tzungbi@kernel.org>
@@ -60,31 +60,66 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-`msg->result` could be uninitialized or stale.  Reset it before sending
-a command.  Otherwise, if the transfer fails before updating
-`msg->result`, cros_ec_send_command() may spuriously enter
-cros_ec_wait_until_complete() when `msg->result` happens to be
-EC_RES_IN_PROGRESS.
+Underlying transport mediums can be transiently unavailable and return
+-EAGAIN.  Retry sending the command in cros_ec_send_command() up to
+EC_COMMAND_SEND_RETRIES times with a short delay between attempts.
 
-Fixes: d86c21fd3111 ("mfd: cros_ec: wait for completion of commands that return IN_PROGRESS")
+Check `msg->result == EC_RES_IN_PROGRESS` before retrying so commands
+that are already executing on the EC go directly to
+cros_ec_wait_until_complete().
+
+Similarly, continue polling in cros_ec_wait_until_complete() when
+EC_CMD_RESEND_RESPONSE fails with -EAGAIN.
+
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
- drivers/platform/chrome/cros_ec_proto.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/platform/chrome/cros_ec_proto.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index b81b37c7169a..0306bedd0f0f 100644
+index 0306bedd0f0f..135134a1e317 100644
 --- a/drivers/platform/chrome/cros_ec_proto.c
 +++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -116,6 +116,8 @@ static int cros_ec_xfer_command(struct cros_ec_device *ec_dev, struct cros_ec_co
- 	int ret;
- 	int (*xfer_fxn)(struct cros_ec_device *ec, struct cros_ec_command *msg);
+@@ -16,6 +16,7 @@
+ #include "cros_ec_trace.h"
  
-+	msg->result = EC_RES_SUCCESS;
+ #define EC_COMMAND_RETRIES	50
++#define EC_COMMAND_SEND_RETRIES	5
+ #define RWSIG_CONTINUE_RETRIES	8
+ #define RWSIG_CONTINUE_MAX_ERRORS_IN_ROW	3
+ 
+@@ -194,6 +195,9 @@ static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev,
+ 			orig_msg->command = orig_cmd;
+ 			orig_msg->outsize = orig_outsize;
+ 			orig_msg->version = orig_version;
 +
- 	if (ec_dev->proto_version > 2)
- 		xfer_fxn = ec_dev->pkt_xfer;
- 	else
++			if (ret == -EAGAIN)
++				continue;
+ 			return ret;
+ 		}
+ 	}
+@@ -203,10 +207,19 @@ static int cros_ec_wait_until_complete(struct cros_ec_device *ec_dev,
+ 
+ static int cros_ec_send_command(struct cros_ec_device *ec_dev, struct cros_ec_command *msg)
+ {
+-	int ret = cros_ec_xfer_command(ec_dev, msg);
++	int retry_count = EC_COMMAND_SEND_RETRIES;
++	int ret;
++
++retry:
++	ret = cros_ec_xfer_command(ec_dev, msg);
+ 
+ 	if (msg->result == EC_RES_IN_PROGRESS)
+-		ret = cros_ec_wait_until_complete(ec_dev, msg);
++		return cros_ec_wait_until_complete(ec_dev, msg);
++
++	if (ret == -EAGAIN && retry_count--) {
++		usleep_range(10000, 11000);
++		goto retry;
++	}
+ 
+ 	return ret;
+ }
 -- 
 2.56.1.831.g720f3f5937-goog
 

@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795508488;
-	b=CQ9Iv/q/GzlaTKpWm0hWwV/V1+0fIghz2wYdYOYo4q6VKMIV2804u0Iep0ID7ZLu630f
-	 FqqP4hPW4FMqKmcW/cEvIKP1Qff/60UclH5LAVHUIqesPD+tJUF7i3mLPo6Dwwj1J3Wdw
-	 YbK4ctS1PQEYmbIx8kXuWln+JbQ3VSCKVSqOI4lBPfZlc26L977YdiaPiTyxJtPuaWuJe
-	 +onKhYIbKJTbtKt1uY0TViX9ssAeP+Jyf6AnjVpaRZx4q4dNhgscEKTHbuSaZi5c7d4nU
-	 w6PxFh1seicZJ5ShENLyZ6jAu7uTxSsnSxFw71RWFDuamav+f26H9usW4xH7QZ5Io1w==
+	t=1795508489;
+	b=kz+LHxyXK/7ukYlTmehyapMGXGD6Kr4PtGwrwMJXUvduERcw9Q4mRSX5vSujnBweatKy
+	 zagNUNQUcYl7uQyyUpZ4G2q6oG29a2oe1/lz5z7fOXT39W85FFZfFUFRCNJL21VlRFKfJ
+	 +p1OQcsauo9kY4sFwnL9ZL4yYNl4VZCwgYT6KS33i9CaijN8bIyclr1QTfPrAlKnv2ZVR
+	 uPXhsIrkbw3fG1oVtUAbpT6vu1YJX66gvF6aakpDY5vf3creFPv/SW9QGU+ZredkRWu5o
+	 NnXzXW1FgllT4hb3hqebUoSZbxW4+ioWsAiOJPZk4rudqZbByN8gBpkLTaC4FmTx3aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795508488;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795508489;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=ootECmzeKa6bRpN1cz+4ACBfuSaEob69kCPOZCISDTA=;
-	b=DIns8lQVMDgPNDmVvNhEAfWZksd8WQGPzEV4TvgMgIRfUnzhkUS+6rxBf5q4nr7vbZg4
-	 1AwU+QGq0Isn7T3pzDMXOVGJ2INak3qYSw8Lqm0yyjFvWG3sKwlqifTJ3miaQaDkGn7Sp
-	 5ghiLMd5njqFZysu/JGEw4vXCrwi7gzZ1DUQcwsMBBm98V4NDhGANXE+JW2vqwmaymI9a
-	 LHhU4aEECqYX8UIh90srxDngOBe5JgtzaVCu/lty59Y5l/BiqMwjwka97qmWNCkJoZIcw
-	 LDJ7R6VGN+MskVgK5PVVcYhWOXBRDf4Mi5mGPj0t8UWMS2yAMsnRws126eNzuoIgHRw==
+	bh=/NtzFHlsvtt/l/0IpJTB8NYw0J/0nnB82oUsBNzIeA0=;
+	b=jlt90U1IY4mJ2a3ACG3Tje9LVXv1e0+saQfwO+AK5D4e1e+0Tu3Y+Gw3yOB9q+btdtZN
+	 IRrjOZY2HewQ6F9UyURF7/dqbU+ZNs6SFJ+BPjEqT/3FgXW9K2Vg43XiOwkzFfigvYLUh
+	 KpQKlgUo5u6VbW4n5HBs+BT3H90+KkTyILK6GiUEJjhDbmx8IPBZpb4o9uBC9X4BWRKpE
+	 A1xA7zeu/uLZJLDUkTEZazTmzBLA583TpNDukfd7O6uetIOgh6ugOv3tlemfIykOzHtbD
+	 H1Xv/WVekk60jxiVASiCZ4AOv6iC5FpDaE+uObjG/a3TQeBWDkAsFXV5UoAYM8P7PpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="C/7rt0JO";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jPua99cV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55440606A31E
-	for <chrome-platform@lists.linux.dev>; Tue, 24 Nov 2026 08:21:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6808606A31E
+	for <chrome-platform@lists.linux.dev>; Tue, 24 Nov 2026 08:21:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C/7rt0JO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 782501F000E0;
-	Tue, 24 Nov 2026 08:21:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jPua99cV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 085481F000D2;
+	Tue, 24 Nov 2026 08:21:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795508488;
-	bh=ootECmzeKa6bRpN1cz+4ACBfuSaEob69kCPOZCISDTA=;
+	s=k20260515; t=1795508489;
+	bh=/NtzFHlsvtt/l/0IpJTB8NYw0J/0nnB82oUsBNzIeA0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=C/7rt0JO+4D0rxNnKwlu5E+D4yoGkv04xLPs/NB7YsjvrE5Hn56B2HiP21qQxXcbT
-	 MiBrAl//PZORt3Igo1fixKDkVZNf+53fCyqQ1LWcvwcPzLNo3SuLZfubFYaK6S9sXw
-	 7KG9GX2D2Ghow4g0SCmG+4tTqKgAdv/Z9N656Ka77wilVOdtVvXq892T08KuKXabOa
-	 SD8wSpFCbvVtJTrqhwEwY7LQUe7X9/tmLYvLgwSPakrpRXAlbhtZyqpLo0ys42EHcu
-	 1kF0PS6Q6QBwyNACIr6kyUCllqNlG0A7AYsBF2ySFrKm9yevokybMhFPYPSOpslNLQ
-	 ccqPEqR+kN7sA==
+	b=jPua99cVsMD622GWM+n8obR5Rz+NsghGS+5kijofcsy4CUAGIkkr3hwHonWwSSKC1
+	 P5/vx681mVmzRuHdSDHfD5lhG50IXDn5X2xlw1kZGTxMuoLVL6is3tb/1P+7EhwCh6
+	 ZVustC8QmPaXURunsC8n7TLWgKwORJqWbl388LpFKmNO519S/rdcoYk67XEQ5eApC4
+	 gBA5gIK9U4DPsBTt9n2EpO0WlX+NgtijxJSgZ8xpYUrngr7TJvCrBN093lf47UQiGm
+	 LdZ3ClPd/5sKrjNiNe+vG+/M1Y9qLa9VF5opide/7vIy6UTiJAMRMRtw8RpPB/X5+Q
+	 r7EW2QUMa9JYA==
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Benson Leung <bleung@chromium.org>
 Cc: tzungbi@kernel.org,
 	chrome-platform@lists.linux.dev
-Subject: [PATCH 4/9] platform/chrome: cros_ec_proto: Reallocate din/dout buffers atomically
-Date: Tue, 24 Nov 2026 08:21:07 +0000
-Message-ID: <20261124082112.3361229-5-tzungbi@kernel.org>
+Subject: [PATCH 5/9] platform/chrome: cros_ec_proto: Guard protocol v2 fallback
+Date: Tue, 24 Nov 2026 08:21:08 +0000
+Message-ID: <20261124082112.3361229-6-tzungbi@kernel.org>
 X-Mailer: git-send-email 2.56.1.831.g720f3f5937-goog
 In-Reply-To: <20261124082112.3361229-1-tzungbi@kernel.org>
 References: <20261124082112.3361229-1-tzungbi@kernel.org>
@@ -60,149 +60,101 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In cros_ec_query_all(), cros_ec_get_proto_info() for EC_INDEX updated
-`din_size` and `dout_size` before really reallocating `din` and `dout`,
-while the subsequent PD_INDEX query sent another EC command in between.
-Transport drivers that bounds-check against `din_size`/`dout_size` could
-therefore access `din`/`dout` out of bounds.
+cros_ec_query_all() falls back to cros_ec_get_proto_info_legacy()
+whenever cros_ec_get_proto_info() returned any error.  Because
+cros_ec_get_proto_info_legacy() clears `ec_dev->pkt_xfer`, a transient
+failure during initial probe or a runtime re-query can permanently
+downgrade a v3 EC to v2, or mask the real error with -EIO on v3-only
+transports without `cmd_xfer`.
 
-In addition, cros_ec_query_all() freed `din` and `dout` before
-allocating the new buffers, leaving dangling pointers on -ENOMEM and
-needlessly reallocating on runtime re-queries even when buffer sizes did
-not grow.
+Add cros_ec_proto_can_fallback_to_v2() to avoid falling back when:
+- The device is already registered with `pkt_xfer` (known v3+ EC).
+- `ec_dev->cmd_xfer` is not supported (doesn't support v2).
+- The v3 query failed with a transient error (-ENOMEM or -EAGAIN).
 
-Use devm_krealloc() to update `din`/`din_size` and `dout`/`dout_size`
-directly in cros_ec_get_proto_info() and
-cros_ec_get_proto_info_legacy(), before updating the other protocol
-fields.
+Also skip the v3 probe and call cros_ec_get_proto_info_legacy() directly
+when `ec_dev->pkt_xfer` is already NULL (known v2-only EC).
 
-Fixes: 2c7589af3c4d ("mfd: cros_ec: add proto v3 skeleton")
 Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 ---
- drivers/platform/chrome/cros_ec_proto.c | 58 ++++++++++++++-----------
- 1 file changed, 32 insertions(+), 26 deletions(-)
+ drivers/platform/chrome/cros_ec_proto.c | 55 ++++++++++++++++++-------
+ 1 file changed, 40 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index 135134a1e317..d48d3c73ca0b 100644
+index d48d3c73ca0b..d8ab82154c92 100644
 --- a/drivers/platform/chrome/cros_ec_proto.c
 +++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -385,7 +385,8 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
- {
- 	struct cros_ec_command *msg;
- 	struct ec_response_get_protocol_info *info;
--	int ret, mapped;
-+	int ret, mapped, din_size, dout_size;
-+	u8 *din, *dout;
+@@ -595,6 +595,24 @@ static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
+ 	return ret;
+ }
  
- 	ec_dev->proto_version = 3;
- 	if (devidx > 0)
-@@ -422,14 +423,27 @@ static int cros_ec_get_proto_info(struct cros_ec_device *ec_dev, int devidx)
- 
- 	switch (devidx) {
- 	case CROS_EC_DEV_EC_INDEX:
-+		ret = -ENOMEM;
-+		din_size = info->max_response_packet_size + EC_MAX_RESPONSE_OVERHEAD;
-+		din = devm_krealloc(ec_dev->dev, ec_dev->din, din_size, GFP_KERNEL);
-+		if (!din)
-+			goto exit;
-+		ec_dev->din_size = din_size;
-+		ec_dev->din = din;
++static bool cros_ec_proto_can_fallback_to_v2(struct cros_ec_device *ec_dev,
++					     int ret)
++{
++	/* The EC does support v3. */
++	if (ec_dev->registered && ec_dev->pkt_xfer)
++		return false;
 +
-+		dout_size = info->max_request_packet_size + EC_MAX_REQUEST_OVERHEAD;
-+		dout = devm_krealloc(ec_dev->dev, ec_dev->dout, dout_size, GFP_KERNEL);
-+		if (!dout)
-+			goto exit;
-+		ec_dev->dout_size = dout_size;
-+		ec_dev->dout = dout;
++	/* The transport doesn't support v2. */
++	if (!ec_dev->cmd_xfer)
++		return false;
 +
- 		ec_dev->max_request = info->max_request_packet_size -
- 						sizeof(struct ec_host_request);
- 		ec_dev->max_response = info->max_response_packet_size -
- 						sizeof(struct ec_host_response);
- 		ec_dev->proto_version = min(EC_HOST_REQUEST_VERSION,
- 					    fls(info->protocol_versions) - 1);
--		ec_dev->din_size = info->max_response_packet_size + EC_MAX_RESPONSE_OVERHEAD;
--		ec_dev->dout_size = info->max_request_packet_size + EC_MAX_REQUEST_OVERHEAD;
- 
- 		dev_dbg(ec_dev->dev, "using proto v%u\n", ec_dev->proto_version);
- 		break;
-@@ -456,6 +470,7 @@ static int cros_ec_get_proto_info_legacy(struct cros_ec_device *ec_dev)
- 	struct ec_params_hello *params;
- 	struct ec_response_hello *response;
- 	int ret, mapped;
-+	u8 *din, *dout;
- 
- 	ec_dev->proto_version = 2;
- 
-@@ -497,12 +512,23 @@ static int cros_ec_get_proto_info_legacy(struct cros_ec_device *ec_dev)
- 		goto exit;
- 	}
- 
-+	ret = -ENOMEM;
-+	din = devm_krealloc(ec_dev->dev, ec_dev->din, EC_PROTO2_MSG_BYTES, GFP_KERNEL);
-+	if (!din)
-+		goto exit;
-+	ec_dev->din_size = EC_PROTO2_MSG_BYTES;
-+	ec_dev->din = din;
++	/* The system or EC is encountering transient failures. */
++	if (ret == -ENOMEM || ret == -EAGAIN)
++		return false;
 +
-+	dout = devm_krealloc(ec_dev->dev, ec_dev->dout, EC_PROTO2_MSG_BYTES, GFP_KERNEL);
-+	if (!dout)
-+		goto exit;
-+	ec_dev->dout_size = EC_PROTO2_MSG_BYTES;
-+	ec_dev->dout = dout;
++	return true;
++}
 +
- 	ec_dev->max_request = EC_PROTO2_MAX_PARAM_SIZE;
- 	ec_dev->max_response = EC_PROTO2_MAX_PARAM_SIZE;
- 	ec_dev->max_passthru = 0;
- 	ec_dev->pkt_xfer = NULL;
--	ec_dev->din_size = EC_PROTO2_MSG_BYTES;
--	ec_dev->dout_size = EC_PROTO2_MSG_BYTES;
- 
- 	dev_dbg(ec_dev->dev, "falling back to proto v2\n");
- 	ret = 0;
-@@ -578,7 +604,6 @@ static int cros_ec_get_host_command_version_mask(struct cros_ec_device *ec_dev,
-  */
- int cros_ec_query_all(struct cros_ec_device *ec_dev)
- {
--	struct device *dev = ec_dev->dev;
+ /**
+  * cros_ec_query_all() -  Query the protocol version supported by the
+  *         ChromeOS EC.
+@@ -607,23 +625,30 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
  	u32 ver_mask;
  	int ret;
  
-@@ -601,22 +626,6 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
- 		}
+-	/* First try sending with proto v3. */
+-	if (!cros_ec_get_proto_info(ec_dev, CROS_EC_DEV_EC_INDEX)) {
+-		/* Check for PD. */
+-		cros_ec_get_proto_info(ec_dev, CROS_EC_DEV_PD_INDEX);
++	if (ec_dev->pkt_xfer) {
++		/* First try sending with proto v3. */
++		ret = cros_ec_get_proto_info(ec_dev, CROS_EC_DEV_EC_INDEX);
++
++		if (!ret) {
++			/* Check for optional PD chip; ignore errors. */
++			cros_ec_get_proto_info(ec_dev, CROS_EC_DEV_PD_INDEX);
++		} else if (cros_ec_proto_can_fallback_to_v2(ec_dev, ret)) {
++			/* Fall back to querying with a v2 hello message. */
++			ret = cros_ec_get_proto_info_legacy(ec_dev);
++		}
+ 	} else {
+-		/* Try querying with a v2 hello message. */
++		/* pkt_xfer is NULL (v2-only EC); query with v2 directly. */
+ 		ret = cros_ec_get_proto_info_legacy(ec_dev);
+-		if (ret) {
+-			/*
+-			 * It's possible for a test to occur too early when
+-			 * the EC isn't listening. If this happens, we'll
+-			 * test later when the first command is run.
+-			 */
+-			ec_dev->proto_version = EC_PROTO_VERSION_UNKNOWN;
+-			dev_dbg(ec_dev->dev, "EC query failed: %d\n", ret);
+-			return ret;
+-		}
++	}
++	if (ret) {
++		/*
++		 * It's possible for a test to occur too early when
++		 * the EC isn't listening. If this happens, we'll
++		 * test later when the first command is run.
++		 */
++		ec_dev->proto_version = EC_PROTO_VERSION_UNKNOWN;
++		dev_dbg(ec_dev->dev, "EC query failed: %d\n", ret);
++		return ret;
  	}
  
--	devm_kfree(dev, ec_dev->din);
--	devm_kfree(dev, ec_dev->dout);
--
--	ec_dev->din = devm_kzalloc(dev, ec_dev->din_size, GFP_KERNEL);
--	if (!ec_dev->din) {
--		ret = -ENOMEM;
--		goto exit;
--	}
--
--	ec_dev->dout = devm_kzalloc(dev, ec_dev->dout_size, GFP_KERNEL);
--	if (!ec_dev->dout) {
--		devm_kfree(dev, ec_dev->din);
--		ret = -ENOMEM;
--		goto exit;
--	}
--
  	/* Probe if MKBP event is supported */
- 	ret = cros_ec_get_host_command_version_mask(ec_dev, EC_CMD_GET_NEXT_EVENT, &ver_mask);
- 	if (ret < 0 || ver_mask == 0) {
-@@ -660,10 +669,7 @@ int cros_ec_query_all(struct cros_ec_device *ec_dev)
- 				"failed to retrieve wake mask: %d\n", ret);
- 	}
- 
--	ret = 0;
--
--exit:
--	return ret;
-+	return 0;
- }
- EXPORT_SYMBOL(cros_ec_query_all);
- 
 -- 
 2.56.1.831.g720f3f5937-goog
 

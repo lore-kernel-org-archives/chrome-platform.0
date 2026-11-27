@@ -1,53 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795755222;
-	b=vr74HqTnUL7fBcm8vQZb2V62DutQfoxQ7RT9SFn/BPlQhPAghOKDmG0WmBwkZe6EJpc+
-	 LUM1t3GyHomUgHMoOXJGD3g2/6lBhWV6KqsKEo1fJxkk+Gdy9HmupD7fW6HRy57v+Zvel
-	 tOz45ktzIPUqR1arM8+IzxpbgUeJlc9itQwKVlo7R8eiz7P9B9vv6Me77V4s9pvUlQ0WN
-	 IQ1lBI8ghSxqEx71teTGY+xuYIOxw1bXG2VMBCAFDshbsJXmDIhFtVdbS0JnQoAw2zUgR
-	 e8MpgNMuCTL0hh3DQQPe0KJ1ALOBMYtnWLzybZNiJ5Q29f3cEKlT1sX3l8fsE3EH21A==
+	t=1795755817;
+	b=Q7df4kfUzHsKgcq8veAxJhkC98I60t9JAuBAzpHLJuVNZqCAg14U799LS+J7GVrgKOX+
+	 sDbtQ+70vGOJEL76t9PoOEE/oj2qGW7ERHv6X+hXL9o/cNAI71jFToZcU/3vbccR8BYoP
+	 TWxBs9vhrHSzuhJh++ghBxBuZAPDEGhuND/ijuxX9xGP6SP78df3fJZ2EB56mEkrBLscQ
+	 V04iLH/0EVbsVU42sZZtt1oa4DDR+CLyT9T+NuouxCfL18V/fP/WARKlJkFJ88qjvyrJA
+	 eGvui4m25hAR//IebrgiLn56YxP7ZOnwWeOcRe05zCB/NKF4mAppq1KN8C/9RcRSWkw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795755222;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795755817;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=bpP6apICunsjQiC2NYipCrZAuI/2x2XzovroCNJcJHo=;
-	b=2B7ayytp8D9MZJ4F2f7vfmiTIhs7biopF3kkCeBrDHFLvX+gxgMTTVUAlcZH02d1tse+
-	 NgRlWHj9QuwVLmd8avQhGFyn4EdvvOiw7nKRM495nPZhhZhZORHa8mwxcWNbIEAitmnAz
-	 EORvnQ/sOcuRb6TYUQWTqyGODLGar/sjLCsbHF5yhGxsgV4Dc6Sc9WxVk61TQJRSIFY62
-	 M7zqGgQ/IlGAnHEUT1KRh9ERFBHUvb7Jh+piN22rVECGo9BNDarVpN6Pp7eqI1YqIy1dy
-	 /oNm7yIp0Nnv5l3SrGi5EfVvhfF1k+11qATUV/JnjQxtoFVG7NWGbtmcyJDiGeV4JWA==
+	bh=W3YXc4flfavKkOHv3yE6fAQMhfmrXbMqvhEwp1e651I=;
+	b=hzPvnfoEk8MB/fLtmNF/m4MZo2JJodFWexHyNGQjESylSluVGXYztFSq2bqGUaS+xxSK
+	 /Cu5ACtKLrz8LHlIHiK/iKywVwdb3nxLR5r1v/XlT9uXUXSUrjYViUS/HCoPEFFkfK0z1
+	 AldyNTQc/xHLhaW47ihNmVbTXjMFzQTpISzRo2VvH9QR6u0n0RNe5EtHF6LoiYVnaPC7i
+	 mLB7fO2dgIdwArM3ck/GfeMzWppHGpUPAa1wzEKeVY7nBr1b1a3Jt+y9Kh6DQtD3F59D/
+	 krX+RPur4Y0HtrPNNS8IgSHf5Ov4dSEMevzP3UBY8xkUqBecDxrkaWiDvxnB/qD0NPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W+3MOtJe;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BgItlTkN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFE1606A31E;
-	Fri, 27 Nov 2026 04:53:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C41606A31C
+	for <chrome-platform@lists.linux.dev>; Fri, 27 Nov 2026 05:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W+3MOtJe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 385D01F00898;
-	Fri, 27 Nov 2026 04:53:41 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BgItlTkN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27FE01F00897;
+	Fri, 27 Nov 2026 05:03:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795755222;
-	bh=bpP6apICunsjQiC2NYipCrZAuI/2x2XzovroCNJcJHo=;
+	s=k20260515; t=1795755816;
+	bh=W3YXc4flfavKkOHv3yE6fAQMhfmrXbMqvhEwp1e651I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W+3MOtJeMu48yDokvdJKc8chqrBKknms/wMOt1+s2YoXX2SbTpafyNqMusWrpDbkm
-	 h7qBy7K7glwgYEwIi9vDUIk8W8zC0XurpXM/gfJwvH6w57raM8oTTWR8p6dTD8WSMQ
-	 SJFbVBYHp5leVeiRkjrYDqFPdPhiVd1MjfxsdDCKoeQS9lEWc6MvK+7UiFJKlNE2PN
-	 qpO0uZBcrQzbbXCDDpbBs1JpaAhJocSz3axW6x9Ivs2R39oLPi7cjtk17xTcrECi6c
-	 bMHc3av2we+8tkFBZTtBgkylbHzVXExo+1N/oqY+0NgN34VH+sleEMnKzpPx9Iid47
-	 DZoptMrdGPkvA==
-Date: Fri, 27 Nov 2026 04:53:39 +0000
+	b=BgItlTkNUEg5pI46T6qUsNFglUbQnVO1kcCu7UUhN/NA+bxOj55i9F/6oVuXApC/R
+	 QzgZ5vk4Qkv7M6TnnscQLSXjL71C/e3PjOkh+lZRlfvLNrYXbjAK2UFjyDVzvsdd0F
+	 rF2IcLByr1iIpPHPOYQg6nxxZBTqMBhfdwGY8ul7gx3TrwLleoSzyhB/ROPVSzJMGM
+	 wPbRz8uj3UPuJUxUDAOGvRUs2ACdaLLM8VTpDHdF8kvlOY9HANdAz0Yhkvi1lweP6X
+	 +UpjLSeJ4pYaQ1aTmkunEjKPAHiEOVisuwGuS4PLpb7vV7Rvmcv+c2t+s4CgczOHY7
+	 WUQpLrvnFmYSA==
+Date: Fri, 27 Nov 2026 05:03:34 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Maoyi Xie <maoyixie.tju@gmail.com>
-Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Tomasz Figa <tfiga@chromium.org>, chrome-platform@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] platform/chrome: sensorhub: Check FIFO read reply length
-Message-ID: <awkM0x7IKjAwKeOk@google.com>
-References: <20261125121321.1603687-1-maoyixie.tju@gmail.com>
+To: Benson Leung <bleung@chromium.org>
+Cc: chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 0/9] platform/chrome: cros_ec_proto: Harden query_all()
+ and retries
+Message-ID: <awkPJn3HleidL_ad@google.com>
+References: <20261124082112.3361229-1-tzungbi@kernel.org>
 X-Mailing-List: chrome-platform@lists.linux.dev
 List-Id: <chrome-platform.lists.linux.dev>
 List-Post: <mailto:chrome-platform@lists.linux.dev>
@@ -59,26 +58,40 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261125121321.1603687-1-maoyixie.tju@gmail.com>
+In-Reply-To: <20261124082112.3361229-1-tzungbi@kernel.org>
 
-On Wed, Nov 25, 2026 at 08:13:21PM +0800, Maoyi Xie wrote:
-> cros_ec_sensorhub_ring_handler() processes number_data entries of the
-> EC reply to MOTIONSENSE_CMD_FIFO_READ. It checks number_data against the
-> FIFO count and the ring space, but not against the reply length.
+On Tue, Nov 24, 2026 at 08:21:03AM +0000, Tzung-Bi Shih wrote:
+> This series hardens ChromeOS EC command transmission and
+> cros_ec_query_all() against transient transport errors (such as -EAGAIN)
+> and buffer reallocation hazards:
 > 
-> A malfunctioning EC can send fewer entries than number_data. The loop
-> then uses stale bytes as samples. Past max_response bytes, it reads
-> beyond the message buffer.
+> - Patches 1-2: Reset `msg->result` before each transfer and retry
+>   transient -EAGAIN errors in cros_ec_send_command() and
+>   EC_CMD_RESEND_RESPONSE polling.
 > 
 > [...]
-
-Added <linux/overflow.h> and slightly reworded the commit message.
 
 Applied to
 
     https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
 
-[1/1] platform/chrome: sensorhub: Check FIFO read reply length
-      commit: 057370d76cc261a075cd7287ab6e664dcae40377
+[1/9] platform/chrome: cros_ec_proto: Reset msg->result before sending command
+      commit: 5f50a34803977de7b17f9d34197f826a46768152
+[2/9] platform/chrome: cros_ec_proto: Retry sending command on -EAGAIN
+      commit: 93b99991f70808d732f941ea565b1fd5c3d71227
+[3/9] platform/chrome: KUnit: Add tests for retrying commands on -EAGAIN
+      commit: 66f00cf9a5be3deb85a9625184c3a621244f283c
+[4/9] platform/chrome: cros_ec_proto: Reallocate din/dout buffers atomically
+      commit: 2bb45a4c536133a829a058f664b4ccb17e43d6fc
+[5/9] platform/chrome: cros_ec_proto: Guard protocol v2 fallback
+      commit: 830537d5456f4905a12b57ad886f17b1e9d4ee81
+[6/9] platform/chrome: KUnit: Update test cases for protocol v2
+      commit: f3bf02d943f7848e69cabdef8bc67d75749aef8b
+[7/9] platform/chrome: KUnit: Add test cases for protocol fallback
+      commit: a666c89771d9594cbb62601fcb787758f3366934
+[8/9] platform/chrome: cros_ec_proto: Propagate feature probe errors
+      commit: a5bea50c86b51fa4eeda3eee4914228e30cfb88b
+[9/9] platform/chrome: KUnit: Add feature probe unsupported tests
+      commit: 80f94fc7da85468940f9d8b919723db744aa7d3c
 
 Thanks!
